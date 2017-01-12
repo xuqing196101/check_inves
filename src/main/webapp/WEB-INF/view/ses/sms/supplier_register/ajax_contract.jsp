@@ -23,7 +23,19 @@ $(function() {
 		jump: function(e, first) { //触发分页后的回调
 			if(!first) { //一定要加此判断，否则初始时会无限刷新
 				$("#pageNum").val(e.curr);
-				$("#formSearch").submit();
+				var pageNum = $("#pageNum").val();
+				var supplierId = $("#supplierId").val();
+				var type = "${supplierTypeId}";
+				var path = "${pageContext.request.contextPath}/supplier/ajaxContract.html?supplierId=" + supplierId + "&supplierTypeId=" + type + "&pageNumber=" + pageNum;
+				if (type == "PRODUCT") {
+					$("tab-1").load(path);
+				} else if (type == "SALES") {
+					$("tab-2").load(path);
+				} else if (type == "PROJECT") {
+					$("tab-3").load(path);
+				} else if (type == "SERVICE") {
+					$("tab-4").load(path);
+				}
 			}
 		}
 	});
@@ -47,9 +59,11 @@ $(function() {
 	  <c:set var="fileUp" value="serUp"/>
 	  <c:set var="fileShow" value="serShow"/>
 	</c:if>
-  <div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll">
-    <form id="formSearch">
+  <div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll mb20">
+    <form id="formSearch" action="${pageContext.request.contextPath}/supplier/ajaxContract.html">
       <input type="hidden" name="pageNum" id="pageNum">
+      <input type="hidden" name="supplierId" id="supplierId" value="${supplierId}">
+      <input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
       <table class="table table-bordered">
         <tr>
           <td class="info tc w258"> 品目名称</td>

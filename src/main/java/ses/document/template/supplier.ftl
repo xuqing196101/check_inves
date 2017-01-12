@@ -1,3 +1,3859 @@
-<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<?mso-application progid="Word.Document"?>
-<pkg:package xmlns:pkg="http://schemas.microsoft.com/office/2006/xmlPackage"><pkg:part pkg:name="/_rels/.rels" pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="512"><pkg:xmlData><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/extended-properties" Target="docProps/app.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/package/2006/relationships/metadata/core-properties" Target="docProps/core.xml"/><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/officeDocument" Target="word/document.xml"/></Relationships></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/_rels/document.xml.rels" pkg:contentType="application/vnd.openxmlformats-package.relationships+xml" pkg:padding="256"><pkg:xmlData><Relationships xmlns="http://schemas.openxmlformats.org/package/2006/relationships"><Relationship Id="rId3" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/webSettings" Target="webSettings.xml"/><Relationship Id="rId7" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/theme" Target="theme/theme1.xml"/><Relationship Id="rId2" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/settings" Target="settings.xml"/><Relationship Id="rId1" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/styles" Target="styles.xml"/><Relationship Id="rId6" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/fontTable" Target="fontTable.xml"/><Relationship Id="rId5" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/endnotes" Target="endnotes.xml"/><Relationship Id="rId4" Type="http://schemas.openxmlformats.org/officeDocument/2006/relationships/footnotes" Target="footnotes.xml"/></Relationships></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/document.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.document.main+xml"><pkg:xmlData><w:document mc:Ignorable="w14 w15 wp14" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"><w:body><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:widowControl/><w:outlineLvl w:val="0"/><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:kern w:val="0"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:widowControl/><w:outlineLvl w:val="0"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:kern w:val="0"/></w:rPr></w:pPr><w:bookmarkStart w:id="0" w:name="_GoBack"/><w:bookmarkEnd w:id="0"/></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:kern w:val="0"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:beforeLines="50" w:before="289" w:afterLines="50" w:after="289" w:line="560" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/><w:sz w:val="52"/><w:szCs w:val="52"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/><w:sz w:val="52"/><w:szCs w:val="52"/></w:rPr><w:t>军队供应商入库申请表</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="28"/><w:szCs w:val="28"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:ind w:leftChars="168" w:left="538" w:firstLine="2"/><w:jc w:val="left"/><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr></w:pPr><w:r w:rsidRPr="00C069B1"><w:rPr><w:rFonts w:hint="eastAsia"/><w:w w:val="93"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:fitText w:val="2520" w:id="1291029760"/></w:rPr><w:t>供应商名称（盖章</w:t></w:r><w:r w:rsidRPr="00C069B1"><w:rPr><w:rFonts w:hint="eastAsia"/><w:spacing w:val="4"/><w:w w:val="93"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:fitText w:val="2520" w:id="1291029760"/></w:rPr><w:t>）</w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>：</w:t></w:r><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">                          </w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:ind w:leftChars="168" w:left="538" w:firstLine="2"/><w:jc w:val="left"/><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>住</w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t xml:space="preserve">             </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>所</w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>：</w:t></w:r><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">                          </w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:ind w:leftChars="168" w:left="538" w:firstLine="2"/><w:jc w:val="left"/><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr></w:pPr><w:r w:rsidRPr="00C069B1"><w:rPr><w:rFonts w:hint="eastAsia"/><w:w w:val="93"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:fitText w:val="2520" w:id="1291029761"/></w:rPr><w:t>法定代表人（签字</w:t></w:r><w:r w:rsidRPr="00C069B1"><w:rPr><w:rFonts w:hint="eastAsia"/><w:spacing w:val="4"/><w:w w:val="93"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:fitText w:val="2520" w:id="1291029761"/></w:rPr><w:t>）</w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>：</w:t></w:r><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">                          </w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:ind w:leftChars="168" w:left="538" w:firstLine="2"/><w:jc w:val="left"/><w:rPr><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>审</w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>核</w:t></w:r><w:r><w:rPr><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>采</w:t></w:r><w:r><w:rPr><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>购</w:t></w:r><w:r><w:rPr><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>机</w:t></w:r><w:r><w:rPr><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>构：</w:t></w:r><w:r><w:rPr><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">                          </w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:ind w:leftChars="168" w:left="538" w:firstLine="2"/><w:jc w:val="left"/><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr></w:pPr><w:r w:rsidRPr="00C069B1"><w:rPr><w:rFonts w:hint="eastAsia"/><w:spacing w:val="210"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:fitText w:val="2520" w:id="1291029762"/></w:rPr><w:t>申报日</w:t></w:r><w:r w:rsidRPr="00C069B1"><w:rPr><w:rFonts w:hint="eastAsia"/><w:spacing w:val="30"/><w:kern w:val="0"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:fitText w:val="2520" w:id="1291029762"/></w:rPr><w:t>期</w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/></w:rPr><w:t>：</w:t></w:r><w:bookmarkStart w:id="1" w:name="regd"/><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">  </w:t></w:r><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">  </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t>年</w:t></w:r><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">   </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t>月</w:t></w:r><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">   </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t>日</w:t></w:r><w:bookmarkEnd w:id="1"/><w:r><w:rPr><w:sz w:val="30"/><w:szCs w:val="28"/><w:u w:val="single"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:rPr><w:color w:val="0000FF"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:rPr><w:color w:val="0000FF"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:rPr><w:color w:val="0000FF"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312" w:hint="eastAsia"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:szCs w:val="36"/></w:rPr><w:t>中央军委后勤保障部监制</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/></w:rPr><w:br w:type="page"/></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:lastRenderedPageBreak/><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="00730317" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r w:rsidRPr="00730317"><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>基本情况登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:jc w:val="center"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="1338"/><w:gridCol w:w="540"/><w:gridCol w:w="898"/><w:gridCol w:w="407"/><w:gridCol w:w="759"/><w:gridCol w:w="274"/><w:gridCol w:w="398"/><w:gridCol w:w="408"/><w:gridCol w:w="911"/><w:gridCol w:w="1167"/><w:gridCol w:w="261"/><w:gridCol w:w="1638"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>供应商名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="4595" w:type="dxa"/><w:gridSpan w:val="8"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1167" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>成立日期</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（年月日）</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>住</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>所</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="4595" w:type="dxa"/><w:gridSpan w:val="8"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（营业执照上的登记地址）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1167" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>邮政编码</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>供应商类型</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1438" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（可以选择多种类型）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1440" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>营业执照</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>登记类型</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1717" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="left"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>国有企业、集体企业、股份合作企业</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1167" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>网</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>址</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>基本账户</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>开户银行</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2878" w:type="dxa"/><w:gridSpan w:val="5"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1717" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>银行账号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3066" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2776" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>近三个月完税凭证</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1440" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（有</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>/</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>无）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3145" w:type="dxa"/><w:gridSpan w:val="5"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>近三个月缴纳社会保险金凭证</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1638" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（有</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>/</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>无）</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2776" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>近三年银行基本账户年末对账单</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1440" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（有</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>/</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>无）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3145" w:type="dxa"/><w:gridSpan w:val="5"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>近三年内无重大违法记录声明</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1638" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（有</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>/</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>无）</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="8999" w:type="dxa"/><w:gridSpan w:val="12"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>法定代表人信息</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>姓</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>名</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2604" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（上传“身份证正反面”）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1080" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>身份证号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3977" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>固定电话</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2604" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1080" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>手</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>机</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3977" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="8999" w:type="dxa"/><w:gridSpan w:val="12"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>联系人信息</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>姓</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>名</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2604" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1080" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>手</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>机</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3977" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>固定电话</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2604" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1080" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>传真电话</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3977" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>邮</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>箱</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2604" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1080" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>地</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>址</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3977" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="8999" w:type="dxa"/><w:gridSpan w:val="12"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>营业执照</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>统一社会</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>信用代码</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="4595" w:type="dxa"/><w:gridSpan w:val="8"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（上传“营业执照副本”）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1167" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>登记机关</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>注册资本</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2604" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">            </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1991" w:type="dxa"/><w:gridSpan w:val="4"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>营业期限</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3066" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="1595"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1338" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>经营范围</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="7661" w:type="dxa"/><w:gridSpan w:val="11"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="auto"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（以营业执照为准）</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1878" w:type="dxa"/><w:gridSpan w:val="2"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>生产或经营地址</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（填写所有地址）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="5222" w:type="dxa"/><w:gridSpan w:val="8"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>详细地址</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>邮</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>编</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1878" w:type="dxa"/><w:gridSpan w:val="2"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="5222" w:type="dxa"/><w:gridSpan w:val="8"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1878" w:type="dxa"/><w:gridSpan w:val="2"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="5222" w:type="dxa"/><w:gridSpan w:val="8"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>……</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>……</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1878" w:type="dxa"/><w:gridSpan w:val="2"/><w:vMerge w:val="restart"/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>境外分支机构</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（是</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>/</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>否）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1305" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>国家</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>(</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>地区</w:t></w:r><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>)</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1431" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>机构名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2486" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>详细地址</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>生产经营范围</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1878" w:type="dxa"/><w:gridSpan w:val="2"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:widowControl/><w:jc w:val="left"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1305" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1431" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2486" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="397"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1878" w:type="dxa"/><w:gridSpan w:val="2"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:widowControl/><w:jc w:val="left"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1305" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1431" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2486" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1899" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:ind w:right="480"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="24"/><w:szCs w:val="24"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:szCs w:val="21"/></w:rPr><w:br w:type="page"/></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:lastRenderedPageBreak/><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>财务状况登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="2400"/><w:gridCol w:w="2200"/><w:gridCol w:w="2200"/><w:gridCol w:w="2200"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>会计事务所名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>事务所联系电话</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>审计人姓名（</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>人）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>指标</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>20XX</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>年</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>20XX</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>年</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>20XX</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>年</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资产总额</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>负债总额</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>净资产总额</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="570"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2400" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="001B4759"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>营业收入</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:before="240" w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:outlineLvl w:val="0"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">        </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万元</w:t></w:r></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRPr="000103E4" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:beforeLines="50" w:before="289" w:line="240" w:lineRule="exact"/><w:ind w:left="630" w:hangingChars="300" w:hanging="630"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="000103E4"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>说明：供应商应当上传最近三年财务审计报告的审计意见、资产负债表、利润表、现金流量表和所有者权益变动表。</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="001B4759" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:beforeLines="50" w:before="289" w:line="240" w:lineRule="exact"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:beforeLines="50" w:before="289" w:line="240" w:lineRule="exact"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>3</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>-1</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>物资类、服务类供应商资质证书登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="648"/><w:gridCol w:w="2452"/><w:gridCol w:w="760"/><w:gridCol w:w="2200"/><w:gridCol w:w="2100"/><w:gridCol w:w="760"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="400"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>序号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2452" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质证书名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质等级</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>发证机关</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2100" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>有效期（起止时间）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>是否年检</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2452" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2100" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2452" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2100" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>3</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2452" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2100" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2452" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2100" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="760" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:szCs w:val="21"/></w:rPr><w:br w:type="page"/></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:lastRenderedPageBreak/><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>3</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>-2</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRPr="00A21657" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r w:rsidRPr="00A21657"><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>工程类供应商资质资格信息登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="10031" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="648"/><w:gridCol w:w="736"/><w:gridCol w:w="708"/><w:gridCol w:w="851"/><w:gridCol w:w="657"/><w:gridCol w:w="657"/><w:gridCol w:w="670"/><w:gridCol w:w="709"/><w:gridCol w:w="709"/><w:gridCol w:w="709"/><w:gridCol w:w="708"/><w:gridCol w:w="709"/><w:gridCol w:w="851"/><w:gridCol w:w="709"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="530"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="10031" w:type="dxa"/><w:gridSpan w:val="14"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格证书信息</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="277"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>序号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格类型</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>证书编号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格最高等级</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1984" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>技术负责人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2127" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>单位负责人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>发证机关</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>发证日期</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>证书有效期截止日期</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>证书状态</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="276"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>姓名</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>职务</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>职称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>姓名</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>职务</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>职称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:vMerge/><w:tcBorders><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="10031" w:type="dxa"/><w:gridSpan w:val="14"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格信息</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>序号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格类型</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>证书编号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格序列</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>专业类别</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格等级</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>是否主项资质</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>批准资质资格内容</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>首次批准资质资格文号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>首次批准资质资格日期</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格取得方式</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格状态</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格状态变更时间</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="300" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>资质资格状态变更原因</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00E3299D"><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="540"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="736" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="657" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="670" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="708" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="851" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="709" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRPr="00E3299D" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:b/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>4</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>出资人（股东）信息登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="10047" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="785"/><w:gridCol w:w="2356"/><w:gridCol w:w="1121"/><w:gridCol w:w="2466"/><w:gridCol w:w="1974"/><w:gridCol w:w="1345"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="409"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="785" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>序号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2356" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>出资人名称或姓名</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1121" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>出资人性</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">  </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>质</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2466" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>统一社会信用代码</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">     </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>或身份证号码</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">  </w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1974" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>出资金额或股份</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>（万元</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>/</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>万份）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1345" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>比</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">  </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>例</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="536"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="785" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2356" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1121" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2466" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1974" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1345" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    %</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="536"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="785" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2356" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1121" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2466" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1974" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1345" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve">    %</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="536"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="785" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2356" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1121" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2466" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1974" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1345" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:beforeLines="50" w:before="289" w:line="240" w:lineRule="exact"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>说明：</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1.</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>出资人（股东）多于</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>10</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>人的，列出出资金额前</w:t></w:r><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>10</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>位的信息，但出资比例应高于</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>50%</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>；</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:ind w:firstLineChars="300" w:firstLine="630"/><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2.</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>出资人性质为“法人”或“自然人”。</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:ind w:firstLineChars="300" w:firstLine="630"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>5</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:lastRenderedPageBreak/><w:t>可提供品目类别登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="648"/><w:gridCol w:w="1656"/><w:gridCol w:w="1656"/><w:gridCol w:w="1656"/><w:gridCol w:w="1656"/><w:gridCol w:w="1656"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="463"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>序号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>品目类别</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>大类名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>中类名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>小类名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>品种名称</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="463"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="464"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="463"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>3</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="464"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1656" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>6</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>-1</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>物资类、服务类供应商组织机构和人员登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders><w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="1273"/><w:gridCol w:w="2773"/><w:gridCol w:w="1513"/><w:gridCol w:w="2737"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:tc><w:tcPr><w:tcW w:w="1368" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>组织机构</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="7692" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:tc><w:tcPr><w:tcW w:w="1368" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>人员总数</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3060" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1612" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>管理人员</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3020" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:tc><w:tcPr><w:tcW w:w="1368" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>技术人员</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3060" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1612" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>工人（职员）</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3020" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>6</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>-2</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>工程类供应商组织机构和注册人员登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="9030" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders><w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="1013"/><w:gridCol w:w="697"/><w:gridCol w:w="1273"/><w:gridCol w:w="1768"/><w:gridCol w:w="247"/><w:gridCol w:w="1242"/><w:gridCol w:w="773"/><w:gridCol w:w="2017"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1710" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>组织机构</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="7320" w:type="dxa"/><w:gridSpan w:val="6"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1710" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>技术负责人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3041" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1489" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00437AFF"><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>中级及以上</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r w:rsidRPr="00437AFF"><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>职称人员</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2790" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1710" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>现场管理人员</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="3041" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1489" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>技术工人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2790" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1013" w:type="dxa"/><w:vMerge w:val="restart"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>注册人员情况</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1970" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>X级XX注册建造师</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>X级XX注册建造师</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2017" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1013" w:type="dxa"/><w:vMerge/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1970" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>X级XX注册建造师</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>X级XX注册建造师</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2017" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1013" w:type="dxa"/><w:vMerge/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1970" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>XX注册造价工程师</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>XX注册造价工程师</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2017" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="714"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1013" w:type="dxa"/><w:vMerge/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1970" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2015" w:type="dxa"/><w:gridSpan w:val="2"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2017" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="340" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>7</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>物资类生产型供应商产品研发能力登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="2600"/><w:gridCol w:w="2000"/><w:gridCol w:w="2600"/><w:gridCol w:w="1845"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="567"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>技术人员比例</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>%</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>高级技术人员比例</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1845" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>%</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="567"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:lastRenderedPageBreak/><w:t>研发部门名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="6445" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="567"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>研发部门人数</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>研发部门负责人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1845" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="1000"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>承担国家军队科研项目</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="6445" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="1000"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>获得国家军队科技奖项</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="6445" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:ind w:firstLineChars="200" w:firstLine="640"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:bookmarkStart w:id="2" w:name="tableTitle8"/><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>8</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>物资类生产型供应商生产能力登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="04A0" w:firstRow="1" w:lastRow="0" w:firstColumn="1" w:lastColumn="0" w:noHBand="0" w:noVBand="1"/></w:tblPr><w:tblGrid><w:gridCol w:w="1368"/><w:gridCol w:w="7721"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="1152"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1368" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>生</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>产</w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t xml:space="preserve"> </w:t></w:r><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>线</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>名称数量</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="7721" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:tabs><w:tab w:val="center" w:pos="909"/></w:tabs><w:jc w:val="left"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:color w:val="FF0000"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="1152"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="1368" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>生产设备</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="320" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>名称数量</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="7721" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:tabs><w:tab w:val="center" w:pos="909"/></w:tabs><w:jc w:val="left"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:color w:val="FF0000"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:tabs><w:tab w:val="left" w:pos="8820"/></w:tabs><w:spacing w:beforeLines="50" w:before="289" w:line="560" w:lineRule="exact"/><w:ind w:right="46"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:bookmarkStart w:id="3" w:name="zhiliangjiancheTitle"/><w:bookmarkEnd w:id="2"/><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/></w:rPr><w:t>9</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>物资类生产型供应商质量检测能力登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="2600"/><w:gridCol w:w="2000"/><w:gridCol w:w="2600"/><w:gridCol w:w="1845"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="522"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:bookmarkEnd w:id="3"/><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>质量检测部门</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="6440" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="500" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="553"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>质检部门人数</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>质检部门负责人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1840" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="1148"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="2595" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>质量检测设备名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="6445" w:type="dxa"/><w:gridSpan w:val="3"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders><w:vAlign w:val="center"/></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="240" w:lineRule="exact"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:beforeLines="50" w:before="289" w:line="240" w:lineRule="exact"/><w:ind w:right="640"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:tabs><w:tab w:val="left" w:pos="8820"/></w:tabs><w:spacing w:beforeLines="50" w:before="289"/><w:ind w:right="45"/><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:bookmarkStart w:id="4" w:name="TservicTitle"/><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/></w:rPr><w:t>10</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>售后服务机构一览表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="0" w:type="auto"/><w:tblBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideH w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:insideV w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tblBorders><w:tblLayout w:type="fixed"/><w:tblLook w:val="0000" w:firstRow="0" w:lastRow="0" w:firstColumn="0" w:lastColumn="0" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="648"/><w:gridCol w:w="2952"/><w:gridCol w:w="1000"/><w:gridCol w:w="1600"/><w:gridCol w:w="1200"/><w:gridCol w:w="1800"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="480"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:bookmarkEnd w:id="4"/><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>序号</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2952" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>分支（或服务）机构名称</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>类别</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>所在市县</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>负责人</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>联系电话</w:t></w:r></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="480"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>1</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2952" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="480"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:lastRenderedPageBreak/><w:t>2</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2952" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="480"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>3</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2952" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="480"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="648" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:hint="eastAsia"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr><w:t>…</w:t></w:r></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="2952" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1000" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1600" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1200" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc><w:tc><w:tcPr><w:tcW w:w="1800" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:left w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:bottom w:val="single" w:sz="6" w:space="0" w:color="000000"/><w:right w:val="single" w:sz="6" w:space="0" w:color="000000"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="center"/><w:rPr><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>11</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>参加政府或军队采购经历登记表</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="9360" w:type="dxa"/><w:jc w:val="center"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders><w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="9360"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="3246"/><w:jc w:val="center"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="9360" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="left"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:jc w:val="right"/><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="24"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="黑体" w:hint="eastAsia"/><w:szCs w:val="21"/></w:rPr><w:t>表</w:t></w:r><w:r><w:rPr><w:rFonts w:eastAsia="黑体"/><w:szCs w:val="21"/></w:rPr><w:t>12</w:t></w:r></w:p><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="00C069B1"><w:pPr><w:spacing w:line="180" w:lineRule="atLeast"/><w:jc w:val="center"/><w:rPr><w:rFonts w:eastAsia="方正小标宋简体"/></w:rPr></w:pPr><w:r><w:rPr><w:rFonts w:eastAsia="方正小标宋简体" w:hint="eastAsia"/></w:rPr><w:t>供应商简介</w:t></w:r></w:p><w:tbl><w:tblPr><w:tblW w:w="9360" w:type="dxa"/><w:tblInd w:w="-252" w:type="dxa"/><w:tblBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideH w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:insideV w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tblBorders><w:tblLook w:val="01E0" w:firstRow="1" w:lastRow="1" w:firstColumn="1" w:lastColumn="1" w:noHBand="0" w:noVBand="0"/></w:tblPr><w:tblGrid><w:gridCol w:w="9360"/></w:tblGrid><w:tr w:rsidR="00C069B1" w:rsidTr="004B202E"><w:trPr><w:trHeight w:val="3392"/></w:trPr><w:tc><w:tcPr><w:tcW w:w="9360" w:type="dxa"/><w:tcBorders><w:top w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:left w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:bottom w:val="single" w:sz="4" w:space="0" w:color="auto"/><w:right w:val="single" w:sz="4" w:space="0" w:color="auto"/></w:tcBorders></w:tcPr><w:p w:rsidR="00C069B1" w:rsidRDefault="00C069B1" w:rsidP="004B202E"><w:pPr><w:spacing w:line="360" w:lineRule="exact"/><w:jc w:val="left"/><w:rPr><w:rFonts w:eastAsia="仿宋_GB2312"/><w:sz w:val="21"/><w:szCs w:val="21"/></w:rPr></w:pPr></w:p></w:tc></w:tr></w:tbl><w:p w:rsidR="00173747" w:rsidRDefault="00173747"/><w:sectPr w:rsidR="00173747"><w:pgSz w:w="11906" w:h="16838"/><w:pgMar w:top="1440" w:right="1800" w:bottom="1440" w:left="1800" w:header="851" w:footer="992" w:gutter="0"/><w:cols w:space="425"/><w:docGrid w:type="lines" w:linePitch="312"/></w:sectPr></w:body></w:document></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/footnotes.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.footnotes+xml"><pkg:xmlData><w:footnotes mc:Ignorable="w14 w15 wp14" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"><w:footnote w:type="separator" w:id="-1"><w:p w:rsidR="004731BC" w:rsidRDefault="004731BC" w:rsidP="00C069B1"><w:r><w:separator/></w:r></w:p></w:footnote><w:footnote w:type="continuationSeparator" w:id="0"><w:p w:rsidR="004731BC" w:rsidRDefault="004731BC" w:rsidP="00C069B1"><w:r><w:continuationSeparator/></w:r></w:p></w:footnote></w:footnotes></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/endnotes.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.endnotes+xml"><pkg:xmlData><w:endnotes mc:Ignorable="w14 w15 wp14" xmlns:wpc="http://schemas.microsoft.com/office/word/2010/wordprocessingCanvas" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:wp14="http://schemas.microsoft.com/office/word/2010/wordprocessingDrawing" xmlns:wp="http://schemas.openxmlformats.org/drawingml/2006/wordprocessingDrawing" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:wpg="http://schemas.microsoft.com/office/word/2010/wordprocessingGroup" xmlns:wpi="http://schemas.microsoft.com/office/word/2010/wordprocessingInk" xmlns:wne="http://schemas.microsoft.com/office/word/2006/wordml" xmlns:wps="http://schemas.microsoft.com/office/word/2010/wordprocessingShape"><w:endnote w:type="separator" w:id="-1"><w:p w:rsidR="004731BC" w:rsidRDefault="004731BC" w:rsidP="00C069B1"><w:r><w:separator/></w:r></w:p></w:endnote><w:endnote w:type="continuationSeparator" w:id="0"><w:p w:rsidR="004731BC" w:rsidRDefault="004731BC" w:rsidP="00C069B1"><w:r><w:continuationSeparator/></w:r></w:p></w:endnote></w:endnotes></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/theme/theme1.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.theme+xml"><pkg:xmlData><a:theme name="Office 主题" xmlns:a="http://schemas.openxmlformats.org/drawingml/2006/main"><a:themeElements><a:clrScheme name="Office"><a:dk1><a:sysClr val="windowText" lastClr="000000"/></a:dk1><a:lt1><a:sysClr val="window" lastClr="CCE8CF"/></a:lt1><a:dk2><a:srgbClr val="44546A"/></a:dk2><a:lt2><a:srgbClr val="E7E6E6"/></a:lt2><a:accent1><a:srgbClr val="5B9BD5"/></a:accent1><a:accent2><a:srgbClr val="ED7D31"/></a:accent2><a:accent3><a:srgbClr val="A5A5A5"/></a:accent3><a:accent4><a:srgbClr val="FFC000"/></a:accent4><a:accent5><a:srgbClr val="4472C4"/></a:accent5><a:accent6><a:srgbClr val="70AD47"/></a:accent6><a:hlink><a:srgbClr val="0563C1"/></a:hlink><a:folHlink><a:srgbClr val="954F72"/></a:folHlink></a:clrScheme><a:fontScheme name="Office"><a:majorFont><a:latin typeface="Calibri Light" panose="020F0302020204030204"/><a:ea typeface=""/><a:cs typeface=""/><a:font script="Jpan" typeface="ＭＳ ゴシック"/><a:font script="Hang" typeface="맑은 고딕"/><a:font script="Hans" typeface="宋体"/><a:font script="Hant" typeface="新細明體"/><a:font script="Arab" typeface="Times New Roman"/><a:font script="Hebr" typeface="Times New Roman"/><a:font script="Thai" typeface="Angsana New"/><a:font script="Ethi" typeface="Nyala"/><a:font script="Beng" typeface="Vrinda"/><a:font script="Gujr" typeface="Shruti"/><a:font script="Khmr" typeface="MoolBoran"/><a:font script="Knda" typeface="Tunga"/><a:font script="Guru" typeface="Raavi"/><a:font script="Cans" typeface="Euphemia"/><a:font script="Cher" typeface="Plantagenet Cherokee"/><a:font script="Yiii" typeface="Microsoft Yi Baiti"/><a:font script="Tibt" typeface="Microsoft Himalaya"/><a:font script="Thaa" typeface="MV Boli"/><a:font script="Deva" typeface="Mangal"/><a:font script="Telu" typeface="Gautami"/><a:font script="Taml" typeface="Latha"/><a:font script="Syrc" typeface="Estrangelo Edessa"/><a:font script="Orya" typeface="Kalinga"/><a:font script="Mlym" typeface="Kartika"/><a:font script="Laoo" typeface="DokChampa"/><a:font script="Sinh" typeface="Iskoola Pota"/><a:font script="Mong" typeface="Mongolian Baiti"/><a:font script="Viet" typeface="Times New Roman"/><a:font script="Uigh" typeface="Microsoft Uighur"/><a:font script="Geor" typeface="Sylfaen"/></a:majorFont><a:minorFont><a:latin typeface="Calibri" panose="020F0502020204030204"/><a:ea typeface=""/><a:cs typeface=""/><a:font script="Jpan" typeface="ＭＳ 明朝"/><a:font script="Hang" typeface="맑은 고딕"/><a:font script="Hans" typeface="宋体"/><a:font script="Hant" typeface="新細明體"/><a:font script="Arab" typeface="Arial"/><a:font script="Hebr" typeface="Arial"/><a:font script="Thai" typeface="Cordia New"/><a:font script="Ethi" typeface="Nyala"/><a:font script="Beng" typeface="Vrinda"/><a:font script="Gujr" typeface="Shruti"/><a:font script="Khmr" typeface="DaunPenh"/><a:font script="Knda" typeface="Tunga"/><a:font script="Guru" typeface="Raavi"/><a:font script="Cans" typeface="Euphemia"/><a:font script="Cher" typeface="Plantagenet Cherokee"/><a:font script="Yiii" typeface="Microsoft Yi Baiti"/><a:font script="Tibt" typeface="Microsoft Himalaya"/><a:font script="Thaa" typeface="MV Boli"/><a:font script="Deva" typeface="Mangal"/><a:font script="Telu" typeface="Gautami"/><a:font script="Taml" typeface="Latha"/><a:font script="Syrc" typeface="Estrangelo Edessa"/><a:font script="Orya" typeface="Kalinga"/><a:font script="Mlym" typeface="Kartika"/><a:font script="Laoo" typeface="DokChampa"/><a:font script="Sinh" typeface="Iskoola Pota"/><a:font script="Mong" typeface="Mongolian Baiti"/><a:font script="Viet" typeface="Arial"/><a:font script="Uigh" typeface="Microsoft Uighur"/><a:font script="Geor" typeface="Sylfaen"/></a:minorFont></a:fontScheme><a:fmtScheme name="Office"><a:fillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:lumMod val="110000"/><a:satMod val="105000"/><a:tint val="67000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:lumMod val="105000"/><a:satMod val="103000"/><a:tint val="73000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:lumMod val="105000"/><a:satMod val="109000"/><a:tint val="81000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:satMod val="103000"/><a:lumMod val="102000"/><a:tint val="94000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:satMod val="110000"/><a:lumMod val="100000"/><a:shade val="100000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:lumMod val="99000"/><a:satMod val="120000"/><a:shade val="78000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill></a:fillStyleLst><a:lnStyleLst><a:ln w="6350" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln><a:ln w="12700" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln><a:ln w="19050" cap="flat" cmpd="sng" algn="ctr"><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:prstDash val="solid"/><a:miter lim="800000"/></a:ln></a:lnStyleLst><a:effectStyleLst><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst/></a:effectStyle><a:effectStyle><a:effectLst><a:outerShdw blurRad="57150" dist="19050" dir="5400000" algn="ctr" rotWithShape="0"><a:srgbClr val="000000"><a:alpha val="63000"/></a:srgbClr></a:outerShdw></a:effectLst></a:effectStyle></a:effectStyleLst><a:bgFillStyleLst><a:solidFill><a:schemeClr val="phClr"/></a:solidFill><a:solidFill><a:schemeClr val="phClr"><a:tint val="95000"/><a:satMod val="170000"/></a:schemeClr></a:solidFill><a:gradFill rotWithShape="1"><a:gsLst><a:gs pos="0"><a:schemeClr val="phClr"><a:tint val="93000"/><a:satMod val="150000"/><a:shade val="98000"/><a:lumMod val="102000"/></a:schemeClr></a:gs><a:gs pos="50000"><a:schemeClr val="phClr"><a:tint val="98000"/><a:satMod val="130000"/><a:shade val="90000"/><a:lumMod val="103000"/></a:schemeClr></a:gs><a:gs pos="100000"><a:schemeClr val="phClr"><a:shade val="63000"/><a:satMod val="120000"/></a:schemeClr></a:gs></a:gsLst><a:lin ang="5400000" scaled="0"/></a:gradFill></a:bgFillStyleLst></a:fmtScheme></a:themeElements><a:objectDefaults/><a:extraClrSchemeLst/><a:extLst><a:ext uri="{05A4C25C-085E-4340-85A3-A5531E510DB2}"><thm15:themeFamily name="Office Theme" id="{62F939B6-93AF-4DB8-9C6B-D6C7DFDC589F}" vid="{4A3C46E8-61CC-4603-A589-7422A47A8E4A}" xmlns:thm15="http://schemas.microsoft.com/office/thememl/2012/main"/></a:ext></a:extLst></a:theme></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/settings.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.settings+xml"><pkg:xmlData><w:settings mc:Ignorable="w14 w15" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:m="http://schemas.openxmlformats.org/officeDocument/2006/math" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w10="urn:schemas-microsoft-com:office:word" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml" xmlns:sl="http://schemas.openxmlformats.org/schemaLibrary/2006/main"><w:zoom w:percent="100"/><w:bordersDoNotSurroundHeader/><w:bordersDoNotSurroundFooter/><w:defaultTabStop w:val="420"/><w:drawingGridVerticalSpacing w:val="156"/><w:displayHorizontalDrawingGridEvery w:val="0"/><w:displayVerticalDrawingGridEvery w:val="2"/><w:characterSpacingControl w:val="compressPunctuation"/><w:hdrShapeDefaults><o:shapedefaults v:ext="edit" spidmax="2049"/></w:hdrShapeDefaults><w:footnotePr><w:footnote w:id="-1"/><w:footnote w:id="0"/></w:footnotePr><w:endnotePr><w:endnote w:id="-1"/><w:endnote w:id="0"/></w:endnotePr><w:compat><w:spaceForUL/><w:balanceSingleByteDoubleByteWidth/><w:doNotLeaveBackslashAlone/><w:ulTrailSpace/><w:doNotExpandShiftReturn/><w:adjustLineHeightInTable/><w:useFELayout/><w:compatSetting w:name="compatibilityMode" w:uri="http://schemas.microsoft.com/office/word" w:val="15"/><w:compatSetting w:name="overrideTableStyleFontSizeAndJustification" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="enableOpenTypeFeatures" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="doNotFlipMirrorIndents" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/><w:compatSetting w:name="differentiateMultirowTableHeaders" w:uri="http://schemas.microsoft.com/office/word" w:val="1"/></w:compat><w:rsids><w:rsidRoot w:val="006628D3"/><w:rsid w:val="00173747"/><w:rsid w:val="004731BC"/><w:rsid w:val="006628D3"/><w:rsid w:val="00BC4DD6"/><w:rsid w:val="00C069B1"/></w:rsids><m:mathPr><m:mathFont m:val="Cambria Math"/><m:brkBin m:val="before"/><m:brkBinSub m:val="--"/><m:smallFrac m:val="0"/><m:dispDef/><m:lMargin m:val="0"/><m:rMargin m:val="0"/><m:defJc m:val="centerGroup"/><m:wrapIndent m:val="1440"/><m:intLim m:val="subSup"/><m:naryLim m:val="undOvr"/></m:mathPr><w:themeFontLang w:val="en-US" w:eastAsia="zh-CN"/><w:clrSchemeMapping w:bg1="light1" w:t1="dark1" w:bg2="light2" w:t2="dark2" w:accent1="accent1" w:accent2="accent2" w:accent3="accent3" w:accent4="accent4" w:accent5="accent5" w:accent6="accent6" w:hyperlink="hyperlink" w:followedHyperlink="followedHyperlink"/><w:shapeDefaults><o:shapedefaults v:ext="edit" spidmax="2049"/><o:shapelayout v:ext="edit"><o:idmap v:ext="edit" data="1"/></o:shapelayout></w:shapeDefaults><w:decimalSymbol w:val="."/><w:listSeparator w:val=","/><w15:chartTrackingRefBased/><w15:docId w15:val="{10CD45DA-1D19-41B2-9153-744F42AFFE82}"/></w:settings></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/webSettings.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.webSettings+xml"><pkg:xmlData><w:webSettings mc:Ignorable="w14 w15" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"><w:optimizeForBrowser/><w:allowPNG/></w:webSettings></pkg:xmlData></pkg:part><pkg:part pkg:name="/docProps/core.xml" pkg:contentType="application/vnd.openxmlformats-package.core-properties+xml" pkg:padding="256"><pkg:xmlData><cp:coreProperties xmlns:cp="http://schemas.openxmlformats.org/package/2006/metadata/core-properties" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:dcterms="http://purl.org/dc/terms/" xmlns:dcmitype="http://purl.org/dc/dcmitype/" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"><dc:title/><dc:subject/><dc:creator>NTKO</dc:creator><cp:keywords/><dc:description/><cp:lastModifiedBy>NTKO</cp:lastModifiedBy><cp:revision>2</cp:revision><dcterms:created xsi:type="dcterms:W3CDTF">2016-12-30T06:13:00Z</dcterms:created><dcterms:modified xsi:type="dcterms:W3CDTF">2016-12-30T06:13:00Z</dcterms:modified></cp:coreProperties></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/styles.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.styles+xml"><pkg:xmlData><w:styles mc:Ignorable="w14 w15" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"><w:docDefaults><w:rPrDefault><w:rPr><w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi"/><w:kern w:val="2"/><w:sz w:val="21"/><w:szCs w:val="22"/><w:lang w:val="en-US" w:eastAsia="zh-CN" w:bidi="ar-SA"/></w:rPr></w:rPrDefault><w:pPrDefault/></w:docDefaults><w:latentStyles w:defLockedState="0" w:defUIPriority="99" w:defSemiHidden="0" w:defUnhideWhenUsed="0" w:defQFormat="0" w:count="371"><w:lsdException w:name="Normal" w:uiPriority="0" w:qFormat="1"/><w:lsdException w:name="heading 1" w:uiPriority="9" w:qFormat="1"/><w:lsdException w:name="heading 2" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 3" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 4" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 5" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 6" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 7" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 8" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="heading 9" w:semiHidden="1" w:uiPriority="9" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="index 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 6" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 7" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 8" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index 9" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 1" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 2" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 3" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 4" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 5" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 6" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 7" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 8" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="toc 9" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1"/><w:lsdException w:name="Normal Indent" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="footnote text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="annotation text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="header" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="footer" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="index heading" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="caption" w:semiHidden="1" w:uiPriority="35" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="table of figures" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="envelope address" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="envelope return" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="footnote reference" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="annotation reference" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="line number" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="page number" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="endnote reference" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="endnote text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="table of authorities" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="macro" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="toa heading" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Bullet" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Number" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Bullet 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Bullet 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Bullet 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Bullet 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Number 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Number 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Number 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Number 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Title" w:uiPriority="10" w:qFormat="1"/><w:lsdException w:name="Closing" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Signature" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Default Paragraph Font" w:semiHidden="1" w:uiPriority="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text Indent" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Continue" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Continue 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Continue 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Continue 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="List Continue 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Message Header" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Subtitle" w:uiPriority="11" w:qFormat="1"/><w:lsdException w:name="Salutation" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Date" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text First Indent" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text First Indent 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Note Heading" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text Indent 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Body Text Indent 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Block Text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Hyperlink" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="FollowedHyperlink" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Strong" w:uiPriority="22" w:qFormat="1"/><w:lsdException w:name="Emphasis" w:uiPriority="20" w:qFormat="1"/><w:lsdException w:name="Document Map" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Plain Text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="E-mail Signature" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Top of Form" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Bottom of Form" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Normal (Web)" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Acronym" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Address" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Cite" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Code" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Definition" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Keyboard" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Preformatted" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Sample" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Typewriter" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="HTML Variable" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Normal Table" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="annotation subject" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="No List" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Outline List 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Outline List 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Outline List 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Simple 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Simple 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Simple 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Classic 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Classic 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Classic 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Classic 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Colorful 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Colorful 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Colorful 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Columns 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Columns 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Columns 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Columns 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Columns 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 6" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 7" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid 8" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 4" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 5" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 6" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 7" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table List 8" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table 3D effects 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table 3D effects 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table 3D effects 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Contemporary" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Elegant" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Professional" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Subtle 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Subtle 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Web 1" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Web 2" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Web 3" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Balloon Text" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Table Grid" w:uiPriority="39"/><w:lsdException w:name="Table Theme" w:semiHidden="1" w:unhideWhenUsed="1"/><w:lsdException w:name="Placeholder Text" w:semiHidden="1"/><w:lsdException w:name="No Spacing" w:uiPriority="1" w:qFormat="1"/><w:lsdException w:name="Light Shading" w:uiPriority="60"/><w:lsdException w:name="Light List" w:uiPriority="61"/><w:lsdException w:name="Light Grid" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2" w:uiPriority="64"/><w:lsdException w:name="Medium List 1" w:uiPriority="65"/><w:lsdException w:name="Medium List 2" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3" w:uiPriority="69"/><w:lsdException w:name="Dark List" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading" w:uiPriority="71"/><w:lsdException w:name="Colorful List" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid" w:uiPriority="73"/><w:lsdException w:name="Light Shading Accent 1" w:uiPriority="60"/><w:lsdException w:name="Light List Accent 1" w:uiPriority="61"/><w:lsdException w:name="Light Grid Accent 1" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1 Accent 1" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2 Accent 1" w:uiPriority="64"/><w:lsdException w:name="Medium List 1 Accent 1" w:uiPriority="65"/><w:lsdException w:name="Revision" w:semiHidden="1"/><w:lsdException w:name="List Paragraph" w:uiPriority="34" w:qFormat="1"/><w:lsdException w:name="Quote" w:uiPriority="29" w:qFormat="1"/><w:lsdException w:name="Intense Quote" w:uiPriority="30" w:qFormat="1"/><w:lsdException w:name="Medium List 2 Accent 1" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1 Accent 1" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2 Accent 1" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3 Accent 1" w:uiPriority="69"/><w:lsdException w:name="Dark List Accent 1" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading Accent 1" w:uiPriority="71"/><w:lsdException w:name="Colorful List Accent 1" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid Accent 1" w:uiPriority="73"/><w:lsdException w:name="Light Shading Accent 2" w:uiPriority="60"/><w:lsdException w:name="Light List Accent 2" w:uiPriority="61"/><w:lsdException w:name="Light Grid Accent 2" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1 Accent 2" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2 Accent 2" w:uiPriority="64"/><w:lsdException w:name="Medium List 1 Accent 2" w:uiPriority="65"/><w:lsdException w:name="Medium List 2 Accent 2" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1 Accent 2" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2 Accent 2" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3 Accent 2" w:uiPriority="69"/><w:lsdException w:name="Dark List Accent 2" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading Accent 2" w:uiPriority="71"/><w:lsdException w:name="Colorful List Accent 2" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid Accent 2" w:uiPriority="73"/><w:lsdException w:name="Light Shading Accent 3" w:uiPriority="60"/><w:lsdException w:name="Light List Accent 3" w:uiPriority="61"/><w:lsdException w:name="Light Grid Accent 3" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1 Accent 3" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2 Accent 3" w:uiPriority="64"/><w:lsdException w:name="Medium List 1 Accent 3" w:uiPriority="65"/><w:lsdException w:name="Medium List 2 Accent 3" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1 Accent 3" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2 Accent 3" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3 Accent 3" w:uiPriority="69"/><w:lsdException w:name="Dark List Accent 3" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading Accent 3" w:uiPriority="71"/><w:lsdException w:name="Colorful List Accent 3" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid Accent 3" w:uiPriority="73"/><w:lsdException w:name="Light Shading Accent 4" w:uiPriority="60"/><w:lsdException w:name="Light List Accent 4" w:uiPriority="61"/><w:lsdException w:name="Light Grid Accent 4" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1 Accent 4" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2 Accent 4" w:uiPriority="64"/><w:lsdException w:name="Medium List 1 Accent 4" w:uiPriority="65"/><w:lsdException w:name="Medium List 2 Accent 4" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1 Accent 4" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2 Accent 4" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3 Accent 4" w:uiPriority="69"/><w:lsdException w:name="Dark List Accent 4" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading Accent 4" w:uiPriority="71"/><w:lsdException w:name="Colorful List Accent 4" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid Accent 4" w:uiPriority="73"/><w:lsdException w:name="Light Shading Accent 5" w:uiPriority="60"/><w:lsdException w:name="Light List Accent 5" w:uiPriority="61"/><w:lsdException w:name="Light Grid Accent 5" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1 Accent 5" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2 Accent 5" w:uiPriority="64"/><w:lsdException w:name="Medium List 1 Accent 5" w:uiPriority="65"/><w:lsdException w:name="Medium List 2 Accent 5" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1 Accent 5" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2 Accent 5" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3 Accent 5" w:uiPriority="69"/><w:lsdException w:name="Dark List Accent 5" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading Accent 5" w:uiPriority="71"/><w:lsdException w:name="Colorful List Accent 5" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid Accent 5" w:uiPriority="73"/><w:lsdException w:name="Light Shading Accent 6" w:uiPriority="60"/><w:lsdException w:name="Light List Accent 6" w:uiPriority="61"/><w:lsdException w:name="Light Grid Accent 6" w:uiPriority="62"/><w:lsdException w:name="Medium Shading 1 Accent 6" w:uiPriority="63"/><w:lsdException w:name="Medium Shading 2 Accent 6" w:uiPriority="64"/><w:lsdException w:name="Medium List 1 Accent 6" w:uiPriority="65"/><w:lsdException w:name="Medium List 2 Accent 6" w:uiPriority="66"/><w:lsdException w:name="Medium Grid 1 Accent 6" w:uiPriority="67"/><w:lsdException w:name="Medium Grid 2 Accent 6" w:uiPriority="68"/><w:lsdException w:name="Medium Grid 3 Accent 6" w:uiPriority="69"/><w:lsdException w:name="Dark List Accent 6" w:uiPriority="70"/><w:lsdException w:name="Colorful Shading Accent 6" w:uiPriority="71"/><w:lsdException w:name="Colorful List Accent 6" w:uiPriority="72"/><w:lsdException w:name="Colorful Grid Accent 6" w:uiPriority="73"/><w:lsdException w:name="Subtle Emphasis" w:uiPriority="19" w:qFormat="1"/><w:lsdException w:name="Intense Emphasis" w:uiPriority="21" w:qFormat="1"/><w:lsdException w:name="Subtle Reference" w:uiPriority="31" w:qFormat="1"/><w:lsdException w:name="Intense Reference" w:uiPriority="32" w:qFormat="1"/><w:lsdException w:name="Book Title" w:uiPriority="33" w:qFormat="1"/><w:lsdException w:name="Bibliography" w:semiHidden="1" w:uiPriority="37" w:unhideWhenUsed="1"/><w:lsdException w:name="TOC Heading" w:semiHidden="1" w:uiPriority="39" w:unhideWhenUsed="1" w:qFormat="1"/><w:lsdException w:name="Plain Table 1" w:uiPriority="41"/><w:lsdException w:name="Plain Table 2" w:uiPriority="42"/><w:lsdException w:name="Plain Table 3" w:uiPriority="43"/><w:lsdException w:name="Plain Table 4" w:uiPriority="44"/><w:lsdException w:name="Plain Table 5" w:uiPriority="45"/><w:lsdException w:name="Grid Table Light" w:uiPriority="40"/><w:lsdException w:name="Grid Table 1 Light" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful" w:uiPriority="52"/><w:lsdException w:name="Grid Table 1 Light Accent 1" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2 Accent 1" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3 Accent 1" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4 Accent 1" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark Accent 1" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful Accent 1" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful Accent 1" w:uiPriority="52"/><w:lsdException w:name="Grid Table 1 Light Accent 2" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2 Accent 2" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3 Accent 2" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4 Accent 2" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark Accent 2" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful Accent 2" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful Accent 2" w:uiPriority="52"/><w:lsdException w:name="Grid Table 1 Light Accent 3" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2 Accent 3" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3 Accent 3" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4 Accent 3" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark Accent 3" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful Accent 3" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful Accent 3" w:uiPriority="52"/><w:lsdException w:name="Grid Table 1 Light Accent 4" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2 Accent 4" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3 Accent 4" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4 Accent 4" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark Accent 4" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful Accent 4" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful Accent 4" w:uiPriority="52"/><w:lsdException w:name="Grid Table 1 Light Accent 5" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2 Accent 5" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3 Accent 5" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4 Accent 5" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark Accent 5" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful Accent 5" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful Accent 5" w:uiPriority="52"/><w:lsdException w:name="Grid Table 1 Light Accent 6" w:uiPriority="46"/><w:lsdException w:name="Grid Table 2 Accent 6" w:uiPriority="47"/><w:lsdException w:name="Grid Table 3 Accent 6" w:uiPriority="48"/><w:lsdException w:name="Grid Table 4 Accent 6" w:uiPriority="49"/><w:lsdException w:name="Grid Table 5 Dark Accent 6" w:uiPriority="50"/><w:lsdException w:name="Grid Table 6 Colorful Accent 6" w:uiPriority="51"/><w:lsdException w:name="Grid Table 7 Colorful Accent 6" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light" w:uiPriority="46"/><w:lsdException w:name="List Table 2" w:uiPriority="47"/><w:lsdException w:name="List Table 3" w:uiPriority="48"/><w:lsdException w:name="List Table 4" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light Accent 1" w:uiPriority="46"/><w:lsdException w:name="List Table 2 Accent 1" w:uiPriority="47"/><w:lsdException w:name="List Table 3 Accent 1" w:uiPriority="48"/><w:lsdException w:name="List Table 4 Accent 1" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark Accent 1" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful Accent 1" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful Accent 1" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light Accent 2" w:uiPriority="46"/><w:lsdException w:name="List Table 2 Accent 2" w:uiPriority="47"/><w:lsdException w:name="List Table 3 Accent 2" w:uiPriority="48"/><w:lsdException w:name="List Table 4 Accent 2" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark Accent 2" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful Accent 2" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful Accent 2" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light Accent 3" w:uiPriority="46"/><w:lsdException w:name="List Table 2 Accent 3" w:uiPriority="47"/><w:lsdException w:name="List Table 3 Accent 3" w:uiPriority="48"/><w:lsdException w:name="List Table 4 Accent 3" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark Accent 3" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful Accent 3" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful Accent 3" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light Accent 4" w:uiPriority="46"/><w:lsdException w:name="List Table 2 Accent 4" w:uiPriority="47"/><w:lsdException w:name="List Table 3 Accent 4" w:uiPriority="48"/><w:lsdException w:name="List Table 4 Accent 4" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark Accent 4" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful Accent 4" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful Accent 4" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light Accent 5" w:uiPriority="46"/><w:lsdException w:name="List Table 2 Accent 5" w:uiPriority="47"/><w:lsdException w:name="List Table 3 Accent 5" w:uiPriority="48"/><w:lsdException w:name="List Table 4 Accent 5" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark Accent 5" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful Accent 5" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful Accent 5" w:uiPriority="52"/><w:lsdException w:name="List Table 1 Light Accent 6" w:uiPriority="46"/><w:lsdException w:name="List Table 2 Accent 6" w:uiPriority="47"/><w:lsdException w:name="List Table 3 Accent 6" w:uiPriority="48"/><w:lsdException w:name="List Table 4 Accent 6" w:uiPriority="49"/><w:lsdException w:name="List Table 5 Dark Accent 6" w:uiPriority="50"/><w:lsdException w:name="List Table 6 Colorful Accent 6" w:uiPriority="51"/><w:lsdException w:name="List Table 7 Colorful Accent 6" w:uiPriority="52"/></w:latentStyles><w:style w:type="paragraph" w:default="1" w:styleId="a"><w:name w:val="Normal"/><w:qFormat/><w:rsid w:val="00C069B1"/><w:pPr><w:widowControl w:val="0"/><w:jc w:val="both"/></w:pPr><w:rPr><w:rFonts w:ascii="Times New Roman" w:eastAsia="宋体" w:hAnsi="Times New Roman" w:cs="Times New Roman"/><w:sz w:val="32"/><w:szCs w:val="32"/></w:rPr></w:style><w:style w:type="character" w:default="1" w:styleId="a0"><w:name w:val="Default Paragraph Font"/><w:uiPriority w:val="1"/><w:semiHidden/><w:unhideWhenUsed/></w:style><w:style w:type="table" w:default="1" w:styleId="a1"><w:name w:val="Normal Table"/><w:uiPriority w:val="99"/><w:semiHidden/><w:unhideWhenUsed/><w:tblPr><w:tblInd w:w="0" w:type="dxa"/><w:tblCellMar><w:top w:w="0" w:type="dxa"/><w:left w:w="108" w:type="dxa"/><w:bottom w:w="0" w:type="dxa"/><w:right w:w="108" w:type="dxa"/></w:tblCellMar></w:tblPr></w:style><w:style w:type="numbering" w:default="1" w:styleId="a2"><w:name w:val="No List"/><w:uiPriority w:val="99"/><w:semiHidden/><w:unhideWhenUsed/></w:style><w:style w:type="paragraph" w:styleId="a3"><w:name w:val="header"/><w:basedOn w:val="a"/><w:link w:val="Char"/><w:uiPriority w:val="99"/><w:unhideWhenUsed/><w:rsid w:val="00C069B1"/><w:pPr><w:pBdr><w:bottom w:val="single" w:sz="6" w:space="1" w:color="auto"/></w:pBdr><w:tabs><w:tab w:val="center" w:pos="4153"/><w:tab w:val="right" w:pos="8306"/></w:tabs><w:snapToGrid w:val="0"/><w:jc w:val="center"/></w:pPr><w:rPr><w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi"/><w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr></w:style><w:style w:type="character" w:customStyle="1" w:styleId="Char"><w:name w:val="页眉 Char"/><w:basedOn w:val="a0"/><w:link w:val="a3"/><w:uiPriority w:val="99"/><w:rsid w:val="00C069B1"/><w:rPr><w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr></w:style><w:style w:type="paragraph" w:styleId="a4"><w:name w:val="footer"/><w:basedOn w:val="a"/><w:link w:val="Char0"/><w:uiPriority w:val="99"/><w:unhideWhenUsed/><w:rsid w:val="00C069B1"/><w:pPr><w:tabs><w:tab w:val="center" w:pos="4153"/><w:tab w:val="right" w:pos="8306"/></w:tabs><w:snapToGrid w:val="0"/><w:jc w:val="left"/></w:pPr><w:rPr><w:rFonts w:asciiTheme="minorHAnsi" w:eastAsiaTheme="minorEastAsia" w:hAnsiTheme="minorHAnsi" w:cstheme="minorBidi"/><w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr></w:style><w:style w:type="character" w:customStyle="1" w:styleId="Char0"><w:name w:val="页脚 Char"/><w:basedOn w:val="a0"/><w:link w:val="a4"/><w:uiPriority w:val="99"/><w:rsid w:val="00C069B1"/><w:rPr><w:sz w:val="18"/><w:szCs w:val="18"/></w:rPr></w:style></w:styles></pkg:xmlData></pkg:part><pkg:part pkg:name="/word/fontTable.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.wordprocessingml.fontTable+xml"><pkg:xmlData><w:fonts mc:Ignorable="w14 w15" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:r="http://schemas.openxmlformats.org/officeDocument/2006/relationships" xmlns:w="http://schemas.openxmlformats.org/wordprocessingml/2006/main" xmlns:w14="http://schemas.microsoft.com/office/word/2010/wordml" xmlns:w15="http://schemas.microsoft.com/office/word/2012/wordml"><w:font w:name="Calibri"><w:panose1 w:val="020F0502020204030204"/><w:charset w:val="00"/><w:family w:val="swiss"/><w:pitch w:val="variable"/><w:sig w:usb0="E00002FF" w:usb1="4000ACFF" w:usb2="00000001" w:usb3="00000000" w:csb0="0000019F" w:csb1="00000000"/></w:font><w:font w:name="宋体"><w:altName w:val="SimSun"/><w:panose1 w:val="02010600030101010101"/><w:charset w:val="86"/><w:family w:val="auto"/><w:pitch w:val="variable"/><w:sig w:usb0="00000003" w:usb1="288F0000" w:usb2="00000016" w:usb3="00000000" w:csb0="00040001" w:csb1="00000000"/></w:font><w:font w:name="Times New Roman"><w:panose1 w:val="02020603050405020304"/><w:charset w:val="00"/><w:family w:val="roman"/><w:pitch w:val="variable"/><w:sig w:usb0="E0002EFF" w:usb1="C0007843" w:usb2="00000009" w:usb3="00000000" w:csb0="000001FF" w:csb1="00000000"/></w:font><w:font w:name="黑体"><w:altName w:val="SimHei"/><w:panose1 w:val="02010609060101010101"/><w:charset w:val="86"/><w:family w:val="modern"/><w:pitch w:val="fixed"/><w:sig w:usb0="800002BF" w:usb1="38CF7CFA" w:usb2="00000016" w:usb3="00000000" w:csb0="00040001" w:csb1="00000000"/></w:font><w:font w:name="方正小标宋简体"><w:altName w:val="Microsoft JhengHei Light"/><w:charset w:val="86"/><w:family w:val="script"/><w:pitch w:val="fixed"/><w:sig w:usb0="00000000" w:usb1="080E0000" w:usb2="00000010" w:usb3="00000000" w:csb0="00040000" w:csb1="00000000"/></w:font><w:font w:name="仿宋_GB2312"><w:altName w:val="仿宋"/><w:charset w:val="86"/><w:family w:val="modern"/><w:pitch w:val="fixed"/><w:sig w:usb0="00000001" w:usb1="080E0000" w:usb2="00000010" w:usb3="00000000" w:csb0="00040000" w:csb1="00000000"/></w:font><w:font w:name="Calibri Light"><w:panose1 w:val="020F0302020204030204"/><w:charset w:val="00"/><w:family w:val="swiss"/><w:pitch w:val="variable"/><w:sig w:usb0="A00002EF" w:usb1="4000207B" w:usb2="00000000" w:usb3="00000000" w:csb0="0000019F" w:csb1="00000000"/></w:font></w:fonts></pkg:xmlData></pkg:part><pkg:part pkg:name="/docProps/app.xml" pkg:contentType="application/vnd.openxmlformats-officedocument.extended-properties+xml" pkg:padding="256"><pkg:xmlData><Properties xmlns="http://schemas.openxmlformats.org/officeDocument/2006/extended-properties" xmlns:vt="http://schemas.openxmlformats.org/officeDocument/2006/docPropsVTypes"><Template>Normal.dotm</Template><TotalTime>0</TotalTime><Pages>7</Pages><Words>328</Words><Characters>1875</Characters><Application>Microsoft Office Word</Application><DocSecurity>0</DocSecurity><Lines>15</Lines><Paragraphs>4</Paragraphs><ScaleCrop>false</ScaleCrop><Company/><LinksUpToDate>false</LinksUpToDate><CharactersWithSpaces>2199</CharactersWithSpaces><SharedDoc>false</SharedDoc><HyperlinksChanged>false</HyperlinksChanged><AppVersion>15.0000</AppVersion></Properties></pkg:xmlData></pkg:part></pkg:package>
+<html xmlns:v="urn:schemas-microsoft-com:vml"
+xmlns:o="urn:schemas-microsoft-com:office:office"
+xmlns:w="urn:schemas-microsoft-com:office:word"
+xmlns:m="http://schemas.microsoft.com/office/2004/12/omml"
+xmlns="http://www.w3.org/TR/REC-html40">
+
+<head>
+<meta http-equiv=Content-Type content="text/html; charset=gb2312">
+<meta name=ProgId content=Word.Document>
+<meta name=Generator content="Microsoft Word 14">
+<meta name=Originator content="Microsoft Word 14">
+<link rel=File-List href="供应商入库申请表.files/filelist.xml">
+<title>SupplierTable</title>
+<!--[if gte mso 9]><xml>
+ <o:DocumentProperties>
+  <o:Author>WangHuijie</o:Author>
+  <o:Keywords>Supplier</o:Keywords>
+  <o:LastAuthor>NTKO</o:LastAuthor>
+  <o:Revision>69</o:Revision>
+  <o:TotalTime>79</o:TotalTime>
+  <o:Created>2017-01-11T09:37:00Z</o:Created>
+  <o:LastSaved>2017-01-12T03:21:00Z</o:LastSaved>
+  <o:Pages>9</o:Pages>
+  <o:Words>778</o:Words>
+  <o:Characters>4441</o:Characters>
+  <o:Lines>37</o:Lines>
+  <o:Paragraphs>10</o:Paragraphs>
+  <o:CharactersWithSpaces>5209</o:CharactersWithSpaces>
+  <o:Version>14.00</o:Version>
+ </o:DocumentProperties>
+ <o:OfficeDocumentSettings>
+  <o:AllowPNG/>
+ </o:OfficeDocumentSettings>
+</xml><![endif]-->
+<link rel=themeData href="供应商入库申请表.files/themedata.thmx">
+<link rel=colorSchemeMapping href="供应商入库申请表.files/colorschememapping.xml">
+<!--[if gte mso 9]><xml>
+ <w:WordDocument>
+  <w:View>Print</w:View>
+  <w:Zoom>120</w:Zoom>
+  <w:SpellingState>Clean</w:SpellingState>
+  <w:GrammarState>Clean</w:GrammarState>
+  <w:TrackMoves>false</w:TrackMoves>
+  <w:TrackFormatting/>
+  <w:PunctuationKerning/>
+  <w:DrawingGridVerticalSpacing>7.8 磅</w:DrawingGridVerticalSpacing>
+  <w:DisplayHorizontalDrawingGridEvery>0</w:DisplayHorizontalDrawingGridEvery>
+  <w:DisplayVerticalDrawingGridEvery>2</w:DisplayVerticalDrawingGridEvery>
+  <w:ValidateAgainstSchemas/>
+  <w:SaveIfXMLInvalid>false</w:SaveIfXMLInvalid>
+  <w:IgnoreMixedContent>false</w:IgnoreMixedContent>
+  <w:AlwaysShowPlaceholderText>false</w:AlwaysShowPlaceholderText>
+  <w:DoNotPromoteQF/>
+  <w:LidThemeOther>EN-US</w:LidThemeOther>
+  <w:LidThemeAsian>ZH-CN</w:LidThemeAsian>
+  <w:LidThemeComplexScript>X-NONE</w:LidThemeComplexScript>
+  <w:Compatibility>
+   <w:SpaceForUL/>
+   <w:BalanceSingleByteDoubleByteWidth/>
+   <w:DoNotLeaveBackslashAlone/>
+   <w:ULTrailSpace/>
+   <w:DoNotExpandShiftReturn/>
+   <w:AdjustLineHeightInTable/>
+   <w:BreakWrappedTables/>
+   <w:SnapToGridInCell/>
+   <w:WrapTextWithPunct/>
+   <w:UseAsianBreakRules/>
+   <w:DontGrowAutofit/>
+   <w:SplitPgBreakAndParaMark/>
+   <w:EnableOpenTypeKerning/>
+   <w:DontFlipMirrorIndents/>
+   <w:OverrideTableStyleHps/>
+   <w:UseFELayout/>
+  </w:Compatibility>
+  <w:BrowserLevel>MicrosoftInternetExplorer4</w:BrowserLevel>
+  <m:mathPr>
+   <m:mathFont m:val="Cambria Math"/>
+   <m:brkBin m:val="before"/>
+   <m:brkBinSub m:val="&#45;-"/>
+   <m:smallFrac m:val="off"/>
+   <m:dispDef/>
+   <m:lMargin m:val="0"/>
+   <m:rMargin m:val="0"/>
+   <m:defJc m:val="centerGroup"/>
+   <m:wrapIndent m:val="1440"/>
+   <m:intLim m:val="subSup"/>
+   <m:naryLim m:val="undOvr"/>
+  </m:mathPr></w:WordDocument>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <w:LatentStyles DefLockedState="false" DefUnhideWhenUsed="true"
+  DefSemiHidden="true" DefQFormat="false" DefPriority="99"
+  LatentStyleCount="267">
+  <w:LsdException Locked="false" Priority="0" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Normal"/>
+  <w:LsdException Locked="false" Priority="9" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="heading 1"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 2"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 3"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 4"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 5"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 6"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 7"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 8"/>
+  <w:LsdException Locked="false" Priority="9" QFormat="true" Name="heading 9"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 1"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 2"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 3"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 4"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 5"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 6"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 7"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 8"/>
+  <w:LsdException Locked="false" Priority="39" Name="toc 9"/>
+  <w:LsdException Locked="false" Priority="35" QFormat="true" Name="caption"/>
+  <w:LsdException Locked="false" Priority="10" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Title"/>
+  <w:LsdException Locked="false" Priority="1" Name="Default Paragraph Font"/>
+  <w:LsdException Locked="false" Priority="11" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtitle"/>
+  <w:LsdException Locked="false" Priority="22" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Strong"/>
+  <w:LsdException Locked="false" Priority="20" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Emphasis"/>
+  <w:LsdException Locked="false" Priority="39" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Table Grid"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Placeholder Text"/>
+  <w:LsdException Locked="false" Priority="1" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="No Spacing"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 1"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 1"/>
+  <w:LsdException Locked="false" UnhideWhenUsed="false" Name="Revision"/>
+  <w:LsdException Locked="false" Priority="34" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="List Paragraph"/>
+  <w:LsdException Locked="false" Priority="29" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Quote"/>
+  <w:LsdException Locked="false" Priority="30" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Quote"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 1"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 1"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 1"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 1"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 1"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 1"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 1"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 2"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 2"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 2"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 2"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 2"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 2"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 2"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 2"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 3"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 3"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 3"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 3"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 3"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 3"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 3"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 3"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 4"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 4"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 4"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 4"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 4"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 4"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 4"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 4"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 5"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 5"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 5"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 5"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 5"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 5"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 5"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 5"/>
+  <w:LsdException Locked="false" Priority="60" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="61" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light List Accent 6"/>
+  <w:LsdException Locked="false" Priority="62" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Light Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="63" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="64" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Shading 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="65" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="66" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium List 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="67" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 1 Accent 6"/>
+  <w:LsdException Locked="false" Priority="68" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 2 Accent 6"/>
+  <w:LsdException Locked="false" Priority="69" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Medium Grid 3 Accent 6"/>
+  <w:LsdException Locked="false" Priority="70" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Dark List Accent 6"/>
+  <w:LsdException Locked="false" Priority="71" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Shading Accent 6"/>
+  <w:LsdException Locked="false" Priority="72" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful List Accent 6"/>
+  <w:LsdException Locked="false" Priority="73" SemiHidden="false"
+   UnhideWhenUsed="false" Name="Colorful Grid Accent 6"/>
+  <w:LsdException Locked="false" Priority="19" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Emphasis"/>
+  <w:LsdException Locked="false" Priority="21" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Emphasis"/>
+  <w:LsdException Locked="false" Priority="31" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Subtle Reference"/>
+  <w:LsdException Locked="false" Priority="32" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Intense Reference"/>
+  <w:LsdException Locked="false" Priority="33" SemiHidden="false"
+   UnhideWhenUsed="false" QFormat="true" Name="Book Title"/>
+  <w:LsdException Locked="false" Priority="37" Name="Bibliography"/>
+  <w:LsdException Locked="false" Priority="39" QFormat="true" Name="TOC Heading"/>
+ </w:LatentStyles>
+</xml><![endif]-->
+<style>
+<!--
+ /* Font Definitions */
+ @font-face
+	{font-family:宋体;
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-alt:SimSun;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 680460288 22 0 262145 0;!}
+@font-face
+	{font-family:黑体;
+	panose-1:2 1 6 9 6 1 1 1 1 1;
+	mso-font-alt:SimHei;
+	mso-font-charset:134;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-2147482945 953122042 22 0 262145 0;!}
+@font-face
+	{font-family:黑体;
+	panose-1:2 1 6 9 6 1 1 1 1 1;
+	mso-font-alt:SimHei;
+	mso-font-charset:134;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-2147482945 953122042 22 0 262145 0;!}
+@font-face
+	{font-family:Calibri;
+	panose-1:2 15 5 2 2 2 4 3 2 4;
+	mso-font-charset:0;
+	mso-generic-font-family:swiss;
+	mso-font-pitch:variable;
+	mso-font-signature:-536870145 1073786111 1 0 415 0;!}
+@font-face
+	{font-family:方正小标宋简体;
+	mso-font-alt:"Microsoft JhengHei Light";
+	mso-font-charset:134;
+	mso-generic-font-family:script;
+	mso-font-pitch:fixed;
+	mso-font-signature:0 135135232 16 0 262144 0;!}
+@font-face
+	{font-family:仿宋_GB2312;
+	mso-font-alt:仿宋;
+	mso-font-charset:134;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:1 135135232 16 0 262144 0;!}
+@font-face
+	{font-family:"\@宋体";
+	panose-1:2 1 6 0 3 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:auto;
+	mso-font-pitch:variable;
+	mso-font-signature:3 680460288 22 0 262145 0;!}
+@font-face
+	{font-family:"\@黑体";
+	panose-1:2 1 6 9 6 1 1 1 1 1;
+	mso-font-charset:134;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:-2147482945 953122042 22 0 262145 0;!}
+@font-face
+	{font-family:"\@方正小标宋简体";
+	mso-font-charset:134;
+	mso-generic-font-family:script;
+	mso-font-pitch:fixed;
+	mso-font-signature:0 135135232 16 0 262144 0;!}
+@font-face
+	{font-family:"\@仿宋_GB2312";
+	mso-font-charset:134;
+	mso-generic-font-family:modern;
+	mso-font-pitch:fixed;
+	mso-font-signature:1 135135232 16 0 262144 0;!}
+ /* Style Definitions */
+ p.MsoNormal, li.MsoNormal, div.MsoNormal
+	{mso-style-unhide:no;
+	mso-style-qformat:yes;
+	mso-style-parent:"";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:justify;
+	text-justify:inter-ideograph;
+	mso-pagination:none;
+	font-size:16.0pt;
+	font-family:"Times New Roman","serif";
+	mso-fareast-font-family:宋体;
+	mso-font-kerning:1.0pt;!}
+p.MsoHeader, li.MsoHeader, div.MsoHeader
+	{mso-style-priority:99;
+	mso-style-link:"页眉 Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	text-align:center;
+	mso-pagination:none;
+	tab-stops:center 207.65pt right 415.3pt;
+	layout-grid-mode:char;
+	border:none;
+	mso-border-bottom-alt:solid windowtext .75pt;
+	padding:0cm;
+	mso-padding-alt:0cm 0cm 1.0pt 0cm;
+	font-size:9.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:宋体;
+	mso-fareast-theme-font:minor-fareast;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-font-kerning:1.0pt;!}
+p.MsoFooter, li.MsoFooter, div.MsoFooter
+	{mso-style-priority:99;
+	mso-style-link:"页脚 Char";
+	margin:0cm;
+	margin-bottom:.0001pt;
+	mso-pagination:none;
+	tab-stops:center 207.65pt right 415.3pt;
+	layout-grid-mode:char;
+	font-size:9.0pt;
+	font-family:"Calibri","sans-serif";
+	mso-ascii-font-family:Calibri;
+	mso-ascii-theme-font:minor-latin;
+	mso-fareast-font-family:宋体;
+	mso-fareast-theme-font:minor-fareast;
+	mso-hansi-font-family:Calibri;
+	mso-hansi-theme-font:minor-latin;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-font-kerning:1.0pt;!}
+span.Char
+	{mso-style-name:"页眉 Char";
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:页眉;
+	mso-ansi-font-size:9.0pt;
+	mso-bidi-font-size:9.0pt;!}
+span.Char0
+	{mso-style-name:"页脚 Char";
+	mso-style-priority:99;
+	mso-style-unhide:no;
+	mso-style-locked:yes;
+	mso-style-link:页脚;
+	mso-ansi-font-size:9.0pt;
+	mso-bidi-font-size:9.0pt;!}
+span.webkit-html-attribute-value
+	{mso-style-name:webkit-html-attribute-value;
+	mso-style-unhide:no;!}
+span.SpellE
+	{mso-style-name:"";
+	mso-spl-e:yes;!}
+span.GramE
+	{mso-style-name:"";
+	mso-gram-e:yes;!}
+.MsoChpDefault
+	{mso-style-type:export-only;
+	mso-default-props:yes;
+	font-size:10.0pt;
+	mso-ansi-font-size:10.0pt;
+	mso-bidi-font-size:10.0pt;
+	mso-ascii-font-family:Calibri;
+	mso-hansi-font-family:Calibri;
+	mso-bidi-font-family:"Times New Roman";
+	mso-bidi-theme-font:minor-bidi;
+	mso-font-kerning:0pt;!}
+ /* Page Definitions */
+ @page
+	{mso-page-border-surround-header:no;
+	mso-page-border-surround-footer:no;
+	mso-footnote-separator:url("供应商入库申请表.files/header.html") fs;
+	mso-footnote-continuation-separator:url("供应商入库申请表.files/header.html") fcs;
+	mso-endnote-separator:url("供应商入库申请表.files/header.html") es;
+	mso-endnote-continuation-separator:url("供应商入库申请表.files/header.html") ecs;!}
+@page WordSection1
+	{size:595.3pt 841.9pt;
+	margin:72.0pt 90.0pt 72.0pt 90.0pt;
+	mso-header-margin:42.55pt;
+	mso-footer-margin:49.6pt;
+	mso-paper-source:0;
+	layout-grid:15.6pt;!}
+div.WordSection1
+	{page:WordSection1;!}
+-->
+</style>
+<!--[if gte mso 10]>
+<style>
+ /* Style Definitions */
+ table.MsoNormalTable
+	{mso-style-name:普通表格;
+	mso-tstyle-rowband-size:0;
+	mso-tstyle-colband-size:0;
+	mso-style-noshow:yes;
+	mso-style-priority:99;
+	mso-style-parent:"";
+	mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+	mso-para-margin:0cm;
+	mso-para-margin-bottom:.0001pt;
+	mso-pagination:widow-orphan;
+	font-size:10.0pt;
+	font-family:"Calibri","sans-serif";!}
+</style>
+<![endif]--><!--[if gte mso 9]><xml>
+ <o:shapedefaults v:ext="edit" spidmax="2049"/>
+</xml><![endif]--><!--[if gte mso 9]><xml>
+ <o:shapelayout v:ext="edit">
+  <o:idmap v:ext="edit" data="1"/>
+ </o:shapelayout></xml><![endif]-->
+</head>
+
+<body lang=ZH-CN style='tab-interval:21.0pt;text-justify-trim:punctuation'>
+
+<div class=WordSection1 style='layout-grid:15.6pt'>
+
+<p class=MsoNormal style='mso-pagination:widow-orphan;mso-outline-level:1'><span
+lang=EN-US style='mso-fareast-font-family:黑体;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='mso-pagination:widow-orphan;mso-outline-level:1'><span
+lang=EN-US style='mso-fareast-font-family:黑体;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='mso-fareast-font-family:黑体;mso-font-kerning:0pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='margin-top:7.8pt;margin-right:0cm;
+margin-bottom:7.8pt;margin-left:0cm;mso-para-margin-top:.5gd;mso-para-margin-right:
+0cm;mso-para-margin-bottom:.5gd;mso-para-margin-left:0cm;text-align:center;
+line-height:28.0pt;mso-line-height-rule:exactly'><span style='font-size:26.0pt;
+font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>军队供应商入库申请表</span><span
+lang=EN-US style='font-size:26.0pt;mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span lang=EN-US
+style='font-size:14.0pt;mso-fareast-font-family:黑体'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:26.9pt;mso-para-margin-left:
+1.68gd;text-align:left;text-indent:.1pt'><span style='text-fit:126.0pt;
+mso-text-fit-id:1291029760'><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";mso-font-width:93%;mso-font-kerning:0pt'>供应商名称（盖章）</span></span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman"'>：</span><u><span
+lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><o:p></o:p></span></u></p>
+
+<p class=MsoNormal align=left style='margin-left:26.9pt;mso-para-margin-left:
+1.68gd;text-align:left;text-indent:.1pt'><span style='font-size:15.0pt;
+mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";
+mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>住</span><span
+lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt;mso-font-kerning:
+0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span><span style='font-size:15.0pt;mso-bidi-font-size:14.0pt;
+font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>所：</span><u><span lang=EN-US
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></u><span lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:26.9pt;mso-para-margin-left:
+1.68gd;text-align:left;text-indent:.1pt'><span style='text-fit:126.0pt;
+mso-text-fit-id:1291029761'><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";mso-font-width:93%;mso-font-kerning:0pt'>法定代表人（签字）</span></span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman"'>：</span><u><span
+lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span><o:p></o:p></span></u></p>
+
+<p class=MsoNormal align=left style='margin-left:26.9pt;mso-para-margin-left:
+1.68gd;text-align:left;text-indent:.1pt'><span style='font-size:15.0pt;
+mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";
+mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>审</span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;mso-font-kerning:0pt'> </span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>核</span><span style='font-size:15.0pt;mso-bidi-font-size:14.0pt;
+mso-font-kerning:0pt'> </span><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>采</span><span style='font-size:15.0pt;
+mso-bidi-font-size:14.0pt;mso-font-kerning:0pt'> </span><span style='font-size:
+15.0pt;mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";
+mso-hansi-font-family:"Times New Roman";mso-font-kerning:0pt'>购</span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;mso-font-kerning:0pt'> </span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman";mso-font-kerning:
+0pt'>机</span><span style='font-size:15.0pt;mso-bidi-font-size:14.0pt;
+mso-font-kerning:0pt'> </span><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";mso-font-kerning:0pt'>构：</span><u><span lang=EN-US
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;mso-font-kerning:0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+</span></span></u><span lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;mso-font-kerning:0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=left style='margin-left:26.9pt;mso-para-margin-left:
+1.68gd;text-align:left;text-indent:.1pt'><span style='text-fit:126.0pt;
+mso-text-fit-id:1291029762'><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman";letter-spacing:11.0pt;mso-font-kerning:0pt'>申报日期</span></span><span
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt;font-family:宋体;mso-ascii-font-family:
+"Times New Roman";mso-hansi-font-family:"Times New Roman"'>：</span><a
+name=regd><u><span lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp; </span></span></u></a><span
+style='mso-bookmark:regd'><u><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>年</span></u></span><span style='mso-bookmark:regd'><u><span
+lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span></u></span><span
+style='mso-bookmark:regd'><u><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>月</span></u></span><span style='mso-bookmark:regd'><u><span
+lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span></u></span><span
+style='mso-bookmark:regd'><u><span style='font-size:15.0pt;mso-bidi-font-size:
+14.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>日</span></u></span><span style='mso-bookmark:regd'></span><u><span
+lang=EN-US style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><span
+style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span></u><span lang=EN-US
+style='font-size:15.0pt;mso-bidi-font-size:14.0pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='color:blue'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='color:blue'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal><span lang=EN-US style='color:blue'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center'><span
+style='mso-bidi-font-size:18.0pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>中央军委后勤保障部监制</span><span
+lang=EN-US style='mso-fareast-font-family:仿宋_GB2312'><o:p></o:p></span></p>
+
+<span lang=EN-US style='font-size:16.0pt;font-family:"Times New Roman","serif";
+mso-fareast-font-family:仿宋_GB2312;mso-ansi-language:EN-US;mso-fareast-language:
+ZH-CN;mso-bidi-language:AR-SA'><br clear=all style='page-break-before:always'>
+</span>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>1</span><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>基本情况登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<div align=center>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+ mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>供应商名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=306 colspan=7 style='width:229.75pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${supplierName!}<o:p></o:p></span></p>
+  </td>
+  <td width=78 style='width:58.35pt;border:solid windowtext 1.0pt;border-left:
+  none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>成立日期</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=127 colspan=2 style='width:94.95pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${foundDate?string("yyyy-MM-dd")!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>住</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>所</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=306 colspan=7 style='width:229.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${address!}<o:p></o:p></span></p>
+  </td>
+  <td width=78 style='width:58.35pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>邮政编码</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${postCode!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>供应<span class=GramE>商类型</span></span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=96 colspan=2 style='width:71.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${supplierType!}<o:p></o:p></span></p>
+  </td>
+  <td width=96 colspan=3 style='width:72.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>营业执照</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>登记类型</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=114 colspan=2 style='width:85.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=left style='text-align:left;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${businessType!}<o:p></o:p></span></p>
+  </td>
+  <td width=78 style='width:58.35pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>网</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>址</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${webSite!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>基本账户</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>开户银行</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=192 colspan=5 style='width:143.9pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${bankName!}<o:p></o:p></span></p>
+  </td>
+  <td width=114 colspan=2 style='width:85.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>银行账号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=204 colspan=3 style='width:153.3pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${bankAccount!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;height:19.85pt'>
+  <td width=185 colspan=3 style='width:138.8pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>近三个月完税凭证</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=96 colspan=3 style='width:72.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>有</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=210 colspan=4 style='width:157.25pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>近三个月缴纳社会保险金凭证</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=109 style='width:81.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>有</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;height:19.85pt'>
+  <td width=185 colspan=3 style='width:138.8pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>近三年银行基本账户年末对账单</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=96 colspan=3 style='width:72.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>有</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=210 colspan=4 style='width:157.25pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>近三年内无重大违法记录声明</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=109 style='width:81.9pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>有</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6;height:19.85pt'>
+  <td width=600 colspan=11 style='width:449.95pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><b style='mso-bidi-font-weight:normal'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>法定代表人信息</span></b><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>姓</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>名</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=174 colspan=4 style='width:130.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${legalName!}<o:p></o:p></span></p>
+  </td>
+  <td width=72 colspan=3 style='width:54.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>身份证号</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=265 colspan=3 style='width:198.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${legalIdCard!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:8;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>固定电话</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=174 colspan=4 style='width:130.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${legalMobile!}<o:p></o:p></span></p>
+  </td>
+  <td width=72 colspan=3 style='width:54.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>手</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>机</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=265 colspan=3 style='width:198.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${legalTelephone!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:9;height:19.85pt'>
+  <td width=600 colspan=11 style='width:449.95pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><b style='mso-bidi-font-weight:normal'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>联系人信息</span></b><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:10;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>姓</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>名</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=174 colspan=4 style='width:130.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${contactName!}<o:p></o:p></span></p>
+  </td>
+  <td width=72 colspan=3 style='width:54.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>手</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>机</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=265 colspan=3 style='width:198.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${contactTelephone!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:11;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>固定电话</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=174 colspan=4 style='width:130.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${contactMobile!}<o:p></o:p></span></p>
+  </td>
+  <td width=72 colspan=3 style='width:54.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>传真电话</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=265 colspan=3 style='width:198.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${contactFax!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:12;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span class=GramE><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>邮</span></span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>箱</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=174 colspan=4 style='width:130.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${contactEmail!}<o:p></o:p></span></p>
+  </td>
+  <td width=72 colspan=3 style='width:54.0pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>地</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>址</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=265 colspan=3 style='width:198.85pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${contactAddress!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:13;height:19.85pt'>
+  <td width=600 colspan=11 style='width:449.95pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><b style='mso-bidi-font-weight:normal'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>营业执照</span></b><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:14;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>统一社会</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>信用代码</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=306 colspan=7 style='width:229.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${creditCode!}<o:p></o:p></span></p>
+  </td>
+  <td width=78 style='width:58.35pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>登记机关</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${registAuthority!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:15;height:19.85pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>注册资本</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=174 colspan=4 style='width:130.2pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'><span style='mso-spacerun:yes'>&nbsp;</span>${registFund!}<span style='mso-spacerun:yes'>&nbsp;
+  </span></span><span style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:
+  "Times New Roman"'>万元</span><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=133 colspan=3 style='width:99.55pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>营业期限</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=204 colspan=3 style='width:153.3pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${businessStartDate!}-${businessEndDate!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:16;height:79.75pt'>
+  <td width=89 style='width:66.9pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:79.75pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>经营范围</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=511 colspan=10 style='width:383.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:79.75pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:150%'><span
+  lang=EN-US style='font-size:10.5pt;line-height:150%'>${businessScope!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:17;height:19.85pt'>
+  <td width=125 colspan=2 rowspan=${addressList?size+1!}>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>生产或经营地址</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>（填写所有地址）</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=348 colspan=7 style='width:261.1pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>详细地址</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span class=GramE><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>邮</span></span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>编</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <#list addressList as addr>
+ <tr style='mso-yfti-irow:18;height:19.85pt'>
+  <td width=348 colspan=8 style='width:261.1pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${addr.address!}<o:p></o:p></span></p>
+  </td>
+  <td width=127 style='width:94.95pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${addr.code!}<o:p></o:p></span></p>
+  </td>
+  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
+  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
+  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
+  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
+ </tr>
+ </#list>
+ <tr style='mso-yfti-irow:19;height:19.85pt'>
+  <td width=125 colspan=2 rowspan=${branchList?size+ 1!}>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>境外分支机构</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>（是</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'>/</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>否）</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=87 colspan=2 style='width:65.25pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>国家</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'>(</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>地区</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'>)<o:p></o:p></span></p>
+  </td>
+  <td width=95 colspan=3 style='width:71.55pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>机构名称</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=166 colspan=2 style='width:124.3pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>详细地址</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=127 colspan=2 style='width:94.95pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>生产经营范围</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <#list branchList as branch>
+ <tr style='mso-yfti-irow:20;mso-yfti-lastrow:yes;height:19.85pt'>
+  <td width=87 colspan=2 style='width:65.25pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>${branch.country!}<o:p></o:p></span></p>
+  </td>
+  <td width=95 colspan=3 style='width:71.55pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>${branch.organizationName!}<o:p></o:p></span></p>
+  </td>
+  <td width=166 colspan=3 style='width:124.3pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>${branch.detailAddress!}<o:p></o:p></span></p>
+  </td>
+  <td width=127 style='width:94.95pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>${branch.businessSope!}<o:p></o:p></span></p>
+  </td>
+  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
+  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
+  <td style='border-top:none;border-left:none;border-bottom:solid windowtext 1.0pt;
+  border-right:solid windowtext 1.0pt;mso-border-top-alt:solid windowtext .5pt;
+  mso-border-left-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:19.85pt'></td>
+ </tr>
+ </#list>
+ <![if !supportMisalignedColumns]>
+ <tr height=0>
+  <td width=80 style='border:none'></td>
+  <td width=53 style='border:none'></td>
+  <td width=116 style='border:none'></td>
+  <td width=30 style='border:none'></td>
+  <td width=51 style='border:none'></td>
+  <td width=16 style='border:none'></td>
+  <td width=30 style='border:none'></td>
+  <td width=129 style='border:none'></td>
+  <td width=168 style='border:none'></td>
+  <td width=15 style='border:none'></td>
+  <td width=135 style='border:none'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+<p class=MsoNormal style='margin-right:24.0pt;line-height:12.0pt;mso-line-height-rule:
+exactly'><span lang=EN-US style='font-size:12.0pt;font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+
+<span lang=EN-US style='font-size:16.0pt;mso-bidi-font-size:10.5pt;font-family:
+"Times New Roman","serif";mso-fareast-font-family:仿宋_GB2312;mso-ansi-language:
+EN-US;mso-fareast-language:ZH-CN;mso-bidi-language:AR-SA'><br clear=all
+style='page-break-before:always'>
+</span>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>2</span><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>财务状况登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .5pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid black;mso-border-insidev:.5pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>会计事务所名称</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].name!}<o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].name!}<o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].name!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>事务所联系电话</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].telephone!}<o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].telephone!}<o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].telephone!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>审计人姓名（</span><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'>2</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>人）</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].auditors!}<o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].auditors!}<o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].auditors!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>指标</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].quota!}</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>年</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].quota!}</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>年</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].quota!}</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>年</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>资产总额</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].totalAssets!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].totalAssets!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].totalAssets!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>负债总额</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].totalLiabilities!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].totalLiabilities!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].totalLiabilities!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>净资产总额</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].totalNetAssets!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].totalNetAssets!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].totalNetAssets!}</span><span style='font-size:10.5pt;
+  font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:7;mso-yfti-lastrow:yes;height:28.5pt'>
+  <td width=160 valign=top style='width:120.0pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>营业收入</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[0].taking!}</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[1].taking!}</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:28.5pt'>
+  <p class=MsoNormal align=center style='margin-top:12.0pt;text-align:center;
+  line-height:12.0pt;mso-line-height-rule:exactly;mso-outline-level:1'><span
+  lang=EN-US style='font-size:10.5pt'>${listSupplierFinances[2].taking!}</span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>万元</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal style='margin-top:7.8pt;margin-right:0cm;margin-bottom:0cm;
+margin-left:31.5pt;margin-bottom:.0001pt;mso-para-margin-top:.5gd;mso-para-margin-right:
+0cm;mso-para-margin-bottom:0cm;mso-para-margin-left:31.5pt;mso-para-margin-bottom:
+.0001pt;text-indent:-31.5pt;mso-char-indent-count:-3.0;line-height:12.0pt;
+mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+mso-ascii-font-family:"Times New Roman"'>说明：供应商应当上<span class=GramE>传最近</span>三年财务审计报告的审计意见、资产负债表、利润表、现金流量表和所有者权益变动表。</span><span
+lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='margin-top:7.8pt;mso-para-margin-top:.5gd;line-height:
+12.0pt;mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal style='margin-top:7.8pt;mso-para-margin-top:.5gd;line-height:
+12.0pt;mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>3-1</span><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>物资类、服务类供应商资质证书登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .5pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid black;mso-border-insidev:.5pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:20.0pt'>
+  <td width=43 style='width:32.4pt;border:solid black 1.0pt;mso-border-alt:
+  solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>序号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=163 style='width:122.6pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质证书名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=51 style='width:38.0pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质等级</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=147 style='width:110.0pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>发证机关</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=140 style='width:105.0pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>有效期（起止时间）</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=51 style='width:38.0pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>是否年检</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  <p class=MsoNormal align=left style='text-align:left;mso-pagination:widow-orphan'><span
+  lang=EN-US style='font-size:10.0pt;font-family:"Calibri","sans-serif";
+  mso-bidi-font-family:宋体;mso-font-kerning:0pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <#list supplierMatPro.listSupplierCertPros as pro> 
+ <tr style='mso-yfti-irow:1;mso-yfti-lastrow:yes;height:27.0pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro_index + 1!}<o:p></o:p></span></p>
+  </td>
+  <td width=163 valign=top style='width:122.6pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro.name!}<b
+  style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=51 valign=top style='width:38.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro.levelCert!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=147 valign=top style='width:110.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro.licenceAuthorith!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=140 valign=top style='width:105.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro.expStartDate?string("yyyy-MM-dd")!}-${pro.expEndDate?string("yyyy-MM-dd")!}<b
+  style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=51 valign=top style='width:38.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${pro.mot!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ </#list>
+</table>
+
+<p class=MsoNormal style='line-height:18.0pt;mso-line-height-rule:exactly'><span
+lang=EN-US style='mso-bidi-font-size:10.5pt;mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+
+<span lang=EN-US style='font-size:16.0pt;mso-bidi-font-size:10.5pt;font-family:
+"Times New Roman","serif";mso-fareast-font-family:仿宋_GB2312;mso-ansi-language:
+EN-US;mso-fareast-language:ZH-CN;mso-bidi-language:AR-SA'><br clear=all
+style='page-break-before:always'>
+</span>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>3-2<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>工程类供应商资质资格信息登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<div align=center>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 width=669
+ style='width:501.55pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid black .5pt;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.5pt solid black;mso-border-insidev:.5pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:26.5pt'>
+  <td width=669 colspan=14 style='width:501.55pt;border:solid black 1.0pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.5pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><b style='mso-bidi-font-weight:normal'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>资质资格证书信息</span></b><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:13.85pt'>
+  <td width=43 rowspan=2 style='width:32.4pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>序号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=49 rowspan=2 style='width:36.8pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格类型</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=47 rowspan=2 style='width:35.4pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>证书编号</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=57 rowspan=2 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格最高等级</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=132 colspan=3 style='width:99.2pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>技术负责人</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=142 colspan=3 style='width:106.35pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>单位负责人</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 rowspan=2 style='width:35.4pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>发证机关</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=47 rowspan=2 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>发证日期</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=57 rowspan=2 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>证书有效期截止日期</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=47 rowspan=2 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.85pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>证书状态</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:13.8pt'>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>姓名</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>职务</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=45 style='width:33.5pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>职称</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>姓名</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>职务</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:13.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>职称</span><span lang=EN-US
+  style='font-size:10.0pt;font-family:"Calibri","sans-serif";mso-bidi-font-family:
+  宋体;mso-font-kerning:0pt'></span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <#list supplierMatEng.listSupplierCertEngs as eng>
+ <tr style='mso-yfti-irow:3;height:27.0pt'>
+  <td width=43 style='width:32.4pt;border:solid black 1.0pt;border-top:none;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng_index+1!}<o:p></o:p></span></p>
+  </td>
+  <td width=49 style='width:36.8pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.certType!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.certCode!}</span><span lang=EN-US style='font-size:
+  10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=57 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.certMaxLevel!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.techName!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.techJop!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=45 style='width:33.5pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.techPt!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.depName!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.depJop!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.depPt!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.licenceAuthorith!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.expStartDate?string("yyyy-MM-dd")!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=57 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.expEndDate?string("yyyy-MM-dd")!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${eng.certStatus!}<b style='mso-bidi-font-weight:normal'><o:p></o:p></b></span></p>
+  </td>
+ </tr>
+ </#list>
+ <tr style='mso-yfti-irow:4;height:27.0pt'>
+  <td width=669 colspan=14 style='width:501.55pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><b style='mso-bidi-font-weight:normal'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>资质资格信息</span></b><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;height:27.0pt'>
+  <td width=43 style='width:32.4pt;border:solid black 1.0pt;border-top:none;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>序号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=49 style='width:36.8pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格类型</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>证书编号</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=57 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格序列</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>专业类别</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格等级</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=45 style='width:33.5pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>是否主项资质</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>批准资质资格内容</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>首次批准资质资格文号</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>首次批准资质资格日期</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格取得方式</span><span lang=EN-US
+  style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格状态</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=57 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格状态变更时间</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:15.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>资质资格状态变更原因</span><span lang=EN-US
+  style='font-size:10.0pt;font-family:"Calibri","sans-serif";mso-bidi-font-family:
+  宋体;mso-font-kerning:0pt'></span><b style='mso-bidi-font-weight:
+  normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ <#list supplierMatEng.listSupplierAptitutes as aptitutes> 
+ <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes;height:27.0pt'>
+  <td width=43 style='width:32.4pt;border:solid black 1.0pt;border-top:none;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${aptitutes_index+1!}<o:p></o:p></span></p>
+  </td>
+  <td width=49 style='width:36.8pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.certType!}<o:p></o:p></span></p>
+  </td>
+  <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.certCode!}<o:p></o:p></span></p>
+  </td>
+  <td width=57 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteSequence!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.professType!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=44 style='width:32.85pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteLevel!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=45 style='width:33.5pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.isMajorFund!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteContent!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteCode!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteDate?string("yyyy-MM-dd")!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.4pt;border-top:none;border-left:none;border-bottom:
+  solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:solid black .5pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteWay!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteStatus!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=57 style='width:42.55pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteChangeAt?string("yyyy-MM-dd")!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+  <td width=47 style='width:35.45pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .5pt;mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${aptitutes.aptituteChangeReason!}</span><b
+  style='mso-bidi-font-weight:normal'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></b></p>
+  </td>
+ </tr>
+ </#list>
+</table>
+
+</div>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>4</span><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>出资人（股东）信息登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<div align=center>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 width=670
+ style='width:502.35pt;border-collapse:collapse;border:none;mso-border-alt:
+ solid black .75pt;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.75pt solid black;mso-border-insidev:.75pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:20.45pt'>
+  <td width=52 style='width:39.25pt;border:solid black 1.0pt;mso-border-alt:
+  solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:20.45pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>序号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=157 style='width:117.8pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.45pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>出资人名称或姓名</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=75 style='width:56.05pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.45pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>出资人性</span><span lang=EN-US
+  style='font-size:10.5pt'><span style='mso-spacerun:yes'>&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>质</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=164 style='width:123.3pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.45pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>统一社会信用代码</span><span lang=EN-US
+  style='font-size:10.5pt'><span
+  style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>或身份证号码</span><span
+  lang=EN-US style='font-size:10.5pt'><span style='mso-spacerun:yes'>&nbsp;
+  </span><o:p></o:p></span></p>
+  </td>
+  <td width=132 style='width:98.7pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.45pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>出资金额或股份</span><span lang=EN-US
+  style='font-size:10.5pt'><span style='mso-spacerun:yes'>&nbsp;&nbsp;&nbsp;
+  </span></span><span style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:
+  "Times New Roman"'>（万元</span><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>/</span><span style='font-size:10.5pt;font-family:
+  宋体;mso-ascii-font-family:"Times New Roman"'>万份）</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=90 style='width:67.25pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:20.45pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>比</span><span lang=EN-US
+  style='font-size:10.5pt'><span style='mso-spacerun:yes'>&nbsp; </span></span><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>例</span><span
+  lang=EN-US style='font-size:10.0pt;font-family:"Calibri","sans-serif";
+  mso-bidi-font-family:宋体;mso-font-kerning:0pt'></span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <#list listSupplierStockholders as stockholders>
+ <tr style='mso-yfti-irow:1;mso-yfti-lastrow:yes;height:26.8pt'>
+  <td width=52 valign=top style='width:39.25pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:26.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${stockholders_index+1!}<o:p></o:p></span></p>
+  </td>
+  <td width=157 valign=top style='width:117.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${stockholders.name!}<o:p></o:p></span></p>
+  </td>
+  <td width=75 valign=top style='width:56.05pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${stockholders.nature!}<o:p></o:p></span></p>
+  </td>
+  <td width=164 valign=top style='width:123.3pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${stockholders.identity!}<o:p></o:p></span></p>
+  </td>
+  <td width=132 valign=top style='width:98.7pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.8pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${stockholders.shares!}<o:p></o:p></span></p>
+  </td>
+  <td width=90 valign=top style='width:67.25pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.8pt'>
+  <p class=MsoNormal style='line-height:18.0pt;mso-line-height-rule:exactly'><span
+  lang=EN-US style='font-size:10.5pt'>${stockholders.proportion!}%<o:p></o:p></span></p>
+  </td>
+ </tr>
+ </#list>
+</table>
+
+</div>
+
+<p class=MsoNormal style='margin-top:7.8pt;mso-para-margin-top:.5gd;line-height:
+12.0pt;mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:
+宋体;mso-ascii-font-family:"Times New Roman"'>说明：</span><span lang=EN-US
+style='font-size:10.5pt;mso-hansi-font-family:宋体'>1.</span><span
+style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>出资人（股东）多于</span><span
+lang=EN-US style='font-size:10.5pt'>10</span><span style='font-size:10.5pt;
+font-family:宋体;mso-ascii-font-family:"Times New Roman"'>人的，列出出资金额前</span><span
+lang=EN-US style='font-size:10.5pt'>10</span><span style='font-size:10.5pt;
+font-family:宋体;mso-ascii-font-family:"Times New Roman"'>位的信息，但出资比例应高于</span><span
+lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'>50%</span><span
+style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>；</span><span
+lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-indent:31.5pt;mso-char-indent-count:3.0;
+line-height:12.0pt;mso-line-height-rule:exactly'><span lang=EN-US
+style='font-size:10.5pt;mso-hansi-font-family:宋体'>2.</span><span
+style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>出资人性质为“法人”或“自然人”。</span><span
+lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'><o:p></o:p></span></p>
+
+<p class=MsoNormal style='text-indent:31.5pt;mso-char-indent-count:3.0;
+line-height:12.0pt;mso-line-height-rule:exactly'><span lang=EN-US
+style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>5</span><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>可提供品目类别登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .5pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid black;mso-border-insidev:.5pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:23.15pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  border-right:solid windowtext 1.0pt;mso-border-alt:solid black .5pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>序号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:solid black 1.0pt;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-left-alt:solid windowtext .5pt;mso-border-top-alt:black;
+  mso-border-left-alt:windowtext;mso-border-bottom-alt:black;mso-border-right-alt:
+  windowtext;mso-border-style-alt:solid;mso-border-width-alt:.5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>品目类别</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid black .5pt;mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>大类名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:solid black 1.0pt;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-left-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>中类名称</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:solid black 1.0pt;
+  border-left:none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-left-alt:solid windowtext .5pt;mso-border-top-alt:black;
+  mso-border-left-alt:windowtext;mso-border-bottom-alt:black;mso-border-right-alt:
+  windowtext;mso-border-style-alt:solid;mso-border-width-alt:.5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>小类名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid black .5pt;mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:"Times New Roman"'>品种名称</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:23.15pt'>
+  <td width=43 valign=top style='width:32.4pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>1<o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;mso-border-right-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:23.2pt'>
+  <td width=43 valign=top style='width:32.4pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>2<o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;mso-border-right-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:23.15pt'>
+  <td width=43 valign=top style='width:32.4pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>3<o:p></o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;mso-border-right-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.15pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes;height:23.2pt'>
+  <td width=43 valign=top style='width:32.4pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-alt:solid black .5pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>…<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid black .5pt;
+  mso-border-alt:solid black .5pt;mso-border-right-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-top-alt:black;mso-border-left-alt:windowtext;mso-border-bottom-alt:
+  black;mso-border-right-alt:windowtext;mso-border-style-alt:solid;mso-border-width-alt:
+  .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=110 valign=top style='width:82.8pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .5pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:23.2pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>6-1<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>物资类、服务类供应商组织机构和人员登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+ mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes'>
+  <td width=91 valign=top style='width:68.4pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+  9.0pt'><span style='font-size:10.5pt;font-family:宋体'>组织机构<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=513 colspan=3 valign=top style='width:384.6pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${supplierMatSe.orgName!}</span><span lang=EN-US
+  style='font-size:10.5pt;font-family:宋体'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1'>
+  <td width=91 valign=top style='width:68.4pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+  9.0pt'><span style='font-size:10.5pt;font-family:宋体'>人员总数<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=204 valign=top style='width:153.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='line-height:18.0pt;mso-line-height-rule:exactly'><span
+  lang=EN-US style='font-size:10.5pt'>${supplierMatSe.totalPerson!}<o:p></o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+  9.0pt'><span style='font-size:10.5pt;font-family:宋体'>管理人员<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=201 valign=top style='width:151.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='line-height:18.0pt;mso-line-height-rule:exactly'><span
+  lang=EN-US style='font-size:10.5pt'>${supplierMatSe.totalMange!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes'>
+  <td width=91 valign=top style='width:68.4pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+  9.0pt'><span style='font-size:10.5pt;font-family:宋体'>技术人员<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=204 valign=top style='width:153.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal style='line-height:18.0pt;mso-line-height-rule:exactly'><span
+  lang=EN-US style='font-size:10.5pt'>${supplierMatSe.totalTech!}</span><span
+  lang=EN-US style='font-size:10.5pt;font-family:宋体'><o:p></o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.6pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+  9.0pt'><span style='font-size:10.5pt;font-family:宋体'>工人（职员）<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=201 valign=top style='width:151.0pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>${supplierMatSe.totalWorker!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>6-2<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>工程类供应商组织机构和注册人员登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<div align=center>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 width=602
+ style='width:451.5pt;border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+ mso-yfti-tbllook:480;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:35.7pt'>
+  <td width=114 colspan=2 style='width:85.5pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>组织机构<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=488 colspan=6 valign=top style='width:366.0pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatEng.orgName!}</span><span
+  lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:35.7pt'>
+  <td width=114 colspan=2 style='width:85.5pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>技术负责人<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=203 colspan=2 valign=top style='width:152.05pt;border-top:none;
+  border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatEng.totalTech!}<o:p></o:p></span></p>
+  </td>
+  <td width=99 colspan=2 style='width:74.45pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>中级及上<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>职称人员<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=186 colspan=2 valign=top style='width:139.5pt;border-top:none;
+  border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatEng.totalGlNormal!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:35.7pt'>
+  <td width=114 colspan=2 style='width:85.5pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>现场管理人员<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=203 colspan=2 valign=top style='width:152.05pt;border-top:none;
+  border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatEng.totalMange!}<o:p></o:p></span></p>
+  </td>
+  <td width=99 colspan=2 style='width:74.45pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>技术工人<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=186 colspan=2 valign=top style='width:139.5pt;border-top:none;
+  border-left:none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatEng.totalTechWorker!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:35.7pt'>
+  <td width=68 rowspan=4 style='width:50.65pt;border:solid windowtext 1.0pt;
+  border-top:none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>注册人员情况<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=131 colspan=2 style='width:98.5pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>X</span><span style='font-size:10.5pt;font-family:宋体'>级<span
+  lang=EN-US>XX</span>注册建造师<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>X</span><span style='font-size:10.5pt;font-family:宋体'>级<span
+  lang=EN-US>XX</span>注册建造师<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 style='width:100.85pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;height:35.7pt'>
+  <td width=131 colspan=2 style='width:98.5pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>X</span><span style='font-size:10.5pt;font-family:宋体'>级<span
+  lang=EN-US>XX</span>注册建造师<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>X</span><span style='font-size:10.5pt;font-family:宋体'>级<span
+  lang=EN-US>XX</span>注册建造师<span lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 style='width:100.85pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:5;height:35.7pt'>
+  <td width=131 colspan=2 style='width:98.5pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>XX</span><span style='font-size:10.5pt;font-family:宋体'>注册造价工程师<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'>XX</span><span style='font-size:10.5pt;font-family:宋体'>注册造价工程师<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 style='width:100.85pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:6;mso-yfti-lastrow:yes;height:35.7pt'>
+  <td width=131 colspan=2 style='width:98.5pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>…<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=134 colspan=2 style='width:100.75pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=134 style='width:100.85pt;border-top:none;border-left:none;
+  border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:35.7pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:17.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  font-family:宋体'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <![if !supportMisalignedColumns]>
+ <tr height=0>
+  <td width=57 style='border:none'></td>
+  <td width=34 style='border:none'></td>
+  <td width=85 style='border:none'></td>
+  <td width=116 style='border:none'></td>
+  <td width=16 style='border:none'></td>
+  <td width=68 style='border:none'></td>
+  <td width=63 style='border:none'></td>
+  <td width=163 style='border:none'></td>
+ </tr>
+ <![endif]>
+</table>
+
+</div>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>7<o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>物资类生产型供应商产品研发能力登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .75pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .75pt solid black;mso-border-insidev:.75pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:1.0cm'>
+  <td width=173 style='width:130.0pt;border:solid black 1.0pt;mso-border-alt:
+  solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>技术人员比例</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=133 style='width:100.0pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.scaleTech!}%</span></p>
+  </td>
+  <td width=173 style='width:130.0pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>高级技术人员比例</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=123 style='width:92.25pt;border:solid black 1.0pt;border-left:none;
+  mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.scaleHeightTech!}%</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:1.0cm'>
+  <td width=173 style='width:130.0pt;border:solid black 1.0pt;border-top:none;
+  mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>研发部门名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=430 colspan=3 style='width:322.25pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.researchName!}</span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:1.0cm'>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>研发部门人数</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=133 style='width:100.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid black .75pt;mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.totalResearch!}<o:p></o:p></span></p>
+  </td>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>研发部门负责人</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=123 style='width:92.25pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:1.0cm'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.researchLead!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:50.0pt'>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:50.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>承担国家军队科研项目</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=430 colspan=3 style='width:322.25pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .75pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:50.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.countryPro!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes;height:50.0pt'>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:50.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>获得国家军队科技奖项</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=430 colspan=3 style='width:322.25pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .75pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:50.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.countryReward!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal align=right style='text-align:right;text-indent:32.0pt;
+mso-char-indent-count:2.0;mso-line-height-alt:9.0pt'><a name=tableTitle8><span
+style='mso-bidi-font-size:10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";
+mso-hansi-font-family:"Times New Roman"'>表</span></a><span style='mso-bookmark:
+tableTitle8'><span lang=EN-US style='mso-bidi-font-size:10.5pt;mso-fareast-font-family:
+黑体'>8<o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='mso-bookmark:tableTitle8'><span style='font-family:方正小标宋简体;
+mso-ascii-font-family:"Times New Roman"'>物资类生产型供应商生产能力登记表</span></span><span
+style='mso-bookmark:tableTitle8'><span lang=EN-US style='mso-fareast-font-family:
+方正小标宋简体'><o:p></o:p></span></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid windowtext .5pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .5pt solid windowtext;mso-border-insidev:.5pt solid windowtext'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:57.6pt'>
+  <td width=91 style='width:68.4pt;border:solid windowtext 1.0pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:57.6pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='mso-bookmark:tableTitle8'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>生</span></span><span
+  style='mso-bookmark:tableTitle8'><span style='font-size:10.5pt;mso-hansi-font-family:
+  宋体'> </span></span><span style='mso-bookmark:tableTitle8'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>产</span></span><span
+  style='mso-bookmark:tableTitle8'><span style='font-size:10.5pt;mso-hansi-font-family:
+  宋体'> </span></span><span style='mso-bookmark:tableTitle8'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>线</span></span><span
+  style='mso-bookmark:tableTitle8'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'><o:p></o:p></span></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='mso-bookmark:tableTitle8'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>名称数量</span></span><span
+  style='mso-bookmark:tableTitle8'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:tableTitle8'></span>
+  <td width=515 valign=top style='width:386.05pt;border:solid windowtext 1.0pt;
+  border-left:none;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:57.6pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='mso-bookmark:tableTitle8'><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'>${supplierMatPro.totalBeltline!}<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:tableTitle8'></span>
+ </tr>
+ <tr style='mso-yfti-irow:1;mso-yfti-lastrow:yes;height:57.6pt'>
+  <td width=91 style='width:68.4pt;border:solid windowtext 1.0pt;border-top:
+  none;mso-border-top-alt:solid windowtext .5pt;mso-border-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:57.6pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='mso-bookmark:tableTitle8'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>生产设备</span></span><span
+  style='mso-bookmark:tableTitle8'><span lang=EN-US style='font-size:10.5pt'><o:p></o:p></span></span></p>
+  <p class=MsoNormal align=center style='text-align:center;line-height:16.0pt;
+  mso-line-height-rule:exactly'><span style='mso-bookmark:tableTitle8'><span
+  style='font-size:10.5pt;font-family:宋体;mso-ascii-font-family:"Times New Roman"'>名称数量</span></span><span
+  style='mso-bookmark:tableTitle8'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'><o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:tableTitle8'></span>
+  <td width=515 valign=top style='width:386.05pt;border-top:none;border-left:
+  none;border-bottom:solid windowtext 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid windowtext .5pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:57.6pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='mso-bookmark:tableTitle8'><span
+  lang=EN-US style='font-size:10.5pt;mso-hansi-font-family:宋体'>${supplierMatPro.totalDevice!}<o:p></o:p></span></span></p>
+  </td>
+  <span style='mso-bookmark:tableTitle8'></span>
+ </tr>
+</table>
+
+<span style='mso-bookmark:tableTitle8'></span>
+
+<p class=MsoNormal align=right style='margin-top:7.8pt;margin-right:2.3pt;
+margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;mso-para-margin-top:
+.5gd;mso-para-margin-right:2.3pt;mso-para-margin-bottom:0cm;mso-para-margin-left:
+0cm;mso-para-margin-bottom:.0001pt;text-align:right;line-height:28.0pt;
+mso-line-height-rule:exactly;tab-stops:441.0pt'><a name=zhiliangjiancheTitle><span
+style='font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span></a><span style='mso-bookmark:zhiliangjiancheTitle'><span
+lang=EN-US style='mso-fareast-font-family:黑体'>9</span></span><span
+style='mso-bookmark:zhiliangjiancheTitle'><span lang=EN-US style='font-size:
+10.5pt;mso-fareast-font-family:黑体'><o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='mso-bookmark:zhiliangjiancheTitle'><span style='font-family:
+方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>物资类生产型供应<span class=GramE>商质量</span>检测能力登记表</span></span><span
+style='mso-bookmark:zhiliangjiancheTitle'><span lang=EN-US style='mso-fareast-font-family:
+方正小标宋简体'><o:p></o:p></span></span></p>
+
+<span style='mso-bookmark:zhiliangjiancheTitle'></span>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;border:none;mso-border-alt:solid black .75pt;
+ mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;mso-border-insideh:
+ .75pt solid black;mso-border-insidev:.75pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:26.1pt'>
+  <td width=173 style='width:130.0pt;border:solid black 1.0pt;mso-border-alt:
+  solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:26.1pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>质量检测部门</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=430 colspan=3 style='width:322.25pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:26.1pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.qcName!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:27.65pt'>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:27.65pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>质检部门人数</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=133 style='width:100.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid windowtext .5pt;mso-border-alt:
+  solid black .75pt;mso-border-left-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:27.65pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.totalQc!}<o:p></o:p></span></p>
+  </td>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.65pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>质检部门负责人</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=123 style='width:92.25pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:27.65pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.qcLead!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;mso-yfti-lastrow:yes;height:57.4pt'>
+  <td width=173 style='width:130.0pt;border-top:none;border-left:solid black 1.0pt;
+  border-bottom:solid black 1.0pt;border-right:solid windowtext 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  mso-border-right-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;
+  height:57.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:12.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>质量检测设备名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=430 colspan=3 style='width:322.25pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid windowtext .5pt;
+  mso-border-alt:solid black .75pt;mso-border-left-alt:solid windowtext .5pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:57.4pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-hansi-font-family:宋体'>${supplierMatPro.qcDevice!}<o:p></o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal align=right style='margin-top:7.8pt;margin-right:2.25pt;
+margin-bottom:0cm;margin-left:0cm;margin-bottom:.0001pt;mso-para-margin-top:
+.5gd;mso-para-margin-right:2.25pt;mso-para-margin-bottom:0cm;mso-para-margin-left:
+0cm;mso-para-margin-bottom:.0001pt;text-align:right;tab-stops:441.0pt'><a
+name=TservicTitle><span style='font-family:黑体;mso-ascii-font-family:"Times New Roman";
+mso-hansi-font-family:"Times New Roman"'>表</span></a><span style='mso-bookmark:
+TservicTitle'><span lang=EN-US style='mso-fareast-font-family:黑体'>10</span></span><span
+style='mso-bookmark:TservicTitle'><span lang=EN-US style='font-size:10.5pt;
+mso-fareast-font-family:黑体'><o:p></o:p></span></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='mso-bookmark:TservicTitle'><span style='font-family:方正小标宋简体;
+mso-ascii-font-family:"Times New Roman"'>售后服务机构一览表</span></span><span
+style='mso-bookmark:TservicTitle'><span lang=EN-US style='mso-fareast-font-family:
+方正小标宋简体'><o:p></o:p></span></span></p>
+
+<span style='mso-bookmark:TservicTitle'></span>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0
+ style='border-collapse:collapse;mso-table-layout-alt:fixed;border:none;
+ mso-border-alt:solid black .75pt;mso-yfti-tbllook:1184;mso-padding-alt:0cm 5.4pt 0cm 5.4pt;
+ mso-border-insideh:.75pt solid black;mso-border-insidev:.75pt solid black'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;height:24.0pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>序号</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=197 valign=top style='width:147.6pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>分支（或服务）机构名称</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=67 valign=top style='width:50.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>类别</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>所在市县</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=80 valign=top style='width:60.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>负责人</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:90.0pt;border:solid black 1.0pt;
+  border-left:none;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体;
+  mso-ascii-font-family:"Times New Roman"'>联系电话</span><span lang=EN-US
+  style='font-size:10.5pt'><o:p></o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:1;height:24.0pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>1<o:p></o:p></span></p>
+  </td>
+  <td width=197 valign=top style='width:147.6pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=67 valign=top style='width:50.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=80 valign=top style='width:60.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:90.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:2;height:24.0pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>2<o:p></o:p></span></p>
+  </td>
+  <td width=197 valign=top style='width:147.6pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=67 valign=top style='width:50.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=80 valign=top style='width:60.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:90.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:3;height:24.0pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'>3<o:p></o:p></span></p>
+  </td>
+  <td width=197 valign=top style='width:147.6pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=67 valign=top style='width:50.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=80 valign=top style='width:60.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:90.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+ <tr style='mso-yfti-irow:4;mso-yfti-lastrow:yes;height:24.0pt'>
+  <td width=43 valign=top style='width:32.4pt;border:solid black 1.0pt;
+  border-top:none;mso-border-top-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span style='font-size:10.5pt;font-family:宋体'>…<span
+  lang=EN-US><o:p></o:p></span></span></p>
+  </td>
+  <td width=197 valign=top style='width:147.6pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=67 valign=top style='width:50.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=107 valign=top style='width:80.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=80 valign=top style='width:60.0pt;border-top:none;border-left:none;
+  border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;mso-border-top-alt:
+  solid black .75pt;mso-border-left-alt:solid black .75pt;mso-border-alt:solid black .75pt;
+  padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+  <td width=120 valign=top style='width:90.0pt;border-top:none;border-left:
+  none;border-bottom:solid black 1.0pt;border-right:solid black 1.0pt;
+  mso-border-top-alt:solid black .75pt;mso-border-left-alt:solid black .75pt;
+  mso-border-alt:solid black .75pt;padding:0cm 5.4pt 0cm 5.4pt;height:24.0pt'>
+  <p class=MsoNormal align=center style='text-align:center;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal align=right style='text-align:right'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>11</span><span lang=EN-US style='mso-bidi-font-size:
+12.0pt;mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>参加政府或军队采购经历登记表</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 width=624
+ style='width:468.0pt;margin-left:-.25pt;border-collapse:collapse;border:none;
+ mso-border-alt:solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:
+ 0cm 5.4pt 0cm 5.4pt;mso-border-insideh:.5pt solid windowtext;mso-border-insidev:
+ .5pt solid windowtext'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes;
+  height:162.3pt'>
+  <td width=624 valign=top style='width:468.0pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:162.3pt'>
+  <p class=MsoNormal align=left style='text-align:left;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal align=right style='text-align:right'><span style='mso-bidi-font-size:
+10.5pt;font-family:黑体;mso-ascii-font-family:"Times New Roman";mso-hansi-font-family:
+"Times New Roman"'>表</span><span lang=EN-US style='mso-bidi-font-size:10.5pt;
+mso-fareast-font-family:黑体'>12</span><span lang=EN-US style='mso-bidi-font-size:
+12.0pt;mso-fareast-font-family:黑体'><o:p></o:p></span></p>
+
+<p class=MsoNormal align=center style='text-align:center;mso-line-height-alt:
+9.0pt'><span style='font-family:方正小标宋简体;mso-ascii-font-family:"Times New Roman"'>供应商简介</span><span
+lang=EN-US style='mso-fareast-font-family:方正小标宋简体'><o:p></o:p></span></p>
+
+<table class=MsoNormalTable border=1 cellspacing=0 cellpadding=0 width=624
+ style='width:468.0pt;margin-left:-.25pt;border-collapse:collapse;border:none;
+ mso-border-alt:solid windowtext .5pt;mso-yfti-tbllook:480;mso-padding-alt:
+ 0cm 5.4pt 0cm 5.4pt;mso-border-insideh:.5pt solid windowtext;mso-border-insidev:
+ .5pt solid windowtext'>
+ <tr style='mso-yfti-irow:0;mso-yfti-firstrow:yes;mso-yfti-lastrow:yes;
+  height:169.6pt'>
+  <td width=624 valign=top style='width:468.0pt;border:solid windowtext 1.0pt;
+  mso-border-alt:solid windowtext .5pt;padding:0cm 5.4pt 0cm 5.4pt;height:169.6pt'>
+  <p class=MsoNormal align=left style='text-align:left;line-height:18.0pt;
+  mso-line-height-rule:exactly'><span lang=EN-US style='font-size:10.5pt;
+  mso-fareast-font-family:仿宋_GB2312'><o:p>&nbsp;</o:p></span></p>
+  </td>
+ </tr>
+</table>
+
+<p class=MsoNormal><span lang=EN-US><o:p>&nbsp;</o:p></span></p>
+
+</div>
+
+</body>
+
+</html>

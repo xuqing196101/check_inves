@@ -2026,7 +2026,7 @@ import common.service.UploadService;
         List<Category> list = supplierItemService.getCategory(supplierId, supplierTypeId);
         removeSame(list);
         category.addAll(list);
-        List<ContractBean> contract = supplierService.getContract(category, pageNum);
+        List<ContractBean> contract = supplierService.getContract(category, pageNum == null ? 1 : pageNum);
         for(ContractBean con : contract){
             con.setOneContract(id1);
             con.setTwoContract(id2);

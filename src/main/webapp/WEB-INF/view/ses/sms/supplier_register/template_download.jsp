@@ -12,7 +12,7 @@
 	}
 	//下载
 	function download1(){
-		var supplierId = "${supplierId}";
+		var supplierId = "${currSupplier.id}";
 		window.location.href="${pageContext.request.contextPath}/expert/downloadSupplier.html?supplierId=" + supplierId;
 	}
 	//下载
