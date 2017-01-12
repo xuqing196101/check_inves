@@ -14,7 +14,7 @@ const SIX = "6";
 const SEVEN = "7";
 const EIGHT = "8";
 const NINE = "9";
-
+var jsonStr = [];
 function addTotal() {
 	var allTable = document.getElementsByTagName("table");
 	for(var i = 1; i < allTable.length; i++) {
@@ -99,21 +99,36 @@ function eachTable(obj) {
 				return;
 				error++;
 			} else {
-				priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
+				//priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
+				var json = {"price":price, "total":total, "deliveryTime":deliveryTime, "remark":remark, "supplierId":supplierId, "productId":productId, "isTurnUp":isTurnUp};
+				jsonStr.push(json);
+				console.log(jsonStr); 
 			};
 		};
 	}
 	if(error == 0) {
-		$("#priceStr").val(priceStr);
+		/* $("#priceStr").val(priceStr);
 		var priceStr = $("#priceStr").val();
-		var projectId = $("#projectId").val();
+		
 		$.ajax({
 			url:"${pageContext.request.contextPath}/open_bidding/savemingxi.html?priceStr=" + priceStr + "&projectId="+ projectId,
 			success:function(data){
 				layer.alert("暂存成功",{offset: [y, x], shade:0.01});
 				window.location.reload();
 			}
-		});
+		}); */
+		var projectId = $("#projectId").val();
+		 $.ajax({
+		        type: "POST",
+		        url: "${pageContext.request.contextPath}/open_bidding/savemingxi.html?projectId="+projectId,
+		        data: {quoteList:JSON.stringify(jsonStr)},
+		        dataType: "json",
+		        success: function (message) {
+		        },
+		        error: function (message) {
+		        }
+		    });
+		    window.location.reload();
 		//form.submit();
 	};
 }
