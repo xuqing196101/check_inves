@@ -82,19 +82,19 @@
 		 
 		 if (val == 'PRODUCT') {
 			 $("#productId").addClass("active");
-			 $("#production_div").attr("class", "tab-pane fade  active in");
+			 $("#production_div").attr("class", "tab-pane fade active in");
 		 }
 		 if (val == 'SALES') {
 			 $("#salesId").addClass("active");
-			 $("#sale_div").attr("class", "tab-pane fade  active in");
+			 $("#sale_div").attr("class", "tab-pane fade active in");
 		 } 
 		 if (val == 'PROJECT') {
 			 $("#projectId").addClass("active");
-		 	 $("#project_div").attr("class", "tab-pane fade  active in");
+		 	 $("#project_div").attr("class", "tab-pane fade active in");
 		 } 
 		 if (val == 'SERVICE') {
 			 $("#serviceId").addClass("active");
-			 $("#server_div").attr("class", "tab-pane fade  active in");
+			 $("#server_div").attr("class", "tab-pane fade active in");
 		 } 
 		});
  }
@@ -527,34 +527,34 @@ $(function(){
 					            if(arrays[i]==checkValue){
 				                      $(checkbox).attr("checked",true);
 				                      if(arrays[i]!='PROJECT'){
-					                     $("#project_div").attr("class", "tab-pane fade ");
+					                     $("#project_div").attr("class", "dis_none fade ");
 					                  }
 				                      if(arrays[i]!='PRODUCT'){
-				                    	  $("#production_div").attr("class", "tab-pane fade ");
+				                    	  $("#production_div").attr("class", "dis_none fade ");
 				                      }
 				                      if(arrays[i]!='SALES'){
-					                      $("#sale_div").attr("class", "tab-pane fade ");
+					                      $("#sale_div").attr("class", "dis_none fade ");
 					                  }
 				                      if(arrays[i]!='SERVICE'){
-				                          $("#server_div").attr("class", "tab-pane fade ");
+				                          $("#server_div").attr("class", "dis_none fade ");
 				                      }
 				                      
 				                      if(arrays[i]=='PRODUCT'){
 				                    		$("#productId").show();
-				                    		$("#production_div").attr("class", "tab-pane fade  active in");
+				                    		$("#production_div").attr("class", "fade active in");
 				                    	  
 				                      }
 				                      else if(arrays[i]=='SALES'){
 				                        $("#salesId").show();
-				                    	$("#sale_div").attr("class", "tab-pane fade  active in");
+				                    	$("#sale_div").attr("class", "fade active in");
 				                      }
 				                      else if(arrays[i]=='PROJECT'){
 				                    	  $("#projectId").show();
-				                    	  $("#project_div").attr("class", "tab-pane fade  active in");
+				                    	  $("#project_div").attr("class", "fade active in");
 				                      }
 				                        else  if(arrays[i]=='SERVICE'){
 				                    		 $("#serviceId").show();
-				                    	 	$("#server_div").attr("class", "tab-pane fade  active in");
+				                    	 	$("#server_div").attr("class", "fade active in");
 				                      }
 				                      checkedArray.push(arrays[i]);     
 				               }
@@ -679,27 +679,27 @@ $(function(){
     
     
     $(function() {
-			var pro = "${pro}";
-			var server = "${server}";
-			var sale = "${sale}";
-			var project = "${project}";
-			var msg = "";
-			if (pro == "false") {
-				msg = msg + "物资-生产专业信息、";
-			} 
-			if (sale == "false") {
-				msg = msg + "物资-销售专业信息、";
-			} 
-			if (project == "false") {
-				msg = msg + "工程专业信息、";
-			} 
-			if (server == "false") {
-				msg = msg + "服务专业信息、";
-			} 
-			if (msg != "") {
-				var msg = msg.substring(0, msg.length - 1);
-				layer.msg(msg + "不能为空!");
-			}
+    	var pro = "${pro}";
+		var server = "${server}";
+		var sale = "${sale}";
+		var project = "${project}";
+		var msg = "";
+		if (pro == "false") {
+			msg = msg + "物资-生产专业信息、";
+		} 
+		if (sale == "false") {
+			msg = msg + "物资-销售专业信息、";
+		} 
+		if (project == "false") {
+			msg = msg + "工程专业信息、";
+		} 
+		if (server == "false") {
+			msg = msg + "服务专业信息、";
+		} 
+		if (msg != "") {
+			var msg = msg.substring(0, msg.length - 1);
+			layer.msg(msg + "不能为空!");
+		}
 		$("#page_ul_id").find("li").click(function() {
 			var id = $(this).attr("id");
 			var page = "tab-" + id.charAt(id.length - 1);
@@ -720,7 +720,7 @@ $(function(){
 			$("#tab_content_div_id").find(".tab-pane").each(function() {
 				var id = $(this).attr("id");
 				if (id == defaultPage) {
-					$(this).attr("class", "tab-pane fade  active in");
+					$(this).attr("class", "tab-pane fade active in");
 				} else {
 					$(this).attr("class", "tab-pane fade ");
 				}
@@ -735,7 +735,7 @@ $(function(){
 			});
 			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
 				if (index == 0) {
-					$(this).attr("class", "tab-pane fade  active in");
+					$(this).attr("class", "tab-pane fade active in");
 				} else {
 					$(this).attr("class", "tab-pane fade ");
 				}
@@ -832,7 +832,7 @@ $(function(){
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
 			 				<input type="hidden" name="defaultPage" value="${defaultPage}" />
-				            <div id="tab_content_div_id" class="tab-content padding-top-20 overflow_h container_box">
+				            <div id="tab_content_div_id" class="tab-content p0 bgwhite border0 tab_repair">
 						<!-- 物资生产型专业信息 -->
 			         <%--  <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}"> --%>
 			              <div class=""    id="production_div">
@@ -865,7 +865,7 @@ $(function(){
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalMange}" <c:if test="${fn:contains(proPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_pro_page')"</c:if>/>
 												     	<span class="add-on cur_point">i</span>
-												     	<span class="input-tip">不能为空，且为数字</span>
+												     	<span class="input-tip">不能为空，且位数字</span>
 												     	<div class="cue"> ${mange } </div>
 													</div>
 												</li>
@@ -874,7 +874,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalTech}" <c:if test="${fn:contains(proPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${tech } </div>
 													</div>
 												</li>
@@ -882,7 +882,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalWorker}" <c:if test="${fn:contains(proPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
-													   <span class="input-tip">不能为空，且为数字</span>
+													   <span class="input-tip">不能为空，且位数字</span>
 													   <div class="cue"> ${work } </div>
 													</div>
 												</li>
@@ -922,7 +922,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalResearch" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${tRe } </div>
 													</div>
 												</li>
@@ -962,7 +962,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalBeltline" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" <c:if test="${fn:contains(proPageField,'totalBeltline')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalBeltline','mat_pro_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
-														   <span class="input-tip">不能为空，且为数字</span>
+														   <span class="input-tip">不能为空，且位数字</span>
 														   <div class="cue"> ${line } </div>
 													</div>
 												</li>
@@ -970,7 +970,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalDevice" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" <c:if test="${fn:contains(proPageField,'totalDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalDevice','mat_pro_page')"</c:if>/>
 													  	   <span class="add-on cur_point">i</span>
-													  	   <span class="input-tip">不能为空，且为数字</span>
+													  	   <span class="input-tip">不能为空，且位数字</span>
 													  	   <div class="cue"> ${device } </div>
 													</div>
 												</li>
@@ -993,7 +993,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 													 	<input type="text" name="supplierMatPro.totalQc" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalQc}" <c:if test="${fn:contains(proPageField,'totalQc')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalQc','mat_pro_page')"</c:if>/>
 													  <span class="add-on cur_point">i</span>
-													  <span class="input-tip">不能为空，且为数字</span>
+													  <span class="input-tip">不能为空，且位数字</span>
 													  <div class="cue"> ${tQc } </div>
 													</div>
 												</li>
@@ -1104,7 +1104,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" <c:if test="${fn:contains(sellPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_sell_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
-														 <span class="input-tip">不能为空，且为数字</span>
+														 <span class="input-tip">不能为空，且位数字</span>
 														 	<div class="cue"> ${sale_person } </div>
 													</div>
 												
@@ -1113,7 +1113,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" <c:if test="${fn:contains(sellPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_sell_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${sale_mange } </div>
 													</div>
 													
@@ -1122,7 +1122,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" <c:if test="${fn:contains(sellPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_sell_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
-														   <span class="input-tip">不能为空，且为数字</span>
+														   <span class="input-tip">不能为空，且位数字</span>
 														   	<div class="cue"> ${sale_tech } </div>
 													</div>
 												
@@ -1131,7 +1131,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" <c:if test="${fn:contains(sellPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_sell_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
-														   <span class="input-tip">不能为空，且为数字</span>
+														   <span class="input-tip">不能为空，且位数字</span>
 														   <div class="cue"> ${sale_work } </div>
 													</div>
 													
@@ -1204,10 +1204,9 @@ $(function(){
 				 <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}"> --%>
 								
 								<!-- 工程专业信息 -->
-		 			<div class="tab-pane fade height-200"    id="project_div">
-   						<div class="">
+		 			<div class="tab-pane fade w100p" id="project_div">
 			              	  <h2 class="list_title">工程专业信息</h2>
-			              	    <ul class="list-unstyled" style="font-size: 14">
+			              	    <ul class="list-unstyled overflow_h">
 									   <!--   <div class="col-md-5 title"><span class="star_red fl">*</span>工程专业信息：</div> -->
 										<input type="hidden" name="supplierMatEng.id" value="${currSupplier.supplierMatEng.id }" />
 										<input type="hidden" name="supplierMatEng.supplierId" value="${currSupplier.id}" />
@@ -1229,7 +1228,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" <c:if test="${fn:contains(engPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${eng_tech } </div>
 													</div>
 													
@@ -1238,7 +1237,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" <c:if test="${fn:contains(engPageField,'totalGlNormal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalGlNormal','mat_eng_page')"</c:if>/>
 												        <span class="add-on cur_point">i</span>
-												        <span class="input-tip">不能为空，且为数字</span>
+												        <span class="input-tip">不能为空，且位数字</span>
 												        <div class="cue"> ${eng_normal } </div>
 													</div>
 												</li>
@@ -1246,7 +1245,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" <c:if test="${fn:contains(engPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${eng_manage } </div>
 													</div>
 													
@@ -1255,7 +1254,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" <c:if test="${fn:contains(engPageField,'totalTechWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTechWorker','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${eng_worker } </div>
 													</div>
 												
@@ -1298,8 +1297,7 @@ $(function(){
 											</table>
 											<input type="hidden" id="certPersonNumber" value="${certPersonNumber}">
 										</div>
-									 </div>
-										
+								      
 											
 									 
 										   <!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
@@ -1359,10 +1357,8 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
-															<div class="w200">
 															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="1" sysKey="1" />
-															</div>
 															</td>
 														</tr>
 														<c:set var="certEngNumber" value="${certEngNumber + 1}"/>
@@ -1435,10 +1431,8 @@ $(function(){
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200">
-															<div class="w200">
 															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="1" sysKey="1" />
-															</div>
 															</td>
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}"/>
@@ -1448,13 +1442,13 @@ $(function(){
 											<input type="hidden" id="certAptNumber" value="${certAptNumber}">
 									 </div>
 								    </div>
-								</div>	 
 							 </div>
+							 </div>
+							 
 						
 		<%-- 		 </c:if>
 				 	<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}"> --%>
 							 <div class="tab-pane fade height-200"  id="server_div">
-									<div class="">
 					              	  <h2 class="list_title">服务专业信息</h2>
 					              	    <ul class="list-unstyled" style="font-size: 14px">
 							 	
@@ -1476,7 +1470,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" <c:if test="${fn:contains(servePageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_serve_page')"</c:if>/>
 													     <span class="add-on cur_point">i</span>
-													     <span class="input-tip">不能为空，且为数字</span>
+													     <span class="input-tip">不能为空，且位数字</span>
 													     <div class="cue"> ${fw_person } </div>
 													</div>
 													
@@ -1485,7 +1479,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" <c:if test="${fn:contains(servePageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_serve_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    <div class="cue"> ${fw_mange } </div>
 													</div>
 													
@@ -1494,7 +1488,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" <c:if test="${fn:contains(servePageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_serve_page')"</c:if>/>
 													     <span class="add-on cur_point">i</span>
-													     <span class="input-tip">不能为空，且为数字</span>
+													     <span class="input-tip">不能为空，且位数字</span>
 													     	<div class="cue"> ${fw_tech } </div>
 													</div>
 												
@@ -1503,7 +1497,7 @@ $(function(){
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" <c:if test="${fn:contains(servePageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_serve_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
-													    <span class="input-tip">不能为空，且为数字</span>
+													    <span class="input-tip">不能为空，且位数字</span>
 													    	<div class="cue"> ${fw_work } </div>
 													</div>
 												
@@ -1564,8 +1558,8 @@ $(function(){
 											</table>
 											<input type="hidden" id="certSeNumber" value="${certSeNumber}">
 									 	</div>
-							      </div>
 							   </div>
+							   
 					<%-- </c:if> --%>
 							
 						</div>
@@ -1579,7 +1573,6 @@ $(function(){
 				</div>
 			</div>
 		</div>
-					
 		</div>
 		
 	 <div class="btmfix">

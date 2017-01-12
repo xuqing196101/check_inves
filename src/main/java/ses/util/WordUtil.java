@@ -25,7 +25,7 @@ public class WordUtil {
 	* @param templateName word模板名称，例如：test.ftl
 	* @param fileName 生成的文件名称，例如：test.doc
 	*/
-    public static String createWord(Map<String, Object> dataMap,String templateName,String fileName ,HttpServletRequest request){
+    public static String createWord(Object dataMap,String templateName,String fileName ,HttpServletRequest request){
         //存放路径
 	    //String url = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 	    //String url="";

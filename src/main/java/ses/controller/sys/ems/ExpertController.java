@@ -68,6 +68,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
@@ -85,6 +86,7 @@ import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
@@ -133,6 +135,8 @@ public class ExpertController extends BaseController {
     private CategoryService categoryService;//品目
     @Autowired
     private SupplierItemService supplierItemService;//品目
+    @Autowired
+    private SupplierService supplierService;//供应商
 
     /**
      * 
@@ -2084,16 +2088,16 @@ public class ExpertController extends BaseController {
     
     /**
      *〈简述〉
-     * 下载专家承诺书
+     * 下载供应商申请表
      *〈详细描述〉
      * @author WangHuijie
-     * @param id
+     * @param supplierId 供应商编号
      * @param request
      * @return
      * @throws Exception
      */
     @RequestMapping("downloadSupplier")
-    public ResponseEntity<byte[]> downloadSupplier(String id,
+    public ResponseEntity<byte[]> downloadSupplier(String supplierId,
             HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
@@ -2102,7 +2106,8 @@ public class ExpertController extends BaseController {
         String name = new String(("供应商入库申请表.doc").getBytes("UTF-8"),
                 "UTF-8");
         /** 生成word 返回文件名 */
-        String fileName = WordUtil.createWord(null, "supplier.ftl",
+        Supplier supplier = supplierService.get(supplierId);
+        String fileName = WordUtil.createWord(supplier, "supplier.ftl",
                 name, request);
         // 下载后的文件名
         String downFileName = new String("供应商入库申请表.doc".getBytes("UTF-8"),

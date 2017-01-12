@@ -2012,8 +2012,7 @@ import common.service.UploadService;
      * @return
      */
     @RequestMapping("/ajaxContract")
-    public String ajaxContract(String supplierId, Model model, String supplierTypeId) {
-        List<ContractBean> contract=new LinkedList<ContractBean>();
+    public String ajaxContract(String supplierId, Model model, String supplierTypeId, Integer pageNum) {
         //合同
         String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
         String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
@@ -2027,20 +2026,16 @@ import common.service.UploadService;
         List<Category> list = supplierItemService.getCategory(supplierId, supplierTypeId);
         removeSame(list);
         category.addAll(list);
-        
-        for(Category ca : category){
-            ContractBean con=new ContractBean();
-            con.setId(ca.getId());
-            con.setName(ca.getName());
+        List<ContractBean> contract = supplierService.getContract(category, pageNum);
+        for(ContractBean con : contract){
             con.setOneContract(id1);
             con.setTwoContract(id2);
             con.setThreeContract(id3);
             con.setOneBil(id4);
             con.setTwoBil(id5);
             con.setTwoBil(id6);
-            contract.add(con);
         }  
-        model.addAttribute("contract", contract);  
+        model.addAttribute("contract", new PageInfo<ContractBean>(contract));  
         List<Integer> years = supplierService.getThressYear();
         model.addAttribute("years", years);
         model.addAttribute("supplierTypeId", supplierTypeId);
