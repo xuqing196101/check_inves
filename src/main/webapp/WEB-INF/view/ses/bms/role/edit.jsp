@@ -7,32 +7,47 @@
   <script type="text/javascript">
   	$(function(){
 		$("#update").click(function(){
-			$.ajax({  
-			   type: "POST",  
-			   url: "${pageContext.request.contextPath}/role/update.html",  
-			   data: $("#form1").serializeArray(),  
-			   dataType: 'json',  
-			   success:function(result){
-	       			if(!result.success){
-	       				layer.msg(result.msg,{offset: ['150px', '180px']});
-	       			}else{
-			       		parent.window.setTimeout(function(){
-			       			parent.window.location.href = "${pageContext.request.contextPath}/role/list.html";
-			       		}, 1000);
-			       		layer.msg(result.msg,{offset: ['150px', '180px']});
-	       			}
-	       		},
-	       		error: function(result){
-					layer.msg("更新失败",{offset: ['150px', '180px']});
-				}
-			});
-			
+			if (ajaxNumber() == 1) {
+				layer.msg("请输入正整数序号",{offset: ['150px']});
+			} else {
+				$.ajax({  
+				   type: "POST",  
+				   url: "${pageContext.request.contextPath}/role/update.html",  
+				   data: $("#form1").serializeArray(),  
+				   dataType: 'json',  
+				   success:function(result){
+		       			if(!result.success){
+		       				layer.msg(result.msg,{offset: ['150px', '180px']});
+		       			}else{
+				       		parent.window.setTimeout(function(){
+				       			parent.window.location.href = "${pageContext.request.contextPath}/role/list.html";
+				       		}, 1000);
+				       		layer.msg(result.msg,{offset: ['150px', '180px']});
+		       			}
+		       		},
+		       		error: function(result){
+						layer.msg("更新失败",{offset: ['150px', '180px']});
+					}
+				});
+			}
 		});
 		$("#backups").click(function(){
 			var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
 			parent.layer.close(index); 
 		});
    	});
+   	
+   	function ajaxNumber(){
+    	var is_error = 0;
+    	var position = $("#position").val();
+    	if((/^(\+|-)?\d+$/.test( position )) && position > 0){ 
+        	is_error = 0;
+      	}else{
+      		is_error = 1;
+      		layer.msg("请输入正整数序号",{offset: ['150px']});
+      	}
+      	return is_error;
+    }
   </script>
   </head>
  <body>
@@ -79,10 +94,16 @@
                     </select>
                   </div>
                 </li>
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                   <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   	<input id="position" style="padding-right: 20px;" onblur="ajaxNumber()" name="position" maxlength="3" value="${role.position}" type="text">
+                   </div>
+                </li>
 			     <li class="col-md-12 col-sm-12 col-xs-12 col-lg-12">
 				   <label class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">描述</label>
 				   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-			          <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" name="description"  maxlength="400" title="" placeholder="">${role.description }</textarea>
+			          <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h40" name="description"  maxlength="400" title="" placeholder="">${role.description }</textarea>
 			       </div>
 				 </li> 
 				 <div class="clear"></div>

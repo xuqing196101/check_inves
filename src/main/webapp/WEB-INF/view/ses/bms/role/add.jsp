@@ -9,32 +9,48 @@
   <script type="text/javascript">
     $(function(){
         $("#save").click(function(){
-            $.ajax({  
-               type: "POST",  
-               url: "${pageContext.request.contextPath}/role/save.html",  
-               data: $("#form1").serializeArray(),  
-               dataType: 'json',  
-               success:function(result){
-                    if(!result.success){
-                        layer.msg(result.msg,{offset: ['150px']});
-                    }else{
-                        parent.window.setTimeout(function(){
-                            parent.window.location.href = "${pageContext.request.contextPath}/role/list.html";
-                        }, 1000);
-                        layer.msg(result.msg,{offset: ['150px']});
-                    }
-                },
-                error: function(result){
-                    layer.msg("添加失败",{offset: ['150px']});
-                }
-            });
-            
+        	if (ajaxNumber() == 1) {
+				layer.msg("请输入正整数序号",{offset: ['150px']});
+			} else {
+	            $.ajax({  
+	               type: "POST",  
+	               url: "${pageContext.request.contextPath}/role/save.html",  
+	               data: $("#form1").serializeArray(),  
+	               dataType: 'json',  
+	               success:function(result){
+	                    if(!result.success){
+	                        layer.msg(result.msg,{offset: ['150px']});
+	                    }else{
+	                        parent.window.setTimeout(function(){
+	                            parent.window.location.href = "${pageContext.request.contextPath}/role/list.html";
+	                        }, 1000);
+	                        layer.msg(result.msg,{offset: ['150px']});
+	                    }
+	                },
+	                error: function(result){
+	                    layer.msg("添加失败",{offset: ['150px']});
+	                }
+	            });
+			}
         });
         $("#backups").click(function(){
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
             parent.layer.close(index); 
         });
     });
+    
+    function ajaxNumber(){
+    	var is_error = 0;
+    	var position = $("#position").val();
+    	if((/^(\+|-)?\d+$/.test( position )) && position > 0){ 
+        	is_error = 0;
+      	}else{
+      		is_error = 1;
+      		layer.msg("请输入正整数序号",{offset: ['150px']});
+      	}
+      	return is_error;
+    }
+    
   </script>
   </head>
  <body>
@@ -81,10 +97,16 @@
                     </select>
                   </div>
                 </li>
+                <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                   <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>序号</label>
+                   <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   	<input id="position" style="padding-right: 20px;" name="position" maxlength="3" type="text" onblur="ajaxNumber()">
+                   </div>
+                </li>
                 <li class="col-md-12 col-sm-12 col-xs-12">
                   <label class="col-md-12 pl20 col-xs-12 padding-left-5">描述</label>
                    <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                    <textarea class="col-md-12 col-sm-12 col-xs-12 h80" name="description" maxlength="200" title="" placeholder=""></textarea>
+                    <textarea class="col-md-12 col-sm-12 col-xs-12 h40" name="description" maxlength="200" title="" placeholder=""></textarea>
                    </div>
                 </li>
                 <div class="clear"></div>

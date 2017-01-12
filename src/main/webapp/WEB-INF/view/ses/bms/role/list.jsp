@@ -116,7 +116,7 @@
 		if(id.length==1){
 			layer.open({
 			  type: 2, //page层
-			  area: ['500px','400px'],
+			  area: ['600px','430px'],
 			  title: '修改角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -194,13 +194,13 @@
     function add(){
     	layer.open({
 			  type: 2, //page层
-			  area: ['500px','400px'],
+			  area: ['600px','430px'],
 			  title: '新增角色',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
 			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
 			  shift: 1, //0-6的动画形式，-1不开启
-			  offset: '80px',
+			  offset: '50px',
 			  shadeClose: false,
 			  content: '${pageContext.request.contextPath}/role/add.html'
 			});
@@ -284,7 +284,7 @@
 							<td class="tc"><input onclick="check()" type="checkbox"
 								name="chkItem" value="${role.id}" />
 							</td>
-							<td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+							<td class="tc">${role.position}</td>
 							<td class="tl pl20">${role.name}</td>
 							<td class="tc" id="${role.id}"><c:if test="${role.status == 0}">
 									<span class="label rounded-2x label-u" >启用</span>

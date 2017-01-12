@@ -6,6 +6,8 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -126,7 +128,7 @@ public class RoleManageController {
           }
 			if ("".equals(r.getKind()) || r.getKind() == null) {
 			    if (count > 0) {
-                    msg += "和选择所属后台";
+                    msg += "、选择所属后台";
                     count ++;
                 } else {
                     msg = "请选择所属后台";
@@ -140,6 +142,15 @@ public class RoleManageController {
 			    msg = "唯一编码不可以重复";
                 count ++;
 			}
+			if ("".equals(r.getPosition()) || r.getPosition() == null) {
+        if (count > 0) {
+            msg += "、填写序号";
+            count ++;
+        } else {
+            msg = "请填写序号";
+            count ++;
+        }
+      }
 			if (count > 0) {
 			    response.setContentType("text/html;charset=utf-8");
                 response.getWriter().print(
@@ -149,6 +160,8 @@ public class RoleManageController {
 			if (count == 0) {
 				r.setCreatedAt(new Date());
 				r.setIsDeleted(0);
+				//更新角色序号
+				roleService.updatePosition(r.getPosition(), null, 0);
 				roleService.save(r);
 				msg = "添加成功";
 				response.setContentType("text/html;charset=utf-8");
@@ -203,12 +216,21 @@ public class RoleManageController {
             } 
             if ("".equals(r.getKind()) || r.getKind() == null) {
                 if (count > 0) {
-                    msg += "和选择所属后台";
+                    msg += "、选择所属后台";
                     count ++;
                 } else {
                     msg = "请选择所属后台";
                     count ++;
                 }
+            }
+            if ("".equals(r.getPosition()) || r.getPosition() == null) {
+              if (count > 0) {
+                  msg += "、填写序号";
+                  count ++;
+              } else {
+                  msg = "请填写序号";
+                  count ++;
+              }
             }
             if (count > 0) {
                 response.setContentType("text/html;charset=utf-8");
@@ -223,6 +245,8 @@ public class RoleManageController {
 				role.setKind(r.getKind());
 				role.setStatus(r.getStatus());
 				role.setUpdatedAt(new Date());
+				roleService.updatePosition(r.getPosition(), role.getPosition(), 1);
+				role.setPosition(r.getPosition());
 				roleService.update(role);
 				msg = "更新成功";
 				response.setContentType("text/html;charset=utf-8");
@@ -253,6 +277,7 @@ public class RoleManageController {
 		for (String id : idstr) {
 			Role r = roleService.get(id);
 			roleService.deleteBatch(r);
+			roleService.updatePosition(r.getPosition(), null, 2);
 		}
 		return "redirect:list.html";
 	}

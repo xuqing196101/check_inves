@@ -246,4 +246,65 @@ public class RoleServiceImpl implements RoleServiceI {
       return roleMapper.selectByUserIdCode(map);
     }
 
+    @Override
+    public void updatePosition(Integer position, Integer oldPosition, Integer type) {
+      if (type == 0) {
+        //如果是新增角色
+        //获取该序号及之后的角色
+        HashMap<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("type", 1);
+        map1.put("position", position);
+        List<Role> roles1 = roleMapper.findByPosition(map1);
+        //该序号及之后的角色全部+1
+        for (Role role : roles1) {
+          role.setPosition(role.getPosition()+1);
+          roleMapper.updateByPrimaryKeySelective(role);
+        }
+      } 
+      if (type == 1) {
+        //如果是修改角色
+        //如果是排序上移
+        if (position < oldPosition) {
+          //获取新序号及之后的角色
+          HashMap<String, Object> map3 = new HashMap<String, Object>();
+          map3.put("type", 3);
+          map3.put("position", position);
+          map3.put("oldPosition", oldPosition);
+          List<Role> roles3 = roleMapper.findByPosition(map3);
+          //该大于等于新序号小于旧序号的角色全部+1
+          for (Role role : roles3) {
+            role.setPosition(role.getPosition()+1);
+            roleMapper.updateByPrimaryKeySelective(role);
+          }
+        }
+        //如果是排序下移
+        if (position > oldPosition) {
+          //获取大于旧序号小于等于新序号的角色
+          HashMap<String, Object> map2 = new HashMap<String, Object>();
+          map2.put("type", 2);
+          map2.put("position", position);
+          map2.put("oldPosition", oldPosition);
+          List<Role> roles2 = roleMapper.findByPosition(map2);
+          //该序号区间的角色全部-1
+          for (Role role : roles2) {
+            role.setPosition(role.getPosition()-1);
+            roleMapper.updateByPrimaryKeySelective(role);
+          }
+        }
+      }
+      if (type == 2) {
+        //如果删除角色，其后所有角色序号减一
+        //获取该序号及之后的角色
+        HashMap<String, Object> map4 = new HashMap<String, Object>();
+        map4.put("type", 1);
+        map4.put("position", position);
+        List<Role> roles4 = roleMapper.findByPosition(map4);
+        //该序号及之后的角色全部-1
+        for (Role role : roles4) {
+          role.setPosition(role.getPosition()-1);
+          roleMapper.updateByPrimaryKeySelective(role);
+        }
+      }
+    }
+
 }

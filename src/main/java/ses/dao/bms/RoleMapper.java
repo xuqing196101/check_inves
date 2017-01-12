@@ -158,4 +158,11 @@ public interface RoleMapper {
    */
 	List<Role> selectByUserIdCode(HashMap<String,Object> map);
 
+	/**
+   *〈简述〉更新角色序号
+   *〈详细描述〉
+   * @author Ye MaoLin
+   */
+  List<Role> findByPosition(HashMap<String, Object> map1);
+
 }

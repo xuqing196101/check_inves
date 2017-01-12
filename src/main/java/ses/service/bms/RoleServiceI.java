@@ -160,6 +160,16 @@ public interface RoleServiceI {
      * @return 角色列表
      */
     List<Role> selectByUserIdCode(HashMap<String,Object> map);
+
+    /**
+     *〈简述〉更新角色序号
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param type 序号更新类型
+     * @param position 新序号
+     * @param oldPosition 修改之前序号
+     */
+    void updatePosition(Integer position, Integer oldPosition, Integer type);
     
     
 }

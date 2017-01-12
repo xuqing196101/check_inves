@@ -40,6 +40,7 @@
 	    <result column="roleStatus" property="status" />
 	    <result column="roleCode" jdbcType="VARCHAR" property="code" />
 	    <result column="roleKind" jdbcType="VARCHAR" property="kind" />
+	    <result column="rolePosition" property="position" />
 	</collection> 
 	<collection property="menus" ofType="ses.model.bms.PreMenu">
 		<id column="mid"  property="id" />
@@ -608,6 +609,7 @@
 			r.STATUS AS roleStatus,
 			r.CODE AS roleCode,
 			r.KIND AS roleKind,
+			r.POSITION AS rolePosition,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,
@@ -729,6 +731,7 @@
 			r.STATUS AS roleStatus,
 			r.CODE AS roleCode,
 			r.KIND AS roleKind,
+			r.POSITION AS rolePosition,
 			pm. ID AS mid,
 			pm. NAME AS mname,
 			pm.MENU_TYPE AS mtype,

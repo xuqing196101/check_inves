@@ -11,6 +11,7 @@
     <result column="STATUS" property="status" />
     <result column="CODE" jdbcType="VARCHAR" property="code" />
     <result column="KIND" jdbcType="VARCHAR" property="kind" />
+    <result column="POSITION" property="position" />
   </resultMap>
   
   <resultMap type="ses.model.bms.Role" id="RoleResultMap" extends="RoleBaseMap">  
@@ -60,9 +61,9 @@
   
   <!-- 所有列 -->
   <sql id="Base_Column_List">
-    ID, NAME, CREATED_AT, DESCRIPTION, IS_DELETED, UPDATED_AT, STATUS, CODE, KIND
+    ID, NAME, CREATED_AT, DESCRIPTION, IS_DELETED, UPDATED_AT, STATUS, CODE, KIND, POSITION
   </sql>
-  
+ 
   <!-- 查询条件 -->
   <sql id="Example_Where_Clause">
     where IS_DELETED=0
@@ -91,6 +92,9 @@
       <if test="status != null and status !=''">
         and STATUS = #{status}
       </if>
+      <if test="position != null">
+        and POSITION = #{position}
+      </if>
     </trim>
   </sql>
   
@@ -114,8 +118,8 @@
         select sys_guid() from dual
     </selectKey>
     insert into T_SES_BMS_ROLE (ID, NAME, CREATED_AT, 
-      DESCRIPTION, IS_DELETED, UPDATED_AT, STATUS, CODE, KIND)
-    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP}, #{description}, #{isDeleted}, #{updatedAt,jdbcType=TIMESTAMP}, #{status}, #{code}, #{kind})
+      DESCRIPTION, IS_DELETED, UPDATED_AT, STATUS, CODE, KIND, POSITION)
+    values (#{id}, #{name}, #{createdAt,jdbcType=TIMESTAMP}, #{description}, #{isDeleted}, #{updatedAt,jdbcType=TIMESTAMP}, #{status}, #{code}, #{kind}, #{position})
   </insert>
   
   <!-- 4.插入不为空数据 -->
@@ -152,6 +156,9 @@
       <if test="kind != null and kind !=''">
         KIND,
       </if>
+      <if test="position != null">
+        POSITION,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -180,6 +187,9 @@
       </if>
       <if test="kind != null and kind != ''">
         #{kind,jdbcType=VARCHAR},
+      </if>
+      <if test="position != null">
+        #{position},
       </if>
     </trim>
   </insert>
@@ -212,6 +222,9 @@
       <if test="kind != null and kind != ''">
         KIND = #{kind,jdbcType=VARCHAR},
       </if>
+      <if test="position != null">
+        POSITION = #{position},
+      </if>
     </set>
     where ID = #{id}
   </update>
@@ -226,7 +239,8 @@
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       STATUS = #{status},
       CODE = #{code,jdbcType=VARCHAR},
-      KIND = #{kind,jdbcType=VARCHAR}
+      KIND = #{kind,jdbcType=VARCHAR},
+      POSITION = #{position}
     where ID = #{id}
   </update>
   
@@ -236,7 +250,7 @@
     <include refid="Base_Column_List" />
     from T_SES_BMS_ROLE r
     <include refid="Example_Where_Clause"/>
-    ORDER BY r.CREATED_AT DESC
+    ORDER BY r.POSITION ASC
   </select>
   
   <!-- 8.根据角色条件查询角色信息（带出关联信息） -->  
@@ -251,6 +265,7 @@
 			r.STATUS AS STATUS,
 			r.CODE AS CODE,
 			r.KIND AS KIND,
+			r.POSITION AS POSITION,
 			U .ID AS userid,
 			U .LOGIN_NAME AS uloginName,
 			U .PASSWORD AS upassword,
@@ -296,7 +311,7 @@
 	       <if test="id!= null and id != ''"> 
 	       and r.ID=#{id}  
 	       </if>  
-	    ORDER BY r.CREATED_AT DESC
+	    ORDER BY r.POSITION ASC
    </select>
    
    <!-- 9.删除角色与角色内成员之间的对应关系 -->  
@@ -345,7 +360,8 @@
 			r.UPDATED_AT AS UPDATED_AT,
 			r.STATUS AS STATUS,
 			r.CODE AS CODE,
-			r.KIND AS KIND
+			r.KIND AS KIND,
+			r.POSITION AS POSITION
 		FROM
 			T_SES_BMS_ROLE r
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON r. ID = ur.ROLE_ID
@@ -367,7 +383,8 @@
 			r.UPDATED_AT AS UPDATED_AT,
 			r.STATUS AS STATUS,
 			r.CODE AS CODE,
-			r.KIND AS KIND
+			r.KIND AS KIND,
+			r.POSITION AS POSITION
 		FROM
 			T_SES_BMS_ROLE r
 		LEFT JOIN T_SES_BMS_USER_ROLE ur ON r. ID = ur.ROLE_ID
@@ -383,4 +400,22 @@
 		</if>
     </select>
     
+    <!--15. 根据序号查询 -->
+    <select id="findByPosition" parameterType="java.util.Map" resultMap="RoleBaseMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_BMS_ROLE
+    where 1=1
+    <if test="type == 1 and position != null">
+    AND	POSITION &gt;= #{position}
+    </if>
+    <if test="type == 2 and position != null and oldPosition != null">
+    AND	POSITION &gt; #{oldPosition}
+    AND	POSITION &lt;= #{position}
+    </if>
+    <if test="type == 3 and position != null and oldPosition != null">
+    AND	POSITION &gt;= #{position}
+    AND	POSITION &lt; #{oldPosition}
+    </if>
+  </select>
 </mapper>
