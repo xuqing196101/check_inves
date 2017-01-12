@@ -12,7 +12,6 @@
 
 function laypage(options){
     var skin = 'laypagecss';
-    alert(Page.getpath);
     laypage.dir = 'dir' in laypage ? laypage.dir : Page.getpath + '/skin/laypage.css';
     new Page(options);
     if(laypage.dir && !doc[id](skin)){
