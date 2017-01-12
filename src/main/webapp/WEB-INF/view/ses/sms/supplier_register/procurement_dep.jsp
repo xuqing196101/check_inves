@@ -366,7 +366,6 @@
 	
 	<!-- footer -->
 	<c:if test="${currSupplier.status != 7}">
-		<jsp:include page="/index_bottom.jsp" />
 	</c:if>
 </body>
 </html>

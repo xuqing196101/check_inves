@@ -491,7 +491,7 @@
       <if test="org != null">
         ORG_ID = #{org.id,jdbcType=VARCHAR},
       </if>
-      <if test="org == null">
+      <if test="typeName == 3 and org == null">
         ORG_ID = null,
       </if>
       <if test="duties != null and duties != ''">

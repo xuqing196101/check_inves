@@ -8,6 +8,7 @@
 
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
+	var jsonStr = [];
 	function update(obj, supplierId, packageId, projectId, quoteId){
 		var reg = /^\d+\.?\d*$/;
 		var flag = false;
@@ -16,32 +17,37 @@
 	    x=oRect.left;  
 	    y=oRect.top;
 	    var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
-		if(!reg.exec(total)) {
+		/* if(!reg.exec(total)) {
 			$(obj).parent().parent().find("td").eq("2").find("input").val('');
 			layer.msg("金额必填且为数字,请正确填写",{offset: [y, x]});
 			return;
-		}
+		} */
 		var deliveryTime = $(obj).parent().parent().find("td").eq("3").find("input").val();
 		deliveryTime = encodeURI(deliveryTime);
 		deliveryTime = encodeURI(deliveryTime);
-		if (!deliveryTime) {
+		/* if (!deliveryTime) {
 			layer.msg("交货时间为必填",{offset: [y, x]});
 			return;
-		}
+		} */
 		var isTurnUp = $(obj).parent().parent().find("td").eq("4").find("option:selected").text();
 		if (isTurnUp == '未到场') {
 			isTurnUp = 1;
 		} else {
 			isTurnUp = 2;
 		}
-		$.ajax({
+		
+		var date = '${date}';
+		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "isTurnUp":isTurnUp, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
+		jsonStr.push(json);
+		console.log(jsonStr); 
+		/* $.ajax({
 			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
-			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId,
+			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId + "&date=${date}",
 			success:function(data){
 				//layer.msg("暂存成功",{offset: [y, x], shade:0.01});
 				window.location.reload();
 			}
-		});
+		}); */
 	}
 	
 	var error = 0;
@@ -78,6 +84,26 @@
 					$(inputObj).click();	
 				};
 			}
+			/*  $.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
+			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId + "&date=${date}",
+			success:function(data){
+				//layer.msg("暂存成功",{offset: [y, x], shade:0.01});
+				window.location.reload();
+			}
+			}); */
+			//alert(JSON.stringify(jsonStr));
+			 $.ajax({
+		        type: "POST",
+		        url: "${pageContext.request.contextPath}/open_bidding/save.html",
+		        data: {quoteList:JSON.stringify(jsonStr)},
+		        dataType: "json",
+		        success: function (message) {
+		        },
+		        error: function (message) {
+		        }
+		    });
+			window.location.reload();
 		}
 	}
 

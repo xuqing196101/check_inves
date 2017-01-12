@@ -24,6 +24,9 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -1070,6 +1073,7 @@ public class OpenBiddingController {
         model.addAttribute("flag", flag);
         model.addAttribute("treeMap", treeMap);
         model.addAttribute("projectId", projectId);
+        model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return "bss/ppms/open_bidding/bid_file/chang_total";
     }
     
@@ -1159,26 +1163,32 @@ public class OpenBiddingController {
     
     @RequestMapping("/save")
     @ResponseBody
-    public void save(BigDecimal total ,String deliveryTime ,Integer isTurnUp ,String supplierId, String projectId, String packageId ,String quoteId) throws Exception{
-        List<Quote> quoteList = new ArrayList<Quote>();
-        Quote quote = new Quote();
-        quote.setSupplierId(supplierId);
-        quote.setTotal(total);
-        quote.setCreatedAt(new Timestamp(new Date().getTime()));
-        quote.setPackageId(packageId);
-        quote.setProjectId(projectId);
-        quote.setIsTurnUp(isTurnUp);
-        if (deliveryTime != null && !"".equals(deliveryTime)) {
-            quote.setDeliveryTime(URLDecoder.decode(deliveryTime, "UTF-8"));
+    public void save(HttpServletRequest request, String quoteList) throws Exception{
+        List<Quote> quoteLists = new ArrayList<Quote>();
+        //String quoteStr = request.getParameter("aaaa");
+        JSONArray json=JSONArray.fromObject(quoteList);
+        JSONObject jsonQuote = new JSONObject();
+        for (int i = 0; i < json.size(); i++) {
+            Quote quote = new Quote();
+            jsonQuote = json.getJSONObject(i); 
+            quote.setSupplierId(jsonQuote.getString("supplierId"));
+            quote.setTotal(new BigDecimal(jsonQuote.getString("total")));
+            quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jsonQuote.getString("date")).getTime()));
+            quote.setPackageId(jsonQuote.getString("packageId"));
+            quote.setProjectId(jsonQuote.getString("projectId"));
+            quote.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
+            quote.setDeliveryTime(URLDecoder.decode(jsonQuote.getString("deliveryTime"), "UTF-8"));
+            quoteLists.add(quote);
         }
-        quoteList.add(quote);
-        supplierQuoteService.insert(quoteList);  
-        Project project = projectService.selectById(projectId);
+        supplierQuoteService.insert(quoteLists);  
+        
+        
+        Project project = projectService.selectById(jsonQuote.getString("projectId"));
         if(project != null){
             DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
             if("DYLY".equals(findById.getCode())){
                 SupplierCheckPass pass = new SupplierCheckPass();
-                pass.setPackageId(packageId);
+                pass.setPackageId(jsonQuote.getString("packageId"));
                 List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
                 if(listCheckPass != null && listCheckPass.size() > 0){
                     for (SupplierCheckPass supplierCheckPass : listCheckPass) {
@@ -1191,14 +1201,14 @@ public class OpenBiddingController {
                 
                 SupplierCheckPass record = new SupplierCheckPass();
                 record.setId(WfUtil.createUUID());
-                record.setPackageId(packageId);
-                record.setProjectId(projectId);
-                record.setSupplierId(supplierId);
-                record.setTotalPrice(total);
+                record.setPackageId(jsonQuote.getString("packageId"));
+                record.setProjectId(jsonQuote.getString("projectId"));
+                record.setSupplierId(jsonQuote.getString("supplierId"));
+                record.setTotalPrice(new BigDecimal(jsonQuote.getString("total")));
                 record.setRanking(1);
                 record.setIsWonBid((short)1);
                 SupplierCheckPass checkPass = new SupplierCheckPass();
-                checkPass.setPackageId(packageId);
+                checkPass.setPackageId(jsonQuote.getString("packageId"));
                 supplierCheckPassService.insert(record);
                 
                 
@@ -1811,8 +1821,8 @@ public class OpenBiddingController {
      * @throws ParseException 异常处理
      */
     @RequestMapping(value = "/savemingxi")
-    public String saves(HttpServletRequest req, Quote quote, Model model, String priceStr, String packId) throws Exception {
-        List<String> listBd = Arrays.asList(priceStr.split(","));
+    public String saves(HttpServletRequest req, Quote quote, Model model, String priceStr, String packId, String quoteList) throws Exception {
+       // List<String> listBd = Arrays.asList(priceStr.split(","));
         User user = (User) req.getSession().getAttribute("loginUser");
         List<Quote> listQuote = new ArrayList<Quote>();
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1841,6 +1851,7 @@ public class OpenBiddingController {
         //循环次数
         Integer count = 0;
         Timestamp timestamp = new Timestamp(new Date().getTime());
+        
         for (Packages pk:listPackage) {
             Integer count1 = 0;
             map.put("packageId", pk.getId());
@@ -1858,7 +1869,7 @@ public class OpenBiddingController {
             if (count1 != 1){
                 count2 =count2*count1;
             }
-            for (int i= 0; i < count2; i++) {
+            /*for (int i= 0; i < count2; i++) {
                 Quote qt = new Quote();
                 count++;
                 qt.setProjectId(quote.getProjectId());
@@ -1872,6 +1883,26 @@ public class OpenBiddingController {
                 qt.setRemark(URLDecoder.decode(listBd.get(count * 7 - 4), "UTF-8").equals("null") ? "" : URLDecoder.decode(listBd.get(count * 7 - 4), "UTF-8"));
                 qt.setCreatedAt(timestamp);
                 listQuote.add(qt);
+            }*/
+            JSONArray json=JSONArray.fromObject(quoteList);
+            JSONObject jsonQuote = new JSONObject();
+            for (int i = 0; i < count2; i++) {
+                jsonQuote = json.getJSONObject(count); 
+                count ++ ;
+                Quote quoteInsert = new Quote();
+                quoteInsert.setProjectId(quote.getProjectId());
+                quoteInsert.setSupplierId(jsonQuote.getString("supplierId"));
+                quoteInsert.setPackageId(pk.getId());
+                quoteInsert.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
+                quoteInsert.setProductId(jsonQuote.getString("productId"));
+                quoteInsert.setQuotePrice(new BigDecimal(jsonQuote.getString("price")));
+                quoteInsert.setTotal(new BigDecimal(jsonQuote.getString("total")));
+                if (!jsonQuote.getString("remark").equals("null")) {
+                    quoteInsert.setRemark(jsonQuote.getString("remark"));
+                }
+                quoteInsert.setCreatedAt(timestamp);
+                quoteInsert.setDeliveryTime(URLDecoder.decode(jsonQuote.getString("deliveryTime"), "UTF-8"));
+                listQuote.add(quoteInsert);
             }
         }
         try {
@@ -1881,9 +1912,11 @@ public class OpenBiddingController {
             saleTender.setProjectId(quote.getProjectId());
             saleTender.setSupplierId(user.getTypeId());
             List<SaleTender> sts = saleTenderService.find(saleTender);
-            SaleTender std = sts.get(0);
-            std.setBidFinish((short) 3);
-            saleTenderService.update(std);
+            if (sts != null && sts.size() > 0) {
+                SaleTender std = sts.get(0);
+                std.setBidFinish((short) 3);
+                saleTenderService.update(std);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

@@ -49,28 +49,12 @@
 		var obj = document.getElementById("TANGER_OCX");
 		//提交
 		if (flag == "1") {
-			//判断有没有上传审批文件
-			$.ajax({
-			    type: 'post',
-			    url: "${pageContext.request.contextPath}/open_bidding/isLoadAuditFile.do",
-			    dataType:'json',
-			    data : {"projectId":projectId},
-			    success: function(data) {
-			    	if(!data.success){
-	                    alert("请上传审批文件");
-                   	}else{
-						//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-						obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
-						if (flag == '1') {
-							//obj.ShowTipMessage("提示","招标文件已提交");
-							alert("招标文件已提交");
-							$("#handle").attr("class","dnone");
-							$("#audit_file_add").attr("class","dnone");
-							$("#audit_file_view").removeAttr("class","dnone");
-						}
-                   }
-			   }
-			});
+			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
+			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
+			alert("招标文件已提交");
+			$("#handle").attr("class","dnone");
+			$("#audit_file_add").attr("class","dnone");
+			$("#audit_file_view").removeAttr("class","dnone");
 		} 
 		
 		//暂存
@@ -79,9 +63,7 @@
 			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
 			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
 			//obj.ShowTipMessage("提示","招标文件已上传至服务器");
-			if (flag == '0') {
-				alert("招标文件已暂存");
-			}
+			alert("招标文件已暂存");
 		}
 	}
 	
@@ -211,7 +193,7 @@
 	      	 <input type="button" class="btn btn-windows cancel" onclick="closeFile()" value="关闭当前文档"></input> -->
 	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
-	        <!-- <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存"></input> -->
+	        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
 	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交"></input>
 	    </div>
 	 </c:if>

@@ -14,7 +14,7 @@ const SIX = "6";
 const SEVEN = "7";
 const EIGHT = "8";
 const NINE = "9";
-
+var jsonStr = [];
 function addTotal() {
 	var allTable = document.getElementsByTagName("table");
 	for(var i = 1; i < allTable.length; i++) {
@@ -99,21 +99,36 @@ function eachTable(obj) {
 				return;
 				error++;
 			} else {
-				priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
+				//priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
+				var json = {"price":price, "total":total, "deliveryTime":deliveryTime, "remark":remark, "supplierId":supplierId, "productId":productId, "isTurnUp":isTurnUp};
+				jsonStr.push(json);
+				console.log(jsonStr); 
 			};
 		};
 	}
 	if(error == 0) {
-		$("#priceStr").val(priceStr);
+		/* $("#priceStr").val(priceStr);
 		var priceStr = $("#priceStr").val();
-		var projectId = $("#projectId").val();
+		
 		$.ajax({
 			url:"${pageContext.request.contextPath}/open_bidding/savemingxi.html?priceStr=" + priceStr + "&projectId="+ projectId,
 			success:function(data){
 				layer.alert("暂存成功",{offset: [y, x], shade:0.01});
 				window.location.reload();
 			}
-		});
+		}); */
+		var projectId = $("#projectId").val();
+		 $.ajax({
+		        type: "POST",
+		        url: "${pageContext.request.contextPath}/open_bidding/savemingxi.html?projectId="+projectId,
+		        data: {quoteList:JSON.stringify(jsonStr)},
+		        dataType: "json",
+		        success: function (message) {
+		        },
+		        error: function (message) {
+		        }
+		    });
+		    window.location.reload();
 		//form.submit();
 	};
 }
@@ -125,13 +140,13 @@ function eachTable(obj) {
 	});
 
 function ycDiv(obj, index){
-	if ($(obj).hasClass("jbxx") && !$(obj).hasClass("zhxx")) {
-		$(obj).removeClass("jbxx");
-		$(obj).addClass("zhxx");
+	if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
+		$(obj).removeClass("spread");
+		$(obj).addClass("shrink");
 	} else {
-		if ($(obj).hasClass("zhxx") && !$(obj).hasClass("jbxx")) {
-			$(obj).removeClass("zhxx");
-			$(obj).addClass("jbxx");
+		if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
+			$(obj).removeClass("shrink");
+			$(obj).addClass("spread");
 		}
 	}
 	
@@ -210,7 +225,7 @@ function ycDiv(obj, index){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow jbxx hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
 				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
 				 </h2>
                </div>

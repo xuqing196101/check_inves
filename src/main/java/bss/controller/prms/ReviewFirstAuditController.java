@@ -326,10 +326,6 @@ public class ReviewFirstAuditController {
 		List<ExpertScore> scores = expertScoreService.selectInfoByMap(map);
 		model.addAttribute("scores", scores);
 		// 新增参数
-		double sum = 1;
-		double length = (sum/supplierList.size())*100;
-		model.addAttribute("length1", length + "%");
-		model.addAttribute("length2", length/2 + "%");
         model.addAttribute("size", supplierList.size());
 		model.addAttribute("project", project);
 		model.addAttribute("projectId", projectId);

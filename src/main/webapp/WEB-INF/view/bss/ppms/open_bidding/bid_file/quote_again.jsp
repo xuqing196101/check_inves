@@ -14,6 +14,7 @@
 function back() {
 	$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
 }
+	var jsonStr = [];
 	function update(obj, supplierId, packageId, projectId, quoteId){
 		var reg = /^\d+\.?\d*$/;
 		var flag = false;
@@ -40,13 +41,17 @@ function back() {
 		} else {
 			isTurnUp = 2;
 		}
-		$.ajax({
+		/* $.ajax({
 			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
 			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId,
 			success:function(data){
 				window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
 			}
-		});
+		}); */
+		var date = '${date}';
+		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "isTurnUp":isTurnUp, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
+		jsonStr.push(json);
+		console.log(jsonStr); 
 	}
 	
 	var error = 0;
@@ -84,6 +89,17 @@ function back() {
 				};
 			}
 		}
+		$.ajax({
+		        type: "POST",
+		        url: "${pageContext.request.contextPath}/open_bidding/save.html",
+		        data: {quoteList:JSON.stringify(jsonStr)},
+		        dataType: "json",
+		        success: function (message) {
+		        },
+		        error: function (message) {
+		        }
+		    });
+			window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
 	}
 
 	function ycDiv(obj, index){

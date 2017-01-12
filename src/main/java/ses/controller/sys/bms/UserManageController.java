@@ -494,6 +494,19 @@ public class UserManageController extends BaseController{
 			  //将采购人表该用户设为删除状态
         purchaseServiceI.busDelPurchase(olduser.getTypeId());
       }
+			
+			//将其他机构修改为采购机构用户时，新增采购人数据
+      if (!"1".equals(olduser.getTypeName()) && "1".equals(u.getTypeName())) {
+        String purTypeId = WfUtil.createUUID();
+        u.setTypeId(purTypeId);
+        purchaseServiceI.saveUser(u, purTypeId);
+      }
+      
+      //修改采购人员
+      if ("1".equals(olduser.getTypeName()) && "1".equals(u.getTypeName())) {
+        //purchaseServiceI.updatePurchase(purchaseInfo);
+      }
+      
 			u.setCreatedAt(olduser.getCreatedAt());
 			u.setUser(olduser.getUser());
 			u.setUpdatedAt(new Date());

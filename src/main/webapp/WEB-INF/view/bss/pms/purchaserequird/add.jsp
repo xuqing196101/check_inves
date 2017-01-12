@@ -563,9 +563,9 @@
 	                        success: function (data) { 
 	                        	var bool=true;
 	                           var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
-							   if(data=="2"){
+							  /*  if(data=="2"){
 							    	 layer.alert("部门名称填写错误，请填写本部门名称！",{offset: ['222px', '390px'], shade:0.01});
-							    }        
+							    }    */     
 	                            if(data=="1"){
 					        	   layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
 					        	    
@@ -592,7 +592,7 @@
 												               +"    <input style='border: 0px;' value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
 												               +"  </td> "
 												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='"+isValueLegal(data[i].department)+"'/>"
+												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='${orgName}'/>"
 												               +"  </td>"
 												               +"  <td class='tc p0'>"
 												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"

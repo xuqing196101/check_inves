@@ -43,6 +43,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -90,6 +91,9 @@ public class PurchaseRequiredController extends BaseController{
 	
 	@Autowired
 	private PurchaseOrgnizationServiceI purchserOrgnaztionService;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -222,7 +226,9 @@ public class PurchaseRequiredController extends BaseController{
 //		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 //		model.addAttribute("requires",requires);
 		if(user.getOrg()!=null){
-			   model.addAttribute("orgName", user.getOrg().getName());
+			  Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+			 
+			   model.addAttribute("orgName", orgnization.getShortName());
 			   model.addAttribute("orgType", user.getOrg().getTypeName());
 		}
 	 
@@ -275,9 +281,9 @@ public class PurchaseRequiredController extends BaseController{
 		          String jsonString = JSON.toJSONString(errMsg);
 					return jsonString;
 			}
-		     if(!user.getOrg().getName().equals(list.get(0).getDepartment())){
+		   /*  if(!user.getOrg().getName().equals(list.get(0).getDepartment())){
 		    	 return "2"; 
-		     }
+		     }*/
 		     
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
 		String pid = UUID.randomUUID().toString().replaceAll("-", "");

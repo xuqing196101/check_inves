@@ -238,7 +238,7 @@
                 		未维护
                 	</c:if>
                 	<c:if test="${project.confirmFile != 1 && p.isEditFirst == 1}">
-                		维护中
+                		已维护
                 	</c:if>
                 	<c:if test="${project.confirmFile == 1}">
                 		已维护
