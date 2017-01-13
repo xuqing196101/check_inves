@@ -498,14 +498,14 @@ function deleteFinance() {
 		var li=$(obj).parent().parent().next();
 		var inde=$("#branchIndex").val();
 		$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>"+
-				 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>机构名称</span>"+
+				 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>"+
 					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 			    	 " <input type='text' name='branchList["+inde+"].organizationName' id='sup_branchName'  value='' />"+
 			    	 	"   <span class='add-on cur_point'>i</span>"+
 				        "   </div>"+
 		       	 "  </li>"+
 				"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"+
-				" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>所在国家（地区）</span>"+
+				" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>"+
 				"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 				 	"<select name='branchList["+inde +"].country'  id='overseas_branch_select_id'>"+
 				 	 "<c:forEach items='${foregin }' var='fr'>"+
@@ -515,7 +515,7 @@ function deleteFinance() {
 			 " </li>"+
 			
 			 "  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"+
-			 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'>详细地址</span>"+
+			 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>"+
 				" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 		    	 " <input type='text' name='branchList["+inde+"].detailAddress'  id='sup_branchAddress' value='' />"+
 		    	 	"  <span class='add-on cur_point'>i</span>"+
@@ -531,7 +531,7 @@ function deleteFinance() {
 					" </li>"+
 			
 			"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>"+
-			  " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'> 生产经营范围</span>"+
+			  " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>"+
 		    	" <div class='col-md-12 col-xs-12 col-sm-12 p0'>"+
 		    	"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80'  id='sup_businessScope' title='不超过80个字' name='branchList["+inde+"].businessSope'></textarea>"+
 			       " </div>"+
