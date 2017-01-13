@@ -213,7 +213,7 @@ function checkAll(ele, id) {
 		$("#stockholder_list_tbody_id").append("<tr>"+
 				"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierStockholders["+stocIndex+"].id' value="+id+"><input type='hidden' style='border:0px;' name='listSupplierStockholders["+stocIndex+"].supplierId' value="+supplierId+">"+
 				"</td>"+
-				"<td class='tc'>  <select  name='listSupplierStockholders["+stocIndex+"].nature'>"+
+				"<td class='tc'>  <select class='w100p border0' name='listSupplierStockholders["+stocIndex+"].nature'>"+
 				 "<option value='1'>法人</option>"+
 					" <option value='2'>自然人</option>"+
 				"</select> </td>"+
@@ -1445,7 +1445,7 @@ function deleteFinance() {
 	    	<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元）</span>  </h2>
 	    	<div class="col-md-12 col-xs-12 col-sm-12 border_font">
 	 	  <!--   <legend>列表</legend> -->
-			<div  class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" >
+			<div  class="col-md-12 col-sm-12 col-xs-12 p0 over_auto" >
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
 				<%-- 	<button type="button" class="btn btn-windows add" onclick="openFinance(this,'${finance.year}')">维护</button> --%>
 				<!-- 	<button type="button" class="btn btn-windows delete" onclick="deleteFinance()">删除</button> -->
@@ -1626,7 +1626,7 @@ function deleteFinance() {
 							<button class="btn btn-windows delete" type="button" onclick="deleteStockholder()" >删除</button>
 							<span class="red">${stock }</span>
 						</div>
-						<div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll">
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
 							<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
 								<thead>
 									<tr>
@@ -1648,7 +1648,7 @@ function deleteFinance() {
 											<td class="tc"><input type="checkbox" value="${stockholder.id}" />
 											</td>
 											<td class="tc">
-											 <select  name="listSupplierStockholders[${stockvs.index }].nature" class="w100p">
+											 <select  name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0">
  														 <option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
  														 <option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
  											</select>
