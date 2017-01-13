@@ -56,9 +56,11 @@ function importAdd(){
     </div> 
        <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
-         <a href="javascript:void(0)">网站编号</a>|
+        <c:if test="${properties['ipAddressType'] == 0}">
+           <a>网站编号：${properties['website.no']}</a>|
+        </c:if>
     	 <a onclick="myInfo()">我的信息</a>|     
-    	 <a href="javascript:void(0)">退出</a>
+    	 <a href="${pageContext.request.contextPath}/login/loginOut.html">退出</a>
 	   </div>
 	  </div>
     </div>
