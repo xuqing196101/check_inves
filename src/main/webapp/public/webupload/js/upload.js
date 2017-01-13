@@ -137,6 +137,7 @@
 	         state = $base+'_pending',
 	         fileCount = 0,
 	         fileSize = 0,
+	         percentLayer = null;
 	         percentages = {},
 	         mutiple = transBoolean($("#"+$base+"_multipleId").val()),
 	         extension = $("#extensionId").val(),
@@ -175,6 +176,9 @@
 			//上传前准备
 			uploader.on( 'beforeFileQueued', function(file) {
 				if (!checkFileType(file.name,$base)){
+					if (percentLayer != null){
+						layer.close(percentLayer);
+					}
 					uploader.removeFile(file);
 					var fileType =$("#"+$base+"_extId").val();
 					if (fileType != null && fileType !="null" && fileType !=""){
@@ -187,6 +191,9 @@
 				var fileSize = file.size / 1024;
 				var  singleFileSize = $("#" + $base + "_singFileSize").val();
 				if (fileSize > singleFileSize){
+					if (percentLayer != null){
+						layer.close(percentLayer);
+					}
 					uploader.removeFile(file);
 					layer.msg("文件大小错误，只允许上传" + singleFileSize + "KB文件");
 					return;
@@ -215,14 +222,17 @@
 			//总限制文件大小
 			uploader.on('error',function(type){
 				 if(type == "F_EXCEED_SIZE"){
-					var  singleFileSize = $("#singlSizeId").val();
+					 if (percentLayer != null){
+						layer.close(percentLayer);
+					 }
+					 var  singleFileSize = $("#singlSizeId").val();
 					 layer.msg("单个文件大小不能超过" + singleFileSize /1024/1024 + "MB");
 				 }
 			});
 			
 			//上传进度条
 			uploader.on( 'uploadProgress', function( file, percentage ) {
-				 var $percent =$('.progress span .percentage');
+				var $percent =$('.progress span .percentage');
 			    $percent.css( 'width', percentage * 100 + '%' );
 			    percentages[ file.id ][ 1 ] = percentage;
 	            updateTotalProgress();
@@ -318,7 +328,6 @@
 			/**
 			 * 打开上传进度
 			 */
-			var percentLayer = null;
 			openUploadDiv = function(){
 				var html= "<div id='statuId' class='statusBar'>" +
 						    "<div class='progress fl'>" +

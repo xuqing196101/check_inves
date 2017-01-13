@@ -167,7 +167,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
     }
     conTypes.add(conType);
     condition.setConTypes(conTypes);
-    if(condition.getAddress() == null  || condition.getAddress() == "" ){
+    if(condition.getAddressId() == null  || condition.getAddressId() == "" ){
       if(province != null && !"".equals(province)){
         List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
         Integer size = findAreaByParentId.size();
@@ -176,7 +176,7 @@ public class SupplierConditionServiceImpl  implements SupplierConditionService {
           address[i] = findAreaByParentId.get(i).getId();
         }
         condition.setAddressSplit(address);
-        condition.setAddress(null);
+        condition.setAddressId(null);
       }
     }
     //查询供应商集合

@@ -129,7 +129,7 @@
     
     function selectLikeSupplier(){
     var v = document.getElementById("city").value;  	
-     $("#address").val(v);
+     $("#addressId").val(v);
      var area = document.getElementById("area").value; 
      $("#province").val(area);
      $.ajax({
@@ -224,7 +224,10 @@ return false;
     	
     } 
     function ext(){
-        $("#address").val($("#city option:selected").val());
+        $("#addressId").val($("#city option:selected").val());
+        var area = document.getElementById("area").value; 
+        $("#province").val(area);
+        $("#address").val($("#area").find("option:selected").text()+$("#city").find("option:selected").text());
         $.ajax({
             cache: true,
             type: "POST",
@@ -829,6 +832,8 @@ return false;
   <div class="container container_box">
     <form id="form1" method="post">
        <input id="sunCount" type="hidden">
+<!--    地區id -->
+       <input type="hidden" name="addressId" id="addressId" >
       <!--        项目id -->
       <input type="hidden" name="projectId" id="pid" value="${packageId}">
       <!-- 地区 -->

@@ -35,6 +35,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 
 
+
 import bss.service.ppms.ProjectService;
 
 import com.alibaba.fastjson.JSON;
@@ -123,6 +124,21 @@ public class SupplierConditionController {
             for (String proid : split) {
                 condition.setProjectId(proid);
                 
+                if(condition.getAddressId() == null || "".equals(condition.getAddressId())){
+                  if(province != null && !"".equals(province)){
+
+                    List<Area> findAreaByParentId = areaService.findAreaByParentId(province);
+                    String address = "";
+                    for (int i = 0; i < findAreaByParentId.size(); i++ ) {
+                     address += findAreaByParentId.get(i).getId() + ",";
+                    }
+                    condition.setAddressId(address);
+
+
+                  }
+                }
+
+                //插入信息
                 conditionService.insert(condition);
                 //如果有id就修改没有就新增
                 conType.setConditionId(condition.getId());

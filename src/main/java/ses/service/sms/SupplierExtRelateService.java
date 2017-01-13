@@ -85,12 +85,22 @@ public interface SupplierExtRelateService {
    * @author Wang Wenshuai
    * @param id
    */
-  void del(Map<String, Object> map);
+  void del(String condition, String projectId, List<String> expertTypeIds);
 
   /**
    * 抽取完成后删除信息
    */
   void delPe(String delPe);
+  
+  /**
+   * 
+   *〈简述〉查找抽取供应商类型
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param condition
+   * @return
+   */
+  List<SupplierExtRelate> selectSupplierType(String conditionId);
 
 
 

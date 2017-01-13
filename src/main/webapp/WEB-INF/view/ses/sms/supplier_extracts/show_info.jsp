@@ -87,7 +87,18 @@
 											<p>
 												第<span class="b orange">${(vs.index+1)}</span>次抽取，抽取条件如下：
 											</p>
-											<p>供应商所在地区：全国所有地区</p>
+											  <p class="ml10">专家所在地区：${conlist.address }
+                             <c:if test="${conlist.addressId != null }">
+                               <c:if test="${conlist.addressReason != null}">
+                                                                                       限制条件：${conlist.addressReason }
+                               </c:if> 
+                             </c:if>  
+                        </p>
+                            <c:if test="${conlist.categoryName != null}">
+                            <p>
+                                                                                               品目：${conlist.categoryName }
+                            </p>
+                           </c:if>  
 											<ol>
 												<c:forEach items="${conlist.conTypes }" var="contypes">
 													<li>供应商类型：${contypes.supplierType.name}
@@ -107,7 +118,6 @@
 					<tr>
 						<td align="center">序号</td>
 						<td align="center">供应商名称</td>
-						<td align="center">包名称</td>
 						<td align="center">联系人</td>
 						<td align="center">手机号</td>
 						<td align="center">传真</td>
@@ -115,6 +125,9 @@
 						<td align="center">不参加理由</td>
 					</tr>
 					<c:forEach items="${conditionList}" var="con" varStatus="vs">
+					<tr>
+            <td colspan="9"  class="pl20">${con.name}</td>
+          </tr>
 						<c:forEach items="${con.listSupplierCondition}" var="conlist"
 							varStatus="vse">
 							<c:forEach items="${conlist.extRelatesList}" var="ext"
@@ -122,7 +135,6 @@
 								<tr>
 									<td align="center">${vs.index+1 }</td>
 									<td align="center">${ext.supplier.supplierName}</td>
-									<td align="center">${con.name}</td>
 									<td align="center">${ext.supplier.contactName}</td>
 									<td align="center">${ext.supplier.mobile}</td>
 									<td align="center">${ext.supplier.contactFax}</td>
@@ -142,43 +154,56 @@
 						<td colspan="9" class="bggrey" align="center">抽取人员</td>
 					</tr>
 					<tr>
-						<td align="center">序号</td>
-						<td align="center">姓名</td>
-						<td colspan="2" align="center">单位</td>
-						<td align="center">手机号</td>
-						<td align="center">职务</td>
-						<td colspan="2" align="center">签字</td>
-					</tr>
-					<tr>
-						<td align="center">1</td>
-						<td align="center">${ExpExtractRecord.perpleUser.relName}</td>
-						<td colspan="2" align="center">${ExpExtractRecord.perpleUser.org.name}</td>
-						<td align="center">${ExpExtractRecord.perpleUser.mobile}</td>
-						<td align="center">${ExpExtractRecord.perpleUser.duties}</td>
-						<td colspan="2" align="center"></td>
-					</tr>
+	          <td colspan="9" >
+	           <table class="table table-bordered table-condensed">
+	          <tr>
+	            <td align="center">序号</td>
+	            <td align="center">姓名</td>
+	            <td align="center">手机号</td>
+	            <td align="center">单位</td>
+	            <td align="center">职务</td>
+	            <td align="center">军衔</td>
+	            <td colspan="2" align="center">签字</td>
+	          </tr>
+	          <tr>
+	            <td align="center">1</td>
+	            <td align="center">${ExpExtractRecord.perpleUser.relName}</td>
+	            <td align="center">${ExpExtractRecord.perpleUser.mobile}</td>
+	            <td align="center">${ExpExtractRecord.perpleUser.org.name}</td>
+	            <td align="center">${ExpExtractRecord.perpleUser.duties}</td>
+	            <td align="center">军23衔</td>
+	            <td colspan="2" align="center"></td>
+	          </tr>
+	           </table>
+	          </td>
+	        </tr>
 					<tr>
 						<td colspan="9" class="bggrey" align="center">监督人员</td>
 					</tr>
-					<tr>
-						<td align="center">序号</td>
-						<td align="center">姓名</td>
-						  <td colspan="2" align="center">单位</td>
-						<td align="center">手机号</td>
-						<td align="center">职务</td>
-						<td colspan="2" align="center">签字</td>
-					</tr>
-					<c:forEach items="${listUser}" var="tuser" varStatus="vs">
-						<tr>
-							<td align="center">${vs.index+1 }</td>
-							<td align="center">${tuser.relName}</td>
-							 <td colspan="2" align="center">${tuser.company}</td>
-							<td align="center">${tuser.phone}</td>
-							<td align="center">${tuser.duties}</td>
-							<td colspan="2" align="center"></td>
-						</tr>
-
-					</c:forEach>
+					 <tr>
+          <td colspan="9">
+           <table class="table table-bordered table-condensed">
+            <tr>
+              <td align="center">序号</td>
+              <td align="center">姓名</td>
+              <td align="center">单位</td>
+              <td align="center">手机号</td>
+              <td align="center">职务</td>
+              <td colspan="2" align="center">签字</td>
+            </tr>
+            <c:forEach items="${listUser}" var="tuser" varStatus="vs">
+              <tr>
+                <td align="center">${vs.index+1 }</td>
+                <td align="center">${tuser.relName}</td>
+                <td align="center">${tuser.company}</td>
+                <td align="center">${tuser.phone}</td>
+                <td align="center">${tuser.duties}</td> 
+                <td colspan="2" align="center"></td>
+              </tr>
+            </c:forEach>
+              </table>
+          </td>
+          </tr>
 				</table>
 			</div>
 		</div>

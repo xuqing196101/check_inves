@@ -144,7 +144,7 @@
 					</tr>
 					 <c:forEach items="${conditionList}" var="con" varStatus="vs">
 					<tr>
-            <td colspan="9"  class="">${con.name}</td>
+            <td colspan="9"  class="pl20">${con.name}</td>
           </tr>
 					<c:forEach items="${con.listExpExtCondition}" var="pe" varStatus="vse">
 						<c:forEach items="${pe.extRelatesList}" var="ext" varStatus="vs">
@@ -180,7 +180,7 @@
 					</tr>
 					<tr>
 					<td colspan="9" >
-					 <table class="table table-bordered table-condensed">
+					 <table class="table table-bordered table-condensed ">
 					<tr>
 						<td align="center">序号</td>
 						<td align="center">姓名</td>
