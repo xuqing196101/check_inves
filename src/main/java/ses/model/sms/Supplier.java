@@ -8,6 +8,7 @@ import java.util.List;
 
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
 
@@ -518,6 +519,8 @@ public class Supplier implements Serializable {
 	private String level;
 
 	private List<SupplierProducts> listSupplierProducts = new ArrayList<SupplierProducts>();
+	
+	private List<CategoryTree> allTreeList = new ArrayList<CategoryTree>();
 
 	private String confirmPassword;
 
@@ -1605,6 +1608,14 @@ public class Supplier implements Serializable {
 
     public void setPersonSize(Integer personSize) {
         this.personSize = personSize;
+    }
+
+    public List<CategoryTree> getAllTreeList() {
+        return allTreeList;
+    }
+
+    public void setAllTreeList(List<CategoryTree> allTreeList) {
+        this.allTreeList = allTreeList;
     }
 	
 	

@@ -190,12 +190,6 @@
 	});
  }
  
-$(function(){
-	$("input").bind("blur", tempSave);
-	$("select").bind("change", tempSave);
-});
- 
- 
  function next(obj){
 	 
 	  var id =[]; 
@@ -507,6 +501,29 @@ $(function(){
 		
 	$(function() {
 		window.onload=function(){
+			$("input").bind("blur", tempSave);
+			$("select").bind("change", tempSave);
+			var pro = "${pro}";
+			var server = "${server}";
+			var sale = "${sale}";
+			var project = "${project}";
+			var msg = "";
+			if (pro == "false") {
+				msg = msg + "物资-生产专业信息、";
+			} 
+			if (sale == "false") {
+				msg = msg + "物资-销售专业信息、";
+			} 
+			if (project == "false") {
+				msg = msg + "工程专业信息、";
+			} 
+			if (server == "false") {
+				msg = msg + "服务专业信息、";
+			} 
+			if (msg != "") {
+				var msg = msg.substring(0, msg.length - 1);
+				layer.msg(msg + "不能为空!");
+			}
 			var checkeds = $("#supplierTypes").val();
 			if(checkeds!=""){
 				$("#tab_div").show();
@@ -658,33 +675,6 @@ $(function(){
 			$("#err_fund").empty();
 		}
 	}
-    
-    
-    
-    $(function() {
-    	var pro = "${pro}";
-		var server = "${server}";
-		var sale = "${sale}";
-		var project = "${project}";
-		var msg = "";
-		if (pro == "false") {
-			msg = msg + "物资-生产专业信息、";
-		} 
-		if (sale == "false") {
-			msg = msg + "物资-销售专业信息、";
-		} 
-		if (project == "false") {
-			msg = msg + "工程专业信息、";
-		} 
-		if (server == "false") {
-			msg = msg + "服务专业信息、";
-		} 
-		if (msg != "") {
-			var msg = msg.substring(0, msg.length - 1);
-			layer.msg(msg + "不能为空!");
-		}
-	});  
-    
     
     	// 高亮不通过的字段
 			function displayReason(auditField, auditType) {

@@ -2213,6 +2213,47 @@ public class ExpertController extends BaseController {
         supplier.setPersonSize(personSize);
         
         // 品目信息
+        List<CategoryTree> allTreeList = new ArrayList<CategoryTree>();
+        List<SupplierItem> listSupplierItems = supplier.getListSupplierItems();
+        // 剔除不是根节点的产品
+        removeNotChild(listSupplierItems);
+        for (SupplierItem supplierItem : listSupplierItems) {
+            String categoryId = supplierItem.getCategoryId();
+            List<CategoryTree> treeList = getTreeListByCategoryId(categoryId);
+            if (treeList != null && treeList.size() > 0) {
+                allTreeList.addAll(treeList);
+            }
+        }
+        supplier.setAllTreeList(allTreeList);
+    }
+    
+    /**
+     *〈简述〉去除不是根节点的产品
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param listSupplierItems
+     */
+    public void removeNotChild(List<SupplierItem> listSupplierItems) {
+        for (int i = 0; i < listSupplierItems.size(); i++) {
+            SupplierItem cate = listSupplierItems.get(i);
+            List<Category> childList = categoryService.findPublishTree(cate.getId(), null);
+            if (childList != null && childList.size() > 0) {
+                listSupplierItems.remove(i);
+            }
+        }
+    }
+    
+    /**
+     *〈简述〉查询品目信息(导出申请表时用)
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId 产品Id
+     * @return List<CategoryTree> tree对象List
+     */
+    public List<CategoryTree> getTreeListByCategoryId(String categoryId) {
+        List<CategoryTree> treeList = new ArrayList<CategoryTree>();
+        
+        return treeList;
     }
     
     /**
