@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
@@ -90,7 +91,6 @@ import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -1315,16 +1315,11 @@ import common.service.UploadService;
        model.addAttribute("err_bCode", "邮编格式不正确!");
        count++;
      }
-     if(supplier.getBusinessScope()!=null&&supplier.getBusinessScope().length()>80){
-       model.addAttribute("err_scope", "字符串不超过80个");
-       count++;
-     }
-
      if(supplier.getBranchCountry()!=null&&supplier.getBusinessScope().length()>12){
        model.addAttribute("err_country", "字符串不超过12个");
        count++;
      }
-     if(supplier.getBranchAddress()!=null&&supplier.getBranchAddress().length()>80){
+     if(supplier.getBranchAddress()!=null){
        model.addAttribute("err_address", "字符串不超过80个");
        count++;
      }
@@ -1332,11 +1327,6 @@ import common.service.UploadService;
        model.addAttribute("err_BranName", "字符串不超过12个");
        count++;
      }
-     if(supplier.getBranchBusinessScope()!=null&&supplier.getBranchBusinessScope().length()>80){
-       model.addAttribute("err_branchScope", "字符串不超过80个");
-       count++;
-     }
-
 
      SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
      //* 近三个月完税凭证

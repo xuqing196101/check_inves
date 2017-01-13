@@ -72,33 +72,30 @@
 	 }
  }
  
- //选中对应的信息
- function loadTab(val){
-	 initTabTitleCss();
-	 $("#tab_content_div_id").find(".tab-pane").each(function(index) {
-		 $("#production_div").attr("class", "tab-pane fades");
-		 $("#sale_div").attr("class", "tab-pane fades");
-		 $("#project_div").attr("class", "tab-pane fades ");
-		 $("#server_div").attr("class", "tab-pane fades ");
-		 
-		 if (val == 'PRODUCT') {
-			 $("#productId").addClass("active");
-			 $("#production_div").attr("class", "tab-pane fades active in");
-		 }
-		 if (val == 'SALES') {
-			 $("#salesId").addClass("active");
-			 $("#sale_div").attr("class", "tab-pane fades active in");
-		 } 
-		 if (val == 'PROJECT') {
-			 $("#projectId").addClass("active");
-		 	 $("#project_div").attr("class", "tab-pane fades active in");
-		 } 
-		 if (val == 'SERVICE') {
-			 $("#serviceId").addClass("active");
-			 $("#server_div").attr("class", "tab-pane fades active in");
-		 } 
-		});
- }
+ 	//选中对应的信息
+	function loadTab(val){
+	 	initTabTitleCss();
+		$("#production_div").attr("class", "tab-pane fades");
+	 	$("#sale_div").attr("class", "tab-pane fades");
+	 	$("#project_div").attr("class", "tab-pane fades ");
+	 	$("#server_div").attr("class", "tab-pane fades ");
+		if (val == 'PRODUCT') {
+			$("#productId").addClass("active");
+			$("#production_div").attr("class", "tab-pane fades active in");
+		}
+		if (val == 'SALES') {
+			$("#salesId").addClass("active");
+			$("#sale_div").attr("class", "tab-pane fades active in");
+		} 
+		if (val == 'PROJECT') {
+			$("#projectId").addClass("active");
+		 	$("#project_div").attr("class", "tab-pane fades active in");
+		}
+		if (val == 'SERVICE') {
+			$("#serviceId").addClass("active");
+			$("#server_div").attr("class", "tab-pane fades active in");
+		} 
+ 	}
  
  
  //上一步
@@ -508,81 +505,64 @@ $(function(){
 			});
 		}
 	}
-			
+		
 	$(function() {
-		  window.onload=function(){
-			  var checkeds = $("#supplierTypes").val();
-				if(checkeds!=""){
-					$("#tab_div").show();
-			 		$("#tab_content_div_id").show();
-				}
-	 		  var arrays =checkeds.split(",");
-	 		  var checkedArray = [];
-	 		   var checkBoxAll = $("input[name='chkItem']"); 
-	 		   if(arrays.length>0){
-	 			  initTabTitleCss();
-			  for(var i=0;i<arrays.length;i++){
-				  $.each(checkBoxAll,function(j,checkbox){
-					    //获取复选框的value属性
-					      var checkValue=$(checkbox).val();
-					            if(arrays[i]==checkValue){
-				                      $(checkbox).attr("checked",true);
-				                      if(arrays[i]!='PROJECT'){
-					                     $("#project_div").attr("class", "dis_none fades ");
-					                  }
-				                      if(arrays[i]!='PRODUCT'){
-				                    	  $("#production_div").attr("class", "dis_none fades ");
-				                      }
-				                      if(arrays[i]!='SALES'){
-					                      $("#sale_div").attr("class", "dis_none fades ");
-					                  }
-				                      if(arrays[i]!='SERVICE'){
-				                          $("#server_div").attr("class", "dis_none fades ");
-				                      }
-				                      
-				                      if(arrays[i]=='PRODUCT'){
-				                    		$("#productId").show();
-				                    		$("#production_div").attr("class", "fades active in");
-				                    	  
-				                      }
-				                      else if(arrays[i]=='SALES'){
-				                        $("#salesId").show();
-				                    	$("#sale_div").attr("class", "fades active in");
-				                      }
-				                      else if(arrays[i]=='PROJECT'){
-				                    	  $("#projectId").show();
-				                    	  $("#project_div").attr("class", "fades active in");
-				                      }
-				                        else  if(arrays[i]=='SERVICE'){
-				                    		 $("#serviceId").show();
-				                    	 	$("#server_div").attr("class", "fades active in");
-				                      }
-				                      checkedArray.push(arrays[i]);     
-				               }
-				      });
-			  }
-			  
-			  
-	 		 }
-	 		   
-	 		 if (checkedArray.length == 0){
-	 			 $("#tab_div").attr("class", "container opacity_0");
-	 		 }
-	 		 var first = checkedArray[0] ;
-	 		 
-	 		 if (first != null && first !="" && first !="undefined"){
-	 			 loadTab(first);
-	 		 }
-	 		   
-			if ("${currSupplier.status}" == 7) {
-				showReason();
+		window.onload=function(){
+			var checkeds = $("#supplierTypes").val();
+			if(checkeds!=""){
+				$("#tab_div").show();
+		 		$("#tab_content_div_id").show();
 			}
-			
-		 
-			 
-		  }
+	 		var arrays =checkeds.split(",");
+	 		var checkedArray = [];
+	 		var checkBoxAll = $("input[name='chkItem']"); 
+	 		if(arrays.length>0){
+	 			initTabTitleCss();
+			  	for(var i=0;i<arrays.length;i++){
+			  		$.each(checkBoxAll,function(j,checkbox){
+				  		//获取复选框的value属性
+				      	var checkValue=$(checkbox).val();
+			            if(arrays[i]==checkValue){
+		                  	$(checkbox).attr("checked",true);
+		                  	if(arrays[i]!='PROJECT'){
+			                    $("#project_div").attr("class", "dis_none fades ");
+			                }
+		                  	if(arrays[i]!='PRODUCT'){
+		                    	$("#production_div").attr("class", "dis_none fades ");
+		                  	}
+		                  	if(arrays[i]!='SALES'){
+			                    $("#sale_div").attr("class", "dis_none fades ");
+			                }
+		                  	if(arrays[i]!='SERVICE'){
+		                     	$("#server_div").attr("class", "dis_none fades ");
+		                  	}
+		                  	if(arrays[i]=='PRODUCT'){
+		                    	$("#productId").show();
+		                    	$("#production_div").attr("class", "fades active in");
+			                } else if(arrays[i]=='SALES'){
+		                      	$("#salesId").show();
+		                    	$("#sale_div").attr("class", "fades active in");
+		                  	} else if(arrays[i]=='PROJECT'){
+		                    	$("#projectId").show();
+		                    	$("#project_div").attr("class", "fades active in");
+		                  	} else if(arrays[i]=='SERVICE'){
+		                    	$("#serviceId").show();
+		                    	$("#server_div").attr("class", "fades active in");
+		                  	}
+		                  	checkedArray.push(arrays[i]);     
+						}
+		      		});
+	  			}
+	 		}
+	 		if (checkedArray.length == 0){
+				$("#tab_div").attr("class", "container opacity_0");
+	 		}
+	 		var first = checkedArray[0] ;
+	 		if (first != null && first !="" && first !="undefined"){
+				loadTab(first);
+	 		}
+	  	}
 	});
-	
 	
 	function openCertEng() {
 		var matEngId = $("input[name='supplierMatEng.id']").val();
@@ -701,50 +681,6 @@ $(function(){
 			var msg = msg.substring(0, msg.length - 1);
 			layer.msg(msg + "不能为空!");
 		}
-
-		$("#page_ul_id").find("li").click(function() {
-			var id = $(this).attr("id");
-			var page = "tab-" + id.charAt(id.length - 1);
-			$("input[name='defaultPage']").val(page);
-		});
-		var defaultPage = "${defaultPage}";
-		if (defaultPage) {
-			var num = defaultPage.charAt(defaultPage.length - 1);
-			$("#page_ul_id").find("li").each(function(index) {
-				var liId = $(this).attr("id");
-				var liNum = liId.charAt(liId.length - 1);
-				if (liNum == num) {
-					$(this).attr("class", "active");
-				} else {
-					$(this).removeAttr("class");
-				}
-			});
-			$("#tab_content_div_id").find(".tab-pane").each(function() {
-				var id = $(this).attr("id");
-				if (id == defaultPage) {
-					$(this).attr("class", "tab-pane fades active in");
-				} else {
-					$(this).attr("class", "tab-pane fades ");
-				}
-			});
-		} else {
-			$("#page_ul_id").find("li").each(function(index) {
-				/* if (index == 0) {
-					$(this).attr("class", "active");
-				} else {
-					$(this).removeAttr("class");
-				} */
-			});
-			$("#tab_content_div_id").find(".tab-pane").each(function(index) {
-				if (index == 0) {
-					$(this).attr("class", "tab-pane fades active in");
-				} else {
-					$(this).attr("class", "tab-pane fades ");
-				}
-			});
-		}
-		
- 
 	});  
     
     
