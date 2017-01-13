@@ -2252,7 +2252,36 @@ public class ExpertController extends BaseController {
      */
     public List<CategoryTree> getTreeListByCategoryId(String categoryId) {
         List<CategoryTree> treeList = new ArrayList<CategoryTree>();
-        
+        // 递归获取所有父节点
+        List<Category> parentNodeList = getParentNodeList(categoryId);
+        for (int i = 0; i < parentNodeList.size(); i++) {
+            Category cate = parentNodeList.get(i);
+            if (treeList.size() == 0) {
+                // 加入根节点
+                Category root = categoryService.findById(cate.getParentId());
+                if (root == null) {
+                    CategoryTree rootNode = new CategoryTree();
+                    rootNode.setName(DictionaryDataUtil.findById(cate.getParentId()).getName());
+                    rootNode.setId(cate.getParentId());
+                    treeList.add(rootNode);
+                }
+            } else {
+                // 根据上级节点加入剩下的节点
+                if (cate.getParentId().equals(treeList.get(treeList.size() - 1).getId())) {
+                    CategoryTree node = new CategoryTree();
+                    node.setName(cate.getId());
+                    node.setId(cate.getName());
+                    treeList.add(node);
+                }
+            }
+        }
+        // 最后加入当前节点
+        CategoryTree node = new CategoryTree();
+        // 获取当前节点
+        Category currentNode = categoryService.selectByPrimaryKey(categoryId);
+        node.setName(currentNode.getId());
+        node.setId(currentNode.getName());
+        treeList.add(node);
         return treeList;
     }
     
