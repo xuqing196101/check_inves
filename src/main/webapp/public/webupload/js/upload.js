@@ -211,6 +211,15 @@
 				percentages[ file.id ] = [ file.size, 0 ];
 				updateTotalProgress();
 			});
+			
+			//总限制文件大小
+			uploader.on('error',function(type){
+				 if(type == "F_EXCEED_SIZE"){
+					var  singleFileSize = $("#singlSizeId").val();
+					 layer.msg("单个文件大小不能超过" + singleFileSize /1024/1024 + "MB");
+				 }
+			});
+			
 			//上传进度条
 			uploader.on( 'uploadProgress', function( file, percentage ) {
 				 var $percent =$('.progress span .percentage');
@@ -295,9 +304,10 @@
 			function updateStatus() {
 	            var text = '', stats;
                 stats = uploader.getStats();
+                var successNum = stats.successNum + 1;
                 text = '共' + fileCount + '个（' +
                         WebUploader.formatSize( fileSize )  +
-                        '），已上传' + stats.successNum + '个';
+                        '），已上传' +  successNum + '个';
 
                 if ( stats.uploadFailNum ) {
                     text += '，失败' + stats.uploadFailNum + '个';
@@ -310,13 +320,12 @@
 			 */
 			var percentLayer = null;
 			openUploadDiv = function(){
-				
 				var html= "<div id='statuId' class='statusBar'>" +
-						    "<div class='progress'>" +
+						    "<div class='progress fl'>" +
 						      "<span class='text'></span>" +
 						      "<span class='percentage' style='width:0%'></span>" +
 						    "</div>" +
-						    "<div class='info'></div>" +
+						    "<div class='info pl10 mt5 pr10'></div>" +
 						  "</div>";
 				percentLayer = layer.open({
 					  type: 1,
@@ -345,10 +354,16 @@
 			});
 			
 			/**
+			 * 开始上传
+			 */
+			uploader.on('startUpload',function(){
+				openUploadDiv();
+			});
+			
+			/**
 			 * 点击上传
 			 */
 			$btn.on( 'click', function() {
-				openUploadDiv();
 				if (fileObj && fileObj.length > 0){
 					for (var i = 0;i<fileObj.length;i++){
 						uploader.removeFile(fileObj[i]);
