@@ -14,13 +14,18 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.ibatis.session.ExecutorType;
+import org.apache.ibatis.session.SqlSession;
+import org.apache.ibatis.session.SqlSessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.sms.QuoteMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -82,6 +87,12 @@ public class SaleTenderServiceImpl implements SaleTenderService {
      */
     @Autowired
     private PackageMapper packageMapper;
+    
+    /**
+     * sqlSeesionFactory批量插入
+     */
+    @Autowired
+    private SqlSessionFactory sqlSessionFactory;
     /**
      * @Description:插入记录
      *
@@ -579,6 +590,30 @@ public class SaleTenderServiceImpl implements SaleTenderService {
     @Override
     public void updateRank(HashMap<String, Object> ranMap) {
       saleTenderMapper.updateRank(ranMap);
+    }
+
+    @Override
+    public void batchUpdate(List<SaleTender> stList) {
+        SqlSession batchSqlSession = null;
+        try {
+            batchSqlSession = sqlSessionFactory.openSession(ExecutorType.BATCH, false);
+            //每批commit的个数
+            int batchCount = 50; 
+            for (int index = 0; index < stList.size(); index++){
+                SaleTender st = stList.get(index);
+                batchSqlSession.getMapper(SaleTenderMapper.class).updateIsTurnUpByPrimaryKey(st);
+                if (index != 0 && index % batchCount == 0) {
+                    batchSqlSession.commit();
+                }
+            }
+            batchSqlSession.commit();
+        } catch (Exception e){
+            e.printStackTrace();
+        } finally {
+            if (batchSqlSession != null) {
+                batchSqlSession.close();
+            }
+        }
     }
 }
 

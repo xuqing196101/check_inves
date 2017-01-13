@@ -190,4 +190,12 @@ public interface SaleTenderService   {
      * @param ranMap
      */
     public void updateRank(HashMap<String, Object> ranMap);
+    
+    /**
+     *〈简述〉插入供应商是否到场信息
+     *〈详细描述〉
+     * @author Song Biao Wei
+     * @param void
+     */
+    public void batchUpdate(List<SaleTender> stList);
 }

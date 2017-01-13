@@ -46,6 +46,14 @@ public interface SaleTenderMapper {
      * @param record
      */
     int updateByPrimaryKey(SaleTender record);
+    
+    /**
+     *〈简述〉批量修改是否到场这个字段
+     *〈详细描述〉
+     * @author Song Biaowei
+     * @param record
+     */
+    void updateIsTurnUpByPrimaryKey(SaleTender record);
 
     /**
      * 

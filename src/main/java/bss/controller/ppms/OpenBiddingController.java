@@ -1108,9 +1108,9 @@ public class OpenBiddingController {
                     List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
                     if (allQuote != null && allQuote.size() > 0) {
                         if (allQuote.get(0).getQuotePrice() == null) {
-                            return "redirect:quotetab1.html?projectId=" + projectId;
+                            return "redirect:changtotal.html?projectId=" + projectId;
                         } else {
-                            return "redirect:quotetab2.html?projectId=" + projectId;
+                            return "redirect:changmingxi.html?projectId=" + projectId;
                         }
                     }
                 }
@@ -1224,9 +1224,37 @@ public class OpenBiddingController {
         
     }
     
+    
+    @ResponseBody
+    @RequestMapping("/isTurnUp")
+    public String isTurnUp(String projectId, String isTurnUp) throws ParseException{
+        //查出项目的所有包、然后全部修改状态
+        SaleTender condition = new SaleTender();
+        condition.setProjectId(projectId);
+        condition.setStatusBid(NUMBER_TWO);
+        condition.setStatusBond(NUMBER_TWO);
+        List<SaleTender> stList = saleTenderService.find(condition);
+        
+        JSONArray json=JSONArray.fromObject(isTurnUp);
+        JSONObject jsonQuote = new JSONObject();
+        
+        for (int i = 0; i < json.size(); i++) {
+            jsonQuote = json.getJSONObject(i); 
+            for (SaleTender st : stList) {
+                if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
+                    st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
+                }
+            }
+        }
+         //批量更新、项目所有的包
+        saleTenderService.batchUpdate(stList);
+        return "true";
+    }
+    
     @RequestMapping("/selectSupplierByProject")
     public String selectSupplierByProject(String projectId, Model model) throws ParseException{
         //文件上传类型
+        boolean flag = false;
         DictionaryData dd = new DictionaryData();
         dd.setCode("OPEN_FILE");
         List<DictionaryData > list = dictionaryDataServiceI.find(dd);
@@ -1235,6 +1263,30 @@ public class OpenBiddingController {
             model.addAttribute("typeId", list.get(0).getId());
         }
         List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
+        SaleTender condition = new SaleTender();
+        condition.setProjectId(projectId);
+        condition.setStatusBid(NUMBER_TWO);
+        condition.setStatusBond(NUMBER_TWO);
+        StringBuilder sb = new StringBuilder("");
+        for (Supplier supplier : listSupplier) {
+            condition.setSupplierId(supplier.getId());
+            List<SaleTender> stList = saleTenderService.find(condition);
+            for (SaleTender st : stList) {
+                Packages pack = packageService.selectByPrimaryKeyId(st.getPackages());
+                if (pack != null) {
+                    sb.append(pack.getName());
+                }
+            }
+            supplier.setPackageName(sb.toString());
+            sb.delete( 0, sb.length() );
+            if (stList != null && stList.size() > 0) {
+                if (stList.get(0).getIsTurnUp() != null) {
+                    supplier.setIsturnUp(stList.get(0).getIsTurnUp().toString());
+                    flag = true;
+                }
+            }
+        }
+        
         Integer num = 0;
         StringBuilder groupUpload = new StringBuilder("");
         StringBuilder groupShow = new StringBuilder("");
@@ -1270,6 +1322,8 @@ public class OpenBiddingController {
             }
         }
         model.addAttribute("supplierList", listSupplier);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("flag", flag);
         return "bss/ppms/open_bidding/bid_file/supplier_project";
     }
     

@@ -17,7 +17,7 @@ const NINE = "9";
 var jsonStr = [];
 function addTotal() {
 	var allTable = document.getElementsByTagName("table");
-	for(var i = 1; i < allTable.length; i++) {
+	for(var i = 0; i < allTable.length; i++) {
 		var totalMoney = 0;
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 			var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
@@ -45,7 +45,7 @@ function addTotal() {
 
 $(function(){
 	var allTable = document.getElementsByTagName("table");
-	for(var i = 1; i < allTable.length; i++) {
+	for(var i = 0; i < allTable.length; i++) {
 		var totalMoney = 0;
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 			var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
@@ -66,7 +66,7 @@ function eachTable(obj) {
 	var allTable = document.getElementsByTagName("table");
 	var priceStr = "";
 	var error = 0;
-	for(var i = 1; i < allTable.length; i++) {
+	for(var i = 0; i < allTable.length; i++) {
 		var isTurnUp = $(allTable[i]).find("tr:last").find("td").eq("3").find("option:selected").text();
 		if (isTurnUp == '未到场') {
 			isTurnUp = 1;
@@ -292,8 +292,8 @@ function ycDiv(obj, index){
 							</c:forEach>
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
-								<td class="tl" colspan="3"></td>
-								<td class="tr" colspan="2"><b>是否到场</b></td>
+								<td class="tl" colspan="8"></td>
+								<%-- <td class="tr" colspan="2"><b>是否到场</b></td>
 								<td class="tl" colspan="3">
 									<c:if test="${flagButton == false }">
 										<select>
@@ -305,7 +305,7 @@ function ycDiv(obj, index){
 										<c:if test="${pdkey.isturnUp eq '1'}">未到场</c:if>
 										<c:if test="${pdkey.isturnUp eq '2'}">已到场</c:if>
 									</c:if>
-								</td>
+								</td> --%>
 							</tr>
 						</table>
 					</div>

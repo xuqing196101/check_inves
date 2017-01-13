@@ -60,7 +60,7 @@
 		var allTable = document.getElementsByTagName("table");
 		var priceStr = "";
 		var count = 0;
-		for(var i = 1; i < allTable.length; i++) {
+		for(var i = 0; i < allTable.length; i++) {
 			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
 				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();
@@ -78,7 +78,7 @@
 			};
 		}
 		if (count == 0) {
-			for(var i = 1; i < allTable.length; i++) {
+			for(var i = 0; i < allTable.length; i++) {
 				for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 					var inputObj = $(allTable[i].rows).eq(j).find("td").eq("0").find("input");
 					$(inputObj).click();	

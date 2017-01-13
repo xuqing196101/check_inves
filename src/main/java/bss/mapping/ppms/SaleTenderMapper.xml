@@ -275,6 +275,13 @@
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
 
+	<update id="updateIsTurnUpByPrimaryKey" parameterType="bss.model.ppms.SaleTender">
+		<!-- @mbggenerated -->
+		update T_BSS_PPMS_SALE_TENDER
+		set IS_TURN_UP = #{isTurnUp,jdbcType=DECIMAL}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	
 	<select id="list" parameterType="bss.model.ppms.SaleTender"
 		resultMap="BaseResultMap">
 		SELECT

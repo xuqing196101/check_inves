@@ -27,6 +27,40 @@
 			$('body').append(form);
 			form.submit();
 		}
+		var jsonStr = [];
+		function updateSaleTender() {
+			layer.confirm('提交后不可变更?', {title: '提示',offset: ['30%', '30%'],shade: 0.01
+				}, function(index) {
+					layer.close(index);
+					var allTable = document.getElementsByTagName("table");
+					for(var j = 1; j < allTable[0].rows.length; j++) {
+						var isTurnUp = $(allTable[0].rows).eq(j).find("td:last").find("select").find("option:checked").text();
+						var supplierId = $(allTable[0].rows).eq(j).find("td:last").find("select").val();
+						//alert(isTurnUp + "-" + supplierId);
+						if (isTurnUp == '未到场') {
+							isTurnUp = 1;
+						} else {
+							isTurnUp = 0;
+						}
+						var json = {"supplierId" : supplierId, "isTurnUp" : isTurnUp};
+						jsonStr.push(json);
+						console.log(jsonStr);
+					}
+					 var projectId = $("#projectId").val();
+					$.ajax({
+				        type: "POST",
+				        url: "${pageContext.request.contextPath}/open_bidding/isTurnUp.html?projectId=" + projectId,
+				        data: {isTurnUp:JSON.stringify(jsonStr)},
+				        dataType: "json",
+				        success: function (message) {
+				        	window.location.reload();
+				        },
+		    		  });
+		   			
+		   			//window.location.herf = "${pageContext.request.contextPath}/open_bidding/selectSupplierByProject.html?project=" + projectId;
+				});
+		}
+		
 		</script>
 	</head>
 
@@ -36,7 +70,6 @@
 		<div class="">
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
-			    <button class="btn">批量上传</button>
 				<%-- <u:upload id="upload_id" businessId="${projectId}" multiple="true" buttonName="批量上传"  auto="true" typeId="${typeId}" sysKey="${sysKey}"/> --%>
 			</div>
 
@@ -57,23 +90,44 @@
 							<td class="tl">${list.supplierName}</td>
 							<td class="tl">${list.packageName }</td>
 							<td>
-							    <c:if test="${empty list.bidFileName}">
-								<c:if test="${fn:length(supplierList) > 1}">
-									<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-									<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
+							    <c:if test="${flag == false}">
+									<c:if test="${fn:length(supplierList) > 1}">
+										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
+								  	</c:if>
+								  	<c:if test="${fn:length(supplierList) == 1}">
+										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
+								  	</c:if>
 							  	</c:if>
-							  	<c:if test="${fn:length(supplierList) == 1}">
-									<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-									<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
-							  	</c:if>
-							  	</c:if>
-							  	 <c:if test="${not empty list.bidFileName}">
+							  	 <c:if test="${flag == true}">
 									<a class="mt3 color7171C6" href="javascript:download('${list.bidFileId}', '${sysKey}')">${list.bidFileName}</a>							
 						  		 </c:if>
+							</td>
+							<td class="tc">
+								<c:if test="${empty list.isturnUp}">
+									<select>
+										<option value="${list.id}">已到场</option>
+										<option value="${list.id}">未到场</option>
+									</select>
+								</c:if>
+								
+								<c:if test="${not empty list.isturnUp and list.isturnUp == 0}">
+									已到场
+								</c:if>
+								<c:if test="${not empty list.isturnUp and list.isturnUp == 1}">
+									未到场
+								</c:if>
 							</td>
 						</tr>
 					</c:forEach>
 				</table>
+			</div>
+			<div class="col-md-12 tc">
+				<input type="hidden" id="projectId" value="${projectId}" />
+				<c:if test="${flag == false}">
+				<input class="btn btn-windows save" value="提交" type="button" onclick="updateSaleTender()">
+				</c:if>
 			</div>
 		</div>
 	</body>
