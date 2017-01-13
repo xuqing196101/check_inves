@@ -71,6 +71,8 @@ import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
@@ -2175,7 +2177,20 @@ public class ExpertController extends BaseController {
             }
         }
         
-        
+        // 物资类,服务类资质证书
+        List<SupplierCertPro> listSupplierCertPros = supplier.getSupplierMatPro().getListSupplierCertPros();
+        List<SupplierCertServe> listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+        for (SupplierCertServe server : listSupplierCertSes) {
+            SupplierCertPro pro = new SupplierCertPro();
+            pro.setName(server.getName());
+            pro.setLevelCert(server.getLevelCert());
+            pro.setLicenceAuthorith(server.getLicenceAuthorith());
+            pro.setExpStartDate(server.getExpStartDate());
+            pro.setExpEndDate(server.getExpEndDate());
+            pro.setMot(server.getMot());
+            listSupplierCertPros.add(pro);
+        }
+        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
     }
     
     /**
