@@ -45,9 +45,12 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 		</property>
 	</bean>
 	
+	<!-- 初始化全局变量 -->
 	<bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
 	    <property name="locations">
-	        <list><value>classpath:config.properties</value></list>
+	        <list>
+	          <value>classpath:config.properties</value>
+	        </list>
 	    </property>
 	    <property name="fileEncoding" value="UTF-8" />
 	</bean>
