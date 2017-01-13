@@ -615,6 +615,9 @@ public class Supplier implements Serializable {
     private String isturnUp;
     private String proSupFile;
     
+    /** 工程类注册人员数量(下载申请表专用) **/
+    private Integer personSize;
+    
     //用户
     private User user;
 	
@@ -1594,6 +1597,14 @@ public class Supplier implements Serializable {
 
     public void setSubmitAt(Date submitAt) {
         this.submitAt = submitAt;
+    }
+
+    public Integer getPersonSize() {
+        return personSize;
+    }
+
+    public void setPersonSize(Integer personSize) {
+        this.personSize = personSize;
     }
 	
 	

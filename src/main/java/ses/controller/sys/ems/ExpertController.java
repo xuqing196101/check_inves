@@ -75,6 +75,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierRegPerson;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -2191,6 +2192,25 @@ public class ExpertController extends BaseController {
             listSupplierCertPros.add(pro);
         }
         supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+        
+        List<SupplierRegPerson> listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
+        List<SupplierRegPerson> persons = new ArrayList<SupplierRegPerson>();
+        List<List<SupplierRegPerson>> personList = new ArrayList<List<SupplierRegPerson>>();
+        if (listSupplierRegPersons != null && listSupplierRegPersons.size() > 2) {
+            for (int i = 0; i < listSupplierRegPersons.size(); i++) {
+                if (i != 0 && i % 2 == 0 && i + 1 != listSupplierRegPersons.size()) {
+                    persons.add(listSupplierRegPersons.get(i));
+                    persons.add(listSupplierRegPersons.get(i + 1));
+                } else if (i + 1 == listSupplierRegPersons.size()) {
+                    persons.add(listSupplierRegPersons.get(i));
+                }
+            }
+        }
+        supplier.getSupplierMatEng().setPersons(personList);
+        
+        // 工程类注册人员信息
+        Integer personSize = listSupplierRegPersons != null && listSupplierRegPersons.size() % 2 == 0 ? listSupplierRegPersons.size() / 2 : listSupplierRegPersons.size() / 2 + 1;
+        supplier.setPersonSize(personSize);
     }
     
     /**

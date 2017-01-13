@@ -86,6 +86,8 @@ public class SupplierMatEng implements Serializable {
 
 	private List<SupplierRegPerson> listSupplierRegPersons = new ArrayList<SupplierRegPerson>();
 
+	private List<List<SupplierRegPerson>> persons = new ArrayList<List<SupplierRegPerson>>();
+	
 	public String getId() {
 		return id;
 	}
@@ -181,4 +183,12 @@ public class SupplierMatEng implements Serializable {
 	public void setListSupplierRegPersons(List<SupplierRegPerson> listSupplierRegPersons) {
 		this.listSupplierRegPersons = listSupplierRegPersons;
 	}
+
+    public List<List<SupplierRegPerson>> getPersons() {
+        return persons;
+    }
+
+    public void setPersons(List<List<SupplierRegPerson>> persons) {
+        this.persons = persons;
+    }
 }
