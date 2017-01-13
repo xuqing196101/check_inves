@@ -168,6 +168,6 @@ public interface OrgnizationMapper {
      * @param parentId 父级Id
      * @return
      */
-    List<Orgnization> getOrgByPid(@Param("parentId") String parentId);
+    List<Orgnization> getOrgByPid(@Param("parentId") String parentId, @Param("orderId") String orderId, @Param("targetOrderId")String targetOrderId);
     
 }

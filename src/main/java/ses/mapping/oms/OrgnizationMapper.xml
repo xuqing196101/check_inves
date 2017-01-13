@@ -816,6 +816,7 @@
            	   d.POSITION as position
 		       from T_SES_OMS_ORG d
 		       where d.PARENT_ID =#{parentId}
+		       AND d.POSITION between  #{orderId} AND #{targetOrderId}
 		       and d.IS_DELETED = 0
 	</select>
 	
