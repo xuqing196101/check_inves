@@ -598,7 +598,7 @@ $(function(){
 			}
 		});
 		certEngNumber++;
-		$("#certSaleNumber").val(certEngNumber);
+		$("#certEngNumber").val(certEngNumber);
 	}
 	
 	function deleteCertEng() {
@@ -1551,7 +1551,7 @@ $(function(){
 															 <u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="1" sysKey="1" />
 															</td>
 														</tr>
-														<c:set var="certSeNumber" value="${certSeNumber}"></c:set>
+														<c:set var="certSeNumber" value="${certSeNumber + 1}"></c:set>
 													</c:forEach>
 												</tbody>
 											</table>

@@ -2211,6 +2211,8 @@ public class ExpertController extends BaseController {
         // 工程类注册人员信息
         Integer personSize = listSupplierRegPersons != null && listSupplierRegPersons.size() % 2 == 0 ? listSupplierRegPersons.size() / 2 : listSupplierRegPersons.size() / 2 + 1;
         supplier.setPersonSize(personSize);
+        
+        // 品目信息
     }
     
     /**
