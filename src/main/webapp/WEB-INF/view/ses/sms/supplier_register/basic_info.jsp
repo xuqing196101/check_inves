@@ -421,7 +421,7 @@ function deleteFinance() {
 		$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>"+
 				"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产公司邮编</span>"+
 				   "<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
-			        "<input type='text' name='addressList["+ind+"].code' value='' />"+
+			        "<input type='text' name='addressList["+ind+"].code' value='' / onblur='tempSave()'>"+
 			        "<span class='add-on cur_point'>i</span>"+
 			        " <div class='cue'> </div>"+
 			       "</div>"+
@@ -432,12 +432,12 @@ function deleteFinance() {
 			     "<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList["+ind+"].provinceId' >"+
 			     " <option value=''>请选择</option>"+
 			      " <c:forEach  items='${privnce }' var='prin'>"+
-				       " <option value='${prin.id }'  >${prin.name }</option>"+
+				       " <option value='${prin.id }' onchange='tempSave()' >${prin.name }</option>"+
 			        " </c:forEach>"+
 			        " </select></div> "+
 			         "<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='children_area_select_id' name='addressList["+ind+"].address'>"+
 			          " <c:forEach  items='${city }' var='city'>"+
-				         "<option value='${city.id }'  >${city.name }</option>"+
+				         "<option value='${city.id }' onchange='tempSave()' >${city.name }</option>"+
 			         "</c:forEach>"+
 			         
 			         
@@ -449,7 +449,7 @@ function deleteFinance() {
 			" <li class='col-md-3 col-sm-6 col-xs-12'>"+
 			   "<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产公司详细地址</span>"+
 			   " <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
-		        "<input type='text' name='addressList["+ind+"].detailAddress'  value=''>"+
+		        "<input type='text' name='addressList["+ind+"].detailAddress'  value='' onblur='tempSave()'>"+
 		        "<span class='add-on cur_point'>i</span>"+
 		         "<div class='cue'>  </div>"+
 		       "</div>"+
@@ -500,7 +500,7 @@ function deleteFinance() {
 		$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>"+
 				 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>"+
 					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
-			    	 " <input type='text' name='branchList["+inde+"].organizationName' id='sup_branchName'  value='' />"+
+			    	 " <input type='text' name='branchList["+inde+"].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>"+
 			    	 	"   <span class='add-on cur_point'>i</span>"+
 				        "   </div>"+
 		       	 "  </li>"+
@@ -509,7 +509,7 @@ function deleteFinance() {
 				"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
 				 	"<select name='branchList["+inde +"].country'  id='overseas_branch_select_id'>"+
 				 	 "<c:forEach items='${foregin }' var='fr'>"+
-						"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'>selected='selected' </c:if> >${fr.name }</option>"+  
+						"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> onchange='tempSave()' selected='selected' </c:if> >${fr.name }</option>"+  
 			 		" </c:forEach> 	</select>"+
 			        " </div>"+
 			 " </li>"+
@@ -517,7 +517,7 @@ function deleteFinance() {
 			 "  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>"+
 			 " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>"+
 				" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>"+
-		    	 " <input type='text' name='branchList["+inde+"].detailAddress'  id='sup_branchAddress' value='' />"+
+		    	 " <input type='text' name='branchList["+inde+"].detailAddress'  id='sup_branchAddress' value='' / onblur='tempSave()'>"+
 		    	 	"  <span class='add-on cur_point'>i</span>"+
 			        " </div>"+
 	       	 " </li>"+
@@ -533,7 +533,7 @@ function deleteFinance() {
 			"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>"+
 			  " <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>"+
 		    	" <div class='col-md-12 col-xs-12 col-sm-12 p0'>"+
-		    	"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80'  id='sup_businessScope' title='不超过80个字' name='branchList["+inde+"].businessSope'></textarea>"+
+		    	"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80'  id='sup_businessScope' onblur='tempSave()' name='branchList["+inde+"].businessSope'></textarea>"+
 			       " </div>"+
 			" </li>");
 		inde++;
@@ -542,14 +542,23 @@ function deleteFinance() {
 	}
 	
 	function delBranch(obj){
-		var li=$(obj).parent().parent().next();
-		var pre=$(obj).parent().parent().prev();
-		$(li).remove();
-		$(pre).prev().prev().remove();
-		$(pre).prev().remove();
-		$(pre).remove();
-		$(obj).parent().parent().remove();
+		var btmCount = 0;
+		$("#branch_list_body").find("input[type='button']").each(function(){
+			btmCount++;
+		});
+		if (btmCount == 2) {
+			layer.msg("境外分支信息必须至少保留一个!");
+		} else {
+			var li=$(obj).parent().parent().next();
+			var pre=$(obj).parent().parent().prev();
+			$(li).remove();
+			$(pre).prev().prev().remove();
+			$(pre).prev().remove();
+			$(pre).remove();
+			$(obj).parent().parent().remove();
+		}
 	}
+
 	
 	function errorMsg(auditField){
 		var supplierId = "${currSupplier.id}";
@@ -1384,6 +1393,7 @@ function deleteFinance() {
 				 
 					</div>
 			</li>
+			<div id="branch_list_body">
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs" >
 			
 			 <li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
@@ -1436,6 +1446,7 @@ function deleteFinance() {
 	       	    </div>
 			  </li>
 			  </c:forEach>
+			  </div>
 			</ul>			
 		</fieldset>
 	  <!-- 财务信息 -->
