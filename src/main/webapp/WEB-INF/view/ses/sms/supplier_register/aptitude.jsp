@@ -76,7 +76,7 @@
 		</c:if>
  
  		<!--基本信息-->
-		<div class="container content height-300">
+		<div class="container content ">
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10" >
@@ -94,12 +94,12 @@
 								<li id="li_id_4"  ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
 							</c:if>
 						</ul>
-						<div class="tab-content padding-top-20" id="tab_content_div_id">
+						<div class="tab-content padding-top-20 pr border0" id="tab_content_div_id">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
 							
 							<c:set value="0" var="prolength"/> 
-								<div class="tab-pane fade active in height-300" id="tab-1">
+								<div class="fades active" id="tab-1">
 										  <table class="table table-bordered">
 										   <c:forEach items="${cateList }" var="obj" >
 						  					 <tr>
@@ -124,7 +124,7 @@
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 								<!-- 物资销售型 -->
 							<c:set value="0" var="length"> </c:set>
-								<div class="tab-pane fade height-300" id="tab-2">
+								<div class="tab-pane fades" id="tab-2">
 								
 										  <table class="table table-bordered">
 						  					 <c:forEach items="${saleQua }" var="sale" >
@@ -150,7 +150,7 @@
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 					 
-								<div class="tab-pane fade height-200" id="tab-3">
+								<div class="fades" id="tab-3">
 								  <table class="table table-bordered">
 										<c:set value="0" var="plength"> </c:set>	 
 									  <c:forEach items="${projectQua }" var="project">
@@ -179,7 +179,7 @@
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 							 
-								<div class="tab-pane fade height-200" id="tab-4">
+								<div class="tab-pane fades" id="tab-4">
 								   <table class="table table-bordered">
 									 <c:set value="0" var="slength"> </c:set>
 									 	 
