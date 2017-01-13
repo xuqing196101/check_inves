@@ -35,6 +35,25 @@ public class SupplierExtRelate {
     private List<SupplierConType> conType;
     
     private  String[] packageId;
+    
+    /**
+     * 查询返回参数 供应商类型
+     */
+    private String supplierTypeId;
+
+    /**
+     * @return Returns the supplierTypeId.
+     */
+    public String getSupplierTypeId() {
+      return supplierTypeId;
+    }
+
+    /**
+     * @param supplierTypeId The supplierTypeId to set.
+     */
+    public void setSupplierTypeId(String supplierTypeId) {
+      this.supplierTypeId = supplierTypeId;
+    }
 
     /**
      * <pre>

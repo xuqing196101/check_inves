@@ -64,6 +64,14 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
     List<SupplierCondition> list = conditionMapper.list(new SupplierCondition(cId, ""));
     if(list!=null&&list.size()!=0){
       SupplierCondition show=list.get(0);
+      //循环出地址
+      if(show.getAddressId() != null && !"".equals(show.getAddressId())){
+        if(show.getAddressId().contains(",")){
+          String[] split = show.getAddressId().split(",");  
+          show.setAddressSplit(split);
+          show.setAddressId(null);
+        }
+      }
       //给供应商set查询条件
       Supplier supplier=new Supplier();
       supplier.setAddress(show.getAddress());
@@ -231,13 +239,38 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
    * @see ses.service.sms.SupplierExtRelateService#del(java.lang.String)
    */
   @Override
-  public void del(Map<String, Object> map) {
-    String id = (String) map.get("typeId");
-    String[] ids = id.split(",");
-    if(ids != null && ids.length !=0){
-      map.put("array", ids);
-      supplierExtRelateMapper.del(map);
+  public void del(String conditionId,String projectId,List<String> expertTypeIds) {
+    List<SupplierExtRelate> list = selectSupplierType(conditionId);
+    for (SupplierExtRelate supplierExtRelate : list) {
+      boolean containsAll = expertTypeIds.containsAll(castList(supplierExtRelate.getSupplierTypeId()));
+      if(containsAll){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("projectId", projectId);
+        map.put("supplierId",supplierExtRelate.getSupplierId());
+        supplierExtRelateMapper.del(map);
+      }
     }
+  }
+
+  /**
+   * 
+   *〈简述〉转换集合
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param type
+   * @return
+   */
+  private List<String>  castList(String type){
+    List<String> list = null;
+    if(type != null && !"".equals(type)){
+      list = new ArrayList<String>();
+      String[]  str = type.split(",");
+      for (String ty : str) {
+        list.add(ty);
+      }
+    }
+    return list;
+
   }
 
   /**
@@ -247,6 +280,15 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
   public void delPe(String id) {
     // TODO Auto-generated method stub
     supplierExtRelateMapper.delPe(id);
+  }
+
+  /**
+   * 供应商类型
+   * @see ses.service.sms.SupplierExtRelateService#selectSupplierType(java.lang.String)
+   */
+  @Override
+  public List<SupplierExtRelate> selectSupplierType(String conditionId) {
+    return supplierExtRelateMapper.selectSupplierType(conditionId);
   }
 }
 
