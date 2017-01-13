@@ -193,6 +193,72 @@
 	    	        });
 	       
 </script>
+
+<!-- textarea 自适应高度js1 -->
+   <script type="text/javascript">
+			var autoTextarea = function(elem, extra, maxHeight) {
+				extra = extra || 0;
+				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
+					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
+					addEvent = function(type, callback) {
+						elem.addEventListener ?
+							elem.addEventListener(type, callback, false) :
+							elem.attachEvent('on' + type, callback);
+					},
+					getStyle = elem.currentStyle ? function(name) {
+						var val = elem.currentStyle[name];
+
+						if(name === 'height' && val.search(/px/i) !== 1) {
+							var rect = elem.getBoundingClientRect();
+							return rect.bottom - rect.top -
+								parseFloat(getStyle('paddingTop')) -
+								parseFloat(getStyle('paddingBottom')) + 'px';
+						};
+
+						return val;
+					} : function(name) {
+						return getComputedStyle(elem, null)[name];
+					},
+					minHeight = parseFloat(getStyle('height'));
+
+				elem.style.resize = 'none';
+
+				var change = function() {
+					var scrollTop, height,
+						padding = 0,
+						style = elem.style;
+
+					if(elem._length === elem.value.length) return;
+					elem._length = elem.value.length;
+
+					if(!isFirefox && !isOpera) {
+						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
+					};
+					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
+
+					elem.style.height = minHeight + 'px';
+					if(elem.scrollHeight > minHeight) {
+						if(maxHeight && elem.scrollHeight > maxHeight) {
+							height = maxHeight - padding;
+							style.overflowY = 'auto';
+						} else {
+							height = elem.scrollHeight - padding;
+							style.overflowY = 'hidden';
+						};
+						style.height = height + extra + 'px';
+						scrollTop += parseInt(style.height) - elem.currHeight;
+						document.body.scrollTop = scrollTop;
+						document.documentElement.scrollTop = scrollTop;
+						elem.currHeight = parseInt(style.height);
+					};
+				};
+
+				addEvent('propertychange', change);
+				addEvent('input', change);
+				addEvent('focus', change);
+				change();
+			};
+	</script>
 </head>
 
 <body>
@@ -217,21 +283,22 @@
 			
 				<!-- 前半部分 -->
 				<div class="content" id="content">
-					<table id="table" class="table table-bordered table-condensed mt5 table_input">
+					<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
 						<thead>
 							<!-- <tr>
 								<th class="info" colspan="17">事业部门需求</th>
 							</tr> -->
-							<tr>
-								<th class="info w50">序号</th>
+							<tr class="space_nowrap">
+								<th class="info"><div class="w50">序号</div></th>
 								<th class="info">需求部门</th>
 								<th class="info">物资类别<br>及名称</th>
 								<th class="info">规格型号</th>
 								<th class="info">质量技术标准</th>
 								<th class="info">计量单位</th>
 								<th class="info">采购数量</th>
-								<th class="info">单位（元）</th>
-								<th class="info">预算金额<br>（万元）</th>
+								<th class="info">单价（元）</th>
+								<th class="info">预算金额（万元）</th>
 								<th class="info">交货期限</th>
 								<th class="info">采购方式建议</th>
 								<th class="info">采购机构</th>
@@ -249,35 +316,37 @@
 							<input style="border: 0px;" type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
 							</td>
 							<td>
-							<input type="text" readonly="readonly" value="${obj.department}" >
-							
+							<textarea readonly="readonly" class="target">${obj.department}</textarea>
 						<%-- 	    <c:forEach items="${requires }" var="re" >
 										  <c:if test="${obj.department==re.id }">  --%>
 <%-- 										    <input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${re.name }">
  --%>					<%-- 					  </c:if>
 								  	</c:forEach> --%>
-			  	
-			  	
-							
 							</td>
-							<td class="tl pl20"><input type="text" name="listDetail[${vs.index }].goodsName"  value="${obj.goodsName }"></td>
-							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }"></td>
-							<td class="tl pl20"><input  type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tl pl20"><input  type="text" name="listDetail[${vs.index }].item" value="${obj.item }"></td>
 							<td class="tl pl20">
+							  <textarea name="listDetail[${vs.index }].goodsName" class="target">${obj.goodsName }</textarea>
+							</td>
+							<td class="tl pl20">
+							  <textarea readonly="readonly" name="listDetail[${vs.index }].stand" class="target">${obj.stand }</textarea>
+							</td>
+							<td class="tl pl20">
+							  <textarea name="listDetail[${vs.index }].qualitStand" class="target">${obj.qualitStand }</textarea>
+							</td>
+							<td class="tc"><input  type="text" class="tc" name="listDetail[${vs.index }].item" value="${obj.item }"></td>
+							<td class="tc">
 							  <c:if test="${obj.price!=null}">
 								<input   type="hidden" name="ss"   value="${obj.id }">
-								<input  onblur="sum2(this)"  type="text" name="listDetail[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+								<input class="tc" onblur="sum2(this)"  type="text" name="listDetail[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
 								<input type="hidden" name="ss"   value="${obj.parentId }">
 							  </c:if>
 							  <c:if test="${obj.price==null}">
 		                       <input   readonly="readonly"   type="text" >
 		                     </c:if>
 							</td>
-							<td class="tl pl20">
+							<td class="tc">
 							  <c:if test="${obj.price!=null}">
 								<input   type="hidden" name="ss"   value="${obj.id }">
-								<input onblur="sum1(this)"  type="text" name="listDetail[${vs.index }].price" value="${obj.price }">
+								<input onblur="sum1(this)" class="tc"  type="text" name="listDetail[${vs.index }].price" value="${obj.price }">
 								<input type="hidden" name="ss"   value="${obj.parentId }">
 							</c:if>
 							<c:if test="${obj.price==null}">
@@ -285,12 +354,13 @@
 		                    </c:if>
                     
 							</td>
-							<td class="tr pr20">
+							<td class="tr">
 								<input type="hidden" name="ss"    value="${obj.id}">
-								<input   type="text" name="listDetail[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
+								<input type="text" name="listDetail[${vs.index }].budget" onblur="checks(this)"  value="${obj.budget }">
 								<input type="hidden" name="ss"  value="${obj.parentId }">
 							</td>
-							<td><input type="text" name="listDetail[${vs.index }].deliverDate" onblur="checks(this)" value="${obj.deliverDate }"></td>
+							<td>
+							    <textarea onblur="checks(this)" class="target" name="listDetail[${vs.index }].deliverDate">${obj.deliverDate }</textarea>
 							<td>
 								<select name="listDetail[${vs.index }].purchaseType" <c:if test="${obj.price==null}"> onchange="sel(this)"  </c:if> style="width:100px" id="select">
 	              				    <option value="" >请选择</option>
@@ -313,11 +383,15 @@
 									</c:forEach>
 								</select>
 							</td>
-							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }"></td>
-							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
+							<td class="tl pl20">
+							   <textarea class="target" readonly="readonly" name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+							</td>
+							<td class="tl pl20">
+							<input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
 		<%-- 					<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
 							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
-							<td class="tl pl20"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
+							<td class="tl pl20">
+							    <textarea class="target" readonly="readonly" name="listDetail[${vs.index }].memo">${obj.memo }</textarea>
 					<%-- 			<input type="hidden" name="listDetail[${vs.index }].planName" value="${obj.planName }">
 								<input type="hidden" name="listDetail[${vs.index }].planNo" value="${obj.planNo }">
 								<input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType }">
@@ -349,6 +423,13 @@
 			
 	 
 	</div>
-	
+	<!-- textarea 自适应高度js2 --> 
+		<script>
+			var text = document.getElementsByClassName("target");
+			for(var i=0;i<text.length;i++){
+				autoTextarea(text[i]);
+			}
+			
+		</script>
 	</body>
 </html>

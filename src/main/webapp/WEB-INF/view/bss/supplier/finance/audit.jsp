@@ -57,6 +57,7 @@
 				<div class="headline-v2">
 					<h2>财务审计报告审核</h2>
 				</div>
+				<div class="pl20 col-md-12 col-xs-12 col-sm-12 over_auto">
 				<table class="table table-bordered">
 					<tbody>
 						<tr>

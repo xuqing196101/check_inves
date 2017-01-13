@@ -1473,32 +1473,32 @@ function deleteFinance() {
 									<tr>
 										<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
 										</td> --%>
-										<td class="tc">
+										<td class="tc p0">
 										<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}"> 
-										<input type="text" required="required" style="border:0px;width:70px;" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
+										<input type="text" required="required" class="w50 border0 tc" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
 										<td class="tc">
-											<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
+											<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
 										 </td>
 										<td class="tc">
-										<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].telephone" value="${finance.telephone}">
+										<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" value="${finance.telephone}">
 										</td>
 										<td class="tc">
-						    				<input type="text" required="required" style="border:0px;width:200px;" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
+						    				<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
 										 
 										 </td>
 									<%-- 	<td class="tc">${finance.quota}</td> --%>
-										<td class="tc">
-										<input type="text" required="required" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
+										<td class="tc p0">
+										<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
 									 		
 									 		</td>
 										<td class="tc">
-										<input type="text" required="required" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
+										<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
 										 </td>
 										<td class="tc">
-											<input type="text" required="required" style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
+											<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
 										</td>
 										<td class="tc">
-											<input type="text"required="required"  style="border:0px;width:70px;" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
+											<input type="text"required="required"  class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
 									</td>
 									</tr>
 					 		<%-- </c:if> --%>
