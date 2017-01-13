@@ -46,6 +46,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.swing.ImageIcon;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -58,6 +59,7 @@ import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
+import common.utils.CommonStringUtil;
 import common.utils.UploadUtil;
 
 import ses.controller.sys.sms.BaseSupplierController;
@@ -1224,7 +1226,15 @@ public class IndexNewsController extends BaseSupplierController{
 		  HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
 		  StringBuffer divStyle = new StringBuffer();
 		  divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
-		  divStyle.append(articleDetail.getContent());
+		  
+		  String content = articleDetail.getContent();
+		  
+		  if (StringUtils.isNotBlank(content)){
+		      content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
+		      System.out.println(content.toString());
+		  }
+		  
+		  divStyle.append(content);
 		  divStyle.append("</div>");
 		  String htmlstr = divStyle.toString();
 		  imageGenerator.loadHtml(htmlstr);
