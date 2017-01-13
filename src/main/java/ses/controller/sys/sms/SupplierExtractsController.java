@@ -767,7 +767,7 @@ public class SupplierExtractsController extends BaseController {
     forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo, 0);
     //获取查询条件类型
     List<SupplierCondition> listCondition = conditionService.list(new SupplierCondition(ids[1],""),0);
-    String expertTypeIds = "";
+    List<String> expertTypeIds = new ArrayList<String>();
     for (SupplierConType extConType1 : listCondition.get(0).getConTypes()) {
       //获取抽取的供应商类别
       SupplierExtRelate extRelate = new SupplierExtRelate();
@@ -777,17 +777,14 @@ public class SupplierExtractsController extends BaseController {
       extConType1.setAlreadyCount(list == null ? 0 : list.size());
       //删除满足数量的
       if(list.size() >= extConType1.getSupplierCount()){
-        expertTypeIds += extConType1.getSupplierType().getCode() + ",";
+        expertTypeIds.add(extConType1.getSupplierType().getCode());
       }
     }
-    if (expertTypeIds != null && !"".equals(expertTypeIds)){
+    if (expertTypeIds != null && expertTypeIds.size() !=0){
       Packages packages = new Packages();
       packages.setId(listCondition.get(0).getProjectId());
       List<Packages> find = packagesService.find(packages);
-      Map<String, Object> map = new HashMap<String, Object>();
-      map.put("projectId", find.get(0).getProjectId());
-      map.put("typeId", expertTypeIds.substring(0, expertTypeIds.length()-1));
-      extRelateService.del(map);
+      extRelateService.del(listCondition.get(0).getId(),find.get(0).getProjectId(),expertTypeIds);
     }
 
     //拿出数量和session中存放的数字进行对比

@@ -3,6 +3,8 @@ package ses.model.sms;
 import java.util.Date;
 import java.util.List;
 
+import bss.echarts.Data;
+
 public class SupplierCondition {
 
 
@@ -109,6 +111,31 @@ public class SupplierCondition {
      * </pre>
      */
     private String extractAddress;
+    
+    /**
+     * 创建时间
+     */
+    private Date createdAt;
+    
+    /**
+     * 限制地区理由
+     */
+    private String addressReason;
+    
+    /**
+     * 品目
+     */
+    private String categoryName;
+    
+    /**
+     * 品目id
+     */
+    private String categoryId;
+    
+    /**
+     * 品目id
+     */
+    private String addressId;
     
     /**
      * <pre>
@@ -320,30 +347,7 @@ public class SupplierCondition {
         this.supplierLevel = supplierLevel == null ? null : supplierLevel.trim();
     }
 
-    /**
-     * <pre>
-     * 获取：抽取地点
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
-     * </pre>
-     *
-     * @return T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID：抽取地点
-     */
-    public String getExtractAddress() {
-        return extractAddress;
-    }
-
-    /**
-     * <pre>
-     * 设置：抽取地点
-     * 表字段：T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID
-     * </pre>
-     *
-     * @param addressId
-     *            T_SES_SMS_SUPPLIE_CONDITION.ADDRESS_ID：抽取地点
-     */
-    public void setAddressId(String extractAddress) {
-        this.extractAddress = extractAddress == null ? null :extractAddress.trim();
-    }
+  
 
     public List<SupplierConType> getConTypes() {
         return conTypes;
@@ -362,9 +366,7 @@ public class SupplierCondition {
         this.expertsFrom = expertsFrom;
     }
 
-    public void setExtractAddress(String extractAddress) {
-        this.extractAddress = extractAddress;
-    }
+ 
 
     /**
      * @return Returns the extRelatesList.
@@ -393,6 +395,92 @@ public class SupplierCondition {
     public void setAddressSplit(String[] addressSplit) {
         this.addressSplit = addressSplit;
     }
+
+    /**
+     * @return Returns the createdAt.
+     */
+    public Date getCreatedAt() {
+      return createdAt;
+    }
+
+    /**
+     * @param createdAt The createdAt to set.
+     */
+    public void setCreatedAt(Date createdAt) {
+      this.createdAt = createdAt;
+    }
+
+    /**
+     * @return Returns the addressReason.
+     */
+    public String getAddressReason() {
+      return addressReason;
+    }
+
+    /**
+     * @param addressReason The addressReason to set.
+     */
+    public void setAddressReason(String addressReason) {
+      this.addressReason = addressReason;
+    }
+
+    /**
+     * @return Returns the categoryName.
+     */
+    public String getCategoryName() {
+      return categoryName;
+    }
+
+    /**
+     * @param categoryName The categoryName to set.
+     */
+    public void setCategoryName(String categoryName) {
+      this.categoryName = categoryName;
+    }
+
+    /**
+     * @return Returns the categoryId.
+     */
+    public String getCategoryId() {
+      return categoryId;
+    }
+
+    /**
+     * @param categoryId The categoryId to set.
+     */
+    public void setCategoryId(String categoryId) {
+      this.categoryId = categoryId;
+    }
+
+    /**
+     * @return Returns the extractAddress.
+     */
+    public String getExtractAddress() {
+      return extractAddress;
+    }
+
+    /**
+     * @param extractAddress The extractAddress to set.
+     */
+    public void setExtractAddress(String extractAddress) {
+      this.extractAddress = extractAddress;
+    }
+
+    /**
+     * @return Returns the addressId.
+     */
+    public String getAddressId() {
+      return addressId;
+    }
+
+    /**
+     * @param addressId The addressId to set.
+     */
+    public void setAddressId(String addressId) {
+      this.addressId = addressId;
+    }
+
+ 
 
 
 

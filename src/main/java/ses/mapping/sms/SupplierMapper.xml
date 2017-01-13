@@ -965,6 +965,9 @@
 		T_SES_BMS_AREA T3 ON T2.PARENT_ID=T3.ID )
 		where 1=1 and
 		SUPPLIER_STATUS=5
+		<if test="status != null and status !='' ">
+		  and  SUPPLIER_STATUS = #{status}
+		</if>
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
@@ -1323,11 +1326,11 @@
 		AND IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5
 		or SUPPLIER_STATUS = 7 )
 
-		<if test="address != null and address != '' ">
-			AND ADDRESS = #{address}
+		<if test="addressId != null and addressId != '' ">
+			AND ADDRESS = #{addressId}
 		</if>
 		<if
-			test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">
+			test="addressId == null and  addressId != '' and addressSplit != null and addressSplit != '' ">
 			AND
 			<foreach collection="addressSplit" item="split" open="("
 				close=")" separator="OR">
