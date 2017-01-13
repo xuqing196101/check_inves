@@ -132,6 +132,7 @@ function quoteAgain(projectId, packId, status){
 					<th class="w50 info">序号</th>
 				  	<th class="info">供应商名称</th>
 				  	<th class="info">报价(单位：万元)</th>
+				  	<th class="info">交货期限</th>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -142,6 +143,7 @@ function quoteAgain(projectId, packId, status){
 				    <td class="tc w50">${vs.index+1}</td>
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc">${treemapValue.total}</td>
+					<td class="tc">${treemapValue.deliveryTime}</td>
 			    </tr>
 			    
 		</c:forEach>
@@ -149,7 +151,7 @@ function quoteAgain(projectId, packId, status){
 			<tr>
 			        <c:if test="${isEndPrice !=1 }">
 		        		<td class="tc" colspan="2"><button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button></td>
-		        		<td class="tc">
+		        		<td class="tc" colspan="2">
 						 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 								<c:if test="${empty treemap.value[0].dataList}">
 									<option value=''>暂无报价历史</option>
@@ -164,7 +166,7 @@ function quoteAgain(projectId, packId, status){
 		        	</c:if>
 		        	 <c:if test="${isEndPrice ==1 }">
 		        		<td class="tc" colspan="2"><button class="btn">已结束唱标</button></td>
-		        		<td class="tc">
+		        		<td class="tc" colspan="2">
 						 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 								<c:if test="${empty treemap.value[0].dataList}">
 									<option value=''>暂无报价历史</option>
@@ -241,15 +243,15 @@ function quoteAgain(projectId, packId, status){
 								<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
 									<c:if test="${pd.supplierId eq pdkey.id }">
 										<tr id="${pd.id }" class="hand">
-											<td class="tc w50">${pd.serialNumber}</td>
-											<td class="tc">${pd.goodsName}</td>
-											<td class="tc">${pd.stand}</td>
-											<td class="tc">${pd.qualitStand}</td>
+											<td class="tc w50">${vs.index + 1}</td>
+											<td class="tl">${pd.goodsName}</td>
+											<td class="tl">${pd.stand}</td>
+											<td class="tl">${pd.qualitStand}</td>
 											<td class="tc">${pd.item}</td>
 											<td class="tc">${pd.purchaseCount}</td>
-											<td>${pd.quotePrice}</td>
-											<td class="tc">${pd.total}</td>
-											<td>${pd.deliveryTime }</td>
+											<td class="tr">${pd.quotePrice}</td>
+											<td class="tr">${pd.total}</td>
+											<td class="tc">${pd.deliveryTime }</td>
 											<td class="tc">${pd.remark}</td>
 										</tr>
 									</c:if>
@@ -257,12 +259,8 @@ function quoteAgain(projectId, packId, status){
 							</c:forEach>
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
-								<td class="tl" colspan="3"></td>
-								<td class="tr" colspan="2"><b>是否到场</b></td>
-								<td class="tl" colspan="3">
-										<c:if test="${pdkey.isturnUp eq '1'}">未到场</c:if>
-										<c:if test="${pdkey.isturnUp eq '2'}">已到场</c:if>
-								</td>
+								<td class="tl" colspan="8"></td>
+								
 							</tr>
 						</table>
 					</div>

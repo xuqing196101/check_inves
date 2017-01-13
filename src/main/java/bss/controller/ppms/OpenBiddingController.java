@@ -1163,9 +1163,8 @@ public class OpenBiddingController {
     
     @RequestMapping("/save")
     @ResponseBody
-    public void save(HttpServletRequest request, String quoteList) throws Exception{
+    public String save(HttpServletRequest request, String quoteList) throws Exception{
         List<Quote> quoteLists = new ArrayList<Quote>();
-        //String quoteStr = request.getParameter("aaaa");
         JSONArray json=JSONArray.fromObject(quoteList);
         JSONObject jsonQuote = new JSONObject();
         for (int i = 0; i < json.size(); i++) {
@@ -1176,7 +1175,6 @@ public class OpenBiddingController {
             quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jsonQuote.getString("date")).getTime()));
             quote.setPackageId(jsonQuote.getString("packageId"));
             quote.setProjectId(jsonQuote.getString("projectId"));
-            quote.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
             quote.setDeliveryTime(URLDecoder.decode(jsonQuote.getString("deliveryTime"), "UTF-8"));
             quoteLists.add(quote);
         }
@@ -1215,13 +1213,7 @@ public class OpenBiddingController {
                 
             }
         }
-       /* if (quoteId == null || "".equals(quoteId)) {
-            supplierQuoteService.insert(quoteList);    
-        } else {
-            quote.setId(quoteId);
-            supplierQuoteService.update(quoteList);
-        }*/
-        
+        return "true";
     }
     
     
@@ -1348,47 +1340,11 @@ public class OpenBiddingController {
             dd = DictionaryDataUtil.findById(project.getPurchaseType());
         }
         model.addAttribute("project", project);
-        //参与项目的所有供应商
-        /*List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
-        String supplierStr="";
-        for(Supplier sup:listSupplier){
-            supplierStr+=sup.getId()+",";
-        }*/
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId",projectId);
         map.put("purchaseType",DictionaryDataUtil.getId("GKZB"));
-        //每个供应商的报价明细产品
-        //List<List<Quote>> listQuoteList=new ArrayList<List<Quote>>();
-        //List<String> listsupplierId=Arrays.asList(supplierStr.split(","));
-        //boolean flag = false;
         boolean flag = true;
         boolean flagButton = false;
-       /* if(listsupplierId.get(0).length() > 30){
-            for(String str:listsupplierId){
-                Quote quotes = new Quote();
-                quotes.setProjectId(projectId);
-                quotes.setSupplierId(str);
-                List<Date> listDate = supplierQuoteService.selectQuoteCount(quotes);
-                if (listDate.size() == 0 || project.getBidDate().getTime() < new Date().getTime()) {
-                    flag = true;
-                    break;
-                }
-                Quote quote=new Quote();
-                quote.setSupplierId(str);
-                quote.setCreatedAt(new Timestamp(listDate.get(listDate.size() - 1).getTime()));
-                List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-                BigDecimal totalMoney=new BigDecimal(0);
-                for(Quote q: listQuote){
-                    totalMoney=totalMoney.add(q.getTotal());
-                }
-                if(listQuote != null && listQuote.size() > 0){
-                    listQuote.get(0).setTotalMoney(totalMoney);
-                    listQuote.get(0).setTotalMoneyNames(CnUpperCaser.getCnString(totalMoney.doubleValue()));
-                }
-                listQuoteList.add(listQuote);
-            }
-            model.addAttribute("listQuoteList", listQuoteList);
-        }*/
          //已开标 就是线下报价  -第一次进来的时候
         Quote quotes = new Quote();
         Quote quote1 = new Quote();
@@ -1443,7 +1399,6 @@ public class OpenBiddingController {
                         projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
                     }
                     pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
-                    
                     if (listQuote != null && listQuote.size() > 0 && detailList != null && detailList.size() > 0) {
                         flagButton = true;
                     }
@@ -1492,14 +1447,6 @@ public class OpenBiddingController {
                 for (SaleTender saleTender : saleTenderList) {
                     if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
                         Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
-                        Quote quote=new Quote();
-                        quote.setProjectId(projectId);
-                        quote.setPackageId(pk.getId());
-                        quote.setSupplierId(supplier.getId());
-                        List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-                        if (listQuote != null && listQuote.size() >0) {
-                            supplier.setIsturnUp(listQuote.get(0).getIsTurnUp().toString());
-                        }
                         supplierList.add(supplier);
                     }
                 }
@@ -1589,6 +1536,7 @@ public class OpenBiddingController {
         model.addAttribute("projectId", projectId);
         model.addAttribute("treeMap", treeMap);
         model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("date", new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
         return "bss/ppms/open_bidding/bid_file/quote_again";
     }
     
@@ -1666,13 +1614,10 @@ public class OpenBiddingController {
         for (SaleTender saleTender : saleTenderList) {
             sb.append(saleTender.getPackages());
         }
-        
-        //开始循环包
         List<HashMap<List<Supplier>,List<ProjectDetail>>> listPd = new ArrayList<HashMap<List<Supplier>,List<ProjectDetail>>>();
         HashMap<List<Supplier>,List<ProjectDetail>> hashMap = new HashMap<List<Supplier>,List<ProjectDetail>>();
         List<Supplier> supplierList = new ArrayList<Supplier>();
         map1.put("packageId", packId);
-        //
         quotes.setProjectId(projectId);
         quotes.setPackageId(packId);
         List<Date> listDate =  supplierQuoteService.selectQuoteCount(quotes);
@@ -1734,18 +1679,9 @@ public class OpenBiddingController {
                 projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
             }
         }
-        //
         for (SaleTender saleTender : saleTenderList) {
             if (saleTender.getPackages().indexOf(packId) != -1) {
                 Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
-                Quote quote=new Quote();
-                quote.setProjectId(projectId);
-                quote.setPackageId(packId);
-                quote.setSupplierId(supplier.getId());
-                List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-                if (listQuote != null && listQuote.size() >0) {
-                    supplier.setIsturnUp(listQuote.get(0).getIsTurnUp().toString());
-                }
                 supplierList.add(supplier);
             }
         }
@@ -1768,7 +1704,6 @@ public class OpenBiddingController {
     
     @RequestMapping(value="viewquoteAgainTotalMingxi")
     public String viewquoteAgainTotalMingxi(String projectId, String flowDefineId, String packId, String timestamp, Model model) throws ParseException{
-        //唱明细
         Quote quotes = new Quote();
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("projectId", projectId);
@@ -1779,13 +1714,10 @@ public class OpenBiddingController {
         for (SaleTender saleTender : saleTenderList) {
             sb.append(saleTender.getPackages());
         }
-        
-        //开始循环包
         List<HashMap<List<Supplier>,List<ProjectDetail>>> listPd = new ArrayList<HashMap<List<Supplier>,List<ProjectDetail>>>();
         HashMap<List<Supplier>,List<ProjectDetail>> hashMap = new HashMap<List<Supplier>,List<ProjectDetail>>();
         List<Supplier> supplierList = new ArrayList<Supplier>();
         map1.put("packageId", packId);
-        //
         quotes.setProjectId(projectId);
         quotes.setPackageId(packId);
         List<Date> listDate =  supplierQuoteService.selectQuoteCount(quotes);
@@ -1826,14 +1758,6 @@ public class OpenBiddingController {
         for (SaleTender saleTender : saleTenderList) {
             if (saleTender.getPackages().indexOf(packId) != -1) {
                 Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
-                Quote quote=new Quote();
-                quote.setProjectId(projectId);
-                quote.setPackageId(packId);
-                quote.setSupplierId(supplier.getId());
-                List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-                if (listQuote != null && listQuote.size() >0) {
-                    supplier.setIsturnUp(listQuote.get(0).getIsTurnUp().toString());
-                }
                 supplierList.add(supplier);
             }
         }
@@ -1874,6 +1798,7 @@ public class OpenBiddingController {
      * @return String
      * @throws ParseException 异常处理
      */
+    @ResponseBody
     @RequestMapping(value = "/savemingxi")
     public String saves(HttpServletRequest req, Quote quote, Model model, String priceStr, String packId, String quoteList) throws Exception {
        // List<String> listBd = Arrays.asList(priceStr.split(","));
@@ -1923,21 +1848,6 @@ public class OpenBiddingController {
             if (count1 != 1){
                 count2 =count2*count1;
             }
-            /*for (int i= 0; i < count2; i++) {
-                Quote qt = new Quote();
-                count++;
-                qt.setProjectId(quote.getProjectId());
-                qt.setSupplierId(listBd.get(count*7 -3));
-                qt.setPackageId(pk.getId());
-                qt.setIsTurnUp(Integer.parseInt(listBd.get(count * 7 - 1)));
-                qt.setProductId(listBd.get(count*7 -2));
-                qt.setQuotePrice(new BigDecimal(listBd.get(count * 7 - 7)));
-                qt.setTotal(new BigDecimal(listBd.get(count * 7 - 6)));
-                qt.setDeliveryTime(URLDecoder.decode(listBd.get(count * 7 - 5), "UTF-8"));
-                qt.setRemark(URLDecoder.decode(listBd.get(count * 7 - 4), "UTF-8").equals("null") ? "" : URLDecoder.decode(listBd.get(count * 7 - 4), "UTF-8"));
-                qt.setCreatedAt(timestamp);
-                listQuote.add(qt);
-            }*/
             JSONArray json=JSONArray.fromObject(quoteList);
             JSONObject jsonQuote = new JSONObject();
             for (int i = 0; i < count2; i++) {
@@ -1947,7 +1857,6 @@ public class OpenBiddingController {
                 quoteInsert.setProjectId(quote.getProjectId());
                 quoteInsert.setSupplierId(jsonQuote.getString("supplierId"));
                 quoteInsert.setPackageId(pk.getId());
-                quoteInsert.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
                 quoteInsert.setProductId(jsonQuote.getString("productId"));
                 quoteInsert.setQuotePrice(new BigDecimal(jsonQuote.getString("price")));
                 quoteInsert.setTotal(new BigDecimal(jsonQuote.getString("total")));
@@ -1974,7 +1883,7 @@ public class OpenBiddingController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return "redirect:changmingxi.html?projectId="+quote.getProjectId();
+        return "true";
     }
     
     /**

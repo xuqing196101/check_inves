@@ -57,12 +57,6 @@ function eachTable(obj) {
 	var priceStr = "";
 	var error = 0;
 	for(var i = 0; i < allTable.length; i++) {
-		var isTurnUp = $(allTable[i]).find("tr:last").find("td").eq("3").find("option:selected").text();
-		if (isTurnUp == '未到场') {
-			isTurnUp = 1;
-		} else {
-			isTurnUp = 2;
-		}
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 		    var supplierId = $(allTable[i]).attr('id');
 		    var productId = $(allTable[i].rows).eq(j).attr('id');
@@ -89,24 +83,13 @@ function eachTable(obj) {
 				return;
 				error++;
 			} else {
-				//priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
-				var json = {"price":price, "total":total, "deliveryTime":deliveryTime, "remark":remark, "supplierId":supplierId, "productId":productId, "isTurnUp":isTurnUp};
+				var json = {"price":price, "total":total, "deliveryTime":deliveryTime, "remark":remark, "supplierId":supplierId, "productId":productId};
 				jsonStr.push(json);
 				console.log(jsonStr); 
 			};
 		};
 	}
 	if(error == 0) {
-		/* $("#priceStr").val(priceStr);
-		var priceStr = $("#priceStr").val();
-		var projectId = $("#projectId").val();
-		$.ajax({
-			url:"${pageContext.request.contextPath}/open_bidding/savemingxi.html?priceStr=" + priceStr + "&projectId="+ projectId + "&packId=${packId}",
-			success:function(data){
-				layer.alert("报价成功",{offset: [y, x], shade:0.01});
-				window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
-			}
-		}); */
 		var projectId = $("#projectId").val();
 		 $.ajax({
 		        type: "POST",
@@ -114,12 +97,9 @@ function eachTable(obj) {
 		        data: {quoteList:JSON.stringify(jsonStr)},
 		        dataType: "json",
 		        success: function (message) {
-		        },
-		        error: function (message) {
+		        	window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
 		        }
 		    });
-		    window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
-		//form.submit();
 	};
 }
 
@@ -157,7 +137,7 @@ function ycDiv(obj, index){
 		<c:forEach items="${listPd }" var="listProDel" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
 			   <div>
-				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
+				 <h2 onclick="ycDiv(this,'${index}')" class="count_flow spread hand">包名:<span class="f14 blue">${listPackage[index].name }</span>
 				 	<span>项目预算报价(万元)：${listPackage[index].projectBudget}</span>
 				 </h2>
                </div>
@@ -171,23 +151,24 @@ function ycDiv(obj, index){
 									<th class="info w50">序号</th>
 									<th class="info">物资名称</th>
 									<th class="info">规格<br/>型号</th>
-									<th class="info">质量技术<br/>标准</th>
+									<th class="info w200">质量技术<br/>标准</th>
 									<th class="info">计量<br/>单位</th>
 									<th class="info">采购<br/>数量</th>
-									<th class="info">单价（元）</th>
+									<th class="info w50">单价<br/>(元)</th>
 									<th class="info">小计</th>
-									<th class="info">交货时间</th>
+									<th class="info w80">交货时间</th>
 									<th class="info">备注</th>
+									
 								</tr>
 							</thead>
 							<c:forEach items="${listProDel }" var="proDel" varStatus="vs">
 								<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
 									<c:if test="${pd.supplierId eq pdkey.id }">
 										<tr id="${pd.id }" class="hand">
-											<td class="tc w50">${pd.serialNumber}</td>
+											<td class="tc w50">${vs.index + 1}</td>
 											<td class="tc">${pd.goodsName}</td>
 											<td class="tc">${pd.stand}</td>
-											<td class="tc">${pd.qualitStand}</td>
+											<td class="tc w200">${pd.qualitStand}</td>
 											<td class="tc">${pd.item}</td>
 											<td class="tc">${pd.purchaseCount}</td>
 											<td class="tc"><input class="w60"  maxlength="16" onblur="addTotal()" /></td>
@@ -200,14 +181,7 @@ function ycDiv(obj, index){
 							</c:forEach>
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
-								<td class="tl" colspan="3"></td>
-								<td class="tr" colspan="2"><b>是否到场</b></td>
-								<td class="tl" colspan="3">
-									<select>
-											<option>已到场</option>
-											<option>未到场</option>
-									</select>
-								</td>
+								<td class="tl" colspan="8"></td>
 							</tr>
 						</table>
 					</div>

@@ -30,7 +30,6 @@
 					<th class="info">供应商名称</th>
 					<th class="info">总价(万元)</th>
 					<th class="info">交货期限</th>
-					<th class="info">是否到场</th>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -40,10 +39,6 @@
 				    <td class="tc">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc">${treemapValue.total}</td>
 			    	<td class="tc">${treemapValue.deliveryTime }</td>
-					<td class="tc">
-							<c:if test="${treemapValue.isTurnUp ==2 }">已到场</c:if>
-							<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
-					</td>
 			    </tr>
 		</c:forEach>
 		</table>

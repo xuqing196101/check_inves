@@ -17,37 +17,13 @@
 	    x=oRect.left;  
 	    y=oRect.top;
 	    var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
-		/* if(!reg.exec(total)) {
-			$(obj).parent().parent().find("td").eq("2").find("input").val('');
-			layer.msg("金额必填且为数字,请正确填写",{offset: [y, x]});
-			return;
-		} */
 		var deliveryTime = $(obj).parent().parent().find("td").eq("3").find("input").val();
 		deliveryTime = encodeURI(deliveryTime);
 		deliveryTime = encodeURI(deliveryTime);
-		/* if (!deliveryTime) {
-			layer.msg("交货时间为必填",{offset: [y, x]});
-			return;
-		} */
-		var isTurnUp = $(obj).parent().parent().find("td").eq("4").find("option:selected").text();
-		if (isTurnUp == '未到场') {
-			isTurnUp = 1;
-		} else {
-			isTurnUp = 2;
-		}
-		
 		var date = '${date}';
-		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "isTurnUp":isTurnUp, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
+		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
 		jsonStr.push(json);
 		console.log(jsonStr); 
-		/* $.ajax({
-			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
-			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId + "&date=${date}",
-			success:function(data){
-				//layer.msg("暂存成功",{offset: [y, x], shade:0.01});
-				window.location.reload();
-			}
-		}); */
 	}
 	
 	var error = 0;
@@ -84,14 +60,6 @@
 					$(inputObj).click();	
 				};
 			}
-			/*  $.ajax({
-			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
-			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId + "&date=${date}",
-			success:function(data){
-				//layer.msg("暂存成功",{offset: [y, x], shade:0.01});
-				window.location.reload();
-			}
-			}); */
 			//alert(JSON.stringify(jsonStr));
 			 $.ajax({
 		        type: "POST",
@@ -99,11 +67,11 @@
 		        data: {quoteList:JSON.stringify(jsonStr)},
 		        dataType: "json",
 		        success: function (message) {
+		        	window.location.reload();
 		        },
 		        error: function (message) {
 		        }
 		    });
-			window.location.reload();
 		}
 	}
 
@@ -167,10 +135,9 @@
 			<thead>
 				<tr>
 					<th class="info w50">序号</th>
-					<th class="info">供应商名称</th>
-					<th class="info">总价(万元)</th>
-					<th class="info">交货期限</th>
-					<th class="info">是否到场</th>
+					<th class="info w200">供应商名称</th>
+					<th class="info w100">总价(万元)</th>
+					<th class="info w100">交货期限</th>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -184,21 +151,11 @@
 					<c:if test="${not empty treemapValue.total}">
 				    	<td class="tc">${treemapValue.total}</td>
 				    	<td class="tc">${treemapValue.deliveryTime }</td>
-						<td class="tc">
-								<c:if test="${treemapValue.isTurnUp ==2 }">已到场</c:if>
-								<c:if test="${treemapValue.isTurnUp ==1 }">未到场</c:if>
-						</td>
 					</c:if>
 					
 					<c:if test="${empty treemapValue.total}">
 						<td class="tc"><input class="w60"  maxlength="16" /></td>
 						<td class="tc"><input class="w90"/></td>
-						<td class="tc">
-							<select>
-								<option>已到场</option>
-								<option>未到场</option>
-							</select>
-						</td>
 					</c:if>
 			    </tr>
 		</c:forEach>

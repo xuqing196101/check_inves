@@ -511,14 +511,6 @@ public class PackageExpertController {
                 for (SaleTender saleTender : saleTenderList) {
                     if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
                         Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
-                        Quote quote=new Quote();
-                        quote.setProjectId(projectId);
-                        quote.setPackageId(pk.getId());
-                        quote.setSupplierId(supplier.getId());
-                        List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
-                        if (listQuote != null && listQuote.size() >0) {
-                            supplier.setIsturnUp(listQuote.get(0).getIsTurnUp().toString());
-                        }
                         supplierList.add(supplier);
                     }
                 }

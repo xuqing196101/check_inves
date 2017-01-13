@@ -35,21 +35,8 @@ function back() {
 			layer.msg("交货时间为必填",{offset: [y, x]});
 			return;
 		}
-		var isTurnUp = $(obj).parent().parent().find("td").eq("4").find("option:selected").text();
-		if (isTurnUp == '未到场') {
-			isTurnUp = 1;
-		} else {
-			isTurnUp = 2;
-		}
-		/* $.ajax({
-			url:"${pageContext.request.contextPath}/open_bidding/save.html?total=" + total +
-			 "&supplierId="+ supplierId+ "&deliveryTime="+ deliveryTime+ "&isTurnUp="+ isTurnUp + "&packageId="+ packageId + "&projectId="+ projectId+ "&quoteId="+ quoteId,
-			success:function(data){
-				window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
-			}
-		}); */
 		var date = '${date}';
-		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "isTurnUp":isTurnUp, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
+		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
 		jsonStr.push(json);
 		console.log(jsonStr); 
 	}
@@ -95,11 +82,11 @@ function back() {
 		        data: {quoteList:JSON.stringify(jsonStr)},
 		        dataType: "json",
 		        success: function (message) {
+		        	window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
 		        },
 		        error: function (message) {
 		        }
 		    });
-			window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}&flowDefineId=${flowDefineId}";
 	}
 
 	function ycDiv(obj, index){
@@ -154,9 +141,6 @@ function back() {
 					<th class="info">供应商名称</th>
 					<th class="info">总价(万元)</th>
 					<th class="info">交货期限</th>
-					<th class="info">是否到场</th>
-					<!-- <th class="info">上传投标文件</th> -->
-					<!-- <th class="info">操作</th> -->
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -168,12 +152,6 @@ function back() {
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc"><input class="w60"  maxlength="16" /></td>
 					<td class="tc"><input class="w90" value=""/></td>
-					<td class="tc">
-						<select>
-							<option>已到场</option>
-							<option>未到场</option>
-						</select>
-					</td>
 			    </tr>
 		</c:forEach>
 		</table>

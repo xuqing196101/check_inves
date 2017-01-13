@@ -67,12 +67,6 @@ function eachTable(obj) {
 	var priceStr = "";
 	var error = 0;
 	for(var i = 0; i < allTable.length; i++) {
-		var isTurnUp = $(allTable[i]).find("tr:last").find("td").eq("3").find("option:selected").text();
-		if (isTurnUp == '未到场') {
-			isTurnUp = 1;
-		} else {
-			isTurnUp = 2;
-		}
 		for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 		    var supplierId = $(allTable[i]).attr('id');
 		    var productId = $(allTable[i].rows).eq(j).attr('id');
@@ -89,34 +83,21 @@ function eachTable(obj) {
 				remark = null;
 			}
 			if(deliveryTime == "") {
-				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,交货时间未填写"); 
 				 layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 			}
 			if(price == "" || price.trim() == "") {
-				 //layer.msg("第" + (i + 1) + "包,表格第" + (j + 1) + "行,未报价"); 
 				layer.msg("表单未填写完整,总价和交货时间必须填写,请检查表单",{offset: [y, x]});
 				return;
 				error++;
 			} else {
-				//priceStr += price + "," + total + "," + deliveryTime + "," + remark + "," + supplierId + "," + productId + "," + isTurnUp + ",";
-				var json = {"price":price, "total":total, "deliveryTime":deliveryTime, "remark":remark, "supplierId":supplierId, "productId":productId, "isTurnUp":isTurnUp};
+				var json = {"price":price, "total":total, "deliveryTime":deliveryTime, "remark":remark, "supplierId":supplierId, "productId":productId};
 				jsonStr.push(json);
 				console.log(jsonStr); 
 			};
 		};
 	}
 	if(error == 0) {
-		/* $("#priceStr").val(priceStr);
-		var priceStr = $("#priceStr").val();
-		
-		$.ajax({
-			url:"${pageContext.request.contextPath}/open_bidding/savemingxi.html?priceStr=" + priceStr + "&projectId="+ projectId,
-			success:function(data){
-				layer.alert("暂存成功",{offset: [y, x], shade:0.01});
-				window.location.reload();
-			}
-		}); */
 		var projectId = $("#projectId").val();
 		 $.ajax({
 		        type: "POST",
@@ -124,12 +105,9 @@ function eachTable(obj) {
 		        data: {quoteList:JSON.stringify(jsonStr)},
 		        dataType: "json",
 		        success: function (message) {
-		        },
-		        error: function (message) {
+		        	window.location.reload();
 		        }
 		    });
-		    window.location.reload();
-		//form.submit();
 	};
 }
 
@@ -259,32 +237,29 @@ function ycDiv(obj, index){
 								<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
 									<c:if test="${pd.supplierId eq pdkey.id }">
 										<tr id="${pd.id }" class="hand">
-											<td class="tc w50">${pd.serialNumber}</td>
-											<td class="tc">${pd.goodsName}</td>
-											<td class="tc">${pd.stand}</td>
-											<td class="tc">${pd.qualitStand}</td>
-											<td class="tc">${pd.item}</td>
-											<td class="tc">${pd.purchaseCount}</td>
-											<%-- <td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td> --%>
-											<td>${pd.quotePrice}</td>
-											<td class="tc">${pd.total}</td>
-											<%-- <td class="tc"><input class="w90" value="<fmt:formatDate value="${pd.deliveryTime }" pattern="YYYY-MM-dd" />" readonly="readonly" onClick="WdatePicker()" /></td> --%>
-											<td>${pd.deliveryTime }</td>
-											<%-- <td class="tc"><input class="w60" />${pd.remark}</td> --%>
+											<td class="tc w50">${vs.index + 1}</td>
+											<td class="tl">${pd.goodsName}</td>
+											<td class="tl">${pd.stand}</td>
+											<td class="tl w200">${pd.qualitStand}</td>
+											<td class="tc w50">${pd.item}</td>
+											<td class="tc w50">${pd.purchaseCount}</td>
+											<td class="tr w50">${pd.quotePrice}</td>
+											<td class="tr w50">${pd.total}</td>
+											<td class="tc w80">${pd.deliveryTime }</td>
 											<td class="tc">${pd.remark}</td>
 										</tr>
 									</c:if>
 									<c:if test="${empty pd.supplierId}">
 										<tr id="${pd.id }" class="hand">
-											<td class="tc w50">${pd.serialNumber}</td>
-											<td class="tc">${pd.goodsName}</td>
-											<td class="tc">${pd.stand}</td>
-											<td class="tc">${pd.qualitStand}</td>
-											<td class="tc">${pd.item}</td>
-											<td class="tc">${pd.purchaseCount}</td>
-											<td class="tc"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td>
-											<td class="tc">${pd.total}</td>
-											<td class="tc"><input class="w90" value="${pd.deliveryTime }"/></td>
+											<td class="tc w50">${vs.index + 1}</td>
+											<td class="tl">${pd.goodsName}</td>
+											<td class="tl">${pd.stand}</td>
+											<td class="tl w200">${pd.qualitStand}</td>
+											<td class="tc w50">${pd.item}</td>
+											<td class="tc w50">${pd.purchaseCount}</td>
+											<td class="tr w50"><input class="w60" value="${pd.quotePrice}" maxlength="16" onblur="addTotal()" /></td>
+											<td class="tr w50">${pd.total}</td>
+											<td class="tc w80"><input class="w90" value="${pd.deliveryTime }"/></td>
 											<td class="tc"><input class="w60" />${pd.remark}</td>
 										</tr>
 									</c:if>
@@ -293,19 +268,6 @@ function ycDiv(obj, index){
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
 								<td class="tl" colspan="8"></td>
-								<%-- <td class="tr" colspan="2"><b>是否到场</b></td>
-								<td class="tl" colspan="3">
-									<c:if test="${flagButton == false }">
-										<select>
-											<option>已到场</option>
-											<option>未到场</option>
-										</select>
-									</c:if>
-									<c:if test="${flagButton == true }">
-										<c:if test="${pdkey.isturnUp eq '1'}">未到场</c:if>
-										<c:if test="${pdkey.isturnUp eq '2'}">已到场</c:if>
-									</c:if>
-								</td> --%>
 							</tr>
 						</table>
 					</div>

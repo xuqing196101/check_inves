@@ -48,9 +48,9 @@ function back() {
 									<th class="info">质量技术<br/>标准</th>
 									<th class="info">计量<br/>单位</th>
 									<th class="info">采购<br/>数量</th>
-									<th class="info">单价（元）</th>
+									<th class="info w50">单价<br/>(元)</th>
 									<th class="info">小计</th>
-									<th class="info">交货时间</th>
+									<th class="info w80">交货时间</th>
 									<th class="info">备注</th>
 								</tr>
 							</thead>
@@ -58,15 +58,15 @@ function back() {
 								<c:forEach items="${proDel.value }" var="pd" varStatus="vs">
 									<c:if test="${pd.supplierId eq pdkey.id }">
 										<tr id="${pd.id }" class="hand">
-											<td class="tc w50">${pd.serialNumber}</td>
-											<td class="tc">${pd.goodsName}</td>
+											<td class="tc w50">${vs.index + 1}</td>
+											<td class="tl">${pd.goodsName}</td>
 											<td class="tc">${pd.stand}</td>
-											<td class="tc">${pd.qualitStand}</td>
-											<td class="tc">${pd.item}</td>
-											<td class="tc">${pd.purchaseCount}</td>
-											<td>${pd.quotePrice}</td>
-											<td class="tc">${pd.total}</td>
-											<td>${pd.deliveryTime }</td>
+											<td class="tl w200">${pd.qualitStand}</td>
+											<td class="tc w50">${pd.item}</td>
+											<td class="tc w50">${pd.purchaseCount}</td>
+											<td class="tr w50">${pd.quotePrice}</td>
+											<td class="tr w50">${pd.total}</td>
+											<td class="tc w80">${pd.deliveryTime }</td>
 											<td class="tc">${pd.remark}</td>
 										</tr>
 									</c:if>
@@ -74,12 +74,7 @@ function back() {
 							</c:forEach>
 							<tr>
 								<td class="tr" colspan="2"><b>总金额(元):</b></td>
-								<td class="tl" colspan="3"></td>
-								<td class="tr" colspan="2"><b>是否到场</b></td>
-								<td class="tl" colspan="3">
-											<c:if test="${pdkey.isturnUp eq '1'}">未到场</c:if>
-										<c:if test="${pdkey.isturnUp eq '2'}">已到场</c:if>
-								</td>
+								<td class="tl" colspan="8"></td>
 							</tr>
 						</table>
 					</div>
