@@ -13,7 +13,7 @@ $(function(){
 		},
 		data:{
 			keep:{
-				leaf: true,
+				leaf: false,
 				parent:true
 			},
 			key:{
@@ -105,6 +105,9 @@ function  zTreeBeforeDrag(treeId, treeNodes) {
 		 if(pid=="root" || pid== null ||pid == "null" || pid == 0){
 	        return false;
 	     }
+		 if (treeNodes[i].drag === false) {  
+		    return false;  
+		} 
 	 }
     return true;
 }
@@ -121,7 +124,10 @@ function zTreeBeforeDrop(treeId, treeNodes, targetNode, moveType){
 	if (targetNode == null) {
 		return false;
 	}
-	moveOrder(treeNodes[0].id, targetNode.id, moveType);
+	if (targetNode.pId == 0){
+		return false;
+	}
+	moveOrder(treeNodes[0].id,targetNode.id,moveType);
 	return true;
 }
 
@@ -135,7 +141,7 @@ function zTreeBeforeDrop(treeId, treeNodes, targetNode, moveType){
 function moveOrder(id,targetId,moveType){
 	 $.ajax({
 		type : 'post',
-		url :  globalPath + "/purchaseManage/delOrg.do",
+		url :  globalPath + "/purchaseManage/moveOrder.do",
 		data : {id: id, targetId: targetId, moveType: moveType},
 		success : function(msg) {
 			  if(msg == 'ok'){

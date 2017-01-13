@@ -514,6 +514,8 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         Orgnization targetOrg = orgniztionMapper.findByCategoryId(targetId);
         String res = StaticVariables.SUCCESS;
         if (targetOrg != null && org != null){
+            //移动里面
+            res = inner(moveType, org, targetOrg);
             //向前移动
             res = prve(moveType, org, targetOrg);
             //向后移动
@@ -522,6 +524,34 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         
         return res;
     }
+    
+    /**
+     * 
+     *〈简述〉移动到内部
+     *〈详细描述〉
+     * @author myc
+     * @param moveType
+     * @param org
+     * @param targetOrg
+     * @return
+     */
+    private String inner(String moveType, Orgnization org , Orgnization targetOrg){
+        
+        if (moveType.equals("inner")){
+            org.setParentId(targetOrg.getId());
+            setFullOrgName(org);
+            String postion = orgniztionMapper.getMaxPosition(targetOrg.getId());
+            if (!StringUtils.isNotBlank(postion)){
+                postion = "1";
+            }
+            org.setPosition(postion);
+            
+            orgniztionMapper.updateOrgnizationById(org);
+        }
+        
+        return StaticVariables.SUCCESS;
+    }
+    
 
     /**
      * 
@@ -540,27 +570,38 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
             if (StringUtils.isNotBlank(targetOrg.getPosition())){
                 srcPos = Long.parseLong(targetOrg.getPosition());
             }
-            org.setPosition(srcPos - 1 + "");
-            org.setUpdatedAt(new Date());
-            setFullOrgName(org);
-            org.setParentId(targetOrg.getParentId());
-            if (StringUtils.isNotBlank(targetOrg.getParentId())){
-                List<Orgnization> list = orgniztionMapper.getOrgByPid(targetOrg.getParentId());
+           
+            if (StringUtils.isNotBlank(targetOrg.getParentId())  
+                    && StringUtils.isNotBlank(org.getPosition()) 
+                    && StringUtils.isNotBlank(targetOrg.getPosition())){
+                
+                List<Orgnization> list = orgniztionMapper.getOrgByPid(targetOrg.getParentId(),targetOrg.getPosition(),org.getPosition());
+               
+                org.setPosition(srcPos + "");
+                org.setUpdatedAt(new Date());
+                setFullOrgName(org);
+                org.setParentId(targetOrg.getParentId());
+                
+                targetOrg.setPosition(srcPos + 1 +"" );
+                targetOrg.setUpdatedAt(new Date());
+                
                 for (Orgnization updateOrg : list){
-                    if (!updateOrg.getId().equals(targetOrg.getId())){
-                        
-                        Long currentPos = 1L;
-                        if (StringUtils.isNotBlank(updateOrg.getPosition())){
-                            currentPos = Long.parseLong(updateOrg.getPosition());
-                        }
-                        updateOrg.setPosition(currentPos - 1 + "");
-                        updateOrg.setUpdatedAt(new Date());
-                        
-                        orgniztionMapper.updateOrgnizationById(updateOrg);
+                    if (updateOrg.getId().equals(targetOrg.getId())
+                            || org.getId().equals(updateOrg.getId())){
+                        continue;
                     }
+                    Long currentPos = 1L;
+                    if (StringUtils.isNotBlank(updateOrg.getPosition())){
+                        currentPos = Long.parseLong(updateOrg.getPosition());
+                    }
+                    updateOrg.setPosition(currentPos + 1 + "");
+                    updateOrg.setUpdatedAt(new Date());
+                    
+                    orgniztionMapper.updateOrgnizationById(updateOrg);
                 }
+                orgniztionMapper.updateOrgnizationById(org);
+                orgniztionMapper.updateOrgnizationById(targetOrg);
             }
-            orgniztionMapper.updateOrgnizationById(org);
         }
         return StaticVariables.SUCCESS;
     }
@@ -582,27 +623,39 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
             if (StringUtils.isNotBlank(targetOrg.getPosition())){
                 srcPos = Long.parseLong(targetOrg.getPosition());
             }
-            org.setPosition(srcPos + 1 + "");
-            org.setUpdatedAt(new Date());
-            setFullOrgName(org);
-            org.setParentId(targetOrg.getParentId());
-            if (StringUtils.isNotBlank(targetOrg.getParentId())){
-                List<Orgnization> list = orgniztionMapper.getOrgByPid(targetOrg.getParentId());
+            
+            if (StringUtils.isNotBlank(org.getParentId()) && StringUtils.isNotBlank(org.getPosition()) 
+                    && StringUtils.isNotBlank(targetOrg.getPosition())){
+                
+                List<Orgnization> list = orgniztionMapper.getOrgByPid(org.getParentId(),org.getPosition(),targetOrg.getPosition());
+                
+                org.setPosition(srcPos + "");
+                org.setUpdatedAt(new Date());
+                setFullOrgName(org);
+                org.setParentId(targetOrg.getParentId());
+                
+                targetOrg.setPosition(srcPos -1 + "");
+                targetOrg.setUpdatedAt(new Date());
+                
                 for (Orgnization updateOrg : list){
-                    if (!updateOrg.getId().equals(targetOrg.getId())){
-                        
-                        Long currentPos = 1L;
-                        if (StringUtils.isNotBlank(updateOrg.getPosition())){
-                            currentPos = Long.parseLong(updateOrg.getPosition());
-                        }
-                        updateOrg.setPosition(currentPos + 1 + "");
-                        updateOrg.setUpdatedAt(new Date());
-                        
-                        orgniztionMapper.updateOrgnizationById(updateOrg);
+                    if (updateOrg.getId().equals(targetOrg.getId())
+                             || org.getId().equals(updateOrg.getId())){
+                        continue;
                     }
+                    
+                    Long currentPos = 1L;
+                    if (StringUtils.isNotBlank(updateOrg.getPosition())){
+                        currentPos = Long.parseLong(updateOrg.getPosition());
+                    }
+                    updateOrg.setPosition(currentPos - 1 + "");
+                    updateOrg.setUpdatedAt(new Date());
+                    
+                    orgniztionMapper.updateOrgnizationById(updateOrg);
                 }
+                
+                orgniztionMapper.updateOrgnizationById(org);
+                orgniztionMapper.updateOrgnizationById(targetOrg);
             }
-            orgniztionMapper.updateOrgnizationById(org);
         }
         return StaticVariables.SUCCESS;
     }
