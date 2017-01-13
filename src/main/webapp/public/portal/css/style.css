@@ -2708,7 +2708,7 @@ h2.list_title{
 }
 
 /*tab_repair*/
-.tab_repair .fades{
+.tab-content .fades{
 	background-color: #fafafa;
 	z-index:-99999;
 	overflow: hidden;
@@ -2724,6 +2724,7 @@ h2.list_title{
     -khtml-opacity:0; 
     top:0px;
     left:0px;
+    position: absolute;
 }
 
 .tab_repair{
@@ -2731,7 +2732,7 @@ h2.list_title{
 	background-color: #fafafa;
 	min-height:1100px;
 }
-.tab_repair .fades.active{
+.tab-content .fades.active{
 	z-index:1000;
 	opacity:1;
 	filter:alpha(opacity=100); 
@@ -2743,4 +2744,5 @@ h2.list_title{
     overflow: hidden;
     top:0px;
     left:0px;
+    position: absolute;
 }
