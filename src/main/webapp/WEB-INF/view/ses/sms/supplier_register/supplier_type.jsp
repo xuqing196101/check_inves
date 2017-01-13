@@ -53,7 +53,6 @@
 	 hideTabTitle();
 	 $("input[name='chkItem']:checked").each(function(){
 		 var value = $(this).val();
-		  $("#tab_div").removeClass("opacity_0");
 		  $("#tab_div").addClass("opacity_1");
 		 selectedArray.push(value);
 		 product(value);
@@ -554,8 +553,11 @@ $(function(){
 		      		});
 	  			}
 	 		}
+	 		
 	 		if (checkedArray.length == 0){
 				$("#tab_div").attr("class", "container opacity_0");
+	 		}else{
+	 			$("#tab_div").attr("class", "container opacity_1");
 	 		}
 	 		var first = checkedArray[0] ;
 	 		if (first != null && first !="" && first !="undefined"){
@@ -1460,7 +1462,7 @@ $(function(){
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info w200">附件</th>
+														<th class="info w200"> <div class="w200 fl"> 附件</div> </th>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">
