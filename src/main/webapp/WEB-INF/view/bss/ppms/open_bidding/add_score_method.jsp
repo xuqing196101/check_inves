@@ -33,6 +33,14 @@
 					layer.msg("请填写数字",{offset: ['30%', '40%']});
 					return;
 				}
+				if(reg.exec(fr)  < 3  || reg.exec(fr) > 5) {
+					layer.msg("浮动比例只能在：3%-5%",{offset: ['30%', '40%']});
+					return;
+				}
+				if(reg.exec(valid) >40) {
+					layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
+					return;
+				}
         	}
         	if (typename == 2) {
         		if (valid == "" || business =="") {
@@ -45,6 +53,14 @@
 				}
 				if(!reg.exec(business)) {
 					layer.msg("请填写数字",{offset: ['30%', '40%']});
+					return;
+				}
+				if(reg.exec(valid) >40) {
+					layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
+					return;
+				}
+				if(reg.exec(valid) >40) {
+					layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
 					return;
 				}
         	}
@@ -131,7 +147,8 @@
 								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">浮动比例(%):</span> 
 								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								    <input name="floatingRatio"  type="text" value="${bidMethod.floatingRatio }">
-								    <span class="add-on">i</span>
+								    <span class="add-on hand">i</span>
+								    <span class="input-tip">浮动比例只能在：3%-5%</span>
 								</div>
 								<div class="cue">${fr }</div>
 							  </div>
@@ -141,7 +158,8 @@
 								 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价不得高于有效供应商报价平均值的百分比(%)：</span> 
 								 <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
 								    <input name="valid"   type="text" value="${bidMethod.valid }">
-								    <span class="add-on">i</span>
+								    <span class="add-on hand">i</span>
+								    <span class="input-tip">平均值不能高于40%</span>
 								 </div>
 								 <div class="cue">${valid }</div>
 							   </div>
