@@ -56,7 +56,9 @@ function importAdd(){
     </div> 
        <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
-    	 <a onclick="myInfo()">我的信息</a>     
+         <a href="javascript:void(0)">网站编号</a>|
+    	 <a onclick="myInfo()">我的信息</a>|     
+    	 <a href="javascript:void(0)">退出</a>
 	   </div>
 	  </div>
     </div>

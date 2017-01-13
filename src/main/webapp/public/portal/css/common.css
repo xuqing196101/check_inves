@@ -834,3 +834,18 @@ font-size: 17px; }
 .space_nowrap{
 	white-space: nowrap;
 }
+
+
+.opacity_0{
+	opacity:0;
+	filter: alpha(opacity=0);
+    -moz-opacity:0 ;
+    -khtml-opacity:0;
+}
+
+.opacity_1{
+	opacity:1;
+	filter: alpha(opacity=100);
+    -moz-opacity:1 ;
+    -khtml-opacity:1;
+}

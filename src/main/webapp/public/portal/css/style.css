@@ -2325,6 +2325,10 @@ a.yjfk{
   text-align:right;
 }
 
+.head_right a{
+	margin: 0 5px;
+}
+
 /* */
 .sky-form header {
     color: inherit;
@@ -2718,6 +2722,8 @@ h2.list_title{
 	filter:alpha(opacity=0); 
     -moz-opacity:0;  
     -khtml-opacity:0; 
+    top:0px;
+    left:0px;
 }
 
 .tab_repair{
@@ -2726,13 +2732,15 @@ h2.list_title{
 	min-height:1100px;
 }
 .tab_repair .fades.active{
-	z-index:1000000;
+	z-index:1000;
 	opacity:1;
 	filter:alpha(opacity=100); 
     -moz-opacity:1;  
     -khtml-opacity:1; 
     background-color:#fafafa; 
-    background-color: #fafafa\9;
+    background-color: #fafafa\9
     display: block;
     overflow: hidden;
+    top:0px;
+    left:0px;
 }

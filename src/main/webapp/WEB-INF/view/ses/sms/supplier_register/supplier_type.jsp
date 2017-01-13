@@ -53,7 +53,8 @@
 	 hideTabTitle();
 	 $("input[name='chkItem']:checked").each(function(){
 		 var value = $(this).val();
-		 $("#tab_div").show();
+		  $("#tab_div").removeClass("opacity_0");
+		  $("#tab_div").addClass("opacity_1");
 		 selectedArray.push(value);
 		 product(value);
 		 sales(value);
@@ -62,7 +63,7 @@
 	 });
 	 
 	 if (selectedArray.length == 0){
-		 $("#tab_div").hide();
+		  $("#tab_div").attr("class", "container opacity_0");
 	 }
 	 var first = selectedArray[0] ;
 	 
@@ -565,7 +566,7 @@ $(function(){
 	 		 }
 	 		   
 	 		 if (checkedArray.length == 0){
-	 			 $("#tab_div").hide();
+	 			 $("#tab_div").attr("class", "container opacity_0");
 	 		 }
 	 		 var first = checkedArray[0] ;
 	 		 
@@ -815,7 +816,7 @@ $(function(){
 		
 	
 						
-	  <div class="container" id="tab_div" style="display:none;">
+	  <div class="container opacity_0" id="tab_div">
 			<div class="overflow_h magazine-page">
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
 					   <ul id="page_ul_id" class="nav nav-tabs supplier_tab">
@@ -827,7 +828,7 @@ $(function(){
 						
  
 
-	<div style="margin-top: 40px;">
+	<div style="margin-top: 40px; position:relative;">
 		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
@@ -1186,8 +1187,10 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
+															<div class="w200 fl">
 															 <u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="sale_show_${certSaleNumber}" businessId="${certSell.id}" typeId="1" sysKey="1" />
+															</div>
 															</td>
 														</tr>
 														<c:set var="certSaleNumber" value="${certSaleNumber + 1}"/>
@@ -1352,8 +1355,10 @@ $(function(){
 														        </select>
 															</td>
 															<td class="tc">
+															<div class="w200 fl">
 															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="1" sysKey="1" />
+															</div>
 															</td>
 														</tr>
 														<c:set var="certEngNumber" value="${certEngNumber + 1}"/>
@@ -1425,8 +1430,10 @@ $(function(){
 															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200">
+															<div class="w200">
 															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
 															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="1" sysKey="1" />
+															 </div>
 															</td>
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}"/>
