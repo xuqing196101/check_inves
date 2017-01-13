@@ -551,7 +551,7 @@ public class UploadServiceImpl implements UploadService {
                     
                     if (StringUtils.isNotBlank(file.getName())){
                         fileId += file.getId() + ",";
-                        String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1);
+                        String fileType = file.getName().substring(file.getName().lastIndexOf(".") + 1).toLowerCase();
                         if (type.contains(fileType)){
                             res.setPicture(true);
                         }

@@ -225,7 +225,11 @@
 	    $("#ids").val(id);
         $("#formID").submit();
       }
-  
+      
+      /** 返回 **/
+      function back(){
+    	  window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html"; 
+      }
     </script>
   </head>
 
@@ -789,18 +793,13 @@
               </div>
 
               <div class="mt20 tc col-md-12 col-sm-12 col-xs-12">
-                <input type="button"  onclick="save()" class="btn btn-windows save"  value="保存" />
-                <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回" />
+                <input type="button"  onclick="save();" class="btn btn-windows save"  value="保存" />
+                <input type="button" class="btn btn-windows back" onclick="back();" value="返回" />
               </div>
           </sf:form>
           </div>
         </div>
       </div>
-
-      <form target="_blank" id="download_form_id" action="${pageContext.request.contextPath}/supplier/download.html" method="post">
-        <input type="hidden" name="fileName" />
-      </form>
-
   </body>
 
 </html>
