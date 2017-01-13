@@ -816,7 +816,11 @@ th.bg_tc {
 
 .del {
   text-decoration: line-through; }
-  
+
+.over_auto{
+	overflow: auto;
+}
+
 .over_hideen{
 	overflow: hidden;
 }
@@ -828,12 +832,17 @@ th.bg_tc {
 .no_break {
   table-layout: fixed;
   word-break: break-all;
-  overflow: hidden; }
+  overflow: hidden; 
+}
+
 .bround4{
-  border-radius:4px!important;}
+  border-radius:4px!important;
+}
+
 .bround8{
   border-radius:8px !important;
 }
+
 .bround14{
   border-radius:14px!important;
 }
@@ -876,6 +885,7 @@ a.redhover:hover{
   float:right;
   text-align:right;
 }
+
 .head_top{
   background:#f7f7f7;
   height:34px;
@@ -925,3 +935,4 @@ a.redhover:hover{
     margin: 0;
     padding: 0;
 }
+
