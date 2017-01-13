@@ -11,7 +11,7 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 	<context:property-placeholder location="classpath:config.properties" />
 	<!-- <task:annotation-driven/>   -->
 	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task" />
+	<context:component-scan base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task,common.system" />
 	
 	<!--  <task:executor id="executor" pool-size="5" />
 	<task:scheduler id="scheduler" pool-size="10" />
@@ -28,6 +28,7 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
         <!-- <task:scheduled ref="innerInfoExportTask" method="innerInfoExportTask" cron="0 0 5/6 * * ?"/>  
         <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0 7/6 * * ?"/>  
 	 -->
+	 <!-- <task:scheduled ref="innerInfoImportTask" method="innerInfoImportTask" cron="0 0/1 * * * ?"/>   -->
 		<!-- 外网任务 -->        
         <!-- <task:scheduled ref="outerInfoExportTask" method="outerInfoExportTask" cron="0 0 5/6 * * ?"/> 
         <task:scheduled ref="outerInfoImportTask" method="outerInfoImportTask" cron="0 0 7/6 * * ?"/> --> 
@@ -42,5 +43,15 @@ http://www.springframework.org/schema/task/spring-task-3.1.xsd">
 		<property name="rejectedExecutionHandler">  
 		  <bean class="java.util.concurrent.ThreadPoolExecutor$CallerRunsPolicy" />
 		</property>
+	</bean>
+	
+	<!-- 初始化全局变量 -->
+	<bean id="properties" class="org.springframework.beans.factory.config.PropertiesFactoryBean">
+	    <property name="locations">
+	        <list>
+	          <value>classpath:config.properties</value>
+	        </list>
+	    </property>
+	    <property name="fileEncoding" value="UTF-8" />
 	</bean>
 </beans>
