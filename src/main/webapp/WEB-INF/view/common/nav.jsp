@@ -25,7 +25,7 @@
             <div class="col-md-12 topbar-v1 col-xs-12 col-sm-12 p0" >
               <ul class="top-v1-data padding-0 nav navbar-nav">
               	<li class="dropdown wdxx ">
-					<a href="${pageContext.request.contextPath}/login/home.html" class="dropdown-toggle " data-toggle="dropdown" target="home">
+					<a href="${pageContext.request.contextPath}/login/home.html" class="dropdown-toggle "  target="home">
 					  <div class="top_icon wdxx_icon"></div>
 					  <span>我的通知</span>
 					</a>
@@ -33,7 +33,7 @@
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">
 						 <li class="dropdown ${resource.icon}">
-							<a  data-toggle="dropdown" class="dropdown-toggle" aria-expanded="true" <c:if test='${resource.url == null}'>ria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);"</c:if>
+							<a  <c:if test='${resource.url == null}'>aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " href="javascript:void(0);"</c:if>
 							<c:if test='${resource.url != null && resource.name != "安全退出" && resource.name != "回到门户"}'>href="${pageContext.request.contextPath}/${resource.url}"  target="home"</c:if>
 							<c:if test='${resource.url != null && resource.name == "安全退出"}'>href="${pageContext.request.contextPath}/${resource.url}" </c:if> 
 							<c:if test='${resource.url != null && resource.name == "回到门户"}'>href="${pageContext.request.contextPath}/" </c:if> >

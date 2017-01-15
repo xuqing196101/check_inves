@@ -384,7 +384,7 @@
 	 if (type == "GOODS") {
 		 $("#profileQuaTr_sales").show();
 		 var tdArr = $("#profileQuaTr").children();
-		 tdArr.eq(0).html("物资生成型专业资质要求");
+		 tdArr.eq(0).html("物资生产型专业资质要求");
 	 } else {
 	     var tdArr = $("#profileQuaTr").children();
 		 tdArr.eq(0).html("专业资质要求");
@@ -416,7 +416,7 @@
 	 }
 	 if (type == 2){
 		 ids = $("#profileIQuaId").val();
-		 title ="添加物资生成型专业资质要求";
+		 title ="添加物资生产型专业资质要求";
 	 }
 	 if (type == 3){
 		 ids = $("#profileSalesId").val();
@@ -437,7 +437,7 @@
 	 $("#generalIQuaName").val(name);
  }
  
- //添加物资生成型专用的
+ //添加物资生产型专用的
  function addProfileValue(ids,name){
 	 $("#profileIQuaId").val(ids);
 	 $("#profileIQuaName").val(name);
