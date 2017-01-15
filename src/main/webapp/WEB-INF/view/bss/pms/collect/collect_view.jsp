@@ -137,7 +137,7 @@
     <div class="container clear margin-top-30" >
       <form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
       <div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll p0 h365">
-        <table class="table table-bordered table-condensed mt5 table_wrap">
+        <table class="table table-bordered table-condensed mt5 table_wrap" >
           <thead>
             <tr>
               <th class="info w50">序号</th>
@@ -145,8 +145,8 @@
               <th class="info w150">物资类别</br>及名称</th>
               <th class="info w150">规格型号</th>
               <th class="info w150">质量技术标准</br>（技术参数）</th>
-              <th class="info w150">计量单位</th>
-              <th class="info w150">采购数量</th>
+              <th class="info w150">计量</br>单位</th>
+              <th class="info w150">采购</br>数量</th>
               <th class="info w150">单位</br>（元）</th>
               <th class="info w150">预算金额</br>（万元）</th>
               <th class="info w150">交货期限</th>

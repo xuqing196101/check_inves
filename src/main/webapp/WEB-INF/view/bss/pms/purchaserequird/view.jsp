@@ -211,9 +211,9 @@
 							<th class="info ">物资类别<br>及名称</th>
 							<th class="info ">规格型号</th>
 							<th class="info">质量技术标准</th>
-							<th class="info ">计量单位</th>
-							<th class="info ">采购数量</th>
-							<th class="info ">单价（元）</th>
+							<th class="info ">计量</br>单位</th>
+							<th class="info ">采购</br>数量</th>
+							<th class="info ">单价</br>（元）</th>
 							<th class="info ">预算金额<br>（万元）</th>
 							<th class="info ">交货期限</th>
 							<th class="info">采购方式建议</th>
