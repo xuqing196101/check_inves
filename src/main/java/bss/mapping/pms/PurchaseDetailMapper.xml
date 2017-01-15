@@ -949,10 +949,10 @@
 	
 	
 	 <select id="groupDetail" parameterType="String" resultMap="PurchaseRequired_Map">
-			    select  ID,DEPARTMENT 
+			    select  ID,USER_ID 
 				      from T_BSS_PMS_PURCHASE_DETAIL where PARENT_ID='1' and  UNIQUE_ID =#{uniqueId}  
 				 
-				 group by ID, DEPARTMENT
+				 group by ID, USER_ID
     </select>
     
     

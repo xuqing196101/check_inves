@@ -22,6 +22,7 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -104,7 +105,14 @@ public class PlanLookController extends BaseController {
 	@Autowired
     private PurchaseDetailService purchaseDetailService;
 	  
+	@Autowired
+	private UserServiceI userService;
 	  
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+	
+	
 	/**
 	 * 
 	 * 
@@ -181,6 +189,11 @@ public class PlanLookController extends BaseController {
 //            model.addAttribute("set", set);
         
 			List<PurchaseDetail> detail = purchaseDetailService.groupDetail(id);
+			for(PurchaseDetail pr:detail){
+				User user = userService.getUserById(pr.getUserId());
+				Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+				pr.setDepartment(orgnization.getShortName());
+			}
 			
 			   model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
@@ -340,7 +353,14 @@ public class PlanLookController extends BaseController {
 		if(collectPlan.getAuditTurn()!=null){
 			model.addAttribute("audit", collectPlan.getAuditTurn());	
 		}
+		List<PurchaseDetail> detail = purchaseDetailService.groupDetail(id);
+		for(PurchaseDetail pr:detail){
+			User user = userService.getUserById(pr.getUserId());
+			Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+			pr.setDepartment(orgnization.getShortName());
+		}
 		
+		   model.addAttribute("detail", detail);
 		
 		model.addAttribute("status", collectPlan.getStatus());
 //		model.addAttribute("depList", depList);

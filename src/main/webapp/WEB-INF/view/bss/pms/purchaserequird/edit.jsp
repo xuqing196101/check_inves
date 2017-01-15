@@ -199,7 +199,7 @@
 
 
 <!-- textarea 自适应高度js1 -->
-   <script type="text/javascript">
+<!--    <script type="text/javascript">
 			var autoTextarea = function(elem, extra, maxHeight) {
 				extra = extra || 0;
 				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
@@ -262,7 +262,7 @@
 				addEvent('focus', change);
 				change();
 			};
-	</script>
+	</script> -->
   
   
 </head>
@@ -416,7 +416,7 @@
                   <td class="tc"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></td>
                   <td class="tc">
              <%--       <c:if test="${obj.price!=null}"> --%>
-                      <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
+                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if>  style="width:100px" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>

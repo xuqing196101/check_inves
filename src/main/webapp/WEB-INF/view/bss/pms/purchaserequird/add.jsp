@@ -111,12 +111,16 @@
 			function aadd() {
 				var value = $("#xqbm").val();
 				var detailRow = document.getElementsByName("detailRow");
+				var index = detailRow.length;
 				var id = null;
 				$.ajax({
-					url: "${pageContext.request.contextPath}/purchaser/getId.html",
+					url: "${pageContext.request.contextPath}/templet/detail.html",
 					type: "post",
+					data:{"index":index},
 					success: function(data) {
-						id = data;
+						alert(data);
+						$("#detailZeroRow").appned(data);
+	/* 					id = data;
 						var tr = $("input[name=dyadds]").parent().parent().prev();
 						// var tr=$(obj).parent().parent();
 						$(tr).children(":first").children(":first").val(data);
@@ -145,7 +149,7 @@
 									"<td class='' ><input type='text' name='list[" + 0 + "].goodsUse' /></td>" +
 									"<td class=''  ><input type='text' name='list[" + 0 + "].useUnit' /></td>" +
 									"<td class=''  ><input type='text' name='list[" + 0 + "].memo' /></td>" +
-								/* 	"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" + */
+							 	"<td><input type='text' name='list[" + 0 + "].status' value='暂存' readonly='readonly' /></td>" + 
 									"<td class=''  ><button type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 									"<tr/>");
 						}else{
@@ -167,10 +171,10 @@
 							"<td name='userNone' class='' ><input class='pt'  type='text' name='list[" + s + "].goodsUse' /></td>" +
 							"<td name='userNone' class='' ><input class='pt'   type='text' name='list[" + s + "].useUnit' /></td>" +
 							"<td class='' ><input class='pt '  type='text' name='list[" + s + "].memo' /></td>" +
-							/* "<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" + */
+							 "<td><input type='text' name='list[" + s + "].status' value='暂存' readonly='readonly' /></td>" + 
 							"<td class='' ><button  type='button' class='btn' onclick='delRowIndex(this)'>删除</button></td>" +
 							"<tr/>");
-						}
+						} */
 					    var bool=$("input[name='import']").is(':checked');
 						if(bool==true){
 							$("td[name='userNone']").attr("style","");
@@ -584,69 +588,87 @@
 							              $("#jhmc").val(data[0].planName);
 							              $("#detailZeroRow").empty();
 							              var count=1;
+							/*               $.ajax({
+							  		        type: "POST",
+							  		        url: "${pageContext.request.contextPath}/purchaser/add.html",
+							  		        data: {prList:JSON.stringify(data)},
+							  		        dataType: "json",
+							  		        success: function (message) {
+							  		        },
+							  		        error: function (message) {
+							  		        }
+							  		    }); */
+							              
+							              	var html="";
 									           for(var i = 0 ;i<data.length;i++ ){
-									             $("#detailZeroRow").append("<tr> <td>"+count+"</td> "
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
-												               +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
-												               +"    <input style='border: 0px;' value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
-												               +"  </td> "
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='${orgName}'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'> "
-												               +"    <input style='border: 0px;' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
-												               +"  <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
-												               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'>"
-												               +"    <input style='border: 0px;'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
-												               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
-												               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
-												               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"<select name='list["+i+"].purchaseType' class='pt m0' onchange='changeType(this)' >" 
-												               +" <c:forEach items='${list2 }' var='obj'>"
+										            html +="<tr> <td>"+count+"</td> "
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
+													               +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
+													               +"    <input style='border: 0px;' value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
+													               +"  </td> "
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='${orgName}'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'> "
+													               +"    <input style='border: 0px;' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
+													               +"  <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
+													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'>"
+													               +"    <input style='border: 0px;'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
+													               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
+													               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
+													               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"<select name='list["+i+"].purchaseType' class='pt m0' onchange='changeType(this)' >" ;
+													               
+													               <c:forEach items='${list2 }' var='obj'>
+													               if("${obj.name}" == data[i].purchaseType){
+													            	   html +="  <option value='${obj.name }' selected=selected >${obj.name}</option>";	   
+													               }else{
+													            	   html +="  <option value='${obj.name }' >${obj.name}</option>";     
+													               }
+													               </c:forEach>
+													               
+													               
+													               html +="	</select>"
 																
-												               +"	<option value='${obj.name }' >${obj.name}</option>"
-												               +"</c:forEach>"
-												               +"	</select>"
-															
-															
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
-												               +"  </td>"
-												               +"  <td name='userNone'  class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
-												               +"  </td>"
-												               +"  <td name='userNone' class='tc p0'>"
-												               +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
-												               +"  </td>"
-												               +"  <td class='tc p0'>"
-												              +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
-												               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
-												               +"</tr>");
-									             count++;
-									           }
-									         
+																
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
+													               +"  </td>"
+													               +"  <td name='userNone'  class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
+													               +"  </td>"
+													               +"  <td name='userNone' class='tc p0'>"
+													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
+													               +"  </td>"
+													               +"  <td class='tc p0'>"
+													              +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
+													               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
+													               +"</tr>";
+										             count++;
+										           }
+										           $("#detailZeroRow").append(html);
 									           
 									   	    $("#table tr").each(function(i){
 									    	     var  val1= $(this).find("td:eq(8)").children(":first").next().val();//上级id
@@ -693,6 +715,9 @@
 	 	function budgets(bud){
 				if (bud != null ){
 					  bud = bud.toFixed(4);
+					}
+				if (bud == null || bud =="null" || bud =="undefined" || bud ==undefined){
+					   return "";
 					}
 				return bud;
 			}   
@@ -954,7 +979,7 @@
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="typeShow()">查看产品分类目录</button>
 						<button class="btn padding-left-10 padding-right-10 btn_back" onclick="chakan()">查看编制说明</button>
 					</div>
-					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" id="add_div">
+					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" style="max-height:300px" id="add_div">
 
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 							<table id="table" class="table table-bordered table-condensed table_input">

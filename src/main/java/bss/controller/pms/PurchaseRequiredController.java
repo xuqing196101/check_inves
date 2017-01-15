@@ -153,7 +153,7 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("requires", list2);
 		model.addAttribute("types", DictionaryDataUtil.find(6));
 		String fileId = list.get(0).getFileId();
-		String typeId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
+		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
 		if(type.equals("1")){

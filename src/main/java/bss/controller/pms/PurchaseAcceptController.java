@@ -95,10 +95,15 @@ public class PurchaseAcceptController extends BaseController{
 		//所有的需求部门
 		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 		List<String> listDep=new ArrayList<String>();
-		for(PurchaseOrg p:list2){
-			Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
-			listDep.add(dep.getName());
+		if(list2!=null&&list2.size()>0){
+			for(PurchaseOrg p:list2){
+				Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
+				listDep.add(dep.getName());
+			}
+		}else{
+			listDep.add("heheh");
 		}
+		
 		map.put("list", listDep);
 		List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map, page == null ? 1 : page);
 		for (PurchaseRequired pur : list) {

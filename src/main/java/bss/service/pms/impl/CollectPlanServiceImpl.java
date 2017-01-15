@@ -186,7 +186,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 					String no2 = diff.get(i+1);
 					   List<PurchaseRequired>  list= purchaseRequiredService.getUnique(no1);
 					  List<PurchaseRequired>  list2 = purchaseRequiredService.getUnique(no2);
-					 if(list.get(0).getDepartment().equals(list2.get(0).getDepartment())){
+					 if(list.get(0).getUserId().equals(list2.get(0).getUserId())){
 						 List<PurchaseRequired> list3 = getChildren(list,list2,request);
 						 count++;
 						 all.addAll(list3);

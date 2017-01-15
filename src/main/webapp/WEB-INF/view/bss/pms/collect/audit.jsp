@@ -656,18 +656,16 @@
 										</tr> -->
 										<tr class="info">
 										<th>需求部门</th>
+										</tr>
 									</thead>
-									<c:forEach items="${depList }" var="objs" varStatus="vs">
-										<%-- <c:if test="${dep==obj.department }"> --%>
-										
-											<tr>
-												
-												<td>			 
-														${objs }	
-												</td>
-											</tr>
-																	 
-						 			</c:forEach> 
+									    <c:if test="${detail != null}">
+					            <c:forEach items="${detail}" var="objs" varStatus="vs">
+					              <tr style="cursor: pointer;">
+					              <%--   <td class="tc w50">${(vs.index+1)}</td>   --%>
+					                <td class="tl pl20"  onclick="view('${objs.id}')">${objs.department }</td>
+					              </tr>                            
+					           </c:forEach>
+					           </c:if>
 									</table>
 								</div>
 							</div>

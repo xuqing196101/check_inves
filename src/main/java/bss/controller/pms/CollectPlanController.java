@@ -114,10 +114,15 @@ public class CollectPlanController extends BaseController {
     map.put("isMaster", "1");
 	List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 	List<String> listDep=new ArrayList<String>();
-	for(PurchaseOrg p:list2){
-		Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
-		listDep.add(dep.getName());
+	if(list2!=null&&list2.size()>0){
+		for(PurchaseOrg p:list2){
+			Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
+			listDep.add(dep.getName());
+		}
+	}else{
+		listDep.add("sss");
 	}
+	
 	map.put("list", listDep);
     List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map,page==null?1:page);
     PageInfo<PurchaseRequired> info = new PageInfo<>(list);
