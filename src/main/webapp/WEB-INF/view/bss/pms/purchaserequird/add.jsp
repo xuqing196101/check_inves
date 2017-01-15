@@ -118,8 +118,7 @@
 					type: "post",
 					data:{"index":index},
 					success: function(data) {
-						alert(data);
-						$("#detailZeroRow").appned(data);
+						$("#detailZeroRow").append(data);
 	/* 					id = data;
 						var tr = $("input[name=dyadds]").parent().parent().prev();
 						// var tr=$(obj).parent().parent();

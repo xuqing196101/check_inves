@@ -15,9 +15,6 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 
-
-<jsp:include page="/WEB-INF/view/common.jsp"/> 
-
 <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -69,7 +66,7 @@
  
   
     
-	  function sel(obj){
+/* 	  function sel(obj){
    	   var val=$(obj).val();
    	   $("select option").each(function(){
    		   var opt=$(this).val();
@@ -77,7 +74,7 @@
    			   $(this).attr("selected", "selected");  
    		   }
    	   });
-      } 
+      }  */
 	  
 	  $(function() {
 				$("td").each(function() {
@@ -160,10 +157,19 @@
 		  if(bool==true){
 			  $("#table").find("#acc_form").submit();
 		  }  
-		    
-	 
-	 
  }
+ 
+ function purchaseType(obj){
+ 	   var val=$(obj).val();
+ 	   $(".type option").each(function(){
+ 		   var opt=$(this).val();
+ 		   if(val==opt){
+ 			   $(this).attr("selected", "selected");  
+ 		   }
+ 	   });
+    } 
+ 
+ 
  
 </script>
 
@@ -293,7 +299,7 @@
 							
 							<td class="p0">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
-							<select class="target" onchange="sel(this)" required="required" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
+							<select class="type"  onchange="purchaseType(this)" required="required" name="list[${vs.index }].purchaseType" style="width:100px" id="select">
 									 <c:forEach items="${kind}" var="kind" >
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
@@ -303,7 +309,7 @@
 							</td>
 							<td class="tc p0">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
-							<select class="org target"  required="required"  name="list[${vs.index }].organization">
+							<select  class="org" required="required"  name="list[${vs.index }].organization" onchange="org(this)">
 						<!-- 	<option value="">请选择</option> -->
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
