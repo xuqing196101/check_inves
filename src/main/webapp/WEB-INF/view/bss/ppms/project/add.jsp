@@ -318,20 +318,20 @@
                       <td class="tc w50"> ${obj.serialNumber}
                       <input type="hidden" value="${obj.requiredId }">
                       </td>
-                      <td class="tc">
+                      <td class="tl pl20">
 						            ${obj.department}
                       </td>
-                      <td class="tc">${obj.goodsName}
+                      <td class="tl pl20">${obj.goodsName}
                       </td>
-                      <td class="tc">${obj.stand}
+                      <td class="tl pl20">${obj.stand}
                       </td>
-                      <td class="tc">${obj.qualitStand}
+                      <td class="tl pl20">${obj.qualitStand}
                       </td>
                       <td class="tc">${obj.item}
                       </td>
                       <td class="tc">${obj.purchaseCount}
                       </td>
-                      <td class="tc">${obj.deliverDate}
+                      <td class="tl pl20">${obj.deliverDate}
                       </td>
                       <td class="tc">
                         <c:choose>
@@ -346,15 +346,15 @@
                         </c:choose>
                         
                       </td>
-                      <td class="tc">${obj.supplier}
+                      <td class="tl pl20">${obj.supplier}
                       </td>
-                      <td class="tc">${obj.isFreeTax}
+                      <td class="tl pl20">${obj.isFreeTax}
                       </td>
-                      <td class="tc">${obj.goodsUse}
+                      <td class="tl pl20">${obj.goodsUse}
                       </td>
-                      <td class="tc">${obj.useUnit}
+                      <td class="tl pl20">${obj.useUnit}
                       </td>
-                      <td class="tc">${obj.memo}
+                      <td class="tl pl20">${obj.memo}
                       </td>
                     </tr>
                   </c:forEach>

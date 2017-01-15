@@ -6,6 +6,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -57,6 +58,7 @@ import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.model.prms.FirstAudit;
@@ -132,6 +134,9 @@ public class AdvancedProjectController extends BaseController {
             }
             if(advancedProject.getProjectNumber() != null && !advancedProject.getProjectNumber().equals("")){
                 map.put("projectNumber", advancedProject.getProjectNumber());
+            }
+            if(advancedProject.getStatus() != null && !advancedProject.getStatus().equals("")){
+                map.put("status", advancedProject.getStatus());
             }
             map.put("purchaseDepId", user.getOrg().getId());
             map.put("principal", user.getId());
@@ -1307,7 +1312,7 @@ public class AdvancedProjectController extends BaseController {
     }
     
     @RequestMapping("/start")
-    public String start(String id, String principal, Model model) {
+    public String start(@CurrentUser User users, String id, String principal, Model model) {
         String status = DictionaryDataUtil.getId("SSZ_WWSXX");
         AdvancedProject project = advancedProjectService.selectById(id);
         User user = userService.getUserById(principal);
@@ -1316,6 +1321,9 @@ public class AdvancedProjectController extends BaseController {
         project.setStatus(status);
         project.setStartTime(new Date());
         advancedProjectService.update(project);
+        if(users.getId().equals(principal)){
+            return "redirect:excute.html?id="+project.getId();
+        }
         return "redirect:list.html";
     }
     
@@ -1379,8 +1387,35 @@ public class AdvancedProjectController extends BaseController {
         if(user.getId().equals(userId)){
             return "redirect:mplement.html?projectId="+id;
         }else{
-            return "bss/ppms/project/temporary";
+            return "bss/ppms/advanced_project/temporary";
         }
+    }
+    
+    @RequestMapping("/viewIdss")
+    public String viewIdss(Model model, String id,String projectId) {
+            HashMap<String, Object> map = new HashMap<String, Object>();
+            map.put("id", id);
+            map.put("projectId", projectId);
+            List<AdvancedDetail> list = detailService.selectByParent(map);
+            for (int i = 0; i < list.size(); i++ ) {
+                if(list.get(i).getPrice() != null){
+                    list.remove(list.get(i));
+                }
+            }
+            sorts(list);
+            model.addAttribute("lists", list);
+            return "bss/ppms/advanced_project/viewDetail";
+    }
+    
+    
+    public void sorts(List<AdvancedDetail> list){
+        Collections.sort(list, new Comparator<AdvancedDetail>(){
+           @Override
+           public int compare(AdvancedDetail o1, AdvancedDetail o2) {
+              Integer i = o1.getPosition() - o2.getPosition();
+              return i;
+           }
+        });
     }
     
     @RequestMapping("/excute")

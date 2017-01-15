@@ -91,7 +91,7 @@
 			请上传附件：
 		 	<div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
 			      <u:show showId="business_show"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" /> 
-				  <u:upload id="business_up"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+				  <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="business_up"  businessId="${categoryId}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 			 </div>
 		 </div>			   
 
@@ -125,7 +125,7 @@
 														<c:if test="${obj.paramTypeId=='ATTACHMENT' }">
 														<!-- <input type="text"  value="1"/> -->
 														  <input name="list[${vs.index}].paramValue" value="${attid}" type="hidden" />
-					 										  <u:upload id="promise_up"   businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" auto="true" /> 
+					 										  <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"   businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" auto="true" /> 
 															   <u:show showId="promise_show"    businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" />  
 														</c:if>
 													</div>

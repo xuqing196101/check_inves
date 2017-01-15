@@ -294,7 +294,7 @@
 			  	<td class="tc w30">
 			    	<input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
 			  	</td>
-			  	<td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  	<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  	<td class="tl pl20" onclick="view('${obj.id}')">${obj.name}</td>
 			  	<td class="tl pl20" onclick="view('${obj.id}')">${obj.projectNumber}</td>
 			  	<td class="tc " onclick="view('${obj.id}')">

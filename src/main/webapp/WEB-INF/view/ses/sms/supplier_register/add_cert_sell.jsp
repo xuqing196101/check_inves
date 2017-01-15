@@ -135,7 +135,7 @@
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class=""><a class="star_red">*</a>证书附件：</span>
 											    <div class="col-md-12 col-sm-12 col-xs-12 p0 ">
-									 				<u:upload id="cert_up"  multiple="true" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
+									 				<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="cert_up"  multiple="true" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}" auto="true" />
 												   <u:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSellCert}"/>
 											       <div id="cert_file" class="cue"></div>
 											     </div>

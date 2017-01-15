@@ -118,7 +118,7 @@
 														<c:if test="${obj.paramTypeId=='ATTACHMENT' }">
 														<!-- <input type="text"  value="1"/> -->
 														  <input name="list[${vs.index}].paramValue" value="${attid}" type="hidden" />
-					 										  <u:upload id="promise_up"  multiple="true"  businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" auto="true" /> 
+					 										  <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  multiple="true"  businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" auto="true" /> 
 															   <u:show showId="promise_show"    businessId="${attid}" sysKey="${sysKey}" typeId="${attachmentId}" />  
 														</c:if>
 													</div>

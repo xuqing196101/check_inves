@@ -155,21 +155,21 @@
                     <input type="hidden" id="seq" name="listDetail[${vs.index }].seq" value="${obj.seq }">
                     <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
                   </td>
-                  <td class="tc">
+                  <td class="tl pl20">
                       ${obj.department}
                     <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">
                   </td>
-                  <td class="tc">${obj.goodsName}
+                  <td class="tl pl20">${obj.goodsName}
                     <input type="hidden" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }">
                   </td>
-                  <td class="tc">
+                  <td class="tl pl20">
                   <c:if test="${obj.stand!='合计'}">
                    ${obj.stand}
                   </c:if>
                  
                     <input type="hidden" name="listDetail[${vs.index }].stand" value="${obj.stand }">
                   </td>
-                  <td class="tc">${obj.qualitStand}
+                  <td class="tl pl20">${obj.qualitStand}
                     <input type="hidden" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }">
                   </td>
                   <td class="tc">${obj.item}
@@ -178,7 +178,7 @@
                   <td class="tc">${obj.purchaseCount}
                     <input type="hidden" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
                   </td>
-                  <td class="tc">${obj.deliverDate}
+                  <td class="tl pl20">${obj.deliverDate}
                     <input type="hidden" name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }">
                   </td>
                   <td class="tc">
@@ -196,19 +196,19 @@
                     
                     <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType }">
                   </td>
-                  <td class="tc">${obj.supplier}
+                  <td class="tl pl20">${obj.supplier}
                     <input type="hidden" name="listDetail[${vs.index }].supplier" value="${obj.supplier }">
                   </td>
-                  <td class="tc">${obj.isFreeTax}
+                  <td class="tl pl20">${obj.isFreeTax}
                     <input type="hidden" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
                   </td>
-                  <td class="tc">${obj.goodsUse}
+                  <td class="tl pl20">${obj.goodsUse}
                     <input type="hidden" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }">
                   </td>
-                  <td class="tc">${obj.useUnit}
+                  <td class="tl pl20">${obj.useUnit}
                     <input type="hidden" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }">
                   </td>
-                  <td class="tc">${obj.memo}
+                  <td class="tl pl20">${obj.memo}
                     <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
                     <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
                     <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">

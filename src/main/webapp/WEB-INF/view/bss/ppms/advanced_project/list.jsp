@@ -77,7 +77,7 @@
     $('input[name="chkItem"]:checked').each(function() { 
       id.push($(this).val());
     });
-    var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+    var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
     status = $.trim(status);
     var currPage = ${info.pageNum};
     if (id.length == 1) {
@@ -133,7 +133,7 @@
 	$('input[name="chkItem"]:checked').each(function() {
 	  id.push($(this).val());
 	});
-	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
+	var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
     status = $.trim(status);
     if (id.length == 1) {
       if(status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成"
@@ -166,6 +166,7 @@
   function clearSearch() {
 	$("#proName").attr("value", "");
 	$("#projectNumber").attr("value", "");
+	$("#status option:selected").removeAttr("selected");
   }
 </script>
 </head>
@@ -205,6 +206,17 @@
 		      <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" /> 
 		    </span>
 		  </li>
+		  <li>
+        <label class="fl">状态：</label>
+            <span class="">
+              <select name="status" id="status">
+                <option selected="selected" value="">请选择</option>
+                <c:forEach items="${status}" var="status" >
+                  <option  value="${status.id}" <c:if test="${status.id eq project.status}">selected="selected"</c:if>>${status.name}</option>
+                </c:forEach>
+              </select>
+            </span>
+      </li>
 		</ul>
 		  <button class="btn fl mt1" type="submit">查询</button>
 	      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
@@ -226,6 +238,7 @@
 			<th class="info">项目名称</th>
 			<th class="info">项目编号</th>
 			<th class="info">采购方式</th>
+			<th class="info">创建时间</th>
 			<th class="info">项目状态</th>
 			<th class="info">项目负责人</th>
 		  </tr>
@@ -236,7 +249,7 @@
 			  <td class="tc w30">
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
-			  <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
 			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
 			  <td class="tc">
@@ -246,6 +259,7 @@
                   </c:forEach>
 				</a>
 			  </td>
+			  <td class="tl pl20" onclick="view('${obj.id}')"><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
 			  <td class="tc">
 			    <c:forEach items="${status}" var="status" >
             <c:if test="${status.id == obj.status}">${status.name}</c:if>

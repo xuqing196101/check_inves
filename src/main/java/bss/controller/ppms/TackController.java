@@ -515,9 +515,9 @@ public class TackController extends BaseController{
             }
         }
 	    
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("typeName", "0");
-        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+	    HashMap<String, Object> maps = new HashMap<>();
+        maps.put("typeName", "2");
+        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(maps);
         model.addAttribute("list2",orgnizations);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("user", user.getOrg().getId());

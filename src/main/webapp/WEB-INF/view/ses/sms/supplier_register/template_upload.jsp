@@ -119,7 +119,7 @@
 											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商申请表上传</span> 
 												   <div class="col-md-8 col-sm-12 col-xs-12 p0">
-													   <u:upload id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
+													   <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 													   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
 												   </div>
 												   
@@ -129,7 +129,7 @@
 											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商承诺书上传</span> 
 												   <div class="col-md-8 col-sm-12 col-xs-12 p0">
-													   <u:upload id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+													   <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
 													   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
 												   </div>
 												   
