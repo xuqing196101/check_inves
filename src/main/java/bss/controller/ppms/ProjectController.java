@@ -1488,18 +1488,17 @@ public class ProjectController extends BaseController {
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pr.getPurchaseDepId());
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         List<Task> list1 = new ArrayList<Task>();
-        Set<String> set =new HashSet<String>();
         for (ProjectTask projectTask : tasks) {
             Task task = taskservice.selectById(projectTask.getTaskId());
-            list1.add(task);
+            if(task != null){
+                list1.add(task);
+            }
         }   
-        /*if(set.size() == 1){
-            Task task = taskservice.selectById(number);
-            model.addAttribute("task", task);
-        }*/
         sortDate(list1);
-        Task task = taskservice.selectById(list1.get(list1.size()-1).getId());
-        model.addAttribute("task", task);
+        if(list1 != null && list1.size() > 0){
+            Task task = taskservice.selectById(list1.get(list1.size()-1).getId());
+            model.addAttribute("task", task);
+        }
         map.put("projectId", projectId);
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("id", projectId);

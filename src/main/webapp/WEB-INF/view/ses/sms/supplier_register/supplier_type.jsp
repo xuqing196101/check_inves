@@ -994,7 +994,7 @@
 														        </select>
 															</td>
 															<td class="tc">
-															 <u:upload id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</td>
 														</tr>
@@ -1116,7 +1116,7 @@
 															</td>
 															<td class="tc">
 															<div class="w200 fl">
-															 <u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="sale_show_${certSaleNumber}" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</div>
 															</td>
@@ -1284,7 +1284,7 @@
 															</td>
 															<td class="tc">
 															<div class="w200 fl">
-															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</div>
 															</td>
@@ -1359,7 +1359,7 @@
 															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200">
 															<div class="w200">
-															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															 </div>
 															</td>
@@ -1475,7 +1475,7 @@
 																</select>
 															</td>
 															<td class="tc">
-															 <u:upload id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</td>
 														</tr>

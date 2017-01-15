@@ -83,27 +83,27 @@ $(function() {
         <tr>
           <td class="tl pl20">${obj.name }</td>
           <td>
-	        <u:upload id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
+	        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
 	        <u:show showId="${fileShow}${(vs.index + 1)*6-1}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 		  </td>
 		  <td>
-		    <u:upload id="${fileUp}${(vs.index + 1)*6-2}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
+		    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-2}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
 		    <u:show showId="${fileShow}${(vs.index + 1)*6-2}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 	      </td>
 		  <td>
-			<u:upload id="${fileUp}${(vs.index + 1)*6-3}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
+			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-3}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-3}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 		  </td>
 		  <td> 
-			<u:upload id="${fileUp}${(vs.index + 1)*6-4}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
+			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-4}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-4}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 		  </td>
 		  <td>
-			<u:upload id="${fileUp}${(vs.index + 1)*6-5}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
+			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-5}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-5}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 		  </td>
 		  <td>
-			<u:upload id="${fileUp}${(vs.index + 1)*6-6}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
+			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-6}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-6}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 		  </td>
 	    </tr>

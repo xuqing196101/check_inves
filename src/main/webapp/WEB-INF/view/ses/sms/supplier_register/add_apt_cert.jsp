@@ -30,7 +30,7 @@
 <td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason"/></td>
 <td class="tc w200">
 <div class="w200">
- <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+ <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
  <u:show showId="apt_show_${certAptNumber}" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 </div>
 </td>

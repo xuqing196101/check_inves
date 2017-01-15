@@ -198,7 +198,7 @@
 												</div>  
 											</li>
 											<li class="col-sm-6 col-md-6 col-lg-6 col-xs-6"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a> 附件上传：</span>
-											 	<u:upload id="cert_up"  multiple="true" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCertFile}" auto="true" />
+											 	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="cert_up"  multiple="true" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCertFile}" auto="true" />
 												  <u:show showId="cert_show" businessId="${uuid}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierEngCertFile}"/>
 											   <div class="cue" id="cert_file"></div>
 											</li>

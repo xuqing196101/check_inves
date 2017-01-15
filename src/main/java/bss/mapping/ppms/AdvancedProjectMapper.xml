@@ -275,7 +275,9 @@
      <if test="projectNumber != null and projectNumber != ''">
        and PROJECT_NUMBER like '%${projectNumber}%'
       </if>
-      
+      <if test="status != null and status != ''">
+       and STATUS = #{status}
+      </if>
       ORDER BY CREATED_AT DESC
   </select>
 

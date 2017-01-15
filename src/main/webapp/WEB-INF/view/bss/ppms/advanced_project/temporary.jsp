@@ -7,7 +7,7 @@
 		<script type="text/javascript">
 			$(function(){
 				window.parent.location.href = "${pageContext.request.contextPath }/advancedProject/list.html";
-			})
+			});
 		</script>
 	
 
