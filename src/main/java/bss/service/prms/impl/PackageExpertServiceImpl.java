@@ -342,7 +342,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
       //查询出关联表中包下所有的数据
       List<PackageExpert> packageExpertList2 = packageExpertMapper.selectList(map2);
       if (packageExpertList.size() < packageExpertList2.size() ) {
-        return "符合性审查未完成不能结束！";
+        return "符合性检查未完成不能结束！";
       } else {
         //更新T_BSS_PPMS_SALE_TENDER表中isFirstPass是否通过符合性审查
         SaleTender saleTender = new SaleTender();
@@ -351,16 +351,16 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         //查询该包下参与的供应商
         List<SaleTender> sl = saleTenderService.findByCon(saleTender);
         for (SaleTender saleTender2 : sl) {
-          //评审该供应商合格的专家人数
+          /*//评审该供应商合格的专家人数
           int isPass = 0;
           //评审该供应商不合格的专家人数
-          int notPass = 0;
+          int notPass = 0;*/
           for (PackageExpert packageExpert : packageExpertList) {
             packageExpert.setIsGather((short)1);
             //更新专家对该包的评审状态为结束
             packageExpertMapper.updateByBean(packageExpert);
             
-            HashMap<String, Object> reviewFirstAuditMap = new HashMap<String, Object>();;
+            /*HashMap<String, Object> reviewFirstAuditMap = new HashMap<String, Object>();;
             reviewFirstAuditMap.put("supplierId", saleTender2.getSuppliers().getId());
             reviewFirstAuditMap.put("packageId", packageId);
             reviewFirstAuditMap.put("expertId", packageExpert.getExpertId());
@@ -379,9 +379,9 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               } else {
                 isPass ++;
               }
-            }
+            }*/
           }
-          if (notPass > isPass) {
+          /*if (notPass > isPass) {
             //不通过的专家人数多于通过的专家人数
             saleTender2.setIsFirstPass(0);
             saleTenderService.update(saleTender2);
@@ -389,7 +389,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             //通过的专家人数多于不通过的专家人数
             saleTender2.setIsFirstPass(1);
             saleTenderService.update(saleTender2);
-          }
+          }*/
         }
         return "SUCCESS";
       }

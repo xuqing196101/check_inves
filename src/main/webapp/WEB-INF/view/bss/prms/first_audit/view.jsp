@@ -80,7 +80,7 @@
 		}
 	}
 	
-	$(function(){ 
+	/* $(function(){ 
 		var html = "<tr><th class='info'colspan='2'>评审结果</th>";
 		var tdCount = document.getElementById("tabId").rows.item(0).cells.length;
 		for ( var int = 2; int < tdCount; int++) {
@@ -111,7 +111,7 @@
 		}
 		html += "</tr>";
 		$("#content").append(html);
-	});
+	}); */
 	
 	//结束符合性审查
 	function isFirstGather(projectId, packageId,flowDefineId){
@@ -123,12 +123,12 @@
 			    	if(!result.success){
                     	layer.msg(result.msg,{offset: ['150px']});
 			    	}else{
-			    		layer.msg("符合性审查结束",{offset: ['150px']});
+			    		layer.msg("符合性检查结束",{offset: ['150px']});
 			    		$("#tab-5").load("${pageContext.request.contextPath}/packageExpert/toFirstAudit.html?projectId="+projectId+"&flowDefineId="+flowDefineId);
 			    	}
                 },
             error: function(result){
-                layer.msg("符合性审查结束失败",{offset: ['222px']});
+                layer.msg("符合性检查结束失败",{offset: ['222px']});
             }
 		});
 	}
@@ -226,19 +226,20 @@
 	    <div class="mb5 fr">
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
-			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性审查</button>
+			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性检查查</button>
 			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
 				    <button <c:if test="${pack.isEndPrice == '1'}">disabled="disabled"</c:if> id="againPrice" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
 			    </c:if>
 	    	</c:if>
 	    	<c:if test="${isEnd == 1}">
 			    <button class="btn" disabled="disabled" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
-			    <button class="btn" disabled="disabled" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性审查</button>
+			    <button class="btn" disabled="disabled" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性检查</button>
 			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
 				    <button  disabled="disabled" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
 			    </c:if>
 	    	</c:if>
-		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">打印汇总表</button>
+		    <button class="btn" onclick="openPrint('${projectId}','${pack.id}')" type="button">检查汇总表</button>
+		    <button class="btn" onclick="openDetailPrint('${projectId}','${pack.id}')" type="button">打印检查数据</button>
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
@@ -281,6 +282,16 @@
 	           <%--  <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td> --%>
 		      </tr>
       	 </c:forEach>
+      	 <tr>
+      	 	<th class='info'colspan='2'>评审结果</th>
+      	 	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
+      	 		<td class="tc">
+      	 			<c:if test="${supplier.isFirstPass == 0}"><div class='red'>不合格</div></c:if>
+      	 			<c:if test="${supplier.isFirstPass == 1}">合格</c:if>
+      	 			<c:if test="${supplier.isFirstPass == null}">暂无</c:if>
+      	 		</td>
+      	 	</c:forEach>
+      	 </tr>
 	     </tbody>
       	 	  <%-- <tr>
       	 		<td class="tc"><button class="btn" onclick="viewBySupplier(this,'${packageId}','${projectId}','${flowDefineId}')" type="button">查看明细</button></td>

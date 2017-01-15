@@ -194,7 +194,8 @@
 	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
 	        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
-	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交"></input>
+	        <input type="button" class="btn btn-windows save" onclick="" value="生成正式采购文件">
+	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
 	    </div>
 	 </c:if>
 	<form id="MyFile" method="post" class="h800">
@@ -224,6 +225,10 @@
     	<input type="hidden" id="projectId" value="${project.id}">
     	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
+		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">采购管理部门意见</span>
+	    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80"  maxlength="100" name="address" title="不超过100个字">${user.address}</textarea>
+        </div>
 	</form>
 </body>
 </html>

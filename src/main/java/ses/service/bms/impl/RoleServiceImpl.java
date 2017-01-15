@@ -261,7 +261,7 @@ public class RoleServiceImpl implements RoleServiceI {
           roleMapper.updateByPrimaryKeySelective(role);
         }
       } 
-      if (type == 1) {
+      if (type == 1 && position != null && oldPosition != null) {
         //如果是修改角色
         //如果是排序上移
         if (position < oldPosition) {
@@ -292,7 +292,7 @@ public class RoleServiceImpl implements RoleServiceI {
           }
         }
       }
-      if (type == 2) {
+      if (type == 2 && position != null) {
         //如果删除角色，其后所有角色序号减一
         //获取该序号及之后的角色
         HashMap<String, Object> map4 = new HashMap<String, Object>();

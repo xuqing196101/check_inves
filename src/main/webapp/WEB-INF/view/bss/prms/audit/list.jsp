@@ -192,7 +192,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						<label class="fl">状态：</label>
 						<select name="status" id="status">
 							<option value="0">全部</option>
-							<option value="1" <c:if test="${status eq '1' or status == null}">selected</c:if> >资格性和符合性审查</option>
+							<option value="1" <c:if test="${status eq '1' or status == null}">selected</c:if> >资格性和符合性检查</option>
 							<option value="2" <c:if test="${status eq '2'}">selected</c:if> >经济技术评审</option>
 							<option value="3" <c:if test="${status eq '3'}">selected</c:if> >评审结束</option>
 						</select>
@@ -230,13 +230,17 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <td class="tc" onclick="showView('${obj.packageId}')"><fmt:formatDate pattern="yyyy-MM-dd" value="${obj.bidDate}"/></td>
               <td class="tc">
               	<c:forEach items="${obj.packageExperts}" var="pe">
-              	  <!-- 符合性审查暂存 -->
-              	  <c:if test="${pe.isAudit == 2 or pe.isAudit == 0 or (pe.isAudit == 1 and pe.isGather == 0)}">
-              	    资格性和符合性审查
+              	  <c:if test="${pe.isAudit == 2 or pe.isAudit == 0}">
+              	    资格性和符合性检查
               	  </c:if>
-              	  <!-- 符合性审查结束，经济技术审查未开始 -->
-              	  <c:if test="${(pe.isGrade == 0 and pe.isGather == 1 and pe.isAudit == 1) or (pe.isGrade == 2 and pe.isGather == 1 and pe.isAudit == 1) or (pe.isGrade == 1 and pe.isGather == 1 and pe.isGatherGather == 0)}">
+              	  <c:if test="${pe.isAudit == 1 && pe.isGather == 0}">
+              	    资格性和符合性检查已提交
+              	  </c:if>
+              	  <c:if test="${(pe.isGrade == 0 and pe.isGather == 1 and pe.isAudit == 1) or (pe.isGrade == 2 and pe.isGather == 1 and pe.isAudit == 1)}">
               	    经济技术评审
+              	  </c:if>
+              	  <c:if test="${pe.isGrade == 1 and pe.isGather == 1 and pe.isGatherGather == 0}">
+              	    经济技术评审已提交
               	  </c:if>
               	  <!-- 符合性审查结束，经济技术审查结束 -->
               	  <c:if test="${pe.isGatherGather == 1 and pe.isGather == 1}">

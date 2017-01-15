@@ -84,7 +84,7 @@
 			   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
 			   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==0 }">合格</c:if>
 			   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==1 }">
-			   		                    	  不合格	
+			   		                    	  <div class="red">不合格</div>
 			   		                    	 <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${expertId}');">查看理由</a>
 			   		                      </c:if>
 			   		                    </c:forEach>

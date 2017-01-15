@@ -2543,7 +2543,7 @@ public class PackageExpertController {
           for (SaleTender saleTender2 : saleTenders) {
             HashMap<String, Object> stMap = new HashMap<String, Object>();
             stMap.put("id", saleTender2.getId());
-            stMap.put("isFirstPass", 1);
+            stMap.put("isFirstPass", null);
             stMap.put("economicScore", null);
             stMap.put("technologyScore", null);
             stMap.put("reviewResult", null);
