@@ -34,6 +34,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
@@ -87,6 +88,9 @@ public class CollectPlanController extends BaseController {
   @Autowired
   private PurchaseDetailService purchaseDetailService;
   
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+  
     /**
 		* @Title: queryPlan
 		* @Description: 条件查询分页需求计划
@@ -116,8 +120,8 @@ public class CollectPlanController extends BaseController {
 	List<String> listDep=new ArrayList<String>();
 	if(list2!=null&&list2.size()>0){
 		for(PurchaseOrg p:list2){
-			Orgnization dep= purchaseRequiredService.queryByDepId(p.getOrgId());
-			listDep.add(dep.getName());
+			Orgnization dep= orgnizationServiceI.getOrgByPrimaryKey(p.getOrgId());
+			listDep.add(dep.getShortName());
 		}
 	}else{
 		listDep.add("sss");
@@ -295,14 +299,15 @@ public class CollectPlanController extends BaseController {
 			PurchaseRequired p=new PurchaseRequired();
 //			String pid="";
 //			Integer seq=1;
-			for(String no:uniqueIds){
+			List<String> addList=new ArrayList<String>();
+			for(String c:uniqueIds){
 //				c.setCollectPlanId(collectPlan.getId());
 //				c.setPlanNo(no);
 //				
 //				保存至中间表
 //				collectPurchaseService.add(c);
 				
-				p.setUniqueId(no);
+				p.setUniqueId(c);
 				List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
 				append(one,detail,collectPlan.getId());
 //				for(PurchaseRequired pr:one){
@@ -314,12 +319,17 @@ public class CollectPlanController extends BaseController {
 				
 				list.addAll(one);
 				
-				
+				addList.add(c);
 				p.setStatus("5");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
 			
 			}
+			
+			List<PurchaseRequired> list2 = collectPlanService.getAll(addList, request);
+			
+			
+			
 			BigDecimal budget=BigDecimal.ZERO;//计算金额
 			for(PurchaseRequired pr:list){
 				if(pr.getSeq().equals("一")){

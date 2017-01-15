@@ -332,10 +332,14 @@
 
 		
 		</div>
-			<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
-           <!--      <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
-                <input class="btn btn-windows edit"  type="button" value="修改" onclick="sub()">
+			<div class="" style="margin-left:520px;">
+			 <div style="text-algin:center;">
+			      <u:upload id="detail"  multiple="true" buttonName="上传图片"    businessId="${id}" sysKey="2" typeId="${fileId}" auto="true" />
+                   <u:show showId="detailshow"  businessId="${id}" sysKey="2" typeId="${fileId}" />
+                  <input  style="margin-left:20px;" class="btn btn-windows edit"  type="button" value="保存" onclick="sub()">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+                
+                </div>
 		  </div>
 		  
 	</div>

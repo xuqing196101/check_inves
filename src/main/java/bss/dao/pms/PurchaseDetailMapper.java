@@ -301,4 +301,15 @@ public interface PurchaseDetailMapper {
      */
     List<PurchaseDetail> groupDetail(@Param("uniqueId")String uniqueId);
     
+    /**
+     * 
+    * @Title: getUniqueId
+    * @Description:得到所有的根据id获取已经汇总的uniqeid
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return List<PurchaseDetail>     
+    * @throws
+     */
+    List<PurchaseDetail> getUniqueId(@Param("id")String uniqueId);
+    
 }

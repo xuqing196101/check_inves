@@ -56,7 +56,6 @@
 			data:$("#collected_form").serialize(),
 			dataType:"json",
 			success: function(result) {
-				alert(result);
 				if(result==1){
 					layer.alert("人员已被添加，请重新选择", {
 						offset: ['30%', '40%']

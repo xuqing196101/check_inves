@@ -955,7 +955,17 @@
 				 group by ID, USER_ID
     </select>
     
+    <select id="getUniqueId" parameterType="String" resultMap="PurchaseRequired_Map">
+    select
+		<include refid="Base_Column_List" />
+		from T_BSS_PMS_PURCHASE_DETAIL
+		<where>
+			HISTORY_STATUS='0'  and IS_DELETE='0' and IS_MASTER=1 
+				and ID =#{id}
+		 
+		</where>
     
+    </select>
     
     
 </mapper>

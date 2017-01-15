@@ -159,14 +159,16 @@ public class TaskAdjustController extends BaseController{
 		model.addAttribute("list", list);
 		
 		HashMap<String, Object> map = new HashMap<>();
-		map.put("typeName", "1");
 		map.put("typeName", 1);
 	    List<PurchaseDep> orgs = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 	    model.addAttribute("orgs", orgs);	
 	    
 	    List<DictionaryData> types = DictionaryDataUtil.find(5);
 //	          采购方式 
-	    model.addAttribute("types", types);	  
+	    model.addAttribute("types", types);	 
+	    String fileId = DictionaryDataUtil.getId("CGJH_ADJUST");
+	    model.addAttribute("fileId", fileId);
+	    model.addAttribute("id", id);
 //		CollectPlan cPlan=collectPlanService.queryById(id);
 //		int backInfo=0;
 //		if (cPlan.getStatus()!=null && cPlan.getStatus()==4) {

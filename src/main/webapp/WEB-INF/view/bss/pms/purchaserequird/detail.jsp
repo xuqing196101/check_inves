@@ -24,9 +24,28 @@
 										<td class="tc  p0"><input type="text" name="list[${index }].stand" value="${objs.stand}"></td>
 										<td class="tc  p0"><input type="text" name="list[${index }].qualitStand" value="" class=""></td>
 										<td class="tc  p0"><input type="text" name="list[${index }].item" value="" ></td>
-										<td class="tc p0" ><input type="text" name="list[${index }].purchaseCount" onkeyup="checkNum(this,1)" value="" ></td>
-										<td class="tc  p0" ><input type="text" name="list[${index }].price" onkeyup="checkNum(this,2)" value="" ></td>
-										<td class="tc  p0"><input type="text" name="list[${index }].budget"   value=" " ></td>
+										
+										
+										<td class="tc p0" >
+											<input type='hidden'  value='' >
+										<input type="text" name="list[${index }].purchaseCount" onkeyup="checkNum(this,1)" value="" >
+											<input type='hidden'  value='' >
+										</td>
+										
+										
+										<td class="tc  p0" >
+											<input type='hidden'  value='' >
+										<input type="text" name="list[${index }].price" onkeyup="checkNum(this,2)" value="" >
+											<input type='hidden'  value='' >
+										</td>
+										
+										<td class="tc  p0">
+											<input type='hidden'  value='' >
+										<input type="text" name="list[${index }].budget"   value=" " >
+											<input type='hidden'  value='' >
+										</td>
+										
+										
 										<td class=" p0"><input type="text" name="list[${index }].deliverDate" value=" " ></td>
 										<td class="p0">
 											<select name="list[${index }].purchaseType" class="pt" onchange="changeType(this)" >
