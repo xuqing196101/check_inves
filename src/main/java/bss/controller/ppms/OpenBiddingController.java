@@ -198,7 +198,7 @@ public class OpenBiddingController {
    */
   @Autowired
   private ScoreModelService scoreModelService;
-  
+
   /**
    * 机构
    */
@@ -213,7 +213,7 @@ public class OpenBiddingController {
 
   @Autowired
   private OrgnizationServiceI orgnizationService;
-  
+
   /**
    * @Fields jsonData : ajax返回数据封装类
    */
@@ -2692,11 +2692,22 @@ public class OpenBiddingController {
         unitPostCode = pd.getUnitPostCode().toString();
         bankAccount = pd.getBankAccount().toString();
       }
-      content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber()).replace("purchaseType", purchaseTypeName).replace("deadline", new SimpleDateFormat("yyyy年MM月dd日 HH时mm分").format(p.getDeadline())).replace("bidAddress", p.getBidAddress());
-      content = content.replace("bidDate", bidDate).replace("contact", contact);
-      content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
-      content = content.replace("address", contactAddress).replace("Account", bankAccount).replace("fax", fax).replace("bank", bank).replace("accountName", accountName).replace("unitPostCode", unitPostCode).replace("auditResult", auditResult.toString());
-      content = content.replace("supplier", builder.toString());
+      if(table != null && p.getName() != null && p.getProjectNumber() != null && purchaseTypeName != null && p.getDeadline() != null  &&  p.getBidAddress() !=  null){
+        content = content.replace("projectDetail", table).replace("projectName", p.getName()).replace("projectNum", p.getProjectNumber()).replace("purchaseType", purchaseTypeName).replace("deadline", new SimpleDateFormat("yyyy年MM月dd日 HH时mm分").format(p.getDeadline())).replace("bidAddress", p.getBidAddress());
+      }
+      if(bidDate != null){
+        content = content.replace("bidDate", bidDate).replace("contact", contact);
+      }
+      if(purchaserName != null && contactTelephone != null ){
+        content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
+
+      }
+      if(contactAddress != null && bankAccount != null && fax != null && bank != null && accountName != null && unitPostCode != null  && auditResult != null){
+        content = content.replace("address", contactAddress).replace("Account", bankAccount).replace("fax", fax).replace("bank", bank).replace("accountName", accountName).replace("unitPostCode", unitPostCode).replace("auditResult", auditResult.toString());
+      }
+      if(builder != null){
+        content = content.replace("supplier", builder.toString());
+      }      
       article1.setContent(content);
       model.addAttribute("article1", article1);
     }
