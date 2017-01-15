@@ -389,7 +389,7 @@
 	</select>
 	
 	<!-- 按照状态查询 -->
-	<select id="findPublishTree" resultMap="CateMap">
+	<select id="findPublishTree" resultMap="CateMap" flushCache="true">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_BMS_CATEGORY

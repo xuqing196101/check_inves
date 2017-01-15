@@ -520,7 +520,7 @@ public class Supplier implements Serializable {
 
 	private List<SupplierProducts> listSupplierProducts = new ArrayList<SupplierProducts>();
 	
-	private List<CategoryTree> allTreeList = new ArrayList<CategoryTree>();
+	private List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
 
 	private String confirmPassword;
 
@@ -1610,11 +1610,11 @@ public class Supplier implements Serializable {
         this.personSize = personSize;
     }
 
-    public List<CategoryTree> getAllTreeList() {
+    public List<SupplierCateTree> getAllTreeList() {
         return allTreeList;
     }
 
-    public void setAllTreeList(List<CategoryTree> allTreeList) {
+    public void setAllTreeList(List<SupplierCateTree> allTreeList) {
         this.allTreeList = allTreeList;
     }
 	

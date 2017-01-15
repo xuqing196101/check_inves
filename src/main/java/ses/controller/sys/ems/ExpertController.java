@@ -34,32 +34,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-import com.graphbuilder.struc.LinkedList;
-
-import bss.controller.base.BaseController;
-import bss.model.ppms.Packages;
-import bss.model.ppms.Project;
-import bss.model.ppms.SaleTender;
-import bss.model.ppms.ext.ProjectExt;
-import bss.model.prms.PackageExpert;
-import bss.model.prms.ReviewProgress;
-import bss.service.ppms.PackageService;
-import bss.service.ppms.ProjectService;
-import bss.service.ppms.SaleTenderService;
-import bss.service.prms.PackageExpertService;
-import bss.service.prms.ReviewProgressService;
-import common.constant.Constant;
-import common.constant.StaticVariables;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
@@ -71,9 +51,9 @@ import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierRegPerson;
 import ses.service.bms.AreaServiceI;
@@ -96,6 +76,22 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
+import bss.controller.base.BaseController;
+import bss.model.ppms.Packages;
+import bss.model.ppms.Project;
+import bss.model.ppms.SaleTender;
+import bss.model.ppms.ext.ProjectExt;
+import bss.model.prms.PackageExpert;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
+import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewProgressService;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.constant.Constant;
+import common.constant.StaticVariables;
 
 @Controller
 @RequestMapping("/expert")
@@ -2213,15 +2209,15 @@ public class ExpertController extends BaseController {
         supplier.setPersonSize(personSize);
         
         // 品目信息
-        List<CategoryTree> allTreeList = new ArrayList<CategoryTree>();
+        List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
         List<SupplierItem> listSupplierItems = supplier.getListSupplierItems();
         // 剔除不是根节点的产品
-        removeNotChild(listSupplierItems);
-        for (SupplierItem supplierItem : listSupplierItems) {
+        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
+        for (SupplierItem supplierItem : removeNotChild) {
             String categoryId = supplierItem.getCategoryId();
-            List<CategoryTree> treeList = getTreeListByCategoryId(categoryId);
-            if (treeList != null && treeList.size() > 0) {
-                allTreeList.addAll(treeList);
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+            if (cateTree != null && cateTree.getRootNode() != null) {
+                allTreeList.add(cateTree);
             }
         }
         supplier.setAllTreeList(allTreeList);
@@ -2233,14 +2229,43 @@ public class ExpertController extends BaseController {
      * @author WangHuijie
      * @param listSupplierItems
      */
-    public void removeNotChild(List<SupplierItem> listSupplierItems) {
-        for (int i = 0; i < listSupplierItems.size(); i++) {
-            SupplierItem cate = listSupplierItems.get(i);
-            List<Category> childList = categoryService.findPublishTree(cate.getId(), null);
+    public List<SupplierItem> removeNotChild(List<SupplierItem> listSupplierItems) {
+        List<SupplierItem> newSupplierItems = new ArrayList<SupplierItem>();
+        for (SupplierItem cate : listSupplierItems) {
+            String cateId = cate.getCategoryId();
+            List<Category> childList = categoryService.findPublishTree(cateId, null);
             if (childList != null && childList.size() > 0) {
-                listSupplierItems.remove(i);
+                newSupplierItems.add(cate);
             }
         }
+        listSupplierItems.removeAll(newSupplierItems);
+        return listSupplierItems;
+    }
+    
+    /**
+     *〈简述〉获取当前节点的所有父级节点(包括根节点)
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId 
+     * @return
+     */
+    public List<Category> getAllParentNode(String categoryId) {
+        List<Category> categoryList = new ArrayList<Category>();
+        while (true) {
+            Category cate = categoryService.findById(categoryId);
+            if (cate == null) {
+                DictionaryData root = DictionaryDataUtil.findById(categoryId);
+                Category rootNode = new Category();
+                rootNode.setId(root.getId());
+                rootNode.setName(root.getName());
+                categoryList.add(rootNode);
+                break;
+            } else {
+                categoryList.add(cate);
+                categoryId = cate.getParentId();
+            }
+        }
+        return categoryList;
     }
     
     /**
@@ -2250,39 +2275,66 @@ public class ExpertController extends BaseController {
      * @param categoryId 产品Id
      * @return List<CategoryTree> tree对象List
      */
-    public List<CategoryTree> getTreeListByCategoryId(String categoryId) {
-        List<CategoryTree> treeList = new ArrayList<CategoryTree>();
+    public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+        SupplierCateTree cateTree = new SupplierCateTree();
         // 递归获取所有父节点
-        List<Category> parentNodeList = getParentNodeList(categoryId);
+        List<Category> parentNodeList = getAllParentNode(categoryId);
+        // 加入根节点
         for (int i = 0; i < parentNodeList.size(); i++) {
-            Category cate = parentNodeList.get(i);
-            if (treeList.size() == 0) {
-                // 加入根节点
-                Category root = categoryService.findById(cate.getParentId());
-                if (root == null) {
-                    CategoryTree rootNode = new CategoryTree();
-                    rootNode.setName(DictionaryDataUtil.findById(cate.getParentId()).getName());
-                    rootNode.setId(cate.getParentId());
-                    treeList.add(rootNode);
-                }
-            } else {
-                // 根据上级节点加入剩下的节点
-                if (cate.getParentId().equals(treeList.get(treeList.size() - 1).getId())) {
-                    CategoryTree node = new CategoryTree();
-                    node.setName(cate.getId());
-                    node.setId(cate.getName());
-                    treeList.add(node);
+            DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+            if (rootNode != null) {
+                cateTree.setRootNode(rootNode.getName());
+            }
+        }
+        // 加入一级节点
+        if (cateTree.getRootNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+                    if (rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+                        cateTree.setFirstNode(cate.getName());
+                    }
                 }
             }
         }
-        // 最后加入当前节点
-        CategoryTree node = new CategoryTree();
-        // 获取当前节点
-        Category currentNode = categoryService.selectByPrimaryKey(categoryId);
-        node.setName(currentNode.getId());
-        node.setId(currentNode.getName());
-        treeList.add(node);
-        return treeList;
+        // 加入二级节点
+        if (cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if (parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+                        cateTree.setSecondNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入三级节点
+        if (cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if (parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+                        cateTree.setThirdNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入末级节点
+        if (cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if (parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+                        cateTree.setFourthNode(cate.getName());
+                    }
+                }
+            }
+        }
+        return cateTree;
     }
     
     /**
