@@ -463,14 +463,14 @@
 							</c:if>
 							<div class="mt20">
 							<h2 class="f16">已选产品目录</h2>
-							<table class="table table-striped table-bordered table-hover">
+							<table class="table table-bordered table-hover">
 							  <tr>
 							    <td class="info tc w50">序号</td>
-							    <td class="tc">品目类别</td>
-							    <td class="tc">大类名称</td>
-							    <td class="tc">中类名称</td>
-							    <td class="tc">小类名称</td>
-							    <td class="tc">品种名称</td>
+							    <td class="info tc">品目类别</td>
+							    <td class="info tc">大类名称</td>
+							    <td class="info tc">中类名称</td>
+							    <td class="info tc">小类名称</td>
+							    <td class="info tc">品种名称</td>
 							  </tr>
 							  <tbody id="tbody_category"></tbody>
 							</table>
