@@ -82,9 +82,10 @@
       }
 
       // 返回
-      function back() {
-        window.location.href = "${pageContext.request.contextPath}/project/list.html";
-      };
+      function back(){
+        var id = $("#id").val();
+        window.location.href = "${pageContext.request.contextPath}/project/deleted.html?id="+id;
+      }
       
       //获取采购明细
       function chooce(projectId, id, name, projectNumber) {

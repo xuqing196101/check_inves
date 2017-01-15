@@ -46,8 +46,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void delete(String id) {
-		// TODO Auto-generated method stub
-
+	    
+	    projectMapper.deleteByPrimaryKey(id);
 	}
 
 	@Override

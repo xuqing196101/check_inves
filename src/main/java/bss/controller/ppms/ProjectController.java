@@ -394,6 +394,107 @@ public class ProjectController extends BaseController {
           model.addAttribute("projectNumber", projectNumber);
           return "bss/ppms/project/addDetail";
       }
+      
+      public List<ProjectDetail> paixu(List<ProjectDetail> newDetails, String id){
+          HashMap<String, Object> map = new HashMap<>();
+          int serialoneOne = 1;
+          int serialtwoTwo = 1;
+          int serialthreeThree = 1;
+          int serialfourFour = 1;
+          int serialfiveFive = 0;
+          int serialOne = 1;
+          int serialTwo = 1;
+          int serialThree = 1;
+          int serialFour = 1;
+          int serialSix = 0;
+          int serialFive = 0;
+          List<String> newParentId = new ArrayList<>();
+          List<String> oneParentId = new ArrayList<>();
+          List<String> twoParentId = new ArrayList<>();
+          List<String> threeParentId = new ArrayList<>();
+          List<String> fourParentId = new ArrayList<>();
+          List<String> fiveParentId = new ArrayList<>();
+          for(int i=0;i<newDetails.size();i++){
+              HashMap<String,Object> detailMap = new HashMap<>();
+              detailMap.put("id",newDetails.get(i).getRequiredId());
+              detailMap.put("projectId", id);
+              List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+              List<ProjectDetail> plist = detailService.selectByParent(detailMap);
+              if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                  if(!oneParentId.contains(newDetails.get(i).getParentId())){
+                      oneParentId.add(newDetails.get(i).getParentId());
+                      serialoneOne = 1;
+                  }
+                  newDetails.get(i).setSerialNumber(test(serialoneOne));
+                  serialoneOne ++;
+              }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                  if(!twoParentId.contains(newDetails.get(i).getParentId())){
+                      twoParentId.add(newDetails.get(i).getParentId());
+                      serialtwoTwo = 1;
+                  }
+                  newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
+                  serialtwoTwo ++;
+              }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                  if(!threeParentId.contains(newDetails.get(i).getParentId())){
+                      threeParentId.add(newDetails.get(i).getParentId());
+                      serialthreeThree = 1;
+                  }
+                  newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
+                  serialthreeThree ++;
+              }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                  if(!fourParentId.contains(newDetails.get(i).getParentId())){
+                      fourParentId.add(newDetails.get(i).getParentId());
+                      serialfourFour = 1;
+                  }
+                  newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
+                  serialfourFour ++;
+              }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                  if(!fiveParentId.contains(newDetails.get(i).getParentId())){
+                      fiveParentId.add(newDetails.get(i).getParentId());
+                      serialfiveFive = 0;
+                  }
+                  char serialNum = (char) (97 + serialfiveFive);
+                  newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                  serialfiveFive++;
+              }
+              if(dlist.size()==1){
+                  map.put("projectId", id);
+                  map.put("id", newDetails.get(i).getRequiredId());
+                  List<ProjectDetail> list = detailService.selectByParent(map);
+                  if(!newParentId.contains(newDetails.get(i).getParentId())){
+                      serialOne = 1;
+                      serialTwo = 1;
+                      serialThree = 1;
+                      serialFour = 1;
+                      serialFive = 0;
+                      serialSix = 0;
+                      newParentId.add(newDetails.get(i).getParentId());
+                  }
+                  if(list.size()==1){
+                      newDetails.get(i).setSerialNumber(test(serialOne));
+                      serialOne ++;
+                  }else if(list.size()==2){
+                      newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
+                      serialTwo ++;
+                  }else if(list.size()==3){
+                      newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
+                      serialThree ++;
+                  }else if(list.size()==4){
+                      newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
+                      serialFour ++;
+                  }else if(list.size()==5){
+                      char serialNum = (char) (97 + serialFive);
+                      newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                      serialFive ++;
+                  }else if(list.size()==6){
+                      char serialNum = (char) (97 + serialSix);
+                      newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                      serialSix ++;
+                  }
+              }
+          }
+          return newDetails;
+      }
     
     /**
      * 
@@ -590,6 +691,7 @@ public class ProjectController extends BaseController {
         }
     }
     
+    
     public void sorts(List<ProjectDetail> list){
         Collections.sort(list, new Comparator<ProjectDetail>(){
            @Override
@@ -602,6 +704,22 @@ public class ProjectController extends BaseController {
     
     
     
+    public List<String> getIds(String ids[]){
+        List<String> list= new ArrayList<String>();
+        for(String id:ids){
+            list.add(id);
+        }
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).toString().equals(list.get(i).toString())) {
+                    list.remove(j);
+                }
+            }
+        }
+        return list;
+        
+    } 
+    
     
     /**
      * @Title: save
@@ -613,7 +731,7 @@ public class ProjectController extends BaseController {
      * @return String
       */
      @RequestMapping("/save")
-     public String save(String projectId,Project project,String orgId, Integer page,String purchaseType,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
+     public String save(String projectId,Project project,String orgId, Integer page,PurchaseRequiredFormBean list,String checkIds,int uncheckId,Model model, BindingResult result, HttpServletRequest request){
          String id = project.getId();
          Project proId = projectService.selectById(project.getId());
          int k=1;
@@ -650,14 +768,15 @@ public class ProjectController extends BaseController {
              List<PurchaseDetail> sss=new ArrayList<PurchaseDetail>();
              if(checkIds.trim().length()!=0){
                  String[] detailIds = checkIds.split(",");
-                 List<ProjectDetail> advance = detailService.getByPidAndRid(id, detailIds[0]);
+                 List<String> id2 = getIds(detailIds);
+                 List<ProjectDetail> advance = detailService.getByPidAndRid(id, id2.get(0).toString());
                  //取到同一个父节点下面的子节点
                  String parId=null ;
                  if(advance.size() > 0){
-                     for (int i = 0; i < detailIds.length; i++ ) {
+                     for (int i = 0; i < id2.size(); i++ ) {
                          HashMap<String, Object> map = new HashMap<String, Object>();
                          
-                         map.put("id", detailIds[i]);
+                         map.put("id", id2.get(i).toString());
                          List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
                          
                          if(lists.size() == 1){//查询最底层明细的节点
@@ -675,8 +794,11 @@ public class ProjectController extends BaseController {
                      if(max!=null){
                          k = max.getPosition()+1;
                      }
+                     List<PurchaseDetail> list2 = new ArrayList<PurchaseDetail>();
+                     List<PurchaseDetail> bottomDetail = new ArrayList<PurchaseDetail>();
+                     Set<String> set = new HashSet<>();
                      String planNo = null;
-                     for(String pid:detailIds){
+                     for(String pid:id2){
                          PurchaseDetail required = purchaseDetailService.queryById(pid);
                          planNo = required.getPlanNo();
                          if(required.getParentId().equals(parId)){
@@ -684,7 +806,36 @@ public class ProjectController extends BaseController {
                              purchaseDetailService.updateByPrimaryKeySelective(required);
                              insertDeatil(required,k,id);
                          } 
+                         list2.add(required);
                      }
+                     for (PurchaseDetail purchaseDetail : list2) {
+                         PurchaseDetail required = purchaseDetailService.queryById(purchaseDetail.getId());
+                         Map<String,Object> map=new HashMap<String,Object>();
+                         map.put("id", required.getId());
+                         List<PurchaseDetail> list3 = purchaseDetailService.selectByParentId(map);
+                         if(list3.size() == 1){
+                             set.add(purchaseDetail.getParentId());
+                             for (String string : set) {
+                                 PurchaseDetail detail3 = purchaseDetailService.queryById(string);
+                                 HashMap<String, Object> map1 = new HashMap<>();
+                                 map1.put("id", detail3.getId());
+                                 List<PurchaseDetail> list6 = purchaseDetailService.selectByParentId(map1);
+                                 for (PurchaseDetail purchaseDetail1 : list6) {
+                                     if(!purchaseDetail1.getId().equals(string)){
+                                         bottomDetail.add(purchaseDetail1);
+                                     }
+                                 }
+                                 for (int i = 0; i < bottomDetail.size(); i++ ) {
+                                     if(bottomDetail.get(i).getProjectStatus() == 0){
+                                         break;
+                                     }else if(i == bottomDetail.size()-1){
+                                         detail3.setProjectStatus(1);
+                                         purchaseDetailService.updateByPrimaryKeySelective(detail3);
+                                     }
+                                 }
+                             }
+                         }
+                    }
                      String ids = request.getParameter("projectId");
                      Task task = taskservice.selectById(ids);
                      if(task.getCollectId() != null){
@@ -728,9 +879,10 @@ public class ProjectController extends BaseController {
                      HashMap<String, Object> maps = new HashMap<String, Object>();
                      if(checkIds != null){
                          String[] checkId = checkIds.split(",");
+                         List<String> id3 = getIds(checkId);
                          int bud = 0;
-                         for (int i = 0; i < checkId.length; i++ ) {
-                             PurchaseDetail purchaseRequired = purchaseDetailService.queryById(checkId[i]);
+                         for (int i = 0; i < id3.size(); i++ ) {
+                             PurchaseDetail purchaseRequired = purchaseDetailService.queryById(id3.get(i).toString());
                              maps.put("id", purchaseRequired.getId());
                              List<PurchaseDetail> lis = purchaseDetailService.selectByParentId(maps);
                              if(lis.size() == 1){
@@ -740,7 +892,9 @@ public class ProjectController extends BaseController {
                              }
                              lists.add(purchaseRequired);
                          }
-                         
+                         Set<String> set = new HashSet<>();
+                         List<PurchaseDetail> bottomDetails = new ArrayList<>();
+                         List<PurchaseDetail> bottom = new ArrayList<>();
                          for (PurchaseDetail purchaseRequired:lists) {
                              PurchaseDetail required = purchaseDetailService.queryById(purchaseRequired.getId());
                             Map<String,Object> map=new HashMap<String,Object>();
@@ -749,7 +903,9 @@ public class ProjectController extends BaseController {
                             if(list2.size()==1){
                                 required.setProjectStatus(1);
                                 purchaseDetailService.updateByPrimaryKeySelective(required);
+                                
                             }
+                            bottom.add(required);
                              ProjectDetail projectDetail = new ProjectDetail();
                              projectDetail.setRequiredId(purchaseRequired.getId());
                              projectDetail.setSerialNumber(purchaseRequired.getSeq());
@@ -797,6 +953,34 @@ public class ProjectController extends BaseController {
                              k++;
                              detailService.insert(projectDetail);
                          }
+                         for (PurchaseDetail purchaseDetail : bottom) {
+                             PurchaseDetail required = purchaseDetailService.queryById(purchaseDetail.getId());
+                             Map<String,Object> map=new HashMap<String,Object>();
+                             map.put("id", required.getId());
+                             List<PurchaseDetail> list2 = purchaseDetailService.selectByParentId(map);
+                             if(list2.size() == 1){
+                                 set.add(purchaseDetail.getParentId());
+                                 for (String string : set) {
+                                     PurchaseDetail detail3 = purchaseDetailService.queryById(string);
+                                     HashMap<String, Object> map1 = new HashMap<>();
+                                     map1.put("id", detail3.getId());
+                                     List<PurchaseDetail> list6 = purchaseDetailService.selectByParentId(map1);
+                                     for (PurchaseDetail purchaseDetail1 : list6) {
+                                         if(!purchaseDetail1.getId().equals(string)){
+                                             bottomDetails.add(purchaseDetail1);
+                                         }
+                                     }
+                                     for (int i = 0; i < bottomDetails.size(); i++ ) {
+                                         if(bottomDetails.get(i).getProjectStatus() == 0){
+                                             break;
+                                         }else if(i == bottomDetails.size()-1){
+                                             detail3.setProjectStatus(1);
+                                             purchaseDetailService.updateByPrimaryKeySelective(detail3);
+                                         }
+                                     }
+                                 }
+                             }
+                        }
                          
                          String ids = request.getParameter("projectId");
                          Task task = taskservice.selectById(ids);
@@ -804,20 +988,20 @@ public class ProjectController extends BaseController {
                              List<PurchaseDetail> list3 = purchaseDetailService.getUnique(task.getCollectId());
                             if(list3 != null && list3.size() > 0){
                                  
-                                 List<PurchaseDetail> bottomDetails = new ArrayList<>();
+                                 List<PurchaseDetail> bottomDetail = new ArrayList<>();
                                  for(int i=0;i<list3.size();i++){
                                      Map<String,Object> bId = new HashMap<String,Object>();
                                      bId.put("id", list3.get(i).getId());
                                      List<PurchaseDetail> pr = purchaseDetailService.selectByParentId(bId);
                                      if(pr.size()==1){
-                                         bottomDetails.add(list3.get(i));
+                                         bottomDetail.add(list3.get(i));
                                      }
                                  }
-                                 for(int i=0;i<bottomDetails.size();i++){
-                                     if(bottomDetails.get(i).getProjectStatus()==0){
+                                 for(int i=0;i<bottomDetail.size();i++){
+                                     if(bottomDetail.get(i).getProjectStatus()==0){
                                          break;
-                                     }else if(i==bottomDetails.size()-1){
-                                         List<String> purchase = conllectPurchaseService.getId(bottomDetails.get(0).getUniqueId());
+                                     }else if(i==bottomDetail.size()-1){
+                                         List<String> purchase = conllectPurchaseService.getId(bottomDetail.get(0).getUniqueId());
                                          if(purchase.size() > 0){
                                              Task task1 = taskservice.selectByCollectId(purchase.get(0));
                                              task1.setNotDetail(1);
@@ -846,7 +1030,8 @@ public class ProjectController extends BaseController {
                 Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
                 model.addAttribute("orgnization", orgnization);
             }
-             model.addAttribute("lists", detail);
+             List<ProjectDetail> paixu = paixu(detail, id);
+             model.addAttribute("lists", paixu);
              
              if(page == null){
                  page = 1;
@@ -937,8 +1122,13 @@ public class ProjectController extends BaseController {
             response.getWriter().close();
         }else{
             map.put("id", purchaseRequired.getId());
+            List<PurchaseDetail> list1 = new ArrayList<PurchaseDetail>();
             List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            list1.addAll(list);
+            List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
+            list1.addAll(lists);
+            removeSame(list1);
+            String json = JSON.toJSONStringWithDateFormat(list1, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
             response.getWriter().flush();
@@ -1796,17 +1986,6 @@ public class ProjectController extends BaseController {
                         newDetails.get(i).setDetailStatus(0);
                     }
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
-//                      String ids = "";
-//                      HashMap<String,Object> mapOne = new HashMap<>();
-//                      mapOne.put("projectId", id);
-//                      mapOne.put("id", newDetails.get(i).getRequiredId());
-//                      List<ProjectDetail> lists = detailService.selectByParent(mapOne);
-//                      for(int k=0;k<lists.size();k++){
-//                          if(lists.get(k).getParentId().equals("1")){
-//                              ids = lists.get(k).getId();
-//                              break;
-//                          }
-//                      }
                         if(!oneParentId.contains(newDetails.get(i).getParentId())){
                             oneParentId.add(newDetails.get(i).getParentId());
                             serialoneOne = 1;
@@ -1814,17 +1993,6 @@ public class ProjectController extends BaseController {
                         newDetails.get(i).setSerialNumber(test(serialoneOne));
                         serialoneOne ++;
                     }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
-//                      String ids = "";
-//                      HashMap<String,Object> mapOne = new HashMap<>();
-//                      mapOne.put("projectId", id);
-//                      mapOne.put("id", newDetails.get(i).getRequiredId());
-//                      List<ProjectDetail> lists = detailService.selectByParent(mapOne);
-//                      for(int k=0;k<lists.size();k++){
-//                          if(lists.get(k).getParentId().equals("1")){
-//                              ids = lists.get(k).getId();
-//                              break;
-//                          }
-//                      }
                         if(!twoParentId.contains(newDetails.get(i).getParentId())){
                             twoParentId.add(newDetails.get(i).getParentId());
                             serialtwoTwo = 1;
@@ -1832,17 +2000,6 @@ public class ProjectController extends BaseController {
                         newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
                         serialtwoTwo ++;
                     }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
-//                      String ids = "";
-//                      HashMap<String,Object> mapOne = new HashMap<>();
-//                      mapOne.put("projectId", id);
-//                      mapOne.put("id", newDetails.get(i).getRequiredId());
-//                      List<ProjectDetail> lists = detailService.selectByParent(mapOne);
-//                      for(int k=0;k<lists.size();k++){
-//                          if(lists.get(k).getParentId().equals("1")){
-//                              ids = lists.get(k).getId();
-//                              break;
-//                          }
-//                      }
                         if(!threeParentId.contains(newDetails.get(i).getParentId())){
                             threeParentId.add(newDetails.get(i).getParentId());
                             serialthreeThree = 1;
@@ -1850,17 +2007,6 @@ public class ProjectController extends BaseController {
                         newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
                         serialthreeThree ++;
                     }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
-//                      String ids = "";
-//                      HashMap<String,Object> mapOne = new HashMap<>();
-//                      mapOne.put("projectId", id);
-//                      mapOne.put("id", newDetails.get(i).getRequiredId());
-//                      List<ProjectDetail> lists = detailService.selectByParent(mapOne);
-//                      for(int k=0;k<lists.size();k++){
-//                          if(lists.get(k).getParentId().equals("1")){
-//                              ids = lists.get(k).getId();
-//                              break;
-//                          }
-//                      }
                         if(!fourParentId.contains(newDetails.get(i).getParentId())){
                             fourParentId.add(newDetails.get(i).getParentId());
                             serialfourFour = 1;
@@ -1868,17 +2014,6 @@ public class ProjectController extends BaseController {
                         newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
                         serialfourFour ++;
                     }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
-//                      String ids = "";
-//                      HashMap<String,Object> mapOne = new HashMap<>();
-//                      mapOne.put("projectId", id);
-//                      mapOne.put("id", newDetails.get(i).getRequiredId());
-//                      List<ProjectDetail> lists = detailService.selectByParent(mapOne);
-//                      for(int k=0;k<lists.size();k++){
-//                          if(lists.get(k).getParentId().equals("1")){
-//                              ids = lists.get(k).getId();
-//                              break;
-//                          }
-//                      }
                         if(!fiveParentId.contains(newDetails.get(i).getParentId())){
                             fiveParentId.add(newDetails.get(i).getParentId());
                             serialfiveFive = 0;
@@ -1891,13 +2026,6 @@ public class ProjectController extends BaseController {
                         map.put("projectId", id);
                         map.put("id", newDetails.get(i).getRequiredId());
                         List<ProjectDetail> list = detailService.selectByParent(map);
-//                        String ids = "";
-//                        for(int k=0;k<list.size();k++){
-//                          if(list.get(k).getParentId().equals("1")){
-//                              ids = list.get(k).getId();
-//                              break;
-//                          }
-//                        }
                         if(!newParentId.contains(newDetails.get(i).getParentId())){
                             serialOne = 1;
                             serialTwo = 1;
@@ -1929,13 +2057,6 @@ public class ProjectController extends BaseController {
                             serialSix ++;
                         }
                     }
-//                    if(newDetails.get(i).getDepartment()!=null){
-//                      Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
-//                      if(orgnization!=null){
-//                          newDetails.get(i).setOrgName(orgnization.getName());
-//                      }
-//                    }
-                    
                 }
                 ps.setProjectDetails(newDetails);
             }
@@ -2466,8 +2587,6 @@ public class ProjectController extends BaseController {
      
      @RequestMapping("/goBack")
      public String goBack(Integer page, Model model, Project project, String id,HttpServletRequest request){
-         request.getSession().removeAttribute("sessionList");//返回展示页面删掉session
-         
          Map<String,Object> detailMap=new HashMap<String,Object>();
          detailMap.put("projectId", id);
          List<ProjectDetail> pd = detailService.selectByRequiredId(detailMap);
@@ -2701,10 +2820,11 @@ public class ProjectController extends BaseController {
         String number = "2";
         String[] ids = id.split(",");
         //List<PurchaseRequired> requireds = new ArrayList<PurchaseRequired>();
+        List<String> id2 = getIds(ids);
         Set<String> set = new HashSet<String>();
-        for (int i = 0; i < ids.length; i++ ) {
+        for (String string : id2) {
             HashMap<String, Object> map = new HashMap<>();
-            PurchaseDetail detail = purchaseDetailService.queryById(ids[i]);
+            PurchaseDetail detail = purchaseDetailService.queryById(string);
             map.put("id", detail.getId());
             List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
             if(list.size() == 1){
@@ -2712,6 +2832,7 @@ public class ProjectController extends BaseController {
                  set.add(aa);
             }
         }
+            
         if(set.size() == 1){
             return num;
         }else{
@@ -2735,4 +2856,21 @@ public class ProjectController extends BaseController {
         return detailService.selectByPrimaryKey(request.getParameter("id"));
     }
     
+    
+    @RequestMapping("/deleted")
+    public String deleted(String id){
+        Map<String,Object> detailMap=new HashMap<String,Object>();
+        detailMap.put("projectId", id);
+        List<ProjectDetail> pd = detailService.selectByRequiredId(detailMap);
+        
+        for(int i=0;i<pd.size();i++){
+            PurchaseDetail required = purchaseDetailService.queryById(pd.get(i).getRequiredId());
+            required.setProjectStatus(0);
+            purchaseDetailService.updateByPrimaryKeySelective(required);
+        }
+        
+        detailService.deleteByProject(id);
+        projectService.delete(id);
+        return "redirect:list.html";
+    }
 }

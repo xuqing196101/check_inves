@@ -30,29 +30,31 @@
               $("input[name='chkItem']").each(function() {
                 var v1 = result[i].id;
                 var v2 = $(this).val();
-                if(v1 == v2) {
+                if(v2 == v1) {
                   $(this).prop("checked", flag);
                 }
               });
             }
+            
           },
+          
           error: function() {
             layer.msg("失败", {
               offset: ['222px', '390px']
             });
           }
         });
+        
+       
       }
       
-
       function save() {
+      $('input[name="chkItem"]:checked').val();
         var checkIds = [];
         $('input[name="chkItem"]:checked').each(function() {
           checkIds.push($(this).val());
         });
-        var id = $('input[name="chkItem"]:checked').val();
-        id = $.trim(id);
-        if(id == "") {
+        if(checkIds.length < 1) {
           layer.alert("请勾选明细", "#tb_id");
         } else {
           $.ajax({
@@ -74,8 +76,6 @@
                     checked = 1;
                   }
                   $("#uncheckId").val(checked);
-                  var purchaseTypes = $("#purchaseTypes").val();
-                  $("#purchaseType").val(purchaseTypes);
                   $("#detail_id").val(checkIds);
                   $("#save_form_id").submit();
                 }
@@ -238,7 +238,6 @@
       </c:forEach>
       <input id="detail_id" name="checkIds" type="hidden" />
       <input name="name" type="hidden" value="${name}" />
-      <input name="purchaseType" id="purchaseType" type="hidden" />
       <input name="projectNumber" value="${projectNumber}" type="hidden" />
       <input name="projectId" type="hidden" value="${projectId }" />
       <input name="id" type="hidden" value="${id}" />
