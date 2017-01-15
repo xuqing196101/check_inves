@@ -1,6 +1,7 @@
 package ses.service.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.bms.Category;
 import ses.model.sms.Supplier;
@@ -48,6 +49,15 @@ public interface SupplierItemService {
 	* @throws
 	 */
 	public List<Category> getCategory(String supplierId,String type);
+	
+	/**
+	 *〈简述〉条件查询
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param map
+	 * @return
+	 */
+	public List<SupplierItem> findByMap(Map<String, Object> map);
 	
 	/**
 	 * 

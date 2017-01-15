@@ -9,15 +9,23 @@ import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import bss.util.WordUtil;
 
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierProductsMapper;
 import ses.model.bms.Category;
+import ses.model.bms.DictionaryData;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertCategory;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierItemService;
+import ses.util.DictionaryDataUtil;
 
 import common.constant.StaticVariables;
 
@@ -70,39 +78,73 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 
 	@Override
 	public void saveOrUpdate(SupplierItem supplierItem) {
+	    String categoryId = supplierItem.getCategoryId();
+	    List<Category> categoryList = new ArrayList<Category>();
+	    categoryList.addAll(getChildrenNodes(categoryId));
+	    categoryList.addAll(getAllParentNode(categoryId));
+	    Map<String, Object> map = new HashMap<String, Object>();
+	    map.put("supplierId", supplierItem.getSupplierId());
+	    map.put("type", supplierItem.getSupplierTypeRelateId());
+	    for (Category cate : categoryList) {
+            map.put("categoryId", cate.getId());
+            // 查询是否数据库已存在
+            List<SupplierItem> result = supplierItemMapper.findByMap(map);
+            if (result == null || result.size() == 0) {
+                SupplierItem item = new SupplierItem();
+                item.setId(UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
+                item.setSupplierId(supplierItem.getSupplierId());
+                item.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
+                item.setCategoryId(cate.getId());
+                item.setCreatedAt(new Date());
+                supplierItemMapper.insertSelective(item);
+            }
+	    }
+	}
 		
-//		String id = supplierItem.getSupplierId();
-		
-		
-	//	supplierItemMapper.deleteBySupplierId(supplierItem.getSupplierId());
-		if(supplierItem.getCategoryId()!=null){
-			String categoryId = supplierItem.getCategoryId().trim();
-			if(supplierItem.getCategoryId().trim().length()>0){
-				String ids[] =categoryId.split(",");
-				Map<String,Object> map=new HashMap<String,Object>();
-				if(ids.length>=1){
-					for(String i:ids){
-						SupplierItem si = new SupplierItem();
-						String cid = UUID.randomUUID().toString().replaceAll("-", "");
-						si.setId(cid);
-						si.setSupplierId(supplierItem.getSupplierId());
-						si.setCategoryId(i);
-						si.setCreatedAt(new Date());
-						si.setSupplierTypeRelateId(supplierItem.getSupplierTypeRelateId());
-						map.put("supplierId", supplierItem.getSupplierId());
-						map.put("categoryId", i);
-						map.put("type", supplierItem.getSupplierTypeRelateId());
-						List<SupplierItem> list = supplierItemMapper.findByMap(map);
-						if(list.size()<1){
-							supplierItemMapper.insertSelective(si);
-						}
-						
-					}
-				}
-			}
-		}
-		
-		
+	/**
+     *〈简述〉获取当前节点的所有父级节点(包括根节点)
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId 
+     * @return
+     */
+    public List<Category> getAllParentNode(String categoryId) {
+        List<Category> categoryList = new ArrayList<Category>();
+        while (true) {
+            Category cate = categoryService.findById(categoryId);
+            if (cate == null) {
+                DictionaryData root = DictionaryDataUtil.findById(categoryId);
+                Category rootNode = new Category();
+                rootNode.setId(root.getId());
+                rootNode.setName(root.getName());
+                categoryList.add(rootNode);
+                break;
+            } else {
+                categoryList.add(cate);
+                categoryId = cate.getParentId();
+            }
+        }
+        return categoryList;
+    }
+	
+	/**
+     *〈简述〉递归获取所有的子节点
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId
+     * @return
+     */
+    public List<Category> getChildrenNodes(String categoryId) {
+        List<Category> allChildrenNodes = new ArrayList<Category>();
+        List<Category> childrenList = categoryService.findPublishTree(categoryId, null);
+        allChildrenNodes.addAll(childrenList);
+        if (childrenList != null && childrenList.size() > 0) {
+            for (Category cate : childrenList) {
+                allChildrenNodes.addAll(getChildrenNodes(cate.getId()));
+            }
+        }
+        return allChildrenNodes;
+    }	
 		
 	/*	String[] addIds = {supplierItem.getAddProCategoryIds(), supplierItem.getAddSellCategoryIds(), supplierItem.getAddEngCategoryIds(), supplierItem.getAddServeCategoryIds()};
 		for(int i = 0; i < addIds.length; i++) {
@@ -140,7 +182,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 				}
 			}
 		}*/
-	}
 
 	@Override
 	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId,String type) {
@@ -218,24 +259,56 @@ public class SupplierItemServiceImpl implements SupplierItemService {
      */
     @Override
     public void deleteItems(SupplierItem supplierItem) {
-        if(supplierItem.getCategoryId()!=null){
-            String categoryIds = supplierItem.getCategoryId().trim();
-            if(categoryIds.length() > 0){
-                String ids[] =categoryIds.split(",");
-                for (String categoryId : ids) {
-                    Map<String, String> params = new HashMap<String, String>();
-                    params.put("supplierId", supplierItem.getSupplierId());
-                    params.put("categoryId", categoryId);
-                    params.put("type", supplierItem.getSupplierTypeRelateId());
-                    supplierItemMapper.deleteByMap(params);
+        String categoryId = supplierItem.getCategoryId();
+        List<Category> categoryList = new ArrayList<Category>();
+        categoryList.addAll(getChildrenNodes(categoryId));
+        Category current = categoryService.findById(categoryId);
+        categoryList.add(current);
+        Map<String, String> map = new HashMap<String, String>();
+        map.put("supplierId", supplierItem.getSupplierId());
+        map.put("type", supplierItem.getSupplierTypeRelateId());
+        for (Category cate : categoryList) {
+            map.put("categoryId", cate.getId());
+            supplierItemMapper.deleteByMap(map);
+        }
+        // 判断父节点下还有没有子节点被勾选
+        Map<String, Object> param = new HashMap<String, Object>();
+        param.put("supplierId", supplierItem.getSupplierId());
+        param.put("type", supplierItem.getSupplierTypeRelateId());
+        List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
+        String parentId = current.getParentId();
+        if (parentId != null) {
+            out:while (true) {
+                boolean flag = false;
+                in:for (SupplierItem category : allCategory) {
+                    Category node = categoryService.findById(category.getCategoryId());
+                    if (node != null) {
+                        if (parentId.equals(node.getParentId())) {
+                            List<Category> childNodes = categoryService.findPublishTree(category.getCategoryId(), null);
+                            if (childNodes == null || childNodes.size() == 0) {
+                                flag = true;
+                                break in;
+                            }
+                        }
+                    }
+                }
+                if (!flag) {
+                    map.put("categoryId", parentId);
+                    supplierItemMapper.deleteByMap(map);
+                }
+                Category category = categoryService.findById(parentId);
+                if (category == null) {
+                    break out;
+                } else {
+                    parentId = category.getParentId();
                 }
             }
         }
     }
-		 
-		
- 
- 
-	
+
+    @Override
+    public List<SupplierItem> findByMap(Map<String, Object> map) {
+        return supplierItemMapper.findByMap(map);
+    }		 
 	
 }

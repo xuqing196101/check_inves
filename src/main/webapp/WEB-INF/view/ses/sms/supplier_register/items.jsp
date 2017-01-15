@@ -113,7 +113,33 @@
 		 	
 	 };
 	 $.fn.zTree.init($("#" + kind), setting, zNodes);
-  }
+	 var supplierId="${currSupplier.id}";
+	 var typeName = "";
+	 if (code == "PRODUCT") {
+		 typeName = "生产";
+	 } else if (code == "SALES") {
+		 typeName = "销售";
+	 }
+	$.ajax({
+		url: "${pageContext.request.contextPath}/supplier_item/getCategories.do",
+		data: {"supplierId" : supplierId, "supplierTypeRelateId" : code},
+		dataType: "json",
+		success: function(data){
+			$("#tbody_category").html("");
+			$(data).each(function(index, element){
+				index++;
+				$("#tbody_category").append("<tr>" +
+						"<td class='tc'>" + index + "</td>" +
+						"<td>" + element.rootNode + typeName + "</td>" +
+						"<td>" + element.firstNode + "</td>" +
+						"<td>" + element.secondNode + "</td>" +
+						"<td>" + element.thirdNode + "</td>" +
+						"<td>" + element.fourthNode + "</td>" +
+						"</tr>");
+			});
+		 }
+	});
+}
 	
 	//加载tab页签
 	function loadTab(code,kind, status){
@@ -203,22 +229,8 @@
 		}
 		$("#clickFlag").val(clickFlag);	 	
 		
-		var ids=[]; 
 		var tree = $.fn.zTree.getZTreeObj(treeId);
-		if (clickFlag == "1") {
-			if(tree!=null){
-				nodes = tree.getCheckedNodes(true);
-				for (var j = 0; j < nodes.length; j++) {
-					ids.push(nodes[j].id);
-				}
-			}
-		} else {
-			nodes = tree.getChangeCheckedNodes();
-			for (var j = 0; j < nodes.length; j++) {
-				ids.push(nodes[j].id);
-			}
-		}
-		$("#categoryId").val(ids);
+		$("#categoryId").val(treeNode.id);
 		var attr1=$("#li_id_1").attr("class");
 		if(attr1=='active'){
 			$("#supplierTypeRelateId").val("PRODUCT");
@@ -237,16 +249,25 @@
 		}
 		$("#flag").val("4");
 		$.ajax({
-			url: "${pageContext.request.contextPath}/supplier_item/save_or_update.do",
+			url: "${pageContext.request.contextPath}/supplier_item/saveCategory.do",
 			async: false,
 			data: $("#items_info_form_id").serialize(),
+			dataType: "json",
+			success: function(data) {
+				$("#tbody_category").html("");
+				$(data).each(function(index, element){
+					index++;
+					$("#tbody_category").append("<tr>" +
+							"<td class='tc'>" + index + "</td>" +
+							"<td>" + element.rootNode + "</td>" +
+							"<td>" + element.firstNode + "</td>" +
+							"<td>" + element.secondNode + "</td>" +
+							"<td>" + element.thirdNode + "</td>" +
+							"<td>" + element.fourthNode + "</td>" +
+							"</tr>");
+				});
+			}
 		});
-		
-		//清理善后工作,将状态改变的节点的old状态改为当前状态  
-	    allNodes = tree.getChangeCheckedNodes();  
-	   	for (var i=0; i < allNodes.length; i++) {  
-	   		allNodes[i].checkedOld = nodes[i].checked;  
-	    }  
 	}
 	
 	function supCategory(){
@@ -439,11 +460,21 @@
 										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
-								
-								
-								
 							</c:if>
-							
+							<div class="mt20">
+							<h2 class="f16">已选产品目录</h2>
+							<table class="table table-striped table-bordered table-hover">
+							  <tr>
+							    <td class="info tc w50">序号</td>
+							    <td class="tc">品目类别</td>
+							    <td class="tc">大类名称</td>
+							    <td class="tc">中类名称</td>
+							    <td class="tc">小类名称</td>
+							    <td class="tc">品种名称</td>
+							  </tr>
+							  <tbody id="tbody_category"></tbody>
+							</table>
+							</div>
 						</div>
 						
 				 

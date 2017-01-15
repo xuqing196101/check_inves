@@ -2211,7 +2211,7 @@ public class ExpertController extends BaseController {
         // 品目信息
         List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
         List<SupplierItem> listSupplierItems = supplier.getListSupplierItems();
-        // 剔除不是根节点的产品
+        // 剔除不是末级节点的产品
         List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
         for (SupplierItem supplierItem : removeNotChild) {
             String categoryId = supplierItem.getCategoryId();

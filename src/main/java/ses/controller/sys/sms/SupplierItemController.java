@@ -26,6 +26,7 @@ import ses.model.bms.Qualification;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
@@ -69,6 +70,189 @@ public class SupplierItemController extends BaseController{
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
+	@ResponseBody
+	@RequestMapping(value = "/saveCategory", produces = "application/json;charset=utf-8")
+	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
+	    // 判断是否是取消选中
+        if ("0".equals(clickFlag) && flag.equals("4")) {
+            supplierItemService.deleteItems(supplierItem);
+        } else if(flag.equals("4")){
+            supplierItemService.saveOrUpdate(supplierItem);
+        }
+        // 查询已选中的节点信息
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("supplierId", supplierItem.getSupplierId());
+        map.put("type", supplierItem.getSupplierTypeRelateId());
+        List<SupplierItem> listSupplierItems = supplierItemService.findByMap(map);
+        // 剔除不是末级节点的产品
+        List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
+        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
+        for (SupplierItem item : removeNotChild) {
+            String categoryId = item.getCategoryId();
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+            if (cateTree != null && cateTree.getRootNode() != null) {
+                allTreeList.add(cateTree);
+            }
+        }
+        for (SupplierCateTree cate : allTreeList) {
+            cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
+            cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
+            cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
+            cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
+            cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+        }
+        return JSON.toJSONString(allTreeList);
+	}
+	
+	/**
+	 *〈简述〉异步获取所有已选中的节点
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param supplierItem
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping(value = "/getCategories", produces = "application/json;charset=utf-8")
+	public String getCategoryList(SupplierItem supplierItem) {
+	    // 查询已选中的节点信息
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("supplierId", supplierItem.getSupplierId());
+        map.put("type", supplierItem.getSupplierTypeRelateId());
+        List<SupplierItem> listSupplierItems = supplierItemService.findByMap(map);
+        // 剔除不是末级节点的产品
+        List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
+        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
+        for (SupplierItem item : removeNotChild) {
+            String categoryId = item.getCategoryId();
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+            if (cateTree != null && cateTree.getRootNode() != null) {
+                allTreeList.add(cateTree);
+            }
+        }
+        for (SupplierCateTree cate : allTreeList) {
+            cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
+            cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
+            cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
+            cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
+            cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+        }
+        return JSON.toJSONString(allTreeList);
+	}
+	
+	/**
+     *〈简述〉获取当前节点的所有父级节点(包括根节点)
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId 
+     * @return
+     */
+    public List<Category> getAllParentNode(String categoryId) {
+        List<Category> categoryList = new ArrayList<Category>();
+        while (true) {
+            Category cate = categoryService.findById(categoryId);
+            if (cate == null) {
+                DictionaryData root = DictionaryDataUtil.findById(categoryId);
+                Category rootNode = new Category();
+                rootNode.setId(root.getId());
+                rootNode.setName(root.getName());
+                categoryList.add(rootNode);
+                break;
+            } else {
+                categoryList.add(cate);
+                categoryId = cate.getParentId();
+            }
+        }
+        return categoryList;
+    }
+	
+	/**
+     *〈简述〉查询品目信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param categoryId 产品Id
+     * @return List<CategoryTree> tree对象List
+     */
+    public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+        SupplierCateTree cateTree = new SupplierCateTree();
+        // 递归获取所有父节点
+        List<Category> parentNodeList = getAllParentNode(categoryId);
+        // 加入根节点
+        for (int i = 0; i < parentNodeList.size(); i++) {
+            DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+            if (rootNode != null) {
+                cateTree.setRootNode(rootNode.getName());
+            }
+        }
+        // 加入一级节点
+        if (cateTree.getRootNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+                    if (rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+                        cateTree.setFirstNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入二级节点
+        if (cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if (parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+                        cateTree.setSecondNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入三级节点
+        if (cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if (parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+                        cateTree.setThirdNode(cate.getName());
+                    }
+                }
+            }
+        }
+        // 加入末级节点
+        if (cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+            for (int i = 0; i < parentNodeList.size(); i++) {
+                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                if (cate != null && cate.getParentId() != null) {
+                    Category parentNode = categoryService.findById(cate.getParentId());
+                    if (parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+                        cateTree.setFourthNode(cate.getName());
+                    }
+                }
+            }
+        }
+        return cateTree;
+    }
+	
+	/**
+     *〈简述〉去除不是根节点的产品
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param listSupplierItems
+     */
+    public List<SupplierItem> removeNotChild(List<SupplierItem> listSupplierItems) {
+        List<SupplierItem> newSupplierItems = new ArrayList<SupplierItem>();
+        for (SupplierItem cate : listSupplierItems) {
+            String cateId = cate.getCategoryId();
+            List<Category> childList = categoryService.findPublishTree(cateId, null);
+            if (childList != null && childList.size() > 0) {
+                newSupplierItems.add(cate);
+            }
+        }
+        listSupplierItems.removeAll(newSupplierItems);
+        return listSupplierItems;
+    }
+	
 	/**
 	 * @Title: saveOrUpdate
 	 * @author: Wang Zhaohua
@@ -83,14 +267,6 @@ public class SupplierItemController extends BaseController{
 	 */
 	@RequestMapping(value = "save_or_update")
 	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model,String supplierTypeIds, String clickFlag) {
-	    
-	    // 判断是否是取消选中
-		if ("0".equals(clickFlag) && flag.equals("4")) {
-		    supplierItemService.deleteItems(supplierItem);
-		} else if(flag.equals("4")){
-			supplierItemService.saveOrUpdate(supplierItem);
-		}
-		
 		
 		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
 			HashMap<String, Object> map = new HashMap<String, Object>();
