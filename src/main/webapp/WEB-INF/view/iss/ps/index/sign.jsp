@@ -46,13 +46,14 @@
     				success : function(data) {
     					var flag = data.split(",");
     					if (data == "errorcode") {
+    						 getIdentityCode(0);
     						layer.tips("验证码不正确", "#inputCode", {
     							tips : 1
     						});
-    						getIdentityCode(1);
     						layer.close(index);
     					} else if (data == "errorlogin") {
     						layer.msg("用户名或密码错误！");
+    						getIdentityCode(0);
     						layer.close(index);
     					} else if (data == "nullcontext") {
     						layer.msg("请输入用户名密码或者验证码!");
