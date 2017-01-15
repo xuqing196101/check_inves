@@ -5,6 +5,7 @@ import java.util.List;
 
 import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
+import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 
 /**
@@ -30,7 +31,10 @@ public class Extension {
 	private List<FirstAudit> firstAuditList = new ArrayList<>();
 	//供应商集合
 	private List<SaleTender> supplierList = new ArrayList<>();
-	
+	//是否提交评审
+	private Short isSubmit;
+	//专家
+	private Expert expert;
 	
 	public String getProjectId() {
 		return projectId;
@@ -74,6 +78,19 @@ public class Extension {
 	public void setSupplierList(List<SaleTender> supplierList) {
 		this.supplierList = supplierList;
 	}
+  
+  public Short getIsSubmit() {
+    return isSubmit;
+  }
+  public void setIsSubmit(Short isSubmit) {
+    this.isSubmit = isSubmit;
+  }
+  public Expert getExpert() {
+    return expert;
+  }
+  public void setExpert(Expert expert) {
+    this.expert = expert;
+  }
 	
 	
 }

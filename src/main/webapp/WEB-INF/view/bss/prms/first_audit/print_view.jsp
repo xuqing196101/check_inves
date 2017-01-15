@@ -68,7 +68,7 @@
 			   	   <h4>评审人员：${expert.relName}</h4>
 				   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table2">
 				   		<thead>
-				   		  <th class="info space_nowrap">资格性和符合性审查项</th>
+				   		  <th class="info space_nowrap">资格性和符合性检查项</th>
 				   		  <c:set var="suppliers" value="0" />
 				   		  <c:forEach items="${extension.supplierList}" var="supplier" varStatus="vs">
 				   		  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
@@ -89,8 +89,9 @@
 					      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
 			   		                <td class="tc space_nowrap">
 			   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
-			   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==0 }">合格</c:if>
-			   		                      <c:if test="${r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==1 }">
+			   		                      <c:if test="${isSubmit == 0 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId}">暂无</c:if>
+			   		                      <c:if test="${isSubmit == 1 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==0 }">合格</c:if>
+			   		                      <c:if test="${isSubmit == 1 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==1 }">
 			   		                    	  <div class="red">不合格</div>
 			   		                    	 <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${expertId}');">查看理由</a>
 			   		                      </c:if>
@@ -103,6 +104,7 @@
 		 	            </c:forEach>
 				   		</c:forEach>
 				   </table>
+				   <h4>专家签名：</h4>
 			   </div>
 			</form>
 		</div> 

@@ -218,7 +218,11 @@
 	}
 	
 	function openPrint(projectId,packageId){
-		window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId="+packageId+"&projectId="+projectId, "打印汇总表");
+		window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId="+packageId+"&projectId="+projectId, "打印检查汇总表");
+	}
+	
+	function openDetailPrint(projectId,packageId){
+		window.open("${pageContext.request.contextPath}/packageExpert/openAllPrint.html?packageId="+packageId+"&projectId="+projectId, "打印所有检查表");
 	}
   </script>
   <body>
@@ -226,7 +230,7 @@
 	    <div class="mb5 fr">
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" onclick="sendBack('${projectId}','${pack.id}','${flowDefineId}')" type="button">复核检查</button>
-			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性检查查</button>
+			    <button class="btn" onclick="isFirstGather('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束符合性检查</button>
 			    <c:if test="${purcahseCode == 'JZXTP' || purcahseCode == 'DYLY'}">
 				    <button <c:if test="${pack.isEndPrice == '1'}">disabled="disabled"</c:if> id="againPrice" class="btn" onclick="endPrice('${projectId}','${pack.id}','${flowDefineId}');" type="button">结束报价</button>
 			    </c:if>

@@ -1523,7 +1523,8 @@ public class PackageExpertController {
         //查询专家
         List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
         if (expertIdList != null && expertIdList.size() > 0) {
-          Short isEnd = expertIdList.get(0).getIsGatherGather();
+          //Short isEnd = expertIdList.get(0).getIsGatherGather();
+          Short isEnd = expertIdList.get(0).getIsGather();
           model.addAttribute("isEnd", isEnd);
         }
         // 供应商信息
@@ -2720,6 +2721,14 @@ public class PackageExpertController {
      */
     @RequestMapping("/printView")
     public String printView(String projectId, String packageId, Model model, String expertId, HttpSession session){
+      Map<String, Object> pMap = new HashMap<String, Object>();
+      pMap.put("packageId", packageId);
+      pMap.put("projectId", projectId);
+      pMap.put("expertId", expertId);
+      List<PackageExpert> packageExperts = packageExpertService.selectList(pMap);
+      if (packageExperts != null && packageExperts.size() > 0) {
+          model.addAttribute("isSubmit", packageExperts.get(0).getIsAudit());
+      }
       Expert expert = expertService.selectByPrimaryKey(expertId);
       model.addAttribute("expert", expert);
       //创建封装的实体
@@ -3261,5 +3270,72 @@ public class PackageExpertController {
         model.addAttribute("firstAudits", list);
         model.addAttribute("project", project);
         return "bss/prms/first_audit/print_total";
+    }
+    
+    /**
+     *〈简述〉查看所有专家符合性审查
+     *〈详细描述〉
+     * @param projectId
+     * @param packageId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/openAllPrint")
+    public String openAllPrint(String projectId, String packageId, Model model){
+        List<Extension> extensions = new ArrayList<Extension>();
+        Map<String, Object> pMap = new HashMap<String, Object>();
+        pMap.put("packageId", packageId);
+        pMap.put("projectId", projectId);
+        List<PackageExpert> packageExperts = packageExpertService.selectList(pMap);
+        HashMap<String ,Object> map = new HashMap<>();
+        map.put("projectId", projectId);
+        map.put("id", packageId);
+        //查询包信息
+        Packages packages = null;
+        List<Packages> list = packageService.findPackageById(map);
+        if(list!=null && list.size()>0){
+            packages = list.get(0);
+            model.addAttribute("pack", packages);
+        }
+        //查询项目信息
+        Project project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
+        //获取包下的评审项
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setPackageId(packageId);
+        List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+        for (PackageExpert packageExpert : packageExperts) {
+            //创建封装的实体
+            Extension extension = new Extension();
+            Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+            extension.setExpert(expert);
+            extension.setIsSubmit(packageExpert.getIsAudit());
+            //放入包信息
+            extension.setPackageId(packages.getId());
+            extension.setPackageName(packages.getName());
+            if(project != null){
+              //放入项目信息
+              extension.setProjectId(project.getId());
+              extension.setProjectName(project.getName());
+              extension.setProjectCode(project.getProjectNumber());
+            }
+            //放入初审项集合
+            extension.setFirstAuditList(fas);
+            //查询供应商信息
+            List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
+            extension.setSupplierList(supplierList);
+            extensions.add(extension);
+        }
+        //查询审核过的信息用于回显
+        Map<String, Object> reviewFirstAuditMap = new HashMap<>();
+        reviewFirstAuditMap.put("projectId", projectId);
+        reviewFirstAuditMap.put("packageId", packageId);
+        List<ReviewFirstAudit> reviewFirstAuditList = reviewFirstAuditService.selectList(reviewFirstAuditMap);
+        //回显信息放进去
+        model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
+        List<DictionaryData> dds = DictionaryDataUtil.find(22);
+        model.addAttribute("dds", dds);
+        model.addAttribute("extensions", extensions);
+        return "bss/prms/first_audit/detail_print_view";
     }
 }
