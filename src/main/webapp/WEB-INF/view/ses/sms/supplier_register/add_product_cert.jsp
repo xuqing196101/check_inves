@@ -3,28 +3,28 @@
 
 <tr>
   <td class="tc">
-  	<input type="checkbox" value="${id}"/>
-  	<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${id}">
+  	<input type="checkbox" class="border0" value="${id}"/>
+  	<input type="hidden" class="border0" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${id}">
   </td>
-  <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"/> </td>
-  <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert"/> </td>
-  <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith"/></td>
+  <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" class="border0"/> </td>
+  <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" class="border0"/> </td>
+  <td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" class="border0"/></td>
   <td class="tc">
-    <input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate"/>
-  </td>
-  <td class="tc">
-    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly"  />
+    <input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" class="border0"/>
   </td>
   <td class="tc">
-    <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p">
+    <input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" class="border0"/>
+  </td>
+  <td class="tc">
+    <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p border0">
 	  <option value="1" >是</option>
 	  <option value="0" >否</option>
 	</select>
   </td>
   <td class="tc w200">
   <div class="w200">
-    <u:upload id="pro_up_${certProNumber}" multiple="true" businessId="${id}" typeId="1" sysKey="1"  auto="true" />
- 	<u:show showId="pro_show_${certProNumber}" businessId="${id}" typeId="1" sysKey="1" />
+    <u:upload id="pro_up_${certProNumber}" multiple="true" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+ 	<u:show showId="pro_show_${certProNumber}" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
   </div>
   </td>
 </tr>

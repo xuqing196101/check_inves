@@ -25,6 +25,7 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierProducts;
 import ses.service.bms.AreaServiceI;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierProductsService;
@@ -32,6 +33,8 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+
+import common.constant.Constant;
 
 @Controller
 @Scope("prototype")
@@ -52,6 +55,8 @@ public class SupplierProductsController extends BaseSupplierController {
 	
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	
 	/**
@@ -174,6 +179,9 @@ public class SupplierProductsController extends BaseSupplierController {
 		model.addAttribute("currSupplier", supplier);
 		
 		if(flag.equals("prev")){
+		    //初始化供应商注册附件类型
+	        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+	        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 			return "ses/sms/supplier_register/supplier_type";	
 		}else if(flag.equals("store")){
 			return "ses/sms/supplier_register/products";	

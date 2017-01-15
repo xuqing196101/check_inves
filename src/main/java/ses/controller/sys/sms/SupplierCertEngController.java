@@ -117,6 +117,9 @@ public class SupplierCertEngController extends BaseSupplierController {
         model.addAttribute("supplieType", list);
         List<DictionaryData> wlist = DictionaryDataUtil.find(8);
         model.addAttribute("wlist", wlist);
+        //初始化供应商注册附件类型
+        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_register/supplier_type";	
 	}
 	

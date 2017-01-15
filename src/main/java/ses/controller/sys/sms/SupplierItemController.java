@@ -135,6 +135,9 @@ public class SupplierItemController extends BaseController{
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		if(flag.equals("3")){
+		    //初始化供应商注册附件类型
+	        model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+	        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 		

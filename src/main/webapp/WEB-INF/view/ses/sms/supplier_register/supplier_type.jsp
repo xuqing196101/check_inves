@@ -266,9 +266,9 @@
 		});
 		var certPersonNumber = $("#certPersonNumber").val();
 		$("#reg_person_list_tbody_id").append("<tr>"+
-			"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].id' value='" + id + "'></td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].regType'/> </td>"+
-			"<td class='tc'><input type='text' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].regNumber'/> </td>"+
+			"<td class='tc'><input type='checkbox' value='" + id + "' class='border0'/><input type='hidden' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].id' value='" + id + "'></td>"+
+			"<td class='tc'><input type='text' class='border0' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].regType'/> </td>"+
+			"<td class='tc'><input type='text' class='border0' name='supplierMatEng.listSupplierRegPersons[" + certPersonNumber + "].regNumber'/> </td>"+
 			"</tr>");
 		certPersonNumber++;
 		$("#certPersonNumber").val(certPersonNumber);		
@@ -975,27 +975,27 @@
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
 														<tr>
 															<td class="tc">
-															<input type="checkbox" value="${certPro.id}" />
-															<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}" class="mt5">
+															<input type="checkbox" class="border0" value="${certPro.id}" />
+															<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}" class="mt5 border0">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}"/> </td>
-															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" /> </td>
-															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}" class="border0"/> </td>
+															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" class="border0"/> </td>
+															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}" class="border0"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd"/>"   />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 															<td class="tc">
-																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>"  />
+																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 															<td class="tc">
-															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p">
+															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p border0">
 														          <option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
 														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
 															<td class="tc">
-															 <u:upload id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="1" sysKey="1"  auto="true" />
-															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="1" sysKey="1" />
+															 <u:upload id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</td>
 														</tr>
 														<c:set var="certProNumber" value="${certProNumber + 1}"/>
@@ -1096,28 +1096,28 @@
 													<c:forEach items="${currSupplier.supplierMatSell.listSupplierCertSells}" var="certSell" varStatus="vs">
 														<tr>
 															<td class="tc">
-															<input type="checkbox" value="${certSell.id}" />
-															<input type="hidden" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}">
+															<input type="checkbox" value="${certSell.id}" class="border0"/>
+															<input type="hidden" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}" class="border0">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}"/></td>
-															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}"/></td>
-															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}" class="border0"/></td>
+															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}" class="border0"/></td>
+															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}" class="border0"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd"/>"   />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>"   />
+															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 														    <td class="tc">
-															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p">
+															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p border0">
 														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if>>是</option>
 														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
 															<td class="tc">
 															<div class="w200 fl">
-															 <u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="1" sysKey="1"  auto="true" />
-															 <u:show showId="sale_show_${certSaleNumber}" businessId="${certSell.id}" typeId="1" sysKey="1" />
+															 <u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:show showId="sale_show_${certSaleNumber}" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</div>
 															</td>
 														</tr>
@@ -1213,11 +1213,11 @@
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierRegPersons}" var="regPerson" varStatus="vs">
 														<tr>
 															<td class="tc">
-															<input type="checkbox" value="${regPerson.id}" />
+															<input type="checkbox" class="border0" value="${regPerson.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].id" value="${regPerson.id}">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
 														</tr>
 														<c:set var="certPersonNumber" value="${certPersonNumber + 1}"/>
 													</c:forEach>
@@ -1261,31 +1261,31 @@
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierCertEngs}" var="certEng" varStatus="vs">
 														<tr>
 															<td class="tc">
-															<input type="checkbox" value="${certEng.id}" />
+															<input type="checkbox" class="border0" value="${certEng.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id" value="${certEng.id}">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
-															<td class="tc"><input class="w120" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
+															<td class="tc"><input class="w120 border0" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
 															<td class="tc">
-															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p">
+															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p border0">
 														          <option value="1" <c:if test="${certEng.certStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${certEng.certStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
 															<td class="tc">
 															<div class="w200 fl">
-															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="1" sysKey="1"  auto="true" />
-															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="1" sysKey="1" />
+															 <u:upload id="eng_up_${certEngNumber}" multiple="true" businessId="${certEng.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:show showId="eng_show_${certEngNumber}" businessId="${certEng.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</div>
 															</td>
 														</tr>
@@ -1331,36 +1331,36 @@
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierAptitutes}" var="aptitute" varStatus="vs">
 														<tr>
 															<td class="tc">
-															<input type="checkbox" value="${aptitute.id}" />
+															<input type="checkbox" class="border0" value="${aptitute.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${aptitute.id}">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
 															<td class="tc">
-															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p">
+															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p border0">
 														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 														          <option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
+															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
 															<td class="tc">
-															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p">
+															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p border0">
 														          <option value="1" <c:if test="${aptitute.aptituteStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
+															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200">
 															<div class="w200">
-															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="1" sysKey="1"  auto="true" />
-															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="1" sysKey="1" />
+															 <u:upload id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															 </div>
 															</td>
 														</tr>
@@ -1460,23 +1460,23 @@
 													<c:forEach items="${currSupplier.supplierMatSe.listSupplierCertSes}" var="certSe" varStatus="vs">
 														<tr>
 															<td class="tc">
-															<input type="checkbox" value="${certSe.id}" />
+															<input type="checkbox" class="border0" value="${certSe.id}" />
 															<input type="hidden" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id" value="${certSe.id}">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
-															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
-															<td class="tc"><input type="text" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
+															<td class="tc"><input type="text" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc">
-																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p">
+																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p border0">
 																	<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
 																	<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>否</option>
 																</select>
 															</td>
 															<td class="tc">
-															 <u:upload id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="1" sysKey="1"  auto="true" />
-															 <u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="1" sysKey="1" />
+															 <u:upload id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 <u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</td>
 														</tr>
 														<c:set var="certSeNumber" value="${certSeNumber + 1}"></c:set>

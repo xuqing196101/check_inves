@@ -664,7 +664,9 @@ import common.service.UploadService;
        }
        model.addAttribute("servePageField", servePageField);
        
-       
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return "ses/sms/supplier_register/supplier_type";
 
      } else{
@@ -815,7 +817,9 @@ import common.service.UploadService;
        model.addAttribute("supplieType", list);
        List<DictionaryData> wlist = DictionaryDataUtil.find(8);
        model.addAttribute("wlist", wlist);
-
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return "ses/sms/supplier_register/supplier_type";	
      }
 
@@ -2196,7 +2200,9 @@ import common.service.UploadService;
    public ModelAndView addProductCert (String number, Model model) {
        model.addAttribute("certProNumber", number);
        model.addAttribute("id", WfUtil.createUUID());
-       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_product_cert");
    }
    
@@ -2213,7 +2219,9 @@ import common.service.UploadService;
    public ModelAndView addSaleCert (String number, Model model) {
        model.addAttribute("certSaleNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
-       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_sale_cert");
    }
    
@@ -2230,7 +2238,9 @@ import common.service.UploadService;
    public ModelAndView addEngCert (String number, Model model) {
        model.addAttribute("certEngNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
-       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_eng_cert");
    }
    
@@ -2247,7 +2257,9 @@ import common.service.UploadService;
    public ModelAndView addAptCert (String number, Model model) {
        model.addAttribute("certAptNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
-       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_apt_cert");
    }
    
@@ -2264,7 +2276,9 @@ import common.service.UploadService;
    public ModelAndView addSeCert (String number, Model model) {
        model.addAttribute("certSeNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
-       model.addAttribute("attId", DictionaryDataUtil.getId("SUPPLIER_PRODUCT"));
+       //初始化供应商注册附件类型
+       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_se_cert");
    }
    

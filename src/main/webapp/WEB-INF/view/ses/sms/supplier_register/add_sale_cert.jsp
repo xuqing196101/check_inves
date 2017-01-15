@@ -2,28 +2,28 @@
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <tr>
 <td class="tc">
-<input type="checkbox" value="${id}" />
-<input type="hidden" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${id}">
+<input type="checkbox" value="${id}" class="border0"/>
+<input type="hidden" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${id}" class="border0">
 </td>
-<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name"/></td>
-<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert"/></td>
-<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith"/></td>
+<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" class="border0"/></td>
+<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" class="border0"/></td>
+<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" class="border0"/></td>
 <td class="tc">
-<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate"/>
+<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" class="border0"/>
    </td>
 <td class="tc">
-	<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate"/>
+	<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" class="border0"/>
 </td>
 <td class="tc">
-   	<select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p">
+   	<select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p border0">
          <option value="1">是</option>
          <option value="0">否</option>
   	</select>
 </td>
 <td class="tc w200">
   <div class="w200">
- 	<u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${id}" typeId="1" sysKey="1"  auto="true" />
- 	<u:show showId="sale_show_${certSaleNumber}" businessId="${id}" typeId="1" sysKey="1" />
+ 	<u:upload id="sale_up_${certSaleNumber}" multiple="true" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+ 	<u:show showId="sale_show_${certSaleNumber}" businessId="${id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
   </div>
 </td>
 </tr>
