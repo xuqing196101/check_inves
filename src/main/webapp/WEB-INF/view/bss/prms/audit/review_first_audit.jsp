@@ -197,18 +197,20 @@
 	  </div>
     </div>
 	<div class="container">
-		<div class="headline-v2">
-	     <h2>符合性审查</h2>
-	    </div> 
 		<div class="container clear" id="package">
-			<h2 class="count_flow jbxx">${extension.projectName }（${extension.packageName }）</h2>
+			<div class="headline-v2">
+		     <h2>资格性和符合性检查</h2>
+		    </div>
+			<div class="mt10 tc">
+		   		<h2>${extension.projectName }（${extension.packageName }）</h2>
+		   	</div>
 			<form action="" method="post" >
 			   <!--包id  -->
 			   <input type="hidden" id="packageId" name="packageId" value=""/>
 		   	   <input type="hidden" name="projectId" id="projectId" value="${extension.projectId }">
 		   	   <input type="hidden" name="packageId" id="packageId" value="${extension.packageId }">
 		   	   <div class="content table_box over_scroll">
-				   <table class="table table-bordered table-condensed table-hover" id="table2">
+				   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table2">
 				   		<thead>
 				   		  <th class="info space_nowrap">资格性和符合性审查项</th>
 				   		  <c:set var="suppliers" value="0" />

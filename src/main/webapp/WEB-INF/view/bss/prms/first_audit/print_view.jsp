@@ -54,12 +54,19 @@
     <div class="container">
 		 
 		<div class="container clear" id="package">
-			<div class="col-md-10">
-				<input type="button" class="btn " value="打印" onclick="window.print();" id="print"/>
-		    </div>
+			<div class="mt5 mb5 fr">
+			    <button class="btn" onclick="window.print();" type="button">打印检查数据</button>
+		   	</div>
+		    <div class="headline-v2">
+		   		<h2>资格性符合性检查数据</h2>
+		   	</div>
+		   	<div class="mt10 tc">
+		   		<h2>${project.name}--${pack.name}</h2>
+		   	</div>
 			<form action="" method="post" >
 		   	   <div class="content table_box over_scroll">
-				   <table class="table table-bordered table-condensed table-hover" id="table2">
+			   	   <h4>评审人员：${expert.relName}</h4>
+				   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table2">
 				   		<thead>
 				   		  <th class="info space_nowrap">资格性和符合性审查项</th>
 				   		  <c:set var="suppliers" value="0" />
