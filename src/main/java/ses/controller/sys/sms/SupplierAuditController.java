@@ -655,8 +655,10 @@ public class SupplierAuditController extends BaseSupplierController{
 		//勾选的供应商类-型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);	
-		/*//文件
-		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);*/
+		
+		//文件
+		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//查出全部退回修改的信息
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
@@ -680,6 +682,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		 */
 		//资质资格证书信息
 		List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
+		for (int i = 0; i < materialProduction.size() - 1; i++) {
+	           for (int j = materialProduction.size() - 1; j > i; j--) {
+	               if (materialProduction.get(j).getId().equals(materialProduction.get(i).getId())) {
+	            	   materialProduction.remove(j);
+	               }
+	           }
+	     	}
 		supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("materialProduction",materialProduction);
@@ -691,6 +700,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		 */
 		//资质资格证书
 		List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
+		for (int i = 0; i < supplierCertSell.size() - 1; i++) {
+	           for (int j = supplierCertSell.size() - 1; j > i; j--) {
+	               if (supplierCertSell.get(j).getId().equals(supplierCertSell.get(i).getId())) {
+	            	   supplierCertSell.remove(j);
+	               }
+	           }
+	       }
 		//供应商组织机构和人员
 		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
 		request.setAttribute("supplierTypeNames", supplierTypeName);

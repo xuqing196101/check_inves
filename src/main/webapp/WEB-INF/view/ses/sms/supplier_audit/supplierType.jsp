@@ -23,7 +23,7 @@
 			//默认不显示叉
 			$(function() {
 				$("td").each(function() {
-					$(this).parent("tr").find("td").eq(6).find("a").hide();
+					$(this).parent("tr").find("td").eq(7).find("a").hide();
 				});
 
 				$(":input").each(function() {
@@ -120,7 +120,7 @@
 			//销售
 			function reasonSale(id, str) {
 				var supplierId = $("#supplierId").val();
-				var auditContent = "资质证书名称" + str + "的信息";
+				var auditContent = "证书名称：" + str + "的信息";
 				var index = layer.prompt({
 					title: '请填写不通过的理由：',
 					formType: 2,
@@ -575,14 +575,14 @@
 													<th class="info">发证机关</th>
 													<th class="info">有效期(起止时间)</th>
 													<th class="info">是否年检</th>
-													<!-- <th class="info">附件</th> -->
+													<th class="info">附件</th>
 													<th class="info w50">操作 </th>
 												</tr>
 											</thead>
 											<c:forEach items="${materialProduction}" var="m" varStatus="vs">
 												<tr>
 													<td class="tc">${vs.index + 1}</td>
-													<td class="tc" id="${m.id}">${m.name }</td>
+													<td class="tl pl20" id="${m.id}">${m.name }</td>
 													<td class="tc">${m.levelCert}</td>
 													<td class="tc">${m.licenceAuthorith }</td>
 													<td class="tc">
@@ -592,6 +592,9 @@
 													<td class="tc">
 														<c:if test="${m.mot==0 }">否</c:if>
 														<c:if test="${m.mot==1 }">是</c:if>
+													</td>
+													<td class="tc">
+														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -741,7 +744,7 @@
 													<th class="info">发证机关</th>
 													<th class="info">有效期(起止时间)</th>
 													<th class="info">是否年检</th>
-													<!-- <th class="info">附件</th> -->
+												  <th class="info">附件</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
@@ -758,6 +761,9 @@
 													<td class="tc">
 														<c:if test="${s.mot==0 }">否</c:if>
 														<c:if test="${s.mot==1 }">是</c:if>
+													</td>
+													<td class="tc">
+													  <u:show showId="sale_show_${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonSale('${s.id}','${s.name }');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -824,11 +830,11 @@
 													<th class="info">发证日期</th>
 													<th class="info">有效截止日期</th>
 													<th class="info">证书状态</th>
-													<!-- <th class="info">附件</th> -->
+													<th class="info">附件</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
-											<c:forEach items="${supplierCertEng}" var="s">
+											<c:forEach items="${supplierCertEng}" var="s" varStatus="vs">
 												<tr>
 													<td class="tc">${s.certType }</td>
 													<td class="tc" id="${s.id }">${s.certCode }</td>
@@ -850,6 +856,9 @@
 													<td class="tc">
 														<c:if test="${s.certStatus==0 }">无效</c:if>
 														<c:if test="${s.certStatus==1 }">有效</c:if>
+													</td>
+													<td class="tc">
+														<u:show showId="eng_show${vs.index+1}" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -878,11 +887,11 @@
 													<th class="info">资质资格状态</th>
 													<th class="info">资质资格状态变更时间</th>
 													<th class="info">资质资格状态变更原因</th>
-													<!-- <th class="info">附件</th> -->
+													<th class="info">附件</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
-											<c:forEach items="${supplierAptitutes}" var="s">
+											<c:forEach items="${supplierAptitutes}" var="s" varStatus="vs">
 												<tr>
 													<td class="tc">${s.certType }</td>
 													<td class="tc" id="${s.id }">${s.certCode }</td>
@@ -906,6 +915,9 @@
 															<fmt:formatDate value="${s.aptituteChangeAt }" pattern='yyyy-MM-dd' />
 														</td>
 														<td class="tc">${s.aptituteChangeReason }</td>
+														<td class="tc">
+															 <u:show showId="apt_show${vs.index+1}" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+														</td>
 														<td class="tc w50">
 															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 															<a id="${s.id }_show1" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
@@ -988,7 +1000,7 @@
 													<th class="info">发证机关</th>
 													<th class="info">有效期(起止时间)</th>
 													<th class="info">是否年检</th>
-													<!-- <th class="info">附件</th> -->
+													<th class="info">附件</th>
 													<th class="info w50">操作</th>
 												</tr>
 											</thead>
@@ -1005,6 +1017,9 @@
 													<td class="tc">
 														<c:if test="${s.mot==0 }">否</c:if>
 														<c:if test="${s.mot==1 }">是</c:if>
+													</td>
+													<td class="tc">
+														<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonService('${s.id}','服务-资质证书','${s.name}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
