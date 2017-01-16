@@ -100,6 +100,13 @@ public class SupplierItemController extends BaseController{
             cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
             cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+            String typeName = "";
+            if (supplierItem.getSupplierTypeRelateId().equals("PRODUCT")) {
+                typeName = "生产";
+            } else if (supplierItem.getSupplierTypeRelateId().equals("SALES")) {
+                typeName = "销售";
+            }
+            cate.setRootNode(cate.getRootNode() + typeName);
         }
         return JSON.toJSONString(allTreeList);
 	}

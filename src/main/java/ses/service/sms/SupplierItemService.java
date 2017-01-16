@@ -26,6 +26,17 @@ public interface SupplierItemService {
 	* @throws
 	 */
 	public List<SupplierItem> getSupplierIdCategoryId(String supplierId,String categoryId,String type);
+	
+	/**
+	 *〈简述〉根据供应商id,类型获取品目信息
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param supplierId
+	 * @param type
+	 * @param pageNum
+	 * @return
+	 */
+	public List<SupplierItem> findCategoryList(String supplierId, String type, Integer pageNum);
 	/**
 	 * 
 	* @Title: getCategory
