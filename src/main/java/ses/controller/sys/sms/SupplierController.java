@@ -2134,7 +2134,7 @@ import common.service.UploadService;
      HashMap<String, Object> allInfo = new HashMap<String, Object>();
      // 根据userId查询出Expert
      Supplier supplier = supplierService.selectById(userService.getUserById(userId).getTypeId());   
-     Date submitDate = supplier.getAuditDate();
+     Date submitDate = supplier.getSubmitAt();
      allInfo.put("submitDate", new SimpleDateFormat("yyyy年MM月dd日").format(submitDate));
      // 判断有没有超过45天
      String isok;
