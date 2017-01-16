@@ -77,20 +77,20 @@
       <c:if test="${lists != null }">
         <table id="table" class="table table-bordered table-condensed table-hover table-striped table_wrap">
           <thead>
-            <tr>
+            <tr class="space_nowrap">
               <th class="info w50">序号</th>
               <th class="info">需求部门</th>
               <th class="info">物资名称</th>
               <th class="info">规格型号</th>
-              <th class="info">质量技术标准</th>
-              <th class="info">计量单位</th>
-              <th class="info">采购数量</th>
+              <th class="info">质量技术标准<br/>(技术参数)</th>
+              <th class="info">计量<br/>单位</th>
+              <th class="info">采购<br/>数量</th>
               <th class="info">交货期限</th>
-              <th class="info">采购方式建议</th>
+              <th class="info">采购方式</th>
               <th class="info">供应商名称</th>
-              <th class="info">是否申请办理免税</th>
-              <th class="info">物资用途（进口）</th>
-              <th class="info">使用单位（进口）</th>
+              <th class="info">是否申请<br/>办理免税</th>
+              <th class="info">物资用途<br/>（进口）</th>
+              <th class="info">使用单位<br/>（进口）</th>
               <th class="info">备注</th>
             </tr>
           </thead>

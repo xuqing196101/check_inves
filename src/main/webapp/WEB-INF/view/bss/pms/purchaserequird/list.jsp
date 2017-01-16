@@ -261,9 +261,9 @@
           
             
 			    	</ul>
-			    	<div class="fl">
-			    	  <input class="btn fl" type="submit" value="查询" /> 
-				      <input class="btn fl" type="button" value="重置" onclick="resetQuery()" />	
+			    	<div class="col-md-12 clear tc mt10">
+			    	  <input class="btn" type="submit" value="查询" /> 
+				      <input class="btn" type="button" value="重置" onclick="resetQuery()" />	
 			    	</div>
 		    	  <div class="clear"></div>
 		        </form>

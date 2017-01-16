@@ -1375,12 +1375,9 @@ public class ProjectController extends BaseController {
                 projectDetail.setDetailStatus(0);
             }
         }
-        HashMap<String, Object> map1 = new HashMap<>();
-        map1.put("typeName", "0");
-        List<Orgnization> orgnization = orgnizationService.findOrgnizationList(map1);
-        model.addAttribute("orgnization",orgnization);
+        List<ProjectDetail> paixu = paixu(detail, project.getId());
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        model.addAttribute("lists", detail);
+        model.addAttribute("lists", paixu);
         model.addAttribute("project", project);
         return "bss/ppms/project/editDetail";
     }

@@ -7,7 +7,7 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js"></script>
     <script type="text/javascript">
       //勾选明细
       function check(ele) {
@@ -35,21 +35,20 @@
                 }
               });
             }
-            
+
           },
-          
+
           error: function() {
             layer.msg("失败", {
               offset: ['222px', '390px']
             });
           }
         });
-        
-       
+
       }
-      
+
       function save() {
-      $('input[name="chkItem"]:checked').val();
+        $('input[name="chkItem"]:checked').val();
         var checkIds = [];
         $('input[name="chkItem"]:checked').each(function() {
           checkIds.push($(this).val());
@@ -126,21 +125,21 @@
       <div class="content" id="content">
         <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
           <thead>
-            <tr class="info">
+            <tr class="space_nowrap">
               <th class="w30">选择</th>
-              <th class="w50">序号</th>
-              <th>需求部门</th>
-              <th>物资名称</th>
-              <th>规格型号</th>
-              <th>质量技术标准</th>
-              <th>计量单位</th>
-              <th>采购数量</th>
-              <th>交货期限</th>
-              <th>采购方式</th>
-              <th>供应商名称</th>
-              <th>是否申请办理免税</th>
-              <th>物资用途（进口）</th>
-              <th>使用单位（进口）</th>
+              <th class="info w50">序号</th>
+              <th class="info">需求部门</th>
+              <th class="info">物资类别及<br/>物资名称</th>
+              <th class="info">规格型号</th>
+              <th class="info">质量技术标准<br/>(技术参数)</th>
+              <th class="info">计量<br/>单位</th>
+              <th class="info">采购<br/>数量</th>
+              <th class="info">交货期限</th>
+              <th class="info">采购方式</th>
+              <th class="info">供应商名称</th>
+              <th class="info">是否申请<br/>办理免税</th>
+              <th class="info">物资用途<br/>（进口）</th>
+              <th class="info">使用单位<br/>（进口）</th>
               <th>备注</th>
             </tr>
           </thead>
@@ -156,17 +155,16 @@
                     <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
                   </td>
                   <td class="tl pl20">
-                      ${obj.department}
+                    ${obj.department}
                     <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">
                   </td>
                   <td class="tl pl20">${obj.goodsName}
                     <input type="hidden" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }">
                   </td>
                   <td class="tl pl20">
-                  <c:if test="${obj.stand!='合计'}">
-                   ${obj.stand}
-                  </c:if>
-                 
+                    <c:if test="${obj.stand!='合计'}">
+                      ${obj.stand}
+                    </c:if>
                     <input type="hidden" name="listDetail[${vs.index }].stand" value="${obj.stand }">
                   </td>
                   <td class="tl pl20">${obj.qualitStand}
@@ -184,16 +182,16 @@
                   <td class="tc">
                     <input type="hidden" id="purchaseTypes" value="${obj.purchaseType }">
                     <c:choose>
-                            <c:when test="${obj.detailStatus==0 }">
+                      <c:when test="${obj.detailStatus==0 }">
 
-                            </c:when>
-                            <c:otherwise>
-                              <c:forEach items="${kind}" var="kind">
-					                      <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-					                    </c:forEach>
-                        </c:otherwise>
-                        </c:choose>
-                    
+                      </c:when>
+                      <c:otherwise>
+                        <c:forEach items="${kind}" var="kind">
+                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                        </c:forEach>
+                      </c:otherwise>
+                    </c:choose>
+
                     <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType }">
                   </td>
                   <td class="tl pl20">${obj.supplier}
