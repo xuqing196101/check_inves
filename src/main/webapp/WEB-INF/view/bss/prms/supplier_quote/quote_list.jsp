@@ -147,8 +147,7 @@
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 			<tr>
 			        <c:if test="${isEndPrice !=1 }">
-		        		<td class="tc" colspan="2"><button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button></td>
-		        		<td class="tc" colspan="2">
+		        		<td class="tc" colspan="4"><button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
 						 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 								<c:if test="${empty treemap.value[0].dataList}">
 									<option value=''>暂无报价历史</option>
@@ -162,8 +161,7 @@
 				    </td>
 		        	</c:if>
 		        	 <c:if test="${isEndPrice ==1 }">
-		        		<td class="tc" colspan="2"><button class="btn">已结束唱标</button></td>
-		        		<td class="tc" colspan="2">
+		        		<td class="tc" colspan="4"><button class="btn">已结束唱标</button>
 						 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
 								<c:if test="${empty treemap.value[0].dataList}">
 									<option value=''>暂无报价历史</option>
@@ -199,27 +197,26 @@
 				 <c:if test="${vs.index != 0 }">
 				 	<h2 onclick="ycDivmingxi(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage.name }</span></h2>
 				 </c:if>
-		 			<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
-					        	
-					        	 <c:if test="${listPackage.isEndPrice != 1 }">
-					        		<button class="btn" onclick = "quoteAgain('${project.id}','${listPackage.id}')">再次报价</button>
-					        	</c:if>
-					        	 <c:if test="${listPackage.isEndPrice ==1 }">
-					        		<button class="btn">已结束唱标</button>
-					        	</c:if>
-					        	
-								 <select onchange="showQuoteHistoryMingxi('${project.id}','${listPackage.id}',this.options[this.options.selectedIndex].value)">
-								 	<c:set value="${fn:length(listPackage.dataList)}" var="length"></c:set>
-								 	<c:if test="${empty listPackage.dataList}">
-								 		<option value=''>暂无报价历史</option>
-								 	</c:if>
-								 	<c:if test="${not empty listPackage.dataList}">
-										<c:forEach items="${listPackage.dataList}" var="ld" varStatus="vs">
-											<c:set value="${length - vs.index}" var="result"></c:set>
-											<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}次报价</option>
-										</c:forEach>
-									</c:if>
-							 	 </select>
+				 <c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
+			        	 <c:if test="${listPackage.isEndPrice != 1 }">
+			        		<button class="btn" onclick = "quoteAgain('${project.id}','${listPackage.id}')">再次报价</button>
+			        	</c:if>
+			        	 <c:if test="${listPackage.isEndPrice ==1 }">
+			        		<button class="btn">已结束唱标</button>
+			        	</c:if>
+			        	
+						 <select onchange="showQuoteHistoryMingxi('${project.id}','${listPackage.id}',this.options[this.options.selectedIndex].value)">
+						 	<c:set value="${fn:length(listPackage.dataList)}" var="length"></c:set>
+						 	<c:if test="${empty listPackage.dataList}">
+						 		<option value=''>暂无报价历史</option>
+						 	</c:if>
+						 	<c:if test="${not empty listPackage.dataList}">
+								<c:forEach items="${listPackage.dataList}" var="ld" varStatus="vs">
+									<c:set value="${length - vs.index}" var="result"></c:set>
+									<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}次报价</option>
+								</c:forEach>
+							</c:if>
+					 	 </select>
 					 </c:if>
                </div>
 			<c:forEach items="${listPackage.suList}" var="suList" varStatus="vs">
