@@ -8,6 +8,7 @@
 <link href="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/skin/laypage.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 $(function() {
+	layer.close(index);
 	laypage({
 		cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		pages: "${contract.pages}", //总页数
