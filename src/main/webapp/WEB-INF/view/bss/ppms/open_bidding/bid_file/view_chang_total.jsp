@@ -77,7 +77,9 @@
 	</c:forEach>
 </c:forEach>
 		<div class="col-md-12 tc">
+		<c:if test="${listLength == 1}">
 			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
+		</c:if>
 		</div>
 </div>
 </body>

@@ -113,7 +113,9 @@
 		</c:forEach>
 	</div>
 		<div class="col-md-12 tc">
+		<c:if test="${fn:length(listPackage) == 1 }">
 			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
+		</c:if>
 		</div>
 </body>
 </html>

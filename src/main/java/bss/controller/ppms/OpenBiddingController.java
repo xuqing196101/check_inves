@@ -1031,7 +1031,9 @@ public class OpenBiddingController {
             }
             packList = listPackage1;
         }
-        
+        if (packList != null && packList.size() == 1 && packId != null) {
+            model.addAttribute("listLength", 1);
+        }
         for (Packages pack : packList) {
             condition.setProjectId(projectId);
             condition.setPackages(pack.getId());
