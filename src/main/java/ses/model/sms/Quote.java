@@ -2,6 +2,7 @@ package ses.model.sms;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.List;
 
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -100,6 +101,17 @@ public class Quote {
     //是否到场
     private Integer isTurnUp;
     
+    //每个包下面的供应商
+    private List<Supplier> suList;
+    
+    public List<Supplier> getSuList() {
+        return suList;
+    }
+
+    public void setSuList(List<Supplier> suList) {
+        this.suList = suList;
+    }
+
     public Integer getIsTurnUp() {
         return isTurnUp;
     }

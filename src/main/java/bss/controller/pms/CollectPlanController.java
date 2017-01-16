@@ -183,7 +183,7 @@ public class CollectPlanController extends BaseController {
 		@RequestMapping("/collectlist")
     public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model,String type) {
     //下达状态
-    collectPlan.setStatus(12);
+    collectPlan.setSign("3");
 	collectPlan.setUserId(user.getId());
     List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page == null ? 1 : page);
     PageInfo<CollectPlan> info = new PageInfo<>(list);
@@ -292,14 +292,27 @@ public class CollectPlanController extends BaseController {
 		@RequestMapping("/update")
 		@ResponseBody
 		public String update(CollectPlan collectPlan,String uniqueId,HttpServletRequest request){
-			List<PurchaseDetail> detail = purchaseDetailService.groupDetail(collectPlan.getId());
+			
+//			List<PurchaseDetail> detail = purchaseDetailService.groupDetail(collectPlan.getId());
+			//采购计划明细
+			List<PurchaseDetail> pd = purchaseDetailService.getUniqueId(collectPlan.getId());
+			List<String> allList=new ArrayList<String>();//新的以以及老的
+			
+			for(PurchaseDetail p:pd){
+				PurchaseRequired pr = purchaseRequiredService.queryById(p.getId());
+				if(pr!=null){
+					allList.add(pr.getUniqueId());
+				}
+			}
+			
+			
 			CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
 			String [] uniqueIds = uniqueId.split(",");//获取要汇入采购计划 的id
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();
 			PurchaseRequired p=new PurchaseRequired();
 //			String pid="";
 //			Integer seq=1;
-			List<String> addList=new ArrayList<String>();
+//			List<String> addList=new ArrayList<String>();
 			for(String c:uniqueIds){
 //				c.setCollectPlanId(collectPlan.getId());
 //				c.setPlanNo(no);
@@ -309,24 +322,24 @@ public class CollectPlanController extends BaseController {
 				
 				p.setUniqueId(c);
 				List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
-				append(one,detail,collectPlan.getId());
+//				append(one,detail,collectPlan.getId());
 //				for(PurchaseRequired pr:one){
 //					pid=one.get(0).getId();
 //					if(pid.equals(pr.getParentId())){
 //						
 //					}
 //				}
-				
+				allList.add(c);
 				list.addAll(one);
 				
-				addList.add(c);
+//				addList.add(c);
 				p.setStatus("5");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
 			
 			}
 			
-			List<PurchaseRequired> list2 = collectPlanService.getAll(addList, request);
+			List<PurchaseRequired> list2 = collectPlanService.getAll(allList, request);
 			
 			
 			
@@ -338,15 +351,24 @@ public class CollectPlanController extends BaseController {
 			}
 //			List<PurchaseDetail> list2 = purchaseDetailService.getUnique(plan.getId());
 			
-			if(list!=null&&list.size()>0){
+			if(list2!=null&&list2.size()>0){
 				Integer count=1;
-				for(PurchaseRequired pr:list){
-					PurchaseDetail pd=new PurchaseDetail();
-					BeanUtils.copyProperties(pr, pd,new String[] {"serialVersionUID"});
-					pd.setUniqueId(collectPlan.getId());
-					pd.setIsMaster(count);
+				for(PurchaseRequired pr:list2){
+					PurchaseDetail pds=new PurchaseDetail();
+					BeanUtils.copyProperties(pr, pds,new String[] {"serialVersionUID"});
+					pds.setUniqueId(collectPlan.getId());
+					pds.setIsMaster(count);
 					count++;
-					purchaseDetailService.add(pd);
+					if(!pr.getSeq().equals("一")){
+				    	PurchaseDetail detail = purchaseDetailService.queryById(pds.getId());
+						if(detail!=null){
+							purchaseDetailService.updateByPrimaryKeySelective(pds);
+						}else {
+							purchaseDetailService.add(pds);
+						}
+					}
+					
+					
 				}
 			}
 			

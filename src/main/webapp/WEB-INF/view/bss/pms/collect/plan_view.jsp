@@ -216,27 +216,27 @@ $(document).ready(function () {
     </div>
     <div class="container clear margin-top-30"  id="content" >
       <form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-       <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
+       <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; width:1600px; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
   border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed">
           <thead>
             <tr class="space_nowrap">
               <th class="info w50">序号</th>
-              <th class="info w150">需求部门</th>
-              <th class="info w150">物资类别<br>及名称</th>
-              <th class="info w150">规格型号</th>
-              <th class="info w150">质量技术标准<br>（技术参数）</th>
-              <th class="info w150">计量单位</th>
-              <th class="info w150">采购数量</th>
-              <th class="info w150">单位<br>（元）</th>
-              <th class="info w150">预算金额<br>（万元）</th>
-              <th class="info w150">交货期限</th>
+              <th class="info w240">需求部门</th>
+              <th class="info w240">物资类别<br>及名称</th>
+              <th class="info w200">规格型号</th>
+              <th class="info w200">质量技术标准<br>（技术参数）</th>
+              <th class="info w50">计量</br>单位</th>
+              <th class="info w50">采购</br>数量</th>
+              <th class="info w100">单位<br>（元）</th>
+              <th class="info w100">预算金额<br>（万元）</th>
+              <th class="info w100">交货期限</th>
               <th class="info w150">采购方式建议</th>
-              <th class="info w150">采购机构</th>
-              <th class="info w150">供应商名称</th>
-              <th class="info w150">是否申请<br>办理免税</th>
+              <th class="info w200">采购机构</th>
+              <th class="info w240">供应商名称</th>
+              <th class="info w100">是否申请<br>办理免税</th>
             <!--   <th class="info w150">物资用途<br>（仅进口）</th>
               <th class="info w150">使用单位<br>（仅进口）</th> -->
-              <th class="info w150">备注</th>
+              <th class="info w240">备注</th>
             </tr>
           </thead>
 
@@ -244,7 +244,7 @@ $(document).ready(function () {
             <tr>
               <td class="tc w50">${obj.seq } 
               </td>
-              <td  class="tl pl20">${obj.department}</td >
+              <td  class="tl pl20 w240">${obj.department}</td >
               <%-- <td class="tl pl20">
                    <c:forEach items="${requires }" var="re" >
                     <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
@@ -252,26 +252,26 @@ $(document).ready(function () {
           
               </td> --%>
               <%-- <td>${obj.goodsName }</td> --%>
-              <td title="${obj.goodsName}" class="tl pl20">
+              <td title="${obj.goodsName}" class="tl pl20 w240">
               <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
               <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
               </td >
               <%-- <td class="tc"> ${obj.stand }</td> --%>
-              <td title="${obj.stand}" class="tl pl20">
+              <td title="${obj.stand}" class="tl pl20 w200">
               <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
               <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
               </td >
               <%-- <td class="tc"> ${obj.qualitStand }</td> --%>
-              <td title="${obj.qualitStand}" class="tl pl20">
+              <td title="${obj.qualitStand}" class="tl pl20 w200">
               <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
               <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
               </td >
               <%-- <td class="tc"> ${obj.item }</td> --%>
-              <td title="${obj.item}" class="tl pl20">
+              <td title="${obj.item}" class="tc w50">
               <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
               <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
               </td >
-              <td class="tl pl20">${obj.purchaseCount }</td>
+              <td class="tc w50">${obj.purchaseCount }</td>
               <td class="tr pr20">${obj.price }</td>
               <td class="tr pr20">${obj.budget }</td>
               <td class="tl pl20">${obj.deliverDate }</td>

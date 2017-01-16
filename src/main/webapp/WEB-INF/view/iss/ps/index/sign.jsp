@@ -46,13 +46,14 @@
     				success : function(data) {
     					var flag = data.split(",");
     					if (data == "errorcode") {
+    						 getIdentityCode(0);
     						layer.tips("验证码不正确", "#inputCode", {
     							tips : 1
     						});
-    						getIdentityCode(1);
     						layer.close(index);
     					} else if (data == "errorlogin") {
     						layer.msg("用户名或密码错误！");
+    						getIdentityCode(0);
     						layer.close(index);
     					} else if (data == "nullcontext") {
     						layer.msg("请输入用户名密码或者验证码!");
@@ -265,12 +266,15 @@
 
   								<div class="tab-content reg-page">
   									<div class="tab-pane active in" id="tab-1">
+  									<div class="msg-wrap">
+			                               <div class="msg-error  hide"><b></b>请输入密码</div>
+                                    </div>
 
   										<form accept-charset="UTF-8" class="sky-form" method="post">
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputEmail"
   															name="" placeholder="请输入用户名" type="text">
   														</label>
@@ -281,7 +285,7 @@
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">密
   														码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputPassword"
   															name="" placeholder="请输入密码" type="password">
   														</label>
@@ -293,7 +297,7 @@
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input">
   															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
   																<input id="inputCode" type="text" placeholder="" class="fl col-md-12">
@@ -317,14 +321,17 @@
   										</form>
   									</div>
   									<div class="tab-pane" id="tab-2">
+  									<div class="msg-wrap">
+			                               <div class="msg-error  hide"><b></b>请输入密码</div>
+                                    </div>
   										<form accept-charset="UTF-8" class="sky-form"
   											method="post">
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
-  															placeholder="用户名" type="text">
+  															placeholder="请输入用户名" type="text">
   														</label>
   													</div>
   												</div>
@@ -333,9 +340,9 @@
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
-  															placeholder="密 码" type="password">
+  															placeholder="请输入密码" type="password">
   														</label>
   														<div class="note"></div>
   													</div>
@@ -345,7 +352,7 @@
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input">
   															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
   																<input type="password" placeholder="" class="fl col-md-12">

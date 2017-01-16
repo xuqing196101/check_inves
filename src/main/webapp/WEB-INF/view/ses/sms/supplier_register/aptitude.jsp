@@ -48,12 +48,21 @@
 		$("#items_info_form_id").submit();
 	}
 	
+/*获取内层div的最大高度赋予外层div*/	
+function psize(){
+  var temp_heights = []
+  $(".fades").each(function(){
+    temp_heights.push($(this).outerHeight());
+  })
+  $("#tab_content_div_id").outerHeight(Math.max.apply(null,temp_heights));
+}
+</script>
  
 </script>
  
 </head>
 
-<body>
+<body onload="psize()">
 	<div class="wrapper">
 
 		<!-- 项目戳开始 -->

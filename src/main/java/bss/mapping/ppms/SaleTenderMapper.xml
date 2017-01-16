@@ -44,12 +44,30 @@
 		and
 		IS_REMOVED = '0'
 	</select>
-	<select id="getPackageIds" parameterType="java.lang.String"
-		resultType="java.lang.String">
-		SELECT DISTINCT(PACKAGR_IDS) FROM
-		T_BSS_PPMS_SALE_TENDER WHERE STATUS_BID = 2 and STATUS_BOND =
-		2 and PROJECT_ID = #{projectId}
-		and IS_REMOVED = '0'
+	<select id="getPackageIds" parameterType="java.lang.String" resultType="bss.model.ppms.Packages">
+		SELECT
+			*
+		FROM
+			(
+				SELECT
+					*
+				FROM
+					T_BSS_PPMS_PACKAGE
+				WHERE
+					PROJECT_ID = #{projectId}
+			) T
+		WHERE
+			T . ID IN (
+				SELECT DISTINCT
+					(PACKAGR_IDS)
+				FROM
+					T_BSS_PPMS_SALE_TENDER
+				WHERE
+					STATUS_BID = 2
+				AND STATUS_BOND = 2
+				AND PROJECT_ID = #{projectId}
+				AND IS_REMOVED = '0'
+			)
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		<!-- @mbggenerated -->

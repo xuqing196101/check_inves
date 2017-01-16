@@ -199,7 +199,7 @@
 
 
 <!-- textarea 自适应高度js1 -->
-<!--    <script type="text/javascript">
+  <script type="text/javascript">
 			var autoTextarea = function(elem, extra, maxHeight) {
 				extra = extra || 0;
 				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
@@ -262,7 +262,7 @@
 				addEvent('focus', change);
 				change();
 			};
-	</script> -->
+	</script>
   
   
 </head>
@@ -349,7 +349,7 @@
 	
              <div class="content" id="content">
                  <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
+  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input  lockout">
 					<thead>
 						<tr class="space_nowrap" id="scroll_top">
 							<th class="info w50">序号</th>
@@ -357,8 +357,8 @@
 							<th class="info">物资类别<br>及名称</th>
 							<th class="info">规格型号</th>
 							<th class="info">质量技术标准</br>（技术参数）</th>
-							<th class="info">计量单位</th>
-							<th class="info w100">采购数量</th>
+							<th class="info">计量<br>单位</th>
+							<th class="info">采购<br>数量</th>
 							<th class="info">单位</br>（元）</th>
 							<th class="info">预算金额</br>（万元）</th>
 							<th class="info">交货期限</th>
@@ -374,43 +374,43 @@
 					<form   id="edit_form"  action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
-                           <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                           <td class="tl"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+                           <td class="tc w50">${obj.seq}  <input class="w50 border0" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
+                           <td class="tl w200"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
                           <div class="p0_5">${obj.department}</div>
                           <%--  <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			               </c:forEach> --%>
                   </td>
-                  <td class="tl ">
-                  		<textarea name="list[${vs.index }].goodsName" class="target">${obj.goodsName}</textarea>
+                  <td class="tl w200 ">
+                  		<textarea name="list[${vs.index }].goodsName" class="target w200">${obj.goodsName}</textarea>
                   </td>
                   <td class="tl "><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
-                  <td class="tc "><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="tc"></td>
+                  <td class="tc w50"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="w50"></td>
+                  <td class="tl w50"><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="tc w50"></td>
                   
-                  <td class="tl ">
+                  <td class="tl w50">
                     <c:if test="${obj.purchaseCount!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" class="tc" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
+                      <input maxlength="11" class="tc w50" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
-                      <input class="tc" type="text" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount }">
+                      <input class="tc w50" type="text" name="list[${vs.index }].purchaseCount"  class="w50" value="${obj.purchaseCount }">
                     </c:if>
                   </td>
-                  <td class="tl ">
+                  <td class="tl w100">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" class="tr"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
+                      <input maxlength="11" class="tr w100"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
-                      <input class="tr" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
+                      <input class="tr w100" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
                     </c:if>
                   </td>
                   <td>
                     <input   type="hidden" name="ss"   value="${obj.id }">
-                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="tr"/>
+                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="tr w100"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
                   <td class="tc"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></td>
@@ -424,11 +424,11 @@
                       </select> 
                   <%--    </c:if> --%>
                   </td>
-                  <td class="tl "><textarea name="list[${vs.index }].supplier" class="target">${obj.supplier}</textarea></td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}"></td>
+                  <td class="tl w200"><textarea name="list[${vs.index }].supplier" class="target w200">${obj.supplier}</textarea></td>
+                  <td class="tl w100"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}" class="w100"></td>
                  <%--  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
-                  <td class="tl "><div class="p0_5">${obj.memo}</div>
+                  <td class="tl"><div class="p0_5">${obj.memo}</div>
                   <%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">

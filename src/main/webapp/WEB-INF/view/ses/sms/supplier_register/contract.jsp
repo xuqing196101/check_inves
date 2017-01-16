@@ -60,8 +60,11 @@
 		$("input[name='flag']").val("1");
 		$("#items_info_form_id").submit();
 	}
-	
+	var index;
 	function loadPageOne(id, url, supplierTypeId) {
+		 index = layer.load(1, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+		 });
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
 	  	 $("#tab-4").html("");
@@ -71,6 +74,9 @@
 	}
 	
 	function loadPageTwo(id, url, supplierTypeId) {
+		 index = layer.load(1, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+		 });
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
 	  	 $("#tab-1").html("");
@@ -80,6 +86,9 @@
 	}
 	
 	function loadPageThree(id, url, supplierTypeId) {
+		 index = layer.load(1, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+		 });
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
 	  	 $("#tab-1").html("");
@@ -89,6 +98,9 @@
 	}
 	
 	function loadPageFour(id, url, supplierTypeId) {
+		 index = layer.load(1, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+		 });
 	     var supplierId = $("#supplierId").val();
 	  	 var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
 	  	 $("#tab-1").html("");

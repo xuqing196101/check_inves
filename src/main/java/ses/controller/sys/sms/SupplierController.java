@@ -89,6 +89,7 @@ import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -2016,10 +2017,12 @@ import common.service.UploadService;
         String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
         
         List<Category> category = new ArrayList<Category>();
-        List<Category> list = supplierItemService.getCategory(supplierId, supplierTypeId);
-        removeSame(list);
-        category.addAll(list);
-        List<ContractBean> contract = supplierService.getContract(category, pageNum == null ? 1 : pageNum);
+        List<SupplierItem> itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
+        for (SupplierItem item : itemsList) {
+            category.add(categoryService.findById(item.getCategoryId()));
+        }
+        // 查询品目合同信息
+        List<ContractBean> contract = supplierService.getContract(category);
         for(ContractBean con : contract){
             con.setOneContract(id1);
             con.setTwoContract(id2);
@@ -2028,12 +2031,16 @@ import common.service.UploadService;
             con.setTwoBil(id5);
             con.setTwoBil(id6);
         }  
-        model.addAttribute("contract", new PageInfo<ContractBean>(contract));  
+        // 分页,pageSize == 10
+        PageInfo<SupplierItem> pageInfo = new PageInfo<SupplierItem>(itemsList);
+        model.addAttribute("result", pageInfo);  
+        model.addAttribute("contract", contract);  
+        // 年份
         List<Integer> years = supplierService.getThressYear();
         model.addAttribute("years", years);
         model.addAttribute("supplierTypeId", supplierTypeId);
         model.addAttribute("supplierId", supplierId);
-
+        // 供应商附件sysKey参数
         model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         return "ses/sms/supplier_register/ajax_contract";
     }

@@ -990,9 +990,9 @@
 										<th class="">物资类别及</br>物资名称</th>
 										<th class="">规格型号</th>
 										<th class="">质量技术标准</br>（技术参数）</th>
-										<th class="">计量单位</th>
-										<th class="">采购数量</th>
-										<th class="">单价（元）</th>
+										<th class="">计量</br>单位</th>
+										<th class="">采购</br>数量</th>
+										<th class="">单价</br>（元）</th>
 										<th class="">预算金额</br>（万元）</th>
 										<th class="">交货期限</th>
 										<th class="">采购方式建议</th>
@@ -1011,13 +1011,13 @@
 									<tr name="detailRow">
 									<td class="tc">1</td>
 										<td class=" p0">
-											<input type="hidden" name="list[0].id" id="purid" value="" class="m0">
-											<input type="text" name="list[0].seq" required="required" value="一" class="m0  ">
+											<input type="hidden" name="list[0].id" id="purid" value="" class="m0 border0">
+											<input type="text" name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc ">
 										</td>
 										<td class=" p0" name="department">
 										
 								  		<input type="hidden" name="list[0].department" value="${orgId }" >
-								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0 " >
+								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0 border0 w260" >
 								  		  
 										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
@@ -1029,17 +1029,17 @@
 											
 										</td>
 										<td class=" p0">
-											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0"/>
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0 border0 w200"/>
 										</td>
-										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 "></td>
-										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w100p"></td>
-										<td class="tc p0"><input type="text" name="list[0].item" class="m0 "></td>
-										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 "></td>
-										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 "></td>
-										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0" ></td>
-										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 w200 border0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w140 border0"></td>
+										<td class="tc p0"><input type="text" name="list[0].item" class="m0 w50 border0"></td>
+										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50"></td>
+										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w100"></td>
+										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w100 border0" ></td>
+										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0"></td>
 										<td class=" p0">
-											<select name="list[0].purchaseType" class="pt m0" onchange="changeType(this)" id="pType[0]">
+											<select name="list[0].purchaseType" class="m0 border0" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 												
@@ -1047,11 +1047,11 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc  p0"><input type="text" name="list[0].supplier" class="m0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].supplier" class="m0 w260 border0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0border0"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0"></td>
 										<!-- <td class="tc w100 p0"></td> -->
 								<!--  <td class="tc w100 p0"></td> -->  
 										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
@@ -1067,7 +1067,6 @@
 											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}" class="m0">
 										</td>
 										<td class=" p0" >
-										
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 											<input type="hidden" name="list[${vs.index }].department" value="${orgId }" >
 								  			<input type="text"  readonly="readonly" value="${orgName}" >

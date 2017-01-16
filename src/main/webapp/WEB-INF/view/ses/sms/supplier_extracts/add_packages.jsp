@@ -81,7 +81,7 @@
 	<div class="container margin-top-30">
 		<form action="${pageContext.request.contextPath}/SupplierExtracts/listSupplier.do"
 			method="post" id="form1">
-			<input name="projectId" value="${projectId}" />
+			<input name="projectId" type="hidden" value="${projectId}" />
 		    <table class="table table-bordered table-condensed table_input left_table">
     <thead>
     <tr>

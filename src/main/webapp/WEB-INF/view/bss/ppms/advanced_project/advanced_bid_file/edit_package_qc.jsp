@@ -225,8 +225,10 @@
                          <c:if test="${i.kind == d.id}">
                              ${i.name}
                            <c:if test="${flag != '1' }">
-	                           <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
-	                           <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
+                              <div class="fr">
+	                             <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
+	                             <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
+                              </div>
                            </c:if>
                          </c:if>
                      </td>

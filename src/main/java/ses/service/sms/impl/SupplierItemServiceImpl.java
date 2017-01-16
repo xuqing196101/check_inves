@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+
 import bss.util.WordUtil;
 
 import ses.dao.sms.ProductParamMapper;
@@ -26,6 +28,7 @@ import ses.model.sms.SupplierItem;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierItemService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 
 import common.constant.StaticVariables;
 
@@ -235,7 +238,17 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		return cateList;
 	}
 	
-
+	@Override
+	public List<SupplierItem> findCategoryList(String supplierId, String type, Integer pageNum) {
+	    if (pageNum != null) {
+	        PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+	    }
+	    Map<String, Object> param = new HashMap<String, Object>();
+	    param.put("supplierId", supplierId);
+	    param.put("type", type);
+	    List<SupplierItem> itemsList = supplierItemMapper.selectByMap(param);
+	    return itemsList;
+	}
 
     @Override
     public List<Category> getCategoryShenhe(String supplierId,String type) {

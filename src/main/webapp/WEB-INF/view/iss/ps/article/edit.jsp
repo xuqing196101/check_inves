@@ -455,16 +455,16 @@
           <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">附件上传：</span>
               <div>
-                <u:upload id="artice_file_up" buttonName="上传文档" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
-                <u:show showId="artice_file_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
+                <u:upload id="artice_file_up" buttonName="上传文档"  businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId }" multiple="true" auto="true" />
+                <u:show showId="artice_file_show"  businessId="${article.id}" sysKey="${sysKey}" typeId="${artiAttachTypeId }" />
               </div>
             </li>
             
             <li class="col-md-6 col-sm-6 col-xs-12 mt10">
               <span class="fl">单位及保密委员会审核表：</span>
               <div>
-                <u:upload id="artice_secret_up" multiple="true" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" auto="true" />
-                <u:show showId="artice_secret_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" />
+                <u:upload id="artice_secret_up" multiple="true"  businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" auto="true" />
+                <u:show showId="artice_secret_show"  businessId="${article.id}" sysKey="${sysKey}" typeId="${secretTypeId}" />
               </div>
               <div class="cue">${ERR_auditDoc}</div>
             </li>
@@ -472,8 +472,8 @@
             <li class="col-md-6 col-sm-6 col-xs-12 mt10 dis_hide" id="picNone">
               <span class="fl"><div id="tpsc" class="star_red">*</div>图片上传：</span>
               <div>
-                <u:upload id="artice_up" groups="artice_up,artice_file_up,artice_secret_up" businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
-                <u:show showId="artice_show" groups="artice_show,artice_file_show,artice_secret_show" businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" />
+                <u:upload id="artice_up"  businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" auto="true" />
+                <u:show showId="artice_show"  businessId="${article.id}" sysKey="${sysKey}" typeId="${attachTypeId }" />
               </div>
               <div class="cue">${ERR_auditPic}</div>
             </li>

@@ -27,6 +27,15 @@ public interface SupplierItemMapper {
      * @param record
      */
     int insertSelective(SupplierItem record);
+    
+    /**
+     *〈简述〉条件查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param param
+     * @return
+     */
+    List<SupplierItem> selectByMap(Map<String, Object> param);
 
     /**
      * 根据主键获取一条数据库记录

@@ -206,12 +206,12 @@
         <table class="table table-bordered table-condensed table-hover">
             <thead>
                <tr>
-                   <th class="info">评审类别</th>
-                  <th class="info">评审项目</th>
-                  <th class="w80">评审指标</th>
-                  <th class="w80">所属模型</th>
-                  <th class="info">评审内容</th>
-                  <th class="w50">分值</th>
+                   <th class="info" width="15%">评审类别</th>
+                  <th class="info" width="20%">评审项目</th>
+                  <th class="info" width="15%">评审指标</th>
+                  <th class="info" width="10%">所属模型</th>
+                  <th class="info" width="30%">评审内容</th>
+                  <th class="info" width="10%">分值</th>
                </tr>
             </thead>
                <%--  <tr>
@@ -227,7 +227,7 @@
 	                 	</td>
 	                 	<td></td>
                 </tr> --%>
-                 ${str }
+                 ${str}
         </table>
         <div class="tr col-md-12 col-sm-12 col-xs-12">
           <div ><b>总分:</b><span class="red f16" id="totalScore"></span></div>

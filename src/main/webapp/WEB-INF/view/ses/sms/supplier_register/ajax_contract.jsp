@@ -8,33 +8,37 @@
 <link href="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/skin/laypage.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 $(function() {
+	layer.close(index);
 	laypage({
 		cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		pages: "${contract.pages}", //总页数
+		pages: "${result.pages}", //总页数
 		skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 		skip: true, //是否开启跳页
-		total: "${contract.total}",
-		startRow: "${contract.startRow + 1}",
-		endRow: "${contract.endRow + 1}",
-		groups: "${contract.pages}" >= 3 ? 3 : "${contract.pages}", //连续显示分页数
+		total: "${result.total}",
+		startRow: "${result.startRow}",
+		endRow: "${result.endRow}",
+		groups: "${result.pages}" >= 3 ? 3 : "${result.pages}", //连续显示分页数
 		curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-			return "${contract.pageNum}";
+			return "${result.pageNum}";
 		}(),
 		jump: function(e, first) { //触发分页后的回调
 			if(!first) { //一定要加此判断，否则初始时会无限刷新
+				index = layer.load(1, {
+					  shade: [0.1,'#fff'] //0.1透明度的白色背景
+				});
 				$("#pageNum").val(e.curr);
 				var pageNum = $("#pageNum").val();
 				var supplierId = $("#supplierId").val();
 				var type = "${supplierTypeId}";
-				var path = "${pageContext.request.contextPath}/supplier/ajaxContract.html?supplierId=" + supplierId + "&supplierTypeId=" + type + "&pageNumber=" + pageNum;
+				var path = "${pageContext.request.contextPath}/supplier/ajaxContract.html?supplierId=" + supplierId + "&supplierTypeId=" + type + "&pageNum=" + pageNum;
 				if (type == "PRODUCT") {
-					$("tab-1").load(path);
+					$("#tab-1").load(path);
 				} else if (type == "SALES") {
-					$("tab-2").load(path);
+					$("#tab-2").load(path);
 				} else if (type == "PROJECT") {
-					$("tab-3").load(path);
+					$("#tab-3").load(path);
 				} else if (type == "SERVICE") {
-					$("tab-4").load(path);
+					$("#tab-4").load(path);
 				}
 			}
 		}
@@ -79,7 +83,7 @@ $(function() {
             <td class="info tc">${year}</td>
           </c:forEach>
         </tr>
-      <c:forEach items="${contract.list}" var="obj" varStatus="vs">
+      <c:forEach items="${contract}" var="obj" varStatus="vs">
         <tr>
           <td class="tl pl20">${obj.name }</td>
           <td>
