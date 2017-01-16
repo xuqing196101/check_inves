@@ -314,9 +314,7 @@ public class ScoreModelUtil {
                     /**有基准数额 且 减分  与基准数关系大于等于*/
                     if (isHave == 0 && relation == 0) {
                         if (standScore != null) {
-                            if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
-                                supplyMarkList.get(i).setScore(0);
-                            }else if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                            if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
                                 supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                             }else {
                                 double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
@@ -330,9 +328,7 @@ public class ScoreModelUtil {
                     } else{
                         /**有基准数额 且 减分  与基准数关系小于等于*/
                          if (standScore != null) {
-                             if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
-                                 supplyMarkList.get(i).setScore(0);
-                             }else if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
+                             if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
                              }else {
                                  double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
@@ -360,9 +356,7 @@ public class ScoreModelUtil {
                     /**有基准数额 且 加分  与基准数关系小于等于*/
                     if (isHave == 0 && relation == 1 ) {
                         if (standScore != null) {
-                            if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
-                                supplyMarkList.get(i).setScore(0);
-                            } else if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
+                            if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
                                 supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                             }else {
                                 double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
@@ -376,9 +370,7 @@ public class ScoreModelUtil {
                     } else {
                         /**有基准数额 且 加分  与基准数关系大于等于*/
                         if (standScore != null) {
-                            if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
-                                supplyMarkList.get(i).setScore(0);
-                            } else if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
+                            if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
                                 supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
                             }else {
                                 double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
@@ -458,9 +450,7 @@ public class ScoreModelUtil {
         int zero = new Double(reviewScore).compareTo(new Double(0));
         if(supplyMarkList!=null && supplyMarkList.size()>0 && zero>0){
             //Collections.sort(supplyMarkList, new SortByParam());//降序排列   第一个为最高分
-            
             double standardScore = (scoreModel.getStandardScore()!=null && !scoreModel.getStandardScore().equals(""))? Double.parseDouble(scoreModel.getStandardScore()):0;
-            
             for(int i=0 ;i<supplyMarkList.size();i++){
                 if(new Double(supplyMarkList.get(i).getPrarm()).compareTo(new Double(reviewScore))==0){
                     supplyMarkList.get(i).setScore(Double.parseDouble(scoreModel.getStandardScore()));
@@ -470,7 +460,6 @@ public class ScoreModelUtil {
                 score = FloatUtil.round(score, 4);
                 supplyMarkList.get(i).setScore(score);
             }
-            //return supplyMarkList;
         }
         return supplyMarkList;
     }
@@ -499,7 +488,6 @@ public class ScoreModelUtil {
                 score = FloatUtil.round(score, 4);
                 supplyMarkList.get(i).setScore(score);
             }
-            
         }
         return supplyMarkList;
     }
