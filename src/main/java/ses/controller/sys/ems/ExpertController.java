@@ -2192,13 +2192,18 @@ public class ExpertController extends BaseController {
         List<SupplierRegPerson> listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
         List<SupplierRegPerson> persons = new ArrayList<SupplierRegPerson>();
         List<List<SupplierRegPerson>> personList = new ArrayList<List<SupplierRegPerson>>();
+        // 注册人员信息,换行后的内容
         if (listSupplierRegPersons != null && listSupplierRegPersons.size() > 2) {
             for (int i = 0; i < listSupplierRegPersons.size(); i++) {
-                if (i != 0 && i % 2 == 0 && i + 1 != listSupplierRegPersons.size()) {
-                    persons.add(listSupplierRegPersons.get(i));
-                    persons.add(listSupplierRegPersons.get(i + 1));
-                } else if (i + 1 == listSupplierRegPersons.size()) {
-                    persons.add(listSupplierRegPersons.get(i));
+                if (i > 1) {
+                    if (i % 2 == 0 && i + 1 != listSupplierRegPersons.size()) {
+                        persons.add(listSupplierRegPersons.get(i));
+                        persons.add(listSupplierRegPersons.get(i + 1));
+                        personList.add(persons);
+                    } else if (i + 1 == listSupplierRegPersons.size()) {
+                        persons.add(listSupplierRegPersons.get(i));                    
+                        personList.add(persons);
+                    }
                 }
             }
         }
