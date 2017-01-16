@@ -266,12 +266,15 @@
 
   								<div class="tab-content reg-page">
   									<div class="tab-pane active in" id="tab-1">
+  									<div class="msg-wrap">
+			                               <div class="msg-error"><b></b>请输入密码</div>
+                                    </div>
 
   										<form accept-charset="UTF-8" class="sky-form" method="post">
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputEmail"
   															name="" placeholder="请输入用户名" type="text">
   														</label>
@@ -282,7 +285,7 @@
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">密
   														码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="inputPassword"
   															name="" placeholder="请输入密码" type="password">
   														</label>
@@ -294,7 +297,7 @@
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input">
   															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
   																<input id="inputCode" type="text" placeholder="" class="fl col-md-12">
@@ -318,12 +321,15 @@
   										</form>
   									</div>
   									<div class="tab-pane" id="tab-2">
+  									  <div class="msg-wrap">
+			                               <div class="msg-error"><b></b>请输入密码</div>
+                                      </div>
   										<form accept-charset="UTF-8" class="sky-form"
   											method="post">
   											<section>
   												<div class="row">
-  													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<label class="label col col-md-3 col-sm-12 col-xs-12">请输入用户名</label>
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
   															placeholder="用户名" type="text">
   														</label>
@@ -333,8 +339,8 @@
 
   											<section>
   												<div class="row">
-  													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<label class="label col col-md-3 col-sm-12 col-xs-12">请输入密 码</label>
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
   															placeholder="密 码" type="password">
   														</label>
@@ -346,7 +352,7 @@
   											<section>
   												<div class="row">
   													<label class="label col col-md-3 col-sm-12 col-xs-12">验证码</label>
-  													<div class="col col-md-8 col-sm-12 col-xs-12">
+  													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input">
   															<div class="col-md-6 col-sm-6 col-xs-6 pl0">
   																<input type="password" placeholder="" class="fl col-md-12">

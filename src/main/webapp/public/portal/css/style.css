@@ -2058,10 +2058,9 @@ margin-top:0px!important;
   font-weight:600;
 }
 .login_btn{
- width:90%;
+ width:100%;
  font-weight:600;
  line-height:28px;
- max-width:250px;
 }
 .floor_kind h2{
  border-bottom:2px solid #2C9FA6;
@@ -2390,7 +2389,7 @@ a.yjfk{
 
 .reg-page {
     color: #555;
-    padding: 30px;
+    padding:10px 30px 22px 30px;
     background: #f0efef;
     border: solid 1px #eee;
     box-shadow: 0 0 3px #eee;
@@ -2434,8 +2433,8 @@ a.yjfk{
 .sign_kinds a{
    display:block;
    float:left;
-   height:50px;
-   line-height:50px;
+   height:40px;
+   line-height:40px;
    text-align:center;
    color:#333333;
    font-size:18px;
@@ -2745,4 +2744,33 @@ h2.list_title{
     top:0px;
     left:0px;
     position: absolute;
+}
+/*登陆提示样式*/
+.sign_box .msg-wrap {
+    min-height: 23px;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    height: auto !important;
+}
+
+.sign_box .msg-error {
+    position: relative;
+    background: #ffebeb;
+    color: #e4393c;
+    border: 1px solid #faccc6;
+    padding: 3px 10px 3px 40px;
+    line-height: 15px;
+    height: auto;
+}
+
+.sign_box .msg-error b {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    display: block;
+    margin-top: -8px;
+    width: 16px;
+    height: 16px;
+    overflow: hidden;
+    background: url(//misc.360buyimg.com/user/passport/1.0.0/widget/login-form-2016-1124/i/pwd-icons-new.png) -104px -49px no-repeat;
 }
