@@ -1484,7 +1484,7 @@ function deleteFinance() {
 									<tr>
 										<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
 										</td> --%>
-										<td class="tc p0">
+										<td class="tc">
 										<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}"> 
 										<input type="text" required="required" class="w50 border0 tc" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
 										<td class="tc">
@@ -1498,7 +1498,7 @@ function deleteFinance() {
 										 
 										 </td>
 									<%-- 	<td class="tc">${finance.quota}</td> --%>
-										<td class="tc p0">
+										<td class="tc">
 										<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
 									 		
 									 		</td>
