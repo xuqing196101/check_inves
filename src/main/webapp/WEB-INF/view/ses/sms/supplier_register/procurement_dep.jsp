@@ -178,9 +178,7 @@
 		function temporarySave(){
 			
 			var procurementDepId = $("input[type='radio']:checked").val();
-			alert(procurementDepId);
 			$("#procurementDepId").val(procurementDepId);
-			alert($("#procurementDepId").val());
 			
 			
 			$("input[name='flag']").val("1");
