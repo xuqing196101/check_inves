@@ -267,7 +267,7 @@
   								<div class="tab-content reg-page">
   									<div class="tab-pane active in" id="tab-1">
   									<div class="msg-wrap">
-			                               <div class="msg-error"><b></b>请输入密码</div>
+			                               <div class="msg-error  hide"><b></b>请输入密码</div>
                                     </div>
 
   										<form accept-charset="UTF-8" class="sky-form" method="post">
@@ -321,9 +321,9 @@
   										</form>
   									</div>
   									<div class="tab-pane" id="tab-2">
-  									  <div class="msg-wrap">
-			                               <div class="msg-error"><b></b>请输入密码</div>
-                                      </div>
+  									<div class="msg-wrap">
+			                               <div class="msg-error  hide"><b></b>请输入密码</div>
+                                    </div>
   										<form accept-charset="UTF-8" class="sky-form"
   											method="post">
   											<section>
