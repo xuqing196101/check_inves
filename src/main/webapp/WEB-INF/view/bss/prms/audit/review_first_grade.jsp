@@ -77,7 +77,7 @@ $(document).ready(function() {
 									if(data[i].supplierId == $(this).val()){
 										var dataScore = toDecimal(data[i].score);
 										$(this).next().val(dataScore);
-										$(this).next().next().html("<font color='red' size='5px'>" + dataScore + "</font>");
+										$(this).next().next().html("<font color='red' class='f18'>" + dataScore + "</font>");
 									}
 								});
 							}
@@ -102,7 +102,7 @@ $(document).ready(function() {
 					data = toDecimal(data);
 					$(obj).parent().next().find("input[name='expertScore']").val(data);
 					// 修改,将input框改为直接显示,input设置为hidden,将input值传给span
-					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' size='5px'>" + data + "</font>");
+					$(obj).parent().next().find("input[name='expertScore']").next().html("<font color='red' class='f18'>" + data + "</font>");
 				}
 				
 			});
@@ -122,12 +122,12 @@ $(document).ready(function() {
 	//提交
 	function submit1(){
 		var count = 0;
-		$("#table2").find("input[name='expertValue']").each(function(){
+		$("#table").find("input[name='expertValue']").each(function(){
 			if($(this).val()==""){
 				count++;
 			}
 		});
-		$("#table2").find("input[name='expertScore']").each(function(){
+		$("#table").find("input[name='expertScore']").each(function(){
 			if($(this).val()==""){
 				count++;
 			}
@@ -135,7 +135,7 @@ $(document).ready(function() {
 		if(count==0){
 		$("#form1").submit();
 		}else{
-			layer.msg("还有未评分项",{offset: ['350px', '800px']});
+			layer.msg("还有未评分项",{offset: '300px'});
 		}
 		
 	}
@@ -262,10 +262,10 @@ $(document).ready(function () {
 	        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
   border="1" cellspacing="0" cellpadding="0" class="table left_table lockout table_input">
 			 <thead>
-			  <tr>
+			 <tr>
 			      <th class="tc w60" rowspan="2">评审项目</th>
 		   	      <th class="tc w100" rowspan="2">评审指标</th>
-		   	      <th class="tc w30" rowspan="2">标准分值</th>
+		   	      <th class="tc w30" rowspan="2">标准<br/>分值</th>
 			      <c:forEach items="${supplierList}" var="supplier">
 				      <th colspan="2" class="tc">${supplier.suppliers.supplierName}</th>
 				    </c:forEach>
