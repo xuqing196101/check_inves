@@ -2389,7 +2389,8 @@ a.yjfk{
 
 .reg-page {
     color: #555;
-    padding:10px 30px 22px 30px;
+   /*  padding:10px 30px 22px 30px; */
+   padding:15px 30px 30px 30px;
     background: #f0efef;
     border: solid 1px #eee;
     box-shadow: 0 0 3px #eee;
@@ -2748,8 +2749,8 @@ h2.list_title{
 /*登陆提示样式*/
 .msg-wrap {
     min-height: 23px;
-    margin-top: 5px;
-    margin-bottom: 10px;
+  /*   margin-top: 5px; */
+   /*  margin-bottom: 10px; */
     height: auto !important;
 }
 
