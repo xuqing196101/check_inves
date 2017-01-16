@@ -2746,14 +2746,14 @@ h2.list_title{
     position: absolute;
 }
 /*登陆提示样式*/
-.sign_box .msg-wrap {
+.msg-wrap {
     min-height: 23px;
     margin-top: 5px;
     margin-bottom: 10px;
     height: auto !important;
 }
 
-.sign_box .msg-error {
+.msg-error {
     position: relative;
     background: #ffebeb;
     color: #e4393c;
@@ -2763,7 +2763,7 @@ h2.list_title{
     height: auto;
 }
 
-.sign_box .msg-error b {
+.msg-error b {
     position: absolute;
     top: 50%;
     left: 10px;
@@ -2772,5 +2772,5 @@ h2.list_title{
     width: 16px;
     height: 16px;
     overflow: hidden;
-    background: url(//misc.360buyimg.com/user/passport/1.0.0/widget/login-form-2016-1124/i/pwd-icons-new.png) -104px -49px no-repeat;
+    background: url(../images/error_warn.png) no-repeat;
 }

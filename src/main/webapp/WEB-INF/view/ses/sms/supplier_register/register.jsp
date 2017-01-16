@@ -49,35 +49,42 @@
 		<div class="container clear margin-top-30">
 			<div class="col-md-12 col-sm-12 col-xs-12 margin-top-40">
 				<div class="row" style="background-color:#f6f6f6;">
-					<div class="mt80 col-md-6 col-sm-6 col-xs-12 p20">
+					<div class="mt60 col-md-6 col-sm-6 col-xs-12 p20">
+					<div class="login_item col-md-12  col-sm-12 col-xs-12">
+					   <div class="col-md-10 col-xs-10 col-sm-10 p0">
+					    <div class="msg-wrap">
+			              <div class="msg-error"><b></b>请输入密码</div>
+                        </div>
+                        </div>
+                      </div>
 						<form action="${pageContext.request.contextPath}/supplier/register.html" method="post">
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
-								<div class="col-md-7 col-xs-12 col-sm-12 p0">
+								<div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
 							       <input id="login_input_id" type="text" name="loginName" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
-								   <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_loginName }</span> 
+								   <span class="cue">${err_msg_loginName }</span> 
 								</div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12  p0"><i class="red mr5">*</i>登录密码：</label> 
-								<div class="col-md-7 col-xs-12 col-sm-12 p0">
+								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
 								  <input type="password" name="password" value="${supplier.password}" class="col-md-12 col-sm-12 col-xs-12">
-								  <span class="red clear col-md-12 col-xs-12 col-sm-12 p0" >${err_msg_password }</span> 
+								  <span class="cue" >${err_msg_password }</span> 
 								</div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</label> 
-								<div class="col-md-7 col-xs-12 col-sm-12 p0">
+								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
 								   <input type="password" name="confirmPassword" value="${supplier.confirmPassword}" class="col-md-12 col-sm-12 col-xs-12">
-								   <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_ConfirmPassword }</span> 
+								   <span class="cue">${err_msg_ConfirmPassword }</span> 
 								</div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>手机号码：</label> 
-								<div class="col-md-7 col-xs-12 col-sm-12 p0">
+								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
 								   <input type="text" name="mobile" value="${supplier.mobile}" class="col-md-12 col-sm-12 col-xs-12">
 								   <!-- <button type="button" class="btn ml10">发送验证码</button> -->
-								   <span class="red clear col-md-12 col-xs-12 col-sm-12 p0">${err_msg_mobile }</span> 
+								   <span class="cue">${err_msg_mobile }</span> 
 								</div>
 							</div>
 							<%-- <div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12">
@@ -116,6 +123,7 @@
 			
 		</div>
 	</div>
+	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 </html>
 
