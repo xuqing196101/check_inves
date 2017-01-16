@@ -61,22 +61,25 @@
 	
 	//加载默认的页签
 	function defaultLoadTab(id){
-		if (id = "tree_ul_id_1"){
+		if (id == "li_id_1"){
 			loadTab('PRODUCT','tree_ul_id_1',1);
 		}
-		if (id = "tree_ul_id_2"){
+		if (id == "li_id_2"){
 			loadTab('SALES','tree_ul_id_2',2);
 		}
-		if (id = "tree_ul_id_3"){
+		if (id == "li_id_3"){
 			loadTab('PROJECT','tree_ul_id_3',null);
 		}
-		if (id = "tree_ul_id_4"){
+		if (id == "li_id_4"){
 			loadTab('SERVICE','tree_ul_id_4',null);
 		}
 	}
 	
 	//加载对应的节点数据
 	function loadZtree(code, kind, status) {
+		var loader = layer.load(1, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+		 });
 	var setting = {
  	    async : {
 			autoParam: ["id","code"],
@@ -114,29 +117,25 @@
 	 };
 	 $.fn.zTree.init($("#" + kind), setting, zNodes);
 	 var supplierId="${currSupplier.id}";
-	 var typeName = "";
-	 if (code == "PRODUCT") {
-		 typeName = "生产";
-	 } else if (code == "SALES") {
-		 typeName = "销售";
-	 }
+	 
+	$("#tbody_category").html("");
 	$.ajax({
 		url: "${pageContext.request.contextPath}/supplier_item/getCategories.do",
 		data: {"supplierId" : supplierId, "supplierTypeRelateId" : code},
 		dataType: "json",
 		success: function(data){
-			$("#tbody_category").html("");
 			$(data).each(function(index, element){
 				index++;
 				$("#tbody_category").append("<tr>" +
 						"<td class='tc'>" + index + "</td>" +
-						"<td>" + element.rootNode + typeName + "</td>" +
+						"<td>" + element.rootNode + "</td>" +
 						"<td>" + element.firstNode + "</td>" +
 						"<td>" + element.secondNode + "</td>" +
 						"<td>" + element.thirdNode + "</td>" +
 						"<td>" + element.fourthNode + "</td>" +
 						"</tr>");
 			});
+			layer.close(loader);
 		 }
 	});
 }
@@ -219,8 +218,9 @@
 	}
 	
 	function saveCategory(event, treeId, treeNode){
-		/* getCategoryId(); */
-		
+		var loader = layer.load(1, {
+			  shade: [0.1,'#fff'] //0.1透明度的白色背景
+		});
 		var clickFlag;
 		if (treeNode.checked) {
 			clickFlag = "1";
@@ -253,6 +253,7 @@
 			async: false,
 			data: $("#items_info_form_id").serialize(),
 			dataType: "json",
+			async: false,
 			success: function(data) {
 				$("#tbody_category").html("");
 				$(data).each(function(index, element){
@@ -266,6 +267,7 @@
 							"<td>" + element.fourthNode + "</td>" +
 							"</tr>");
 				});
+				layer.close(loader);
 			}
 		});
 	}

@@ -80,14 +80,9 @@ public class SupplierItemController extends BaseController{
             supplierItemService.saveOrUpdate(supplierItem);
         }
         // 查询已选中的节点信息
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("supplierId", supplierItem.getSupplierId());
-        map.put("type", supplierItem.getSupplierTypeRelateId());
-        List<SupplierItem> listSupplierItems = supplierItemService.findByMap(map);
-        // 剔除不是末级节点的产品
+        List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), null);
         List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
-        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
-        for (SupplierItem item : removeNotChild) {
+        for (SupplierItem item : listSupplierItems) {
             String categoryId = item.getCategoryId();
             SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
             if (cateTree != null && cateTree.getRootNode() != null) {
@@ -122,14 +117,9 @@ public class SupplierItemController extends BaseController{
 	@RequestMapping(value = "/getCategories", produces = "application/json;charset=utf-8")
 	public String getCategoryList(SupplierItem supplierItem) {
 	    // 查询已选中的节点信息
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("supplierId", supplierItem.getSupplierId());
-        map.put("type", supplierItem.getSupplierTypeRelateId());
-        List<SupplierItem> listSupplierItems = supplierItemService.findByMap(map);
-        // 剔除不是末级节点的产品
+        List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), null);
         List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
-        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
-        for (SupplierItem item : removeNotChild) {
+        for (SupplierItem item : listSupplierItems) {
             String categoryId = item.getCategoryId();
             SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
             if (cateTree != null && cateTree.getRootNode() != null) {
@@ -142,6 +132,13 @@ public class SupplierItemController extends BaseController{
             cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
             cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
             cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+            String typeName = "";
+            if (supplierItem.getSupplierTypeRelateId().equals("PRODUCT")) {
+                typeName = "生产";
+            } else if (supplierItem.getSupplierTypeRelateId().equals("SALES")) {
+                typeName = "销售";
+            }
+            cate.setRootNode(cate.getRootNode() + typeName);
         }
         return JSON.toJSONString(allTreeList);
 	}
