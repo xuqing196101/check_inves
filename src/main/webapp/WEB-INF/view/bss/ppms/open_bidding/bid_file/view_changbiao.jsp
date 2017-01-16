@@ -51,10 +51,15 @@
 	    	}
 		};
 	}
+	
+	 function openMax(){
+	 	window.open("${pageContext.request.contextPath}/open_bidding/viewMingxi.html?projectId=${projectId}");
+	 }; 
 </script>
 </head>
 <body onload="addTotal()">
 <!-- 表格开始-->  
+	   <div class="tr mt10"><button class="btn" onclick="openMax()">全屏</button></div>
        <div class="clear">
 		<input id="projectId" name="projectId" value="${project.id}" type="hidden" />
 		<c:forEach items="${listPackage}" var="listPackage" varStatus="vs">

@@ -31,14 +31,20 @@
 	    	}
 		};
 	}
+	
 	$(function(){
 		for (var i = 1; i < 20; i++) {
 			$(".p0" + i).addClass("hide");
 		};
 	});
+	
+	 function openMax(){
+	 	window.open("${pageContext.request.contextPath}/open_bidding/viewChangtotal.html?projectId=${projectId}");
+	 }; 
 </script>
 </head>
 <body>
+<div class="tr mt10"><button class="btn" onclick="openMax()">全屏</button></div>
 <div id="showDiv" class="clear">
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
