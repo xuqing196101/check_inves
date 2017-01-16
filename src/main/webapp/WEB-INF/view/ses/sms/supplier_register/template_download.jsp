@@ -10,17 +10,28 @@
 		$("input[name='flag']").val(flag);
 		$("#template_download_form_id").submit();
 	}
+	
 	//下载
-	function download1(){
+	function downloadTable(){
 		var index = layer.load(1, {
 			  shade: [0.1,'#fff'] //0.1透明度的白色背景
 		});
 		var supplierId = "${currSupplier.id}";
-		window.location.href="${pageContext.request.contextPath}/expert/downloadSupplier.html?supplierId=" + supplierId;
-		layer.close(index);
+		$.ajax({
+			url: "${pageContext.request.contextPath}/expert/getSupplierInfo.do",
+			data: {"supplierId" : supplierId},
+			type: "post",
+			dataType: "json",
+			success: function(supplier){
+				layer.close(index);
+				var supplierJson = JSON.stringify(supplier);
+				$("#supplierJson").val(supplierJson);
+				$("#download_form").submit();
+			}
+		});
 	}
 	//下载
-	function download2(){
+	function downloadNotice(){
 		window.location.href="${pageContext.request.contextPath}/expert/downloadSupplierNotice.html";
 	}
 </script>
@@ -55,6 +66,9 @@
 			<div class="row magazine-page">
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10">
+						<form action="${pageContext.request.contextPath}/expert/downloadSupplier.html" method="post" id="download_form">
+							<input type="hidden" value="" name="supplierJson" id="supplierJson">
+						</form>
 						<form id="template_download_form_id" action="${pageContext.request.contextPath}/supplier/perfect_download.html" method="post">
 							<input name="id" value="${currSupplier.id}" type="hidden" /> 
 							<input name="jsp" type="hidden" />
@@ -68,7 +82,7 @@
 										 申请表和承诺书下载 
 										</h2>
 										
-									<p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:download1()"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:download2()"><i class="download mr5"></i></a></p>
+									<p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:downloadTable()"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:downloadNotice()"><i class="download mr5"></i></a></p>
 										
 										
 										 <!-- <table class="table table-bordered">

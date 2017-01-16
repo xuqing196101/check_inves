@@ -1,6 +1,7 @@
 package ses.controller.sys.ems;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -2098,18 +2099,15 @@ public class ExpertController extends BaseController {
      * @throws Exception
      */
     @RequestMapping("downloadSupplier")
-    public ResponseEntity<byte[]> downloadSupplier(String supplierId,
-            HttpServletRequest request, HttpServletResponse response) throws Exception {
+    public ResponseEntity<byte[]> downloadSupplier(String supplierJson, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
                 .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
         String name = new String(("供应商入库申请表.doc").getBytes("UTF-8"),
                 "UTF-8");
-        /** 生成word 返回文件名 */
-        Supplier supplier = supplierService.get(supplierId);
-        /** 数据处理 **/
-        handingData(supplier);
+        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
         String fileName = WordUtil.createWord(supplier, "supplier.ftl",
                 name, request);
@@ -2118,6 +2116,15 @@ public class ExpertController extends BaseController {
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }
+    
+    @ResponseBody
+    @RequestMapping(value = "/getSupplierInfo", produces = "application/json;charset=utf-8")
+    public String getSupplierInfo(String supplierId, HttpServletResponse response) throws IOException {
+        Supplier supplier = supplierService.get(supplierId);
+        /** 数据处理 **/
+        handingData(supplier);
+        return JSON.toJSONString(supplier);
+    }   
     
     /**
      *〈简述〉为供应商申请表下载处理数据
