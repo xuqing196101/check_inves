@@ -328,10 +328,10 @@
   											method="post">
   											<section>
   												<div class="row">
-  													<label class="label col col-md-3 col-sm-12 col-xs-12">请输入用户名</label>
+  													<label class="label col col-md-3 col-sm-12 col-xs-12">用户名</label>
   													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
-  															placeholder="用户名" type="text">
+  															placeholder="请输入用户名" type="text">
   														</label>
   													</div>
   												</div>
@@ -339,10 +339,10 @@
 
   											<section>
   												<div class="row">
-  													<label class="label col col-md-3 col-sm-12 col-xs-12">请输入密 码</label>
+  													<label class="label col col-md-3 col-sm-12 col-xs-12">密 码</label>
   													<div class="col col-md-9 col-sm-12 col-xs-12">
   														<label class="input"> <input id="" name=""
-  															placeholder="密 码" type="password">
+  															placeholder="请输入密码" type="password">
   														</label>
   														<div class="note"></div>
   													</div>
