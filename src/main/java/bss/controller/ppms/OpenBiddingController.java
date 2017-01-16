@@ -955,7 +955,14 @@ public class OpenBiddingController {
         List<Date> listDate =  supplierQuoteService.selectQuoteCount(quoteCondition);
         if (listDate != null && listDate.size() > 0 && packId == null) {
             //如果有明细就是查看了
-            return "redirect:viewChangtotal.html?projectId=" + projectId;
+            Quote quoteByType = new Quote();
+            quoteByType.setProjectId(projectId);
+            List<Quote> listQuote=supplierQuoteService.getAllQuote(quoteByType, 1);
+            if (listQuote.get(0).getQuotePrice() == null) {
+                return "redirect:viewChangtotal.html?projectId=" + projectId;
+            } else{
+                return "redirect:viewMingxi.html?projectId=" + projectId;
+            }
         }
         //去saletender查出项目对应的所有的包
         List<Packages> packList = saleTenderService.getPackageIds(projectId);
@@ -1169,9 +1176,9 @@ public class OpenBiddingController {
                     List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
                     if (allQuote != null && allQuote.size() > 0) {
                         if (allQuote.get(0).getQuotePrice() == null) {
-                            return "redirect:quotetab1.html?projectId=" + projectId;
+                            return "redirect:changtotal.html?projectId=" + projectId;
                         } else {
-                            return "redirect:quotetab2.html?projectId=" + projectId;
+                            return "redirect:changmingxi.html?projectId=" + projectId;
                         }
                     }
                 }
@@ -1355,7 +1362,14 @@ public class OpenBiddingController {
         //packId代再次报价
         if (listDate != null && listDate.size() > 0  && packId == null) {
             //如果有明细就是查看了
-            return "redirect:viewMingxi.html?projectId=" + projectId;
+            Quote quoteByType = new Quote();
+            quoteByType.setProjectId(projectId);
+            List<Quote> listQuote=supplierQuoteService.getAllQuote(quoteByType, 1);
+            if (listQuote.get(0).getQuotePrice() == null) {
+                return "redirect:viewChangtotal.html?projectId=" + projectId;
+            } else{
+                return "redirect:viewMingxi.html?projectId=" + projectId;
+            }
         }
         Quote quote2 = new Quote();
         HashMap<String, Object> map = new HashMap<String, Object>();

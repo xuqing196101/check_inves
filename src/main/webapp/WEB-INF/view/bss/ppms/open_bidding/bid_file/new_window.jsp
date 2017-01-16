@@ -107,7 +107,7 @@
 		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
 			layer.close(index);
-			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab1.html?projectId=" + projectId;
+			window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
 		});
 	}
 	
@@ -120,7 +120,7 @@
 		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
 		function(index) {
 			layer.close(index);
-			window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab2.html?projectId=" + projectId;
+			window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
 		});
 	}
 </script>

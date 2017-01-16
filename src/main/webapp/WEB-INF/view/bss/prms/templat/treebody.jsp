@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<script src="${pageContext.request.contextPath}/public/validate/jquery.validate.min.js"></script>
 <script type="text/javascript">
 
 	function addRows() {
