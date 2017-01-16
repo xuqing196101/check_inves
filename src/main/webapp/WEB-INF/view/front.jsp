@@ -35,7 +35,6 @@
 <script src="${pageContext.request.contextPath}/public/ueditor/ueditor.config.js"></script>
 <script src="${pageContext.request.contextPath}/public/ueditor/ueditor.all.js"> </script>
 <script src="${pageContext.request.contextPath}/public/ueditor/lang/zh-cn/zh-cn.js"></script>
-<script src="${pageContext.request.contextPath}/public/front/js/jquery.validate.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/ztree/jquery.ztree.all.js"></script>
 
 <!-- front -->
