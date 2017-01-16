@@ -115,6 +115,6 @@ $(function() {
     </table> 
   </form>
 </div>
-<div id="pagediv" align="right"></div>
+<div id="pagediv" align="right" class="mb50"></div>
 </body>
 </html>
