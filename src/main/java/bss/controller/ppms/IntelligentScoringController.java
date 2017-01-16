@@ -455,30 +455,39 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping("/editPackageScore")
 	public String editPackageScore(String packageId, Model model, String projectId, String flowDefineId){    
-	    //显示经济技术 和子节点  子节点的子节点就是模型
-	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-	    String str ="";
-        for (DictionaryData dictionaryData : ddList) {
-            str += getTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
-        }
-	    //页面需要显示包
-	    HashMap<String, Object> condition = new HashMap<String, Object>();
-	    condition.put("id", packageId);
-	    List<Packages> packages = packageService.findPackageById(condition);
-	    if (packages != null && packages.size() > 0) {
-	        model.addAttribute("packages", packages.get(0));
-	    }
-	    //获取经济技术审查模版
-	    HashMap<String, Object> map2 = new HashMap<String, Object>();
-	    map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
-	    //获取资格性和符合性审查模版
-	    List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-	    model.addAttribute("firstAuditTemplats", firstAuditTemplats);
-	    model.addAttribute("packageId", packageId);
-	    model.addAttribute("projectId", projectId);
-	    model.addAttribute("flowDefineId", flowDefineId);
-	    model.addAttribute("ddList", ddList);
-	    model.addAttribute("str", str);
+	    //获取评分办法数据字典编码
+	    String methodCode = bidMethodService.getMethod(projectId, packageId);
+	    if (methodCode != null && !"".equals(methodCode)) {
+  	      if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+  	        
+  	      } 
+  	      if ("OPEN_ZHPFF".equals(methodCode)) {
+    	        //显示经济技术 和子节点  子节点的子节点就是模型
+    	        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+    	        String str ="";
+    	        for (DictionaryData dictionaryData : ddList) {
+    	          str += getTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+    	        }
+    	        //页面需要显示包
+    	        HashMap<String, Object> condition = new HashMap<String, Object>();
+    	        condition.put("id", packageId);
+    	        List<Packages> packages = packageService.findPackageById(condition);
+    	        if (packages != null && packages.size() > 0) {
+    	          model.addAttribute("packages", packages.get(0));
+    	        }
+    	        //获取经济技术审查模版
+    	        HashMap<String, Object> map2 = new HashMap<String, Object>();
+    	        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
+    	        //获取资格性和符合性审查模版
+    	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    	        model.addAttribute("packageId", packageId);
+    	        model.addAttribute("projectId", projectId);
+    	        model.addAttribute("flowDefineId", flowDefineId);
+    	        model.addAttribute("ddList", ddList);
+    	        model.addAttribute("str", str);
+  	      }
+      }
 	    return "bss/prms/score/edit_package_qc";
 	}
 	

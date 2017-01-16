@@ -7,6 +7,9 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
+
 import bss.dao.ppms.BidMethodMapper;
 import bss.dao.ppms.MarkTermMapper;
 import bss.dao.ppms.PackageMapper;
@@ -154,5 +157,21 @@ public class BidMethodServiceImpl implements BidMethodService{
 		// TODO Auto-generated method stub
 		return bidMethodMapper.delSoftBidMethodByid(map);
 	}
+  @Override
+  public String getMethod(String projectId, String packageId) {
+    String methodCode = null;
+    BidMethod condition = new BidMethod();
+    condition.setProjectId(projectId);
+    condition.setPackageId(packageId);
+    List<BidMethod> bmList = bidMethodMapper.findScoreMethod(condition);
+    List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+    if (bmList != null && bmList.size() > 0 && ddList != null && ddList.size() > 0) {
+        Integer position = Integer.parseInt(bmList.get(0).getTypeName());
+        if (ddList.get(position) != null) {
+            methodCode = ddList.get(position).getCode();
+        }
+    }
+    return methodCode;
+  }
 	
 }

@@ -228,7 +228,7 @@ public class FirstAuditTemplatController extends BaseController{
 	    //符合性资格性审查项编辑
 	    return "bss/prms/templat/qc_item_templet";
     } 
-	if ((kind != null && kind.getCode().equals("REVIEW_ET") || "1".equals(templetKind))) {
+	  if ((kind != null && kind.getCode().equals("REVIEW_ET") || "1".equals(templetKind))) {
 	    //显示经济技术 和子节点  子节点的子节点就是模型
         List<DictionaryData> ddList = DictionaryDataUtil.find(23);
         String str ="";
@@ -240,6 +240,26 @@ public class FirstAuditTemplatController extends BaseController{
         model.addAttribute("templetId", templetId);
         model.addAttribute("templetKind", templetKind);
         return "bss/prms/templat/edit_package_qc";
+    } 
+	  if (kind != null && kind.getCode().equals("REVIEW_CHECK_ET")) {
+      List<DictionaryData> dds = DictionaryDataUtil.find(23);
+      //经济审查项
+      FirstAuditTemitem record = new FirstAuditTemitem();
+      record.setKind(DictionaryDataUtil.getId("ECONOMY"));
+      record.setTemplatId(templetId);
+      List<FirstAuditTemitem> items1 = temService.find(record);
+      //技术审查项
+      FirstAuditTemitem record2 = new FirstAuditTemitem();
+      record2.setKind(DictionaryDataUtil.getId("TECHNOLOGY"));
+      record2.setTemplatId(templetId);
+      List<FirstAuditTemitem> items2 = temService.find(record2);
+      model.addAttribute("dds", dds);
+      model.addAttribute("kind", kind);
+      model.addAttribute("items1", items1);
+      model.addAttribute("items2", items2);
+      model.addAttribute("templetKind", templetKind);
+      model.addAttribute("templetId", templetId);
+      return "bss/prms/templat/check_et_item";
     } 
 	  return null;
 	}

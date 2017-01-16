@@ -14,4 +14,5 @@ public interface BidMethodService {
 	public int delSoftBidMethodByid(HashMap<String, Object> map);
 	public void save(BidMethod bidMethod);
 	public List<BidMethod> findScoreMethod(BidMethod bidMethod);
+  public String getMethod(String projectId, String packageId);
 }

@@ -21,7 +21,7 @@ public class FirstAudit {
     
     private String packageName;//不做数据存储
 
-    private Short isConfirm;
+    private Short isConfirm;//是否是经济技术评审项 0：否 1：是
     
     private Integer page;
     
