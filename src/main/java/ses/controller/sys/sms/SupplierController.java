@@ -89,6 +89,7 @@ import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.constant.StaticVariables;
@@ -2019,7 +2020,7 @@ import common.service.UploadService;
         List<Category> list = supplierItemService.getCategory(supplierId, supplierTypeId);
         removeSame(list);
         category.addAll(list);
-        List<ContractBean> contract = supplierService.getContract(category, pageNum == null ? 1 : pageNum);
+        List<ContractBean> contract = supplierService.getContract(category);
         for(ContractBean con : contract){
             con.setOneContract(id1);
             con.setTwoContract(id2);
@@ -2028,7 +2029,9 @@ import common.service.UploadService;
             con.setTwoBil(id5);
             con.setTwoBil(id6);
         }  
-        model.addAttribute("contract", new PageInfo<ContractBean>(contract));  
+        PageHelper.startPage(pageNum == null ? 1 : pageNum, PropUtil.getIntegerProperty("pageSize"));
+        PageInfo<ContractBean> pageInfo = new PageInfo<ContractBean>(contract);
+        model.addAttribute("contract", pageInfo);  
         List<Integer> years = supplierService.getThressYear();
         model.addAttribute("years", years);
         model.addAttribute("supplierTypeId", supplierTypeId);

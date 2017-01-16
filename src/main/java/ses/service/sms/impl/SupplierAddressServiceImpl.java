@@ -20,10 +20,10 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 	public void addList(List<SupplierAddress> list,String supplierId) {
 		supplierAddressMapper.deleteBySupplierId(supplierId);
 		 for(SupplierAddress addr:list){
-			 String id = WfUtil.createUUID();
-			 addr.setId(id);
-			 addr.setSupplierId(supplierId);
-			 supplierAddressMapper.insertSelective(addr); 
+		     if (addr.getId() != null) {
+		         addr.setSupplierId(supplierId);
+		         supplierAddressMapper.insertSelective(addr); 
+		     }
 			 
 		 }
 
