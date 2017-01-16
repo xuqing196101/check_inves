@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ppms.Packages;
 import bss.model.ppms.SaleTender;
 
 public interface SaleTenderMapper {
@@ -107,7 +108,7 @@ public interface SaleTenderMapper {
      * @param projectId
      * @return
      */
-    List<String> getPackageIds(String projectId);
+    List<Packages> getPackageIds(String projectId);
     
     /**
      *〈简述〉 根据供应商和项目查询

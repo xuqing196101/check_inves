@@ -4,17 +4,16 @@
 package bss.model.ppms;
 
 import java.math.BigDecimal;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import bss.model.prms.FirstAudit;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
+import bss.model.prms.FirstAudit;
 
 
 
@@ -119,6 +118,17 @@ public class Packages {
 
   /**这个包的项目预算*/
   private BigDecimal projectBudget;
+  
+  /**每个包下面的供应商*/
+  private List<Supplier> suList;
+
+public List<Supplier> getSuList() {
+      return suList;
+  }
+
+  public void setSuList(List<Supplier> suList) {
+      this.suList = suList;
+  }
 
   public BigDecimal getProjectBudget() {
     return projectBudget;

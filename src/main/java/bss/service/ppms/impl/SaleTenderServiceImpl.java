@@ -22,10 +22,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.dao.sms.QuoteMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.model.bms.DictionaryData;
-import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -215,7 +213,7 @@ public class SaleTenderServiceImpl implements SaleTenderService {
 	}
 	
     @Override
-    public List<String> getPackageIds(String projectId){
+    public List<Packages> getPackageIds(String projectId){
         return saleTenderMapper.getPackageIds(projectId);
     }
 

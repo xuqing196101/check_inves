@@ -9,6 +9,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import bss.model.ppms.Packages;
 import bss.model.ppms.SaleTender;
 
 /**
@@ -119,7 +120,7 @@ public interface SaleTenderService   {
      * @param projectId
      * @return
      */
-    public List<String> getPackageIds(String projectId);
+    public List<Packages> getPackageIds(String projectId);
 
 
     /**

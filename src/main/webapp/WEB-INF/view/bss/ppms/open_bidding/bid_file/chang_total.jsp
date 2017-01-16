@@ -67,7 +67,11 @@
 		        data: {quoteList:JSON.stringify(jsonStr)},
 		        dataType: "json",
 		        success: function (message) {
-		        	window.location.reload();
+		        		if ('${packId}' == null || '${packId}' == "") {
+			        		window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=${projectId}";
+			        	} else {
+			        		window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}" + "&flowDefineId=${flowDefineId}";
+			        	}
 		        },
 		        error: function (message) {
 		        }
@@ -143,20 +147,11 @@
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<tr>
 				    <td class="tc w50">${vs.index+1 }
-				    	<c:if test="${empty treemapValue.total}">
-			    			<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
-			    		</c:if>
+			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<c:if test="${not empty treemapValue.total}">
-				    	<td class="tc">${treemapValue.total}</td>
-				    	<td class="tc">${treemapValue.deliveryTime }</td>
-					</c:if>
-					
-					<c:if test="${empty treemapValue.total}">
-						<td class="tc"><input class="w60"  maxlength="16" /></td>
-						<td class="tc"><input class="w90"/></td>
-					</c:if>
+					<td class="tc"><input class="w60"  maxlength="16" /></td>
+					<td class="tc"><input class="w90"/></td>
 			    </tr>
 		</c:forEach>
 		</table>
@@ -164,9 +159,8 @@
 	</c:forEach>
 </c:forEach>
 		<div class="col-md-12 tc">
-		   <c:if test="${flag == false }">
 			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
-		   </c:if>
+			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
 		</div>
 </div>
 </body>

@@ -8,9 +8,9 @@ import java.util.List;
 
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
-import ses.model.bms.CategoryTree;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
+import bss.model.ppms.ProjectDetail;
 
 /**
  * @Title: Supplier
@@ -623,6 +623,27 @@ public class Supplier implements Serializable {
     
     //用户
     private User user;
+    /**供应商查询的时候对应报价*/
+    private List<Quote> QuoteList;
+    
+    /**唱标的时候显示物资明细*/
+    private List<ProjectDetail> pdList;
+
+    public List<ProjectDetail> getPdList() {
+        return pdList;
+    }
+
+    public void setPdList(List<ProjectDetail> pdList) {
+        this.pdList = pdList;
+    }
+
+    public List<Quote> getQuoteList() {
+        return QuoteList;
+    }
+
+    public void setQuoteList(List<Quote> quoteList) {
+        QuoteList = quoteList;
+    }
 	
 	public String getProSupFile() {
         return proSupFile;
