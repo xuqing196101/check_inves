@@ -310,6 +310,6 @@ public interface PurchaseDetailMapper {
     * @return List<PurchaseDetail>     
     * @throws
      */
-    List<PurchaseDetail> getUniqueId(@Param("id")String uniqueId);
+    List<PurchaseDetail> getUniqueId(@Param("uniqueId")String uniqueId);
     
 }

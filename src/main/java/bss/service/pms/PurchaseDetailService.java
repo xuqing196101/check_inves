@@ -269,6 +269,18 @@ public interface PurchaseDetailService {
      */
     List<PurchaseDetail> groupDetail(String uniqueId);
     
+    /**
+     * 
+    * @Title: groupDetail
+    * @Description:根据uniqueId获取对应的明细
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId
+    * @param @return     
+    * @return List<PurchaseDetail>     
+    * @throws
+     */
+    List<PurchaseDetail> getUniqueId(String uniqueId);
+    
     
     
 }

@@ -961,7 +961,7 @@
 		from T_BSS_PMS_PURCHASE_DETAIL
 		<where>
 			HISTORY_STATUS='0'  and IS_DELETE='0' and IS_MASTER=1 
-				and ID =#{id}
+				and UNIQUE_ID =#{uniqueId}
 		 
 		</where>
     
