@@ -252,4 +252,10 @@ public class PurchaseDetailServiceImpl implements PurchaseDetailService {
 		return purchaseDetailMapper.groupDetail(uniqueId);
 	}
 
+	@Override
+	public List<PurchaseDetail> getUniqueId(String uniqueId) {
+		// TODO Auto-generated method stub
+		return purchaseDetailMapper.getUniqueId(uniqueId);
+	}
+
 }

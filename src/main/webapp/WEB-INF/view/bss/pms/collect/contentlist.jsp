@@ -27,7 +27,6 @@
 		}else{
 			$("#id").val(id);
 			$("#planNo").val(planNo);
-
 			$.ajax({
 			url: "${pageContext.request.contextPath}/collect/update.html",
 			type: "post",
@@ -119,10 +118,9 @@
       		<button class="btn btn-windows cancel"  onclick="cancel()" >取消</button>
  		
  		</div>
- <form id="collected_form" action="${pageContext.request.contextPath }collect/add.html" method="post" >
+ <form id="collected_form"  method="post" >
 	 <input type="hidden" value="" name="id" id="id">
 	 <input type="hidden" value=""  name="uniqueId" id="planNo">
-	 <input type="hidden" name="tt" id="cltype" vlaue="${type }">
  </form>
 	 </div>
 	 </body>
