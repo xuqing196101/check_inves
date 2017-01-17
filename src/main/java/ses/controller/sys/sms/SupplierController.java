@@ -1359,23 +1359,14 @@ import common.service.UploadService;
      }
      //近三年财务信息
      List<UploadFile> branchlist = new ArrayList<UploadFile>();
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(0).getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(0).getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(0).getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(0).getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(0).getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString()));
-     
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(1).getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(1).getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(1).getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(1).getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(1).getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString()));
-    
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(2).getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(2).getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(2).getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(2).getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString()));
-     branchlist.addAll(uploadService.getFilesOther(supplier.getListSupplierFinances().get(2).getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString()));
+     List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
+     for (SupplierFinance supplierFinance : listSupplierFinances) {
+         branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierProfit(), Constant.SUPPLIER_SYS_KEY.toString()));
+         branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString()));
+         branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString()));
+         branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString()));
+         branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString()));
+     }
      if(branchlist.size()<15){
        count++;
        model.addAttribute("err_bearchFile", "请上传文件!");
