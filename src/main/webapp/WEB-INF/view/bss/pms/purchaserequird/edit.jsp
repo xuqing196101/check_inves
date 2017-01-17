@@ -348,26 +348,25 @@
 		<div class="content mt0 ul_list">
 	
              <div class="content" id="content">
-                 <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input  lockout">
+                 <table id="table" class="table table-bordered table-condensed table_input  lockout">
 					<thead>
-						<tr class="space_nowrap" id="scroll_top">
+						<tr class="" id="scroll_top">
 							<th class="info w50">序号</th>
-							<th class="info">需求部门</th>
-							<th class="info">物资类别<br>及名称</th>
-							<th class="info">规格型号</th>
-							<th class="info">质量技术标准</br>（技术参数）</th>
-							<th class="info">计量<br>单位</th>
-							<th class="info">采购<br>数量</th>
-							<th class="info">单位</br>（元）</th>
-							<th class="info">预算金额</br>（万元）</th>
-							<th class="info">交货期限</th>
-							<th class="info">采购方式</br>建议</th>
-							<th class="info">供应商名称</th>
-							<th class="info">是否申请</br>办理免税</th>
+							<th class="info w260">需求部门</th>
+							<th class="info w200">物资类别<br>及名称</th>
+							<th class="info w200">规格型号</th>
+							<th class="info w140">质量技术标准</br>（技术参数）</th>
+							<th class="info w50">计量<br>单位</th>
+							<th class="info w50">采购<br>数量</th>
+							<th class="info w80">单价</br>（元）</th>
+							<th class="info w80">预算金额</br>（万元）</th>
+							<th class="info w150">交货期限</th>
+							<th class="info w100">采购方式</br>建议</th>
+							<th class="info w260">供应商名称</th>
+							<th class="info w80">是否申请</br>办理免税</th>
 					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th> -->
-							<th class="info">备注</th>
+							<th class="info w260">备注</th>
 					<!-- 		<th class="w100">状态</th> -->
 						</tr>
 					</thead>
@@ -375,17 +374,19 @@
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
                            <td class="tc w50">${obj.seq}  <input class="w50 border0" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                           <td class="tl w200"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                          <div class="p0_5">${obj.department}</div>
+                           <td class="tl w260"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+                          <div class="p0_5 w260">${obj.department}</div>
                           <%--  <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			               </c:forEach> --%>
                   </td>
-                  <td class="tl w200 ">
-                  		<textarea name="list[${vs.index }].goodsName" class="target w200">${obj.goodsName}</textarea>
+                  <td class="tl">
+                      <div class="w200">
+                  		<textarea name="list[${vs.index }].goodsName" class="target">${obj.goodsName}</textarea>
+                      </div>
                   </td>
-                  <td class="tl "><input type="text" name="list[${vs.index }].stand" value="${obj.stand}"></td>
-                  <td class="tc w50"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="w50"></td>
+                  <td class="tl"><input type="text" name="list[${vs.index }].stand" value="${obj.stand}" class="w200"></td>
+                  <td class="tc w140"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="w140"></td>
                   <td class="tl w50"><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="tc w50"></td>
                   
                   <td class="tl w50">
@@ -398,25 +399,25 @@
                       <input class="tc w50" type="text" name="list[${vs.index }].purchaseCount"  class="w50" value="${obj.purchaseCount }">
                     </c:if>
                   </td>
-                  <td class="tl w100">
+                  <td class="tl w80">
                     <c:if test="${obj.price!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }">
-                      <input maxlength="11" class="tr w100"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
+                      <input maxlength="11" class="tr w80"   name="list[${vs.index }].price"  onblur="sum1(this);"  value="${obj.price}" type="text" />
                       <input type="hidden" name="ss"   value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.price==null}">
-                      <input class="tr w100" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
+                      <input class="tr w80" readonly="readonly"   type="text" name="list[${vs.index }].price" value="${obj.price }">
                     </c:if>
                   </td>
                   <td>
                     <input   type="hidden" name="ss"   value="${obj.id }">
-                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="tr w100"/>
+                    <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="tr w80"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
-                  <td class="tc"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></td>
+                  <td class="tc"><div class="w150"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></div></td>
                   <td class="tc">
              <%--       <c:if test="${obj.price!=null}"> --%>
-                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if>  style="width:100px" id="select">
+                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w100 border0" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
@@ -424,11 +425,11 @@
                       </select> 
                   <%--    </c:if> --%>
                   </td>
-                  <td class="tl w200"><textarea name="list[${vs.index }].supplier" class="target w200">${obj.supplier}</textarea></td>
-                  <td class="tl w100"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}" class="w100"></td>
+                  <td class="tl w260"><div class="w260"><textarea name="list[${vs.index }].supplier" class="target w260">${obj.supplier}</textarea></div></td>
+                  <td class="tl w80"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}" class="w80"></td>
                  <%--  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
-                  <td class="tl"><div class="p0_5">${obj.memo}</div>
+                  <td class="tl"><div class="p0_5 w260">${obj.memo}</div>
                   <%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">

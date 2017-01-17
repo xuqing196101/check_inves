@@ -992,10 +992,10 @@
 										<th class="w140">质量技术标准<br/>（技术参数）</th>
 										<th class="w50">计量<br/>单位</th>
 										<th class="w50">采购<br/>数量</th>
-										<th class="w50">单价<br/>（元）</th>
+										<th class="w80">单价<br/>（元）</th>
 										<th class="w80">预算金额<br/>（万元）</th>
 										<th class="w150">交货期限</th>
-										<th class="w100">采购方式建议</th>
+										<th class="w100">采购方式</br>建议</th>
 										<th class="w260">供应商名称</th>
 										<th class="w80">是否申请</br>办理免税</th>
 										<th name="userNone" class="w260">物资用途</br>（仅进口）</th>
@@ -1035,7 +1035,7 @@
 										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w140 border0"></td>
 										<td class="tc p0"><input type="text" name="list[0].item" class="m0 w50 border0"></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50"></td>
-										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w50"></td>
+										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80"></td>
 										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w80 border0" ></td>
 										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w150"></td>
 										<td class=" p0">
