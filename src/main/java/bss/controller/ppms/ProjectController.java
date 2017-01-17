@@ -509,11 +509,19 @@ public class ProjectController extends BaseController {
      * @return
      */
      @RequestMapping("/nextStep")
-     public String nextStep(Project project,Model model, String num){
+     public String nextStep(Project project,Model model, String num, String checkId){
          String status = DictionaryDataUtil.getId("YLX_DFB");
          project.setStatus(status);
          project.setIsRehearse(0);
          project.setIsProvisional(0);
+         String[] id = checkId.split(",");
+         List<String> list = getIds(id);
+         for (int i = 0; i < list.size(); i++ ) {
+            ProjectDetail detail = detailService.selectByPrimaryKey(list.get(i).toString());
+            if(detail.getPrice() != null){
+                project.setPurchaseType(detail.getPurchaseType());
+            }
+         }
          projectService.update(project);
          
          HashMap<String,Object> projectMap = new HashMap<String,Object>();
@@ -705,7 +713,14 @@ public class ProjectController extends BaseController {
     }
     
     
-    
+    /**
+     * 
+     *〈数组去重〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param ids
+     * @return
+     */
     public List<String> getIds(String ids[]){
         List<String> list= new ArrayList<String>();
         for(String id:ids){
@@ -1031,10 +1046,7 @@ public class ProjectController extends BaseController {
              map.put("id", id);
              List<ProjectDetail> detail = detailService.selectById(map);
              for (ProjectDetail projectDetail2 : detail) {
-                 map.put("id", projectDetail2.getRequiredId());
-                 map.put("projectId", projectDetail2.getProject().getId());
-                 List<ProjectDetail> details = detailService.selectById(map);
-                 if(details.size() > 1){
+                 if(projectDetail2.getPrice() == null){
                      projectDetail2.setDetailStatus(0);
                  }
             }
@@ -1623,6 +1635,31 @@ public class ProjectController extends BaseController {
         Boolean flag = projectService.SameNameCheck(project);
         return JSON.toJSONString(flag);
     }
+    
+    @RequestMapping("/verifyType")
+    @ResponseBody
+    public Boolean verifyType(String chkItems){
+        Boolean flag = true;
+        Set<String> set = new HashSet<>();
+        String[] id = chkItems.split(",");
+        List<String> list = getIds(id);
+        for (int i = 0; i < list.size(); i++ ) {
+            ProjectDetail detail = detailService.selectByPrimaryKey(list.get(i).toString());
+            if(detail.getPrice() != null){
+                set.add(detail.getPurchaseType());
+            }
+        }
+        if(set != null && set.size() == 1){
+            flag = true;
+        }else if(set != null && set.size() > 1){
+            flag = false;
+        }else{
+            flag = false;
+        }
+        return flag;
+    }
+    
+    
     
     /**
      * 
@@ -2703,6 +2740,8 @@ public class ProjectController extends BaseController {
          dataMap.put("projectNumber", project.getProjectNumber() == null ? "" : project.getProjectNumber());
          dataMap.put("purchaseType", project.getPurchaseType() == null ? "" : project.getPurchaseType());
          dataMap.put("purchaseDep", orgnization.getName() == null ? "" : orgnization.getName());
+         dataMap.put("bidDate", project.getBidDate() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(project.getBidDate()));
+         dataMap.put("bidAddress", project.getBidAddress() == null ? "" : project.getBidAddress());
          Date time = new Date();
          dataMap.put("date",time == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(time));
          String newFileName = null;
