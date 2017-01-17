@@ -5,6 +5,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>资质文件</title>
 		<script type="text/javascript">
 			//默认不显示叉

@@ -3,7 +3,8 @@
 <html>
 
 	<head>
-		<%@ include file="../../../common.jsp"%>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商类型</title>
 		<meta http-equiv="pragma" content="no-cache">
 		<meta http-equiv="cache-control" content="no-cache">

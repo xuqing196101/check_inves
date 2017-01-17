@@ -5,6 +5,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<link href="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/skin/laypage.css" rel="stylesheet" type="text/css">
 		<title>品目合同</title>
 

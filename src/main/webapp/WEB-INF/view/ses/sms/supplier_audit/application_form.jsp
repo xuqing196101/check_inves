@@ -4,6 +4,7 @@
 <html>
 	<head>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <title>申请表</title>
 		<script type="text/javascript">
 		  $(function() {
