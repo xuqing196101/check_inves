@@ -186,6 +186,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       //资格符合性
       FirstAudit audit = new FirstAudit();
       audit.setPackageId(pack.getId());
+      audit.setIsConfirm((short)0);
       List<FirstAudit> listByProjectId = firstAuditService.findBykind(audit);
       pack.setListFirstAudit(listByProjectId);
 

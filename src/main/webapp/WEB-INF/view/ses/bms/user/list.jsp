@@ -2,11 +2,10 @@
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML>
 <html>
-
-	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
+<head>
+	<%@ include file="/WEB-INF/view/common.jsp" %>
   
-  <script type="text/javascript">
+  	<script type="text/javascript">
 	  $(function(){
 		  laypage({
 			    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,

@@ -74,6 +74,7 @@ public class FirstAuditController {
       for (Packages packages2 : packages) {
         FirstAudit firstAudit = new FirstAudit();
         firstAudit.setPackageId(packages2.getId());
+        firstAudit.setIsConfirm((short)0);
         List<FirstAudit> fas = service.findBykind(firstAudit);
         //是否维护符合性审查项
         if (fas == null || fas.size() <= 0) {
@@ -285,11 +286,13 @@ public class FirstAuditController {
 	  FirstAudit firstAudit1 = new FirstAudit();
 	  firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
 	  firstAudit1.setPackageId(packageId);
+	  firstAudit1.setIsConfirm((short)0);
 	  List<FirstAudit> items1 = service.findBykind(firstAudit1);
     //资格性审查项
 	  FirstAudit firstAudit2 = new FirstAudit();
     firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
     firstAudit2.setPackageId(packageId);
+    firstAudit2.setIsConfirm((short)0);
     List<FirstAudit> items2 = service.findBykind(firstAudit2);
     HashMap<String, Object> map = new HashMap<String, Object>();
     map.put("id", packageId);
@@ -539,6 +542,7 @@ public class FirstAuditController {
       }
       FirstAudit record2 = new FirstAudit();
       record2.setPackageId(id);
+      record2.setIsConfirm((short)0);
       //获取引入数据评审项
       List<FirstAudit> firstAudits2 = service.findBykind(record2);
       for (FirstAudit fa : firstAudits2) {

@@ -1245,6 +1245,7 @@ public class ExpertController extends BaseController {
             HttpServletRequest request, HttpServletResponse response)
             throws IOException {
         User user = (User) session.getAttribute("loginUser");
+        model.addAttribute("user", user);
         // 判断用户的类型为专家类型
         if (user != null) {
             String typeId = user.getTypeId();

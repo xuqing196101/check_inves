@@ -464,11 +464,13 @@ public class IntelligentScoringController extends BaseController{
     	        FirstAudit firstAudit1 = new FirstAudit();
     	        firstAudit1.setKind(DictionaryDataUtil.getId("ECONOMY"));
     	        firstAudit1.setPackageId(packageId);
+    	        firstAudit1.setIsConfirm((short)1);
     	        List<FirstAudit> items1 = service.findBykind(firstAudit1);
     	        //技术审查项
     	        FirstAudit firstAudit2 = new FirstAudit();
     	        firstAudit2.setKind(DictionaryDataUtil.getId("TECHNOLOGY"));
     	        firstAudit2.setPackageId(packageId);
+    	        firstAudit2.setIsConfirm((short)1);
     	        List<FirstAudit> items2 = service.findBykind(firstAudit2);
     	        HashMap<String, Object> map = new HashMap<String, Object>();
     	        map.put("id", packageId);

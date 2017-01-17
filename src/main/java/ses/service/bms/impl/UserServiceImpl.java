@@ -289,6 +289,24 @@ public class UserServiceImpl implements UserServiceI {
       return true;
     }
   }
+
+  @Override
+  public Boolean ajaxOldPassword(User u) {
+      List<User> users = userMapper.selectByPrimaryKey(u.getId());
+      if (users != null && users.size() > 0) {
+          User user = users.get(0);
+          Md5PasswordEncoder md5 = new Md5PasswordEncoder();     
+          // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true  表示：生成24位的Base64版     
+          md5.setEncodeHashAsBase64(false);     
+          String pwd = md5.encodePassword(u.getPassword(), user.getRandomCode());
+          if (user.getPassword().equals(pwd)) {
+              return true;
+          } else {
+              return false;
+          }
+      }
+      return false;
+  }
   
   
     

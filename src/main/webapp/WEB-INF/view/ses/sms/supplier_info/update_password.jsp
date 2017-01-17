@@ -89,7 +89,7 @@
 						<tr>
 							<td class="bggrey tr">用户名：</td>
 							<td>
-								<input class="span2" value="${loginName }" type="text">
+								<input class="span2" value="${loginName }" readonly="readonly" type="text">
 							</td>
 						</tr>
 						<tr>

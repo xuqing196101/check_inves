@@ -47,6 +47,8 @@ import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 
 /**
@@ -616,14 +618,15 @@ public class UserManageController extends BaseController{
 				}
 			}
 			List<DictionaryData> genders = DictionaryDataUtil.find(13);
-            List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+      List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
 			model.addAttribute("typeNames", typeNames);
-	        model.addAttribute("genders", genders);
+	    model.addAttribute("genders", genders);
 			model.addAttribute("roleName", roleName);
 			model.addAttribute("user", u);
 		} else {
 
 		}
+		model.addAttribute("flag", 1);
 		return "ses/bms/user/view";
 	}
 
@@ -816,6 +819,42 @@ public class UserManageController extends BaseController{
 	}
 
 	/**
+   * Description: 校验原密码输入是否正确
+   * 
+   * @author Ye MaoLin
+	 * @param response
+	 * @param u
+	 * @throws IOException
+	 */
+	@RequestMapping("/ajaxOldPassword")
+  public void ajaxOldPassword(HttpServletResponse response, User u) throws IOException{
+	    try {
+	      String msg = "";
+        if (u.getPassword() == null || "".equals(u.getPassword())) {
+            msg = "请输入原密码";
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+        } else {
+            Boolean result = userService.ajaxOldPassword(u);
+            if (result) {
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");
+            } else {
+                msg = "原密码输入有误";
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print("{\"success\": " + false + ", \"msg\": \"" + msg + "\"}");
+            }
+        }
+	      response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
+	  
+	}
+	
+	/**
 	 *〈简述〉重置密码
 	 *〈详细描述〉
 	 * @author Ye MaoLin
@@ -953,23 +992,68 @@ public class UserManageController extends BaseController{
 	
 	@RequestMapping("/listByRole")
 	public String listByRole(Model model, User user, String rId, Integer page){
-	  if (rId != null && !"".equals(rId)) {
-	    user.setRoleId(rId);
-	    List<String> rIds = new ArrayList<String>();
-	    rIds.add(rId);
-      user.setRoleIdList(rIds);
-    }
-    List<User> users = userService.findUserRole(user, page == null ? 1 : page);
-    Role role = new Role();
-    List<Role> roles = roleService.find(role);
-    for (User u : users) {
-      List<Role> roles2 = roleService.selectByUserId(u.getId());
-      u.setRoles(roles2);
-    }
-    model.addAttribute("roles", roles);
-    model.addAttribute("list", new PageInfo<User>(users));
-    model.addAttribute("user", user);
-    model.addAttribute("rid", rId);
-    return "ses/bms/role/user_list";
+  	  if (rId != null && !"".equals(rId)) {
+  	    user.setRoleId(rId);
+  	    List<String> rIds = new ArrayList<String>();
+  	    rIds.add(rId);
+        user.setRoleIdList(rIds);
+      }
+      List<User> users = userService.findUserRole(user, page == null ? 1 : page);
+      Role role = new Role();
+      List<Role> roles = roleService.find(role);
+      for (User u : users) {
+        List<Role> roles2 = roleService.selectByUserId(u.getId());
+        u.setRoles(roles2);
+      }
+      model.addAttribute("roles", roles);
+      model.addAttribute("list", new PageInfo<User>(users));
+      model.addAttribute("user", user);
+      model.addAttribute("rid", rId);
+      return "ses/bms/role/user_list";
+	}
+	
+	/**
+   *〈简述〉重置密码页面
+   *〈详细描述〉
+   * @author Ye MaoLin
+	 * @param request
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/resetPassword")
+   public String resetPassword(HttpServletRequest request, Model model) {
+       User user = (User) request.getSession().getAttribute("loginUser");
+       model.addAttribute("user", user);
+       return "ses/bms/user/reset_password";
+   }
+	
+	/**
+   *〈简述〉查看个人信息
+   *〈详细描述〉
+	 * @param u
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/personalInfo")
+	public String personalInfo(@CurrentUser User u, Model model){
+    if (u != null) {
+      String roleName = "";
+      List<Role> list = u.getRoles();
+      for (int i = 0; i < list.size(); i++) {
+        if (i + 1 == list.size()) {
+          roleName += list.get(i).getName();
+        } else {
+          roleName += list.get(i).getName() + ",";
+        }
+      }
+      List<DictionaryData> genders = DictionaryDataUtil.find(13);
+      List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+      model.addAttribute("typeNames", typeNames);
+      model.addAttribute("genders", genders);
+      model.addAttribute("roleName", roleName);
+      model.addAttribute("user", u);
+      model.addAttribute("flag", 0);
+    } 
+    return "ses/bms/user/view";
 	}
 }

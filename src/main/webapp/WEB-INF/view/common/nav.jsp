@@ -25,10 +25,21 @@
             <div class="col-md-12 topbar-v1 col-xs-12 col-sm-12 p0" >
               <ul class="top-v1-data padding-0 nav navbar-nav">
               	<li class="dropdown wdxx ">
-					<a href="${pageContext.request.contextPath}/login/home.html" class="dropdown-toggle "  target="home">
+					<a href="javascript:void(0);"  aria-expanded="false" data-toggle="dropdown" class="dropdown-toggle p0_30 " target="home">
 					  <div class="top_icon wdxx_icon"></div>
-					  <span>我的通知</span>
+					  <span>个人中心</span>
 					</a>
+					<ul class="dropdown-menu drop_next">
+						<li class="line-block drop_two">
+				             <a href="${pageContext.request.contextPath}/login/home.html" target="home" class="son-menu"><span class="mr5">◇</span>我的通知</a>
+				        </li>
+				        <li class="line-block drop_two">
+				             <a href="${pageContext.request.contextPath}/user/personalInfo.html" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>
+				        </li>
+				        <li class="line-block drop_two">
+				             <a href="${pageContext.request.contextPath}/user/resetPassword.html" target="home" class="son-menu"><span class="mr5">◇</span>重置密码</a>
+				        </li>
+					</ul>
 				</li>
 			    <c:forEach items="${sessionScope.resource}" var="resource" varStatus="vs">
 					 <c:if test="${resource.menulevel == 2 }">

@@ -2737,23 +2737,13 @@ public class PackageExpertController {
         extension.setProjectCode(project.getProjectNumber());
       }
       
-      //查询改包下的初审项信息
-      Map<String,Object> map2 = new HashMap<>();
-      map2.put("projectId", projectId);
-      map2.put("packageId", packageId);
-      //查询出该包下的初审项id集合
-      List<PackageFirstAudit> packageAuditList = packageFirstAuditService.selectList(map2);
-      //创建初审项的集合
-      List<FirstAudit> firstAuditList = new ArrayList<>();
-      if(packageAuditList!=null && packageAuditList.size()>0){
-        for (PackageFirstAudit packageFirst : packageAuditList) {
-          //根据初审项的id 查询出初审项的信息放入集合
-          FirstAudit firstAudits = firstAuditService.get(packageFirst.getFirstAuditId());
-          firstAuditList.add(firstAudits);
-        }
-      }
+      //获取包下的评审项
+      FirstAudit firstAudit = new FirstAudit();
+      firstAudit.setPackageId(packageId);
+      firstAudit.setIsConfirm((short)0);
+      List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
         //放入初审项集合
-      extension.setFirstAuditList(firstAuditList);
+      extension.setFirstAuditList(fas);
       //查询供应商信息
       List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
       extension.setSupplierList(supplierList);
@@ -3203,6 +3193,7 @@ public class PackageExpertController {
         //获取包下的评审项
         FirstAudit firstAudit = new FirstAudit();
         firstAudit.setPackageId(packageId);
+        firstAudit.setIsConfirm((short)0);
         List<FirstAudit> list = firstAuditService.findBykind(firstAudit);
         for (SaleTender saleTender2 : sl) {
             //所有专家对各小项的评审结果少数服从多数
@@ -3285,6 +3276,7 @@ public class PackageExpertController {
         //获取包下的评审项
         FirstAudit firstAudit = new FirstAudit();
         firstAudit.setPackageId(packageId);
+        firstAudit.setIsConfirm((short)0);
         List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
         for (PackageExpert packageExpert : packageExperts) {
             //创建封装的实体

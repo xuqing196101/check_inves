@@ -263,4 +263,12 @@ public interface UserServiceI {
    * @param mobile
    */
   Boolean ajaxMoblie(String mobile, String id);
+
+  /**
+   *〈简述〉确认旧密码
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param mobile
+   */
+  Boolean ajaxOldPassword(User u);
 }

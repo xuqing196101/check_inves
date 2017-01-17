@@ -35,13 +35,79 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 		});
 	}
+	
+	function resetPaw(){
+		layer.open({
+				  type: 1,
+				  title: '重置密码',
+				  area: ['270', '260px'],
+				  closeBtn: 1,
+				  shade:0.01, //遮罩透明度
+				  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				  shift: 1, //0-6的动画形式，-1不开启
+				  offset: '150px',
+				  shadeClose: false,
+				  content: $("#openDiv"),
+		});
+	}
+	
+	function ajaxOldPassword(){
+		var is_error = 0;
+		var userId = $("#userId").val();
+		var oldPassord = $("#oldPassword").val();
+		$.ajax({
+           type: "GET",
+           async: false, 
+           url: "${pageContext.request.contextPath}/user/ajaxOldPassword.do?id="+userId+"&password="+oldPassord,
+           dataType: "json",
+           success: function(data){
+                 if (!data.success) {
+                 	is_error = 1;
+					layer.msg(data.msg,{offset: ['150px']});
+				 }
+             }
+       	});
+       	return is_error;
+	}
+	
+	function resetPasswSubmit(){
+		var is_error = ajaxOldPassword();
+		if (is_error == 1) {
+			return false;
+		} else {
+			$.ajax({   
+		            type: "POST",  
+		            url: "${pageContext.request.contextPath}/user/resetPwd.html",        
+		           	data : $('#form2').serializeArray(),
+				    dataType:'json',
+				    success:function(result){
+				    	if(!result.success){
+	                    	layer.msg(result.msg,{offset: ['150px']});
+				    	}else{
+				    		layer.closeAll();
+				    		layer.msg(result.msg,{offset: ['222px']});
+				    	}
+	                },
+	                error: function(result){
+	                    layer.msg("重置失败",{offset: ['222px']});
+	                }
+		     });    
+		}
+	}
+	
+	function cancel(){
+		layer.closeAll();
+	}
 </script>
 </head>
 <body onload="initData()">
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
 	<input type="hidden" name="id" id="id" value="${expert.id}"/>
+  <div class="">	
+	 <button class="btn" type="button" onclick="resetPaw()">重置密码</button>
+  </div>
   <table class="table table-bordered table-condensed ">
-  <div class="margin-top-30"></div>
+  <div class="margin-top-10"></div>
    	<tr>
  	  <td width="25%" class="bggrey">姓名</td>
  	  <td width="25%" id="tName">${expert.relName}</td>
@@ -160,5 +226,38 @@ session.setAttribute("tokenSession", tokenValue);
 	  </div>
 	    </div>
 	      </div>
+	<div id="openDiv" class="dnone layui-layer-wrap" >
+	  <form id="form2" method="post" >
+	  	<div class="drop_window">
+	  		  <input type="hidden" name="id" id="userId" value="${user.id}">
+			  <ul class="list-unstyled">
+			  	  <div class="col-md-6 col-sm-6 col-xs-12 pl15">
+	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入原密码：</label> 
+	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
+	                 	<input type="password" id="oldPassword" name="oldPassword" type="text" onblur="ajaxOldPassword()">
+	                </div>
+	              </div>
+	              <div class="clear">
+	              </div>
+	          	  <div class="col-md-6 col-sm-6 col-xs-12 pl15">
+	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>输入新密码：</label> 
+	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
+	                 	<input type="password" id="password" name="password" type="text">
+	                </div>
+	              </div>
+	              <div class="col-md-6  col-sm-6 col-xs-12 ">
+	                <label class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><a class="star_red">*</a>确认新密码：</label> 
+	                <div class="col-md-12 col-sm-12 col-xs-12 input-append input_group p0">
+	                  <input type="password" id="password2" name="password2"  class="">
+	                </div>
+	              </div>
+			  </ul>
+              <div class="tc col-md-12 col-sm-12 col-xs-12 mt10">
+                <input class="btn" id="inputb" name="addr" onclick="resetPasswSubmit();" value="确定" type="button"> 
+				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
+              </div>
+		    </div>
+		 </form>
+	  </div>
 </body>
 </html>

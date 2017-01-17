@@ -256,6 +256,7 @@ public class OpenBiddingController {
           //判断各包符合性审查项是否编辑完成
           FirstAudit firstAudit = new FirstAudit();
           firstAudit.setPackageId(p.getId());
+          firstAudit.setIsConfirm((short)0);
           List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
           if (fas == null || fas.size() <= 0) {
             msg = "noFirst";
