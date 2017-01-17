@@ -36,7 +36,7 @@ public class PurchaseDep extends Orgnization{
     @Length(min=0,max=50,message="长度不可超过50")
     private String dutyRoomPhone;//值班室电话
 
-    @Length(min=0,max=50,message="长度不可超过50")
+    @Length(min=0,max=100,message="长度不可超过50")
     private String quaCode;//采购资质编号
 
     private String quaLevel;//采购资质等级 一级----九级

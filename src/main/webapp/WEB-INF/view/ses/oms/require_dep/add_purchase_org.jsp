@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
     /*分页  */
   $(function() {

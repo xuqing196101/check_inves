@@ -9,7 +9,6 @@
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
-<script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 <script type="text/javascript">
 	$(document).ready(function() {

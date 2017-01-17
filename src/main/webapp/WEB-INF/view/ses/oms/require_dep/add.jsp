@@ -5,11 +5,11 @@
 <!--<![endif]-->
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
-<script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/oms/purchase/province.js"></script>
 
 <script type="text/javascript">
@@ -132,6 +132,11 @@
             });  
         }   
 	}
+	
+	$().ready(function() {
+	    $("#formID").validForm();
+	});
+	
 </script>
 </head>
 <body>
@@ -172,7 +177,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" type="text"> 
+			  <input class="input_group" name="name" type="text" required="required" manlength="250"> 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="name"/></div>
 			</div>
@@ -181,7 +186,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" type="text"> 
+			  <input class="input_group" name="shortName" required="required" type="text" > 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
