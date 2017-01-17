@@ -6,20 +6,20 @@
 <input type="checkbox" class="border0" value="${id}" />
 <input type="hidden" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id" value="${id}">
 </td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop"/></td>
-<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith"/></td>
-<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"/></td>
-<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"/></td>
+<td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"/></td>
+<td class="tc"><input type="text" onblur="tempSave()" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"/></td>
 <td class="tc">
-  	<select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p border0">
+  	<select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p border0" onchange="tempSave()">
 		<option value="1">有效</option>
 		<option value="0">无效</option>
 	</select>
