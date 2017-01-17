@@ -315,6 +315,10 @@
 			data: {"number" : certAptNumber},
 			success: function (data) {
 				$("#aptitute_list_tbody_id").append(data);
+				$(".web_uploader_class").each(function(){
+					var id = $(this).prev()[0].value;
+					init_uploader(eval("var  uploader_" + id),id);
+				});
 			}
 		});
 		certAptNumber++;
@@ -362,6 +366,10 @@
 			data: {"number" : certProNumber},
 			success: function (data) {
 				$("#cert_pro_list_tbody_id").append(data);
+				$(".web_uploader_class").each(function(){
+					var id = $(this).prev()[0].value;
+					init_uploader(eval("var  uploader_" + id),id);
+				});
 			}
 		});
 		certProNumber++;
@@ -421,6 +429,10 @@
 			data: {"number" : certSaleNumber},
 			success: function (data) {
 				$("#cert_sell_list_tbody_id").append(data);
+				$(".web_uploader_class").each(function(){
+					var id = $(this).prev()[0].value;
+					init_uploader(eval("var  uploader_" + id),id);
+				});
 			}
 		});
 		certSaleNumber++;
@@ -466,6 +478,10 @@
 			data: {"number" : certSeNumber},
 			success: function (data) {
 				$("#cert_se_list_tbody_id").append(data);
+				$(".web_uploader_class").each(function(){
+					var id = $(this).prev()[0].value;
+					init_uploader(eval("var  uploader_" + id),id);
+				});
 			}
 		});
 		certSeNumber++;
@@ -595,6 +611,10 @@
 			data: {"number" : certEngNumber},
 			success: function (data) {
 				$("#cert_eng_list_tbody_id").append(data);
+				$(".web_uploader_class").each(function(){
+					var id = $(this).prev()[0].value;
+					init_uploader(eval("var  uploader_" + id),id);
+				});
 			}
 		});
 		certEngNumber++;
