@@ -983,24 +983,24 @@
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 							<table id="table" class="table table-bordered table-condensed table_input">
 								<thead>
-									<tr class="info space_nowrap">
-									    <th class="">行号</th>
-										<th class="">序号</th>
-										<th class="">需求部门</th>
-										<th class="">物资类别及<br/>物资名称</th>
-										<th class="">规格型号</th>
-										<th class="">质量技术标准<br/>（技术参数）</th>
-										<th class="">计量<br/>单位</th>
-										<th class="">采购<br/>数量</th>
-										<th class="">单价<br/>（元）</th>
-										<th class="">预算金额<br/>（万元）</th>
-										<th class="">交货期限</th>
-										<th class="">采购方式建议</th>
-										<th class="">供应商名称</th>
-										<th class="">是否申请<br/>办理免税</th>
-										<th name="userNone" class="">物资用途（仅进口）</th>
-										<th name="userNone" class="">使用单位（仅进口）</th>
-										<th class="">备注</th>
+									<tr class="info">
+									    <th class="w50">行号</th>
+										<th class="w50">序号</th>
+										<th class="w260">需求部门</th>
+										<th class="w200">物资类别及<br/>物资名称</th>
+										<th class="w200">规格型号</th>
+										<th class="w140">质量技术标准<br/>（技术参数）</th>
+										<th class="w50">计量<br/>单位</th>
+										<th class="w50">采购<br/>数量</th>
+										<th class="w50">单价<br/>（元）</th>
+										<th class="w80">预算金额<br/>（万元）</th>
+										<th class="w150">交货期限</th>
+										<th class="w100">采购方式建议</th>
+										<th class="w260">供应商名称</th>
+										<th class="w80">是否申请</br>办理免税</th>
+										<th name="userNone" class="w260">物资用途</br>（仅进口）</th>
+										<th name="userNone" class="w260">使用单位</br>（仅进口）</th>
+										<th class="w260">备注</th>
 										<!-- <th  style="width:300px;">附件</th> -->
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="">操作</th>
@@ -1009,7 +1009,7 @@
 								<tbody id="detailZeroRow">
 								<c:if test="${plist==null }">
 									<tr name="detailRow">
-									<td class="tc">1</td>
+									<td class="tc"><div class="w50">1</div></td>
 										<td class=" p0">
 											<input type="hidden" name="list[0].id" id="purid" value="" class="m0 border0">
 											<input type="text" name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc ">
@@ -1035,11 +1035,11 @@
 										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w140 border0"></td>
 										<td class="tc p0"><input type="text" name="list[0].item" class="m0 w50 border0"></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50"></td>
-										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w100"></td>
-										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w100 border0" ></td>
-										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0"></td>
+										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w50"></td>
+										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w80 border0" ></td>
+										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w150"></td>
 										<td class=" p0">
-											<select name="list[0].purchaseType" class="m0 border0" onchange="changeType(this)" id="pType[0]">
+											<select name="list[0].purchaseType" class="m0 border0 w100" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 												
@@ -1048,10 +1048,10 @@
 											</select>
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].supplier" class="m0 w260 border0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0border0"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0 w80"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 w260 border0"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w260"></td>
 										<!-- <td class="tc w100 p0"></td> -->
 								<!--  <td class="tc w100 p0"></td> -->  
 										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
