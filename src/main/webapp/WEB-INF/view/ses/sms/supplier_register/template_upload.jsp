@@ -120,12 +120,12 @@
 										   	   <tr>
 										   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
 										   	     <td>
-										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
+										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 												   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
 											     </td>
 										   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
 										   	     <td>
-										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
 												   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
 										   	     </td>
 										   	   </tr>

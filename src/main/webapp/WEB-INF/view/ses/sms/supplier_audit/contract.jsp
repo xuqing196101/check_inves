@@ -134,7 +134,7 @@
 				$("#form_id").submit();
 			}
 
-			function loadPageOne(url, supplierTypeId) {
+			function loadPageOne(id, url, supplierTypeId) {
 				index = layer.load(1, {
 					shade: [0.1, '#fff'] //0.1透明度的白色背景
 				});
@@ -249,24 +249,24 @@
 							<c:set value="0" var="liCount" />
 							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
 								<c:set value="${liCount+1}" var="liCount" />
-								<li id="li_id_1" class="active" onclick="loadPageOne('supplierAudit/ajaxContract.html','PRODUCT')">
+								<li id="li_id_1" class="active" onclick="loadPageOne('tab-1','supplierAudit/ajaxContract.html','PRODUCT')">
 									<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型品目信息</a>
 								</li>
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
-								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadPageTwo('supplierAudit/ajaxContract.html','SALES')">
+								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadPageTwo('tab-2','supplierAudit/ajaxContract.html','SALES')">
 									<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_1">物资-销售型品目信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
-								<li id="li_id_3" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageThree('supplierAudit/ajaxContract.html','PROJECT')">
+								<li id="li_id_3" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageThree('tab-3','supplierAudit/ajaxContract.html','PROJECT')">
 									<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_1">工程品目信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>
 							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
-								<li id="li_id_4" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageFour('supplierAudit/ajaxContract.html','SERVICE')">
+								<li id="li_id_4" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageFour('tab-4','supplierAudit/ajaxContract.html','SERVICE')">
 									<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_1">服务品目信息</a>
 								</li>
 								<c:set value="${liCount+1}" var="liCount" />
