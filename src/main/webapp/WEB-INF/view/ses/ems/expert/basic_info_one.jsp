@@ -4,6 +4,7 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%
