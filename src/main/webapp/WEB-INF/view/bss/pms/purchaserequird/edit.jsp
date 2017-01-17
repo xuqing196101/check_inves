@@ -350,7 +350,7 @@
              <div class="content" id="content">
                  <table id="table" class="table table-bordered table-condensed table_input  lockout">
 					<thead>
-						<tr class="" id="scroll_top">
+						<tr class="space_nowrap" id="scroll_top">
 							<th class="info w50">序号</th>
 							<th class="info w260">需求部门</th>
 							<th class="info w200">物资类别<br>及名称</th>
@@ -361,7 +361,7 @@
 							<th class="info w80">单价</br>（元）</th>
 							<th class="info w80">预算金额</br>（万元）</th>
 							<th class="info w150">交货期限</th>
-							<th class="info w100">采购方式</br>建议</th>
+							<th class="info w100">采购方式建议</th>
 							<th class="info w260">供应商名称</th>
 							<th class="info w80">是否申请</br>办理免税</th>
 					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
@@ -417,7 +417,7 @@
                   <td class="tc"><div class="w150"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></div></td>
                   <td class="tc">
              <%--       <c:if test="${obj.price!=null}"> --%>
-                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w100 border0" id="select">
+                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w120 border0" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>

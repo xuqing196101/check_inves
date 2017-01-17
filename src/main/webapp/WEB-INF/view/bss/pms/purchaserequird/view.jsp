@@ -202,9 +202,9 @@
 		
         <h2 class="count_flow"><i>2</i>计划明细</h2>
 		<div class="content ul_list"  id="content">
-				<table id="table" class="table table-bordered ">
+				<table id="table" class="table table-bordered">
 					<thead>
-						<tr class="">
+						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
 							<th class="info w260">需求部门</th>
 							<th class="info w200">物资类别<br>及名称</th>
