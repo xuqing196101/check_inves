@@ -983,7 +983,7 @@
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
 							<table id="table" class="table table-bordered table-condensed table_input">
 								<thead>
-									<tr class="info">
+									<tr class="space_nowrap">
 									    <th class="w50">行号</th>
 										<th class="w50">序号</th>
 										<th class="w260">需求部门</th>
@@ -1039,7 +1039,7 @@
 										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w80 border0" ></td>
 										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w150"></td>
 										<td class=" p0">
-											<select name="list[0].purchaseType" class="m0 border0 w100" onchange="changeType(this)" id="pType[0]">
+											<select name="list[0].purchaseType" class="m0 border0 w120" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 												
