@@ -254,7 +254,10 @@
 	              <tr>
 		              <td class="tc">${vs.index + 1}</td>
 		              <td class="tl pl20" id="${s.id }" >${s.name}</td>
-		              <td class="tc">${s.nature}</td>
+		              <td class="tc">
+		              	<c:if test="${s.nature eq '1'}">法人</c:if>
+		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
+		              </td>
 		              <td class="tc" >${s.identity}</td>
 		              <td class="tc" >${s.shares}</td>
 		              <td class="tc" >${s.proportion}</td>

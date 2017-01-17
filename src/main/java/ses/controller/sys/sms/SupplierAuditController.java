@@ -720,6 +720,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		if(supplierId != null){
 			//资质资格证书信息
 			List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
+			for (int i = 0; i < supplierCertEng.size() - 1; i++) {
+		           for (int j = supplierCertEng.size() - 1; j > i; j--) {
+		               if (supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
+		            	   supplierCertEng.remove(j);
+		               }
+		           }
+		       }
 			request.setAttribute("supplierCertEng", supplierCertEng);
 			
 			//资质资格信息
@@ -743,6 +750,13 @@ public class SupplierAuditController extends BaseSupplierController{
 		 */
 		//资质证书信息
 		List<SupplierCertServe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+		for (int i = 0; i < supplierCertSe.size() - 1; i++) {
+	           for (int j = supplierCertSe.size() - 1; j > i; j--) {
+	               if (supplierCertSe.get(j).getId().equals(supplierCertSe.get(i).getId())) {
+	            	   supplierCertSe.remove(j);
+	               }
+	           }
+	       }
 		request.setAttribute("supplierCertSes", supplierCertSe);
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
@@ -1483,14 +1497,14 @@ public class SupplierAuditController extends BaseSupplierController{
 	    List<QualificationBean> saleQua= supplierService.queryCategoyrId(listSlae, 3);
 	    
 	    //查询所有的三级目录工程
-	    List<Category> listProject = getSale(supplierId,supplierTypeIds);
+	    List<Category> listProject = getProject(supplierId,supplierTypeIds);
 	    removeSame(listProject);
 	    
 	    //根据品目id查询所有的工证书
 	    List<QualificationBean> projectQua= supplierService.queryCategoyrId(listProject, 1);
 	   
 	    //查询所有的三级品目服务
-	    List<Category> listService = getSale(supplierId,supplierTypeIds);
+	    List<Category> listService = getServer(supplierId,supplierTypeIds);
 	    removeSame(listService);
 	    
 		//根据品目id查询所有的服务证书信息
@@ -1501,40 +1515,39 @@ public class SupplierAuditController extends BaseSupplierController{
 	    List<Qualification> saleList=new ArrayList<Qualification>();
 	    List<Qualification> projectList=new ArrayList<Qualification>();
 	    List<Qualification> serviceList=new ArrayList<Qualification>();
-		   
-	    if(list3!=null&&list3.size()>0){
+		
+	    //生产
+	    if(list3 !=null && list3.size()>0){
 	    	for(QualificationBean qb:list3){
 	    		qaList.addAll(qb.getList());
 		   	}
 	    }
 	    
 	    //销售
-	    if(saleQua!=null&&saleQua.size()>0){
+	    if(saleQua !=null && saleQua.size()>0){
 	    	for(QualificationBean qb:saleQua){
 	    		saleList.addAll(qb.getList());
 	    	}
 	    } 
 	    
 	    //工程
-	    if(projectQua!=null&&projectQua.size()>0){
+	    if(projectQua !=null && projectQua.size()>0){
 	    	for(QualificationBean qb:projectQua){
 	    		projectList.addAll(qb.getList());
 	    	}
 	    } 
 	    
 	    //服务
-	    if(serviceQua!=null&&serviceQua.size()>0){
+	    if(serviceQua !=null && serviceQua.size()>0){
 	    	for(QualificationBean qb:serviceQua){
 	    		serviceList.addAll(qb.getList());
 	    	}
 	    } 
 	   
 	    //生产
-	    StringBuffer sbUp=new StringBuffer("");
 	    StringBuffer sbShow=new StringBuffer("");
 	    int len=qaList.size()+1;
 	    for(int i=1;i<len;i++){
-	    	sbUp.append("pUp"+i+",");
 	        sbShow.append("pShow"+i+",");
 		 
 	    }
@@ -1542,30 +1555,30 @@ public class SupplierAuditController extends BaseSupplierController{
 	    //销售
 	    int slaelen=saleList.size()+1;
 	    for(int i=1;i<slaelen;i++){
-	    	sbUp.append("saleUp"+i+",");
 	    	sbShow.append("saleShow"+i+",");
 	    }
-	    if(projectList!=null&&projectList.size()>0){
+	    
+	    //工程
+	    if(projectList !=null && projectList.size()>0){
 	    	int projectlen=projectList.size()+1;
 	    	for(int i=1;i<projectlen;i++){
-	    		sbUp.append("projectUp"+i+",");
 	    		sbShow.append("projectShow"+i+",");
 	    	} 
 	    }
 		
-	   if(serviceList!=null&&serviceList.size()>0){
+	    //服务
+	   if(serviceList !=null && serviceList.size()>0){
 		   int serverlen=serviceList.size()+1;
 		   for(int i=1;i<serverlen;i++){
-			   sbUp.append("serverUp"+i+",");
 			   sbShow.append("serverShow"+i+",");
 		   } 
 	   }
 
-	   model.addAttribute("saleUp", sbUp);
 	   model.addAttribute("saleShow", sbShow);
 	   model.addAttribute("cateList",  list3);
 	   model.addAttribute("saleQua", saleQua);
 	   model.addAttribute("projectQua", projectQua);
+	   model.addAttribute("serviceQua", serviceQua);
 	   model.addAttribute("supplierId", supplierId);
 	   model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
 	   model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -1577,7 +1590,7 @@ public class SupplierAuditController extends BaseSupplierController{
 		List<Category> categoryList=new ArrayList<Category>();
 		String[] types = code.split(",");
 		for(String s:types){
-			String   categoryId="";
+			String categoryId="";
 			   if (s != null ) {
 	               if(s.equals("PRODUCT")){
 	                   categoryId = DictionaryDataUtil.getId("GOODS");
@@ -1587,8 +1600,8 @@ public class SupplierAuditController extends BaseSupplierController{
 	    		    	 cate.setParentId(c.getId());
 	    		    	 categoryList.add(cate);
 	    	             }
-	                 }
-		       }
+	                }
+		      }
 		}
 		  return  categoryList;
 	}
@@ -1599,7 +1612,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			
 			String[] types = code.split(",");
 			for(String s:types){
-				String   categoryId="";
+				String categoryId="";
 				   if (s != null ) {
 		               if(s.equals("SALES")){
 		                   categoryId = DictionaryDataUtil.getId("GOODS");
@@ -1608,9 +1621,9 @@ public class SupplierAuditController extends BaseSupplierController{
 		    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
 	                         cate.setParentId(c.getId());
 		    		    	 categoryList.add(cate);
-		    	            }
+		    	           }
 		              }
-			      }
+			     }
 			}
 			
 			return categoryList;
@@ -1623,7 +1636,7 @@ public class SupplierAuditController extends BaseSupplierController{
 			
 			String[] types = code.split(",");
 			for(String s:types){
-				String   categoryId="";
+				String categoryId="";
 				   if (s != null ) {
 		               if(s.equals("PROJECT") ){
 		                   categoryId = DictionaryDataUtil.getId("PROJECT");
@@ -1633,10 +1646,9 @@ public class SupplierAuditController extends BaseSupplierController{
 	                         cate.setParentId(c.getId());
 		    		    	 categoryList.add(cate);
 		    		 
-		    	            }
-		             }
+		    	         }
+		            }
 			    }
-			
 			}
 			
 			return categoryList;
@@ -1648,9 +1660,10 @@ public class SupplierAuditController extends BaseSupplierController{
 			
 			String[] types = code.split(",");
 			for(String s:types){
-				String   categoryId="";
+				String categoryId="";
 				   if (s != null ) {
 		               if(s.equals("SERVICE")){
+		               categoryId = DictionaryDataUtil.getId("SERVICE");
 		    		   List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
 		    		     for(SupplierItem c:category){
 		    		    	 Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
@@ -1671,7 +1684,7 @@ public class SupplierAuditController extends BaseSupplierController{
 	 * @param @return      
 	 * @return String
 	 */
-	@RequestMapping(value = "contract")
+/*	@RequestMapping(value = "contract")
 	public String contract(Model model, String supplierId) {
 		List<SupplierTypeRelate> typeIds= supplierTypeRelateService.queryBySupplier(supplierId);
 
@@ -1920,7 +1933,84 @@ public class SupplierAuditController extends BaseSupplierController{
 		 model.addAttribute("supplierId", supplierId);
 		 model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		return "ses/sms/supplier_audit/contract";
-	}
+	}*/
+   
+    /**
+     * @Title: contractUp
+     * @author XuQing 
+     * @date 2017-1-17 下午5:46:54  
+     * @Description:加载点击标签下的合同
+     * @param @param supplierId
+     * @param @param model
+     * @param @param supplierTypeId
+     * @param @param pageNum
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping(value="/ajaxContract")
+    public String contractUp(String supplierId, Model model, String supplierTypeId, Integer pageNum){
+        //合同
+        String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+        String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+        String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+        //账单
+        String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+        String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+        String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+        
+        List<Category> category = new ArrayList<Category>();
+        List<SupplierItem> itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
+        for (SupplierItem item : itemsList) {
+            category.add(categoryService.findById(item.getCategoryId()));
+        }
+        // 查询品目合同信息
+        List<ContractBean> contract = supplierService.getContract(category);
+        for(ContractBean con : contract){
+            con.setOneContract(id1);
+            con.setTwoContract(id2);
+            con.setThreeContract(id3);
+            con.setOneBil(id4);
+            con.setTwoBil(id5);
+            con.setTwoBil(id6);
+        }  
+        // 分页,pageSize == 10
+        PageInfo<SupplierItem> pageInfo = new PageInfo<SupplierItem>(itemsList);
+        model.addAttribute("result", pageInfo);  
+        model.addAttribute("contract", contract);  
+        // 年份
+        List<Integer> years = supplierService.getThressYear();
+        model.addAttribute("years", years);
+        model.addAttribute("supplierTypeId", supplierTypeId);
+        model.addAttribute("supplierId", supplierId);
+        // 供应商附件sysKey参数
+        model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        
+        return "ses/sms/supplier_audit/ajax_contract";
+    }
+	
+    /**
+     * @Title: contractUp
+     * @author XuQing 
+     * @date 2017-1-17 下午5:47:19  
+     * @Description:加载全部标签
+     * @param @param supplierId
+     * @param @param model
+     * @param @return      
+     * @return String
+     */
+    @RequestMapping(value="/contract")
+    public String contractUp(String supplierId, Model model){
+    	List<SupplierTypeRelate> typeIds= supplierTypeRelateService.queryBySupplier(supplierId);
+		String supplierTypeIds = "";
+		for(SupplierTypeRelate s : typeIds){
+			supplierTypeIds += s.getSupplierTypeId()+ ",";
+		}
+        model.addAttribute("supplierTypeIds", supplierTypeIds);
+        model.addAttribute("supplierId", supplierId);
+        return "ses/sms/supplier_audit/contract";
+    }
+    
+    
 	
 	@ResponseBody
 	@RequestMapping(value = "/getTree", produces = "application/json;charset=utf-8")
