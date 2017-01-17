@@ -19,6 +19,9 @@
 
     <script type="text/javascript">
       $(function() {
+      	$("#close").click(function(){
+          	$(".prompt_tips").hide();          
+       	});
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
         var version = parseFloat(b_version);
@@ -56,6 +59,7 @@
       function registerTip(){
 		layer.msg("暂未开放，请耐心等待！");
 	  }	
+	  
     </script>
   </head>
 
@@ -1285,6 +1289,18 @@
     <!--底部代码开始-->
     <jsp:include page="/index_bottom.jsp"></jsp:include>
     </div>
+    </div>
+    
+    <div class="prompt_tips">
+     <div class="prompt_top">
+                   提示信息
+     </div>
+      <div class="prompt_main">
+                    原系统采购公告账号已作废，请各单位按要求重新<a href="javascript:void(0)" class="red">申请</a>!
+      </div>
+      <div class="prompt_btns tr">
+         <button class="btn" id="close">关闭</button>
+      </div>
     </div>
   </body>
 

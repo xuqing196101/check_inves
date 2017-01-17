@@ -2775,3 +2775,43 @@ h2.list_title{
     overflow: hidden;
     background: url(../images/error_warn.png) no-repeat;
 }
+
+
+/*首页提示框样式*/
+.prompt_top{
+	width:100%;
+	border-radius:6px 6px 0px 0px!important;
+	background-color:#458ECC;
+	color:#ffffff;
+	font-size:14px;
+	line-height:35px; 
+	padding:0 10px;
+}
+.prompt_tips{
+	width:300px;
+	height:auto;
+	border:1px solid #dddddd;
+	border-radius: 6px!important;
+    -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    box-shadow: 0 5px 10px rgba(0,0,0,.2);
+    position: fixed;
+    z-index: 10000;
+    font-size:18px;
+    font-weight:bold;
+    right:0px;
+    bottom:0px;
+    background-color:#ffffff;
+}
+.prompt_btns{
+	margin: 10px;
+}
+.prompt_btns .btn{
+	background-color:#dddddd; 
+}
+.prompt_main{
+	padding:10px;
+}
+.prompt_main a{
+	text-decoration:underline;
+	color:#ef0000;
+}
