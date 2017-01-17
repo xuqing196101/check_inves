@@ -440,6 +440,7 @@
 									<input type="text" id="${vs.index+1}detailAddress" value="${supplierAddress.detailAddress}" class="hand " onclick="reason(this)">
 								</div>
 							</li>
+							<div class="clear"></div>
 						</c:forEach>
 					</ul>
 

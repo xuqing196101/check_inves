@@ -405,18 +405,12 @@
 						
 						</ul>
 						<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-			<a class="btn" type="button" onclick="lastStep();">上一步</a>
-			<a class="btn" type="button" onclick="nextStep();">下一步</a>
-		</div>
+						<a class="btn" type="button" onclick="lastStep();">上一步</a>
+						<a class="btn" type="button" onclick="nextStep();">下一步</a>
+					</div>
 				</div>
-				
-			
-				
 			</div>
 		</div>
-		
-		
-		
 		<form id="form_id" action="" method="post">
 			<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
 		</form>
