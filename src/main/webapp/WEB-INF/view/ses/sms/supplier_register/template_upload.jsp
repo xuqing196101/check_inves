@@ -116,168 +116,22 @@
 										<div class="headline-v2">
 			  								<h2>上传供应商申请表、承诺书  (将第七步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传)</h2>
 										</div>
-										
-											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商申请表上传</span> 
-												   <div class="col-md-8 col-sm-12 col-xs-12 p0">
-													   <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
-													   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
-												   </div>
-												   
-												     <div class="cue"> ${err_geglist } </div>
-											</li>
-				
-											<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-												   <span class="col-md-4 col-sm-12 col-xs-12 padding-left-5 mt15"><i class="red">*</i>供应商承诺书上传</span> 
-												   <div class="col-md-8 col-sm-12 col-xs-12 p0">
-													   <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
-													   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
-												   </div>
-												   
-												     <div class="cue"> ${ err_pledge} </div>
-											</li>
-											
+											<table class="table table-bordered">
+										   	   <tr>
+										   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
+										   	     <td>
+										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
+												   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
+											     </td>
+										   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
+										   	     <td>
+										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+												   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+										   	     </td>
+										   	   </tr>
+											 </table>
 				
 				
-								<!-- 		<ul class="list-unstyled list-flow">
-											<li id="level_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i> 军队供应商分级方法：</span>
-												 --><%--<c:if test="${currSupplier.supplierLevel != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierLevel}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('level_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierLevel == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierLevelFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>--%>
-									<%-- 			<up:upload id="aa" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-												<up:show showId="bb" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-											</li> --%>
-											<%--<li id="pledge_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商承诺书：</span>
-												<c:if test="${currSupplier.supplierPledge != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierPledge}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('pledge_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierPledge == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierPledgeFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>
-											<li id="reglist_li_id" class="col-md-6 p0"><span class="w245"><i class="red">＊</i>军队供应商入库申请表：</span>
-												<c:if test="${currSupplier.supplierRegList != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierRegList}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('reglist_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierRegList == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierRegListFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>
-											<li id="extracts_li_id" class="col-md-6 p0"><span class="w245">军队供应商抽取记录表：</span>
-												<c:if test="${currSupplier.supplierExtractsList != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierExtractsList}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('extracts_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierExtractsList == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierExtractsListFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>
-											<li id="inspectlist_li_id" class="col-md-6 p0"><span class="w245">军队供应商实地考察记录表：</span>
-												<c:if test="${currSupplier.supplierInspectList != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierInspectList}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('inspectlist_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierInspectList == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierInspectListFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>
-											<li id="reviewlist_li_id" class="col-md-6 p0"><span class="w245">军队供应商实地考察廉政意见函：</span>
-												<c:if test="${currSupplier.supplierReviewList != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierReviewList}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('reviewlist_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierReviewList == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierReviewListFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>
-											<li id="changelist_li_id" class="col-md-6 p0"><span class="w245">军队供应商注册信息变更申请表：</span>
-												<c:if test="${currSupplier.supplierChangeList != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierChangeList}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('changelist_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierChangeList == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierChangeListFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>
-											<li id="exitlist_li_id" class="col-md-6 p0"><span class="w245">军队供应商退库申请表：</span>
-												<c:if test="${currSupplier.supplierExitList != null}">
-													<div>
-														<a class="color7171C6 fz11" href="javascript:void(0)" onclick="downloadFile('${currSupplier.supplierExitList}')">下载附件</a>
-														<a title="重新上传" class="ml10 red fz17" href="javascript:void(0)" onclick="uploadNew('exitlist_li_id')">☓</a>
-													</div>
-												</c:if>
-												<c:if test="${currSupplier.supplierExitList == null}">
-													<div class="input-append">
-														<div class="uploader orange h32 m0 fz8">
-															<input type="text" class="filename h32 fz8" readonly="readonly"/>
-															<input type="button" name="file" class="button" value="选择..."/>
-															<input name="supplierExitListFile" type="file" size="30"/>
-														</div>
-													</div>
-												</c:if>
-											</li>--%>
 											<div class="clear"></div>
 										</ul>
 									</div>
