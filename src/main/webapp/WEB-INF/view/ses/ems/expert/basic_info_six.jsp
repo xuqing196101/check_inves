@@ -258,6 +258,9 @@ function searchCate(cateId, treeId) {
 				showLine: true
 			},
 		};
+	var index = layer.load(1, {
+		  shade: [0.1,'#fff'] //0.1透明度的白色背景
+	});
 	var cateName = $("#" + cateId).val();
 	if (cateName == "") {
 		showTree(treeId);
@@ -276,6 +279,7 @@ function searchCate(cateId, treeId) {
 			}
 		});
 	}
+	layer.close(index);
 }
 function filter(node) {
     return (node.level < 4);

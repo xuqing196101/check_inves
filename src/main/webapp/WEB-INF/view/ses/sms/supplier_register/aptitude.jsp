@@ -242,7 +242,5 @@ function psize(){
 		<input name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
 	 
 	</form>
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
 </body>
 </html>
