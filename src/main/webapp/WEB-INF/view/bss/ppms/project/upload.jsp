@@ -6,6 +6,7 @@
 <head>
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
 <script type="text/javascript">

@@ -118,7 +118,7 @@
                     </c:when>
                     <c:otherwise>
                       <c:forEach items="${kind}" var="kind">
-                        <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
+                        <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                       </c:forEach>
                     </c:otherwise>
                   </c:choose>

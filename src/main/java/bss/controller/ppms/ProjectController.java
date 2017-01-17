@@ -29,6 +29,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -42,6 +44,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
@@ -154,8 +157,7 @@ public class ProjectController extends BaseController {
             if(page==null){
                 page = 1;
             }
-            PropertiesUtil config = new PropertiesUtil("config.properties");
-            PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             List<Project> list = projectService.selectProjectsByConition(map);
             for(int i=0;i<list.size();i++){
                 try {
@@ -743,20 +745,22 @@ public class ProjectController extends BaseController {
              }
              
          }else{
-             String purchaseTypes = null;
-             for (int i = 0; i < list.getListDetail().size(); i++ ) {
-                 HashMap<String, Object> map = new HashMap<String, Object>();
-                 map.put("id", list.getListDetail().get(i).getId());
-                 List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
-                 if(lists.size() == 1){
-                     purchaseTypes = lists.get(0).getPurchaseType();
+             String type = null;
+             String[] checkId = checkIds.split(",");
+             List<String> id2 = getIds(checkId);
+             for (int i = 0; i < id2.size(); i++ ) {
+                 PurchaseDetail detail = purchaseDetailService.queryById(checkId[i]);
+                 if(detail.getPrice() != null){
+                     type = detail.getPurchaseType();
                  }
-             }
+            }
              project.setCreateAt(new Date());
              project.setStatus("4");
              project.setIsProvisional(1);
              project.setIsImport(0);
-             project.setPurchaseType(purchaseTypes);
+             if(StringUtils.isNotBlank(type)){
+                 project.setPurchaseType(type);
+             }
              project.setPurchaseDep(new PurchaseDep(orgId));
              project.setPlanType(list.getListDetail().get(0).getPlanType());
              projectService.insert(project); 
@@ -1027,8 +1031,12 @@ public class ProjectController extends BaseController {
              map.put("id", id);
              List<ProjectDetail> detail = detailService.selectById(map);
              for (ProjectDetail projectDetail2 : detail) {
-                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
-                model.addAttribute("orgnization", orgnization);
+                 map.put("id", projectDetail2.getRequiredId());
+                 map.put("projectId", projectDetail2.getProject().getId());
+                 List<ProjectDetail> details = detailService.selectById(map);
+                 if(details.size() > 1){
+                     projectDetail2.setDetailStatus(0);
+                 }
             }
              List<ProjectDetail> paixu = paixu(detail, id);
              model.addAttribute("lists", paixu);
@@ -2800,8 +2808,6 @@ public class ProjectController extends BaseController {
     @RequestMapping(value="/getUserForSelect" ) 
     @ResponseBody
     public List<PurchaseInfo> getUserForSelect(@CurrentUser User user) {
-        //String id = request.getParameter("id");
-        //Project project = projectService.selectById(id);
         List<PurchaseInfo> purchaseInfo = new ArrayList<>();
         if(user != null && user.getOrg() != null){
            purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
@@ -2869,4 +2875,10 @@ public class ProjectController extends BaseController {
         projectService.delete(id);
         return "redirect:list.html";
     }
+    
+    @InitBinder  
+    public void initBinder(WebDataBinder binder) {  
+        // 设置List的最大长度  
+        binder.setAutoGrowCollectionLimit(30000);  
+    } 
 }

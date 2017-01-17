@@ -3,32 +3,31 @@
 
 <!DOCTYPE HTML>
 <html>
-
-  <head>
-    <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script type="text/javascript">
+<head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
+<script type="text/javascript">
       /*分页  */
-      $(function() {
-        laypage({
-          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-          pages: "${info.pages}", //总页数
-          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-          skip: true, //是否开启跳页
-          total: "${info.total}",
-          startRow: "${info.startRow}",
-          endRow: "${info.endRow}",
-          groups: "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
-          curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-            return "${info.pageNum}";
-          }(),
-          jump: function(e, first) { //触发分页后的回调
-            if(!first) { //一定要加此判断，否则初始时会无限刷新
-              $("#page").val(e.curr);
-              $("#form1").submit();
-            }
-          }
-        });
-      });
+  $(function() {
+    laypage({
+      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+      pages : "${info.pages}", //总页数
+      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+      skip : true, //是否开启跳页
+      total : "${info.total}",
+      startRow : "${info.startRow}",
+      endRow : "${info.endRow}",
+      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+        return "${info.pageNum}";
+      }(),
+      jump : function(e, first) { //触发分页后的回调
+        if (!first) { //一定要加此判断，否则初始时会无限刷新
+          $("#page").val(e.curr);
+          $("#form1").submit();
+        }
+      }
+    });
+  });
 
       /** 全选全不选 */
       function selectAll() {
@@ -79,14 +78,11 @@
         });
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
         status = $.trim(status);
-        var currPage = $ {
-          info.pageNum
-        };
         if(id.length == 1) {
           if(status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成" ||
             status == "资格性和符合性审查中" || status == "经济技术审查中" || status == "评审完成" || status == "拟制中标公告完毕" || status == "确认中标供应商" || status == "实施结束" || status == "拟制评分标准" || status == "待开标" ||
             status == "招标文件已提交" || status == "已分包，待实施" || status == "预研已被引用" || status == "实施中，未完善项目信息") {
-            window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id + "&page=" + currPage;
+            window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id;
           }
           if(status == "已立项，待分包") {
             $.ajax({

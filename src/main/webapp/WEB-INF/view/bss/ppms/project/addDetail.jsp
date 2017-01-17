@@ -232,7 +232,6 @@
         <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
         <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">
         <input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType}">
-        <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType}">
       </c:forEach>
       <input id="detail_id" name="checkIds" type="hidden" />
       <input name="name" type="hidden" value="${name}" />

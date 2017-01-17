@@ -10,7 +10,7 @@
     <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>
     <script type="text/javascript">
       /*分页  */
-      $(function() {
+ /*      $(function() {
         laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
           pages: "${list.pages}", //总页数
@@ -37,7 +37,36 @@
         });
         
         
-      });
+      }); */
+      
+      
+      
+        $(function() {
+			    laypage({
+			      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+			      pages : "${list.pages}", //总页数
+			      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+			      skip : true, //是否开启跳页
+			      total : "${list.total}",
+			      startRow : "${list.startRow}",
+			      endRow : "${list.endRow}",
+			      groups : "${list.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+			      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+			        return "${list.pageNum}";
+			      }(),
+			      jump : function(e, first) { //触发分页后的回调
+			        if (!first) { //一定要加此判断，否则初始时会无限刷新
+			         $("#page").val(e.curr);
+			         var name = $("#name").val();
+			         var projectNumber = $("#projectNumber").val();
+			         $("#sname").val(name);
+			         $("#sprojectNumber").val(projectNumber);
+			         $("#form1").submit();
+			          //location.href = "${pageContext.request.contextPath}/project/add.do?page=" + e.curr+"&name="+name+"&projectNumber="+projectNumber;
+			        }
+			      }
+			    });
+			  });
       
 
       function checkInfo(ele) {
@@ -123,33 +152,16 @@
         var projectNumber = $("#projectNumber").val();
         var chkItems = $("input[name='chkItems']").val();
         chkItems = $.trim(chkItems);
-        if(name == "") {
+        if(flag == false){
+          $("#sps").html("项目编号已存在").css('color', 'red');
+        }else if(name == "") {
           layer.tips("项目名称不允许为空", "#name");
         } else if(projectNumber == "") {
           layer.tips("项目编号不允许为空", "#projectNumber");
         }else if(!chkItems){
           layer.alert("请选择明细");
         } else {
-          if(flag == true){
-            $.ajax({
-		          url: "${pageContext.request.contextPath}/project/verify.html",
-		          type: "post",
-		          data: "projectNumber=" + projectNumber,
-		          dataType: "json",
-		          success: function(data) {
-		            var datas = eval("(" + data + ")");
-		            if(datas == false) {
-		              layer.alert("项目编号已存在");
-		              flag = false;
-		            } else {
-		              $("#sps").html("");
-		              flag = true;
-		              window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num;
-		            }
-		          },
-		        });
-          }
-         
+		      window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num;
         }
       }
       
@@ -162,10 +174,11 @@
       
       //查询
       function query(){
-    	  var planName = $("#planName").val();
-    	  var orgName = $("#orgName").val();
-    	  var documentNumber = $("#documentNumber").val();
-    	  window.location.href = "${pageContext.request.contextPath }/project/add.do?planName="+planName+"&orgName="+orgName+"&documentNumber="+documentNumber;
+        var name = $("#name").val();
+        var projectNumber = $("#projectNumber").val();
+        $("#sname").val(name);
+        $("#sprojectNumber").val(projectNumber);
+        $("#form1").submit();
       }
     </script>
   </head>
@@ -192,7 +205,6 @@
       </div>
     </div>
     <div class="container container_box">
-      <sf:form id="form1" action="${pageContext.request.contextPath}/project/create.html" method="post" modelAttribute="project">
         <div>
           <h2 class="count_flow"><i>1</i>添加信息</h2>
           <ul class="ul_list">
@@ -220,9 +232,11 @@
           <h2 class="count_flow"><i>2</i>选择采购明细</h2>
           <!-- 项目戳开始 -->
 				<h2 class="search_detail ml0">
+				  <form action="${pageContext.request.contextPath}/project/add.html" id="form1" method="post" class="mb0">
 						<ul class="demand_list">
 					  	<li>
 					    	<label class="fl">采购任务名称：</label>
+					    	<input type="hidden" name="page" id="page">
 								<span><input type="text" name="planName" id="planName" value="${planName}" /></span>
 					  	</li>
 			        <li>
@@ -234,9 +248,12 @@
 			          <span><input type="text" name="documentNumber" id="documentNumber" value="${documentNumber }"/></span>
 			        </li>
 						</ul>
-					  <button class="btn fl" type="button" onclick="query()">查询</button>
+						<input type="hidden" id="sname" name="name"/>
+						<input type="hidden" id="sprojectNumber" name="projectNumber"/>
+					  <button class="btn fl mt1" type="button" onclick="query()">查询</button>
 					  <button class="btn fl" type="button" onclick="resetResult()">重置</button>
 						<div class="clear"></div>
+						</form>
 				</h2>
           <div class="ul_list">
             <div class="content table_box pl0">
@@ -266,12 +283,7 @@
                       	</c:forEach>
                       </td>
                       <td class="pl20">${obj.documentNumber}</td>
-                      <%--<td class="tc">
-                        <c:if test="${'1'==obj.status}">
-                          <span class="label rounded-2x label-u">受领</span>
-                        </c:if>
-                      </td>
-                      --%><td class="tc">
+                      <td class="tc">
                         <fmt:formatDate value="${obj.giveTime }" />
                       </td>
                       <td class="tc w30">
@@ -368,7 +380,6 @@
           <button class="btn" onclick="nextStep()" type="button">下一步</button>
           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
         </div>
-      </sf:form>
     </div>
 
   </body>
