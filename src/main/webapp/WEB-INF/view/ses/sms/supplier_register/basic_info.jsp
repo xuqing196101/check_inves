@@ -822,12 +822,7 @@ function deleteFinance() {
 				 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产经营地址邮编</span>
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-					<%--     <c:if test="${addr.code!=null}"> --%>
 					     <input type="text" name="addressList[${vs.index }].code" value="${addr.code}"/>
-					 <%--   </c:if>
-					   <c:if test="${addr.code==null}">
-				        <input type="text" name="addressList[0].code" value="${addr.code}" />
-				        </c:if> --%>
 				        <span class="add-on cur_point">i</span>
 				        <span class="input-tip">不能为空，长度为6位</span>
 				         <div class="cue">   </div>
@@ -868,12 +863,7 @@ function deleteFinance() {
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营详细地址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-				<%--     <c:if test="${addr.detailAddress!=null  }"> --%>
 			        <input type="text" name="addressList[${vs.index }].detailAddress"  value="${addr.detailAddress }">
-			  <%--       </c:if>
-			        <c:if test="${addr.detailAddress==null }">
-			           <input type="text" name="addressList[0].detailAddress"  value="${addr.detailAddress }">
-			         </c:if> --%>
 			        <span class="add-on cur_point">i</span>
 			        <span class="input-tip">不能为空</span>
 			         <div class="cue">  </div>
@@ -1398,7 +1388,7 @@ function deleteFinance() {
 			<div id="branch_list_body">
 			<c:forEach items="${currSupplier.branchList }" var="bran"  varStatus="vs" >
 			
-			 <li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12">
+			 <li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 				<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
 		    	 <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 		    	 	<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName"  value="${bran.organizationName}" />
