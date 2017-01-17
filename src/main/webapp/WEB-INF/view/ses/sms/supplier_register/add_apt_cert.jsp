@@ -1,6 +1,5 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
 <%@ include file="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <tr>
 <td class="tc">
 <input type="checkbox" class="border0" value="${id}" />
