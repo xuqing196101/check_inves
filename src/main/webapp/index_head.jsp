@@ -59,8 +59,8 @@ function importAdd(){
         <c:if test="${properties['ipAddressType'] == 0}">
            <a>网站编号：${properties['website.no']}</a>|
         </c:if>
-    	 <a onclick="myInfo()">我的信息</a>|     
-    	 <a href="${pageContext.request.contextPath}/login/loginOut.html">退出</a>
+    	 <a onclick="myInfo()">我的信息</a>     
+    	 <%-- <a href="${pageContext.request.contextPath}/login/loginOut.html">退出</a> --%>
 	   </div>
 	  </div>
     </div>
