@@ -116,21 +116,6 @@ public class UploadTld extends TagSupport {
     
     @Override
     public int doStartTag() throws JspException  {
-        
-        JspWriter out = pageContext.getOut();
-                String path = pageContext.getServletConfig().getServletContext().getContextPath();
-               
-                try {
-                    out.println("<link href='"+ path +"/public/webupload/css/webuploader.css?v='"+System.currentTimeMillis()+" rel='stylesheet' type='text/css' />");
-                    out.println("<link href='"+ path +"/public/webupload/css/uploadView.css?v='"+System.currentTimeMillis()+"  rel='stylesheet' type='text/css' />");
-                    
-                    out.println("<script src='" + path + "/public/webupload/js/webuploader.js?v='"+System.currentTimeMillis()+"></script>");
-                    out.println("<script src='" + path + "/public/webupload/js/upload.js?v='"+System.currentTimeMillis()+"></script>");
-                } catch (IOException e1) {
-                    e1.printStackTrace();
-                }
-                 
-        
         //系统key值判断
         if (StringUtils.isNotBlank(sysKey)){
             int key = Integer.parseInt(sysKey);

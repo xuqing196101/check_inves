@@ -5,8 +5,9 @@
 <html>
 
   <head>
-		<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script type="text/javascript">
       function cheClick(id, name) {
