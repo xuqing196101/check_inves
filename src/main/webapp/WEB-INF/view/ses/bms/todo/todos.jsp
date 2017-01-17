@@ -110,6 +110,9 @@
                 <c:if test="${agentslist[0].undoType==2}">
                                                      专家待办
                 </c:if>
+                 <c:if test="${agentslist[0].undoType==3}">
+                                                     项目待办
+                </c:if>
                 (${agentslist.size()})
               </div>
               <div class="" style="width: 100%;height:300px; overflow:auto; ">

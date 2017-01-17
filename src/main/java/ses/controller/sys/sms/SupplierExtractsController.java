@@ -735,11 +735,11 @@ public class SupplierExtractsController extends BaseController {
         todos.setUndoType((short) 1);
         todosService.insert(todos);
         //更新待复审
-        //        supplierAuditService.findBySupplierId(supplierExtRelate.getSupplier().getId())
-        //        SupplierAudit supplierAudit = new SupplierAudit();
-        //        supplierAudit.setId();
-        //        supplierAudit.setStatus(4);
-        //        supplierAuditService.updateStatusById(supplierAudit);
+        supplierAuditService.findBySupplierId(supplierExtRelate.getSupplier().getId());
+        Supplier supplier = new Supplier();
+        supplier.setId(supplierExtRelate.getSupplier().getId());
+        supplier.setStatus(4);
+        supplierAuditService.updateStatus(supplier);
       }
 
     }

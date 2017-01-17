@@ -62,7 +62,7 @@ public interface SupplierCheckPassService {
    * @author Wang Wenshuai
    * @param id
    */
-  void updateBid(String[] id,BigDecimal[] wonPrice);
+  void updateBid(String[] id,BigDecimal[] wonPrice,String userId);
 
   /**
    * 

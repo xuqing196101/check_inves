@@ -18,18 +18,25 @@
     	});
 
     	function login() {
+    		 $("#divPrompt").addClass("hide");
     		if ($("#inputEmail").val() == "") {
+    			 $("#divPrompt").removeClass("hide");
+    		    $("#spanPrompt").text("请输入用户名");
 /*     			layer.tips("请输入用户名", "#inputEmail", {
     				tips : 1
     			}); */
     		} else if ($("#inputPassword").val() == "") {
+    			$("#divPrompt").removeClass("hide");
+    		    $("#spanPrompt").text("请输入密码");
 /*     			layer.tips("请输入密码", "#inputPassword", {
     				tips : 1
     			}); */
     		} else if ($("#inputCode").val() == "") {
-    			layer.tips("请输入验证码", "#inputCode", {
+    			$("#divPrompt").removeClass("hide");
+    			 $("#spanPrompt").text("请输入验证码");
+    			/* layer.tips("请输入验证码", "#inputCode", {
     				tips : 1
-    			});
+    			}); */
     		} else {
     			var index = layer.load(0,{
     				  shade: [0.1,'#fff'],
@@ -47,24 +54,28 @@
     					var flag = data.split(",");
     					if (data == "errorcode") {
     						 getIdentityCode(0);
-    						layer.tips("验证码不正确", "#inputCode", {
-    							tips : 1
-    						});
+    						 $("#divPrompt").removeClass("hide");
+    						  $("#spanPrompt").text("验证码不正确");
     						layer.close(index);
     					} else if (data == "errorlogin") {
-    						layer.msg("用户名或密码错误！");
+    						$("#divPrompt").removeClass("hide");
+    						 $("#spanPrompt").text("用户名或密码错误！");
+    	        	/* 	layer.msg("用户名或密码错误！"); */
     						getIdentityCode(0);
     						layer.close(index);
     					} else if (data == "nullcontext") {
-    						layer.msg("请输入用户名密码或者验证码!");
+    						$("#divPrompt").removeClass("hide");
+    						   $("#spanPrompt").text("请输入用户名密码或者验证码!");
     					} else if (data == "scuesslogin") {
     						layer.close(index);
     						window.location.href = "${pageContext.request.contextPath}/login/index.html";
     					} else if (data == "black") {
-    						layer.msg("对不起，您已被列入黑名单!");
+    						$("#divPrompt").removeClass("hide");
+    						  $("#spanPrompt").text("对不起，您已被列入黑名单!");
     						layer.close(index);
     					} else if (data == "reject") {
-    						layer.msg("对不起，您的审核没有通过!");
+    						$("#divPrompt").removeClass("hide");
+    					  $("#spanPrompt").text("对不起，您的审核没有通过!");
     						layer.close(index);
     					} else if (flag[0] == "firset") {
     						//询问框
@@ -89,7 +100,8 @@
     							window.location.href = "${pageContext.request.contextPath}/";
     						});
     					} else if (data == "weed") {
-    						layer.msg("抱歉,您已被踢除,无法登陆！");
+    					  	$("#divPrompt").removeClass("hide");
+    						  $("#spanPrompt").text("抱歉,您已被踢除,无法登陆！");
     						layer.close(index);
     					} else if (flag[0] == "auditExp") {
     						$.ajax({
@@ -140,13 +152,16 @@
     						 		window.location.href="${pageContext.request.contextPath}/";
     						 	    });
     					} else if (data == "firstNotPass") {
-    						layer.msg("抱歉,您的审核没有通过,无法登陆！");
+    						$("#divPrompt").removeClass("hide");
+    					    $("#spanPrompt").text("抱歉,您的审核没有通过,无法登陆！");
     						layer.close(index);
     					} else if (data == "secondNotPass") {
-    						layer.msg("抱歉,您的复核没有通过,无法登陆！");
+    						$("#divPrompt").removeClass("hide");
+    					    $("#spanPrompt").text("抱歉,您的复核没有通过,无法登陆！");
     						layer.close(index);
     					} else if (data == "thirdNotPass") {
-    						layer.msg("抱歉,您的实地考察不合格,无法登陆！");
+    						$("#divPrompt").removeClass("hide");
+    					    $("#spanPrompt").text("抱歉,您的实地考察不合格,无法登陆！");
     						layer.close(index);
     					} else if(flag[0]=="commit"){
     						$.ajax({
@@ -179,10 +194,12 @@
     					} else if (flag[0] == "reset") {
     						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=" + flag[1];
     					} else if (data == "outer_net_limit") {
-    						layer.msg("管理员账号请在内网登录");
+    						$("#divPrompt").removeClass("hide");
+    						 $("#spanPrompt").text("管理员账号请在内网登录");
     						layer.close(index);
     					} else if (data = "deleteLogin") {
-    						layer.msg("账号不存在!");
+    						$("#divPrompt").removeClass("hide");
+    						 $("#spanPrompt").text("账号不存在!");
     						layer.close(index);
     					} 
     					getIdentityCode();
@@ -266,10 +283,9 @@
 
   								<div class="tab-content reg-page">
   									<div class="tab-pane active in" id="tab-1">
-  									<div class="msg-wrap">
-			                               <div class="msg-error  hide"><b></b>请输入密码</div>
-                                    </div>
-
+  									<div class="msg-wrap hide" id="divPrompt">
+			              <div class="msg-error "><b></b><span id="spanPrompt">请输入密码</span></div>
+                    </div>
   										<form accept-charset="UTF-8" class="sky-form" method="post">
   											<section>
   												<div class="row">

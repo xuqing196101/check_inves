@@ -40,16 +40,20 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
+import ses.service.bms.TodosService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
@@ -79,7 +83,7 @@ import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
-
+import bss.util.PropUtil;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -173,6 +177,17 @@ public class OpenBiddingController {
     @Autowired
     private PackageExpertService packageExpertService;
     
+
+    @Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+    
+    /**
+     * 推送待办
+     */
+    @Autowired
+    private  TodosService todosService;
+
+    
     /** 包  **/
     @Autowired
     private PackageService packagesService; 
@@ -247,68 +262,92 @@ public class OpenBiddingController {
      * @throws Exception 
      */
     @RequestMapping("/bidFile")
-    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId) throws Exception{
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", id);
-        List<Packages> packages = packageService.findPackageById(map);
-        String msg = "";
-        for (Packages p : packages) {
-          //判断各包符合性审查项是否编辑完成
-          FirstAudit firstAudit = new FirstAudit();
-          firstAudit.setPackageId(p.getId());
-          firstAudit.setIsConfirm((short)0);
-          List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
-          if (fas == null || fas.size() <= 0) {
-            msg = "noFirst";
-            return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
-          }
-          //获取资格性审查项内容
-          ScoreModel smMap = new ScoreModel();
-          smMap.setPackageId(p.getId());
-          List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
-          if (sms == null || sms.size() <= 0) {
-            msg = "noSecond";
-            return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+    public String bidFile(@CurrentUser User user,HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId,Integer process) throws Exception{
+      //类别是否是在流程中展示 process 1不在流程中  2在流程中  
+      model.addAttribute("process", process);  
+
+
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("projectId", id);
+      List<Packages> packages = packageService.findPackageById(map);
+      String msg = "";
+      for (Packages p : packages) {
+        //判断各包符合性审查项是否编辑完成
+        FirstAudit firstAudit = new FirstAudit();
+        firstAudit.setPackageId(p.getId());
+        List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+        if (fas == null || fas.size() <= 0) {
+          msg = "noFirst";
+          return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+        }
+        //获取资格性审查项内容
+        ScoreModel smMap = new ScoreModel();
+        smMap.setPackageId(p.getId());
+        List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
+        if (sms == null || sms.size() <= 0) {
+          msg = "noSecond";
+          return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+        }
+      }
+      Project project = projectService.selectById(id);
+      boolean exist = isExist(project.getPurchaseDepId(),user.getOrg().getId());
+      model.addAttribute("exist", exist);
+      //判断是否上传招标文件
+      String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+      List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+      if (files != null && files.size() > 0){
+        model.addAttribute("fileId", files.get(0).getId());
+      } else {
+        if (project != null){
+          String filePath = extUserServicel.downLoadBiddingDoc(request,id);
+          if (StringUtils.isNotBlank(filePath)){
+            model.addAttribute("filePath", filePath);
           }
         }
-        Project project = projectService.selectById(id);
-        //判断是否上传招标文件
-        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-        List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
-        if (files != null && files.size() > 0){
-          model.addAttribute("fileId", files.get(0).getId());
-        } else {
-          if (project != null){
-            String filePath = extUserServicel.downLoadBiddingDoc(request,id);
-            if (StringUtils.isNotBlank(filePath)){
-              model.addAttribute("filePath", filePath);
-            }
-          }
-          model.addAttribute("fileId", "0");
-        }
-        model.addAttribute("flowDefineId", flowDefineId);
-        model.addAttribute("project", project);
-        model.addAttribute("ope", "add");
-        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-        model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
-        return "bss/ppms/open_bidding/bid_file/add_file";
+        model.addAttribute("fileId", "0");
+      }
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("project", project);
+      model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
+      model.addAttribute("ope", "add");
+      model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+      model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+      return "bss/ppms/open_bidding/bid_file/add_file";
     }
-    
+
     @RequestMapping("/bidFileView")
     public String bidFileView(HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId){
-        Project project = projectService.selectById(id);
-        //判断是否上传招标文件
-        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-        List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
-        if (files != null && files.size() > 0){
-            model.addAttribute("fileId", files.get(0).getId());
-        } else {
-            model.addAttribute("fileId", "0");
+      Project project = projectService.selectById(id);
+      //判断是否上传招标文件
+      String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+      List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+      if (files != null && files.size() > 0){
+        model.addAttribute("fileId", files.get(0).getId());
+      } else {
+        model.addAttribute("fileId", "0");
+      }
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("project", project);
+      model.addAttribute("ope", "view");
+      return "bss/ppms/open_bidding/bid_file/add_file";
+    }
+
+    /**
+     * 
+     *〈简述〉是否是当前项目的监管部门
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    private boolean isExist(String orgId,String userOrgId){
+      //拿到当前的采购机构获取到组织机构
+      List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(orgId);
+      for (PurchaseOrg purchaseOrg : list) {
+        if(userOrgId.equals(purchaseOrg.getOrgId())){
+          return true;
         }
-        model.addAttribute("flowDefineId", flowDefineId);
-        model.addAttribute("project", project);
-        model.addAttribute("ope", "view");
-        return "bss/ppms/open_bidding/bid_file/add_file";
+      }
+      return false;
+    
     }
     
     /**
@@ -772,47 +811,80 @@ public class OpenBiddingController {
      * @throws IOException
      */
     @RequestMapping("/saveBidFile")
-    public void saveBidFile(HttpServletRequest req, String projectId, Model model, String flowDefineId, String flag) throws IOException{
-        String result = "保存失败";
-        //判断该项目是否上传过招标文件
-        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-        List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
-        if (files != null && files.size() > 0){
-            //删除 ,表中数据假删除
-            uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
-            result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            //flag：1，招标文件为提交状态
-            if ("1".equals(flag)) {
-              //
-              Project project = projectService.selectById(projectId);
-              project.setConfirmFile(1);
-              projectService.update(project);
-              //该环节设置为执行完状态
-              flowMangeService.flowExe(req, flowDefineId, projectId, 1);
-            }
-            //flag：0，招标文件为暂存状态
-            if ("0".equals(flag)) {
-              //该环节设置为执行中状态
-              flowMangeService.flowExe(req, flowDefineId, projectId, 2);
-            }
-        } else {
-            result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            //flag：1，招标文件为提交状态
-            if ("1".equals(flag)) {
-              Project project = projectService.selectById(projectId);
-              project.setConfirmFile(1);
-              projectService.update(project);
-              //该环节设置为执行完状态
-              flowMangeService.flowExe(req, flowDefineId, projectId, 1);
-            }
-            //flag：0，招标文件为暂存状态
-            if ("0".equals(flag)) {
-              //该环节设置为执行中状态
-              flowMangeService.flowExe(req, flowDefineId, projectId, 2);
-            }
+    public void saveBidFile(@CurrentUser User user,HttpServletRequest req, String projectId, Model model, String flowDefineId, String flag) throws IOException{
+      String result = "保存失败";
+      //判断该项目是否上传过招标文件
+      String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+      List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+      if (files != null && files.size() > 0){
+        //删除 ,表中数据假删除
+        uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+        result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        //flag：1，招标文件为提交状态
+        if ("1".equals(flag)) {
+          //
+          Project project = projectService.selectById(projectId);
+          project.setConfirmFile(1);
+          project.setAuditReason(null);
+          //修改项目状态
+          project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+          projectService.update(project);
+          //推送待办
+          push(user,project.getId());
+          //该环节设置为执行完状态
+          flowMangeService.flowExe(req, flowDefineId, projectId, 1);
         }
-        System.out.println(result);
+        //flag：0，招标文件为暂存状态
+        if ("0".equals(flag)) {
+          //该环节设置为执行中状态
+          flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        }
+      } else {
+        result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+        //flag：1，招标文件为提交状态
+        if ("1".equals(flag)) {
+          Project project = projectService.selectById(projectId);
+          project.setConfirmFile(1);
+          projectService.update(project);
+          //推待办
+          push(user,project.getId());
+          //该环节设置为执行完状态
+          flowMangeService.flowExe(req, flowDefineId, projectId, 1);
+        }
+        //flag：0，招标文件为暂存状态
+        if ("0".equals(flag)) {
+          //该环节设置为执行中状态
+          flowMangeService.flowExe(req, flowDefineId, projectId, 2);
+        }
+      }
+      System.out.println(result);
     }
+
+    /**
+     * 
+     *〈简述〉推送待办消息
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     */
+    private void push(User user,String projectId) {
+      Project selectById = projectService.selectById(projectId);
+      if (selectById != null) {
+        List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(selectById.getPurchaseDepId());
+        for (PurchaseOrg purchaseOrg : list) {
+          //推送待办
+          Todos todos = new Todos();
+          todos.setName(selectById.getName()+"招标文件审核");
+          todos.setOrgId(purchaseOrg.getOrgId());
+          todos.setSenderId(user.getId());
+          todos.setUndoType((short)3);
+          todos.setPowerId(PropUtil.getProperty("zbwjsh"));
+          todos.setUrl("open_bidding/bidFile.html?id=" + projectId + "&process=1");
+          todosService.insert(todos);
+        }
+      }
+
+    }
+
     
     /**
      *〈简述〉判断是否上传招标文件审批文件

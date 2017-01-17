@@ -819,7 +819,6 @@ public class ExpExtractRecordController extends BaseController {
         //审核地址
         todos.setUrl("expertAudit/basicInfo.html?expertId=" + expExtRelate.getExpert().getId());
         todosService.insert(todos );
-
         Expert expert = new Expert();
         expert.setId(id);
         expert.setStatus("4");

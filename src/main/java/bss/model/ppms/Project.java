@@ -120,7 +120,7 @@ public class Project {
     
     private String planType; //（货物，工程，服务）
     
-    private Integer confirmFile; //确认制作招标文件内容。0：未确认  ，1：已确认
+    private Integer confirmFile; //确认制作招标文件内容。0：[暂存|审核退回 ]，1：已提交,审核通过
 
     private List<Packages> packagesList;
     
@@ -128,6 +128,22 @@ public class Project {
     
     private String projectContractor;//项目承办人
     
+    private String auditReason;//招标文件审核原因
+    
+    /**
+     * @return Returns the auditReason.
+     */
+    public String getAuditReason() {
+      return auditReason;
+    }
+
+    /**
+     * @param auditReason The auditReason to set.
+     */
+    public void setAuditReason(String auditReason) {
+      this.auditReason = auditReason;
+    }
+
     //状态条件查询
     private List<DictionaryData> ddList;
     

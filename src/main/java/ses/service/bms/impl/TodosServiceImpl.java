@@ -71,6 +71,7 @@ public class TodosServiceImpl implements TodosService {
     List<String> listStr = listUndoType();
     for (String str : listStr) {
       todos.setUndoType(new Short(str));
+      map = new HashMap<String, Object>();
       map.put("todos", todos);
       map.put("permission", listUserPermission);
       List<Todos> list = mapper.listTodos(map);
@@ -119,10 +120,11 @@ public class TodosServiceImpl implements TodosService {
     String gysjk = config.getString("gysjk");
     String zjdb = config.getString("zjdb");
     String gysedit = config.getString("gysedit");
+    String zbwjsh = config.getString("zbwjsh");
     Map<String, Object> pMap = new HashMap<String, Object>();
     List<String> listUserPermission = new ArrayList<String>();
     if (gyscs != null && zjdb != null && gysfs != null && gysedit != null){
-      String[] db = {gyscs, gysfs, zjdb,gysjk,gysedit};
+      String[] db = {gyscs, gysfs, zjdb,gysjk,gysedit,zbwjsh};
       pMap.put("id", userId);
       pMap.put("db", db);
       User user = new User();
@@ -137,7 +139,7 @@ public class TodosServiceImpl implements TodosService {
           }
         }
       }
-      
+
     }
 
     if (listUserPermission != null && listUserPermission.size() != 0){
@@ -172,5 +174,11 @@ public class TodosServiceImpl implements TodosService {
   public void updateByUrl(Todos todos) {
     mapper.updateByUrl(todos);
 
+  }
+
+  @Override
+  public List<Todos> listUrlTodo(Todos todos) {
+    // TODO Auto-generated method stub
+    return mapper.listUrlTodo(todos);
   }
 }
