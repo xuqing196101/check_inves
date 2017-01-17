@@ -1442,7 +1442,8 @@ function deleteFinance() {
 			</ul>			
 		</fieldset>
 	  <!-- 财务信息 -->
-	  <h2 class="count_flow clear pt20"> <i>3</i><font color=red>*</font> 近三年财务信息</h2>
+	  <h2 class="count_flow clear pt20"> <i>3</i><font color=red>*</font> 近三年财务信息
+	  <span class="red"> ${err_bearchFile}</span></h2>
 	  <div class="padding-top-10 clear" id="financeInfo">
 	  <c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
 	    	<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元）</span>  </h2>
