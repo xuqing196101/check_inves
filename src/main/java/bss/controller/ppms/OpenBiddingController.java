@@ -955,14 +955,7 @@ public class OpenBiddingController {
         List<Date> listDate =  supplierQuoteService.selectQuoteCount(quoteCondition);
         if (listDate != null && listDate.size() > 0 && packId == null) {
             //如果有明细就是查看了
-            Quote quoteByType = new Quote();
-            quoteByType.setProjectId(projectId);
-            List<Quote> listQuote=supplierQuoteService.getAllQuote(quoteByType, 1);
-            if (listQuote.get(0).getQuotePrice() == null) {
-                return "redirect:viewChangtotal.html?projectId=" + projectId;
-            } else{
-                return "redirect:viewMingxi.html?projectId=" + projectId;
-            }
+            return "redirect:viewChangtotal.html?projectId=" + projectId;
         }
         //去saletender查出项目对应的所有的包
         List<Packages> packList = saleTenderService.getPackageIds(projectId);
@@ -1203,7 +1196,7 @@ public class OpenBiddingController {
             quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jsonQuote.getString("date")).getTime()));
             quote.setPackageId(jsonQuote.getString("packageId"));
             quote.setProjectId(jsonQuote.getString("projectId"));
-            quote.setDeliveryTime(URLDecoder.decode(jsonQuote.getString("deliveryTime"), "UTF-8"));
+            quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
             quoteLists.add(quote);
         }
         supplierQuoteService.insert(quoteLists);  
@@ -1266,6 +1259,24 @@ public class OpenBiddingController {
         saleTenderService.batchUpdate(stList);
         return "true";
     }
+    
+    @ResponseBody
+    @RequestMapping("/checkIsQuote")
+    public String checkIsQuote(String projectId) throws ParseException{
+        String flag = "";
+        Quote quoteByType = new Quote();
+        quoteByType.setProjectId(projectId);
+        List<Quote> listQuote=supplierQuoteService.getAllQuote(quoteByType, 1);
+        if (listQuote != null && listQuote.size() == 0) {
+            flag = "0";
+        } else if (listQuote.get(0).getQuotePrice() == null) {
+            flag = "1";
+        } else {
+            flag = "2";
+        }
+        return flag;
+    }
+    
     
     @RequestMapping("/selectSupplierByProject")
     public String selectSupplierByProject(String projectId, Model model) throws ParseException{
@@ -1364,14 +1375,7 @@ public class OpenBiddingController {
         //packId代再次报价
         if (listDate != null && listDate.size() > 0  && packId == null) {
             //如果有明细就是查看了
-            Quote quoteByType = new Quote();
-            quoteByType.setProjectId(projectId);
-            List<Quote> listQuote=supplierQuoteService.getAllQuote(quoteByType, 1);
-            if (listQuote.get(0).getQuotePrice() == null) {
-                return "redirect:viewChangtotal.html?projectId=" + projectId;
-            } else{
-                return "redirect:viewMingxi.html?projectId=" + projectId;
-            }
+            return "redirect:viewMingxi.html?projectId=" + projectId;
         }
         Quote quote2 = new Quote();
         HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1643,7 +1647,7 @@ public class OpenBiddingController {
                     quoteInsert.setRemark(jsonQuote.getString("remark"));
                 }
                 quoteInsert.setCreatedAt(timestamp);
-                quoteInsert.setDeliveryTime(URLDecoder.decode(jsonQuote.getString("deliveryTime"), "UTF-8"));
+                quoteInsert.setDeliveryTime(jsonQuote.getString("deliveryTime"));
                 listQuote.add(quoteInsert);
             }
         }

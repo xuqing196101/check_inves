@@ -53,11 +53,7 @@
 				var price = $(allTable[i].rows).eq(j).find("td").eq("6").find("input").val();
 				var total = $(allTable[i].rows).eq(j).find("td").eq("7").text();
 				var deliveryTime = $(allTable[i].rows).eq(j).find("td").eq("8").find("input").val();
-				deliveryTime = encodeURI(deliveryTime);
-				deliveryTime = encodeURI(deliveryTime);
 				var remark = $(allTable[i].rows).eq(j).find("td").eq("9").find("input").val();
-				remark = encodeURI(remark);
-				remark = encodeURI(remark);
 				if(remark == "" || remark.trim() == "") {
 					remark = null;
 				}

@@ -18,8 +18,8 @@
 	    y=oRect.top;
 	    var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
 		var deliveryTime = $(obj).parent().parent().find("td").eq("3").find("input").val();
-		deliveryTime = encodeURI(deliveryTime);
-		deliveryTime = encodeURI(deliveryTime);
+		//deliveryTime = encodeURI(deliveryTime);
+		//deliveryTime = encodeURI(deliveryTime);
 		var date = '${date}';
 		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
 		jsonStr.push(json);

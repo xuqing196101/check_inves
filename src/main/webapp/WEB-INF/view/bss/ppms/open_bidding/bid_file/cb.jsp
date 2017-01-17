@@ -105,12 +105,27 @@
 	    x=oRect.left-50;  
 	    y=oRect.top-100;  
 		var projectId = $("#projectId").val();
-		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
-		function(index) {
-			layer.close(index);
-			//window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab1.html?projectId=" + projectId;
-			window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
+		$.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/checkIsQuote.do",
+			type:"post",
+			data:{projectId:projectId},
+			success:function(data){
+				if (data == "1") {
+					window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
+					return;
+				} else if (data == "2") {
+					layer.msg("报价已完成,且是唱明细",{offset: [y, x]});
+					return;
+				} else {
+					layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
+					function(index) {
+						layer.close(index);
+						window.location.href = "${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=" + projectId;
+					});
+				}
+			}
 		});
+		
 	}
 	
 	function changmingxi(obj) {
@@ -119,11 +134,25 @@
 	    x=oRect.left-100;  
 	    y=oRect.top-100;  
 	    var projectId = $("#projectId").val();
-		layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
-		function(index) {
-			layer.close(index);
-			//window.location.href = "${pageContext.request.contextPath}/open_bidding/quotetab2.html?projectId=" + projectId;
-			window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
+	    $.ajax({
+			url:"${pageContext.request.contextPath}/open_bidding/checkIsQuote.do",
+			type:"post",
+			data:{projectId:projectId},
+			success:function(data){
+				if (data == "1") {
+					layer.msg("报价已完成,且是唱总价",{offset: [y, x]});
+					return;
+				} else if (data == "2") {
+					window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
+					return;
+				} else {
+					layer.confirm('确认后将不可修改此次操作？', {title: '提示',offset: [y,x],shade: 0.01}, 
+					function(index) {
+						layer.close(index);
+						window.location.href = "${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId=" + projectId;
+					});
+				}
+			}
 		});
 	}
 	 function openNewWindow(){
