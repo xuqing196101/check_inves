@@ -459,7 +459,37 @@ public class IntelligentScoringController extends BaseController{
 	    String methodCode = bidMethodService.getMethod(projectId, packageId);
 	    if (methodCode != null && !"".equals(methodCode)) {
   	      if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
-  	        
+    	        List<DictionaryData> dds = DictionaryDataUtil.find(23);
+    	        //经济审查项
+    	        FirstAudit firstAudit1 = new FirstAudit();
+    	        firstAudit1.setKind(DictionaryDataUtil.getId("ECONOMY"));
+    	        firstAudit1.setPackageId(packageId);
+    	        List<FirstAudit> items1 = service.findBykind(firstAudit1);
+    	        //技术审查项
+    	        FirstAudit firstAudit2 = new FirstAudit();
+    	        firstAudit2.setKind(DictionaryDataUtil.getId("TECHNOLOGY"));
+    	        firstAudit2.setPackageId(packageId);
+    	        List<FirstAudit> items2 = service.findBykind(firstAudit2);
+    	        HashMap<String, Object> map = new HashMap<String, Object>();
+    	        map.put("id", packageId);
+    	        List<Packages> packages = packageService.findPackageById(map);
+    	        if (packages != null) {
+    	          model.addAttribute("packages", packages.get(0));
+    	        }
+    	        HashMap<String, Object> map2 = new HashMap<String, Object>();
+    	        map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
+    	        //获取经济技术评审模版
+    	        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+    	        model.addAttribute("dds", dds);
+    	        model.addAttribute("items1", items1);
+    	        model.addAttribute("items2", items2);
+    	        model.addAttribute("packageId", packageId);
+    	        model.addAttribute("projectId", projectId);
+    	        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+    	        model.addAttribute("flowDefineId", flowDefineId);
+    	        Project project = projectService.selectById(projectId);
+    	        model.addAttribute("flag", project.getConfirmFile());
+    	        return "bss/prms/score/edit_package_check";
   	      } 
   	      if ("OPEN_ZHPFF".equals(methodCode)) {
     	        //显示经济技术 和子节点  子节点的子节点就是模型
@@ -486,9 +516,10 @@ public class IntelligentScoringController extends BaseController{
     	        model.addAttribute("flowDefineId", flowDefineId);
     	        model.addAttribute("ddList", ddList);
     	        model.addAttribute("str", str);
+    	        return "bss/prms/score/edit_package_qc";
   	      }
       }
-	    return "bss/prms/score/edit_package_qc";
+	    return null;
 	}
 	
 	@RequestMapping("/viewModel")

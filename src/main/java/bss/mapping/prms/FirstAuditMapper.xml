@@ -181,6 +181,9 @@
 	 <if test="packageId != null">
 	   and PACKAGEID = #{packageId}
 	 </if>
+	 <if test="isConfirm != null">
+	   and IS_CONFIRM = #{isConfirm}
+	 </if>
 	 ORDER BY POSITION ASC
   </select>
 </mapper>

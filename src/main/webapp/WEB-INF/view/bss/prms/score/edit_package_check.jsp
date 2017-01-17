@@ -1,11 +1,11 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
+<!DOCTYPE HTML>
 <html>
   <head>
     <title>符合性审查项</title>
-    
+    <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">
     <meta http-equiv="expires" content="0">    
@@ -53,7 +53,7 @@
             shift: 1, //0-6的动画形式，-1不开启
             offset: y,
             shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=0'
+            content: '${pageContext.request.contextPath}/firstAudit/editItem.html?id='+id+'&isConfirm=1'
           });
     }
     
@@ -70,7 +70,7 @@
 	                }else{
 	                	 var packageId = $("#packageId").val();
 	                	 var projectId = $("#projectId").val();
-	                     window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId; 
+	                     window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                    layer.close(index);
 	                }
@@ -105,7 +105,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -121,7 +121,7 @@
     	var fatId = $("#fatId").val();
     	$.ajax({   
             type: "POST",  
-            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=0",   
+            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=1",   
             data:{"id":fatId,"projectId":projectId,"packageId":packageId},
             dataType:'json',
             success:function(result){
@@ -130,7 +130,7 @@
                 }else{
                     var packageId = $("#packageId").val();
                     var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
                     layer.closeAll();
                     layer.msg(result.msg,{offset: ['150px']});
                 }
@@ -141,25 +141,9 @@
        }); 
     }
     
-    //引入其他项目包的评审项
-    function loadOtherPackage(packageId,projectId){
-    	layer.open({
-            type: 2,
-            title: '引入模板',
-            area: ['800px', '600px'],
-            closeBtn: 1,
-            shade:0.01, //遮罩透明度
-            moveType: 1, //拖拽风格，0是默认，1是传统拖动
-            shift: 1, //0-6的动画形式，-1不开启
-            offset: '20px',
-            shadeClose: false,
-            content: '${pageContext.request.contextPath}/firstAudit/loadOtherPackage.html?oldPackageId='+packageId+'&oldProjectId='+projectId
-          });
-    }
-    
   </script>
 <body>  
-    <h2 class="list_title">${packages.name}符合性审查项编辑</h2>
+    <h2 class="list_title">${packages.name}经济技术评审项编辑</h2>
     <c:if test="${flag != '1' }">
 	    <div class="search_detail ml0">
 	        <ul class="demand_list">
@@ -173,9 +157,9 @@
 	              </select>
 	           </li>
 	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
-	           <div class="pull-right">
+	           <%-- <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
-	           </div>
+	           </div> --%>
 	        </ul>
 	        <div class="clear"></div>
 	     </div>
@@ -190,7 +174,7 @@
             </thead>
             <c:forEach items="${dds}" var="d" varStatus="vs">
                <!-- 如果没有评审项 ，显示空td-->
-               <c:if test="${d.code == 'COMPLIANCE' && items1.size() == 0}">
+               <c:if test="${d.code == 'ECONOMY' && items1.size() == 0}">
                  <tr id="${d.id}">
                     <td rowspan="2" class="w150">
                         <input type="hidden" value="2">
@@ -205,7 +189,7 @@
                      <td></td>
                  </tr>
                </c:if>
-               <c:if test="${d.code == 'QUALIFICATION' && items2.size() == 0}">
+               <c:if test="${d.code == 'TECHNOLOGY' && items2.size() == 0}">
                  <tr id="${d.id}">
                     <td rowspan="2" class="w150">
                         <input type="hidden" value="2">
@@ -221,7 +205,7 @@
                  </tr>
                </c:if>
                <!-- 如果有评审项 ，加载符合性评审项-->
-               <c:if test="${d.code == 'COMPLIANCE' && items1.size() > 0}">
+               <c:if test="${d.code == 'ECONOMY' && items1.size() > 0}">
                  <tr id="${d.id}">
                     <td rowspan="${items1.size() + 1}" class="w150">
                         <input type="hidden" value="${items1.size() + 1}">
@@ -253,7 +237,7 @@
                  </c:forEach>
                 </c:if>
                 <!-- 如果有评审项 ，加载资格性评审项-->
-                <c:if test="${d.code == 'QUALIFICATION' && items2.size() > 0}">
+                <c:if test="${d.code == 'TECHNOLOGY' && items2.size() > 0}">
                  <tr id="${d.id}">
                     <td rowspan="${items2.size() + 1}" class="w150">
                         <input type="hidden" value="${items2.size() + 1}">
@@ -299,7 +283,7 @@
               <input type="hidden" name="packageId" id="packageId" value="${packageId}">
               <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
               <input type="hidden" name="kind" id="faKind" > 
-              <input type="hidden" name="isConfirm" value="0">
+              <input type="hidden" name="isConfirm" value="1">
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>

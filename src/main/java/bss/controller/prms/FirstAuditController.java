@@ -373,9 +373,10 @@ public class FirstAuditController {
    * @return
    */
   @RequestMapping("/editItem")
-  public String editItem(String id, Model model){
+  public String editItem(String id, Model model, Short isConfirm){
     FirstAudit firstAudit = service.get(id);
     model.addAttribute("item", firstAudit);
+    model.addAttribute("isConfirm", isConfirm);
     return "bss/prms/first_audit/qc_edit_item";
   }
   
@@ -468,11 +469,12 @@ public class FirstAuditController {
    * @throws IOException 
    */
   @RequestMapping("/loadTemplat")
-  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
+  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId, Short isConfirm) throws IOException{
     try{
       FirstAudit record = new FirstAudit();
       record.setPackageId(packageId);
       record.setProjectId(projectId);
+      record.setIsConfirm(isConfirm);
       List<FirstAudit> firstAudits = service.findBykind(record);
       //先删除数据
       for (FirstAudit firstAudit : firstAudits) {
@@ -487,6 +489,7 @@ public class FirstAuditController {
         firstAudit.setPackageId(packageId);
         firstAudit.setPosition(firstAuditTemitem.getPosition());
         firstAudit.setProjectId(projectId);
+        firstAudit.setIsConfirm(isConfirm);
         //保存导入模板数据
         service.add(firstAudit);
       }
@@ -528,6 +531,7 @@ public class FirstAuditController {
       FirstAudit record = new FirstAudit();
       record.setPackageId(packageId);
       record.setProjectId(projectId);
+      record.setIsConfirm((short)0);
       List<FirstAudit> firstAudits = service.findBykind(record);
       //先删除数据
       for (FirstAudit firstAudit : firstAudits) {
@@ -545,6 +549,7 @@ public class FirstAuditController {
         firstAudit.setPackageId(packageId);
         firstAudit.setPosition(fa.getPosition());
         firstAudit.setProjectId(projectId);
+        firstAudit.setIsConfirm((short)0);
         //保存导入模板数据
         service.add(firstAudit);
       }
