@@ -16,11 +16,14 @@ var user = "${sessionScope.loginUser.relName}";
 $(function(){
 	if(user!=null && user!=''){
 		$("#welcome").html(user+"你好，欢迎来到军队采购网！");
+	}else {
+	    $("#exit").remove();
+	    
 	}
-	
 	$(".header-v4 .navbar-default .navbar-nav > .other > a").hover(function(){
 		$("#firstPage").attr("Class","dropdown shouye_li mega-menu-fullwidth");
 	});
+	
 })
 
 function myInfo(){
@@ -59,8 +62,8 @@ function importAdd(){
         <c:if test="${properties['ipAddressType'] == 0}">
            <a>网站编号：${properties['website.no']}</a>|
         </c:if>
-    	 <a onclick="myInfo()">我的信息</a>     
-    	 <%-- <a href="${pageContext.request.contextPath}/login/loginOut.html">退出</a> --%>
+    	 <a onclick="myInfo()">我的信息</a>   
+    	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">| 退出</a>
 	   </div>
 	  </div>
     </div>
