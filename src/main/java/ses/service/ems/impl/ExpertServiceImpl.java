@@ -22,6 +22,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.bms.TodosMapper;
@@ -30,6 +31,7 @@ import ses.dao.ems.ExpertAttachmentMapper;
 import ses.dao.ems.ExpertAuditMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.dao.ems.ExpertMapper;
+import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
@@ -81,6 +83,8 @@ public class ExpertServiceImpl implements ExpertService {
 	private ProjectMapper projectMapper;
 	@Autowired
 	private PackageExpertMapper packageExpertMapper;
+	@Autowired
+	private AreaMapper areaMapper;
 	
 	@Override
 	public void deleteByPrimaryKey(String id) {
@@ -483,7 +487,7 @@ public class ExpertServiceImpl implements ExpertService {
 		todos.setIsDeleted((short)0);
 		todos.setIsFinish((short)0);
 		//待办类型
-		todos.setName("(" + mapper.selectByPrimaryKey(expertId).getRelName() + ")-评审专家注册");
+		todos.setName("【" + mapper.selectByPrimaryKey(expertId).getRelName() + "】-评审专家初审");
 		//todos.setReceiverId();
 		//接受人id
 		todos.setOrgId(expert.getPurchaseDepId());
@@ -511,7 +515,7 @@ public class ExpertServiceImpl implements ExpertService {
 	 */
 	@Override
 	public void userManager(User user,String userId,Expert expert,String expertId) throws Exception{
-		//个人信息关联用户
+	    //个人信息关联用户
 		if(userId!=null && userId.length()>0){
 			//直接注册完之后填写个人信息
 			User u = getUserById(userId);
@@ -519,7 +523,13 @@ public class ExpertServiceImpl implements ExpertService {
 				throw new RuntimeException("该用户不存在！");
 			}
 			//u.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
-			u.setAddress(expert.getAddress());
+			String address = expert.getAddress();
+	        Area area = areaMapper.selectById(address);
+	        // 市
+	        String cityName = area.getName();
+	        // 省
+	        String provinceName = areaMapper.selectById(area.getParentId()).getName();
+	        u.setAddress(provinceName.concat(cityName));
 			u.setRelName(expert.getRelName());
 			u.setTelephone(expert.getTelephone());
 			u.setGender(expert.getGender());
@@ -532,7 +542,13 @@ public class ExpertServiceImpl implements ExpertService {
 			userMapper.updateByPrimaryKeySelective(u);
 		}else{
 			//注册完账号  过段时间又填写个人信息
-			user.setAddress(expert.getAddress());
+		    String address = expert.getAddress();
+            Area area = areaMapper.selectById(address);
+            // 市
+            String cityName = area.getName();
+            // 省
+            String provinceName = areaMapper.selectById(area.getParentId()).getName();
+            expert.setAddress(provinceName.concat(cityName));;
 			user.setRelName(expert.getRelName());
 			user.setTelephone(expert.getTelephone());
 			user.setGender(expert.getGender());

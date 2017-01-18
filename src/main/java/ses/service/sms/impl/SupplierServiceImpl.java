@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -16,10 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
-import common.model.UploadFile;
-import common.service.UploadService;
+import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.QualificationMapper;
@@ -37,12 +33,10 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryQua;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.PreMenu;
 import ses.model.bms.Qualification;
 import ses.model.bms.Role;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.bms.UserPreMenu;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
@@ -68,7 +62,9 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
+
+import common.model.UploadFile;
+import common.service.UploadService;
 
 
 /**
@@ -151,6 +147,9 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private  SupplierStockholderMapper supplierStockholderMapper;
+    
+    @Autowired
+    private  AreaMapper areaMapper;
     
     @Override
     public Supplier get(String id) {
@@ -298,7 +297,6 @@ public class SupplierServiceImpl implements SupplierService {
         user.setLoginName(supplier.getLoginName());
         user.setRandomCode(random);
         user.setPassword(pwd);
-//        user.setTypeName(DictionaryDataUtil.getId("SUPPLIER_U"));
         user.setIsDeleted(0);
         user.setCreatedAt(new Date());
         user.setTypeId(supplier.getId());
@@ -447,6 +445,16 @@ public class SupplierServiceImpl implements SupplierService {
         supplier.setSubmitAt(new Date());
         supplierMapper.updateByPrimaryKeySelective(supplier);
         supplier = supplierMapper.getSupplier(supplier.getId());
+        // 用户表插入地址信息
+        User user = userService.findByTypeId(supplier.getId());
+        String address = supplier.getAddress();
+        Area area = areaMapper.selectById(address);
+        // 市
+        String cityName = area.getName();
+        // 省
+        String provinceName = areaMapper.selectById(area.getParentId()).getName();
+        user.setAddress(provinceName.concat(cityName));
+        userMapper.updateByPrimaryKeySelective(user);
         // 推送代办
         Todos todos = new Todos();
         //获取供应商登录id
@@ -454,10 +462,9 @@ public class SupplierServiceImpl implements SupplierService {
         if(findByTypeId != null ){
             todos.setSenderId(findByTypeId.getId());// 推送者 ID
         }
-        todos.setName("【"+supplier.getSupplierName()+"】"+"供应商初审 !");// 待办名称
+        todos.setName("【"+supplier.getSupplierName()+"】"+"供应商审核 !");// 待办名称
         todos.setOrgId(supplier.getProcurementDepId());// 机构ID
         //发送人id
-        User user = userService.findByTypeId(supplier.getId());
         todos.setSenderId(user.getId());
         todos.setSenderName(supplier.getSupplierName());
         todos.setPowerId(PropUtil.getProperty("gyscs"));// 权限 ID
