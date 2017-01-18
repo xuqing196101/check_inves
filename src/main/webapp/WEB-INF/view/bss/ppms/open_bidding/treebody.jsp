@@ -382,14 +382,14 @@ function judge(index) {
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if(addSubtractTypeName=="0"){
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最低分" + minScore +"分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
 			} else {
 				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最低分依次递增" + unitScore + "分,最低分为" + minScore + "分";
 			}
 			$("#easyUnderstandContent3").text(str);
 		}else{
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
 			} else {
 				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + minScore + "分";
@@ -409,14 +409,14 @@ function judge(index) {
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if(addSubtractTypeName=="0"){
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最低分依次递增" + unitScore + "分,最低分为" + minScore + "分";
 			} else {
 				var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
 			}
 			$("#easyUnderstandContent3").text(str);
 		}else{
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "减分实例:以"+reviewParam+"最低值为基准排序递增，大于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + maxScore + "分";
 			} else {
 				var str = "减分实例:以"+reviewParam+"最低值为基准排序递增，小于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最高分依次递减" + unitScore + "分,最低分为" + minScore + "分";
