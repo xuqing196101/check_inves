@@ -285,55 +285,63 @@
 			
 				<!-- 前半部分 -->
 				<div class="content" id="content">
-					<table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed table_input left_table lockout">
+					<table id="table" class="table table-bordered table-condensed table_input left_table left_table lockout">
 						<thead>
 					 
-							<tr  class="space_nowrap">
+							<tr>
 								<th class="info w50">序号</th>
-								<th class="info">需求部门</th>
-								<th class="info">物资类别<br>及名称</th>
-								<th class="info">规格型号</th>
-								<th class="info">质量技术标准</th>
-								<th class="info">计量<br>单位</th>
-								<th class="info">采购<br>数量</th>
-								<th class="info">单位<br>（元）</th>
-								<th class="info">预算金额<br>（万元）</th>
-								<th class="info">交货期限</th>
-								<th class="info">采购方式建议</th>
-								<th class="info">采购机构</th>
-								<th class="info">供应商名称</th>
-								<th class="info">是否申请<br>办理免税</th>
-						 
-								<th class="info">备注</th>
+								<th class="info w260">需求部门</th>
+								<th class="info w200">物资类别<br>及名称</th>
+								<th class="info w200">规格型号</th>
+								<th class="info w140">质量技术标准</th>
+								<th class="info w50">计量<br>单位</th>
+								<th class="info w50">采购<br>数量</th>
+								<th class="info w80">单位<br>（元）</th>
+								<th class="info w80">预算金额<br>（万元）</th>
+								<th class="info w150">交货期限</th>
+								<th class="info w120">采购方式</th>
+								<th class="info w200">采购机构</th>
+								<th class="info w260">供应商名称</th>
+								<th class="info w80">是否申请<br>办理免税</th>
+								<th class="info w260">备注</th>
 							</tr>
 						</thead>
 						<form id="adjust" action="${pageContext.request.contextPath}/adjust/update.html" method="post"  >
 						<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
 							<td class="tc w50">
-							<input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].seq" value="${obj.seq }" class="w50 tc">
-							<input style="border: 0px;" type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
+							<input readonly="readonly" type="text" name="listDetail[${vs.index }].seq" value="${obj.seq }" class="w50 tc border0">
+							<input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
 							</td>
 							<td>
+							 <div class="w260">
 							  <textarea readonly="readonly"  class="target">${obj.department}</textarea>
+							 </div>
 							</td>
-							<td class="tl pl20">
+							<td class="tl">
+							  <div class="w200">
 								<textarea name="listDetail[${vs.index }].goodsName"  class="target">${obj.goodsName }</textarea>
+							  </div>
 							</td>
-							<td class="tl pl20">
+							<td class="tl">
+							  <div class="w200">
 							    <textarea readonly="readonly" name="listDetail[${vs.index }].stand" class="target">${obj.stand }</textarea>
+                              </div>
                             </td>
-							<td class="tl pl20"><input  type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }"></td>
-							<td class="tl pl20"><input  type="text" name="listDetail[${vs.index }].item" value="${obj.item }"></td>
-							<td class="tl pl20">
+							<td class="tl">
+							    <input class="w140" type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }">
+							</td>
+							<td class="tc">
+							     <input class="w50" type="text" name="listDetail[${vs.index }].item" value="${obj.item }">
+							</td>
+							<td class="tc">
 							  <c:if test="${obj.price!=null}">
 								<input   type="hidden" name="ss"   value="${obj.id }">
-								<input  onblur="sum2(this)"  type="text" name="listDetail[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
+								<input  onblur="sum2(this)" class="w80 tc"  type="text" name="listDetail[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }">
 								<input type="hidden" name="ss"   value="${obj.parentId }">
 							  </c:if>
 							  <c:if test="${obj.price==null}">
-		                       <input   readonly="readonly"   type="text" >
+		                       <input   readonly="readonly" class="w80 tc"  type="text" >
 		                     </c:if>
 							</td>
 							<td class="tl pl20">

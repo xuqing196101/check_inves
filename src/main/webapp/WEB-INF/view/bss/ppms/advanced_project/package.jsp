@@ -512,21 +512,21 @@
 					<table id="table" class="table table-bordered table-condensed table-hover">
 						<thead>
 							<tr class="info">
-								<th class="w30"><input type="checkbox" id="selectAll${p.index }" onclick="selectAllDetail(${p.index})" /></th>
+								<th><input type="checkbox" id="selectAll${p.index }" onclick="selectAllDetail(${p.index})" /></th>
 								<th class="w50">序号</th>
-								<th>需求部门</th>
-								<th>物资名称</th>
-								<th>规格型号</th>
-								<th>质量技术标准</th>
-								<th>计量单位</th>
-								<th>采购数量</th>
-								<th>交货期限</th>
-								<th>采购方式建议</th>
-								<th>供应商名称</th>
+								<th width="15%">需求部门</th>
+								<th width="10%">物资名称</th>
+								<th width="10%">规格型号</th>
+								<th width="10%">质量技术<br>标准</th>
+								<th>计量<br>单位</th>
+								<th>采购<br>数量</th>
+								<th width="10%">交货期限</th>
+								<th >采购方式<br>建议</th>
+								<th  width="15%">供应商名称</th>
 								<c:if test="${pack.isImport==1 }">
 									<th>是否申请办理免税</th>
-									<th>物资用途（进口）</th>
-									<th>使用单位（进口）</th>
+									<th  width="8%">物资用途（进口）</th>
+									<th  width="8%">使用单位（进口）</th>
 								</c:if>
 							</tr>
 						</thead>

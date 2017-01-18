@@ -140,7 +140,7 @@
 			<form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
 				<table class="table table-bordered table-condensed mt5">
 					<thead>
-						<tr>
+						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
 							<th class="info">需求部门</th>
 							<th class="info">物资类别<br>及名称</th>

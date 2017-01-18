@@ -2780,38 +2780,48 @@ h2.list_title{
 /*首页提示框样式*/
 .prompt_top{
 	width:100%;
-	border-radius:6px 6px 0px 0px!important;
-	background-color:#458ECC;
+	background-color:#2C9FA6;
 	color:#ffffff;
 	font-size:14px;
 	line-height:35px; 
 	padding:0 10px;
+	position: relative;
+}
+.prompt_top .close_icon{
+	width:20px;
+	height:20px;
+	display: block;
+	position:absolute;
+	right: 10px;
+	top:10px;
+	cursor: pointer;
+	background:url(../images/close_icon.png) no-repeat center; 
+}
+.prompt_top .close_icon:hover{
+	background-color:#49bfc6;
 }
 .prompt_tips{
-	width:300px;
+	width:260px;
 	height:auto;
 	border:1px solid #dddddd;
-	border-radius: 6px!important;
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
     position: fixed;
     z-index: 10000;
-    font-size:18px;
-    font-weight:bold;
+    font-size:16px;
     right:0px;
     bottom:0px;
     background-color:#ffffff;
 }
-.prompt_btns{
-	margin: 10px;
-}
-.prompt_btns .btn{
-	background-color:#dddddd; 
-}
 .prompt_main{
-	padding:10px;
+	padding:15px 10px;
 }
-.prompt_main a{
-	text-decoration:underline;
-	color:#ef0000;
+
+.prompt_main a:hover{
+	color:#ef0000!important;
+	text-decoration:underline;  
+}
+.prompt_btn{
+	text-align: right;
+	margin: 0 0 5px 0px;
 }

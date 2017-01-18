@@ -6,6 +6,9 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+    
     <script type="text/javascript">
       /** 全选全不选 */
       function selectAll() {
@@ -257,7 +260,7 @@
           <h2 class="count_flow"><i>2</i>预研项目明细调整</h2>
           <ul class="ul_list">
             <div class="content over_scroll">
-              <table id="table" class="table table-bordered table-condensed table_input">
+              <table id="table" class="table table-bordered table-condensed table_input" id="table">
                 <thead>
                   <tr>
                     <th class="info w50">序号</th>
@@ -267,14 +270,14 @@
                     <th class="info">质量技术标准</th>
                     <th class="info">计量单位</th>
                     <th class="info">采购数量</th>
-                    <th class="info">单价（元）</th>
-                    <th class="info">预算金额（万元）</th>
+                    <th class="info">单价<br>（元）</th>
+                    <th class="info">预算金额<br>（万元）</th>
                     <th class="info">交货期限</th>
                     <th class="info">采购方式</th>
                     <th class="info">供应商名称</th>
-                    <th class="info">是否申请办理免税</th>
-                    <th class="info">物资用途（进口）</th>
-                    <th class="info">使用单位（进口）</th>
+                    <th class="info">是否申请<br>办理免税</th>
+                    <th class="info">物资用途<br>（进口）</th>
+                    <th class="info">使用单位<br>（进口）</th>
                     <th class="info">备注</th>
                   </tr>
                 </thead>

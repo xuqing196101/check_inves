@@ -1291,15 +1291,16 @@
     </div>
     </div>
     
-    <div class="prompt_tips">
+    <div class="prompt_tips hide">
      <div class="prompt_top">
                    提示信息
+       <span class="close_icon" id="close"></span>
      </div>
       <div class="prompt_main">
-                    原系统采购公告账号已作废，请各单位按要求重新<a href="javascript:void(0)" class="red">申请</a>!
+                  <a href="javascript:void(0)">  原系统采购公告账号已作废，请各单位按要求重新申请！</a>
       </div>
-      <div class="prompt_btns tr">
-         <button class="btn" id="close">关闭</button>
+      <div class="prompt_btn">
+        <button class="btn">了解详情</button>
       </div>
     </div>
   </body>
