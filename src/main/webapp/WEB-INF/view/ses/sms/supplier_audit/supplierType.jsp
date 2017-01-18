@@ -595,7 +595,7 @@
 														<c:if test="${m.mot==1 }">是</c:if>
 													</td>
 													<td class="tc">
-														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -764,7 +764,7 @@
 														<c:if test="${s.mot==1 }">是</c:if>
 													</td>
 													<td class="tc">
-													  <u:show showId="sale_show_${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+													  <u:show showId="sale_show_${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonSale('${s.id}','${s.name }');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -859,7 +859,7 @@
 														<c:if test="${s.certStatus==1 }">有效</c:if>
 													</td>
 													<td class="tc">
-														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -917,7 +917,7 @@
 														</td>
 														<td class="tc">${s.aptituteChangeReason }</td>
 														<td class="tc">
-															 <u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+															 <u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCertFile}" sysKey="${sysKey}" />
 														</td>
 														<td class="tc w50">
 															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -1020,7 +1020,7 @@
 														<c:if test="${s.mot==1 }">是</c:if>
 													</td>
 													<td class="tc">
-														<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+														<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonService('${s.id}','服务-资质证书','${s.name}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>

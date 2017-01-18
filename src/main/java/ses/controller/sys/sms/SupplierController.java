@@ -195,7 +195,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: void
      */
     @RequestMapping(value = "get_identity")
-    @SystemControllerLog(description="获取验证码",operType=3)
     public void getIdentity(HttpServletRequest request, HttpServletResponse response) throws IOException {
         IdentityCode identityCode = new IdentityCode(96, 28, 4, 5);
         identityCode.write(request, response);
@@ -210,7 +209,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping("registration_page")
-    @SystemControllerLog(description="跳转到注册须知页面",operType=3)
     public String registrationPage(Model model) {
         DictionaryData dd = DictionaryDataUtil.get("SUPPLIER_REGISTER_NOTICE");
         if (dd != null){
@@ -232,7 +230,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping("register_page")
-    @SystemControllerLog(description="跳转到注册页面",operType=3)
     public String registerPage(HttpServletRequest request) {
         String id = WfUtil.createUUID();
         request.setAttribute("id",id);
@@ -250,7 +247,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping(value = "register")
-    @SystemControllerLog(description="点击注册按钮,开始注册",operType=3)
     public String register(HttpServletRequest request, Model model, Supplier supplier) {
         Supplier sup = supplierService.selectById(supplier.getId());
         //未注册供应商
@@ -370,7 +366,6 @@ public class SupplierController extends BaseSupplierController {
      * @author myc
      * @param sup {@link Supplier}
      */
-    @SystemControllerLog(description="初始化近三年的财务信息",operType=3)
     private void initFinance(Supplier sup){
         List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(sup.getId());
         if(finace!=null&&finace.size()>0){
@@ -416,7 +411,6 @@ public class SupplierController extends BaseSupplierController {
      * @param model
      * @param supplier 供应商
      */
-    @SystemControllerLog(description="初始化供应商注册所需常量",operType=3)
     private void initCompanyType(Model model, Supplier supplier){
         //初始化省份
         List<Area> privnce = areaService.findRootArea();
@@ -443,7 +437,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping(value = "search_org")
-    @SystemControllerLog(description="查询采购机构列表",operType=3)
     public String searchOrg(HttpServletRequest request, String pid,String cid,Model model) {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("provinceId",pid);
@@ -475,7 +468,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: void
      */
     @RequestMapping(value = "download")
-    @SystemControllerLog(description="文件下载",operType=3)
     public void download(HttpServletRequest request, HttpServletResponse response, String fileName) {
         String stashPath = super.getStashPath(request);
         FtpUtil.startDownFile(stashPath, PropUtil.getProperty("file.upload.path.supplier"), fileName);
@@ -498,7 +490,6 @@ public class SupplierController extends BaseSupplierController {
      * @return
      */
     @ResponseBody
-    @SystemControllerLog(description="暂存供应商信息",operType=3)
     @RequestMapping(value="/temporarySave",produces="html/text;charset=UTF-8")
     public String temporarySave(HttpServletRequest request, Supplier supplier,String flag){
         String res = StaticVariables.SUCCESS;
@@ -543,7 +534,6 @@ public class SupplierController extends BaseSupplierController {
      * @throws Exception 
      */
     @RequestMapping(value = "perfect_basic")
-    @SystemControllerLog(description="完善基本基本信息",operType=3)
     public String perfectBasic(HttpServletRequest request,Model model, Supplier supplier) throws Exception {
         // 非空处理
         List<SupplierStockholder> stockHolders = supplier.getListSupplierStockholders();  
@@ -688,7 +678,6 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value="/saveSupplierType",produces="html/text;charset=UTF-8")
-    @SystemControllerLog(description="ajax暂存供应商类型",operType=3)
     public String saveSupplierType(Supplier supplier,Model model){
         if (supplier != null){
             if (StringUtils.isNotBlank(supplier.getSupplierTypeIds())){
@@ -733,7 +722,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping(value = "perfect_professional")
-    @SystemControllerLog(description="完善专业信息",operType=3)
     public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag,Model model) throws IOException {
         boolean info=true;
         boolean sale=true;
@@ -812,7 +800,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping(value = "perfect_dep")
-    @SystemControllerLog(description="完善审核机构信息",operType=3)
     public String perfectDep(HttpServletRequest request, Supplier supplier, String flag,Model model,String supplierTypeIds) {
         
         if(flag.equals("next")){
@@ -855,7 +842,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping(value = "perfect_download")
-    @SystemControllerLog(description="模板下载",operType=3)
     public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model,String supplierTypeIds) {
         supplier = supplierService.get(supplier.getId());
 
@@ -926,7 +912,6 @@ public class SupplierController extends BaseSupplierController {
      * @throws IOException 
      */
     @RequestMapping(value = "perfect_upload")
-    @SystemControllerLog(description="模板上传",operType=3)
     public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp,String flag,Model model,String supplierTypeIds) throws IOException {
         boolean bool = validateUpload(model,supplier.getId());
 
@@ -952,7 +937,6 @@ public class SupplierController extends BaseSupplierController {
    
     @ResponseBody
     @RequestMapping("/isCommit")
-    @SystemControllerLog(description="异步判断是否已提交",operType=3)
     public String isCommit(Model model, Supplier supplier) {
         boolean bool = validateUpload(model,supplier.getId());
         if(bool!=true){
@@ -973,7 +957,6 @@ public class SupplierController extends BaseSupplierController {
      * @return: String
      */
     @RequestMapping(value = "page_jump")
-    @SystemControllerLog(description="页面跳转",operType=3)
     public String pageJump(HttpServletRequest request) {
         String page = (String) request.getSession().getAttribute("jump.page");
         if (page == null || "".equals(page)) {
@@ -983,7 +966,6 @@ public class SupplierController extends BaseSupplierController {
     }
 
     @RequestMapping(value = "check_login_name")
-    @SystemControllerLog(description="检查登录名是否重复",operType=3)
     public void checkLoginName(HttpServletResponse response, String loginName) {
         boolean flag = supplierService.checkLoginName(loginName);
         String msg = "";

@@ -174,6 +174,7 @@ function checkAll(ele, id) {
 	
 	/** 暂存 */
 	function temporarySave(){
+		$("input[name='flag']").val("");
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
 			type : "post",
@@ -195,6 +196,7 @@ function checkAll(ele, id) {
 	});
 	/** 无提示实时保存 */
 	function tempSave(){
+		$("input[name='flag']").val("");
 		$.ajax({
 			url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
 			type : "post",

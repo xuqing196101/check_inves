@@ -227,15 +227,34 @@ $().ready(function() {
 	    	}
 		}
 	    // 判断有没有勾选物资生产
-	    var isCheck = false;
+	    var isProCheck = false;
+	    var isSaleCheck = false;
+	    var isEngCheck = false;
+	    var isServerCheck = false;
 	    $("input[name='chkItem']").each(function(index, element){
 	    	if (element.value == "PRODUCT" && element.checked == true) {
-	    		isCheck = true;
+	    		isProCheck = true;
+	    	}
+	    	if (element.value == "SALES" && element.checked == true) {
+	    		isSaleCheck = true;
+	    	}
+	    	if (element.value == "PROJECT" && element.checked == true) {
+	    		isEngCheck = true;
+	    	}
+	    	if (element.value == "SERVICE" && element.checked == true) {
+	    		isServerCheck = true;
 	    	}
 	    });
 	    var count = 0;
-	    if (isCheck == true) {
+	    if (isProCheck == true) {
 		    $("#cert_pro_list_tbody_id").find("tr").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("物资生产资质证书信息不能为空! ");
+		    	}
+		    	count++;
+		    });
+		    $("#cert_pro_list_tbody_id").find("input[type='text']").each(function(index,element){
 		    	if (element.value == "") {
 		    		flag = false;
 		    		layer.msg("物资生产资质证书信息不能为空! ");
@@ -246,6 +265,45 @@ $().ready(function() {
 		    	flag = false;
 	    		layer.msg("物资生产资质证书信息不能为空! ");
 		    }
+	    }
+	 	// 判断有没有勾选物资销售
+	    if (isSaleCheck == true) {
+		    $("#cert_sell_list_tbody_id").find("input[type='text']").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("物资销售资质证书信息不能为空! ");
+		    	}
+		    });
+	    }
+	 	// 判断有没有勾选工程
+	    if (isSaleCheck == true) {
+		    $("#reg_person_list_tbody_id").find("input[type='text']").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("注册人员信息不能为空! ");
+		    	}
+		    });
+		    $("#cert_eng_list_tbody_id").find("input[type='text']").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("工程证书信息不能为空! ");
+		    	}
+		    });
+		    $("#aptitute_list_tbody_id").find("input[type='text']").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("工程资质证书信息不能为空! ");
+		    	}
+		    });
+	    }
+	 	// 判断有没有勾选服务
+	    if (isSaleCheck == true) {
+		    $("#cert_se_list_tbody_id").find("input[type='text']").each(function(index,element){
+		    	if (element.value == "") {
+		    		flag = false;
+		    		layer.msg("服务资质证书信息不能为空! ");
+		    	}
+		    });
 	    }
 	    $("input[name$='expEndDate']").each(function(){
 	    	var startDate = $(this).parent().prev().children("input[name$='expStartDate']").val();

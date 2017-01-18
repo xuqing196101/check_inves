@@ -72,7 +72,6 @@ public class SupplierItemController extends BaseController{
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
 	@ResponseBody
-	@SystemControllerLog(description="异步保存所选品目",operType=1)
 	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
 	    // 判断是否是取消选中
@@ -92,7 +91,6 @@ public class SupplierItemController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
-    @SystemControllerLog(description="查询已选品目列表",operType=1)
 	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum) {
 	    // 查询已选中的节点信息
         List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
@@ -252,7 +250,6 @@ public class SupplierItemController extends BaseController{
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
-    @SystemControllerLog(description="根据不同的参数进行页面跳转",operType=1)
 	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model,String supplierTypeIds, String clickFlag) {
 		
 		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
@@ -488,7 +485,6 @@ public class SupplierItemController extends BaseController{
 	 * @author WangHuijie
 	 * @param list
 	 */
-    @SystemControllerLog(description="品目List去重",operType=1)
 	public void removeSame(List<Category> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
@@ -512,7 +508,6 @@ public class SupplierItemController extends BaseController{
 	 */
 	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
     @ResponseBody
-    @SystemControllerLog(description="异步查询供应商所选的所有三级品目",operType=1)
     public String getCategory(String code,String supplierId,String stype){
 		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
 		String   categoryId="";
