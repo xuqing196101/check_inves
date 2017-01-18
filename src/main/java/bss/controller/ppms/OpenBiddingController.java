@@ -845,6 +845,9 @@ public class OpenBiddingController {
       if ("1".equals(flag)) {
         Project project = projectService.selectById(projectId);
         project.setConfirmFile(1);
+        project.setAuditReason(null);
+        //修改项目状态
+        project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
         projectService.update(project);
         //推待办
         push(user,project.getId());

@@ -83,22 +83,28 @@ $(function (){
 	通过|退回
 	*/
 	function updateAudit(status){
+		var reason = $("#reason").val();
 	 if(status == 2){
-				 layer.prompt({
+		  if(reason != null && reason != ''){
+			  ajax(reason,status);
+		  }else{
+			  alert("理由不能为空");
+		  }
+			/* 	 layer.prompt({
 	                  formType: 2,
 	                  shade:0.01,
-	                  offset: 'l',
+	                  offset: 'r',
 	                  title: '审核不通过理由'
 	                }, function(value, ix, elem){
 	                	if(value != null && value != ''){
-	                	   ajax(value,status);
+	                	    
 	                     layer.close(ix);
 	                	}else{
 	                    layer.msg("不能为空");
 	                	}
 	                },function(value, ix, elem){
 	                  layer.close(ix);
-	                });
+	                }); */
 		}else if(status ==1){
 			ajax(null,status);
 		}
@@ -297,12 +303,12 @@ $(function (){
     	<input type="hidden" id="projectId" value="${project.id}">
     	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-		   <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '')   }">
+		   <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)   }">
 		  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>   
 		   </c:if>
 	    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
 <!-- 	    confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 -->
-       <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '')  }">
+       <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
         	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="reason" maxlength="100" name="reason" title="不超过100个字">${project.auditReason}</textarea>
       </c:if> 
        <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">

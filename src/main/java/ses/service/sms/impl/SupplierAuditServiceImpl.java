@@ -660,7 +660,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 
 	
 	/**
-	 * 发售标书中的供应商查询
+	 * 发售标书中的供应商
 	 * @see ses.service.sms.SupplierAuditService#selectSaleTenderSupplier(ses.model.sms.Supplier, java.lang.Integer)
 	 */
   @Override
