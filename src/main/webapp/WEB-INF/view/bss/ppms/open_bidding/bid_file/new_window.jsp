@@ -91,7 +91,10 @@
 						};
 					};
 					var time="<span class='yomi'>"+day+"</span>"+"天"+"<span class='yomi'>"+hour+"</span>"+"时"+"<span class='yomi'>"+minutes+"</span>"+"分"+"<span class='yomi'>"+second+"</span>"+"秒";
-					$("#showTime").html(time);
+					var timeLength = day+""+hour+""+minutes+""+second;
+					if (timeLength.length < 9) {
+						$("#showTime").html(time);
+					}
 				};
 				}
 		}); 
@@ -157,6 +160,7 @@
 </head>
 <body class="announce">
 <!-- 表格开始-->
+	<button class="btn mt10" onclick="javascript:window.close()">关闭窗口</button>
    <div class="col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2 project_name kaibiao_window">
 	   <div class="col-md-12 col-sm-12 col-xs-12">项目名称：${project.name}</div>
 	   <div class="col-md-12 col-sm-12 col-xs-12">项目编号：${project.projectNumber}</div>

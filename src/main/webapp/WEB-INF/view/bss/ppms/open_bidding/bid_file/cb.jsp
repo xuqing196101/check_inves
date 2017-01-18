@@ -10,6 +10,7 @@
 <script type="text/javascript">		
 	$(function(){
 	   if('${date}'>0){
+	   	setTimeout("openNewWindow()", 500);
 	 	setInterval("showTime()", 1000);
 	   } else {
 	   	$("#showDiv").removeClass("hide");
@@ -92,7 +93,11 @@
 						};
 					};
 					var time="<span class='yomi'>"+day+"</span>"+"天"+"<span class='yomi'>"+hour+"</span>"+"时"+"<span class='yomi'>"+minutes+"</span>"+"分"+"<span class='yomi'>"+second+"</span>"+"秒";
-					$("#showTime").html(time);
+					var timeLength = day+""+hour+""+minutes+""+second;
+					//加这个是因为0秒的时候有偶发bug时间为负数且长度很长
+					if (timeLength.length < 9) {
+						$("#showTime").html(time);
+					}
 				};
 				}
 		}); 
