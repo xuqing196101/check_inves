@@ -82,7 +82,7 @@
 		<div class="">
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
-				 <u:upload id="flUpload" businessId="1234567890-1234567890-1234567890" multiple="true" buttonName="批量上传"  groups="${supplierList[0].groupsUploadId}" auto="true" typeId="${typeId}" sysKey="${sysKey}"/> 
+				 <u:upload id="flUpload" exts="txt,rar,zip,doc,docx" businessId="1234567890-1234567890-1234567890" multiple="true" buttonName="批量上传"  groups="${supplierList[0].groupsUploadId}" auto="true" typeId="${typeId}" sysKey="${sysKey}"/> 
 				 <u:show showId="flshow" groups="${supplierList[0].groupShowId}" businessId="1234567890-1234567890-1234567890" sysKey="${sysKey}" typeId="${typeId}" />
 			</div>
 
