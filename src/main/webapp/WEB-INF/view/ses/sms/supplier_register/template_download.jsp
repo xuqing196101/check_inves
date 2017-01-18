@@ -5,6 +5,7 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+<title>供应商注册</title>
 <script type="text/javascript">
 	/** 保存基本信息 */
 	function otherPage(flag) {
