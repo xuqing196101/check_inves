@@ -2389,8 +2389,7 @@ a.yjfk{
 
 .reg-page {
     color: #555;
-   /*  padding:10px 30px 22px 30px; */
-   padding:15px 30px 30px 30px;
+    padding:5px 30px 25px 30px;
     background: #f0efef;
     border: solid 1px #eee;
     box-shadow: 0 0 3px #eee;
@@ -2434,8 +2433,8 @@ a.yjfk{
 .sign_kinds a{
    display:block;
    float:left;
-   height:40px;
-   line-height:40px;
+   height:45px;
+   line-height:45px;
    text-align:center;
    color:#333333;
    font-size:18px;
@@ -2585,7 +2584,7 @@ h2.list_title{
 }
 .reg-page .border-top-1{
 	border-top: 1px solid rgba(0, 0, 0, 0.1);
-	margin-top: 21px;
+	margin-top: 29px;
 }
 
 /*add&&delete*/
@@ -2749,11 +2748,12 @@ h2.list_title{
 /*登陆提示样式*/
 .msg-wrap {
     min-height: 23px;
-  /*   margin-top: 5px; */
-   /*  margin-bottom: 10px; */
     height: auto !important;
 }
-
+.msg_box{
+	 min-height: 23px;
+	 margin-bottom:5px;
+}
 .msg-error {
     position: relative;
     background: #ffebeb;
