@@ -361,7 +361,7 @@
 							<th class="info w80">单价</br>（元）</th>
 							<th class="info w80">预算金额</br>（万元）</th>
 							<th class="info w150">交货期限</th>
-							<th class="info w100">采购方式建议</th>
+							<th class="info w100">采购方式</br>建议</th>
 							<th class="info w260">供应商名称</th>
 							<th class="info w80">是否申请</br>办理免税</th>
 					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
