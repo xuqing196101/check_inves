@@ -4,6 +4,7 @@
 <html>
 <head>  
 <%@ include file="/WEB-INF/view/common.jsp" %> 
+<%@ include file="/WEB-INF/view/common/webupload.jsp" %>
  <title>产品目录管理</title>   
 <script type="text/javascript">
 	var treeid = null , nodeName=null, level = null, typesObj = null;

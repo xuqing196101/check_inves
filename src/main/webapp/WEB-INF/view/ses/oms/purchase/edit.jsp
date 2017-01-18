@@ -4,11 +4,11 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/select-tree.js"></script>
-<script src="${pageContext.request.contextPath}/js/oms/purchase/validate-extend.js"></script>
 
 <script type="text/javascript">
 function showRole() {

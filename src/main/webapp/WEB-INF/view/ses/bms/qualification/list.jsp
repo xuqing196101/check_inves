@@ -10,13 +10,6 @@
 		  list(1);
 		  loadCss();
 	  });
-
-	
-  	function view(id){
-  		window.location.href="${pageContext.request.contextPath}/user/show.html?id="+id;
-  	}
-    
-	
    </script>
   </head>
   <body>

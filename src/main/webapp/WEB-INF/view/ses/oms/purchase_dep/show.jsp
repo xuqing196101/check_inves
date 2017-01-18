@@ -4,7 +4,8 @@
 <html>
 
   <head>
-<%@ include file="../../../common.jsp"%>
+<%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp" %>
     <style type="text/css">
       form div.invalid {
         width: 200px;
@@ -595,7 +596,7 @@
                       </td>
                       <td class="bggrey ">采购资格证书图片：</td>
                       <td>
-                        <u:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${PURCHASE_QUA_CERT_ID }" sysKey="2" />
+                        <u:show delete="false" showId="cert_show_id" businessId="${purchaseDep.id}" typeId="${purchaseTypeId}" sysKey="2" />
                       </td>
                     </tr>
                     
