@@ -361,15 +361,12 @@ function judge(index) {
 		var unitScore = $("#unitScore").val();
 		var unit = $("#unit").val();
 		
-		var type ="";
 		if(addSubtractTypeName=="0"){
-			type = " 加分类型" + " 每单位得" +unitScore +"分" + " 起始分值为" + reviewStandScore+"分"+" 最高分不超过"+maxScore+"分";
-			var str = reviewParam + type ; 
-			$("#easyUnderstandContent21").val(str);
+			var str = " 加分类型：" + reviewParam + " 最低分为" +minScore +"分" + " 每" + unit + "加" + unitScore+"分"+" 最高分为"+maxScore+"分";
+			$("#easyUnderstandContent21").text(str);
 		}else{
-			type = " 减分类型" +" 基准分值为"+reviewStandScore+"分" +" 每单位减"+unitScore+"分"+" 最低分值为"+minScore+"分";
-			var str = reviewParam + type ; 
-			$("#easyUnderstandContent21").val(str);
+			var str = " 减分类型：" + reviewParam + "最高分为"+maxScore+"分" +" 每" + unit + "减"+unitScore+"分"+" 最低分值为"+minScore+"分";
+			$("#easyUnderstandContent21").text(str);
 		}
 		
 	}
@@ -377,29 +374,55 @@ function judge(index) {
 		var reviewParam = $("#reviewParam").val();
 		var unit = $("#unit").val();
 		var score = $("#score").val();
-		//var addSubtractTypeName = $("#addSubtractTypeName").val();
+		var standScores = $("#standScores").val();
 		var maxScore = $("#maxScore").val();
 		var minScore = $("#minScore").val();
-		//var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+maxScore+"分,依次递减"+score+"分,最低分为"+minScore+"分";
-		//$("#easyUnderstandContent3").val(str);
+		var relation = $("#relation").val();
+		var unitScore = $("#unitScore").val();
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if(addSubtractTypeName=="0"){
-			var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
-			$("#easyUnderstandContent4").text(str);
+			if (ralationi == "0") {
+				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最低分" + minScore +"分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
+			} else {
+				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最低分依次递增" + unitScore + "分,最低分为" + minScore + "分";
+			}
+			$("#easyUnderstandContent3").text(str);
 		}else{
-			var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+maxScore+"分,依次递减"+score+"分,最低分为"+minScore+"分";
-			$("#easyUnderstandContent4").text(str);
+			if (ralationi == "0") {
+				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
+			} else {
+				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + minScore + "分";
+			}
+			$("#easyUnderstandContent3").text(str);
 		}
 	}
 	function gerneratorFour(){
 		var reviewParam = $("#reviewParam").val();
 		var unit = $("#unit").val();
 		var score = $("#score").val();
+		var standScores = $("#standScores").val();
 		var maxScore = $("#maxScore").val();
 		var minScore = $("#minScore").val();
-		var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
-		$("#easyUnderstandContent4").val(str);
+		var relation = $("#relation").val();
+		var unitScore = $("#unitScore").val();
+		var type ="";
+		var addSubtractTypeName = $("#addSubtractTypeName").val();
+		if(addSubtractTypeName=="0"){
+			if (ralationi == "0") {
+				var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最低分依次递增" + unitScore + "分,最低分为" + minScore + "分";
+			} else {
+				var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
+			}
+			$("#easyUnderstandContent3").text(str);
+		}else{
+			if (ralationi == "0") {
+				var str = "减分实例:以"+reviewParam+"最低值为基准排序递增，大于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + maxScore + "分";
+			} else {
+				var str = "减分实例:以"+reviewParam+"最低值为基准排序递增，小于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最高分依次递减" + unitScore + "分,最低分为" + minScore + "分";
+			}
+			$("#easyUnderstandContent3").text(str);
+		}
 	}
 	function gerneratorFive(){
 		var reviewParam = $("#reviewParam").val();
@@ -424,15 +447,13 @@ function judge(index) {
 		var deadlineNumber   = $("#deadlineNumber").val();
 		var maxScore   = $("#maxScore").val();
 		var minScore  = $("#minScore").val();
-		//var str =  reviewParam +",低于" +reviewStandScore+"为0分,没增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
-		//$("#easyUnderstandContent7").val(str);
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if(addSubtractTypeName=="0"){
-			var str =  reviewParam +",低于" +reviewStandScore+"为0分,没增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+			var str = "加分实例:" + reviewParam +",低于" +reviewStandScore+"为0分,每增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
 			$("#easyUnderstandContent7").text(str);
 		}else{
-			var str =  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+			var str = "减分实例:" + reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
 			$("#easyUnderstandContent7").text(str);
 		}
 	}
@@ -445,15 +466,13 @@ function judge(index) {
 		var deadlineNumber   = $("#deadlineNumber").val();
 		var maxScore   = $("#maxScore").val();
 		var minScore  = $("#minScore").val();
-		//var str =  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
-		//$("#easyUnderstandContent8").val(str);
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if(addSubtractTypeName=="0"){
-			var str =  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+			var str = "加分实例:" +  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,每减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
 			$("#easyUnderstandContent8").text(str);
 		}else{
-			var str =  reviewParam +",低于" +reviewStandScore+"为0分,没增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+			var str = "减分实例:" + reviewParam +",低于" +reviewStandScore+"为0分,每增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
 			$("#easyUnderstandContent8").text(str);
 		}
 	}
@@ -479,15 +498,13 @@ function judge(index) {
 		var score = $("#score").val();
 		var maxScore = $("#maxScore").val();
 		var minScore = $("#minScore").val();
-		//var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
-		//$("#easyUnderstandContent4").val(str);
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if(addSubtractTypeName=="0"){
-			var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
+			var str = "加分实例:以"+reviewParam+",第一名得"+minScore+"分,依次递增"+score+"分,最高分为"+maxScore+"分";
 			$("#easyUnderstandContent4").text(str);
 		}else{
-			var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+maxScore+"分,依次递减"+score+"分,最低分为"+minScore+"分";
+			var str = "减分实例:以"+reviewParam+",第一名得"+maxScore+"分,依次递减"+score+"分,最低分为"+minScore+"分";
 			$("#easyUnderstandContent4").text(str);
 		}
 	}
@@ -1056,7 +1073,7 @@ function judge(index) {
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
 				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }"></td>
-				<td><span class="blue">最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
+				<td><span class="blue">最高分为多少分,[加分]类型时起始分为[最低分],最高分为此分数,[减分]类型此分数为减分基准分,依次递减</span></td>
 			</tr>
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>最低分</td>
@@ -1143,7 +1160,7 @@ function judge(index) {
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>最高分</td>
 				<td><input name="maxScore" id="maxScore" onkeyup="gernerator();" value="${scoreModel.maxScore }"></td>
-				<td><span class="blue">最低分为多少分,通常为0分,[加分]类型是此分数为起始分,[减分]类型时此分数为最低得分</span></td>
+				<td><span class="blue">最高分为多少分,[加分]类型时起始分为[最低分],最高分为此分数,[减分]类型此分数为减分基准分,依次递减</span></td>
 			</tr>
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>最低分</td>

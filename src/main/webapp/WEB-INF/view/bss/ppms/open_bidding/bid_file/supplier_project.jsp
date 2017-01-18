@@ -10,7 +10,18 @@
 
 	<head>
 		<%@ include file="../../../../common.jsp"%>
-		<%@ include file="../../../../common/webupload.jsp"%>
+		<link href="${pageContext.request.contextPath}/public/webupload/css/webuploader.css" media="screen" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" media="screen" rel="stylesheet" type="text/css">
+		<!-- 文件显示 -->
+		<link href="${pageContext.request.contextPath}/public/webupload/css/viewer.css" media="screen" rel="stylesheet" type="text/css">
+		
+		<!-- 文件上传 -->
+		<script src="${pageContext.request.contextPath}/public/webupload/js/webuploader.js"></script>
+		<script src="${pageContext.request.contextPath}/public/webuploadSBW/upload.js"></script>
+		<!-- 文件显示 -->
+		<script src="${pageContext.request.contextPath}/public/webupload/js/viewer.js"></script>
+		<script src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
+		
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title></title>
 		<!-- Meta -->
@@ -71,7 +82,8 @@
 		<div class="">
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
-				<%-- <u:upload id="upload_id" businessId="${projectId}" multiple="true" buttonName="批量上传"  auto="true" typeId="${typeId}" sysKey="${sysKey}"/> --%>
+				 <u:upload id="flUpload" businessId="1234567890-1234567890-1234567890" multiple="true" buttonName="批量上传"  groups="${supplierList[0].groupsUploadId}" auto="true" typeId="${typeId}" sysKey="${sysKey}"/> 
+				 <u:show showId="flshow" groups="${supplierList[0].groupShowId}" businessId="1234567890-1234567890-1234567890" sysKey="${sysKey}" typeId="${typeId}" />
 			</div>
 
 			<div class="content table_box">
@@ -93,7 +105,7 @@
 							<td>
 							    <c:if test="${flag == false}">
 									<c:if test="${fn:length(supplierList) > 1}">
-										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 										<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
 								  	</c:if>
 								  	<c:if test="${fn:length(supplierList) == 1}">

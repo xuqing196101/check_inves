@@ -1353,78 +1353,107 @@ public class OpenBiddingController {
 
   @RequestMapping("/selectSupplierByProject")
   public String selectSupplierByProject(String projectId, Model model) throws ParseException{
-    //文件上传类型
-    boolean flag = false;
-    DictionaryData dd = new DictionaryData();
-    dd.setCode("OPEN_FILE");
-    List<DictionaryData > list = dictionaryDataServiceI.find(dd);
-    model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-    if (list.size() > 0){
-      model.addAttribute("typeId", list.get(0).getId());
-    }
-    List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
-    SaleTender condition = new SaleTender();
-    condition.setProjectId(projectId);
-    condition.setStatusBid(NUMBER_TWO);
-    condition.setStatusBond(NUMBER_TWO);
-    StringBuilder sb = new StringBuilder("");
-    for (Supplier supplier : listSupplier) {
-      condition.setSupplierId(supplier.getId());
-      List<SaleTender> stList = saleTenderService.find(condition);
-      for (SaleTender st : stList) {
-        Packages pack = packageService.selectByPrimaryKeyId(st.getPackages());
-        if (pack != null) {
-          sb.append(pack.getName());
-        }
+      //文件上传类型
+      boolean flag = false;
+      DictionaryData dd = new DictionaryData();
+      dd.setCode("OPEN_FILE");
+      List<DictionaryData > list = dictionaryDataServiceI.find(dd);
+      model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+      if (list.size() > 0){
+          model.addAttribute("typeId", list.get(0).getId());
       }
-      supplier.setPackageName(sb.toString());
-      sb.delete( 0, sb.length() );
-      if (stList != null && stList.size() > 0) {
-        if (stList.get(0).getIsTurnUp() != null) {
-          supplier.setIsturnUp(stList.get(0).getIsTurnUp().toString());
-          flag = true;
-        }
+      List<Supplier> listSupplier=supplierService.selectSupplierByProjectId(projectId);
+      SaleTender condition = new SaleTender();
+      condition.setProjectId(projectId);
+      condition.setStatusBid(NUMBER_TWO);
+      condition.setStatusBond(NUMBER_TWO);
+      StringBuilder sb = new StringBuilder("");
+      for (Supplier supplier : listSupplier) {
+          condition.setSupplierId(supplier.getId());
+          List<SaleTender> stList = saleTenderService.find(condition);
+          for (SaleTender st : stList) {
+              Packages pack = packageService.selectByPrimaryKeyId(st.getPackages());
+              if (pack != null) {
+                  sb.append(pack.getName());
+              }
+          }
+          supplier.setPackageName(sb.toString());
+          sb.delete( 0, sb.length() );
+          if (stList != null && stList.size() > 0) {
+              if (stList.get(0).getIsTurnUp() != null) {
+                  supplier.setIsturnUp(stList.get(0).getIsTurnUp().toString());
+                  flag = true;
+              }
+          }
       }
-    }
-
-    Integer num = 0;
-    StringBuilder groupUpload = new StringBuilder("");
-    StringBuilder groupShow = new StringBuilder("");
-    for (Supplier supplier : listSupplier) {
-      num ++;
-      groupUpload = groupUpload.append("bidFileUpload" + num +",");
-      groupShow = groupShow.append("bidFileShow" + num +",");
-      supplier.setGroupsUpload("bidFileUpload"+num);
-      supplier.setGroupShow("bidFileShow"+num);
-      SaleTender st = new SaleTender();
-      st.setProjectId(projectId);
-      st.setSupplierId(supplier.getId());
-      List<SaleTender> findList = saleTenderService.find(st);
-      if(findList != null && findList.size() > 0) {
-        supplier.setProSupFile(findList.get(0).getId());
+      
+      Integer num = 0;
+      StringBuilder groupUpload = new StringBuilder("");
+      StringBuilder groupShow = new StringBuilder("");
+      for (Supplier supplier : listSupplier) {
+          num ++;
+          groupUpload = groupUpload.append("bidFileUpload" + num +",");
+          groupShow = groupShow.append("bidFileShow" + num +",");
+          supplier.setGroupsUpload("bidFileUpload"+num);
+          supplier.setGroupShow("bidFileShow"+num);
+          SaleTender st = new SaleTender();
+          st.setProjectId(projectId);
+          st.setSupplierId(supplier.getId());
+          List<SaleTender> findList = saleTenderService.find(st);
+          if(findList != null && findList.size() > 0) {
+              supplier.setProSupFile(findList.get(0).getId());
+          }
       }
-    }
-    String groupUploadId =  "";
-    String groupShowId = "";
-    if (!"".equals(groupUpload.toString())) {
-      groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length()-1);
-    }
-    if (!"".equals(groupShow.toString())) {
-      groupShowId = groupShow.toString().substring(0, groupShow.toString().length()-1);
-    }
-    for (Supplier supplier : listSupplier) {
-      supplier.setGroupsUploadId(groupUploadId);
-      supplier.setGroupShowId(groupShowId);
-      List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
-      if (blist != null && blist.size() > 0) {
-        supplier.setBidFileName(blist.get(0).getName());
-        supplier.setBidFileId(blist.get(0).getId());
+      String groupUploadId =  "";
+      String groupShowId = "";
+      if (!"".equals(groupUpload.toString())) {
+           groupUploadId ="flUpload" +  groupUpload.toString().substring(0, groupUpload.toString().length()-1);
       }
-    }
-    model.addAttribute("supplierList", listSupplier);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("flag", flag);
-    return "bss/ppms/open_bidding/bid_file/supplier_project";
+      if (!"".equals(groupShow.toString())) {
+           groupShowId ="flshow" +  groupShow.toString().substring(0, groupShow.toString().length()-1);
+      }
+      SaleTender condition1 = new SaleTender();
+      condition1.setProjectId(projectId);
+      condition1.setStatusBid(NUMBER_TWO);
+      condition1.setStatusBond(NUMBER_TWO);
+      //这里是批量上传全局唯一.调用的upload.js也是改了的
+      List<UploadFile> blist1 = uploadService.getFilesOther("1234567890-1234567890-1234567890", list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+      for (Supplier supplier : listSupplier) {
+          supplier.setGroupsUploadId(groupUploadId);
+          supplier.setGroupShowId(groupShowId);
+          List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+          //则为批量上传
+          if (blist != null && blist.size() == 0) {
+              if (blist1 != null && blist1.size() > 0) {
+                  for (UploadFile up : blist1) {
+                      if (up.getName().substring(0, up.getName().lastIndexOf(".")).equals(supplier.getSupplierName())) {
+                          condition1.setSupplierId(supplier.getId());
+                          List<SaleTender> stList = saleTenderService.find(condition1);
+                          for (SaleTender st : stList) {
+                              if (st.getSuppliers().getId().equals(supplier.getId())) {
+                                  up.setBusinessId(st.getId());
+                                  uploadService.updateFile(up, Constant.SUPPLIER_SYS_KEY);
+                              }
+                          }
+                      }
+                  }
+              }
+          }
+          blist = uploadService.getFilesOther(supplier.getProSupFile(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+          if (blist != null && blist.size() >0) {
+              supplier.setBidFileName(blist.get(0).getName());
+              supplier.setBidFileId(blist.get(0).getId());
+          }
+      }
+      blist1 = uploadService.getFilesOther("1234567890-1234567890-1234567890", list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+      for (UploadFile uploadFile : blist1) {
+          uploadFile.setIsDelete(1);
+          uploadService.updateFile(uploadFile, Constant.SUPPLIER_SYS_KEY);
+      }
+      model.addAttribute("supplierList", listSupplier);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("flag", flag);
+      return "bss/ppms/open_bidding/bid_file/supplier_project";
   }
 
 
