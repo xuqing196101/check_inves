@@ -199,7 +199,7 @@
 			 	var refNo = $("#referenceNo").val();
 				var bool= details();
 				
-			/*     var dy=dyly(); */
+			      var dy=dyly();  
 			    var ptype=purchaseType();
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
@@ -212,9 +212,9 @@
 				} else if($.trim(type) == ""){
 					 layer.msg("请选择物资类别"); 
 				}
-			/* 	else if(dy!=true){
+			  	else if(dy!=true){
 					layer.msg("请填写供应商"); 
-				} */
+				}  
 				 else if(ptype!=true){
 						layer.msg("请选择采购方式"); 
 					} 
@@ -234,7 +234,7 @@
 						type: "post",
 						success: function(data) {
 							if(data!='1'){  
-								$("#add_form").submit();
+								// $("#add_form").submit();
 		 			}else{
 								layer.tips("计划编号已存在", "#jhbh");
 							}
@@ -324,8 +324,14 @@
 				layer.closeAll();
 			}
 
-			function same() {
-				$.ajax({
+			function same(obj,parentId) {
+
+			 			  	$(obj).parent().parent().find("td:eq(7)").children(":last").val(parentId);
+					    	$(obj).parent().parent().find("td:eq(8)").children(":last").val(parentId);
+					    	$(obj).parent().parent().find("td:eq(9)").children(":last").val(parentId);  
+					    	
+					    	
+			/* 	$.ajax({
 					url: "${pageContext.request.contextPath}/purchaser/getId.html",
 					type: "post",
 
@@ -362,7 +368,7 @@
 					error: function() {
 
 					}
-				});
+				}); */
 			}
 
 			function news(obj) {
@@ -412,29 +418,8 @@
 				if(!reg.exec(vals)){
 					$(obj).val("");
 				}else{
-					if(num==1){
-						var count = $(obj).val();
-						var price = $(obj).parent().next().find("input").val();
-						$(obj).parent().next().next().find("input").val(count*price);
-					}else if(num==2){
-						var count = $(obj).parent().prev().find("input").val();
-						var price = $(obj).val();
-						$(obj).parent().next().find("input").val(count*price);
-					}
-				}
-				var totalPrice = 0;
-				var quantity = document.getElementsByName("purchaseQuantity");
-				var unitPrice = document.getElementsByName("unitPrice");
-				for(var i=0;i<quantity.length;i++){
-					if($(quantity[i]).find("input").val()!=""){
-						totalPrice = totalPrice + $(quantity[i]).find("input").val()*($(quantity[i]).next().find("input").val());
-					}
-				}
-				for(var i=0;i<quantity.length;i++){
-					if($(quantity[i]).find("input").val()==""){
-						$(quantity[i]).next().next().find("input").val(totalPrice);
-					}
-				}
+				 }
+			 
 			}
 			
 			//需求部门赋值
@@ -609,7 +594,7 @@
 							              
 							              	var html="";
 									           for(var i = 0 ;i<data.length;i++ ){
-										            html +="<tr> <td>"+count+"</td> "
+										            html +="<tr name='detailRow'> <td>"+count+"</td> "
 													               +"  <td class='tc p0'>"
 													               +"    <input   type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
 													               +"    <input   class='m0 border0 w50 tc' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
@@ -803,15 +788,21 @@
 			}
 			
 		  	 function sum2(obj){  //数量
-			        var purchaseCount = $(obj).val()-0;//数量
-			        var price2 = $(obj).parent().next().children(":last").prev();//价钱
-			        var price = $(price2).val()-0;
-			        var sum = purchaseCount*price/10000;
-			        var budget = $(obj).parent().next().next().children(":last").prev();
-			        $(budget).val(sum);
-			      	var id=$(obj).next().val(); //parentId
-			      	aa(id);
-			    } 
+		  	var bool=sequen(obj);
+		  	 if(bool!=true){
+		  		layer.alert("请先填写序号",{offset: ['222px', '390px'], shade:0.01});
+		  	 }else{
+		  		var purchaseCount = $(obj).val()-0;//数量
+		        var price2 = $(obj).parent().next().children(":last").prev();//价钱
+		        var price = $(price2).val()-0;
+		        var sum = purchaseCount*price/10000;
+		        var budget = $(obj).parent().next().next().children(":last").prev();
+		        $(budget).val(sum);
+		      	var id=$(obj).next().val(); //parentId
+		      	aa(id);
+		  	 }
+			        
+			} 
 			    
 			       function sum1(obj){
 			        var purchaseCount = $(obj).val()-0; //价钱
@@ -955,10 +946,12 @@
 		        
 		        
 		       function getSeq(obj){
+		    	  var id=$("table tr:eq(1)").find("td:eq(1)").children(":first").val();
 		    	  var val= $(obj).parent().parent().find("td:eq(1)").children(":first").next().val();
 		    	  var prev= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
-		    	  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
-		    	  var id=getId();
+		    	  
+		    	// var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
+		    	 
 		    	  //二级节点
 		    	  var ch=chniese(prev);
 		    	  var con=conChniese(val);
@@ -980,7 +973,7 @@
 		    	  //四级节点
 		    	  var numPrev=nums(prev);
 		    	  var conum=conNum(val);
-		    	  var fourPrev=nums(prev);
+		    	  var fourPrev=conNum(prev);
 		    	  
 		    	  
 		    	  var conumPrev=conNum(prev);
@@ -989,64 +982,97 @@
 		    	  
 		    	  var enPrev=eng(prev);
 		    	  var sixVal=conEng(val);  
-		    	  alert(id);
 		    	  
 		    	  if(ch==true&&con==true){
+		    		/* 	$(obj).parent().parent().find("td:eq(7)").children(":last").val(id);
+				    	$(obj).parent().parent().find("td:eq(8)").children(":last").val(id);
+				    	$(obj).parent().parent().find("td:eq(9)").children(":last").val(id); */
+				    	same(obj,id);
 		    		 // alert("二级节点");
 		    	  }else if(con==true&&twoPrev==true){
+		    		  same(obj,id);
 		    		 // alert("二级节点");
 		    	  }else if(two==true&&con==true){
+		    		  same(obj,id);
 		    		 // alert("二级节点");
 		    	  }else if(twonum==true&&con==true){
+		    		  same(obj,id);
 		    		 // alert("二级节点");
 		    	  }else if(twoconeng==true&&con==true){
+		    		  same(obj,id);
 		    		  //alert("二级节点");
 		    	  }else if(twoen==true&&con==true){
+		    		  same(obj,id);
 		    		 // alert("二级节点");
 		    	  }
 		    	  
 		    	  
 		    	  else if(conPrev==true&&num==true){
+		    		  
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
+		    		  
+		    		  same(obj,parentId);
 		    		 // alert("三级节点");
 		    	  }else if(threePrev==true&&num==true){
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
+		    		  same(obj,parentId);
 		    		 // alert("三级节点");
 		    	  }else if(threenum==true&&num==true){
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(8)").children(":eq(2)").val();
+		    		  
+		    		  same(obj,parentId);
 		    		 // alert("三级节点");
 		    	  }else if(threeconNum==true&&num==true){
+		    		  var parentId= $(obj).parent().parent().prev().prev().find("td:eq(8)").children(":eq(2)").val();
+		    		  same(obj,parentId);
 		    		 // alert("三级节点");
 		    	  }else if(threeen==true&&num==true){
+		    		  var parentId= $(obj).parent().parent().prev().prev().prev().find("td:eq(8)").children(":last").val();
+		    		  same(obj,parentId);
 		    		//  alert("三级节点");
 		    	  }else if(threeConEn==true&&num==true){
+		    		  var parentId= $(obj).parent().parent().prev().prev().prev().prev().find("td:eq(8)").children(":last").val();
+		    		  same(obj,parentId);
 		    		//  alert("三级节点");
 		    	  }
 		    	  
 		    	  
 		         else if(numPrev==true&&conum==true){
+		        	 var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
+		        	 same(obj,parentId);
 					  //alert("四级节点");
 		    	  }else if(fourPrev==true&&conum==true){
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(8)").children(":eq(2)").val();
+		    		  same(obj,parentId);
 					  //alert("四级节点");
 		    	  }
 		    	  
 		    	  else if(conumPrev==true&&en==true){
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
+		    		  same(obj,parentId);
 					  //alert("五级节点");
 		    	  }else if(five==true&&en==true){
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(8)").children(":eq(2)").val();
+		    		  same(obj,parentId);
 					//  alert("五级节点");
 		    	  }
 		    	  
 		    	  else if(enPrev==true&&sixVal==true){
+		    		  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").val();
+		    		  same(obj,parentId);
 					// alert("六级节点");
 		    	  }else{
-		    		//  layer.alert("节点填写错误",{offset: ['222px', '390px'], shade:0.01});
+		    		 layer.alert("节点填写错误",{offset: ['222px', '390px'], shade:0.01});
 		    	  }  
  
 		       } 
-	/* 	        
+	 	        
 		    function dyly(){
 		    	var bool=true;
 			    $("#table tr").each(function(i){
-			    	var  type= $(this).parent().parent().find("td:eq(11)").children(":first").val();//上级id
+			    	var  type= $(this).find("td:eq(11)").children(":first").val();//上级id
 			    	  if($.trim(type) == "单一来源") {
-			    		  var  supp= $(this).parent().parent().find("td:eq(12)").children(":first").val();//上级id
+			    		  var  supp= $(this).find("td:eq(12)").children(":first").val();//上级id
 			    		  if($.trim(supp)==""){
 			    			  bool=false;
 			    		  }
@@ -1054,7 +1080,7 @@
 			    });
 			    return bool;
 		    	
-		    } */
+		    } 
 		    
 		    function purchaseType(){
 		    	var bool=true;
@@ -1072,6 +1098,14 @@
 		    	
 		    }
 		    
+		    function sequen(obj){
+		    	var bool=true;
+		    	var seq=$(obj).parent().parent().find("td:eq(1)")children(":eq(1)").val();
+		    	if($.trim(seq)==""){
+		    		bool=false;
+		    	}
+		    	return bool;
+		    }
 		    
 		</script>
 	</head>
@@ -1212,7 +1246,7 @@
 										<td class=" p0">
 											<input type="hidden" name="list[0].id" id="purid" value="${id}" class="m0 border0">
 											<input type="text" onblur="getSeq(this)"  name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc">
-											<input type="hidden" name="list[0].parentId"  value="">
+											<input type="hidden" name="list[0].parentId"  value="1">
 										</td>
 										<td class=" p0" name="department">
 										
@@ -1233,13 +1267,25 @@
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 w200 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w140 border0"></td>
-										<td class="tc p0"><input type="text" onblur="getSeq(this)" name="list[0].item" class="m0 w50 border0"></td>
-										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50"></td>
-										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80"></td>
-										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w80 border0" ></td>
+										<td class="tc p0"><input type="text"   name="list[0].item" class="m0 w50 border0"></td>
+										<td class="tc  p0" name="purchaseQuantity">
+											<input type="hidden"    value="${id}" class="m0 border0">
+											<input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50">
+											<input type="hidden"    value="1" class="m0 border0">
+										</td>
+										<td class="tc  p0" name="unitPrice">
+											<input type="hidden"    value="${id}" class="m0 border0">
+											<input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80">
+											<input type="hidden"    value="1" class="m0 border0">
+										</td>
+										<td class="tc  p0">
+											<input type="hidden"    value="${id}" class="m0 border0">
+											<input type="text" name="list[0].budget" class="m0 w80 border0" >
+											<input type="hidden"    value="1" class="m0 border0">
+										</td>
 										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w150"></td>
 										<td class=" p0">
-											<select required="required" name="list[0].purchaseType" class="m0 border0 w120" onchange="changeType(this)"  >
+											<select required="required" name="list[0].purchaseType" class="m0 border0" onchange="changeType(this)"  >
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 												

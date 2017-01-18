@@ -27,22 +27,22 @@
 										
 										
 										<td class="tc p0" >
-											<input type='hidden'  value='' >
-										<input type="text" class="m0 border0 w50" name="list[${index }].purchaseCount" onkeyup="checkNum(this,1)" value="" >
-											<input type='hidden'  value='' >
+											<input type="hidden"  value="${id }" >
+										<input type="text" class="m0 border0 w50"  onblur='sum2(this)' name="list[${index }].purchaseCount" onkeyup="checkNum(this,1)" value="" >
+											<input type="hidden"   value="" >
 										</td>
 										
 										
 										<td class="tc  p0" >
-											<input type='hidden'  value='' >
-										<input type="text" class="m0 border0 w100" name="list[${index }].price" onkeyup="checkNum(this,2)" value="" >
-											<input type='hidden'  value='' >
+											<input type='hidden'  value='${id }' >
+											 <input type="text" class="m0 border0 w100"  onblur='sum1(this)' name="list[${index }].price" onkeyup="checkNum(this,2)" value="" >
+											<input type="hidden"   value="">
 										</td>
 										
 										<td class="tc  p0">
-											<input type='hidden'  value='' >
-										<input type="text" class="m0 w100 border0" name="list[${index }].budget"   value=" " >
-											<input type='hidden'  value='' >
+											<input type="hidden"   value='${id }' >
+											<input type="text" class="m0 w100 border0" name="list[${index }].budget"   value="" >
+											<input type="hidden"   value="" >
 										</td>
 										
 										
