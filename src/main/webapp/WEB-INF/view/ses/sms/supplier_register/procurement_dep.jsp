@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
+<title>供应商注册</title>
 <script type="text/javascript">
 
 	$(function() {

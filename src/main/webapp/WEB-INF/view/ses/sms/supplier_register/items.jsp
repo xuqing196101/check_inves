@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
+<title>供应商注册</title>
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;
@@ -278,6 +279,9 @@
 		});
 	}
 	function searchCate(cateId, treeId,type,seq) {
+		var index = layer.load(1, {
+			shade: [0.1,'#fff'] //0.1透明度的白色背景
+		});
 		var zNodes;
 		var zTreeObj;
 		var setting = {
@@ -314,6 +318,7 @@
 					zNodes = data;
 					zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
 					zTreeObj.expandAll(true);//全部展开
+					layer.close(index);
 				}
 			});
 		}
@@ -429,6 +434,7 @@
 								</div>
 							</c:if>
 							<div class="mt20" id="tbody_category"></div>
+							<div id="pagediv" align="right" class="mb50"></div>
 						</div>
 					</div>
 				</div>
