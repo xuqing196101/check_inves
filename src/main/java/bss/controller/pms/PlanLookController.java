@@ -2,21 +2,21 @@ package bss.controller.pms;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
@@ -33,10 +33,8 @@ import bss.formbean.AuditParamBean;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
-import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
-import bss.model.pqims.PqInfo;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -637,6 +635,13 @@ public class PlanLookController extends BaseController {
 		map.put("newVal", data2.getName());
 		return JSON.toJSONString(map);
 	}
+	
+	@InitBinder  
+    public void initBinder(WebDataBinder binder) {  
+        // 设置List的最大长度  
+        binder.setAutoGrowCollectionLimit(30000);
+        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+    } 
 	
 	
 }

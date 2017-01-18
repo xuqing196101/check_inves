@@ -298,5 +298,15 @@ public interface PurchaseRequiredMapper {
     * @throws
      */
     List<PurchaseRequired> getByDep(Map<String,Object> map);
+    /**
+     * 
+    * @Title: uddateByUniqueId
+    * @Description: 根据UniqueId修改
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId     
+    * @return void     
+    * @throws
+     */
+    void uddateByUniqueId(@Param("uniqueId")String uniqueId);
     
 }

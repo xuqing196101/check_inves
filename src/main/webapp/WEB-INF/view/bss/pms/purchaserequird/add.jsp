@@ -198,6 +198,9 @@
 				var type = $("#wtype").val();
 			 	var refNo = $("#referenceNo").val();
 				var bool= details();
+				
+			/*     var dy=dyly(); */
+			    var ptype=purchaseType();
 				/* var seq=seqs(); */
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购计划！"); 
@@ -208,7 +211,13 @@
 					//layer.tips("录入人手机号不允许为空", "#mobile");
 				} else if($.trim(type) == ""){
 					 layer.msg("请选择物资类别"); 
-				} 
+				}
+			/* 	else if(dy!=true){
+					layer.msg("请填写供应商"); 
+				} */
+				 else if(ptype!=true){
+						layer.msg("请选择采购方式"); 
+					} 
 				/* else if($.trim(refNo) == ""){
 					 layer.msg("请 填写计划文号"); 
 				} */
@@ -602,39 +611,39 @@
 									           for(var i = 0 ;i<data.length;i++ ){
 										            html +="<tr> <td>"+count+"</td> "
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
-													               +"    <input ityle='border: 0px;' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
-													               +"    <input style='border: 0px;' value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
+													               +"    <input   type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
+													               +"    <input   class='m0 border0 w50 tc' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
+													               +"    <input value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
 													               +"  </td> "
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].department' value='${orgName}'/>"
+													               +"    <input class='m0 border0 w260'  type='text' name='list[" + i + "].department' value='${orgName}'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
+													               +"    <input class='m0 border0 w200' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
+													               +"    <input class='m0 w200 border0' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
+													               +"    <input class='m0 w140 border0' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
+													               +"    <input class='m0 w50 border0' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'> "
-													               +"    <input style='border: 0px;' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
+													               +"    <input class='m0 border0 w50' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
 													               +"  <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
 													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'>"
-													               +"    <input style='border: 0px;'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
+													               +"    <input class='m0 border0 w100'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
 													               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
 													               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
+													               +"    <input class='m0 w100 border0' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
 													               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
+													               +"    <input class='m0 border0'  type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"<select name='list["+i+"].purchaseType' class='pt m0' onchange='changeType(this)' >" ;
+													               +"<select name='list["+i+"].purchaseType' class='m0 border0' onchange='changeType(this)' > <option value=''>请选择</option>" ;
 													               
 													               <c:forEach items='${list2 }' var='obj'>
 													               if("${obj.name}" == data[i].purchaseType){
@@ -650,7 +659,7 @@
 																
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
+													               +"    <input class='m0 w260 border0' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
 													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
@@ -662,7 +671,7 @@
 													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													              +"    <input style='border: 0px;' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
+													              +"    <input class='m0 border0' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
 													               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
 													               +"</tr>";
 										             count++;
@@ -874,6 +883,196 @@
 				    });
 				    return bool;
 		        } */
+		        
+		        
+		        //判断是否是中文
+		        function chniese(val){
+		        	
+			         var bool=true;
+			         var reg=/^[\u4e00-\u9fa5]+$/;
+			         if(!reg.test(val)&&!val.indexOf("（")!=-1){
+			        	 bool=false;
+			          }
+			         return  bool;
+		        }  
+		        //判断是否包含是中文
+		     function conChniese(val){
+			         var bool=true;
+			         var reg=/^.*[\u4e00-\u9fa5]+.*$/;
+			         if(reg.test(val)&&val.indexOf("（")!=-1){
+			        	 bool=true;
+			          }else{
+			        	  bool=false;
+			          }
+			         return  bool;
+		        }  
+		        //判断是否是数字
+		        function nums(val){
+		        	var bool=true;
+		        	var reg=/^\d{1,}$/;
+		        	if(reg.test(val)&&!val.indexOf("（")!=-1){
+		        		 bool=true;
+		        	}else{
+			        	 bool=false;
+			          }
+		        	return bool;
+		        }  
+		        //是包含数字
+	           function conNum(val){
+		        	var bool=true;
+		        	var reg=/^.*\d+.*$/;
+		        	if(reg.test(val)&&val.indexOf("（")!=-1){
+		        		bool=true;
+		        	}else{
+		        		bool=false;
+		        	}
+		        	return bool;
+		        }  
+		        //是否是英文
+		        function eng(val){
+		        	var bool=false;
+                    var chars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+                    for(var i=0;i<chars.length;i++){
+                    	if(chars[i]==val){
+                    		bool=true;
+                    	}
+                    }
+                    return  bool;
+		        }  
+		        
+		        //是否是英文
+		        function conEng(val){
+		        	var bool=false;
+                    var chars = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z'];
+                    for(var i=0;i<chars.length;i++){
+                    	if(val.match(chars[i])&&val.indexOf("（")!=-1){
+                    		bool=true;
+                    	}
+                    }
+                    return  bool;
+		        }  
+		        
+		        
+		        
+		       function getSeq(obj){
+		    	  var val= $(obj).parent().parent().find("td:eq(1)").children(":first").next().val();
+		    	  var prev= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
+		    	  var parentId= $(obj).parent().parent().prev().find("td:eq(1)").children(":first").next().val();
+		    	  var id=getId();
+		    	  //二级节点
+		    	  var ch=chniese(prev);
+		    	  var con=conChniese(val);
+		    	  var twoPrev=conChniese(prev);
+		    	  var two=nums(prev);
+		    	  var twonum=conNum(prev);
+		    	  var twoen=eng(prev);
+		    	  var twoconeng=conEng(prev);
+		    	  
+		    	  //三级节点
+		    	  var conPrev=conChniese(prev);
+		    	  var num=nums(val);
+		    	  var threePrev=conChniese(prev);
+		    	  var threenum=nums(prev);
+		    	  var threeconNum=conNum(prev);
+		    	  var threeen=eng(prev);
+		    	  var threeConEn=conEng(prev);
+		    	  
+		    	  //四级节点
+		    	  var numPrev=nums(prev);
+		    	  var conum=conNum(val);
+		    	  var fourPrev=nums(prev);
+		    	  
+		    	  
+		    	  var conumPrev=conNum(prev);
+		    	  var en=eng(val); 
+		    	  var five=conNum(prev);
+		    	  
+		    	  var enPrev=eng(prev);
+		    	  var sixVal=conEng(val);  
+		    	  alert(id);
+		    	  
+		    	  if(ch==true&&con==true){
+		    		 // alert("二级节点");
+		    	  }else if(con==true&&twoPrev==true){
+		    		 // alert("二级节点");
+		    	  }else if(two==true&&con==true){
+		    		 // alert("二级节点");
+		    	  }else if(twonum==true&&con==true){
+		    		 // alert("二级节点");
+		    	  }else if(twoconeng==true&&con==true){
+		    		  //alert("二级节点");
+		    	  }else if(twoen==true&&con==true){
+		    		 // alert("二级节点");
+		    	  }
+		    	  
+		    	  
+		    	  else if(conPrev==true&&num==true){
+		    		 // alert("三级节点");
+		    	  }else if(threePrev==true&&num==true){
+		    		 // alert("三级节点");
+		    	  }else if(threenum==true&&num==true){
+		    		 // alert("三级节点");
+		    	  }else if(threeconNum==true&&num==true){
+		    		 // alert("三级节点");
+		    	  }else if(threeen==true&&num==true){
+		    		//  alert("三级节点");
+		    	  }else if(threeConEn==true&&num==true){
+		    		//  alert("三级节点");
+		    	  }
+		    	  
+		    	  
+		         else if(numPrev==true&&conum==true){
+					  //alert("四级节点");
+		    	  }else if(fourPrev==true&&conum==true){
+					  //alert("四级节点");
+		    	  }
+		    	  
+		    	  else if(conumPrev==true&&en==true){
+					  //alert("五级节点");
+		    	  }else if(five==true&&en==true){
+					//  alert("五级节点");
+		    	  }
+		    	  
+		    	  else if(enPrev==true&&sixVal==true){
+					// alert("六级节点");
+		    	  }else{
+		    		//  layer.alert("节点填写错误",{offset: ['222px', '390px'], shade:0.01});
+		    	  }  
+ 
+		       } 
+	/* 	        
+		    function dyly(){
+		    	var bool=true;
+			    $("#table tr").each(function(i){
+			    	var  type= $(this).parent().parent().find("td:eq(11)").children(":first").val();//上级id
+			    	  if($.trim(type) == "单一来源") {
+			    		  var  supp= $(this).parent().parent().find("td:eq(12)").children(":first").val();//上级id
+			    		  if($.trim(supp)==""){
+			    			  bool=false;
+			    		  }
+			    	  }
+			    });
+			    return bool;
+		    	
+		    } */
+		    
+		    function purchaseType(){
+		    	var bool=true;
+			    $("#table tr").each(function(i){
+			    	var  price= $(this).parent().parent().find("td:eq(8)").children(":first").next().val();//上级id
+			    	if($.trim(price) !=""){
+			    		var  type= $(this).parent().parent().find("td:eq(11)").children(":first").val();//上级id
+				    	  if($.trim(type) == "") {
+				    			  bool=false;
+				    	  }
+			    	}
+			    	
+			    });
+			    return bool;
+		    	
+		    }
+		    
+		    
 		</script>
 	</head>
 
@@ -1011,8 +1210,9 @@
 									<tr name="detailRow">
 									<td class="tc"><div class="w50">1</div></td>
 										<td class=" p0">
-											<input type="hidden" name="list[0].id" id="purid" value="" class="m0 border0">
-											<input type="text" name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc ">
+											<input type="hidden" name="list[0].id" id="purid" value="${id}" class="m0 border0">
+											<input type="text" onblur="getSeq(this)"  name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc">
+											<input type="hidden" name="list[0].parentId"  value="">
 										</td>
 										<td class=" p0" name="department">
 										
@@ -1033,23 +1233,34 @@
 										</td>
 										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 w200 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w140 border0"></td>
-										<td class="tc p0"><input type="text" name="list[0].item" class="m0 w50 border0"></td>
+										<td class="tc p0"><input type="text" onblur="getSeq(this)" name="list[0].item" class="m0 w50 border0"></td>
 										<td class="tc  p0" name="purchaseQuantity"><input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50"></td>
 										<td class="tc  p0" name="unitPrice"><input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80"></td>
 										<td class="tc  p0"><input type="text" name="list[0].budget" class="m0 w80 border0" ></td>
 										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w150"></td>
 										<td class=" p0">
-											<select name="list[0].purchaseType" class="m0 border0 w120" onchange="changeType(this)" id="pType[0]">
+											<select required="required" name="list[0].purchaseType" class="m0 border0 w120" onchange="changeType(this)"  >
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
 												
-													<option value="${obj.id }">${obj.name }</option>
+													<option value="${obj.name }">${obj.name }</option>
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc  p0"><input type="text" name="list[0].supplier" class="m0 w260 border0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0 w80"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 w260 border0"></td>
+										<td class="tc  p0">
+										
+										<select name="list[0].supplier" class="m0 border0" onchange="changeType(this)" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${suppliers }" var="sup">
+												
+													<option value="${sup.id }">${sup.supplierName }</option>
+												</c:forEach>
+											</select>
+											
+											
+										<!-- <input type="text" name="list[0].supplier" class="m0 w260 border0"> --></td>
+										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w260"></td>
 										<!-- <td class="tc w100 p0"></td> -->

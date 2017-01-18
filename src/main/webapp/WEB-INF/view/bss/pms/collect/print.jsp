@@ -62,7 +62,7 @@
 			<form id="acc_form" action="${pageContext.request.contextPath }/accept/update.html" method="post">
 				<table id='print_table' class="table table-bordered table-condensed mt5">
 					<thead>
-					<tr class="space_nowrap">
+		<%-- 			<tr class="space_nowrap">
 							<th class="info" colspan="14">事业部门需求</th>
 						 	<c:if test="${auditTurn!=null }">
 						 		<th class="info" >一轮审核</th>
@@ -73,7 +73,7 @@
 						 	<c:if test="${auditTurn==3}">
 						 		<th class="info" >三轮审核</th>
 						 	</c:if>
-						</tr>
+						</tr> --%>
 					
 						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
@@ -90,7 +90,7 @@
 							<th class="info">采购机构</th>
 							<th class="info">供应商名称</th>
 					 		<th class="info w200">备注</th>
-				 	 		
+				 	 	<%-- 	
 							<c:if test="${auditTurn!=null }">
 						 		<th class="info" >一轮审核意见</th>
 						 	</c:if>
@@ -99,7 +99,7 @@
 						 	</c:if>
 						 	<c:if test="${auditTurn==3}">
 						 		<th class="info" >三轮审核意见</th>
-						 	</c:if>
+						 	</c:if> --%>
 						</tr>
 					</thead>
 
@@ -131,7 +131,7 @@
 							
 							<td class="tl">${obj.supplier }</td>
 							<td class="tl">${obj.memo }</td>
-							<c:if test="${auditTurn!=null }">
+					<%-- 		<c:if test="${auditTurn!=null }">
 
 						 		<td>${obj.oneAdvice }</td>
 						 	</c:if>
@@ -140,7 +140,7 @@
 						 	</c:if>
 						 	<c:if test="${auditTurn==3}">
 						 		<td>${obj.threeAdvice }</td>
-						 	</c:if>
+						 	</c:if> --%>
 						 	
 						<%-- 	
 							<c:forEach items="${all }" var="al">

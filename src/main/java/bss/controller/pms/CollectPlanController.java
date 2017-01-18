@@ -5,11 +5,9 @@ import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -21,8 +19,11 @@ import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -39,22 +40,18 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
-import bss.model.pms.CollectPurchase;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
-import bss.service.pms.impl.CollectPlanServiceImpl;
+import bss.util.NumberUtils;
 
 import com.github.pagehelper.PageInfo;
 
-import bss.util.ExcelUtil;
-import bss.util.NumberUtils;
 import common.annotation.CurrentUser;
 import common.bean.ResponseBean;
-import common.constant.Constant;
 
 /**
  * @Title: CollectPlanController
@@ -533,6 +530,12 @@ public class CollectPlanController extends BaseController {
     return "bss/pms/collect/collectlist";
   }
 
+  @InitBinder  
+  public void initBinder(WebDataBinder binder) {  
+      // 设置List的最大长度  
+      binder.setAutoGrowCollectionLimit(30000);  
+      binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+  } 
 }
 
 

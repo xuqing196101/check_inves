@@ -311,6 +311,7 @@ public interface SupplierMapper {
      */
     List<Supplier> validateCreditCode(String creditCode);
     
+ 
     /**
      * 
      *〈简述〉发售标书中使用
@@ -320,5 +321,9 @@ public interface SupplierMapper {
      * @return
      */
     List<Supplier> selectSaleTenderSupplier(Supplier supplier);
+ 
+    
+    List<Supplier> queryAll();
+ 
     
 }

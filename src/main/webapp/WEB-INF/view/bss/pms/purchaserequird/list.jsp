@@ -108,9 +108,10 @@
 		 			 	url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
 		 			 	type:"post",
 		 			 	success:function(){
-		 					layer.msg('删除成功', { offset: ['40%', '45%'] });
+		 					 layer.msg('删除成功', { offset: ['40%', '45%'] });
+		 					$("#param_form").submit();
 						/* 	window.setTimeout(function() { */
-								window.location.reload();
+								//window.location.reload();
 						/* 	}, 500); */
 		 			 	}
 		 		 });
@@ -272,7 +273,7 @@
    	  <div class="col-md-12 pl20 mt10">
 	    	<button class="btn btn-windows add" onclick="add()">计划录入</button>
 	    	<button class="btn btn-windows edit"  onclick="edit()">修改</button>
-				<button class="btn btn-windows output" onclick="exports()">下载</button>
+				<button class="btn btn-windows input" onclick="exports()">下载</button>
 	   		<button class="btn btn-windows delete" onclick="del()">删除</button>
 				<button class="btn btn-windows git" onclick="sub()">提交采购管理部门</button>
 	  	</div>
