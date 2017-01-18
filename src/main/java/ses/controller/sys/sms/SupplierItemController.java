@@ -14,10 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-import com.github.pagehelper.PageInfo;
-
-import bss.controller.base.BaseController;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -28,7 +24,6 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
-import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -38,6 +33,11 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import bss.controller.base.BaseController;
+
+import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+import common.annotation.SystemControllerLog;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -72,6 +72,7 @@ public class SupplierItemController extends BaseController{
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
 	@ResponseBody
+	@SystemControllerLog(description="异步保存所选品目",operType=1)
 	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
 	    // 判断是否是取消选中
@@ -91,6 +92,7 @@ public class SupplierItemController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("/getCategories")
+    @SystemControllerLog(description="查询已选品目列表",operType=1)
 	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum) {
 	    // 查询已选中的节点信息
         List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
@@ -250,6 +252,7 @@ public class SupplierItemController extends BaseController{
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
+    @SystemControllerLog(description="根据不同的参数进行页面跳转",operType=1)
 	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model,String supplierTypeIds, String clickFlag) {
 		
 		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
@@ -485,6 +488,7 @@ public class SupplierItemController extends BaseController{
 	 * @author WangHuijie
 	 * @param list
 	 */
+    @SystemControllerLog(description="品目List去重",operType=1)
 	public void removeSame(List<Category> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
@@ -494,56 +498,8 @@ public class SupplierItemController extends BaseController{
             }
         }
 	 }
-	
-	@RequestMapping(value = "getCategory")
-	public String getCategory(String categoryId,Model model){
-		String id = DictionaryDataUtil.getId("SUPPLIER_CATEGORY");
-		model.addAttribute("categoryId", categoryId);
-		model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("typeId", id);
-		return "ses/sms/supplier_register/category_uploadfile";	
-	}
-	
-	public boolean validataItem(SupplierItem supplierItem){
-		boolean bool=true;
-		if(supplierItem.getCategoryId()!=null){
-			String ids[] = supplierItem.getCategoryId().split(",");
-//			SupplierDictionaryData supplierDictionary = dictionaryDataServiceI.getSupplierDictionary();
-			for(String s:ids){
-				List<Category> category = categoryService.findTreeByPid(s);
-				if(category.size()<1){
-					List<UploadFile> list = uploadService.getFilesOther(s, null,"1");
-					if(list.size()<1){
-						bool=false;
-					}
-				}
-			}
-		}
-	
-		return bool;
-	}
-	
-	
-	/**
-	 * 
-	* @Title: echoTree
-	* @Description: 供应商资质文件维护，点击上一步
-	* author: Li Xiaoxiao 
-	* @param @param supplierId
-	* @param @return     
-	* @return String     
-	* @throws
-	 */
-	@RequestMapping(value="/category_tree")
-	public String echoTree(String supplierId,Model model){
-		Supplier supplier = supplierService.get(supplierId);
-		// 页面跳转
-		model.addAttribute("currSupplier", supplier);
-//		List<Category> category = supplierItemService.getCategory(supplierId);
-//		model.addAttribute("category", category);
-		return "ses/sms/supplier_register/items";	
-	}
-	/**
+
+    /**
 	 * 
 	* @Title: getCategory
 	* @Description: 查询供应商勾选的三级品目
@@ -556,6 +512,7 @@ public class SupplierItemController extends BaseController{
 	 */
 	@RequestMapping(value="/category_type" ,produces = "text/html;charset=UTF-8")
     @ResponseBody
+    @SystemControllerLog(description="异步查询供应商所选的所有三级品目",operType=1)
     public String getCategory(String code,String supplierId,String stype){
 		List<CategoryTree> categoryList=new ArrayList<CategoryTree>();
 		String   categoryId="";
