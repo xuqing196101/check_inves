@@ -1496,4 +1496,12 @@
 		and
 		SUPPLIER_STATUS != 6
 	</select>
+	
+	<select id="queryAll" resultMap="BaseResultMap" >
+	   SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE  SUPPLIER_STATUS in(1,5,7)
+	</select>
+	
 </mapper>

@@ -47,7 +47,7 @@ $(function() {
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
-        <td class="tc">${vs.index + 1}</td>
+        <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 	    <td class="tc">${item.rootNode}</td>
 	    <td class="tc">${item.firstNode}</td>
 	    <td class="tc">${item.secondNode}</td>
@@ -56,6 +56,6 @@ $(function() {
       </tr>
     </c:forEach>
   </table> 
-<div id="pagediv" align="right" class="mb50"></div>
+
 </body>
 </html>
