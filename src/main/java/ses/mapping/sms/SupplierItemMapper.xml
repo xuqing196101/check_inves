@@ -215,7 +215,7 @@
 		</where>
 	</select>
 	
-	<select id="selectByMap" parameterType="java.util.Map" resultMap="BaseResultMap">
+	<select id="selectByMap" parameterType="java.util.Map" resultMap="BaseResultMap" flushCache="true">
 		SELECT DISTINCT
 		<include refid="Base_Column"/>
 		FROM

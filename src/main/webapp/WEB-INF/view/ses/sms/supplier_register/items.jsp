@@ -77,10 +77,7 @@
 	
 	//加载对应的节点数据
 	function loadZtree(code, kind, status) {
-		var loader = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		 });
-	var setting = {
+		var setting = {
  	    async : {
 			autoParam: ["id","code"],
 			enable : true,
@@ -118,26 +115,8 @@
 	 $.fn.zTree.init($("#" + kind), setting, zNodes);
 	 var supplierId="${currSupplier.id}";
 	 
-	$("#tbody_category").html("");
-	$.ajax({
-		url: "${pageContext.request.contextPath}/supplier_item/getCategories.do",
-		data: {"supplierId" : supplierId, "supplierTypeRelateId" : code},
-		dataType: "json",
-		success: function(data){
-			$(data).each(function(index, element){
-				index++;
-				$("#tbody_category").append("<tr>" +
-						"<td class='tc'>" + index + "</td>" +
-						"<td>" + element.rootNode + "</td>" +
-						"<td>" + element.firstNode + "</td>" +
-						"<td>" + element.secondNode + "</td>" +
-						"<td>" + element.thirdNode + "</td>" +
-						"<td>" + element.fourthNode + "</td>" +
-						"</tr>");
-			});
-			layer.close(loader);
-		 }
-	});
+	var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
+	$("#tbody_category").load(path);
 }
 	
 	//加载tab页签
@@ -218,9 +197,6 @@
 	}
 	
 	function saveCategory(event, treeId, treeNode){
-		var loader = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		});
 		var clickFlag;
 		if (treeNode.checked) {
 			clickFlag = "1";
@@ -248,26 +224,15 @@
 			$("#supplierTypeRelateId").val("SERVICE");
 		}
 		$("#flag").val("4");
+		var supplierId="${currSupplier.id}";
+		var type = $("#supplierTypeRelateId").val();
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier_item/saveCategory.do",
 			async: false,
 			data: $("#items_info_form_id").serialize(),
-			dataType: "json",
-			async: false,
-			success: function(data) {
-				$("#tbody_category").html("");
-				$(data).each(function(index, element){
-					index++;
-					$("#tbody_category").append("<tr>" +
-							"<td class='tc'>" + index + "</td>" +
-							"<td>" + element.rootNode + "</td>" +
-							"<td>" + element.firstNode + "</td>" +
-							"<td>" + element.secondNode + "</td>" +
-							"<td>" + element.thirdNode + "</td>" +
-							"<td>" + element.fourthNode + "</td>" +
-							"</tr>");
-				});
-				layer.close(loader);
+			success: function() {
+				var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + type;
+				$("#tbody_category").load(path);
 			}
 		});
 	}
@@ -335,9 +300,6 @@
 			}
 		};
 		var cateName = $("#" + cateId).val();
-		var index = layer.load(1, {
-			  shade: [0.1,'#fff'] //0.1透明度的白色背景
-		});
 		if (cateName == "") {
 			loadTab(type,treeId,seq);
 		} else {
@@ -355,7 +317,6 @@
 				}
 			});
 		}
-		layer.close(index);
 	}
 </script>
 </head>
@@ -467,24 +428,8 @@
 									</div>
 								</div>
 							</c:if>
-							<div class="mt20">
-							<h2 class="f16">已选产品目录</h2>
-							<table class="table table-bordered table-hover">
-							  <tr>
-							    <td class="info tc w50">序号</td>
-							    <td class="info tc">品目类别</td>
-							    <td class="info tc">大类名称</td>
-							    <td class="info tc">中类名称</td>
-							    <td class="info tc">小类名称</td>
-							    <td class="info tc">品种名称</td>
-							  </tr>
-							  <tbody id="tbody_category"></tbody>
-							</table>
-							</div>
+							<div class="mt20" id="tbody_category"></div>
 						</div>
-						
-				 
-	 
 					</div>
 				</div>
 			</div>

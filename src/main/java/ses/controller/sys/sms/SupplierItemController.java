@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
 
 import bss.controller.base.BaseController;
 import ses.formbean.QualificationBean;
@@ -71,7 +72,7 @@ public class SupplierItemController extends BaseController{
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 	
 	@ResponseBody
-	@RequestMapping(value = "/saveCategory", produces = "application/json;charset=utf-8")
+	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
 	    // 判断是否是取消选中
         if ("0".equals(clickFlag) && flag.equals("4")) {
@@ -79,31 +80,7 @@ public class SupplierItemController extends BaseController{
         } else if(flag.equals("4")){
             supplierItemService.saveOrUpdate(supplierItem);
         }
-        // 查询已选中的节点信息
-        List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), null);
-        List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
-        for (SupplierItem item : listSupplierItems) {
-            String categoryId = item.getCategoryId();
-            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
-            if (cateTree != null && cateTree.getRootNode() != null) {
-                allTreeList.add(cateTree);
-            }
-        }
-        for (SupplierCateTree cate : allTreeList) {
-            cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
-            cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
-            cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
-            cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
-            cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
-            String typeName = "";
-            if (supplierItem.getSupplierTypeRelateId().equals("PRODUCT")) {
-                typeName = "生产";
-            } else if (supplierItem.getSupplierTypeRelateId().equals("SALES")) {
-                typeName = "销售";
-            }
-            cate.setRootNode(cate.getRootNode() + typeName);
-        }
-        return JSON.toJSONString(allTreeList);
+        return "ok";
 	}
 	
 	/**
@@ -113,11 +90,10 @@ public class SupplierItemController extends BaseController{
 	 * @param supplierItem
 	 * @return
 	 */
-	@ResponseBody
-	@RequestMapping(value = "/getCategories", produces = "application/json;charset=utf-8")
-	public String getCategoryList(SupplierItem supplierItem) {
+	@RequestMapping("/getCategories")
+	public String getCategoryList(SupplierItem supplierItem, Model model, Integer pageNum) {
 	    // 查询已选中的节点信息
-        List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), null);
+        List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierItem.getSupplierId(), supplierItem.getSupplierTypeRelateId(), pageNum == null ? 1 : pageNum);
         List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
         for (SupplierItem item : listSupplierItems) {
             String categoryId = item.getCategoryId();
@@ -140,7 +116,11 @@ public class SupplierItemController extends BaseController{
             }
             cate.setRootNode(cate.getRootNode() + typeName);
         }
-        return JSON.toJSONString(allTreeList);
+        model.addAttribute("supplierId", supplierItem.getSupplierId());
+        model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());
+        model.addAttribute("result", new PageInfo<>(listSupplierItems));
+        model.addAttribute("itemsList", allTreeList);
+        return "ses/sms/supplier_register/ajax_items"; 
 	}
 	
 	/**
