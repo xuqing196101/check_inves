@@ -6,7 +6,12 @@
 <%@ include file="/reg_head.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>供应商注册</title>
+<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <script type="text/javascript">
+$().ready(function() {
+	    $("#save_pro_form_id").validForm();
+	});
+
 
  //显示生产的信息
  function product(obj){
@@ -781,46 +786,51 @@
 										<legend> 组织机构和人员信息 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input id="supplierName_input_id" type="text" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" <c:if test="${fn:contains(proPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_pro_page')"</c:if>/>
+														<input id="supplierName_input_id" type="text" required  maxlength="20" name="supplierMatPro.orgName" value="${currSupplier.supplierMatPro.orgName}" <c:if test="${fn:contains(proPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													    <div class="cue"> ${org } </div>
+													    <div class="cue"><sf:errors path="supplierMatPro.orgName"/></div>
 													</div>
 												</li>
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 人员总数：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalPerson" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalPerson}" <c:if test="${fn:contains(proPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalPerson" required onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalPerson}" <c:if test="${fn:contains(proPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空，且为数字</span>
 													   <div class="cue"> ${person } </div>
+													   <div class="cue"><sf:errors path="supplierMatPro.totalPerson"/></div>
 													</div>
 												</li>
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 管理人员数量：</span>
 													<div class="input-append co-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalMange}" <c:if test="${fn:contains(proPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalMange" onkeyup="checknums(this)"  required value="${currSupplier.supplierMatPro.totalMange}" <c:if test="${fn:contains(proPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_pro_page')"</c:if>/>
 												     	<span class="add-on cur_point">i</span>
 												     	<span class="input-tip">不能为空，且为数字</span>
 												     	<div class="cue"> ${mange } </div>
+												     	 <div class="cue"><sf:errors path="supplierMatPro.totalMange"/></div>
 													</div>
 												</li>
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatPro.totalTech}" <c:if test="${fn:contains(proPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalTech" onkeyup="checknums(this)"  required value="${currSupplier.supplierMatPro.totalTech}" <c:if test="${fn:contains(proPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${tech } </div>
+													    <div class="cue"><sf:errors path="supplierMatPro.totalTech"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalWorker}" <c:if test="${fn:contains(proPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)"  required value="${currSupplier.supplierMatPro.totalWorker}" <c:if test="${fn:contains(proPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空，且为数字</span>
 													   <div class="cue"> ${work } </div>
 													</div>
+													 <div class="cue"><sf:errors path="supplierMatPro.totalWorker"/></div>
 												</li>
 												<!-- <div class="clear"></div> -->
 									</fieldset>
@@ -831,59 +841,66 @@
 										<!-- 	<ul class="list-unstyled list-flow"> -->
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleTech" value="${currSupplier.supplierMatPro.scaleTech}" <c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.scaleTech" required value="${currSupplier.supplierMatPro.scaleTech}" <c:if test="${fn:contains(proPageField,'scaleTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('scaleTech','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空</span>
 													    <div class="cue"> ${stech } </div>
+													    <div class="cue"><sf:errors path="supplierMatPro.scaleTech"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 高级技术人员数量比例(%)：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.scaleHeightTech" value="${currSupplier.supplierMatPro.scaleHeightTech}" <c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.scaleHeightTech" required value="${currSupplier.supplierMatPro.scaleHeightTech}" <c:if test="${fn:contains(proPageField,'scaleHeightTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('scaleHeightTech','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													    <div class="cue"> ${height } </div>
+													    <div class="cue"><sf:errors path="supplierMatPro.scaleHeightTech"/></div>
 													</div>
 												</li>
 												
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 研发部门名称：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.researchName" value="${currSupplier.supplierMatPro.researchName}" <c:if test="${fn:contains(proPageField,'researchName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('researchName','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.researchName" required maxlength="20" value="${currSupplier.supplierMatPro.researchName}" <c:if test="${fn:contains(proPageField,'researchName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('researchName','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													   <div class="cue"> ${reName } </div>
+													   <div class="cue"><sf:errors path="supplierMatPro.researchName"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 研发部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalResearch" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalResearch"  required  onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalResearch}" <c:if test="${fn:contains(proPageField,'totalResearch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalResearch','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${tRe } </div>
+													    <div class="cue"><sf:errors path="supplierMatPro.totalResearch"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 研发部门负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.researchLead" value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${fn:contains(proPageField,'researchLead')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('researchLead','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.researchLead"  required maxlength="20" value="${currSupplier.supplierMatPro.researchLead}" <c:if test="${fn:contains(proPageField,'researchLead')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('researchLead','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													   <div class="cue"> ${leader } </div>
+													   <div class="cue"><sf:errors path="supplierMatPro.researchLead"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家军队科研项目：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.countryPro" value="${currSupplier.supplierMatPro.countryPro}" <c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.countryPro" required maxlength="100" value="${currSupplier.supplierMatPro.countryPro}" <c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													   <div class="cue"> ${contry } </div>
+													   <div class="cue"><sf:errors path="supplierMatPro.countryPro"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家军队科技奖项：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.countryReward" value="${currSupplier.supplierMatPro.countryReward}" <c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.countryReward" required maxlength="100" value="${currSupplier.supplierMatPro.countryReward}" <c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													    <div class="cue"> ${reward } </div>
+													    <div class="cue"><sf:errors path="supplierMatPro.countryReward"/></div>
 													</div>
 												</li>
 												<!-- <div class="clear"></div> -->
@@ -896,18 +913,20 @@
 											 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产线数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalBeltline" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" <c:if test="${fn:contains(proPageField,'totalBeltline')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalBeltline','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalBeltline" required onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalBeltline}" <c:if test="${fn:contains(proPageField,'totalBeltline')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalBeltline','mat_pro_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
 														   <span class="input-tip">不能为空，且为数字</span>
 														   <div class="cue"> ${line } </div>
+														   <div class="cue"><sf:errors path="supplierMatPro.totalBeltline"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产设备数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.totalDevice" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" <c:if test="${fn:contains(proPageField,'totalDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalDevice','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.totalDevice" required onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalDevice}" <c:if test="${fn:contains(proPageField,'totalDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalDevice','mat_pro_page')"</c:if>/>
 													  	   <span class="add-on cur_point">i</span>
 													  	   <span class="input-tip">不能为空，且为数字</span>
 													  	   <div class="cue"> ${device } </div>
+													  	   <div class="cue"><sf:errors path="supplierMatPro.totalDevice"/></div>
 													</div>
 												</li>
 										 
@@ -919,35 +938,39 @@
 										 
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量检测部门：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcName" value="${currSupplier.supplierMatPro.qcName}" <c:if test="${fn:contains(proPageField,'qcName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcName','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.qcName" required maxlength="20" value="${currSupplier.supplierMatPro.qcName}" <c:if test="${fn:contains(proPageField,'qcName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcName','mat_pro_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空</span>
 													     <div class="cue"> ${qcName } </div>
+													     <div class="cue"><sf:errors path="supplierMatPro.qcName"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量部门人数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-													 	<input type="text" name="supplierMatPro.totalQc" onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalQc}" <c:if test="${fn:contains(proPageField,'totalQc')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalQc','mat_pro_page')"</c:if>/>
+													 	<input type="text" name="supplierMatPro.totalQc" required onkeyup="checknums(this)" value="${currSupplier.supplierMatPro.totalQc}" <c:if test="${fn:contains(proPageField,'totalQc')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalQc','mat_pro_page')"</c:if>/>
 													  <span class="add-on cur_point">i</span>
 													  <span class="input-tip">不能为空，且为数字</span>
 													  <div class="cue"> ${tQc } </div>
+													  <div class="cue"><sf:errors path="supplierMatPro.totalQc"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质监部门负责人：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcLead" value="${currSupplier.supplierMatPro.qcLead}" <c:if test="${fn:contains(proPageField,'qcLead')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcLead','mat_pro_page')"</c:if>/>
+														<input type="text" name="supplierMatPro.qcLead" required maxlength="20" value="${currSupplier.supplierMatPro.qcLead}" <c:if test="${fn:contains(proPageField,'qcLead')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcLead','mat_pro_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
 														 <span class="input-tip">不能为空</span>
 														 	 <div class="cue"> ${tqcLead } </div>
+														 	  <div class="cue"><sf:errors path="supplierMatPro.qcLead"/></div>
 													</div>
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 质量检测设备名称：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.qcDevice" value="${currSupplier.supplierMatPro.qcDevice}" <c:if test="${fn:contains(proPageField,'qcDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcDevice','mat_pro_page')"</c:if> />
+														<input type="text" name="supplierMatPro.qcDevice" required maxlength="20" value="${currSupplier.supplierMatPro.qcDevice}" <c:if test="${fn:contains(proPageField,'qcDevice')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('qcDevice','mat_pro_page')"</c:if> />
 												     <span class="add-on cur_point">i</span>
 												     <span class="input-tip">不能为空</span>
-												     	 <div class="cue"> ${tqcDevice } </div>
+												     	  <div class="cue"> ${tqcDevice } </div>
+												     	  <div class="cue"><sf:errors path="supplierMatPro.qcDevice"/></div>
 													</div>
 												
 												</li>
@@ -983,16 +1006,17 @@
 														<tr>
 															<td class="tc">
 															<input type="checkbox" class="border0" value="${certPro.id}" />
-															<input type="hidden" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}" class="mt5 border0">
+															<input type="hidden" required="required" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}" class="mt5 border0">
+															<div class="cue"><sf:errors path="supplierMatPro.listSupplierCertPros[${certProNumber}].id"/></div>
 															</td>
-															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}" class="border0"/> </td>
-															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" class="border0"/> </td>
-															<td class="tc"><input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}" class="border0"/></td>
+															<td class="tc"><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}" class="border0"/> </td>
+															<td class="tc"><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" class="border0"/> </td>
+															<td class="tc"><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}" class="border0"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
+															<input type="text" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 															<td class="tc">
-																<input type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
+																<input type="text" required="required" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 															<td class="tc">
 															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p border0">
@@ -1028,46 +1052,51 @@
 	 			 						     <legend> 组织机构和人员信息  </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.orgName" value="${currSupplier.supplierMatSell.orgName}" <c:if test="${fn:contains(sellPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_sell_page')"</c:if>/>
+														<input type="text" name="supplierMatSell.orgName" required maxlength="20" value="${currSupplier.supplierMatSell.orgName}" <c:if test="${fn:contains(sellPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_sell_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
 														 <span class="input-tip">不能为空</span>
 														 <div class="cue"> ${sale_org } </div>
+														 <div class="cue"><sf:errors path="supplierMatSell.orgName"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" <c:if test="${fn:contains(sellPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_sell_page')"</c:if>/>
+														<input type="text" name="supplierMatSell.totalPerson" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalPerson}" <c:if test="${fn:contains(sellPageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_sell_page')"</c:if>/>
 														 <span class="add-on cur_point">i</span>
 														 <span class="input-tip">不能为空，且为数字</span>
 														 	<div class="cue"> ${sale_person } </div>
+														 	<div class="cue"><sf:errors path="supplierMatSell.totalPerson"/></div>
 													</div>
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" <c:if test="${fn:contains(sellPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_sell_page')"</c:if>/>
+														<input type="text" name="supplierMatSell.totalMange" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalMange}" <c:if test="${fn:contains(sellPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_sell_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${sale_mange } </div>
+													    <div class="cue"><sf:errors path="supplierMatSell.totalMange"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalTech" onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" <c:if test="${fn:contains(sellPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_sell_page')"</c:if>/>
+														<input type="text" name="supplierMatSell.totalTech" required onkeyup="checknums(this)"  value="${currSupplier.supplierMatSell.totalTech}" <c:if test="${fn:contains(sellPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_sell_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
 														   <span class="input-tip">不能为空，且为数字</span>
 														   	<div class="cue"> ${sale_tech } </div>
+														   	<div class="cue"><sf:errors path="supplierMatSell.totalTech"/></div>
 													</div>
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人（职员）数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSell.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" <c:if test="${fn:contains(sellPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_sell_page')"</c:if>/>
+														<input type="text" name="supplierMatSell.totalWorker" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSell.totalWorker}" <c:if test="${fn:contains(sellPageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_sell_page')"</c:if>/>
 														   <span class="add-on cur_point">i</span>
 														   <span class="input-tip">不能为空，且为数字</span>
 														   <div class="cue"> ${sale_work } </div>
+														   <div class="cue"><sf:errors path="supplierMatSell.totalTech"/></div>
 													</div>
 													
 												</li>
@@ -1104,16 +1133,16 @@
 														<tr>
 															<td class="tc">
 															<input type="checkbox" value="${certSell.id}" class="border0"/>
-															<input type="hidden" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}" class="border0">
+															<input type="hidden" required="required" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}" class="border0">
 															</td>
-															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}" class="border0"/></td>
-															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}" class="border0"/></td>
-															<td class="tc"><input type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}" class="border0"/></td>
+															<td class="tc"><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}" class="border0"/></td>
+															<td class="tc"><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}" class="border0"/></td>
+															<td class="tc"><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}" class="border0"/></td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
+															<input type="text" readonly="readonly" required="required" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 															<td class="tc">
-															<input type="text" readonly="readonly" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
+															<input type="text" readonly="readonly" required="required" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
 														    <td class="tc">
 															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p border0">
@@ -1153,45 +1182,50 @@
 										    <ul class="list-unstyled overflow_h">
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.orgName" value="${currSupplier.supplierMatEng.orgName}" <c:if test="${fn:contains(engPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_eng_page')"</c:if>/>
+														<input type="text" name="supplierMatEng.orgName" required maxlength="20" value="${currSupplier.supplierMatEng.orgName}" <c:if test="${fn:contains(engPageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空</span>
 													    <div class="cue"> ${eng_org } </div>
+													    <div class="cue"><sf:errors path="supplierMatEng.orgName"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术负责人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" <c:if test="${fn:contains(engPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_eng_page')"</c:if>/>
+														<input type="text" name="supplierMatEng.totalTech" required onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTech}" <c:if test="${fn:contains(engPageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${eng_tech } </div>
+													     <div class="cue"><sf:errors path="supplierMatEng.totalTech"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 中级以上职称人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalGlNormal" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" <c:if test="${fn:contains(engPageField,'totalGlNormal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalGlNormal','mat_eng_page')"</c:if>/>
+														<input type="text" name="supplierMatEng.totalGlNormal" required onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalGlNormal}" <c:if test="${fn:contains(engPageField,'totalGlNormal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalGlNormal','mat_eng_page')"</c:if>/>
 												        <span class="add-on cur_point">i</span>
 												        <span class="input-tip">不能为空，且为数字</span>
 												        <div class="cue"> ${eng_normal } </div>
+												        <div class="cue"><sf:errors path="supplierMatEng.totalTech"/></div>
 													</div>
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 现场管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalMange" onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" <c:if test="${fn:contains(engPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_eng_page')"</c:if>/>
+														<input type="text" name="supplierMatEng.totalMange" required onkeyup="checknums(this)"  value="${currSupplier.supplierMatEng.totalMange}" <c:if test="${fn:contains(engPageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${eng_manage } </div>
+													    <div class="cue"><sf:errors path="supplierMatEng.totalMange"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术和工人数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatEng.totalTechWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" <c:if test="${fn:contains(engPageField,'totalTechWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTechWorker','mat_eng_page')"</c:if>/>
+														<input type="text" name="supplierMatEng.totalTechWorker" required onkeyup="checknums(this)" value="${currSupplier.supplierMatEng.totalTechWorker}" <c:if test="${fn:contains(engPageField,'totalTechWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTechWorker','mat_eng_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${eng_worker } </div>
+													    <div class="cue"><sf:errors path="supplierMatEng.totalTechWorker"/></div>
 													</div>
 												
 												</li>
@@ -1221,10 +1255,10 @@
 														<tr>
 															<td class="tc">
 															<input type="checkbox" class="border0" value="${regPerson.id}" />
-															<input type="hidden" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].id" value="${regPerson.id}">
+															<input type="hidden" required="required" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].id" value="${regPerson.id}">
 															</td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
 														</tr>
 														<c:set var="certPersonNumber" value="${certPersonNumber + 1}"/>
 													</c:forEach>
@@ -1271,18 +1305,18 @@
 															<input type="checkbox" class="border0" value="${certEng.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id" value="${certEng.id}">
 															</td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
-															<td class="tc"><input class="w120 border0" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
+															<td class="tc"><input class="w120 border0" required="required" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
 															<td class="tc">
 															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p border0">
 														          <option value="1" <c:if test="${certEng.certStatus==1}"> selected="selected"</c:if> >有效</option>
@@ -1341,29 +1375,29 @@
 															<input type="checkbox" class="border0" value="${aptitute.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${aptitute.id}">
 															</td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
 															<td class="tc">
 															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p border0">
 														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 														          <option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
-															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
 															<td class="tc">
 															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p border0">
 														          <option value="1" <c:if test="${aptitute.aptituteStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
+															<td class="tc"><input type="text" class="border0" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" class="border0" required="required" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200">
 															<div class="w200">
 															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
@@ -1393,46 +1427,51 @@
 											 	  <legend> 法人代表信息 </legend>
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 组织机构：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.orgName" value="${currSupplier.supplierMatSe.orgName}" <c:if test="${fn:contains(servePageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_serve_page')"</c:if>/>
+														<input type="text" name="supplierMatSe.orgName" required maxlength="20" value="${currSupplier.supplierMatSe.orgName}" <c:if test="${fn:contains(servePageField,'orgName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('orgName','mat_serve_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
 													   <span class="input-tip">不能为空</span>
 													     <div class="cue"> ${fw_org } </div>
+													     <div class="cue"><sf:errors path="supplierMatSe.orgName"/></div>
 													</div>
 												  
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 人员总数：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalPerson" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" <c:if test="${fn:contains(servePageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_serve_page')"</c:if>/>
+														<input type="text" name="supplierMatSe.totalPerson" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalPerson}" <c:if test="${fn:contains(servePageField,'totalPerson')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalPerson','mat_serve_page')"</c:if>/>
 													     <span class="add-on cur_point">i</span>
 													     <span class="input-tip">不能为空，且为数字</span>
 													     <div class="cue"> ${fw_person } </div>
+													     <div class="cue"><sf:errors path="supplierMatSe.totalPerson"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 管理人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalMange" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" <c:if test="${fn:contains(servePageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_serve_page')"</c:if>/>
+														<input type="text" name="supplierMatSe.totalMange" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalMange}" <c:if test="${fn:contains(servePageField,'totalMange')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalMange','mat_serve_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    <div class="cue"> ${fw_mange } </div>
+													    <div class="cue"><sf:errors path="supplierMatSe.totalMange"/></div>
 													</div>
 													
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 技术人员数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalTech" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" <c:if test="${fn:contains(servePageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_serve_page')"</c:if>/>
+														<input type="text" name="supplierMatSe.totalTech" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalTech}" <c:if test="${fn:contains(servePageField,'totalTech')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalTech','mat_serve_page')"</c:if>/>
 													     <span class="add-on cur_point">i</span>
 													     <span class="input-tip">不能为空，且为数字</span>
 													     	<div class="cue"> ${fw_tech } </div>
+													     	<div class="cue"><sf:errors path="supplierMatSe.totalTech"/></div>
 													</div>
 												
 												</li>
 												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人（职员）数量：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatSe.totalWorker" onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" <c:if test="${fn:contains(servePageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_serve_page')"</c:if>/>
+														<input type="text" name="supplierMatSe.totalWorker" required onkeyup="checknums(this)" value="${currSupplier.supplierMatSe.totalWorker}" <c:if test="${fn:contains(servePageField,'totalWorker')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('totalWorker','mat_serve_page')"</c:if>/>
 													    <span class="add-on cur_point">i</span>
 													    <span class="input-tip">不能为空，且为数字</span>
 													    	<div class="cue"> ${fw_work } </div>
+													    		<div class="cue"><sf:errors path="required"/></div>
 													</div>
 												
 												</li>
@@ -1468,13 +1507,13 @@
 														<tr>
 															<td class="tc">
 															<input type="checkbox" class="border0" value="${certSe.id}" />
-															<input type="hidden" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id" value="${certSe.id}">
+															<input type="hidden" required="required" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id" value="${certSe.id}">
 															</td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
-															<td class="tc"><input type="text" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc">
 																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p border0">
 																	<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
