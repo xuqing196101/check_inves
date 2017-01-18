@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/reg_head.jsp"%>
+<title>评审专家注册</title>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 <%

@@ -163,7 +163,7 @@ function checkAll(ele, id) {
 			$("input[name='flag']").val(obj);
 			$("#basic_info_form_id").submit();
 		} else {
-			layer.msg(msg);
+			layer.msg(msg, {offset: '300px'});
 		}
 	}
 	
@@ -176,10 +176,10 @@ function checkAll(ele, id) {
 			contextType: "application/x-www-form-urlencoded",
 			success:function(msg){
 				if (msg == 'ok'){
-					layer.msg('暂存成功');
+					layer.msg('暂存成功', {offset: '300px'});
 				}
 				if (msg == 'failed'){
-					layer.msg('暂存失败');
+					layer.msg('暂存失败', {offset: '300px'});
 				}
 			}
 		});
@@ -474,7 +474,7 @@ function deleteFinance() {
 			btmCount++;
 		});
 		if (btmCount == 2) {
-			layer.msg("生产经营地址必须至少保留一个!");
+			layer.msg("生产经营地址必须至少保留一个!", {offset: '300px'});
 		} else {
 			var id = $(obj).next().val();
 		 	var tag=$(obj).parent().parent();
@@ -487,10 +487,10 @@ function deleteFinance() {
 				url: "${pageContext.request.contextPath}/supplier/delAddress.do",
 				data: {"id" : id },
 				success: function(){
-					layer.msg("删除成功!");
+					layer.msg("删除成功!", {offset: '300px'});
 				},
 				error: function(){
-					layer.msg("删除失败!");
+					layer.msg("删除失败!", {offset: '300px'});
 				}
 			});
 		}
@@ -549,7 +549,7 @@ function deleteFinance() {
 			btmCount++;
 		});
 		if (btmCount == 2) {
-			layer.msg("境外分支信息必须至少保留一个!");
+			layer.msg("境外分支信息必须至少保留一个!", {offset: '300px'});
 		} else {
 			var li=$(obj).parent().parent().next();
 			var pre=$(obj).parent().parent().prev();
@@ -570,7 +570,7 @@ function deleteFinance() {
 			dataType: "json",
 			success: function(data){
 			/* alert(data.suggest); */
-			layer.msg(data.suggest , {offset: '200px'});
+			layer.msg(data.suggest , {offset: '300px'});
 			}
 		});
 	}

@@ -79,46 +79,45 @@
 	//加载对应的节点数据
 	function loadZtree(code, kind, status) {
 		var setting = {
- 	    async : {
-			autoParam: ["id","code"],
-			enable : true,
-			url : "${pageContext.request.contextPath}/supplier/category_type.do",
-			otherParam : {
-				"code":code,
-				"supplierId": "${currSupplier.id}",
-				"status" : status
-			},
-			dataType : "json",
-			type : "post",
-		}, 
-		check : {
-			enable : true,
-			chkStyle:"checkbox",  
-			chkboxType:{"Y" : "ps", "N" : "ps"},//勾选checkbox对于父子节点的关联关系  
-		},
-		data : {
-			simpleData : {
+ 	    	async : {
+				autoParam: ["id","code"],
 				enable : true,
-				idKey: "id",
-				pIdKey: "parentId",
+				url : "${pageContext.request.contextPath}/supplier/category_type.do",
+				otherParam : {
+					"code":code,
+					"supplierId": "${currSupplier.id}",
+					"status" : status
+				},
+				dataType : "json",
+				type : "post",
+			}, 
+			check : {
+				enable : true,
+				chkStyle:"checkbox",  
+				chkboxType:{"Y" : "ps", "N" : "ps"},
+			},
+			data : {
+				simpleData : {
+					enable : true,
+					idKey: "id",
+					pIdKey: "parentId",
+				}
+			},
+			callback: {
+				onCheck: saveCategory, // 实时保存/删除产品
+				showLine: true
+			},
+			view: {
+				showLine: true
 			}
-		},
-		callback: {
-			onCheck: saveCategory,
-			showLine: true
-		},
-		
-		view: {
-			showLine: true
-		}
-		 	
-	 };
-	 $.fn.zTree.init($("#" + kind), setting, zNodes);
-	 var supplierId="${currSupplier.id}";
-	 
-	var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
-	$("#tbody_category").load(path);
-}
+	 	};
+		$.fn.zTree.init($("#" + kind), setting, zNodes);
+	 	
+		// 加载已选品目列表
+		var supplierId="${currSupplier.id}";
+		var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
+		$("#tbody_category").load(path);
+	}
 	
 	//加载tab页签
 	function loadTab(code,kind, status){

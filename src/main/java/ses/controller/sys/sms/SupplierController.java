@@ -2221,7 +2221,7 @@ import common.service.UploadService;
        model.addAttribute("certProNumber", number);
        model.addAttribute("id", WfUtil.createUUID());
        //初始化供应商注册附件类型
-       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierProCert());
        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_product_cert");
    }
@@ -2240,7 +2240,7 @@ import common.service.UploadService;
        model.addAttribute("certSaleNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
        //初始化供应商注册附件类型
-       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierSellCert());
        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_sale_cert");
    }
@@ -2259,7 +2259,7 @@ import common.service.UploadService;
        model.addAttribute("certEngNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
        //初始化供应商注册附件类型
-       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_eng_cert");
    }
@@ -2278,7 +2278,7 @@ import common.service.UploadService;
        model.addAttribute("certAptNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
        //初始化供应商注册附件类型
-       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCertFile());
        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_apt_cert");
    }
@@ -2297,7 +2297,7 @@ import common.service.UploadService;
        model.addAttribute("certSeNumber", number);
        model.addAttribute("id", UUID.randomUUID().toString().toUpperCase().replaceAll("-", ""));
        //初始化供应商注册附件类型
-       model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+       model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierServeCert());
        model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
        return new ModelAndView("ses/sms/supplier_register/add_se_cert");
    }

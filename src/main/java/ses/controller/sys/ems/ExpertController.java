@@ -1076,8 +1076,7 @@ public class ExpertController extends BaseController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("id", expert.getPurchaseDepId());
         map.put("typeName", "1");
-        List<PurchaseDep> depList = purchaseOrgnizationService
-                .findPurchaseDepList(map);
+        List<PurchaseDep> depList = purchaseOrgnizationService.findPurchaseDepList(map);
         if (depList != null && depList.size() > 0) {
             PurchaseDep purchaseDep = depList.get(0);
             model.addAttribute("purchase", purchaseDep);
