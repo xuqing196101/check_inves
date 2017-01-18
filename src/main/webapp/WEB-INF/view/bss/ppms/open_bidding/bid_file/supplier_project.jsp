@@ -41,6 +41,15 @@
 		}
 		var jsonStr = [];
 		function updateSaleTender() {
+			var allTable = document.getElementsByTagName("table");
+			for(var j = 1; j < allTable[0].rows.length; j++) {
+				var isTurnUp = $(allTable[0].rows).eq(j).find("td:last").find("select").find("option:checked").text();
+				var supplierId = $(allTable[0].rows).eq(j).find("td:last").find("select").val();
+				if (isTurnUp == '请选择') {
+					layer.msg("必须选择是否到场",{offset: ['25%', '25%']});
+					return;
+				}
+			}
 			layer.confirm('提交后不可变更?', {title: '提示',offset: ['30%', '30%'],shade: 0.01
 				}, function(index) {
 					layer.close(index);
@@ -48,15 +57,16 @@
 					for(var j = 1; j < allTable[0].rows.length; j++) {
 						var isTurnUp = $(allTable[0].rows).eq(j).find("td:last").find("select").find("option:checked").text();
 						var supplierId = $(allTable[0].rows).eq(j).find("td:last").find("select").val();
-						//alert(isTurnUp + "-" + supplierId);
 						if (isTurnUp == '未到场') {
 							isTurnUp = 1;
+						} else if (isTurnUp == '请选择') {
+							isTurnUp = 2;
 						} else {
 							isTurnUp = 0;
 						}
 						var json = {"supplierId" : supplierId, "isTurnUp" : isTurnUp};
 						jsonStr.push(json);
-						console.log(jsonStr);
+						//console.log(jsonStr);
 					}
 					 var projectId = $("#projectId").val();
 					$.ajax({
@@ -68,11 +78,8 @@
 				        	window.location.reload();
 				        },
 		    		  });
-		   			
-		   			//window.location.herf = "${pageContext.request.contextPath}/open_bidding/selectSupplierByProject.html?project=" + projectId;
 				});
 		}
-		
 		</script>
 	</head>
 
@@ -120,6 +127,7 @@
 							<td class="tc">
 								<c:if test="${empty list.isturnUp}">
 									<select>
+										<option value="">请选择</option>
 										<option value="${list.id}">已到场</option>
 										<option value="${list.id}">未到场</option>
 									</select>

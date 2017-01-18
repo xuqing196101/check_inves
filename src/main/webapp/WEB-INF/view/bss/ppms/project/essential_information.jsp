@@ -436,7 +436,7 @@
             <table class="table table-bordered table-condensed mt5">
               <c:forEach items="${packageList }" var="pack" varStatus="p">
                 <div class="col-md-6 col-sm-6 col-xs-12 p0">
-                  <span class="f16 b">包名:</span>
+                  <span class="f16 b">包名：</span>
                   <span class="f14 blue">${pack.name }</span>
                 </div>
                 <input type="hidden" value="${pack.id }" />
@@ -444,37 +444,37 @@
                   <thead>
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info">物资名称</th>
-                      <th class="info">规格型号</th>
-                      <th class="info">质量技术标准</th>
-                      <th class="info">计量单位</th>
-                      <th class="info">采购数量</th>
-                      <th class="info">交货期限</th>
-                      <th class="info">供应商名称</th>
+                      <th class="info" width="15%">物资名称</th>
+                      <th class="info" width="10%">规格型号</th>
+                      <th class="info" width="10%">质量技术标准</th>
+                      <th class="info" width="">计量<br>单位</th>
+                      <th class="info" width="">采购<br>数量</th>
+                      <th class="info" width="8%">交货期限</th>
+                      <th class="info" width="15%">供应商名称</th>
                       <c:if test="${pack.isImport==1 }">
-                        <th class="info">是否申请办理免税</th>
-                        <th class="info">物资用途（进口）</th>
-                        <th class="info">使用单位（进口）</th>
+                        <th class="info">是否申请<br>办理免税</th>
+                        <th class="info" width="8%" >物资用途<br>（进口）</th>
+                        <th class="info" width="8%" >使用单位<br>（进口）</th>
                       </c:if>
-                      <th class="info">备注</th>
+                      <th class="info" width="10%">备注</th>
                     </tr>
                   </thead>
                   <c:forEach items="${pack.projectDetails}" var="obj" varStatus="vs">
                     <tr>
                       <td class="tc w50">${vs.index+1}</td>
-                      <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
-                      <td class="tc">${obj.stand}</td>
-                      <td class="tc">${obj.qualitStand}</td>
+                      <td class="tl"  width="15%"><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
+                      <td class="tl"  width="10%">${obj.stand}</td>
+                      <td class="tl"  width="10%">${obj.qualitStand}</td>
                       <td class="tc">${obj.item}</td>
                       <td class="tc">${obj.purchaseCount}</td>
-                      <td class="tc">${obj.deliverDate}</td>
-                      <td class="tc">${obj.supplier}</td>
+                      <td class="tl" width="8%">${obj.deliverDate}</td>
+                      <td class="tl" width="15%">${obj.supplier}</td>
                       <c:if test="${pack.isImport==1 }">
                         <td class="tc">${obj.isFreeTax}</td>
-                        <td class="tc">${obj.goodsUse}</td>
-                        <td class="tc">${obj.useUnit}</td>
+                        <td class="tl"  width="8%">${obj.goodsUse}</td>
+                        <td class="tl"  width="8%">${obj.useUnit}</td>
                       </c:if>
-                      <td class="tc">${obj.memo}</td>
+                      <td class="tl"  width="10%">${obj.memo}</td>
                     </tr>
                   </c:forEach>
                 </table>

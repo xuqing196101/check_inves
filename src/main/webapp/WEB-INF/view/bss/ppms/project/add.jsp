@@ -316,11 +316,11 @@
   
             <div id="hide_detail">
               <c:if test="${lists != null}">
-              <div id="remove" class="col-md-12 mb5 p0 mt10">
+              <div id="remove" class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
               <div class="content" id="content">
-                <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
+                <table id="table" class="table table-bordered table-condensed">
                   <thead>
                     <tr class="space_nowrap">
                       <th>操作</th>
@@ -348,43 +348,46 @@
                       <td class="tc w50"> ${obj.serialNumber}
                       <input type="hidden" value="${obj.requiredId }">
                       </td>
-                      <td class="tl pl20">
-						            ${obj.department}
+                      <td class="tl">
+                        <div class="w260">
+						   ${obj.department}
+						</div>
                       </td>
-                      <td class="tl pl20">${obj.goodsName}
+                      <td class="tl">
+                         <div class="w200">${obj.goodsName}</div>
                       </td>
-                      <td class="tl pl20">${obj.stand}
+                      <td class="tl"> <div class="w200">${obj.stand}</div>
                       </td>
-                      <td class="tl pl20">${obj.qualitStand}
+                      <td class="tl"><div class="w140">${obj.qualitStand}</div>
                       </td>
-                      <td class="tc">${obj.item}
+                      <td class="tc"><div class="w50">${obj.item}</div>
                       </td>
-                      <td class="tc">${obj.purchaseCount}
+                      <td class="tc"><div class="w50">${obj.purchaseCount}</div>
                       </td>
-                      <td class="tl pl20">${obj.deliverDate}
+                      <td class="tl"><div class="w150">${obj.deliverDate}</div>
                       </td>
                       <td class="tc">
-                        <c:choose>
+                       <div class="w100">
+                         <c:choose>
                             <c:when test="${obj.detailStatus==0 }">
-
                             </c:when>
                             <c:otherwise>
                               <c:forEach items="${kind}" var="kind">
-			                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-			                        </c:forEach>
-                        </c:otherwise>
-                        </c:choose>
-                        
+			                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                  </c:forEach>
+                            </c:otherwise>
+                         </c:choose>
+                        </div>
                       </td>
-                      <td class="tl pl20">${obj.supplier}
+                      <td class="tl"><div class="w260">${obj.supplier}</div>
                       </td>
-                      <td class="tl pl20">${obj.isFreeTax}
+                      <td class="tc"><div class="w80">${obj.isFreeTax}</div>
                       </td>
-                      <td class="tl pl20">${obj.goodsUse}
+                      <td class="tl"><div class="w260">${obj.goodsUse}</div>
                       </td>
-                      <td class="tl pl20">${obj.useUnit}
+                      <td class="tl"><div class="w100">${obj.useUnit}</div>
                       </td>
-                      <td class="tl pl20">${obj.memo}
+                      <td class="tl"><div class="w100">${obj.memo}</div>
                       </td>
                     </tr>
                   </c:forEach>

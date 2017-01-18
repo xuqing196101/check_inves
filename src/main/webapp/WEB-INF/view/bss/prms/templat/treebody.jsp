@@ -19,6 +19,7 @@
 	}
 
 	function judge(index) {
+		gernerator();
 		if (index == 0) {
 			var trArr = new Array();
 			trArr = $("tr");
@@ -371,17 +372,29 @@
 		var minScore = $("#minScore").val();
 		var relation = $("#relation").val();
 		var unitScore = $("#unitScore").val();
+		var isHave = $("#isHave").val();
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
+		if (isHave == "1") {
+			if(addSubtractTypeName=="0"){
+				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ minScore + "分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
+				$("#easyUnderstandContent3").text(str);
+				return;
+			} else {
+				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ maxScore + "分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
+				$("#easyUnderstandContent3").text(str);
+				return;
+			}
+		}
 		if(addSubtractTypeName=="0"){
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最低分" + minScore +"分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
 			} else {
 				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最低分依次递增" + unitScore + "分,最低分为" + minScore + "分";
 			}
 			$("#easyUnderstandContent3").text(str);
 		}else{
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
 			} else {
 				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + minScore + "分";
@@ -400,20 +413,32 @@
 		var unitScore = $("#unitScore").val();
 		var type ="";
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
+		var isHave = $("#isHave").val();
+		if (isHave == "1") {
+			if(addSubtractTypeName=="0"){
+				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ minScore + "分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
+				$("#easyUnderstandContent4").text(str);
+				return;
+			} else {
+				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ maxScore + "分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
+				$("#easyUnderstandContent4").text(str);
+				return;
+			}
+		}
 		if(addSubtractTypeName=="0"){
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最低分依次递增" + unitScore + "分,最低分为" + minScore + "分";
 			} else {
 				var str = "加分实例:以"+reviewParam+"最低值为基准排序递增，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
 			}
-			$("#easyUnderstandContent3").text(str);
+			$("#easyUnderstandContent4").text(str);
 		}else{
-			if (ralationi == "0") {
+			if (relation == "0") {
 				var str = "减分实例:以"+reviewParam+"最低值为基准排序递增，大于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + maxScore + "分";
 			} else {
 				var str = "减分实例:以"+reviewParam+"最低值为基准排序递增，小于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余从最高分依次递减" + unitScore + "分,最低分为" + minScore + "分";
 			}
-			$("#easyUnderstandContent3").text(str);
+			$("#easyUnderstandContent4").text(str);
 		}
 	}
 	function gerneratorFive(){
