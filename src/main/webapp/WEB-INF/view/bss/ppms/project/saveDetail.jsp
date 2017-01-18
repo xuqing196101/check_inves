@@ -91,13 +91,13 @@
   </div>
   
   <!-- 录入采购计划开始-->
-  <div class="container">
+  <div class="container" id="container">
     <!-- 项目戳开始 -->
     <div class="col-md-12 pl20 mt10">
       <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
       <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
     </div>
-    <div class="content table_box">
+    <div class="content table_box" id="content">
       <table id="table" class="table table-bordered table-condensed table-hover">
         <thead>
           <tr>
@@ -124,31 +124,33 @@
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <c:if test="${lists.organization eq orgId }">
             <tr style="cursor: pointer;">
-              <td class="tc w50">${obj.seq}</td>
-              <td class="tc">${obj.department}</td>
-              <td class="tc">${obj.goodsName}</td>
-              <td class="tc">${obj.stand}</td>
-              <td class="tc">${obj.qualitStand}</td>
-              <td class="tc">${obj.item}</td>
-              <td class="tc">${obj.purchaseCount}</td>
-              <td class="tc">
-                ${obj.price}
+              <td class="tc w50"><div class="w50">${obj.seq}</div></td>
+              <td class=""><div class="w260">${obj.department}</div></td>
+              <td class=""><div class="w200">${obj.goodsName}</div></td>
+              <td class=""><div class="w200">${obj.stand}</div></td>
+              <td class=""><div class="w140">${obj.qualitStand}</div></td>
+              <td class="tc"><div class="w50">${obj.item}</div></td>
+              <td class="tc"><div class="w50">${obj.purchaseCount}</div></td>
+              <td class="tr">
+                <div class="w80">${obj.price}</div>
               </td>
-              <td class="tc">${obj.budget}</td>
-              <td class="tc">${obj.deliverDate}</td>
+              <td class="tr"><div class="w80">${obj.budget}</div></td>
+              <td class=""><div class="w150">${obj.deliverDate}</div></td>
               <td class="tc">
+              <div class="w100">
                 <c:forEach items="${kind}" var="kind" >
                   <c:if test="${kind.id == obj.purchaseType}">
                     <input type="hidden" name="ttype" value="${kind.id }">
                     ${kind.name}
                   </c:if>
                 </c:forEach>
+               </div>
               </td>
-              <td class="tc">${obj.supplier}</td>
-              <td class="tc">${obj.isFreeTax}</td>
-              <td class="tc">${obj.goodsUse}</td>
-              <td class="tc">${obj.useUnit}</td>
-              <td class="tc">${obj.memo}</td>
+              <td class=""><div class="w260">${obj.supplier}</div></td>
+              <td class=""><div class="w80">${obj.isFreeTax}</div></td>
+              <td class="tc"><div class="w260">${obj.goodsUse}</div></td>
+              <td class="tc"><div class="w260">${obj.useUnit}</div></td>
+              <td class="tc"><div class="w260">${obj.memo}</div></td>
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this);"  alt=""></td>
             </tr>
             </c:if>

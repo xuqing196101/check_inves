@@ -61,54 +61,82 @@
               </table>
               <h2 class="count_flow jbxx">需求明细查看</h2>
               <div class="content" id="content">
-                <table id="table" class="table table-bordered table-condensed table-hover table-striped table_wrap">
+                <table id="table" class="table table-bordered table-condensed">
                   <thead>
                     <tr class="space_nowrap">
                       <th class="info w50">序号</th>
-                      <th class="info">需求部门</th>
-                      <th class="info">物资类别及<br/>物资名称</th>
-                      <th class="info">规格型号</th>
-                      <th class="info">质量技术标准<br/>(技术参数)</th>
-                      <th class="info">计量<br/>单位</th>
-                      <th class="info">采购<br/>数量</th>
-                      <th class="info">交货期限</th>
-                      <th class="info">采购方式</th>
-                      <th class="info">采购机构</th>
-                      <th class="info">供应商名称</th>
-                      <th class="info">是否申请<br/>办理免税</th>
-                      <th class="info">物资用途<br/>（进口）</th>
-                      <th class="info">使用单位<br/>（进口）</th>
-                      <th class="info">备注</th>
+                      <th class="info w260">需求部门</th>
+                      <th class="info w200">物资类别及<br/>物资名称</th>
+                      <th class="info w200">规格型号</th>
+                      <th class="info w140">质量技术标准</th>
+                      <th class="info w50">计量<br>单位</th>
+                      <th class="info w50">采购<br>数量</th>
+                      <th class="info w150">交货期限</th>
+                      <th class="info w100">采购方式</th>
+                      <th class="info w200">采购机构</th>
+                      <th class="info w260">供应商名称</th>
+                      <th class="info w80">是否申请<br>办理免税</th>
+                      <th class="info w260">物资用途<br>（进口）</th>
+                      <th class="info w260">使用单位<br>（进口）</th>
+                      <th class="info w260">备注</th>
                     </tr>
                   </thead>
                   <c:if test="${lists != null}">
                     <c:forEach items="${lists}" var="obj" varStatus="vs">
                       <tr class="pointer">
                         <td class="tc w50">${obj.seq}</td>
-                        <td class="tl pl20">
-                          ${obj.department}
+                        <td class="tl">
+                         <div class="w260">
+                           ${obj.department}
+                         </div>
                         </td>
-                        <td class=" tl pl20">${obj.goodsName}</td>
-                        <td class=" tl pl20">${obj.stand}</td>
-                        <td class="tl pl20">${obj.qualitStand}</td>
-                        <td class="tc">${obj.item}</td>
-                        <td class="tc">${obj.purchaseCount}</td>
-                        <td class="tl pl20">${obj.deliverDate}</td>
+                        <td class=" tl">
+                          <div class="w200">${obj.goodsName}</div>
+                        </td>
+                        <td class=" tl">
+                          <div class="w200">${obj.stand}</div>
+                        </td>
+                        <td class="tl">
+                          <div class="w140">${obj.qualitStand}</div>
+                        </td>
                         <td class="tc">
-                          <c:forEach items="${kind}" var="kind">
-                            <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                          </c:forEach>
+                          <div class="w50">${obj.item}</div>
                         </td>
-                        <td class=" tl pl20">
-                          <c:forEach items="${list2}" var="list">
-                            <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
-                          </c:forEach>
+                        <td class="tc">
+                          <div class="w50">${obj.purchaseCount}</div>
                         </td>
-                        <td class=" tl pl20">${obj.supplier}</td>
-                        <td class="tc">${obj.isFreeTax}</td>
-                        <td class="tl pl20">${obj.goodsUse}</td>
-                        <td class="tl pl20">${obj.useUnit}</td>
-                        <td class="tl pl20">${obj.memo}</td>
+                        <td class="tl">
+                          <div class="w150">${obj.deliverDate}</div》
+                        </td>
+                        <td class="tc">
+                          <div class="w120">
+                            <c:forEach items="${kind}" var="kind">
+                              <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                            </c:forEach>
+                          </div>
+                        </td>
+                        <td class=" tl">
+                           <div class="w200">
+                             <c:forEach items="${list2}" var="list">
+                               <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
+                             </c:forEach>
+                           </div>
+                        </td>
+                        <td class=" tl">
+                           <div class="w260">${obj.supplier}</div>
+                        </td>
+                        <td class="tc">
+                           <div class="w80">${obj.isFreeTax}</div>
+                        </td>
+                        <td class="tl">
+                           <div class="w260">${obj.goodsUse}</div>
+                        </td>
+                        <td class="tl">
+                           <div class="w260">${obj.useUnit}</div>
+                        </td>
+                        <td class="tl">
+                           <div class="w260">${obj.memo}</div>
+                        </td>
                       </tr>
                     </c:forEach>
                   </c:if>
@@ -116,28 +144,42 @@
                     <c:forEach items="${list}" var="obj" varStatus="vs">
                       <tr style="cursor: pointer;">
                         <td class="tc w50">${obj.serialNumber}</td>
-                        <td class="tl pl20">${obj.department}</td>
-                        <td class="tl pl20">${obj.goodsName}</td>
-                        <td class="tl pl20">${obj.stand}</td>
-                        <td class="tl pl20">${obj.qualitStand}</td>
-                        <td class="tc">${obj.item}</td>
-                        <td class="tc">${obj.purchaseCount}</td>
-                        <td class="tl pl20">${obj.deliverDate}</td>
+                        <td class="tl"><div class="w260">${obj.department}</div></td>
+                        <td class="tl"><div class="w200">${obj.goodsName}</div></td>
+                        <td class="tl"><div class="w200">${obj.stand}</div></td>
+                        <td class="tl"><div class="w140">${obj.qualitStand}</div></td>
+                        <td class="tc"><div class="w50">${obj.item}</div></td>
+                        <td class="tc"><div class="w50">${obj.purchaseCount}</div></td>
+                        <td class="tl"><div class="w150">${obj.deliverDate},/</td>
                         <td class="tc">
                               <c:forEach items="${kind}" var="kind">
-                                <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                                <c:if test="${kind.id == obj.purchaseType}">
+                                  <div class="w100 tc">${kind.name}</div>
+                                </c:if>
                               </c:forEach>
                         </td>
-                        <td class=" tl pl20">
+                        <td class="tl">
                           <c:forEach items="${list2}" var="list">
-                            <c:if test="${obj.organization eq list.id}">${list.name}</c:if>
+                            <c:if test="${obj.organization eq list.id}">
+                              <div class="w200">${list.name}</div>
+                            </c:if>
                           </c:forEach>
                         </td>
-                        <td class="tl pl20">${obj.supplier}</td>
-                        <td class="tl pl20">${obj.isFreeTax}</td>
-                        <td class="tl pl20">${obj.goodsUse}</td>
-                        <td class="tl pl20">${obj.useUnit}</td>
-                        <td class="tl pl20">${obj.memo}</td>
+                        <td class="tl">
+                           <div class="w260">${obj.supplier}</div>
+                        </td>
+                        <td class="tc">
+                           <div class="w80">${obj.isFreeTax}</div>
+                        </td>
+                        <td class="tl">
+                           <div class="w260">${obj.goodsUse}</div>
+                        </td>
+                        <td class="tl">
+                           <div class="w260">${obj.useUnit}</div>
+                        </td>
+                        <td class="tl pl20">
+                           <div class="w260">${obj.memo}</div>
+                        </td>
                       </tr>
                     </c:forEach>
                   </c:if>

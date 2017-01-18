@@ -435,7 +435,7 @@
                   <span class="f14 blue">${pack.name }</span>
                 </div>
                 <input type="hidden" value="${pack.id }" />
-                <table id="table" class="table table-bordered table-condensed table-hover table-striped table_wrap">
+                <table class="table table-bordered table-condensed table-hover table-striped table_wrap">
                   <thead>
                     <tr>
                       <th class="info w50">序号</th>
@@ -447,7 +447,7 @@
                       <th class="info" width="10%">交货期限</th>
                       <th class="info" width="15%">供应商名称</th>
                       <c:if test="${pack.isImport==1 }">
-                        <th class="info">是否申请<br>办理免税</th>
+                        <th class="info" width="8%">是否申请<br>办理免税</th>
                         <th class="info" width="8%">物资用途<br>（进口）</th>
                         <th class="info" width="8%">使用单位<br>（进口）</th>
                       </c:if>

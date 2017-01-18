@@ -500,7 +500,7 @@
 
 			<c:if test="${!empty list}">
 				<div class="content" id="content">
-					<table id="table" class="table table-bordered table-condensed table-hover table_wrap">
+					<table id="table" class="table table-bordered table-condensed">
 						<thead>
 							<tr class="space_nowrap">
 								<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
