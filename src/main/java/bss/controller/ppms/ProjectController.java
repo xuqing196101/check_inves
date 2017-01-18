@@ -1638,7 +1638,7 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/verifyType")
     @ResponseBody
-    public Boolean verifyType(String chkItems){
+    public String verifyType(String chkItems){
         Boolean flag = true;
         Set<String> set = new HashSet<>();
         String[] id = chkItems.split(",");
@@ -1656,7 +1656,7 @@ public class ProjectController extends BaseController {
         }else{
             flag = false;
         }
-        return flag;
+        return JSON.toJSONString(flag);
     }
     
     
