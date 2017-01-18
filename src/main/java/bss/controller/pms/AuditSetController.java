@@ -4,7 +4,6 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -22,9 +21,12 @@ import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -39,14 +41,10 @@ import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
 import bss.dao.pms.AuditPersonMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
-import bss.formbean.AuditParamBean;
-import bss.model.pms.AuditParam;
 import bss.model.pms.AuditPerson;
 import bss.model.pms.AuditPersonList;
 import bss.model.pms.CollectPlan;
-import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseDetail;
-import bss.model.pms.PurchaseRequired;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
@@ -830,4 +828,12 @@ public class AuditSetController {
 			}
 			return msg;
 		}
+	 
+	 
+	 @InitBinder  
+	    public void initBinder(WebDataBinder binder) {  
+	        // 设置List的最大长度  
+	        binder.setAutoGrowCollectionLimit(30000); 
+	        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	    } 
 }

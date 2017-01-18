@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.omg.CORBA.ORB;
 
 import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.ProjectDetail;
 
@@ -284,5 +285,25 @@ public interface PurchaseRequiredService {
     * @throws
      */
     Orgnization queryByDepId(String id);
+    /**
+     * 
+    * @Title: updateByUniqueId
+    * @Description: 根据uniqueId
+    * author: Li Xiaoxiao 
+    * @param @param uniqueId     
+    * @return void     
+    * @throws
+     */
+    void updateByUniqueId(String uniqueId);
+    /**
+     * 
+    * @Title: queryAllSupplier
+    * @Description: 查询所有有效供应商
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return List<Supplier>     
+    * @throws
+     */
+    List<Supplier> queryAllSupplier();
     
 }

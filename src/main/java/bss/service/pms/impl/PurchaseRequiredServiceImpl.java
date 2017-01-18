@@ -1,7 +1,6 @@
 package bss.service.pms.impl;
 
 import java.io.IOException;
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -9,20 +8,17 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.apache.ibatis.io.Resources;
 import org.apache.ibatis.session.ExecutorType;
 import org.apache.ibatis.session.SqlSession;
 import org.apache.ibatis.session.SqlSessionFactory;
-import org.apache.ibatis.session.SqlSessionFactoryBuilder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.dao.sms.SupplierMapper;
 import ses.model.oms.Orgnization;
-import ses.model.oms.util.CommonConstant;
+import ses.model.sms.Supplier;
 import ses.util.PropUtil;
-import ses.util.PropertiesUtil;
-import bss.dao.pms.CollectPlanMapper;
 import bss.dao.pms.CollectPurchaseMapper;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.model.pms.PurchaseRequired;
@@ -52,6 +48,9 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
+	
+	@Autowired
+	private SupplierMapper supplierMapper;
 	
 	@Override
 	public void add(PurchaseRequired purcharseRequired) {
@@ -276,6 +275,18 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 	@Override
 	public Orgnization queryByDepId(String id) {
 		return orgnizationMapper.queryById(id);
+	}
+
+	@Override
+	public void updateByUniqueId(String uniqueId) {
+		 purchaseRequiredMapper.uddateByUniqueId(uniqueId);
+		
+	}
+
+	@Override
+	public List<Supplier> queryAllSupplier() {
+		// TODO Auto-generated method stub
+		return supplierMapper.queryAll();
 	}
 	
 

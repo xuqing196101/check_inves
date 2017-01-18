@@ -22,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.apache.commons.io.FileUtils;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -29,6 +30,8 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,10 +44,12 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import bss.controller.base.BaseController;
@@ -94,6 +99,9 @@ public class PurchaseRequiredController extends BaseController{
 	
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+	
+	@Autowired
+	private SupplierService  supplierService;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -238,7 +246,11 @@ public class PurchaseRequiredController extends BaseController{
 	    model.addAttribute("fileId", fileId);
 	    model.addAttribute("typeId", typeId);
 	    model.addAttribute("planNo", randomPlano());
+	    String id = UUID.randomUUID().toString().replaceAll("-", "");
+	    model.addAttribute("id", id);
 	   
+	    List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
+	    model.addAttribute("suppliers", suppliers);
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -560,8 +572,11 @@ public class PurchaseRequiredController extends BaseController{
 		p.setUniqueId(planNo.trim());
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
 		for(PurchaseRequired pr:list){
-			DictionaryData data = DictionaryDataUtil.findById(pr.getPurchaseType());
-			pr.setPurchaseType(data.getName());
+			if(pr.getPurchaseType()!=null){
+				DictionaryData data = DictionaryDataUtil.findById(pr.getPurchaseType());
+				pr.setPurchaseType(data.getName());	
+			}
+			
 		}
 		
 		HSSFWorkbook workbook = new HSSFWorkbook();
@@ -597,12 +612,20 @@ public class PurchaseRequiredController extends BaseController{
 	public void delete(HttpServletRequest request){
 		String planNo = request.getParameter("planNo");
 
-			PurchaseRequired p=new PurchaseRequired();
+		String uniqueId = planNo.trim();
+		if(uniqueId.length()!=0){
+			String[] uniqueIds = uniqueId.split(",");
+			for(String str:uniqueIds){
+				purchaseRequiredService.updateByUniqueId(str);
+			}
+			
+		}
+		/*	PurchaseRequired p=new PurchaseRequired();
 			p.setUniqueId(planNo.trim());
 			List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
 			for(PurchaseRequired pr:list){
 				purchaseRequiredService.delete(pr.getId());
-			}
+			}*/
 	 
 		
 	}
@@ -833,4 +856,12 @@ public class PurchaseRequiredController extends BaseController{
 	
 			return res;
 		}
+		
+		
+	    @InitBinder  
+	    public void initBinder(WebDataBinder binder) {  
+	        // 设置List的最大长度  
+	        binder.setAutoGrowCollectionLimit(30000); 
+	        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	    } 
 }

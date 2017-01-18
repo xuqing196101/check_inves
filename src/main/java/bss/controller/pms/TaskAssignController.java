@@ -11,8 +11,11 @@ import java.util.UUID;
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.model.bms.User;
@@ -207,22 +210,15 @@ public class TaskAssignController extends BaseController{
 	    return sb.toString();     
 	 }   
 	
-	public static void main(String[]args){
-		 String chars = "abcdefghijklmnopqrstuvwxyz";     
-		    Random random = new Random();     
-		    StringBuffer sb = new StringBuffer();     
-		    for (int i = 0; i < 3; i++) {     
-		        int number = random.nextInt(chars.length());     
-		        sb.append(chars.charAt(number));     
-		    } 
-		    String num="0123456789";
-		    for(int i=0;i<3;i++){
-		    	 int number = random.nextInt(num.length());     
-			        sb.append(num.charAt(number));     
-		    }
-		   
-		    
-		    System.out.print(sb.toString());
-	}
+	
+	 @InitBinder  
+	    public void initBinder(WebDataBinder binder) {  
+	        // 设置List的最大长度  
+	        binder.setAutoGrowCollectionLimit(30000);  
+	        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
+	    } 
+	 
+	 
+ 
 	
 }
