@@ -6,6 +6,13 @@
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
+$(function (){
+	var  pStatus = "${pStatus}";
+	if(pStatus == 'ZBWJYTJ'){
+		$("#reason").removeAttr("readonly");
+	}
+});
+
 	function OpenFile(fileId) {
 		setTimeout(open_file(fileId),5000);
 	}
@@ -71,6 +78,54 @@
 		var obj = document.getElementById("TANGER_OCX");
 		obj.close();
 	}
+
+	/**
+	通过|退回
+	*/
+	function updateAudit(status){
+	 if(status == 2){
+				 layer.prompt({
+	                  formType: 2,
+	                  shade:0.01,
+	                  offset: 'l',
+	                  title: '审核不通过理由'
+	                }, function(value, ix, elem){
+	                	if(value != null && value != ''){
+	                	   ajax(value,status);
+	                     layer.close(ix);
+	                	}else{
+	                    layer.msg("不能为空");
+	                	}
+	                },function(value, ix, elem){
+	                  layer.close(ix);
+	                });
+		}else if(status ==1){
+			ajax(null,status);
+		}
+	}
+	
+	
+	function ajax(reason,status){
+		 var projectId = $("#projectId").val();
+	      var flowDefineId = $("#flowDefineId").val();
+	      var process = "${process}";
+	      $.ajax({
+	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status+"&reason="+encodeURI(encodeURI(reason)),
+	            dataType: 'json',  
+	            success:function(result){
+	              if(result == 'SUCCESS'){
+	                if(process != null && process == 1){
+	                  window.location.href = "${pageContext.request.contextPath}/Auditbidding/list.html";   
+	                }
+	                   $("#cgspan").addClass("dnone");
+	                    $("#cgdiv").addClass("dnone");
+	              }
+	            },error: function(result){
+	                        layer.msg("失败",{offset: '222px'});
+	                    }
+	              });
+	}
+	
 		
 	function jump(url){
       	$("#open_bidding_main").load(url);
@@ -106,6 +161,22 @@
 </head>
 
 <body onload="OpenFile('${fileId}')">
+<c:if test="${process == 1 }">
+<!--面包屑导航开始-->
+  <div class="margin-top-10 breadcrumbs ">
+    <div class="container">
+    <ul class="breadcrumb margin-left-0">
+      <li><a href="javascript:void(0)">首页</a></li>
+    <li><a href="javascript:void(0)">保障作业系统</a></li>
+    <li><a href="javascript:void(0)">采购项目管理</a></li>
+    <li class="active"><a href="javascript:void(0)">招标文件审核</a></li>
+    </ul>
+    <div class="clear"></div>
+    </div>
+  </div>
+ </c:if>
+    <div class="container">
+<c:if test="${process != 1 }">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	   	 <c:if test="${ope == 'add' }">
@@ -184,8 +255,9 @@
 	   	 </c:if>
 	   </ul>
 	 </div>
+</c:if>
 	 <!-- 按钮 -->
-	 <c:if test="${project.confirmFile != 1 && ope =='add'}">
+	 <c:if test="${project.confirmFile != 1 && ope =='add' }">
 	     <div class="mt5 mb5 fr" id="handle">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
@@ -225,10 +297,24 @@
     	<input type="hidden" id="projectId" value="${project.id}">
     	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-		<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">采购管理部门意见</span>
-	    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80"  maxlength="100" name="address" title="不超过100个字">${user.address}</textarea>
+		   <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '')   }">
+		  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>   
+		   </c:if>
+	    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
+<!-- 	    confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 -->
+       <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '')  }">
+        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="reason" maxlength="100" name="reason" title="不超过100个字">${project.auditReason}</textarea>
+      </c:if> 
+       <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">
+        <div class="tc mt50">
+          <input type="button" class="btn btn-windows git " onclick="updateAudit('1')" value="通过"></input>
+          <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回 "></input>
+          <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
         </div>
+          </c:if>
+        </div>
+       
 	</form>
+	</div>
 </body>
 </html>

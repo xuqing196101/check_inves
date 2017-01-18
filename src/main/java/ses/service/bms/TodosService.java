@@ -87,4 +87,14 @@ public interface TodosService {
      * @return 权限id 集合
      */
     List<String> getPermisssion(String userId);
+    
+    /**
+     * 
+     *〈简述〉条件查询集合
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param todos
+     * @return
+     */
+    List<Todos> listUrlTodo(Todos todos);
 }

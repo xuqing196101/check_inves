@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.StationMessage;
+import ses.model.bms.User;
 import ses.model.sms.Quote;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
@@ -32,6 +33,8 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -247,7 +250,7 @@ public class WinningSupplierController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/comparison")
-  public String comparison(String[] checkPassId, String jsonCheckPass,BigDecimal[] wonPrice){
+  public String comparison(@CurrentUser User user,String[] checkPassId, String jsonCheckPass,BigDecimal[] wonPrice){
     int type = 0; 
     List<SupplierCheckPass> supplierCheckPass = JSON.parseArray(jsonCheckPass, SupplierCheckPass.class);
     for (int i = 0; i < checkPassId.length; i++ ) {
@@ -261,7 +264,7 @@ public class WinningSupplierController extends BaseController {
     }
     //按照排名不需要上传变更依据
     if (type != 1){
-      checkPassService.updateBid(checkPassId,wonPrice);
+      checkPassService.updateBid(checkPassId,wonPrice,user.getId());
       return JSON.toJSONString(SUCCESS);
     } else {
       return JSON.toJSONString(ERROR);
@@ -528,12 +531,12 @@ public class WinningSupplierController extends BaseController {
    */
   @ResponseBody
   @RequestMapping("/getFilesOther")
-  public String getFilesOther(String packageId, String typeId, String[] checkPassId,BigDecimal[] wonPrice){
+  public String getFilesOther(@CurrentUser User user,String packageId, String typeId, String[] checkPassId,BigDecimal[] wonPrice){
     //招标系统key
     Integer tenderKey = Constant.TENDER_SYS_KEY;
     List<UploadFile> filesOther = uploadService.getFilesOther(packageId, typeId, tenderKey.toString());
     if (filesOther != null && filesOther.size() != ZERO){
-      checkPassService.updateBid(checkPassId,wonPrice);
+      checkPassService.updateBid(checkPassId,wonPrice,user.getId());
       return JSON.toJSONString(SUCCESS);
     } else {
       List<UploadFile> filesOthers = uploadService.getFilesOther(checkPassId[0], typeId, tenderKey.toString());

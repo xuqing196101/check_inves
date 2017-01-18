@@ -719,15 +719,23 @@
 }
 
 .bg7 {
-  background-color: #f3f3f3; }
+  background-color: #f3f3f3; 
+}
 
 .bg8 {
-  background: #ffe1e1; }
+  background: #ffe1e1; 
+}
 
 .bg9 {
-  background: #daeeff; }
+  background: #daeeff; 
+}
+
 .bg10{
   background:#e5f6f8;
+}
+
+.bg11{
+  background:#f7f7f7!important;
 }
 .claretred {
   color: #e01800; 
@@ -735,54 +743,75 @@
 
 /*其他*/
 .clear {
-  clear: both; }
+  clear: both; 
+}
 
 .hide {
-  display: none; }
+  display: none; 
+}
   
 .tphide{
 	display: none!important;
 }  
 .block {
-  display: block; }
+  display: block; 
+}
 
 .pointer {
-  cursor: pointer; }
+  cursor: pointer; 
+}
 
 .bt0 {
-  border-top: 0px; }
+  border-top: 0px; 
+}
 
 .border0 {
-  border: 0px!important; }
+  border: 0px!important; 
+}
+
 .border1{
 border:1px solid #eeeeee;
 }
+
 .borderb{
 	border:1px solid black;
 }
+
 .bb1 {
-  border-bottom: 1px solid #BBB5B5; }
+  border-bottom: 1px solid #BBB5B5; 
+}
+
 .bbgreen{
   border:1px solid #c6eafa;
 }
+
 .bbyellow{
   border: 1px solid #fff2b2;
 }
+
 .underline {
-  text-decoration: underline; }
+  text-decoration: underline; 
+}
 
 .lh60 {
-  line-height: 60px; }
+  line-height: 60px; 
+}
 
 .lh23 {
-  line-height: 23px; }
+  line-height: 23px; 
+}
 
 .lh28 {
-  line-height: 28px; }
+  line-height: 28px; 
+}
+
 .lh30 {
-  line-height: 30px!important; }
+  line-height: 30px!important; 
+}
+
 .lh80 {
-  line-height: 80px; }
+  line-height: 80px; 
+}
 
 .lhh28 {
   height: 28px;

@@ -151,6 +151,10 @@
         var name = $("#name").val();
         var projectNumber = $("#projectNumber").val();
         var chkItems = $("input[name='chkItems']").val();
+        var ids = [];
+        $('input[name="chkItems"]').each(function() {
+          ids.push($(this).val());
+        });
         chkItems = $.trim(chkItems);
         if(flag == false){
           $("#sps").html("项目编号已存在").css('color', 'red');
@@ -161,7 +165,21 @@
         }else if(!chkItems){
           layer.alert("请选择明细");
         } else {
-		      window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num;
+          $.ajax({
+          url: "${pageContext.request.contextPath}/project/verifyType.html",
+          type: "post",
+          data: "chkItems=" + ids,
+          dataType: "json",
+          success: function(data) {
+            var datas = eval("(" + data + ")");
+            if(datas == false) {
+              layer.alert("采购方式不一样，请重新选择！");
+            } else {
+              window.location.href = "${pageContext.request.contextPath }/project/nextStep.html?id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber+"&num="+num+"&checkId="+ids;
+            }
+          },
+        });
+		      
         }
       }
       

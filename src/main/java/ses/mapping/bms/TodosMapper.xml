@@ -266,7 +266,7 @@
 			</when>
 			<otherwise>
 				<if test="permission != null and permission != ''">
-				OR
+					OR
 					<foreach collection="permission" open="(" close=")"
 						separator="OR" item="permission">
 						BT.POWER_ID = #{permission}
@@ -317,6 +317,20 @@
 				separator="OR">
 				permenu_id = #{item}
 			</foreach>
+		</if>
+	</select>
+	<!-- 条件查询 -->
+	<select id="listUrlTodo" parameterType="ses.model.bms.Todos"
+		resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_BMS_TODOS where 1=1
+		<if test="url != null and url != ''">
+			AND URL = #{url}
+		</if>
+		<if test="isFinish != null and isFinish != ''">
+			AND IS_FINISH = #{isFinish}
 		</if>
 	</select>
 </mapper>

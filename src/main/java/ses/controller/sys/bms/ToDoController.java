@@ -58,8 +58,12 @@ public class ToDoController {
             //机构id
             if (user.getOrg() != null && user.getOrg().getId() != null ){
                 PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
-                if (dep != null && dep.getId() != null) {
+                if (dep != null ) {
+                  if( dep.getId() != null){
                     todos.setOrgId(dep.getId());
+                  }else{
+                    todos.setOrgId(dep.getOrgId());
+                  }
                 }
             }
             //角色id
@@ -89,6 +93,8 @@ public class ToDoController {
                 PurchaseDep dep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
                 if (dep != null && dep.getId() != null) {
                     todos.setOrgId(dep.getId());
+                }else{
+                  todos.setOrgId(dep.getOrgId());
                 }
             }
             if (user.getRoles() != null && user.getRoles().size() !=0){

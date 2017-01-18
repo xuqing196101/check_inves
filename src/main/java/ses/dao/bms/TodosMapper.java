@@ -94,5 +94,15 @@ public interface TodosMapper {
 	 */
 	List<String> listUserPermission(Map map);
 	
+  /**
+   * 
+   *〈简述〉条件查询集合
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param todos
+   * @return
+   */
+  List<Todos> listUrlTodo(Todos todos);
+	
 	
 }
