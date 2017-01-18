@@ -318,16 +318,41 @@ public class SupplierItemController extends BaseController{
             }
 		    int length = itemsList.size() * 6;
 		    // 实际上传数量
-		    List<UploadFile> filesList = new ArrayList<UploadFile>();
+		    List<UploadFile> filesList;
+		    boolean isOk = true;
 		    for (SupplierItem item : itemsList) {
-		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString()));
-		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR"), Constant.SUPPLIER_SYS_KEY.toString()));
-		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString()));
-		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL"), Constant.SUPPLIER_SYS_KEY.toString()));
-		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL"), Constant.SUPPLIER_SYS_KEY.toString()));
-		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL"), Constant.SUPPLIER_SYS_KEY.toString()));
-            }
-		    if (filesList.size() < length) {
+		        filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+		        if (filesList.size() == 0) {
+		            isOk = false;
+		            break;
+		        }
+		        filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+		        if (filesList.size() == 0) {
+                    isOk = false;
+                    break;
+                }
+		        filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString());
+		        if (filesList.size() == 0) {
+                    isOk = false;
+                    break;
+                }
+		        filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+		        if (filesList.size() == 0) {
+                    isOk = false;
+                    break;
+                }
+		        filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+		        if (filesList.size() == 0) {
+                    isOk = false;
+                    break;
+                }
+		        filesList = uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL"), Constant.SUPPLIER_SYS_KEY.toString());
+		        if (filesList.size() == 0) {
+                    isOk = false;
+                    break;
+                }
+		    }
+		    if (!isOk) {
 		        model.addAttribute("err_contract_files", "还有附件未上传!");
 		        model.addAttribute("supplierTypeIds", supplierTypeIds);
 		        model.addAttribute("supplierId", supplierId);
