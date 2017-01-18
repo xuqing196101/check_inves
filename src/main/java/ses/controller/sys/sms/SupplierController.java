@@ -2032,7 +2032,9 @@ import common.service.UploadService;
         List<Category> category = new ArrayList<Category>();
         List<SupplierItem> itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
         for (SupplierItem item : itemsList) {
-            category.add(categoryService.findById(item.getCategoryId()));
+            Category cate = categoryService.findById(item.getCategoryId());
+            cate.setId(item.getId());
+            category.add(cate);
         }
         // 查询品目合同信息
         List<ContractBean> contract = supplierService.getContract(category);

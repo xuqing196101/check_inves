@@ -9,28 +9,32 @@
 <title>供应商注册</title>
 <script type="text/javascript">
 	$(function() {
-				var PRODUCT = $("#li_id_1").text();
-				var SALES = $("#li_id_2").text();
-				var PROJECT = $("#li_id_3").text();
-				var SERVICE = $("#li_id_4").text();
-				//加载默认的页签
-				if(PRODUCT == "物资-生产型品目信息") {
-					loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT');
-					return;
-				}
-		  		if(SALES == "物资-销售型品目信息") {
-					loadPageTwo('tab-2','supplier/ajaxContract.html','SALES');
-					return;
-				}
-				if(PROJECT == "工程品目信息") {
-					loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
-					return;
-				}
-				if(SERVICE == "服务品目信息") {
-					loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE');
-					return;
-				}
-			});
+		var err = "${err_contract_files}";
+		if (err != null && err != "") {
+			layer.msg(err);
+		}
+		var PRODUCT = $("#li_id_1").text();
+		var SALES = $("#li_id_2").text();
+		var PROJECT = $("#li_id_3").text();
+		var SERVICE = $("#li_id_4").text();
+		//加载默认的页签
+		if(PRODUCT == "物资-生产型品目信息") {
+			loadPageOne('tab-1','supplier/ajaxContract.html','PRODUCT');
+			return;
+		}
+	 		if(SALES == "物资-销售型品目信息") {
+			loadPageTwo('tab-2','supplier/ajaxContract.html','SALES');
+			return;
+		}
+		if(PROJECT == "工程品目信息") {
+			loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
+			return;
+		}
+		if(SERVICE == "服务品目信息") {
+			loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE');
+			return;
+		}
+	});
 
 
 

@@ -308,6 +308,31 @@ public class SupplierItemController extends BaseController{
 	 
 		//采购机构页面
 		if(flag.equals("5")){
+		    // 判断品目合同有没有全部上传
+		    String supplierId = supplierItem.getSupplierId();
+		    String[] typeIds = supplierTypeIds.split(",");
+		    // 总数量
+		    List<SupplierItem> itemsList = new ArrayList<SupplierItem>();
+		    for (String type : typeIds) {
+		        itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+            }
+		    int length = itemsList.size() * 6;
+		    // 实际上传数量
+		    List<UploadFile> filesList = new ArrayList<UploadFile>();
+		    for (SupplierItem item : itemsList) {
+		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_ONE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString()));
+		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_TWO_YEAR"), Constant.SUPPLIER_SYS_KEY.toString()));
+		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_YEAR"), Constant.SUPPLIER_SYS_KEY.toString()));
+		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_ONE_BIL"), Constant.SUPPLIER_SYS_KEY.toString()));
+		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CTAEGORY_TWO_BIL"), Constant.SUPPLIER_SYS_KEY.toString()));
+		        filesList.addAll(uploadService.getFilesOther(item.getId(), DictionaryDataUtil.getId("CATEGORY_THREE_BIL"), Constant.SUPPLIER_SYS_KEY.toString()));
+            }
+		    if (filesList.size() < length) {
+		        model.addAttribute("err_contract_files", "还有附件未上传!");
+		        model.addAttribute("supplierTypeIds", supplierTypeIds);
+		        model.addAttribute("supplierId", supplierId);
+		        return "ses/sms/supplier_register/contract";   
+		    }
 		    HashMap<String, Object> map1 = new HashMap<String, Object>();
 	        map1.put("typeName", "1");
 	        List<PurchaseDep> list1 = purchaseOrgnizationService

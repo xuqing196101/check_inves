@@ -235,5 +235,5 @@ public interface SupplierService {
     * @param categoryList 所有品目末级节点
     * @return
     */
-   List<ContractBean> getContract(List<Category> categoryList);
+   List<ContractBean> getContract(List<Category> itemsList);
 }
