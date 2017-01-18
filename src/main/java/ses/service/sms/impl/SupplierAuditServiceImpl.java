@@ -657,6 +657,22 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		supplierStars.setStatus(1);
 		return listSupplier;
 	}
+
+	
+	/**
+	 * 发售标书中的供应商查询
+	 * @see ses.service.sms.SupplierAuditService#selectSaleTenderSupplier(ses.model.sms.Supplier, java.lang.Integer)
+	 */
+  @Override
+  public List<Supplier> selectSaleTenderSupplier(Supplier supplier, Integer page) {
+    if(page!=null){
+      PropertiesUtil config = new PropertiesUtil("config.properties");
+      PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+    }
+    List<Supplier> listSupplier=supplierMapper.selectSaleTenderSupplier(supplier);
+    return listSupplier;
+  
+  }
 	
 	
 	

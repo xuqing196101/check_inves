@@ -47,6 +47,9 @@ public class Packages {
 
   //技术技术评审
   List<MarkTerm> listScoreTechnology;
+  
+  //基准价法+最低价法评审
+  List<FirstAudit> listScoreMinimum;
 
   private String id;
 
@@ -546,6 +549,20 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
    */
   public void setListExtRelate(List<SupplierExtRelate> listExtRelate) {
     this.listExtRelate = listExtRelate;
+  }
+
+  /**
+   * @return Returns the listScoreMinimum.
+   */
+  public List<FirstAudit> getListScoreMinimum() {
+    return listScoreMinimum;
+  }
+
+  /**
+   * @param listScoreMinimum The listScoreMinimum to set.
+   */
+  public void setListScoreMinimum(List<FirstAudit> listScoreMinimum) {
+    this.listScoreMinimum = listScoreMinimum;
   }
 
 

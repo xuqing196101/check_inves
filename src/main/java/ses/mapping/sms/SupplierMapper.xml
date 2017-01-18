@@ -159,22 +159,17 @@
 
 	<select id="selectByProjectId" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
-		SELECT T2.* FROM ( SELECT SUPPLIER_ID FROM "JDCG"."T_BSS_PPMS_SALE_TENDER" 
-			where PROJECT_ID =#{projectId} GROUP BY SUPPLIER_ID) T1 LEFT JOIN T_SES_SMS_SUPPLIER 
-			T2 ON T2.ID =T1.SUPPLIER_ID 
-		<!-- select * from(
-		select SUPPLIER_ID,wm_concat(NAME) AS packageName from
-		(select T1.PROJECT_ID,T1.SUPPLIER_ID,T2.NAME from
-		T_BSS_PPMS_SALE_TENDER T1
-		LEFT JOIN T_BSS_PPMS_PACKAGE T2 on
-		T1.PACKAGR_IDS = T2."ID"
-		)
-		WHERE PROJECT_ID = #{projectId} GROUP BY
-		SUPPLIER_ID
-		) t1
-		LEFT JOIN T_SES_SMS_SUPPLIER T3 ON T3.ID=T1.SUPPLIER_ID
-		where id is not
-		null -->
+		SELECT T2.* FROM ( SELECT SUPPLIER_ID FROM
+		"JDCG"."T_BSS_PPMS_SALE_TENDER"
+		where PROJECT_ID =#{projectId} GROUP BY
+		SUPPLIER_ID) T1 LEFT JOIN
+		T_SES_SMS_SUPPLIER
+		T2 ON T2.ID =T1.SUPPLIER_ID
+		<!-- select * from( select SUPPLIER_ID,wm_concat(NAME) AS packageName from 
+			(select T1.PROJECT_ID,T1.SUPPLIER_ID,T2.NAME from T_BSS_PPMS_SALE_TENDER 
+			T1 LEFT JOIN T_BSS_PPMS_PACKAGE T2 on T1.PACKAGR_IDS = T2."ID" ) WHERE PROJECT_ID 
+			= #{projectId} GROUP BY SUPPLIER_ID ) t1 LEFT JOIN T_SES_SMS_SUPPLIER T3 
+			ON T3.ID=T1.SUPPLIER_ID where id is not null -->
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
 		delete from
@@ -966,7 +961,7 @@
 		where 1=1 and
 		SUPPLIER_STATUS=5
 		<if test="status != null and status !='' ">
-		  and  SUPPLIER_STATUS = #{status}
+			and SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
@@ -1062,6 +1057,22 @@
 
 	</sql>
 
+	<!-- 发售标书中登记库内的供应商 -->
+	<select id="selectSaleTenderSupplier" parameterType="java.lang.String"
+    resultMap="supplierMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_SUPPLIER where  (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 8)
+		<if test="supplierName != null and supplierName !=''">
+			and SUPPLIER_NAME like '%${supplierName}%'
+		</if>
+		<if test="stsupplierIds != null">
+			<foreach collection="stsupplierIds" item="id" open="and ID not in ("
+				close=")" separator=",">
+				#{id}
+			</foreach>
+		</if>
+	</select>
 	<!-- 根据审核状态获取条数 -->
 	<select id="getCount" parameterType="ses.model.sms.Supplier"
 		resultType="java.lang.Integer">
@@ -1138,15 +1149,19 @@
 		T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
 		T_SES_SMS_SUPPLIER t1
 		left join T_SES_SMS_SUPPLIER_TYPE_RELATE
-		t3 on t1. ID = t3.SUPPLIER_ID
+		t3 on t1.
+		ID = t3.SUPPLIER_ID
 		LEFT JOIN (
 		SELECT T1. ID, CATEGORY_ID
-		FROM T_SES_SMS_SUPPLIER t1
+		FROM
+		T_SES_SMS_SUPPLIER t1
 		RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
-		t2 ON T1. ID = T2.SUPPLIER_ID
+		t2 ON T1. ID =
+		T2.SUPPLIER_ID
 		) t2 ON t1.id =t2.id
 		) GROUP BY id )t1
-		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
+		left JOIN
+		T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
 		<!--查询地址 start 如果抱错就去掉这个 注释address条件查询 现在查询的是关联area表的name字段 在上面也加了一个t4.NAME -->
 		LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS=T3.ID
 		LEFT JOIN
@@ -1323,8 +1338,10 @@
 		) GROUP BY id )t1
 		left JOIN T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
 		) where 1=1
-		AND IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5
-		or SUPPLIER_STATUS = 7 )
+		AND
+		IS_PROVISIONAL = 0 and ( SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 5
+		or
+		SUPPLIER_STATUS = 7 )
 
 		<if test="addressId != null and addressId != '' ">
 			AND ADDRESS = #{addressId}

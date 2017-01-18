@@ -311,4 +311,14 @@ public interface SupplierMapper {
      */
     List<Supplier> validateCreditCode(String creditCode);
     
+    /**
+     * 
+     *〈简述〉发售标书中使用
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param supplier
+     * @return
+     */
+    List<Supplier> selectSaleTenderSupplier(Supplier supplier);
+    
 }

@@ -166,6 +166,9 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
     //技术技术评审
     List<MarkTerm> listScoreTechnology = new ArrayList<MarkTerm>();
+    
+    //基准价法和最低价法
+    
 
     //获取项目信息
     Project project = projectService.selectById(projectId);
@@ -189,6 +192,11 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       audit.setIsConfirm((short)0);
       List<FirstAudit> listByProjectId = firstAuditService.findBykind(audit);
       pack.setListFirstAudit(listByProjectId);
+      
+      //基准最低
+      audit.setIsConfirm((short)1);
+      listByProjectId = firstAuditService.findBykind(audit);
+      pack.setListScoreMinimum(listByProjectId);
 
       //循环出评审类型
       for (DictionaryData dictionaryData : ddList) {

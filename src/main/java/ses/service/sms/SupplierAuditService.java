@@ -307,4 +307,15 @@ public interface SupplierAuditService {
     boolean deleteById(String[] ids);
 
     List<Supplier> selectAllSupplier(Supplier supplier,Integer page);
+    
+    /**
+     * 
+     *〈简述〉   发售标书中登记库内的供应商 
+     *〈详细描述〉
+     * @author Wang Wenshuai
+     * @param supplier
+     * @param page
+     * @return
+     */
+    List<Supplier> selectSaleTenderSupplier(Supplier supplier,Integer page);
 } 

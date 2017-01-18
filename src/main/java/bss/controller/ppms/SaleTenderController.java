@@ -236,7 +236,7 @@ public class SaleTenderController {
             }
             supplier.setStsupplierIds(stsupplierIds);
         }
-        List<Supplier> allSupplier = auditService.getAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
+        List<Supplier> allSupplier = auditService.selectSaleTenderSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         //当前项目的所有包
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
@@ -281,7 +281,7 @@ public class SaleTenderController {
         Project projects = projectService.selectById(projectId);
         DictionaryData findById = DictionaryDataUtil.findById(projects.getPurchaseType());
         model.addAttribute("kind", findById.getCode());
-        List<Supplier> allSupplier = auditService.selectAllSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
+        List<Supplier> allSupplier = auditService.selectSaleTenderSupplier(supplier, page == null || page.equals("") ? 1 : Integer.valueOf(page));
         model.addAttribute("list",new PageInfo<>(allSupplier));
         model.addAttribute("packId", packId);
         model.addAttribute("projectId", projectId);
