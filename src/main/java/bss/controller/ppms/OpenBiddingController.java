@@ -1300,7 +1300,7 @@ public class OpenBiddingController {
         record.setSupplierId(jsonQuote.getString("supplierId"));
         record.setTotalPrice(new BigDecimal(jsonQuote.getString("total")));
         record.setRanking(1);
-        record.setIsWonBid((short)1);
+        record.setIsWonBid((short)0);
         SupplierCheckPass checkPass = new SupplierCheckPass();
         checkPass.setPackageId(jsonQuote.getString("packageId"));
         supplierCheckPassService.insert(record);

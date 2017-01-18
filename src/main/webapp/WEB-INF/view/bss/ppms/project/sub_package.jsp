@@ -218,10 +218,15 @@
 						type: "POST",
 						url: "${pageContext.request.contextPath }/project/addPack.do?id=" + ids + "&projectId=" + projectId+"&num="+num,
 						success: function(data) {
-							layer.msg('添加成功', {
-								offset: ['40%', '45%']
-							});
-							window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId+"&num="+num;
+							var datas = eval("(" + data + ")");
+              if(datas == false){
+                layer.alert("一个包只能有一个供应商");
+              }else{
+                  layer.msg('添加成功', {
+                  offset: ['40%', '45%']
+                });
+                window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId+"&num="+num;
+              }
 						}
 					});
 				}

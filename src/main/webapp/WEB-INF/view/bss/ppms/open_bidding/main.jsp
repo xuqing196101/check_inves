@@ -49,6 +49,43 @@
 			layer.msg("请先执行前面步骤",{offset: ['220px']});
 		}
 	}
+	
+	function abandoned(id){
+	  layer.confirm('您确定要废标吗?',{
+              title : '提示',
+              offset: ['30%', '40%'],
+              shade : 0.01
+            },
+          function(index) {
+            layer.close(index);
+           $.ajax({
+            url : "${pageContext.request.contextPath}/project/abandoned.html",
+            data : "id=" + id,
+            type : "post",
+            dateType : "text",
+            success : function(data) {
+              if(data == "\"SCCUESS\"") {
+                layer.msg("废标成功", {
+                 time: 2000, 
+                });
+                window.setTimeout(function() {
+		              window.location.href = "${pageContext.request.contextPath}/project/list.html";
+		            }, 1000);
+                
+              }
+               
+              /* window.setTimeout(function() {
+              location.reload();
+              }, 1000); */
+            },
+            error : function() {
+              layer.msg("废标失败", {
+                offset: ['30%', '40%'],
+              });
+            }
+            });
+          });
+	}
 </script>
 </head>
 
@@ -118,9 +155,12 @@
                       <div class="tag-box tag-box-v4 col-md-9" >
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
-					  <div class="col-md-12 tc mt20" id="iframe_btns">
-					  		<button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
-       	   			  </div>
+					  <div class="btmfix" >
+					    <div style="margin-top: 15px;text-align: center;">
+					       <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button>
+					       <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
+					    </div>
+       	   	</div>
 				  </div>
                 </div>
         </div><!--/container-->
