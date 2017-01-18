@@ -36,6 +36,12 @@ p, li, li a, label {
 	clear: both;
 }
 
+/** 弹出框的table样式 **/
+.openLayer_table_box {
+	padding: 5px 20px 0px 20px;
+	clear: both;
+}
+
 .demand_list {
 	padding: 0px;
 	margin: 0px;

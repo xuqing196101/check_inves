@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
+import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
 import ses.dao.oms.OrgnizationMapper;
 import ses.dao.oms.PurchaseDepMapper;
@@ -344,6 +345,7 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	 * 
 	 * @see ses.service.oms.OrgnizationServiceI#getOrgByPrimaryKey(java.lang.String)
 	 */
+	@SystemServiceLog(description="根据主键查询Orgnization",operType=3)
 	@Override
     public Orgnization getOrgByPrimaryKey(String id) {
         if (StringUtils.isNotBlank(id)){

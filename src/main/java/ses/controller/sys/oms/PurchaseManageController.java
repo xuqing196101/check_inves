@@ -32,6 +32,7 @@ import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.SystemControllerLog;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -91,23 +92,14 @@ public class PurchaseManageController {
 	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
 	
 	@Autowired
-	private PurChaseDepOrgService purChaseDepOrgService;
-	
-	@Autowired
 	private PurchaseServiceI purchaseServiceI;
 	
 	@Autowired
 	private AreaServiceI areaServiceI;
 	
-	@Autowired
-	private DictionaryDataServiceI dictionaryDataServiceI;
-	
 	/** 用户service **/
     @Autowired
     private UserServiceI userServiceI;
-    
-    @Autowired
-    private UploadService uploadService;
     
     @Autowired
     private OrgInfoService orgInfoService;
@@ -161,6 +153,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping("getTreeBody")
+	@SystemControllerLog(description="查询机构",operType=3)
 	public String getTreeBody(@ModelAttribute Orgnization orgnization,Model model) {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		User user = new User();
@@ -271,6 +264,7 @@ public class PurchaseManageController {
 	 * @return
 	 */
 	@RequestMapping(value="create",method= RequestMethod.POST)
+	@SystemControllerLog(description="新增需求部门",operType=3)
 	public String create(@Valid Orgnization orgnization,BindingResult result,HttpServletRequest request,Model model){
 	    if(result.hasErrors()){
             model.addAttribute("orgnization", orgnization);

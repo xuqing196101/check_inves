@@ -1,0 +1,161 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="common.dao.SystemLogMapper">
+  
+  <!-- 对应的实体 -->
+  <resultMap id="baseResultMap" type="common.model.SystemLog">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="OPERATE_TYPE" jdbcType="INTEGER"  property="operateType" />
+    <result column="OPERATE_TIME" jdbcType="TIMESTAMP" property="operateTime" />
+    <result column="OPERATE_PERSON_ID" jdbcType="VARCHAR" property="operatePersonId" />
+    <result column="OPERATE_PERSON_NAME" jdbcType="VARCHAR" property="operatePersonName" />
+    <result column="OPERATE_IP" jdbcType="VARCHAR" property="operateIp" />
+    <result column="LOG_TYPE" jdbcType="INTEGER"  property="logType" />
+    <result column="OPERATE_STARTTIME" jdbcType="TIMESTAMP" property="operateStartTime" />
+    <result column="OPERATE_ENDTIME" jdbcType="TIMESTAMP" property="operateEndTime" />
+    <result column="EXCEPTION_DETAIL"  jdbcType="VARCHAR" property="exceptionDetail"/>
+    <result column="METHOD"  jdbcType="VARCHAR" property="method"/>
+    <result column="DESCRIPTIONS"  jdbcType="VARCHAR" property="descriptions"/>
+    <result column="RESPONSE_TIME" jdbcType="VARCHAR" property="responseTime"/>
+    <result column="PARAMS" jdbcType="VARCHAR" property="params"/>
+  </resultMap> 
+  
+  <!-- 基础sql -->
+  <sql id="baseSql">
+  	ID,OPERATE_TYPE,OPERATE_TIME,OPERATE_PERSON_NAME,OPERATE_IP,LOG_TYPE,
+  	RESPONSE_TIME,EXCEPTION_DETAIL,METHOD,DESCRIPTIONS
+  </sql>
+  
+  <!-- 插入 -->
+  <insert id="save"    parameterType="common.model.SystemLog">
+  	 <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        SELECT sys_guid() FROM dual
+    </selectKey>
+    INSERT INTO T_SYSTEM_OPERATE_LOG
+      <trim prefix="(" suffix=")" suffixOverrides=",">
+        <if test="id != null">
+          ID,
+        </if>
+        <if test="operateType != null">
+          OPERATE_TYPE,
+        </if>
+        <if test="operateTime != null">
+          OPERATE_TIME,
+        </if>
+        <if test="operatePersonId != null">
+          OPERATE_PERSON_ID,
+        </if>
+        <if test="operatePersonName != null">
+          OPERATE_PERSON_NAME,
+        </if>
+        <if test="operateIp != null">
+          OPERATE_IP,
+        </if>
+        <if test="logType != null">
+          LOG_TYPE,
+        </if>
+        <if test="operateStartTime != null">
+          OPERATE_STARTTIME,
+        </if>
+        <if test="operateEndTime != null">
+          OPERATE_ENDTIME,
+        </if>
+        <if test="exceptionDetail != null">
+          EXCEPTION_DETAIL,
+        </if>
+        <if test="method != null">
+          METHOD,
+        </if>
+        <if test="descriptions != null">
+          DESCRIPTIONS,
+        </if>
+        <if test="responseTime != null">
+          RESPONSE_TIME,
+        </if>
+        <if test="params != null">
+          PARAMS,
+        </if>
+      </trim>
+      <trim prefix="values (" suffix=")" suffixOverrides=",">
+         <if test="id != null">
+          #{id,jdbcType=VARCHAR},
+        </if>
+        <if test="operateType != null">
+          #{operateType,jdbcType=INTEGER},
+        </if>
+        <if test="operateTime != null">
+          #{operateTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="operatePersonId != null">
+          #{operatePersonId,jdbcType=VARCHAR},
+        </if>
+        <if test="operatePersonName != null">
+          #{operatePersonName,jdbcType=VARCHAR},
+        </if>
+        <if test="operateIp != null">
+          #{operateIp,jdbcType=VARCHAR},
+        </if>
+        <if test="logType != null">
+          #{logType,jdbcType=INTEGER},
+        </if>
+        <if test="operateStartTime != null">
+          #{operateStartTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="operateEndTime != null">
+          #{operateEndTime,jdbcType=TIMESTAMP},
+        </if>
+        <if test="exceptionDetail != null">
+          #{exceptionDetail,jdbcType=VARCHAR},
+        </if>
+        <if test="method != null">
+          #{method,jdbcType=VARCHAR},
+        </if>
+        <if test="descriptions != null">
+          #{descriptions,jdbcType=VARCHAR},
+        </if>
+        <if test="responseTime != null">
+         #{responseTime,jdbcType=VARCHAR},
+        </if>
+        <if test="params != null">
+          #{params,jdbcType=VARCHAR},
+        </if>
+      </trim>
+  </insert>
+  
+  <!-- 根据参数查询 -->
+  <select id="getListByParam" parameterType="java.util.Map" resultMap="baseResultMap">
+  	SELECT 
+  	 <include refid="baseSql" />
+  	FROM T_SYSTEM_OPERATE_LOG
+  	WHERE 1 = 1
+  	<if test="operPerson != null and operPerson !=''">
+  	  AND OPERATE_PERSON_NAME like CONCAT(CONCAT('%', #{operPerson}), '%') 
+  	</if>
+  	<if test="logType != null">
+  	  AND LOG_TYPE = #{logType}
+  	</if>
+  	<if test="operIp != null and operIp!=''">
+  	  AND OPERATE_IP = #{operIp}
+  	</if>
+  	<if test="operStartTime != null and operStartTime !='' ">
+  	  AND OPERATE_TIME &gt;=to_date(#{operStartTime},'yyyy-MM-dd hh24:mi:ss')
+  	</if>
+  	<if test="operEndTime != null and operEndTime !='' ">
+  	  AND OPERATE_TIME &lt;=to_date(#{operEndTime},'yyyy-MM-dd hh24:mi:ss')
+  	</if>
+  	<if test="desc != null and desc !=''">
+  	  AND DESCRIPTIONS like CONCAT(CONCAT('%', #{desc}), '%')
+  	</if>
+  	ORDER BY OPERATE_TIME DESC 
+  </select>
+  
+  <!-- 根据主键查询 -->
+  <select id="findById" parameterType="java.lang.String" resultType="common.model.SystemLog">
+  	SELECT 
+  	 <include refid="baseSql" />,
+  	 PARAMS 
+  	FROM T_SYSTEM_OPERATE_LOG
+  	WHERE ID = #{id}
+  </select>
+  
+</mapper>
