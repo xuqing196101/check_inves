@@ -548,7 +548,7 @@ session.setAttribute("tokenSession", tokenValue);
 						// 根据大小月判断日(二月)
 						if(month == 2) {
 							// 闰年
-							if(year % 4 == 0 && year % 100 != 0 && year % 400 == 0) {
+							if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 								if(day < 1 || day > 29) {
 									layer.msg("居民身份证号码格式有误 !", {
 										offset: ['300px', '750px']
@@ -557,7 +557,7 @@ session.setAttribute("tokenSession", tokenValue);
 								}
 							}
 							// 平年
-							if(year % 4 != 0 || year % 400 != 0 || (year % 100 == 0 && year % 400 != 0)) {
+							if( year % 4 != 0  || (year % 100 == 0 && year % 400 != 0)) {
 								if(day < 1 || day > 28) {
 									layer.msg("居民身份证号码格式有误 !", {
 										offset: ['300px', '750px']
@@ -1021,8 +1021,8 @@ session.setAttribute("tokenSession", tokenValue);
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'从事专业起始年度')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业起始年度')"</c:if> value="
-								<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								<input <c:if test="${fn:contains(errorField,'从事专业起始年度')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业起始年度')"</c:if> 
+								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：XXXX-XX</span>
 							</div>
@@ -1043,16 +1043,16 @@ session.setAttribute("tokenSession", tokenValue);
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> value="
-								<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> 
+								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：XXXX-XX</span>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> readonly="readonly" value="
-								<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> readonly="readonly" 
+								value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：XXXX-XX</span>
 							</div>
