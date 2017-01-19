@@ -347,6 +347,7 @@ public class SupplierController extends BaseSupplierController {
                 sup.setAddressList(addressList);
             }else{
                 SupplierAddress address=new SupplierAddress();
+                address.setId(WfUtil.createUUID());
                 addressList.add(address);
                 sup.setAddressList(addressList);
             }
