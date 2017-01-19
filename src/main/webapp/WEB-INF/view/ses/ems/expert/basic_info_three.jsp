@@ -404,8 +404,8 @@ session.setAttribute("tokenSession", tokenValue);
 					<span id="jg3" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 					<span id="jg4" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
 					<span id="jg5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
-				<div class="clear"></div>
-			</h2>
+					<div class="clear"></div>
+				</h2>
 				<div class="container container_box">
 					<ul class="ul_list mt20">
 						<li class="col-md-3 col-sm-6 col-xs-12">
