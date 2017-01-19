@@ -316,7 +316,6 @@ public class SupplierItemController extends BaseController{
 		    for (String type : typeIds) {
 		        itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
             }
-		    int length = itemsList.size() * 6;
 		    // 实际上传数量
 		    List<UploadFile> filesList;
 		    boolean isOk = true;

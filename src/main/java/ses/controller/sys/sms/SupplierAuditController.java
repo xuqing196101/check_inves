@@ -1973,7 +1973,7 @@ public class SupplierAuditController extends BaseSupplierController{
             con.setThreeContract(id3);
             con.setOneBil(id4);
             con.setTwoBil(id5);
-            con.setTwoBil(id6);
+            con.setThreeBil(id6);
         }  
         // 分页,pageSize == 10
         PageInfo<SupplierItem> pageInfo = new PageInfo<SupplierItem>(itemsList);
