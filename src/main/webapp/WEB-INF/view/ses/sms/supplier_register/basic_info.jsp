@@ -618,7 +618,7 @@ function deleteFinance() {
 				<li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">公司网址</span>
 				    <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			        <input type="text" name="website" required url="url" value="${currSupplier.website}" <c:if test="${fn:contains(audit,'website')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('website')"</c:if> >
+			        <input type="text" name="website" url="url" value="${currSupplier.website}" <c:if test="${fn:contains(audit,'website')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('website')"</c:if> >
 			       <%-- <c:if test="${fn:contains(audit,'website')}">
 						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
 					    </c:if> --%>
