@@ -151,6 +151,8 @@ public class LoginController {
                                 out.print("firset," + u.getId());
                             } else if (object.equals("6")) {
                                 out.print("weed");
+                            } else if (object.equals("7")) {
+                                out.print("notLogin");
                             }
                         } else {
                             req.getSession().setAttribute("loginUser", u);

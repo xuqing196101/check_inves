@@ -2222,12 +2222,9 @@ public class ExpertController extends BaseController {
         
         // 品目信息
         List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
-        List<SupplierItem> listSupplierItems = supplier.getListSupplierItems();
-        // 剔除不是末级节点的产品
-        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
-        for (SupplierItem supplierItem : removeNotChild) {
-            String categoryId = supplierItem.getCategoryId();
-            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+        List<SupplierItem> itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        for (SupplierItem supplierItem : itemsList) {
+            SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
             if (cateTree != null && cateTree.getRootNode() != null) {
                 allTreeList.add(cateTree);
             }
@@ -2287,7 +2284,8 @@ public class ExpertController extends BaseController {
      * @param categoryId 产品Id
      * @return List<CategoryTree> tree对象List
      */
-    public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+    public SupplierCateTree getTreeListByCategoryId(SupplierItem supplierItem) {
+        String categoryId = supplierItem.getCategoryId();
         SupplierCateTree cateTree = new SupplierCateTree();
         // 递归获取所有父节点
         List<Category> parentNodeList = getAllParentNode(categoryId);
@@ -2345,6 +2343,12 @@ public class ExpertController extends BaseController {
                     }
                 }
             }
+        }
+        // 判断是否是物资生产和物资销售类
+        if ("PRODUCT".equals(supplierItem.getSupplierTypeRelateId())) {
+            cateTree.setRootNode(cateTree.getRootNode() + "生产");
+        } else if ("SALES".equals(supplierItem.getSupplierTypeRelateId())) {
+            cateTree.setRootNode(cateTree.getRootNode() + "销售");
         }
         return cateTree;
     }
