@@ -84,8 +84,8 @@
 
 			}
 
-			function adds() {
-				var name = $("#jhmc").val();
+			function adds(obj) {
+		/* 		var name = $("#jhmc").val();
 				var no = $("#jhbh").val();
 				var type = $("#wtype").val();
 				if(name == "") {
@@ -100,7 +100,16 @@
 					$("#ptype").val(type);
 
 					$("#add_form").submit();
-				}
+				} */
+		 		
+				var bool=true;
+		    	var seq=$(obj).parent().parent().find("td:eq(1)").children(":eq(1)").val();
+		    	if($.trim(seq)==""){
+		    		bool=false;
+		    	}
+		    	return bool;  
+		    	
+		    	
 			}
 
 			function hide() {
@@ -234,7 +243,7 @@
 						type: "post",
 						success: function(data) {
 							if(data!='1'){  
-								// $("#add_form").submit();
+							  $("#add_form").submit();
 		 			}else{
 								layer.tips("计划编号已存在", "#jhbh");
 							}
@@ -788,10 +797,10 @@
 			}
 			
 		  	 function sum2(obj){  //数量
-		  	var bool=sequen(obj);
+		     var bool=adds(obj);
 		  	 if(bool!=true){
 		  		layer.alert("请先填写序号",{offset: ['222px', '390px'], shade:0.01});
-		  	 }else{
+		  	 }else{   
 		  		var purchaseCount = $(obj).val()-0;//数量
 		        var price2 = $(obj).parent().next().children(":last").prev();//价钱
 		        var price = $(price2).val()-0;
@@ -800,17 +809,22 @@
 		        $(budget).val(sum);
 		      	var id=$(obj).next().val(); //parentId
 		      	aa(id);
-		  	 }
+		  	     }     
 			        
 			} 
 			    
 			       function sum1(obj){
-			        var purchaseCount = $(obj).val()-0; //价钱
-			         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
-			      	 var sum = purchaseCount*price2/10000;
-			         $(obj).parent().next().children(":last").prev().val(sum);
-				     	var id=$(obj).next().val(); //parentId
-				     	aa(id);
+					     var bool=adds(obj);
+					  	 if(bool!=true){
+					  		layer.alert("请先填写序号",{offset: ['222px', '390px'], shade:0.01});
+					  	 }else{   
+					         var purchaseCount = $(obj).val()-0; //价钱
+					         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
+					      	 var sum = purchaseCount*price2/10000;
+					         $(obj).parent().next().children(":last").prev().val(sum);
+						     	var id=$(obj).next().val(); //parentId
+						     	aa(id);
+				     	}
 			    }
 			
 			       function aa(id){// id是指当前的父级parentid
@@ -1097,7 +1111,7 @@
 			    return bool;
 		    	
 		    }
-		    
+		 /*    
 		    function sequen(obj){
 		    	var bool=true;
 		    	var seq=$(obj).parent().parent().find("td:eq(1)")children(":eq(1)").val();
@@ -1105,7 +1119,7 @@
 		    		bool=false;
 		    	}
 		    	return bool;
-		    }
+		    } */
 		    
 		</script>
 	</head>
@@ -1250,8 +1264,7 @@
 										</td>
 										<td class=" p0" name="department">
 										
-								  		<input type="hidden" name="list[0].department" value="${orgId }" >
-								  		<input type="text"  readonly="readonly" value="${orgName}" class="m0 border0 w260" >
+								  		<input type="text"   name="list[0].department"  readonly="readonly" value="${orgName}" class="m0 border0 w260" >
 								  		  
 										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
