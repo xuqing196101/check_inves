@@ -1,4 +1,4 @@
-package synchro.inner.backup.service.infos;
+package synchro.inner.back.service.infos;
 
 import java.util.Date;
 

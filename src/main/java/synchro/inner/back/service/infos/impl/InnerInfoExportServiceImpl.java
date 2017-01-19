@@ -1,4 +1,4 @@
-package synchro.inner.backup.service.infos.impl;
+package synchro.inner.back.service.infos.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -15,7 +15,7 @@ import common.model.UploadFile;
 import common.service.UploadService;
 import iss.model.ps.Article;
 import iss.service.ps.ArticleService;
-import synchro.inner.backup.service.infos.InnerInfoExportService;
+import synchro.inner.back.service.infos.InnerInfoExportService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
