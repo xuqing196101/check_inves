@@ -1311,11 +1311,10 @@ function deleteFinance() {
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业有效期   <input type="checkbox" name="branchName" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 			   	<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
-		        <input type="text" readonly="readonly" onClick="WdatePicker()" required name="businessStartDate" value="${businessStartDate}"  <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
+		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}"  <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
 		        <span class="add-on cur_point">i</span>
 		        <span class="input-tip">如果勾选长期,可不填写有效期</span>
 		        <div class="cue"> ${err_sDate } </div>
-		        <div class="cue"><sf:errors path="businessStartDate"/></div>
 	       	   </div>
 		    </li> 
 		    
