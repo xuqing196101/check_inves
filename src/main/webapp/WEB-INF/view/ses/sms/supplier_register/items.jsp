@@ -104,21 +104,38 @@
 				}
 			},
 			callback: {
-				onCheck: saveCategory, // 实时保存/删除产品
-				showLine: true
+				onCheck: saveCategory,
+				onAsyncSuccess: zTreeOnAsyncSuccess
 			},
 			view: {
 				showLine: true
 			}
 	 	};
 		$.fn.zTree.init($("#" + kind), setting, zNodes);
-	 	
-		// 加载已选品目列表
-		loading = layer.load(1);
-		var supplierId="${currSupplier.id}";
-		var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
-		$("#tbody_category").load(path);
 	}
+	
+	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+		if (treeNode == null) {
+			// 加载已选品目列表
+			var code;
+			if (treeId == 'tree_ul_id_1') {
+				code = "PRODUCT";
+			}
+			if (treeId == 'tree_ul_id_2') {
+				code = "SALES";
+			}
+			if (treeId == 'tree_ul_id_3') {
+				code = "PROJECT";
+			}
+			if (treeId == 'tree_ul_id_4') {
+				code = "SERVICE";
+			}
+			loading = layer.load(1);
+			var supplierId="${currSupplier.id}";
+			var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
+			$("#tbody_category").load(path);
+		}
+	};
 	
 	//加载tab页签
 	function loadTab(code,kind, status){
@@ -232,9 +249,7 @@
 			async: false,
 			data: $("#items_info_form_id").serialize(),
 			success: function() {
-				loading = layer.load(1);
-				var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + type;
-				$("#tbody_category").load(path);
+				zTreeOnAsyncSuccess(null, treeId, null, null);
 			}
 		});
 	}
@@ -296,7 +311,8 @@
 				}
 			},
 			callback: {
-				onCheck: saveCategory
+				onCheck: saveCategory,
+				onAsyncSuccess: zTreeOnAsyncSuccess
 			},view: {
 				showLine: true
 			}
