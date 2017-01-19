@@ -152,7 +152,7 @@ public class SaleTender {
     private String reviewResult;
     
     /**
-     * 是否移除
+     * 是否移除 1:被移除 0：未移除
      */
     private String isRemoved;
     
@@ -175,7 +175,7 @@ public class SaleTender {
     private BigDecimal total;
     //交货时间
     private String deliveryTime;
-    //是否到场
+    //是否到场  0:到场 1：未到场
     private Integer isTurnUp;
     //报价表ID 判断是新增还是修改
     private String quoteId;

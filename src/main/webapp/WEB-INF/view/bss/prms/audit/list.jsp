@@ -145,7 +145,10 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 						toAudit(projectId, packageId);
 					} else if (data == '2') {
 						toFirstAudit(projectId, packageId);
-					} else {
+					} else if (data == '3') {
+						//进入基准价法和最低价法的经济技术评审
+						window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toCheck.html?projectId="+projectId+"&packageId="+packageId;
+					}else {
 						layer.msg(data);
 					}
 				}

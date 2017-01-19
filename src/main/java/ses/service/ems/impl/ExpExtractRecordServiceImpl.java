@@ -145,7 +145,7 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         String[] arrayPackId = packageId.split(",");
         String[] array = expert.getExpertsTypeId().split(",");
         int i = 0;
-        if(array.length > 0 ){
+        if(array.length > 1 ){
           int max=array.length-1;
           int min=0;
           Random random = new Random();

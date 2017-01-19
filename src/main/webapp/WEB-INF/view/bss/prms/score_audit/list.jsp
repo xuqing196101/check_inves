@@ -85,7 +85,20 @@
 		}
 	}
   	function scoreView(packageId){
-  		$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}');
+  		var projectId = $("#projectId").val();
+  		$.ajax({
+			url: "${pageContext.request.contextPath}/packageExpert/getMethodType.do",
+			data: {"projectId" : projectId, "packageId" : packageId},
+			success: function(data){
+				if (data == '2') {
+					$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId='+projectId);
+				} else if (data == '1') {
+					$("#tab-6").load('${pageContext.request.contextPath}/packageExpert/checkAuditView.html?packageId='+packageId+'&projectId='+projectId);
+				}else {
+					layer.msg(data);
+				}
+			}
+		});
   		//window.location.href='${pageContext.request.contextPath}/packageExpert/detailedReview.html?packageId='+packageId+'&projectId=${projectId}';
   	}
   </script>

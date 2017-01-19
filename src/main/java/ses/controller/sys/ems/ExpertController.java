@@ -83,6 +83,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
@@ -139,7 +140,9 @@ public class ExpertController extends BaseController {
     private SupplierItemService supplierItemService;//品目
     @Autowired
     private SupplierService supplierService;//供应商
-
+    @Autowired
+    private BidMethodService bidMethodService;
+    
     /**
      * 
      * @Title: toExpert
@@ -1878,8 +1881,24 @@ public class ExpertController extends BaseController {
             } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 0) {
                 return "该包符合性审查未结束";
             } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 1 && (packageExpert.getIsGrade() == 0 || packageExpert.getIsGrade() == 2)) {
-                // 经济技术评审
-                return "2";
+                String methodCode = null;
+                HashMap<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("id", packageId);
+                List<Packages> packs = packageService.findPackageById(map2);
+                if (packs != null && packs.size() > 0) {
+                    //获取评分办法数据字典编码
+                    methodCode = bidMethodService.getMethod(packs.get(0).getProjectId(), packageId);
+                }
+                if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+                    // 经济技术评审
+                    return "3";
+                } else if ("OPEN_ZHPFF".equals(methodCode)) {
+                    // 经济技术模型打分评审
+                    return "2";
+                } else {
+                    return null;
+                }
+                
             } else if (packageExpert.getIsGrade() == 1 && packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 0) {
                 return "该包经济技术评审未结束";
             } else if (packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 1) {
@@ -2058,6 +2077,27 @@ public class ExpertController extends BaseController {
         String downFileName = new String("军队评标专家申请表.doc".getBytes("UTF-8"),
                 "iso-8859-1");// 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
+    }
+    
+    /**
+     *〈简述〉提交专家经济技术评审结果
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param projectId
+     * @param packageId
+     * @param session
+     * @param attr
+     * @return
+     */
+    @RequestMapping("/saveCheck")
+    public String saveCheck(String projectId, String packageId, HttpSession session, RedirectAttributes attr){
+        User user = (User) session.getAttribute("loginUser");
+        String expertId = user.getTypeId();
+        // 更新进度 保存经济技术评审信息
+        reviewProgressService.saveCheck(projectId, packageId, expertId);
+        attr.addAttribute("projectId", projectId);
+        attr.addAttribute("packageId", packageId);
+        return "redirect:projectList.html";
     }
     
     /**

@@ -106,17 +106,24 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
       		 packageExpert.setIsAudit((short) 1);
       		 packageExpertMapper.updateByBean(packageExpert);
     	 }
-    	 //将评审结果改为退回状态
-       Map<String, Object> rfaMap = new HashMap<String, Object>();
-       rfaMap.put("expertId", expertId);
-       rfaMap.put("packageId", packageId);
-       rfaMap.put("projectId", projectId);
-       List<ReviewFirstAudit> rfas =  reviewFirstAuditMapper.selectList(rfaMap);
-       for (ReviewFirstAudit reviewFirstAudit : rfas) {
-           //设置状态为未退回
-           reviewFirstAudit.setIsBack(0);
-           reviewFirstAuditMapper.update(reviewFirstAudit);
-       }
+    	 //将评审结果改为未退回状态
+    	 FirstAudit firstAudit1 = new FirstAudit();
+    	 firstAudit1.setPackageId(packageId);
+    	 firstAudit1.setIsConfirm((short)0);
+    	 List<FirstAudit> firstAudits = firstAuditMapper.find(firstAudit1);
+    	 for (FirstAudit firstAudit2 : firstAudits) {
+      	   Map<String, Object> rfaMap = new HashMap<String, Object>();
+      	   rfaMap.put("expertId", expertId);
+      	   rfaMap.put("packageId", packageId);
+      	   rfaMap.put("projectId", projectId);
+      	   rfaMap.put("firstAuditId", firstAudit2.getId());
+      	   List<ReviewFirstAudit> rfas =  reviewFirstAuditMapper.selectList(rfaMap);
+      	   for (ReviewFirstAudit reviewFirstAudit : rfas) {
+      	     //设置状态为未退回
+      	     reviewFirstAudit.setIsBack(0);
+      	     reviewFirstAuditMapper.update(reviewFirstAudit);
+      	   }
+    	 }
     	 Map<String, Object> map2 = new HashMap<String, Object>();
   		 /*map2.put("expertId", expertId);*/
   		 map2.put("projectId", projectId);
@@ -140,6 +147,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
            //获取包下的评审项
            FirstAudit firstAudit = new FirstAudit();
            firstAudit.setPackageId(packageId);
+           firstAudit.setIsConfirm((short)0);
            List<FirstAudit> list = firstAuditMapper.find(firstAudit);
            for (SaleTender saleTender2 : sl) {
                //所有专家对各小项的评审结果少数服从多数
@@ -293,81 +301,81 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
 				//查询出关联表中已经评审的数据
 				packageExpertList2 = packageExpertMapper.selectList(map2);
 	  
-	  Map<String,Object> map = new HashMap<String,Object>(); 
-	  map.put("projectId", projectId);
-	  map.put("packageId", packageId);
-	  List<PackageExpert> packageExpertList = packageExpertMapper.selectList(map);
-	  //查询改项目的进度信息
-	  List<ReviewProgress> reviewProgressList = selectByMap(map);
-	  //总进度
-	  double totalProgress = 0;
-	  //评分进度
-	  double scoreProgress = 0;
-	  ReviewProgress reviewProgress = new ReviewProgress();
-	  
-	  
-	  //集合为空证明没有进度信息
-	  if(reviewProgressList==null || reviewProgressList.size()==0){
-		  if(packageExpertList!=null&& packageExpertList.size()>0){
-//			  double first =  1/(double)packageExpertList.size();
-//			  BigDecimal b = new BigDecimal(first); 
-			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			  scoreProgress = 1/(double)packageExpertList.size();
-			  BigDecimal b = new BigDecimal(scoreProgress); 
-			  scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-			  //评分进度
-			  reviewProgress.setScoreProgress(scoreProgress);
-			  //初审进度
-			  double firstProgress = 0;
-			  reviewProgress.setFirstAuditProgress(firstProgress);
-			  totalProgress = scoreProgress/2;
-			  //总进度
-			  reviewProgress.setTotalProgress(totalProgress);
-			  //状态
-			  reviewProgress.setAuditStatus("3");
-			  reviewProgress.setPackageId(packageId);
-			  reviewProgress.setProjectId(projectId);
-			  HashMap<String, Object> packageMap = new HashMap<String, Object>();
-        packageMap.put("projectId", projectId);
-        packageMap.put("id", packageId);
-        List<Packages> packages = packageMapper.findPackageById(packageMap);
-        if (packages != null && packages.size() > 0) {
-            reviewProgress.setPackageName(packages.get(0).getName());
-        }
-			  //新增
-			  save(reviewProgress);
-		  }
-	  }else{
-		//判断关联集合不为空 从而确定该项目下有多少专家
-		  if(packageExpertList!=null&& packageExpertList.size()>0){
-		    ReviewProgress reviewProgress2 = reviewProgressList.get(0);
-        // Double firstAuditProgress = reviewProgress2.getFirstAuditProgress();
-         if (packageExpertList2 != null && packageExpertList2.size() > 0) {
-          // first = (double)packageExpertList2.size()/(double)packageExpertList.size()+1/(double)packageExpertList.size();
-           scoreProgress = (double)(packageExpertList2.size())/(double)packageExpertList.size();
-         } else {
-           scoreProgress = 1/(double)packageExpertList.size();
-         }
-         BigDecimal b = new BigDecimal(scoreProgress); 
-         scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-         //评审进度更新
-         reviewProgress2.setScoreProgress(scoreProgress);
-         //总进度更新
-         double total2 =  (reviewProgress2.getFirstAuditProgress()+scoreProgress)/2;
-         BigDecimal t = new BigDecimal(total2); 
-         totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-         //总进度更新
-         reviewProgress2.setTotalProgress(totalProgress);
-         if (packageExpertList2.size() == packageExpertList.size()) {
-             //设置状态为评审完成
-             reviewProgress2.setAuditStatus("4");
-         } else {
-             //设置状态为经济技术评审中
-             reviewProgress2.setAuditStatus("3");
-         }
-         //修改进度
-         updateByMap(reviewProgress2);
-		  }
+    	  Map<String,Object> map = new HashMap<String,Object>(); 
+    	  map.put("projectId", projectId);
+    	  map.put("packageId", packageId);
+    	  List<PackageExpert> packageExpertList = packageExpertMapper.selectList(map);
+    	  //查询改项目的进度信息
+    	  List<ReviewProgress> reviewProgressList = selectByMap(map);
+    	  //总进度
+    	  double totalProgress = 0;
+    	  //评分进度
+    	  double scoreProgress = 0;
+    	  ReviewProgress reviewProgress = new ReviewProgress();
+    	  
+    	  
+    	  //集合为空证明没有进度信息
+    	  if(reviewProgressList==null || reviewProgressList.size()==0){
+    		  if(packageExpertList!=null&& packageExpertList.size()>0){
+    //			  double first =  1/(double)packageExpertList.size();
+    //			  BigDecimal b = new BigDecimal(first); 
+    			  //scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    			  scoreProgress = 1/(double)packageExpertList.size();
+    			  BigDecimal b = new BigDecimal(scoreProgress); 
+    			  scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+    			  //评分进度
+    			  reviewProgress.setScoreProgress(scoreProgress);
+    			  //初审进度
+    			  double firstProgress = 0;
+    			  reviewProgress.setFirstAuditProgress(firstProgress);
+    			  totalProgress = scoreProgress/2;
+    			  //总进度
+    			  reviewProgress.setTotalProgress(totalProgress);
+    			  //状态
+    			  reviewProgress.setAuditStatus("3");
+    			  reviewProgress.setPackageId(packageId);
+    			  reviewProgress.setProjectId(projectId);
+    			  HashMap<String, Object> packageMap = new HashMap<String, Object>();
+            packageMap.put("projectId", projectId);
+            packageMap.put("id", packageId);
+            List<Packages> packages = packageMapper.findPackageById(packageMap);
+            if (packages != null && packages.size() > 0) {
+                reviewProgress.setPackageName(packages.get(0).getName());
+            }
+    			  //新增
+    			  save(reviewProgress);
+    		  }
+    	  }else{
+    		//判断关联集合不为空 从而确定该项目下有多少专家
+    		  if(packageExpertList!=null&& packageExpertList.size()>0){
+    		    ReviewProgress reviewProgress2 = reviewProgressList.get(0);
+            // Double firstAuditProgress = reviewProgress2.getFirstAuditProgress();
+             if (packageExpertList2 != null && packageExpertList2.size() > 0) {
+              // first = (double)packageExpertList2.size()/(double)packageExpertList.size()+1/(double)packageExpertList.size();
+               scoreProgress = (double)(packageExpertList2.size())/(double)packageExpertList.size();
+             } else {
+               scoreProgress = 1/(double)packageExpertList.size();
+             }
+             BigDecimal b = new BigDecimal(scoreProgress); 
+             scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+             //评审进度更新
+             reviewProgress2.setScoreProgress(scoreProgress);
+             //总进度更新
+             double total2 =  (reviewProgress2.getFirstAuditProgress()+scoreProgress)/2;
+             BigDecimal t = new BigDecimal(total2); 
+             totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+             //总进度更新
+             reviewProgress2.setTotalProgress(totalProgress);
+             if (packageExpertList2.size() == packageExpertList.size()) {
+                 //设置状态为评审完成
+                 reviewProgress2.setAuditStatus("4");
+             } else {
+                 //设置状态为经济技术评审中
+                 reviewProgress2.setAuditStatus("3");
+             }
+             //修改进度
+             updateByMap(reviewProgress2);
+    		  }
 	  }
     }
     /**
@@ -402,7 +410,7 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
     }
 
   @Override
-  public String tempSaveFirstAudit(String projectId, String packageId, String expertId) {
+  public String tempSaveFirstAudit(String auditType, String projectId, String packageId, String expertId) {
     Map<String,Object> map1 = new HashMap<String,Object>(); 
     map1.put("projectId", projectId);
     map1.put("packageId", packageId);
@@ -410,13 +418,127 @@ public class ReviewProgressServiceImpl implements ReviewProgressService {
     List<PackageExpert> selectList = packageExpertMapper.selectList(map1);
     if(selectList!=null && selectList.size()>0){
       PackageExpert packageExpert = selectList.get(0);
-      //设置专家符合性审查结果为暂存状态
-      packageExpert.setIsAudit((short)2);
+      if ("1".equals(auditType)) {
+          //设置专家经济技术评审为暂存状态
+          packageExpert.setIsGrade((short)2);
+      } else {
+          //设置专家符合性审查结果为暂存状态
+          packageExpert.setIsAudit((short)2);
+      }
       packageExpertMapper.updateByBean(packageExpert);
       return "SUCCESS";
     }
     return "ERROR";
   }
    
-   
+    public void saveCheck(String projectId,String packageId,String expertId){
+        List<PackageExpert> packageExpertList2 = null;
+        Map<String,Object> map1 = new HashMap<String,Object>(); 
+        map1.put("projectId", projectId);
+        map1.put("packageId", packageId);
+        map1.put("expertId", expertId);
+        List<PackageExpert> selectList = packageExpertMapper.selectList(map1);
+        if(selectList != null && selectList.size() > 0){
+            PackageExpert packageExpert = selectList.get(0);
+            //设置为已评审
+            packageExpert.setIsGrade((short) 1);
+            packageExpertMapper.updateByBean(packageExpert);
+        }
+        //将评审结果改为未退回状态
+        FirstAudit firstAudit1 = new FirstAudit();
+        firstAudit1.setPackageId(packageId);
+        firstAudit1.setIsConfirm((short)1);
+        List<FirstAudit> firstAudits = firstAuditMapper.find(firstAudit1);
+        for (FirstAudit firstAudit2 : firstAudits) {
+            Map<String, Object> rfaMap = new HashMap<String, Object>();
+            rfaMap.put("expertId", expertId);
+            rfaMap.put("packageId", packageId);
+            rfaMap.put("projectId", projectId);
+            rfaMap.put("firstAuditId", firstAudit2.getId());
+            List<ReviewFirstAudit> rfas =  reviewFirstAuditMapper.selectList(rfaMap);
+            for (ReviewFirstAudit reviewFirstAudit : rfas) {
+              //设置状态为未退回
+              reviewFirstAudit.setIsBack(0);
+              reviewFirstAuditMapper.update(reviewFirstAudit);
+            }
+        }
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        /*map2.put("expertId", expertId);*/
+        map2.put("projectId", projectId);
+        map2.put("packageId", packageId);
+        map2.put("isGrade", 1);
+        //查询出关联表中包下已评审的数据
+        packageExpertList2 = packageExpertMapper.selectList(map2);
+        Map<String,Object> map = new HashMap<String,Object>(); 
+        map.put("projectId", projectId);
+        map.put("packageId", packageId);
+        //查询出关联表中包下所有的数据
+        List<PackageExpert> packageExpertList = packageExpertMapper.selectList(map);
+        
+        //计算进度，查询该项目该包的进度信息
+        List<ReviewProgress> reviewProgressList = selectByMap(map);
+        //初审进度
+        double firstProgress = 0;
+        //总进度
+        double totalProgress = 0;
+        //评审进度
+        double scoreProgress = 0;
+        ReviewProgress reviewProgress = new ReviewProgress();
+        //集合为空证明没有进度信息
+        if(reviewProgressList==null || reviewProgressList.size()==0){
+            if(packageExpertList!=null&& packageExpertList.size()>0){
+                scoreProgress = 1/(double)packageExpertList.size();
+                BigDecimal b = new BigDecimal(scoreProgress); 
+                scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                //评分进度
+                reviewProgress.setScoreProgress(scoreProgress);
+                reviewProgress.setFirstAuditProgress(firstProgress);
+                totalProgress = scoreProgress/2;
+                //总进度
+                reviewProgress.setTotalProgress(totalProgress);
+                //状态
+                reviewProgress.setAuditStatus("3");
+                reviewProgress.setPackageId(packageId);
+                reviewProgress.setProjectId(projectId);
+                HashMap<String, Object> packageMap = new HashMap<String, Object>();
+                packageMap.put("projectId", projectId);
+                packageMap.put("id", packageId);
+                List<Packages> packages = packageMapper.findPackageById(packageMap);
+                if (packages != null && packages.size() > 0) {
+                    reviewProgress.setPackageName(packages.get(0).getName());
+                }
+                //新增
+                save(reviewProgress);
+            }
+        }else{
+            //判断关联集合不为空 从而确定该项目下有多少专家
+            if(packageExpertList != null && packageExpertList.size() > 0){
+                 ReviewProgress reviewProgress2 = reviewProgressList.get(0);
+                 if (packageExpertList2 != null && packageExpertList2.size() > 0) {
+                     scoreProgress = (double)(packageExpertList2.size())/(double)packageExpertList.size();
+                 } else {
+                     scoreProgress = 1/(double)packageExpertList.size();
+                 }
+                 BigDecimal b = new BigDecimal(scoreProgress); 
+                 scoreProgress  = b.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                 //评审进度更新
+                 reviewProgress2.setScoreProgress(scoreProgress);
+                 //总进度更新
+                 double total2 =  (reviewProgress2.getFirstAuditProgress()+scoreProgress)/2;
+                 BigDecimal t = new BigDecimal(total2); 
+                 totalProgress  = t.setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+                 //总进度更新
+                 reviewProgress2.setTotalProgress(totalProgress);
+                 if (packageExpertList2.size() == packageExpertList.size()) {
+                     //设置状态为评审完成
+                     reviewProgress2.setAuditStatus("4");
+                 } else {
+                     //设置状态为经济技术评审中
+                     reviewProgress2.setAuditStatus("3");
+                 }
+                 //修改进度
+                 updateByMap(reviewProgress2);
+             }
+         }
+    }
 }

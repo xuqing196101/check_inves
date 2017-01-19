@@ -133,5 +133,14 @@ public interface ReviewProgressService {
      * @param packageId
      * @param expertId
      */
-    String tempSaveFirstAudit(String projectId, String packageId, String expertId);
+    String tempSaveFirstAudit(String auditType, String projectId, String packageId, String expertId);
+    
+    /**
+     *〈简述〉提交专家经济技术评审结果
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param projectId
+     * @param packageId
+     */
+    void saveCheck(String projectId, String packageId, String expertId);
 }

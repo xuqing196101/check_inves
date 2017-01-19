@@ -23,7 +23,7 @@ public class PackageExpert implements Serializable{
     private Short isGather;
     //是否评分 0未评审1提交评审结果2暂存评审
     private Short isGrade;
-    //评分是否汇总（结束）0否1是
+    //评分是否汇总（结束）0否1是2专家咨询委员会提交
     private Short isGatherGather;
     //评审类型id 
     private String reviewTypeId;
