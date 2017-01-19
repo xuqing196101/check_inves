@@ -117,12 +117,18 @@
 	    
 	    /** 导出  **/
 	    function educe(){
-	       var id=$("#packageId").val();
-	       var projectId = $("#projectId").val();
-         var createdAt = $("#createdAt"+id).val();
-         var nuter = $("#nuter"+id).val();
-         var net = $("#negotiationRecord"+id).val();
-	       window.location.href = "${pageContext.request.contextPath}/open_bidding/educe.html?projectId="+projectId+"&createdAt="+createdAt+"&nuter="+nuter+"&net="+net;
+	       var packageName = $("#packageName").val();
+	       if(packageName){
+	         var id=$("#packageId").val();
+	         var projectId = $("#projectId").val();
+	         var createdAt = $("#createdAt"+id).val();
+	         var nuter = $("#nuter"+id).val();
+	         var net = $("#negotiationRecord"+id).val();
+	         window.location.href = "${pageContext.request.contextPath}/open_bidding/educe.html?projectId="+projectId+"&createdAt="+createdAt+"&nuter="+nuter+"&net="+net;
+	       }else{
+	         layer.alert("请选择包！");
+	       }
+	       
 	    }
 	    
 	    function ycDiv(obj, index) {
@@ -253,20 +259,9 @@
                 </table>
                 <div class="col-md-12 tc mt20">
                   <button class="btn btn-windows git" type="button" onclick="save('${list.id}');">保存</button>
-                  <%-- <c:choose>
-									   <c:when test="${negotiation.id != null}">  
-									     <u:upload id="upload1"  auto="true"  businessId="${negotiation.id}" typeId="${dataId}" sysKey="2" />
-                       <u:show showId="upload12"  businessId="${negotiation.id}" sysKey="2" typeId="${dataId}" />    
-									   </c:when>
-									   <c:otherwise> 
-									     <u:upload id="upload3"  auto="true"  businessId="${uuId}" typeId="${dataId}" sysKey="2" />
-                       <u:show showId="upload33"  businessId="${uuId}" sysKey="2" typeId="${dataId}" />
-									   </c:otherwise>
-									</c:choose> --%>
                 </div>
                 </div>
                 </c:forEach>
-                
             </div>
           </div>
         </div>

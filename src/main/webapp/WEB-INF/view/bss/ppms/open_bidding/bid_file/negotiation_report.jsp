@@ -114,15 +114,21 @@
 	    
 	    /** 导出  **/
 	    function educe(){
-	       var id=$("#packageId").val();
-	       var projectId = $("#projectId").val();
-         var reviewTime = $("#reviewTime"+id).val();
-         var reviewSite = $("#reviewSite"+id).val();
-         var finalOffer = $("#finalOffer"+id).val();
-         var talks = $("#talks"+id).val();
-         var supperName = $("#supperName"+id).val();
-	       window.location.href = "${pageContext.request.contextPath}/open_bidding/educes.html?projectId="
-	       +projectId+"&reviewTime="+reviewTime+"&reviewSite="+reviewSite+"&finalOffer="+finalOffer+"&talks="+talks+"&supperName="+supperName+"&packageId="+id;
+	       var packageName = $("#packageName").val();
+	       if(packageName){
+	         var id=$("#packageId").val();
+	         var projectId = $("#projectId").val();
+	         var reviewTime = $("#reviewTime"+id).val();
+	         var reviewSite = $("#reviewSite"+id).val();
+	         var finalOffer = $("#finalOffer"+id).val();
+	         var talks = $("#talks"+id).val();
+	         var supperName = $("#supperName"+id).val();
+	         window.location.href = "${pageContext.request.contextPath}/open_bidding/educes.html?projectId="
+	         +projectId+"&reviewTime="+reviewTime+"&reviewSite="+reviewSite+"&finalOffer="+finalOffer+"&talks="+talks+"&supperName="+supperName+"&packageId="+id;
+	       }else{
+	         layer.alert("请选择包!");
+	       }
+	       
 	    }
 	    
 	    function ycDiv(obj, index) {

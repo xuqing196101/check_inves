@@ -23,6 +23,9 @@ $(function() {
 		}(),
 		jump: function(e, first) { //触发分页后的回调
 			if(!first) { //一定要加此判断，否则初始时会无限刷新
+				loader = layer.load(1, {
+					shade: [0.1,'#fff'] //0.1透明度的白色背景
+				});
 				var pageNum = e.curr;
 				var supplierId = "${supplierId}";
 				var type = "${supplierTypeRelateId}";
