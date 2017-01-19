@@ -1747,8 +1747,12 @@ public class PackageExpertController {
         }
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
-            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
-                suppList.add(supp);
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && "0".equals(supp.getIsRemoved()) && supp.getIsTurnUp() == 0) {
+                BigDecimal pass = new BigDecimal(100);
+                //合格的供应商
+                if (supp.getEconomicScore().compareTo(pass) == 0 && supp.getTechnologyScore().compareTo(pass) == 0) {
+                    suppList.add(supp);
+                }
             }
         }
         model.addAttribute("supplierList", suppList);
@@ -3776,6 +3780,10 @@ public class PackageExpertController {
               finalSa.setTotalPrice(totalPriceSupplier);
               finalSupplier.add(finalSa);
             }
+            BigDecimal economicScore = new BigDecimal(100);
+            BigDecimal technologyScore = new BigDecimal(100);
+            map.put("economicScore", economicScore);
+            map.put("technologyScore", technologyScore);
             map.put("reviewResult", resultMap.get("reviewResult"));
             saleTenderService.editSumScore(map);
         }
