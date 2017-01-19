@@ -216,7 +216,9 @@
 							<th class="info w80">预算金额<br>（万元）</th>
 							<th class="info w150">交货期限</th>
 							<th class="info w100">采购方式建议</th>
+							<c:if test="${org_advice==null }">
 							 <th class="info w100">采购机构</br>建议</th>
+							 </c:if>
 							<th class="info w260">供应商名称</th>
 							<th class="info w80">是否申请<br>办理免税</th>
 							<!-- <th class="info ">物资用途（仅进口）</th>
@@ -275,6 +277,7 @@
                                </c:forEach>
                               </div>
                             </td>
+                            <c:if test="${org_advice==null }">
 						 	<td   class="tl">
 						 	  <div class="w100">
 							    <c:forEach items="${requires}" var="ss" >
@@ -282,6 +285,7 @@
 				                </c:forEach>
 				              </div>
 							</td >
+							</c:if>
 							<td title="${obj.supplier}" class="tl">
 							 <div class="w260">
 							   <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>

@@ -484,6 +484,7 @@
 			function delRowIndex(obj){
 				
 				var tr=$(obj).parent().parent();
+				var nextEle=$(obj).parent().parent().next();
 				 var val=$(tr).find("td:eq(8)").children(":first").next().val();
 				 if($.trim(val)==""){
 					  layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
@@ -806,6 +807,7 @@
 		        var price = $(price2).val()-0;
 		        var sum = purchaseCount*price/10000;
 		        var budget = $(obj).parent().next().next().children(":last").prev();
+		        sum = sum.toFixed(4);
 		        $(budget).val(sum);
 		      	var id=$(obj).next().val(); //parentId
 		      	aa(id);
@@ -821,6 +823,7 @@
 					         var purchaseCount = $(obj).val()-0; //价钱
 					         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
 					      	 var sum = purchaseCount*price2/10000;
+					      	sum = sum.toFixed(4);
 					         $(obj).parent().next().children(":last").prev().val(sum);
 						     	var id=$(obj).next().val(); //parentId
 						     	aa(id);
@@ -1283,17 +1286,17 @@
 										<td class="tc p0"><input type="text"   name="list[0].item" class="m0 w50 border0"></td>
 										<td class="tc  p0" name="purchaseQuantity">
 											<input type="hidden"    value="${id}" class="m0 border0">
-											<input type="text" name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50">
+											<input type="text" readonly="readonly"  name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w50">
 											<input type="hidden"    value="1" class="m0 border0">
 										</td>
 										<td class="tc  p0" name="unitPrice">
 											<input type="hidden"    value="${id}" class="m0 border0">
-											<input type="text" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80">
+											<input type="text" readonly="readonly" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80">
 											<input type="hidden"    value="1" class="m0 border0">
 										</td>
 										<td class="tc  p0">
 											<input type="hidden"    value="${id}" class="m0 border0">
-											<input type="text" name="list[0].budget" class="m0 w80 border0" >
+											<input type="text" readonly="readonly" name="list[0].budget" class="m0 w80 border0" >
 											<input type="hidden"    value="1" class="m0 border0">
 										</td>
 										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w150"></td>
@@ -1312,7 +1315,7 @@
 												<option value="">请选择</option>
 												<c:forEach items="${suppliers }" var="sup">
 												
-													<option value="${sup.id }">${sup.supplierName }</option>
+													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select>
 											
