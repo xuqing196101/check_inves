@@ -16,14 +16,7 @@
 				$(this).prop("checked", true);
 			}
 		});
-		
-		if ("${currSupplier.status}" == 7) {
-			$(":radio").each(function() {
-				$(this).prop("disabled", true);
-			});
-		}
-		
-		// loadRootArea();
+		showJiGou($("#children_area_select_id"));
 	});
 	
 	
@@ -98,24 +91,6 @@
 		function showJiGou(obj){
 			$("#purchase_orgs").empty();
 			$("#purchase_orgs2").empty();
-/* 		$("#thead").empty();
-		//采购机构
-		var sup = $("#purchaseDepId").val();
-		var purDepId="";
-		var expertId="${expert.id}";
-		if(expertId){
-			$.ajax({
-				url:'${pageContext.request.contextPath}/expert/getPurDepIdByExpertId.do',
-				data:{"expertId":expertId},
-				cache: false,
-				async: false,
-				success:function(data){
-					purDepId=data;
-				}
-			});
-		}else{
-			purDepId=sup;
-		} */
 		var shengId = $("#root_area_select_id").val();
 		var shiId = $(obj).val();
 		var orgId = $("#orgId").val();
