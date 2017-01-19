@@ -715,7 +715,7 @@ function deleteFinance() {
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 开户行账号</span>
 				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			        <input type="text" name="bankAccount" creditcard="creditcard" value="${currSupplier.bankAccount}" <c:if test="${fn:contains(audit,'bankAccount')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bankAccount')"</c:if>/>
+			        <input type="text" name="bankAccount" creditcard="creditcard" required="required" value="${currSupplier.bankAccount}" <c:if test="${fn:contains(audit,'bankAccount')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bankAccount')"</c:if>/>
 			        <span class="add-on cur_point">i</span>
 			         <span class="input-tip">不能为空</span>
 			      <div class="cue"> ${err_msg_postCode } </div>
@@ -1380,7 +1380,7 @@ function deleteFinance() {
 		    <li class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>营业范围（按照营业执照上填写）</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" title="不超过80个字" required="required" maxlength="80" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
 	       	    <div class="cue"><sf:errors path="businessScope"/></div>
 	       	    </div>
 			</li>
@@ -1470,7 +1470,7 @@ function deleteFinance() {
 			  <li name="branch" style="display: none;" class="col-md-12 col-xs-12 col-sm-12 mb25">
 		    	<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
 		    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80"  id="branchbusinessSope" title="不超过80个字" required maxlength="80" name="branchList[${vs.index }].businessSope">${bran.businessSope}</textarea>
+			       <textarea class="col-md-12 col-xs-12 col-sm-12 h80"  id="branchbusinessSope" required name="branchList[${vs.index }].businessSope">${bran.businessSope}</textarea>
 	       	    <div class="cue"><sf:errors path="branchList[${vs.index }].businessSope"/></div>
 	       	    </div>
 			  </li>
