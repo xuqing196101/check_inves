@@ -718,7 +718,7 @@ function deleteFinance() {
 			        <input type="text" name="bankAccount" creditcard="creditcard" required="required" value="${currSupplier.bankAccount}" <c:if test="${fn:contains(audit,'bankAccount')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bankAccount')"</c:if>/>
 			        <span class="add-on cur_point">i</span>
 			         <span class="input-tip">不能为空</span>
-			      <div class="cue"> ${err_msg_postCode } </div>
+			      <div class="cue"> ${err_msg_bankAccount } </div>
 			        <div class="cue"><sf:errors path="bankAccount"/></div>
 			       </div>
 				 </li> 
