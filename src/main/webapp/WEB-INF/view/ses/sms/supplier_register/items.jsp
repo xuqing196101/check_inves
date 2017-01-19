@@ -114,6 +114,9 @@
 		$.fn.zTree.init($("#" + kind), setting, zNodes);
 	 	
 		// 加载已选品目列表
+		loader = layer.load(1, {
+			shade: [0.1,'#fff'] //0.1透明度的白色背景
+		});
 		var supplierId="${currSupplier.id}";
 		var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
 		$("#tbody_category").load(path);
@@ -195,7 +198,7 @@
 		$("#categoryId").val(ids);
 	 	return ids;
 	}
-	
+	var loader;
 	function saveCategory(event, treeId, treeNode){
 		var clickFlag;
 		if (treeNode.checked) {
@@ -231,6 +234,9 @@
 			async: false,
 			data: $("#items_info_form_id").serialize(),
 			success: function() {
+				loader = layer.load(1, {
+					shade: [0.1,'#fff'] //0.1透明度的白色背景
+				});
 				var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + type;
 				$("#tbody_category").load(path);
 			}

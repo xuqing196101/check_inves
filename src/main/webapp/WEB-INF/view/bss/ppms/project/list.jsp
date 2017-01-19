@@ -111,6 +111,10 @@
                 }
               }
             });
+          }else if(status == "已废标") {
+            layer.alert("项目已废标", {
+              offset: ['30%', '40%'],
+            });
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {

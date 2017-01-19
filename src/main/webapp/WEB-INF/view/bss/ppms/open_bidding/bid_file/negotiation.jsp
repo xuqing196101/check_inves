@@ -99,8 +99,12 @@
 	          success : function(result) {
 	           if(result == "1"){
 	             layer.msg("保存成功", {
+	               time: 2000, 
                });
-               window.location.href = "${pageContext.request.contextPath}/open_bidding/negotiation.html?projectId="+projectId+"&flowDefineId="+flowDefineId;
+               window.setTimeout(function() {
+                  window.location.href = "${pageContext.request.contextPath}/open_bidding/negotiation.html?projectId="+projectId+"&flowDefineId="+flowDefineId;
+                }, 1000);
+               
 	           }
 	           if(result == "2"){
                layer.msg("修改成功", {

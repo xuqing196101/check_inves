@@ -129,7 +129,12 @@ public class WinningSupplierController extends BaseController {
       model.addAttribute("error", ERROR);
     }
     model.addAttribute("kind", findById.getCode());
-    return "bss/ppms/winning_supplier/list";
+    String id = DictionaryDataUtil.getId("DYLY");
+    if(project.getPurchaseType().equals(id)){
+        return "bss/ppms/winning_supplier/lists";
+    }else{
+        return "bss/ppms/winning_supplier/list";
+    }
   }
 
 
@@ -272,6 +277,27 @@ public class WinningSupplierController extends BaseController {
 
 
   } 
+  
+  /**
+   * 
+   *〈单一来源确定中标〉
+   *〈详细描述〉
+   * @author FengTian
+   * @param user
+   * @param id
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping("/comparisons")
+  public String comparisons(@CurrentUser User user,String id){
+      String[] ids= id.split(",");
+      for (int i = 0; i < ids.length; i++ ) {
+          SupplierCheckPass checkPass = checkPassService.findByPrimaryKey(ids[i]);
+          checkPass.setIsWonBid((short)1);
+          checkPassService.update(checkPass);
+    }
+      return JSON.toJSONString(SUCCESS);
+  } 
 
   /**
    * 
@@ -369,6 +395,27 @@ public class WinningSupplierController extends BaseController {
   @ResponseBody
   @RequestMapping("/executeFinish")
   public String executeFinish(String  projectId, String flowDefineId,HttpServletRequest sq){
+    HashMap<String, Object> map = new HashMap<String, Object>();
+    //获取已有中标供应商的包组
+    String[] packList = checkPassService.selectWonBid(projectId);
+    //查看项目下有多少包
+    map.put("projectId", projectId);
+    List<Packages> findPackageById = packageService.findPackageById(map);
+    //对比
+    if (findPackageById != null && findPackageById.size() != ZERO){
+      if (findPackageById.size() != packList.length){
+        return JSON.toJSONString(ERROR);
+      } else {
+        flowMangeService.flowExe(sq, flowDefineId, projectId, 1);
+      }
+    }
+    return JSON.toJSONString(SUCCESS);
+  }
+  
+  
+  @ResponseBody
+  @RequestMapping("/finish")
+  public String finish(String  projectId, String flowDefineId,HttpServletRequest sq){
     HashMap<String, Object> map = new HashMap<String, Object>();
     //获取已有中标供应商的包组
     String[] packList = checkPassService.selectWonBid(projectId);

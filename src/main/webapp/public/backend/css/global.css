@@ -1236,3 +1236,16 @@ table .input_group .add-on{
 	height:100%;
 	border:0px;
 }
+
+/** 悬浮按钮 **/
+.btmfix {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #E0E0E0;
+    box-shadow: 0px -1px 4px #ddd;
+    height: 60px;
+    border-top: 1px solid #dadada;
+    z-index: 1000000;
+}

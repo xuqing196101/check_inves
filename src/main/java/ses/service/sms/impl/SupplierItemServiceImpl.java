@@ -281,8 +281,10 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         map.put("supplierId", supplierItem.getSupplierId());
         map.put("type", supplierItem.getSupplierTypeRelateId());
         for (Category cate : categoryList) {
-            map.put("categoryId", cate.getId());
-            supplierItemMapper.deleteByMap(map);
+            if (cate != null) {
+                map.put("categoryId", cate.getId());
+                supplierItemMapper.deleteByMap(map);
+            }
         }
         // 判断父节点下还有没有子节点被勾选
         Map<String, Object> param = new HashMap<String, Object>();

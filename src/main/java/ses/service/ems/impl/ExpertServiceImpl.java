@@ -524,12 +524,14 @@ public class ExpertServiceImpl implements ExpertService {
 			}
 			//u.setTypeName(DictionaryDataUtil.get("EXPERT_U").getId());
 			String address = expert.getAddress();
-	        Area area = areaMapper.selectById(address);
-	        // 市
-	        String cityName = area.getName();
-	        // 省
-	        String provinceName = areaMapper.selectById(area.getParentId()).getName();
-	        u.setAddress(provinceName.concat(cityName));
+			if (address != null) {
+			    Area area = areaMapper.selectById(address);
+			    // 市
+			    String cityName = area.getName();
+			    // 省
+			    String provinceName = areaMapper.selectById(area.getParentId()).getName();
+			    u.setAddress(provinceName.concat(cityName));
+			}
 			u.setRelName(expert.getRelName());
 			u.setTelephone(expert.getTelephone());
 			u.setGender(expert.getGender());
@@ -543,12 +545,14 @@ public class ExpertServiceImpl implements ExpertService {
 		}else{
 			//注册完账号  过段时间又填写个人信息
 		    String address = expert.getAddress();
-            Area area = areaMapper.selectById(address);
-            // 市
-            String cityName = area.getName();
-            // 省
-            String provinceName = areaMapper.selectById(area.getParentId()).getName();
-            expert.setAddress(provinceName.concat(cityName));;
+            if (address != null) {
+                Area area = areaMapper.selectById(address);
+                // 市
+                String cityName = area.getName();
+                // 省
+                String provinceName = areaMapper.selectById(area.getParentId()).getName();
+                user.setAddress(provinceName.concat(cityName));
+            }
 			user.setRelName(expert.getRelName());
 			user.setTelephone(expert.getTelephone());
 			user.setGender(expert.getGender());

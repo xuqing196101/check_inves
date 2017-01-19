@@ -114,6 +114,37 @@
       });
 
     }
+    
+    
+    
+        /** 执行完成*/
+    function qued() {
+      layer.confirm('确定之后不可修改，是否确定？', {
+        btn: ['确定', '取消'],
+        offset: ['100px', '300px'],
+        shade: 0.01
+      }, function(index) {
+        $.ajax({
+          type: "POST",
+          url: "${pageContext.request.contextPath}/winningSupplier/finish.html?flowDefineId=${flowDefineId}&&projectId=${projectId}",
+          dataType: "json",
+          success: function(data) {
+            if(data == "SCCUESS") {
+              window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}&&isFinish=1';
+            } else {
+              layer.alert("请选择中标供应商", {
+                offset: ['100', '300px'],
+                shade: 0.01
+              });
+            }
+          }
+        });
+
+      }, function(index) {
+        layer.close(index);
+      });
+
+    }
 
     /** 中标供应商 */
     function tabone() {
@@ -150,43 +181,6 @@
 
   <body>
     <h2 class="list_title mb0 clear">包列表</h2>
-    <c:choose>
-      <c:when test="${kind eq 'DYLY'}">
-        <c:if test="${ error != null || error == 'ERROR' }">
-          <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
-            <button class="btn " onclick="finish();" type="button">确定</button>
-          </div>
-        </c:if>
-        <div class="content table_box pl0">
-          <table class="table table-bordered table-condensed table-hover table-striped">
-            <thead>
-              <tr>
-                <th class="w50 info">序号</th>
-                <th class="info">包名</th>
-                <th class="info">供应商</th>
-                <th class="info">最终报价</th>
-              </tr>
-            </thead>
-            <c:forEach items="${packList }" var="pack" varStatus="vs">
-              <tr>
-                <td class="tc w30">${vs.count }</td>
-                <td class="tc">${pack.name }</td>
-                <c:if test="${fn:length(pack.listCheckPasses) != 0}">
-                  <c:forEach items="${pack.listCheckPasses}" var="list">
-                    <td class="tc">
-                      ${list.supplier.supplierName}
-                    </td>
-                    <td class="tc">
-                      ${list.totalPrice}
-                    </td>
-                  </c:forEach>
-                </c:if>
-              </tr>
-            </c:forEach>
-          </table>
-        </div>
-      </c:when>
-      <c:otherwise>
         <c:if test="${ error != null || error == 'ERROR' }">
           <div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
             <button class="btn " onclick="finish();" type="button">执行完成</button>
@@ -224,8 +218,6 @@
             </c:forEach>
           </table>
         </div>
-      </c:otherwise>
-    </c:choose>
   </body>
 
 </html>

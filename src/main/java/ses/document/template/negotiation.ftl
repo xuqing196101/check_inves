@@ -114,7 +114,7 @@
                         <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
                         <w:kern w:val="0" />
                         <w:sz w:val="24" /></w:rPr>
-                      <w:t>${projectName}</w:t>
+                      <w:t>${(projectName)!}</w:t>
                     </w:r>
                   </w:p>
                 </w:tc>
@@ -158,7 +158,7 @@
                         <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
                         <w:kern w:val="0" />
                         <w:sz w:val="24" /></w:rPr>
-                      <w:t>${projectNumber}</w:t>
+                      <w:t>${(projectNumber)!}</w:t>
                     </w:r>
                   </w:p>
                 </w:tc>
@@ -221,7 +221,7 @@
                         <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
                         <w:kern w:val="0" />
                         <w:sz w:val="24" /></w:rPr>
-                      <w:t>${date}</w:t>
+                      <w:t>${(date)!}</w:t>
                     </w:r>
                   </w:p>
                 </w:tc>
@@ -279,7 +279,7 @@
                         <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
                         <w:kern w:val="0" />
                         <w:sz w:val="24" /></w:rPr>
-                      <w:t>${address}</w:t>
+                      <w:t>${(address)!}</w:t>
                     </w:r>
                   </w:p>
                 </w:tc>
@@ -356,7 +356,7 @@
                         <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
                         <w:kern w:val="0" />
                         <w:sz w:val="24" /></w:rPr>
-                      <w:t>${nuter}</w:t>
+                      <w:t>${(nuter)!}</w:t>
                     </w:r>
                   </w:p>
                 </w:tc>
@@ -555,101 +555,101 @@
                 </w:tc>
               </w:tr>
               <#list selectList as list>
-              <#list list.listProjectExtract as listyes>
-              <w:tr w:rsidR="00000000">
-                <w:trPr>
-                  <w:trHeight w:val="567" />
-                  <w:jc w:val="center" /></w:trPr>
-                <w:tc>
-                  <w:tcPr>
-                    <w:tcW w:w="1455" w:type="dxa" />
-                    <w:vAlign w:val="center" /></w:tcPr>
-                  <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
-                    <w:pPr>
-                      <w:widowControl/>
-                      <w:jc w:val="left" />
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                    </w:pPr>
-                    <w:r>
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                      <w:t>${(listyes.expert.relName)!}</w:t>
-                    </w:r>
-                  </w:p>
-                </w:tc>
-                <w:tc>
-                  <w:tcPr>
-                    <w:tcW w:w="3804" w:type="dxa" />
-                    <w:vAlign w:val="center" /></w:tcPr>
-                  <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
-                    <w:pPr>
-                      <w:widowControl/>
-                      <w:jc w:val="left" />
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                    </w:pPr>
-                    <w:r>
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                      <w:t>${(listyes.expert.workUnit)!}</w:t>
-                    </w:r>
-                  </w:p>
-                </w:tc>
-                <w:tc>
-                  <w:tcPr>
-                    <w:tcW w:w="1701" w:type="dxa" />
-                    <w:vAlign w:val="center" /></w:tcPr>
-                  <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
-                    <w:pPr>
-                      <w:widowControl/>
-                      <w:jc w:val="left" />
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                    </w:pPr>
-                    <w:r>
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                      <w:t>${(listyes.expert.professTechTitles)!}</w:t>
-                    </w:r>
-                  </w:p>
-                </w:tc>
-                <w:tc>
-                  <w:tcPr>
-                    <w:tcW w:w="2153" w:type="dxa" />
-                    <w:vAlign w:val="center" /></w:tcPr>
-                  <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
-                    <w:pPr>
-                      <w:widowControl/>
-                      <w:jc w:val="left" />
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                    </w:pPr>
-                    <w:r>
-                      <w:rPr>
-                        <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
-                        <w:kern w:val="0" />
-                        <w:sz w:val="24" /></w:rPr>
-                      <w:t>${(listyes.expert.remarks)!}</w:t>
-                    </w:r>
-                  </w:p>
-                </w:tc>
-              </w:tr>
-              </#list>
+                <#list list.listProjectExtract as listyes>
+                  <w:tr w:rsidR="00000000">
+                    <w:trPr>
+                      <w:trHeight w:val="567" />
+                      <w:jc w:val="center" /></w:trPr>
+                    <w:tc>
+                      <w:tcPr>
+                        <w:tcW w:w="1455" w:type="dxa" />
+                        <w:vAlign w:val="center" /></w:tcPr>
+                      <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
+                        <w:pPr>
+                          <w:widowControl/>
+                          <w:jc w:val="left" />
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                        </w:pPr>
+                        <w:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                          <w:t>${(listyes.expert.relName)!}</w:t>
+                        </w:r>
+                      </w:p>
+                    </w:tc>
+                    <w:tc>
+                      <w:tcPr>
+                        <w:tcW w:w="3804" w:type="dxa" />
+                        <w:vAlign w:val="center" /></w:tcPr>
+                      <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
+                        <w:pPr>
+                          <w:widowControl/>
+                          <w:jc w:val="left" />
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                        </w:pPr>
+                        <w:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                          <w:t>${(listyes.expert.workUnit)!}</w:t>
+                        </w:r>
+                      </w:p>
+                    </w:tc>
+                    <w:tc>
+                      <w:tcPr>
+                        <w:tcW w:w="1701" w:type="dxa" />
+                        <w:vAlign w:val="center" /></w:tcPr>
+                      <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
+                        <w:pPr>
+                          <w:widowControl/>
+                          <w:jc w:val="left" />
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                        </w:pPr>
+                        <w:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                          <w:t>${(listyes.expert.professTechTitles)!}</w:t>
+                        </w:r>
+                      </w:p>
+                    </w:tc>
+                    <w:tc>
+                      <w:tcPr>
+                        <w:tcW w:w="2153" w:type="dxa" />
+                        <w:vAlign w:val="center" /></w:tcPr>
+                      <w:p w:rsidR="00000000" w:rsidRDefault="00210890">
+                        <w:pPr>
+                          <w:widowControl/>
+                          <w:jc w:val="left" />
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                        </w:pPr>
+                        <w:r>
+                          <w:rPr>
+                            <w:rFonts w:ascii="宋体" w:hAnsi="宋体" w:cs="宋体" w:hint="eastAsia" />
+                            <w:kern w:val="0" />
+                            <w:sz w:val="24" /></w:rPr>
+                          <w:t>${(listyes.expert.remarks)!}</w:t>
+                        </w:r>
+                      </w:p>
+                    </w:tc>
+                  </w:tr>
+                </#list>
               </#list>
               <w:tr w:rsidR="00000000">
                 <w:trPr>

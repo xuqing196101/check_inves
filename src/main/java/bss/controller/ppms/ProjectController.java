@@ -129,6 +129,9 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private PurchaseDetailService purchaseDetailService;
+    
+    /** SCCUESS */
+    private static final String SUCCESS = "SCCUESS";
 
     /**
      * 〈简述〉 
@@ -159,18 +162,20 @@ public class ProjectController extends BaseController {
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             List<Project> list = projectService.selectProjectsByConition(map);
-            for(int i=0;i<list.size();i++){
-                try {
-                    User contractor = userService.getUserById(list.get(i).getPrincipal());
-                    list.get(i).setProjectContractor(contractor.getRelName());
-                } catch (Exception e) {
-                    list.get(i).setProjectContractor("");
+            if(list != null && list.size() > 0){
+                for(int i=0;i<list.size();i++){
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
                 }
+                model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+                model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+                model.addAttribute("info", new PageInfo<Project>(list));
+                model.addAttribute("projects", project);
             }
-            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
-            model.addAttribute("info", new PageInfo<Project>(list));
-            model.addAttribute("projects", project);
         }
         //判断是不是监管人员(采购管理人员)
         HashMap<String,Object> roleMap = new HashMap<String,Object>();
@@ -797,7 +802,6 @@ public class ProjectController extends BaseController {
                          
                          map.put("id", id2.get(i).toString());
                          List<PurchaseDetail> lists = purchaseDetailService.selectByParentId(map);
-                         
                          if(lists.size() == 1){//查询最底层明细的节点
                              parId=lists.get(0).getParentId(); 
                              PurchaseDetail purchaseRequired = purchaseDetailService.queryById(parId);
@@ -820,11 +824,15 @@ public class ProjectController extends BaseController {
                      for(String pid:id2){
                          PurchaseDetail required = purchaseDetailService.queryById(pid);
                          planNo = required.getPlanNo();
-                         if(required.getParentId().equals(parId)){
+                         HashMap<String, Object> map = new HashMap<>();
+                         map.put("id", advance.get(0).getProject().getId());
+                         map.put("requiredId", pid);
+                         List<ProjectDetail> detail = detailService.selectById(map);
+                         if(detail == null || detail.size() == 0){
                              required.setProjectStatus(1);
                              purchaseDetailService.updateByPrimaryKeySelective(required);
                              insertDeatil(required,k,id);
-                         } 
+                         }
                          list2.add(required);
                      }
                      for (PurchaseDetail purchaseDetail : list2) {
@@ -1501,7 +1509,13 @@ public class ProjectController extends BaseController {
                 user = null;
             }
         }
+        String id = DictionaryDataUtil.getId("DYLY");
         Project pr = projectService.selectById(projectId);
+        if(pr.getPurchaseType().equals(id)){
+            if(pr.getSupplierNumber() == null){
+                pr.setSupplierNumber(1);
+            }
+        }
         Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(pr.getPurchaseDepId());
         List<ProjectTask> tasks = projectTaskService.queryByNo(map);
         List<Task> list1 = new ArrayList<Task>();
@@ -2181,53 +2195,119 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/addPack")
     @ResponseBody
-    public void addPack(HttpServletRequest request){
+    public String addPack(HttpServletRequest request){
+        Boolean flag = true;
         String[] id = request.getParameter("id").split(",");
         String projectId = request.getParameter("projectId");
+        Set<String> set = new HashSet<String>();
+        String id2 = DictionaryDataUtil.getId("DYLY");
         Project project = projectService.selectById(projectId);
-        HashMap<String,Object> pack = new HashMap<String,Object>();
-        pack.put("projectId",projectId);
-        List<Packages> packList = packageService.findPackageById(pack);
-        Packages pg = new Packages();
-        pg.setName("第"+(packList.size()+1)+"包");
-        pg.setProjectId(projectId);
-        pg.setIsDeleted(0);
-        if(project.getIsImport()==1){
-            pg.setIsImport(1);
-        }else{
-            pg.setIsImport(0);
-        }
-        pg.setPurchaseType(project.getPurchaseType());
-        pg.setCreatedAt(new Date());
-        pg.setUpdatedAt(new Date());
-        packageService.insertSelective(pg);
-        List<Packages> wantPackId = packageService.findPackageById(pack);
-        for(int i=0;i<id.length;i++){
-            ProjectDetail pDetail = detailService.selectByPrimaryKey(id[i]);
-            HashMap<String,Object> map = new HashMap<String,Object>();
-            map.put("id", pDetail.getRequiredId());
-            map.put("projectId", projectId);
-            List<ProjectDetail> list = detailService.selectByParentId(map);
-            if(list.size()==1){
-                ProjectDetail projectDetail = new ProjectDetail();
-                projectDetail.setId(id[i]);
-                projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
-                projectDetail.setUpdateAt(new Date());
-                detailService.update(projectDetail);
+        if(project.getPurchaseType().equals(id2)){
+            for (int i = 0; i < id.length; i++ ) {
+                ProjectDetail pDetail = detailService.selectByPrimaryKey(id[i]);
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("id", pDetail.getRequiredId());
+                map.put("projectId", projectId);
+                List<ProjectDetail> list = detailService.selectByParentId(map);
+                if(list.size()==1){
+                    set.add(pDetail.getSupplier());
+                }
             }
-        }
-        HashMap<String,Object> map = new HashMap<String,Object>();
-        map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
-        List<ProjectDetail> details = detailService.selectById(map);
-        Packages p = new Packages();
-        p.setId(wantPackId.get(wantPackId.size()-1).getId());
-        if(details.get(0).getStatus().equals("1")){
-            p.setStatus(1);
-            packageService.updateByPrimaryKeySelective(p);
+            if(set.size() > 1 || set.size() == 0){
+                flag = false;
+            }else {
+                HashMap<String,Object> pack = new HashMap<String,Object>();
+                pack.put("projectId",projectId);
+                List<Packages> packList = packageService.findPackageById(pack);
+                Packages pg = new Packages();
+                pg.setName("第"+(packList.size()+1)+"包");
+                pg.setProjectId(projectId);
+                pg.setIsDeleted(0);
+                if(project.getIsImport()==1){
+                    pg.setIsImport(1);
+                }else{
+                    pg.setIsImport(0);
+                }
+                pg.setPurchaseType(project.getPurchaseType());
+                pg.setCreatedAt(new Date());
+                pg.setUpdatedAt(new Date());
+                packageService.insertSelective(pg);
+                List<Packages> wantPackId = packageService.findPackageById(pack);
+                for(int i=0;i<id.length;i++){
+                    ProjectDetail pDetail = detailService.selectByPrimaryKey(id[i]);
+                    HashMap<String,Object> map = new HashMap<String,Object>();
+                    map.put("id", pDetail.getRequiredId());
+                    map.put("projectId", projectId);
+                    List<ProjectDetail> list = detailService.selectByParentId(map);
+                    if(list.size()==1){
+                        ProjectDetail projectDetail = new ProjectDetail();
+                        projectDetail.setId(id[i]);
+                        projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
+                        projectDetail.setUpdateAt(new Date());
+                        detailService.update(projectDetail);
+                    }
+                }
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
+                List<ProjectDetail> details = detailService.selectById(map);
+                Packages p = new Packages();
+                p.setId(wantPackId.get(wantPackId.size()-1).getId());
+                if(details.get(0).getStatus().equals("1")){
+                    p.setStatus(1);
+                    packageService.updateByPrimaryKeySelective(p);
+                }else{
+                    p.setStatus(0);
+                    packageService.updateByPrimaryKeySelective(p);
+                }
+                flag = true;
+            }
         }else{
-            p.setStatus(0);
-            packageService.updateByPrimaryKeySelective(p);
+            HashMap<String,Object> pack = new HashMap<String,Object>();
+            pack.put("projectId",projectId);
+            List<Packages> packList = packageService.findPackageById(pack);
+            Packages pg = new Packages();
+            pg.setName("第"+(packList.size()+1)+"包");
+            pg.setProjectId(projectId);
+            pg.setIsDeleted(0);
+            if(project.getIsImport()==1){
+                pg.setIsImport(1);
+            }else{
+                pg.setIsImport(0);
+            }
+            pg.setPurchaseType(project.getPurchaseType());
+            pg.setCreatedAt(new Date());
+            pg.setUpdatedAt(new Date());
+            packageService.insertSelective(pg);
+            List<Packages> wantPackId = packageService.findPackageById(pack);
+            for(int i=0;i<id.length;i++){
+                ProjectDetail pDetail = detailService.selectByPrimaryKey(id[i]);
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("id", pDetail.getRequiredId());
+                map.put("projectId", projectId);
+                List<ProjectDetail> list = detailService.selectByParentId(map);
+                if(list.size()==1){
+                    ProjectDetail projectDetail = new ProjectDetail();
+                    projectDetail.setId(id[i]);
+                    projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
+                    projectDetail.setUpdateAt(new Date());
+                    detailService.update(projectDetail);
+                }
+            }
+            HashMap<String,Object> map = new HashMap<String,Object>();
+            map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
+            List<ProjectDetail> details = detailService.selectById(map);
+            Packages p = new Packages();
+            p.setId(wantPackId.get(wantPackId.size()-1).getId());
+            if(details.get(0).getStatus().equals("1")){
+                p.setStatus(1);
+                packageService.updateByPrimaryKeySelective(p);
+            }else{
+                p.setStatus(0);
+                packageService.updateByPrimaryKeySelective(p);
+            }
+            flag = true;
         }
+        return JSON.toJSONString(flag);
     }
 
     
@@ -2913,6 +2993,19 @@ public class ProjectController extends BaseController {
         detailService.deleteByProject(id);
         projectService.delete(id);
         return "redirect:list.html";
+    }
+    
+    @RequestMapping("/abandoned")
+    @ResponseBody
+    public String abandoned(String id){
+        if(StringUtils.isNotBlank(id)){
+            Project project = projectService.selectById(id);
+            if(project != null){
+                project.setStatus(DictionaryDataUtil.getId("YJFB"));
+                projectService.update(project);
+            }
+        }
+        return JSON.toJSONString(SUCCESS);
     }
     
     @InitBinder  
