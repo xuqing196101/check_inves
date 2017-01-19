@@ -4,6 +4,7 @@
 <html>
 <head>
 	<jsp:include page="/index_head.jsp"></jsp:include>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<script type="text/javascript">
 	$(function(){
 		laypage({
