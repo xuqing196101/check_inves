@@ -198,8 +198,8 @@
 					layer.msg("文件大小错误，只允许上传" + singleFileSize + "KB文件");
 					return;
 				}
-				
-				if (!mutiple){
+				var mutiples = transBoolean($("#"+$base+"_multipleId").val());
+				if (!mutiples){
 					uploader.reset();
 				}
 			});
@@ -210,7 +210,8 @@
 					$("#"+file.id).remove();
 					return;
 				}
-				if (!mutiple){
+				var mutiples = transBoolean($("#"+$base+"_multipleId").val());
+				if (!mutiples){
 					$list.empty();
 				}
 				fileCount ++;
@@ -241,7 +242,7 @@
 			uploader.on( 'uploadSuccess', function(file,res) {
 			   	$.post(globalPath + '/file/finished.html'
 			   			,{fileName: file.name, path: res._raw , businessId: $("#"+$base+"_businessId").val(),
-			   			  typeId: $("#"+$base+"_typeId").val(), key: $("#"+$base+"_sysKeyId").val() ,mutiple: mutiple
+			   			  typeId: $("#"+$base+"_typeId").val(), key: $("#"+$base+"_sysKeyId").val() ,mutiple: $("#"+$base+"_multipleId").val()
 			   			},
 			   			function(msg){
 			   				if (msg == 'ok') {
@@ -356,6 +357,7 @@
 			 * 完成所有的上传
 			 */
 			uploader.on('uploadFinished',function(){
+				fileCount = 0;
 				if (percentLayer != null){
 					layer.close(percentLayer);
 				}
