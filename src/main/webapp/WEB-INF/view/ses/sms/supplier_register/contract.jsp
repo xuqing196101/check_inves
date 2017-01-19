@@ -11,7 +11,7 @@
 	$(function() {
 		var err = "${err_contract_files}";
 		if (err != null && err != "") {
-			layer.msg(err);
+			layer.msg(err, {offset: '300px'});
 		}
 		var PRODUCT = $("#li_id_1").text();
 		var SALES = $("#li_id_2").text();
