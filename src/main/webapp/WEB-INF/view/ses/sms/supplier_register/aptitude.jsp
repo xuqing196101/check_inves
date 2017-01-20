@@ -92,20 +92,26 @@ function psize(){
 				<div class="col-md-12 tab-v2 job-content">
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
+						  <c:set value="0" var="liCount"/>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
+							  <c:set value="${liCount+1}" var="liCount"/>
 								<li id="li_id_1" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
-								<li id="li_id_2"   ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT') and fn:length(projectQua) > 0}">
-								<li id="li_id_3"   ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+								<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
-								<li id="li_id_4"  ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+								<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
 						</ul>
 						<div class="tab-content padding-top-20 pr border0" id="tab_content_div_id">
+						<c:set value="0" var="divCount"/>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
 							
@@ -128,15 +134,14 @@ function psize(){
 						  					     </td>
 						  					 </tr>
 						  					</c:forEach>
-						  					
-						  					
 									</table> 
+									<c:set value="${divCount+1}" var="divCount"/> 
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 								<!-- 物资销售型 -->
 							<c:set value="0" var="length"> </c:set>
-								<div class="tab-pane fades" id="tab-2">
+								<div class="tab-pane <c:if test="${divCount == 0}">active in</c:if> fade height-300" id="tab-2">
 								
 										  <table class="table table-bordered">
 						  					 <c:forEach items="${saleQua }" var="sale" >
@@ -158,12 +163,12 @@ function psize(){
 										
 									</table> 
 								  
-									 
+									 <c:set value="${divCount+1}" var="divCount"/> 
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 					 
-								<div class="fades" id="tab-3">
+								<div class="tab-pane <c:if test="${divCount == 0}">active in</c:if> fade height-300" id="tab-3">
 								  <table class="table table-bordered">
 										<c:set value="0" var="plength"> </c:set>	 
 									  <c:forEach items="${projectQua }" var="project">
@@ -183,11 +188,12 @@ function psize(){
 										     </tr>
 										</c:forEach>  
 									</table> 
+									<c:set value="${divCount+1}" var="divCount"/> 
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 							 
-								<div class="tab-pane fades" id="tab-4">
+								<div class="tab-pane <c:if test="${divCount == 0}">active in</c:if> fade height-300" id="tab-4">
 								   <table class="table table-bordered">
 									 <c:set value="0" var="slength"> </c:set>
 									 	 
@@ -212,6 +218,7 @@ function psize(){
 										
 										
 									</table> 
+									<c:set value="${divCount+1}" var="divCount"/> 
 								</div>
 							</c:if>
 						</div>
