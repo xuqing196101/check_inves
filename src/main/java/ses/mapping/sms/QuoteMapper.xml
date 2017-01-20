@@ -13,12 +13,14 @@
     <result column="DELIVERY_TIME" jdbcType="VARCHAR" property="deliveryTime" />
     <result column="REMARK" jdbcType="VARCHAR" property="remark" />
     <result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
+    <result column="IS_REMOVE" jdbcType="DECIMAL" property="isRemove" />
+    <result column="GIVE_UP_REASON" jdbcType="VARCHAR" property="giveUpReason" />
     <association property="packages" column="PACKAGE_ID" select="bss.dao.ppms.PackageMapper.findPackageByCondition"/>
     <association property="projectDetail" column="PRODUCT_ID" select="bss.dao.ppms.ProjectDetailMapper.selectByPrimaryKey"/>
     <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
   </resultMap>
   <sql id="Base_Column_List">
-    ID, CREATED_AT, QUOTE_PRICE, PACKAGE_ID, PROJECT_ID, SUPPLIER_ID,TOTAL,PRODUCT_ID,DELIVERY_TIME,REMARK,IS_TURN_UP
+    ID, CREATED_AT, QUOTE_PRICE, PACKAGE_ID, PROJECT_ID, SUPPLIER_ID,TOTAL,PRODUCT_ID,DELIVERY_TIME,REMARK,IS_TURN_UP,IS_REMOVE,GIVE_UP_REASON
   </sql>
   <select id="selectByPrimaryKey" parameterType="ses.model.sms.Quote" resultMap="BaseResultMap">
     select 
@@ -123,8 +125,14 @@
       <if test="remark != null">
         REMARK,
       </if>
-	<if test="isTurnUp != null">
+	  <if test="isTurnUp != null">
         IS_TURN_UP,
+      </if>
+      <if test="isRemove != null">
+        IS_REMOVE,
+      </if>
+      <if test="giveUpReason != null">
+        GIVE_UP_REASON,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -160,6 +168,12 @@
       </if>
 	  <if test="isTurnUp != null">
         #{isTurnUp,jdbcType=DECIMAL},
+      </if>
+      <if test="isRemove != null">
+        #{isRemove,jdbcType=DECIMAL},
+      </if>
+      <if test="giveUpReason != null">
+        #{giveUpReason,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>

@@ -1174,12 +1174,14 @@ table .input_group .add-on{
 }
 
 /*倒计时样式*/
-.kaibiao_time{
-	line-height: 35px;
-	padding-top:70px;
-	font-size:19px;
-	overflow:hidden;
-	height:200px;
+.kaibiao_time {
+    line-height: 95px;
+    padding-top: 70px;
+    font-size: 19px;
+    overflow: hidden;
+}
+.yomi{
+	font-size:6.0em;
 }
 .announce{
 	background: url("../images/time.png") no-repeat top center;

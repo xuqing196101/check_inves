@@ -1138,37 +1138,38 @@
 
 	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier"
 		resultMap="findSupplierMap">
-		select * from(
-		select "NVL"(T4. NAME, T3. NAME) as NAME ,
-		t1.typeId,t1.categoryId,t2.*
-		from(
-		select id,
-		wm_concat(DISTINCT(categoryId)) as
-		categoryId,wm_concat(DISTINCT(typeId)) as typeId from (
 		SELECT
-		T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
-		T_SES_SMS_SUPPLIER t1
-		left join T_SES_SMS_SUPPLIER_TYPE_RELATE
-		t3 on t1.
-		ID = t3.SUPPLIER_ID
-		LEFT JOIN (
-		SELECT T1. ID, CATEGORY_ID
+	*
+FROM
+	(
+		SELECT
+			"NVL" (T4. NAME, T3. NAME) AS NAME,
+			t1.typeId,
+			t2.*
 		FROM
-		T_SES_SMS_SUPPLIER t1
-		RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
-		t2 ON T1. ID =
-		T2.SUPPLIER_ID
-		) t2 ON t1.id =t2.id
-		) GROUP BY id )t1
-		left JOIN
-		T_SES_SMS_SUPPLIER t2 on t1.id=t2.id
-		<!--查询地址 start 如果抱错就去掉这个 注释address条件查询 现在查询的是关联area表的name字段 在上面也加了一个t4.NAME -->
-		LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS=T3.ID
-		LEFT JOIN
-		T_SES_BMS_AREA T4 ON T3.PARENT_ID=T4.ID
-		<!--end -->
-		) where 1=1 and
-		SUPPLIER_NAME is not null
+			(
+				SELECT
+					ID,
+					wm_concat (DISTINCT(typeId)) AS typeId
+				FROM
+					(
+						SELECT
+							T1.*, 
+							t3.SUPPLIER_TYPE_ID AS typeId
+						FROM
+							T_SES_SMS_SUPPLIER t1
+						LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID
+					)
+				GROUP BY
+					ID
+			) t1
+		LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
+		LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
+		LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID 
+	)
+WHERE
+	1 = 1
+AND SUPPLIER_NAME IS NOT NULL
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>

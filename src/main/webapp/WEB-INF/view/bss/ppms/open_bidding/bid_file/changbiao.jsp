@@ -8,10 +8,19 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
+	function back() {
+		$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
+	}
+
+	var count = '${count}';
 	var jsonStr = [];
 	function addTotal() {
 		var allTable = document.getElementsByTagName("table");
-		for(var i = 0; i < allTable.length; i++) {
+		var i = 0;
+		if (count > 1) {
+			i = count;
+		}
+		for(i; i < allTable.length; i++) {
 			var totalMoney = 0;
 			for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 				var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
@@ -45,7 +54,11 @@
 	    y=oRect.top - 150;  
 		var allTable = document.getElementsByTagName("table");
 		var error = 0;
-		for(var i = 0; i < allTable.length; i++) {
+		var i = 0;
+		if (count > 1) {
+			i = count;
+		}
+		for(i; i < allTable.length; i++) {
 			for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 			    var supplierId = $(allTable[i]).attr('id');
 			    var productId = $(allTable[i].rows).eq(j).attr('id');
@@ -82,8 +95,10 @@
 			        success: function (message) {
 			        	if ('${packId}' == null || '${packId}' == "") {
 			        		window.location.href="${pageContext.request.contextPath}/open_bidding/viewMingxi.html?projectId="+projectId;
+			        		//$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/viewMingxi.html?projectId="+projectId);
 			        	} else {
-			        		window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId="+projectId + "&flowDefineId=${flowDefineId}";
+			        		//window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId="+projectId + "&flowDefineId=${flowDefineId}";
+			        		$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
 			        	}
 			        }
 			    });
@@ -181,7 +196,7 @@
 		</c:forEach>
 		<div class="col-md-12 tc">
 			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
+			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
 		</div>
 	</div>
 </body>

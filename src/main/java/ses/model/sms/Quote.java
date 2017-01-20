@@ -104,6 +104,26 @@ public class Quote {
     //每个包下面的供应商
     private List<Supplier> suList;
     
+    private Integer isRemove;
+    
+    private String giveUpReason;
+    
+    public Integer getIsRemove() {
+        return isRemove;
+    }
+
+    public void setIsRemove(Integer isRemove) {
+        this.isRemove = isRemove;
+    }
+
+    public String getGiveUpReason() {
+        return giveUpReason;
+    }
+
+    public void setGiveUpReason(String giveUpReason) {
+        this.giveUpReason = giveUpReason;
+    }
+
     public List<Supplier> getSuList() {
         return suList;
     }

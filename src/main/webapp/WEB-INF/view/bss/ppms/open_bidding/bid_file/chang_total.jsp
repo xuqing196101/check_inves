@@ -8,6 +8,10 @@
 
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
+	function back() {
+		$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
+	}
+	var count1 = '${count1}';
 	var jsonStr = [];
 	function update(obj, supplierId, packageId, projectId, quoteId){
 		var reg = /^\d+\.?\d*$/;
@@ -18,10 +22,10 @@
 	    y=oRect.top;
 	    var total = $(obj).parent().parent().find("td").eq("2").find("input").val();
 		var deliveryTime = $(obj).parent().parent().find("td").eq("3").find("input").val();
-		//deliveryTime = encodeURI(deliveryTime);
-		//deliveryTime = encodeURI(deliveryTime);
+		var auditReason = $(obj).parent().parent().find("td").eq("5").find("input").val();
+		var isGiveUp = $(obj).parent().parent().find("td").eq("4").find("select").val();
 		var date = '${date}';
-		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date};
+		var json = {"total":total, "supplierId":supplierId, "deliveryTime":deliveryTime, "packageId":packageId, "projectId":projectId, "quoteId":quoteId, "date":date, "auditReason":auditReason, "isGiveUp":isGiveUp};
 		jsonStr.push(json);
 		console.log(jsonStr); 
 	}
@@ -36,10 +40,16 @@
 		var allTable = document.getElementsByTagName("table");
 		var priceStr = "";
 		var count = 0;
-		for(var i = 0; i < allTable.length; i++) {
+		var i = 0;
+		if (count1 > 1) {
+			i = count1;
+		}
+		for(i; i < allTable.length; i++) {
 			for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
 				var total = $(allTable[i].rows).eq(j).find("td").eq("2").find("input").val();
 				var time = $(allTable[i].rows).eq(j).find("td").eq("3").find("input").val();
+				var auditReason = $(allTable[i].rows).eq(j).find("td").eq("5").find("input").val();
+				var isGiveUp = $(allTable[i].rows).eq(j).find("td").eq("4").find("select").val();
 				var reg = /^\d+\.?\d*$/;
 				if (total == "" || time == "") {
 					count ++;
@@ -50,7 +60,11 @@
 						count ++;
 						layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
 						return ;
-			   }
+			    }
+			    if (isGiveUp == "2" && auditReason == "") {
+					layer.msg("必须填写放弃原因",{offset: ['25%', '25%']});
+					return;
+				}
 			};
 		}
 		if (count == 0) {
@@ -61,7 +75,7 @@
 				};
 			}
 			//alert(JSON.stringify(jsonStr));
-			 $.ajax({
+			  $.ajax({
 		        type: "POST",
 		        url: "${pageContext.request.contextPath}/open_bidding/save.html",
 		        data: {quoteList:JSON.stringify(jsonStr)},
@@ -70,12 +84,13 @@
 		        		if ('${packId}' == null || '${packId}' == "") {
 			        		window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId=${projectId}";
 			        	} else {
-			        		window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}" + "&flowDefineId=${flowDefineId}";
+			        		//window.location.href="${pageContext.request.contextPath}/packageExpert/auditManage.html?projectId=${projectId}" + "&flowDefineId=${flowDefineId}";
+			        		$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
 			        	}
 		        },
 		        error: function (message) {
 		        }
-		    });
+		    }); 
 		}
 	}
 
@@ -120,6 +135,9 @@
 </head>
 <body>
 <div id="showDiv" class="clear">
+<c:if test="${count != 0 }">
+<h2 class="tc">第${count + 1}轮报价</h2>
+</c:if>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
 		<div>
@@ -142,6 +160,8 @@
 					<th class="info w200">供应商名称</th>
 					<th class="info w100">总价(万元)</th>
 					<th class="info w100">交货期限</th>
+					<th class="info w100">状态</th>
+					<th class="info w100">放弃原因</th>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -152,6 +172,13 @@
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc"><input class="w60"  maxlength="16" /></td>
 					<td class="tc"><input class="w90"/></td>
+					<td class="tc">
+							<select>
+								<option value="">请选择</option>
+								<option value="2">放弃报价</option>
+							</select>
+					</td>
+					<td class="tc"><input /></td>
 			    </tr>
 		</c:forEach>
 		</table>
@@ -160,7 +187,7 @@
 </c:forEach>
 		<div class="col-md-12 tc">
 			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
+			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
 		</div>
 </div>
 </body>

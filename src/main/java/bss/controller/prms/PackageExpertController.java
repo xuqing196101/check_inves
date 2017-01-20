@@ -429,6 +429,12 @@ public class PackageExpertController {
                                           conditionQuote.setDeliveryTime(qp.getDeliveryTime());
                                       }
                                   }
+                                if (conditionQuote.getIsRemove() == null) {
+                                  saleTender.setIsRemoved("正常");
+                                } else {
+                                  saleTender.setIsRemoved("放弃报价");
+                                }
+                                saleTender.setRemovedReason(conditionQuote.getGiveUpReason());  
                                 saleTender.setTotal(conditionQuote.getTotal());
                                 saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
                                 saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());

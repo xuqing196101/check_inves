@@ -8,6 +8,10 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <script type="text/javascript">
+	function back() {
+		$("#tab-3").load("${pageContext.request.contextPath}/packageExpert/toSupplierQuote.html?projectId=${projectId}&flowDefineId=${flowDefineId}");
+	}
+
 	$(function(){
 		var allTable = document.getElementsByTagName("table");
 		for(var i = 0; i < allTable.length; i++) {
@@ -59,7 +63,9 @@
 </head>
 <body onload="addTotal()">
 <!-- 表格开始-->  
-	   <div class="tr mt10"><button class="btn" onclick="openMax()">全屏</button></div>
+	   <c:if test="${fn:length(listPackage) != 1 }">
+	   		<div class="tr mt10"><button class="btn" onclick="openMax()">全屏</button></div>
+	   </c:if>
        <div class="clear">
 		<input id="projectId" name="projectId" value="${project.id}" type="hidden" />
 		<c:forEach items="${listPackage}" var="listPackage" varStatus="vs">
@@ -119,7 +125,7 @@
 	</div>
 		<div class="col-md-12 tc">
 		<c:if test="${fn:length(listPackage) == 1 }">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
+			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
 		</c:if>
 		</div>
 </body>

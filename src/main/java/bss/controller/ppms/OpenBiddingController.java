@@ -1053,6 +1053,14 @@ public class OpenBiddingController {
       //如果有明细就是查看了
       return "redirect:viewChangtotal.html?projectId=" + projectId;
     }
+    if (packId != null) {
+        //显示第几轮次报价
+        quoteCondition.setPackageId(packId);
+        List<Date> listDate1 =  supplierQuoteService.selectQuoteCount(quoteCondition);
+        if (listDate1 != null) {
+            model.addAttribute("count", listDate1.size());
+        }
+    }
     //去saletender查出项目对应的所有的包
     List<Packages> packList = saleTenderService.getPackageIds(projectId);
     List<Packages> listPackage1 = new ArrayList<Packages>();
@@ -1061,7 +1069,7 @@ public class OpenBiddingController {
     SaleTender condition = new SaleTender();
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
-
+    model.addAttribute("count1", packList.size());
     if (packId != null) {
       for (Packages pack : packList) {
         if (pack.getId().equals(packId)) {
@@ -1191,6 +1199,50 @@ public class OpenBiddingController {
     model.addAttribute("projectId", projectId);
     return "bss/ppms/open_bidding/bid_file/view_chang_total";
   }
+  
+  @RequestMapping("/viewChangtotalByPackId")
+  public String viewChangtotalByPackId(String projectId, String packId, String timestamp, Model model, HttpServletRequest req) throws ParseException{
+      Packages pack = packageService.selectByPrimaryKeyId(packId);
+      TreeMap<String, List<SaleTender>> treeMap = new TreeMap<String, List<SaleTender>>();
+      SaleTender condition = new SaleTender();
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      condition.setProjectId(projectId);
+      condition.setPackages(pack.getId());
+      condition.setStatusBid(NUMBER_TWO);
+      condition.setStatusBond(NUMBER_TWO);
+      List<SaleTender> stList = saleTenderService.find(condition);
+      map.put("packageId", pack.getId());
+      map.put("projectId", projectId);
+      List<ProjectDetail> detailList = detailService.selectByCondition(map, null);
+      BigDecimal projectBudget = BigDecimal.ZERO;
+      for (ProjectDetail projectDetail : detailList) {
+        projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+      }
+      Quote quote = new Quote();
+      quote.setProjectId(projectId);
+      quote.setPackageId(pack.getId());
+      quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(timestamp).getTime()));
+      List<Quote> listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote);
+      for (SaleTender saleTender : stList) {
+          for (Quote qp : listQuotebyPackage) {
+              if (qp.getSupplier() != null && qp.getSupplier().getId().equals(saleTender.getSuppliers().getId())) {
+                  saleTender.setTotal(qp.getTotal());
+                  saleTender.setDeliveryTime(qp.getDeliveryTime());
+                  saleTender.setQuoteId(qp.getId());
+                  if ("0".equals(saleTender.getIsRemoved())) {
+                      saleTender.setIsRemoved("正常");
+                  }
+                  if ("2".equals(saleTender.getIsRemoved())) {
+                      saleTender.setIsRemoved("放弃报价");
+                  }
+              }
+         }
+      }
+     treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+     model.addAttribute("treeMap", treeMap);
+     model.addAttribute("projectId", projectId);
+     return "bss/ppms/open_bidding/bid_file/view_chang_total_by_packId";
+  }
 
 
 
@@ -1293,6 +1345,10 @@ public class OpenBiddingController {
       quote.setPackageId(jsonQuote.getString("packageId"));
       quote.setProjectId(jsonQuote.getString("projectId"));
       quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
+      if (!"".equals(jsonQuote.getString("isGiveUp"))) {
+          quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
+      }
+      quote.setGiveUpReason(jsonQuote.getString("auditReason"));
       quoteLists.add(quote);
     }
     supplierQuoteService.insert(quoteLists);  
@@ -1520,6 +1576,7 @@ public class OpenBiddingController {
         listPackage.add(packages);
       }
     }
+    model.addAttribute("count", listPackage.size());
     if (packId != null) {
       for (Packages pack : listPackage) {
         if (pack.getId().equals(packId)) {
@@ -1620,8 +1677,12 @@ public class OpenBiddingController {
       //每个包有几个供应商
       pk.setSuList(suList);
       BigDecimal projectBudget = BigDecimal.ZERO;
-      for (Quote q : pk.getSuList().get(0).getQuoteList()) {
-        projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+      if (pk.getSuList() != null && pk.getSuList().size() > 0) {
+          for (Quote q : pk.getSuList().get(0).getQuoteList()) {
+              if (q.getProjectDetail() != null) {
+                  projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+              }
+          }
       }
       //项目预算
       pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));

@@ -157,7 +157,7 @@ public class ScoreModelUtil {
                                    s = supplyMarkList.get(i - 1).getScore();
                                    num ++;
                                } else {
-                                   s = new Double(scoreModel.getMaxScore()) - (i - num)*(new Double(scoreModel.getUnitScore()));
+                                   s = new Double(scoreModel.getMaxScore()) - (i - num + 1)*(new Double(scoreModel.getUnitScore()));
                                }
                                if (s >= 0) {
                                    supplyMarkList.get(i).setScore(s);
@@ -180,7 +180,7 @@ public class ScoreModelUtil {
                                   s = supplyMarkList.get(i - 1).getScore();
                                   num ++;
                               } else {
-                                  s = new Double(scoreModel.getMaxScore()) - (i - num)*(new Double(scoreModel.getUnitScore()));
+                                  s = new Double(scoreModel.getMaxScore()) - (i - num + 1)*(new Double(scoreModel.getUnitScore()));
                               }
                               if (s >= 0) {
                                   supplyMarkList.get(i).setScore(s);
@@ -225,7 +225,7 @@ public class ScoreModelUtil {
                                    s = supplyMarkList.get(i - 1).getScore();
                                    num ++;
                                } else {
-                                   s = (i - num)*(new Double(scoreModel.getUnitScore()));
+                                   s = (i - num + 1)*(new Double(scoreModel.getUnitScore()));
                                }
                                if (s >= new Double(scoreModel.getMaxScore())) {
                                    supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
@@ -248,7 +248,7 @@ public class ScoreModelUtil {
                                    s = supplyMarkList.get(i - 1).getScore();
                                    num ++;
                                } else {
-                                   s = (i - num)*(new Double(scoreModel.getUnitScore()));
+                                   s = (i - num + 1)*(new Double(scoreModel.getUnitScore()));
                                }
                                if (s >= new Double(scoreModel.getMaxScore())) {
                                    supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
@@ -410,20 +410,23 @@ public class ScoreModelUtil {
             String type = scoreModel.getAddSubtractTypeName();
             for(int i=0 ;i<supplyMarkList.size();i++){
                 if ("1".equals(type)) {
-                                double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
-                                if (s >= 0) {
-                                    supplyMarkList.get(i).setScore(s);
-                                } else {
-                                    supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
-                                }
-                      
+                        double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                        if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
+                            supplyMarkList.get(i).setScore(0);
+                        } else if (s >= 0) {
+                            supplyMarkList.get(i).setScore(s);
+                        } else {
+                            supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                        }
                 } else {
-                            double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
-                            if (s >= new Double(scoreModel.getMaxScore())) {
-                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
-                            } else {
-                                supplyMarkList.get(i).setScore(s);
-                            }
+                        double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                        if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
+                            supplyMarkList.get(i).setScore(0);
+                        } else if (s >= new Double(scoreModel.getMaxScore())) {
+                            supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                        } else {
+                            supplyMarkList.get(i).setScore(s);
+                        }
                 }
             }
             return supplyMarkList;

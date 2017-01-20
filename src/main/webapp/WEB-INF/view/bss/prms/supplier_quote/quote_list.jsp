@@ -88,18 +88,24 @@
 
 	function quoteAgain(projectId, packId, status){
 	    if (status ==1 ) {
-			window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}";
+			//window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}";
+	    	$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}");
 	    } else {
-	    	window.location.href="${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}";
+	    	//window.location.href="${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}";
+	    	$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}");
 	    }
 	}
 
 	function showQuoteHistory(projectId, packId, data) {
-		window.location.href="${pageContext.request.contextPath}/open_bidding/viewChangtotal.html?timestamp=" + data + "&projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}";
+		//window.location.href="${pageContext.request.contextPath}/open_bidding/viewChangtotal.html?timestamp=" + data + "&projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}";
+		var json = {"timestamp":data};
+		$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/viewChangtotalByPackId.html?projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}", json);
 	}
 	
 	function showQuoteHistoryMingxi(projectId, packId, data) {
-		window.location.href="${pageContext.request.contextPath}/open_bidding/viewMingxi.html?timestamp=" + data + "&projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}";
+		//window.location.href="${pageContext.request.contextPath}/open_bidding/viewMingxi.html?timestamp=" + data + "&projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}";
+		var json = {"timestamp":data};
+		$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/viewMingxi.html?projectId=" + projectId + "&packId=" + packId+ "&flowDefineId=${flowDefineId}", json);
 	}
 	$(function(){
 		for (var i = 1; i < 20; i++) {
@@ -128,8 +134,10 @@
 				<tr>
 					<th class="w50 info">序号</th>
 				  	<th class="info">供应商名称</th>
-				  	<th class="info">报价(单位：万元)</th>
+				  	<th class="info w100">报价<br/>(单位：万元)</th>
 				  	<th class="info">交货期限</th>
+				  	<th class="info w100">状态</th>
+					<th class="info">放弃原因</th>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -141,41 +149,44 @@
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tr">${treemapValue.total}</td>
 					<td class="tc">${treemapValue.deliveryTime}</td>
+					<td class="tc">${treemapValue.isRemoved}</td>
+					<td class="tc">${treemapValue.removedReason}</td>
 			    </tr>
 			    
 		</c:forEach>
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
-			<tr>
-			        <c:if test="${isEndPrice !=1 }">
-		        		<td class="tc" colspan="4"><button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
-						 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
-								<c:if test="${empty treemap.value[0].dataList}">
-									<option value=''>暂无报价历史</option>
-								</c:if>
-								<c:set value="${fn:length(treemap.value[0].dataList)}" var="length"></c:set>
-								<c:forEach items="${treemap.value[0].dataList}" var="ld" varStatus="vs">
-									<c:set value="${length - vs.index}" var="result"></c:set>
-									<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}次报价</option>
-								</c:forEach>
-					 	 </select>
-				    </td>
-		        	</c:if>
-		        	 <c:if test="${isEndPrice ==1 }">
-		        		<td class="tc" colspan="4"><button class="btn">已结束唱标</button>
-						 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
-								<c:if test="${empty treemap.value[0].dataList}">
-									<option value=''>暂无报价历史</option>
-								</c:if>
-								<c:set value="${fn:length(treemap.value[0].dataList)}" var="length"></c:set>
-								<c:forEach items="${treemap.value[0].dataList}" var="ld" varStatus="vs">
-									<c:set value="${length - vs.index}" var="result"></c:set>
-									<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}次报价</option>
-								</c:forEach>
-					 	 </select>
-				    </td>
-		        	</c:if>
-					
-		        </tr>
+	        <c:if test="${isEndPrice !=1 }">
+        		 <button class="btn" onclick = "quoteAgain('${project.id}','${packId}',1)">再次报价</button>
+        		 <span class="ml50">查看历史报价:</span>
+				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
+						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1}">
+							<option value=''>暂无报价历史</option>
+						</c:if>
+						<c:set value="${fn:length(treemap.value[0].dataList)}" var="length"></c:set>
+						<c:if test="${fn:length(treemap.value[0].dataList) > 1}">
+							<c:forEach items="${treemap.value[0].dataList}" var="ld" varStatus="vs">
+								<c:set value="${length - vs.index}" var="result"></c:set>
+								<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}轮报价</option>
+							</c:forEach>
+						</c:if>
+			 	 </select>
+        	</c:if>
+        	 <c:if test="${isEndPrice ==1 }">
+        		 <button class="btn">已结束唱标</button>
+        		 <span class="ml50">查看历史报价:</span>
+				 <select onchange="showQuoteHistory('${project.id}','${packId}',this.options[this.options.selectedIndex].value)">
+						<c:if test="${empty treemap.value[0].dataList or fn:length(treemap.value[0].dataList) == 1 }">
+							<option value=''>暂无报价历史</option>
+						</c:if>
+						<c:set value="${fn:length(treemap.value[0].dataList)}" var="length"></c:set>
+						<c:if test="${fn:length(treemap.value[0].dataList) > 1}">
+							<c:forEach items="${treemap.value[0].dataList}" var="ld" varStatus="vs">
+								<c:set value="${length - vs.index}" var="result"></c:set>
+								<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}轮报价</option>
+							</c:forEach>
+						</c:if>
+			 	 </select>
+        	</c:if>
 		 </c:if>
 		</table>
 		</div>
@@ -204,16 +215,16 @@
 			        	 <c:if test="${listPackage.isEndPrice ==1 }">
 			        		<button class="btn">已结束唱标</button>
 			        	</c:if>
-			        	
+			        	<span class="ml50">查看历史报价:</span>
 						 <select onchange="showQuoteHistoryMingxi('${project.id}','${listPackage.id}',this.options[this.options.selectedIndex].value)">
 						 	<c:set value="${fn:length(listPackage.dataList)}" var="length"></c:set>
-						 	<c:if test="${empty listPackage.dataList}">
+						 	<c:if test="${empty listPackage.dataList or fn:length(listPackage.dataList) == 1 }">
 						 		<option value=''>暂无报价历史</option>
 						 	</c:if>
-						 	<c:if test="${not empty listPackage.dataList}">
+						 	<c:if test="${not empty listPackage.dataList and fn:length(listPackage.dataList) > 1}">
 								<c:forEach items="${listPackage.dataList}" var="ld" varStatus="vs">
 									<c:set value="${length - vs.index}" var="result"></c:set>
-									<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}次报价</option>
+									<option value='<fmt:formatDate value="${ld}" pattern="YYYY-MM-dd HH:mm:ss"/>'>第${result}轮报价</option>
 								</c:forEach>
 							</c:if>
 					 	 </select>

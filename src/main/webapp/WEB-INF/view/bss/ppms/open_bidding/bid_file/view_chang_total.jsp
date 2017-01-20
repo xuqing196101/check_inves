@@ -44,7 +44,9 @@
 </script>
 </head>
 <body>
+<c:if test="${listLength != 1}">
 <div class="tr mt10"><button class="btn" onclick="openMax()">全屏</button></div>
+</c:if>
 <div id="showDiv" class="clear">
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
 	<c:forEach items="${treemap.key }" var="treemapKey" varStatus="vs">
@@ -67,7 +69,9 @@
 					<th class="info w50">序号</th>
 					<th class="info w200">供应商名称</th>
 					<th class="info w100">总价(万元)</th>
-					<th class="info w100">交货期限</th>
+					<th class="info">交货期限</th>
+					<th class="info w100">状态</th>
+					<th class="info w100">放弃原因</th>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -76,17 +80,14 @@
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 				    <td class="tr">${treemapValue.total}</td>
 				    <td class="tc">${treemapValue.deliveryTime }</td>
+				    <td class="tc">${treemapValue.isRemoved}</td>
+					<td class="tc">${treemapValue.removedReason}</td>
 			    </tr>
 		</c:forEach>
 		</table>
 		</div>
 	</c:forEach>
 </c:forEach>
-		<div class="col-md-12 tc">
-		<c:if test="${listLength == 1}">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="history.go(-1)">
-		</c:if>
-		</div>
 </div>
 </body>
 </html>
