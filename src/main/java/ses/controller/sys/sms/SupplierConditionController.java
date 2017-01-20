@@ -234,6 +234,7 @@ public class SupplierConditionController {
                 SupplierExtRelate supplierExtRelate = new SupplierExtRelate();
                 supplierExtRelate.setReviewType(extConType1.getSupplierTypeId());
                 supplierExtRelate.setSupplierConditionId(listCondition.get(0).getId());
+                supplierExtRelate.setReason("1");
                 List<SupplierExtRelate> peList = extRelateService.list(supplierExtRelate,null);
                 extConType1.setAlreadyCount(peList == null ? 0 : peList.size());
             }

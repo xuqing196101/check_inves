@@ -421,6 +421,7 @@ public class ExpExtractRecordController extends BaseController {
           ProjectExtract projectExtrac = new ProjectExtract();
           projectExtrac.setReviewType(extConType1.getExpertsTypeId());
           projectExtrac.setExpertConditionId(listCon.get(0).getId());
+          projectExtrac.setReason("1,2");
           List<ProjectExtract> list2 = extractService.list(projectExtrac);
           extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
         }
@@ -680,6 +681,7 @@ public class ExpExtractRecordController extends BaseController {
         ProjectExtract projectExtrac = new ProjectExtract();
         projectExtrac.setReviewType(extConType1.getExpertsTypeId());
         projectExtrac.setExpertConditionId(listCondition.get(0).getId());
+        projectExtrac.setReason("1,2");
         List<ProjectExtract> list2 = extractService.list(projectExtrac);
         extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
       }
@@ -713,7 +715,7 @@ public class ExpExtractRecordController extends BaseController {
     //      修改状态
     String[] ids = id.split(",");
 
-    if ("1".equals(ids[2])){
+    if ("1".equals(ids[2]) || "2".equals(ids[2])){
       ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
       //获取抽取类型
       List<ExpExtCondition> conList =  conditionService.list(new ExpExtCondition(expExtRelate.getExpertConditionId(), "") , null);
@@ -769,9 +771,9 @@ public class ExpExtractRecordController extends BaseController {
           ProjectExtract extract = new ProjectExtract();
           int i = 0;
           String[] split = list.get(0).getExpert().getExpertsTypeId().split(",");
-          if(split.length > 1 ){
-            int max=split.length-1;
-            int min=0;
+          if (split.length > 1 ){
+            int max = split.length-1;
+            int min = 0;
             Random random = new Random();
             i = random.nextInt(max)%(max-min+1) + min;
           }
@@ -791,7 +793,7 @@ public class ExpExtractRecordController extends BaseController {
     } else {
       extractService.update(new ProjectExtract(ids[0], new Short(ids[2]) ,packageId));
     }
-    if ("1".equals(ids[2])){
+    if ("1".equals(ids[2]) || "2".equals(ids[2])){
       ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
 
       if ("1".equals(expExtRelate.getExpert().getStatus())){
@@ -859,6 +861,7 @@ public class ExpExtractRecordController extends BaseController {
       ProjectExtract projectExtrac = new ProjectExtract();
       projectExtrac.setReviewType(extConType1.getExpertsTypeId());
       projectExtrac.setExpertConditionId(ids[1]);
+      projectExtrac.setReason("1,2");
       List<ProjectExtract> list = extractService.list(projectExtrac);
       extConType1.setAlreadyCount(list == null ? 0 : list.size());
       //删除满足数量的

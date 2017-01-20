@@ -348,6 +348,7 @@ public class SupplierExtractsController extends BaseController {
             //获取抽取的专家类别
             SupplierExtRelate supplierExtRelateC = new SupplierExtRelate();
             supplierExtRelateC.setReviewType(extConType1.getSupplierTypeId());
+            supplierExtRelateC.setReason("1,2");
             supplierExtRelateC.setSupplierConditionId(conId);
             List<SupplierExtRelate> list2 = extRelateService.list(supplierExtRelateC, null);
             extConType1.setAlreadyCount(list2 == null ? 0 : list2.size());
@@ -432,7 +433,7 @@ public class SupplierExtractsController extends BaseController {
     }
 
     if (count == 1){
-
+      map.put("error", "error");
       return JSON.toJSONString(map);
 
     } else{
@@ -624,7 +625,7 @@ public class SupplierExtractsController extends BaseController {
   public Object resultextract(Model model,String id,String reason,HttpServletRequest sq,HttpSession session,String[] packageId){
     //		修改状态
     String ids[]=id.split(",");
-    if ("1".equals(ids[2])){
+    if ("1".equals(ids[2]) || "2".equals(ids[2])){
       SupplierExtRelate expExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
       List<SupplierCondition> conList =  conditionService.list(new SupplierCondition(expExtRelate.getSupplierConditionId(), "") , null);
       String expertTypeId = conList.get(0).getExpertsTypeId();
@@ -696,7 +697,7 @@ public class SupplierExtractsController extends BaseController {
     } else {
       extRelateService.update(new SupplierExtRelate(ids[0],new Short(ids[2]),packageId));
     }
-    if ("1".equals(ids[2])){
+    if ("1".equals(ids[2]) || "2".equals(ids[2])){
       SupplierExtRelate supplierExtRelate = extRelateService.getSupplierExtRelate(ids[0]);
       HashMap<String, Object> map = new HashMap<String, Object>();
       map.put("id", supplierExtRelate.getProjectId());
@@ -773,11 +774,14 @@ public class SupplierExtractsController extends BaseController {
       SupplierExtRelate extRelate = new SupplierExtRelate();
       extRelate.setReviewType(extConType1.getSupplierTypeId());
       extRelate.setSupplierConditionId(ids[1]);
+      extRelate.setReason("1,2");
       List<SupplierExtRelate> list = extRelateService.list(extRelate,null);
       extConType1.setAlreadyCount(list == null ? 0 : list.size());
       //删除满足数量的
       if(list.size() >= extConType1.getSupplierCount()){
-        expertTypeIds.add(extConType1.getSupplierType().getCode());
+        if(extConType1.getSupplierType() != null){
+          expertTypeIds.add(extConType1.getSupplierType().getCode());
+        }
       }
     }
     if (expertTypeIds != null && expertTypeIds.size() !=0){
@@ -819,6 +823,7 @@ public class SupplierExtractsController extends BaseController {
         SupplierExtRelate projectExtrac = new SupplierExtRelate();
         projectExtrac.setReviewType(extConType1.getSupplierTypeId());
         projectExtrac.setSupplierConditionId(ids[1]);
+        projectExtrac.setReason("1,2");
         List<SupplierExtRelate> list = extRelateService.list(projectExtrac,null);
         extConType1.setAlreadyCount(list == null ? 0 : list.size());
       }

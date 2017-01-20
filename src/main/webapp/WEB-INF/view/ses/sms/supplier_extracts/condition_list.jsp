@@ -137,6 +137,7 @@
                     layer.closeAll();
                   });
             }
+            if(map.error == null && map.error != 'error'){
             if(map.sccuess == "SCCUESS") {
               window.location.href = '${pageContext.request.contextPath}/SupplierExtracts/addExtractions.html?projectId=' + projectId + '&&typeclassId=${typeclassId}&&packageId='+packageId;
             }else if(map.packageError != null && map.packageError != ''){
@@ -172,7 +173,7 @@
         		
             	}
 	           }
-          
+            }
           }
         });
 

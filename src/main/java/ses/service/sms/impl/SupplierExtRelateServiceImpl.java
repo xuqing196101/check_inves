@@ -30,6 +30,7 @@ import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtPackage;
 import ses.model.sms.SupplierExtRelate;
 import ses.service.sms.SupplierExtRelateService;
+import ses.util.PropUtil;
 
 /**
  * @Description:供应商抽取关联
@@ -138,7 +139,7 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
   @Override
   public List<SupplierExtRelate> list(SupplierExtRelate projectExtract,String page) {
     if(page!=null&&!"".equals(page))
-      PageHelper.startPage(Integer.valueOf(page), 10);
+      PageHelper.startPage(Integer.valueOf(page), PropUtil.getIntegerProperty("pageSize"));
     return supplierExtRelateMapper.list(projectExtract);
 
   }
@@ -153,7 +154,6 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
   @Override
   public void update(SupplierExtRelate projectExtract) {
     if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
-      if(projectExtract.getOperatingType() == 1){
         for (String packageId : projectExtract.getPackageId()) {
           if (!"".equals(packageId)){
             SupplierExtRelate pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
@@ -164,16 +164,25 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
                 extract.setSupplierId(pe.getSupplier().getId());
                 List<SupplierExtRelate> list = supplierExtRelateMapper.list(extract);
                 if(list != null && list.size() != 0){
-                  list.get(0).setOperatingType((short)1);
+                  list.get(0).setOperatingType(projectExtract.getOperatingType());
                   list.get(0).setReviewType(pe.getReviewType());
+                  if(projectExtract.getOperatingType() == 3){
+                    list.get(0).setReviewType(null);
+                    list.get(0).setReason(projectExtract.getReason());
+                  }
                   supplierExtRelateMapper.updateByPrimaryKeySelective(list.get(0));
                 }else{
                   SupplierExtRelate pext = new SupplierExtRelate();
                   pext.setSupplierId(pe.getSupplier().getId());
                   pext.setProjectId(packageId);
-                  pext.setOperatingType((short)1);
+                
+                  pext.setOperatingType(projectExtract.getOperatingType());
                   pext.setCreatedAt(new Date());
                   pext.setReviewType(pe.getReviewType());
+                  if(projectExtract.getOperatingType() == 3){
+                    pext.setReviewType(null);
+                    pext.setReason(projectExtract.getReason());
+                  }
                   supplierExtRelateMapper.insertSelective(pext);
                 }
 
@@ -184,7 +193,6 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
           }
         }
 
-      }
     }
     supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);
 

@@ -252,8 +252,10 @@ return false;
                             if(list[0]!=null){
                                   var html="";
                                   $("#extcontype").empty();
-                                  for(var l=0;l<extConType.length;l++){                                    
-                                	    html+="供应商类型:"+extConType[l].supplierType.name;
+                                  for(var l=0;l<extConType.length;l++){   
+                                	  if(extConType[l].supplierType != null){
+                                		  html+="供应商类型:"+extConType[l].supplierType.name;
+                                	  }
                                        html+="抽取数量:"+extConType[l].alreadyCount+"/"+extConType[l].supplierCount;
                                       html+="<br/>";
                                   }
@@ -743,8 +745,9 @@ return false;
                                      var html="";
                                      $("#extcontype").empty();
                                      for(var l=0;l<list[0].conType.length;l++){
-                                       
-                                         html+="供应商类型:"+list[0].conType[l].supplierType.name;
+                                       if(list[0].conType[l].supplierType != null){
+                                    	   html+="供应商类型:"+list[0].conType[l].supplierType.name;
+                                       }
                                           html+="抽取数量:"+list[0].conType[l].alreadyCount+"/"+list[0].conType[l].supplierCount;
                                          html+="<br/>";
                                      }
