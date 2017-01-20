@@ -84,24 +84,24 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
 									<c:set value="${liCount+1}" var="liCount" />
 									<li id="li_id_1" class="active">
-										<a aria-expanded="true" onclick="init_web_upload_in('#tab-1')" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a>
+										<a aria-expanded="true" onmouseup="init_web_upload_in('#tab-1')" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a>
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>'>
-										<a aria-expanded="false" onclick="init_web_upload_in('#tab-2')" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a>
+										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-2')" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT') and fn:length(projectQua) > 0}">
 									<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'>
-										<a aria-expanded="false" onclick="init_web_upload_in('#tab-3')" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a>
+										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-3')" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>'>
-										<a aria-expanded="false" onclick="init_web_upload_in('#tab-4')" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a>
+										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-4')" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>

@@ -1,10 +1,8 @@
 <%@ page language="java" pageEncoding="UTF-8"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
-<%@ taglib prefix="up" uri="/tld/upload"%>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
-
 <title>添加财务信息</title>
 
 <meta http-equiv="pragma" content="no-cache">
@@ -12,6 +10,7 @@
 <meta http-equiv="expires" content="0">
  
  <%@ include file="/WEB-INF/view/front.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
     function saveOrBack(status) {
     	$("#status").val(status);
@@ -105,28 +104,28 @@
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>财务审计报告意见：</span>
-								<up:upload  multiple="true" id="auditopinion_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" />
-								<up:show showId="auditopinion_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}"/>
+								<u:upload  multiple="true" id="auditopinion_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" />
+								<u:show showId="auditopinion_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}"/>
 								<div class="cue">${map.err_taxCert}</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>资产负债表：</span>
-								<up:upload  multiple="true" id="liabilities_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" />
-								<up:show showId="liabilities_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}"/>
+								<u:upload  multiple="true" id="liabilities_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" />
+								<u:show showId="liabilities_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}"/>
 								<div class="cue">${map.err_bil}</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>利润表：</span>
-								<up:upload  multiple="true" id="profit_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" />
-								<up:show showId="profit_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}"/>
+								<u:upload  multiple="true" id="profit_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" />
+								<u:show showId="profit_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}"/>
 								<div class="cue">${map.err_security}</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><a class="star_red">*</a>现金流量表：</span>
-								<up:upload  multiple="true" id="cashflow_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" />
-								<up:show showId="cashflow_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}"/>
+								<u:upload  multiple="true" id="cashflow_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" />
+								<u:show showId="cashflow_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}"/>
 								<div class="cue">${map.err_bearch}</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所有者权益变动表：</span>
-								<up:upload  multiple="true" id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
-								<up:show showId="ownerchange_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}"/>
+								<u:upload  multiple="true" id="ownerchange_up" groups="auditopinion_up,liabilities_up,profit_up,cashflow_up,ownerchange_up" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
+								<u:show showId="ownerchange_show" groups="auditopinion_show,liabilities_show,profit_show,cashflow_show,ownerchange_show" businessId="${supplierFinance.id }" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}"/>
 							</li>
 						</ul>
 			<div class="tc mt10 col-md-12 col-xs-12">
