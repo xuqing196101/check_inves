@@ -287,37 +287,42 @@ public class SupplierItemServiceImpl implements SupplierItemService {
             }
         }
         // 判断父节点下还有没有子节点被勾选
-        Map<String, Object> param = new HashMap<String, Object>();
-        param.put("supplierId", supplierItem.getSupplierId());
-        param.put("type", supplierItem.getSupplierTypeRelateId());
-        List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
-        String parentId = current.getParentId();
-        if (parentId != null) {
-            out:while (true) {
-                boolean flag = false;
-                in:for (SupplierItem category : allCategory) {
-                    Category node = categoryService.findById(category.getCategoryId());
-                    if (node != null) {
-                        if (parentId.equals(node.getParentId())) {
-                            List<Category> childNodes = categoryService.findPublishTree(category.getCategoryId(), null);
-                            if (childNodes == null || childNodes.size() == 0) {
-                                flag = true;
-                                break in;
+        if (current != null) {
+            Map<String, Object> param = new HashMap<String, Object>();
+            param.put("supplierId", supplierItem.getSupplierId());
+            param.put("type", supplierItem.getSupplierTypeRelateId());
+            List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
+            String parentId = current.getParentId();
+            if (parentId != null) {
+                out:while (true) {
+                    boolean flag = false;
+                    in:for (SupplierItem category : allCategory) {
+                        Category node = categoryService.findById(category.getCategoryId());
+                        if (node != null) {
+                            if (parentId.equals(node.getParentId())) {
+                                List<Category> childNodes = categoryService.findPublishTree(category.getCategoryId(), null);
+                                if (childNodes == null || childNodes.size() == 0) {
+                                    flag = true;
+                                    break in;
+                                }
                             }
                         }
                     }
-                }
-                if (!flag) {
-                    map.put("categoryId", parentId);
-                    supplierItemMapper.deleteByMap(map);
-                }
-                Category category = categoryService.findById(parentId);
-                if (category == null) {
-                    break out;
-                } else {
-                    parentId = category.getParentId();
+                    if (!flag) {
+                        map.put("categoryId", parentId);
+                        supplierItemMapper.deleteByMap(map);
+                    }
+                    Category category = categoryService.findById(parentId);
+                    if (category == null) {
+                        break out;
+                    } else {
+                        parentId = category.getParentId();
+                    }
                 }
             }
+        } else {
+            map.put("categoryId", categoryId);
+            supplierItemMapper.deleteByMap(map);
         }
     }
 

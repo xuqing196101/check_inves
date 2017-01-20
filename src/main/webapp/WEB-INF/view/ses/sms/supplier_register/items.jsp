@@ -216,6 +216,7 @@
 	}
 	var loading;
 	function saveCategory(event, treeId, treeNode){
+		loading = layer.load(1);
 		var clickFlag;
 		if (treeNode.checked) {
 			clickFlag = "1";
@@ -296,8 +297,9 @@
 		});
 	}
 	
+	// 树节点展开的回调事件
 	function zTreeOnExpand(event, treeId, treeNode) {
-		$("a[title='" + treeNode.name + "']").next().removeAttr("style");
+		$("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
 	}
 	
 	function searchCate(cateId, treeId,type,seq) {
@@ -324,6 +326,8 @@
 				showLine: true
 			}
 		};
+		// 加载中的菊花图标
+		loading = layer.load(1);
 		var cateName = $("#" + cateId).val();
 		if (cateName == "") {
 			loadTab(type,treeId,seq);
@@ -339,6 +343,8 @@
 					zNodes = data;
 					zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
 					zTreeObj.expandAll(true);//全部展开
+					// 关闭加载中的菊花图标
+					layer.close(loading);
 				}
 			});
 		}
