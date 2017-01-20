@@ -769,7 +769,7 @@ function deleteFinance() {
 	       
 	           <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
 	 			<legend>地址信息</legend>
-	 			   <ul class="list-unstyled" style="font-size: 14">
+	 			   <ul class="list-unstyled f14">
 	 		   		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 					   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 "><i class="red">*</i> 注册地址邮编</span>
 					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -905,7 +905,7 @@ function deleteFinance() {
 	      
 	       <fieldset class="col-md-12 col-xs-12 col-sm-12 border_font mt20">
 	 		  <legend>资质资信</legend>
-	 		   <ul class="list-unstyled" style="font-size: 14">
+	 		   <ul class="list-unstyled f14">
 				<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
 				    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'taxCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('taxCert')"</c:if>><i class="red">*</i> 近三个月完税凭证</span> 
 				    <div class="col-md-6 col-sm-12 col-xs-12 p0">
@@ -954,7 +954,7 @@ function deleteFinance() {
 		</fieldset>
 		<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	  <legend>法定代表信息</legend>
-	 	  <ul class="list-unstyled" style="font-size: 14">
+	 	  <ul class="list-unstyled f14">
 		 	 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -1065,7 +1065,7 @@ function deleteFinance() {
 	    
 	    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 	 	  <legend>注册联系人</legend>
-	 	   <ul class="list-unstyled" style="font-size: 14">
+	 	   <ul class="list-unstyled f14">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i> 姓名</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -1170,7 +1170,7 @@ function deleteFinance() {
 	    
 	    <fieldset class="col-md-12 border_font mt20">
 	 	  <legend>军队业务联系人</legend>
-	 	    <ul class="list-unstyled" style="font-size: 14"> 
+	 	    <ul class="list-unstyled f14"> 
 	 		 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><i class="red">*</i> 姓名</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -1273,7 +1273,7 @@ function deleteFinance() {
 	    
 	    <fieldset class="col-md-12 border_font mt20">
 	 	  <legend>营业执照</legend>
-	 	   <ul class="list-unstyled" style="font-size: 14">
+	 	   <ul class="list-unstyled f14">
 		    <li class="col-md-3 col-sm-6 col-xs-12 pl10">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 统一社会信用代码</span>
 			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -1390,7 +1390,7 @@ function deleteFinance() {
 	 <h2 class="count_flow clear pt20"> <i>2</i> 境外信息</h2>
 		<fieldset class="col-md-12 border_font mt20">
 	 	  <legend>境外分支</legend>
-		   <ul class="list-unstyled" id="list-unstyled" style="font-size: 14">
+		   <ul class="list-unstyled f14" id="list-unstyled">
      		<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red"></i>境外分支机构</span>
 		    	<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
