@@ -56,12 +56,13 @@
     						 getIdentityCode(0);
     						 $("#divPrompt").removeClass("hide");
     						  $("#spanPrompt").text("验证码不正确");
+    						  $("#inputCode").val("");
     						layer.close(index);
     					} else if (data == "errorlogin") {
     						$("#divPrompt").removeClass("hide");
     						 $("#spanPrompt").text("用户名或密码错误！");
-    	        	/* 	layer.msg("用户名或密码错误！"); */
     						getIdentityCode(0);
+    						$("#inputCode").val("");
     						layer.close(index);
     					} else if (data == "nullcontext") {
     						$("#divPrompt").removeClass("hide");
