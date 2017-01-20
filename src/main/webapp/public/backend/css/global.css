@@ -1247,7 +1247,7 @@ table .input_group .add-on{
     left: 0;
     background: #E0E0E0;
     box-shadow: 0px -1px 4px #ddd;
-    height: 60px;
+    height: 40px;
     border-top: 1px solid #dadada;
     z-index: 1000000;
 }
