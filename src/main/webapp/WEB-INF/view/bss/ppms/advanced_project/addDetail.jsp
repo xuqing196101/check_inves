@@ -93,8 +93,8 @@
       <button class="btn btn-windows save" type="button" onclick="save();">确定</button>
       <button class="btn btn-windows back" type="button" onclick="javascript:history.go(-1);">返回</button>
     </div>
-    <div class="content table_box over_scroll">
-      <table id="table" class="table table-bordered table-condensed">
+    <div class="content table_box" id="content">
+      <table id="table" class="table table-bordered table-condensed" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
         <thead>
           <tr class="space_nowrap">
             <th class="info w50">序号</th>
