@@ -71,11 +71,15 @@
     						window.location.href = "${pageContext.request.contextPath}/login/index.html";
     					} else if (data == "black") {
     						$("#divPrompt").removeClass("hide");
-    						  $("#spanPrompt").text("对不起，您已被列入黑名单!");
+   						  	$("#spanPrompt").text("对不起，您已被列入黑名单!");
     						layer.close(index);
-    					} else if (data == "reject") {
+    					} else if (data == "notLogin") {
     						$("#divPrompt").removeClass("hide");
-    					  $("#spanPrompt").text("对不起，您的审核没有通过!");
+  						  	$("#spanPrompt").text("对不起，您参加的评审项目已结束!");
+  							layer.close(index);
+  						} else if (data == "reject") {
+    						$("#divPrompt").removeClass("hide");
+    					  	$("#spanPrompt").text("对不起，您的审核没有通过!");
     						layer.close(index);
     					} else if (flag[0] == "firset") {
     						//询问框

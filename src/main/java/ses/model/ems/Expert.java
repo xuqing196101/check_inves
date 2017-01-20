@@ -131,7 +131,7 @@ public class Expert extends ExpertHistory implements Serializable {
     private String expertsTypeId;
     /**采购机构id*/
     private String purchaseDepId;
-    /**审核状态；0未审核，1通过，2未通过,3退回修改*/
+    /**审核状态；0未审核，1审核通过，2审核未通过,3退回修改,4待复审,5复审通过,6复审踢除,7临时专家评审项目已结束(限制登录)*/
     private String status;
     /**是否拉黑；0未拉黑，1已拉黑*/
     private String isBlack = "0";
@@ -161,6 +161,8 @@ public class Expert extends ExpertHistory implements Serializable {
     
     /** 专家提交审核时间 **/
     private Date submitAt;
+    
+    private Date auditAt;  //审核时间
     
     public String getStepNumber() {
         return stepNumber;
@@ -593,6 +595,14 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setSubmitAt(Date submitAt) {
         this.submitAt = submitAt;
     }
+
+	public Date getAuditAt() {
+		return auditAt;
+	}
+
+	public void setAuditAt(Date auditAt) {
+		this.auditAt = auditAt;
+	}
 
     
 }

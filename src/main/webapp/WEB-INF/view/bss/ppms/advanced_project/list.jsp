@@ -81,10 +81,10 @@
         if(id.length == 1) {
           if(status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成" ||
             status == "资格性和符合性审查中" || status == "经济技术审查中" || status == "评审完成" || status == "拟制中标公告完毕" || status == "确认中标供应商" || status == "实施结束" || status == "拟制评分标准" || status == "待开标" ||
-            status == "招标文件已提交" || status == "已分包，待实施" || status == "预研已被引用" || status == "实施中，未完善项目信息") {
+            status == "招标文件已提交" || status == "预研已被引用" || status == "实施中，未完善项目信息" || status == "招标文件已通过") {
             window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id;
           }
-          if(status == "已立项，待分包") {
+          if(status == "已立项，待分包" || status == "已分包，待实施") {
             $.ajax({
               url: "${pageContext.request.contextPath}/advancedProject/viewPackages.html",
               data: "id=" + id,

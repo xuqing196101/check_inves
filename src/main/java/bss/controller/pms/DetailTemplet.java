@@ -11,8 +11,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import bss.service.pms.PurchaseRequiredService;
 import ses.model.bms.DictionaryData;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 
@@ -24,7 +26,8 @@ public class DetailTemplet {
 	@Autowired
 	private PurchaseOrgnizationServiceI purchserOrgnaztionService;
 	
-
+	@Autowired
+	private PurchaseRequiredService purchaseRequiredService;
 	/**
 	 * 
 	* @Title: template
@@ -55,6 +58,9 @@ public class DetailTemplet {
 		 //采购方式
 		 List<DictionaryData> list = DictionaryDataUtil.find(5);
 		 model.addAttribute("list2", list);
+		 
+		 List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
+		 model.addAttribute("suppliers", suppliers);
 		 return moeldeAndView;
 	}
 }

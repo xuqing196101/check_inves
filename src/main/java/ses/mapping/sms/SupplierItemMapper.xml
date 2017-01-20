@@ -226,8 +226,15 @@
   			s.CATEGORY_ID = c.ID
 		WHERE
 			s.CATEGORY_ID not in (select PARENT_ID from T_SES_BMS_CATEGORY where IS_PUBLISH = 0)
-			AND s.SUPPLIER_ID = #{supplierId}
-			AND s.SUPPLIER_TYPE_RELATE_ID = #{type}
+			<if test="supplierId != null">
+				AND s.SUPPLIER_ID = #{supplierId}
+			</if>
+			<if test="type != null">
+				AND s.SUPPLIER_TYPE_RELATE_ID = #{type}
+			</if>
+			<if test="type == null">
+				order by s.SUPPLIER_TYPE_RELATE_ID
+			</if>
 	</select>
 	
 	<delete id="deleteByMap" parameterType="java.util.Map">

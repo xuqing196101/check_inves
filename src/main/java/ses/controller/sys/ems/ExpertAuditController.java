@@ -792,15 +792,15 @@ public class ExpertAuditController {
             expert.setIsSubmit("0");
         }
         //提交审核，更新状态
-        expert.setUpdatedAt(new Date());
+        expert.setAuditAt(new Date());
         expertService.updateByPrimaryKeySelective(expert);
         
         String status = expert.getStatus();
 		String expertId = expert.getId();
 		expert= expertService.selectByPrimaryKey(expertId);
-		Todos todos = new Todos();
+		/*Todos todos = new Todos();
 		String expertName = expert.getRelName();
-		User user=(User) request.getSession().getAttribute("loginUser");
+		User user=(User) request.getSession().getAttribute("loginUser");*/
 		
 		/**
 		 * 更新待办（已完成）

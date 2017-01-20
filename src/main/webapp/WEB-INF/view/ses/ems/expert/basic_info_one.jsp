@@ -120,7 +120,7 @@ session.setAttribute("tokenSession", tokenValue);
 					}
 				});
 			}
-			//无提示暂存
+			 //无提示暂存
 			function submitForm3() {
 				updateStepNumber("three");
 				getChildren();
@@ -164,7 +164,7 @@ session.setAttribute("tokenSession", tokenValue);
 						window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 					}
 				});
-			}
+			} 
 			/** 专家完善注册信息页面 */
 			function supplierRegist() {
 				if(!validateformExpert()) {
@@ -183,7 +183,7 @@ session.setAttribute("tokenSession", tokenValue);
 					submitForm22();
 				}
 			}
-			/** 专家完善注册信息页面 */
+			 // 专家完善注册信息页面 
 			function supplierRegist3() {
 				if(!validateformExpert()) {
 					return;
@@ -192,7 +192,7 @@ session.setAttribute("tokenSession", tokenValue);
 					submitForm3();
 				}
 			}
-			/** 专家完善注册信息页面 */
+			// 专家完善注册信息页面 
 			function supplierRegist4() {
 				if(!validateformExpert()) {
 					return;
@@ -201,7 +201,7 @@ session.setAttribute("tokenSession", tokenValue);
 					submitForm4();
 				}
 			}
-			/** 专家完善注册信息页面 */
+			// 专家完善注册信息页面 
 			function supplierRegist5() {
 				if(!validateformExpert()) {
 					return;
@@ -209,7 +209,7 @@ session.setAttribute("tokenSession", tokenValue);
 					//暂存无提示
 					submitForm5();
 				}
-			}
+			} 
 
 			//回显基本信息到表中
 			function editTable() {
@@ -275,7 +275,7 @@ session.setAttribute("tokenSession", tokenValue);
 				$("#Taddress").text(addValue1 + "," + addValue2);
 			}
 
-			// 点击下一步事件
+			// 点击下一步事件 yong
 			function fun() {
 				supplierRegist();
 				editTable();
@@ -548,7 +548,7 @@ session.setAttribute("tokenSession", tokenValue);
 						// 根据大小月判断日(二月)
 						if(month == 2) {
 							// 闰年
-							if(year % 4 == 0 && year % 100 != 0 && year % 400 == 0) {
+							if((year % 4 == 0 && year % 100 != 0) || year % 400 == 0) {
 								if(day < 1 || day > 29) {
 									layer.msg("居民身份证号码格式有误 !", {
 										offset: ['300px', '750px']
@@ -557,7 +557,7 @@ session.setAttribute("tokenSession", tokenValue);
 								}
 							}
 							// 平年
-							if(year % 4 != 0 || year % 400 != 0 || (year % 100 == 0 && year % 400 != 0)) {
+							if( year % 4 != 0  || (year % 100 == 0 && year % 400 != 0)) {
 								if(day < 1 || day > 28) {
 									layer.msg("居民身份证号码格式有误 !", {
 										offset: ['300px', '750px']
@@ -807,8 +807,8 @@ session.setAttribute("tokenSession", tokenValue);
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 出生日期</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'出生日期')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if> readonly="readonly" value="
-								<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" id="birthday" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
+								<input <c:if test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if> readonly="readonly" 
+								value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" id="birthday" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">不能为空，年龄不得大于70周岁</span>
 							</div>
@@ -1021,8 +1021,8 @@ session.setAttribute("tokenSession", tokenValue);
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 从事专业起始年度</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'从事专业起始年度')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业起始年度')"</c:if> value="
-								<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								<input <c:if test="${fn:contains(errorField,'从事专业起始年度')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('从事专业起始年度')"</c:if> 
+								value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="timeStartWork" id="timeStartWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：XXXX-XX</span>
 							</div>
@@ -1043,16 +1043,16 @@ session.setAttribute("tokenSession", tokenValue);
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> value="
-								<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> 
+								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />" readonly="readonly" name="makeTechDate" id="makeTechDate" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：XXXX-XX</span>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
 							<div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> readonly="readonly" value="
-								<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+								<input <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('取得技术职称时间')"</c:if> readonly="readonly" 
+								value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />" name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
 								<span class="add-on">i</span>
 								<span class="input-tip">如：XXXX-XX</span>
 							</div>

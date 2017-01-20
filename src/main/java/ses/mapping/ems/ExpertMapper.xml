@@ -55,6 +55,7 @@
 		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
 		<result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
 		<result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
+		<result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -77,7 +78,8 @@
 		COVER_NOTE,
 		PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
 		REVIEW_SITUATION,
-		AVOIDANCE_SITUATION
+		AVOIDANCE_SITUATION,
+		AUDIT_AT
 	</sql>
 	<sql id="Column_List">
 		e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -103,7 +105,8 @@
 		e.COVER_NOTE,
 		e.PRODUCT_CATEGORIES, e.ACADEMIC_ACHIEVEMENT,
 		e.REVIEW_SITUATION,
-		e.AVOIDANCE_SITUATION
+		e.AVOIDANCE_SITUATION,
+		e.AUDIT_AT
 	</sql>
 	<!-- 获取所有专家,仅用作定时删除无效专家 -->
 	<select id="getAllExpert" resultMap="BaseResultMap">
@@ -203,7 +206,7 @@
 		AT_DUTY,
 		EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS,
 		IS_BLACK,
-		HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS
+		HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS, AUDIT_AT
 		)
 		values
 		(#{id,jdbcType=VARCHAR},
@@ -240,7 +243,8 @@
 		#{honestyScore,jdbcType=DECIMAL},
 		#{relName,jdbcType=VARCHAR},
 		#{isPass,jdbcType=DECIMAL},
-		#{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR}
+		#{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR},
+		#{auditAt,jdbcType=TIMESTAMP}
 		)
 	</insert>
 	<insert id="insertSelective" parameterType="ses.model.ems.Expert">
@@ -393,6 +397,9 @@
 			<if test="stepNumber != null">
 				STEP_NUMBER,
 			</if>
+			<if test="auditAt != null">
+				AUDIT_AT,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -541,6 +548,9 @@
 			</if>
 			<if test="stepNumber != null">
 				#{stepNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="auditAt != null">
+				#{auditAt,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -691,6 +701,9 @@
 			</if>
 			<if test="remarks != null">
 				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="auditAt != null">
+				AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -843,6 +856,9 @@
 			</if>
 			<if test="remarks != null and remarks != ''">
 				REMARKS = #{remarks,jdbcType=VARCHAR},
+			</if>
+			<if test="auditAt != null and createdAt != ''">
+				AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
 			</if>
 		</set>
 		where
@@ -1059,20 +1075,16 @@
 		left join
 		T_SES_BMS_DICTIONARY_DATA t2
 		on t1.GENDER = t2.ID
-		where 1=1
-		and
-		PURCHASE_DEP_ID = #{purchaseDepId}
-		<if test="sign == 1">
-			and IS_SUBMIT = 1
-			and (STATUS = 0 or STATUS = 1 or STATUS =
-			2)
-			or (IS_SUBMIT = 0 and status = 3)
+		where
+		(<if test="sign == 1">
+			(IS_SUBMIT = 1
+			and (STATUS = '0' or STATUS = '1' or STATUS = '2'))
+			or (IS_SUBMIT = 0 and status = '3')
 		</if>
 		<if test="sign == 2">
-			and IS_SUBMIT = 1
-			and (STATUS = 4 or STATUS = 5 or STATUS =
-			6)
-		</if>
+			(and IS_SUBMIT = 1
+			and (STATUS = '4' or STATUS = '5' or STATUS = '6'))
+		</if>)
 		<if test="relName != null and relName !=''">
 			and REAL_NAME like #{relName}
 		</if>
@@ -1082,7 +1094,8 @@
 		<!-- <if test="sign == 1"> ORDER BY decode(t1.STATUS,'0',1,'1',2,'3',3,'2',4),t1.CREATED_AT 
 			DESC </if> <if test="sign == 2"> ORDER BY decode(t1.STATUS,'4',1,'5',2,'6',3),t1.CREATED_AT 
 			DESC </if> -->
-		ORDER BY t1.UPDATED_AT DESC
+		and PURCHASE_DEP_ID = #{purchaseDepId}
+		ORDER BY t1.AUDIT_AT DESC NULLS LAST
 	</select>
 
 	<insert id="insertExpertHistory" parameterType="ses.model.ems.ExpertHistory">

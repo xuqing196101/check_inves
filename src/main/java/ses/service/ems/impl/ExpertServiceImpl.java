@@ -364,6 +364,9 @@ public class ExpertServiceImpl implements ExpertService {
 				}else if(expert.getStatus().equals("6")){
                     // 复审踢除
                     map.put("expert", "6");
+                }else if(expert.getStatus().equals("7") && 1 == expert.getIsProvisional()){
+                    // 临时专家,并且参加的评审项目已结束
+                    map.put("expert", "7");
                 }
 			}else{
 				//如果专家信息为空 证明还没有填写过个人信息

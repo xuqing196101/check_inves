@@ -5,6 +5,7 @@ import java.util.List;
 
 import bss.model.ppms.SaleTender;
 import bss.model.prms.FirstAudit;
+import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.sms.Supplier;
 
@@ -35,6 +36,8 @@ public class Extension {
 	private Short isSubmit;
 	//专家
 	private Expert expert;
+	//评审
+	private List<DictionaryData> dds;
 	
 	public String getProjectId() {
 		return projectId;
@@ -91,6 +94,10 @@ public class Extension {
   public void setExpert(Expert expert) {
     this.expert = expert;
   }
-	
-	
+  public List<DictionaryData> getDds() {
+    return dds;
+  }
+  public void setDds(List<DictionaryData> dds) {
+    this.dds = dds;
+  }
 }

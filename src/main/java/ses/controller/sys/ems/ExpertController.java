@@ -83,6 +83,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ext.ProjectExt;
 import bss.model.prms.PackageExpert;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
@@ -139,7 +140,9 @@ public class ExpertController extends BaseController {
     private SupplierItemService supplierItemService;//品目
     @Autowired
     private SupplierService supplierService;//供应商
-
+    @Autowired
+    private BidMethodService bidMethodService;
+    
     /**
      * 
      * @Title: toExpert
@@ -1878,8 +1881,24 @@ public class ExpertController extends BaseController {
             } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 0) {
                 return "该包符合性审查未结束";
             } else if (packageExpert.getIsAudit() == 1 && packageExpert.getIsGather() == 1 && (packageExpert.getIsGrade() == 0 || packageExpert.getIsGrade() == 2)) {
-                // 经济技术评审
-                return "2";
+                String methodCode = null;
+                HashMap<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("id", packageId);
+                List<Packages> packs = packageService.findPackageById(map2);
+                if (packs != null && packs.size() > 0) {
+                    //获取评分办法数据字典编码
+                    methodCode = bidMethodService.getMethod(packs.get(0).getProjectId(), packageId);
+                }
+                if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+                    // 经济技术评审
+                    return "3";
+                } else if ("OPEN_ZHPFF".equals(methodCode)) {
+                    // 经济技术模型打分评审
+                    return "2";
+                } else {
+                    return null;
+                }
+                
             } else if (packageExpert.getIsGrade() == 1 && packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 0) {
                 return "该包经济技术评审未结束";
             } else if (packageExpert.getIsGather() == 1 && packageExpert.getIsGatherGather() == 1) {
@@ -2061,6 +2080,27 @@ public class ExpertController extends BaseController {
     }
     
     /**
+     *〈简述〉提交专家经济技术评审结果
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param projectId
+     * @param packageId
+     * @param session
+     * @param attr
+     * @return
+     */
+    @RequestMapping("/saveCheck")
+    public String saveCheck(String projectId, String packageId, HttpSession session, RedirectAttributes attr){
+        User user = (User) session.getAttribute("loginUser");
+        String expertId = user.getTypeId();
+        // 更新进度 保存经济技术评审信息
+        reviewProgressService.saveCheck(projectId, packageId, expertId);
+        attr.addAttribute("projectId", projectId);
+        attr.addAttribute("packageId", packageId);
+        return "redirect:projectList.html";
+    }
+    
+    /**
      *〈简述〉
      * 下载专家承诺书
      *〈详细描述〉
@@ -2222,12 +2262,9 @@ public class ExpertController extends BaseController {
         
         // 品目信息
         List<SupplierCateTree> allTreeList = new ArrayList<SupplierCateTree>();
-        List<SupplierItem> listSupplierItems = supplier.getListSupplierItems();
-        // 剔除不是末级节点的产品
-        List<SupplierItem> removeNotChild = removeNotChild(listSupplierItems);
-        for (SupplierItem supplierItem : removeNotChild) {
-            String categoryId = supplierItem.getCategoryId();
-            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+        List<SupplierItem> itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
+        for (SupplierItem supplierItem : itemsList) {
+            SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
             if (cateTree != null && cateTree.getRootNode() != null) {
                 allTreeList.add(cateTree);
             }
@@ -2287,7 +2324,8 @@ public class ExpertController extends BaseController {
      * @param categoryId 产品Id
      * @return List<CategoryTree> tree对象List
      */
-    public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+    public SupplierCateTree getTreeListByCategoryId(SupplierItem supplierItem) {
+        String categoryId = supplierItem.getCategoryId();
         SupplierCateTree cateTree = new SupplierCateTree();
         // 递归获取所有父节点
         List<Category> parentNodeList = getAllParentNode(categoryId);
@@ -2345,6 +2383,12 @@ public class ExpertController extends BaseController {
                     }
                 }
             }
+        }
+        // 判断是否是物资生产和物资销售类
+        if ("PRODUCT".equals(supplierItem.getSupplierTypeRelateId())) {
+            cateTree.setRootNode(cateTree.getRootNode() + "生产");
+        } else if ("SALES".equals(supplierItem.getSupplierTypeRelateId())) {
+            cateTree.setRootNode(cateTree.getRootNode() + "销售");
         }
         return cateTree;
     }

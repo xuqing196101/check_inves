@@ -164,6 +164,8 @@ public class PurchaseRequiredController extends BaseController{
 		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
+		
+		model.addAttribute("org_advice", "1");
 		if(type.equals("1")){
 			return "bss/pms/purchaserequird/view";
 		}else{

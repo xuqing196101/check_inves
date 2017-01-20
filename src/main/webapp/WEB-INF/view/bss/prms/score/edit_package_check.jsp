@@ -4,7 +4,7 @@
 <!DOCTYPE HTML>
 <html>
   <head>
-    <title>符合性审查项</title>
+    <title>经济技术审查项</title>
     <jsp:include page="/WEB-INF/view/common.jsp"></jsp:include>
     <meta http-equiv="pragma" content="no-cache">
     <meta http-equiv="cache-control" content="no-cache">

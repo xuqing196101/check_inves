@@ -43,7 +43,7 @@
 					}
 					var id = $(":radio:checked").val();
 				}
-				var state = $("#" + id + "").parent("tr").find("td").eq(8).text().trim();
+				var state = $("#" + id + "").parent("tr").find("td").eq(7).text().trim();
 				/* var isExtract = $("#" + id + "_isExtract").text(); */
 				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复审踢除") {
 					layer.msg("请选择待审核项 !", {
@@ -176,7 +176,7 @@
 							<!-- <th class="info">类型</th> -->
 							<th class="info">毕业院校及专业</th>
 							<th class="info">工作单位</th>
-							<th class="info">创建时间</th>
+							<!-- <th class="info">创建时间</th> -->
 							<th class="info">诚信积分</th>
 							<th class="info">审核状态</th>
 						</tr>
@@ -190,9 +190,9 @@
 							<%--<td class="tl pl20">${expert.expertsTypeId}</td>--%>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>
-							<td class="tc" onclick="shenhe('${expert.id}');">
+							<%-- <td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
-							</td>
+							</td> --%>
 							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td>
 							<c:if test="${(expert.status eq '0')}">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>

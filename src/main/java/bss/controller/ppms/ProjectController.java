@@ -1783,6 +1783,9 @@ public class ProjectController extends BaseController {
             str = "1";//明细都未分包，默认一包
         }else{
             if(subLength == bottomDetails.size()){
+                Project project = projectService.selectById(id);
+                project.setStatus(DictionaryDataUtil.getId("YFB_DSS"));
+                projectService.update(project);
                 str = "0";//明细都分完包了
             }else{
                 str = "1";//有明细分包，还没分完全
@@ -1898,14 +1901,6 @@ public class ProjectController extends BaseController {
                        showDetails.add(dlist.get(j));
                     }
                 }else{
-                    //if(showDetails.size()!=0){
-//                      for(int j=0;j<showDetails.size();j++){
-//                          if(showDetails.get(j).getParentId().equals(bottomDetails.get(i).getParentId())){
-//                              showDetails.add(bottomDetails.get(i));
-//                              break;
-//                          }
-//                      }
-                    //}
                     HashMap<String,Object> map2 = new HashMap<>();
                     map2.put("projectId", id);
                     map2.put("id", bottomDetails.get(i).getRequiredId());
@@ -1923,6 +1918,9 @@ public class ProjectController extends BaseController {
             }
             if(i==bottomDetails.size()-1){
                 if(str.equals("")){
+                    Project project = projectService.selectById(id);
+                    project.setStatus(DictionaryDataUtil.getId("YFB_DSS"));
+                    projectService.update(project);
                     model.addAttribute("list", null);
                 }else{
                     ComparatorDetail comparator = new ComparatorDetail();
@@ -1945,12 +1943,6 @@ public class ProjectController extends BaseController {
                             showDetails.get(j).setBudget(money);
                             showDetails.get(j).setDetailStatus(0);
                         }
-//                        if(showDetails.get(j).getDepartment()!=null){
-//                          Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
-//                            if(orgnization!=null){
-//                              showDetails.get(j).setOrgName(orgnization.getName());
-//                            }
-//                        }
                     }
                     model.addAttribute("list", showDetails);
                 }
@@ -2122,14 +2114,6 @@ public class ProjectController extends BaseController {
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);
         model.addAttribute("project", project);
-        
-//        HashMap<String, Object> map = new HashMap<String, Object>();
-//        map.put("id", id);
-//        List<ProjectDetail> detail = detailService.selectById(map);
-//        for (ProjectDetail projectDetail2 : detail) {
-//           Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(projectDetail2.getDepartment());
-//           model.addAttribute("orgnization", orgnization);
-//       }
         return "bss/ppms/project/sub_package";
     }
     /**
@@ -2419,6 +2403,9 @@ public class ProjectController extends BaseController {
                 str = "0";
                 break;
             }else if(i==bottomDetails.size()-1){
+                Project project = projectService.selectById(id);
+                project.setStatus(DictionaryDataUtil.getId("YFB_DSS"));
+                projectService.update(project);
                 str = "1";
             }
         }
@@ -2995,14 +2982,47 @@ public class ProjectController extends BaseController {
         return "redirect:list.html";
     }
     
+    /**
+     * 
+     *〈废标〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @return
+     */
     @RequestMapping("/abandoned")
     @ResponseBody
     public String abandoned(String id){
         if(StringUtils.isNotBlank(id)){
+            //修改项目状态为已废标
             Project project = projectService.selectById(id);
             if(project != null){
                 project.setStatus(DictionaryDataUtil.getId("YJFB"));
                 projectService.update(project);
+            }
+            //将明细变成可立项状态
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            List<ProjectDetail> list = detailService.selectById(map);
+            if(list != null && list.size() > 0){
+                for (ProjectDetail projectDetail : list) {
+                    PurchaseDetail detail = purchaseDetailService.queryById(projectDetail.getRequiredId());
+                    detail.setProjectStatus(0);
+                    purchaseDetailService.updateByPrimaryKeySelective(detail);
+                }
+            }
+            //将任务状态变成已受领
+            HashMap<String, Object> map1 = new HashMap<>();
+            map1.put("projectId", id);
+            List<ProjectTask> projectTasks = projectTaskService.queryByNo(map1);
+            if(projectTasks != null && projectTasks.size() > 0){
+                for (ProjectTask projectTask : projectTasks) {
+                    Task task = taskservice.selectById(projectTask.getTaskId());
+                    if("1".equals(task.getNotDetail())){
+                        task.setNotDetail(0);
+                        taskservice.update(task);
+                    }
+                }
             }
         }
         return JSON.toJSONString(SUCCESS);

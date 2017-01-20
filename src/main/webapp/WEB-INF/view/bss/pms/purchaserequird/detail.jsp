@@ -35,13 +35,13 @@
 										
 										<td class="tc  p0" >
 											<input type='hidden'  value='${id }' >
-											 <input type="text" class="m0 border0 w100"  onblur='sum1(this)' name="list[${index }].price" onkeyup="checkNum(this,2)" value="" >
+											 <input type="text" class="m0 border0 w80"  onblur='sum1(this)' name="list[${index }].price" onkeyup="checkNum(this,2)" value="" >
 											<input type="hidden"   value="">
 										</td>
 										
 										<td class="tc  p0">
 											<input type="hidden"   value='${id }' >
-											<input type="text" class="m0 w100 border0" name="list[${index }].budget"   value="" >
+											<input type="text" readonly="readonly" class="m0 w80 border0" name="list[${index }].budget"   value="" >
 											<input type="hidden"   value="" >
 										</td>
 										
@@ -56,7 +56,21 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc  p0"><input type="text" name="list[${index }].supplier"  class="m0 w260 border0" ></td>
+										<td class="tc  p0">
+										
+								<%-- 		<input type="text" name="list[${index }].supplier"  class="m0 w260 border0" > --%>
+										
+											
+										<select name="list[${index }].supplier" class="m0 border0" onchange="changeType(this)" id="pType[0]">
+												<option value="">请选择</option>
+												<c:forEach items="${suppliers }" var="sup">
+												
+													<option value="${sup.supplierName }">${sup.supplierName }</option>
+												</c:forEach>
+											</select>
+											
+											
+										</td>
 										<td class="tc  p0"><input type="text" name="list[${index }].isFreeTax" class="m0 border0"></td>
 									 	<td class="tc  p0" name='userNone'><input type="text" name="list[${index }].goodsUse" class="m0 border0"></td>
 										 <td class="tc p0"  name='userNone' ><input type="text" name="list[${index }].useUnit" class="m0 w260 border0"></td>

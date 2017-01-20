@@ -80,7 +80,7 @@
 					   		    </c:if>
 					   		  </c:forEach>
 					   		</thead>
-					   		<c:forEach items="${dds}" var="d">
+					   		<c:forEach items="${extension.dds}" var="d">
 					   			<tr><td class="info" colspan="${suppliers+1}"><b>${d.name}</b></td></tr>
 					   			<c:forEach items="${extension.firstAuditList}" var="first" varStatus="vs">
 							      	<c:if test="${first.kind == d.id}">
