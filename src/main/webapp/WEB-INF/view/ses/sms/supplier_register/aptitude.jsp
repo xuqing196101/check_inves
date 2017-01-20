@@ -121,6 +121,7 @@ function psize(){
 						  					    	<c:set value="${prolength+1}" var="prolength"></c:set>
 						  					    	<div class="mr5 fl">
 						  					    	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<div class="clear"></div>
 													<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 						  					        </div>
 						  					    </c:forEach>
@@ -147,6 +148,7 @@ function psize(){
 						  					    <c:set value="${length+1}" var="length"></c:set>
 						  					       <div class="mr5 fl">
 						  					    	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}"  groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<div class="clear"></div>
 													<u:show showId="saleShow${length}" groups="${saleShow}"  businessId="${saua.flag}"  sysKey="${sysKey}" typeId="${typeId}" />
 						  					       </div>
 						  					    </c:forEach>
@@ -168,21 +170,16 @@ function psize(){
 									      <tr>
 										    <td class="w200">${project.categoryName } 
 										    </td>
-											
-										
-											
-											
 											 <td>
 						  					    <c:forEach items="${project.list }" var="project">
 						  					    <c:set value="${plength+1}" var="plength"></c:set>
 						  					       <div class="mr5 fl">
 						  					    	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="projectUp${plength}" multiple="true" buttonName="${project.name}"  groups="${saleUp}" businessId="${project.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<div class="clear"></div>
 													<u:show showId="projectShow${plength}" groups="${saleShow}"  businessId="${project.flag}"  sysKey="${sysKey}" typeId="${typeId}" />
 						  					       </div>
 						  					    </c:forEach>
 						  					     </td>
-						  					     
-						  					    
 										     </tr>
 										</c:forEach>  
 									</table> 
@@ -203,6 +200,7 @@ function psize(){
 						  					    <c:set value="${slength+1}" var="slength"></c:set>
 						  					     <div class="fl mr5">
 						  					    	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="serverUp${plength}" multiple="true" buttonName="${ser.name}"  groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<div class="clear"></div>
 													<u:show showId="serverShow${plength}" groups="${saleShow}"  businessId="${ser.flag}"  sysKey="${sysKey}" typeId="${typeId}" />
 						  					      </div>
 						  					    </c:forEach>
