@@ -810,7 +810,7 @@ session.setAttribute("tokenSession", tokenValue);
 								<input <c:if test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if> readonly="readonly" 
 								value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />" name="birthday" id="birthday" type="text" onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
 								<span class="add-on">i</span>
-								<span class="input-tip">不能为空，年龄不得大于70周岁</span>
+								<span class="input-tip">不能为空，年龄不大于70周岁</span>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 民族</span>
