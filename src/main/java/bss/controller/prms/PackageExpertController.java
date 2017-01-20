@@ -1513,7 +1513,7 @@ public class PackageExpertController {
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         List<SaleTender> sl = saleTenderService.find(new SaleTender(projectId));
         for (SaleTender st : sl) {
-            if (st.getPackages().indexOf(packageId) != -1) {
+            if (st.getPackages().indexOf(packageId) != -1 && st.getIsTurnUp() == 0) {
                 supplierList.add(st);
             }
         }
@@ -2776,8 +2776,10 @@ public class PackageExpertController {
       // 获取符合性审查通过且到场没被移除的供应商
       SaleTender saleTender = new SaleTender();
       saleTender.setPackages(packageId);
-      saleTender.setIsFirstPass(1);
-      saleTender.setIsRemoved("0");
+      if ("1".equals(auditType)) {
+          saleTender.setIsFirstPass(1);
+          saleTender.setIsRemoved("0");
+      }
       saleTender.setIsTurnUp(0);
       List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
       extension.setSupplierList(supplierList);
@@ -2816,7 +2818,13 @@ public class PackageExpertController {
      */
     @RequestMapping("/confirmSupplier")
     public String confirmSupplier (String projectId, Model model) {
-        List<SaleTender> supplierList = saleTenderService.selectListByProjectId(projectId);
+        List<SaleTender> supplierList = new ArrayList<SaleTender>();
+        List<SaleTender> sts = saleTenderService.selectListByProjectId(projectId);
+        for (SaleTender saleTender : sts) {
+            if (saleTender.getIsTurnUp() == 0) {
+                supplierList.add(saleTender);
+            }
+        }
         Packages pack = new Packages();
         Map<String, Object> map = new HashMap<String, Object>();
         for (SaleTender sale : supplierList) {
@@ -3228,8 +3236,6 @@ public class PackageExpertController {
         // 获取符合性审查通过且到场没被移除的供应商
         SaleTender saleTender = new SaleTender();
         saleTender.setPackages(packageId);
-        saleTender.setIsFirstPass(1);
-        saleTender.setIsRemoved("0");
         saleTender.setIsTurnUp(0);
         //查询该包下参与的供应商
         List<SaleTender> sl = saleTenderService.findByCon(saleTender);
@@ -3355,8 +3361,10 @@ public class PackageExpertController {
             // 获取符合性审查通过且到场没被移除的供应商
             SaleTender saleTender = new SaleTender();
             saleTender.setPackages(packageId);
-            saleTender.setIsFirstPass(1);
-            saleTender.setIsRemoved("0");
+            if ("1".equals(auditType)) {
+                saleTender.setIsFirstPass(1);
+                saleTender.setIsRemoved("0");
+            }
             saleTender.setIsTurnUp(0);
             List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
             extension.setSupplierList(supplierList);

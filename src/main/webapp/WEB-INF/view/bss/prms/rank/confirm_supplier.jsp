@@ -65,6 +65,7 @@
 			    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
 			    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>
 			    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
+			    <c:if test="${supp.isRemoved eq '2'}">已放弃报价</c:if>
 			    </td>
 			    <td class="tc"><input <c:if test="${supp.isFirstPass != 1 or supp.isRemoved ne '0' or supp.isFinish == 1}">disabled="disabled"</c:if> type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
 			  </tr>
