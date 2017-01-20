@@ -484,12 +484,19 @@
 			function delRowIndex(obj){
 				
 				var tr=$(obj).parent().parent();
-				var nextEle=$(obj).parent().parent().next();
+				var nextEle=$(obj).parent().parent().next().children();
 				 var val=$(tr).find("td:eq(8)").children(":first").next().val();
-				 if($.trim(val)==""){
-					  layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
-				 }else{
-					 $(obj).parent().parent().remove();
+				 if($.trim(val)!=""){
+					 $(obj).parent().parent().remove(); 
+					
+				 }
+				 else if(nextEle.length<1){
+					 $(obj).parent().parent().remove(); 
+				 }
+				 else{
+					 layer.alert("只能删除末级节点",{offset: ['222px', '390px'], shade:0.01});
+					 
+					
 				 }
 				 
 				/* 	var detailRow = document.getElementsByName("detailRow");
@@ -1251,7 +1258,7 @@
 										<th name="userNone" class="w260">物资用途</br>（仅进口）</th>
 										<th name="userNone" class="w260">使用单位</br>（仅进口）</th>
 										<th class="w260">备注</th>
-										<!-- <th  style="width:300px;">附件</th> -->
+									    <!-- <th  class="260">附件</th> -->  
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="">操作</th>
 									</tr>
@@ -1325,6 +1332,14 @@
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w260"></td>
+										<%-- <td style="width:300px;" class="p0">
+											   <div class="w200">
+													<u:upload id="pUp0" multiple="true"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+													<u:show showId="pShow0" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" />
+											   </div>											
+										</td> --%>
+										
+										
 										<!-- <td class="tc w100 p0"></td> -->
 								<!--  <td class="tc w100 p0"></td> -->  
 										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
