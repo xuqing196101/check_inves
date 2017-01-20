@@ -625,7 +625,7 @@ function deleteFinance() {
 					     <%-- <c:if test="${!fn:contains(audit,'website')}">
 					     </c:if> --%>
 									<span class="add-on cur_point">i</span>
-			       			<span class="input-tip">例如：www.baidu.com</span>
+			       			<span class="input-tip">例如：http://www.baidu.com</span>
    					    <div class="cue"> ${err_msg_website } </div>
    					    	<div class="cue"><sf:errors path="website"/></div>
 			       </div>
