@@ -48,8 +48,10 @@ public class Packages {
   //技术技术评审
   List<MarkTerm> listScoreTechnology;
   
-  //基准价法+最低价法评审
-  List<FirstAudit> listScoreMinimum;
+  //经济基准价法+最低价法评审
+  List<FirstAudit> listMinimumEconomy;
+  //技术Technology
+  List<FirstAudit> listMinimumTechnology;
 
   private String id;
 
@@ -552,18 +554,34 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
   }
 
   /**
-   * @return Returns the listScoreMinimum.
+   * @return Returns the listMinimumEconomy.
    */
-  public List<FirstAudit> getListScoreMinimum() {
-    return listScoreMinimum;
+  public List<FirstAudit> getListMinimumEconomy() {
+    return listMinimumEconomy;
   }
 
   /**
-   * @param listScoreMinimum The listScoreMinimum to set.
+   * @param listMinimumEconomy The listMinimumEconomy to set.
    */
-  public void setListScoreMinimum(List<FirstAudit> listScoreMinimum) {
-    this.listScoreMinimum = listScoreMinimum;
+  public void setListMinimumEconomy(List<FirstAudit> listMinimumEconomy) {
+    this.listMinimumEconomy = listMinimumEconomy;
   }
+
+  /**
+   * @return Returns the listMinimumTechnology.
+   */
+  public List<FirstAudit> getListMinimumTechnology() {
+    return listMinimumTechnology;
+  }
+
+  /**
+   * @param listMinimumTechnology The listMinimumTechnology to set.
+   */
+  public void setListMinimumTechnology(List<FirstAudit> listMinimumTechnology) {
+    this.listMinimumTechnology = listMinimumTechnology;
+  }
+
+
 
 
 }

@@ -50,12 +50,11 @@ public class Expert extends ExpertHistory implements Serializable {
     /**缴纳社会保险证明*/
     private String coverNote;
     /**居民身份证号码*/
+    @NotNull(message = "不能为空") 
     private String idCardNumber;
     /**军队人员身份证件类型*/
-    @NotNull(message = "不能为空") 
     private String idType;
     /**证件号码*/
-    @NotNull(message = "不能为空") 
     private String idNumber;
     /**专家来源*/
     private String expertsFrom;//军队只能在内网注册,地方在内网和外网都可以注册

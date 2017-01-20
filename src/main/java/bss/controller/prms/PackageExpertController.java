@@ -2968,7 +2968,7 @@ public class PackageExpertController {
           //Project project = projectService.selectById(projectId);
           //project.setStatus(DictionaryDataUtil.getId("ZJQDWC"));
           //projectService.update(project);
-          msg = "签到完成，临时专家的用户名为【手机号】，密码为【123456】";
+          msg = "签到完成";
           response.setContentType("text/html;charset=utf-8");
           response.getWriter()
           .print("{\"success\": " + true + ", \"msg\": \"" + msg + "\"}");

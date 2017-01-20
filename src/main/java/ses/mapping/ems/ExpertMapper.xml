@@ -256,6 +256,9 @@
 			<if test="jobExperiences != null">
 				JOB_EXPERIENCES,
 			</if>
+			 <if test="isSubmit != null">
+        IS_SUBMIT,
+      </if>
 			<if test="submitAt != null">
 				SUBMIT_AT,
 			</if>
@@ -280,9 +283,7 @@
 			<if test="email != null">
 				EMAIL,
 			</if>
-			<if test="isSubmit != null">
-				IS_SUBMIT,
-			</if>
+		
 			<if test="isDo != null">
 				IS_DO,
 			</if>
@@ -1048,7 +1049,9 @@
 		SELECT ID FROM T_SES_EMS_EXPERT
 		WHERE ID_CARD_NUMBER =
 		#{param1}
+	<if test="param2 != null and param2 != '' ">
 		AND ID != #{param2}
+	</if>
 	</select>
 	<!-- 证件号码唯一性验证 -->
 	<select id="validateIdNumber" parameterType="java.lang.String"

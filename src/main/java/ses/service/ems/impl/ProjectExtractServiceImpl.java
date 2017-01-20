@@ -261,17 +261,42 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
    * @author Wang Wenshuai
    * @param projectId
    */
-  public void del(Map<String, String> map){
-    extractMapper.del(map);
-    String[] typeid = map.get("typeId").split(",");
-    if(typeid.length >=1){
-      for (String id : typeid) {
-        map.put("typeId", id);
+  public void del(String conditionId, String projectId, List<String> expertTypeIds){
+    ProjectExtract extract = new ProjectExtract();
+    extract.setExpertConditionId(conditionId);
+    List<ProjectExtract> list = extractMapper.list(extract);
+    for (ProjectExtract projectExtract : list) {
+      boolean containsAll = expertTypeIds.containsAll(castList(projectExtract.getExpert().getExpertsTypeId()));
+      if(containsAll){
+        Map<String,  String > map = new HashMap<String, String>();
+        map.put("projectId", projectId);
+        map.put("expertId",projectExtract.getExpert().getId());
         extractMapper.del(map);
       }
     }
+  }
+
+  /**
+   * 
+   *〈简述〉转换集合
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param type
+   * @return
+   */
+  private List<String>  castList(String type){
+    List<String> list = null;
+    if(type != null && !"".equals(type)){
+      list = new ArrayList<String>();
+      String[]  str = type.split(",");
+      for (String ty : str) {
+        list.add(ty);
+      }
+    }
+    return list;
 
   }
+
 
   /**
    * 抽取之后

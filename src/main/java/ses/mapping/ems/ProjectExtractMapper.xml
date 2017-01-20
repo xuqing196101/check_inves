@@ -354,14 +354,8 @@
 		T_SES_EMS_PROJECT_EXTRACT
 		WHERE PROJECT_ID IN (SELECT "ID" FROM
 		T_BSS_PPMS_PACKAGE WHERE PROJECT_ID = #{projectId}) AND
-		EXPERT_ID IN (
-		SELECT
-		"ID"
-		FROM
-		T_SES_EMS_EXPERT
-		WHERE
-		EXPERTS_TYPE_ID = #{typeId} AND OPERATING_TYPE = 0
-		) )
+		EXPERT_ID = #{expertId} AND OPERATING_TYPE = 0
+		) 
 	</select>
 
 	<select id="delPe" parameterType="java.lang.String">

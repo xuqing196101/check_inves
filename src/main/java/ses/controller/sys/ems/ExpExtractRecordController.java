@@ -32,6 +32,7 @@ import javax.validation.Valid;
 
 
 
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
@@ -852,7 +853,7 @@ public class ExpExtractRecordController extends BaseController {
     //获取查询条件类型
     List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(ids[1], ""),null);
     //删除已经满足类型的
-    String expertTypeIds = "";
+    List<String> expertTypeIds = new ArrayList<String>();
     for (ExtConType extConType1 : listCondition.get(0).getConTypes()) {
       //获取抽取的专家类别
       ProjectExtract projectExtrac = new ProjectExtract();
@@ -862,17 +863,16 @@ public class ExpExtractRecordController extends BaseController {
       extConType1.setAlreadyCount(list == null ? 0 : list.size());
       //删除满足数量的
       if(list.size() >= extConType1.getExpertsCount()){
-        expertTypeIds += extConType1.getExpertsTypeId() + ",";
+        expertTypeIds.add(extConType1.getExpertsTypeId());
       }
     }
-    if (expertTypeIds != null && !"".equals(expertTypeIds)){
+    
+    
+    if (expertTypeIds != null && expertTypeIds.size() != 0){
       Packages packages = new Packages();
       packages.setId(listCondition.get(0).getProjectId());
       List<Packages> find = packagesService.find(packages);
-      Map<String, String> map = new HashMap<String, String>();
-      map.put("projectId", find.get(0).getProjectId());
-      map.put("typeId", expertTypeIds.substring(0, expertTypeIds.length()-1));
-      extractService.del(map);
+      extractService.del(listCondition.get(0).getId(),find.get(0).getProjectId(),expertTypeIds);
     }
 
     //拿出数量和session中存放的数字进行对比
@@ -898,37 +898,13 @@ public class ExpExtractRecordController extends BaseController {
     List<ExtConType> conTypes = listCondition.get(0).getConTypes();
 
 
-    String expertTypeId = "";
     if (conTypes != null && conTypes.size() == 1  &&  ( conTypes.get(0).getExpertsTypeId() == null || !"".equals(conTypes.get(0).getExpertsTypeId())) ){
       ProjectExtract projectExtrac = new ProjectExtract();
       projectExtrac.setConTypeId("1");
       projectExtrac.setExpertConditionId(listCondition.get(0).getId());
       List<ProjectExtract> peList = extractService.list(projectExtrac);
       conTypes.get(0).setAlreadyCount(peList == null ? 0 : peList.size());
-    }else{
-      for (ExtConType extConType1 : conTypes) {
-        //获取抽取的专家类别
-        ProjectExtract projectExtrac = new ProjectExtract();
-        projectExtrac.setReviewType(extConType1.getExpertsTypeId());
-        projectExtrac.setExpertConditionId(ids[1]);
-        List<ProjectExtract> list = extractService.list(projectExtrac);
-        extConType1.setAlreadyCount(list == null ? 0 : list.size());
-        //删除满足数量的
-        if(list.size() >= extConType1.getExpertsCount()){
-          expertTypeId += extConType1.getExpertsTypeId() + ",";
-        }
-      }
     }
-    if (expertTypeId != null && !"".equals(expertTypeId)){
-      Packages packages = new Packages();
-      packages.setId(listCondition.get(0).getProjectId());
-      List<Packages> find = packagesService.find(packages);
-      Map<String, String> map = new HashMap<String, String>();
-      map.put("projectId", find.get(0).getProjectId());
-      map.put("typeId", expertTypeId.substring(0, expertTypeId.length()-1));
-      extractService.del(map);
-    }
-
     projectExtractListYes.get(0).setConType(conTypes);
     if (projectExtractListNo.size() != 0){
       projectExtractListYes.add(projectExtractListNo.get(0));
@@ -1175,8 +1151,8 @@ public class ExpExtractRecordController extends BaseController {
       if(expert.getRelName() != null && !"".equals(expert.getRelName())){
         expert.setRelName(URLDecoder.decode(expert.getRelName(),"UTF-8"));
       }
-      if(expert.getIdNumber() != null && !"".equals(expert.getIdNumber())){
-        expert.setIdNumber(URLDecoder.decode(expert.getIdNumber(),"UTF-8"));
+      if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
+        expert.setIdCardNumber(URLDecoder.decode(expert.getIdCardNumber(),"UTF-8"));
       }
       if(expert.getAtDuty() != null && !"".equals(expert.getAtDuty() )){
         expert.setAtDuty(URLDecoder.decode(expert.getAtDuty(),"UTF-8"));
@@ -1228,10 +1204,10 @@ public class ExpExtractRecordController extends BaseController {
       type = 1;
     }
 
-    if(expert.getIdNumber() != null && !"".equals(expert.getIdNumber())){
-      List<Expert> validateIdNumber = expertServices.validateIdNumber(expert.getIdNumber(), null);
+    if(expert.getIdCardNumber() != null && !"".equals(expert.getIdCardNumber())){
+      List<Expert> validateIdNumber = expertServices.validateIdCardNumber(expert.getIdCardNumber(), null);
       if(validateIdNumber != null && validateIdNumber.size() != 0){
-        model.addAttribute("IdNumberError", "已被占用");
+        model.addAttribute("idCardNumberError", "已被占用");
         type = 1;
       }
 

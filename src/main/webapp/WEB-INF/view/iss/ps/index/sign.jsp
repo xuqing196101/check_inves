@@ -18,7 +18,7 @@
     	});
 
     	function login() {
-    		 $("#divPrompt").addClass("hide");
+   /*  		 $("#divPrompt").addClass("hide"); */
     		if ($("#inputEmail").val() == "") {
     			 $("#divPrompt").removeClass("hide");
     		    $("#spanPrompt").text("请输入用户名");
