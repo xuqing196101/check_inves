@@ -196,6 +196,8 @@ public class PlanLookController extends BaseController {
 			   model.addAttribute("detail", detail);
             request.getSession().removeAttribute("NoCount");
         	model.addAttribute("kind", DictionaryDataUtil.find(5));
+        	String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
+    		model.addAttribute("typeId", typeId);
         return "bss/pms/collect/plan_views";
     }
 	
@@ -220,6 +222,8 @@ public class PlanLookController extends BaseController {
 //       model.addAttribute("list", list);
 		List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
 		model.addAttribute("list", list);
+		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
+		model.addAttribute("typeId", typeId);
         return "bss/pms/collect/plan_view";
     }
 	

@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 		
 		<script type="text/javascript">
@@ -128,6 +129,7 @@
 					data:{"index":index},
 					success: function(data) {
 						$("#detailZeroRow").append(data);
+						init_web_upload();
 	/* 					id = data;
 						var tr = $("input[name=dyadds]").parent().parent().prev();
 						// var tr=$(obj).parent().parent();
@@ -1258,7 +1260,7 @@
 										<th name="userNone" class="w260">物资用途</br>（仅进口）</th>
 										<th name="userNone" class="w260">使用单位</br>（仅进口）</th>
 										<th class="w260">备注</th>
-									    <!-- <th  class="260">附件</th> -->  
+									    <th  class="w260">附件</th>  
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="">操作</th>
 									</tr>
@@ -1332,12 +1334,12 @@
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w260"></td>
-										<%-- <td style="width:300px;" class="p0">
+										<td style="width:300px;" class="p0">
 											   <div class="w200">
-													<u:upload id="pUp0" multiple="true"  businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-													<u:show showId="pShow0" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" />
+													<u:upload id="pUp0" multiple="true"  businessId="${id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+													<u:show showId="pShow0" businessId="${id}" sysKey="2" typeId="${typeId}" />
 											   </div>											
-										</td> --%>
+										</td>
 										
 										
 										<!-- <td class="tc w100 p0"></td> -->
@@ -1389,12 +1391,12 @@
 										<td class="tc  p0"><input type="text" name="list[${vs.index }].goodsUse" class="m0"></td>
 										<td class="tc p0"><input type="text" name="list[${vs.index }].useUnit" class="m0"></td>
 										<td class="tc  p0"><input type="text" name="list[${vs.index }].memo" value="${obj.memo}" class="m0" ></td>
-									<%-- 	<td style="width:300px;" class="p0">
+										<td style="width:300px;" class="p0">
 											   <div class="col-md-12 col-sm-12 col-xs-12 p0" id="breach_li_id">
-													<u:upload id="pUp${vs.index}" groups="${sbUp}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" auto="true" />
-													<u:show showId="pShow${vs.index}" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${attchid}" />
+													<u:upload id="pUp${vs.index}" businessId="${obj.id}" sysKey="2" buttonName="上传文件"  typeId="${attchid}" auto="true" />
+													<u:show showId="pShow${vs.index}" businessId="2" sysKey="${sysKey}" typeId="${attchid}" />
 											   </div>											
-										</td> --%>
+										</td>
 										
 										
 <%-- 										<td class="tc w100 "><input type="hidden"  name="list[${vs.index }].status" value="暂存" class="m0" > 暂存</td>

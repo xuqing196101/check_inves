@@ -4,7 +4,8 @@
 <html>
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
-    <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+  <!--   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
     <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <script type="text/javascript">
   /** 全选全不选 */
@@ -174,6 +175,7 @@
                       <!--   <th class="info w150">物资用途<br>（仅进口）</th>
                              <th class="info w150">使用单位<br>（仅进口）</th> -->
                              <th class="info w260">备注</th>
+                             <th class="info w260">附件</th>
 			             </tr>
 			         </thead>
 			
@@ -264,6 +266,14 @@
 			                 <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
 			                </div>
 			              </td > 
+			              
+			              <td style="width:300px;" class="p0">
+								  <div class="w200">
+									    <u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+										 <u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
+									</div>	
+						 </td>
+											
 			            </tr>
 			
 			          </c:forEach>

@@ -6,7 +6,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
-       <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+      <!--  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 <title>采购需求管理</title>
 <meta http-equiv="pragma" content="no-cache">
@@ -272,7 +272,7 @@
 						<!-- 	<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th> -->
 							<th class="info w260">备注</th>
-							<!-- <th class="info">操作</th> -->
+							<th class="info">附件</th>
 						</tr>
 					</thead>
 		<form id="acc_form" action="${pageContext.request.contextPath}/accept/update.html" method="post">
@@ -353,6 +353,15 @@
 							<td class="tl">
 							    <div class="w260">${obj.memo }</div>
 							</td>
+							
+							<td style="width:300px;" class="p0">
+											<div class="w200">
+													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
+											   </div>	
+							</td>
+							
+							
 							<%-- <td class="tc w50">
 										<a onclick="reason('${f.id}','');" id="${f.id}_hidden1" class="btn">退回</a>
 										<p id="${f.id}_show" class="b red">×</p>

@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<script type="text/javascript">
 			$(function() {
 				$('a[data-toggle="tab"]').on('shown.bs.tab', function(e) {
@@ -432,6 +433,7 @@
 								<!-- 	<th>物资用途<br>（仅进口）</th>
 									<th>使用单位<br>（仅进口）</th> -->
 									<th>备注</th>
+									<th>附件</th>
 									</tr>
 								</thead>
 								<tbody >
@@ -504,6 +506,13 @@
 	<%-- 										<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }">
+											<td style="width:300px;" class="p0">
+												<div class="w200">
+														<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+														<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
+												   </div>	
+											</td>
+											
 											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 												<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">

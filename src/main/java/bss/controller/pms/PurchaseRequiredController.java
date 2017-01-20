@@ -165,7 +165,7 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
 		
-		model.addAttribute("org_advice", "1");
+		model.addAttribute("org_advice", type);
 		if(type.equals("1")){
 			return "bss/pms/purchaserequird/view";
 		}else{
@@ -469,7 +469,7 @@ public class PurchaseRequiredController extends BaseController{
                     if(p.getSeq()!=null){
                     	
                     
-                    if(p.getPurchaseType()!=null){
+                    if(p.getPurchaseType()!=null&&p.getPurchaseType().trim().length()!=0){
                         DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
                         p.setPurchaseType(data.getId());
                     }
@@ -480,8 +480,8 @@ public class PurchaseRequiredController extends BaseController{
                         count=1;
                         p.setIsMaster(count);
                         p.setParentId("1");//注释
-                        id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
-                        p.setId(id);//注释
+//                        id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
+//                        p.setId(id);//注释
                         
                         unqueId= UUID.randomUUID().toString().replaceAll("-", "");
                         p.setUniqueId(unqueId);
@@ -490,9 +490,9 @@ public class PurchaseRequiredController extends BaseController{
                     }
                 //判断是否是二级节点(一)
                    if(isContainChinese(p.getSeq())){
-                        p.setParentId(id);
-                        pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
-                        p.setId(pid);
+//                        p.setParentId(id);
+//                        pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
+//                        p.setId(pid);
                         p.setUniqueId(unqueId);
                         count++;
                         continue;  
@@ -502,9 +502,9 @@ public class PurchaseRequiredController extends BaseController{
                    //判断是否是三级节点1,2,3
                    else  if(isInteger(p.getSeq())){
                
-                     p.setParentId(pid);
-                     cid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
-                     p.setId(cid);
+//                     p.setParentId(pid);
+//                     cid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+//                     p.setId(cid);
                      p.setUniqueId(unqueId);
                      count++;
                      continue; 
@@ -513,26 +513,26 @@ public class PurchaseRequiredController extends BaseController{
                    //判断是否四级节点(1),(2)
                    else if(isContainIntger(p.getSeq())){
                    
-                       p.setParentId(cid);
-                       ccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
-                       p.setId(ccid);
+//                       p.setParentId(cid);
+//                       ccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+//                       p.setId(ccid);
                        p.setUniqueId(unqueId);
                         count++;
                        continue;
                    }
                    //五级节点
                    else if(isEng(p.getSeq())){
-                       p.setId(cccid);
-                   
-                       cccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
-                       p.setParentId(ccid);
+//                       p.setId(cccid);
+//                   
+//                       cccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+//                       p.setParentId(ccid);
                        p.setUniqueId(unqueId);
                         count++;
                        continue;
                    }else{
-                       p.setId(ccccid);
-                       ccccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
-                       p.setParentId(cccid);
+//                       p.setId(ccccid);
+//                       ccccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+//                       p.setParentId(cccid);
                        p.setUniqueId(unqueId);
                        count++;
                    }

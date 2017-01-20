@@ -51,7 +51,7 @@
 											<select name="list[${index }].purchaseType" class="m0 border0" onchange="changeType(this)" >
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
-														<option value="${objd.id }"> ${objd.name }</option>
+														<option value="${objd.name }"> ${objd.name }</option>
 													 
 												</c:forEach>
 											</select>
@@ -75,12 +75,12 @@
 									 	<td class="tc  p0" name='userNone'><input type="text" name="list[${index }].goodsUse" class="m0 border0"></td>
 										 <td class="tc p0"  name='userNone' ><input type="text" name="list[${index }].useUnit" class="m0 w260 border0"></td>
 									     <td class="tc  p0"><input type="text" name="list[${index }].memo" value=" " class="m0 border0 w260" ></td>
-								<%-- 	      <td style="width:300px;" class="p0">
+									      <td style="width:300px;" class="p0">
 											   <div class="w200">
-													<u:upload id="pUp${index }" multiple="true"  businessId="${id}" sysKey="2" typeId="${attId}" auto="true" />
+													<u:upload id="pUp${index }" multiple="true" buttonName="上传文件"  businessId="${id}" sysKey="2" typeId="${attId}" auto="true" />
 													<u:show showId="pShow${index }" businessId="${id}" sysKey="2" typeId="${attId}" />
 											   </div>											
-										 </td> --%>
+										 </td>
 										
 										
 									 	<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>

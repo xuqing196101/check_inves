@@ -4,7 +4,8 @@
 <html>
 	<head>
 	<%@ include file="/WEB-INF/view/common.jsp" %>
-     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+     <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
      <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 
 <script type="text/javascript">
@@ -202,7 +203,7 @@
 		
         <h2 class="count_flow"><i>2</i>计划明细</h2>
 		<div class="content ul_list"  id="content">
-				<table id="table" class="table table-bordered">
+				<table id="table" class="table table-bordered table-condensed table_input">
 					<thead>
 						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
@@ -224,6 +225,7 @@
 							<!-- <th class="info ">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th> -->
 							<th class="info w260">备注</th>
+							<th class="info w260">附件</th>
 						</tr>
 					</thead>
 
@@ -311,6 +313,15 @@
 							    <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
 							  </div>
 							</td > 
+							
+							<td style="width:300px;" class="p0">
+							<div class="w200">
+													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
+											   </div>	
+							</td>
+							
+							
 						   <%-- <td class="tc">${obj.memo }</td> --%> 
 						</tr>
 

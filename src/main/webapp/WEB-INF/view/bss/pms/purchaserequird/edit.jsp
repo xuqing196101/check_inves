@@ -4,6 +4,7 @@
 <html>
 	<head>
 <%@ include file="/WEB-INF/view/common.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
    <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -194,7 +195,7 @@
 	    	 // $("#edit_form").submit();
 	      }
 </script>
-<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
 
 
@@ -367,6 +368,7 @@
 					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th> -->
 							<th class="info w260">备注</th>
+							   <th  class="260">附件</th>  
 					<!-- 		<th class="w100">状态</th> -->
 						</tr>
 					</thead>
@@ -430,6 +432,13 @@
                  <%--  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
                   <td class="tl"><div class="p0_5 w260">${obj.memo}</div>
+                  <td style="width:300px;" class="p0" >
+                 <%--  ${obj.id} --%>
+							   <div class="w200">
+									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
+							  </div>											
+					 </td>
                   <%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
                      <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
