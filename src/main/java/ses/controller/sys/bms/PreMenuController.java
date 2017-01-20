@@ -23,7 +23,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.RolePreMenu;
+import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
+import ses.model.oms.PurchaseInfo;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
@@ -32,6 +34,7 @@ import ses.util.JsonDateValueProcessor;
 
 
 import com.alibaba.fastjson.JSON;
+import common.annotation.CurrentUser;
 
 /**
  * Description: 权限菜单控制类
@@ -397,6 +400,65 @@ public class PreMenuController {
         } finally{
             response.getWriter().close();
         }
-	    
 	}
+	
+	@RequestMapping(value="/findForSelect" ) 
+  @ResponseBody
+  public List<PreMenu> getUserForSelect(String kind, String userId) {
+      List<PreMenu> preMenus = new ArrayList<>();
+      if(userId != null && !"".equals(userId)){
+          //查询该用户的供应商角色
+          HashMap<String, Object> supplierMap = new HashMap<String, Object>();
+          supplierMap.put("userId", userId);
+          supplierMap.put("code", "SUPPLIER_R");
+          List<Role> srs = roleService.selectByUserIdCode(supplierMap);
+          //查询该用户的专家角色
+          HashMap<String, Object> expertMap = new HashMap<String, Object>();
+          expertMap.put("userId", userId);
+          expertMap.put("code", "EXPERT_R");
+          List<Role> ers = roleService.selectByUserIdCode(expertMap);
+          //查询该用户的进口代理商角色
+          HashMap<String, Object> importAgentMap = new HashMap<String, Object>();
+          importAgentMap.put("userId", userId);
+          importAgentMap.put("code", "IMPORT_AGENT_R");
+          List<Role> iars = roleService.selectByUserIdCode(importAgentMap);
+          PreMenu menu = new PreMenu();
+          if (srs != null && srs.size() > 0) {
+            //供应商后台菜单
+            menu.setKind(1);
+          } else if (ers != null && ers.size() > 0) {
+            //专家后台菜单
+            menu.setKind(2);
+          } else if (iars != null && iars.size() > 0){
+            //进口代理商后台菜单
+            menu.setKind(3);
+          } else {
+            //采购后台菜单
+            menu.setKind(0);
+          }
+          preMenus = preMenuService.find(menu);
+      } else if (kind != null && !"".equals(kind)){
+          PreMenu menu = new PreMenu();
+          menu.setStatus(0);
+          String rCode = dictionaryDataService.getDictionaryData(kind).getCode();
+          //采购后台
+          if ("PURCHASE_BACK".equals(rCode)) {
+              menu.setKind(0);
+          }
+          //供应商后台
+          if ("SUPPLIER_BACK".equals(rCode)) {
+              menu.setKind(1);
+          }
+          //专家后台
+          if ("EXPERT_BACK".equals(rCode)) {
+              menu.setKind(2);
+          }
+          //进口代理商角色
+          if ("IMPORT_AGENT_BACK".equals(rCode)) {
+              menu.setKind(3);
+          }
+          preMenus = preMenuService.find(menu);
+      }
+      return preMenus;
+  }
 }
