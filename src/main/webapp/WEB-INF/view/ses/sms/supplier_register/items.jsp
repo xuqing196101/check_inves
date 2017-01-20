@@ -105,7 +105,8 @@
 			},
 			callback: {
 				onCheck: saveCategory,
-				onAsyncSuccess: zTreeOnAsyncSuccess
+				onAsyncSuccess: zTreeOnAsyncSuccess,
+				onExpand: zTreeOnExpand
 			},
 			view: {
 				showLine: true
@@ -294,6 +295,11 @@
 			content : '${pageContext.request.contextPath}/supplierAudit/showReasonsList.html?&auditType=item_pro_page,item_sell_page,item_eng_page,item_serve_page' + '&jsp=dialog_item_reason' + '&supplierId=' + supplierId, //url
 		});
 	}
+	
+	function zTreeOnExpand(event, treeId, treeNode) {
+		$("a[title='" + treeNode.name + "']").next().removeAttr("style");
+	}
+	
 	function searchCate(cateId, treeId,type,seq) {
 		var zNodes;
 		var zTreeObj;
@@ -312,7 +318,8 @@
 			},
 			callback: {
 				onCheck: saveCategory,
-				onAsyncSuccess: zTreeOnAsyncSuccess
+				onAsyncSuccess: zTreeOnAsyncSuccess,
+				onExpand: zTreeOnExpand
 			},view: {
 				showLine: true
 			}
