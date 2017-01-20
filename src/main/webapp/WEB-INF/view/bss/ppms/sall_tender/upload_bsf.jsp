@@ -1,14 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
-<%@ taglib prefix="up" uri="/tld/upload" %>
-<%@ include file="../../../common.jsp"%>
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
 <html>
 <head>
 <base href="${pageContext.request.contextPath}/" >
-
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+<%@ include file="../../../common.jsp"%>
 <title>上传</title>
 
 <meta http-equiv="pragma" content="no-cache">
