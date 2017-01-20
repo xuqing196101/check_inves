@@ -100,7 +100,8 @@ $().ready(function() {
 		if (val == 'SERVICE') {
 			$("#serviceId").addClass("active");
 			$("#server_div").attr("class", "tab-pane fades active in");
-		} 
+		}
+		init_web_upload();
  	}
  
  
