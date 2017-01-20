@@ -312,7 +312,7 @@ public class SupplierFinanceController extends BaseSupplierController {
 	 * @param page
 	 * @return String
 	 */
-    @RequestMapping(value = "list")
+    @RequestMapping(value = "/list")
     public String list(@CurrentUser User user, Model model, SupplierFinance supplierFinance, Integer page) {
         supplierFinance.setSupplierId(user.getTypeId());
         List<SupplierFinance> listSf = supplierFinanceService.selectFinanceBySupplierId(supplierFinance, page == null ? 0 : page);
