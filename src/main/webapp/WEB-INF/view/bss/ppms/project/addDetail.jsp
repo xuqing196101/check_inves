@@ -123,7 +123,7 @@
 
       <!-- 项目戳开始 -->
       <div class="content" id="content">
-        <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
+        <table id="table" class="table table-bordered table-condensed" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
           <thead>
             <tr class="space_nowrap">
               <th class="w30">选择</th>
