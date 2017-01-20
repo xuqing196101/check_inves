@@ -161,7 +161,13 @@ public class ReviewFirstAuditController {
 	    //放入初审项集合
 		extension.setFirstAuditList(firstAuditList);
 		//查询供应商信息
-		List<SaleTender> supplierList = saleTenderService.find(new SaleTender(projectId));
+		List<SaleTender> supplierList = new ArrayList<SaleTender>();
+		List<SaleTender> sl = saleTenderService.find(new SaleTender(projectId));
+		for (SaleTender st : sl) {
+       if (st.getPackages().indexOf(packageId) != -1 && st.getIsTurnUp() == 0) {
+           supplierList.add(st);
+       }
+		}
 		extension.setSupplierList(supplierList);
 		
 		//查询审核过的信息用于回显
