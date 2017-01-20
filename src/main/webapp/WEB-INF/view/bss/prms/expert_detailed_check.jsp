@@ -160,7 +160,7 @@
 	
 	
 	function openPrint(projectId,packageId){
-		window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId="+packageId+"&projectId="+projectId, "评审汇总表");
+		window.open("${pageContext.request.contextPath}/packageExpert/expertConsult.html?packageId="+packageId+"&projectId="+projectId+"&flag=1", "评审汇总表");
 	}
 	
 	function openDetailPrint(projectId,packageId){
@@ -168,7 +168,7 @@
 	}
 	
 	function expertConsult(projectId,packageId){
-		window.open("${pageContext.request.contextPath}/packageExpert/expertConsult.html?packageId="+packageId+"&projectId="+projectId+"&auditType=1", "专家咨询委员会");
+		window.open("${pageContext.request.contextPath}/packageExpert/expertConsult.html?packageId="+packageId+"&projectId="+projectId, "专家咨询委员会");
 	}
 	
 	 //定义callback方法，用于回调
@@ -231,9 +231,9 @@
       	 	<th class='info'colspan='2'>评审结果</th>
       	 	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
       	 		<td class="tc">
-      	 			<c:if test="${isSubmitCheck == 2 && supplier.economicScore == 0 && supplier.technologyScore == 0}"><div class='red'>不合格</div></c:if>
-      	 			<c:if test="${isSubmitCheck == 2 && supplier.economicScore == 100 && supplier.technologyScore == 100}">合格</c:if>
-      	 			<c:if test="${isSubmitCheck != 2}">暂无</c:if>
+      	 			<c:if test="${(isSubmitCheck == 2 || isSubmitCheck == 1) && supplier.economicScore == 0 && supplier.technologyScore == 0}"><div class='red'>不合格</div></c:if>
+      	 			<c:if test="${(isSubmitCheck == 2 || isSubmitCheck == 1) && supplier.economicScore == 100 && supplier.technologyScore == 100}">合格</c:if>
+      	 			<c:if test="${isSubmitCheck == 0}">暂无</c:if>
       	 		</td>
       	 	</c:forEach>
       	 </tr>

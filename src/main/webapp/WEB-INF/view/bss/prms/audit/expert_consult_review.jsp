@@ -106,25 +106,41 @@
 		  	  </c:forEach>
 		  </c:forEach>
 		  <tr>
-	  	  	  <td></td>
-	  	  	  <form id="saveCheck" action="" method="post">
-	  	  		  <input type="hidden" name="supplierNum" value="${saleTenderList.size()}">
-	  	  		  <input type="hidden" name="projectId" value="${project.id}">
-	  	  		  <input type="hidden" name="packageId" value="${pack.id}">
-	  	  		  <c:forEach items="${saleTenderList}" var="st" varStatus="i">
+	  	  	  <th class="info tc">评审结果</th>
+	  	  	  <c:if test="${flag != '1' }">
+		  	  	  <form id="saveCheck" action="" method="post">
+		  	  		  <input type="hidden" name="supplierNum" value="${saleTenderList.size()}">
+		  	  		  <input type="hidden" name="projectId" value="${project.id}">
+		  	  		  <input type="hidden" name="packageId" value="${pack.id}">
+		  	  		  <c:forEach items="${saleTenderList}" var="st" varStatus="i">
+			        	<td class="info tc" colspan="2">
+			        		<input type="radio" name="checkName${i.index}" value="${st.id},100" ><span class="green">合格</span>
+			        		<input type="radio" name="checkName${i.index}" value="${st.id},0" ><span class="red">不合格</span>
+			        	</td>
+		        	  </c:forEach>
+	        	  </form>
+        	  </c:if>
+        	  <c:if test="${flag == '1' }">
+        	  	  <c:forEach items="${saleTenderList}" var="st" varStatus="i">
 		        	<td class="info tc" colspan="2">
-		        		<input type="radio" name="checkName${i.index}" value="${st.id},100" ><span class="green">合格</span>
-		        		<input type="radio" name="checkName${i.index}" value="${st.id},0" ><span class="red">不合格</span>
+		        		<c:if test="${st.economicScore == 100 && st.technologyScore == 100 }">
+		        			<span class="green">合格</span>
+		        		</c:if>
+		        		<c:if test="${st.economicScore == 0 && st.technologyScore == 0 }">
+		        			<span class="red">不合格</span>
+		        		</c:if>
 		        	</td>
 	        	  </c:forEach>
-        	  </form>
+        	  </c:if>
 	  	  </tr>
 	     </tbody>
   		</table>
   	  </div>
   	</div>
   	<div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
-		<input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
+  		<c:if test="${flag != '1' }">
+			<input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
+  		</c:if>
 		<input class="btn btn-windows back" value="关闭" type="button" onClick="closeWin();"><br/>
 	</div>
   </body>

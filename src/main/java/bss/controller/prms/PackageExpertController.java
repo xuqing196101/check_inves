@@ -3443,7 +3443,8 @@ public class PackageExpertController {
     }
     
     @RequestMapping("/expertConsult")
-    public String expertConsult(String packageId, String projectId, Model model){
+    public String expertConsult(String flag, String packageId, String projectId, Model model){
+        model.addAttribute("flag", flag);
         Project project = projectService.selectById(projectId);
         HashMap<String ,Object> map = new HashMap<>();
         map.put("projectId", projectId);
