@@ -1139,37 +1139,37 @@
 	<select id="querySupplierbytypeAndCategoryIds" parameterType="ses.model.sms.Supplier"
 		resultMap="findSupplierMap">
 		SELECT
-	*
-FROM
-	(
-		SELECT
-			"NVL" (T4. NAME, T3. NAME) AS NAME,
-			t1.typeId,
-			t2.*
+			*
 		FROM
 			(
 				SELECT
-					ID,
-					wm_concat (DISTINCT(typeId)) AS typeId
+					"NVL" (T4. NAME, T3. NAME) AS NAME,
+					t1.typeId,
+					t2.*
 				FROM
 					(
 						SELECT
-							T1.*, 
-							t3.SUPPLIER_TYPE_ID AS typeId
+							ID,
+							wm_concat (DISTINCT(typeId)) AS typeId
 						FROM
-							T_SES_SMS_SUPPLIER t1
-						LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID
-					)
-				GROUP BY
-					ID
-			) t1
-		LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
-		LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
-		LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID 
-	)
-WHERE
-	1 = 1
-AND SUPPLIER_NAME IS NOT NULL
+							(
+								SELECT
+									T1.*, 
+									t3.SUPPLIER_TYPE_ID AS typeId
+								FROM
+									T_SES_SMS_SUPPLIER t1
+								LEFT JOIN T_SES_SMS_SUPPLIER_TYPE_RELATE t3 ON t1. ID = t3.SUPPLIER_ID
+							)
+						GROUP BY
+							ID
+					) t1
+				LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
+				LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
+				LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID 
+			)
+		WHERE
+			1 = 1
+		AND SUPPLIER_NAME IS NOT NULL
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>

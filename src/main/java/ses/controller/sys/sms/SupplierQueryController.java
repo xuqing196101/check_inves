@@ -181,14 +181,12 @@ public class SupplierQueryController extends BaseSupplierController {
         Integer maxCount = 0;
         for (Supplier supplier:listSupplier) {
             for (Map.Entry<String, Integer> entry:map.entrySet()) {   
-                if (supplier.getName() != null && !"".equals(supplier.getName())) {
-                    if (supplier.getName().indexOf(entry.getKey()) != -1){
-                        map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
-                        if (maxCount < map.get(entry.getKey())) {
-                            maxCount = map.get(entry.getKey());
-                        }
-                        break;
+                if (supplier.getName() != null && !"".equals(supplier.getName()) && supplier.getName().indexOf(entry.getKey()) != -1){
+                    map.put((String) entry.getKey(), (Integer) map.get(entry.getKey()) + 1);
+                    if (maxCount < map.get(entry.getKey())) {
+                        maxCount = map.get(entry.getKey());
                     }
+                    break;
                 }
             }
         }

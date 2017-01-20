@@ -459,6 +459,12 @@
 				if(str == "updateHistory") {
 					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
 				}
+				if (str == "zizhi") {
+					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
+				}
+				if (str == "contract") {
+					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
+				}
 				if(str == "supplierType") {
 					action = "${pageContext.request.contextPath}/supplierQuery/supplierType.html";
 				}
@@ -507,8 +513,11 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
 						</li>
+							<li class="">
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
+						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>

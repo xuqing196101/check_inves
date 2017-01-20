@@ -205,6 +205,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 		SupplierStars sstart = new SupplierStars();
 		sstart.setStatus(1);
         List<SupplierStars> listSs = supplierStarsMapper.findSupplierStars(sstart);
+        
         if (supplier.getScore() != null && !"".equals(supplier.getScore())) {
             if (supplier.getScore() == 1) {
                 supplier.setScoreStart(listSs.get(0).getOneStars() + "");
