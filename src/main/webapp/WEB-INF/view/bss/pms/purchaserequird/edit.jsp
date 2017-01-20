@@ -4,6 +4,8 @@
 <html>
 	<head>
 <%@ include file="/WEB-INF/view/common.jsp" %>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
    <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -348,7 +350,7 @@
 		<div class="content mt0 ul_list">
 	
              <div class="content" id="content">
-                 <table id="table" class="table table-bordered table-condensed table_input  lockout">
+                 <table id="table" class="table table-bordered table-condensed table_input  lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
 					<thead>
 						<tr class="space_nowrap" id="scroll_top">
 							<th class="info w50">序号</th>

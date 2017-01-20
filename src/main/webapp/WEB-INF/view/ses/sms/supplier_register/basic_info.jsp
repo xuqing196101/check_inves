@@ -1493,7 +1493,7 @@ function deleteFinance() {
 					<span class="red"></span>
 				</div>
 				<div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  <table class="table table-bordered table-condensed mt5 table_wrap">
+					  <table class="table table-bordered table-condensed mt5 table_wrap table_input">
 						<thead>
 							<tr>
 							<!-- 	infotd=$(obj).parent().next().children().children(":last"); <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
@@ -1546,7 +1546,7 @@ function deleteFinance() {
 						</tbody>
 					</table>
 					
-					<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5 table_wrap">
+					<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5 table_wrap table_input">
 						<thead>
 							<tr>
 								<!-- <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
@@ -1599,10 +1599,11 @@ function deleteFinance() {
 									<td class="tc">
 									
 									<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_change_up"  multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
+									<div class="clear">
 									 <u:show showId="fina_${vs.index}_change" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" 
 									  businessId="${finance.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}"/>
 									  
-									  
+									  </div>
 									  
 									
 <%-- 									<a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
