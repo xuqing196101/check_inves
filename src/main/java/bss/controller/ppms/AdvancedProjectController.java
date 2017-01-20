@@ -56,6 +56,7 @@ import common.service.UploadService;
 
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
@@ -725,14 +726,32 @@ public class AdvancedProjectController extends BaseController {
             response.getWriter().write(json);
             response.getWriter().flush();
             response.getWriter().close();
+        }else{
+            map.put("id", purchaseRequired.getId());
+            List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
+            List<PurchaseRequired> list1 = purchaseRequiredService.selectByParent(map);
+            list.addAll(list1);
+            List<PurchaseRequired> list2 = purchaseRequiredService.selectByParentId(map);
+            list.addAll(list2);
+            removeSame(list);
+            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            response.setContentType("text/html;charset=utf-8");
+            response.getWriter().write(json);
+            response.getWriter().flush();
+            response.getWriter().close();
         }
-        map.put("id", purchaseRequired.getId());
-        List<PurchaseRequired> list = purchaseRequiredService.selectByParent(map);
-        String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
-        response.setContentType("text/html;charset=utf-8");
-        response.getWriter().write(json);
-        response.getWriter().flush();
-        response.getWriter().close();
+        
+    }
+    
+    
+    public void removeSame(List<PurchaseRequired> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
     }
     
     @RequestMapping("/viewIds")

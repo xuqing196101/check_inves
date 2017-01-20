@@ -162,7 +162,6 @@ public class ProjectController extends BaseController {
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             List<Project> list = projectService.selectProjectsByConition(map);
-            if(list != null && list.size() > 0){
                 for(int i=0;i<list.size();i++){
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
@@ -175,7 +174,6 @@ public class ProjectController extends BaseController {
                 model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
                 model.addAttribute("info", new PageInfo<Project>(list));
                 model.addAttribute("projects", project);
-            }
         }
         //判断是不是监管人员(采购管理人员)
         HashMap<String,Object> roleMap = new HashMap<String,Object>();
@@ -696,6 +694,13 @@ public class ProjectController extends BaseController {
         });
     }
     
+    /**
+     * 
+     *〈删除冗余〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param list
+     */
     public void removeSame(List<PurchaseDetail> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {

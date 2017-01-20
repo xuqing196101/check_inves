@@ -63,6 +63,7 @@
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
         });
+        alert(ids);
         if(proName == "") {
           layer.tips("项目名称不允许为空", "#proName");
         } else if(projectNumber == "") {
@@ -72,7 +73,7 @@
             shade: 0.01
           });
         } else {
-          layer.open({
+          /* layer.open({
             type: 2, //page层
             area: ['80%', '300px'],
             title: '下达',
@@ -82,7 +83,7 @@
             shadeClose: true,
             content: '${pageContext.request.contextPath}/advancedProject/attachment.html?proName=' + proName +
               '&projectNumber=' + projectNumber + '&department=' + department + '&purchaseType=' + purchaseType + '&ids=' + ids + '&planType=' + planType + '&organization=' + organization,
-          });
+          }); */
         }
 
       }
