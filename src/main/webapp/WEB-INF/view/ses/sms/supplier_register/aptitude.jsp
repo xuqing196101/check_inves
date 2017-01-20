@@ -48,6 +48,7 @@
 				})
 				$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
 			}
+			
 		</script>
 
 	</head>
