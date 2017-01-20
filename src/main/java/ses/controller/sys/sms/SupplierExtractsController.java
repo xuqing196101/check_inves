@@ -1071,7 +1071,7 @@ public class SupplierExtractsController extends BaseController {
       }
       if (tempList != null && tempList.size() > 0) {
         for (Supplier supp : tempList) {
-          if (!supplier.getId().equals(supp.getId())) {
+          if (!supp.getId().equals(supplier.getId())) {
             model.addAttribute("creditCodeError", "社会统一信用代码已被占用!");
             type = 1;
             break;
