@@ -295,7 +295,7 @@
 		          	</h2>
 	          		<div class="fl mt20 ml10">
 		             <button class="btn" name="addExp_btn" onclick="relate('${pack.id}','${vs.index}','${pack.name}')" type="button">设为组长</button>
-		             <button class="btn dnone" name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
+		             <button class="btn" name="viewExp_btn" onclick="resetPwd('${vs.index}');" type="button">重置密码</button>
 		             <%-- <button class="btn" name="addExp_btn" onclick="addExpert('${vs.index}','${project.id}','${pack.id}');" type="button">添加临时专家</button> --%>
 		           	</div>
 		        </div>

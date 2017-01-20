@@ -222,7 +222,7 @@ function sumbits(){
          <div class="cue"><sf:errors path="relName"/></div>
         </div>
 	   </li>
-	    <li class="col-md-3 col-sm-6 col-xs-12 ">
+<%-- 	    <li class="col-md-3 col-sm-6 col-xs-12 ">
 	      <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>证件类型：</span>
 	        <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 		        <select class="" name="idType"  id="idType">
@@ -233,13 +233,13 @@ function sumbits(){
 		         </select>
 		        <div class="cue" ><sf:errors path="idType"/></div>
 	       </div>
-     </li>
+     </li> --%>
      <li class="col-md-3 col-sm-6 col-xs-12 ">
-        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>证件号码：</span>
+        <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star red">*</span>居民身份证号码：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0">
-         <input class="title col-md-12" id="appendedInput" name="idNumber" value="${expert.idNumber}" maxlength="18" type="text">
+         <input class="title col-md-12" id="appendedInput" name="idCardNumber" value="${expert.idCardNumber}" maxlength="18" type="text">
          <span class="add-on">i</span>
-             <div class="cue" ><sf:errors path="idNumber"/>${IdNumberError}</div>
+             <div class="cue" ><sf:errors path="idCardNumber"/>${idCardNumberError}</div>
         </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12 ">

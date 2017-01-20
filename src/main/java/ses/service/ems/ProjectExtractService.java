@@ -99,7 +99,7 @@ public interface ProjectExtractService {
      * @author Wang Wenshuai
      * @param projectId
      */
-    void del(Map<String, String> map);
+    void del(String condition, String projectId, List<String> expertTypeIds);
 
     /**
      * 抽取完成后删除信息

@@ -192,23 +192,35 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       audit.setIsConfirm((short)0);
       List<FirstAudit> listByProjectId = firstAuditService.findBykind(audit);
       pack.setListFirstAudit(listByProjectId);
-      
+        
       //基准最低
       audit.setIsConfirm((short)1);
       listByProjectId = firstAuditService.findBykind(audit);
-      pack.setListScoreMinimum(listByProjectId);
+      if (listByProjectId != null && listByProjectId.size() != 0) {
+        for (FirstAudit firstAudit : listByProjectId) {
+          DictionaryData findById = DictionaryDataUtil.findById(firstAudit.getKind());
+          //循环出经济技术型
+          if ("ECONOMY".equals(findById.getCode())) {
+            pack.setListMinimumEconomy(listByProjectId);
+          } else if ("TECHNOLOGY".equals(findById.getCode())){
+            pack.setListMinimumTechnology(listByProjectId);
+          }
+        }
+        
+      }
 
       //循环出评审类型
       for (DictionaryData dictionaryData : ddList) {
-
         List<MarkTerm> list = model(dictionaryData.getId(), projectId,pack.getId());
-        if ("ECONOMY".equals(dictionaryData.getCode())) {
-          listScoreEconomy.addAll(list);
-        } else if ("TECHNOLOGY".equals(dictionaryData.getCode())) {
-          listScoreTechnology.addAll(list);
+        if(list != null){
+          if ("ECONOMY".equals(dictionaryData.getCode())) {
+            listScoreEconomy.addAll(list);
+          } else if ("TECHNOLOGY".equals(dictionaryData.getCode())) {
+            listScoreTechnology.addAll(list);
+          }  
         }
       }
-      //放入package中
+      //放入package中  
       pack.setListScoreEconomy(listScoreEconomy);
       pack.setListScoreTechnology(listScoreTechnology);
       //清空集合

@@ -71,6 +71,7 @@ import bss.model.ppms.SupplierCheckPass;
 import bss.model.prms.FirstAudit;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
@@ -230,6 +231,9 @@ public class OpenBiddingController {
 
   @Autowired
   private OrgnizationServiceI orgnizationService;
+  
+  @Autowired
+  private BidMethodService bidMethodService;
   /**
    * @Fields jsonData : ajax返回数据封装类
    */
@@ -280,13 +284,29 @@ public class OpenBiddingController {
         msg = "noFirst";
         return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
       }
-      //获取资格性审查项内容
-      ScoreModel smMap = new ScoreModel();
-      smMap.setPackageId(p.getId());
-      List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
-      if (sms == null || sms.size() <= 0) {
-        msg = "noSecond";
-        return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+      //获取经济技术审查项内容
+      //获取评分办法数据字典编码
+      String methodCode = bidMethodService.getMethod(id, p.getId());
+      if (methodCode != null && !"".equals(methodCode)) {
+          if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+              FirstAudit firstAudit2 = new FirstAudit();
+              firstAudit2.setPackageId(p.getId());
+              firstAudit2.setIsConfirm((short)1);
+              List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
+              if (fas2 == null || fas2.size() <= 0) {
+                msg = "noSecond";
+                return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+              }
+          }
+          if ("OPEN_ZHPFF".equals(methodCode)) {
+              ScoreModel smMap = new ScoreModel();
+              smMap.setPackageId(p.getId());
+              List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
+              if (sms == null || sms.size() <= 0) {
+                msg = "noSecond";
+                return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+              }
+          }
       }
     }
     Project project = projectService.selectById(id);
