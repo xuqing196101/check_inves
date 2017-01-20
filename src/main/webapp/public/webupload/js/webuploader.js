@@ -8114,3 +8114,13 @@ function init_web_upload(){
 		init_uploader(eval("var  uploader_" + id), id);
 	});
 }
+
+/**
+ * 加载上传附件按钮(指定范围)
+ */
+function init_web_upload_in(id){
+	$(id + " .web_uploader_class").each(function(){
+		var id = $(this).prev()[0].value;
+		init_uploader(eval("var  uploader_" + id), id);
+	});
+}

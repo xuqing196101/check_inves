@@ -78,7 +78,7 @@ $().ready(function() {
 	 }
  }
  
- 	//选中对应的信息
+ 	// 页签切换
 	function loadTab(val){
 	 	initTabTitleCss();
 		$("#production_div").attr("class", "tab-pane fades");
@@ -101,7 +101,6 @@ $().ready(function() {
 			$("#serviceId").addClass("active");
 			$("#server_div").attr("class", "tab-pane fades active in");
 		}
-		init_web_upload();
  	}
  
  
@@ -819,23 +818,21 @@ $().ready(function() {
 			<div class="overflow_h magazine-page">
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
 					   <ul id="page_ul_id" class="nav nav-tabs supplier_tab">
-							 <li id="productId" style="display:none;" ><a aria-expanded="true" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
-							 <li id="salesId" style="display:none;" ><a aria-expanded="false" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
-							 <li id="projectId" style="display:none;" ><a aria-expanded="false" href="#project_div" data-toggle="tab" class="  f18">工程专业信息</a></li>
-							 <li id="serviceId" style="display:none;"><a aria-expanded="false" href="#server_div" data-toggle="tab" class="  f18">服务专业信息</a></li>
+							 <li id="productId" style="display:none;" ><a aria-expanded="true" onclick="init_web_upload_in('#production_div')" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
+							 <li id="salesId" style="display:none;" ><a aria-expanded="false" onclick="init_web_upload_in('#sale_div')" href="#sale_div" data-toggle="tab" class="f18">物资-销售型专业信息</a></li>
+							 <li id="projectId" style="display:none;" ><a aria-expanded="false" onclick="init_web_upload_in('#project_div')" href="#project_div" data-toggle="tab" class="f18">工程专业信息</a></li>
+							 <li id="serviceId" style="display:none;"><a aria-expanded="false" onclick="init_web_upload_in('#server_div')" href="#server_div" data-toggle="tab" class="f18">服务专业信息</a></li>
 					  </ul>			
-						
- 
 
-	<div style="margin-top: 40px; position:relative;">
-		<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
+					<div style="margin-top: 40px; position:relative;">
+						<form id="save_pro_form_id"  action="${pageContext.request.contextPath}/supplier/perfect_professional.html" method="post">
 							<input type="hidden" name="id" id="sid" value="${currSupplier.id}" />
 							<input type="hidden" name="flag" />
 			 				<input type="hidden" name="defaultPage" value="${defaultPage}" />
 				            <div id="tab_content_div_id" class="tab-content p0 bgwhite border0 tab_repair">
 						<!-- 物资生产型专业信息 -->
-			         <%--  <c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}"> --%>
-			              <div class="tab-pane fades" id="production_div">
+			              
+			            <div class="tab-pane fades" id="production_div">
 			              <div class=" ">
 			              	  <h2 class="list_title">物资-生产型专业信息</h2>
 			              	    <ul class="list-unstyled f14 overflow_h">
