@@ -6,6 +6,9 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
+<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
+<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>		
+		
 		<script type="text/javascript">
 			var clickState = 0;
 			$(function() {
@@ -505,7 +508,7 @@
 
 			<c:if test="${!empty list}">
 				<div class="content" id="content">
-					<table id="table" class="table table-bordered table-condensed">
+					<table id="table" class="table table-bordered table-condensed"  style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
 						<thead>
 							<tr class="space_nowrap">
 								<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
@@ -529,17 +532,17 @@
 							</tr>
 						</thead>
 						<c:forEach items="${list}" var="obj">
-							<tr class="tc">
+							<tr>
 								<td class="w30"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></td>
 								<td class="w50">${obj.serialNumber }</td>
 								<td><div class="w260">${obj.department }</div></td>
 								<td><div class="w200">${obj.goodsName}</div></td>
 								<td><div class="w200">${obj.stand}</div></td>
 								<td><div class="w140">${obj.qualitStand}</div></td>
-								<td><div class="w50">${obj.item}</div></td>
-								<td><div class="w50">${obj.purchaseCount}</div></td>
-								<td><div class="w80">${obj.price}</div></td>
-								<td><div class="w80">${obj.budget}</div></td>
+								<td><div class="w50 tc">${obj.item}</div></td>
+								<td><div class="w50 tc">${obj.purchaseCount}</div></td>
+								<td><div class="w80 tr">${obj.price}</div></td>
+								<td><div class="w80 tr">${obj.budget}</div></td>
 								<td><div class="w150">${obj.deliverDate}</div></td>
 								<td>
 								<div class="w100">
@@ -607,7 +610,7 @@
 							</tr>
 						</thead>
 						<c:forEach items="${pack.projectDetails}" var="obj">
-							<tr class="tc">
+							<tr>
 								<td class="w30"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></td>
 								<td class="w50">${obj.serialNumber }</td>
 								<td><%--<c:if test="${orgnization.id == obj.department}"> 
