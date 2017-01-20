@@ -8111,6 +8111,6 @@
 function init_web_upload(){
 	$(".web_uploader_class").each(function(){
 		var id = $(this).prev()[0].value;
-		init_uploader(eval("var  uploader_" + id),id);
+		init_uploader(eval("var  uploader_" + id), id);
 	});
 }

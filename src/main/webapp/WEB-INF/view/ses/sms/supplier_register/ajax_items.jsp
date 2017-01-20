@@ -41,7 +41,7 @@
   <table class="table table-bordered table-hover">
     <tr>
       <td class="info tc w50">序号</td>
-      <td class="info tc">品目类别</td>
+      <td class="info tc w100">品目类别</td>
       <td class="info tc">大类名称</td>
       <td class="info tc">中类名称</td>
       <td class="info tc">小类名称</td>
@@ -51,10 +51,10 @@
       <tr>
         <td class="tc">${result.pageSize * (result.pageNum - 1) + vs.index + 1}</td>
 	    <td class="tc">${item.rootNode}</td>
-	    <td class="tc">${item.firstNode}</td>
-	    <td class="tc">${item.secondNode}</td>
-	    <td class="tc">${item.thirdNode}</td>
-	    <td class="tc">${item.fourthNode}</td>
+	    <td class="tl pl20">${item.firstNode}</td>
+	    <td class="tl pl20">${item.secondNode}</td>
+	    <td class="tl pl20">${item.thirdNode}</td>
+	    <td class="tl pl20">${item.fourthNode}</td>
       </tr>
     </c:forEach>
   </table> 

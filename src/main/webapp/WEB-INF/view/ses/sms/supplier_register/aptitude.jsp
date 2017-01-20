@@ -114,7 +114,6 @@ function psize(){
 						<c:set value="0" var="divCount"/>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 								<!-- 物资生产型 -->
-							
 							<c:set value="0" var="prolength"/> 
 								<div class="fades active" id="tab-1">
 										  <table class="table table-bordered">
@@ -122,7 +121,6 @@ function psize(){
 						  					 <tr>
 						  					  <td class="w200">${obj.categoryName } </td>
 						  					    <td>
-						  					    
 						  					    <c:forEach items="${obj.list }" var="quaPro">
 						  					    	<c:set value="${prolength+1}" var="prolength"></c:set>
 						  					    	<div class="mr5 fl">
@@ -142,7 +140,6 @@ function psize(){
 								<!-- 物资销售型 -->
 							<c:set value="0" var="length"> </c:set>
 								<div class="tab-pane <c:if test="${divCount == 0}">active in</c:if> fade height-300" id="tab-2">
-								
 										  <table class="table table-bordered">
 						  					 <c:forEach items="${saleQua }" var="sale" >
 						  					 <tr>
@@ -160,14 +157,11 @@ function psize(){
 						  					     </td>
 						  					 </tr>
 						  					</c:forEach>
-										
 									</table> 
-								  
 									 <c:set value="${divCount+1}" var="divCount"/> 
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-					 
 								<div class="tab-pane <c:if test="${divCount == 0}">active in</c:if> fade height-300" id="tab-3">
 								  <table class="table table-bordered">
 										<c:set value="0" var="plength"> </c:set>	 
@@ -192,7 +186,6 @@ function psize(){
 								</div>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-							 
 								<div class="tab-pane <c:if test="${divCount == 0}">active in</c:if> fade height-300" id="tab-4">
 								   <table class="table table-bordered">
 									 <c:set value="0" var="slength"> </c:set>
@@ -211,12 +204,8 @@ function psize(){
 						  					      </div>
 						  					    </c:forEach>
 						  					     </td>
-						  					     
-						  					    
 										     </tr>
 										</c:forEach> 
-										
-										
 									</table> 
 									<c:set value="${divCount+1}" var="divCount"/> 
 								</div>
@@ -226,12 +215,7 @@ function psize(){
 				</div>
 			</div>
 		</div>
-		
-		
-  
- 
 	</div>
-	
 	 <div class="btmfix">
 	  	  <div style="margin-top: 15px;text-align: center;">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
@@ -239,14 +223,11 @@ function psize(){
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
 	  	  </div>
 	</div>
-	
-	
 	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
 		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="flag" value=""  id="flag" type="hidden" /> 
 		<input name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
-	 
 	</form>
 </body>
 </html>

@@ -7,7 +7,7 @@ function validateJiGou(){
 		        return true;  
 		      }  
 		    }
-		    layer.msg("请选择一个采购机构 !",{offset: ['222px', '390px']});
+		    layer.msg("请选择一个采购机构 !");
 		    return false;
 }
 
