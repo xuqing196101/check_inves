@@ -5,7 +5,12 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <script type="text/javascript">
+		$().ready(function() {
+		   $("#form1").validForm();
+		});
+		
   /** 初始化下拉框*/
   $(function(id) {
     var optionNodes = $("option");
@@ -43,7 +48,7 @@
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>专家姓名：</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			            <input class="input_group"  name="relName"  type="text" id="expert_name" readonly="readonly" value="${relName }">
+			            <input class="input_group"  name="relName"  type="text" id="expert_name" readonly="readonly" required="required" value="${relName }">
 			            <input name="expertId" value="${expert.expertId }" type="hidden"/>
 			            <span class="add-on cur_point cur_point">i</span>
 			            <div class="cue"> ${err_relName } </div>
@@ -52,7 +57,7 @@
 		        <li class="col-md-3 col-sm-6 col-xs-12 ">
                      <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5" ><div class="star_red">*</div>处罚方式：</span>
                      <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                        <select name="punishType">
+                        <select name="punishType" required="required">
                             <option value="">请选择</option>
                             <option value="1" <c:if test="${'1' eq expert.punishType}">selected</c:if>>警告</option>
                             <option value="2" <c:if test="${'2' eq expert.punishType}">selected</c:if>>严重警告</option>
@@ -64,7 +69,7 @@
 		          <li class="col-md-3 col-sm-6 col-xs-12 ">
                      <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚时限：</span>
                      <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-				        <select  name="punishDate">
+				        <select  name="punishDate" required="required">
 						  		<option value="">请选择</option>
 						  		<option value="3个月" <c:if test="${'3个月' eq expert.punishDate}">selected</c:if>>3个月</option>
 						  		<option value="6个月" <c:if test="${'6个月' eq expert.punishDate}">selected</c:if>>6个月</option>
@@ -78,23 +83,25 @@
 			      <li class="col-md-3 col-sm-6 col-xs-12 ">
                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚日期：</span>
                      <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                        <input class="input_group"  readonly="readonly" name="dateOfPunishment"  type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
+                        <input class="input_group"  readonly="readonly" name="dateOfPunishment"  required="required" type="text" value="<fmt:formatDate value="${expert.dateOfPunishment}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <div class="cue"> ${err_dateOfPunishment } </div>
                     </div>
                 </li>
 				<li class="col-md-3 col-sm-6 col-xs-12 ">
                      <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>入库时间：</span>
                      <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                        <input class="input_group"  readonly="readonly" name="storageTime"  type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
+                        <input class="input_group"  readonly="readonly" name="storageTime"  required="required" type="text" value="<fmt:formatDate value="${expert.storageTime}" pattern='yyyy-MM-dd'/>" onclick='WdatePicker()'>
                         <div class="cue"> ${err_storageTime } </div>
                     </div>
                 </li>  
 				<li class="col-md-12 col-sm-12 col-xs-12">
                     <span class="col-md-12  col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>处罚理由：</span>
                     <div class="col-md-12  col-sm-12 col-xs-12 p0">
-		              <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过100个字" name="reason" >${expert.reason }</textarea>
+		              <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过200个字" required="required" maxlength="200" name="reason" >${expert.reason }</textarea>
+                    <div class="cue"><sf:errors path="reason"/></div>
                     </div>
                     <span class=" red">${err_reason}</span>
+                    
 		        </li> 
 			</ul>
 			<h2 class="count_flow"><i>2</i>附件上传</h2>
