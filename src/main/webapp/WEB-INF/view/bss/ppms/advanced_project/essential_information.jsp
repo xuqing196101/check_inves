@@ -457,19 +457,19 @@
                   <c:forEach items="${pack.advancedDetails}" var="obj" varStatus="vs">
                     <tr>
                       <td class="tc w50">${vs.index+1}</td>
-                      <td class="tc"><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
-                      <td class="tc">${obj.stand}</td>
-                      <td class="tc">${obj.qualitStand}</td>
+                      <td class=""><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
+                      <td class="">${obj.stand}</td>
+                      <td class="">${obj.qualitStand}</td>
                       <td class="tc">${obj.item}</td>
                       <td class="tc">${obj.purchaseCount}</td>
-                      <td class="tc">${obj.deliverDate}</td>
-                      <td class="tc">${obj.supplier}</td>
+                      <td class="">${obj.deliverDate}</td>
+                      <td class="">${obj.supplier}</td>
                       <c:if test="${pack.isImport==1 }">
                         <td class="tc">${obj.isFreeTax}</td>
-                        <td class="tc">${obj.goodsUse}</td>
-                        <td class="tc">${obj.useUnit}</td>
+                        <td class="">${obj.goodsUse}</td>
+                        <td class="">${obj.useUnit}</td>
                       </c:if>
-                      <td class="tc">${obj.memo}</td>
+                      <td class="">${obj.memo}</td>
                     </tr>
                   </c:forEach>
                 </table>
