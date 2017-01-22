@@ -151,7 +151,7 @@
 <body>  
     <h2 class="list_title">${packages.name}符合性审查项编辑</h2>
     <c:if test="${flag != '1' }">
-	    <div class="search_detail">
+	    <div class="search_detail ml0">
 	        <ul class="demand_list">
 	          <li>
 	            <label class="fl">选择模板：</label>
@@ -256,10 +256,12 @@
                      <td class="w260">
                          <c:if test="${i.kind == d.id}">
                              ${i.name}
+                             <div class="fr">
                              <c:if test="${flag != '1' }">
                               <a href="javascript:void(0);" title="编辑" onclick="editItem(this,'${i.id}');"><img src="${pageContext.request.contextPath}/public/backend/images/light_icon.png"></a>
                               <a href="javascript:void(0);" title="删除" onclick="delItem('${i.id}')"><img src="${pageContext.request.contextPath}/public/backend/images/sc.png"></a>
                              </c:if>
+                             </div>
                          </c:if>
                      </td>
                      <td>
