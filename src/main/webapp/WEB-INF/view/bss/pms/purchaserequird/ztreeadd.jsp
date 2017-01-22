@@ -162,51 +162,51 @@
 			<input type="hidden" name="planName" value="${planName }">
 			<input type="hidden" name="planNo" value="${planNo }">
 			<input type="hidden" name="type" value="${type }">
-			<table class="table table-bordered table-condensed mt5" >
+			<table class="table table-bordered table-condensed mt5 table_input" >
 				<thead>
 					<tr>
 						<th class="info w50">序号</th>
-						<th class="info">需求部门</th>
-						<th class="info">物资类别及物种名称</th>
-						<th class="info">规格型号</th>
-						<th class="info">质量技术标准（技术参数）</th>
-						<th class="info">计量单位</th>
-						<th class="info">采购数量</th>
-						<th class="info">单位（元）</th>
-						<th class="info">预算金额（万元）</th>
-						<th class="info">交货期限</th>
-						<th class="info">采购方式建议</th>
-						<th class="info">供应商名称</th>
-						<th class="info">是否申请办理免税</th>
-						<th class="info">物资用途（仅进口）</th>
-						<th class="info">使用单位（仅进口）</th>
-						<th class="info">备注</th>
-						<th class="info">操作</th>
+						<th class="info w80">需求部门</th>
+						<th class="info w80">物资类别及物种名称</th>
+						<th class="info w80">规格型号</th>
+						<th class="info w80">质量技术标准（技术参数）</th>
+						<th class="info w80">计量单位</th>
+						<th class="info w80">采购数量</th>
+						<th class="info w80">单位（元）</th>
+						<th class="info w80">预算金额（万元）</th>
+						<th class="info w80">交货期限</th>
+						<th class="info w80">采购方式建议</th>
+						<th class="info w80">供应商名称</th>
+						<th class="info w80">是否申请办理免税</th>
+						<th class="info w80">物资用途（仅进口）</th>
+						<th class="info w80">使用单位（仅进口）</th>
+						<th class="info w160">备注</th>
+						<th class="info w150">操作</th>
 					</tr>
 				</thead>
 
 				<tr>
 					<td class="tc w50">
-					<input style="border: 0px;" type="hidden" name="list[0].id" id="purid" value="">
-					<input style="border: 0px;width: 50px;" type="text" name="list[0].seq" value="">
+					<input type="hidden" name="list[0].id" id="purid" value="">
+					<input class="w50 border0" type="text" name="list[0].seq" value="">
 					</td>
-					<td><input style="border: 0px;" type="text" name="list[0].department" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[0].goodsName" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].stand" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].qualitStand" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].item" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].purchaseCount" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].price" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].budget" value=""></td>
-					<td><input style="border: 0px;"  type="text" name="list[0].deliverDate" value=""></td>
-					<td><input style="border: 0px;width: 60px;"  type="text" name="list[0].purchaseType" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].supplier" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].isFreeTax" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].goodsUse" value=""></td>
-					<td class="tc"><input style="border: 0px;width: 60px;"  type="text" name="list[0].useUnit" value=""></td>
-					<td class="tc"><input style="border: 0px;"  type="text" name="list[0].memo" value=""></td>
+					<td><input class="w80 border0" type="text" name="list[0].department" value=""></td>
+					<td><input class="w80 border0"  type="text" name="list[0].goodsName" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].stand" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].qualitStand" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].item" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].purchaseCount" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].price" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].budget" value=""></td>
+					<td><input class="w80 border0"  type="text" name="list[0].deliverDate" value=""></td>
+					<td><input class="w80 border0"  type="text" name="list[0].purchaseType" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].supplier" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].isFreeTax" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].goodsUse" value=""></td>
+					<td class="tc"><input class="w80 border0"  type="text" name="list[0].useUnit" value=""></td>
+					<td class="tc"><input class="w160 border0"  type="text" name="list[0].memo" value=""></td>
 						<td class="tc">
-						<div style="width: 160px">
+						<div style="width:160px">
 							 <input class="btn" name="dyadds" type="button" onclick="aadd(this)" title="添加子节点" value="+">
 							 <input class="btn" name="delt" type="button" onclick="same(this)" title="添加同级点" value="+">
 						 	 <input class="btn" name="delt" type="button" onclick="news(this)" title="新增一个任务" value="+">
