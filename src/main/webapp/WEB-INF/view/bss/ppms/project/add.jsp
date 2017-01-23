@@ -325,19 +325,19 @@
                     <tr class="space_nowrap">
                       <th>操作</th>
                       <th class="info w50">序号</th>
-                      <th class="info">需求部门</th>
-                      <th class="info">物资类别及<br/>物资名称</th>
-                      <th class="info">规格型号</th>
-                      <th class="info">质量技术标准<br/>(技术参数)</th>
-                      <th class="info">计量<br/>单位</th>
-                      <th class="info">采购<br/>数量</th>
-                      <th class="info">交货期限</th>
-                      <th class="info">采购方式</th>
-                      <th class="info">供应商名称</th>
-                      <th class="info">是否申请<br/>办理免税</th>
-                      <th class="info">物资用途<br/>（进口）</th>
-                      <th class="info">使用单位<br/>（进口）</th>
-                      <th>备注</th>
+                      <th class="info w80">需求部门</th>
+                      <th class="info w80">物资类别及<br/>物资名称</th>
+                      <th class="info w80">规格型号</th>
+                      <th class="info w80">质量技术标准<br/>(技术参数)</th>
+                      <th class="info w80">计量<br/>单位</th>
+                      <th class="info w80">采购<br/>数量</th>
+                      <th class="info w80">交货期限</th>
+                      <th class="info w100">采购方式</th>
+                      <th class="info w100">供应商名称</th>
+                      <th class="info w80">是否申请<br/>办理免税</th>
+                      <th class="info w80">物资用途<br/>（进口）</th>
+                      <th class="info w80">使用单位<br/>（进口）</th>
+                      <th class="w160">备注</th>
                     </tr>
                   </thead>
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
@@ -349,22 +349,22 @@
                       <input type="hidden" value="${obj.requiredId }">
                       </td>
                       <td class="tl">
-                        <div class="w260">
+                        <div class="w80">
 						   ${obj.department}
 						</div>
                       </td>
                       <td class="tl">
-                         <div class="w200">${obj.goodsName}</div>
+                         <div class="w80">${obj.goodsName}</div>
                       </td>
-                      <td class="tl"> <div class="w200">${obj.stand}</div>
+                      <td class="tl"> <div class="w80">${obj.stand}</div>
                       </td>
-                      <td class="tl"><div class="w140">${obj.qualitStand}</div>
+                      <td class="tl"><div class="w80">${obj.qualitStand}</div>
                       </td>
-                      <td class="tc"><div class="w50">${obj.item}</div>
+                      <td class="tc"><div class="w80">${obj.item}</div>
                       </td>
-                      <td class="tc"><div class="w50">${obj.purchaseCount}</div>
+                      <td class="tc"><div class="w80">${obj.purchaseCount}</div>
                       </td>
-                      <td class="tl"><div class="w150">${obj.deliverDate}</div>
+                      <td class="tl"><div class="w80">${obj.deliverDate}</div>
                       </td>
                       <td class="tc">
                        <div class="w100">
@@ -379,15 +379,15 @@
                          </c:choose>
                         </div>
                       </td>
-                      <td class="tl"><div class="w260">${obj.supplier}</div>
+                      <td class="tl"><div class="w100">${obj.supplier}</div>
                       </td>
                       <td class="tc"><div class="w80">${obj.isFreeTax}</div>
                       </td>
-                      <td class="tl"><div class="w260">${obj.goodsUse}</div>
+                      <td class="tl"><div class="w80">${obj.goodsUse}</div>
                       </td>
-                      <td class="tl"><div class="w100">${obj.useUnit}</div>
+                      <td class="tl"><div class="w80">${obj.useUnit}</div>
                       </td>
-                      <td class="tl"><div class="w100">${obj.memo}</div>
+                      <td class="tl"><div class="w160">${obj.memo}</div>
                       </td>
                     </tr>
                   </c:forEach>

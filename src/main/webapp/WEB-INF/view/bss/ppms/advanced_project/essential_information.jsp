@@ -435,41 +435,41 @@
                   <span class="f14 blue">${pack.name }</span>
                 </div>
                 <input type="hidden" value="${pack.id }" />
-                <table class="table table-bordered table-condensed table-hover table-striped table_wrap">
+                <table class="table table-bordered table-condensed table-hover table-striped ">
                   <thead>
                     <tr>
                       <th class="info w50">序号</th>
-                      <th class="info" width="15%">物资名称</th>
+                      <th class="info" width="12%">物资名称</th>
                       <th class="info" width="10%">规格型号</th>
                       <th class="info" width="10%">质量技术标准</th>
                       <th class="info" width="">计量<br>单位</th>
                       <th class="info" width="">采购<br>数量</th>
                       <th class="info" width="10%">交货期限</th>
-                      <th class="info" width="15%">供应商名称</th>
+                      <th class="info" width="12%">供应商名称</th>
                       <c:if test="${pack.isImport==1 }">
                         <th class="info" width="8%">是否申请<br>办理免税</th>
                         <th class="info" width="8%">物资用途<br>（进口）</th>
                         <th class="info" width="8%">使用单位<br>（进口）</th>
                       </c:if>
-                      <th class="info" width="10%">备注</th>
+                      <th class="info" width="15%">备注</th>
                     </tr>
                   </thead>
                   <c:forEach items="${pack.advancedDetails}" var="obj" varStatus="vs">
                     <tr>
                       <td class="tc w50">${vs.index+1}</td>
-                      <td class=""><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
-                      <td class="">${obj.stand}</td>
-                      <td class="">${obj.qualitStand}</td>
+                      <td class="" width="12%"><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
+                      <td class="" width="10%">${obj.stand}</td>
+                      <td class="" width="10%">${obj.qualitStand}</td>
                       <td class="tc">${obj.item}</td>
                       <td class="tc">${obj.purchaseCount}</td>
-                      <td class="">${obj.deliverDate}</td>
-                      <td class="">${obj.supplier}</td>
+                      <td class="" width="10%">${obj.deliverDate}</td>
+                      <td class="" width="12%">${obj.supplier}</td>
                       <c:if test="${pack.isImport==1 }">
-                        <td class="tc">${obj.isFreeTax}</td>
-                        <td class="">${obj.goodsUse}</td>
-                        <td class="">${obj.useUnit}</td>
+                        <td class="tc" width="8%">${obj.isFreeTax}</td>
+                        <td class="" width="8%">${obj.goodsUse}</td>
+                        <td class="" width="8%">${obj.useUnit}</td>
                       </c:if>
-                      <td class="">${obj.memo}</td>
+                      <td class="" width="15%">${obj.memo}</td>
                     </tr>
                   </c:forEach>
                 </table>

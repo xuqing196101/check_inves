@@ -169,7 +169,7 @@
             <tr>
               <td class="tc w50"><div class="w50">${obj.seq }</div> 
               </td>
-              <td  class="tl"><div class="w260">${obj.department}</div></td >
+              <td  class="tl"><div class="w80">${obj.department}</div></td >
               <%-- <td class="tl pl20">
                    <c:forEach items="${requires }" var="re" >
                     <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
@@ -178,34 +178,34 @@
               </td> --%>
               <%-- <td>${obj.goodsName }</td> --%>
               <td title="${obj.goodsName}" class="tl">
-               <div class="w200">
+               <div class="w80">
                   <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
                </div>
               </td >
               <%-- <td class="tc"> ${obj.stand }</td> --%>
               <td title="${obj.stand}" class="tl">
-                <div class="w200">
+                <div class="w80">
                   <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
                 </div>
               </td >
               <%-- <td class="tc"> ${obj.qualitStand }</td> --%>
               <td title="${obj.qualitStand}" class="tl">
-                <div class="w140">
+                <div class="w80">
                   <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
                 </div>
               </td >
               <%-- <td class="tc"> ${obj.item }</td> --%>
               <td title="${obj.item}" class="tc">
-                <div class="w50">
+                <div class="w80">
                  <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
                  <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
                 </div>
               </td >
               <td class="tc ">
-               <div class="w50">
+               <div class="w80">
                  ${obj.purchaseCount }
                </div>
               </td>
