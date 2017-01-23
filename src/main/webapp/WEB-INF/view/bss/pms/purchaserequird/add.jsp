@@ -620,34 +620,34 @@
 													               +"    <input value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
 													               +"  </td> "
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 border0 w260'  type='text' name='list[" + i + "].department' value='${orgName}'/>"
+													               +"    <input class='m0 border0 w80'  type='text' name='list[" + i + "].department' value='${orgName}'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 border0 w200' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
+													               +"    <input class='m0 border0 w80' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w200 border0' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w140 border0' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w50 border0' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'> "
-													               +"    <input class='m0 border0 w50' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
+													               +"    <input class='m0 border0 w80' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
 													               +"  <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
 													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'>"
-													               +"    <input class='m0 border0 w100'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
+													               +"    <input class='m0 border0 w80'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
 													               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
 													               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
-													               +"    <input class='m0 w100 border0' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
 													               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 border0'  type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
+													               +"    <input class='m0 border0 w80'  type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"<select name='list["+i+"].purchaseType' class='m0 border0' onchange='changeType(this)' > <option value=''>请选择</option>" ;
+													               +"<select name='list["+i+"].purchaseType' class='m0 border0 w100' onchange='changeType(this)' > <option value=''>请选择</option>" ;
 													               
 													               <c:forEach items='${list2 }' var='obj'>
 													               if("${obj.name}" == data[i].purchaseType){
@@ -663,20 +663,20 @@
 																
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w260 border0' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
 													               +"  </td>"
 													               +"  <td name='userNone'  class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
 													               +"  </td>"
 													               +"  <td name='userNone' class='tc p0'>"
-													               +"    <input style='border: 0px;' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
+													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
 													               +"  </td>"
 													               +"  <td class='tc p0'>"
 													              +"    <input class='m0 border0' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
-													               +"  </td> <td class='tc w100 p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
+													               +"  </td> <td class='tc p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
 													               +"</tr>";
 										             count++;
 										           }
@@ -1331,17 +1331,17 @@
 										<!-- <input type="text" name="list[0].supplier" class="m0 w260 border0"> --></td>
 										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0 w80"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0 w80"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0 w80"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w80 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w160"></td>
 										<td class="p0">
-											   <div class="w160">
+											   <div class="w80">
 													<u:upload id="pUp0" multiple="true"  businessId="${id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow0" businessId="${id}" sysKey="2" typeId="${typeId}" />
 											   </div>											
 										</td>
 										
 										
-										<!-- <td class="tc w100 p0"></td> -->
+										<!-- <td class="tc w80 p0"></td> -->
 								<!--  <td class="tc w100 p0"></td> -->  
 										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
@@ -1350,12 +1350,12 @@
 								<c:if test="${plist!=null }" >
 								<c:forEach items="${plist}" var="objs" varStatus="vs">
 									<tr name="detailRow">
-										<td class="tc  p0">
+										<td class="tc  p0 w80">
 											<input type="hidden" name="list[${vs.index }].id" id="purid" value="${objs.id}">
 											<input type="hidden" name="list[${vs.index }].parentId" id="purid" value="${objs.parentId}">
-											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}" class="m0 w50 borer0">
+											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}" class="m0 w80 borer0">
 										</td>
-										<td class=" p0" >
+										<td class=" p0 w80" >
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 											<input type="hidden" name="list[${vs.index }].department" value="${orgId }" >
 								  			<input type="text"  readonly="readonly" value="${orgName}" class="m0 w80 border0">
