@@ -416,12 +416,12 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">需求部门</th>
-		  <th class="info">需求计划名称</th>
+		  <th class="info" width="25%">需求部门</th>
+		  <th class="info" width="25%">需求计划名称</th>
 		  <!-- <th class="info">编报人</th> -->
 		  <th class="info">物资类别</th> 
 		  <th class="info">提交日期</th>
-		  <th class="info">预算总金额（万元）</th>
+		  <th class="info" width="10%">预算总金额</br>（万元）</th>
 		  <th class="info">状态</th>
 		</tr>
 		</thead>
@@ -439,10 +439,10 @@
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
 			  <td class="tc w50"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-			  <td class="tl pl20" onclick="view('${obj.uniqueId}')">${obj.department}</td>
+			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')">${obj.department}</td>
 			    
 			    
-			  <td class="tl pl20" onclick="view('${obj.uniqueId}')" >${obj.planName }</td>
+			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')" >${obj.planName }</td>
 			
 			  <td class="tl pl20" onclick="view('${obj.uniqueId}')" >
 			   <c:forEach items="${dic }" var="dic">
@@ -453,7 +453,7 @@
 			  
 			  </td>
 			  <td class="tc"  onclick="view('${obj.uniqueId}')"><fmt:formatDate value="${obj.createdAt }"/></td>
-			  <td class="tr pr20" onclick="view('${obj.uniqueId}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
+			  <td class="tr"  width="10%" onclick="view('${obj.uniqueId}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>
 			  <td class="tc"  >
 	 
 			                 

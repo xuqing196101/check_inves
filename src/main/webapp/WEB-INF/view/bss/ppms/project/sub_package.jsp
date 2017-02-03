@@ -504,26 +504,26 @@
 
       <c:if test="${!empty list}">
         <div class="content" id="content">
-          <table id="table" class="table table-bordered table-condensed">
+          <table id="table" class="table table-bordered table-condensed"  style="width: 1600px; color: #000000; font-size: medium;">
             <thead>
               <tr class="space_nowrap">
                 <th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
                 <th class="w50">序号</th>
-                <th class="w260">需求部门</th>
-                <th class="w200">物资名称</th>
-                <th class="w200">规格型号</th>
-                <th class="w140">质量技术<br>标准</th>
-                <th class="w50">计量<br>单位</th>
-                <th class="w50">采购<br>数量</th>
+                <th class="w80">需求部门</th>
+                <th class="w80">物资名称</th>
+                <th class="w80">规格型号</th>
+                <th class="w80">质量技术<br>标准</th>
+                <th class="w80">计量<br>单位</th>
+                <th class="w80">采购<br>数量</th>
                 <!-- <th class="w80">单价<br>（元）</th>
                 <th class="w80">预算金额<br>（万元）</th> -->
-                <th class="w150">交货期限</th>
+                <th class="w80">交货期限</th>
                 <th class="w100">采购方式</th>
-                <th class="w260">供应商名称</th>
+                <th class="w100">供应商名称</th>
                 <c:if test="${project.isImport==1 }">
                   <th class="w80">是否申请<br>办理免税</th>
                   <th class="w260">物资用途<br>（进口）</th>
-                  <th class="w260">使用单位<br>（进口）</th>
+                  <th class="w80">使用单位<br>（进口）</th>
                 </c:if>
               </tr>
             </thead>
@@ -532,22 +532,22 @@
                 <td class="tc w30"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></td>
                 <td class="tc w50">${obj.serialNumber }</td>
                 <td>
-                  <div class="w260">${obj.department }</div>
+                  <div class="w80">${obj.department }</div>
                 </td>
                 <td>
-                  <div class="w200">${obj.goodsName}</div>
+                  <div class="w80">${obj.goodsName}</div>
                 </td>
                 <td>
-                  <div class="w200">${obj.stand}</div>
+                  <div class="w80">${obj.stand}</div>
                 </td>
                 <td>
-                  <div class="w140">${obj.qualitStand}</div>
+                  <div class="w80">${obj.qualitStand}</div>
                 </td>
                 <td>
-                  <div class="tc w50">${obj.item}</div>
+                  <div class="tc w80">${obj.item}</div>
                 </td>
                 <td>
-                  <div class="tc w50">${obj.purchaseCount}</div>
+                  <div class="tc w80">${obj.purchaseCount}</div>
                 </td>
                <%--  <td>
                   <div class="w80">${obj.price}</div>
@@ -556,7 +556,7 @@
                   <div class="w80">${obj.budget}</div>
                 </td> --%>
                 <td>
-                  <div class="w150">${obj.deliverDate}</div>
+                  <div class="w80">${obj.deliverDate}</div>
                 </td>
                 <td>
                   <div class="tc w100">
@@ -572,17 +572,17 @@
                   </div>
                 </td>
                 <td>
-                  <div class="w260">${obj.supplier}</div>
+                  <div class="w100">${obj.supplier}</div>
                 </td>
                 <c:if test="${project.isImport==1 }">
                   <td>
                     <div class="w80 tc">${obj.isFreeTax}</div>
                   </td>
                   <td>
-                    <div class="w260">${obj.goodsUse}</div>
+                    <div class="w80">${obj.goodsUse}</div>
                   </td>
                   <td>
-                    <div class="w260">${obj.useUnit}</div>
+                    <div class="w80">${obj.useUnit}</div>
                   </td>
                 </c:if>
               </tr>
@@ -611,22 +611,22 @@
               <tr class="space_nowrap">
                 <th class="w30">选择</th>
                 <th class="w50">序号</th>
-                <th class="w260">需求部门</th>
-                <th class="w200">物资名称</th>
-                <th class="w200">规格型号</th>
-                <th class="w140">质量技术<br>标准</th>
-                <th class="w50">计量<br>单位</th>
-                <th class="w50">采购<br>数量</th>
+                <th class="w80">需求部门</th>
+                <th class="w80">物资名称</th>
+                <th class="w80">规格型号</th>
+                <th class="w80">质量技术<br>标准</th>
+                <th class="w80">计量<br>单位</th>
+                <th class="w80">采购<br>数量</th>
                 <%--<th>单价（元）</th>
                 <th>预算金额（万元）</th>
                 --%>
-                <th class="w150">交货期限</th>
+                <th class="w80">交货期限</th>
                 <th class="w100">采购方式<br>建议</th>
-                <th class="w260">供应商名称</th>
+                <th class="w100">供应商名称</th>
                 <c:if test="${pack.isImport==1 }">
                   <th class="w80">是否申请<br>办理免税</th>
-                  <th class="w260">物资用途<br>（进口）</th>
-                  <th class="w260">使用单位<br>（进口）</th>
+                  <th class="w80">物资用途<br>（进口）</th>
+                  <th class="w80">使用单位<br>（进口）</th>
                 </c:if>
               </tr>
             </thead>
@@ -638,22 +638,22 @@
                   <%--<c:if test="${orgnization.id == obj.department}"> 
                            ${orgnization.name}
                        </c:if>--%>
-                  <div class="w260">${obj.department }</div>
+                  <div class="w80">${obj.department }</div>
                 </td>
                 <td>
-                  <div class="w200">${obj.goodsName}</div>
+                  <div class="w80">${obj.goodsName}</div>
                 </td>
                 <td>
-                  <div class="w200">${obj.stand}</div>
+                  <div class="w80">${obj.stand}</div>
                 </td>
                 <td>
-                  <div class="w140">${obj.qualitStand}</div>
+                  <div class="w80">${obj.qualitStand}</div>
                 </td>
                 <td>
-                  <div class=" tc">${obj.item}</div>
+                  <div class="w80 tc">${obj.item}</div>
                 </td>
                 <td>
-                  <div class="w50 tc">${obj.purchaseCount}</div>
+                  <div class="w80 tc">${obj.purchaseCount}</div>
                 </td>
                 <%--<td>${obj.price}</td>
                 <td>${obj.budget}</td>
@@ -662,7 +662,7 @@
                   <div class="">${obj.deliverDate}</div>
                 </td>
                 <td>
-                  <div class="">
+                  <div class="w100">
                     <c:choose>
                       <c:when test="${obj.detailStatus==0 }">
                       </c:when>
@@ -675,17 +675,17 @@
                   </div>
                 </td>
                 <td>
-                  <div class="">${obj.supplier}</div>
+                  <div class="w100">${obj.supplier}</div>
                 </td>
                 <c:if test="${pack.isImport==1 }">
                   <td>
-                    <div class=" tc">${obj.isFreeTax}</div>
+                    <div class="w80 tc">${obj.isFreeTax}</div>
                   </td>
                   <td>
-                    <div class="">${obj.goodsUse}</div>
+                    <div class="w80">${obj.goodsUse}</div>
                   </td>
                   <td>
-                    <div class="">${obj.useUnit}</div>
+                    <div class="w80">${obj.useUnit}</div>
                   </td>
                 </c:if>
               </tr>

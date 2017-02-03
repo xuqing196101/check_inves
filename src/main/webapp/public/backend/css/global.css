@@ -1156,6 +1156,11 @@ table .input_group .add-on{
 }
 .table_input input[type="text"]{
 	margin:0px!important;
+	border:0px;
+}
+.table_input select{
+	margin:0px!important;
+	border:0px;
 }
 .left_table .bggrey {
 	padding: 0 10px!important;

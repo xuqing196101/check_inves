@@ -176,16 +176,20 @@
  
      	var bool=true;
 		    $("#table tr:gt(0)").each(function(i){
-		    	var  val1= $(this).find("td:eq(11)").children(":eq(2)").val();//上级id
-		    	  if($.trim(val1) == "") {
-		    		  bool=false;
-		    		  i=i+1;
-		    		  layer.msg("第"+i+"行，请选择采购机构！");
-		    	  }
+		    	var  val1= $(this).find("td:eq(11)").children(":last").prev().val();//上级id
+		    	var  text= $(this).find("td:eq(6)").text();//上级id
+		    	if($.trim(text) != ""){
+		    		if($.trim(val1) == "") {
+			    		  bool=false;
+			    		  i=i+1;
+			    		  layer.msg("第"+i+"行，请选择采购机构！");
+			    	  }
+		    	}
+		    	  
 		    });
-		    
+		  
 		  if(bool==true){
-			  $("#table").find("#acc_form").submit();
+			 $("#table").find("#acc_form").submit();
 		  }  
  }
  
@@ -310,22 +314,22 @@
 					<thead>
 						<tr class="space_nowrap">
 							<th class="info w50">序号</th>
-							<th class="info w260">需求部门</th>
-							<th class="info w200">物资类别<br>及名称</th>
-							<th class="info w200">规格型号</th>
-							<th class="info w140">质量技术标准</br>（技术参数）</th>
-							<th class="info w50">计量<br>单位</th>
-							<th class="info w50">采购<br>数量</th>
+							<th class="info w80">需求部门</th>
+							<th class="info w80">物资类别<br>及名称</th>
+							<th class="info w80">规格型号</th>
+							<th class="info w80">质量技术标准</br>（技术参数）</th>
+							<th class="info w80">计量<br>单位</th>
+							<th class="info w80">采购<br>数量</th>
 							<th class="info w80">单价<br>（元）</th>
 							<th class="info w80">预算金额</br>（万元）</th>
-							<th class="info w150">交货期限</th>
+							<th class="info w80">交货期限</th>
 							<th class="info w100">采购方式</br>建议</th>
-							<th class="info w200">采购机构</th>
-							<th class="info w260">供应商名称</th>
+							<th class="info w80">采购机构</th>
+							<th class="info w100">供应商名称</th>
 							<th class="info w80">是否申请</br>办理免税</th>
 						<!-- 	<th class="info">物资用途（仅进口）</th>
 							<th class="info">使用单位（仅进口）</th> -->
-							<th class="info w260">备注</th>
+							<th class="info w160">备注</th>
 							<th class="info">附件</th>
 						</tr>
 					</thead>
@@ -339,7 +343,7 @@
 							    </div>
 							</td>
 							<td class="tl"> 
-							   <div class="w260">
+							   <div class="w80">
 							    ${obj.department }	<input type="hidden" name="list[${vs.index }].userId" value="${obj.userId }">
 							    <c:forEach items="${requires }" var="re">
 								  <c:if test="${re.id==obj.department }">${re.name } </c:if>
@@ -347,23 +351,23 @@
 							   </div>
 							  </td>
 							<td class="tl">
-							  <div class="w200">
+							  <div class="w80">
 							     ${obj.goodsName }
 							  </div>
 							</td>
 							<td class="tl">
-							    <div class="w200">
+							    <div class="w80">
 							       ${obj.stand }
 							    </div>
 							</td>
 							<td class="tl">
-							  <div class="w140"> ${obj.qualitStand }</div>
+							  <div class="w80"> ${obj.qualitStand }</div>
 							</td>
 							<td class="tc">
-							    <div class="w50">${obj.item }</div>
+							    <div class="w80">${obj.item }</div>
 							</td>
 							<td class="tc">
-							    <div class="w50">${obj.purchaseCount }</div>
+							    <div class="w80">${obj.purchaseCount }</div>
 							</td>
 							<td class="tr">
 							    <div class="w80">${obj.price }</div>
@@ -372,7 +376,7 @@
 							     <div class="w80">${obj.budget }</div>
 							</td>
 							<td> 
-							     <div class="w150">${obj.deliverDate }</div> 
+							     <div class="w80">${obj.deliverDate }</div> 
 							</td>
 							
 							<td class="p0">
@@ -400,7 +404,7 @@
 							</td>
 							
 							<td class="tl">
-							     <div class="w260">${obj.supplier }</div>
+							     <div class="w80">${obj.supplier }</div>
 							</td>
 							<td class="tc">
 							    <div class="w80">${obj.isFreeTax }</div>
@@ -408,11 +412,11 @@
 						<%-- 	<td class="tl pl20">${obj.goodsUse }</td>
 							<td class="tl">${obj.useUnit }</td> --%>
 							<td class="tl">
-							    <div class="w260">${obj.memo }</div>
+							    <div class="w160">${obj.memo }</div>
 							</td>
 							
-							<td style="width:300px;" class="p0">
-											<div class="w200">
+							<td class="p0">
+											<div class="w150">
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 											   </div>	

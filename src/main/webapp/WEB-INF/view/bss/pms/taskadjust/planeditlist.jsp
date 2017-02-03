@@ -192,7 +192,7 @@
 			  <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"  alt=""></td>
 			  <td class="tc w50"   >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  
-			  <td class="tl pl20" onclick="view('${obj.id}')">${obj.fileName }</td>
+			  <td class="tl pl20" widh="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
 			
 			
 			  <td class="tr pr20 w140" onclick="view('${obj.id}')"><fmt:formatNumber>${obj.budget }</fmt:formatNumber> </td>

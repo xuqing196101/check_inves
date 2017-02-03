@@ -167,13 +167,44 @@
 	  	  
 	  	 
 	      function sel(obj) {
-		    var val = $(obj).val();
+		   /*  var val = $(obj).val();
 		    $("select option").each(function() {
 		      var opt = $(this).val();
 		      if (val == opt) {
 		        $(this).attr("selected", "selected");
 		      }
-		    });
+		    }); */
+	    		 var org=$(obj).val();
+	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
+	    		 if(price==""){
+	    			var id=$(obj).prev().val();
+	    		 	  $.ajax({
+	    		          url: "${pageContext.request.contextPath}/accept/detail.html",
+	    		          data: "id=" + id,
+	    		          type: "post",
+	    		          dataType: "json",
+	    		          success: function(result) {
+	    		            for(var i = 0; i < result.length; i++) {
+	    		                var v1 = result[i].id;
+	    		                $("#table tr").each(function(){
+	    		      			  var opt= $(this).find("td:eq(10)").children(":first").val() ;
+	    		      	 		   if(v1==opt){
+	    		      	 			 var td=$(this).find("td:eq(10)");
+	    		      	 			var options= $(td).find("option");
+	    			      	 		  $(options).each(function(){
+	    			      	  		   var opt=$(this).val();
+	    			      	  		   if(org==opt){
+	    			      	  			   $(this).attr("selected", "selected");  
+	    			      	  		   }
+	    				      	  	   });
+	    		      	 		   }  
+	    		      	 	   });
+	    		            }
+	    		           }
+	    		          });
+	    		          
+	    		          
+	    		 }
 		  }
 	       
 	
@@ -197,74 +228,6 @@
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
 <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
-
-
-<!-- textarea 自适应高度js1 -->
-  <script type="text/javascript">
-			var autoTextarea = function(elem, extra, maxHeight) {
-				extra = extra || 0;
-				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
-					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
-					addEvent = function(type, callback) {
-						elem.addEventListener ?
-							elem.addEventListener(type, callback, false) :
-							elem.attachEvent('on' + type, callback);
-					},
-					getStyle = elem.currentStyle ? function(name) {
-						var val = elem.currentStyle[name];
-
-						if(name === 'height' && val.search(/px/i) !== 1) {
-							var rect = elem.getBoundingClientRect();
-							return rect.bottom - rect.top -
-								parseFloat(getStyle('paddingTop')) -
-								parseFloat(getStyle('paddingBottom')) + 'px';
-						};
-
-						return val;
-					} : function(name) {
-						return getComputedStyle(elem, null)[name];
-					},
-					minHeight = parseFloat(getStyle('height'));
-
-				elem.style.resize = 'none';
-
-				var change = function() {
-					var scrollTop, height,
-						padding = 0,
-						style = elem.style;
-
-					if(elem._length === elem.value.length) return;
-					elem._length = elem.value.length;
-
-					if(!isFirefox && !isOpera) {
-						padding = parseInt(getStyle('paddingTop')) + parseInt(getStyle('paddingBottom'));
-					};
-					scrollTop = document.body.scrollTop || document.documentElement.scrollTop;
-
-					elem.style.height = minHeight + 'px';
-					if(elem.scrollHeight > minHeight) {
-						if(maxHeight && elem.scrollHeight > maxHeight) {
-							height = maxHeight - padding;
-							style.overflowY = 'auto';
-						} else {
-							height = elem.scrollHeight - padding;
-							style.overflowY = 'hidden';
-						};
-						style.height = height + extra + 'px';
-						scrollTop += parseInt(style.height) - elem.currHeight;
-						document.body.scrollTop = scrollTop;
-						document.documentElement.scrollTop = scrollTop;
-						elem.currHeight = parseInt(style.height);
-					};
-				};
-
-				addEvent('propertychange', change);
-				addEvent('input', change);
-				addEvent('focus', change);
-				change();
-			};
-	</script>
-  
   
 </head>
 
@@ -349,26 +312,26 @@
 		<div class="content mt0 ul_list">
 	
              <div class="content" id="content">
-                 <table id="table" class="table table-bordered table-condensed table_input  lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
+                 <table id="table" class="table table-bordered table-condensed lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
 					<thead>
 						<tr class="space_nowrap" id="scroll_top">
 							<th class="info w50">序号</th>
-							<th class="info w260">需求部门</th>
-							<th class="info w200">物资类别<br>及名称</th>
-							<th class="info w200">规格型号</th>
-							<th class="info w140">质量技术标准</br>（技术参数）</th>
-							<th class="info w50">计量<br>单位</th>
-							<th class="info w50">采购<br>数量</th>
+							<th class="info w80">需求部门</th>
+							<th class="info w80">物资类别<br>及名称</th>
+							<th class="info w80">规格型号</th>
+							<th class="info w80">质量技术标准</br>（技术参数）</th>
+							<th class="info w80">计量<br>单位</th>
+							<th class="info w80">采购<br>数量</th>
 							<th class="info w80">单价</br>（元）</th>
 							<th class="info w80">预算金额</br>（万元）</th>
-							<th class="info w150">交货期限</th>
+							<th class="info w80">交货期限</th>
 							<th class="info w100">采购方式</br>建议</th>
-							<th class="info w260">供应商名称</th>
+							<th class="info w100">供应商名称</th>
 							<th class="info w80">是否申请</br>办理免税</th>
 					<!-- 		<th class="info">物资用途</br>（仅进口）</th>
 							<th class="info">使用单位</br>（仅进口）</th> -->
-							<th class="info w260">备注</th>
-							   <th  class="260">附件</th>  
+							<th class="info w160">备注</th>
+							   <th  class="150">附件</th>  
 					<!-- 		<th class="w100">状态</th> -->
 						</tr>
 					</thead>
@@ -376,29 +339,29 @@
 					<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr style="cursor: pointer;">
                            <td class="tc w50">${obj.seq}  <input class="w50 border0" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
-                           <td class="tl w260"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
-                          <div class="p0_5 w260">${obj.department}</div>
+                           <td class="tl w80"><%-- <input type="text" name="list[0].department" value="${obj.department}"> --%>
+                          <div class="w80">${obj.department}</div>
                           <%--  <c:forEach items="${requires }" var="re" >
 					         <c:if test="${obj.department==re.name }"> <input readonly='readonly' type="text"  value="${re.name}" > </c:if>
 			               </c:forEach> --%>
                   </td>
                   <td class="tl">
-                      <div class="w200">
+                      <div class="w80">
                   		<textarea name="list[${vs.index }].goodsName" class="target">${obj.goodsName}</textarea>
                       </div>
                   </td>
-                  <td class="tl"><input type="text" name="list[${vs.index }].stand" value="${obj.stand}" class="w200"></td>
-                  <td class="tc w140"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="w140"></td>
-                  <td class="tl w50"><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="tc w50"></td>
+                  <td class="tl"><input type="text" name="list[${vs.index }].stand" value="${obj.stand}" class="w80"></td>
+                  <td class="tc w80"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="w80"></td>
+                  <td class="tl w80"><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="tc w80"></td>
                   
-                  <td class="tl w50">
+                  <td class="tl w80">
                     <c:if test="${obj.purchaseCount!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }" >
-                      <input maxlength="11" class="tc w50" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
+                      <input maxlength="11" class="tc w80" onblur="sum2(this);" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"   value="${obj.purchaseCount}"/>
                       <input type="hidden" name="ss" value="${obj.parentId }">
                     </c:if>
                     <c:if test="${obj.purchaseCount==null }">
-                      <input class="tc w50" type="text" name="list[${vs.index }].purchaseCount"  class="w50" value="${obj.purchaseCount }">
+                      <input class="tc w80" type="text" name="list[${vs.index }].purchaseCount"  class="w80" value="${obj.purchaseCount }">
                     </c:if>
                   </td>
                   <td class="tl w80">
@@ -416,10 +379,10 @@
                     <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="tr w80"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
-                  <td class="tc"><div class="w150"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></div></td>
+                  <td class="tc"><div class="w80"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></div></td>
                   <td class="tc">
              <%--       <c:if test="${obj.price!=null}"> --%>
-                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w120 border0" id="select">
+                      <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w100 border0" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
@@ -427,14 +390,14 @@
                       </select> 
                   <%--    </c:if> --%>
                   </td>
-                  <td class="tl w260"><div class="w260"><textarea name="list[${vs.index }].supplier" class="target w260">${obj.supplier}</textarea></div></td>
+                  <td class="tl w100"><div class="w100"><textarea name="list[${vs.index }].supplier" class="target w80">${obj.supplier}</textarea></div></td>
                   <td class="tl w80"><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}" class="w80"></td>
                  <%--  <td class="tl "><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td class="tl "><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
-                  <td class="tl"><div class="p0_5 w260">${obj.memo}</div>
-                  <td style="width:300px;" class="p0" >
+                  <td class="tl"><div class="w160">${obj.memo}</div>
+                  <td class="p0" >
                  <%--  ${obj.id} --%>
-							   <div class="w200">
+							   <div class="w160">
 									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 							  </div>											
@@ -490,13 +453,6 @@
 		
 		</div>
     </div>
-	<!-- textarea 自适应高度js2 --> 
-		<script>
-			var text = document.getElementsByClassName("target");
-			for(var i=0;i<text.length;i++){
-				autoTextarea(text[i]);
-			}
-			
-		</script>
+
 </body>
 </html>

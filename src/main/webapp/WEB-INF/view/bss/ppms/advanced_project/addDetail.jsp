@@ -98,21 +98,21 @@
         <thead>
           <tr class="space_nowrap">
             <th class="info w50">序号</th>
-            <th class="info w260">需求部门</th>
-            <th class="info w200">物资名称</th>
-            <th class="info w200">规格型号</th>
-            <th class="info w140">质量技术<br>标准</th>
-            <th class="info w50">计量<br>单位</th>
-            <th class="info w50">采购<br>数量</th>
+            <th class="info w80">需求部门</th>
+            <th class="info w80">物资名称</th>
+            <th class="info w80">规格型号</th>
+            <th class="info w80">质量技术<br>标准</th>
+            <th class="info w80">计量<br>单位</th>
+            <th class="info w80">采购<br>数量</th>
             <th class="info w80">单价<br>（元）</th>
             <th class="info w80">预算金额<br>（万元）</th>
-            <th class="info w150">交货期限</th>
-            <th class="info w120">采购方式<br>建议</th>
-            <th class="info w260">供应商名称</th>
+            <th class="info w80">交货期限</th>
+            <th class="info w100">采购方式<br>建议</th>
+            <th class="info w100">供应商名称</th>
             <th class="info w80">是否申请<br>办理免税</th>
-            <th class="info w260">物资用途<br>（进口）</th>
-            <th class="info w260">使用单位<br>（进口）</th>
-            <th class="info w260">备注</th>
+            <th class="info w80">物资用途<br>（进口）</th>
+            <th class="info w80">使用单位<br>（进口）</th>
+            <th class="info w160">备注</th>
           </tr>
         </thead>
         <tbody id="tbody_id">
@@ -120,17 +120,17 @@
               <c:if test="${obj.advancedStatus eq '0'}">
             <tr style="cursor: pointer;">
               <td class="tc w50">${obj.seq}</td>
-              <td class=""><div class="w260">${obj.department}</div></td>
-              <td class=""><div class="w200">${obj.goodsName}</div></td>
-              <td class=""><div class="w200">${obj.stand}</div></td>
-              <td class="tc"><div class="w140">${obj.qualitStand}</div></td>
-              <td class="tc"><div class="w50">${obj.item}</div></td>
-              <td class="tc"><div class="w50">${obj.purchaseCount}</div></td>
+              <td class=""><div class="w80">${obj.department}</div></td>
+              <td class=""><div class="w80">${obj.goodsName}</div></td>
+              <td class=""><div class="w80">${obj.stand}</div></td>
+              <td class="tc"><div class="w80">${obj.qualitStand}</div></td>
+              <td class="tc"><div class="w80">${obj.item}</div></td>
+              <td class="tc"><div class="w80">${obj.purchaseCount}</div></td>
               <td class="tc"><div class="w80">${obj.price}</div></td>
               <td class="tc"><div class="w80">${obj.budget}</div></td>
-              <td class="tc"><div class="w150">${obj.deliverDate}</div></td>
+              <td class="tc"><div class="w80">${obj.deliverDate}</div></td>
               <td class="tc">
-               <div class="w120">
+               <div class="w100">
                 <c:forEach items="${kind}" var="kind" >
                   <c:if test="${kind.id == obj.purchaseType}">
                     <input type="hidden" name="ttype" value="${kind.id }">
@@ -139,11 +139,11 @@
                 </c:forEach>
                 </div>
               </td>
-              <td class="tc"><div class="w260">${obj.supplier}</div></td>
+              <td class="tc"><div class="w100">${obj.supplier}</div></td>
               <td class="tc"><div class="w80">${obj.isFreeTax}</div></td>
-              <td class="tc"><div class="w260">${obj.goodsUse}</div></td>
-              <td class="tc"><div class="w260">${obj.useUnit}</div></td>
-              <td class="tc"><div class="w260">${obj.memo}</div></td>
+              <td class="tc"><div class="w80">${obj.goodsUse}</div></td>
+              <td class="tc"><div class="w80">${obj.useUnit}</div></td>
+              <td class="tc"><div class="w160">${obj.memo}</div></td>
               <td class="tc w30">
               <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this);"  alt="">
               </td>

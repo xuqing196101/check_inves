@@ -256,21 +256,21 @@
               <thead>
 			    <tr class="space_nowrap">
 			      <th class="info w50">序号</th>
-			      <th class="info w260">需求部门</th>
-			      <th class="info w200">物资名称</th>
-			      <th class="info w200">规格型号</th>
-			      <th class="info w140">质量技术标准</th>
-			      <th class="info w50">计量<br>单位</th>
-			      <th class="info w50">采购<br>数量</th>
+			      <th class="info w80">需求部门</th>
+			      <th class="info w80">物资名称</th>
+			      <th class="info w80">规格型号</th>
+			      <th class="info w80">质量技术标准</th>
+			      <th class="info w80">计量<br>单位</th>
+			      <th class="info w80">采购<br>数量</th>
 			      <th class="info w80">单价<br>（元）</th>
 			      <th class="info w80">预算金额<br>（万元）</th>
-			      <th class="info w150">交货期限</th>
+			      <th class="info w80">交货期限</th>
 			      <th class="info w100">采购方式</th>
-			      <th class="info w260">供应商名称</th>
+			      <th class="info w100">供应商名称</th>
 			      <th class="info w80">是否申请<br>办理免税</th>
-			      <th class="info w260">物资用途<br>（进口）</th>
-			      <th class="info w260">使用单位<br>（进口）</th>
-			      <th class="info w260">备注</th>
+			      <th class="info w80">物资用途<br>（进口）</th>
+			      <th class="info w80">使用单位<br>（进口）</th>
+			      <th class="info w160">备注</th>
 			    </tr>
 			  </thead>
 			  <c:forEach items="${lists}" var="obj" varStatus="vs">
@@ -278,21 +278,21 @@
 			      <td class="tc w50">${obj.seq}  <input style="border: 0px;" type="hidden" name="list[${vs.index }].id" value="${obj.id }"></td>
 			      <td>
 			      <c:if test="${obj.department == orgnization.id}">
-			      <input class="w260" name="list[${vs.index }].department" value="${orgnization.name }" type="text">
+			      <input class="w80" name="list[${vs.index }].department" value="${orgnization.name }" type="text">
 			      </c:if>
 			      </td>
-			      <td class="tc"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }" class="w200"></td>
-			      <td class="tc"><input type="text" name="list[${vs.index }].stand" value="${obj.stand }" class="w200"></td>
-			      <td class="tc"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }" class="w140"></td>
-			      <td class="tc"><input type="text" name="list[${vs.index }].item" value="${obj.item }" class="w50 tc"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].goodsName" value="${obj.goodsName }" class="w80"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].stand" value="${obj.stand }" class="w80"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }" class="w80"></td>
+			      <td class="tc"><input type="text" name="list[${vs.index }].item" value="${obj.item }" class="w80 tc"></td>
 			      <td class="tc">
 			        <c:if test="${obj.purchaseCount!=null}">
 			          <input   type="hidden" name="ss"   value="${obj.id }">
-			          <input maxlength="11" class="w50 tc" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"  type="text" value="${obj.purchaseCount}"/>
+			          <input maxlength="11" class="w80 tc" id="purchaseCount" onblur="sum2(this);"  onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" name="list[${vs.index }].purchaseCount"  type="text" value="${obj.purchaseCount}"/>
 			          <input type="hidden" name="ss"   value="${obj.parentId }">
 			        </c:if>
 			        <c:if test="${obj.purchaseCount==null }">
-			          <input  class="border0 w50 tc"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }"  type="text">
+			          <input  class="border0 w80 tc"  disabled="disabled"  type="text" name="list[${vs.index }].purchaseCount" onblur="checks(this)"  value="${obj.purchaseCount }"  type="text">
 			        </c:if>
 			      </td>
 			      <td class="tc">
@@ -310,7 +310,7 @@
 			        <input maxlength="11" class="w80 tr"  id="budget" type="text" name="list[${vs.index }].budget" style="text-align:center;border-style:none" readonly="readonly"  value="${obj.budget}"/>
 			        <input type="hidden" name="ss"   value="${obj.parentId }">
 			      </td>
-			      <td class="tc"><input type="text" class="w150" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
+			      <td class="tc"><input type="text" class="w80" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"></td>
 			      <td class="tc">
 			         <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
 			            <select name="list[${vs.index }].purchaseType" onchange="sel(this);" style="width:100px" id="select">
@@ -320,11 +320,11 @@
 			            </select> 
 			          </c:if> 
 			      </td>
-			      <td class="tc"><input type="text" class="w260" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
+			      <td class="tc"><input type="text" class="w100" name="list[${vs.index }].supplier" value="${obj.supplier }"></td>
 			      <td class="tc"><input type="text" class="w80" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }"></td>
-			      <td class="tc"><input type="text" class="w260" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
-			      <td class="tc"> <input type="text" class="w260" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
-			      <td class="tc"> <input type="text" class="w260" name="list[${vs.index }].memo" value="${obj.memo }">
+			      <td class="tc"><input type="text" class="w80" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
+			      <td class="tc"> <input type="text" class="w80" name="list[${vs.index }].useUnit" value="${obj.useUnit }"></td>
+			      <td class="tc"> <input type="text" class="w160" name="list[${vs.index }].memo" value="${obj.memo }">
 			         <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
 			         <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 			         <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
