@@ -7,6 +7,7 @@
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
 <script type="text/javascript">
@@ -16,7 +17,14 @@
       shade:0.01,
       btn:['是','否'],
       },function(){
-        $("#att").submit();
+        //$("#att").validForm();
+        var name = $("#user").val();
+        name = $.trim(name);
+        if(name == ""){
+          $("#sps").html("负责人不能为空").css('color', 'red');
+        }else{
+          $("#att").submit();
+        }
       },function(){
         var index=parent.layer.getFrameIndex(window.name);
         parent.layer.close(index);
@@ -75,8 +83,8 @@
           <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
             <label class="col-md-12 pl20 col-xs-12"><span class="red star_red">*</span>项目负责人</label>
             <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-								<select id="user" name="principal" class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select>
-								<div class="cue">${ERR_principal}</div>
+								<select id="user" name="principal"  class="col-md-12 col-sm-12 col-xs-12 p0" onchange="change(this.options[this.selectedIndex].value)"></select>
+								<div class="cue" id="sps">${ERR_principal}</div>
 						</div>
             
           </li>

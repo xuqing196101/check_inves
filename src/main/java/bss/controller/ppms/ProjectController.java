@@ -2995,7 +2995,7 @@ public class ProjectController extends BaseController {
      * @param id
      * @return
      */
-    @RequestMapping("/abandoned")
+    /*@RequestMapping("/abandoned")
     @ResponseBody
     public String abandoned(String id){
         if(StringUtils.isNotBlank(id)){
@@ -3027,6 +3027,83 @@ public class ProjectController extends BaseController {
                         task.setNotDetail(0);
                         taskservice.update(task);
                     }
+                }
+            }
+        }
+        return JSON.toJSONString(SUCCESS);
+    }*/
+    
+    
+    
+    @RequestMapping("/abandoned")
+    @ResponseBody
+    public String abandoned(String id, String projectId){
+        if(StringUtils.isNotBlank(projectId)){
+            //新增一个项目
+            Project projects = new Project();
+            Project project = projectService.selectById(projectId);
+            projects.setName(project.getName());
+            projects.setStatus(project.getStatus());
+            projects.setProjectNumber(project.getProjectNumber());
+            if(project.getPrincipal() != null){
+                projects.setPrincipal(project.getPrincipal());
+            }
+            if(project.getIpone() != null){
+                projects.setIpone(project.getIpone());
+            }
+            if(project.getSupplierNumber() != null){
+                projects.setSupplierNumber(project.getSupplierNumber());
+            }
+            if(project.getPurchaseType() != null){
+                projects.setPurchaseType(project.getPurchaseType());
+            }
+            if(project.getSectorOfDemand() != null){
+                projects.setSectorOfDemand(project.getSectorOfDemand());
+            }
+            if(project.getPurchaseDepId() != null){
+                projects.setPurchaseDepId(project.getPurchaseDepId());
+            }
+            if(project.getDeadline() != null){
+                projects.setDeadline(project.getDeadline());
+            }
+            if(project.getBidDate() != null){
+                projects.setBidDate(project.getBidDate());
+            }
+            if(project.getBidAddress() != null){
+                projects.setBidAddress(project.getBidAddress());
+            }
+            projects.setAmount(project.getAmount());
+            if(project.getIsRehearse() != null){
+                projects.setIsRehearse(project.getIsRehearse());
+            }
+            projects.setCreateAt(new Date());
+            if(project.getStartTime() != null){
+                projects.setStartTime(project.getStartTime());
+            }
+            if(project.getIsImport() != null){
+                projects.setIsImport(project.getIsImport());
+            }
+            if(project.getIsProvisional() != null){
+                projects.setIsProvisional(project.getIsProvisional());
+            }
+            if(project.getPlanType() != null){
+                projects.setPlanType(project.getPlanType());
+            }
+            if(project.getConfirmFile() != null){
+                projects.setConfirmFile(project.getConfirmFile());
+            }
+            projectService.insert(projects);
+            String proId = projects.getId();
+            
+            
+            if(StringUtils.isNotBlank(id)){
+                String[] ids = id.split(",");
+                for (int i = 0; i < ids.length; i++ ) {
+                    //更改包下的项目ID
+                    Packages packages = packageService.selectByPrimaryKeyId(ids[i]);
+                    packages.setName("第"+(ids.length+1)+"包");
+                    packages.setProjectId(proId);
+                    packageService.updateByPrimaryKeySelective(packages);
                 }
             }
         }
