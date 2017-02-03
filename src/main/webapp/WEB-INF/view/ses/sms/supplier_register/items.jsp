@@ -469,7 +469,7 @@
 	</div>
 	
 	 <div class="btmfix">
-	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  <div class="mt5 mb5 tc">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
@@ -486,6 +486,6 @@
 		<input name="supplierTypeRelateId"  id="supplierTypeRelateId" type="hidden" value="" /> 
 	</form>
 	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if>
+	<!-- <c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if> -->
 </body>
 </html>

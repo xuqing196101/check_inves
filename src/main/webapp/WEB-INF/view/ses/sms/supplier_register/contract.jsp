@@ -198,7 +198,7 @@
 	</div>
 	
 	 <div class="btmfix">
-	  	  <div style="margin-top: 15px;text-align: center;">
+	  	  <div class="mt5 mb5 tc">
 	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev()">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems()">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
