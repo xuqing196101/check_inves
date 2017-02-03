@@ -382,6 +382,7 @@
                   <td class="tc"><div class="w80"><textarea name="list[${vs.index }].deliverDate" class="target">${obj.deliverDate}</textarea></div></td>
                   <td class="tc">
              <%--       <c:if test="${obj.price!=null}"> --%>
+                     <input type="hidden" name="ss" value="${obj.id}"  >
                       <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w100 border0" id="select">
                         <option value="">请选择</option>
                         <c:forEach items="${kind}" var="kind" >
