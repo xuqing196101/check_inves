@@ -62,4 +62,16 @@ public interface PurchaseDepMapper {
 	 * @param purchaseDep PurchaseDep对象
 	 */
 	List<PurchaseDep> findAllUsefulPurchaseDep();
+	/**
+	 * 
+	* @Title: queryByName
+	* @Description: 根据采购机构名称 查询
+	* author: Li Xiaoxiao 
+	* @param @param name
+	* @param @return     
+	* @return PurchaseDep     
+	* @throws
+	 */
+	PurchaseDep queryByName(@Param("name")String name);
+	
 }

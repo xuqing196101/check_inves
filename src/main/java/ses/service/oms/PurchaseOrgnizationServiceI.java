@@ -93,4 +93,16 @@ public interface PurchaseOrgnizationServiceI {
   * @throws
    */
   public List<PurchaseOrg> getOrg(String id);
+   /**
+    * 
+   * @Title: queryByName
+   * @Description: 根据采购机构名称查询采购机构
+   * author: Li Xiaoxiao 
+   * @param @param name
+   * @param @return     
+   * @return PurchaseOrg     
+   * @throws
+    */
+  PurchaseDep queryByName(String name); 
+  
 }

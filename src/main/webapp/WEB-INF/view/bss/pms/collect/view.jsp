@@ -129,24 +129,54 @@
 			}
  
  
- function org(obj){
-	 
- 	   var val=$(obj).val();
+		 function org(obj){
+			 var org=$(obj).val();
+			 var price=$(obj).parent().prev().prev().prev().prev().val();
+			 if(price==""){
+				var id=$(obj).prev().val();
+				 /*  $("#table tr").each(function(){
+					  var opt= $(this).find("td:eq(11)").children(":last").val() ;
+					  var pid=$(this).prev().val();
+			 		   if(val==opt){
+			 			   $(this).attr("selected", "selected");  
+			 		   }  
+			 	   }); */
+			 	   
+			 	  $.ajax({
+			          url: "${pageContext.request.contextPath}/accept/detail.html",
+			          data: "id=" + id,
+			          type: "post",
+			          dataType: "json",
+			          success: function(result) {
+			            for(var i = 0; i < result.length; i++) {
+			                var v1 = result[i].id;
+			                $("#table tr").each(function(){
+			      			  var opt= $(this).find("td:eq(11)").children(":first").val() ;
+			      	 		   if(v1==opt){
+			      	 			 var td=$(this).find("td:eq(11)");
+			      	 			var options= $(td).find("option");
+				      	 		  $(options).each(function(){
+				      	  		   var opt=$(this).val();
+				      	  		   if(org==opt){
+				      	  			   $(this).attr("selected", "selected");  
+				      	  		   }
+					      	  	   });
+			      	 		   }  
+			      	 	   });
+			            }
+			           }
+			          });
+			          
+			          
+			 }
  
- 	   $(".org option").each(function(){
- 	 
- 		   var opt=$(this).val();
- 		   if(val==opt){
- 			   $(this).attr("selected", "selected");  
- 		   }
- 	   });
     }
  
  function acc(){
  
      	var bool=true;
 		    $("#table tr:gt(0)").each(function(i){
-		    	var  val1= $(this).find("td:eq(11)").children(":first").val();//上级id
+		    	var  val1= $(this).find("td:eq(11)").children(":eq(2)").val();//上级id
 		    	  if($.trim(val1) == "") {
 		    		  bool=false;
 		    		  i=i+1;
@@ -160,13 +190,37 @@
  }
  
  function purchaseType(obj){
- 	   var val=$(obj).val();
- 	   $(".type option").each(function(){
- 		   var opt=$(this).val();
- 		   if(val==opt){
- 			   $(this).attr("selected", "selected");  
- 		   }
- 	   });
+	 var org=$(obj).val();
+	 var price=$(obj).parent().prev().prev().prev().prev().val();
+	 if(price==""){
+		var id=$(obj).prev().val();
+	 	  $.ajax({
+	          url: "${pageContext.request.contextPath}/accept/detail.html",
+	          data: "id=" + id,
+	          type: "post",
+	          dataType: "json",
+	          success: function(result) {
+	            for(var i = 0; i < result.length; i++) {
+	                var v1 = result[i].id;
+	                $("#table tr").each(function(){
+	      			  var opt= $(this).find("td:eq(10)").children(":first").val() ;
+	      	 		   if(v1==opt){
+	      	 			 var td=$(this).find("td:eq(10)");
+	      	 			var options= $(td).find("option");
+		      	 		  $(options).each(function(){
+		      	  		   var opt=$(this).val();
+		      	  		   if(org==opt){
+		      	  			   $(this).attr("selected", "selected");  
+		      	  		   }
+			      	  	   });
+	      	 		   }  
+	      	 	   });
+	            }
+	           }
+	          });
+	          
+	          
+	 }
     } 
  
  
@@ -323,22 +377,25 @@
 							
 							<td class="p0">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
+							<input type="hidden" name="ss" value="${obj.id}"  >
 							<select class="type w120"  onchange="purchaseType(this)" required="required" name="list[${vs.index }].purchaseType" id="select">
 									 <c:forEach items="${kind}" var="kind" >
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
 			                </select>
-			                
+			                <input type="hidden"  name="ss" value="${obj.parentId}">
 			              <%--   </c:if> --%>
 							</td>
 							<td class="tc p0">
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
+							<input type="hidden" name="ss" value="${obj.id}"  >
 							<select  class="org w200" required="required"  name="list[${vs.index }].organization" onchange="org(this)">
-						<!-- 	<option value="">请选择</option> -->
+							<option value="">请选择</option>
 								<c:forEach items="${org }" var="ss">
 									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
+							<input type="hidden"  name="ss" value="${obj.parentId}">
 						<%-- 	</c:if> --%>
 							</td>
 							

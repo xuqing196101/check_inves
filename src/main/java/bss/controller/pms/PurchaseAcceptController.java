@@ -1,7 +1,10 @@
 package bss.controller.pms;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -15,6 +18,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
@@ -28,9 +32,12 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
+import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -64,6 +71,9 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	
+	@Autowired
+    private PurchaseDetailService purchaseDetailService;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -215,6 +225,30 @@ public class PurchaseAcceptController extends BaseController{
     	return "redirect:list.html";
     }
     
+    /**
+     * 
+    * @Title: bar
+    * @Description:根据父id查询子id
+    * author: Li Xiaoxiao 
+    * @param @param purchaseRequired
+    * @param @param year
+    * @param @return
+    * @param @throws UnsupportedEncodingException     
+    * @return String     
+    * @throws
+     */
+	@RequestMapping(value="/detail",produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String bar(String id){
+		Map<String,Object> map=new HashMap<String,Object>();
+		  map.put("id", id);
+          List<PurchaseRequired> list = purchaseRequiredService.selectByParentId(map);
+ 
+		  String json = JSON.toJSONString(list);
+		return json;
+	}
+	
+	
     @InitBinder  
     public void initBinder(WebDataBinder binder) {  
         // 设置List的最大长度  

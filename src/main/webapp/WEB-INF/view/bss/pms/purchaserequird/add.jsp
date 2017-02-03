@@ -691,8 +691,8 @@
 									    		}   
 								    		}); 
 									   	    
-									   	    
-									   	    
+									   	 
+									   	      $("td[name='file_up']").attr("style","display:none");
 									           var bool=$("input[name='import']").is(':checked');
 												if(bool==true){
 													$("td[name='userNone']").attr("style","");
@@ -1334,7 +1334,7 @@
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
 										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w260"></td>
-										<td style="width:300px;" class="p0">
+										<td name="file_up" style="width:300px;" class="p0">
 											   <div class="w200">
 													<u:upload id="pUp0" multiple="true"  businessId="${id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow0" businessId="${id}" sysKey="2" typeId="${typeId}" />

@@ -9,6 +9,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -28,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -46,8 +49,10 @@ import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.util.ExcelUtil;
 import bss.util.NumberUtils;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -87,6 +92,8 @@ public class CollectPlanController extends BaseController {
   
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
+	@Autowired
+	private DictionaryDataMapper dictionaryDataMapper;
   
     /**
 		* @Title: queryPlan
@@ -135,6 +142,7 @@ public class CollectPlanController extends BaseController {
     }
     model.addAttribute("dic", dic);
     model.addAttribute("status", status);
+	model.addAttribute("types", DictionaryDataUtil.find(6));
 //    Map<String,Object> map = new HashMap<String,Object>();
 //    List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 //    model.addAttribute("requires", requires);
@@ -410,6 +418,7 @@ public class CollectPlanController extends BaseController {
 		}
 		
 		/**
+		 * @throws Exception 
      * 
     * @Title: upload
     * @Description: 采购计划导入
@@ -418,118 +427,263 @@ public class CollectPlanController extends BaseController {
     * @return String     
     * @throws
      */
-  @RequestMapping(value = "/upload" )
-  public String uploadFile(@CurrentUser User user,MultipartFile file,Model model)throws IOException{
-    ResponseBean bean = new ResponseBean();
-    if ( file == null) {
-      bean.setSuccess(false);
-         //bean.setObj("文件不能为空");
-         //return bean;
-    }
-    String fileName = file.getOriginalFilename();  
-    if ( !fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
-      bean.setSuccess(false);
-      bean.setObj("文件格式不支持");
-      //return bean;
-    }  
-    List<PurchaseRequired> list = new ArrayList<PurchaseRequired>();
-    try {
-      Workbook workbook = WorkbookFactory.create(file.getInputStream());
-        
-      //表头导入
-      Sheet sheet = workbook.getSheetAt(0);
-      Row firstRow = sheet.getRow(0);
-      CollectPlan collect = new CollectPlan();
-      Cell planName = firstRow.getCell(0);
-      collect.setFileName(planName.toString());
-        
-      String id = UUID.randomUUID().toString().replaceAll("-", "");
-      collect.setId(id);
-      collect.setFileName(planName.toString());
-      collectPlanService.add(collect);
-      int endNum = 0;//最底层记录数
-      int meanNum = 0;//中间数
-      List<String> parentId = new ArrayList<String>();
-      //表内容
-      for (int i = 3 ; i < sheet.getLastRowNum();i++) {
-        Row row = sheet.getRow(i);
-        String pId = UUID.randomUUID().toString().replaceAll("-", "");
-        parentId.add(pId);
-        PurchaseRequired pr = new PurchaseRequired();
-        pr.setId(pId);
-        Cell xh = row.getCell(0);//序号
-        if ( xh.toString() != null ) {
-          pr.setSeq(xh.toString());
-        }
-        Cell xqbm = row.getCell(1);//需求部门
-        if ( xqbm.toString() != null ) {
-          pr.setDepartment(xqbm.toString());
-        }
-        Cell wzmc = row.getCell(2);//物资类别及名称
-        if ( wzmc.toString() != null ) {
-          pr.setGoodsName(wzmc.toString());
-        }
-        Cell ggxh = row.getCell(3);//规格型号
-        if ( ggxh.toString() != null ) {
-          pr.setPurchaseType(ggxh.toString());
-        }
-        Cell zlbz = row.getCell(4);//质量技术标准
-         
-        Cell jldw = row.getCell(5);//计量单位
-          
-        Cell cgsl = row.getCell(6);//采购数量
-          
-        Cell dj = row.getCell(7);//单价
-          
-        Cell ysje = row.getCell(8);//预算金额（万）
-          
-          
-        Cell jhqx = row.getCell(9);//交货期限
-        if ( jhqx.toString() != null ) {
-          pr.setDeliverDate(jhqx.toString());
-        }
-          
-        Cell gysm = row.getCell(10);//供应商名称
-        /*if ( gysm.toString() != null ) {
-          pr.setDeliverDate(gysm.toString());
-        }*/
-          
-        Cell cgfs = row.getCell(11);//采购方式
-          
-        Cell cgjg = row.getCell(12);//采购机构
-        if ( cgjg.toString() != null ) {
-          pr.setOrganization(cgjg.toString());
-        }
-          
-        Cell bz = row.getCell(13);//备注
-        /*if(bz.toString()!=null){
-          pr.setGoodsName(bz.toString());
-        }*/
-         
-        if ( i == 3 ) {
-          pr.setParentId("1");
-        } else {
-          BigDecimal count = new BigDecimal(cgsl.toString());
-          if ( count != null ) {
-            if ( meanNum == 0 ) {
-              endNum = i;
-            }
-            meanNum++;
-            pr.setParentId(parentId.get(endNum - 3 ) );
-          } else {
-            pr.setParentId(parentId.get(i - 3 ) );
-          }
-        }
-        purchaseRequiredService.add(pr);
-      }
-    } catch ( Exception e ) {
-      bean.setSuccess(false);
-      bean.setObj(e.getMessage());
-    }
-
-    return "bss/pms/collect/collectlist";
+  @SuppressWarnings("unchecked")
+  @RequestMapping(value = "/upload" ,produces="text/html;charset=UTF-8")
+  @ResponseBody
+  public String uploadFile(@CurrentUser User user,MultipartFile file,Model model,String planType)throws Exception{
+	        String fileName = file.getOriginalFilename();  
+	        if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){  
+	        	return "1";
+	        }  
+	        
+			List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
+//			ExcelUtil util=new ExcelUtil();
+			    Map<String,Object>  maps= (Map<String, Object>) ExcelUtil.cgjhExcel(file);
+			     list = (List<PurchaseRequired>) maps.get("list");
+			     
+			     String errMsg=(String) maps.get("errMsg");
+			
+			     if(errMsg!=null){
+			          String jsonString = JSON.toJSONString(errMsg);
+						return jsonString;
+				}
+			   /*  if(!user.getOrg().getName().equals(list.get(0).getDepartment())){
+			    	 return "2"; 
+			     }*/
+			     
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
+			String pid = UUID.randomUUID().toString().replaceAll("-", "");
+			String cid = UUID.randomUUID().toString().replaceAll("-", "");
+			String ccid = UUID.randomUUID().toString().replaceAll("-", "");
+			String cccid = UUID.randomUUID().toString().replaceAll("-", "");
+			String ccccid = UUID.randomUUID().toString().replaceAll("-", "");
+			String unqueId = UUID.randomUUID().toString().replaceAll("-", "");
+//			int len=list.size()-1;
+//			StringBuffer sbUp=new StringBuffer("");
+//			StringBuffer sbShow=new StringBuffer("");
+			int count=1;
+//			BigDecimal budget=BigDecimal.ZERO;
+			String org="2";
+			CollectPlan collectPlan=new CollectPlan();
+			collectPlan.setId(unqueId);
+			collectPlan.setStatus(1);
+			collectPlan.setFileName(list.get(0).getPlanName());
+			collectPlan.setBudget(list.get(0).getBudget());
+			collectPlan.setCreatedAt(new Date());
+			Integer max = collectPlanService.getMax();
+			if(max!=null){
+				max+=1;
+				collectPlan.setPosition(max);
+			}else{
+				collectPlan.setPosition(1);
+				
+			}
+			collectPlan.setUserId(user.getId());
+			collectPlan.setGoodsType(planType);
+			collectPlanService.add(collectPlan);
+			
+			
+			for(int i=0;i<list.size();i++){
+//				String id = UUID.randomUUID().toString().replaceAll("-", "");
+		 
+					PurchaseRequired p = list.get(i);
+					 
+					p.setPlanType(planType);
+					p.setHistoryStatus("0");
+					p.setIsDelete(0);
+					p.setIsMaster(count);
+					p.setCreatedAt(new Date());
+					p.setUserId(user.getId());
+				    p.setProjectStatus(0);
+                    p.setAdvancedStatus(0);
+                    p.setStatus("5");
+                    p.setUniqueId(unqueId);
+					if(p.getOrganization()!=null){
+					 Orgnization dep = purchaseRequiredService.queryByName(p.getOrganization());
+						if(dep!=null){
+							p.setOrganization(dep.getId());
+						}else{
+							break;
+						}
+					}
+					/*if(p.getPurchaseType()!=null){
+						DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
+						p.setPurchaseType(data.getId());
+					}*/
+					
+					//p.setOrganization(user.getOrg().getName());
+					
+					p.setDetailStatus(1);
+					 if(p.getPurchaseType()!=null&&p.getPurchaseType().trim().length()!=0){
+	                        DictionaryData data = dictionaryDataMapper.queryByName(p.getPurchaseType());
+	                        p.setPurchaseType(data.getId());
+	                    }
+					 
+//					if(p.getBudget()!=null){
+//						budget=budget.add(p.getBudget());
+//					}
+				//顶级节点	
+				 if(p.getSeq().matches("[\u4E00-\u9FA5]")&&!p.getSeq().contains("（")){
+					 	 p.setSeq("一");
+					 	 count=1;
+					 	 p.setIsMaster(count);
+						
+						 p.setParentId("1");//注释
+//						 plano = randomPlano();
+						 id = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级id赋值
+						 p.setId(id);//注释
+						 count++;
+						 continue;
+					 }
+				 //判断是否是二级节点(一)
+				 	if(isContainChinese(p.getSeq())){
+				 		
+						 p.setParentId(id);
+						 pid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级pid赋值
+						 p.setId(pid);
+						 count++;
+						 continue;	
+					}
+				 	
+				 	 
+				 	//判断是否是三级节点1,2,3
+				 	else  if(isInteger(p.getSeq())){
+				
+					  p.setParentId(pid);
+					  cid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+					  p.setId(cid);
+					  count++;
+					  continue;	
+					}
+				 	
+				 	//判断是否四级节点(1),(2)
+				 	else if(isContainIntger(p.getSeq())){
+					
+						p.setParentId(cid);
+						ccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+						p.setId(ccid);
+						 count++;
+						continue;
+					}
+				 	//五级节点
+				 	else if(isEng(p.getSeq())){
+						p.setId(cccid);
+					
+						cccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+						p.setParentId(ccid);
+						 count++;
+						continue;
+					}else{
+						p.setId(ccccid);
+						ccccid = UUID.randomUUID().toString().replaceAll("-", "");//重新给顶级cid赋值
+						p.setParentId(cccid);
+						count++;
+					}
+					
+			 
+			//	count++;
+				
+//				sbUp.append("pUp"+i+",");
+//				sbShow.append("pShow"+i+",");
+//				if(len==i){
+//					sbUp.append("pUp"+i);
+//					sbShow.append("pShow"+i);
+//				}
+			}
+			String jsonString = JSON.toJSONString(org);
+			for(PurchaseRequired pr:list){
+				PurchaseDetail pd=new PurchaseDetail();
+				BeanUtils.copyProperties(pr, pd,new String[] {"serialVersionUID"});
+				purchaseDetailService.add(pd);
+			}
+    return jsonString;
   }
 
+	  
+		/**
+		 * 
+		* @Title: isContainChinese
+		* @Description: 判断是否是含有中文 
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isContainChinese(String str){
+			boolean bool=true;
+			Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+			Matcher m = p.matcher(str);
+		    if(m.find()==true&&str.contains("（")){
+		        	bool=true;
+		     }else{
+		        	bool=false;
+		    }
+			return bool;
+		}
+		/**
+		 * 
+		* @Title: isInteger
+		* @Description: 判断是否是数字
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isInteger(String str){
+			boolean bool=true;
+			String regex="^\\d+$";
+			if(str.matches(regex)) {
+				bool=true; 
+			}else{
+				bool=false; 
+			}
+			return bool;
+		}
+		/**
+		 * 
+		* @Title: isContain
+		* @Description: 是否包含数字
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isContainIntger(String str){
+			boolean bool=true;
+		    Pattern p = Pattern.compile(".*\\d+.*");
+		    Matcher m = p.matcher(str);
+		    if (m.matches()) {
+		    	bool = true;
+		    }
+			return bool;
+		}
+		
+		/**
+		 * 
+		* @Title: isEng
+		* @Description:是否是英文
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isEng(String str){
+			boolean bool=true;
+			 String eng="abcdefghijklmnopqrstuvwxyz";
+			 if(eng.contains(str)){
+					bool=true; 
+			 }else{
+					bool=false; 
+				}
+				return bool;
+		}
+		
+		
+		
   @InitBinder  
   public void initBinder(WebDataBinder binder) {  
       // 设置List的最大长度  

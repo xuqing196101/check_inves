@@ -757,9 +757,9 @@
 	  	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
     	FROM T_SES_OMS_ORG
     	WHERE IS_DELETED = '0'
-    	AND TYPE_NAME ='0'
+    	AND TYPE_NAME ='1'
     	<if test="name != null and name != ''">
-    	  AND NAME =#{name}
+    	  AND SHORT_NAME =#{name}
     	</if>
 	</select>
 	

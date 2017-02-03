@@ -379,4 +379,10 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
     List<PurchaseOrg> list = purchaseOrgMapper.selectById(map);
     return list;
   }
+
+@Override
+public PurchaseDep queryByName(String name) {
+	// TODO Auto-generated method stub
+	return purchaseDepMapper.queryByName(name);
+}
 }

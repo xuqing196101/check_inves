@@ -4,6 +4,8 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		 <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 		<script type="text/javascript">
 			/*分页  */
 			$(function() {
@@ -303,7 +305,34 @@
 			
  
 			function fileup(){
-				$("#up_form").submit();
+				var planType=$("#wtype").val();
+			    $.ajaxFileUpload ( {
+                    url: "${pageContext.request.contextPath}/collect/upload.do?planType="+planType,  
+                    secureuri: false,  
+                    fileElementId: 'cgjh_file', 
+                    dataType: 'json',
+                    success: function (data) { 
+                    	var bool=true;
+                        var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+                    	 if(data=="1"){
+				        	   layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
+				        	    
+				           }
+                    	 for(var i = 0; i < chars.length ; i ++) {
+				             if(data.indexOf(chars[i])!=-1){
+				            	 bool=false;
+				             }
+				           }
+				       if(bool!=true){
+				        	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+				        	  //  layer.msg(data);   
+				        }
+			           else{
+			        	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+			        	   }
+				       layer.close(index);
+                    	}
+                    });
 			} 
 			
 	/* 		function view(no) {
@@ -379,7 +408,7 @@
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collect()">汇总</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">下达预研项目</button>
-		<!-- <button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button> -->
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button>
 	 </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped ">
@@ -497,7 +526,12 @@
 		</div>
 		<div  class="clear margin-top-30" id="file_div"  style="display:none;" >
     	<form id="up_form" action="${pageContext.request.contextPath}/collect/upload.do" method="post" enctype="multipart/form-data">
-    		<div class="col-md-8 col-sm-8 col-xs-12"><input type="file" class="input_group" name="file"></div>
+    		<select name="planType" id="wtype" onchange="gtype(this)">
+				<c:forEach items="${types }" var="obj">
+					<option value="${obj.id }">${obj.name }</option>
+				</c:forEach>
+			 </select>
+    		<div class="col-md-8 col-sm-8 col-xs-12"><input type="file" id="cgjh_file" name="file"></div>
     		<div class="col-md-4 col-sm-4 col-xs-12">
     		 <input type="button" class="btn" onclick="fileup()"   value="导入" />
     		</div>
