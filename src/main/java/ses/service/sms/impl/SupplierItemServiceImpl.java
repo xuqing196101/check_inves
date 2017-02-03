@@ -253,7 +253,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
     @Override
     public List<Category> getCategoryShenhe(String supplierId,String type) {
         List<Category> cateList=new ArrayList<Category>();
-        Map<String,Object> map=new HashMap<String,Object>();
+        Map<String,Object> map=new HashMap<String,Object>();    
         map.put("supplierId", supplierId);
         map.put("type", type);
         List<SupplierItem> list = supplierItemMapper.findByMap(map);
