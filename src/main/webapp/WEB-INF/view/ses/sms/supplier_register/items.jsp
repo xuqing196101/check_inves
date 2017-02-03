@@ -143,8 +143,6 @@
 		$("#cate-" + kind.charAt(kind.length - 1)).val("");
 		loadZtree(code,kind, status);
 	}
- 
-
 	
 	function saveItems(){
 		/*  getCategoryId();
@@ -171,15 +169,6 @@
 		
 	}
 	
-	
- 
-	
-/* 	function saveItems(flag){
-		 getCategoryId();
-		$("#flag").val(flag);
-		$("#items_info_form_id").submit();
-	} */
-	
 	function next(flag){
 		var flag =supCategory();
 	 
@@ -205,9 +194,7 @@
 			if(tree!=null){
 				nodes = tree.getCheckedNodes(true);
 				for (var j = 0; j < nodes.length; j++) {
-				 
-						ids.push(nodes[j].id);
-					 
+					ids.push(nodes[j].id);
 				}
 			}
 		}
@@ -257,7 +244,6 @@
 	}
 	
 	function supCategory(){
-		
 		var flag=true;
 		var supplierId="${currSupplier.id}";
 		$.ajax({
@@ -265,17 +251,15 @@
 			type : "post",
 			data : {
 				supplierId : supplierId,
-				 
 			},
 			dataType : "json",
 			success : function(result) {
 				if(result=="0"){
 					flag=false;
-					
 				}
 			}
 		});
-	return flag;
+		return flag;
 	}
 </script>
 <script type="text/javascript">
@@ -481,7 +465,7 @@
 		<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="categoryId" value=""  id="categoryId" type="hidden" /> 
 		<input name="clickFlag" value=""  id="clickFlag" type="hidden" /> 
-		<input name="flag" value=""  id="flag" type="hidden" /> 
+		<input name="flag" value=""  id="flag" type="hidden" />  
 		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" /> 
 		<input name="supplierTypeRelateId"  id="supplierTypeRelateId" type="hidden" value="" /> 
 	</form>

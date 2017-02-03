@@ -50,3 +50,9 @@ jQuery.validator.addMethod("isUrl", function(value, element) {
 	var url = /^((https?|ftp|news):\/\/)?([a-z]([a-z0-9\-]*[\.。])+([a-z]{2}|aero|arpa|biz|com|coop|edu|gov|info|int|jobs|mil|museum|name|nato|net|org|pro|travel)|(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5]))(\/[a-z0-9_\-\.~]+)*(\/([a-z0-9_\-\.]*)(\?[a-z0-9+_\-\.%=&]*)?)?(#[a-z][a-z0-9_]*)?$/; 
 	return this.optional(element) || (url.test(value));
 }, "请输入正确的网址"); 
+
+// 银行卡验证
+jQuery.validator.addMethod("isBankCard", function(value, element) { 
+	var bankCard = /^\d{16}|\d{19}$/; 
+	return this.optional(element) || (bankCard.test(value));
+}, "请输入正确的银行卡账号"); 
