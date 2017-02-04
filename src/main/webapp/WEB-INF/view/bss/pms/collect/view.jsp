@@ -158,7 +158,11 @@
 				      	 		  $(options).each(function(){
 				      	  		   var opt=$(this).val();
 				      	  		   if(org==opt){
-				      	  			   $(this).attr("selected", "selected");  
+				      	  			$(this).prop("selected",true);
+				      	  			  // $(this).attr("selected", "selected");  
+				      	  		   }else{
+				      	  			$(this).prop("selected",false);
+				      	  			//$(this).removeAttr("selected");
 				      	  		   }
 					      	  	   });
 			      	 		   }  
@@ -214,7 +218,11 @@
 		      	 		  $(options).each(function(){
 		      	  		   var opt=$(this).val();
 		      	  		   if(org==opt){
-		      	  			   $(this).attr("selected", "selected");  
+		      	  			$(this).prop("selected",true);
+		      	  			   
+		      	  		   }else{
+		      	  			$(this).prop("selected",false);
+		      	  			  // $(this).removeAttr("selected");
 		      	  		   }
 			      	  	   });
 	      	 		   }  
@@ -383,7 +391,9 @@
 							<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 							<input type="hidden" name="ss" value="${obj.id}"  >
 							<select class="type w120"  onchange="purchaseType(this)" required="required" name="list[${vs.index }].purchaseType" id="select">
+									 <option value="">请选择</option>
 									 <c:forEach items="${kind}" var="kind" >
+									
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
 			                </select>

@@ -344,10 +344,120 @@
 							  	 }
 							 
 						} 
-						 
+						 var org=$(obj).val();
+						 var price=$(obj).parent().prev().prev().prev().prev().val();
+						 if(price==""){
+							var id=$(obj).prev().val();
+						 	  $.ajax({
+						          url: "${pageContext.request.contextPath}/accept/detail.html",
+						          data: "id=" + id,
+						          type: "post",
+						          dataType: "json",
+						          success: function(result) {
+						            for(var i = 0; i < result.length; i++) {
+						                var v1 = result[i].id;
+						                $("#table tr").each(function(){
+						      			  var opt= $(this).find("td:eq(10)").children(":first").val() ;
+						      	 		   if(v1==opt){
+						      	 			 var td=$(this).find("td:eq(10)");
+						      	 			var options= $(td).find("option");
+							      	 		  $(options).each(function(){
+							      	  		   var opt=$(this).val();
+							      	  		   if(org==opt){
+							      	  			$(this).prop("selected",true);
+							      	  			  //  $(this).attr("selected", "selected");  
+							      	  		   }else{
+							      	  			$(this).removeAttr("selected");
+							      	  		   }
+								      	  	   });
+						      	 		   }  
+						      	 	   });
+						            }
+						           }
+						          });
+						          
+						          
+						 }	 
 						  	 
 						  	 
 				}
+				
+				function orgChange(obj){
+					var status=$("input[name='status']").val();		
+					var val = $(obj).find("option:selected").text();
+					var defVal;
+					var opts=obj.getElementsByTagName('option'); 
+						for (var i in opts) {
+							if (opts[i].defaultSelected) {
+								defVal = opts[i].text;
+								break;
+							}
+						}
+						var tr=obj.parentNode.parentNode;	
+						var index=tr.rowIndex; //获取第几行，然后给赋值
+						var td=obj.parentNode;
+						var tdIndex=td.cellIndex;
+						var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+						 if(val!=defVal){
+							  if(status=='3'){
+								  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
+						  			var curval=tdVal1+"由"+defVal+"变成"+val;
+						  			var newVal=inpval+curval;
+							       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
+							  }
+							  if(status=='5'){
+								  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
+						  			var curval=tdVal1+"由"+defVal+"变成"+val;
+						  			var newVal=inpval+curval;
+							  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
+							  	   }
+							 if(status=='7'){
+								   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
+						  			var curval=tdVal1+"由"+defVal+"变成"+val;
+						  			var newVal=inpval+curval;
+							  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
+							  	 }
+							 
+						} 
+						 
+						 var org=$(obj).val();
+						 var price=$(obj).parent().prev().prev().prev().prev().val();
+						 if(price==""){
+							var id=$(obj).prev().val();
+						 	  $.ajax({
+						          url: "${pageContext.request.contextPath}/accept/detail.html",
+						          data: "id=" + id,
+						          type: "post",
+						          dataType: "json",
+						          success: function(result) {
+						            for(var i = 0; i < result.length; i++) {
+						                var v1 = result[i].id;
+						                $("#table tr").each(function(){
+						      			  var opt= $(this).find("td:eq(11)").children(":first").val() ;
+						      	 		   if(v1==opt){
+						      	 			 var td=$(this).find("td:eq(11)");
+						      	 			var options= $(td).find("option");
+							      	 		  $(options).each(function(){
+							      	  		   var opt=$(this).val();
+							      	  		   if(org==opt){
+							      	  			$(this).prop("selected",true);
+							      	  			   //  $(this).attr("selected", "selected");  
+							      	  		   }else{
+							      	  			$(this).removeAttr("selected");
+							      	  		   }
+								      	  	   });
+						      	 		   }  
+						      	 	   });
+						            }
+						           }
+						          });
+						          
+						          
+						 } 	 
+						  	 
+				}
+				
+				
 		</script>
 	</head>
 
@@ -396,7 +506,7 @@
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
 						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll h365">
-							<table class="table table-bordered table-condensed mt5 table_input">
+							<table id="table" class="table table-bordered table-condensed mt5 table_input">
 								<thead>
 									<tr class="space_nowrap">
 										<th class="info" colspan="17">事业部门需求</th>
@@ -485,6 +595,7 @@
 											<td><input type="text" onblur="change(this)"   name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }"  class="w80"></td>
 											<td>
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
+											<input type="hidden" name="ss" value="${obj.id }">
 												<select name="listDetail[${vs.index }].purchaseType" onchange="typeChange(this)" class="w100">
 													<c:forEach items="${mType }" var="mt">
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
@@ -495,7 +606,8 @@
 											</td>
 											<td class="tc">
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
-												<select class="org w100" name="listDetail[${vs.index }].organization" onchange="typeChange(this)">
+											<input type="hidden" name="ss" value="${obj.id }">
+												<select   name="listDetail[${vs.index }].organization" onchange="orgChange(this)">
 													<c:forEach items="${org }" var="ss">
 														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
@@ -547,7 +659,7 @@
 											<th class="info" colspan="3">三轮审核</th>
 										</c:if>
 									</tr>
-									<tr class="h51">
+									<tr style="height:50px;">
 										<c:if test="${status==3 || status==5 || status==7 }">
 											<th colspan="3" >审核意见</th>
 										 

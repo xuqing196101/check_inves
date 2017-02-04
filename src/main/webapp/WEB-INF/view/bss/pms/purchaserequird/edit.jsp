@@ -194,7 +194,10 @@
 	    			      	 		  $(options).each(function(){
 	    			      	  		   var opt=$(this).val();
 	    			      	  		   if(org==opt){
-	    			      	  			   $(this).attr("selected", "selected");  
+	    			      	  			$(this).prop("selected",true);
+	    			      	  			//   $(this).attr("selected", "selected");  
+	    			      	  		   }else{
+	    			      	  			  $(this).removeAttr("selected");
 	    			      	  		   }
 	    				      	  	   });
 	    		      	 		   }  

@@ -693,6 +693,7 @@
 									   	    
 									   	 
 									   	      $("td[name='file_up']").attr("style","display:none");
+									   	      $("th[name='file_up']").attr("style","display:none");
 									           var bool=$("input[name='import']").is(':checked');
 												if(bool==true){
 													$("td[name='userNone']").attr("style","");
@@ -1260,7 +1261,7 @@
 										<th name="userNone" class="w80">物资用途</br>（仅进口）</th>
 										<th name="userNone" class="w80">使用单位</br>（仅进口）</th>
 										<th class="w160">备注</th>
-									    <th  class="w80">附件</th>  
+									    <th name="file_up"  class="w80">附件</th>  
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="w100">操作</th>
 									</tr>
