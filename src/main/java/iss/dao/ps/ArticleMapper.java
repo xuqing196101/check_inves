@@ -389,4 +389,6 @@ public interface ArticleMapper {
     List<Article> getCancelArticle(@Param("startTime")String startTime, @Param("endTime")String endTime);
 
     List<Article> selectAllByArticleTypeId(Map<String, Object> map);
+
+    BigDecimal selectByTypeIdTimer(HashMap<String, String> timerMap);
 }

@@ -1123,6 +1123,18 @@ and IS_DELETED = 0
 and status = 2
   </select>
   
+  <select id="selectByTypeIdTimer" parameterType="Map" resultType="Object">
+	SELECT
+		COUNT (ID)
+	FROM
+		t_iss_ps_article
+	WHERE
+		to_char(PUBLISHED_AT,'yyyy-mm-dd') &gt;= #{firstday}
+		AND to_char(PUBLISHED_AT,'yyyy-mm-dd') &lt;= #{lastday}
+	AND ARTICLE_TYPE_ID = #{id}
+	and IS_DELETED = 0
+	and status = 2
+  </select>
   
   <!-- 修改 -->
   <update id="updateStatus" parameterType="iss.model.ps.Article">

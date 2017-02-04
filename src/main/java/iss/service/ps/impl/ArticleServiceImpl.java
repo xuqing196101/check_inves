@@ -545,5 +545,10 @@ public class ArticleServiceImpl implements ArticleService {
     return articleMapper.selectAllByArticleTypeId(map);
   }
 
+  @Override
+  public BigDecimal selectByTypeIdTimer(HashMap<String, String> timerMap) {
+    return articleMapper.selectByTypeIdTimer(timerMap);
+  }
+
 
 }

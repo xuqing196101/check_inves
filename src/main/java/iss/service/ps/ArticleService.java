@@ -378,4 +378,6 @@ public interface ArticleService {
     List<Article> getCancelNews(String startTime, String endTime);
 
     List<Article> selectAllByArticleTypeId(Map<String, Object> map);
+
+    BigDecimal selectByTypeIdTimer(HashMap<String, String> timerMap);
 }

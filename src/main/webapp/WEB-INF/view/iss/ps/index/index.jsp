@@ -1186,7 +1186,12 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <div class="cgxx_report">
-		     <div class="report-tab">重要通知<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=109">更多>></a>
+		     <div class="report-tab">重要通知
+		     	<c:if test="${articleZytz != 0}">
+				      <b>${articleZytz}</b>
+			      </c:if>
+		     </div>
+		     <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=109">更多>></a>
             </div>
             <div class="categories articleover">
               <ul class="p0_10">
@@ -1211,7 +1216,7 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
            <div class="cgxx_report">
-		   <div class="report-tab">采购法规<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
+		   <div class="report-tab">采购法规</div><a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
            </div>
             <div class="categories">
               <ul class="p0_10">
@@ -1236,7 +1241,12 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
            <div class="cgxx_report">
-		    <div class="report-tab">投诉处理公告<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=112">更多>></a>
+		    <div class="report-tab">投诉处理公告
+		    	<c:if test="${articleTouSu != 0}">
+				    <b>${articleTouSu}</b>
+		    	</c:if>
+		    </div>
+		    <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=112">更多>></a>
            </div>
             <div class="categories articleover">
               <ul class="p0_10">
@@ -1261,7 +1271,12 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <div class="cgxx_report">
-		      <div class="report-tab"> 处罚公告<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexChuFaNewsByTypeId.html?id=113">更多>></a>
+		      <div class="report-tab">处罚公告
+			      <c:if test="${articleChuFa != 0}">
+				      <b>${articleChuFa}</b>
+			      </c:if>
+		      </div>
+		      <a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexChuFaNewsByTypeId.html?id=113">更多>></a>
             </div>
             <div class="categories articleover">
               <ul class="p0_10">

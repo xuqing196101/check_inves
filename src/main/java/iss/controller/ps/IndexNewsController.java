@@ -792,6 +792,12 @@ public class IndexNewsController extends BaseSupplierController{
 		timerMap.put("id", "110");
 		BigDecimal articlebjob = articleService.selectDanByTimer(timerMap);
 		model.addAttribute("articlebjob",articlebjob);
+		BigDecimal articleTouSu = getcount("tousu");
+		BigDecimal articleChuFa = getcount("chufa");
+		BigDecimal articleZytz = getcount("zhongYaoTongZhi");
+		model.addAttribute("articleTouSu",articleTouSu);
+		model.addAttribute("articleChuFa",articleChuFa);
+		model.addAttribute("articleZytz",articleZytz);
 //		for(int i=0;i<articleTypeList.size();i++){
 //			List<Article> indexNewsList = null;
 //			if(articleTypeList.get(i).getName().equals("工作动态")){
@@ -815,7 +821,50 @@ public class IndexNewsController extends BaseSupplierController{
 		return "iss/ps/index/index";
 	};
 	
-	/**
+	private BigDecimal getcount(String str) {
+	  // 获取当前年份、月份、日期  
+    Calendar cale = null;  
+    cale = Calendar.getInstance(); 
+    // 获取当月第一天和最后一天  
+    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");  
+    String firstday, lastday;  
+    // 获取前月的第一天  
+    cale = Calendar.getInstance();  
+    cale.add(Calendar.MONTH, 0);  
+    cale.set(Calendar.DAY_OF_MONTH, 1);  
+    firstday = format.format(cale.getTime());  
+    // 获取前月的最后一天  
+    cale = Calendar.getInstance();  
+    cale.add(Calendar.MONTH, 1);  
+    cale.set(Calendar.DAY_OF_MONTH, 0);  
+    lastday = format.format(cale.getTime());
+    if ("tousu".equals(str)) {
+      HashMap<String, String> timerMap = new HashMap<String, String>();
+      timerMap.put("firstday", firstday);
+      timerMap.put("lastday", lastday);
+      timerMap.put("id", "112");
+      BigDecimal touSuNum = articleService.selectByTypeIdTimer(timerMap);
+      return touSuNum;
+    } else if ("chufa".equals(str)) {
+      HashMap<String, String> timerMap = new HashMap<String, String>();
+      timerMap.put("firstday", firstday);
+      timerMap.put("lastday", lastday);
+      timerMap.put("id", "113");
+      BigDecimal chuFaNum = articleService.selectByTypeIdTimer(timerMap);
+      return chuFaNum;
+    } else if ("zhongYaoTongZhi".equals(str)) {
+      HashMap<String, String> timerMap = new HashMap<String, String>();
+      timerMap.put("firstday", firstday);
+      timerMap.put("lastday", lastday);
+      timerMap.put("id", "109");
+      BigDecimal zhongYaoTongZhiNum = articleService.selectByTypeIdTimer(timerMap);
+      return zhongYaoTongZhiNum;
+    }else {
+      return new BigDecimal(0);
+    }
+  }
+
+  /**
 	 * 
 	* @Title: selectIndexNewsByTypeId
 	* @author QuJie 
@@ -1542,4 +1591,5 @@ public class IndexNewsController extends BaseSupplierController{
     model.addAttribute("indexMapper", indexMapper);
     return "iss/ps/index/index_chufa_two";
   }
+	
 }
