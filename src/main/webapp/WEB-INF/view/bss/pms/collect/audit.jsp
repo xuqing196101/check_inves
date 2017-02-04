@@ -439,9 +439,9 @@
 								<tbody >
 									<c:forEach items="${list }" var="obj" varStatus="vs">
 										<tr>
-											<td class="tc w50"><input readonly="readonly" type="text" class="w50" name="listDetail[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }"></td>
+											<td class="tc w50"><input readonly="readonly" type="text" class="w50 tc" name="listDetail[${vs.index }].seq" onblur="checks(this)" value="${obj.seq }"><input style="border: 0px;" type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }"></td>
 											<td class="tl w80">
-											<div class="w80">
+											<div class="w80 p0_5">
 											${obj.department }
 											</div>
 											<%-- 	<c:forEach items="${requires }" var="re">
@@ -495,7 +495,7 @@
 											</td>
 											<td class="tc">
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
-												<select class="org" name="listDetail[${vs.index }].organization" onchange="typeChange(this)" class="w100">
+												<select class="org w100" name="listDetail[${vs.index }].organization" onchange="typeChange(this)">
 													<c:forEach items="${org }" var="ss">
 														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
@@ -547,7 +547,7 @@
 											<th class="info" colspan="3">三轮审核</th>
 										</c:if>
 									</tr>
-									<tr class="h91">
+									<tr class="h51">
 										<c:if test="${status==3 || status==5 || status==7 }">
 											<th colspan="3" >审核意见</th>
 										 
