@@ -1185,9 +1185,9 @@
       <div class="row magazine-page clear">
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
-            <h2 class="p0_10">
-		   重要通知<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=109">更多>></a>
-          </h2>
+            <div class="cgxx_report">
+		     <div class="report-tab">重要通知<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=109">更多>></a>
+            </div>
             <div class="categories articleover">
               <ul class="p0_10">
                 <c:forEach items="${indexMapper['select109List']}" var="sl">
@@ -1210,9 +1210,9 @@
         </div>
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
-            <h2 class="p0_10">
-		   采购法规<a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
-          </h2>
+           <div class="cgxx_report">
+		   <div class="report-tab">采购法规<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectsumByParId.html">更多>></a>
+           </div>
             <div class="categories">
               <ul class="p0_10">
                 <c:forEach items="${indexMapper['faguiList']}" var="sl">
@@ -1235,9 +1235,9 @@
         </div>
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
-            <h2 class="p0_10">
-		   投诉处理公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=112">更多>></a>
-          </h2>
+           <div class="cgxx_report">
+		    <div class="report-tab">投诉处理公告<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=112">更多>></a>
+           </div>
             <div class="categories articleover">
               <ul class="p0_10">
                 <c:forEach items="${indexMapper['select112List']}" var="sl">
@@ -1260,9 +1260,9 @@
         </div>
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
-            <h2 class="p0_10">
-		   处罚公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexChuFaNewsByTypeId.html?id=113">更多>></a>
-          </h2>
+            <div class="cgxx_report">
+		      <div class="report-tab"> 处罚公告<b></b></div><a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexChuFaNewsByTypeId.html?id=113">更多>></a>
+            </div>
             <div class="categories articleover">
               <ul class="p0_10">
                 <c:forEach items="${indexMapper['select113List']}" var="sl">

@@ -2044,36 +2044,69 @@ img.img-mouse {
  padding:0px 10px;
 }
 .login_tab{
-overflow:hidden;
-margin-top:0px!important;
+ overflow:hidden;
+ margin-top:0px!important;
 }
 
 .floor_title{
-  background:url(../images/floor_bg.png) no-repeat 0px;
-  height:31px;
-  line-height:31px;
-  color:#ffffff;
-  font-size:16px;
-  border-bottom:2px solid #2c9fa6;
-  font-weight:600;
+ background:url(../images/floor_bg.png) no-repeat 0px;
+ height:31px;
+ line-height:31px;
+ color:#ffffff;
+ font-size:16px;
+ border-bottom:2px solid #2c9fa6;
+ font-weight:600;
 }
 .login_btn{
  width:100%;
  font-weight:600;
  line-height:28px;
 }
-.floor_kind h2{
+
+.floor_kind .cgxx_report{
  border-bottom:2px solid #2C9FA6;
+ width:100%;
+ border-bottom: 1px solid #eee;
+ font-size: 16px;
+ background: #fafafa;
+ margin: 0px;
+ height: 39px;
+ line-height: 39px;
+ padding: 0 10px !important;
+}
+
+.floor_kind .cgxx_report .report-tab{
+ height:39px;
+ line-height:39px;
+ position: relative;
+ float:left;
+ padding:0 10px 0 0;
+}
+.cgxx_report .report-tab b{
+ width:21px;
+ height:21px;
+ display:block;
+ color:#ffffff;
+ position: absolute;
+ right:-7px;
+ top:-7px;
+ font-size:12px;
+ line-height: 21px;
+ text-align: center;
+ font-weight: normal;
+ display: block;
+ z-index:10000;
+ background:url(../images/report_round.png) no-repeat center; 
 }
 .floor_kind{
-	height:240px;
+ height:240px;
 }
 .floor_news{
-	height:355px;
-	position:relative;
+ height:355px;
+ position:relative;
 }
 .floor_news h2 li a b{
-  display: none;
+ display: none;
 }
 .floor_kind h2 span{
   background:#ffffff;
