@@ -1072,29 +1072,29 @@
 	<!-- 专家审核列表 可条件查询 -->
 	<select id="findExpertAuditList" resultMap="BaseResultMap"
 		parameterType="ses.model.ems.Expert">
-		select t1.*,
+		SELECT t1.*,
 		t2.NAME as sex from
 		T_SES_EMS_EXPERT t1
-		left join
+		LEFT JOIN
 		T_SES_BMS_DICTIONARY_DATA t2
-		on t1.GENDER = t2.ID
-		where
+		ON t1.GENDER = t2.ID
+		WHERE
 		(<if test="sign == 1">
 			(IS_SUBMIT = 1
-			and (STATUS = '0' or STATUS = '1' or STATUS = '2'))
-			or (IS_SUBMIT = 0 and status = '3')
+			AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
+			OR (IS_SUBMIT = 0 AND status = '3')
 		</if>
 		<if test="sign == 2">
 			(IS_SUBMIT = 1
-			and (STATUS = '4' or STATUS = '5' or STATUS = '6'))
+			AND (STATUS = '4' OR STATUS = '5' OR STATUS = '6'))
 		</if>)
 		<if test="relName != null and relName !=''">
-			and REAL_NAME like #{relName}
+			AND REAL_NAME LIKE #{relName}
 		</if>
 		<if test="status != null and status !=''">
-			and STATUS = #{status}
+			AND STATUS = #{status}
 		</if>
-		and PURCHASE_DEP_ID = #{purchaseDepId}
+		AND PURCHASE_DEP_ID = #{purchaseDepId}
 		ORDER BY t1.AUDIT_AT DESC NULLS LAST
 	</select>
 
