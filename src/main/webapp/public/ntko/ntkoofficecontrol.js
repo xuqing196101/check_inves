@@ -46,15 +46,15 @@ function OnComplete2(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-	alert(html);
-	alert("SaveToURL成功回调");
+	//alert(html);
+	//alert("SaveToURL成功回调");
 }
 function OnComplete(type,code,html)
 {
 	//alert(type);
 	//alert(code);
-	alert(html);
-	alert("BeginOpenFromURL成功回调");
+	//alert(html);
+	//alert("BeginOpenFromURL成功回调");
 }
 function OnComplete3(str,doc)
 {
@@ -95,31 +95,31 @@ function OnComplete3(str,doc)
 											fileTypeSimple="unkownfiletype";
 									}
 									
-	alert("ondocumentopened成功回调");
+	//alert("ondocumentopened成功回调");
 }
 function publishashtml(type,code,html){
-	alert(html);
-	alert("Onpublishashtmltourl成功回调");
+	//alert(html);
+	//alert("Onpublishashtmltourl成功回调");
 }
 function publishaspdf(type,code,html){
-alert(html);
-alert("Onpublishaspdftourl成功回调");
+//alert(html);
+//alert("Onpublishaspdftourl成功回调");
 }
 function saveasotherurl(type,code,html){
-alert(html);
-alert("SaveAsOtherformattourl成功回调");
+//alert(html);
+//alert("SaveAsOtherformattourl成功回调");
 }
 function dowebget(type,code,html){
-alert(html);
-alert("OnDoWebGet成功回调");
+//alert(html);
+//alert("OnDoWebGet成功回调");
 }
 function webExecute(type,code,html){
-alert(html);
-alert("OnDoWebExecute成功回调");
+//alert(html);
+//alert("OnDoWebExecute成功回调");
 }
 function webExecute2(type,code,html){
-alert(html);
-alert("OnDoWebExecute2成功回调");
+//alert(html);
+//alert("OnDoWebExecute2成功回调");
 }
 function FileCommand(TANGER_OCX_str,TANGER_OCX_obj){
 	if (TANGER_OCX_str == 3) 
@@ -175,7 +175,7 @@ document.write('<param name="ProductKey" value="AB579623F5B4E11E5F61C06579A21F84
 		//alter(64)
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
-		document.write('<object id="TANGER_OCX" classid="clsid:'+classid+'"');
+		document.write('<object id="TANGER_OCX" classid="clsid:'+classidx64+'"');
 		document.write('codebase="'+codebase64+'" width="100%" height="100%">   ');
 		document.write('<param name="IsUseUTF8URL" value="-1">   ');
 		document.write('<param name="IsUseUTF8Data" value="-1">   ');
