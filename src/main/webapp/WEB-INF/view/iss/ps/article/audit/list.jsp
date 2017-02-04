@@ -161,6 +161,10 @@
               	$("#second").show();
               	$("#publish_status").attr("class","clear mt5");
 	  			$("#audit_date").attr("class","mt5");
+            } else if(typeId == "处罚公告") {
+              	$("#second").show();
+              	$("#publish_status").attr("class","clear mt5");
+	  			$("#audit_date").attr("class","mt5");
             } else {
 				$("#publish_status").attr("class","");
 	  			$("#audit_date").attr("class","clear mt5");
@@ -217,6 +221,9 @@
          }else if(typeId == "采购法规"){
               $("#second").show();
               getSencond(parentId);
+         }else if(typeId == "处罚公告"){
+              $("#second").show();
+              getSencond(parentId);
          }else {
          	  $("#publish_status").attr("class","");
 	  		  $("#audit_date").attr("class","clear mt5");
@@ -256,6 +263,7 @@
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
         $("#articleTypes").select2("val", "");
+        $("#secondType").select2("val", "");
         $("#status").val("1");
       }
 

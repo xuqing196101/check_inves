@@ -1280,4 +1280,18 @@ where
   	AND to_char(CANCAL_PUBLISH_AT,'yyyy-MM-dd hh24:mi:ss')  &gt;= #{startTime} 
   	AND to_char(CANCAL_PUBLISH_AT,'yyyy-MM-dd hh24:mi:ss')  &lt;= #{endTime}
   </select>
+  
+  <select id="selectAllByArticleTypeId" parameterType="Map" resultMap="ArticleMapper">
+	select * from (SELECT
+		*
+	FROM
+		T_ISS_PS_ARTICLE
+	WHERE
+	ARTICLE_TYPE_ID = #{typeId}
+	order by PUBLISHED_AT desc
+) where 1=1
+	and status = 2
+	and IS_DELETED = 0
+	and rownum &lt;=6
+  </select>
 </mapper>

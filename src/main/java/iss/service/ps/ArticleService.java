@@ -376,4 +376,6 @@ public interface ArticleService {
      * @return
      */
     List<Article> getCancelNews(String startTime, String endTime);
+
+    List<Article> selectAllByArticleTypeId(Map<String, Object> map);
 }

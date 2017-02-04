@@ -540,5 +540,10 @@ public class ArticleServiceImpl implements ArticleService {
     return articleMapper.getCancelArticle(startTime, endTime);
   }
 
+  @Override
+  public List<Article> selectAllByArticleTypeId(Map<String, Object> map) {
+    return articleMapper.selectAllByArticleTypeId(map);
+  }
+
 
 }

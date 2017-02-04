@@ -1261,7 +1261,7 @@
         <div class="col-md-3 mb10 login_box">
           <div class=" border1 job-content floor_kind">
             <h2 class="p0_10">
-		   处罚公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=113">更多>></a>
+		   处罚公告<a class="news_more" href="${pageContext.request.contextPath}/index/selectIndexChuFaNewsByTypeId.html?id=113">更多>></a>
           </h2>
             <div class="categories articleover">
               <ul class="p0_10">

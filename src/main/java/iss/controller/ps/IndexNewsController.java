@@ -432,9 +432,21 @@ public class IndexNewsController extends BaseSupplierController{
 		indexMapper.put("select112List", article112List);
 		map.clear();
 		map.put("typeId","113");
-		List<Article> article113List = articleService.selectArticleByArticleType(map);
+		List<Article> article113List = articleService.selectAllByArticleTypeId(map);
 		indexMapper.put("select113List", article113List);
 //		List<Article> xinxicaiwuziList = new ArrayList<Article>();
+		map.clear();
+    map.put("typeId","115");
+    List<Article> article115List = articleService.selectArticleByArticleType(map);
+    indexMapper.put("article115List", article115List);
+    map.clear();
+    map.put("typeId","116");
+    List<Article> article116List = articleService.selectArticleByArticleType(map);
+    indexMapper.put("article116List", article116List);
+    map.clear();
+    map.put("typeId","117");
+    List<Article> article117List = articleService.selectArticleByArticleType(map);
+    indexMapper.put("article117List", article117List);
 		map.clear();
 		String[] idArray = {"3","24"};
 		map.put("idArray", idArray);
@@ -1486,4 +1498,48 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("title", title);
 		return "iss/ps/index/sumByDantabs_two";
 	}
+	
+	@RequestMapping("/selectIndexChuFaNewsByTypeId")
+  public String selectIndexChuFaNewsByTypeId(Model model,Integer page,HttpServletRequest request) throws Exception{
+    Map<String, Object> map = new HashMap<String, Object>();
+    Map<String, Object> countMap = new HashMap<String, Object>();
+    PropertiesUtil config = new PropertiesUtil("config.properties");
+    String pageSize = config.getString("pageSize");
+    if(page==null){
+      page=1;
+    }
+    String articleTypeId = request.getParameter("id");
+    String title = request.getParameter("title");
+    map.put("articleTypeId", articleTypeId);
+    map.put("page", page);
+    map.put("pageSize", pageSize);
+    map.put("title", title);
+    countMap.put("articleTypeId", articleTypeId);
+    countMap.put("title", title);
+    List<Article> indexNewsList = indexNewsService.selectIndexChuFaNewsByTypeId(map);
+    ArticleType articleTypeOne = articleTypeService.selectTypeByPrimaryKey(articleTypeId);
+    Integer pages = indexNewsService.selectChufaCount(countMap);
+    Integer startRow = 0;
+    Integer endRow = 0;
+    if(indexNewsList!=null){
+      if(indexNewsList.size()>0){
+        startRow = (page-1)*Integer.parseInt(pageSize)+1;
+      }
+      if(indexNewsList.size()>0){
+        endRow = startRow+(indexNewsList.size()-1);
+      }
+    }
+    Map<String, Object> indexMapper = new HashMap<String, Object>();
+    topNews(indexMapper);
+    model.addAttribute("total", pages);
+    model.addAttribute("startRow", startRow);
+    model.addAttribute("endRow", endRow);
+    model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+    model.addAttribute("indexList", indexNewsList);
+    model.addAttribute("typeName", articleTypeOne.getName());
+    model.addAttribute("articleTypeId", articleTypeId);
+    model.addAttribute("title", title);
+    model.addAttribute("indexMapper", indexMapper);
+    return "iss/ps/index/index_chufa_two";
+  }
 }

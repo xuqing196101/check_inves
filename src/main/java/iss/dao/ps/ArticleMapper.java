@@ -387,4 +387,6 @@ public interface ArticleMapper {
      * @return
      */
     List<Article> getCancelArticle(@Param("startTime")String startTime, @Param("endTime")String endTime);
+
+    List<Article> selectAllByArticleTypeId(Map<String, Object> map);
 }

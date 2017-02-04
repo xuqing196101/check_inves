@@ -103,6 +103,16 @@
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+            } else if(typeId == "处罚公告") {
+              $("#second").show();
+              var secId = "${article.secondArticleTypeId}";
+	           if (secId == '114') {
+			     $("#three").show();
+			   }
+			   if (secId == '115') {
+                 $("#three").hide();
+			   }
+              $("#four").hide();
             }
           }
         });
@@ -224,6 +234,13 @@
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
          }else if(typeId == "采购法规"){
+            $("#second").show();
+            $("#three").hide();
+            $("#four").hide();
+            $("#lmsx").removeClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+            getSencond(parentId);
+         }else if(typeId == "处罚公告"){
             $("#second").show();
             $("#three").hide();
             $("#four").hide();

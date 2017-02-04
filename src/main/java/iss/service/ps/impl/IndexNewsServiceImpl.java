@@ -74,4 +74,19 @@ public class IndexNewsServiceImpl implements IndexNewsService {
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return indeNewsMapper.selectAllByName(map);
 	}
+
+  @Override
+  public List<Article> selectIndexChuFaNewsByTypeId(Map<String, Object> map) {
+    List<Article> indexNewsList = indeNewsMapper.selectIndexChuFaNewsByTypeId(map);
+    if(indexNewsList.isEmpty()){
+      return null;
+    }else{
+      return indexNewsList;
+    }
+  }
+
+  @Override
+  public Integer selectChufaCount(Map<String, Object> countMap) {
+    return indeNewsMapper.selectChufaCount(countMap);
+  }
 }

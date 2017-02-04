@@ -61,6 +61,7 @@
 			<mvc:exclude-mapping path="/index/downloadDetailsImage.*" />
 			<mvc:exclude-mapping path="/index/selectAllByTabs.*" />
 			<mvc:exclude-mapping path="/index/selectAllByDanTabs.*" /> 
+			<mvc:exclude-mapping path="/index/selectIndexChuFaNewsByTypeId.*" /> 
 			<mvc:exclude-mapping path="/browser/index.*" />
 			<mvc:exclude-mapping path="/browser/download.*" />
 			<mvc:exclude-mapping path="/browser/ntkoDownload.*" />

@@ -525,15 +525,35 @@ function importAdd(){
           </ul>
           <a class="tab_more" href="#">更多>></a>
         </div>
-		    <div id="tab-37" class="categories tab-pane fade">
-             <ul class="p0_10">   
+	    <div id="tab-37" class="categories tab-pane fade">
+          <ul class="p0_10">
+           	<c:forEach items="${indexMapper['article116List']}" var="sl">
+               	<c:set value="${sl.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>37}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
+				</c:if>
+				<c:if test="${length<=37}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+				</c:if>
+	        </c:forEach>     
           </ul>
-          <a class="tab_more" href="#">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=116">更多>></a>
         </div>
-		    <div id="tab-38" class="categories tab-pane fade">
-             <ul class="p0_10">   
+		<div id="tab-38" class="categories tab-pane fade">
+          <ul class="p0_10">
+          	<c:forEach items="${indexMapper['article117List']}" var="sl">
+               	<c:set value="${sl.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>37}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
+				</c:if>
+				<c:if test="${length<=37}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+				</c:if>
+	        </c:forEach>   
           </ul>
-          <a class="tab_more" href="#">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=117">更多>></a>
         </div>
 		</div>
 	  </div>
@@ -588,10 +608,20 @@ function importAdd(){
           </ul>
           <a class="tab_more" href="#">更多>></a>
           </div>
-		    <div id="tab-40" class="categories tab-pane fade">
+		  <div id="tab-40" class="categories tab-pane fade">
              <ul class="p0_10">   
+             	<c:forEach items="${indexMapper['article115List']}" var="sl">
+               	<c:set value="${sl.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>37}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${fn:substring(name,0,37)}...</a></li>
+				</c:if>
+				<c:if test="${length<=37}">
+					<li><a title="${name}" href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=${sl.id}">${name}</a></li>
+				</c:if>
+	        </c:forEach>
           </ul>
-          <a class="tab_more" href="#">更多>></a>
+          <a class="tab_more" href="${pageContext.request.contextPath}/index/selectIndexNewsByTypeId.html?id=115">更多>></a>
         </div>
 		</div>
 	  </div>

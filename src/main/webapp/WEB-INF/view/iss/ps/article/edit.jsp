@@ -99,7 +99,17 @@
                   $("#second").show();
                   $("#three").hide();
                   $("#four").hide();
-               }
+               }else if(typeId == "处罚公告"){
+		           $("#second").show();
+                   var secId = "${article.secondArticleTypeId}";
+		           if (secId == '114') {
+				     $("#three").show();
+				   }
+				   if (secId == '115') {
+	                 $("#three").hide();
+				   }
+                   $("#four").hide();
+		        }
             }
           });
           
@@ -257,6 +267,14 @@
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
+         }else if(typeId == "处罚公告"){
+            $("#second").show();
+            $("#three").hide();
+            $("#four").hide();
+            $("#tpsc").addClass("tphide");
+            $("#lmsx").removeClass("tphide");
+            $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
+            getSencond(parentId);
          }else {
           $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
           $("#tpsc").addClass("tphide");
@@ -304,6 +322,12 @@
           var TtypeId = $("#secondType").select2("data").text;
           if(TtypeId == "图片新闻"){
               $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
+          }
+          if(TtypeId == "供应商处罚公告"){
+              $("#three").show();
+          }
+          if(TtypeId == "专家处罚公告"){
+              $("#three").hide();
           }
           $.ajax({
                 contentType: "application/json;charset=UTF-8",
