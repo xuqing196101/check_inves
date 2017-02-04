@@ -66,7 +66,7 @@
     						layer.close(index);
     					} else if (data == "nullcontext") {
     						$("#divPrompt").removeClass("hide");
-    						   $("#spanPrompt").text("请输入用户名密码或者验证码!");
+   						    $("#spanPrompt").text("请输入用户名密码或者验证码!");
     					} else if (data == "scuesslogin") {
     						layer.close(index);
     						window.location.href = "${pageContext.request.contextPath}/login/index.html";
@@ -152,10 +152,10 @@
     						 	btn: ['是','否'] //按钮
     						}, function(){
     						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
-    						 	}, function(){
-    						 		layer.close(index);
-    						 		window.location.href="${pageContext.request.contextPath}/";
-    						 	    });
+    						}, function(){
+   						 		layer.close(index);
+   						 		window.location.href="${pageContext.request.contextPath}/";
+				 	    	});
     					} else if (data == "firstNotPass") {
     						$("#divPrompt").removeClass("hide");
     					    $("#spanPrompt").text("抱歉,您的审核没有通过,无法登陆！");

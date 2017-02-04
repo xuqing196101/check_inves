@@ -269,7 +269,7 @@ public class SupplierItemController extends BaseController {
 			
 		}
 		List < Area > privnce = areaService.findRootArea();
-
+		
 		model.addAttribute("privnce", privnce);
 		Map < String, Object > maps = supplierService.getCategory(supplier.getId());
 		model.addAttribute("server", maps.get("server"));
