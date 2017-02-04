@@ -77,7 +77,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					layer.alert("符合性审查全部通过之后才可以进行此项操作!", {
 						offset : [ '222px', '700px' ],
 						shade : 0.01
-					});
+					});1
 				}
 			}
 		});*/
@@ -148,7 +148,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 					} else if (data == '3') {
 						//进入基准价法和最低价法的经济技术评审
 						window.location.href="${pageContext.request.contextPath}/reviewFirstAudit/toCheck.html?projectId="+projectId+"&packageId="+packageId;
-					}else {
+					} else {
 						layer.msg(data);
 					}
 				}

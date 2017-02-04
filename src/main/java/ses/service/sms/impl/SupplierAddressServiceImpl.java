@@ -23,8 +23,11 @@ public class SupplierAddressServiceImpl implements SupplierAddressService {
 		     if (addr.getId() != null) {
 		         addr.setSupplierId(supplierId);
 		         supplierAddressMapper.insertSelective(addr); 
+		     } else {
+		         addr.setId(WfUtil.createUUID());
+                 addr.setSupplierId(supplierId);
+                 supplierAddressMapper.insertSelective(addr); 
 		     }
-			 
 		 }
 
 	}

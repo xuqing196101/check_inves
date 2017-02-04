@@ -266,7 +266,7 @@ public class SupplierItemController extends BaseController {
 				model.addAttribute("city", city);
 				model.addAttribute("listOrgnizations1", depList);
 			}
-
+			
 		}
 		List < Area > privnce = areaService.findRootArea();
 

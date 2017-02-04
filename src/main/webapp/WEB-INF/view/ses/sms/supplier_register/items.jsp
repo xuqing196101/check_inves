@@ -132,7 +132,7 @@
 				code = "SERVICE";
 			}
 			loading = layer.load(1);
-			var supplierId="${currSupplier.id}";
+			var supplierId = "${currSupplier.id}";
 			var path = "${pageContext.request.contextPath}/supplier_item/getCategories.html?supplierId=" + supplierId + "&supplierTypeRelateId=" + code;
 			$("#tbody_category").load(path);
 		}
