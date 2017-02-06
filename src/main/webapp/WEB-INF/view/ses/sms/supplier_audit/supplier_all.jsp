@@ -271,7 +271,7 @@
 						<c:forEach items="${result.list }" var="list" varStatus="page">
 							<tr>
 								<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
-								<td class="tc w50" onclick="shenhe('${list.id }');">${page.count}</td>
+								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierName }</td>
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">

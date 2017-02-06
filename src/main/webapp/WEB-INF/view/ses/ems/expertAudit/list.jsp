@@ -184,7 +184,7 @@
 					<c:forEach items="${expertList}" var="expert" varStatus="vs">
 						<tr>
 							<td class="tc w40"><input name="id" type="radio" value="${expert.id}"></td>
-							<td class="tc w50" onclick="shenhe('${expert.id}');">${vs.count}</td>
+							<td class="tc w50" onclick="shenhe('${expert.id}');">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.relName}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
 							<%--<td class="tl pl20">${expert.expertsTypeId}</td>--%>
