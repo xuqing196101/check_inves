@@ -214,31 +214,35 @@
 			                </div>
 			              </td >
 			              <td class="tc">
-			               <div class="w80">${obj.purchaseCount }</div>
+			               <div class="w80"> <fmt:formatNumber>${obj.purchaseCount }</fmt:formatNumber></div>
 			              </td>
 			              <td class="tr">
-			               <div class="w80">${obj.price }</div>
+			               <div class="w80"><fmt:formatNumber>${obj.price}</fmt:formatNumber></div>
 			              </td>
 			              <td class="tr">
-			               <div class="w80">${obj.budget }</div>
+			               <div class="w80"><fmt:formatNumber>${obj.budget}</fmt:formatNumber></div>
 			              </td>
 			              <td class="tl">
 			               <div class="w80">${obj.deliverDate }</div>
 			              </td>
 			              <td class="tc"> 
 			                <div class="w100">
+			                <c:if test="${obj.price!=null }">
 			                  <c:forEach items="${kind}" var="kind" >
 			                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
 			                  </c:forEach>
+			                 </c:if>
 			                </div>
 			              </td>
 			              <td>
 			                <div class="w80">
-			                  <c:forEach items="${orga}" var="og" >
-			                  <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
-			                </div>
-			                </c:forEach>
-			                
+				                <c:if test="${obj.price!=null }">
+				                  <c:forEach items="${orga}" var="og" >
+				                  <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
+				               
+				                </c:forEach>
+				                </c:if>
+			                 </div>
 			                </td>
 			           
 			              <td title="${obj.supplier}" class="tl">

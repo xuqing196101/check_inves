@@ -122,6 +122,12 @@ public class test {
 			return lastDate;
 		} 
 
-		
+		@Test
+		public void test6(){
+			String str="123123.0";
+			String string = str.substring(0, str.lastIndexOf("."));
+			System.out.print(string);
+			
+		}
 		
 }

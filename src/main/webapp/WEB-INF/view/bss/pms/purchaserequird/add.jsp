@@ -727,7 +727,7 @@
 			
 	 	function budgets(bud){
 				if (bud != null ){
-					  bud = bud.toFixed(4);
+					  bud = bud.toFixed(2);
 					}
 				if (bud == null || bud =="null" || bud =="undefined" || bud ==undefined){
 					   return "";
@@ -794,8 +794,8 @@
 		    	  if($.trim(val1) != ""&&$.trim(val2) ) {
 		    		  var budget=(val1-0)*(val2-0)/10000;
 		    		  var same=$(this).find("td:eq(9)").children(":first").next().val()-0;
-		    		   budget = budget.toFixed(4); 
-		    		   same = same.toFixed(4); 
+		    		   budget = budget.toFixed(2); 
+		    		   same = same.toFixed(2); 
 			    		if(budget!=same){
 			    			 layer.msg("第"+i+"行，金额计算错误，请重新计算！");
 			    			 bool=false;
@@ -817,7 +817,7 @@
 		        var price = $(price2).val()-0;
 		        var sum = purchaseCount*price/10000;
 		        var budget = $(obj).parent().next().next().children(":last").prev();
-		        sum = sum.toFixed(4);
+		        sum = sum.toFixed(2);
 		        $(budget).val(sum);
 		      	var id=$(obj).next().val(); //parentId
 		      	aa(id);
@@ -833,7 +833,7 @@
 					         var purchaseCount = $(obj).val()-0; //价钱
 					         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
 					      	 var sum = purchaseCount*price2/10000;
-					      	sum = sum.toFixed(4);
+					      	sum = sum.toFixed(2);
 					         $(obj).parent().next().children(":last").prev().val(sum);
 						     	var id=$(obj).next().val(); //parentId
 						     	aa(id);
@@ -850,7 +850,7 @@
 				 	    	  budget=budget+same; //查出所有的子节点的值
 				 	       }
 			    	   });
-			    	   budget = budget.toFixed(4); 
+			    	   budget = budget.toFixed(2); 
 			     
 			    	    $("#table tr").each(function(){
 				    	  var  pid= $(this).find("td:eq(9)").children(":first").val();//上级id
@@ -880,7 +880,7 @@
 				 	   	       if(id==pid){
 				 	   	         	var currBud=$(this).find("td:eq(9)").children(":first").next().val()-0;
 				 	   	            bud=bud+currBud;
-				 	   	            bud = bud.toFixed(4);
+				 	   	            bud = bud.toFixed(2);
 				 	   	            
 				 	   	              var spid= $(this).find("td:eq(9)").children(":last").val();
 				 	   	              aa(spid);
@@ -1169,13 +1169,13 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12">
+					<!--  <li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>计划编号</span>
-						<div class="input-append input_group col-sm-12 col-xs-12 p0">
-							<input type="text" class="input_group" name="no" value="${planNo }" id="jhbh">
-							<span class="add-on">i</span>
-						</div>
-					</li>
+						<div class="input-append input_group col-sm-12 col-xs-12 p0"> -->
+							<input type="hidden" class="input_group" name="no" value="${planNo }" id="jhbh">
+							<!-- <span class="add-on">i</span> -->
+				<!-- 		</div>
+					</li> -->
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>

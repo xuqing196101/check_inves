@@ -179,7 +179,16 @@ public class ExcelUtil {
 	        				 if(cell.getCellType()==1){
 	        					 rq.setStand(cell.getStringCellValue());
 		        				 continue;
-		        			}if(cell.getCellType()!=3){
+		        			}
+	        				 if(cell.getCellType()==HSSFCell.CELL_TYPE_NUMERIC){
+	        					 String stand = String.valueOf(cell.getNumericCellValue());
+	 		        				 rq.setStand(stand.substring(0, stand.lastIndexOf("."))); 
+	 		        				 continue;
+	 	        				 
+	        				 }
+	        				 
+	        				 
+	        				 if(cell.getCellType()!=3){
 		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，D列错误";
 		        				 map.put("errMsg", errMsg);
 		        				 break;
