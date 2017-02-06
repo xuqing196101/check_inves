@@ -21,8 +21,14 @@ public class FlowExecute implements Serializable{
 
     private Date updatedAt;
 
+    /**
+     * 经办人id
+     */
     private String operatorId;
 
+    /**
+     * 经办人姓名
+     */
     private String operatorName;
 
     private Integer step;

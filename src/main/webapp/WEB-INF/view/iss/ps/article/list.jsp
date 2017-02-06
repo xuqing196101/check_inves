@@ -91,7 +91,14 @@
       }
 
       function add() {
-        window.location.href = "${ pageContext.request.contextPath }/article/add.html";
+      	layer.confirm('<div class="red">发布采购信息时，请确保信息无涉密内容。不得包含需求部门或使用单位名称、代号、地址，以及采购项目涉及的工程代号等。信息发布前，应当由本级保密委员会审核把关。采购信息发布中出现保密问题，依据《****》要求，按照“谁发布，谁负责”的原则，由申请发布单位自行承担。</div>', {
+            title: '提示',
+            offset: '180px',
+            shade: 0.01
+          }, function(index) {
+            layer.close(index);
+	        window.location.href = "${ pageContext.request.contextPath }/article/add.html";
+          });
       }
 
       function find() {

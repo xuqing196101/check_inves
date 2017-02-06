@@ -377,7 +377,23 @@ public interface ArticleService {
      */
     List<Article> getCancelNews(String startTime, String endTime);
 
+    /**
+     * 
+     *〈简述〉根据栏目id获取信息
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param map
+     * @return
+     */
     List<Article> selectAllByArticleTypeId(Map<String, Object> map);
 
+    /**
+     * 
+     *〈简述〉获取一个月内信息数量
+     *〈详细描述〉
+     * @author Ye Maolin
+     * @param timerMap
+     * @return
+     */
     BigDecimal selectByTypeIdTimer(HashMap<String, String> timerMap);
 }

@@ -5,6 +5,7 @@
 <html>
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
 $(function (){
 	var  pStatus = "${pStatus}";
@@ -303,23 +304,22 @@ $(function (){
     	<input type="hidden" id="projectId" value="${project.id}">
     	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-		   <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)   }">
+		<c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)   }">
 		  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>   
-		   </c:if>
+		</c:if>
 	    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
 <!-- 	    confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 -->
-       <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
-        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="reason" maxlength="100" name="reason" title="不超过100个字">${project.auditReason}</textarea>
-      </c:if> 
-       <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">
-        <div class="tc mt50">
-          <input type="button" class="btn btn-windows git " onclick="updateAudit('1')" value="通过"></input>
-          <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回 "></input>
-          <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
-        </div>
-          </c:if>
-        </div>
-       
+	       <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
+	        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="reason" maxlength="100" name="reason" title="不超过100个字">${project.auditReason}</textarea>
+	       </c:if> 
+	       <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">
+	        <div class="tc mt50">
+	          <input type="button" class="btn btn-windows git " onclick="updateAudit('1')" value="通过"></input>
+	          <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回 "></input>
+	          <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+	        </div>
+	       </c:if>
+       </div>
 	</form>
 	</div>
 </body>
