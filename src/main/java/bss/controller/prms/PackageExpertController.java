@@ -11,12 +11,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.TreeMap;
-import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -45,13 +43,10 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
-import ses.util.CnUpperCaser;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.formbean.PurchaseRequiredFormBean;
-import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
-import bss.model.ppms.Money;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -439,6 +434,8 @@ public class PackageExpertController {
                                 saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
                                 saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
                                 saleTender.setQuoteId(conditionQuote.getId());
+                                saleTender.setDataList(listDate1);
+                            } else {
                                 saleTender.setDataList(listDate1);
                             }
                         }

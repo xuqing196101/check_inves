@@ -1045,7 +1045,7 @@ public class OpenBiddingController {
   }
 
   @RequestMapping("/changtotal")
-  public String changtotal(String projectId, String packId, Model model, String flowDefineId, HttpServletRequest req) throws ParseException{
+  public String changtotal(String projectId, String packId, Model model, String count, String flowDefineId, HttpServletRequest req) throws ParseException{
     Quote quoteCondition = new Quote();
     quoteCondition.setProjectId(projectId);
     List<Date> listDate =  supplierQuoteService.selectQuoteCount(quoteCondition);
@@ -1069,14 +1069,16 @@ public class OpenBiddingController {
     SaleTender condition = new SaleTender();
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
-    model.addAttribute("count1", packList.size());
+    if ("1".equals(count)) {
+        model.addAttribute("count1", packList.size());
+    }
     if (packId != null) {
-      for (Packages pack : packList) {
-        if (pack.getId().equals(packId)) {
-          listPackage1.add(pack);
+        for (Packages pack : packList) {
+            if (pack.getId().equals(packId)) {
+                listPackage1.add(pack);
+            }
         }
-      }
-      packList = listPackage1;
+        packList = listPackage1;
     }
 
     for (Packages pack : packList) {
@@ -1085,6 +1087,13 @@ public class OpenBiddingController {
       condition.setStatusBid(NUMBER_TWO);
       condition.setStatusBond(NUMBER_TWO);
       List<SaleTender> stList = saleTenderService.find(condition);
+      List<SaleTender> stList1 = new ArrayList<SaleTender>();
+      stList1.addAll(stList);
+      for (SaleTender st1 : stList1) {
+          if (st1.getIsRemoved().equals("2")) {
+              stList.remove(st1);
+          }
+      }
       map1.put("packageId", pack.getId());
       map1.put("projectId", projectId);
       List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
@@ -1171,6 +1180,12 @@ public class OpenBiddingController {
         if (listDate1 != null && listDate1.size() > 0) {
           quote.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
         }
+        if ("0".equals(saleTender.getIsRemoved())) {
+            saleTender.setIsRemoved("正常");
+        }
+        if ("2".equals(saleTender.getIsRemoved())) {
+            saleTender.setIsRemoved("放弃报价");
+        }
         List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
         if (allQuote != null && allQuote.size() > 0) {
           for (Quote conditionQuote : allQuote) {
@@ -1229,12 +1244,12 @@ public class OpenBiddingController {
                   saleTender.setTotal(qp.getTotal());
                   saleTender.setDeliveryTime(qp.getDeliveryTime());
                   saleTender.setQuoteId(qp.getId());
-                  if ("0".equals(saleTender.getIsRemoved())) {
+                  saleTender.setRemovedReason(qp.getGiveUpReason());
+                  if (qp.getIsRemove() == null) {
                       saleTender.setIsRemoved("正常");
-                  }
-                  if ("2".equals(saleTender.getIsRemoved())) {
+                    } else {
                       saleTender.setIsRemoved("放弃报价");
-                  }
+                  }  
               }
          }
       }
@@ -1340,15 +1355,31 @@ public class OpenBiddingController {
       Quote quote = new Quote();
       jsonQuote = json.getJSONObject(i); 
       quote.setSupplierId(jsonQuote.getString("supplierId"));
-      quote.setTotal(new BigDecimal(jsonQuote.getString("total")));
+      if (!"".equals(jsonQuote.getString("total"))) {
+          quote.setTotal(new BigDecimal(jsonQuote.getString("total")));
+      }
       quote.setCreatedAt(new Timestamp(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(jsonQuote.getString("date")).getTime()));
       quote.setPackageId(jsonQuote.getString("packageId"));
       quote.setProjectId(jsonQuote.getString("projectId"));
       quote.setDeliveryTime(jsonQuote.getString("deliveryTime"));
-      if (!"".equals(jsonQuote.getString("isGiveUp"))) {
+      if (!"".equals(jsonQuote.opt("isGiveUp")) && jsonQuote.opt("isGiveUp") != null ) {
           quote.setIsRemove(Integer.parseInt(jsonQuote.getString("isGiveUp")));
+          //放弃报价需要修改saletender这个表的isRemoved这个字段为2
+          SaleTender condition = new SaleTender();
+          condition.setProjectId(quote.getProjectId());
+          condition.setPackages(quote.getPackageId());
+          condition.setSupplierId(quote.getSupplierId());
+          condition.setStatusBid(NUMBER_TWO);
+          condition.setStatusBond(NUMBER_TWO);
+          List<SaleTender> stList = saleTenderService.find(condition);
+          if (stList != null && stList.size() > 0) {
+              stList.get(0).setIsRemoved("2");
+              saleTenderService.update(stList.get(0));
+          }
       }
-      quote.setGiveUpReason(jsonQuote.getString("auditReason"));
+      if (jsonQuote.opt("auditReason") != null) {
+          quote.setGiveUpReason(jsonQuote.getString("auditReason"));
+      }
       quoteLists.add(quote);
     }
     supplierQuoteService.insert(quoteLists);  
@@ -1389,6 +1420,9 @@ public class OpenBiddingController {
   @ResponseBody
   @RequestMapping("/isTurnUp")
   public String isTurnUp(String projectId, String isTurnUp) throws ParseException{
+      DictionaryData dd = new DictionaryData();
+      dd.setCode("OPEN_FILE");
+      List<DictionaryData > list = dictionaryDataServiceI.find(dd);
     //查出项目的所有包、然后全部修改状态
     SaleTender condition = new SaleTender();
     condition.setProjectId(projectId);
@@ -1398,18 +1432,29 @@ public class OpenBiddingController {
 
     JSONArray json=JSONArray.fromObject(isTurnUp);
     JSONObject jsonQuote = new JSONObject();
-
-    for (int i = 0; i < json.size(); i++) {
-      jsonQuote = json.getJSONObject(i); 
-      for (SaleTender st : stList) {
-        if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
-          st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
-        }
-      }
+    int count = 0;
+    labe : for (int i = 0; i < json.size(); i++) {
+          jsonQuote = json.getJSONObject(i); 
+          for (SaleTender st : stList) {
+            if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
+                if (list != null && list.size() > 0) {
+                    List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                    if (blist1 != null && blist1.size() == 0) {
+                        count ++ ;
+                        break labe;
+                    }
+                }
+              st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
+            }
+          }
     }
-    //批量更新、项目所有的包
-    saleTenderService.batchUpdate(stList);
-    return "true";
+    if (count > 0) {
+        return "false";
+    } else {
+      //批量更新、项目所有的包
+        saleTenderService.batchUpdate(stList);
+        return "true";
+    }
   }
 
   @ResponseBody
@@ -1549,7 +1594,7 @@ public class OpenBiddingController {
    * @throws ParseException 
    */
   @RequestMapping("/changmingxi")
-  public String changmingxi(String projectId, String packId, Model model, String flowDefineId, HttpServletRequest req) throws ParseException{
+  public String changmingxi(String projectId, String packId, Model model, String count, String flowDefineId, HttpServletRequest req) throws ParseException{
     Quote condition = new Quote();
     condition.setProjectId(projectId);
     List<Date> listDate =  supplierQuoteService.selectQuoteCount(condition);
@@ -1576,7 +1621,9 @@ public class OpenBiddingController {
         listPackage.add(packages);
       }
     }
-    model.addAttribute("count", listPackage.size());
+    if ("1".equals(count)) {
+        model.addAttribute("count", listPackage.size());
+    }
     if (packId != null) {
       for (Packages pack : listPackage) {
         if (pack.getId().equals(packId)) {

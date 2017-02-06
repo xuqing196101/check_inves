@@ -46,10 +46,10 @@
 	}
 
 	$(function(){
+	    var allTable = document.getElementsByTagName("table");
 	    if ('${status}' == 'true') {
 	    	var packageLength = '${fn:length(packageIds)}';
-		    var allTable = document.getElementsByTagName("table");
-			for(var i = 1; i < allTable.length; i++) {
+			for(var i = packageLength; i < allTable.length; i++) {
 				var totalMoney = 0;
 				for(var j = 1; j < allTable[i].rows.length - 1; j++) { //遍历Table的所有Row
 					var num = $(allTable[i].rows).eq(j).find("td").eq("5").text();
@@ -58,6 +58,12 @@
 					totalMoney += parseFloat(price * num);
 					$(allTable[i].rows).eq(allTable[i].rows.length - 1).find("td").eq("1").text(parseFloat(totalMoney).toFixed(2));
 					};
+			};
+	    } else {
+	    	for(var i = 1; i < allTable.length; i++) {
+				for(var j = 1; j < allTable[i].rows.length; j++) { //遍历Table的所有Row
+					$(allTable[i].rows).eq(j).find("td").eq("0").text(j);
+				};
 			};
 	    }
 	});
@@ -89,10 +95,11 @@
 	function quoteAgain(projectId, packId, status){
 	    if (status ==1 ) {
 			//window.location.href="${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}";
-	    	$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}");
+			//count 的作用是为了分别 是唱标还是报价 ,报价的第一个页签有N个table，所以循环的时候要从N开始
+	    	$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/changtotal.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}" + "&count=1");
 	    } else {
 	    	//window.location.href="${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}";
-	    	$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}");
+	    	$("#tab-3").load("${pageContext.request.contextPath}/open_bidding/changmingxi.html?projectId="+projectId+"&packId="+packId + "&flowDefineId=${flowDefineId}" + "&count=1");
 	    }
 	}
 
@@ -144,15 +151,16 @@
 				<c:set value="${count+1 }" var="index"></c:set>
 				<c:set value="${treemapValue.packages}" var="packId"></c:set>
 				<c:set value="${treemapValue.isEndPrice}" var="isEndPrice"></c:set>
-				<tr>
-				    <td class="tc w50">${vs.index+1}</td>
-				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tr">${treemapValue.total}</td>
-					<td class="tc">${treemapValue.deliveryTime}</td>
-					<td class="tc">${treemapValue.isRemoved}</td>
-					<td class="tc">${treemapValue.removedReason}</td>
-			    </tr>
-			    
+				<c:if test="${not empty treemapValue.total or treemapValue.isRemoved eq '放弃报价' }">
+					<tr>
+					    <td class="tc w50">${vs.index+1}${treemapValue.removedReason }</td>
+					    <td class="tl">${treemapValue.suppliers.supplierName}</td>
+						<td class="tr">${treemapValue.total}</td>
+						<td class="tc">${treemapValue.deliveryTime}</td>
+						<td class="tc">${treemapValue.isRemoved}</td>
+						<td class="tc">${treemapValue.removedReason}</td>
+				    </tr>
+				</c:if>
 		</c:forEach>
 		<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 	        <c:if test="${isEndPrice !=1 }">

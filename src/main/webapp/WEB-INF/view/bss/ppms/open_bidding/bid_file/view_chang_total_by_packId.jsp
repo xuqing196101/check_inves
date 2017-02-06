@@ -35,6 +35,7 @@
 				    </tr>
 				</thead>
 			<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
+				<c:if test="${not empty treemapValue.total or treemapValue.isRemoved eq '放弃报价' }">
 					<tr>
 					    <td class="tc w50">${vs.index+1 }</td>
 					    <td class="tl">${treemapValue.suppliers.supplierName}</td>
@@ -43,6 +44,7 @@
 					    <td class="tc">${treemapValue.isRemoved}</td>
 						<td class="tc">${treemapValue.removedReason}</td>
 				    </tr>
+				</c:if>
 			</c:forEach>
 			</table>
 			</div>

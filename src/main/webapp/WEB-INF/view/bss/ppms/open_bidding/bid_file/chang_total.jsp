@@ -51,19 +51,21 @@
 				var auditReason = $(allTable[i].rows).eq(j).find("td").eq("5").find("input").val();
 				var isGiveUp = $(allTable[i].rows).eq(j).find("td").eq("4").find("select").val();
 				var reg = /^\d+\.?\d*$/;
-				if (total == "" || time == "") {
-					count ++;
-						layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
-						return ;
-				}
-				if(!reg.exec(total)) {
-						count ++;
-						layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
-						return ;
-			    }
 			    if (isGiveUp == "2" && auditReason == "") {
 					layer.msg("必须填写放弃原因",{offset: ['25%', '25%']});
 					return;
+				}
+				if (isGiveUp == "" || isGiveUp == undefined) {
+					if (total == "" || time == "") {
+						count ++;
+							layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
+							return ;
+					}
+					if(!reg.exec(total)) {
+							count ++;
+							layer.msg("表单未填写完整,单价和交货时间必须正确填写,请检查表单");
+							return ;
+				    }
 				}
 			};
 		}
@@ -90,7 +92,7 @@
 		        },
 		        error: function (message) {
 		        }
-		    }); 
+		    });
 		}
 	}
 
@@ -135,7 +137,7 @@
 </head>
 <body>
 <div id="showDiv" class="clear">
-<c:if test="${count != 0 }">
+<c:if test="${not empty count}">
 <h2 class="tc">第${count + 1}轮报价</h2>
 </c:if>
 <c:forEach items="${treeMap }" var="treemap" varStatus="vsKey">
@@ -160,10 +162,13 @@
 					<th class="info w200">供应商名称</th>
 					<th class="info w100">总价(万元)</th>
 					<th class="info w100">交货期限</th>
+					<c:if test="${not empty count}">
 					<th class="info w100">状态</th>
 					<th class="info w100">放弃原因</th>
+					</c:if>
 			    </tr>
 			</thead>
+	    <c:set value="${treemap.value}" var="judgeTreemap"></c:set>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
 				<tr>
 				    <td class="tc w50">${vs.index+1 }
@@ -172,6 +177,7 @@
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 					<td class="tc"><input class="w60"  maxlength="16" /></td>
 					<td class="tc"><input class="w90"/></td>
+					<c:if test="${not empty count}">
 					<td class="tc">
 							<select>
 								<option value="">请选择</option>
@@ -179,6 +185,7 @@
 							</select>
 					</td>
 					<td class="tc"><input /></td>
+					</c:if>
 			    </tr>
 		</c:forEach>
 		</table>
@@ -186,8 +193,19 @@
 	</c:forEach>
 </c:forEach>
 		<div class="col-md-12 tc">
-			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+		    <c:if test="${not empty judgeTreemap}">
+		    	<c:if test="${not empty count}">
+		    	<input class="btn btn-windows save" value="结束报价" type="button" onclick="eachTable(this)">
+		    	<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+		    	</c:if>
+		    	<c:if test="${empty count}">
+		    	<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
+		    	</c:if>
+		    </c:if>
+		    <c:if test="${empty judgeTreemap}">
+		    	<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+		    </c:if>
+				
 		</div>
 </div>
 </body>

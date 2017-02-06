@@ -66,7 +66,7 @@
 					STATUS_BID = 2
 				AND STATUS_BOND = 2
 				AND PROJECT_ID = #{projectId}
-				AND IS_REMOVED = '0'
+				AND IS_REMOVED in ('0' , '2') 
 			)
 	</select>
 	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">

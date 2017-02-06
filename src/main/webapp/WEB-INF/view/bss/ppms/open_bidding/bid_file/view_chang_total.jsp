@@ -70,8 +70,8 @@
 					<th class="info w200">供应商名称</th>
 					<th class="info w100">总价(万元)</th>
 					<th class="info">交货期限</th>
-					<th class="info w100">状态</th>
-					<th class="info w100">放弃原因</th>
+				<!-- 	<th class="info w100">状态</th>
+					<th class="info w100">放弃原因</th> -->
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -80,8 +80,8 @@
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 				    <td class="tr">${treemapValue.total}</td>
 				    <td class="tc">${treemapValue.deliveryTime }</td>
-				    <td class="tc">${treemapValue.isRemoved}</td>
-					<td class="tc">${treemapValue.removedReason}</td>
+			<%-- 	    <td class="tc">${treemapValue.isRemoved}</td>
+					<td class="tc">${treemapValue.removedReason}</td> --%>
 			    </tr>
 		</c:forEach>
 		</table>
