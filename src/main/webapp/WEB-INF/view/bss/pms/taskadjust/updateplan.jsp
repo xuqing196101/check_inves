@@ -150,7 +150,6 @@
 	    			   $(this).attr("selected", "selected");  
 	    		   }
 	    	   }); */
-	    	   
 	    		 var org=$(obj).val();
 				 var price=$(obj).parent().prev().prev().prev().prev().val();
 				 if(price==""){
@@ -364,7 +363,7 @@
 			
 				<!-- 前半部分 -->
 				<div class="content require_ul_list" id="content">
-					<table  class="table table-bordered table-condensed table_input lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
+					<table id="table" class="table table-bordered table-condensed table_input lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
 						<thead>
 							<!-- <tr>
 								<th class="info" colspan="17">事业部门需求</th>
@@ -453,7 +452,8 @@
 							    <textarea onblur="checks(this)" class="target w100p" name="listDetail[${vs.index }].deliverDate">${obj.deliverDate }</textarea>
 							  </div>
 							<td>
-								<select class="w100" name="listDetail[${vs.index }].purchaseType" <c:if test="${obj.price==null}"> onchange="sel(this)"  </c:if> id="select">
+							  <input type="hidden" name="ss" value="${obj.id}"  >
+								<select class="w100" name="listDetail[${vs.index }].purchaseType"   onchange="sel(this)"  id="select">
 	              				    <option value="" >请选择</option>
 		                            <c:forEach items="${types }" var="mt">
 									  <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
@@ -462,7 +462,8 @@
 							</td>
 							<td class="tc">
 								<%--<input type="hidden" name="listDetail[${vs.index }].organization" value="${obj.organization }">--%>
-								<select class="org w80"  <c:if test="${obj.price==null}"> onchange="org(this)"  </c:if>   name="listDetail[${vs.index }].organization">
+							    <input type="hidden" name="ss" value="${obj.id}"  >
+								<select class="org w80"    onchange="org(this)"     name="listDetail[${vs.index }].organization">
 		 							<option value="">请选择</option>
 									<c:forEach items="${orgs }" var="ss">
 										<c:if test="${obj.organization==ss.orgId }">
