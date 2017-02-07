@@ -11,10 +11,10 @@
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
 		<script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
 		<%
-//表单标示
-String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
-session.setAttribute("tokenSession", tokenValue);
-%>
+		//表单标示
+		String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+""; 
+		session.setAttribute("tokenSession", tokenValue);
+		%>
 		<script type="text/javascript">
 			var expertStatus = "${expert.status}";
 			var errorField = "${errorField}";
@@ -281,7 +281,6 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 
 			function searchCate(cateId, treeId) {
-				var zNodes;
 				var zTreeObj;
 				var setting = {
 					check: {
@@ -327,17 +326,27 @@ session.setAttribute("tokenSession", tokenValue);
 						async: false,
 						dataType: "json",
 						success: function(data) {
-							zNodes = data;
-							zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
-							zTreeObj.expandAll(true); //全部展开
+							zTreeObj = $.fn.zTree.init($("#" + treeId), setting, data);
 						}
 					});
 				}
 				layer.close(index);
+				// 过滤掉四级以下的节点
+				dataFilter(treeId);
 			}
-
-			function filter(node) {
-				return(node.level < 4);
+			
+			/** 过滤掉四级以下的节点 **/
+			function dataFilter(treeId) {
+				setTimeout(function() {
+					var treeObj = $.fn.zTree.getZTreeObj(treeId);
+					var nodes = treeObj.getNodes();
+					for (var i = 0; i < nodes.length; i++) {
+						if (nodes[i].level > 3) {
+							treeObj.removeNode(nodes[i]);
+						}
+					}
+					treeObj.expandAll(true); //全部展开
+				}, 200);
 			}
 		</script>
 	</head>
