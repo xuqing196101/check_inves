@@ -7,7 +7,6 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Locale;
 
@@ -1336,10 +1335,14 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//获取登录人机构id
 		User user = (User) request.getSession().getAttribute("loginUser");
-		String orgId = user.getOrg().getId();
-		PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-		supplier.setProcurementDepId(depId.getId());
-
+		if(user.getLoginName().equals("admin")){
+			//admin能查看所有的供应商
+			supplier.setProcurementDepId(null);
+		}else{
+			String orgId = user.getOrg().getId();
+			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
+			supplier.setProcurementDepId(depId.getId());
+		}
 		//查询列表
 		List < Supplier > supplierList = supplierAuditService.getAuditSupplierList(supplier, page);
 		PageInfo < Supplier > pageInfo = new PageInfo < Supplier > (supplierList);

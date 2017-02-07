@@ -115,9 +115,13 @@ public class ExpertAuditController {
 		}
 		//获取登录人的机构id
 		User user = (User) request.getSession().getAttribute("loginUser");
-		String orgId = user.getOrg().getId();
-		PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
-		expert.setPurchaseDepId(depId.getId());
+		if(user.getLoginName().equals("admin")){
+			expert.setPurchaseDepId(null);
+		}else{
+			String orgId = user.getOrg().getId();
+			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
+			expert.setPurchaseDepId(depId.getId());	
+		}
 		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum == null ? 1 : pageNum);
 		// 筛选,只有指定机构的人可以看到
 		/*List<Expert> expertList = new ArrayList<Expert>();

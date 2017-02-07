@@ -1094,7 +1094,9 @@
 		<if test="status != null and status !=''">
 			AND STATUS = #{status}
 		</if>
-		AND PURCHASE_DEP_ID = #{purchaseDepId}
+		<if test="purchaseDepId !=null">
+			AND PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
 		ORDER BY t1.AUDIT_AT DESC NULLS LAST
 	</select>
 
