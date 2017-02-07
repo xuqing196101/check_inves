@@ -1,4 +1,4 @@
-<!-- 锁表头js -->
+// 锁表头js
     function FixTable(TableID, FixColumnNumber, width, height) {
     if ($("#" + TableID + "_tableLayout").length != 0) {
         $("#" + TableID + "_tableLayout").before($("#" + TableID));
@@ -69,6 +69,7 @@
     $("#" + TableID + "_tableColumn").offset($("#" + TableID + "_tableLayout").offset());
     $("#" + TableID + "_tableData").offset($("#" + TableID + "_tableLayout").offset());
 }
+    
 $(document).ready(function () {
 		var boxwidth = $("#content").width();
             FixTable("table", 1, boxwidth, 430);

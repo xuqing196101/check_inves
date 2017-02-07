@@ -425,6 +425,21 @@ p, li, li a, label {
     border-image:  !important;
     padding: 20px 20px 10px !important;
 }
+
+/* 临时：去掉锁表头表列，需求计划暂时使用的一个list虚线框样式 */
+.require_ul_list {
+    list-style-type: none;
+    font-size: 14px;
+    overflow: scroll;
+    background: rgb(255, 255, 255) !important;
+    border-width: 1px !important;
+    border-style: dashed !important;
+    border-color: rgb(214, 204, 204) !important;
+    border-image:  !important;
+    padding: 20px 20px 10px !important;
+    height: 500px;
+}
+
 /** 查看页面竖线无白色背景样式 */
 h2.list_title{
 	height:16px;

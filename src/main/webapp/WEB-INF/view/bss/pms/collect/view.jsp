@@ -7,7 +7,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
       <!--  <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
-		<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+	  <!-- script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script -->
 <title>采购需求管理</title>
 <meta http-equiv="pragma" content="no-cache">
 <meta http-equiv="cache-control" content="no-cache">
@@ -317,7 +317,7 @@
 	   </ul>
 	
 	 <h2 class="count_flow"><i>2</i>计划明细</h2>
-		<div class="content ul_list"  id="content">
+		<div class="content require_ul_list"  id="content">
 				<table id="table" class="table table-bordered table-condensed lockout">
 					<thead>
 						<tr class="space_nowrap">
