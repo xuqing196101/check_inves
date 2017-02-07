@@ -340,7 +340,6 @@
      <%--           <input type="hidden" id="packageId" value="${packageId}" name="packageId"> --%>
         <div>
           <h2 class="count_flow"><i>1</i>必填项</h2>
-          <div class="ul_list">
             <ul class="ul_list border0">
              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red" id="red0">*</span>项目名称:</span>
@@ -385,7 +384,6 @@
                 </div>
               </li>
             </ul>
-          </div>
         </div>
           <div>
           <div class="count_flow "><i>2</i>

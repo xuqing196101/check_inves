@@ -140,36 +140,35 @@
     </div>
     <div class="container clear margin-top-30"  id="content" >
       <form action="${pageContext.request.contextPath}/purchaser/update.html" method="post">
-       <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; width:1600px; border-right-color: #dddddd; font-size: medium; border-left-color: #dddddd; max-width:10000px"
-  border="1" cellspacing="0" cellpadding="0" class="table table-bordered table-condensed">
+       <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
-            <tr class="space_nowrap">
-              <th class="info w50">序号</th>
-              <th class="info w80">需求部门</th>
-              <th class="info w80">物资类别<br>及名称</th>
-              <th class="info w80">规格型号</th>
-              <th class="info w80">质量技术标准<br>（技术参数）</th>
-              <th class="info w80">计量</br>单位</th>
-              <th class="info w80">采购</br>数量</th>
-              <th class="info w80">单价<br>（元）</th>
-              <th class="info w80">预算金额<br>（万元）</th>
-              <th class="info w80">交货期限</th>
-              <th class="info w100">采购方式建议</th>
-              <th class="info w80">采购机构</th>
-              <th class="info w100">供应商名称</th>
-              <th class="info w80">是否申请<br>办理免税</th>
+            <tr>
+              <th class="info seq">序号</th>
+              <th class="info department">需求部门</th>
+              <th class="info goodsname">物资类别<br>及名称</th>
+              <th class="info stand">规格型号</th>
+              <th class="info qualitstand">质量技术标准<br>（技术参数）</th>
+              <th class="info item">计量</br>单位</th>
+              <th class="info purchasecount">采购</br>数量</th>
+              <th class="info price">单价<br>（元）</th>
+              <th class="info budget">预算金额<br>（万元）</th>
+              <th class="info deliverdate">交货<br>期限</th>
+              <th class="info purchasetype">采购方式</th>
+              <th class="info organization">采购机构</th>
+              <th class="info purchasename">供应商名称</th>
+              <th class="info freetax">是否申请<br>办理免税</th>
             <!--   <th class="info w150">物资用途<br>（仅进口）</th>
               <th class="info w150">使用单位<br>（仅进口）</th> -->
-              <th class="info w160">备注</th>
-              <th class="info w160">附件</th>
+              <th class="info memo">备注</th>
+              <th class="info extrafile">附件</th>
             </tr>
           </thead>
 
           <c:forEach items="${list }" var="obj" varStatus="vs">
             <tr>
-              <td class="tc w50"><div class="w50">${obj.seq }</div> 
+              <td><div class="seq">${obj.seq }</div> 
               </td>
-              <td  class="tl"><div class="w80">${obj.department}</div></td >
+              <td><div class="department">${obj.department}</div></td >
               <%-- <td class="tl pl20">
                    <c:forEach items="${requires }" var="re" >
                     <c:if test="${obj.department==re.id }"> ${re.name }</c:if>
@@ -177,49 +176,49 @@
           
               </td> --%>
               <%-- <td>${obj.goodsName }</td> --%>
-              <td title="${obj.goodsName}" class="tl">
-               <div class="w80">
+              <td title="${obj.goodsName}">
+               <div class="goodsname">
                   <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
                </div>
               </td >
               <%-- <td class="tc"> ${obj.stand }</td> --%>
-              <td title="${obj.stand}" class="tl">
-                <div class="w80">
+              <td title="${obj.stand}">
+                <div class="stand">
                   <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
                 </div>
               </td >
               <%-- <td class="tc"> ${obj.qualitStand }</td> --%>
-              <td title="${obj.qualitStand}" class="tl">
-                <div class="w80">
+              <td title="${obj.qualitStand}">
+                <div class="qualitstand">
                   <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
                 </div>
               </td >
               <%-- <td class="tc"> ${obj.item }</td> --%>
-              <td title="${obj.item}" class="tc">
-                <div class="w80">
+              <td title="${obj.item}">
+                <div class="item">
                  <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
                  <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
                 </div>
               </td >
-              <td class="tc ">
-               <div class="w80">
+              <td>
+               <div class="purchasecount">
                  ${obj.purchaseCount }
                </div>
               </td>
-              <td class="tr">
-               <div class="w80">${obj.price }</div>
+              <td>
+               <div class="price">${obj.price }</div>
               </td>
-              <td class="tr">
-               <div class="w80">${obj.budget }</div>
+              <td>
+               <div class="budget">${obj.budget }</div>
               </td>
-              <td class="tl">
-               <div class="w80">${obj.deliverDate }</div>
+              <td>
+               <div class="deliverdate">${obj.deliverDate }</div>
               </td>
               <td class="tc">
-                <div class="w80">
+                <div class="purchasetype">
                 <c:if test="${obj.price!=null }">
                  <c:forEach items="${kind}" var="kind" >
                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
@@ -228,7 +227,7 @@
                 </div>
               </td>
               <td class="tl">
-                <div class="w100">
+                <div class="organization">
                  <c:if test="${obj.price!=null }">
                   <c:forEach items="${org}" var="og" >
                    <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
@@ -237,14 +236,14 @@
                 </div>
               </td>  
               <td title="${obj.supplier}" class="tl">
-               <div class="w80">
+               <div class="purchasename">
                 <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                 <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                </div>
               </td >
               <%-- <td class="tc">${obj.isFreeTax }</td> --%>
               <td title="${obj.isFreeTax}" class="tc">
-               <div class="w100">
+               <div class="freetax">
                 <c:if test="${fn:length (obj.isFreeTax) > 8}">${fn:substring(obj.isFreeTax,0,7)}...</c:if>
                 <c:if test="${fn:length(obj.isFreeTax) <= 8}">${obj.isFreeTax}</c:if>
                </div>
@@ -255,15 +254,15 @@
               <c:if test="${fn:length(obj.goodsUse) <= 8}">${obj.goodsUse}</c:if>
               </td > 
               <td class="tl pl20">${obj.useUnit }</td> --%>
-              <td title="${obj.memo}" class="tl">
-                <div class="w160">
+              <td title="${obj.memo}">
+                <div class="memo">
                  <c:if test="${fn:length (obj.memo) > 8}">${fn:substring(obj.memo,0,7)}...</c:if>
                  <c:if test="${fn:length(obj.memo) <= 8}">${obj.memo}</c:if>
                 </div>
               </td > 
            
               <td class="p0">
-					<%--   <div class="w160">
+					<%--   <div class="extrafile">
 							  <u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 							  <u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 					  </div> --%>	

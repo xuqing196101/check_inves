@@ -17,70 +17,70 @@
     <!-- 项目戳开始 -->
     <div class="content" id="content">
       <c:if test="${lists != null }">
-        <table id="table" class="table table-bordered table-condensed table-hover table_wrap">
+        <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
             <tr class="space_nowrap">
-              <th class="info w50">序号</th>
-              <th class="info w80">需求部门</th>
-              <th class="info w80">物资名称</th>
-              <th class="info w80">规格型号</th>
-              <th class="info w80">质量技术标准<br/>(技术参数)</th>
-              <th class="info w80">计量<br/>单位</th>
-              <th class="info w80">采购<br/>数量</th>
-              <th class="info w80">交货期限</th>
-              <th class="info w100">采购方式</th>
-              <th class="info w100">供应商名称</th>
-              <th class="info w80">是否申请<br/>办理免税</th>
-              <th class="info w80">物资用途<br/>（进口）</th>
-              <th class="info w80">使用单位<br/>（进口）</th>
-              <th class="info w160">备注</th>
+              <th class="info seq">序号</th>
+              <th class="info department">需求部门</th>
+              <th class="info goodsname">物资名称</th>
+              <th class="info stand">规格型号</th>
+              <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
+              <th class="info item">计量<br/>单位</th>
+              <th class="info purchasecount">采购<br/>数量</th>
+              <th class="info deliverdate">交货期限</th>
+              <th class="info purchasetype">采购方式</th>
+              <th class="info purchasename">供应商名称</th>
+              <th class="info freetax">是否申请<br/>办理免税</th>
+              <th class="info goodsuse">物资用途<br/>（进口）</th>
+              <th class="info useunit">使用单位<br/>（进口）</th>
+              <th class="info memo">备注</th>
             </tr>
           </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w50">${obj.serialNumber}</td>
+              <td class="tc seq">${obj.serialNumber}</td>
               <td class="">
-                <div class="w80">${obj.department}</div>
+                <div class="department">${obj.department}</div>
               </td>
               <td class="">
-                <div class="w80">${obj.goodsName}</div>
+                <div class="goodsname">${obj.goodsName}</div>
               </td>
               <td class="">
-                <div class="w80">${obj.stand}</div>
+                <div class="stand">${obj.stand}</div>
               </td>
               <td class="">
-                <div class="w80">${obj.qualitStand}</div>
+                <div class="qualitstand">${obj.qualitStand}</div>
               </td>
               <td class="tc">
-                <div class="w80">${obj.item}</div>
+                <div class="item">${obj.item}</div>
               </td>
               <td class="tc">
-                <div class="w80">${obj.purchaseCount}</div>
+                <div class="purchasecount">${obj.purchaseCount}</div>
               </td>
               <td class="">
-                <div class="w80">${obj.deliverDate}</div>
+                <div class="deliverdate">${obj.deliverDate}</div>
               </td>
               <td class="tc">
-                <div class="w100">
+                <div class="purchasetype">
                  <c:forEach items="${kind}" var="kind" >
                    <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}
                  </c:forEach>
                 </div>
               </td>
               <td class="">
-                <div class="w100">${obj.supplier}</div>
+                <div class="purchasename">${obj.supplier}</div>
               </td>
-              <td class="tc">
-                <div class="w80">${obj.isFreeTax}</div>
-              </td>
-              <td class="">
-                <div class="w80">${obj.goodsUse}</div>
+              <td>
+                <div class="freetax">${obj.isFreeTax}</div>
               </td>
               <td class="">
-                <div class="w80">${obj.useUnit}</div>
+                <div class="goodsuse">${obj.goodsUse}</div>
               </td>
               <td class="">
-                <div class="w160">${obj.memo}</div>
+                <div class="useunit">${obj.useUnit}</div>
+              </td>
+              <td class="">
+                <div class="memo">${obj.memo}</div>
               </td>
             </tr>
           </c:forEach>  

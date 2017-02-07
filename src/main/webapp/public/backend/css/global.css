@@ -1246,9 +1246,7 @@ table .input_group .add-on{
 	padding:10px;
 	font-size:16px;
 }
-.lockout td{
-	border:2px solid #dddddd!important;
-}
+
 .target{
 	width:100%!important;
 	border:0px;
@@ -1271,3 +1269,185 @@ table .input_group .add-on{
     border-top: 1px solid #dadada;
     z-index: 1000000;
 }
+
+/**明细宽度样式开始*/
+table.lockout{
+  border-bottom-color: #dddddd; 
+  border-top-color: #dddddd; 
+  color: #333333; 
+  min-width:1270px; 
+  border-right-color: #dddddd; 
+  font-size: medium; 
+  border-left-color: #dddddd; 
+  max-width:10000px;
+  border：1px;	
+}
+table.lockout th{
+	text-align:center!important;
+}
+
+table.lockout td div{
+	margin:0 auto;
+}
+table.lockout td textarea,table.lockout td input,table.lockout td select{
+	width:100%;
+	border:0px;
+}
+table.lockout th.choose,table.lockout td.choose{
+	width:30px;
+	text-align: center;
+}
+table.lockout .choose{
+	width:20px;
+	text-align: center;
+}
+table.lockout th.seq,table.lockout td.seq{
+	width:50px;
+	text-align: center;
+}
+table.lockout .seq{
+	width:40px;
+	text-align: center;
+}
+table.lockout th.department,table.lockout td.department{
+	width:100px;
+	text-align: left;
+}
+table.lockout .department{
+	width:90px;
+	text-align: left;
+}
+table.lockout th.goodsname,table.lockout td.goodsname{
+	width:90px;
+	text-align: left;
+}
+table.lockout .goodsname{
+	width:80px;
+	text-align: left;
+}
+
+table.lockout th.stand,table.lockout td.stand{
+	width:90px;
+	text-align: left;
+}
+table.lockout .stand{
+	width:80px;
+	text-align: left;
+}
+table.lockout th.qualitstand,table.lockout td.qualitstand{
+	width:180px;
+	text-align: left;
+}
+table.lockout .qualitstand{
+	width:170px;
+	text-align: left;
+}
+table.lockout th.item,table.lockout td.item{
+	width:50px;
+	text-align: center;
+}
+table.lockout .item{
+	width:40px;
+	text-align: center;
+}
+table.lockout th.purchasecount,table.lockout td.purchasecount{
+	width:60px;
+	text-align: right;
+}
+table.lockout .purchasecount{
+	width:50px;
+	text-align: right;
+}
+table.lockout th.price,table.lockout td.price{
+	width:80px;
+	text-align: right;
+}
+table.lockout .price{
+	width:70px;
+	text-align: right;
+}
+
+table.lockout th.budget,table.lockout td.budget{
+	width:80px;
+	text-align: right;
+}
+table.lockout .budget{
+	width:70px;
+	text-align: right;
+}
+
+table.lockout th.deliverdate,table.lockout td.deliverdate{
+	width:80px;
+	text-align: center;
+}
+table.lockout .deliverdate{
+	width:70px;
+	text-align: center;
+}
+
+table.lockout th.purchasetype,table.lockout td.purchasetype{
+	width:100px;
+	text-align: center;
+}
+table.lockout .purchasetype{
+	width:90px;
+	text-align: center;
+}
+
+table.lockout th.organization,table.lockout td.organization{
+	width:80px;
+	text-align: center;
+}
+table.lockout .organization{
+	width:70px;
+	text-align: center;
+}
+table.lockout th.purchasename,table.lockout td.purchasename{
+	width:90px;
+	text-align: left;
+}
+table.lockout .purchasename{
+	width:80px;
+	text-align: left;
+}
+table.lockout th.freetax,table.lockout td.freetax{
+	width:80px;
+	text-align: center;
+}
+table.lockout .freetax{
+	width:70px;
+	text-align: center;
+}
+table.lockout th.goodsuse,table.lockout td.goodsuse{
+	width:80px;
+	text-align: center;
+}
+table.lockout .goodsuse{
+	width:70px;
+	text-align: center;
+}
+table.lockout th.useunit,table.lockout td.useunit{
+	width:80px;
+	text-align: center;
+}
+table.lockout .useunit{
+	width:70px;
+	text-align: center;
+}
+table.lockout th.memo,table.lockout td.memo{
+	width:100px;
+	text-align: left;
+}
+table.lockout .memo{
+	width:90px;
+	text-align: left;
+}
+table.lockout th.extrafile,table.lockout td.extrafile{
+	width:160px;
+	text-align: left;
+}
+table.lockout .extrafile{
+	width:150px;
+	text-align: left;
+}
+/**明细宽度样式结束*/

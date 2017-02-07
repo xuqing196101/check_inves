@@ -1330,18 +1330,16 @@
 											
 											
 										<!-- <input type="text" name="list[0].supplier" class="m0 w260 border0"> --></td>
-										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w260 border0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w260"></td>
-										<td name="file_up" style="width:300px;" class="p0">
-											   <div class="w200">
-													<u:upload id="pUp0" multiple="true"  businessId="${id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
+										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0 w80"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0 w80"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w80 border0"></td>
+										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w160"></td>
+										<td class="p0">
+											   <div class="w80">
+                   							        <u:upload id="pUp0" multiple="true"  businessId="${id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow0" businessId="${id}" sysKey="2" typeId="${typeId}" />
 											   </div>											
 										</td>
-										
-										
 										<!-- <td class="tc w80 p0"></td> -->
 								<!--  <td class="tc w100 p0"></td> -->  
 										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
