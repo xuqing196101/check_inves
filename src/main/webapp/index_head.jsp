@@ -799,7 +799,7 @@ function importAdd(){
         </div>
 		</div>
 		</div>
-      <div class="col-md-7 col-sm-7 col-xs-12 mt20">
+      <%-- <div class="col-md-7 col-sm-7 col-xs-12 mt20">
 	  <div class="col-md-12 col-xs-12 col-sm-12">
 	  <div class="col-md-6 col-sm-6 col-xs-12">
 	    <div class="col-md-12 col-xs-12 col-sm-12 p0 fg_rule">
@@ -819,7 +819,7 @@ function importAdd(){
 			</div>
 		  </div>
 	   </div>
-	  </div>  
+	  </div> --%>  
 	  </div>
 	 </div>
 	</div>
