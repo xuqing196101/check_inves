@@ -230,8 +230,8 @@
 	      }
 </script>
 <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
-<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
-  
+<%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+ --%>  
 </head>
 
 <body>
@@ -312,9 +312,9 @@
 	 </div>
 
 		<h2 class="count_flow"><i>2</i>计划明细</h2>
-		<div class="content mt0 ul_list">
+		<div class="content mt0 require_ul_list">
 	
-             <div class="content" id="content">
+             <div class="content " id="content">
                  <table id="table" class="table table-bordered table-condensed lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
 					<thead>
 						<tr class="space_nowrap" id="scroll_top">

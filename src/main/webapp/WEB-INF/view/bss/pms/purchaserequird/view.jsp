@@ -319,10 +319,10 @@
 							</td > 
 							
 							<td>
-							<div class="w160">
+						<%-- 	<div class="w160">
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-											   </div>	
+											   </div> --%>	
 							</td>
 							
 							
