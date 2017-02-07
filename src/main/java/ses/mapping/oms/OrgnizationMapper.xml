@@ -820,4 +820,15 @@
 		       and d.IS_DELETED = 0
 	</select>
 	
+	<!-- 查询采购机构 -->
+	<select id="queryPur"  parameterType="String" resultMap="baseOrgnization"  >
+	  	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
+    	FROM T_SES_OMS_ORG
+    	WHERE IS_DELETED = '0'
+    	AND TYPE_NAME ='1'
+    	<if test="id != null and id != ''">
+    	  AND ID =#{id}
+    	</if>
+	</select>
+	
 </mapper>

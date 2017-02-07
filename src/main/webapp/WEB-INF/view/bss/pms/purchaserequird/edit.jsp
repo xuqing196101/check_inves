@@ -387,7 +387,7 @@
              <%--       <c:if test="${obj.price!=null}"> --%>
                      <input type="hidden" name="ss" value="${obj.id}"  >
                       <select name="list[${vs.index }].purchaseType"  <c:if test="${obj.price==null}"> onchange="sel(this);" </c:if> class="w100 border0" id="select">
-                        <option value="">请选择</option>
+                        <option value="" >请选择</option>
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
@@ -401,10 +401,10 @@
                   <td class="tl"><div class="w160">${obj.memo}</div>
                   <td class="p0" >
                  <%--  ${obj.id} --%>
-							   <div class="w160">
+							  <%--  <div class="w160">
 									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-							  </div>											
+							  </div>	 --%>										
 					 </td>
                   <%--
                      <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">

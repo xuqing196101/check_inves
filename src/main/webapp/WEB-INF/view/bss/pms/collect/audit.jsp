@@ -597,6 +597,7 @@
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 											<input type="hidden" name="ss" value="${obj.id }">
 												<select name="listDetail[${vs.index }].purchaseType" onchange="typeChange(this)" class="w100">
+													<option value="" <c:if test="${obj.price==null }"> selected="selected" </c:if> >请选择</option> 
 													<c:forEach items="${mType }" var="mt">
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 													</c:forEach>
@@ -620,10 +621,10 @@
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 											<td class="tl"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }" class="w160">
 											<td class="p0">
-												<div class="w160">
+												<%-- <div class="w160">
 														<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 														<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-												   </div>	
+												   </div> --%>	
 											</td>
 											
 											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">

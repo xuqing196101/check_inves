@@ -116,7 +116,7 @@
     layer.close(index);
   }
 </script>
-<script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+<%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script> --%>
 
 
 </head>
@@ -220,16 +220,20 @@
               </td>
               <td class="tc">
                 <div class="w80">
+                <c:if test="${obj.price!=null }">
                  <c:forEach items="${kind}" var="kind" >
                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                  </c:forEach>
+                 </c:if>
                 </div>
               </td>
               <td class="tl">
                 <div class="w100">
+                 <c:if test="${obj.price!=null }">
                   <c:forEach items="${org}" var="og" >
                    <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
                   </c:forEach>
+                  </c:if>
                 </div>
               </td>  
               <td title="${obj.supplier}" class="tl">
@@ -259,10 +263,10 @@
               </td > 
            
               <td class="p0">
-					  <div class="w160">
+					<%--   <div class="w160">
 							  <u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 							  <u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-					  </div>	
+					  </div> --%>	
 			  </td>
 						 
             </tr>

@@ -305,5 +305,15 @@ public interface PurchaseRequiredService {
     * @throws
      */
     List<Supplier> queryAllSupplier();
-    
+    /**
+     * 
+    * @Title: queryPur
+    * @Description: 查询采购机构
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return Orgnization     
+    * @throws
+     */
+    public Orgnization queryPur(String id);
 }

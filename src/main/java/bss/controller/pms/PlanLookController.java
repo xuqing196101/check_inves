@@ -224,6 +224,13 @@ public class PlanLookController extends BaseController {
 		model.addAttribute("list", list);
 		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
 		model.addAttribute("typeId", typeId);
+		HashMap<String,Object> maps=new HashMap<String,Object>();
+		maps.put("typeName", 1);
+	     List<PurchaseDep> orga = purchaseOrgnizationServiceI.findPurchaseDepList(maps);
+		
+	     model.addAttribute("kind", DictionaryDataUtil.find(5));
+	      model.addAttribute("org", orga);	
+	      
         return "bss/pms/collect/plan_view";
     }
 	

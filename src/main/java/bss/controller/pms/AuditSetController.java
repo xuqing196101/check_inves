@@ -515,13 +515,13 @@ public class AuditSetController {
 	   	        cell = row.createCell(0);
 	   			cell.setCellValue(p.getSeq()); 
 	   	        cell = row.createCell(1);  
-	   	        if(p.getDepartment()!=null){
-	   	        	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(p.getDepartment());
-	   	        	if(orgnization!=null){
-	   	        		cell.setCellValue(orgnization.getName());
-	   	        	}
-	   	        	
-	   	        }
+//	   	        if(p.getDepartment()!=null){
+//	   	        	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(p.getDepartment());
+//	   	        	if(orgnization!=null){
+	   	        		cell.setCellValue(p.getDepartment());
+//	   	        	}
+//	   	        	
+//	   	        }
 	   	      
 	   	        cell = row.createCell(2);  
 	   	        cell.setCellValue(p.getGoodsName());
@@ -557,13 +557,20 @@ public class AuditSetController {
 	   	        cell.setCellValue(p.getDeliverDate());  
 	   	        
 	   	        cell = row.createCell(10);  
-	   	        DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
-	   	        cell.setCellValue(dicType.getName());  
 	   	        
-	   	        cell = row.createCell(11);  
-	   	        Orgnization orgnization = purchaseRequiredService.queryByDepId(p.getOrganization());
-	   	        if(orgnization!=null){
-	   	         cell.setCellValue(p.getSupplier());
+	   	        if(p.getPrice()!=null){
+	   	        	DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
+	   	        	cell.setCellValue(dicType.getName()); 
+	   	        }
+	   	        
+	   	        
+	   	        cell = row.createCell(11);
+	   	         if(p.getPrice()!=null){
+		   	        Orgnization orgnization = purchaseRequiredService.queryPur(p.getOrganization());
+		   	        if(orgnization!=null){
+	   	        		cell.setCellValue(orgnization.getName());
+	   	        	}
+	   	         
 	   	        }
 	   	         
 	   	        

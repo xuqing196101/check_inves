@@ -86,13 +86,50 @@
 	       
 	       
 	       function sel(obj){
-	    	   var val=$(obj).val();
+	    	 /*   var val=$(obj).val();
 	    	   $("select option").each(function(){
 	    		   var opt=$(this).val();
 	    		   if(val==opt){
 	    			   $(this).attr("selected", "selected");  
 	    		   }
-	    	   });
+	    	   }); */
+	    		 var org=$(obj).val();
+	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
+	    		 if(price==""){
+	    			var id=$(obj).prev().val();
+	    		 	  $.ajax({
+	    		          url: "${pageContext.request.contextPath}/accept/detail.html",
+	    		          data: "id=" + id,
+	    		          type: "post",
+	    		          dataType: "json",
+	    		          success: function(result) {
+	    		            for(var i = 0; i < result.length; i++) {
+	    		                var v1 = result[i].id;
+	    		                $("#table tr").each(function(){
+	    		      			  var opt= $(this).find("td:eq(10)").children(":first").val() ;
+	    		      	 		   if(v1==opt){
+	    		      	 			 var td=$(this).find("td:eq(10)");
+	    		      	 			var options= $(td).find("option");
+	    			      	 		  $(options).each(function(){
+	    			      	  		   var opt=$(this).val();
+	    			      	  		   if(org==opt){
+	    			      	  			$(this).prop("selected",true);
+	    			      	  			   
+	    			      	  		   }else{
+	    			      	  			$(this).prop("selected",false);
+	    			      	  			  // $(this).removeAttr("selected");
+	    			      	  		   }
+	    				      	  	   });
+	    		      	 		   }  
+	    		      	 	   });
+	    		            }
+	    		           }
+	    		          });
+	    		          
+	    		          
+	    		 }
+	    		 
+	    		 
 	       }  
 	       
 	/*        function ss(obj){
@@ -106,17 +143,61 @@
 	       } */
 	      
 	    function org(obj){
-	    	   var val=$(obj).val();
+	    	   /* var val=$(obj).val();
 	    	   $(".org option").each(function(){
 	    		   var opt=$(this).val();
 	    		   if(val==opt){
 	    			   $(this).attr("selected", "selected");  
 	    		   }
-	    	   });
+	    	   }); */
+	    	   
+	    		 var org=$(obj).val();
+				 var price=$(obj).parent().prev().prev().prev().prev().val();
+				 if(price==""){
+					var id=$(obj).prev().val();
+					 /*  $("#table tr").each(function(){
+						  var opt= $(this).find("td:eq(11)").children(":last").val() ;
+						  var pid=$(this).prev().val();
+				 		   if(val==opt){
+				 			   $(this).attr("selected", "selected");  
+				 		   }  
+				 	   }); */
+				 	   
+				 	  $.ajax({
+				          url: "${pageContext.request.contextPath}/accept/detail.html",
+				          data: "id=" + id,
+				          type: "post",
+				          dataType: "json",
+				          success: function(result) {
+				            for(var i = 0; i < result.length; i++) {
+				                var v1 = result[i].id;
+				                $("#table tr").each(function(){
+				      			  var opt= $(this).find("td:eq(11)").children(":first").val() ;
+				      	 		   if(v1==opt){
+				      	 			 var td=$(this).find("td:eq(11)");
+				      	 			var options= $(td).find("option");
+					      	 		  $(options).each(function(){
+					      	  		   var opt=$(this).val();
+					      	  		   if(org==opt){
+					      	  			$(this).prop("selected",true);
+					      	  			  // $(this).attr("selected", "selected");  
+					      	  		   }else{
+					      	  			$(this).prop("selected",false);
+					      	  			//$(this).removeAttr("selected");
+					      	  		   }
+						      	  	   });
+				      	 		   }  
+				      	 	   });
+				            }
+				           }
+				          });
+				          
+				          
+				 }
 	       }  
 	    
 	       
-	       function FixTable(TableID, FixColumnNumber, width, height) {
+/* 	       function FixTable(TableID, FixColumnNumber, width, height) {
 	    	    if ($("#" + TableID + "_tableLayout").length != 0) {
 	    	        $("#" + TableID + "_tableLayout").before($("#" + TableID));
 	    	        $("#" + TableID + "_tableLayout").empty();
@@ -190,13 +271,13 @@
 	    			var boxwidth = $("#container").width();
 	    			var table_box = $("#table").width(boxwidth);
 	    	            FixTable("table", 1, boxwidth, 460);
-	    	        });
+	    	        }); */
 	       
 </script>
 
 <!-- textarea 自适应高度js1 -->
    <script type="text/javascript">
-			var autoTextarea = function(elem, extra, maxHeight) {
+	/* 		var autoTextarea = function(elem, extra, maxHeight) {
 				extra = extra || 0;
 				var isFirefox = !!document.getBoxObjectFor || 'mozInnerScreenX' in window,
 					isOpera = !!window.opera && !!window.opera.toString().indexOf('Opera'),
@@ -257,7 +338,7 @@
 				addEvent('input', change);
 				addEvent('focus', change);
 				change();
-			};
+			}; */
 	</script>
 </head>
 
@@ -282,8 +363,8 @@
 		  <div class="content table_box">
 			
 				<!-- 前半部分 -->
-				<div class="content" id="content">
-					<table id="table" class="table table-bordered table-condensed table_input lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
+				<div class="content require_ul_list" id="content">
+					<table  class="table table-bordered table-condensed table_input lockout" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
 						<thead>
 							<!-- <tr>
 								<th class="info" colspan="17">事业部门需求</th>

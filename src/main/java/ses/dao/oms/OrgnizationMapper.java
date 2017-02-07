@@ -169,5 +169,16 @@ public interface OrgnizationMapper {
      * @return
      */
     List<Orgnization> getOrgByPid(@Param("parentId") String parentId, @Param("orderId") String orderId, @Param("targetOrderId")String targetOrderId);
+    /**
+     * 
+    * @Title: queryPur
+    * @Description: 查询采购机构
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return Orgnization     
+    * @throws
+     */
+    Orgnization queryPur(@Param("id")String id);
     
 }

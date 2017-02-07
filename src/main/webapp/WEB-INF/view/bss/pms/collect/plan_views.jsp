@@ -151,7 +151,7 @@
       </ul>
       
      <div class="tab-content over_hideen">
-      <div class="tab-pane fade active in" id="tab-1">
+      <div class="tab-pane fade active in " id="tab-1">
 		<div class="col-md-12 col-xs-12 col-sm-12 mt5 content" id="content">
 			      
 			        <table id="table" style="border-bottom-color: #dddddd; border-top-color: #dddddd; color: #333333; border-right-color: #dddddd; width:1600px; font-size: medium; border-left-color: #dddddd; max-width:10000px"
@@ -217,10 +217,10 @@
 			               <div class="w80"> <fmt:formatNumber>${obj.purchaseCount }</fmt:formatNumber></div>
 			              </td>
 			              <td class="tr">
-			               <div class="w80"><fmt:formatNumber>${obj.price}</fmt:formatNumber></div>
+			               <div class="w80"><fmt:formatNumber type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.price}" /></div>
 			              </td>
 			              <td class="tr">
-			               <div class="w80"><fmt:formatNumber>${obj.budget}</fmt:formatNumber></div>
+			               <div class="w80"><fmt:formatNumber type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.budget}" /> </div>
 			              </td>
 			              <td class="tl">
 			               <div class="w80">${obj.deliverDate }</div>
@@ -272,10 +272,10 @@
 			              </td > 
 			              
 			              <td class="w160">
-								  <div class="w160">
+								<%--   <div class="w160">
 									    <u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 										 <u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-									</div>	
+									</div>	 --%>
 						 </td>
 											
 			            </tr>

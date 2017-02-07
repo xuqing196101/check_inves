@@ -6,7 +6,7 @@
 	<%@ include file="/WEB-INF/view/common.jsp" %>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
      <!-- <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
-     <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+    <%--  <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script> --%>
 
 <script type="text/javascript">
 	/** 全选全不选 */
@@ -202,7 +202,7 @@
 	   </ul>
 		
         <h2 class="count_flow"><i>2</i>计划明细</h2>
-		<div class="content ul_list"  id="content">
+		<div class="content require_ul_list"  id="content">
 				<table id="table" class="table table-bordered table-condensed">
 					<thead>
 						<tr class="space_nowrap">
@@ -217,7 +217,7 @@
 							<th class="info w80">预算金额<br>（万元）</th>
 							<th class="info w80">交货期限</th>
 							<th class="info w100">采购方式建议</th>
-							<c:if test="${org_advice==null }">
+							<c:if test="${org_advice!=null }">
 							 <th class="info w100">采购机构</br>建议</th>
 							 </c:if>
 							<th class="info w100">供应商名称</th>
@@ -269,8 +269,8 @@
 							 </div>
 							</td >
 							<td class="tc"><div class="w80"> <fmt:formatNumber>${obj.purchaseCount }</fmt:formatNumber></div></td>
-							<td class="tr"><div class="w80"> <fmt:formatNumber>${obj.price }</fmt:formatNumber></div></td>
-							<td class="tr"><div class="w80"> <fmt:formatNumber>${obj.budget}</fmt:formatNumber></div></td>
+							<td class="tr"><div class="w80"> <fmt:formatNumber  type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.price }"/></div></td>
+							<td class="tr"><div class="w80"> <fmt:formatNumber type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.budget}"  /></div></td>
 							<td class="tl"><div class="w80">${obj.deliverDate }</div></td>
 							<td class="tc"> 
 							  <div class="w100">
@@ -281,7 +281,7 @@
                                </c:if>
                               </div>
                             </td>
-                            <c:if test="${org_advice==null }">
+                            <c:if test="${org_advice!=null }">
 						 	<td   class="tl">
 						 	  <div class="w100">
 						 	  <c:if test="${obj.price!=null }">

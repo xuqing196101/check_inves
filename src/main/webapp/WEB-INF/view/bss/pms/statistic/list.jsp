@@ -526,7 +526,12 @@
 					  </c:if>
 				  </c:forEach>
 			  </td>
-			  <td class="tl pl20" onclick="view('${obj.planNo }')"> ${obj.organization } </td>
+			  <td class="tl pl20" onclick="view('${obj.planNo }')"> 
+			  <c:forEach items="${org }" var="ss">
+								  <c:if test="${ss.id==obj.organization }">${ss.name} </c:if> 
+							</c:forEach>
+			  
+			  </td>
 			  <td class="tr pr20" onclick="view('${obj.planNo }')">
 		 	<fmt:formatNumber>${obj.budget }</fmt:formatNumber>
 			  </td>

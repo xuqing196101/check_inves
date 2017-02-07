@@ -289,5 +289,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		return supplierMapper.queryAll();
 	}
 	
+	
+	 
+	public Orgnization queryPur(String id) {
+		return orgnizationMapper.queryPur(id);
+	}
 
 }
