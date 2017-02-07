@@ -532,6 +532,7 @@
         </div>
       </form>
     </div>
+    
     <script type="text/javascript">
       //实例化编辑器
       //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
@@ -547,10 +548,32 @@
         ]
 
       }
+      
+      UE.Editor.prototype.placeholder = function (justPlainText) {
+		var _editor = this;
+		_editor.addListener("focus", function () {
+			var localHtml = _editor.getPlainTxt();
+			if ($.trim(localHtml) === $.trim(justPlainText)) {
+				_editor.setContent(" ");
+			}
+		});
+		_editor.addListener("blur", function () {
+			var localHtml = _editor.getContent();
+			if (!localHtml) {
+				_editor.setContent(justPlainText);
+			}
+		});
+		_editor.ready(function () {
+			_editor.fireEvent("blur");
+		});
+	 };
+	 
+      
       var ue = UE.getEditor('editor', option);
       var content = '${article.content}';
+      var messageTip = "${properties['messageTip']}";
       ue.ready(function() {
-        ue.setContent(content);
+        ue.placeholder(messageTip);
       });
     </script>
 
