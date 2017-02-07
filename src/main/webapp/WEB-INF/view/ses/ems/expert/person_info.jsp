@@ -103,9 +103,9 @@ session.setAttribute("tokenSession", tokenValue);
 <body onload="initData()">
 	<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
 	<input type="hidden" name="id" id="id" value="${expert.id}"/>
-  <div class="">	
+  <!-- <div class="">	
 	 <button class="btn" type="button" onclick="resetPaw()">重置密码</button>
-  </div>
+  </div> -->
   <table class="table table-bordered table-condensed ">
   <div class="margin-top-10"></div>
    	<tr>

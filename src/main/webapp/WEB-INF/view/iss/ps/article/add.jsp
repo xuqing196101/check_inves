@@ -573,7 +573,7 @@
       var content = '${article.content}';
       var messageTip = "${properties['messageTip']}";
       ue.ready(function() {
-        ue.placeholder(messageTip);
+        /* ue.placeholder(messageTip); */
       });
     </script>
 

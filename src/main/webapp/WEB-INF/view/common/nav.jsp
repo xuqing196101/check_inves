@@ -34,7 +34,17 @@
 				             <a href="${pageContext.request.contextPath}/login/home.html" target="home" class="son-menu"><span class="mr5">◇</span>我的通知</a>
 				        </li>
 				        <li class="line-block drop_two">
-				             <a href="${pageContext.request.contextPath}/user/personalInfo.html" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>
+				        	<c:choose> 
+							  <c:when test="${sessionScope.loginUserType == 'supplier'}">   
+							     <a href="${pageContext.request.contextPath}/supplierQuery/essential.html?person=1" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>
+							  </c:when> 
+							  <c:when test="${sessionScope.loginUserType == 'expert'}">   
+							   	 <a href="${pageContext.request.contextPath}/expert/toPersonInfo.html" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>
+							  </c:when> 
+							  <c:otherwise>   
+					             <a href="${pageContext.request.contextPath}/user/personalInfo.html" target="home" class="son-menu"><span class="mr5">◇</span>个人信息</a>
+							  </c:otherwise> 
+							</c:choose>
 				        </li>
 				        <li class="line-block drop_two">
 				             <a href="${pageContext.request.contextPath}/user/resetPassword.html" target="home" class="son-menu"><span class="mr5">◇</span>重置密码</a>

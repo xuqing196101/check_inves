@@ -159,6 +159,7 @@ public class LoginController {
                             List<PreMenu> resource = preMenuService.getMenu(u);
                             req.getSession().setAttribute("resource", resource);
                             //req.getSession().setAttribute("resource", u.getMenus());
+                            req.getSession().setAttribute("loginUserType", "expert");
                             out.print("scuesslogin");
                         }
                     } catch (Exception e) {
@@ -177,6 +178,7 @@ public class LoginController {
                         List<PreMenu> resource = preMenuService.getMenu(u);
                         req.getSession().setAttribute("resource", resource);
                         //req.getSession().setAttribute("resource", u.getMenus());
+                        req.getSession().setAttribute("loginUserType", "supplier");
                         out.print("scuesslogin");
                     } else  if("unperfect".equals(msg)){
                         out.print("unperfect," + u.getLoginName());
