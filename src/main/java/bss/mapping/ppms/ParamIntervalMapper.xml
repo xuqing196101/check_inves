@@ -39,7 +39,8 @@
       	<if test="packageId != null">
          	and PACKAGE_ID = #{packageId}
       	</if>
-      	ORDER BY SM.CREATED_AT DESC	
+      	<!-- ORDER BY SM.CREATED_AT DESC	 -->
+      	ORDER BY SM.END_PARAM
    </select> 
   <insert id="saveParamInterval" parameterType="bss.model.ppms.ParamInterval">
      <selectKey keyProperty="id" resultType="String" order="BEFORE">

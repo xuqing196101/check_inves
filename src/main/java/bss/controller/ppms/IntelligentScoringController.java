@@ -1248,22 +1248,22 @@ public class IntelligentScoringController extends BaseController{
 		    Integer count = 0;
 		    for (ParamInterval paramInterval : piList) {
 		        count++;
-		        String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
-                sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input class='w40' type='text' value='" + startParam + "'name='pi.startParam'>");
+                String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
+                sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + startParam + "'name='pi.startParam'>");
                 if ("0".equals(paramInterval.getStartRelation())) {
-                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0' selected='selected'><</option><option value='1'><=</option></select></td>");
+                    sb.append("</td><td class=tc><select onchange='checkNum()' name='pi.startRelation'><option value='0' selected='selected'><</option><option value='1'><=</option></select></td><td class='tc'>参数值</td>");
                 } else {
-                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0'><</option><option value='1' selected='selected'><=</option></select></td>");
+                    sb.append("</td><td class=tc><select onchange='checkNum()' name='pi.startRelation'><option value='0'><</option><option value='1' selected='selected'><=</option></select></td><td class='tc'>参数值</td>");
+                }
+                if ("0".equals(paramInterval.getEndRelation())) {
+                    sb.append("<td class=tc><select onchange='checkNum()' name='pi.endRelation'><option value='0'  selected='selected' ><</option><option value='1'><=</option></select></td>");
+                } else {
+                    sb.append("<td class=tc><select onchange='checkNum()' name='pi.endRelation'><option value='0' ><</option><option value='1'  selected='selected'><=</option></select></td>");
                 }
                 String endParam = paramInterval.getEndParam() == null ? "" : paramInterval.getEndParam();
-                sb.append("<td class=tc><input class='w40' type='text' value='" + endParam + "'name='pi.endParam'></td>");
-                if ("0".equals(paramInterval.getEndRelation())) {
-                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0'  selected='selected' >></option><option value='1'>>=</option></select></td>");
-                } else {
-                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0' >></option><option value='1'  selected='selected'>>=</option></select></td>");
-                }
+                sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + endParam + "'name='pi.endParam'></td>");
                 String score = paramInterval.getScore() == null ? "" : paramInterval.getScore();
-                sb.append("<td class=tc><input class='w40' type='text' value='" + score + "'name='pi.score'></td>");
+                sb.append("<td class=tc><input style='width:60px' type='text' value='" + score + "'name='pi.score'></td>");
                 String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
                 sb.append("<td class=tc><textarea  name='pi.explain'>" + explain + "</textarea></td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");

@@ -98,6 +98,50 @@
 		}
 	}
 	
+	function judgeRelationScore2(index) {
+		gernerator();
+		var relation = $("#addSubtractTypeName").find("option:checked").val();
+		if (index == 1) {
+			if (relation == 1) {
+				//最低分
+				$("#relationScore").val(0);
+			} else {
+				//最高分
+				$("#relationScore").val(1);
+			}
+		} else {
+			if (relation == 1) {
+				//最高分
+				$("#relationScore").val(1);
+			} else {
+				//最低分
+				$("#relationScore").val(0);
+			}
+		}
+	}
+	
+	function judgeRelationScore3(index) {
+		gernerator();
+	    var relation = $("#relation").find("option:checked").val();
+		if (index == 1) {
+			if (relation == 1) {
+				//最低分
+				 	$("#relationScore").val(0);
+			} else {
+				//最高分	
+					$("#relationScore").val(1);
+			}
+		} else {
+			if (relation == 1) {
+				//最高分
+				 	$("#relationScore").val(1);
+			} else {
+				//最低分
+					$("#relationScore").val(0);
+			}
+		}
+	}
+	
 
 	function choseModel(){
 		var model = $("#model").val();
@@ -306,24 +350,59 @@
 	//动态添加参数区间
 	var num2 =1;
 	function addParamInterval(){
+	    var table = document.getElementById("model73");
 		var pinum = $("#num2").val();
 		if(pinum>0){
 			num2 = Number(pinum) + Number(1);
 		}
+		num2 = table.rows.length;
 		var tr ="";
 		tr += "<tr>";
 		tr += "<td class='w50 tc'>"+num2+"</td>";
-		tr += "<td><input class='w40' type='text' id=startParam"+num2+" name='pi.startParam'></td>";
-		tr += "<td class='tc'><select name='pi.startRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
-		tr += "<td><input class='w40' type='text' id=endParam"+num2+" name='pi.endParam'></td>";
-		tr += "<td class='tc'><select name='pi.endRelation'><option value='0' >></option><option value='1'>>=</option></select></td>";
-		tr += "<td><input class='w40' type='text' id=score"+num2+" name='pi.score'></td>";
-		tr += "<td><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
+		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=startParam"+num2+" name='pi.startParam'></td>";
+		tr += "<td class='tc'><select onchange='checkNum()' name='pi.startRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
+		tr += "<td class='tc'>参数值</td>";
+		tr += "<td class='tc'><select onchange='checkNum()' name='pi.endRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
+		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=endParam"+num2+" name='pi.endParam'></td>";
+		tr += "<td class='tc'><input style='width:60px' type='text' id=score"+num2+" name='pi.score'></td>";
+		tr += "<td class='tc'><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
 		tr += "<td><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
 		tr += "</tr>";
 		$("#model73 tbody").append(tr);
 		num2++;
 	}
+	var judgeParam = 0;
+	var judgeRelation = '0';
+	function checkNum() {
+		var table = document.getElementById("model73");
+		var i = 0;
+		var j = 1;
+		for (i; i < 1; i++) {
+			for (j; j < table.rows.length; j++) { //遍历Table的所有Row
+				var startParam = $(table.rows).eq(j).find("td").eq("1").find("input").val();
+				var startParamRelation = $(table.rows).eq(j).find("td").eq("2").find("select").find("option:checked").text();
+				var endParamRelation = $(table.rows).eq(j).find("td").eq("4").find("select").find("option:checked").text();
+				var endParam = $(table.rows).eq(j).find("td").eq("5").find("input").val();
+				if (startParam != '' && endParam != '') {
+					if (startParam > endParam) {
+						layer.msg("结束参数不能小于起始参数;",{offset: ['25%', '25%']});
+						return;
+					}
+					if (judgeParam != 0 && j > 1) {
+						if (startParamRelation == judgeRelation || judgeParam != startParam) {
+							layer.msg("区间需要连续且唯一,这样才会更全面,请重新录入;",{offset: ['25%', '25%']});
+							return;
+						}
+					}
+					if (startParam != '' && endParam != '') {
+						judgeParam = endParam;
+						judgeRelation = endParamRelation;
+					}
+				}
+			}
+		}
+	}
+	
 	function delTr(obj){
 		var tr=obj.parentNode.parentNode;
         tr.parentNode.removeChild(tr);
@@ -846,8 +925,9 @@
 						<th class="w50">序号</th>
 						<th class="">起始值</th>
 						<th class="">参数和起始值关系</th>
-						<th class="">结束值</th>
+						<th class="">评审参数对应数值</th>
 						<th class="">参数和结束值关系</th>
+						<th class="">结束值</th>
 						<th class="">得分</th>
 						<th class="">解释</th>
 						<th class="">操作</th>
@@ -1057,7 +1137,7 @@
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>加减分类型</td>
 				<td>
-					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore(this.options[this.options.selectedIndex].value)">
+					<select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore3(this.options[this.options.selectedIndex].value)">
 						<option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
 						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
 					</select>
@@ -1082,7 +1162,7 @@
 		    <tr class="show">
 		    	<td class=" w300 tc"><span class="star_red">*</span>与基准数额关系</td>
 		    	<td>
-		    	    <select name="relation" id="relation" onchange="judgeRelationScore1(this.options[this.options.selectedIndex].value)">
+		    	    <select name="relation" id="relation" onchange="judgeRelationScore2(this.options[this.options.selectedIndex].value)">
 		    	           <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
 		    	           <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
 		    	     </select>

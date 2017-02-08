@@ -130,6 +130,7 @@ public class ScoreModelUtil {
      * @param: @return
      * @return: List<SupplyMark>
      */
+    @SuppressWarnings("unchecked")
     public static List<SupplyMark> getScoreByModelThree(ScoreModel scoreModel, ArrayList<SupplyMark> supplyMarkList){
         if(supplyMarkList!=null && supplyMarkList.size()>0){
             Collections.sort(supplyMarkList, new SortByParam());
@@ -303,6 +304,7 @@ public class ScoreModelUtil {
     public static List<SupplyMark> getScoreByModelFour(ScoreModel scoreModel,ArrayList<SupplyMark> supplyMarkList){
         if(supplyMarkList!=null && supplyMarkList.size()>0){
             Collections.sort(supplyMarkList, new SortByParam());
+            int num = 0;
             double minScore = ( scoreModel.getMinScore()!=null && !scoreModel.getMinScore().equals("") ) ?Double.parseDouble(scoreModel.getMinScore()) :0;
             minScore = FloatUtil.round(minScore, 4);
             Integer isHave = scoreModel.getIsHave();
@@ -315,9 +317,17 @@ public class ScoreModelUtil {
                     if (isHave == 0 && relation == 0) {
                         if (standScore != null) {
                             if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
-                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                                num ++;
                             }else {
-                                double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                                //看看比标准分低几个档次，
+                                double s = 0 ;
+                                if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
+                                    s = supplyMarkList.get(i - 1).getScore();
+                                    num ++;
+                                } else {
+                                    s = new Double(scoreModel.getMaxScore()) - (i - num + 1)*(new Double(scoreModel.getUnitScore()));
+                                }
                                 if (s >= 0) {
                                     supplyMarkList.get(i).setScore(s);
                                 } else {
@@ -329,37 +339,54 @@ public class ScoreModelUtil {
                         /**有基准数额 且 减分  与基准数关系小于等于*/
                          if (standScore != null) {
                              if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
-                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                               supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                               num ++;
                              }else {
-                                 double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
-                                 if (s >= 0) {
-                                     supplyMarkList.get(i).setScore(s);
-                                 } else {
-                                     supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
-                                 }
+                               double s = 0 ;
+                               if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
+                                   s = supplyMarkList.get(i - 1).getScore();
+                                   num ++;
+                               } else {
+                                   s = new Double(scoreModel.getMaxScore()) - (i - num + 1)*(new Double(scoreModel.getUnitScore()));
+                               }
+                               if (s >= 0) {
+                                   supplyMarkList.get(i).setScore(s);
+                               } else {
+                                   supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                               }
                           }
                          } else {
-                             if (supplyMarkList.get(i).getPrarm() == 0) {
-                                 supplyMarkList.get(i).setScore(0);
-                             } else {
-                                 double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                             //模型三减分  最高分到最低分
+                                /**当两个分数一样的时候 的一样得分-- 模型三减分的情况下  最高分2分   参数是 3 3 1 1 得分是 2 2 1.9 1.9--num的作用就是避免2 2 1.8 1.8*/
+                                 double s = 0 ;
+                                 if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
+                                     s = supplyMarkList.get(i - 1).getScore();
+                                     num ++;
+                                 } else {
+                                     s = new Double(scoreModel.getMaxScore()) - (i - num)*(new Double(scoreModel.getUnitScore()));
+                                 }
                                  if (s >= 0) {
                                      supplyMarkList.get(i).setScore(s);
                                  } else {
                                      supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
-                                 }
-                             }
-                            
+                                 }  
                          }
                     } 
                 } else {
                     /**有基准数额 且 加分  与基准数关系小于等于*/
                     if (isHave == 0 && relation == 1 ) {
                         if (standScore != null) {
-                            if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
-                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                           if (new Double(supplyMarkList.get(i).getPrarm()) <= (new Double(standScore))){
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                                num ++;
                             }else {
-                                double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                                double s = 0;
+                                if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
+                                    s = supplyMarkList.get(i - 1).getScore();
+                                    num ++;
+                                } else {
+                                    s = (i - num + 1)*(new Double(scoreModel.getUnitScore()));
+                                }
                                 if (s >= new Double(scoreModel.getMaxScore())) {
                                     supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                                 } else {
@@ -371,9 +398,16 @@ public class ScoreModelUtil {
                         /**有基准数额 且 加分  与基准数关系大于等于*/
                         if (standScore != null) {
                             if (new Double(supplyMarkList.get(i).getPrarm()) >= (new Double(standScore))){
-                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                                num ++;
                             }else {
-                                double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                                double s = 0;
+                                if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
+                                    s = supplyMarkList.get(i - 1).getScore();
+                                    num ++;
+                                } else {
+                                    s = (i - num + 1)*(new Double(scoreModel.getUnitScore()));
+                                }
                                 if (s >= new Double(scoreModel.getMaxScore())) {
                                     supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
                                 } else {
@@ -381,23 +415,28 @@ public class ScoreModelUtil {
                                 }
                            }
                         } else {
-                            if (supplyMarkList.get(i).getPrarm() == 0) {
-                                supplyMarkList.get(i).setScore(0);
+                            //模型三加分 最低分到最高分
+                            /**当两个分数一样的时候 的一样得分-- 模型三加分的情况下  最高分2分   参数是1 1 2 2 得分是 0.1 0.1 0.2 0.2 --num的作用就是避免0.1 0.1 0.3 0.3*/
+                            double s = 0;
+                            if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
+                                s = supplyMarkList.get(i - 1).getScore();
+                                num ++;
                             } else {
-                                double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
-                                if (s >= new Double(scoreModel.getMaxScore())) {
-                                    supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
-                                } else {
-                                    supplyMarkList.get(i).setScore(s);
-                                }
+                                s = (i - num)*(new Double(scoreModel.getUnitScore()));
+                            }
+                            if (s >= new Double(scoreModel.getMaxScore())) {
+                                supplyMarkList.get(i).setScore(new Double(scoreModel.getMaxScore()));
+                            } else {
+                                supplyMarkList.get(i).setScore(s);
                             }
                         }
                     }
                 }
-            }
-            return supplyMarkList;
-        }
-        return null;
+                        
+             }
+             return supplyMarkList;
+         }
+         return null;
     }
     
     
@@ -620,7 +659,9 @@ public class ScoreModelUtil {
         if(intervalTypeName!=null && !intervalTypeName.equals("") && intervalTypeName.equals("0")){
             //jiafen
             if(addSubtractTypeName!=null &&! addSubtractTypeName.equals("") && addSubtractTypeName.equals("0")){
-                if(new Double(number).compareTo(new Double(deadlineNumber)) <0){
+                if(number == 0){
+                    sc = 0;
+                } else if (new Double(number).compareTo(new Double(deadlineNumber)) <0){
                     sc = FloatUtil.round(maxScore, 4);
                 }else if (new Double(number).compareTo(new Double(reviewStandScore)) <0) {
                     sc = FloatUtil.round(0, 4);
@@ -641,7 +682,9 @@ public class ScoreModelUtil {
                     }
                 }
             }else if (addSubtractTypeName.equals("1")) {//jianfen
-                if(new Double(number).compareTo(new Double(reviewStandScore)) <0){
+                if(number == 0){
+                    sc = 0;
+                } else if(new Double(number).compareTo(new Double(reviewStandScore)) <0){
                     sc = FloatUtil.round(maxScore, 4);
                 }else if (new Double(number).compareTo(new Double(deadlineNumber)) >0) {
                     sc = FloatUtil.round(0, 4);
