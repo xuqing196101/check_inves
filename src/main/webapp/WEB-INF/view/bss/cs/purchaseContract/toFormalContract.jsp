@@ -4,6 +4,7 @@
 <html>
   <head>
   	<jsp:include page="/WEB-INF/view/common.jsp"/>
+  	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
  	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
@@ -92,9 +93,9 @@ function cancel(){
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	    <span class="col-md-12 col-sm-12 col-xs-12 p0"><div class="red star_red">*</div>附件上传：</span>
 	    <div class="select_common input_group col-md-12 col-sm-12 col-xs-12 p0">
-	        <u:upload id="post_attach_up" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" auto="true" />
-			<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
-		</div>
+	    	<u:upload id="post_attach_up" buttonName="附件上传" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}" multiple="true" auto="true" />
+				<u:show showId="post_attach_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+			</div>
 	 </li>
   	 </ul> 
 	 <div  class="col-md-12 tc">
