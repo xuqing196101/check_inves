@@ -384,8 +384,8 @@
 								<th class="info organization">采购机构</th>
 								<th class="info purchasename">供应商名称</th>
 								<th class="info freetax">是否申请<br>办理免税</th>
-							<!-- 	<th class="info">物资用途（仅进口）</th>
-								<th class="info">使用单位（仅进口）</th> -->
+							<!-- 	<th class="goodsuse">物资用途（仅进口）</th>
+								<th class="useunit">使用单位（仅进口）</th> -->
 								<th class="info memo">备注</th>
 							</tr>
 						</thead>
@@ -475,7 +475,7 @@
 							</td>
 		<%-- 					<td class="tl"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
 							<td class="tl"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
-							<td class="">
+							<td>
 							    <textarea class="memo" readonly="readonly" name="listDetail[${vs.index }].memo">${obj.memo }</textarea>
 					<%-- 			<input type="hidden" name="listDetail[${vs.index }].planName" value="${obj.planName }">
 								<input type="hidden" name="listDetail[${vs.index }].planNo" value="${obj.planNo }">
@@ -498,7 +498,7 @@
 						</form>
 					</table>	
 				</div>
-<div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
+          <div class="col-md-12 col-sm-12 col-xs-12 tc mt10">
                 <!-- <div class=""><a class="upload">上传附件</a><input id="required" type="file" name="file"> </div> -->
                 <input class="btn btn-windows edit"  type="button" value="修改" onclick="sub()">
                 <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
@@ -508,13 +508,6 @@
 			
 	 
 	</div>
-	<!-- textarea 自适应高度js2 --> 
-		<script>
-			var text = document.getElementsByClassName("target");
-			for(var i=0;i<text.length;i++){
-				autoTextarea(text[i]);
-			}
-			
-		</script>
+
 	</body>
 </html>

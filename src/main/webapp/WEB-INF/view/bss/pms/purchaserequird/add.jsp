@@ -613,41 +613,41 @@
 							              
 							              	var html="";
 									           for(var i = 0 ;i<data.length;i++ ){
-										            html +="<tr name='detailRow'> <td>"+count+"</td> "
-													               +"  <td class='tc p0'>"
+										            html +="<tr name='detailRow'> <td class='tc'>"+count+"</td> "
+													               +"  <td>"
 													               +"    <input   type='hidden' name='list[" + i + "].id' value='"+data[i].id+"' />"
-													               +"    <input   class='m0 border0 w50 tc' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
+													               +"    <input   class='seq' type='text' name='list[" + i + "].seq' value='"+data[i].seq+"'/>"
 													               +"    <input value='" + data[i].parentId + "' type='hidden' name='list[" + i + "].parentId' />"
 													               +"  </td> "
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 border0 w80'  type='text' name='list[" + i + "].department' value='${orgName}'/>"
+													               +"  <td>"
+													               +"    <input class='department'  type='text' name='list[" + i + "].department' value='${orgName}'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 border0 w80' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
+													               +"  <td>"
+													               +"    <input class='goodsname' type='text' name='list[" + i + "].goodsName' value='"+isValueLegal(data[i].goodsName)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
+													               +"  <td>"
+													               +"    <input class='stand' type='text' name='list[" + i + "].stand' value='"+isValueLegal(data[i].stand)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
+													               +"  <td>"
+													               +"    <input class='qualitstand' type='text' name='list[" + i + "].qualitStand' value='"+isValueLegal(data[i].qualitStand)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
+													               +"  <td>"
+													               +"    <input class='item' type='text' name='list[" + i + "].item' value='"+isValueLegal(data[i].item)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'> "
-													               +"    <input class='m0 border0 w80' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
-													               +"  <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
-													               +"  <td class='tc p0'> <input   type='hidden'   value='"+data[i].id+"'>"
-													               +"    <input class='m0 border0 w80'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
+													               +"  <td> <input   type='hidden'   value='"+data[i].id+"'> "
+													               +"      <input class='purchasecount' onblur='sum2(this)' type='text' name='list[" + i + "].purchaseCount' value='"+isValueLegal(data[i].purchaseCount)+"'/>"
+													               +"     <input type='hidden'  value='"+data[i].parentId+"' >  </td>"
+													               +"  <td> <input   type='hidden'   value='"+data[i].id+"'>"
+													               +"    <input class='price'  onblur='sum1(this)'  type='text' name='list[" + i + "].price' value='"+isValueLegal(data[i].price)+"'/>"
 													               +"   <input type='hidden'  value='"+data[i].parentId+"' >   </td>"
-													               +"  <td class='tc p0'>  <input   type='hidden'   value='"+data[i].id+"'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
+													               +"  <td>  <input   type='hidden'   value='"+data[i].id+"'>"
+													               +"    <input class='budget' type='text' name='list[" + i + "].budget' value='"+budgets(data[i].budget)+"'/>"
 													               +"   <input type='hidden'  value='"+data[i].parentId+"' > </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 border0 w80'  type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
+													               +"  <td>"
+													               +"    <input class='deliverdate'  type='text' name='list[" + i + "].deliverDate' value='"+isValueLegal(data[i].deliverDate)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"<select name='list["+i+"].purchaseType' class='m0 border0 w100' onchange='changeType(this)' > <option value=''>请选择</option>" ;
+													               +"  <td>"
+													               +"<select name='list["+i+"].purchaseType' class='purchasetype' onchange='changeType(this)' > <option value=''>请选择</option>" ;
 													               
 													               <c:forEach items='${list2 }' var='obj'>
 													               if("${obj.name}" == data[i].purchaseType){
@@ -662,21 +662,21 @@
 																
 																
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
+													               +"  <td>"
+													               +"    <input class='purchasename' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
+													               +"  <td>"
+													               +"    <input class='FreeTax' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
 													               +"  </td>"
-													               +"  <td name='userNone'  class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
+													               +"  <td name='userNone'>"
+													               +"    <input class='goodsUse' type='text' name='list[" + i + "].goodsUse' value='"+isValueLegal(data[i].goodsUse)+"'/>"
 													               +"  </td>"
-													               +"  <td name='userNone' class='tc p0'>"
-													               +"    <input class='m0 w80 border0' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
+													               +"  <td name='userNone'>"
+													               +"    <input class='useunit' type='text' name='list[" + i + "].useUnit' value='"+isValueLegal(data[i].useUnit)+"'/>"
 													               +"  </td>"
-													               +"  <td class='tc p0'>"
-													              +"    <input class='m0 border0' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
-													               +"  </td> <td class='tc p0'><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
+													               +"  <td>"
+													              +"    <input class='memo' type='text' name='list[" + i + "].memo' value='"+isValueLegal(data[i].memo)+"'/>"
+													               +"  </td> <td><button type='button' class='btn' onclick='delRowIndex(this)''>删除</button></td>"
 													               +"</tr>";
 										             count++;
 										           }
@@ -1241,27 +1241,27 @@
 					<div class="col-md-12 col-xs-12 col-sm-12 mt5 over_scroll" style="max-height:300px" id="add_div">
 
 						<form id="add_form" action="${pageContext.request.contextPath}/purchaser/adddetail.html" method="post">
-							<table id="table" class="table table-bordered table-condensed table_input">
+							<table id="table" class="table table-bordered table-condensed lockout table_input">
 								<thead>
 									<tr class="space_nowrap">
-									    <th class="w50">行号</th>
-										<th class="w50">序号</th>
-										<th class="w80">需求部门</th>
-										<th class="w80">物资类别及<br/>物资名称</th>
-										<th class="w80">规格型号</th>
-										<th class="w80">质量技术标准<br/>（技术参数）</th>
-										<th class="w80">计量<br/>单位</th>
-										<th class="w80">采购<br/>数量</th>
-										<th class="w80">单价<br/>（元）</th>
-										<th class="w80">预算金额<br/>（万元）</th>
-										<th class="w80">交货期限</th>
-										<th class="w100">采购方式</br>建议</th>
-										<th class="w100">供应商名称</th>
-										<th class="w80">是否申请</br>办理免税</th>
+									    <th class="seq">行号</th>
+										<th class="seq">序号</th>
+										<th class="department">需求部门</th>
+										<th class="goodsname">物资类别及<br/>物资名称</th>
+										<th class="stand">规格型号</th>
+										<th class="qualitstand">质量技术标准<br/>（技术参数）</th>
+										<th class="item">计量<br/>单位</th>
+										<th class="purchasecount">采购<br/>数量</th>
+										<th class="price">单价<br/>（元）</th>
+										<th class="budget">预算金额<br/>（万元）</th>
+										<th class="deliverdate">交货<br/>期限</th>
+										<th class="purchasetype">采购方式</br>建议</th>
+										<th class="purchasename">供应商名称</th>
+										<th class="freetax">是否申请</br>办理免税</th>
 										<th name="userNone" class="w80">物资用途</br>（仅进口）</th>
 										<th name="userNone" class="w80">使用单位</br>（仅进口）</th>
-										<th class="w160">备注</th>
-									    <th name="file_up"  class="w80">附件</th>  
+										<th class="memo">备注</th>
+									    <th name="file_up"  class="extrafile">附件</th>  
 									<!-- 	<th class="w100">状态</th> -->
 										<th class="w100">操作</th>
 									</tr>
@@ -1269,15 +1269,14 @@
 								<tbody id="detailZeroRow">
 								<c:if test="${plist==null }">
 									<tr name="detailRow">
-									<td class="tc"><div class="w50">1</div></td>
-										<td class=" p0">
-											<input type="hidden" name="list[0].id" id="purid" value="${id}" class="m0 border0">
+									<td><div class="seq">1</div></td>
+										<td>
+											<input type="hidden" name="list[0].id" id="purid" value="${id}" class="m0 border0 seq">
 											<input type="text" onblur="getSeq(this)"  name="list[0].seq" required="required" value="一" class="m0 border0 w50 tc">
 											<input type="hidden" name="list[0].parentId"  value="1">
 										</td>
-										<td class=" p0" name="department">
-										
-								  		<input type="text"   name="list[0].department"  readonly="readonly" value="${orgName}" class="m0 border0 w80" >
+										<td name="department">
+								  		<input type="text"   name="list[0].department"  readonly="readonly" value="${orgName}" class="department" >
 								  		  
 										<%-- 	<select name="list[0].department" class="pt" id="pType[0]">
 												<option value="">请选择</option>
@@ -1285,57 +1284,51 @@
 													<option value="${obj.id }">${obj.name }</option>
 												</c:forEach>
 											</select> --%>
-											
-											
 										</td>
-										<td class=" p0">
-											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="m0 border0 w80"/>
+										<td>
+											<input type="text" name="list[0].goodsName" onkeyup="listName(this)" onblur="lossValue()" class="goodsname"/>
 										</td>
-										<td class="tc  p0"><input type="text" name="list[0].stand" class="m0 w80 border0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].qualitStand" class="m0 w80 border0"></td>
-										<td class="tc p0"><input type="text"   name="list[0].item" class="m0 w80 border0"></td>
-										<td class="tc  p0" name="purchaseQuantity">
+										<td><input type="text" name="list[0].stand" class="stand"></td>
+										<td><input type="text" name="list[0].qualitStand" class="qualitstand"></td>
+										<td><input type="text"   name="list[0].item" class="item"></td>
+										<td name="purchaseQuantity">
 											<input type="hidden"    value="${id}" class="m0 border0">
-											<input type="text" readonly="readonly"  name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="m0 border0 w80">
+											<input type="text" readonly="readonly"  name="list[0].purchaseCount" onkeyup="checkNum(this,1)" class="purchasecount">
 											<input type="hidden"    value="1" class="m0 border0">
 										</td>
-										<td class="tc  p0" name="unitPrice">
+										<td name="unitPrice">
 											<input type="hidden"    value="${id}" class="m0 border0">
-											<input type="text" readonly="readonly" name="list[0].price" onkeyup="checkNum(this,2)" class="m0 border0 w80">
+											<input type="text" readonly="readonly" name="list[0].price" onkeyup="checkNum(this,2)" class="price">
 											<input type="hidden"    value="1" class="m0 border0">
 										</td>
-										<td class="tc  p0">
+										<td>
 											<input type="hidden"    value="${id}" class="m0 border0">
-											<input type="text" readonly="readonly" name="list[0].budget" class="m0 w80 border0" >
+											<input type="text" readonly="readonly" name="list[0].budget" class="budget" >
 											<input type="hidden"    value="1" class="m0 border0">
 										</td>
-										<td class=" p0"><input type="text" name="list[0].deliverDate" class="m0 border0 w80"></td>
-										<td class=" p0">
-											<select required="required" name="list[0].purchaseType" class="m0 border0 w100" onchange="changeType(this)"  >
+										<td><input type="text" name="list[0].deliverDate" class="deliverdate"></td>
+										<td>
+											<select required="required" name="list[0].purchaseType" class="purchasetype" onchange="changeType(this)"  >
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="obj">
-												
 													<option value="${obj.name }">${obj.name }</option>
 												</c:forEach>
 											</select>
 										</td>
-										<td class="tc  p0">
-										
-										<select name="list[0].supplier" class="m0 border0 w100" onchange="changeType(this)" id="pType[0]">
+										<td>
+										    <select name="list[0].supplier" class="purchasename" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${suppliers }" var="sup">
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
 											</select>
-											
-											
 										<!-- <input type="text" name="list[0].supplier" class="m0 w260 border0"> --></td>
-										<td class="tc  p0"><input type="text" name="list[0].isFreeTax" class="m0 border0 w80"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="m0 border0 w80"></td>
-										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="m0 w80 border0"></td>
-										<td class="tc  p0"><input type="text" name="list[0].memo" class="m0 border0 w160"></td>
-										<td class="p0">
-											   <div class="w80">
+										<td><input type="text" name="list[0].isFreeTax" class="freetax"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
+										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>
+										<td><input type="text" name="list[0].memo" class="memo"></td>
+										<td>
+											   <div class="extrafile">
                    							        <u:upload id="pUp0" multiple="true"  businessId="${id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow0" businessId="${id}" sysKey="2" typeId="${typeId}" />
 											   </div>											
