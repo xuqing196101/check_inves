@@ -25,6 +25,9 @@ public class SupplierCateTree {
     
     /** 四级节点 **/
     private String fourthNode;
+    
+    /** 四级节点 **/
+    private String itemsId;
 
     public String getRootNode() {
         return rootNode;
@@ -65,5 +68,13 @@ public class SupplierCateTree {
     public void setFourthNode(String fourthNode) {
         this.fourthNode = fourthNode;
     }
+
+	public String getItemsId() {
+		return itemsId;
+	}
+
+	public void setItemsId(String itemsId) {
+		this.itemsId = itemsId;
+	}
     
 }
