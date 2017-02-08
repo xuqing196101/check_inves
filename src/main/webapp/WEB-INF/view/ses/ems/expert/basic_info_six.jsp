@@ -327,16 +327,12 @@
 						dataType: "json",
 						success: function(data) {
 							zTreeObj = $.fn.zTree.init($("#" + treeId), setting, data);
+							zTreeObj.expandAll(true); //全部展开
 						}
 					});
 				}
 				layer.close(index);
 				// 过滤掉四级以下的节点
-				dataFilter(treeId);
-			}
-			
-			/** 过滤掉四级以下的节点 **/
-			function dataFilter(treeId) {
 				setTimeout(function() {
 					var treeObj = $.fn.zTree.getZTreeObj(treeId);
 					var nodes = treeObj.getNodes();
@@ -345,7 +341,6 @@
 							treeObj.removeNode(nodes[i]);
 						}
 					}
-					treeObj.expandAll(true); //全部展开
 				}, 200);
 			}
 		</script>

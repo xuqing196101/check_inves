@@ -136,7 +136,7 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
-									<div class="<c:if test=" ${divCount==0 } ">active in</c:if> height-300" id="tab-2">
+									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if>fade height-300" id="tab-2">
 										<table class="table table-bordered">
 											<c:forEach items="${saleQua }" var="sale">
 												<tr>
