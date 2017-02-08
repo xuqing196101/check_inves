@@ -53,6 +53,7 @@ jQuery.validator.addMethod("isUrl", function(value, element) {
 
 // 银行卡验证
 jQuery.validator.addMethod("isBankCard", function(value, element) { 
-	var bankCard = /^\d{16}$|^\d{19}$/; 
+	//var bankCard = /^\d{16}$|^\d{19}$/; 
+	var bankCard = /^\d{0,20}$/; 
 	return this.optional(element) || (bankCard.test(value));
 }, "请输入正确的银行卡卡号"); 
