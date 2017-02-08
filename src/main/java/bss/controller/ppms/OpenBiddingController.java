@@ -1086,6 +1086,7 @@ public class OpenBiddingController {
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
       condition.setStatusBond(NUMBER_TWO);
+      condition.setIsTurnUp(0);
       List<SaleTender> stList = saleTenderService.find(condition);
       List<SaleTender> stList1 = new ArrayList<SaleTender>();
       stList1.addAll(stList);
@@ -1102,7 +1103,9 @@ public class OpenBiddingController {
         projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
       }
       map.put("id", pack.getId());
-      treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+      if (stList != null && stList.size() > 0) {
+          treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+      }
     }
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
@@ -1145,6 +1148,7 @@ public class OpenBiddingController {
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
       condition.setStatusBond(NUMBER_TWO);
+      condition.setIsTurnUp(0);
       List<SaleTender> stList = saleTenderService.find(condition);
       map1.put("packageId", pack.getId());
       map1.put("projectId", projectId);
@@ -1208,7 +1212,9 @@ public class OpenBiddingController {
         }
       }
       map.put("id", pack.getId());
+      if (stList != null && stList.size() > 0) {
       treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+      }
     }
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
@@ -1225,6 +1231,7 @@ public class OpenBiddingController {
       condition.setPackages(pack.getId());
       condition.setStatusBid(NUMBER_TWO);
       condition.setStatusBond(NUMBER_TWO);
+      condition.setIsTurnUp(0);
       List<SaleTender> stList = saleTenderService.find(condition);
       map.put("packageId", pack.getId());
       map.put("projectId", projectId);
@@ -1253,7 +1260,9 @@ public class OpenBiddingController {
               }
          }
       }
+      if (stList != null && stList.size() > 0) {
      treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+      }
      model.addAttribute("treeMap", treeMap);
      model.addAttribute("projectId", projectId);
      return "bss/ppms/open_bidding/bid_file/view_chang_total_by_packId";
@@ -1283,6 +1292,7 @@ public class OpenBiddingController {
         condition.setPackages(packList.get(0).getId());
         condition.setStatusBid(NUMBER_TWO);
         condition.setStatusBond(NUMBER_TWO);
+        condition.setIsTurnUp(0);
         List<SaleTender> stList = saleTenderService.find(condition);
         if (stList != null && stList.size() > 0) {
           Quote quote = new Quote();
@@ -1325,6 +1335,7 @@ public class OpenBiddingController {
         condition.setPackages(packList.get(0).getId());
         condition.setStatusBid(NUMBER_TWO);
         condition.setStatusBond(NUMBER_TWO);
+        condition.setIsTurnUp(0);
         List<SaleTender> stList = saleTenderService.find(condition);
         if (stList != null && stList.size() > 0) {
           Quote quote = new Quote();
@@ -1371,6 +1382,7 @@ public class OpenBiddingController {
           condition.setSupplierId(quote.getSupplierId());
           condition.setStatusBid(NUMBER_TWO);
           condition.setStatusBond(NUMBER_TWO);
+          condition.setIsTurnUp(0);
           List<SaleTender> stList = saleTenderService.find(condition);
           if (stList != null && stList.size() > 0) {
               stList.get(0).setIsRemoved("2");

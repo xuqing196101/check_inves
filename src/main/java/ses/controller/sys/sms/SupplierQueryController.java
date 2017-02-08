@@ -90,6 +90,10 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     private static final int NUMBER_THREE = 3;
     /**
+     * 定义常量5
+     */
+    private static final int NUMBER_FIVE = 5;
+    /**
      * 供应商审核服务层
      */
     @Autowired
@@ -208,7 +212,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierType", supplierType);
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
-        if (judge != null && judge == NUMBER_THREE) {
+        if (judge != null && judge == NUMBER_FIVE) {
             return "ses/sms/supplier_query/all_ruku_supplier";
         } else {
             return "ses/sms/supplier_query/all_supplier";
@@ -267,10 +271,10 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
         //等于3说明是入库供应商
-        if (judge != null && judge == NUMBER_THREE) {
+        if (judge != null && judge == NUMBER_FIVE) {
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {
-            if (sup.getStatus() != null && sup.getStatus() == NUMBER_THREE) {// && sup.getCount() != 0
+            if (sup.getStatus() != null && sup.getStatus() == NUMBER_FIVE) {// && sup.getCount() != 0
                 return "ses/sms/supplier_query/select_ruku_supplier_by_province";
             } else {
                 return "ses/sms/supplier_query/select_supplier_by_province";
@@ -290,10 +294,10 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/selectByCategory")
     public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model) {
-        if (categoryIds != null && !"".equals(categoryIds)) {
+        /*if (categoryIds != null && !"".equals(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
-        }
+        }*/
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));

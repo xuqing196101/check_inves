@@ -330,6 +330,9 @@
 		<if test="statusBond != null  and statusBond != '' ">
 			and st.STATUS_BOND=#{statusBond,jdbcType=DECIMAL}
 		</if>
+		<if test="isTurnUp != null">
+			and st.IS_TURN_UP=#{isTurnUp,jdbcType=DECIMAL}
+		</if>
 	</select>
 
 	<select id="uploadCount" parameterType="java.lang.String"

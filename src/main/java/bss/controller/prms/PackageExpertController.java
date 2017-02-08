@@ -380,6 +380,7 @@ public class PackageExpertController {
                 condition1.setPackages(pack.getId());
                 condition1.setStatusBid(NUMBER_TWO);
                 condition1.setStatusBond(NUMBER_TWO);
+                condition1.setIsTurnUp(0);
                 List<SaleTender> stList = saleTenderService.find(condition1);
                 map1.put("packageId", pack.getId());
                 map1.put("projectId", projectId);
@@ -442,7 +443,9 @@ public class PackageExpertController {
                     }
                 }
                 map.put("id", pack.getId());
+                if (stList != null && stList.size() > 0) {
                 treeMap.put(pack.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+                }
             }
             model.addAttribute("treeMap", treeMap);
         }

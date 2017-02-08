@@ -442,12 +442,16 @@
 		            <label class="fl">供应商状态：</label>
 		              <select id="status" name="status">
                                     <option  selected="selected" value=''>-请选择-</option>
-                                    <option  value="-1">暂存、未提交</option>
-                                    <option  value="0">待初审</option>
-                                    <option  value="1">待复审</option>
-                                    <option  value="2">初审不通过</option>
-                                    <option  value="3">复审通过</option>
-                                    <option  value="4">复审不通过</option>
+                                    <option  value="0">待审核</option>
+                                    <option  value="1">审核通过</option>
+                                    <option  value="2">审核退回修改</option>
+                                    <option  value="3">审核未通过</option>
+                                    <option  value="4">待复核</option>
+                                    <option  value="5">复核通过</option>
+                                    <option  value="6">复核未通过</option>
+                                    <option  value="7">待考察</option>
+                                    <option  value="8">考察合格</option>
+                                    <option  value="9">考察不合格</option>
                        </select>
 		          </li>
 		        </ul>

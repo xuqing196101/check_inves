@@ -93,7 +93,7 @@
 				myChart.on('click', function(params) {
 					var address = encodeURI(params.name);
 					address = encodeURI(address);
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=3";
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5";
 				});
 
 			});

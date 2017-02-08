@@ -424,24 +424,16 @@
 								</td>
 								<td class="tc">${list.supplierType }</td>
 								<td class="tc">
-									<c:if test="${list.status==-1 }">
-										暂存、未提交
-									</c:if>
-									<c:if test="${list.status==0 }">
-										待初审
-									</c:if>
-									<c:if test="${list.status==1 }">
-										待复审
-									</c:if>
-									<c:if test="${list.status==2 }">
-										初审不通过
-									</c:if>
-									<c:if test="${list.status==3 }">
-										复审通过
-									</c:if>
-									<c:if test="${list.status==4 }">
-										复审不通过
-									</c:if>
+									<c:if test="${list.status==0 }">待审核</c:if>
+									<c:if test="${list.status==1 }">审核通过</c:if>
+									<c:if test="${list.status==2 }">审核退回修改</c:if>
+									<c:if test="${list.status==3 }">审核未通过</c:if>
+									<c:if test="${list.status==4 }">待复核</c:if>
+									<c:if test="${list.status==5 }">复核通过</c:if>
+									<c:if test="${list.status==6 }">复核未通过</c:if>
+									<c:if test="${list.status==7 }">待考察</c:if>
+									<c:if test="${list.status==8 }">考察合格</c:if>
+									<c:if test="${list.status==9 }">考察不合格</c:if>
 								</td>
 								<td class="tc">${list.businessType }</td>
 							</tr>
