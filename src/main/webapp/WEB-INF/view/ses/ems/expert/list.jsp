@@ -280,10 +280,13 @@
                     <span class="fl">
                       <select name="status" id="status">
                          <option selected="selected" value=''>-请选择-</option>
-                         <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">未审核</option>
-                         <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">审核通过</option>
-                         <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">审核未通过</option>
+                         <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
+                         <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
+                         <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
                          <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
+                         <option <c:if test="${expert.status =='4' }">selected</c:if> value="2">待复审</option>
+                         <option <c:if test="${expert.status =='5' }">selected</c:if> value="3">复审通过</option>
+                         <option <c:if test="${expert.status =='6' }">selected</c:if> value="2">复审踢除</option>
                        </select>
                     </span>
                   </li>
@@ -329,8 +332,8 @@
 							<td class="tc w80" onclick="view('${e.id}');" class="tc">
 								<fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM" />
 							</td>
-							<c:if test="${e.status==null || e.status eq '0' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">未审核</span></td>
+							<c:if test="${e.status eq '0' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
 							</c:if>
 							<c:if test="${e.status eq '1' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">初审通过</span></td>
