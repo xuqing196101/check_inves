@@ -127,6 +127,7 @@ session.setAttribute("tokenSession", tokenValue);
    			<form action="${pageContext.request.contextPath}/expert/register.html" method="post"  id="formExpert">
 			   <input type="hidden"  name="token2" value="<%=tokenValue%>">
 		       <input type="hidden" id="message" value="${message }"/>
+		       <span class="red ml20">注：军队类型专家请登录内网进行注册！</span>
             <ul class="list-unstyled overflow_h mt20 col-md-12 col-sm-12 col-xs-12">
 			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl10">
 			  <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>专家类型：</span>
