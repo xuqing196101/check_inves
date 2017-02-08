@@ -393,7 +393,7 @@
 						<c:forEach items="${list }" var="obj" varStatus="vs">
 						<tr>
 						     <td>
-							   <input readonly="readonly" type="text" name="listDetail[${vs.index }].seq" value="${obj.seq }" class="seq tc border0 bg11">
+							   <input readonly="readonly" type="text" name="listDetail[${vs.index }].seq" value="${obj.seq }" class="seq tc border0">
 							   <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
 							 </td>
 							<td>
@@ -455,7 +455,7 @@
 							<td class="">
 								<%--<input type="hidden" name="listDetail[${vs.index }].organization" value="${obj.organization }">--%>
 							    <input type="hidden" name="ss" value="${obj.id}"  >
-								<select class="org w80"    onchange="org(this)"     name="listDetail[${vs.index }].organization">
+								<select class="org organization"    onchange="org(this)"     name="listDetail[${vs.index }].organization">
 		 							<option value="">请选择</option>
 									<c:forEach items="${orgs }" var="ss">
 										<c:if test="${obj.organization==ss.orgId }">

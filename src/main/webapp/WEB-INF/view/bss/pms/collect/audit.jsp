@@ -506,7 +506,7 @@
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
 						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll h365">
-							<table id="table" class="table table-bordered table-condensed mt5 table_input">
+							<table id="table" class="table table-bordered table-condensed mt5 lockout">
 								<thead>
 									<tr class="space_nowrap">
 										<th class="info" colspan="17">事业部门需求</th>
@@ -525,8 +525,8 @@
 									<th class="info" colspan="${obj.size}q">${obj.name }</th>
 								</c:forEach> --%>
 									</tr>
-									<tr class="info space_nowrap">
-									<th class="seq w50">序号</th>
+									<tr class="info">
+									<th class="seq">序号</th>
 									<th class="department">需求部门</th>
 									<th class="goodsname">物资类别<br>及名称</th>
 									<th class="stand">规格型号</th>
