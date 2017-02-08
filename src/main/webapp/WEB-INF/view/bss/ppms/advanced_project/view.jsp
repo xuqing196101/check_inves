@@ -97,52 +97,52 @@
           </thead>
           <c:forEach items="${lists}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc">
+              <td>
                 <div class="seq">${obj.serialNumber}</div>
               </td>
-              <td class="">
+              <td>
                 <div class="department">${obj.department}</div>
               </td>
-              <td class="">
+              <td>
                 <div class="goodsname">${obj.goodsName}</div>
               </td>
-              <td class="">
+              <td>
                <div class="stand">
                 ${obj.stand}
                </div>
               </td>
-              <td class="">
+              <td>
                 <div class="qualitstand">${obj.qualitStand}</div>
               </td>
-              <td class="tc">
+              <td>
                 <div class="item">${obj.item}</div>
               </td>
-              <td class="tc">
+              <td>
                 <div class="purchasecount">${obj.purchaseCount}</div>
               </td>
-              <td class="">
+              <td>
                 <div class="deliverdate">${obj.deliverDate}</div>
               </td>
-              <td class="">
+              <td>
                 <div class="purchasetype">
                   <c:forEach items="${kind}" var="kind" >
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </div>
               </td>
-              <td class="">
+              <td>
                 <div class="purchasename">${obj.supplier}</div>
               </td>
-              <td class="tc">
+              <td>
                 <div class="freetax">${obj.isFreeTax}</div>
               </td>
-              <td class="">
+              <td>
                 <div class="goodsuse">${obj.goodsUse}</div>
               </td>
-              <td class="">
+              <td>
                  <div class="useunit">${obj.useUnit}</div>
               </td>
-              <td class="">
+              <td>
                  <div class="memo">${obj.memo}</div>
               </td>
             </tr>

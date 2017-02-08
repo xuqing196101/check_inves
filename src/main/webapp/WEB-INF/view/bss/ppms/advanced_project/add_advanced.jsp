@@ -152,13 +152,13 @@
                     <th class="info choose">选择</th>
                     <th class="info seq">序号</th>
                     <th class="info department">需求部门</th>
-                    <th class="info goodsname">物资类别及<br/>物资名称</th>
+                    <th class="info goodsname">物资类别<br/>及名称</th>
                     <th class="info stand">规格型号</th>
                     <th class="info qualitstand">质量技术标准</th>
                     <th class="info item">计量<br/>单位</th>
                     <th class="info purchasecount">采购<br/>数量</th>
                     <th class="info price">单价<br/>（元）</th>
-                    <th class="info deliverdate">交货期限</th>
+                    <th class="info deliverdate">交货<br>期限</th>
                     <th class="info purchasetype">采购方式</th>
                     <th class="info organization">采购机构</th>
                     <th class="info purchasename">供应商名称</th>

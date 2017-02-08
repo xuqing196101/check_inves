@@ -83,37 +83,37 @@
       </div>
       <div class="content table_box over_scroll" id="content">
         <c:if test="${lists != null }">
-          <table id="table" class="table table-bordered table-condensed">
+          <table id="table" class="table table-bordered table-condensed lockout">
             <thead>
               <tr class="space_nowrap">
-                <th class="info w50">序号</th>
-                <th class="info w80">需求部门</th>
-                <th class="info w80">物资类别及<br/>物资名称</th>
-                <th class="info w80">规格型号</th>
-                <th class="info w80">质量技术标准<br/>(技术参数)</th>
-                <th class="info w80">计量<br/>单位</th>
-                <th class="info w80">采购<br/>数量</th>
-                <th class="info w80">交货期限</th>
-                <th class="info w100">采购方式</th>
-                <th class="info w100">供应商名称</th>
-                <th class="info w80">是否申请<br/>办理免税</th>
-                <th class="info w80">物资用途<br/>（进口）</th>
-                <th class="info w80">使用单位<br/>（进口）</th>
-                <th class="info w160">备注</th>
+                <th class="info seq">序号</th>
+                <th class="info department">需求部门</th>
+                <th class="info goodsname">物资类别及<br/>物资名称</th>
+                <th class="info stand">规格型号</th>
+                <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
+                <th class="info item">计量<br/>单位</th>
+                <th class="info purchasecount">采购<br/>数量</th>
+                <th class="info deliverdate">交货<br/>期限</th>
+                <th class="info purchasetype">采购方式</th>
+                <th class="info purchasename">供应商名称</th>
+                <th class="info freetaxs">是否申请<br/>办理免税</th>
+                <th class="info goodsuse">物资用途<br/>（进口）</th>
+                <th class="info useunit">使用单位<br/>（进口）</th>
+                <th class="info memo">备注</th>
               </tr>
             </thead>
             <c:forEach items="${lists}" var="obj" varStatus="vs">
               <tr style="cursor: pointer;">
-                <td class="tc w50">${obj.serialNumber}</td>
-                <td class=""><div class="w80">${obj.department}</div></td>
-                <td class=""><div class="w80">${obj.goodsName}</div></td>
-                <td class=""><div class="w80">${obj.stand}</div></td>
-                <td class=""><div class="w80">${obj.qualitStand}</div></td>
-                <td class="tc"><div class="w80">${obj.item}</div></td>
-                <td class="tc"><div class="w80">${obj.purchaseCount}</div></td>
-                <td class=""><div class="w80">${obj.deliverDate}</div></td>
+                <td><div class="seq">${obj.serialNumber}</div></td>
+                <td class=""><div class="department">${obj.department}</div></td>
+                <td class=""><div class="goodsname">${obj.goodsName}</div></td>
+                <td class=""><div class="stand">${obj.stand}</div></td>
+                <td class=""><div class="qualitstand">${obj.qualitStand}</div></td>
+                <td class="tc"><div class="item">${obj.item}</div></td>
+                <td class="tc"><div class="purchasecount">${obj.purchaseCount}</div></td>
+                <td class=""><div class="deliverdate">${obj.deliverDate}</div></td>
                 <td class="tc">
-                  <div class="w100">
+                  <div class="purchasetype">
                   <c:choose>
                     <c:when test="${obj.detailStatus==0 }">
                     </c:when>
@@ -125,11 +125,11 @@
                   </c:choose>
                   </div>
                 </td>
-                <td class=""><div class="w100">${obj.supplier}</div></td>
-                <td class="tc"><div class="w80">${obj.isFreeTax}</div></td>
-                <td class=""><div class="w80">${obj.goodsUse}</div></td>
-                <td class=""><div class="w80">v${obj.useUnit}</div></td>
-                <td class=""><div class="w160">${obj.memo}</div></td>
+                <td class=""><div class="purchasename">${obj.supplier}</div></td>
+                <td class="tc"><div class="freetax">${obj.isFreeTax}</div></td>
+                <td class=""><div class="goodsuse">${obj.goodsUse}</div></td>
+                <td class=""><div class="useunit">v${obj.useUnit}</div></td>
+                <td class=""><div class="memo">${obj.memo}</div></td>
               </tr>
             </c:forEach>
           </table>
@@ -141,48 +141,47 @@
               <span class="f14 blue">${pack.name}</span>
             </div>
             <input type="hidden" value="${pack.id}" />
-            <table id="table" class="table table-bordered table-condensed">
+            <table id="table" class="table table-bordered table-condensed lockout">
               <thead>
                 <tr class="space_nowrap">
-                  <th class="info w50">序号</th>
-                  <th class="info w80">需求部门</th>
-                  <th class="info w80">物资类别及<br/>物资名称</th>
-                  <th class="info w80">规格型号</th>
-                  <th class="info w80">质量技术标准<br/>(技术参数)</th>
-                  <th class="info w80">计量<br/>单位</th>
-                  <th class="info w80">采购<br/>数量</th>
-                  <th class="info w80">交货期限</th>
-                  <th class="info w100">采购方式</th>
-                  <th class="info w100">供应商名称</th>
+                  <th class="info seq">序号</th>
+                  <th class="info department">需求部门</th>
+                  <th class="info goodsname">物资类别及<br/>物资名称</th>
+                  <th class="info stand">规格型号</th>
+                  <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
+                  <th class="info item">计量<br/>单位</th>
+                  <th class="info purchasecount">采购<br/>数量</th>
+                  <th class="info deliverdate">交货期限</th>
+                  <th class="info purchasetype">采购方式</th>
+                  <th class="info purchasename">供应商名称</th>
                   <c:if test="${pack.isImport==1}">
-                    <th class="info w80">是否申请<br/>办理免税</th>
-                    <th class="info w80">物资用途<br/>（进口）</th>
-                    <th class="info w80">使用单位<br/>（进口）</th>
+                    <th class="info freetax">是否申请<br/>办理免税</th>
+                    <th class="info goodsuse">物资用途<br/>（进口）</th>
+                    <th class="info useunit">使用单位<br/>（进口）</th>
                   </c:if>
-                  <th class="info w160">备注</th>
+                  <th class="info memo">备注</th>
                 </tr>
               </thead>
               <c:forEach items="${pack.projectDetails}" var="obj">
                 <tr style="cursor: pointer;">
-                  <td class="tc w50">${obj.serialNumber}</td>
-                  <td class="">
-                   <div class="w80">
+                  <td><div class="seq">${obj.serialNumber}</div></td>
+                  <td>
+                   <div class="department">
                     <c:if test="${orgnization.id == obj.department}">
                       ${orgnization.name}
                     </c:if>
                    </div>
                   </td>
-                  <td class=""><div class="w80">${obj.goodsName}</td>
-                  <td class=""><div class="w80">${obj.stand}</td>
-                  <td class="tc"><div class="w80">${obj.qualitStand}</td>
-                  <td class="tc"><div class="w80">${obj.item}</td>
-                  <td class="tc"><div class="w80">${obj.purchaseCount}</div></td>
-                  <td class=""><div class="w80">${obj.deliverDate}</div></td>
+                  <td><div class="goodsname">${obj.goodsName}</td>
+                  <td class=""><div class="stand">${obj.stand}</td>
+                  <td class="tc"><div class="qualitstand">${obj.qualitStand}</td>
+                  <td class="tc"><div class="item">${obj.item}</td>
+                  <td class="tc"><div class="purchasecount">${obj.purchaseCount}</div></td>
+                  <td class=""><div class="deliverdate">${obj.deliverDate}</div></td>
                   <td class="tc">
-                   <div class="w100">
+                   <div class="purchasetype">
                     <c:choose>
                       <c:when test="${obj.detailStatus==0 }">
-
                       </c:when>
                       <c:otherwise>
                         <c:forEach items="${kind}" var="kind">
@@ -192,13 +191,13 @@
                     </c:choose>
                     </div>
                   </td>
-                  <td class=""><div class="w100">${obj.supplier}</div></td>
+                  <td><div class="purchasename">${obj.supplier}</div></td>
                   <c:if test="${pack.isImport==1}">
-                    <td class="tc"><div class="w80">${obj.isFreeTax}</div></td>
-                    <td class=""><div class="w80">${obj.goodsUse}</div></td>
-                    <td class=""><div class="w80">${obj.useUnit}</div></td>
+                    <td><div class="freetax">${obj.isFreeTax}</div></td>
+                    <td><div class="goodsuse">${obj.goodsUse}</div></td>
+                    <td><div class="useunit">${obj.useUnit}</div></td>
                   </c:if>
-                  <td class=""><div class="w160">${obj.memo}</div></td>
+                  <td><div class="memo">${obj.memo}</div></td>
                 </tr>
               </c:forEach>
             </table>

@@ -123,83 +123,87 @@
 
       <!-- 项目戳开始 -->
       <div class="content" id="content">
-        <table id="table" class="table table-bordered table-condensed" style="border-color: rgb(221, 221, 221); color: rgb(51, 51, 51); width: 1600px; font-size: medium; max-width: 10000px; margin: 0px;">
+        <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
             <tr class="space_nowrap">
-              <th class="w30">选择</th>
-              <th class="info w50">序号</th>
-              <th class="info w80">需求部门</th>
-              <th class="info w80">物资类别及<br/>物资名称</th>
-              <th class="info w80">规格型号</th>
-              <th class="info w80">质量技术标准<br/>(技术参数)</th>
-              <th class="info w80">计量<br/>单位</th>
-              <th class="info w80">采购<br/>数量</th>
-              <th class="info w80">交货期限</th>
-              <th class="info w100">采购方式</th>
-              <th class="info w100">供应商名称</th>
-              <th class="info w80">是否申请<br/>办理免税</th>
-              <th class="info w80">物资用途<br/>（进口）</th>
-              <th class="info w80">使用单位<br/>（进口）</th>
-              <th class="w160">备注</th>
+              <th class="choose">选择</th>
+              <th class="info seq">序号</th>
+              <th class="info department">需求部门</th>
+              <th class="info goodsname">物资类别<br/>及名称</th>
+              <th class="info stand">规格型号</th>
+              <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
+              <th class="info item">计量<br/>单位</th>
+              <th class="info purchasecount">采购<br/>数量</th>
+              <th class="info deliverdate">交货<br/>期限</th>
+              <th class="info purchasetype">采购方式</th>
+              <th class="info purchasename">供应商名称</th>
+              <th class="info freetax">是否申请<br/>办理免税</th>
+              <th class="info goodsuse">物资用途<br/>（进口）</th>
+              <th class="info useunit">使用单位<br/>（进口）</th>
+              <th class="memo">备注</th>
             </tr>
           </thead>
           <tbody id="tb_id">
             <c:forEach items="${lists}" var="obj" varStatus="vs">
               <c:if test="${obj.projectStatus eq '0'}">
                 <tr class="pointer">
-                  <td class="tc w30">
-                    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
+                  <td>
+                    <div class="choose">
+                      <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check(this)" alt="">
+                    </div>
                   </td>
-                  <td class="tc w50"> ${obj.seq}
-                    <input type="hidden" id="seq" name="listDetail[${vs.index }].seq" value="${obj.seq }">
-                    <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
+                  <td>
+                     <div class="seq"> ${obj.seq}
+                      <input type="hidden" id="seq" name="listDetail[${vs.index }].seq" value="${obj.seq }">
+                      <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
+                     </div>
                   </td>
-                  <td class="tl">
-                   <div class="w80">
+                  <td>
+                   <div class="department">
                     ${obj.department}
                     <input type="hidden" name="listDetail[${vs.index }].department" value="${obj.department }">
                    </div>
                   </td>
                   <td class="tl">
-                    <div class="w80">
+                    <div class="goodsname">
                      ${obj.goodsName}
                       <input type="hidden" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }">
                     </div>
                   </td>
                   <td class="tl">
-                    <div class="w80">
+                    <div class="stand">
                     <c:if test="${obj.stand!='合计'}">
                       ${obj.stand}
                     </c:if>
                     <input type="hidden" name="listDetail[${vs.index }].stand" value="${obj.stand }">
                    </div>
                   </td>
-                  <td class="tl">
-                   <div class="w80">${obj.qualitStand}
+                  <td>
+                   <div class="qualitstand">
+                    ${obj.qualitStand}
                     <input type="hidden" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }">
                    </div>
                   </td>
                   <td class="tc">
-                   <div class="w80">${obj.item}
+                   <div class="item">${obj.item}
                     <input type="hidden" name="listDetail[${vs.index }].item" value="${obj.item }">
                    </div>
                   </td>
                   <td class="tc">
-                   <div class="w80">${obj.purchaseCount}
+                   <div class="purchasecount">${obj.purchaseCount}
                     <input type="hidden" name="listDetail[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
                    </div>
                   </td>
                   <td class="tl">
-                   <div class="w80">${obj.deliverDate}
+                   <div class="deliverdate">${obj.deliverDate}
                     <input type="hidden" name="listDetail[${vs.index }].deliverDate" value="${obj.deliverDate }">
                    </div>
                   </td>
                   <td class="tc">
-                   <div class="w100">
+                   <div class="purchasetype">
                     <input type="hidden" id="purchaseTypes" value="${obj.purchaseType }">
                     <c:choose>
                       <c:when test="${obj.detailStatus==0 }">
-
                       </c:when>
                       <c:otherwise>
                         <c:forEach items="${kind}" var="kind">
@@ -210,28 +214,28 @@
                     <input type="hidden" name="listDetail[${vs.index }].purchaseType" value="${obj.purchaseType }">
                    </div>
                   </td>
-                  <td class="tl">
-                   <div class="w100">${obj.supplier}
+                  <td>
+                   <div class="purchasename">${obj.supplier}
                     <input type="hidden" name="listDetail[${vs.index }].supplier" value="${obj.supplier }">
                    </div>
                   </td>
-                  <td class="tl">
-                    <div class="w80 tc">${obj.isFreeTax}
+                  <td>
+                    <div class="freetax">${obj.isFreeTax}
                      <input type="hidden" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
                     </div>
                   </td>
                   <td class="tl">
-                    <div class="w80">${obj.goodsUse}
+                    <div class="goodsuse">${obj.goodsUse}
                       <input type="hidden" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }">
                     </div>
                   </td>
                   <td class="tl">
-                    <div class="w80">${obj.useUnit}
+                    <div class="useunit">${obj.useUnit}
                       <input type="hidden" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }">
                     </div>
                   </td>
                   <td class="tl">
-                    <div class="w160">${obj.memo}
+                    <div class="memo">${obj.memo}
                       <input type="hidden" name="listDetail[${vs.index }].memo" value="${obj.memo }">
                       <input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
                       <input type="hidden" name="listDetail[${vs.index }].detailStatus" value="${obj.detailStatus}">

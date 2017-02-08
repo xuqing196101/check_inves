@@ -379,7 +379,7 @@
 								<th class="info purchasecount">采购<br>数量</th>
 								<th class="info price">单价<br>（元）</th>
 								<th class="info budget">预算金额<br>（万元）</th>
-								<th class="info deliverdate">交货</br>期限</th>
+								<th class="info deliverdate">交货<br>期限</th>
 								<th class="info purchasetype">采购方式</th>
 								<th class="info organization">采购机构</th>
 								<th class="info purchasename">供应商名称</th>

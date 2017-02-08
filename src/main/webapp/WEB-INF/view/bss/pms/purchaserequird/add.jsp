@@ -1258,8 +1258,8 @@
 										<th class="purchasetype">采购方式</br>建议</th>
 										<th class="purchasename">供应商名称</th>
 										<th class="freetax">是否申请</br>办理免税</th>
-										<th name="userNone" class="w80">物资用途</br>（仅进口）</th>
-										<th name="userNone" class="w80">使用单位</br>（仅进口）</th>
+										<th name="userNone" class="goodsuse">物资用途</br>（仅进口）</th>
+										<th name="userNone" class="useunit">使用单位</br>（仅进口）</th>
 										<th class="memo">备注</th>
 									    <th name="file_up"  class="extrafile">附件</th>  
 									<!-- 	<th class="w100">状态</th> -->
@@ -1335,35 +1335,35 @@
 										</td>
 										<!-- <td class="tc w80 p0"></td> -->
 								<!--  <td class="tc w100 p0"></td> -->  
-										<td class="tc p0"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
+										<td><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>
 								</c:if>
 				 
 								<c:if test="${plist!=null }" >
 								<c:forEach items="${plist}" var="objs" varStatus="vs">
 									<tr name="detailRow">
-										<td class="tc  p0 w80">
+										<td>
 											<input type="hidden" name="list[${vs.index }].id" id="purid" value="${objs.id}">
-											<input type="hidden" name="list[${vs.index }].parentId" id="purid" value="${objs.parentId}">
-											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}" class="m0 w80 borer0">
+											<input type="hidden" name="list[${vs.index }].parentId" id="purid" value="${objs.parentId}" >
+											<input type="text" name="list[${vs.index }].seq" value="${objs.seq}" class="seq">
 										</td>
-										<td class=" p0 w80" >
+										<td>
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 											<input type="hidden" name="list[${vs.index }].department" value="${orgId }" >
-								  			<input type="text"  readonly="readonly" value="${orgName}" class="m0 w80 border0">
+								  			<input type="text"  readonly="readonly" value="${orgName}" class="department">
 										</td>
-										<td class=" p0">
-											<input type="text" class="m0 w80 border0" name="list[${vs.index }].goodsName" onkeyup="listName(this)" onblur="lossValue()" value="${objs.goodsName}" />
+										<td>
+											<input type="text" class="goodsname" name="list[${vs.index }].goodsName" onkeyup="listName(this)" onblur="lossValue()" value="${objs.goodsName}" />
 										</td>
-										<td class="p0"><input type="text" name="list[${vs.index }].stand" value="${objs.stand}" class="m0 w80 border0"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}" class="w80 m0 border0"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].item" value="${objs.item}" class="w80 m0 border0 tc" ></td>
-										<td class="p0" name="purchaseQuantity"><input type="text" name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" class="m0 border0 w80 " ></td>
-										<td class="p0" name="unitPrice"><input type="text" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${objs.price}"  class="m0 border0 w80 tr"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" class="m0 border0 w80 tr"></td>
-										<td class=" p0"><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}"class="m0 border0 w80 tc" ></td>
-										<td class="p0">
-											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]" class="m0 border0 w100">
+										<td><input type="text" name="list[${vs.index }].stand" value="${objs.stand}" class="stand"></td>
+										<td><input type="text" name="list[${vs.index }].qualitStand" value="${objs.qualitStand}" class="qualitstand"></td>
+										<td><input type="text" name="list[${vs.index }].item" value="${objs.item}" class="item" ></td>
+										<td name="purchaseQuantity"><input type="text" name="list[${vs.index }].purchaseCount" onkeyup="checkNum(this,1)" value="${objs.purchaseCount}" class="purchasecount" ></td>
+										<td name="unitPrice"><input type="text" name="list[${vs.index }].price" onkeyup="checkNum(this,2)" value="${objs.price}"  class="price"></td>
+										<td><input type="text" name="list[${vs.index }].budget"   value="${objs.budget}" class="budget"></td>
+										<td><input type="text" name="list[${vs.index }].deliverDate" value="${objs.deliverDate}"class="deliverDate" ></td>
+										<td>
+											<select name="list[${vs.index }].purchaseType" class="pt" onchange="changeType(this)" id="pType[0]" class="purchasetype">
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
 													<c:if test="${objd.id ==objs.purchaseType }">
@@ -1375,19 +1375,17 @@
 												</c:forEach>
 											</select>
 										</td>
-										<td class="p0"><input type="text" name="list[${vs.index }].supplier"  class="m0 border0 w100"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].isFreeTax" class="m0 border0 w80 tc"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].goodsUse" class="m0 border0 w80"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].useUnit" class="m0 border0 w80"></td>
-										<td class="p0"><input type="text" name="list[${vs.index }].memo" value="${obj.memo}" class="m0 border0 w80"></td>
-										<td class="p0">
-											   <div class="w160" id="breach_li_id">
+										<td><input type="text" name="list[${vs.index }].supplier"  class="purchasename"></td>
+										<td><input type="text" name="list[${vs.index }].isFreeTax" class="freetax"></td>
+										<td><input type="text" name="list[${vs.index }].goodsUse" class="goodsuse"></td>
+										<td><input type="text" name="list[${vs.index }].useUnit" class="useunit"></td>
+										<td><input type="text" name="list[${vs.index }].memo" value="${obj.memo}" class="memo"></td>
+										<td>
+											   <div class="extrafile" id="breach_li_id">
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" sysKey="2" buttonName="上传文件"  typeId="${attchid}" auto="true" />
 													<u:show showId="pShow${vs.index}" businessId="2" sysKey="${sysKey}" typeId="${attchid}" />
 											   </div>											
 										</td>
-										
-										
 <%-- 										<td class="tc w100 "><input type="hidden"  name="list[${vs.index }].status" value="暂存" class="m0" > 暂存</td>
  --%>										<td class="tc w100"><button type="button" class="btn" onclick="delRowIndex(this)">删除</button></td>
 									</tr>

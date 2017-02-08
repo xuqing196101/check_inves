@@ -317,7 +317,7 @@
              <div class="content " id="content">
                  <table id="table" class="table table-bordered table-condensed lockout" >
 					<thead>
-						<tr class="" id="scroll_top">
+						<tr id="scroll_top">
 							<th class="info seq">序号</th>
 							<th class="info department">需求部门</th>
 							<th class="info goodsname">物资类别<br>及名称</th>

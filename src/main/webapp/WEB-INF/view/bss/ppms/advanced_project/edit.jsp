@@ -221,20 +221,20 @@
                 <c:forEach items="${lists}" var="obj" varStatus="vs">
                   <tr class="${obj.parentId}" style="cursor: pointer;">
                     <td class="tc seq">${obj.serialNumber}</td>
-                    <td class="">
+                    <td>
                      <div class="department">
                       <c:if test="${obj.department == orgnization.id}">
                         ${orgnization.name}
                       </c:if>
                      </div>
                     </td>
-                    <td class="">
+                    <td>
                       <div class="goodsname">${obj.goodsName}</div>
                     </td>
-                    <td class="">
+                    <td>
                       <div class="stand">${obj.stand}</div>
                     </td>
-                    <td class="">
+                    <td>
                       <div class="qualitstand">${obj.qualitStand}</div>
                     </td>
                     <td>
@@ -291,10 +291,10 @@
                     <td>
                       <div class="goodsuse">${obj.goodsUse}</div>
                     </td>
-                    <td class="tc">
+                    <td>
                       <div class="useunit">${obj.useUnit}</div>
                     </td>
-                    <td class="tc">
+                    <td>
                       <div class="memo">${obj.memo} <input type="hidden" id="projectId" value="${obj.advancedProject }">
                       </div>
                     </td>

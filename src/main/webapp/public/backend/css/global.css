@@ -1284,10 +1284,13 @@ table.lockout{
 }
 table.lockout th{
 	text-align:center!important;
+	white-space: nowrap;
+	
 }
 
 table.lockout td div{
 	margin:0 auto;
+	word-wrap: break-word;
 }
 table.lockout td textarea,table.lockout td input,table.lockout td select{
 	width:100%;
@@ -1306,7 +1309,7 @@ table.lockout th.seq,table.lockout td.seq{
 	text-align: center;
 }
 table.lockout .seq{
-	width:40px;
+	width:50px;
 	text-align: center;
 }
 table.lockout th.department,table.lockout td.department{
