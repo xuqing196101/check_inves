@@ -382,7 +382,7 @@
 	  				<span id="ty5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
 	  				<div class="clear"></div>
 				</h2>
-				<div class="col-md-12 tab-v2 job-content">
+				<div class="col-md-12 tab-v2 job-content mt20">
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:set value="0" var="liCount" />
