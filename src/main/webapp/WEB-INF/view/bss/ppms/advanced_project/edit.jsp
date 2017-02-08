@@ -199,7 +199,7 @@
           <h2 class="count_flow"><i>2</i>修改项目明细</h2>
           <div class="ul_list">
             <div class="col-md-12 col-sm-12 col-xs-12 p0" id="content">
-              <table id="table" class="table table-bordered">
+              <table id="table" class="table table-bordered table-condensed lockout">
                 <thead>
                   <tr class="space_nowrap">
                     <th class="info seq">序号</th>
@@ -283,10 +283,10 @@
                      </div>
                     </td>
                     <td>
-                      <div class="w100">${obj.supplier}</div>
+                      <div class="purchasename">${obj.supplier}</div>
                     </td>
                     <td>
-                      <div class=fretax>${obj.isFreeTax}</div>
+                      <div class="freetax">${obj.isFreeTax}</div>
                     </td>
                     <td>
                       <div class="goodsuse">${obj.goodsUse}</div>
