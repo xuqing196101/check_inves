@@ -235,23 +235,23 @@
                 <table id="table" class="table table-bordered table-condensed">
                   <thead>
                     <tr class="space_nowrap">
-                      <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt="" /></th>
-                      <th class="info w50">序号</th>
-                      <th class="info w80">需求部门</th>
-                      <th class="info w80">物资名称</th>
-                      <th class="info w80">规格型号</th>
-                      <th class="info w80">质量技术<br>标准</th>
-                      <th class="info w80">计量<br>单位</th>
-                      <th class="info w80">采购<br>数量</th>
-                      <th class="info w80">单价<br>（元）</th>
-                      <th class="info w80">预算金额<br>（万元）</th>
-                      <th class="info w80">交货期限</th>
-                      <th class="info w100">采购方式<br>建议</th>
-                      <th class="info w80">供应商名称</th>
-                      <th class="info w80">是否申请<br>办理免税</th>
-                      <th class="info w80">物资用途<br>（进口）</th>
-                      <th class="info w80">使用单位<br>（进口）</th>
-                      <th class="info w160">备注</th>
+                      <th class="info choose"><input type="checkbox" id="checkAll" onclick="selectAll()" alt="" /></th>
+                      <th class="info seq">序号</th>
+                      <th class="info department">需求部门</th>
+                      <th class="info goodsname">物资名称</th>
+                      <th class="info stand">规格型号</th>
+                      <th class="info qualitstand">质量技术<br>标准</th>
+                      <th class="info item">计量<br>单位</th>
+                      <th class="info purchasecount">采购<br>数量</th>
+                      <th class="info price">单价<br>（元）</th>
+                      <th class="info budget">预算金额<br>（万元）</th>
+                      <th class="info deliverdate">交货期限</th>
+                      <th class="info purchasetype">采购方式<br>建议</th>
+                      <th class="info purchasename">供应商名称</th>
+                      <th class="info freetax">是否申请<br>办理免税</th>
+                      <th class="info goodsuse">物资用途<br>（进口）</th>
+                      <th class="info useunit">使用单位<br>（进口）</th>
+                      <th class="info memo">备注</th>
                     </tr>
                   </thead>
                   <tbody id="tbody_id">
