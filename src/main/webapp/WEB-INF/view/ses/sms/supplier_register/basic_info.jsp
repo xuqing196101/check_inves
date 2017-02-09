@@ -1764,7 +1764,7 @@
 
 													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 
-													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\d]/g,'')" value='${stockholder.identity}'> </td>
+													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${stockholder.identity}'> </td>
 													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
 													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
 												</tr>

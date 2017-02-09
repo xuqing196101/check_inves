@@ -8,6 +8,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ExpertCategoryMapper;
 import ses.model.bms.DictionaryData;
@@ -15,6 +17,7 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 import ses.service.ems.ExpertCategoryService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 @Service("expertCategoryService")
 public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	
@@ -63,17 +66,18 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
      */
 	@Override
 	public List<ExpertCategory> getListByExpertId(String expertId, String typeId) {
-		
 		List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
-		/*List<String> dataList = new ArrayList<>();
-		//关联表的所有id  再根据id查询出所有的code
-		for (ExpertCategory expertCategory : list) {
-			DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(expertCategory.getCategoryId());
-			//dataList.add(data.getCode());
-			dataList.add(data.getId());
-		}*/
 		return list;
 	}
+	
+	@Override
+    public List<ExpertCategory> getListByExpertId(String expertId, String typeId, Integer pageNum) {
+	    if (pageNum != null) {
+            PageHelper.startPage(pageNum, PropUtil.getIntegerProperty("pageSize"));
+        }
+        List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
+        return list;
+    }
 	
 	/**
      *〈简述〉

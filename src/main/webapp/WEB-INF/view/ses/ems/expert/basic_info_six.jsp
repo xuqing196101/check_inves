@@ -76,6 +76,8 @@
 					},
 					callback: {
 						onCheck: saveCategory,
+						onAsyncSuccess: zTreeOnAsyncSuccess,
+						onExpand: zTreeOnExpand
 						// beforeCheck: zTreeBeforeCheck
 					},
 					view: {
@@ -86,7 +88,12 @@
 				zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
 				zTreeObj.expandAll(true); //全部展开
 			}
-
+			
+			// 树节点展开的回调事件
+			function zTreeOnExpand(event, treeId, treeNode) {
+				$("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
+			}
+			
 			function ajaxDataFilter(treeId, parentNode, childNodes) {
 				// 判断是否为空
 				if(childNodes) {
@@ -118,6 +125,9 @@
 							"categoryId": treeNode.id,
 							"type": clickFlag,
 							"typeId": typeId
+						},
+						success: function() {
+							zTreeOnAsyncSuccess(null, treeId, null, null);
 						}
 					});
 				} else {
@@ -130,6 +140,9 @@
 							"type": clickFlag,
 							"typeId": typeId,
 							"isParent": treeNode.isParent
+						},
+						success: function() {
+							zTreeOnAsyncSuccess(null, treeId, null, null);
 						}
 					});
 				}
@@ -244,6 +257,17 @@
 					}
 				});
 			}
+			
+			function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
+				if (treeNode == null) {
+					// 加载已选品目列表
+					var code = $("#" + treeId + "-value").val();
+					loading = layer.load(1);
+					var expertId = "${expert.id}";
+					var path = "${pageContext.request.contextPath}/expert/getCategories.html?expertId=" + expertId + "&typeId=" + code;
+					$("#tbody_category").load(path);
+				}
+			};
 
 			function pre() {
 				updateStepNumber("seven");
@@ -300,6 +324,8 @@
 					},
 					callback: {
 						onCheck: saveCategory,
+						onAsyncSuccess: zTreeOnAsyncSuccess,
+						onExpand: zTreeOnExpand
 						// beforeCheck: zTreeBeforeCheck
 					},
 					view: {
@@ -441,6 +467,8 @@
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 								</c:if>
 							</c:forEach>
+							<div class="mt20" id="tbody_category"></div>
+							<div id="pagediv" align="right" class="mb50"></div>
 						</div>
 					</div>
 				</div>
@@ -454,7 +482,6 @@
 			</div>
 			<div></div>
 		</form>
-		<jsp:include page="/index_bottom.jsp"></jsp:include>
 	</body>
 
 </html>

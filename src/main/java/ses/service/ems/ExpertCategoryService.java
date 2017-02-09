@@ -48,6 +48,8 @@ public interface ExpertCategoryService {
      */
     List<ExpertCategory> getListByExpertId(String expertId, String typeId);
 
+    List<ExpertCategory> getListByExpertId(String expertId, String typeId, Integer pageNum);
+
     /**
      * 
       * @Title: deleteByExpertId
