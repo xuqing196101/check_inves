@@ -459,6 +459,18 @@ public class ArticleServiceImpl implements ArticleService {
     map.put("typeId","109");
     List<Article> article109List = articleMapper.selectArticleByArticleType(map);
     indexMapper.put("select109List", article109List);
+    map.clear();
+    map.put("typeId","115");
+    List<Article> article115List = articleMapper.selectArticleByArticleType(map);
+    indexMapper.put("article115List", article115List);
+    map.clear();
+    map.put("typeId","116");
+    List<Article> article116List = articleMapper.selectArticleByArticleType(map);
+    indexMapper.put("article116List", article116List);
+    map.clear();
+    map.put("typeId","117");
+    List<Article> article117List = articleMapper.selectArticleByArticleType(map);
+    indexMapper.put("article117List", article117List);
     return indexMapper;
   }
 

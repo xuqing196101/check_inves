@@ -261,10 +261,10 @@ public class ExpExtractRecordController extends BaseController {
 
     if (projectId != null && !"".equals(projectId)){
       //修改流程
-      Project projectNew = new Project();
+      /*Project projectNew = new Project();
       projectNew.setId(projectId);
       projectNew.setStatus(DictionaryDataUtil.getId("CQPSZJZ"));
-      projectService.update(projectNew);
+      projectService.update(projectNew);*/
       //专家类型
       model.addAttribute("ddList", expExtractRecordService.ddList());
       //根据包获取抽取出的专家
