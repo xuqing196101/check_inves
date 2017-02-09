@@ -874,7 +874,7 @@ public class ExpertController extends BaseController {
 		return JSON.toJSONString(allInfo);
 	}
 
-	@RequestMapping(value = "showJiGou", produces = "text/html;charset=UTF-8")
+	@RequestMapping(value = "showJiGou", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String showJiGou(String pId, String zId) {
 		// 全部的采购机构

@@ -106,13 +106,13 @@
 				$.each(obj,function(i,result){
 					i=i+1;
 					var name=result.name;
-					var princinpal=result.princinpal;
-					var detailAddr=result.detailAddr;
-					var mobile = result.mobile;
+					var contact=result.contact;
+					var contactAddress=result.contactAddress;
+					var contactTelephone = result.contactTelephone;
 					if(name==null)name="";
-					if(princinpal==null)princinpal="";
-					if(detailAddr==null)detailAddr="";
-					if(mobile==null)mobile="";
+					if(contact==null)contact="";
+					if(contactAddress==null)contactAddress="";
+					if(contactTelephone==null)contactTelephone="";
 					var flag;
 					if (result.flag == '1') {
 						flag = "purchase_orgs";
@@ -124,18 +124,18 @@
 								"<tr align='center' ><td><input checked='checked' onclick='checkDep(this)' type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
-								"<td>"+princinpal+"</td>"+
-								"<td>"+detailAddr+"</td>"+
-								"<td>"+mobile+"</td></tr>"
+								"<td>"+contact+"</td>"+
+								"<td>"+contactAddress+"</td>"+
+								"<td>"+contactTelephone+"</td></tr>"
 							);
 					}else{
 						$("#"+flag).append(
 								"<tr align='center' ><td><input type='radio' onclick='checkDep(this)' name='procurementDepId'  value='"+result.id+"' /></td>"+
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
-								"<td>"+princinpal+"</td>"+
-								"<td>"+detailAddr+"</td>"+
-								"<td>"+mobile+"</td></tr>"
+								"<td>"+contact+"</td>"+
+								"<td>"+contactAddress+"</td>"+
+								"<td>"+contactTelephone+"</td></tr>"
 							);
 					}
 				});
@@ -307,9 +307,9 @@
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
-													<td class="tc">${org1.princinpal}</td>
-													<td class="tc">${org1.detailAddr}</td>
-													<td class="tc">${org1.mobile}</td>
+													<td class="tc">${org1.contact}</td>
+													<td class="tc">${org1.contactAddress}</td>
+													<td class="tc">${org1.contactTelephone}</td>
 												</tr>
 											</c:forEach>
 										</tbody>
