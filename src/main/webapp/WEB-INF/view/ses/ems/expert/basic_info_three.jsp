@@ -431,10 +431,10 @@ session.setAttribute("tokenSession", tokenValue);
 							<tr>
 								<th class="info w30"><input type="radio" disabled="disabled"></th>
 								<th class="info w50">序号</th>
-								<th class="info">采购机构</th>
+								<th class="info w200">采购机构</th>
 								<th class="info">联系人</th>
 								<th class="info">联系地址</th>
-								<th class="info">联系电话</th>
+								<th class="info w100">联系电话</th>
 							</tr>
 						</thead>
 						<tbody id="purchase_orgs"></tbody>
@@ -445,10 +445,10 @@ session.setAttribute("tokenSession", tokenValue);
 							<tr>
 								<th class="info w30"><input type="radio" disabled="disabled"></th>
 								<th class="info w50">序号</th>
-								<th class="info">采购机构</th>
+								<th class="info w200">采购机构</th>
 								<th class="info">联系人</th>
 								<th class="info">联系地址</th>
-								<th class="info">联系电话</th>
+								<th class="info w100">联系电话</th>
 							</tr>
 						</thead>
 						<tbody id="purchase_orgs2">
