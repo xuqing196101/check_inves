@@ -275,7 +275,7 @@
 											</tr>
 										</thead> -->
 										<c:forEach items="${cateList }" var="obj" varStatus="vs">
-											<tr>
+											<tr >
 												<td class="tc info">${obj.categoryName } </td>
 												<c:forEach items="${obj.list }" var="quaPro">
 													<td>
@@ -347,12 +347,15 @@
 
 										<c:forEach items="${projectQua }" var="project">
 											<tr>
-												<td class="info">${project.categoryName }
+												<td class="tc info">${project.categoryName }
 													<c:forEach items="${project.list }" var="pr" varStatus="vs">
-														<td class="tc">
+														<td>
 															<c:set value="${plength+1}" var="plength"></c:set>
 															<span class="hand" onclick="reason('${pr.flag}','${project.categoryName }','工程-${pr.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${pr.name}：</span>
-															<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.flag}" sysKey="${sysKey }" typeId="${typeId}" />
+															<a>
+																<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.flag}" sysKey="${sysKey }" typeId="${typeId}" />
+															</a>
+															
 															<p id="${pr.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>
@@ -382,10 +385,10 @@
 										</thead> -->
 										<c:forEach items="${serviceQua }" var="server">
 											<tr>
-												<td class="info">${server.categoryName }
+												<td class="tc info">${server.categoryName }
 												</td>
 													<c:forEach items="${server.list }" var="ser" varStatus="vs">
-														<td class="tc">
+														<td>
 															<c:set value="${slength+1}" var="slength"></c:set>
 															<span class="hand" onclick="reason('${ser.flag}','${server.categoryName }','服务-${ser.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
 															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey }" typeId="${typeId}" />

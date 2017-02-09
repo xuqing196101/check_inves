@@ -565,7 +565,7 @@
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
 							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 								<div class="tab-pane fade active in height-300" id="tab-1">
-								<h2 class="count_flow"><i>2</i>组织结构和人员</h2>
+								<h2 class="count_flow"><i>1</i>组织结构和人员</h2>
 									<ul class="ul_list count_flow">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
@@ -599,7 +599,7 @@
 										</li>
 									</ul>
 									
-									<h2 class="count_flow"><i>3</i>产品研发能力</h2>
+									<h2 class="count_flow"><i>2</i>产品研发能力</h2>
 									<ul class="ul_list count_flow">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术人员比例(%)：</span>
@@ -645,7 +645,7 @@
 										</li>
 									</ul>
 									
-									<h2 class="count_flow"><i>4</i>生产能力</h2>
+									<h2 class="count_flow"><i>3</i>生产能力</h2>
 									<ul class="ul_list count_flow">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">生产线名称数量：</span>
@@ -661,7 +661,7 @@
 										</li>
 									</ul>
 									
-									<h2 class="count_flow"><i>5</i>质量检测能力</h2>
+									<h2 class="count_flow"><i>4</i>质量检测能力</h2>
 									<ul class="ul_list count_flow">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">质量检测部门：</span>
@@ -689,7 +689,7 @@
 										</li>
 									</ul>
 									
-									<h2 class="count_flow"><i>1</i>供应商物资生产资质证书</h2>
+									<h2 class="count_flow"><i>5</i>供应商物资生产资质证书</h2>
 									<div class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
@@ -734,7 +734,7 @@
 
 							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade  in height-200" id="tab-2">
-									<h2 class="count_flow"><i>2</i>供应商组织结构和人员</h2>
+									<h2 class="count_flow"><i>1</i>供应商组织结构和人员</h2>
 									<ul class="ul_list">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
@@ -768,7 +768,7 @@
 										</li>
 									</ul>
 								
-									<h2 class="count_flow"><i>1</i>供应商物资销售资质证书</h2>
+									<h2 class="count_flow"><i>2</i>供应商物资销售资质证书</h2>
 									<ul class="ul_list">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
@@ -813,7 +813,7 @@
 
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-3">
-									<h2 class="count_flow"><i>4</i>组织结构和人员信息</h2>
+									<h2 class="count_flow"><i>3</i>组织结构和人员信息</h2>
 									<ul class="ul_list count_flow">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
@@ -847,7 +847,7 @@
 										</li>
 									</ul>
 									
-									<h2 class="count_flow"><i>3</i>注册人员信息</h2>
+									<h2 class="count_flow"><i>4</i>注册人员信息</h2>
 									<ul class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
@@ -991,7 +991,7 @@
 							
 							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-4">
-									<h2 class="count_flow"><i>2</i>组织结构和人员信息</h2>
+									<h2 class="count_flow"><i>1</i>组织结构和人员信息</h2>
 									<ul class="ul_list">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
@@ -1025,7 +1025,7 @@
 										</li>
 									</ul>
 								
-									<h2 class="count_flow"><i>1</i>供应商服务资质证书</h2>
+									<h2 class="count_flow"><i>2</i>供应商服务资质证书</h2>
 									<ul class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>

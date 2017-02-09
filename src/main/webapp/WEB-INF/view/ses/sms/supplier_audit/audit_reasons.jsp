@@ -279,18 +279,19 @@
                    <td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
                    <td class="tc">${vs.index + 1}</td>
                    <td class="tc">
-                     <c:if test="${reasons.auditType == 'basic_page'}">详细信息</c:if>
-                     <c:if test="${reasons.auditType == 'finance_page'}">财务信息</c:if>
-                     <c:if test="${reasons.auditType == 'stockholder_page'}">股东信息</c:if>
+                     <c:if test="${reasons.auditType eq 'basic_page'}">详细信息</c:if>
+                     <c:if test="${reasons.auditType eq 'finance_page'}">财务信息</c:if>
+                     <c:if test="${reasons.auditType eq 'stockholder_page'}">股东信息</c:if>
                      <%-- <c:if test="${reasons.auditType == 'mat_pro_page'}">物资-生产信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_sell_page'}">物资-销售信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_eng_page'}">工程信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_serve_page'}">服务信息</c:if> --%>
-                     <c:if test="${reasons.auditType == 'mat_pro_page' || reasons.auditType == 'mat_sell_page' || reasons.auditType == 'mat_eng_page' || reasons.auditType == 'mat_serve_page'}">供应商类型</c:if>
-                     <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if>
-                     <c:if test="${reasons.auditType == 'aptitude_page'}">资质文件</c:if>
-                     <c:if test="${reasons.auditType == 'contract_page'}">品目合同</c:if>
-                     <c:if test="${reasons.auditType == 'upload_page'}">申请表</c:if>
+                     <c:if test="${reasons.auditType eq 'mat_pro_page' || reasons.auditType == 'mat_sell_page' || reasons.auditType == 'mat_eng_page' || reasons.auditType == 'mat_serve_page'}">供应商类型</c:if>
+                     <%-- <c:if test="${reasons.auditType == 'mat_serve_page' || reasons.auditType == 'item_sell_page' || reasons.auditType == 'item_eng_page' || reasons.auditType == 'item_serve_page'}">品目信息</c:if> --%>
+                     <c:if test="${reasons.auditType eq '品目信息'}">品目信息</c:if>
+                     <c:if test="${reasons.auditType eq 'aptitude_page'}">资质文件</c:if>
+                     <c:if test="${reasons.auditType eq 'contract_page'}">品目合同</c:if>
+                     <c:if test="${reasons.auditType eq 'upload_page'}">申请表</c:if>
                    </td>
                    <td class="tl pl20">${reasons.auditFieldName }</td>
                    <td class="tl pl20">${reasons.auditContent}</td>
@@ -303,13 +304,13 @@
 	         </div>
           </ul>
 	        <c:if test="${status == 5}">
-		        <h2 class="count_flow"><i>2</i>供应商考察表</h2>
+		        <!-- <h2 class="count_flow"><i></i>上传考察表报告</h2> -->
 			      <ul class="ul_list">
 		          <li class="col-md-6 p0 mb25">
 		            <input name="supplierId" value="${supplierId}" type="hidden">
-		            <span class="col-md-5 padding-left-5" ><a class="star_red">*</a>考察表:</span>
+		            <span class="col-md-5 padding-left-5" ><a class="star_red">*</a>考察报告:</span>
 		            <div style="margin-bottom: 25px">
-		              <u:upload id="inspect" businessId="${suppliers.id}" buttonName="上传考察表" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
+		              <u:upload id="inspect" businessId="${suppliers.id}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" auto="true" /> 
 		              <u:show showId="inspect_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierInspectList}" />
 		            </div>
 		          </li>
