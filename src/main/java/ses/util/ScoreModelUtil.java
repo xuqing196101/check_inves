@@ -304,6 +304,7 @@ public class ScoreModelUtil {
     public static List<SupplyMark> getScoreByModelFour(ScoreModel scoreModel,ArrayList<SupplyMark> supplyMarkList){
         if(supplyMarkList!=null && supplyMarkList.size()>0){
             Collections.sort(supplyMarkList, new SortByParam());
+            Collections.reverse(supplyMarkList);
             int num = 0;
             double minScore = ( scoreModel.getMinScore()!=null && !scoreModel.getMinScore().equals("") ) ?Double.parseDouble(scoreModel.getMinScore()) :0;
             minScore = FloatUtil.round(minScore, 4);
@@ -449,7 +450,7 @@ public class ScoreModelUtil {
             String type = scoreModel.getAddSubtractTypeName();
             for(int i=0 ;i<supplyMarkList.size();i++){
                 if ("1".equals(type)) {
-                        double s = new Double(scoreModel.getMaxScore()) - supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                        double s = new Double(scoreModel.getMaxScore()) - i*(new Double(scoreModel.getUnitScore()));
                         if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
                             supplyMarkList.get(i).setScore(0);
                         } else if (s >= 0) {
@@ -458,7 +459,7 @@ public class ScoreModelUtil {
                             supplyMarkList.get(i).setScore(new Double(scoreModel.getMinScore()));
                         }
                 } else {
-                        double s = supplyMarkList.get(i).getPrarm()*(new Double(scoreModel.getUnitScore()));
+                        double s = i*(new Double(scoreModel.getUnitScore()));
                         if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
                             supplyMarkList.get(i).setScore(0);
                         } else if (s >= new Double(scoreModel.getMaxScore())) {
@@ -558,7 +559,7 @@ public class ScoreModelUtil {
         //每个区间之间的差额，用于等额区间模型
         double intervalNumber = (scoreModel.getIntervalNumber()!=null && !scoreModel.getIntervalNumber().equals(""))?Double.parseDouble(scoreModel.getIntervalNumber()) : 0 ;
         //加减分分值
-        double score = (scoreModel.getScore()!=null &&! scoreModel.equals(""))?Double.parseDouble(scoreModel.getScore()):0;
+        double score = (scoreModel.getUnitScore()!=null &&! scoreModel.equals(""))?Double.parseDouble(scoreModel.getUnitScore()):0;
         //如果加分，高于截止数为满分，如果减分，低于截止数为0分
         double deadlineNumber = (scoreModel.getDeadlineNumber()!=null &&!scoreModel.getDeadlineNumber().equals(""))?Double.parseDouble(scoreModel.getDeadlineNumber()): 0 ;
         double maxScore = (scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals(""))?Double.parseDouble(scoreModel.getMaxScore()):0;
@@ -578,7 +579,7 @@ public class ScoreModelUtil {
                     if( dNumber.compareTo(dReviewStandScore) >=0 && dNumber.compareTo(dDeadlineNumber)<=0){
                         for(int i=0;i<floor;i++){
                             if(dNumber.compareTo(new Double(FloatUtil.add(reviewStandScore, FloatUtil.mul(i+1, intervalNumber)))) <0){
-                                sc = FloatUtil.mul(i+1, score);
+                                sc = FloatUtil.mul(i, score);
                                 sc = getDeadlineScore(sc, maxScore, 0);
                                 sc = FloatUtil.add(0, sc);
                                 break;
@@ -599,7 +600,7 @@ public class ScoreModelUtil {
                     if( dNumber.compareTo(dReviewStandScore) >=0 && dNumber.compareTo(dDeadlineNumber)<=0){
                         for(int i=0;i<floor;i++){
                             if(dNumber.compareTo(new Double(FloatUtil.add(reviewStandScore, FloatUtil.mul(i+1, intervalNumber)))) <0){
-                                sc = FloatUtil.mul(i+1, score);
+                                sc = FloatUtil.mul(i, score);
                                 sc = getDeadlineScore(sc, minScore, 1);
                                 sc = FloatUtil.sub(maxScore, sc);
                                 break;
@@ -617,9 +618,25 @@ public class ScoreModelUtil {
             for(ParamInterval p:paramIntervalList){
                 Double  startParam = new Double(p.getStartParam());
                 Double endParam = new Double(p.getEndParam());
-                if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <=0){
-                    sc = Double.parseDouble(p.getScore());
-                    break;
+                String spRelation = p.getStartRelation();
+                String epRelation = p.getEndRelation();
+                if("<".equals(spRelation) && "<".equals(epRelation)) {
+                    if(num.compareTo(startParam) >0 && num.compareTo(endParam) <0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }
+                }
+                if("<".equals(spRelation) && "<=".equals(epRelation)) {
+                    if(num.compareTo(startParam) >0 && num.compareTo(endParam) <=0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }
+                } 
+                if("<=".equals(spRelation) && "<".equals(epRelation)) {
+                    if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <=0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }             
                 }
             }
         }
@@ -651,7 +668,7 @@ public class ScoreModelUtil {
         //每个区间之间的差额，用于等额区间模型
         double intervalNumber = (scoreModel.getIntervalNumber()!=null && !scoreModel.getIntervalNumber().equals(""))?Double.parseDouble(scoreModel.getIntervalNumber()) : 0 ;
         //加减分分值
-        double score = (scoreModel.getScore()!=null &&! scoreModel.equals(""))?Double.parseDouble(scoreModel.getScore()):0;
+        double score = (scoreModel.getUnitScore()!=null &&! scoreModel.equals(""))?Double.parseDouble(scoreModel.getUnitScore()):0;
         //如果加分，高于截止数为满分，如果减分，低于截止数为0分
         double deadlineNumber = (scoreModel.getDeadlineNumber()!=null &&!scoreModel.getDeadlineNumber().equals(""))?Double.parseDouble(scoreModel.getDeadlineNumber()): 0 ;
         double maxScore = (scoreModel.getMaxScore()!=null && !scoreModel.getMaxScore().equals(""))?Double.parseDouble(scoreModel.getMaxScore()):0;
@@ -659,21 +676,22 @@ public class ScoreModelUtil {
         if(intervalTypeName!=null && !intervalTypeName.equals("") && intervalTypeName.equals("0")){
             //jiafen
             if(addSubtractTypeName!=null &&! addSubtractTypeName.equals("") && addSubtractTypeName.equals("0")){
+                //模型八加法没问题了
                 if(number == 0){
                     sc = 0;
-                } else if (new Double(number).compareTo(new Double(deadlineNumber)) <0){
+                } else if (new Double(number).compareTo(new Double(deadlineNumber)) <=0){
                     sc = FloatUtil.round(maxScore, 4);
-                }else if (new Double(number).compareTo(new Double(reviewStandScore)) <0) {
+                }else if (new Double(number).compareTo(new Double(reviewStandScore)) >=0) {
                     sc = FloatUtil.round(0, 4);
                 }else {
-                    int floor = (int) ((deadlineNumber-reviewStandScore)/intervalNumber) +1;
+                    int floor = (int) ((reviewStandScore - deadlineNumber)/intervalNumber) +1;
                     Double dNumber = new Double(number);
                     Double dDeadlineNumber = new Double(deadlineNumber);
                     Double dReviewStandScore = new Double(reviewStandScore);
                     if( dNumber.compareTo(dDeadlineNumber) >=0 && dNumber.compareTo(dReviewStandScore)<=0){
                         for(int i=0;i<floor;i++){
-                            if(dNumber.compareTo(new Double(FloatUtil.add(reviewStandScore, FloatUtil.mul(i+1, intervalNumber)))) <0){
-                                sc = FloatUtil.mul(i+1, score);
+                            if(dNumber.compareTo(new Double(FloatUtil.sub(reviewStandScore, FloatUtil.mul(i+1, intervalNumber)))) >0){
+                                sc = FloatUtil.mul(i, score);
                                 sc = getDeadlineScore(sc, maxScore, 0);
                                 sc = FloatUtil.add(0, sc);
                                 break;
@@ -682,23 +700,27 @@ public class ScoreModelUtil {
                     }
                 }
             }else if (addSubtractTypeName.equals("1")) {//jianfen
+                //模型八减法没问题了
                 if(number == 0){
                     sc = 0;
-                } else if(new Double(number).compareTo(new Double(reviewStandScore)) <0){
+                } else if(new Double(number).compareTo(new Double(reviewStandScore)) >=0){
                     sc = FloatUtil.round(maxScore, 4);
-                }else if (new Double(number).compareTo(new Double(deadlineNumber)) >0) {
+                }else if (new Double(number).compareTo(new Double(deadlineNumber)) <0) {
                     sc = FloatUtil.round(0, 4);
                 }else {
-                    int floor = (int) ((deadlineNumber-reviewStandScore)/intervalNumber) +1;
+                    int floor = (int) ((reviewStandScore-deadlineNumber)/intervalNumber) +1;
                     Double dNumber = new Double(number);
                     Double dDeadlineNumber = new Double(deadlineNumber);
                     Double dReviewStandScore = new Double(reviewStandScore);
                     if( dNumber.compareTo(dDeadlineNumber) >=0 && dNumber.compareTo(dReviewStandScore)<=0){
                         for(int i=0;i<floor;i++){
-                            if(dNumber.compareTo(new Double(FloatUtil.add(reviewStandScore, FloatUtil.mul(i+1, intervalNumber)))) <0){
+                            if(dNumber.compareTo(new Double(FloatUtil.sub(reviewStandScore, FloatUtil.mul(i+1, intervalNumber)))) >=0){
                                 sc = FloatUtil.mul(i+1, score);
                                 sc = getDeadlineScore(sc, minScore, 1);
                                 sc = FloatUtil.sub(maxScore, sc);
+                                if (sc < 0) {
+                                    sc = 0;
+                                }
                                 break;
                             }
                         }
@@ -713,9 +735,25 @@ public class ScoreModelUtil {
             for(ParamInterval p:paramIntervalList){
                 Double  startParam = new Double(p.getStartParam());
                 Double endParam = new Double(p.getEndParam());
-                if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <=0){
-                    sc = Double.parseDouble(p.getScore());
-                    break;
+                String spRelation = p.getStartRelation();
+                String epRelation = p.getEndRelation();
+                if("<".equals(spRelation) && "<".equals(epRelation)) {
+                    if(num.compareTo(startParam) >0 && num.compareTo(endParam) <0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }
+                }
+                if("<".equals(spRelation) && "<=".equals(epRelation)) {
+                    if(num.compareTo(startParam) >0 && num.compareTo(endParam) <=0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }
+                } 
+                if("<=".equals(spRelation) && "<".equals(epRelation)) {
+                    if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <=0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }             
                 }
             }
         }

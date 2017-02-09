@@ -1263,7 +1263,7 @@ public class IntelligentScoringController extends BaseController{
                 String endParam = paramInterval.getEndParam() == null ? "" : paramInterval.getEndParam();
                 sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + endParam + "'name='pi.endParam'></td>");
                 String score = paramInterval.getScore() == null ? "" : paramInterval.getScore();
-                sb.append("<td class=tc><input style='width:60px' type='text' value='" + score + "'name='pi.score'></td>");
+                sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + score + "'name='pi.score'></td>");
                 String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
                 sb.append("<td class=tc><textarea  name='pi.explain'>" + explain + "</textarea></td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");

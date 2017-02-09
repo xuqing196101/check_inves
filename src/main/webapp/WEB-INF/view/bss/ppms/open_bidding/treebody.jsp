@@ -373,7 +373,7 @@ function judge(index) {
 		tr += "<td class='tc'>参数值</td>";
 		tr += "<td class='tc'><select onchange='checkNum()' name='pi.endRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
 		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=endParam"+num2+" name='pi.endParam'></td>";
-		tr += "<td class='tc'><input style='width:60px' type='text' id=score"+num2+" name='pi.score'></td>";
+		tr += "<td class='tc'><input style='width:60px' onblur='checkNum(this.value)' type='text' id=score"+num2+" name='pi.score'></td>";
 		tr += "<td class='tc'><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
 		tr += "<td><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
 		tr += "</tr>";
@@ -382,7 +382,11 @@ function judge(index) {
 	}
 	var judgeParam = 0;
 	var judgeRelation = '0';
+	var scoreCount = 0;
+	var checkScore = 0;
 	function checkNum() {
+	    scoreCount =  0;
+	    checkScore =  0;
 		var table = document.getElementById("model73");
 		var i = 0;
 		var j = 1;
@@ -393,18 +397,28 @@ function judge(index) {
 				var endParamRelation = $(table.rows).eq(j).find("td").eq("4").find("select").find("option:checked").text();
 				var endParam = $(table.rows).eq(j).find("td").eq("5").find("input").val();
 				var score = $(table.rows).eq(j).find("td").eq("6").find("input").val();
-				/* if (startParam == '' || score == '' || endParam == '') {
-					layer.msg("起始值结束值得分三个参数都不能为空,请录入;",{offset: ['25%', '25%']});
-					return;
-				} */
+				if (startParam == '' || endParam == '' || score == '') {
+						scoreCount ++;
+				}
 				if (startParam != '' && endParam != '') {
 					if (startParam > endParam) {
-						layer.msg("结束参数不能小于起始参数;",{offset: ['25%', '25%']});
+						layer.msg("结束参数不能小于起始参数");
 						return;
 					}
+					if (startParam == endParam && startParamRelation == endParamRelation ) {
+						checkScore ++;
+						layer.msg("区间不成立,请重写录入");
+						return;
+					}
+					//console.dir(scoreCount);
 					if (judgeParam != 0 && j > 1) {
-						if (startParamRelation == judgeRelation || judgeParam != startParam) {
-							layer.msg("区间需要连续且唯一,这样才会更全面,请重新录入;",{offset: ['25%', '25%']});
+						//alert(startParamRelation+"-"+judgeRelation+"-"+judgeParam+"-"+startParam);
+						if (startParamRelation == judgeRelation && judgeParam <= startParam) {
+							
+						} else if (startParamRelation != judgeRelation && judgeParam <= startParam) {
+							
+						} else {
+							layer.msg("区间需要不能包含其他区间,且需要填写完整,请重新录入");
 							return;
 						}
 					}
@@ -540,14 +554,14 @@ function judge(index) {
 		var standardScore = $("#standardScore").val();
 		var unit = $("#unit").val();
 		var str = "以" + reviewParam +"最高为基准,得分=("+reviewParam+"/基准值)*"+standardScore;
-		$("#easyUnderstandContent5").val(str);
+		$("#easyUnderstandContent5").text(str);
 	}
 	function gerneratorSix(){
 		var reviewParam = $("#reviewParam").val();
 		var standardScore = $("#standardScore").val();
 		var unit = $("#unit").val();
 		var str = "以" + reviewParam +"最低为基准,得分=(基准值/"+reviewParam+")*"+standardScore;
-		$("#easyUnderstandContent6").val(str);
+		$("#easyUnderstandContent6").text(str);
 	}
 	function gerneratorSeven(){
 		var reviewParam  = $("#reviewParam").val();
@@ -559,12 +573,14 @@ function judge(index) {
 		var maxScore   = $("#maxScore").val();
 		var minScore  = $("#minScore").val();
 		var type ="";
-		var addSubtractTypeName = $("#addSubtractTypeName").val();
+		var addSubtractTypeName = $("#addSubtractTypeName8").val();
 		if(addSubtractTypeName=="0"){
-			var str = "加分实例:" + reviewParam +",低于" +reviewStandScore+"为0分,每增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+			var str =  "加分实例:" + reviewParam +",低于" +reviewStandScore+unit+"为"+ minScore+"分,每增加"+intervalNumber+unit+"加"+score+ "分, 最高分为"+maxScore+"分, 高于"+deadlineNumber+unit+"得"+maxScore+"分";
+			//加分实例：手机按键正常次数，低于4%以下为0分，每增加4%加4分，最高分为4分，高于4%，得4分
 			$("#easyUnderstandContent7").text(str);
 		}else{
-			var str = "减分实例:" + reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+			var str ="减分实例:" +  reviewParam +",低于" +reviewStandScore+unit+"为"+maxScore+"分,每增加"+intervalNumber+unit+"减"+score+ " 分,最低分为"+minScore+"分,高于"+deadlineNumber+unit+ "得"+minScore+"分";
+			// 减分实例：百公里耗油，低于4%以下为4分，每增加4%减4分，最低分为4分，高于4%，得0分
 			$("#easyUnderstandContent7").text(str);
 		}
 	}
@@ -578,12 +594,14 @@ function judge(index) {
 		var maxScore   = $("#maxScore").val();
 		var minScore  = $("#minScore").val();
 		var type ="";
-		var addSubtractTypeName = $("#addSubtractTypeName").val();
+		var addSubtractTypeName = $("#addSubtractTypeName8").val();
 		if(addSubtractTypeName=="0"){
-			var str = "加分实例:" +  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,每减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+			var str =  "加分实例:" + reviewParam +",高于" +reviewStandScore+unit+"为"+minScore+"分,每减少"+intervalNumber+unit+"加"+score+ "分, 最高分为"+maxScore+"分,低于"+deadlineNumber+unit+ "得"+maxScore+"分";
+			 // 加分实例：汽车尾气排放量，高于2%以上为0分，每减少1%加3分，最高分为4分，低于3%，得4分 
 			$("#easyUnderstandContent8").text(str);
 		}else{
-			var str = "减分实例:" + reviewParam +",低于" +reviewStandScore+"为0分,每增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+			var str ="减分实例:" +  reviewParam +",高于" +reviewStandScore+unit+"为"+maxScore+"分,每减少"+intervalNumber+unit+"减"+score+ " 最低分为"+minScore+"分, 低于"+deadlineNumber+unit+ "得"+minScore+"分";
+			//减分实例：汽车尾气排放量，高于2%以上为4分，每减少1%减3分，最低分为0分，低于3%，得0分 
 			$("#easyUnderstandContent8").text(str);
 		}
 	}
@@ -600,7 +618,7 @@ function judge(index) {
 				}
 			}
 		}
-		$("#easyUnderstandContent9").val(str);
+		$("#easyUnderstandContent9").text(str);
 	}
 	
 	function gerneratorTen(){
@@ -646,6 +664,14 @@ function judge(index) {
 			}
 			$("#standardScore").val(standardScore);
 			$("#judgeContent").val(result);
+		}
+		if (scoreCount > 0) {
+			layer.msg("参数没有填写完整,请录入");
+			return;
+		}
+		if (checkScore > 0) {
+			layer.msg("区间不成立,请重新录入");
+			return;
 		}
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
@@ -1383,7 +1409,7 @@ function judge(index) {
 			</tr>
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>加减分分值</td>
-				<td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }"></td>
+				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
 				<td><span class="blue">每个区间的分之差,加分加多少分,减分减多少分</span></td>
 			</tr>
 			<tr>
@@ -1489,7 +1515,7 @@ function judge(index) {
 			</tr>
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>加减分分值</td>
-				<td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }"></td>
+				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
 				<td><span class="blue">每个区间的分之差,加分加多少分,减分减多少分</span></td>
 			</tr>
 			

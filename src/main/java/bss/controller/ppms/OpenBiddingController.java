@@ -1441,7 +1441,7 @@ public class OpenBiddingController {
     condition.setStatusBid(NUMBER_TWO);
     condition.setStatusBond(NUMBER_TWO);
     List<SaleTender> stList = saleTenderService.find(condition);
-
+    List<SaleTender> stList1 = new ArrayList<SaleTender>();
     JSONArray json=JSONArray.fromObject(isTurnUp);
     JSONObject jsonQuote = new JSONObject();
     int count = 0;
@@ -1452,8 +1452,12 @@ public class OpenBiddingController {
                 if (list != null && list.size() > 0) {
                     List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
                     if (blist1 != null && blist1.size() == 0) {
-                        count ++ ;
-                        break labe;
+                       if (!stList1.contains(st)) {
+                            count ++ ;
+                            break labe;
+                       }
+                    } else {
+                        stList1.add(st);
                     }
                 }
               st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
