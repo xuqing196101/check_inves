@@ -143,6 +143,7 @@
 		  </c:if>
 		  <button class="btn btn-windows input" onclick="printRank()" type="button">打印汇总表</button>
 		</div>
+		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
 		<!--循环供应商  -->
 		<table class="table table-bordered table-condensed table-hover table-striped">
 		  <thead>
@@ -211,6 +212,7 @@
 			  </tr>
 		  </c:if>
 		</table>
+		</div>
   <div align="center">
 	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
   </div>

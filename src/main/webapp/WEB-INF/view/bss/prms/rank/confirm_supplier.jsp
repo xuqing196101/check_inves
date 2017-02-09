@@ -55,20 +55,26 @@
 			</tr>
 			</thead>
 			<tbody>
-			<c:forEach items="${supplierList}" var="supp" varStatus="vs">
-			  <tr>
-			    <td class="tc w50">${vs.count}</td>
-			    <td class="tc">${supp.packageNames}</td>
-			    <td class="tc">${supp.suppliers.supplierName}</td>
-			    <td class="tc" id="${supp.suppliers.id}">
-			    <c:if test="${supp.isFirstPass == 0 && supp.isRemoved eq '0'}">不合格</c:if>
-			    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
-			    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>
-			    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
-			    <c:if test="${supp.isRemoved eq '2'}">已放弃报价</c:if>
-			    </td>
-			    <td class="tc"><input <c:if test="${supp.isFirstPass != 1 or supp.isRemoved ne '0' or supp.isFinish == 1}">disabled="disabled"</c:if> type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
-			  </tr>
+			<c:set var="count" value="0"></c:set>
+			<c:forEach items="${packages}" var="p">
+				<c:forEach items="${supplierList}" var="supp" varStatus="vs">
+					<c:if test="${p.id == supp.packages}">
+					  <c:set var="count" value="${count+1}"></c:set>
+					  <tr>
+					    <td class="tc w50">${count}</td>
+					    <td class="tc">${supp.packageNames}</td>
+					    <td class="tc">${supp.suppliers.supplierName}</td>
+					    <td class="tc" id="${supp.suppliers.id}">
+					    <c:if test="${supp.isFirstPass == 0 && supp.isRemoved eq '0'}">不合格</c:if>
+					    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
+					    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>
+					    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
+					    <c:if test="${supp.isRemoved eq '2'}">已放弃报价</c:if>
+					    </td>
+					    <td class="tc"><input <c:if test="${supp.isFirstPass != 1 or supp.isRemoved ne '0' or supp.isFinish == 1}">disabled="disabled"</c:if> type="button" value="移除" onclick="removeSupplier('${supp.suppliers.id}','${supp.packages}')" class="btn"></td>
+					  </tr>
+					</c:if>
+				</c:forEach>
 			</c:forEach>
 			</tbody>
 		</table>

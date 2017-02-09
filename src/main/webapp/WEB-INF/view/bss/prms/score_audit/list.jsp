@@ -116,7 +116,7 @@
 			  <th class="w50 info">序号</th>
 			  <th class="info">包名</th>
 			  <th class="info">状态</th>
-			  <th class="info">详审进度</th>
+			  <th class="info">评审 进度</th>
 			  <th class="info">操作</th>
 			</tr>
 			</thead>
@@ -126,8 +126,11 @@
 		        <td class="tc w30">${vs.count} </td>
 		        <td class="tc">${rp.packageName}</td>
 		        <td class="tc">
-		          <c:if test="${rp.isFinish == 0}">经济技术评审中</c:if>
-		          <c:if test="${rp.isFinish == 1}">经济技术评审结束</c:if>
+		          <c:if test="${rp.auditStatus == 0}">符合性检查未开始</c:if>
+		          <c:if test="${rp.auditStatus == 1}">符合性检查中</c:if>
+		          <c:if test="${rp.auditStatus == 2}">符合性检查完成</c:if>
+		          <c:if test="${rp.auditStatus == 3}">经济技术评审中</c:if>
+		          <c:if test="${rp.auditStatus == 4}">经济技术评审完成</c:if>
 		        </td>
 			    <td class="tc">
 				  <div class="col-md-12 padding-0">
@@ -141,7 +144,12 @@
 				  </div>
 			    </td>
 			    <td class="tc w100">
-		          <input class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
+			    	<c:if test="${rp.auditStatus == 0 || rp.auditStatus == 1 || rp.auditStatus == 2}">
+			          	<input disabled="disabled" class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
+			    	</c:if>
+			    	<c:if test="${rp.auditStatus == 3 || rp.auditStatus == 4}">
+			          	<input class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
+			    	</c:if>
 		        </td>
 		      </tr>
 			</c:forEach>

@@ -247,65 +247,67 @@
 	   	</div>
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
-	  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
- 		  <thead>
-		      <tr>
-		      	<th class="info w30"><input id="checkAllExp" type="checkbox" onclick="selectAll()" /></th>
-		        <th class="info">评委/供应商</th>
-		        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
-		        	<th class="info">${supplier.suppliers.supplierName }</th>
-		        </c:forEach>
-		        <%-- <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${packageId}','${projectId}','${flowDefineId}');" type="button">查看明细</button></th> --%>
-		      </tr>
-	      </thead>
-	      <tbody id="content">
-	      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
-		       <tr>
-		       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItemExp" value="${ext.expert.id}" /></td>
-		        <td class="tc"><a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${projectId}&packageId=${pack.id}&expertId=${ext.expert.id}" target="view_window" title="评审明细">${ext.expert.relName}</a></td>
-		        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
-		        	<td class="tc">
-		        	  <c:forEach items="${supplierExtList}" var="supplierExt">
-		        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId}">
-			        	  	<c:if test="${supplierExt.suppIsPass == 0}">
-				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
-				        	  	不合格
+	   	<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+		  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
+	 		  <thead>
+			      <tr>
+			      	<th class="info w30"><input id="checkAllExp" type="checkbox" onclick="selectAll()" /></th>
+			        <th class="info">评委/供应商</th>
+			        <c:forEach items="${supplierList }" var="supplier" varStatus="vs">
+			        	<th class="info">${supplier.suppliers.supplierName }</th>
+			        </c:forEach>
+			        <%-- <th class="tc w30"><button class="btn" onclick="viewByExpert(this,'${packageId}','${projectId}','${flowDefineId}');" type="button">查看明细</button></th> --%>
+			      </tr>
+		      </thead>
+		      <tbody id="content">
+		      <c:forEach items="${packExpertExtList}" var="ext" varStatus="vs">
+			       <tr>
+			       	<td class="tc"><input onclick="check()" type="checkbox" name="chkItemExp" value="${ext.expert.id}" /></td>
+			        <td class="tc"><a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${projectId}&packageId=${pack.id}&expertId=${ext.expert.id}" target="view_window" title="评审明细">${ext.expert.relName}</a></td>
+			        <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
+			        	<td class="tc">
+			        	  <c:forEach items="${supplierExtList}" var="supplierExt">
+			        	  	<c:if test="${supplierExt.supplierId eq supplier.suppliers.id && ext.expert.id eq supplierExt.expertId}">
+				        	  	<c:if test="${supplierExt.suppIsPass == 0}">
+					        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
+					        	  	不合格
+				        	  	</c:if>
+				        	  	<c:if test="${supplierExt.suppIsPass == 1}">
+					        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
+					        	  	合格
+				        	  	</c:if>
+			        	  		<c:if test="${supplierExt.suppIsPass == 2}">
+					        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
+					        	  	未提交
+				        	  	</c:if>
 			        	  	</c:if>
-			        	  	<c:if test="${supplierExt.suppIsPass == 1}">
-				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
-				        	  	合格
-			        	  	</c:if>
-		        	  		<c:if test="${supplierExt.suppIsPass == 2}">
-				        	  	<input type="hidden" value="${supplierExt.suppIsPass}">
-				        	  	未提交
-			        	  	</c:if>
-		        	  	</c:if>
-		        	  </c:forEach>
-		        	</td>
-	            </c:forEach>
-	           <%--  <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td> --%>
-		      </tr>
-      	 </c:forEach>
-      	 <tr>
-      	 	<th class='info'colspan='2'>评审结果</th>
-      	 	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
-      	 		<td class="tc">
-      	 			<c:if test="${supplier.isFirstPass == 0}"><div class='red'>不合格</div></c:if>
-      	 			<c:if test="${supplier.isFirstPass == 1}">合格</c:if>
-      	 			<c:if test="${supplier.isFirstPass == null}">暂无</c:if>
-      	 		</td>
-      	 	</c:forEach>
-      	 </tr>
-	     </tbody>
-      	 	  <%-- <tr>
-      	 		<td class="tc"><button class="btn" onclick="viewBySupplier(this,'${packageId}','${projectId}','${flowDefineId}')" type="button">查看明细</button></td>
-      	 		 <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
-			       	<td class="tc w30"><input type="radio" name="firstAuditBySupplier" value="${supplier.suppliers.supplierName}"/></td>
-			     </c:forEach>
-			    <td></td>
-	      	  </tr> --%>
-  		</table>
-  		<div class="col-md-12 pl20 mt10 tc">
+			        	  </c:forEach>
+			        	</td>
+		            </c:forEach>
+		           <%--  <td class="tc"><input type="radio" name="firstAuditByExpert" value="${ext.expert.id}"></td> --%>
+			      </tr>
+	      	 </c:forEach>
+	      	 <tr>
+	      	 	<th class='info'colspan='2'>评审结果</th>
+	      	 	<c:forEach items="${supplierList}" var="supplier" varStatus="vs">
+	      	 		<td class="tc">
+	      	 			<c:if test="${supplier.isFirstPass == 0}"><div class='red'>不合格</div></c:if>
+	      	 			<c:if test="${supplier.isFirstPass == 1}">合格</c:if>
+	      	 			<c:if test="${supplier.isFirstPass == null}">暂无</c:if>
+	      	 		</td>
+	      	 	</c:forEach>
+	      	 </tr>
+		     </tbody>
+	      	 	  <%-- <tr>
+	      	 		<td class="tc"><button class="btn" onclick="viewBySupplier(this,'${packageId}','${projectId}','${flowDefineId}')" type="button">查看明细</button></td>
+	      	 		 <c:forEach items="${supplierList}" var="supplier" varStatus="vs">
+				       	<td class="tc w30"><input type="radio" name="firstAuditBySupplier" value="${supplier.suppliers.supplierName}"/></td>
+				     </c:forEach>
+				    <td></td>
+		      	  </tr> --%>
+	  		</table>
+	  	</div>
+  		<div class="clear col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack();" type="button">返回</button>
 	   	</div>
   </body>

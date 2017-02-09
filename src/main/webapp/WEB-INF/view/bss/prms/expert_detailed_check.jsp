@@ -194,7 +194,7 @@
 	    		<button <c:if test="${isSubmitCheck == 2}">disabled="disabled"</c:if> class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button>
 	    	</c:if>
 	    	<c:if test="${isEnd == 1}">
-			      <button disabled="disabled" class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
+			      <button disabled="disabled" class="btn" id="endId" type="button">结束评审</button>
 				  <button disabled="disabled" class="btn" id="backId" onclick="backScore()" type="button">复核评审</button>
 				  <button disabled="disabled" class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button>
 	    	</c:if>
@@ -204,6 +204,7 @@
 	   	<input type="hidden" id="packageId" value="${pack.id}">
 	   	<input type="hidden" id="projectId" value="${projectId}">
 	   	<input type="hidden" id="flowDefineId" value="${flowDefineId}">
+	   	<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
 	  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
  		  <thead>
 		      <tr>
@@ -239,7 +240,8 @@
       	 </tr>
 	     </tbody>
   		</table>
-  		<div class="col-md-12 pl20 mt10 tc">
+  		</div>
+  		<div class="clear col-md-12 pl20 mt10 tc">
 		    <button class="btn btn-windows back" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')" type="button">返回</button>
 	   	</div>
   </body>

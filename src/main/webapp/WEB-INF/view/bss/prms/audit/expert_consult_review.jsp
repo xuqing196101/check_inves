@@ -31,6 +31,8 @@
 	      	  				window.close();//当前页面关闭
 						} else if (data == 'unCheck') {
 							layer.msg("还有未进行确定结果的供应商",{offset: '400px'});
+						} else if (data == 'unSubmit') {
+							layer.msg("还有专家未提交评审",{offset: '400px'});
 						} else {
 							layer.msg("提交失败，请稍后重试！",{offset: '400px'});
 						}

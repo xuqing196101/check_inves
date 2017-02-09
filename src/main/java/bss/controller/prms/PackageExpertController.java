@@ -1469,7 +1469,7 @@ public class PackageExpertController {
                reviewProgress.setIsGather(0);
                reviewProgressList.add(reviewProgress);
            } else {
-               //是否汇总  0:未汇总 1：已汇总
+               /*//是否汇总  0:未汇总 1：已汇总
                Integer isGather = 1;
                if (selectList != null && selectList.size() > 0) {
                    for (PackageExpert packageExpert : selectList) {
@@ -1478,9 +1478,9 @@ public class PackageExpertController {
                            break;
                        }
                    }
-               }
+               }*/
                ReviewProgress reviewProgress = rplist.get(0);
-               reviewProgress.setIsGather(isGather);
+               //reviewProgress.setIsGather(isGather);
                reviewProgressList.add(reviewProgress);
            }
        }
@@ -1655,18 +1655,19 @@ public class PackageExpertController {
                     reviewProgress.setProjectId(projectId);
                     reviewProgress.setScoreProgress(0.00);
                     reviewProgress.setTotalProgress(0.00);
+                    reviewProgress.setAuditStatus("0");
                     reviewProgressList.add(reviewProgress);
                 }
             }
         }
-        for (ReviewProgress review : reviewProgressList) {
+        /*for (ReviewProgress review : reviewProgressList) {
             map.put("packageId", review.getPackageId());
             List<PackageExpert> list = packageExpertService.selectList(map);
             if (list != null && list.size() > 0) {
                 Integer isFinish = list.get(0).getIsGatherGather() == (short) 1 ? 1 : 0;
                 review.setIsFinish(isFinish);
             }
-        }
+        }*/
         
         //按包的创建时间排序
         ListSort(reviewProgressList);
@@ -2832,13 +2833,11 @@ public class PackageExpertController {
      */
     @RequestMapping("/confirmSupplier")
     public String confirmSupplier (String projectId, Model model) {
-        List<SaleTender> supplierList = new ArrayList<SaleTender>();
-        List<SaleTender> sts = saleTenderService.selectListByProjectId(projectId);
-        for (SaleTender saleTender : sts) {
-            if (saleTender.getIsTurnUp() == 0) {
-                supplierList.add(saleTender);
-            }
-        }
+        Project project = projectService.selectById(projectId);
+        SaleTender saleTender = new SaleTender();
+        saleTender.setProject(project);
+        saleTender.setIsTurnUp(0);
+        List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
         Packages pack = new Packages();
         Map<String, Object> map = new HashMap<String, Object>();
         for (SaleTender sale : supplierList) {
@@ -2851,8 +2850,13 @@ public class PackageExpertController {
                 sale.setIsFinish(isFinish);
             }
         }
+        List<Packages> packages = new ArrayList<Packages>();
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2 .put("projectId", projectId);
+        packages = packageService.findPackageById(map2);
         model.addAttribute("supplierList", supplierList);
         model.addAttribute("projectId", projectId);
+        model.addAttribute("packages", packages);
         return "bss/prms/rank/confirm_supplier";
     }
     
@@ -3701,6 +3705,19 @@ public class PackageExpertController {
             if (value == null || "".equals(value)) {
                 return "unCheck";
             }
+        }
+        //必须全部专家评审完毕专家咨询委员会才可以提交
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("packageId", packageId);
+        map.put("projectId", projectId);
+        map.put("isGrade", 1);
+        List<PackageExpert> packageExperts = packageExpertService.selectList(map);
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("packageId", packageId);
+        map2.put("projectId", projectId);
+        List<PackageExpert> packageExperts2 = packageExpertService.selectList(map2);
+        if (packageExperts != null && packageExperts2 != null && packageExperts.size() < packageExperts2.size()) {
+          return "unSubmit";
         }
         for (int i = 0; i < supplierNum; i++) {
             String value = request.getParameter("checkName"+i);
