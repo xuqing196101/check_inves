@@ -60,6 +60,9 @@
 		layer.msg("暂未开放，请耐心等待！");
 	  }	
 	  
+	  function hotLine(){
+	  	layer.alert("服务热线：66946342(吕工)");
+	  }
     </script>
   </head>
 
@@ -1124,7 +1127,7 @@
               </a>
             </div>
             <div class="ywbl_01">
-              <a href="javascript:void(0)" class="fwrx">
+              <a href="javascript:void(0)" onclick="hotLine()" class="fwrx">
                 <span>服务热线</span>
               </a>
             </div>

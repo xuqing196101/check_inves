@@ -182,7 +182,6 @@ $(function (){
     </div>
   </div>
  </c:if>
-    <div class="container">
 <c:if test="${process != 1 }">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
@@ -321,6 +320,5 @@ $(function (){
 	       </c:if>
        </div>
 	</form>
-	</div>
 </body>
 </html>

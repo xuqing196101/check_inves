@@ -47,7 +47,7 @@
         <!-- 按钮 -->
         <div class="fr pr15 mt10">
 	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
-	         <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>  
+	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
 	    </div>
 	    <input type="hidden" name="article" id="articleId" value="${article.id }">
 	    <input type="hidden" name="projectId" value="${article.projectId }">

@@ -1519,7 +1519,7 @@ public class PackageExpertController {
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         List<SaleTender> sl = saleTenderService.find(new SaleTender(projectId));
         for (SaleTender st : sl) {
-            if (st.getPackages().indexOf(packageId) != -1 && st.getIsTurnUp() == 0) {
+            if (st.getPackages().indexOf(packageId) != -1 && st.getIsTurnUp() != null && st.getIsTurnUp() == 0) {
                 supplierList.add(st);
             }
         }
