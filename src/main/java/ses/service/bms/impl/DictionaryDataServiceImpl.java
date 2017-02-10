@@ -102,7 +102,9 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_CATEGORY",
 				"INDENTITY_DOWN",
 				"SUPPLIER_CATEGORY",
-				"SUPPLIER_BANK"
+				"SUPPLIER_BANK",
+				"SUPPLIER_CON_ACH",
+				"SUPPLIER_PRO_CONTRACT"
 			};
 		param.put("strs", strs);
 		param.put("isDeleted", 0);
@@ -231,6 +233,14 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 			if("SUPPLIER_BANK".equals(dictionaryData.getCode())){
 				supplierDictionaryData.setSupplierBank(dictionaryData.getId());
 				continue;
+			}
+			if("SUPPLIER_CON_ACH".equals(dictionaryData.getCode())){
+			    supplierDictionaryData.setSupplierConAch(dictionaryData.getId());
+			    continue;
+			}
+			if("SUPPLIER_PRO_CONTRACT".equals(dictionaryData.getCode())){
+			    supplierDictionaryData.setSupplierProContract(dictionaryData.getId());
+			    continue;
 			}
 		}
 		return supplierDictionaryData;

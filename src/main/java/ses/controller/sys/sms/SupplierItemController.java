@@ -296,6 +296,7 @@ public class SupplierItemController extends BaseController {
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+            model.addAttribute("rootArea", areaService.findRootArea());
 			return "ses/sms/supplier_register/supplier_type";
 		}
 

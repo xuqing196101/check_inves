@@ -166,7 +166,9 @@
   </update>
 	
 	<select id="findRootArea" parameterType="java.lang.String" resultMap="BaseResultMap">
-		select ID, NAME from T_SES_BMS_AREA where PARENT_ID = #{areaType} ORDER BY CREATED_AT ASC
+		select 
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_AREA where PARENT_ID = #{areaType} ORDER BY CREATED_AT ASC
 	</select>
 	
 	<select id="findAreaByParentId" parameterType="java.lang.String" resultMap="BaseResultMap">

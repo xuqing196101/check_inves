@@ -59,10 +59,18 @@ public class SupplierMatEng implements Serializable {
 	/**
 	 * <pre>
 	 * 技术工人
-	 * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.TOTAL_TECH_WORKER
+	 * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.CONFIDENTIAL_ACHIEVEMENT
 	 * </pre>
 	 */
-	private Integer totalTechWorker;
+	private String confidentialAchievement;
+	
+	/**
+     * <pre>
+     * 国家或军队保密工程业绩
+     * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.
+     * </pre>
+     */
+    private Integer totalTechWorker;
 
 	/**
 	 * <pre>
@@ -190,5 +198,13 @@ public class SupplierMatEng implements Serializable {
 
     public void setPersons(List<List<SupplierRegPerson>> persons) {
         this.persons = persons;
+    }
+
+    public String getConfidentialAchievement() {
+        return confidentialAchievement;
+    }
+
+    public void setConfidentialAchievement(String confidentialAchievement) {
+        this.confidentialAchievement = confidentialAchievement;
     }
 }

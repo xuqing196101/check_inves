@@ -64,6 +64,10 @@ public class SupplierDictionaryData implements Serializable {
 	
 	private String supplierBank;
 	
+	private String supplierConAch;//供应商国家或军队保密工程业绩
+	
+	private String supplierProContract;//供应商省级行政区对应合同主要页
+	
 	public String getSupplierTaxCert() {
 		return supplierTaxCert;
 	}
@@ -295,6 +299,22 @@ public class SupplierDictionaryData implements Serializable {
 	public void setSupplierBank(String supplierBank) {
 		this.supplierBank = supplierBank;
 	}
+
+    public String getSupplierConAch() {
+        return supplierConAch;
+    }
+
+    public void setSupplierConAch(String supplierConAch) {
+        this.supplierConAch = supplierConAch;
+    }
+
+    public String getSupplierProContract() {
+        return supplierProContract;
+    }
+
+    public void setSupplierProContract(String supplierProContract) {
+        this.supplierProContract = supplierProContract;
+    }
   
 	
 

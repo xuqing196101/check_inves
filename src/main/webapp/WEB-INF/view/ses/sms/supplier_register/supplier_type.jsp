@@ -815,7 +815,7 @@ $().ready(function() {
 	
 						
 	  <div class="container opacity_0" id="tab_div">
-			<div class="overflow_h magazine-page">
+			<div class="magazine-page">
 				<div class="col-md-12 col-sm-12 col-xs-12 p0 tab-v2 job-content">
 					   <ul id="page_ul_id" class="nav nav-tabs supplier_tab">
 							 <li id="productId" style="display:none;" ><a aria-expanded="true" onclick="init_web_upload_in('#production_div')" href="#production_div" data-toggle="tab" class=" f18">物资-生产型专业信息</a></li>
@@ -1287,8 +1287,41 @@ $().ready(function() {
 												</li>
 												  </ul>	
 										</fieldset>
+									    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
+										  	<legend> 保密工程业绩 </legend>
+										  	<ul class="list-unstyled overflow_h">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 承包合同主要页及保密协议：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" exts="${properties['file.picture.type']}" id="conAch_up" multiple="true" auto="true" />
+														<u:show showId="conAch_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
+													</div>
+												</li>
+												<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+													<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>国家或军队保密工程业绩：</span>
+													<div class="col-md-12 col-xs-12 col-sm-12 p0">
+														<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" required="required" name="supplierMatEng.confidentialAchievement">${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+														<div class="cue">
+															<sf:errors path="supplierMatEng.confidentialAchievement" />
+														</div>
+													</div>
+												</li>
+											</ul>
+										</fieldset>
+										
+										<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
+										  	<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
+										  	<ul class="list-unstyled overflow_h">
+										  	  <c:forEach items="${rootArea}" var="area" varStatus="st">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> ${area.name}：</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
+														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
+													</div>
+												</li>
+											  </c:forEach>
+											</ul>
+										</fieldset>
 							
-									
 	 	               					<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
 						 	              <span class="font_line">注册人员信息 </span>
 											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
@@ -1470,9 +1503,6 @@ $().ready(function() {
 								    </div>
 							     </div>
                          
-						
-		<%-- 		 </c:if>
-				 	<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}"> --%>
 							 <div class="tab-pane fades"  id="server_div">
 							 
 					              	  <h2 class="list_title">服务专业信息</h2>
@@ -1638,10 +1668,5 @@ $().ready(function() {
 		<input name="sgin" type="hidden" />
 		<input name="supplierTypeIds" type="hidden" />
 	</form> --%>
-	
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}">
-		<jsp:include page="../../../../../index_bottom.jsp" />
-	</c:if> 
 </body>
 </html>

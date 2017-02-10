@@ -632,6 +632,7 @@ public class SupplierController extends BaseSupplierController {
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+			model.addAttribute("rootArea", areaService.findRootArea());
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -777,6 +778,7 @@ public class SupplierController extends BaseSupplierController {
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+            model.addAttribute("rootArea", areaService.findRootArea());
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
