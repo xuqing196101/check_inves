@@ -4,7 +4,7 @@
 <html>
   <head>
 <%@ include file="../../../common.jsp"%>
-   
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>   
     <title>查看质检信息</title>
      <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/upload.js"></script>
     <link rel="stylesheet" href="${pageContext.request.contextPath}/public/upload/upload.css" type="text/css" />
