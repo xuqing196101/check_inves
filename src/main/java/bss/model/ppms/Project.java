@@ -130,6 +130,8 @@ public class Project {
     
     private String auditReason;//招标文件审核原因
     
+    private String[] statusArray;//状态集合
+    
     /**
      * @return Returns the auditReason.
      */
@@ -639,6 +641,20 @@ public class Project {
 	public void setProjectContractor(String projectContractor) {
 		this.projectContractor = projectContractor;
 	}
+
+  /**
+   * @return Returns the statusArray.
+   */
+  public String[] getStatusArray() {
+    return statusArray;
+  }
+
+  /**
+   * @param statusArray The statusArray to set.
+   */
+  public void setStatusArray(String[] statusArray) {
+    this.statusArray = statusArray;
+  }
     
     
 }

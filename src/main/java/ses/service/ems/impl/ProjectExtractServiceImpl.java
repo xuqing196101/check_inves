@@ -261,7 +261,7 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
   }
 
   /**
-   * 删除为抽取的信息
+   * 删除未抽取的信息
    *〈简述〉
    *〈详细描述〉
    * @author Wang Wenshuai
@@ -274,7 +274,7 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
     for (ProjectExtract projectExtract : list) {
       boolean containsAll = expertTypeIds.containsAll(castList(projectExtract.getExpert().getExpertsTypeId()));
       if(containsAll){
-        Map<String,  String > map = new HashMap<String, String>();
+        Map<String,  String> map = new HashMap<String, String>();
         map.put("projectId", projectId);
         map.put("expertId",projectExtract.getExpert().getId());
         extractMapper.del(map);

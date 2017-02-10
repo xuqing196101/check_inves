@@ -111,6 +111,9 @@
       #{duties,jdbcType=VARCHAR},
       </if>
 		</trim>
+		 <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+    </selectKey>
 	</insert>
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierExtUser">
 		<!-- @mbggenerated -->

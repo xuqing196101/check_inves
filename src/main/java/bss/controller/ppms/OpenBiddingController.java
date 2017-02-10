@@ -38,6 +38,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.Todos;
@@ -65,6 +67,7 @@ import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.Reason;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplierCheckPass;
@@ -285,7 +288,7 @@ public class OpenBiddingController {
         return "redirect:/firstAudit/toAdd.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
       }
       //获取经济技术审查项内容
-      //获取评分办法数据字典编码
+      //获取评分办法数据字典编码     
       String methodCode = bidMethodService.getMethod(id, p.getId());
       if (methodCode != null && !"".equals(methodCode)) {
           if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
@@ -328,6 +331,7 @@ public class OpenBiddingController {
     }
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("project", project);
+    model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
     model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
     model.addAttribute("ope", "add");
     model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);

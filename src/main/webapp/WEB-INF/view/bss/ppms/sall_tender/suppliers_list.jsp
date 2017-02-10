@@ -40,11 +40,16 @@
           if(!first) { //一定要加此判断，否则初始时会无限刷新
               var packages = "${packId }";
               var projectId = "${projectId }";
-        	    var path="${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&page="+e.curr+"&ix=${ix}";
+        	    var path="${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&page="+e.curr+"&ix=${ix}"+"&selectValue="+$("#hiddenValue").val();
                 $("#tab-1").load(path);
+              
           }
         }
       });
+      var selectValue = "${selectValue}";
+	    if(selectValue != null && selectValue != ''){
+	    	Selected(selectValue);
+	     }
     });
     
     /**查詢*/
@@ -56,17 +61,28 @@
     }
     
     function selectAll() {
+    	var value = "";
       var checklist = document.getElementsByName("chkItem");
       var checkAll = document.getElementById("checkAll");
       if(checkAll.checked) {
         for(var i = 0; i < checklist.length; i++) {
           checklist[i].checked = true;
+          var hiddenValue = $("#hiddenValue").val();
+          if(hiddenValue != null && hiddenValue != '' ){
+          var newStr  = hiddenValue.replace(checklist[i].value+",","");
+          $("#hiddenValue").val(newStr);
+          }
+          value = value + checklist[i].value+",";
         }
       } else {
         for(var j = 0; j < checklist.length; j++) {
           checklist[j].checked = false;
+          var hiddenValue = $("#hiddenValue").val();
+          var newStr  = hiddenValue.replace(checklist[j].value+",","");
+          $("#hiddenValue").val(newStr);
         }
       }
+  $("#hiddenValue").val($("#hiddenValue").val()+value);
     }
 
     function showSupplier() {
@@ -88,7 +104,8 @@
           });
         }
       }else{
-    	  var path  = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId + "&ix=${ix}";
+    	 var idstr = $("#hiddenValue").val();
+    	  var path  = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + idstr + "&packages=" + packages + "&projectId=" + projectId + "&ix=${ix}";
         $("#tab-1").load(path);
       }
       
@@ -96,22 +113,61 @@
 
     }
     
+    function Selected(value){
+    	 var count = 0;
+        $("#hiddenValue").val(value);
+        var strs = new Array(); //定义一数组
+        strs = value.split(","); //字符分割 
+        var checkAll = document.getElementById("checkAll");
+        var checklist = document.getElementsByName("chkItem");
+        for(var j = 0; j < checklist.length; j++) {
+        	for(var k = 0 ; k < strs.length; k++){
+        		if(checklist[j].value == strs[k]) {
+        			checklist[j].checked = true;
+        		  count ++; 
+             }
+        	 }
+          }
+        if(count != 0 && checklist.length == count){
+        	checkAll.checked = true;
+        }
+    }
+    
     function check() {
-      var count = 0;
       var checklist = document.getElementsByName("chkItem");
       var checkAll = document.getElementById("checkAll");
       for(var i = 0; i < checklist.length; i++) {
+       
         if(checklist[i].checked == false) {
-          checkAll.checked = false;
-          break;
+          
+          var hiddenValue = $("#hiddenValue").val();
+       
+          // != null 去除重复
+           if(hiddenValue != null && hiddenValue != ''){
+	         var newStr  = hiddenValue.replace(checklist[i].value+",","");
+	         $("#hiddenValue").val(newStr);
+          }
+    
         }
+        var value = "";
         for(var j = 0; j < checklist.length; j++) {
           if(checklist[j].checked == true) {
-            checkAll.checked = true;
-            count++;
+//         alert();
+            var hiddenValue = $("#hiddenValue").val();
+            // != null 去除重复
+            if(hiddenValue != null && hiddenValue != ''){
+            	var newStr  = hiddenValue.replace(checklist[j].value+",","");
+            $("#hiddenValue").val(newStr);
+            }
+            value = value + checklist[j].value+",";
           }
         }
+        $("#hiddenValue").val($("#hiddenValue").val()+value);
       }
+      var len = $("input[name='chkItem']:checked").length; 
+      if(len != 0 && (len == 0 && checklist.length == 0 )){
+          checkAll.checked = true;
+        }
     }
 
     function resetQuery() {
@@ -135,7 +191,7 @@
             <input type="reset" class="btn fl" onclick="resetQuery();" value="重置">
           <div class="clear"></div>
       </div>
-
+    <input type="hidden" id="hiddenValue"  value="" />
     <input type="hidden" name="packages" value="${packId }" />
     <input type="hidden" name="projectId" value="${projectId }" />
     <input type="hidden" id="kind" value="${kind }" />

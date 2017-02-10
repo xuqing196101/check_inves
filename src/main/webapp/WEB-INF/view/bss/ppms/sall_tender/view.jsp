@@ -73,7 +73,7 @@
             	$("#tab-1").load(path);
             }
           } else if(id.length > 1) {
-            layer.msg("请选择一个登记的信息", {
+            layer.msg("只能选择一个登记信息", {
               offset: ['180px', '200px'],
               shade: 0.01
             });
@@ -254,7 +254,7 @@
             <tbody>
               <c:forEach items="${pack.saleTenderList}" var="obj" varStatus="vs">
                 <tr>
-                  <td class="tc opinter w50"><input onclick="check()" type="radio" id="${obj.id}" name="chkItem" value="${obj.id}" /></td>
+                  <td class="tc opinter w50"><input onclick="check()" type="checkbox" id="${obj.id}" name="chkItem" value="${obj.id}" /></td>
                   <td class="tc opinter " title="${obj.suppliers.supplierName}">
                   <c:choose>
 			              <c:when test="${fn:length(obj.suppliers.supplierName) > 12}">

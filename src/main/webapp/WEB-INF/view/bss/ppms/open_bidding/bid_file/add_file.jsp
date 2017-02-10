@@ -10,7 +10,14 @@
 $(function (){
 	var  pStatus = "${pStatus}";
 	if(pStatus == 'ZBWJYTJ'){
-		$("#reason").removeAttr("readonly");
+		 //采购部门意见
+	    $("#pcReason").removeAttr("readonly");
+	    //事业部门意见
+	    $("#causereason").removeAttr("readonly");
+	    //财务部门意见
+	    $("#financereason").removeAttr("readonly");
+	    //最终意见
+	    $("#finalreason").removeAttr("readonly");
 	}
 });
 
@@ -84,10 +91,11 @@ $(function (){
 	通过|退回
 	*/
 	function updateAudit(status){
-		var reason = $("#reason").val();
+	var formData = $("#MyFile").serialize();
+      formData = decodeURIComponent(formData, true);
 	 if(status == 2){
-		  if(reason != null && reason != ''){
-			  ajax(reason,status);
+		  if($("#pcReason").val() != null &&  $("#causereason").val() != null && $("#financereason").val() != null &&   $("#finalreason").val() != null ){
+			  ajax(formData,status);
 		  }else{
 			  alert("理由不能为空");
 		  }
@@ -117,7 +125,7 @@ $(function (){
 	      var flowDefineId = $("#flowDefineId").val();
 	      var process = "${process}";
 	      $.ajax({
-	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status+"&reason="+encodeURI(encodeURI(reason)),
+	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status+"&&reason="+encodeURI(encodeURI(reason)),
 	            dataType: 'json',  
 	            success:function(result){
 	              if(result == 'SUCCESS'){
@@ -182,6 +190,7 @@ $(function (){
     </div>
   </div>
  </c:if>
+     <div class="container">
 <c:if test="${process != 1 }">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
@@ -272,10 +281,14 @@ $(function (){
 	      	 <!-- <input type="button" class="btn btn-windows " onclick="queryVersion()" value="版本查询"></input> -->
 	     	<!-- <input type="button" class="btn btn-windows input" onclick="inputTemplete()" value="模板导入"></input> -->
 	        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
-	        <input type="button" class="btn btn-windows save" onclick="" value="生成正式采购文件">
 	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
 	    </div>
 	 </c:if>
+	  <c:if test="${project.confirmFile == 1 && pStatus == 'ZBWJYTG' }">
+       <div class="mt5 mb5 fr" id="handle">
+          <input type="button" class="btn btn-windows save" onclick="" value="生成正式采购文件">
+      </div>
+   </c:if>
 	<form id="MyFile" method="post" class="h800">
 		<c:if test="${project.confirmFile != 1}">
 			<div class="" id="audit_file_add">
@@ -303,22 +316,30 @@ $(function (){
     	<input type="hidden" id="projectId" value="${project.id}">
     	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-		<c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)   }">
-		  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>   
-		</c:if>
-	    <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
-<!-- 	    confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 -->
-	       <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
-	        	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="reason" maxlength="100" name="reason" title="不超过100个字">${project.auditReason}</textarea>
-	       </c:if> 
-	       <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">
-	        <div class="tc mt50">
-	          <input type="button" class="btn btn-windows git " onclick="updateAudit('1')" value="通过"></input>
-	          <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回 "></input>
-	          <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
-	        </div>
-	       </c:if>
+<%-- 		<c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)   }"> --%>
+<!-- 		  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>    -->
+<%-- 		</c:if> --%>
+	   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
+<!--      confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 -->
+         <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
+           <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="pcReason" maxlength="100" name="pcReason" title="不超过100个字">${reasons.pcReason}</textarea>
+            <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="causereason" maxlength="100" name="causeReason" title="不超过100个字">${reasons.causeReason}</textarea>
+          <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="financereason" maxlength="100" name="financeReason" title="不超过100个字">${reasons.financeReason}</textarea>
+             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="finalreason" maxlength="100" name="finalReason" title="不超过100个字">${reasons.finalReason}</textarea>
+         </c:if> 
+         <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">
+          <div class="tc mt50">
+            <input type="button" class="btn btn-windows git " onclick="updateAudit('1')" value="通过"></input>
+            <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回 "></input>
+            <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+          </div>
+         </c:if>
        </div>
 	</form>
 </body>
+</div>
 </html>
