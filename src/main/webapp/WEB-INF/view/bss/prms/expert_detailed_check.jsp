@@ -190,7 +190,7 @@
 	    <div class="mb5 fr">
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" id="endId" onclick="endCheck('${projectId}','${pack.id}')" type="button">结束评审</button>
-			    <button class="btn" id="backId" onclick="backCheck('${projectId}','${pack.id}')" type="button">复核评审</button>
+			    <button <c:if test="${isSubmitCheck == 2}">disabled="disabled"</c:if> class="btn" id="backId" onclick="backCheck('${projectId}','${pack.id}')" type="button">复核评审</button>
 	    		<button <c:if test="${isSubmitCheck == 2}">disabled="disabled"</c:if> class="btn" onclick="expertConsult('${projectId}','${pack.id}')" type="button">专家咨询委员会</button>
 	    	</c:if>
 	    	<c:if test="${isEnd == 1}">
