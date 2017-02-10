@@ -27,6 +27,9 @@
         }
       }
     });
+    var confirmFile = "${confirmFile}";
+    $("#status").find("option[value='"+confirmFile+"']").attr("selected",true);
+    
   });
 
   /** 全选全不选 */
@@ -86,10 +89,6 @@
 	
 	  
   }
- 
-
-
-
   //重置
   function clearSearch() {
 	$("#proName").attr("value", "");
@@ -134,6 +133,17 @@
 		      <input type="text" name="projectNumber" id="projectNumber" value="${project.projectNumber }" /> 
 		    </span>
 		  </li>
+		   <li>
+        <label class="fl">审核状态：</label> 
+        <span>
+        <select class="w178" id="status" name="confirmFile" >
+          <option value="">请选择</option>
+					<option value="1">待审核</option>
+					<option value="3">审核通过</option>
+					<option value="2">审核未通过</option>
+				</select>
+        </span>
+      </li>
 		</ul>
 		  <button class="btn fl mt1" type="submit">查询</button>
 	      <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
@@ -156,6 +166,7 @@
 			<th class="info">采购方式</th>
 			<th class="info">创建时间</th>
 			<th class="info">项目负责人</th>
+			<th class="info">审核状态</th>
 		  </tr>
 		</thead>
 		<tbody id="tbody_id">
@@ -176,6 +187,11 @@
 			  </td>
 			  <td class="tl pl20" onclick="view('${obj.id}')"><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
 			  <td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
+			   <td class="tc" onclick="view('${obj.id}')">
+			   <c:if test="${obj.confirmFile == 1 }">待审核</c:if>
+			   <c:if test="${obj.confirmFile == 3 }">审核通过</c:if>
+			   <c:if test="${obj.confirmFile == 2 }">审核未通过</c:if>
+			   </td>
 			</tr>
 		  </c:forEach>
 		</tbody>

@@ -70,6 +70,7 @@ $(function (){
 			$("#handle").attr("class","dnone");
 			$("#audit_file_add").attr("class","dnone");
 			$("#audit_file_view").removeAttr("class","dnone");
+			   $("#cgdiv").addClass("dnone");
 		} 
 		
 		//暂存
@@ -114,7 +115,7 @@ $(function (){
 	                },function(value, ix, elem){
 	                  layer.close(ix);
 	                }); */
-		}else if(status ==1){
+		}else if(status ==3){
 			ajax(null,status);
 		}
 	}
@@ -163,6 +164,19 @@ $(function (){
 	 	       	});
 	 		});
       }
+    
+    /**生成正式的采购文件*/
+    function oncreate(){
+    	  var projectId = $("#projectId").val();
+    	 $.ajax({
+             url:"${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId,
+             dataType: 'json',  
+                 success:function(result){
+                        
+                     },
+                     
+               });
+    }
 </script>
 
 <!-- 打开文档后只读 -->
@@ -238,7 +252,7 @@ $(function (){
 		   <a href="${pageContext.request.contextPath}/open_bidding/packageFirstAuditView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、符合性关联</a>
 		   <i></i>							  
 		 </li> --%>
-	     <li>
+	     <li> 
 		   <a  href="${pageContext.request.contextPath}/intelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId }">02、经济和技术评审细则</a>
 		   <i></i>
 		 </li>
@@ -272,7 +286,7 @@ $(function (){
 	 </div>
 </c:if>
 	 <!-- 按钮 -->
-	 <c:if test="${project.confirmFile != 1 && ope =='add' }">
+	 <c:if test="${project.confirmFile != 1 && project.confirmFile != 3 && ope =='add' && isAdmin == 1 }">
 	     <div class="mt5 mb5 fr" id="handle">
 	      	 <!-- <input type="button" class="btn btn-windows cancel" onclick="delMark()" value="删除标记"></input>
 	      	 <input type="button" class="btn btn-windows cancel" onclick="searchMark()" value="查看标记"></input>
@@ -284,13 +298,13 @@ $(function (){
 	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
 	    </div>
 	 </c:if>
-	  <c:if test="${project.confirmFile == 1 && pStatus == 'ZBWJYTG' }">
+	  <c:if test="${project.confirmFile == 3 && pStatus == 'ZBWJYTG' &&  isAdmin == 1 }">
        <div class="mt5 mb5 fr" id="handle">
-          <input type="button" class="btn btn-windows save" onclick="" value="生成正式采购文件">
+          <input type="button" class="btn btn-windows save" onclick="oncreate();" value="生成正式采购文件">
       </div>
    </c:if>
 	<form id="MyFile" method="post" class="h800">
-		<c:if test="${project.confirmFile != 1}">
+		<c:if test="${ (project.confirmFile == 0 || project.confirmFile == 2 )    }">
 			<div class="" id="audit_file_add">
 				<span class="fl">上传审批文件</span>
 				<div>
@@ -304,7 +318,7 @@ $(function (){
 			</div>
 		</c:if>
 		
-		<c:if test="${project.confirmFile == 1}">
+		<c:if test="${(project.confirmFile == 1 || project.confirmFile == 3 )   }">
 			<div class="clear" >
 				<span class="fl">审批文件</span>
 		        <u:show  showId="c" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
@@ -316,12 +330,9 @@ $(function (){
     	<input type="hidden" id="projectId" value="${project.id}">
     	<input type="hidden" id="projectName" value="${project.name}">
 		<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-<%-- 		<c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)   }"> --%>
-<!-- 		  <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>    -->
-<%-- 		</c:if> --%>
 	   <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
 <!--      confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 -->
-         <c:if test="${(project.confirmFile != 1 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
+         <c:if test="${(project.confirmFile != 1 && project.confirmFile != 3 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
            <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
             <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="pcReason" maxlength="100" name="pcReason" title="不超过100个字">${reasons.pcReason}</textarea>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
@@ -333,7 +344,7 @@ $(function (){
          </c:if> 
          <c:if test="${pStatus == 'ZBWJYTJ' && exist == true }">
           <div class="tc mt50">
-            <input type="button" class="btn btn-windows git " onclick="updateAudit('1')" value="通过"></input>
+            <input type="button" class="btn btn-windows git " onclick="updateAudit('3')" value="通过"></input>
             <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回 "></input>
             <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
           </div>

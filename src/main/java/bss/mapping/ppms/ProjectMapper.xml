@@ -320,10 +320,11 @@
        </foreach> 
        )
       </if>
+      <if test="confirmFile != null and confirmFile != ''">
+         and CONFIRM_FILE = #{confirmFile}
+      </if>
       ORDER BY CREATED_AT DESC
   </select>
-  
-
   
   <select id="verifyByProject" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
     select 

@@ -83,10 +83,9 @@ public class AuditBiddingController extends BaseController {
    * @return
    */
   @RequestMapping("/list")
-  public String list(@CurrentUser User user,Integer page,Model model){
+  public String list(@CurrentUser User user,Integer page,Model model,Project project){
     //采购机构信息
     PurchaseDep purchaseDep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
-    Project project = new Project();
     project.setStatusArray(new String[]{DictionaryDataUtil.getId("ZBWJYTJ"),DictionaryDataUtil.getId("NZPFBZ"),DictionaryDataUtil.getId("ZBWJYTG")});
     //拿到当前的采购机构获取到组织机构
     List<PurchaseOrg> listOrg = purchaseOrgnizationService.getOrg(purchaseDep.getOrgId());
@@ -111,7 +110,7 @@ public class AuditBiddingController extends BaseController {
         list.get(i).setProjectContractor("");
       }
     }
-    
+    model.addAttribute("confirmFile", project.getConfirmFile());
     model.addAttribute("list", new PageInfo<Project>(list));
     return "bss/ppms/audit_bidding/list";
   } 
@@ -141,9 +140,9 @@ public class AuditBiddingController extends BaseController {
     //修改代办为已办
     todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
     //通过 修改状态为一下状态
-    if ("1".equals(status)) {
+    if ("3".equals(status)) {
       project.setStatus(DictionaryDataUtil.getId("ZBWJYTG"));
-      project.setConfirmFile(1);
+      project.setConfirmFile(3);
       //推送待办
       Todos todos = new Todos();
       todos.setName(selectById.getName() + "招标文件审核通过");
@@ -158,7 +157,7 @@ public class AuditBiddingController extends BaseController {
     //退回 修改状态为上一状态
     if ("2".equals(status)) {
       project.setStatus(DictionaryDataUtil.getId("NZPFBZ"));
-      project.setConfirmFile(0);
+      project.setConfirmFile(2);
       //推送待办
       Todos todos = new Todos();
       todos.setName(selectById.getName() + "招标文件审核退回");
@@ -173,7 +172,24 @@ public class AuditBiddingController extends BaseController {
     return JSON.toJSONString(SUCCESS);
 
   }
+  
 
+  /**
+   * 
+   *〈简述〉生成正式的采购文件
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @return
+   * @throws UnsupportedEncodingException 
+   */
+  @ResponseBody
+  @RequestMapping(value = "/purchaseFile",produces = "text/html;charset=UTF-8")
+  public String purchaseFile(String projectId){
+    //修改代办为已办
+    todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
+    return SUCCESS;
+    
+  }
 
 
 
