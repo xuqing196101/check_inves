@@ -295,4 +295,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		return orgnizationMapper.queryPur(id);
 	}
 
+	@Override
+	public List<String> getUniqueId(List<String> list) {
+		// TODO Auto-generated method stub
+		return purchaseRequiredMapper.getUniqueId(list);
+	}
+
 }

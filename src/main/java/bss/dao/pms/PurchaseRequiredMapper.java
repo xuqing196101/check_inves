@@ -309,4 +309,16 @@ public interface PurchaseRequiredMapper {
      */
     void uddateByUniqueId(@Param("uniqueId")String uniqueId);
     
+    /**
+     * 
+    * @Title: getUniqueId
+    * @Description:根据id查询uniqueId 
+    * author: Li Xiaoxiao 
+    * @param @param list
+    * @param @return     
+    * @return List<String>     
+    * @throws
+     */
+    List<String> getUniqueId(List<String> list);
+    
 }

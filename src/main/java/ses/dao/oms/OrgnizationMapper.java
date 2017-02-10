@@ -181,4 +181,26 @@ public interface OrgnizationMapper {
      */
     Orgnization queryPur(@Param("id")String id);
     
+    /**
+     * 
+    * @Title: getChildren
+    * @Description:根据父级id查询所有明细 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return List<Orgnization>     
+    * @throws
+     */
+    List<Orgnization> getChildren(@Param("id")String id);
+    /**
+     * 
+    * @Title: getParent
+    * @Description: 根据id得到父级id 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return List<Orgnization>     
+    * @throws
+     */
+    List<Orgnization> getParent(@Param("id")String id);
 }

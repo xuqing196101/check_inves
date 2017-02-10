@@ -6,7 +6,7 @@
     <%@ include file="/WEB-INF/view/common.jsp" %>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
   <!--   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script> -->
-    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
+  <%--   <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script> --%>
 <script type="text/javascript">
   /** 全选全不选 */
   function selectAll(){
@@ -152,9 +152,9 @@
       
      <div class="tab-content over_hideen">
       <div class="tab-pane fade active in " id="tab-1">
-		<div class="col-md-12 col-xs-12 col-sm-12 mt5 content" id="content">
+		<div class="col-md-12 col-xs-12 col-sm-12 mt5 content require_ul_list" id="content">
 			      
-			        <table id="table" class="table table-bordered lockout">
+			        <table id="table" class="table table-bordered table-condensed lockout">
 			          <thead>
 			              <tr class="space_nowrap">
              				 <th class="info seq">序号</th>
@@ -216,10 +216,10 @@
 			               <div class="purchasecount"> <fmt:formatNumber>${obj.purchaseCount }</fmt:formatNumber></div>
 			              </td>
 			              <td>
-			               <div class="price"><fmt:formatNumber type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.price}" /></div>
+			               <div class="price"><fmt:formatNumber type="number"   pattern="#,#00.00#"  value="${obj.price}" /></div>
 			              </td>
 			              <td>
-			               <div class="budget"><fmt:formatNumber type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.budget}" /> </div>
+			               <div class="budget"><fmt:formatNumber type="number"   pattern="#,#00.00#" value="${obj.budget}" /> </div>
 			              </td>
 			              <td>
 			               <div class="deliverdate">${obj.deliverDate }</div>

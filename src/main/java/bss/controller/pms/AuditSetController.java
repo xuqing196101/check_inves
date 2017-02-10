@@ -16,9 +16,11 @@ import net.sf.json.JSONSerializer;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -412,17 +414,46 @@ public class AuditSetController {
 		HSSFWorkbook workbook = new HSSFWorkbook();
 	     HSSFSheet sheet = workbook.createSheet("1"); 
 	     HSSFCellStyle style = workbook.createCellStyle();
+//	     HSSFFont font = workbook.createFont();   
+//		 font.setFontHeightInPoints((short) 22);
+		 style.setBorderBottom(HSSFCellStyle.BORDER_HAIR);
+		 style.setBorderLeft(HSSFCellStyle.BORDER_HAIR);
+		 style.setBorderTop(HSSFCellStyle.BORDER_HAIR);
+		 style.setBorderRight(HSSFCellStyle.BORDER_HAIR);
+//		 style.setFont(font);
+		 style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
 	     style.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+	   
 	     
+	     
+	     sheet.setColumnWidth(0, 2000); 
+	     sheet.setColumnWidth(1, 3000); 
+	     sheet.setColumnWidth(2, 3000);
+	     sheet.setColumnWidth(3, 3000);
+	     sheet.setColumnWidth(4, 3200);
+	     sheet.setColumnWidth(5, 1200);
+	     sheet.setColumnWidth(6, 2300);
+	     sheet.setColumnWidth(7, 2300);
+	     sheet.setColumnWidth(8, 2300);
+	     sheet.setColumnWidth(9, 2300);
+	     sheet.setColumnWidth(10, 2500);
+	     sheet.setColumnWidth(11, 2300);
+	     sheet.setColumnWidth(12, 2300);
+	     sheet.setColumnWidth(13, 3000);
+	    
 	     //表头第一行
-	     HSSFRow row = sheet.createRow((int) 0);  
+	     HSSFRow row = sheet.createRow(0);  
 			//
 	     HSSFCell  cell = row.createCell(0);
-	     cell.setCellValue(plan.getFileName());
-	     cell.setCellStyle(style);
-	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)12));
+	     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	     cell.setCellStyle(style);
+//	     cell.setCellValue(plan.getFileName());
+//	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)13));
+	     generateName(workbook,sheet,plan);
 	     int n=12;
 	     int hb=0;
+//	     font2.setFontHeightInPoints((short) 9);
+//	     style.setFont(font2);
 //	     for(AuditParamBean ap:bean){
 //	    	 hb=n+1;
 //	    	 cell = row.createCell(hb);
@@ -436,59 +467,106 @@ public class AuditSetController {
 	     /*	  cell = row.createCell(16);  
      		cell.setCellValue("第二轮审核");
 	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,16,(short)17));*/
-	        row = sheet.createRow((int) 1);
-	        cell = row.createCell(0);
-			cell.setCellValue("序号"); 
-	        cell = row.createCell(1);  
-	        cell.setCellValue("需求部门");
-	        cell = row.createCell(2);  
-	        cell.setCellValue("物资名称");
-	        cell = row.createCell(3);  
-	        cell.setCellValue("规格型号");
-	        cell = row.createCell(4);  
-	        cell.setCellValue("质量技术标准");
-	        cell = row.createCell(5);  
-	        cell.setCellValue("计量单位"); 
-	        cell = row.createCell(6);  
-	        cell.setCellValue("采购数量");  
-	        
-	        cell = row.createCell(7);  
-	        cell.setCellValue("单价（元）");  
-	        
-	        cell = row.createCell(8);  
-	        cell.setCellValue("预算金额（万元）");  
-	        
-	        cell = row.createCell(9);  
-	        cell.setCellValue("交货期限");  
-	        
-	        cell = row.createCell(10);  
-	        cell.setCellValue("采购方式");  
-	        
-	        cell = row.createCell(11);  
-	        cell.setCellValue("采购机构"); 
-	        
-	        cell = row.createCell(12);  
-	        cell.setCellValue("供应商");  
-	        
-	        
-	        cell = row.createCell(13);  
-	        cell.setCellValue("备注");  
-	        if(plan.getAuditTurn()!=null){
-//	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
-		        	 cell = row.createCell(14);  
-		 	        cell.setCellValue("一轮审核建议");  
-//		        }
-		 	        
-		 	       if((plan.getAuditTurn()==2||plan.getAuditTurn()==3)&&(plan.getStatus()==12||plan.getStatus()==2)){
-				        	 cell = row.createCell(15);  
-				 	        cell.setCellValue("二轮轮审核建议");  
-			        }
-		 	       if(plan.getAuditTurn()==3&&(plan.getStatus()==12||plan.getStatus()==2)){
-			        	cell = row.createCell(16);  
-			 	        cell.setCellValue("三轮审核建议");  
-			        }
-	        }
-	       
+//	        row = sheet.createRow((int) 1);
+//	        cell = row.createCell(0);
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+////	        style.setAlignment(CellStyle.VERTICAL_CENTER);
+//	        cell.setCellStyle(style);
+//			cell.setCellValue("序号");
+//	        cell = row.createCell(1); 
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("需求部门");
+//	        cell = row.createCell(2);
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("物资类别及名称");
+//	        cell = row.createCell(3); 
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("规格型号");
+//	        cell = row.createCell(4); 
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("质量技术标准");
+//	        cell = row.createCell(5);  
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("计量单位"); 
+//	        cell = row.createCell(6);
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("采购数量");  
+//	        
+//	        cell = row.createCell(7); 
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("单价（元）");  
+//	        
+//	        cell = row.createCell(8); 
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("预算金额（万元）");  
+//	        
+//	        cell = row.createCell(9); 
+////	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+//	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//	        style.setWrapText(true);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("交货期限");  
+//	        
+//	        cell = row.createCell(10);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("采购方式");  
+//	        
+//	        cell = row.createCell(11);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("采购机构"); 
+//	        
+//	        cell = row.createCell(12);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("供应商");  
+//	        
+//	        
+//	        cell = row.createCell(13);
+//	        cell.setCellStyle(style);
+//	        cell.setCellValue("备注");  
+//	        if(plan.getAuditTurn()!=null){
+////	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
+//		        	 cell = row.createCell(14);  
+//		 	        cell.setCellValue("一轮审核建议");  
+////		        }
+//		 	        
+//		 	       if((plan.getAuditTurn()==2||plan.getAuditTurn()==3)&&(plan.getStatus()==12||plan.getStatus()==2)){
+//				        	 cell = row.createCell(15);  
+//				 	        cell.setCellValue("二轮轮审核建议");  
+//			        }
+//		 	       if(plan.getAuditTurn()==3&&(plan.getStatus()==12||plan.getStatus()==2)){
+//			        	cell = row.createCell(16);  
+//			 	        cell.setCellValue("三轮审核建议");  
+//			        }
+//	        }
+	     generateHeader(workbook,sheet,plan);
 //	        if(plan.getAuditTurn()==2){
 //	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
 //		        	 cell = row.createCell(15);  
@@ -507,38 +585,66 @@ public class AuditSetController {
 //	        cell.setCellValue("技术参意见"); 
 //	        cell = row.createCell(17);  
 //	        cell.setCellValue("其他建议"); 
-	        
 	        int count=2;
 //	        PurchaseAudit purchaseAudit=new PurchaseAudit();
 			for(PurchaseDetail p:list){
 	        	row = sheet.createRow(count);
 	   	        cell = row.createCell(0);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        cell.setCellStyle(style);
 	   			cell.setCellValue(p.getSeq()); 
 	   	        cell = row.createCell(1);  
 //	   	        if(p.getDepartment()!=null){
 //	   	        	Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(p.getDepartment());
 //	   	        	if(orgnization!=null){
+		        style.setWrapText(true);
+	   	        style.setAlignment(CellStyle.ALIGN_LEFT);
+		        cell.setCellStyle(style);
 	   	        		cell.setCellValue(p.getDepartment());
 //	   	        	}
 //	   	        	
 //	   	        }
 	   	      
-	   	        cell = row.createCell(2);  
+	   	        cell = row.createCell(2); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getGoodsName());
-	   	        cell = row.createCell(3);  
+	   	        cell = row.createCell(3); 
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getStand());
-	   	        cell = row.createCell(4);  
+	   	        cell = row.createCell(4);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getQualitStand());
-	   	        cell = row.createCell(5);  
+	   	        cell = row.createCell(5);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getItem()); 
 	   	        cell = row.createCell(6); 
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		        cell.setCellStyle(style);
 	   	        if(p.getPurchaseCount()!=null){
 	   	        	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	   	           
 	   	         cell.setCellValue(d);  
 	   	        }
 	   	       
 	   	        
-	   	        cell = row.createCell(7); 
+	   	        cell = row.createCell(7);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		        cell.setCellStyle(style);
 	   	        if(p.getPrice()!=null){
 		   	        double price = p.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		   	        cell.setCellValue(price);
@@ -546,18 +652,29 @@ public class AuditSetController {
 	   	     
 	   	          
 	   	        
-	   	        cell = row.createCell(8);  
+	   	        cell = row.createCell(8); 
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		        cell.setCellStyle(style);
 	   	        if(p.getBudget()!=null){
 	   	         double budget = p.getBudget().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		   	      
 		   	        cell.setCellValue(budget); 
 	   	        }
 	   	      
 	   	        
-	   	        cell = row.createCell(9);  
+	   	        cell = row.createCell(9);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getDeliverDate());  
 	   	        
 	   	        cell = row.createCell(10);  
-	   	        
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        if(p.getPrice()!=null){
 	   	        	DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
 	   	        	cell.setCellValue(dicType.getName()); 
@@ -565,6 +682,10 @@ public class AuditSetController {
 	   	        
 	   	        
 	   	        cell = row.createCell(11);
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	         if(p.getPrice()!=null){
 		   	        Orgnization orgnization = purchaseRequiredService.queryPur(p.getOrganization());
 		   	        if(orgnization!=null){
@@ -575,11 +696,19 @@ public class AuditSetController {
 	   	         
 	   	        
 	   	        
-	   	        cell = row.createCell(12);  
+	   	        cell = row.createCell(12); 
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getSupplier());  
 	   	        
 	   	        
-	   	        cell = row.createCell(13);  
+	   	        cell = row.createCell(13); 
+//	   	        style.setAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
 	   	        cell.setCellValue(p.getMemo());  
 	   	        if(plan.getAuditTurn()!=null){
 	   	         cell = row.createCell(14);  
@@ -843,4 +972,147 @@ public class AuditSetController {
 	        binder.setAutoGrowCollectionLimit(30000); 
 	        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
 	    } 
+	 
+	 
+	 
+	 public  void generateHeader(HSSFWorkbook workbook,HSSFSheet sheet,CollectPlan plan){
+
+	        HSSFRow row = sheet.createRow(1);
+            HSSFCell cell = row.createCell(0);
+            sheet.setColumnWidth(0, 2000); 
+	   	    sheet.setColumnWidth(1, 3000); 
+	   	    sheet.setColumnWidth(2, 3000);
+	   	    sheet.setColumnWidth(3, 3000);
+	   	    sheet.setColumnWidth(4, 3200);
+	   	     sheet.setColumnWidth(5, 1200);
+	   	     sheet.setColumnWidth(6, 2300);
+	   	     sheet.setColumnWidth(7, 2300);
+	   	     sheet.setColumnWidth(8, 2300);
+	   	     sheet.setColumnWidth(9, 2300);
+	   	     sheet.setColumnWidth(10, 2500);
+	   	     sheet.setColumnWidth(11, 2300);
+	   	     sheet.setColumnWidth(12, 2300);
+	   	     sheet.setColumnWidth(13, 3000);
+	   	     
+	   	    HSSFCellStyle style = workbook.createCellStyle();
+	   	    HSSFFont font = workbook.createFont();  
+	   	 
+	     	style.setBorderBottom(HSSFCellStyle.BORDER_HAIR);
+		    style.setBorderLeft(HSSFCellStyle.BORDER_HAIR);
+		    style.setBorderTop(HSSFCellStyle.BORDER_HAIR);
+		    style.setBorderRight(HSSFCellStyle.BORDER_HAIR);
+		    style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		    font.setFontHeightInPoints((short) 9);
+		    font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setFont(font);
+	        cell.setCellStyle(style);
+			cell.setCellValue("序号");
+	        cell = row.createCell(1); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("需求部门");
+	        cell = row.createCell(2);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("物资类别及名称");
+	        cell = row.createCell(3); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("规格型号");
+	        cell = row.createCell(4); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("质量技术标准");
+	        cell = row.createCell(5);  
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("计量单位"); 
+	        cell = row.createCell(6);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("采购数量");  
+	        
+	        cell = row.createCell(7); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("单价（元）");  
+	        
+	        cell = row.createCell(8); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("预算金额（万元）");  
+	        
+	        cell = row.createCell(9); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("交货期限");  
+	        
+	        cell = row.createCell(10);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("采购方式");  
+	        
+	        cell = row.createCell(11);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("采购机构"); 
+	        
+	        cell = row.createCell(12);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("供应商");  
+	        
+	        
+	        cell = row.createCell(13);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("备注");
+
+	        if(plan.getAuditTurn()!=null){
+//	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
+		        	 cell = row.createCell(14);  
+		 	        cell.setCellValue("一轮审核建议");  
+//		        }
+		 	        
+		 	       if((plan.getAuditTurn()==2||plan.getAuditTurn()==3)&&(plan.getStatus()==12||plan.getStatus()==2)){
+				        	 cell = row.createCell(15);  
+				 	        cell.setCellValue("二轮轮审核建议");  
+			        }
+		 	       if(plan.getAuditTurn()==3&&(plan.getStatus()==12||plan.getStatus()==2)){
+			        	cell = row.createCell(16);  
+			 	        cell.setCellValue("三轮审核建议");  
+			        }
+	        }
+		 }   
+	 
+	 
+	 
+	 
+	 public  void generateName(HSSFWorkbook workbook,HSSFSheet sheet,CollectPlan plan){
+		//表头第一行
+	     HSSFRow row = sheet.createRow(0);  
+			//
+	     HSSFCell  cell = row.createCell(0);
+	     HSSFCellStyle style = workbook.createCellStyle();
+	   	 HSSFFont font = workbook.createFont(); 
+	   	 font.setFontHeightInPoints((short) 22);
+	   	 style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	     style.setFont(font);
+	     cell.setCellStyle(style);
+	     row.setHeight((short) 800);
+	     cell.setCellValue(plan.getFileName());
+	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)13));
+	     
+	 }
+	 
+	 
 }

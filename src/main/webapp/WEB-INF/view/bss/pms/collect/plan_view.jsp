@@ -209,10 +209,10 @@
                </div>
               </td>
               <td>
-               <div class="price">${obj.price }</div>
+               <div class="price"> <fmt:formatNumber type="number"   pattern="#,#00.00#" value="${obj.price }" /></div>
               </td>
               <td>
-               <div class="budget">${obj.budget }</div>
+               <div class="budget"><fmt:formatNumber type="number"   pattern="#,#00.00#" value="${obj.budget}" /></div>
               </td>
               <td>
                <div class="deliverdate">${obj.deliverDate }</div>

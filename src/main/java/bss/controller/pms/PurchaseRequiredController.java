@@ -53,6 +53,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import bss.controller.base.BaseController;
+import bss.formbean.PlanFormBean;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
@@ -425,7 +426,7 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId) throws IOException{
+	public String addReq(PurchaseRequiredFormBean list,PlanFormBean planFormBean,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId) throws IOException{
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<PurchaseRequired> plist = list.getList();
 		// List<String> parentId = new ArrayList<>();

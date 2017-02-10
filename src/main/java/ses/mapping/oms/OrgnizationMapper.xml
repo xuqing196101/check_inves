@@ -39,7 +39,7 @@
 	<sql id="baseSearchSql">
 		ID,NAME,TYPE_NAME,ADDRESS,MOBILE,POST_CODE,ORG_CODE,TELEPHONE,AREA_ID,DETAIL_ADDR,FAX,
 		WEBSITE,PRINCINPAL,PRINCINPAL_ID_CARD,NATURE,SHORT_NAME,PARENT_ID,PARENT_NAME,PROVINCE_ID,
-		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS,CREATED_AT,CONTACT_NAME,CONTACT_MOBILE
+		CITY_ID,ORG_LEVEL,IS_DELETED,DEP_ID,IS_ROOT,EMAIL,STATUS,CREATED_AT,CONTACT_NAME,CONTACT_MOBILE,POSITION
 	</sql>
 
    <!-- 根据id查询 -->
@@ -757,7 +757,7 @@
 	  	SELECT ID ,NAME ,PRINCINPAL ,MOBILE 
     	FROM T_SES_OMS_ORG
     	WHERE IS_DELETED = '0'
-    	AND TYPE_NAME ='1'
+    	AND TYPE_NAME ='0'
     	<if test="name != null and name != ''">
     	  AND SHORT_NAME =#{name}
     	</if>
@@ -830,5 +830,19 @@
     	  AND ID =#{id}
     	</if>
 	</select>
+	<select id="getChildren" parameterType="String"   resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+	 from T_SES_OMS_ORG 
+          start with ID = #{id}
+        connect by prior ID = PARENT_ID  
+	</select>
+	
+	<select id="getParent" parameterType="String"  resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+ 		 from T_SES_OMS_ORG 
+        start with ID = #{id}
+        connect by prior PARENT_ID = ID 
+	</select>
+	
 	
 </mapper>

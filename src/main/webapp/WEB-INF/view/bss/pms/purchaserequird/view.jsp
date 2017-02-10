@@ -270,8 +270,8 @@
 							 </div>
 							</td >
 							<td><div class="purchasecount"> <fmt:formatNumber>${obj.purchaseCount }</fmt:formatNumber></div></td>
-							<td><div class="price"> <fmt:formatNumber  type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.price }"/></div></td>
-							<td><div class="budget"> <fmt:formatNumber type="number"   pattern="0.00" maxFractionDigits="2" value="${obj.budget}"  /></div></td>
+							<td><div class="price"> <fmt:formatNumber  type="number"      pattern="#,#00.00#" value="${obj.price }"/></div></td>
+							<td><div class="budget"> <fmt:formatNumber type="number"      pattern="#,#00.00#" value="${obj.budget}"  /></div></td>
 							<td><div class="deliverdate">${obj.deliverDate }</div></td>
 							<td> 
 							  <div class="purchasetype">

@@ -282,6 +282,7 @@ public class CollectPlanController extends BaseController {
 					}
 					collectPlan.setDepartment("");
 					collectPlanService.add(collectPlan);
+					request.getSession().removeAttribute("NoCount");
 			return "redirect:list.html";
 		}
 		/**
@@ -303,14 +304,17 @@ public class CollectPlanController extends BaseController {
 			List<PurchaseDetail> pd = purchaseDetailService.getUniqueId(collectPlan.getId());
 			List<String> allList=new ArrayList<String>();//新的以以及老的
 			
+			List<String> ids=new ArrayList<String>();
 			for(PurchaseDetail p:pd){
-				PurchaseRequired pr = purchaseRequiredService.queryById(p.getId());
-				if(pr!=null){
-					allList.add(pr.getUniqueId());
-				}
+				ids.add(p.getId());
+//				PurchaseRequired pr = purchaseRequiredService.queryById(p.getId());
+//				
+//				if(pr!=null){
+//					allList.add(pr.getUniqueId());
+//				}
 			}
-			
-			
+			List<String> uIds = purchaseRequiredService.getUniqueId(ids);
+			allList.addAll(uIds);
 			CollectPlan plan = collectPlanService.queryById(collectPlan.getId());
 			String [] uniqueIds = uniqueId.split(",");//获取要汇入采购计划 的id
 			List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();

@@ -1,6 +1,8 @@
 package bss.service.pms.impl;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -13,6 +15,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.oms.Orgnization;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
@@ -45,6 +49,10 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	
+	@Autowired
+	private OrgnizationMapper orgnizationMapper; 
+	
 	
 	@Override
 	public void add(CollectPlan collectPlan) {
@@ -122,6 +130,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 	@Override
 	public List<PurchaseRequired> getAll(List<String> uniqueId, HttpServletRequest request) {
 //		List<PurchaseRequired>  list1= purchaseRequiredService.getUnique(u);
+		uniqueId= dep(uniqueId);
 		List<PurchaseRequired>  all=new LinkedList<PurchaseRequired>();
 //		Set<String> diff=new HashSet<String>();
 		List<String> diff=new ArrayList<String>();
@@ -296,6 +305,123 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 //		}
 //		return list;
 //	}
+	/**
+	 * 
+	* @Title: dep
+	* @Description:根据需求部门顺序重新汇总
+	* author: Li Xiaoxiao 
+	* @param @param uniqueId
+	* @param @param request
+	* @param @return     
+	* @return List<String>     
+	* @throws
+	 */
+	public List<String>  dep(List<String> uniqueId) {
+		PurchaseRequired p = new PurchaseRequired();
+		List<Orgnization> allList=new ArrayList<Orgnization>();
+		List<Orgnization> detailList=new ArrayList<Orgnization>();
+		for(String u:uniqueId){
+			   p.setUniqueId(u);
+		       p.setIsMaster(1);
+			   List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
+			   String department = one.get(0).getDepartment();
+			   Orgnization orgnization = purchaseRequiredService.queryByName(department);
+			   List<Orgnization> list = orgnizationMapper.getParent(orgnization.getId());
+			   for(Orgnization org:list){
+				   Orgnization depart = orgnizationMapper.findOrgByPrimaryKey(org.getParentId());
+				   if(depart==null){
+					   allList.add(org);
+				   }
+			   }
+			   
+		}
+//		List<Orgnization> same=new ArrayList<Orgnization>();
+//		for(int i = 0; i < allList.size(); i++){
+//			for(int k = 0;k < (i<=1?i:(i-1)) ; k++){
+//				 String id2 = allList.get(i).getId();
+//				 String id = allList.get(k).getId();
+//				if(!id.equals(id2)){
+//					same.add(allList.get(i));
+//					same.add(allList.get(k));
+//					diff.add(list1.get(k).getId());
+//					list1.remove(i);
+//					i = i-1; 
+//			       break;
+//				}
+//			}
+//		}
+		for (int i = 0; i < allList.size(); i++)  //外循环是循环的次数
+        {
+            for (int j = allList.size() - 1 ; j > i; j--)  //内循环是 外循环一次比较的次数
+            {
+
+                if (allList.get(i).getId().equals(allList.get(j).getId()))
+                {
+                	allList.remove(j);
+                }
+
+            }
+        }
+		
+		
+//		allList.removeAll(same);
+	      Collections.sort(allList, new Comparator<Orgnization>(){  
+	    	  
+	            /*  
+	             * int compare(Student o1, Student o2) 返回一个基本类型的整型，  
+	             * 返回负数表示：o1 小于o2，  
+	             * 返回0 表示：o1和o2相等，  
+	             * 返回正数表示：o1大于o2。  
+	             */  
+	            public int compare(Orgnization o1, Orgnization o2) {  
+	              
+	               
+	                if(Integer.valueOf(o1.getPosition())>Integer.valueOf(o2.getPosition())){  
+	                    return 1;  
+	                }  
+	                if(o1.getPosition() == o2.getPosition()){  
+	                    return 0;  
+	                }  
+	                return -1;  
+	            }  
+	        });  
+	      
+	      
+		for(Orgnization org:allList){
+			Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(org.getId());
+			detailList.add(orgnization);
+			List<Orgnization> orderOrg = orderOrg(org.getId());
+			detailList.addAll(orderOrg);
+		}
+//		Set<Orgnization> set=new HashSet<Orgnization>();
+		
+		List<String> list=new ArrayList<String>();
+		for(Orgnization org:detailList){
+	   	  for(String u:uniqueId){
+			   p.setUniqueId(u);
+		       p.setIsMaster(1);
+			   List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
+			   String department = one.get(0).getDepartment();
+			  
+				   if(org.getShortName().equals(department)){
+					   list.add(u);
+				   }
+			   }
+		}
+		return list;
+	}
 	
+	public List<Orgnization> orderOrg(String id){
+		List<Orgnization> childList=new ArrayList<Orgnization>();
+		List<Orgnization> list = orgnizationMapper.getListByPidAndType(id, "0");
+		for(Orgnization org:list){
+			Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(org.getId());
+			if(orgnization!=null){
+				childList.add(orgnization);
+			}
+			childList.addAll(orderOrg(org.getId()));
+		}
+		return childList;
+	}
 	
 }

@@ -1037,7 +1037,14 @@
 			update T_BSS_PMS_PURCHASE_REQUIRED set IS_DELETE='1' where UNIQUE_ID =#{uniqueId}
 			
 	</update>
-	
-    
+	<!--  -->
+    <select id="getUniqueId" resultType="String">
+			    select  UNIQUE_ID 
+				      from T_BSS_PMS_PURCHASE_REQUIRED where  ID  in  
+					 <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+					  #{item}  
+					 </foreach>  
+				 group by UNIQUE_ID
+     </select>
     
 </mapper>

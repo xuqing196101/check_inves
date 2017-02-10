@@ -316,4 +316,6 @@ public interface PurchaseRequiredService {
     * @throws
      */
     public Orgnization queryPur(String id);
+    
+    List<String> getUniqueId(List<String> list);
 }
