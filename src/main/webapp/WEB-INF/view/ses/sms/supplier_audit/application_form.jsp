@@ -33,7 +33,7 @@
 		      $.ajax({
 		        url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 		        type: "post",
-		          data: {"auditType":"upload_page","auditFieldName":auditFieldName,"auditContent":"附件","suggest":text,"supplierId":supplierId,"auditField":auditField},
+		          data: {"auditType":"download_page","auditFieldName":auditFieldName,"auditContent":"附件","suggest":text,"supplierId":supplierId,"auditField":auditField},
 		          dataType: "json",
 			        success:function(result){
 			        result = eval("(" + result + ")");

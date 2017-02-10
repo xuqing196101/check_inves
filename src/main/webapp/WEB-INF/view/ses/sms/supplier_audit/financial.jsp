@@ -50,7 +50,7 @@
 						$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
-						  data: {"auditType":"finance_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+						  data: {"auditType":"basic_page","auditFieldName":auditFieldName,"auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 							dataType: "json",
 							success: function(result) {
 								result = eval("(" + result + ")");
@@ -64,11 +64,12 @@
 						});
 
 						if(auditFieldName == "财务信息") {
-							$("#" + id + "_hidden1").hide();
+							$("#" + id + "_hidden").hide();
 							$("#" + id + "_show").show();
-						} else {
-							$("#" + id + "_hidden2").hide();
-							$("#" + id + "_fileShow").show();
+						} 
+						if(auditFieldName == "财务附件"){
+							$("#" + id + "_hidden").hide();
+							$("#" + id + "_show").show();
 						}
 						layer.close(index);
 					});
@@ -338,8 +339,8 @@
 									<td class="tc">${f.totalNetAssets}</td>
 									<td class="tc">${f.taking}</td>
 									<td class="tc w50">
-										<a onclick="reason('${f.id}','财务信息');" id="${f.id}_hidden1" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
-										<p id="${f.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+										<a onclick="reason('${f.id}_info','财务信息');" id="${f.id}_info_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+										<p id="${f.id}_info_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 									</td>
 								</tr>
 							</table>
@@ -358,7 +359,7 @@
 							</thead>
 							<tbody id="finance_attach_list_tbody_id">
 								<tr class="tc">
-									<td class="tc w50">${f.year}</td>
+									<td class="tc w50" id="${f.id }_file">${f.year}</td>
 									<td class="tc">
 										<u:show showId="fina_${vs.index}_pro" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />
 									</td>
@@ -375,8 +376,8 @@
 										<u:show showId="fina_${vs.index}_change" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
 								  </td>
 								  <td class="tc w50">
-											<a onclick="reason('${f.id}','财务附件');" id="${f.id}_hidden2" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
-											<p id="${f.id}_fileShow"><img src='/zhbj/public/backend/images/sc.png'></p>
+											<a onclick="reason('${f.id}_file','财务附件');" id="${f.id}_file_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+											<p id="${f.id}_file_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 								  </td>
 								</tr>
 							</tbody>

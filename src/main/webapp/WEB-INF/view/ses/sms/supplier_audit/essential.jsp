@@ -476,7 +476,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >身份证号：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="legaIdCard" class="hand " value="${suppliers.legalIdCard } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalIdCard')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalIdCard');"</c:if>>
+								<input id="legalIdCard" class="hand " value="${suppliers.legalIdCard } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'legalIdCard')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('legalIdCard');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -685,25 +685,25 @@
 	            	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">所在国家(地区)：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="${vs.index+1 }branchCountry" class="hand " value="${supplierBranch.countryName } " type="text" onclick="reason(this)">
+										<input id="${supplierBranch.id }countryName" class="hand " value="${supplierBranch.countryName } " type="text" onclick="reason(this)">
 									</div>
 								</li>
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">机构名称：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="${vs.index+1 }branchName" class="hand " value="${supplierBranch.organizationName } " type="text" onclick="reason(this)">
+										<input id="${supplierBranch.id }organizationName" class="hand " value="${supplierBranch.organizationName } " type="text" onclick="reason(this)">
 									</div>
 								</li>
 								<li class="col-md-3 col-sm-6 col-xs-12 ">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" >详细地址：</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="${vs.index+1 }branchAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this)">
+										<input id="${supplierBranch.id }detailAddress" class="hand " value="${supplierBranch.detailAddress } " type="text" onclick="reason(this)">
 									</div>
 								</li>
 								<li class="col-md-12 col-sm-12 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">分支生产经营范围：</span>
 									<div class="col-md-12 col-sm-12 col-xs-12 p0">
-										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="${vs.index+1 }branchBusinessScope" onclick="reason(this)">${supplierBranch.businessSope }</textarea>
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="${vs.index+1 }businessSope" onclick="reason(this)">${supplierBranch.businessSope }</textarea>
 									</div>
 								</li>
             	</c:if>

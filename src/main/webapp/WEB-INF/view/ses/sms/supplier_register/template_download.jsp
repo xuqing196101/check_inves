@@ -36,6 +36,20 @@
 	function downloadNotice(){
 		window.location.href="${pageContext.request.contextPath}/expert/downloadSupplierNotice.html";
 	}
+	
+	//退回信息
+	function errorMsg(auditField){
+		var supplierId = "${currSupplier.id}";
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/audit.html",
+			data: {"supplierId": supplierId, "auditField": auditField, "auditType": "download_page"},
+			dataType: "json",
+			success: function(data){
+			/* alert(data.suggest); */
+			layer.msg(data.suggest , {offset: '300px'});
+			}
+		});
+	}
 </script>
 
 </head>
@@ -80,13 +94,22 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<div class="margin-bottom-0  categories">
-										<h1 class="f16  mt40">
-										 申请表和承诺书下载 
-										</h2>
+										<h1 class="f16  mt40"> 申请表和承诺书下载 </h1>
 										
-									<p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:downloadTable()"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:downloadNotice()"><i class="download mr5"></i></a></p>
-										
-										
+									<!-- <p style="font-size:15px;">	下载 《供应商入库申请表》<a class="mt3 color7171C6" href="javascript:downloadTable()"><i class="download mr5"></i></a> <span style="margin-left:200px;"></span> 下载《军队供应商承诺书》<a class="mt3 color7171C6" href="javascript:downloadNotice()"><i class="download mr5"></i></a></p> -->
+								<ul class="list-unstyled f14">					
+									<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
+								    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierPledge')"</c:if>>下载 《供应商入库申请表》</span> 
+								    <a class="mt3 color7171C6" href="javascript:downloadTable()"><i class="download mr5"></i></a>
+							    </li>
+						    </ul>
+						    <ul class="list-unstyled f14">					
+									<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
+								    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierRegList')"</c:if>>下载《军队供应商承诺书》</span> 
+								    <a class="mt3 color7171C6" href="javascript:downloadNotice()"><i class="download mr5"></i></a> 
+							    </li>
+						    </ul>
+									
 										 <!-- <table class="table table-bordered">
 										  <tr>
 										    <td class="info"></td>

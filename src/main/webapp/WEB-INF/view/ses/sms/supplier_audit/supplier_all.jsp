@@ -206,7 +206,7 @@
 	      <li class="fl">
 		      <label class="fl">状态：</label> 
 		      <select name="status" class="w178" id="status">
-		        <!-- <option value="">-请选择-</option> -->
+		        <option value="">-请选择-</option>
 	        	<c:if test="${sign eq '1' }">
 	        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
 	            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
