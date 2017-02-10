@@ -4,6 +4,7 @@
 <html>
   <head>
   	<jsp:include page="/WEB-INF/view/common.jsp"/>
+  	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
  	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
 	<meta http-equiv="expires" content="0">    
