@@ -2,6 +2,7 @@ package bss.controller.prms;
 
 import java.io.IOException;
 import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.sql.Timestamp;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -21,6 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -46,6 +48,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -3776,6 +3779,14 @@ public class PackageExpertController {
         }
     }
     
+    /**
+     *〈简述〉
+     * 结束经济技术评审
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param packageId
+     * @param projectId
+     */
     @RequestMapping("/endCheck")
     @ResponseBody
     public void endCheck(String packageId, String projectId) {
@@ -3796,71 +3807,110 @@ public class PackageExpertController {
         }
         //改为结束状态
         expertScoreService.gather(packageId, projectId, supplierList);
+        
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("packageId", packageId);
         
         //根据评分办法筛选后的供应商
         List<SaleTender> finalSupplier = new ArrayList<SaleTender>();
+       
+        BidMethod condition = new BidMethod();
+        condition.setProjectId(projectId);
+        condition.setPackageId(packageId);
+        List<BidMethod> bmList = bidMethodService.findScoreMethod(condition);
+        List<DictionaryData> ddList = DictionaryDataUtil.find(27);
+        if (bmList != null && bmList.size() > 0 && ddList != null && ddList.size() > 0) {
+            Integer position = Integer.parseInt(bmList.get(0).getTypeName());
+            String aduitMethodCode = ddList.get(position).getCode();
+            //最低价法法
+            if ("PBFF_ZDJF".equals(aduitMethodCode)) {
+                finalSupplier.addAll(supplierList);
+              //往saleTener插入最终供应商排名
+                service.rank(packageId, projectId, finalSupplier);
+                for (int i = 0; i < finalSupplier.size(); i++) {
+                  SaleTender st = finalSupplier.get(i);
+                  //插入排名
+                  HashMap<String, Object> ranMap = new HashMap<String, Object>();
+                  ranMap.put("reviewResult", i+1);
+                  ranMap.put("supplierId", st.getSuppliers().getId());
+                  ranMap.put("packageId", st.getPackages());
+                  saleTenderService.updateRank(ranMap);
+                  //向SUPPLIER_CHECK_PASS表中插入预中标供应商
+                  BigDecimal totalSupplier = new BigDecimal(0);
+                  totalSupplier= totalSupplier.add(st.getEconomicScore());
+                  totalSupplier= totalSupplier.add(st.getTechnologyScore());
+                  SupplierCheckPass record = new SupplierCheckPass();
+                  record.setId(WfUtil.createUUID());
+                  record.setPackageId(packageId);
+                  record.setProjectId(projectId);
+                  record.setSupplierId(st.getSuppliers().getId());
+                  record.setTotalScore(totalSupplier);
+                  record.setTotalPrice(st.getTotalPrice());
+                  record.setRanking(i+1);
+                  SupplierCheckPass checkPass = new SupplierCheckPass();
+                  checkPass.setPackageId(packageId);
+                  checkPass.setSupplierId(st.getSuppliers().getId());
+                  //判断是否有旧数据
+                  List<SupplierCheckPass> oldList= checkPassService.listCheckPass(checkPass);
+                  if (oldList != null && oldList.size() > 0) {
+                    for (SupplierCheckPass supplierCheckPass : oldList) {
+                      //删除原数据
+                      checkPassService.delete(supplierCheckPass.getId());
+                    }
+                  }
+                  checkPassService.insert(record);
+                }
+            }
+            //如果是基准价法
+            if ("PBFF_JZJF".equals(aduitMethodCode)) {
+                //有效平均报价
+                BigDecimal effectiveAverageQuotation = null;
+                //基准价
+                BigDecimal  benchmarkPrice = null;
+                //中标参考价
+                BigDecimal bidPrice = null; 
+                //浮动比例
+                BigDecimal floatingRatio = null;
+                BigDecimal totalPrice = packageExpertService.getTotalPrice(packageId, projectId, supplierList);
+                int supplierNum0 = supplierList.size();
+                BigDecimal supplierNum = new BigDecimal(supplierNum0);
+                //平均报价
+                BigDecimal averageQuotation = totalPrice.divide(supplierNum, 4, RoundingMode.HALF_UP);
+                BigDecimal valid0 = bmList.get(0).getValid();
+                BigDecimal valid1 = new BigDecimal(100);
+                //不得高于有效平均报价的百分比
+                BigDecimal valid = valid0.divide(valid1);
+                //平均报价*供应商报价不得高于有效平均报价值得百分比
+                BigDecimal valid2 = averageQuotation.multiply(valid);
+                //有效平均报价 (平均报价+平均报价*供应商报价不得高于有效平均报价值得百分比)
+                effectiveAverageQuotation = averageQuotation.add(valid2);
+                //排除高于有效平均报价后的供应商
+                finalSupplier = packageExpertService.jzjf(valid0, projectId, packageId, effectiveAverageQuotation, supplierList);
+                //排除之后的供应商总报价
+                BigDecimal totalPrice2 = packageExpertService.getTotalPrice(packageId, projectId, finalSupplier);
+                int suNum0 = finalSupplier.size();
+                BigDecimal suNum = new BigDecimal(suNum0);
+                //计算基准价
+                benchmarkPrice = totalPrice2.divide(suNum, 4, RoundingMode.HALF_UP);
+                //计算中标参考价
+                String str = bmList.get(0).getFloatingRatio();
+                BigDecimal bignum1 = new BigDecimal(100);
+                if (!"".equals(str) && str != null) {
+                  floatingRatio = new BigDecimal(str);
+                  //中标参考价 ：（100-浮动数）/100*基准价
+                  BigDecimal bignum2 = bignum1.subtract(floatingRatio);  
+                  BigDecimal bignum3 = bignum2.divide(bignum1);
+                  //中标参考价
+                  bidPrice = bignum3.multiply(benchmarkPrice);
+                }
+                JSONObject jsonObj = new JSONObject();
+                jsonObj.put("effectiveAverageQuotation", effectiveAverageQuotation);
+                jsonObj.put("benchmarkPrice", benchmarkPrice);
+                jsonObj.put("bidPrice", bidPrice);
+                jsonObj.put("floatingRatio", floatingRatio);
+                service.jzjfRank(jsonObj, bidPrice, benchmarkPrice, packageId, projectId, finalSupplier);
+            }
+        }
         
-        for (SaleTender saleTender : supplierList) {
-            String msg = "";
-            map.put("supplierId", saleTender.getSuppliers().getId());
-            //是否偏离
-            int flag = 0;
-            //根据评分办法去除不合格供应商
-            HashMap<String, Object> resultMap = service.countMethod(supplierList, projectId, packageId, saleTender, null, null);
-            
-            flag = (int) resultMap.get("flag");
-            //供应商总报价
-            BigDecimal totalPriceSupplier = (BigDecimal) resultMap.get("totalPriceSupplier");
-            
-            SaleTender finalSa = (SaleTender) resultMap.get("finalSupplier");
-            
-            if (finalSa != null) {
-              finalSa.setTotalPrice(totalPriceSupplier);
-              finalSupplier.add(finalSa);
-            }
-            BigDecimal economicScore = new BigDecimal(100);
-            BigDecimal technologyScore = new BigDecimal(100);
-            map.put("economicScore", economicScore);
-            map.put("technologyScore", technologyScore);
-            map.put("reviewResult", resultMap.get("reviewResult"));
-            saleTenderService.editSumScore(map);
-        }
-        //往saleTener插入最终供应商排名
-        service.rank(packageId, projectId, finalSupplier);
-        for (int i = 0; i < finalSupplier.size(); i++) {
-          SaleTender st = finalSupplier.get(i);
-          //插入排名
-          HashMap<String, Object> ranMap = new HashMap<String, Object>();
-          ranMap.put("reviewResult", i+1);
-          ranMap.put("supplierId", st.getSuppliers().getId());
-          ranMap.put("packageId", st.getPackages());
-          saleTenderService.updateRank(ranMap);
-          //向SUPPLIER_CHECK_PASS表中插入预中标供应商
-          BigDecimal totalSupplier = new BigDecimal(0);
-          totalSupplier= totalSupplier.add(st.getEconomicScore());
-          totalSupplier= totalSupplier.add(st.getTechnologyScore());
-          SupplierCheckPass record = new SupplierCheckPass();
-          record.setId(WfUtil.createUUID());
-          record.setPackageId(packageId);
-          record.setProjectId(projectId);
-          record.setSupplierId(st.getSuppliers().getId());
-          record.setTotalScore(totalSupplier);
-          record.setTotalPrice(st.getTotalPrice());
-          record.setRanking(i+1);
-          SupplierCheckPass checkPass = new SupplierCheckPass();
-          checkPass.setPackageId(packageId);
-          checkPass.setSupplierId(st.getSuppliers().getId());
-          //判断是否有旧数据
-          List<SupplierCheckPass> oldList= checkPassService.listCheckPass(checkPass);
-          if (oldList != null && oldList.size() > 0) {
-            for (SupplierCheckPass supplierCheckPass : oldList) {
-              //删除原数据
-              checkPassService.delete(supplierCheckPass.getId());
-            }
-          }
-          checkPassService.insert(record);
-        }
     }
 }

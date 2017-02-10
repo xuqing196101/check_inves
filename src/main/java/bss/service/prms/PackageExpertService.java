@@ -5,6 +5,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+
 import ses.model.sms.Supplier;
 
 import bss.model.ppms.SaleTender;
@@ -110,12 +112,89 @@ public interface PackageExpertService {
          */
         String isFirstGather(String packageId, String projectId);
         
+        /**
+         *〈简述〉保存临时专家
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param packageExpert
+         * @param packageId
+         */
         void saveTempExpert(PackageExpert packageExpert,String packageId);
         
+        /**
+         *〈简述〉排除不合格供应商
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param supplierList
+         * @param projectId
+         * @param packageId
+         * @param saleTender
+         * @param economicScore
+         * @param technologyScore
+         * @return
+         */
         HashMap<String, Object> countMethod(List<SaleTender> supplierList, String projectId, String packageId, SaleTender saleTender, BigDecimal economicScore, BigDecimal technologyScore);
        
+        /**
+         *〈简述〉供应商排名
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param packageId
+         * @param projectId
+         * @param finalSupplier
+         */
         void rank(String packageId, String projectId, List<SaleTender> finalSupplier);
         
+        /**
+         *〈简述〉获取供应商排名
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param saleTender
+         * @param projectId
+         * @param packageId
+         * @return
+         */
         BigDecimal ranks(SaleTender saleTender, String projectId, String packageId);
+        
+        /**
+         *〈简述〉
+         * 排除高于有效平均报价后的供应商
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param valid0 
+         * @param packageId 
+         * @param projectId 
+         * @param effectiveAverageQuotation
+         * @param supplierList
+         * @return
+         */
+        List<SaleTender> jzjf(BigDecimal valid0, String projectId, String packageId, BigDecimal effectiveAverageQuotation, List<SaleTender> supplierList);
+        
+        /**
+         *〈简述〉
+         * 基准价法供应商排名
+         *〈详细描述〉
+         * @param jsonObj 
+         * @param bidPrice
+         * @param benchmarkPrice
+         * @param packageId
+         * @param projectId
+         * @param finalSupplier
+         */
+        void jzjfRank(JSONObject jsonObj, BigDecimal bidPrice, BigDecimal benchmarkPrice, String packageId,
+            String projectId, List<SaleTender> finalSupplier);
+         /**
+         *〈简述〉
+         * 获取供应商总报价
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param projectId 
+         * @param packageId 
+         * @param packageId 
+         * @param projectId 
+         * @param finalSupplier
+         * @return
+         */
+        BigDecimal getTotalPrice(String packageId, String projectId, List<SaleTender> finalSupplier);
         
 }

@@ -3,6 +3,7 @@
  */
 package bss.service.ppms;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -10,6 +11,7 @@ import java.util.Map;
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.ProjectExtract;
 import bss.model.ppms.Packages;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 
 /**
@@ -195,5 +197,6 @@ public interface PackageService {
      * @return
      */
     List<Packages> listExtRelate(String projectId);
+
     
 }

@@ -241,7 +241,7 @@
 			<if test="economicScore != null">
 				ECONOMIC_SCORE = #{economicScore,jdbcType=DECIMAL},
 			</if>
-			<if test="technologyScore">
+			<if test="technologyScore != null">
 				TECHNOLOGY_SCORE=#{technologyScore,jdbcType=DECIMAL},
 			</if>
 			<if test="reviewResult != null and reviewResult != ''">
