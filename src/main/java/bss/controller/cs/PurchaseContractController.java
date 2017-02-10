@@ -545,8 +545,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		String transactionAmount = request.getParameter("transactionAmount");
 		String[] transactionAmounts = transactionAmount.split(",");
 		BigDecimal amounts = new BigDecimal(0);
-		for(String tranAmount:transactionAmounts){
-			amounts = amounts.add(new BigDecimal(tranAmount));
+		if(!transactionAmount.isEmpty() && transactionAmounts.length>0){
+			for(String tranAmount:transactionAmounts){
+				amounts = amounts.add(new BigDecimal(tranAmount));
+			}
 		}
 		String contractuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 		model.addAttribute("attachuuid", contractuuid);
