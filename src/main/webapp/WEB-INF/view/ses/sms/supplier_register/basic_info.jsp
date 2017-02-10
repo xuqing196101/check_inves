@@ -1172,7 +1172,7 @@
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 地址</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="root_area_select_id" name="concatProvince" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'armyBuinessProvince')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessProvince')"</c:if>>
+											<select id="root_area_select_id" name="concatProvince" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'concatCity')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('concatCity')"</c:if>>
 												<option value="">请选择</option>
 												<c:forEach items="${privnce }" var="prin">
 													<c:if test="${prin.id==currSupplier.concatProvince }">
@@ -1186,7 +1186,7 @@
 											</select>
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="children_area_select_id" name="concatCity" <c:if test="${fn:contains(audit,'armyBuinessProvince')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessProvince')"</c:if>>
+											<select id="children_area_select_id" name="concatCity" <c:if test="${fn:contains(audit,'concatCity')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('concatCity')"</c:if>>
 
 												<c:forEach items="${currSupplier.concatCityList }" var="city">
 													<c:if test="${city.id==currSupplier.concatCity}">
@@ -1289,7 +1289,7 @@
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 地址</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="root_area_select_id" name="armyBuinessProvince" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'armyBuinessProvince')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessProvince')"</c:if>>
+											<select id="root_area_select_id" name="armyBuinessProvince" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'armyBuinessCity')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessCity')"</c:if>>
 												<option value="">请选择</option>
 												<c:forEach items="${privnce }" var="prin">
 													<c:if test="${prin.id==currSupplier.armyBuinessProvince }">
@@ -1303,7 +1303,7 @@
 											</select>
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="children_area_select_id" name="armyBuinessCity" <c:if test="${fn:contains(audit,'armyBuinessProvince')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessProvince')"</c:if>>
+											<select id="children_area_select_id" name="armyBuinessCity" <c:if test="${fn:contains(audit,'armyBuinessCity')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessCity')"</c:if>>
 
 												<c:forEach items="${currSupplier.armyCity }" var="city">
 													<c:if test="${city.id==currSupplier.armyBuinessCity }">
@@ -1466,7 +1466,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red"></i>境外分支机构</span>
 									<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-										<select name="overseasBranch" onchange="dis(this)" id="overseas_branch_select_id">
+										<select name="overseasBranch" onchange="dis(this)" id="overseas_branch_select_id" <c:if test="${fn:contains(audit,'overseasBranch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('overseasBranch')"</c:if>>
 											<option value="0">无</option>
 											<option value="1">有</option>
 										</select>
@@ -1586,34 +1586,35 @@
 												</thead>
 												<tbody id="finance_list_tbody_id">
 													<%--  <c:if test="${finance.year!=null}"> --%>
-													<tr>
+													<c:set var="infoId" value="${finance.id }_info"/>
+													<tr <c:if test="${fn:contains(audit,infoId)}"> onmouseover="errorMsg('${infoId}')"</c:if>>
 														<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
 										</td> --%>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}">
 															<input type="text" required="required" class="w50 border0 tc" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${finance.telephone}">
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
 
 														</td>
 														<%-- 	<td class="tc">${finance.quota}</td> --%>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
 
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalLiabilities" value="${finance.totalLiabilities}">
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalNetAssets" value="${finance.totalNetAssets}">
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
 														</td>
 													</tr>
@@ -1636,37 +1637,38 @@
 												</thead>
 												<tbody id="finance_attach_list_tbody_id">
 													<%-- <c:if test="${finance.year!=null}"> --%>
-													<tr>
+													<c:set var="file" value="${finance.id }_file"/>
+													<tr <c:if test="${fn:contains(audit,file)}"> onmouseover="errorMsg('${file}')"</c:if>>
 														<%-- <td class="tc"> <input type="checkbox" value="${finance.id}" /> 
 									</td> --%>
-														<td class="tc">${finance.year}</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>${finance.year}</td>
+														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_pro_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" />
 
 															<u:show showId="fina_${vs.index}_pro" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />
 															<%-- 			 <a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList} </a> --%>
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_audit_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" />
 															<u:show showId="fina_${vs.index}_audit" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" />
 
 															<%-- <a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a> --%>
 														</td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_lia_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" />
 															<u:show showId="fina_${vs.index}_lia" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" />
 
 														</td>
 
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_cash_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" />
 															<u:show showId="fina_${vs.index}_cash" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" />
 
 															<%-- 	<a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a>
  --%> </td>
-														<td class="tc">
+														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_change_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
 															<u:show showId="fina_${vs.index}_change" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
@@ -1749,12 +1751,12 @@
 										</thead>
 										<tbody id="stockholder_list_tbody_id">
 											<c:forEach items="${currSupplier.listSupplierStockholders}" var="stockholder" varStatus="stockvs">
-												<tr>
+												<tr <c:if test="${fn:contains(audit,stockholder.id)}"> onmouseover="errorMsg('${stockholder.id}')"</c:if>>
 													<input type="hidden" name='listSupplierStockholders[${stockvs.index }].id' value="${stockholder.id}" />
 													<input type="hidden" name='listSupplierStockholders[${stockvs.index }].supplierId' value="${stockholder.supplierId}" />
-													<td class="tc"><input type="checkbox" value="${stockholder.id}" />
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="checkbox" value="${stockholder.id}" />
 													</td>
-													<td class="tc">
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>>
 														<select name="listSupplierStockholders[${stockvs.index }].nature" class="w100p border0">
 															<option value="1" <c:if test="${stockholder.nature==1}"> selected="selected"</c:if> >法人</option>
 															<option value="2" <c:if test="${stockholder.nature==2}"> selected="selected" </c:if> >自然人</option>
@@ -1762,11 +1764,11 @@
 
 													</td>
 
-													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 
-													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${stockholder.identity}'> </td>
-													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
-													<td class="tc"> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${stockholder.identity}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
 												</tr>
 											</c:forEach>
 										</tbody>
