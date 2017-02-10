@@ -449,7 +449,7 @@ function judge(index) {
 		var standardScore = $("#standardScore").val();
 		//var judgeNumber = $("#judgeNumber").val();
 		var str = judgeContent  + " "+"是"+standardScore+"分 "+"否0分";
-		$("#easyUnderstandContent1").val(str);
+		$("#easyUnderstandContent1").text(str);
 	}
 	function gerneratorTwo(){
 		var reviewParam = $("#reviewParam").val();

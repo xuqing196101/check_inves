@@ -620,19 +620,25 @@ public class ScoreModelUtil {
                 Double endParam = new Double(p.getEndParam());
                 String spRelation = p.getStartRelation();
                 String epRelation = p.getEndRelation();
-                if("<".equals(spRelation) && "<".equals(epRelation)) {
+                if("0".equals(spRelation) && "0".equals(epRelation)) {
                     if(num.compareTo(startParam) >0 && num.compareTo(endParam) <0){
                         sc = Double.parseDouble(p.getScore());
                         break;
                     }
                 }
-                if("<".equals(spRelation) && "<=".equals(epRelation)) {
+                if("0".equals(spRelation) && "1".equals(epRelation)) {
                     if(num.compareTo(startParam) >0 && num.compareTo(endParam) <=0){
                         sc = Double.parseDouble(p.getScore());
                         break;
                     }
                 } 
-                if("<=".equals(spRelation) && "<".equals(epRelation)) {
+                if("1".equals(spRelation) && "0".equals(epRelation)) {
+                    if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }             
+                }
+                if("1".equals(spRelation) && "1".equals(epRelation)) {
                     if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <=0){
                         sc = Double.parseDouble(p.getScore());
                         break;
@@ -737,19 +743,25 @@ public class ScoreModelUtil {
                 Double endParam = new Double(p.getEndParam());
                 String spRelation = p.getStartRelation();
                 String epRelation = p.getEndRelation();
-                if("<".equals(spRelation) && "<".equals(epRelation)) {
+                if("0".equals(spRelation) && "0".equals(epRelation)) {
                     if(num.compareTo(startParam) >0 && num.compareTo(endParam) <0){
                         sc = Double.parseDouble(p.getScore());
                         break;
                     }
                 }
-                if("<".equals(spRelation) && "<=".equals(epRelation)) {
+                if("0".equals(spRelation) && "1".equals(epRelation)) {
                     if(num.compareTo(startParam) >0 && num.compareTo(endParam) <=0){
                         sc = Double.parseDouble(p.getScore());
                         break;
                     }
                 } 
-                if("<=".equals(spRelation) && "<".equals(epRelation)) {
+                if("1".equals(spRelation) && "0".equals(epRelation)) {
+                    if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <0){
+                        sc = Double.parseDouble(p.getScore());
+                        break;
+                    }             
+                }
+                if("1".equals(spRelation) && "1".equals(epRelation)) {
                     if(num.compareTo(startParam) >=0 && num.compareTo(endParam) <=0){
                         sc = Double.parseDouble(p.getScore());
                         break;
