@@ -71,7 +71,6 @@
                data:$('#form1').serialize(),// 你的formid
                async: false,
                success: function(data) {
-            	   alert(data);
             	   if(data != 'ERROR'){
             		   parent.$('#supervises').val(data.relName);
                    parent.$('#supervises').attr(data.relName);
@@ -83,7 +82,6 @@
             	   }
                },
                error:function(data){
-                   alert(data);
             	   layer.msg("不能为空");
                }
            });
