@@ -97,6 +97,9 @@ public class UploadTld extends TagSupport {
     /**按钮名称**/
     private String buttonName;
     
+    /**最大上传数量**/
+    private Integer maxcount;
+    
     /** 唯一的标识 */
     private String id;
     /** 一组按钮的标识,必须为多个按钮的id组成,如:one,two */
@@ -152,6 +155,7 @@ public class UploadTld extends TagSupport {
             out.println("<input id='id' type=\"hidden\"  value=" + id + " />");
             out.println("<input type=\"hidden\"  class=\"web_uploader_class\" />");
             out.println("<input id='groupId' type=\"hidden\"  value=" + groups + " />");
+            out.println("<input id='"+id+"_maxcount' type=\"hidden\"  value=" + maxcount + " />");
             out.println("<input id='"+id+"_businessId' type=\"hidden\"  value=" + businessId + " />");
             out.println("<input id='"+id+"_typeId'  type=\"hidden\"  value=" + typeId + " />");
             out.println("<input id='"+id+"_sysKeyId' type=\"hidden\"  value=" + sysKey + " />");
@@ -334,6 +338,14 @@ public class UploadTld extends TagSupport {
 
     public void setSingleFileSize(Long singleFileSize) {
         this.singleFileSize = singleFileSize;
+    }
+
+    public Integer getMaxcount() {
+        return maxcount;
+    }
+
+    public void setMaxcount(Integer maxcount) {
+        this.maxcount = maxcount;
     }
 
     

@@ -664,43 +664,43 @@ public class ExpertController extends BaseController {
 	 * @return
 	 */
 	public boolean isExpertChecked(String categoryId, String expertId, String typeId) {
-			List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
-			boolean isChecked = false;
-			for(ExpertCategory expertCategory: allCategoryList) {
-				String id = expertCategory.getCategoryId();
-				if(categoryId.equals(id)) {
-					isChecked = true;
-					break;
-				} else {
-					while(true) {
-						Category cate = categoryService.selectByPrimaryKey(id);
-						if(cate != null) {
-							if(cate.getParentId().equals(categoryId)) {
-								isChecked = true;
-								break;
-							} else {
-								id = cate.getParentId();
-							}
-						} else {
-							if(id.equals(categoryId)) {
-								isChecked = true;
-							}
+		List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
+		boolean isChecked = false;
+		for(ExpertCategory expertCategory: allCategoryList) {
+			String id = expertCategory.getCategoryId();
+			if(categoryId.equals(id)) {
+				isChecked = true;
+				break;
+			} else {
+				while(true) {
+					Category cate = categoryService.selectByPrimaryKey(id);
+					if(cate != null) {
+						if(cate.getParentId().equals(categoryId)) {
+							isChecked = true;
 							break;
+						} else {
+							id = cate.getParentId();
 						}
+					} else {
+						if(id.equals(categoryId)) {
+							isChecked = true;
+						}
+						break;
 					}
 				}
 			}
-			return isChecked;
 		}
-		/**
-		 *〈简述〉
-		 * 判断该节点是否需要被选中
-		 *〈详细描述〉
-		 * @author WangHuijie
-		 * @param categoryId
-		 * @param expertId
-		 * @return
-		 */
+		return isChecked;
+	}
+	/**
+	 *〈简述〉
+	 * 判断该节点是否需要被选中
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param categoryId
+	 * @param expertId
+	 * @return
+	 */
 	public boolean isSupplierChecked(String categoryId, String supplierId, String type) {
 			List < SupplierItem > category = supplierItemService.getSupplierIdCategoryId(supplierId, categoryId, type);
 			if(category != null && category.size() > 0) {

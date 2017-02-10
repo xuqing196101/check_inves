@@ -105,7 +105,12 @@
             <type>java.lang.Long</type>
 	        <rtexprvalue>true</rtexprvalue>
        </attribute>
-       
+       <attribute>
+	        <name>maxcount</name>
+	        <required>false</required>
+	        <type>java.lang.Integer</type>
+	        <rtexprvalue>true</rtexprvalue>
+       </attribute>
  </tag>
  <tag>
  	   <name>show</name>

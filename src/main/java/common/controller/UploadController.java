@@ -146,4 +146,25 @@ public class UploadController {
         
         return uploadService.fileExist(request);
     }
+    
+    /**
+     *〈简述〉
+     * 异步判断有没有超过最大数量上限
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param businessId
+     * @param typeId
+     * @param sysKey
+     * @param maxCount
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/isOverMaxCount")
+    public String isOverMaxCount(String businessId, String typeId, String sysKey, Integer maxcount){
+        List<UploadFile> filesOther = uploadService.getFilesOther(businessId, typeId, sysKey);
+        if (filesOther.size() >= maxcount) {
+            return "error";
+        }
+        return "success";
+    }
 }

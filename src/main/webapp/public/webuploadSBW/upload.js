@@ -202,6 +202,20 @@
 				if (!mutiple){
 					uploader.reset();
 				}
+				var maxcount = $("#"+$base+"_maxcount").val();
+				if (maxcount) {
+					$.ajax({
+						url: "${pageContext.request.contextPath}/file/isOverMaxCount.do",
+						data: {'businessId': $("#"+$base+"_businessId").val(),'typeId': $("#"+$base+"_typeId").val(), 'sysKey': $("#"+$base+"_sysKeyId").val(), 'maxcount':maxcount},
+						success: function(msg){
+							if(msg == 'error'){
+								uploader.removeFile(file);
+								layer.msg("超过最大数量上限，只允许上传" + maxcount + "个文件");
+								return;
+							}
+						}
+					});
+				}
 			});
 			
 			//待上传的文件
