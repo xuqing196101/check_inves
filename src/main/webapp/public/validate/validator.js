@@ -22,7 +22,7 @@ jQuery.validator.addMethod("isMobile", function(value, element) {
 
 // 电话号码验证 
 jQuery.validator.addMethod("isTel", function(value, element) { 
-  var tel = /^\d{3,4}-?\d{7,8}$/; //电话号码格式010-12345678 
+  var tel = /^\d{3,4}-?\d{7,8}$|^\d{7,8}$/; //电话号码格式010-12345678 
   return this.optional(element) || (tel.test(value)); 
 }, "请输入正确的电话号码"); 
 
