@@ -416,6 +416,7 @@ public class SupplierController extends BaseSupplierController {
 		    SupplierStockholder stock = new SupplierStockholder();
 		    stock.setId(WfUtil.createUUID());
 		    stockList.add(stock);
+		    stock.setSupplierId(supplier.getId());
 		    supplier.setListSupplierStockholders(stockList);
 		}
 		model.addAttribute("currSupplier", supplier);
@@ -1002,6 +1003,7 @@ public class SupplierController extends BaseSupplierController {
             SupplierStockholder stock = new SupplierStockholder();
             stock.setId(WfUtil.createUUID());
             stockList.add(stock);
+            stock.setSupplierId(supplier.getId());
             supplier.setListSupplierStockholders(stockList);
         }
 		model.addAttribute("currSupplier", supplier);
@@ -1788,6 +1790,7 @@ public class SupplierController extends BaseSupplierController {
             SupplierStockholder stock = new SupplierStockholder();
             stock.setId(WfUtil.createUUID());
             stockList.add(stock);
+            stock.setSupplierId(supplier.getId());
             supplier.setListSupplierStockholders(stockList);
         }
 		model.addAttribute("currSupplier", supplier);

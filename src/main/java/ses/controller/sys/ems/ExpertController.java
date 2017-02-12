@@ -290,6 +290,7 @@ public class ExpertController extends BaseController {
 			userService.save(user, null);
 			Expert expert = new Expert();
 			expert.setId(expertId);
+			expert.setIsProvisional((short) 0);
 			expert.setMobile(user.getMobile());
 			expert.setExpertsFrom(expertsFrom);
 			service.insertSelective(expert);
