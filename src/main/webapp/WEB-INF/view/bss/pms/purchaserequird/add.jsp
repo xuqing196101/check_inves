@@ -216,18 +216,18 @@
 			 if(orgType!='0'){
 				 layer.msg("请用需求部门编制采购计划！"); 
 			 }else if($.trim(name) == "") {
-					 layer.msg("计划名称不允许为空"); 
+					 layer.alert("计划名称不允许为空"); 
 				} else if($.trim(mobile) == "") {
-					 layer.msg("录入人手机号不允许为空"); 
+					 layer.alert("录入人手机号不允许为空"); 
 					//layer.tips("录入人手机号不允许为空", "#mobile");
 				} else if($.trim(type) == ""){
-					 layer.msg("请选择物资类别"); 
+					 layer.alert("请选择物资类别"); 
 				}
 			  	else if(dy!=true){
-					layer.msg("请填写供应商"); 
+					layer.alert("请填写供应商"); 
 				}  
 				 else if(ptype!=true){
-						layer.msg("请选择采购方式"); 
+						layer.alert("请选择采购方式"); 
 					} 
 				/* else if($.trim(refNo) == ""){
 					 layer.msg("请 填写计划文号"); 
@@ -797,7 +797,7 @@
 		    		   budget = budget.toFixed(2); 
 		    		   same = same.toFixed(2); 
 			    		if(budget!=same){
-			    			 layer.msg("第"+i+"行，金额计算错误，请重新计算！");
+			    			 layer.alert("第"+i+"行，金额计算错误，请重新计算！");
 			    			 bool=false;
 			    		} 
 		    	
