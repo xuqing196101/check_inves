@@ -177,6 +177,8 @@
 				$("#div-2").attr("style", "display: none");
 				$("#tab-3").attr("style", "display: none");
 				$("#div-3").attr("style", "display: none");
+				$("#tab-4").attr("style", "display: none");
+				$("#div-4").attr("style", "display: none");
 				var id = obj.id;
 				var page = "tab-" + id.charAt(id.length - 1);
 				var divId = "div-" + id.charAt(id.length - 1);
@@ -197,6 +199,8 @@
 				$("#div-2").attr("style", "display: none");
 				$("#tab-3").attr("style", "display: none");
 				$("#div-3").attr("style", "display: none");
+				$("#tab-4").attr("style", "display: none");
+				$("#div-4").attr("style", "display: none");
 			}
 
 			function zancunCategory(count) {
@@ -425,6 +429,12 @@
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
+								<c:if test="${cate.code eq 'PROJECT'}">
+									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
+									</li>
+									<c:set value="${liCount+1}" var="liCount" />
+								</c:if>
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务品目信息</a>
@@ -455,6 +465,16 @@
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
+								</c:if>
+								<c:if test="${cate.code eq 'PROJECT'}">
+									<c:set var="count" value="${count + 1}"></c:set>
+									<div id="div-${vs.index + 1}" class="mb10">
+										产品名称:<input type="text" id="cate-${vs.index + 1}">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')" />
+										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+									</div>
+									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
+									<input id="tab-${vs.index + 1}-value" value="${engId}" type="hidden">
 								</c:if>
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<c:set var="count" value="${count + 1}"></c:set>

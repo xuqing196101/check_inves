@@ -456,6 +456,7 @@ public class ExpertController extends BaseController {
 				.findPurchaseDepList(map1);
 			model.addAttribute("allPurList", list);
 		}
+		model.addAttribute("engId", DictionaryDataUtil.getId("ENG_INFO_ID"));
 		return "ses/ems/expert/basic_info_" + stepNumber;
 	}
 
