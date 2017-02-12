@@ -411,6 +411,13 @@ public class SupplierController extends BaseSupplierController {
 		List < Area > privnce = areaService.findRootArea();
 		model.addAttribute("privnce", privnce);
 		//初始化当前供应商
+		List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
+		if (stockList == null || stockList.size() == 0) {
+		    SupplierStockholder stock = new SupplierStockholder();
+		    stock.setId(WfUtil.createUUID());
+		    stockList.add(stock);
+		    supplier.setListSupplierStockholders(stockList);
+		}
 		model.addAttribute("currSupplier", supplier);
 		//初始化供应商注册附件类型
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -990,6 +997,13 @@ public class SupplierController extends BaseSupplierController {
 		supplier = supplierService.get(supplier.getId());
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
+        if (stockList == null || stockList.size() == 0) {
+            SupplierStockholder stock = new SupplierStockholder();
+            stock.setId(WfUtil.createUUID());
+            stockList.add(stock);
+            supplier.setListSupplierStockholders(stockList);
+        }
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "basic_info");
 		return "redirect:page_jump.html";
@@ -1769,6 +1783,13 @@ public class SupplierController extends BaseSupplierController {
 		}
 
 		model.addAttribute("company", DictionaryDataUtil.find(17));
+		List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
+        if (stockList == null || stockList.size() == 0) {
+            SupplierStockholder stock = new SupplierStockholder();
+            stock.setId(WfUtil.createUUID());
+            stockList.add(stock);
+            supplier.setListSupplierStockholders(stockList);
+        }
 		model.addAttribute("currSupplier", supplier);
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
