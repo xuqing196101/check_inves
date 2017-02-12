@@ -85,7 +85,7 @@ public interface SupplierExtRelateService {
    * @author Wang Wenshuai
    * @param id
    */
-  void del(String condition, String projectId, List<String> expertTypeIds);
+  void del(String condition, String projectId, List<String> expertTypeIds, List<String> saveExpertTypeIds);
 
   /**
    * 抽取完成后删除信息

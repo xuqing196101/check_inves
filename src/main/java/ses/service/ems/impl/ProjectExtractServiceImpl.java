@@ -261,18 +261,21 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
   }
 
   /**
-   * 删除未抽取的信息
-   *〈简述〉
+   * 
+   *〈简述〉删除未抽取的信息
    *〈详细描述〉
    * @author Wang Wenshuai
+   * @param conditionId
    * @param projectId
+   * @param expertTypeIds 满足条件的抽取类型
+   * @param saveExpertTypeIds 保存所有的抽取类型
    */
-  public void del(String conditionId, String projectId, List<String> expertTypeIds){
+  public void del(String conditionId, String projectId, List<String> expertTypeIds,List<String> saveExpertTypeIds){
     ProjectExtract extract = new ProjectExtract();
     extract.setExpertConditionId(conditionId);
     List<ProjectExtract> list = extractMapper.list(extract);
     for (ProjectExtract projectExtract : list) {
-      boolean containsAll = expertTypeIds.containsAll(castList(projectExtract.getExpert().getExpertsTypeId()));
+      boolean containsAll = expertTypeIds.containsAll(castList(projectExtract.getExpert().getExpertsTypeId(),saveExpertTypeIds));
       if(containsAll){
         Map<String,  String> map = new HashMap<String, String>();
         map.put("projectId", projectId);
@@ -290,13 +293,18 @@ public class ProjectExtractServiceImpl implements ProjectExtractService {
    * @param type
    * @return
    */
-  private List<String>  castList(String type){
+  private List<String>  castList(String type,List<String> saveExpertTypeIds){
+    //拿到专家和抽取类型对应的抽取类型。
     List<String> list = null;
     if(type != null && !"".equals(type)){
       list = new ArrayList<String>();
       String[]  str = type.split(",");
-      for (String ty : str) {
-        list.add(ty);
+      for (String ids : saveExpertTypeIds) {
+        for (String ty : str) {
+          if(ids.equals(ty)){
+            list.add(ty);
+          }
+        }
       }
     }
     return list;

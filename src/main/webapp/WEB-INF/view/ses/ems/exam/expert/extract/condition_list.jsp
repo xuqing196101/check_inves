@@ -475,7 +475,7 @@
 							           <c:when test="${typeId == 1}">
 							            <c:forEach items="${list.listProjectExtract}" var="listyes"
                             varStatus="vs">
-                            <c:if test="${listyes.expert.isProvisional == 0 }">
+                            <c:if test="${listyes.expert.isProvisional == null || listyes.expert.isProvisional == 0}">
                             <tr class='cursor '>
                               <td class='tc'>${vs.index+1}</td>
                               <td class='tc'>${listyes.expert.relName}</td>

@@ -154,44 +154,44 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
   @Override
   public void update(SupplierExtRelate projectExtract) {
     if(projectExtract != null && projectExtract.getPackageId() != null && projectExtract.getPackageId().length !=0 ){
-        for (String packageId : projectExtract.getPackageId()) {
-          if (!"".equals(packageId)){
-            SupplierExtRelate pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
-            if(pe != null){
-              if(packageId != pe.getProjectId()){
-                SupplierExtRelate extract = new SupplierExtRelate();
-                extract.setProjectId(packageId);
-                extract.setSupplierId(pe.getSupplier().getId());
-                List<SupplierExtRelate> list = supplierExtRelateMapper.list(extract);
-                if(list != null && list.size() != 0){
-                  list.get(0).setOperatingType(projectExtract.getOperatingType());
-                  list.get(0).setReviewType(pe.getReviewType());
-                  if(projectExtract.getOperatingType() == 3){
-                    list.get(0).setReviewType(null);
-                    list.get(0).setReason(projectExtract.getReason());
-                  }
-                  supplierExtRelateMapper.updateByPrimaryKeySelective(list.get(0));
-                }else{
-                  SupplierExtRelate pext = new SupplierExtRelate();
-                  pext.setSupplierId(pe.getSupplier().getId());
-                  pext.setProjectId(packageId);
-                
-                  pext.setOperatingType(projectExtract.getOperatingType());
-                  pext.setCreatedAt(new Date());
-                  pext.setReviewType(pe.getReviewType());
-                  if(projectExtract.getOperatingType() == 3){
-                    pext.setReviewType(null);
-                    pext.setReason(projectExtract.getReason());
-                  }
-                  supplierExtRelateMapper.insertSelective(pext);
+      for (String packageId : projectExtract.getPackageId()) {
+        if (!"".equals(packageId)){
+          SupplierExtRelate pe = supplierExtRelateMapper.selectByPrimaryKey(projectExtract.getId());
+          if(pe != null){
+            if(packageId != pe.getProjectId()){
+              SupplierExtRelate extract = new SupplierExtRelate();
+              extract.setProjectId(packageId);
+              extract.setSupplierId(pe.getSupplier().getId());
+              List<SupplierExtRelate> list = supplierExtRelateMapper.list(extract);
+              if(list != null && list.size() != 0){
+                list.get(0).setOperatingType(projectExtract.getOperatingType());
+                list.get(0).setReviewType(pe.getReviewType());
+                if(projectExtract.getOperatingType() == 3){
+                  list.get(0).setReviewType(null);
+                  list.get(0).setReason(projectExtract.getReason());
                 }
+                supplierExtRelateMapper.updateByPrimaryKeySelective(list.get(0));
+              }else{
+                SupplierExtRelate pext = new SupplierExtRelate();
+                pext.setSupplierId(pe.getSupplier().getId());
+                pext.setProjectId(packageId);
 
-
+                pext.setOperatingType(projectExtract.getOperatingType());
+                pext.setCreatedAt(new Date());
+                pext.setReviewType(pe.getReviewType());
+                if(projectExtract.getOperatingType() == 3){
+                  pext.setReviewType(null);
+                  pext.setReason(projectExtract.getReason());
+                }
+                supplierExtRelateMapper.insertSelective(pext);
               }
 
+
             }
+
           }
         }
+      }
 
     }
     supplierExtRelateMapper.updateByPrimaryKeySelective(projectExtract);
@@ -247,10 +247,10 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
    * @see ses.service.sms.SupplierExtRelateService#del(java.lang.String)
    */
   @Override
-  public void del(String conditionId,String projectId,List<String> expertTypeIds) {
+  public void del(String conditionId,String projectId,List<String> expertTypeIds,List<String> saveExpertTypeIds) {
     List<SupplierExtRelate> list = selectSupplierType(conditionId);
     for (SupplierExtRelate supplierExtRelate : list) {
-      boolean containsAll = expertTypeIds.containsAll(castList(supplierExtRelate.getSupplierTypeId()));
+      boolean containsAll = expertTypeIds.containsAll(castList(supplierExtRelate.getSupplierTypeId(),saveExpertTypeIds));
       if(containsAll){
         Map<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
@@ -268,13 +268,17 @@ public class SupplierExtRelateServiceImpl implements SupplierExtRelateService {
    * @param type
    * @return
    */
-  private List<String>  castList(String type){
+  private List<String>  castList(String type,List<String> saveExpertTypeIds){
     List<String> list = null;
     if(type != null && !"".equals(type)){
       list = new ArrayList<String>();
       String[]  str = type.split(",");
-      for (String ty : str) {
-        list.add(ty);
+      for (String ids : saveExpertTypeIds) {
+        for (String ty : str) {
+          if(ids.equals(ty)){
+            list.add(ty);  
+          }
+        }
       }
     }
     return list;

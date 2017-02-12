@@ -768,7 +768,10 @@ public class SupplierExtractsController extends BaseController {
     forExtract(mapcount, ids[1], projectExtractListYes, projectExtractListNo, 0);
     //获取查询条件类型
     List<SupplierCondition> listCondition = conditionService.list(new SupplierCondition(ids[1],""),0);
+    //抽取满足类型
     List<String> expertTypeIds = new ArrayList<String>();
+    //保存所有抽取类型
+    List<String> saveExpertTypeIds = new ArrayList<String>();
     for (SupplierConType extConType1 : listCondition.get(0).getConTypes()) {
       //获取抽取的供应商类别
       SupplierExtRelate extRelate = new SupplierExtRelate();
@@ -783,12 +786,15 @@ public class SupplierExtractsController extends BaseController {
           expertTypeIds.add(extConType1.getSupplierType().getCode());
         }
       }
+      if (extConType1.getSupplierType() != null && extConType1.getSupplierType() != null && !"".equals(extConType1.getSupplierType().getCode())) {
+        saveExpertTypeIds.add(extConType1.getSupplierType().getCode());  
+      }
     }
     if (expertTypeIds != null && expertTypeIds.size() !=0){
       Packages packages = new Packages();
       packages.setId(listCondition.get(0).getProjectId());
       List<Packages> find = packagesService.find(packages);
-      extRelateService.del(listCondition.get(0).getId(),find.get(0).getProjectId(),expertTypeIds);
+      extRelateService.del(listCondition.get(0).getId(),find.get(0).getProjectId(),expertTypeIds,saveExpertTypeIds);
     }
 
     //拿出数量和session中存放的数字进行对比

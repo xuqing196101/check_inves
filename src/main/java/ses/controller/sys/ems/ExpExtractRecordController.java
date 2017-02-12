@@ -856,6 +856,8 @@ public class ExpExtractRecordController extends BaseController {
     List<ExpExtCondition> listCondition = conditionService.list(new ExpExtCondition(ids[1], ""),null);
     //删除已经满足类型的
     List<String> expertTypeIds = new ArrayList<String>();
+    //保存所有类型
+    List<String> saveExpertTypeIds = new ArrayList<String>();
     for (ExtConType extConType1 : listCondition.get(0).getConTypes()) {
       //获取抽取的专家类别
       ProjectExtract projectExtrac = new ProjectExtract();
@@ -868,6 +870,9 @@ public class ExpExtractRecordController extends BaseController {
       if(list.size() >= extConType1.getExpertsCount()){
         expertTypeIds.add(extConType1.getExpertsTypeId());
       }
+      if(extConType1 != null && extConType1.getExpertsTypeId() != null && !"".equals(extConType1.getExpertsTypeId())){
+        saveExpertTypeIds.add(extConType1.getExpertsTypeId());
+      }
     }
     
     
@@ -875,7 +880,7 @@ public class ExpExtractRecordController extends BaseController {
       Packages packages = new Packages();
       packages.setId(listCondition.get(0).getProjectId());
       List<Packages> find = packagesService.find(packages);
-      extractService.del(listCondition.get(0).getId(),find.get(0).getProjectId(),expertTypeIds);
+      extractService.del(listCondition.get(0).getId(),find.get(0).getProjectId(),expertTypeIds,saveExpertTypeIds);
     }
 
     //拿出数量和session中存放的数字进行对比
