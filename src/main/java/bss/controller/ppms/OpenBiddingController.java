@@ -1453,29 +1453,43 @@ public class OpenBiddingController {
     condition.setStatusBid(NUMBER_TWO);
     condition.setStatusBond(NUMBER_TWO);
     List<SaleTender> stList = saleTenderService.find(condition);
-    List<SaleTender> stList1 = new ArrayList<SaleTender>();
+    List<String> strList = new ArrayList<String>();
     JSONArray json=JSONArray.fromObject(isTurnUp);
     JSONObject jsonQuote = new JSONObject();
     int count = 0;
-    labe : for (int i = 0; i < json.size(); i++) {
+    //这里写两遍是因为文件上传用的是saletender的id，上传的是供应商的投标文件，但是saletender里面有可能有两个供应商在不同的包下面，所以判断文件上传就会有点麻烦，因为供应商相同的saletender数据有多条，但是只是其中一个有值
+    for (int i = 0; i < json.size(); i++) {
       jsonQuote = json.getJSONObject(i); 
       for (SaleTender st : stList) {
-        if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
-          if (list != null && list.size() > 0) {
-            List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
-            if (blist1 != null && blist1.size() == 0) {
-              if (!stList1.contains(st)) {
-                count ++ ;
-                break labe;
+          if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
+              if (list != null && list.size() > 0) {
+                  List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                  if (blist1 != null && blist1.size() > 0) {
+                      strList.add(st.getSuppliers().getId());
+                  }
               }
-            } else {
-              stList1.add(st);
-            }
+              st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
           }
-          st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
-        }
       }
     }
+   labe : for (int i = 0; i < json.size(); i++) {
+        jsonQuote = json.getJSONObject(i); 
+        for (SaleTender st : stList) {
+            if (st.getSuppliers().getId().equals(jsonQuote.getString("supplierId"))) {
+                if (list != null && list.size() > 0) {
+                    List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
+                    if (blist1 != null && blist1.size() == 0) {
+                        if (!strList.contains(st.getSuppliers().getId())) {
+                          count ++ ;
+                          break labe;
+                        }
+                    }
+                }
+                st.setIsTurnUp(Integer.parseInt(jsonQuote.getString("isTurnUp")));
+            }
+        }
+      }
+    
     if (count > 0) {
       return "false";
     } else {
@@ -1576,20 +1590,20 @@ public class OpenBiddingController {
       List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
       //则为批量上传
       if (blist != null && blist.size() == 0) {
-        if (blist1 != null && blist1.size() > 0) {
-          for (UploadFile up : blist1) {
-            if (up.getName().substring(0, up.getName().lastIndexOf(".")).equals(supplier.getSupplierName())) {
-              condition1.setSupplierId(supplier.getId());
-              List<SaleTender> stList = saleTenderService.find(condition1);
-              for (SaleTender st : stList) {
-                if (st.getSuppliers().getId().equals(supplier.getId())) {
-                  up.setBusinessId(st.getId());
-                  uploadService.updateFile(up, Constant.SUPPLIER_SYS_KEY);
-                }
+          if (blist1 != null && blist1.size() > 0) {
+              for (UploadFile up : blist1) {
+                  if (up.getName().substring(0, up.getName().lastIndexOf(".")).equals(supplier.getSupplierName())) {
+                      condition1.setSupplierId(supplier.getId());
+                      List<SaleTender> stList = saleTenderService.find(condition1);
+                      for (SaleTender st : stList) {
+                          if (st.getSuppliers().getId().equals(supplier.getId())) {
+                              up.setBusinessId(st.getId());
+                              uploadService.updateFile(up, Constant.SUPPLIER_SYS_KEY);
+                          }
+                      }
+                  }
               }
-            }
           }
-        }
       }
       blist = uploadService.getFilesOther(supplier.getProSupFile(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
       if (blist != null && blist.size() >0) {

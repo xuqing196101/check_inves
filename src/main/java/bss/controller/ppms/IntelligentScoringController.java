@@ -388,16 +388,28 @@ public class IntelligentScoringController extends BaseController{
 	          count ++;
 	        } else {
 	            boolean isFlag = true;
+	            double paiMing = 0.0;
 	            BidMethod condition = new BidMethod();
 	            condition.setProjectId(bm.getProjectId());
 	            condition.setPackageId(bm.getPackageId());
 	            condition.setType(bm.getTypeName());
 	            List<BidMethod> bdList = bidMethodService.findListByBidMethod(condition);
 	            for (BidMethod bidMethod : bdList) {
-	                if (bm.getRemainScore().equals(bidMethod.getRemainScore())) {
-	                    isFlag = false;
-	                    break;
+	                /*if (bidMethod.getRemainScore() != null && Double.parseDouble(bidMethod.getRemainScore()) > paiMing) {
+	                     paiMing = Double.parseDouble(bidMethod.getRemainScore()); 
 	                }
+	                if (bm.getId() != null && !"".equals(bm.getId()) && bm.getRemainScore().equals(bidMethod.getRemainScore()) && bm.getId().equals(bidMethod.getId())) {
+	                    
+	                } else if (bm.getId() != null && !"".equals(bm.getId()) && !bm.getRemainScore().equals(bidMethod.getRemainScore()) && bm.getId().equals(bidMethod.getId())) {
+	                    if (Double.parseDouble(bm.getRemainScore()) < paiMing) {
+                            msg += "排序号已用到了" + paiMing + ",请填写大于" +paiMing + "的排序号.";
+                            count++;
+                        }
+	                } else {*/
+	                    if (bm.getRemainScore().equals(bidMethod.getRemainScore())) {
+                            isFlag = false;
+                            break;
+                        }
 	            }
 	            if (!isFlag) {
                     msg += "排序号重复";
@@ -814,7 +826,6 @@ public class IntelligentScoringController extends BaseController{
 		String[] startParam = request.getParameterValues("pi.startParam");
 		String[] endParam = request.getParameterValues("pi.endParam");
 		String[] score = request.getParameterValues("pi.score");
-		String[] explain = request.getParameterValues("pi.explain");
 		String[] startRelation = request.getParameterValues("pi.startRelation");
         String[] endRelation = request.getParameterValues("pi.endRelation");
 		 if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
@@ -848,7 +859,6 @@ public class IntelligentScoringController extends BaseController{
 					p.setEndParam(endParam[i]);
 					p.setEndRelation(endRelation[i]);
 					p.setScore(score[i]);
-					p.setExplain(explain[i]);
 					p.setProjectId(scoreModel.getProjectId());
 					p.setPackageId(scoreModel.getPackageId());
 					paramIntervalService.saveParamInterval(p);
@@ -881,7 +891,6 @@ public class IntelligentScoringController extends BaseController{
 					p.setEndParam(endParam[i]);
 					p.setScore(score[i]);
 					p.setEndRelation(endRelation[i]);
-					p.setExplain(explain[i]);
 					p.setProjectId(scoreModel.getProjectId());
                     p.setPackageId(scoreModel.getPackageId());
 					paramIntervalService.saveParamInterval(p);
@@ -1264,8 +1273,7 @@ public class IntelligentScoringController extends BaseController{
                 sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + endParam + "'name='pi.endParam'></td>");
                 String score = paramInterval.getScore() == null ? "" : paramInterval.getScore();
                 sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + score + "'name='pi.score'></td>");
-                String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
-                sb.append("<td class=tc><textarea  name='pi.explain'>" + explain + "</textarea></td>");
+                sb.append("<td></td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
             }
 		    String scoreStr = sb.toString();

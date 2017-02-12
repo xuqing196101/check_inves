@@ -359,67 +359,82 @@
 		var tr ="";
 		tr += "<tr>";
 		tr += "<td class='w50 tc'>"+num2+"</td>";
-		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=startParam"+num2+" name='pi.startParam'></td>";
+		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum()' id=startParam"+num2+" name='pi.startParam'></td>";
 		tr += "<td class='tc'><select onchange='checkNum()' name='pi.startRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
 		tr += "<td class='tc'>参数值</td>";
 		tr += "<td class='tc'><select onchange='checkNum()' name='pi.endRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
-		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=endParam"+num2+" name='pi.endParam'></td>";
-		tr += "<td class='tc'><input style='width:60px' onblur='checkNum(this.value)' type='text' id=score"+num2+" name='pi.score'></td>";
-		tr += "<td class='tc'><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
-		tr += "<td><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
+		tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum()' id=endParam"+num2+" name='pi.endParam'></td>";
+		tr += "<td class='tc'><input style='width:60px' onblur='checkNum()' type='text' id=score"+num2+" name='pi.score'></td>";
+		tr += "<td></td>";
+		tr += "<td class='tc'><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
 		tr += "</tr>";
 		$("#model73 tbody").append(tr);
 		num2++;
 	}
-	var judgeParam = 0;
-	var judgeRelation = '0';
-	var scoreCount = 0;
-	var checkScore = 0;
+	
+	$(function() {
+		setTimeout("checkNum()", 100);
+	});
+	
+	var scoreStr;//这个是检查为空的情况
+	var scoreCount;//这个是检查起始值要小于结束值的情况
+	var checkScore;//这个是要检查区间重复的情况
 	function checkNum() {
-	    scoreCount =  0;
-	    checkScore =  0;
 		var table = document.getElementById("model73");
-		var i = 0;
+		scoreStr = '';
+		scoreCount = 0;
+		checkScore = 0;
 		var j = 1;
-		for (i; i < 1; i++) {
-			for (j; j < table.rows.length; j++) { //遍历Table的所有Row
-				var startParam = $(table.rows).eq(j).find("td").eq("1").find("input").val();
-				var startParamRelation = $(table.rows).eq(j).find("td").eq("2").find("select").find("option:checked").text();
-				var endParamRelation = $(table.rows).eq(j).find("td").eq("4").find("select").find("option:checked").text();
-				var endParam = $(table.rows).eq(j).find("td").eq("5").find("input").val();
-				var score = $(table.rows).eq(j).find("td").eq("6").find("input").val();
-				if (startParam == '' || endParam == '' || score == '') {
-						scoreCount ++;
-				}
-				if (startParam != '' && endParam != '') {
-					if (startParam > endParam) {
-						layer.msg("结束参数不能小于起始参数");
-						return;
-					}
-					if (startParam == endParam && startParamRelation == endParamRelation ) {
-						checkScore ++;
-						layer.msg("区间不成立,请重写录入");
-						return;
-					}
-					//console.dir(scoreCount);
-					if (judgeParam != 0 && j > 1) {
-						//alert(startParamRelation+"-"+judgeRelation+"-"+judgeParam+"-"+startParam);
-						if (startParamRelation == judgeRelation && judgeParam <= startParam) {
-							
-						} else if (startParamRelation != judgeRelation && judgeParam <= startParam) {
-							
-						} else {
-							layer.msg("区间需要不能包含其他区间,且需要填写完整,请重新录入");
-							return;
-						}
-					}
-					if (startParam != '' && endParam != '') {
-						judgeParam = endParam;
-						judgeRelation = endParamRelation;
-					}
-				}
+		for (j; j < table.rows.length; j++) {
+			var startParam = $(table.rows).eq(j).find("td").eq("1").find("input").val();
+			var startParamRelation = $(table.rows).eq(j).find("td").eq("2").find("select").find("option:checked").text();
+			var endParamRelation = $(table.rows).eq(j).find("td").eq("4").find("select").find("option:checked").text();
+			var endParam = $(table.rows).eq(j).find("td").eq("5").find("input").val();
+			var score = $(table.rows).eq(j).find("td").eq("6").find("input").val();
+			if (startParam == '' || startParamRelation == '' || endParamRelation == '' || endParam == '' || score == '') {
+				scoreCount ++;
+				break;
 			}
+			var str = startParam + "," + startParamRelation + "," + endParamRelation + "," + endParam + "," + score + ",";
+			var canshuzhi = $(table.rows).eq(j).find("td").eq("3").text();
+			$(table.rows).eq(j).find("td").eq("7").text(startParam + startParamRelation + canshuzhi + endParamRelation + endParam + " 得分:" + score);
+			scoreStr += str;
 		}
+		var scoreArr = new Array();
+		scoreArr = scoreStr.split(",");
+		for (var i = 0; i < scoreArr.length - 1; i++) {//长度减一是因为后面多了一个逗号
+			if (i % 5 == 0) {//验证某个区间是否合格
+			    if (parseFloat(scoreArr[i + 3]) > parseFloat(scoreArr[i])) {
+				} else if (scoreArr[i] == scoreArr[i + 3] && scoreArr[i+1] == scoreArr[i+2] && scoreArr[i+1] == '<=') {
+			    } else {
+			        layer.msg("起始值要小于等于结束值");
+			        checkScore ++;
+			        break;
+			    }
+			}
+		};
+		labe : for (var h = 0; h < scoreArr.length -1; h++) {
+			if (h % 5 == 0) {
+				for (var k = h+1; k < scoreArr.length - 1; k++) {
+					if (k % 5 == 0) {//验证区间是否包含别的区间
+						if (parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) < parseFloat(scoreArr[k])) {
+						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[k + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<=') {
+						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 1] == scoreArr[h + 2] && scoreArr[h + 2] == '<=') {
+						} else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] == scoreArr[k + 1] && scoreArr[k + 1] == '<' ) ) {
+						} else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] != scoreArr[k + 1]) ) {
+						} else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) >= parseFloat(scoreArr[k + 3])) {
+						} else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<') {
+						} else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] != scoreArr[k + 2]) {
+						} else {
+							checkScore ++;
+							layer.msg("区间重复,请重新录入"); 
+							console.dir(checkScore);
+							break labe;
+						};
+					}
+				};
+			}
+		};
 	}
 	
 	function delTr(obj){
@@ -968,6 +983,7 @@
 				<tbody>
 					<c:forEach items="${scoreModel.paramIntervalList }" var="pi" varStatus="vs">
 							<tr>
+								
 							</tr>
 					</c:forEach>
 				</tbody>
@@ -1330,7 +1346,8 @@
 			</tr>
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName71" onchange="modelSevenAddSubstact71();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+				<td><select name="intervalTypeName" id="intervalTypeName71" onchange="modelSevenAddSubstact71();">
+					<option value="0" selected="selected">以基准值,每个区间的差额相等</option><option value="1">以区间,每个区间的差额不等</option></select></td>
 				<td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
 			</tr>
 			<tr>
@@ -1387,7 +1404,9 @@
 			</tr>
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName72" onchange="modelSevenAddSubstact72();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
+				<td><select name="intervalTypeName" id="intervalTypeName72" onchange="modelSevenAddSubstact72();">
+				<option value="0">以基准值,每个区间的差额相等</option><option value="1" selected="selected" >以区间,每个区间的差额不等</option>
+				</select></td>
 				<td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
 			</tr>
 			<tr>
@@ -1437,7 +1456,9 @@
 			
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+				<td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();">
+				<option value="0" selected="selected">以基准值,每个区间的差额相等</option><option value="1">以区间,每个区间的差额不等</option>
+				</select></td>
 				<td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
 			</tr>
 			<tr>
@@ -1505,7 +1526,10 @@
 			</tr>
 			<tr>
 				<td class=" w300 tc"><span class="star_red">*</span>区间类型</td>
-				<td><select name="intervalTypeName" id="intervalTypeName82" onchange="modelSevenAddSubstact82();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
+				<td><select name="intervalTypeName" id="intervalTypeName82" onchange="modelSevenAddSubstact82();">
+				<option value="0">差额相等</option><option value="1" selected="selected">差额区间</option>
+				<option value="0">以基准值,每个区间的差额相等</option><option value="1" selected="selected">以区间,每个区间的差额不等</option>
+				</select></td>
 				<td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
 			</tr>
 			<tr>
@@ -1564,9 +1588,9 @@
 				<td class=" w300 tc"><span class="star_red">*</span>评审参数</td>
 				<td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" ></td>
 				<td><span class="blue">
-					该参数代表需要录入供应商的参数名称。<br/>
-					减分例子：碳纤维自行车重量参数由小至大排序评分,第一名得1分,其余依次递减0.15分,最低分为0分,其中</span><span class="red">碳纤维自行车重量</span><span class="blue">就为评审参数<br/>
-					加分例子：矿泉水容量大小排序评分,第一名得0分,其余依次递增0.15分,最高分为1分,其中</span><span class="red">矿泉水容量</span><span class="blue">就为评审参数</span>
+					*该参数代表需要录入供应商的参数名称。<br/>
+					 减分例子：产品生产工序符合产品技术标准情况评分排名，排名第一的得最高分，其余其余依次递减0.1分。其中</span><span class="red">产品生产工序符合产品技术标准情况排名</span><span class="blue">就为评审参数<br/>
+ 					加分例子：上年度消费管理局罚款金额大小排名情况,第一名得最低分,其余依次递增0.1分,最高分为1分,其中</span><span class="red">上年度消费管理局罚款金额排名</span><span class="blue">就为评审参数</span>
 				</td>
 			</tr>
 			<tr>
