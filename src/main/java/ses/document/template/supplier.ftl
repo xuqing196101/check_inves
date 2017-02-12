@@ -1684,7 +1684,7 @@
 			<table class=MsoNormalTable align=center style="border-collapse:collapse;width:468.0000pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
 				<tr style="height:162.3000pt;">
 					<td width=624 valign=top style="width:468.0000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:1.0000pt solid windowtext;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
-						<p class=MsoNormal style="text-align:left;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="font-family:'Times New Roman';mso-fareast-font-family:仿宋_utf-8;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
+						<p class=MsoNormal style="text-align:left;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="font-family:'Times New Roman';mso-fareast-font-family:仿宋_utf-8;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><#if (supplierMatEng?exists)>${supplierMatEng.confidentialAchievement!}</#if></span></p>
 					</td>
 				</tr>
 			</table>
