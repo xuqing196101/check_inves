@@ -203,10 +203,11 @@
 					uploader.reset();
 				}
 				var maxcount = $("#"+$base+"_maxcount").val();
+				var currentCount = uploader.getFiles().length;
 				if (maxcount != null) {
 					$.ajax({
-						url: globalPath + '/file/isOverMaxCount.do',
-						data: {'businessId': $("#"+$base+"_businessId").val(),'typeId': $("#"+$base+"_typeId").val(), 'sysKey': $("#"+$base+"_sysKeyId").val(), 'maxcount':maxcount},
+						url: globalPath + "/file/isOverMaxCount.do",
+						data: {'businessId': $("#"+$base+"_businessId").val(),'typeId': $("#"+$base+"_typeId").val(), 'sysKey': $("#"+$base+"_sysKeyId").val(), 'maxcount':maxcount, 'currentCount':currentCount},
 						success: function(msg){
 							if(msg == 'error'){
 								uploader.removeFile(file);

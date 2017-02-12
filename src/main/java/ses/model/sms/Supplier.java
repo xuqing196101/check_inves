@@ -40,6 +40,14 @@ public class Supplier implements Serializable {
 	 * </pre>
 	 */
 	private String loginName;
+	
+	/**
+     * <pre>
+     * 登录名
+     * 表字段 : T_SES_SMS_SUPPLIER.DESCRIPTION
+     * </pre>
+     */
+    private String description;
 
 	/**
 	 * <pre>
@@ -1637,6 +1645,14 @@ public class Supplier implements Serializable {
 
     public void setAllTreeList(List<SupplierCateTree> allTreeList) {
         this.allTreeList = allTreeList;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
     }
 	
 	

@@ -2226,43 +2226,52 @@ public class ExpertController extends BaseController {
 		}
 
 		// 物资类,服务类资质证书
-		List < SupplierCertPro > listSupplierCertPros = supplier.getSupplierMatPro().getListSupplierCertPros();
-		List < SupplierCertServe > listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
-		for(SupplierCertServe server: listSupplierCertSes) {
-			SupplierCertPro pro = new SupplierCertPro();
-			pro.setName(server.getName());
-			pro.setLevelCert(server.getLevelCert());
-			pro.setLicenceAuthorith(server.getLicenceAuthorith());
-			pro.setExpStartDate(server.getExpStartDate());
-			pro.setExpEndDate(server.getExpEndDate());
-			pro.setMot(server.getMot());
-			listSupplierCertPros.add(pro);
+		List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
+		if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null) {
+		    listSupplierCertPros = supplier.getSupplierMatPro().getListSupplierCertPros();
+		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
+		    if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null) {
+		        listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+		        for(SupplierCertServe server: listSupplierCertSes) {
+		            SupplierCertPro pro = new SupplierCertPro();
+		            pro.setName(server.getName());
+		            pro.setLevelCert(server.getLevelCert());
+		            pro.setLicenceAuthorith(server.getLicenceAuthorith());
+		            pro.setExpStartDate(server.getExpStartDate());
+		            pro.setExpEndDate(server.getExpEndDate());
+		            pro.setMot(server.getMot());
+		            listSupplierCertPros.add(pro);
+		        }
+		        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+		    }
 		}
-		supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
 
-		List < SupplierRegPerson > listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
-		List < SupplierRegPerson > persons = new ArrayList < SupplierRegPerson > ();
-		List < List < SupplierRegPerson >> personList = new ArrayList < List < SupplierRegPerson >> ();
-		// 注册人员信息,换行后的内容
-		if(listSupplierRegPersons != null && listSupplierRegPersons.size() > 2) {
-			for(int i = 0; i < listSupplierRegPersons.size(); i++) {
-				if(i > 1) {
-					if(i % 2 == 0 && i + 1 != listSupplierRegPersons.size()) {
-						persons.add(listSupplierRegPersons.get(i));
-						persons.add(listSupplierRegPersons.get(i + 1));
-						personList.add(persons);
-					} else if(i + 1 == listSupplierRegPersons.size()) {
-						persons.add(listSupplierRegPersons.get(i));
-						personList.add(persons);
-					}
-				}
-			}
+		List < SupplierRegPerson > listSupplierRegPersons = new ArrayList < SupplierRegPerson > ();
+		if (supplier.getSupplierMatEng() != null && supplier.getSupplierMatEng().getListSupplierRegPersons() != null) {
+		    listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
+		    List < SupplierRegPerson > persons = new ArrayList < SupplierRegPerson > ();
+		    List < List < SupplierRegPerson >> personList = new ArrayList < List < SupplierRegPerson >> ();
+		    // 注册人员信息,换行后的内容
+		    if(listSupplierRegPersons != null && listSupplierRegPersons.size() > 2) {
+		        for(int i = 0; i < listSupplierRegPersons.size(); i++) {
+		            if(i > 1) {
+		                if(i % 2 == 0 && i + 1 != listSupplierRegPersons.size()) {
+		                    persons.add(listSupplierRegPersons.get(i));
+		                    persons.add(listSupplierRegPersons.get(i + 1));
+		                    personList.add(persons);
+		                } else if(i + 1 == listSupplierRegPersons.size()) {
+		                    persons.add(listSupplierRegPersons.get(i));
+		                    personList.add(persons);
+		                }
+		            }
+		        }
+		    }
+		    supplier.getSupplierMatEng().setPersons(personList);
+		    
+		    // 工程类注册人员信息
+		    Integer personSize = listSupplierRegPersons != null && listSupplierRegPersons.size() % 2 == 0 ? listSupplierRegPersons.size() / 2 : listSupplierRegPersons.size() / 2 + 1;
+		    supplier.setPersonSize(personSize);
 		}
-		supplier.getSupplierMatEng().setPersons(personList);
-
-		// 工程类注册人员信息
-		Integer personSize = listSupplierRegPersons != null && listSupplierRegPersons.size() % 2 == 0 ? listSupplierRegPersons.size() / 2 : listSupplierRegPersons.size() / 2 + 1;
-		supplier.setPersonSize(personSize);
 
 		// 品目信息
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();

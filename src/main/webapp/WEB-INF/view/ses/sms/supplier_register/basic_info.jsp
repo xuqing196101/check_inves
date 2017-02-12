@@ -756,6 +756,15 @@
 									</div>
 									<%--  <div class="cue"> ${err_bearch } </div> --%>
 								</li>
+								<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>供应商简介</span>
+									<div class="col-md-12 col-xs-12 col-sm-12 p0">
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
+										<div class="cue">
+											<sf:errors path="description" />
+										</div>
+									</div>
+								</li>
 
 								<%-- 			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 				   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 基本账户开户许可证</span> 

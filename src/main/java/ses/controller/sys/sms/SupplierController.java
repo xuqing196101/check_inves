@@ -588,7 +588,7 @@ public class SupplierController extends BaseSupplierController {
 				supplier.setSupplierMatEng(supplierMatEngService.init());
 				supplier.setSupplierMatSe(supplierMatSeService.init());
 			} else if(supplier.getSupplierMatPro().getOrgName() == null) {
-			    supplier.setSupplierMatPro(supplierMatProService.init());
+                supplier.setSupplierMatPro(supplierMatProService.init());
                 supplier.setSupplierMatSell(supplierMatSellService.init());
                 supplier.setSupplierMatEng(supplierMatEngService.init());
                 supplier.setSupplierMatSe(supplierMatSeService.init());
