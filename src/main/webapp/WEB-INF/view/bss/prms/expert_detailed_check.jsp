@@ -186,7 +186,7 @@
 	}
   </script>
   <body>
-	    <h2 class="list_title">${pack.name}经济技术评审查看</h2>
+	    <h2 class="list_title">${pack.name}经济技术评审管理</h2>
 	    <div class="mb5 fr">
 	    	<c:if test="${isEnd != 1}">
 			    <button class="btn" id="endId" onclick="endCheck('${projectId}','${pack.id}')" type="button">结束评审</button>

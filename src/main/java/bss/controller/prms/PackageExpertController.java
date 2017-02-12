@@ -47,6 +47,7 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
+import bss.formbean.Jzjf;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
@@ -1736,6 +1737,11 @@ public class PackageExpertController {
         // 去除经济技术评审没有结束的包
         Map<String, Object> map = new HashMap<String, Object>();
         for (Packages pack : packagesList) {
+            //获取评分办法数据字典编码
+            String methodCode = bidMethodService.getMethod(projectId, pack.getId());
+            if (methodCode != null && !"".equals(methodCode)) {
+                pack.setBidMethodTypeName(methodCode);
+            }
             map.put("packageId", pack.getId());
             List<PackageExpert> selectList = packageExpertService.selectList(map);
             if (selectList != null && selectList.size() > 0 && selectList.get(0).getIsGatherGather() == 1) {
@@ -1760,6 +1766,11 @@ public class PackageExpertController {
         for (SaleTender supp : supplierList) {
             String methodCode = bidMethodService.getMethod(projectId, supp.getPackages());
             if (methodCode != null && !"".equals(methodCode)) {
+                if (("PBFF_JZJF".equals(methodCode))) {
+                    net.sf.json.JSONObject obj = net.sf.json.JSONObject.fromObject(supp.getReviewResult());
+                    Jzjf jzjf = (Jzjf) net.sf.json.JSONObject.toBean(obj,Jzjf.class);
+                    supp.setJzjf(jzjf);
+                }
                 if (!"OPEN_ZHPFF".equals(methodCode)) {
                     if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && "0".equals(supp.getIsRemoved()) && supp.getIsTurnUp() == 0) {
                         BigDecimal pass = new BigDecimal(100);
@@ -3825,10 +3836,11 @@ public class PackageExpertController {
             //最低价法法
             if ("PBFF_ZDJF".equals(aduitMethodCode)) {
                 finalSupplier.addAll(supplierList);
-              //往saleTener插入最终供应商排名
+                //往saleTener插入最终供应商排名
                 service.rank(packageId, projectId, finalSupplier);
                 for (int i = 0; i < finalSupplier.size(); i++) {
                   SaleTender st = finalSupplier.get(i);
+                  BigDecimal v = packageExpertService.getPriceSupplier(st, packageId, projectId);
                   //插入排名
                   HashMap<String, Object> ranMap = new HashMap<String, Object>();
                   ranMap.put("reviewResult", i+1);
@@ -3845,7 +3857,7 @@ public class PackageExpertController {
                   record.setProjectId(projectId);
                   record.setSupplierId(st.getSuppliers().getId());
                   record.setTotalScore(totalSupplier);
-                  record.setTotalPrice(st.getTotalPrice());
+                  record.setTotalPrice(v);
                   record.setRanking(i+1);
                   SupplierCheckPass checkPass = new SupplierCheckPass();
                   checkPass.setPackageId(packageId);
@@ -3884,8 +3896,14 @@ public class PackageExpertController {
                 BigDecimal valid2 = averageQuotation.multiply(valid);
                 //有效平均报价 (平均报价+平均报价*供应商报价不得高于有效平均报价值得百分比)
                 effectiveAverageQuotation = averageQuotation.add(valid2);
+                //高于有效报价的供应商和低于有效报价的供应商的map集合
+                HashMap<String, List<SaleTender>> jzjfMap = new HashMap<String, List<SaleTender>>();
+                //高于有效平均报价的供应商
+                List<SaleTender> noPassSuppList = new ArrayList<SaleTender>();
                 //排除高于有效平均报价后的供应商
-                finalSupplier = packageExpertService.jzjf(valid0, projectId, packageId, effectiveAverageQuotation, supplierList);
+                jzjfMap = packageExpertService.jzjf(valid0, projectId, packageId, effectiveAverageQuotation, supplierList);
+                finalSupplier = jzjfMap.get("finalSupplier");
+                noPassSuppList = jzjfMap.get("noPassSuppList");
                 //排除之后的供应商总报价
                 BigDecimal totalPrice2 = packageExpertService.getTotalPrice(packageId, projectId, finalSupplier);
                 int suNum0 = finalSupplier.size();
@@ -3909,6 +3927,21 @@ public class PackageExpertController {
                 jsonObj.put("bidPrice", bidPrice);
                 jsonObj.put("floatingRatio", floatingRatio);
                 service.jzjfRank(jsonObj, bidPrice, benchmarkPrice, packageId, projectId, finalSupplier);
+                //更新高于有效平均报价的供应商的reviewResult
+                for (SaleTender saleTender : noPassSuppList) {
+                    Map<String, Object> map1 = new HashMap<String, Object>();
+                    map1.put("supplierId", saleTender.getSuppliers().getId());
+                    map1.put("packageId", packageId);
+                    BigDecimal economicScore = new BigDecimal(100);
+                    BigDecimal technologyScore = new BigDecimal(100);
+                    map1.put("economicScore", economicScore);
+                    map1.put("technologyScore", technologyScore);
+                    jsonObj.put("isRank", false);
+                    jsonObj.put("rank", "报价高于有效平均报价的"+valid0+"%.");
+                    jsonObj.put("supplierPrice", saleTender.getTotalPrice());
+                    map1.put("reviewResult", jsonObj.toString());
+                    saleTenderService.editSumScore(map1);
+                }
             }
         }
         

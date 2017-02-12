@@ -144,10 +144,10 @@
 				  </div>
 			    </td>
 			    <td class="tc w100">
-			    	<c:if test="${rp.auditStatus == 0 || rp.auditStatus == 1 || rp.auditStatus == 2}">
+			    	<c:if test="${rp.auditStatus == 0 || rp.auditStatus == 1}">
 			          	<input disabled="disabled" class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
 			    	</c:if>
-			    	<c:if test="${rp.auditStatus == 3 || rp.auditStatus == 4}">
+			    	<c:if test="${rp.auditStatus == 2 || rp.auditStatus == 3 || rp.auditStatus == 4}">
 			          	<input class="btn" type="button" value="查看" onclick="scoreView('${rp.packageId}')">
 			    	</c:if>
 		        </td>

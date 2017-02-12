@@ -168,7 +168,7 @@ public interface PackageExpertService {
          * @param supplierList
          * @return
          */
-        List<SaleTender> jzjf(BigDecimal valid0, String projectId, String packageId, BigDecimal effectiveAverageQuotation, List<SaleTender> supplierList);
+        HashMap<String, List<SaleTender>> jzjf(BigDecimal valid0, String projectId, String packageId, BigDecimal effectiveAverageQuotation, List<SaleTender> supplierList);
         
         /**
          *〈简述〉
@@ -185,7 +185,7 @@ public interface PackageExpertService {
             String projectId, List<SaleTender> finalSupplier);
          /**
          *〈简述〉
-         * 获取供应商总报价
+         * 获取所有供应商总报价
          *〈详细描述〉
          * @author Ye MaoLin
          * @param projectId 
@@ -196,5 +196,17 @@ public interface PackageExpertService {
          * @return
          */
         BigDecimal getTotalPrice(String packageId, String projectId, List<SaleTender> finalSupplier);
+       
+        /**
+         *〈简述〉
+         * 获取供应商总报价
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param st 
+         * @param packageId
+         * @param projectId
+         * @return
+         */
+        BigDecimal getPriceSupplier(SaleTender st, String packageId, String projectId);
         
 }

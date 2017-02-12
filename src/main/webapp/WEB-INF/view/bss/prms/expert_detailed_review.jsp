@@ -131,7 +131,7 @@
 </script>
 </head>
 <body>
-		<h3>包名称：${pack.name}</h3>
+		<h2 class="list_title">${pack.name}经济技术评审管理</h2>
 	    <div class="mb5 fr">
 	      <c:if test="${isEnd != 1}">
 			  <button class="btn" id="endId" onclick="toTotal()" type="button">结束评审</button>
@@ -145,7 +145,8 @@
 		</div>
 		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
 		<!--循环供应商  -->
-		<table class="table table-bordered table-condensed table-hover table-striped">
+		<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+		<table class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
 		  <thead>
 			<tr>
 			  <th><input type="checkbox" id="checkAll" onchange="selectAll(this)"></th>
@@ -213,7 +214,8 @@
 		  </c:if>
 		</table>
 		</div>
-  <div align="center">
+		</div>
+  <div class="clear col-md-12 pl20 mt10 tc">
 	<input type="button" class="btn btn-windows back" value="返回" onclick="goBack('${pageContext.request.contextPath}/packageExpert/toScoreAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}')">
   </div>
 </body>

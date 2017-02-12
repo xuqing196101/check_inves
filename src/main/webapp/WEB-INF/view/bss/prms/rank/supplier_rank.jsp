@@ -40,55 +40,158 @@
     <h2 class="list_title">供应商排名</h2>
 	  <div class="tab-pane fade active in" id="tab-1">
         <c:forEach items="${packagesList}" var="pack" varStatus="vs">
+          <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
           <h2 onclick="ycDiv(this,'${vs.index}')" class="count_flow spread hand">${pack.name}</h2>
+          <c:if test="${'PBFF_JZJF' eq pack.bidMethodTypeName}">
+         		<c:set var="isDone" value="0" scope="page"></c:set>
+         		<c:forEach items="${supplierList}" var="supplier">
+                  <c:if test="${isDone ne '1' && supplier.packages eq pack.id}">
+	                                                基准价：<fmt:formatNumber type="number" value="${supplier.jzjf.benchmarkPrice}" pattern="0.0000" maxFractionDigits="4"/>   
+	                                                浮动比例：<fmt:formatNumber type="number" value="${supplier.jzjf.floatingRatio}" pattern="0.00" maxFractionDigits="2"/>%     
+	                                                中标参考价：<fmt:formatNumber type="number" value="${supplier.jzjf.bidPrice}" pattern="0.0000" maxFractionDigits="4"/>     
+	                                                有效平均报价：<fmt:formatNumber type="number" value="${supplier.jzjf.effectiveAverageQuotation}" pattern="0.0000" maxFractionDigits="4"/>     
+                  	<c:set var="isDone" value="1" scope="page"></c:set>
+                  </c:if>
+                </c:forEach>
+          </c:if>
+          
           <div class="p0${vs.index}">
-            <table class="table table-bordered table-condensed table-hover table-striped">
+            <table class="table table-bordered table-condensed table-hover table-striped   p0 space_nowrap">
               <tr>
-                <td class="tc" colspan="2">专家/供应商</td>
+                <td class="tc" rowspan="2">分类</td>
+                <td class="tc" rowspan="2">评委名称</td>
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
-	                <td class="tc">${supplier.suppliers.supplierName}</td>
+	                <td class="tc" colspan="2">${supplier.suppliers.supplierName}</td>
                   </c:if>
                 </c:forEach>
               </tr>
-              <c:forEach items="${expertList}" var="expert">
-                <c:if test="${expert.packageId eq pack.id}">
-                  <tr>
-                  	<td class="tc w100" rowspan="${expert.count}" <c:if test="${expert.count eq '0' or expert.count == 0}">style="display: none"</c:if> >${expert.reviewTypeId}</td>
-                    <td class="tc w100">${expert.expert.relName}</td>
-                    <c:forEach items="${supplierList}" var="supplier">
-                  	  <c:if test="${supplier.packages eq pack.id}">
-	                    <td class="tc">
-	                      <c:forEach items="${expertScoreList}" var="score">
-	                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
-	                          ${score.score}
-	                        </c:if>
-	                      </c:forEach>
-	                    </td>
-                      </c:if>
-                    </c:forEach>
-                  </tr>
-                </c:if>
-              </c:forEach>
               <tr>
-                <td class="tc" colspan="2">总分</td>
-                <c:forEach items="${supplierList}" var="supplier">
+              <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
-	                <td class="tc">
-	                  <c:forEach items="${rankList}" var="rank">
-	                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
-	                      ${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}
-	                    </c:if>
-	                  </c:forEach>
-	                </td>
+	                <td class="tc" colspan="2">检查结果</td>
                   </c:if>
                 </c:forEach>
               </tr>
+              <!-- 综合评分法 -->
+          	  <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
+	              <c:forEach items="${expertList}" var="expert">
+	                <c:if test="${expert.packageId eq pack.id}">
+	                  <tr>
+	                  	<td class="tc w100" rowspan="${expert.count}" <c:if test="${expert.count eq '0' or expert.count == 0}">style="display: none"</c:if> >${expert.reviewTypeId}</td>
+	                    <td class="tc w100">${expert.expert.relName}</td>
+	                    <c:forEach items="${supplierList}" var="supplier">
+	                  	  <c:if test="${supplier.packages eq pack.id}">
+		                    <td class="tc" colspan="2">
+		                      <c:forEach items="${expertScoreList}" var="score">
+		                        <c:if test="${score.packageId eq pack.id and score.supplierId eq supplier.suppliers.id and score.expertId eq expert.expert.id}">
+		                          ${score.score}
+		                        </c:if>
+		                      </c:forEach>
+		                    </td>
+	                      </c:if>
+	                    </c:forEach>
+	                  </tr>
+	                </c:if>
+	              </c:forEach>
+	              <tr>
+	                <td class="tc" colspan="2">总分</td>
+	                <c:forEach items="${supplierList}" var="supplier">
+	                  <c:if test="${supplier.packages eq pack.id}">
+		                <td class="tc" colspan="2">
+		                  <c:forEach items="${rankList}" var="rank">
+		                    <c:if test="${rank.packageId eq pack.id && rank.supplierId eq supplier.suppliers.id}">
+		                      ${rank.econScore}(经济)+${rank.techScore}(技术)=${rank.sumScore}
+		                    </c:if>
+		                  </c:forEach>
+		                </td>
+	                  </c:if>
+	                </c:forEach>
+	              </tr>
+          	  </c:if>
+              <!-- 最低价法 -->
+              <c:if test="${'PBFF_ZDJF' eq pack.bidMethodTypeName}">
+          	  	  <c:forEach items="${expertList}" var="expert">
+	                <c:if test="${expert.packageId eq pack.id}">
+	                  <tr>
+	                  	<td class="tc w100" rowspan="${expert.count}" <c:if test="${expert.count eq '0' or expert.count == 0}">style="display: none"</c:if> >${expert.reviewTypeId}</td>
+	                    <td class="tc w100">${expert.expert.relName}</td>
+	                    <c:forEach items="${supplierList}" var="supplier">
+	                  	  <c:if test="${supplier.packages eq pack.id}">
+		                    <td class="tc" colspan="2">
+		                      	符合
+		                    </td>
+	                      </c:if>
+	                    </c:forEach>
+	                  </tr>
+	                </c:if>
+	              </c:forEach>
+          	  	  <%-- <tr>
+	                <td class="tc" colspan="2">报价</td>
+	                <c:forEach items="${supplierList}" var="supplier">
+	                  <c:if test="${supplier.packages eq pack.id}">
+		                <td class="tc" colspan="2">
+		                  111
+		                </td>
+	                  </c:if>
+	                </c:forEach>
+	              </tr> --%>
+	              <tr>
+	                <td class="tc" colspan="2">总结</td>
+	                <c:forEach items="${supplierList}" var="supplier">
+	                  <c:if test="${supplier.packages eq pack.id}">
+		                <td class="tc" colspan="2">
+		                  	符合
+		                </td>
+	                  </c:if>
+	                </c:forEach>
+	              </tr>
+          	  </c:if>
+          	  <!-- 基准价法 -->
+          	  <c:if test="${'PBFF_JZJF' eq pack.bidMethodTypeName}">
+          	  	  <tr>
+          	  	  	<td class="tc w100">报价</td>
+          	  	  	<td class="tc w100">差价（与中标参考价的差价）</td>
+          	  	  	<c:forEach items="${supplierList}" var="supplier">
+	                  <c:if test="${supplier.packages eq pack.id}">
+		                <td class="tc">
+		                  	<fmt:formatNumber type="number" value="${supplier.jzjf.supplierPrice}" pattern="0.0000" maxFractionDigits="4"/>
+		                </td>
+		                <td class="tc">
+		                	<c:if test="${supplier.jzjf.supplierPrice >= supplier.jzjf.bidPrice}">
+			                	<fmt:formatNumber type="number" value="${supplier.jzjf.supplierPrice - supplier.jzjf.bidPrice}" pattern="0.0000" maxFractionDigits="4"/>
+		                	</c:if>
+		                	<c:if test="${supplier.jzjf.supplierPrice <= supplier.jzjf.bidPrice}">
+			                	<fmt:formatNumber type="number" value="${supplier.jzjf.bidPrice - supplier.jzjf.supplierPrice}" pattern="0.0000" maxFractionDigits="4"/>
+		                	</c:if>
+		                </td>
+	                  </c:if>
+	                </c:forEach>
+          	  	  </tr>
+          	  	  <tr>
+          	  	  	<c:forEach items="${supplierList}" var="supplier">
+	                  <c:if test="${supplier.packages eq pack.id}">
+		                <td class="tc" colspan="2">符合
+		                </td>
+		              </c:if>
+		            </c:forEach>
+          	  	  </tr>
+          	  </c:if>
               <tr>
                 <td class="tc" colspan="2">排名</td>
+                <c:if test="${'PBFF_JZJF' eq pack.bidMethodTypeName}">
+                	<c:forEach items="${supplierList}" var="supplier">
+	                  <c:if test="${supplier.packages eq pack.id}">
+		                <td class="tc" colspan="2">
+		                	${supplier.jzjf.rank}
+		                </td>
+	                  </c:if>
+	                </c:forEach>
+                </c:if>
+                <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName || 'PBFF_ZDJF' eq pack.bidMethodTypeName}">
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
-	                <td class="tc">
+	                <td class="tc" colspan="2">
 	                  <c:forEach items="${rankList}" var="rank">
 	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and (rank.reviewResult == null or rank.reviewResult eq '')}">
 	                      ${rank.rank}
@@ -100,8 +203,10 @@
 	                </td>
                   </c:if>
                 </c:forEach>
+                </c:if>
               </tr>
 			</table>
+			</div>
           </div>
         </c:forEach>
       </div>

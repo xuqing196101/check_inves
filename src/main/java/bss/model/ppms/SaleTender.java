@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import bss.formbean.Jzjf;
+
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 
@@ -187,6 +189,8 @@ public class SaleTender {
     private String bidFileName;
     //显示文件名称
     private String bidFileId;
+    //基准价法展示字段
+    private Jzjf jzjf;
     
     /**
      * 多次报价时间（查询报价历史的时候用得到）
@@ -697,6 +701,16 @@ public class SaleTender {
 
     public void setTotalPrice(BigDecimal totalPrice) {
       this.totalPrice = totalPrice;
+    }
+
+
+    public Jzjf getJzjf() {
+      return jzjf;
+    }
+
+
+    public void setJzjf(Jzjf jzjf) {
+      this.jzjf = jzjf;
     }
     
 }

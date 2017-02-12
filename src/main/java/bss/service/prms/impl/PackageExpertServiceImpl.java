@@ -909,30 +909,26 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         
     }
     @Override
-    public List<SaleTender> jzjf(BigDecimal valid0, String projectId, String packageId, BigDecimal effectiveAverageQuotation, List<SaleTender> supplierList) {
+    public HashMap<String, List<SaleTender>> jzjf(BigDecimal valid0, String projectId, String packageId, BigDecimal effectiveAverageQuotation, List<SaleTender> supplierList) {
+        //高于有效报价的供应商和低于有效报价的供应商的map集合
+        HashMap<String, List<SaleTender>> jzjfMap = new HashMap<String, List<SaleTender>>();  
+        //低于有效平均报价的供应商
         List<SaleTender> finaList = new ArrayList<SaleTender>();
+        //高于有效平均报价的供应商
+        List<SaleTender> noPassSuppList = new ArrayList<SaleTender>();
         for (SaleTender saleTender : supplierList) {
             //供应商报价
             BigDecimal v = getTocalPriceSupplier(saleTender, projectId, packageId);
+            saleTender.setTotalPrice(v);
             if (effectiveAverageQuotation.compareTo(v) == -1) {
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("supplierId", saleTender.getSuppliers().getId());
-                map.put("packageId", packageId);
-                BigDecimal economicScore = new BigDecimal(100);
-                BigDecimal technologyScore = new BigDecimal(100);
-                map.put("economicScore", economicScore);
-                map.put("technologyScore", technologyScore);
-                JSONObject jsonObj = new JSONObject();
-                jsonObj.put("isRank", false);
-                jsonObj.put("rank", "报价高于有效平均报价的"+valid0+"%.");
-                map.put("reviewResult", jsonObj.toString());
-                saleTenderService.editSumScore(map);
+                noPassSuppList.add(saleTender);
             } else {
-                saleTender.setTotalPrice(v);
                 finaList.add(saleTender);
             }
         }
-        return finaList;
+        jzjfMap.put("finalSupplier", finaList);
+        jzjfMap.put("noPassSuppList", noPassSuppList);
+        return jzjfMap;
     }
     @Override
     public void jzjfRank(JSONObject jsonObj, final BigDecimal bidPrice, BigDecimal benchmarkPrice, String packageId,
@@ -997,6 +993,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               if (v.compareTo(nearBidPrice) == -1) {
                   jsonObj.put("isRank", false);
                   jsonObj.put("rank", "未列入排名");
+                  jsonObj.put("supplierPrice", v);
                   map2.put("reviewResult", jsonObj.toString());
                   saleTenderService.editSumScore(map2);
               } else {
@@ -1028,6 +1025,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               map3.put("technologyScore", technologyScore);
               jsonObj.put("isRank", true);
               jsonObj.put("rank", i+1);
+              jsonObj.put("supplierPrice", supplist1.get(i).getTotalPrice());
               map3.put("reviewResult", jsonObj.toString());
               saleTenderService.editSumScore(map3);
               //向SUPPLIER_CHECK_PASS表中插入预中标供应商
@@ -1100,6 +1098,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                   if (v.compareTo(nearBidPrice) == -1) {
                       jsonObj.put("isRank", false);
                       jsonObj.put("rank", "未列入排名");
+                      jsonObj.put("supplierPrice", v);
                       map2.put("reviewResult", jsonObj.toString());
                       saleTenderService.editSumScore(map2);
                   } else {
@@ -1131,6 +1130,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
                   map3.put("technologyScore", technologyScore);
                   jsonObj.put("isRank", true);
                   jsonObj.put("rank", i+1);
+                  jsonObj.put("supplierPrice", supplist3.get(i).getTotalPrice());
                   map3.put("reviewResult", jsonObj.toString());
                   System.out.println(supplist3.get(i).getSupplierId()+"--"+supplist3.get(i).getTotalPrice()+"--"+jsonObj.toString());
                   saleTenderService.editSumScore(map3);
@@ -1161,50 +1161,9 @@ public class PackageExpertServiceImpl implements PackageExpertService {
               }
         }
     }
-    
-    public static void main(String[] args) {
-        //有效平均报价
-        BigDecimal effectiveAverageQuotation = new BigDecimal(28.4200);
-        //基准价
-        BigDecimal  benchmarkPrice = new BigDecimal(12.87);
-        //中标参考价
-        BigDecimal bidPrice = new BigDecimal(10.87); 
-        //浮动比例
-        BigDecimal floatingRatio = new BigDecimal(0.03);
-        JSONObject jsonObj = new JSONObject();
-        jsonObj.put("effectiveAverageQuotation", effectiveAverageQuotation);
-        jsonObj.put("benchmarkPrice", benchmarkPrice);
-        jsonObj.put("bidPrice", bidPrice);
-        jsonObj.put("floatingRatio", floatingRatio);
-        List<SaleTender> finalSupplier = new ArrayList<SaleTender>();
-        SaleTender saleTender = new SaleTender();
-        saleTender.setSupplierId("0");
-        saleTender.setTotalPrice(new BigDecimal(18));
-        finalSupplier.add(saleTender);
-        SaleTender saleTender1 = new SaleTender();
-        saleTender1.setSupplierId("6");
-        saleTender1.setTotalPrice(new BigDecimal(20));
-        finalSupplier.add(saleTender1);
-        SaleTender saleTender2 = new SaleTender();
-        saleTender2.setSupplierId("2");
-        saleTender2.setTotalPrice(new BigDecimal(50.111));
-        finalSupplier.add(saleTender2);
-        SaleTender saleTender3 = new SaleTender();
-        saleTender3.setSupplierId("3");
-        saleTender3.setTotalPrice(new BigDecimal(10.77));
-        finalSupplier.add(saleTender3);
-        SaleTender saleTender4 = new SaleTender();
-        saleTender4.setSupplierId("4");
-        saleTender4.setTotalPrice(new BigDecimal(8.99));
-        finalSupplier.add(saleTender4);
-        SaleTender saleTender5 = new SaleTender();
-        saleTender5.setSupplierId("5");
-        saleTender5.setTotalPrice(new BigDecimal(7.213));
-        finalSupplier.add(saleTender5);
-        SaleTender saleTender6 = new SaleTender();
-        saleTender6.setSupplierId("1");
-        saleTender6.setTotalPrice(new BigDecimal(14.87));
-        finalSupplier.add(saleTender6);
-        //jzjfRank1(jsonObj, bidPrice, benchmarkPrice, "1", "1", finalSupplier);
+    @Override
+    public BigDecimal getPriceSupplier(SaleTender st, String packageId, String projectId) {
+      return getTocalPriceSupplier(st, projectId, packageId);
     }
+ 
 }
