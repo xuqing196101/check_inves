@@ -33,6 +33,10 @@
 					$(this).attr("onMouseMove", onMouseMove);
 					$(this).attr("onmouseout", onmouseout);
 				});
+				
+				$("li").each(function() {
+					$(this).find("p").hide();
+				});
 			});
 
 			//生产
@@ -258,6 +262,9 @@
 				$("#" + obj.id + "").each(function() {
 					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 					auditContent = $(this).parents("li").find("input").val();
+				  if(auditField == "confidentialAchievement"){
+						auditContent = $(this).parents("li").find("textarea").val();
+					} 
 				});
 
 				var index = layer.prompt({
@@ -295,6 +302,35 @@
 						layer.close(index);
 					});
 			}
+			
+			function reasonFile(ele, auditField) {
+				var supplierId = $("#supplierId").val();
+				var auditFieldName = $(ele).parents("li").find("span").text().replace("：", "").replace("view", ""); //审批的字段名字
+				var index = layer.prompt({
+					title: '请填写不通过的理由：',
+					formType: 2,
+					offset: '100px'
+				}, function(text) {
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+						type: "post",
+						data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=mat_eng_page" + "&auditContent=附件" + "&auditField=" + auditField,
+						dataType: "json",
+						success: function(result) {
+							result = eval("(" + result + ")");
+							if(result.msg == "fail") {
+								layer.msg('该条信息已审核过！', {
+									shift: 6, //动画类型
+									offset: '100px'
+								});
+							}
+						}
+					});
+					$(ele).parents("li").find("p").show(); //显示叉
+					layer.close(index);
+				});
+			}
+			
 			//服务
 			function reasonService(id, auditFieldName, str) {
 				var supplierId = $("#supplierId").val();
@@ -813,7 +849,7 @@
 
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-3">
-									<h2 class="count_flow"><i>3</i>组织结构和人员信息</h2>
+									<h2 class="count_flow"><i>1</i>组织结构和人员信息</h2>
 									<ul class="ul_list count_flow">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">组织机构：</span>
@@ -847,6 +883,32 @@
 										</li>
 									</ul>
 									
+									<h2 class="count_flow"><i>2</i>保密工程业绩</h2>
+									<ul class="ul_list count_flow">
+										<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">承包合同主要页及保密协议：</span>
+											<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
+											<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+										</li>
+										<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密工程业绩：</span>
+											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80 hand" id="confidentialAchievement_engineering" onclick="reasonEngineering1(this)">${supplierMatEngs.confidentialAchievement}</textarea>
+											</div>
+										</li>
+									</ul>
+									
+									<h2 class="count_flow"><i>3</i>承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</h2>
+									<ul class="ul_list">
+										<c:forEach items="${rootArea}" var="area" varStatus="st">
+											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${area.name}：</span>
+													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
+													<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+											</li>
+										</c:forEach>
+									</ul>
+									
 									<h2 class="count_flow"><i>4</i>注册人员信息</h2>
 									<ul class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
@@ -872,7 +934,7 @@
 										</table>
 									</ul>
 									
-									<h2 class="count_flow"><i>1</i>供应商工程证书</h2>
+									<h2 class="count_flow"><i>5</i>供应商工程证书</h2>
 									<div class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>
@@ -929,7 +991,7 @@
 										</table>
 									</div>
 
-									<h2 class="count_flow"><i>2</i>供应商资质资格</h2>
+									<h2 class="count_flow"><i>6</i>供应商资质资格</h2>
 									<ul class="ul_list count_flow">
 										<table class="table table-bordered table-condensed table-hover">
 											<thead>

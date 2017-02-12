@@ -56,6 +56,9 @@
 		    $("#"+obj.id+"").each(function() {
 		      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
+          if(auditField ="businessScope"){
+						auditContent = $(this).parents("li").find("textarea").val();
+					}
     		});
 					var index = layer.prompt({
 				    title : '请填写不通过的理由：', 

@@ -44,6 +44,7 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
@@ -77,6 +78,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.constant.StaticVariables;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * <p>Title:SupplierAuditController </p>
@@ -160,6 +163,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	@Autowired
 	private SupplierAuditNotService supplierAuditNotService;
 
+	@Autowired
+	private UploadService uploadService;
+	
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -738,6 +744,20 @@ public class SupplierAuditController extends BaseSupplierController {
 				List < SupplierRegPerson > listSupplierRegPersons = matEng.getListSupplierRegPersons();
 				request.setAttribute("listRegPerson", listSupplierRegPersons);
 			}
+			
+			//承揽业务范围
+			List<Area> listArea= areaService.findRootArea();
+			SupplierDictionaryData dictionary = dictionaryDataServiceI.getSupplierDictionary();
+			String typeId =  dictionary.getSupplierConAch();
+			List<Area> existenceArea = new ArrayList<>();
+			for(Area area : listArea){
+				String businessId = supplierId + "_" + area.getName();
+				List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
+				if(!listUpload.isEmpty()){
+					existenceArea.add(area);
+				}
+			}
+			request.setAttribute("rootArea", existenceArea);
 		}
 
 		/**
