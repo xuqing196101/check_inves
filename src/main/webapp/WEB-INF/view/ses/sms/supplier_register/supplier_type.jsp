@@ -101,6 +101,7 @@ $().ready(function() {
 			$("#serviceId").addClass("active");
 			$("#server_div").attr("class", "tab-pane fades active in");
 		}
+		init_web_upload();
  	}
  
  
@@ -650,7 +651,6 @@ $().ready(function() {
 				loadTab(first);
 	 		}
 	  	}
-		init_web_upload();
 	});
 	
 	function openCertEng() {
