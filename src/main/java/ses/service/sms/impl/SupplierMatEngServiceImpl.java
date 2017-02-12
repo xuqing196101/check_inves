@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -15,9 +16,12 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierRegPerson;
 import ses.service.sms.SupplierMatEngService;
+import ses.util.WfUtil;
 
 @Service(value = "supplierMatEngService")
 public class SupplierMatEngServiceImpl implements SupplierMatEngService {
@@ -124,4 +128,28 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
         }
     }
 
+    @Override
+    public SupplierMatEng init() {
+        SupplierAptitute aptitute = new SupplierAptitute();
+        aptitute.setId(WfUtil.createUUID());
+        List<SupplierAptitute> aptitutes = new ArrayList<SupplierAptitute>();
+        aptitutes.add(aptitute);
+        
+        SupplierCertEng certEng = new SupplierCertEng();
+        certEng.setId(WfUtil.createUUID());
+        List<SupplierCertEng> certEngs = new ArrayList<SupplierCertEng>();
+        certEngs.add(certEng);
+        
+        SupplierRegPerson regPerson = new SupplierRegPerson();
+        regPerson.setId(WfUtil.createUUID());
+        List<SupplierRegPerson> regPersons = new ArrayList<SupplierRegPerson>();
+        regPersons.add(regPerson);
+        
+        SupplierMatEng eng = new  SupplierMatEng();
+        eng.setListSupplierAptitutes(aptitutes);
+        eng.setListSupplierCertEngs(certEngs);
+        eng.setListSupplierRegPersons(regPersons);
+        return eng;
+    }
+    
 }

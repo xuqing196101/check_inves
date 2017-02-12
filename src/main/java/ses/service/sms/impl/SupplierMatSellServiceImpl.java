@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -15,6 +16,7 @@ import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.service.sms.SupplierMatSellService;
+import ses.util.WfUtil;
 
 @Service(value = "supplierMatSellService")
 public class SupplierMatSellServiceImpl implements SupplierMatSellService {
@@ -82,6 +84,17 @@ public class SupplierMatSellServiceImpl implements SupplierMatSellService {
         } else {
             return null;
         }
+    }
+    
+    @Override
+    public SupplierMatSell init() {
+         SupplierCertSell sellCert=new SupplierCertSell();
+         sellCert.setId(WfUtil.createUUID());
+         List<SupplierCertSell> sellList=new ArrayList<SupplierCertSell>();
+         sellList.add(sellCert);
+         SupplierMatSell sell = new  SupplierMatSell();
+         sell.setListSupplierCertSells(sellList);
+         return sell;
     }
 	
 }

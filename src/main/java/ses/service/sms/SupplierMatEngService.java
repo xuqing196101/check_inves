@@ -2,6 +2,7 @@ package ses.service.sms;
 
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatSell;
 
 public interface SupplierMatEngService {
 	public void saveOrUpdateSupplierMatPro(Supplier supplier);
@@ -17,4 +18,6 @@ public interface SupplierMatEngService {
 	public SupplierMatEng getMatEng(String supplierId);
 
     public String getMatEngIdBySupplierId(String supplierId);
+    
+    public SupplierMatEng init();
 }

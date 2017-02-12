@@ -160,11 +160,12 @@ public class UploadController {
      */
     @ResponseBody
     @RequestMapping("/isOverMaxCount")
-    public String isOverMaxCount(String businessId, String typeId, String sysKey, Integer maxcount){
-        
-        List<UploadFile> filesOther = uploadService.getFilesOther(businessId, typeId, sysKey);
-        if (filesOther.size() >= maxcount) {
-            return "error";
+    public String isOverMaxCount(String businessId, String typeId, String sysKey, String maxcount){
+        if (maxcount != null) {
+            List<UploadFile> filesOther = uploadService.getFilesOther(businessId, typeId, sysKey);
+            if (filesOther.size() >= Integer.parseInt(maxcount)) {
+                return "error";
+            }
         }
         return "success";
     }

@@ -203,7 +203,7 @@
 					uploader.reset();
 				}
 				var maxcount = $("#"+$base+"_maxcount").val();
-				if (maxcount != '') {
+				if (maxcount != null) {
 					$.ajax({
 						url: globalPath + '/file/isOverMaxCount.do',
 						data: {'businessId': $("#"+$base+"_businessId").val(),'typeId': $("#"+$base+"_typeId").val(), 'sysKey': $("#"+$base+"_sysKeyId").val(), 'maxcount':maxcount},

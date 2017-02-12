@@ -1,6 +1,7 @@
 package ses.service.sms;
 
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 
 public interface SupplierMatSellService {
@@ -17,4 +18,6 @@ public interface SupplierMatSellService {
 	public SupplierMatSell getMatSell(String supplierId);
 
     public String getMatSellIdBySupplierId(String supplierId);
+    
+    public SupplierMatSell init();
 }

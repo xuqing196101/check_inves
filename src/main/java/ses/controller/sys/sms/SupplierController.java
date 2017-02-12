@@ -48,8 +48,12 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -58,6 +62,7 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
@@ -578,15 +583,17 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("wlist", wlist);
 			//物资生产类型的必须有的证书
 			if(supplier.getSupplierMatPro() == null) {
-				SupplierMatPro pro = supplierMatProService.init();
-				supplier.setSupplierMatPro(pro);
+				supplier.setSupplierMatPro(supplierMatProService.init());
+				supplier.setSupplierMatSell(supplierMatSellService.init());
+				supplier.setSupplierMatEng(supplierMatEngService.init());
+				supplier.setSupplierMatSe(supplierMatSeService.init());
 			} else if(supplier.getSupplierMatPro().getOrgName() == null) {
-				supplier.setSupplierMatPro(null);
-				SupplierMatPro pro = supplierMatProService.init();
-				supplier.setSupplierMatPro(pro);
+			    supplier.setSupplierMatPro(supplierMatProService.init());
+                supplier.setSupplierMatSell(supplierMatSellService.init());
+                supplier.setSupplierMatEng(supplierMatEngService.init());
+                supplier.setSupplierMatSe(supplierMatSeService.init());
 			}
 			String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
-
 			model.addAttribute("currSupplier", supplier);
 			Map < String, Object > map = supplierService.getCategory(supplier.getId());
 			model.addAttribute("server", map.get("server"));

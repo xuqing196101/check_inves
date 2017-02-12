@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
@@ -11,9 +12,12 @@ import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierMatServeMapper;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.service.sms.SupplierMatSeService;
+import ses.util.WfUtil;
 
 @Service(value = "supplierMatSeService")
 public class SupplierMatSeServiceImpl implements SupplierMatSeService {
@@ -81,4 +85,14 @@ public class SupplierMatSeServiceImpl implements SupplierMatSeService {
         }
     }
 
+    @Override
+    public SupplierMatServe init() {
+        SupplierCertServe seCert=new SupplierCertServe();
+        seCert.setId(WfUtil.createUUID());
+        List<SupplierCertServe> seList=new ArrayList<SupplierCertServe>();
+        seList.add(seCert);
+        SupplierMatServe serve = new  SupplierMatServe();
+        serve.setListSupplierCertSes(seList);
+        return serve;
+    }
 }
