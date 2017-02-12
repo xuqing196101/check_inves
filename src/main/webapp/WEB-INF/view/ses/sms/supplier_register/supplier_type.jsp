@@ -650,6 +650,7 @@ $().ready(function() {
 				loadTab(first);
 	 		}
 	  	}
+		init_web_upload();
 	});
 	
 	function openCertEng() {
