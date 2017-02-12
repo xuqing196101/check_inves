@@ -126,7 +126,7 @@ $(function (){
 	      var flowDefineId = $("#flowDefineId").val();
 	      var process = "${process}";
 	      $.ajax({
-	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status+"&&reason="+encodeURI(encodeURI(reason)),
+	            url:"${pageContext.request.contextPath}/Auditbidding/updateAuditStatus.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&status="+status+"&"+encodeURI(encodeURI(reason)),
 	            dataType: 'json',  
 	            success:function(result){
 	              if(result == 'SUCCESS'){

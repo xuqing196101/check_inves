@@ -446,6 +446,7 @@
                dataType: "json",
                success: function(data){
                            var list=data;
+                           var strTypes = 0;
                            if('sccuess'==list){
                            }else{
                            var tex='';
@@ -494,14 +495,18 @@
                                " <td class='tc' >"+
                                  "<select id='select' onchange='operation(this);'>";
                                   if(list[i].operatingType==1){
+                                	  strTypes = 1;
                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>能参加</option>";
                                   }else if(list[i].operatingType==2){
+                                	  strTypes = 2;
                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
                                       "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
                                       "<option selected='selected' value='"+list[i].id+","+list[i].expertConditionId+",2'>待定</option>";
                                   }else if(list[i].operatingType==3){
+                                	  strTypes = 3;
                                       tex+="<option value='"+list[i].id+","+list[i].expertConditionId+",1' selected='selected' disabled='disabled'>不能参加</option>";
                                   }else{
+                                	  strTypes = 4;
                                       tex+= "<option >请选择</option>"+
                                           "<option value='"+list[i].id+","+list[i].expertConditionId+",1'>能参加</option>"+
                                       "<option value='"+list[i].id+","+list[i].expertConditionId+",3'>不能参加</option>"+
@@ -516,6 +521,9 @@
                                $("#tbody ").prepend(tex);  
                            
                          }
+                           if(strTypes != 4 && strTypes != 0){
+                               layer.alert("抽取完成,剩余为以满足条件",{offset: ['222px', '222px'], shade:0.01});
+                           }
                }
            });
        }

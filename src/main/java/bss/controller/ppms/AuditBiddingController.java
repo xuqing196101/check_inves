@@ -125,7 +125,7 @@ public class AuditBiddingController extends BaseController {
    */
   @ResponseBody
   @RequestMapping(value = "/updateAuditStatus",produces = "text/html;charset=UTF-8")
-  public String updateAuditStatus(@CurrentUser User user, String projectId, String status, Reason reasons,String pcReason,HttpServletRequest request,String flowDefineId,String process) throws UnsupportedEncodingException{
+  public String updateAuditStatus(@CurrentUser User user, String projectId, String status, Reason reasons,HttpServletRequest request,String flowDefineId,String process) throws UnsupportedEncodingException{
     String  reasonStr = "";
     if (reasons != null) {
       reasonStr = URLDecoder.decode(JSON.toJSONString(reasons),"UTF-8");
