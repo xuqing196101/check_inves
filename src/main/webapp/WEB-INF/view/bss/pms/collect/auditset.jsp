@@ -469,13 +469,15 @@
     }
     
     function delet(){
-    	
     	var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
+			$(this).parent().parent().remove();
 		}); 
 		$("#del_id").val(id);
-		$.ajax({
+		var val=$("#del_id").val();
+		if($.trim(val)!=""){
+			$.ajax({
 			 	url:"${pageContext.request.contextPath}/set/delete.html",
 			 	type:"post",
 			 	data:$("#del_form").serialize(),
@@ -488,6 +490,8 @@
 					}); 
 			 	}
 		 });
+		}
+		
 		
 		
 		

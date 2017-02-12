@@ -135,7 +135,8 @@
  	
  	//取消
  	function cancel(){
- 		layer.closeAll();
+ 		var index = parent.layer.getFrameIndex(window.name); 
+ 		parent.layer.close(index);
  	}
   </script>
   </head>

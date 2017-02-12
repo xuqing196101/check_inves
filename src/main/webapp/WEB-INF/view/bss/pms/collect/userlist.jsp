@@ -208,9 +208,9 @@
 				</div>
 			</li>
 		</ul>
-			<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+			<!-- <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
 				<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
 				<button class="btn btn-windows cancel" type="button" onclick="cancelss()">取消</button>
-			</div>
+			</div> -->
 	 </body>
 </html>
