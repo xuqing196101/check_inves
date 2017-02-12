@@ -1060,28 +1060,28 @@ $().ready(function() {
 												<tbody id="cert_pro_list_tbody_id">
 													<c:set var="certProNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatPro.listSupplierCertPros}" var="certPro" varStatus="vs">
-														<tr>
-															<td class="tc">
+														<tr <c:if test="${fn:contains(proPageField,certPro.id)}"> onmouseover="errorMsg('${certPro.id}','mat_pro_page')"</c:if>>
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="checkbox" class="border0" value="${certPro.id}" />
 															<input type="hidden" required="required" name="supplierMatPro.listSupplierCertPros[${certProNumber}].id" value="${certPro.id}" class="mt5 border0">
 															<div class="cue"><sf:errors path="supplierMatPro.listSupplierCertPros[${certProNumber}].id"/></div>
 															</td>
-															<td class="tc"><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}" class="border0"/> </td>
-															<td class="tc"><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" class="border0"/> </td>
-															<td class="tc"><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}" class="border0"/></td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}" class="border0"/> </td>
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" class="border0"/> </td>
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}" class="border0"/></td>
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="text" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expStartDate" value="<fmt:formatDate value="${certPro.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>>
 																<input type="text" required="required" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															   <select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p border0">
 														          <option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
 														          <option value="0"  <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</td>
@@ -1187,27 +1187,27 @@ $().ready(function() {
 												<tbody id="cert_sell_list_tbody_id">
 													<c:set var="certSaleNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatSell.listSupplierCertSells}" var="certSell" varStatus="vs">
-														<tr>
-															<td class="tc">
+														<tr <c:if test="${fn:contains(sellPageField,certSell.id)}"> onmouseover="errorMsg('${certSell.id}','mat_sell_page')"</c:if>>
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="checkbox" value="${certSell.id}" class="border0"/>
 															<input type="hidden" required="required" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}" class="border0">
 															</td>
-															<td class="tc"><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}" class="border0"/></td>
-															<td class="tc"><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}" class="border0"/></td>
-															<td class="tc"><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}" class="border0"/></td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}" class="border0"/></td>
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}" class="border0"/></td>
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}" class="border0"/></td>
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="text" readonly="readonly" required="required" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" value="<fmt:formatDate value="${certSell.expStartDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="text" readonly="readonly" required="required" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd"/>" class="border0"/>
 														    </td>
-														    <td class="tc">
+														    <td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															   <select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p border0">
 														          <option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if>>是</option>
 														          <option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<div class="w200 fl">
 															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="sale_show_${certSaleNumber}" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
@@ -1291,7 +1291,7 @@ $().ready(function() {
 									    <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										  	<legend> 保密工程业绩 </legend>
 										  	<ul class="list-unstyled overflow_h">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 承包合同主要页及保密协议：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierConAch','mat_eng_page')"</c:if>><i class="red">*</i> 承包合同主要页及保密协议：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" exts="${properties['file.picture.type']}" id="conAch_up" multiple="true" auto="true" />
 														<u:show showId="conAch_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
@@ -1300,7 +1300,7 @@ $().ready(function() {
 												<li class="col-md-12 col-xs-12 col-sm-12 mb25">
 													<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>国家或军队保密工程业绩：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
-														<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" required="required" name="supplierMatEng.confidentialAchievement">${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+														<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" required="required" name="supplierMatEng.confidentialAchievement" <c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
 														<div class="cue">
 															<sf:errors path="supplierMatEng.confidentialAchievement" />
 														</div>
@@ -1313,7 +1313,7 @@ $().ready(function() {
 										  	<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
 										  	<ul class="list-unstyled overflow_h">
 										  	  <c:forEach items="${rootArea}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> ${area.name}：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>> ${area.name}：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
 														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
@@ -1342,13 +1342,13 @@ $().ready(function() {
 												<tbody id="reg_person_list_tbody_id">
 													<c:set var="certPersonNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierRegPersons}" var="regPerson" varStatus="vs">
-														<tr>
-															<td class="tc">
+														<tr <c:if test="${fn:contains(engPageField,regPerson.id)}"> onmouseover="errorMsg('${regPerson.id}','mat_eng_page')"</c:if>>
+															<td class="tc" <c:if test="${fn:contains(engPageField,regPerson.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="checkbox" class="border0" value="${regPerson.id}" />
 															<input type="hidden" required="required" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].id" value="${regPerson.id}">
 															</td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,regPerson.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regType" value="${regPerson.regType}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,regPerson.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierRegPersons[${certPersonNumber}].regNumber" value="${regPerson.regNumber}"/></td>
 														</tr>
 														<c:set var="certPersonNumber" value="${certPersonNumber + 1}"/>
 													</c:forEach>
@@ -1390,24 +1390,24 @@ $().ready(function() {
 												<tbody id="cert_eng_list_tbody_id">
 													<c:set var="certEngNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierCertEngs}" var="certEng" varStatus="vs">
-														<tr>
-															<td class="tc">
+														<tr <c:if test="${fn:contains(engPageField,certEng.id)}"> onmouseover="errorMsg('${certEng.id}','mat_eng_page')"</c:if>>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="checkbox" class="border0" value="${certEng.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id" value="${certEng.id}">
 															</td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
-															<td class="tc"><input class="w120 border0" required="required" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input class="w120 border0" required="required" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															   <select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p border0">
 														          <option value="1" <c:if test="${certEng.certStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${certEng.certStatus==0}"> selected="selected"</c:if>>无效</option>
@@ -1460,35 +1460,35 @@ $().ready(function() {
 												<tbody id="aptitute_list_tbody_id">
 													<c:set var="certAptNumber" value="0"/>
 													<c:forEach items="${currSupplier.supplierMatEng.listSupplierAptitutes}" var="aptitute" varStatus="vs">
-														<tr>
-															<td class="tc">
+														<tr <c:if test="${fn:contains(engPageField,aptitute.id)}"> onmouseover="errorMsg('${aptitute.id}','mat_eng_page')"</c:if>>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="checkbox" class="border0" value="${aptitute.id}" />
 															<input type="hidden" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id" value="${aptitute.id}">
 															</td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" value="${aptitute.certType}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode" value="${aptitute.certCode}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteSequence" value="${aptitute.aptituteSequence}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType" value="${aptitute.professType}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" value="${aptitute.aptituteLevel}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].isMajorFund" class="w100p border0">
 														          <option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 														          <option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															   <select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p border0">
 														          <option value="1" <c:if test="${aptitute.aptituteStatus==1}"> selected="selected"</c:if> >有效</option>
 														          <option value="0"  <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
 														        </select>
 															</td>
-															<td class="tc"><input type="text" class="border0" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" class="border0" required="required" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
-															<td class="tc w200">
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" class="border0" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" class="border0" required="required" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
+															<td class="tc w200" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<div class="w200">
 															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
@@ -1591,23 +1591,23 @@ $().ready(function() {
 												<tbody id="cert_se_list_tbody_id">
 													<c:set var="certSeNumber" value="0"></c:set>
 													<c:forEach items="${currSupplier.supplierMatSe.listSupplierCertSes}" var="certSe" varStatus="vs">
-														<tr>
-															<td class="tc">
+														<tr <c:if test="${fn:contains(servePageField,certSe.id)}"> onmouseover="errorMsg('${certSe.id}','mat_serve_page')"</c:if>>
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															<input type="checkbox" class="border0" value="${certSe.id}" />
 															<input type="hidden" required="required" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id" value="${certSe.id}">
 															</td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc"><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}"/></td>
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}"/></td>
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}"/></td>
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd"/>"/></td>
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>>
 																<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p border0">
 																	<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
 																	<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>否</option>
 																</select>
 															</td>
-															<td class="tc">
+															<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid #ef0000;" </c:if>>
 															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
 															 <u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 															</td>

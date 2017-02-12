@@ -755,7 +755,7 @@
 														<c:if test="${m.mot==1 }">是</c:if>
 													</td>
 													<td class="tc">
-														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" />
+														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
 														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></p>
@@ -858,25 +858,25 @@
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术负责人数：</span>
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术负责人数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="totalTech_engineering" type="text" value="${supplierMatEngs.totalTech }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTech')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTech','mat_eng_page');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">中级及以上职称人员：</span>
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">中级及以上职称人员数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="totalGlNormal_engineering" type="text" value="${supplierMatEngs.totalGlNormal }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalGlNormal')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalGlNormal','mat_eng_page');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">管理人员：</span>
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">现场管理人员数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="totalMange_engineering" type="text" value="${supplierMatEngs.totalMange }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalMange')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalMange','mat_eng_page');"</c:if>/>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术工人：</span>
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">技术和工人数量：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="totalTechWorker_engineering" type="text" value="${supplierMatEngs.totalTechWorker }" onclick="reasonEngineering1(this)" <c:if test="${fn:contains(field,'totalTechWorker')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('totalTechWorker','mat_eng_page');"</c:if>/>
 											</div>
@@ -926,7 +926,7 @@
 													<td class="tc">${regPrson.regType}</td>
 													<td class="tc">${regPrson.regNumber}</td>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记','${regPrson.regType}');" id="${regPrson.id}_hidden2" class="btn">审核</p>
+														<p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记','${regPrson.regType}');" id="${regPrson.id}_hidden2"><img src='/zhbj/public/backend/images/light_icon.png'></p>
 														<a id="${regPrson.id }_show2" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 													</td>
 												</tr>

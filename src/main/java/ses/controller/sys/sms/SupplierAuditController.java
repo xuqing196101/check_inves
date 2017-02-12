@@ -732,6 +732,13 @@ public class SupplierAuditController extends BaseSupplierController {
 
 			//资质资格信息
 			List < SupplierAptitute > supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
+			for(int i = 0; i < supplierAptitute.size() - 1; i++) {
+				for(int j = supplierAptitute.size() - 1; j > i; j--) {
+					if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
+						supplierAptitute.remove(j);
+					}
+				}
+			}
 			request.setAttribute("supplierAptitutes", supplierAptitute);
 
 			//组织结构
