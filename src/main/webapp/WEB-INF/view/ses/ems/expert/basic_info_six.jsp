@@ -430,8 +430,8 @@
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
-									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
+									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
+										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
@@ -468,13 +468,13 @@
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
-									<div id="div-${vs.index + 1}" class="mb10">
-										产品名称:<input type="text" id="cate-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')" />
+									<div id="div-4" class="mb10">
+										产品名称:<input type="text" id="cate-4">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
-									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
-									<input id="tab-${vs.index + 1}-value" value="${engId}" type="hidden">
+									<ul id="tab-4" class="ztree_supplier mt30"></ul>
+									<input id="tab-4-value" value="${engId}" type="hidden">
 								</c:if>
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<c:set var="count" value="${count + 1}"></c:set>
