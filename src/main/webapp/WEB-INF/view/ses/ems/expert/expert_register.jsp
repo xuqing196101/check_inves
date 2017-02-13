@@ -63,7 +63,7 @@ session.setAttribute("tokenSession", tokenValue);
 				   return false;
 			   }else{ 
 				   $("#spp").html("");
-				   flag=2;
+				   flag = 2;
 				   return true;
 			    }
 		   }
@@ -132,7 +132,7 @@ session.setAttribute("tokenSession", tokenValue);
 			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl10">
 			  <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>专家类型：</span>
 			  <div class="col-md-7 col-xs-12 col-sm-12 p0 select_common">
-		        <select  name="expertsFrom" id="expertsFrom" onblur="validateFrom();">
+		        <select  name="expertsFrom" id="expertsFrom" onkeyup="validateFrom();">
 				  <option selected="selected" value="">-请选择-</option>
 				  <c:forEach items="${lyTypeList}" var="ly">
 				    <option value="${ly.id}">${ly.name}</option>
@@ -144,21 +144,21 @@ session.setAttribute("tokenSession", tokenValue);
      		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>用户名：</span>
 			  <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onblur="validataLoginName();" value="">
+		        <input name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onkeyup="validataLoginName();" value="">
 		        <div id="spp" class="cue"></div>
 		       </div>
 			 </li>
 		     <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onblur="validataPassword();"  type="password" >
+		        <input name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
 		        <div id="pwd1" class="cue"></div>
 		       </div>
 			 </li> 
 	 		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input id="password2"  maxlength="20" onblur="validataPwd2();" type="password" value="">
+		        <input id="password2"  maxlength="20" onkeyup="validataPwd2();" type="password" value="">
 		        <div class="cue" id="pwd2">
 		       </div>
 			 </li> 
@@ -167,7 +167,7 @@ session.setAttribute("tokenSession", tokenValue);
 			   <div class="col-md-7 col-xs-12 col-sm-12 p0 input-append input_group">
 			    <!--<div class="col-md-12 col-sm-12 col-xs-12 pl0">-->
 			    <div class="col-md-12 col-sm-12 col-xs-12 p0">
-		          <input name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onblur="validatePhone();"  value="" type="text">
+		          <input name="mobile" placeholder="请输入正确的手机号码" maxlength="14" id="phone" onkeyup="validatePhone();"  value="" type="text">
 		        </div>
 		        <!-- <button type="button" class="btn ml10">发送验证码</button>-->
 		        <div class="cue" id="phone2"></div>

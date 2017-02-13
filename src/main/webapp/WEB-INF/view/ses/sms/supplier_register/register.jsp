@@ -11,7 +11,7 @@
 		document.getElementById("login_input_id").focus();// 用户名自动获取焦点
 
 		/** ajax 校验用户名是否存在 */
-		$("#login_input_id").blur(function() {
+		$("#login_input_id").keyup(function() {
 			var loginName = $(this).val();
 			if (loginName != null && loginName != "" && loginName !="null" && loginName !="undefined"){
 				$.ajax({
