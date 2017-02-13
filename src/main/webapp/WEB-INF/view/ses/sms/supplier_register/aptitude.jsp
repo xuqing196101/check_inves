@@ -49,6 +49,18 @@
 				$("#tab_content_div_id").outerHeight(Math.max.apply(null, temp_heights));
 			}
 			
+			//显示不通过的理由
+			function errorMsg(auditField, auditType){
+				var supplierId = "${currSupplier.id}";
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/audit.html",
+					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
+					dataType: "json",
+					success: function(data){
+					layer.msg(data.suggest , {offset: '200px'});
+					}
+				});
+			}
 		</script>
 
 	</head>
@@ -120,7 +132,7 @@
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
-															<div class="mr5 fl">
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${quaPro.flag}','aptitude_page')"</c:if>>
 																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -145,7 +157,7 @@
 
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
-															<div class="mr5 fl">
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${saua.flag}','aptitude_page')"</c:if>>
 																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="saleShow${length}" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -169,7 +181,7 @@
 													<td>
 														<c:forEach items="${project.list }" var="project">
 															<c:set value="${plength+1}" var="plength"></c:set>
-															<div class="mr5 fl">
+															<div class="mr5 fl" <c:if test="${fn:contains(audit,project.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${project.flag}','aptitude_page')"</c:if>>
 																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="projectUp${plength}" multiple="true" buttonName="${project.name}" groups="${saleUp}" businessId="${project.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="projectShow${plength}" groups="${saleShow}" businessId="${project.flag}" sysKey="${sysKey}" typeId="${typeId}" />
@@ -194,7 +206,7 @@
 													<td>
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
-															<div class="fl mr5">
+															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${ser.flag}','aptitude_page')"</c:if>>
 																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="serverUp${plength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="serverShow${plength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />

@@ -289,7 +289,7 @@
 							url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 							type: "post",
 							data: {
-								"auditType": "品目信息",
+								"auditType": "items_page",
 								"auditFieldName": auditFieldName,
 								"suggest": text,
 								"supplierId": supplierId,

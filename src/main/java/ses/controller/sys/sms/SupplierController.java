@@ -48,12 +48,8 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
-import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCertEng;
-import ses.model.sms.SupplierCertSell;
-import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -62,7 +58,6 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
-import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
@@ -95,7 +90,6 @@ import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import common.annotation.SystemControllerLog;
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -2033,6 +2027,19 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		// 不通过字段的名字
+		SupplierAudit s = new SupplierAudit();
+		s.setSupplierId(supplierId);;
+		s.setAuditType("contract_page");
+		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+
+		StringBuffer errorField = new StringBuffer();
+		for(SupplierAudit audit: auditLists) {
+			errorField.append(audit.getAuditField() + ",");
+		}
+		model.addAttribute("audit", errorField);
+		
 		return "ses/sms/supplier_register/ajax_contract";
 	}
 

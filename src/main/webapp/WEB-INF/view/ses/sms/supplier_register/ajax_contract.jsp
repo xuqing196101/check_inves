@@ -45,6 +45,19 @@ $(function() {
 		}
 	});
 });
+
+		//显示不通过的理由
+			function errorMsg(auditField, auditType){
+				var supplierId = "${supplierId}";
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/audit.html",
+					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
+					dataType: "json",
+					success: function(data){
+					layer.msg(data.suggest , {offset: '200px'});
+					}
+				});
+			}
 </script>
 </head>
 <body>
@@ -85,29 +98,30 @@ $(function() {
           </c:forEach>
         </tr>
       <c:forEach items="${contract}" var="obj" varStatus="vs">
-        <tr>
-          <td class="tl pl20">${obj.name }</td>
-          <td>
+        <tr <c:if test="${fn:contains(audit,obj.id)}"> onmouseover="errorMsg('${obj.id}','contract_page')"</c:if>>
+          <td class="tl pl20" <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>${obj.name }</td>
+          <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
+          
 	        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-1}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" auto="true" />
 	        <u:show showId="${fileShow}${(vs.index + 1)*6-1}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 		  </td>
-		  <td>
+		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 		    <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-2}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" auto="true" />
 		    <u:show showId="${fileShow}${(vs.index + 1)*6-2}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 	      </td>
-		  <td>
+		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-3}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-3}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 		  </td>
-		  <td> 
+		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>> 
 			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-4}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-4}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 		  </td>
-		  <td>
+		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-5}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-5}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 		  </td>
-		  <td>
+		  <td <c:if test="${fn:contains(audit,obj.id)}">style="border: 1px solid red;" </c:if>>
 			<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" exts="${properties['file.picture.type']}" id="${fileUp}${(vs.index + 1)*6-6}" multiple="true" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" auto="true" />
 			<u:show showId="${fileShow}${(vs.index + 1)*6-6}" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 		  </td>

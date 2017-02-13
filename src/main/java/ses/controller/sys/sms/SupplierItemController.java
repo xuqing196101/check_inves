@@ -23,6 +23,7 @@ import ses.model.bms.Qualification;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
@@ -30,6 +31,7 @@ import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -71,6 +73,9 @@ public class SupplierItemController extends BaseController {
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
 
+	@Autowired
+	private SupplierAuditService supplierAuditService;
+	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
@@ -99,6 +104,7 @@ public class SupplierItemController extends BaseController {
 			String categoryId = item.getCategoryId();
 			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
 			if(cateTree != null && cateTree.getRootNode() != null) {
+				cateTree.setItemsId(item.getId());
 				allTreeList.add(cateTree);
 			}
 		}
@@ -120,6 +126,19 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());
 		model.addAttribute("result", new PageInfo < > (listSupplierItems));
 		model.addAttribute("itemsList", allTreeList);
+		
+		// 不通过字段的名字
+		SupplierAudit s = new SupplierAudit();
+		s.setSupplierId(supplierItem.getSupplierId());;
+		s.setAuditType("items_page");
+		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+
+		StringBuffer errorField = new StringBuffer();
+		for(SupplierAudit audit: auditLists) {
+			errorField.append(audit.getAuditField() + ",");
+		}
+		model.addAttribute("audit", errorField);
+		
 		return "ses/sms/supplier_register/ajax_items";
 	}
 
@@ -465,7 +484,19 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("businessId", supplier.getId());
 		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
 		//		model.addAttribute("len", len);
+		
+		// 不通过字段的名字
+		SupplierAudit s = new SupplierAudit();
+		s.setSupplierId(supplier.getId());;
+		s.setAuditType("aptitude_page");
+		List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
 
+		StringBuffer errorField = new StringBuffer();
+		for(SupplierAudit audit: auditLists) {
+			errorField.append(audit.getAuditField() + ",");
+		}
+		model.addAttribute("audit", errorField);
+		
 		return "ses/sms/supplier_register/aptitude";
 
 	}
