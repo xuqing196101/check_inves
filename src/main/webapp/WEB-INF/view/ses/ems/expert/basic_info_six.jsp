@@ -53,7 +53,7 @@
 						url: "${pageContext.request.contextPath}/expert/getCategory.do",
 						otherParam: {
 							"categoryId": id,
-							"expertId": expertId
+							"expertId": expertId,
 						},
 						dataFilter: ajaxDataFilter,
 						dataType: "json",

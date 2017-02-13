@@ -1,7 +1,6 @@
 package ses.controller.sys.ems;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -60,6 +59,7 @@ import ses.model.sms.SupplierRegPerson;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.EngCategoryService;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
@@ -136,6 +136,8 @@ public class ExpertController extends BaseController {
 	private ProjectExtractService projectExtractService; //是否被抽取查询
 	@Autowired
 	private CategoryService categoryService; //品目
+	@Autowired
+	private EngCategoryService engCategoryService; //工程专业信息
 	@Autowired
 	private SupplierItemService supplierItemService; //品目
 	@Autowired
@@ -603,57 +605,109 @@ public class ExpertController extends BaseController {
 	 * @param categoryId
 	 * @return
 	 */
-	@RequestMapping(value = "getCategory", produces = "application/json;charset=UTF-8")
 	@ResponseBody
+	@RequestMapping(value = "/getCategory", produces = "application/json;charset=UTF-8")
 	public String getCategory(String expertId, String id, String categoryId) {
-		List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
-		Expert expert = service.selectByPrimaryKey(expertId);
-		if(id == null) {
-			DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);
-			CategoryTree ct = new CategoryTree();
-			ct.setName(parent.getName());
-			ct.setId(parent.getId());
-			ct.setIsParent("true");
-			// 设置是否被选中
-			ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId));
-			allCategories.add(ct);
+	    String code = DictionaryDataUtil.findById(categoryId).getCode();
+		if (code != null && code.equals("ENG_INFO_ID")) {
+		    List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
+            Expert expert = service.selectByPrimaryKey(expertId);
+            if(id == null) {
+                DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);
+                CategoryTree ct = new CategoryTree();
+                ct.setName(parent.getName());
+                ct.setId(parent.getId());
+                ct.setIsParent("true");
+                // 设置是否被选中
+                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, "ENG_INFO"));
+                allCategories.add(ct);
+            } else {
+                List < Category > childNodes = engCategoryService.findPublishTree(id, null);
+                if(childNodes != null && childNodes.size() > 0) {
+                    for(Category category: childNodes) {
+                        CategoryTree ct = new CategoryTree();
+                        ct.setName(category.getName());
+                        ct.setId(category.getId());
+                        ct.setParentId(category.getParentId());
+                        // 判断是否为父级节点
+                        List < Category > nodesList = engCategoryService.findPublishTree(category.getId(), null);
+                        if(nodesList != null && nodesList.size() > 0) {
+                            ct.setIsParent("true");
+                        }
+                        // 判断是否被选中
+                        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+                        allCategories.add(ct);
+                    }
+                    // 判断专家是否为被退回状态
+                    if(expert.getStatus().equals("3")) {
+                        // 查询所有的不通过的品目
+                        ExpertAudit expertAudit = new ExpertAudit();
+                        expertAudit.setExpertId(expertId);
+                        expertAudit.setSuggestType("six");
+                        List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
+                        for(CategoryTree treeNode: allCategories) {
+                            for(ExpertAudit audit: auditList) {
+                                if(audit.getAuditField().equals(treeNode.getId())) {
+                                    // 如果该品目没有通过则设置树的title为不通过理由
+                                    expertAudit.setAuditField(audit.getAuditField());
+                                    treeNode.setAuditAdvise(expertAuditService.selectFailByExpertId(expertAudit).get(0).getAuditReason());
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            return JSON.toJSONString(allCategories);
 		} else {
-			List < Category > childNodes = categoryService.findPublishTree(id, null);
-			if(childNodes != null && childNodes.size() > 0) {
-				for(Category category: childNodes) {
-					CategoryTree ct = new CategoryTree();
-					ct.setName(category.getName());
-					ct.setId(category.getId());
-					ct.setParentId(category.getParentId());
-					// 判断是否为父级节点
-					List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
-					if(nodesList != null && nodesList.size() > 0) {
-						ct.setIsParent("true");
-					}
-					// 判断是否被选中
-					ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId));
-					allCategories.add(ct);
-				}
-				// 判断专家是否为被退回状态
-				if(expert.getStatus().equals("3")) {
-					// 查询所有的不通过的品目
-					ExpertAudit expertAudit = new ExpertAudit();
-					expertAudit.setExpertId(expertId);
-					expertAudit.setSuggestType("six");
-					List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
-					for(CategoryTree treeNode: allCategories) {
-						for(ExpertAudit audit: auditList) {
-							if(audit.getAuditField().equals(treeNode.getId())) {
-								// 如果该品目没有通过则设置树的title为不通过理由
-								expertAudit.setAuditField(audit.getAuditField());
-								treeNode.setAuditAdvise(expertAuditService.selectFailByExpertId(expertAudit).get(0).getAuditReason());
-							}
-						}
-					}
-				}
-			}
+		    List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
+		    Expert expert = service.selectByPrimaryKey(expertId);
+		    if(id == null) {
+		        DictionaryData parent = dictionaryDataServiceI.getDictionaryData(categoryId);
+		        CategoryTree ct = new CategoryTree();
+		        ct.setName(parent.getName());
+		        ct.setId(parent.getId());
+		        ct.setIsParent("true");
+		        // 设置是否被选中
+		        ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+		        allCategories.add(ct);
+		    } else {
+		        List < Category > childNodes = categoryService.findPublishTree(id, null);
+		        if(childNodes != null && childNodes.size() > 0) {
+		            for(Category category: childNodes) {
+		                CategoryTree ct = new CategoryTree();
+		                ct.setName(category.getName());
+		                ct.setId(category.getId());
+		                ct.setParentId(category.getParentId());
+		                // 判断是否为父级节点
+		                List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
+		                if(nodesList != null && nodesList.size() > 0) {
+		                    ct.setIsParent("true");
+		                }
+		                // 判断是否被选中
+		                ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+		                allCategories.add(ct);
+		            }
+		            // 判断专家是否为被退回状态
+		            if(expert.getStatus().equals("3")) {
+		                // 查询所有的不通过的品目
+		                ExpertAudit expertAudit = new ExpertAudit();
+		                expertAudit.setExpertId(expertId);
+		                expertAudit.setSuggestType("six");
+		                List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
+		                for(CategoryTree treeNode: allCategories) {
+		                    for(ExpertAudit audit: auditList) {
+		                        if(audit.getAuditField().equals(treeNode.getId())) {
+		                            // 如果该品目没有通过则设置树的title为不通过理由
+		                            expertAudit.setAuditField(audit.getAuditField());
+		                            treeNode.setAuditAdvise(expertAuditService.selectFailByExpertId(expertAudit).get(0).getAuditReason());
+		                        }
+		                    }
+		                }
+		            }
+		        }
+		    }
+		    return JSON.toJSONString(allCategories);
 		}
-		return JSON.toJSONString(allCategories);
 	}
 
 	/**
@@ -665,7 +719,7 @@ public class ExpertController extends BaseController {
 	 * @param expertId
 	 * @return
 	 */
-	public boolean isExpertChecked(String categoryId, String expertId, String typeId) {
+	public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag) {
 		List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
 		boolean isChecked = false;
 		for(ExpertCategory expertCategory: allCategoryList) {
@@ -675,7 +729,12 @@ public class ExpertController extends BaseController {
 				break;
 			} else {
 				while(true) {
-					Category cate = categoryService.selectByPrimaryKey(id);
+				    Category cate = null;
+				    if (flag != null) {
+				        cate = categoryService.selectByPrimaryKey(id);
+				    } else {
+				        cate = engCategoryService.selectByPrimaryKey(id);
+				    }
 					if(cate != null) {
 						if(cate.getParentId().equals(categoryId)) {
 							isChecked = true;
@@ -2857,7 +2916,7 @@ public class ExpertController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
 	public String searchCate(String typeId, String cateName, String expertId, String supplierId) {
-		String type = typeId;
+	    String type = typeId;
 		if(supplierId != null) {
 			if(typeId.equals("SALES") || typeId.equals("PRODUCT")) {
 				typeId = DictionaryDataUtil.getId("GOODS");
@@ -2914,7 +2973,7 @@ public class ExpertController extends BaseController {
 		for(CategoryTree treeNode: treeList) {
 			// 判断是否被选中
 			if(expertId != null) {
-				treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId));
+				treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null));
 			} else if(supplierId != null) {
 				treeNode.setChecked(isSupplierChecked(treeNode.getId(), supplierId, type));
 			}

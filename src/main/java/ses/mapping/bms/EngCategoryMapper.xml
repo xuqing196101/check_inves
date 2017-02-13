@@ -1,0 +1,449 @@
+<!-- <?xml version="1.0" encoding="UTF-8"?> -->
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.EngCategoryMapper">
+	<resultMap id="CateMap" type="ses.model.bms.Category">
+		<id column="ID" property="id" />
+		<result column="NAME" property="name" />
+		<result column="STATUS" property="status" />
+		<result column="PARENT_ID" property="parentId" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="DESCRIPTION" property="description" />
+		<result column="CLASSIFY_STATUS" property="classify" />
+		<result column="CODE" property="code" />
+		<result column="POSITION" property="position" />
+		<result column="IS_DELETED" property="isDeleted" />
+		<result column="IS_PUBLISH" property="isPublish" />
+		<result column="KIND" property="kind" />
+		<result column="PARAM_STATUS" property="paramStatus" />
+		<result column="ACCEPT_RANGE" property="acceptRange" />
+		<result column="PARAM_PUBLISH_RANGE" property="paramPublishRange" />
+		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
+		<result column="AUDIT_ADVISE" property="auditAdvise" />
+
+		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
+		<association property="categoryAttchment" column="ATTCHMENT_ID"
+			select="ses.dao.bms.CategoryAttachmentMapper.selectByPrimaryKey" />
+		<association property="orgnization" column="ORGNIZATION_ID"
+			select="ses.dao.oms.OrgnizationMapper.selectByPrimaryKey" />
+	</resultMap>
+	<resultMap type="ses.model.bms.Category" id="totalMap"
+		extends="CateMap">
+		<collection property="categoryParams" ofType="ses.model.ppms.CategoryParam"
+			resultMap="ses.dao.ppms.CategoryParamMapper.CategoryParamMap" />
+		<collection property="categoryAptitudes" ofType="ses.model.bms.CategoryAptitude"
+			resultMap="ses.dao.bms.CategoryAptitudeMapper.CategoryAptitudeMap" />
+		<collection property="supplierTypes" ofType="ses.model.sms.SupplierType"
+			resultMap="ses.dao.sms.SupplierTypeMapper.BaseResultMap" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
+		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
+		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,
+		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE
+	</sql>
+
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey" parameterType="Object"
+		resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where ID = #{id}
+	</select>
+	<!--根据品目名称查询 关联的机构部门信息 -->
+	<select id="">
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where NAME like '%'||#{name}||'%'
+	</select>
+
+	<!-- 根据pid生成列表 -->
+	<!-- <select id="listByParent" parameterType="Object" resultMap="CateMap"> 
+		select where PARENT_ID=#{pid} </select> -->
+
+	<!-- 根据pid查询生成树 -->
+	<select id="findTreeByPid" parameterType="Object" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and PARENT_ID=#{id} order by CODE
+	</select>
+	<!-- 根据参数状态和是否公开查询参数列表 -->
+	<select id="findByStatus" parameterType="Map" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and PARAM_STATUS ='3'
+	</select>
+
+	<!-- 查询所有 -->
+	<select id="selectAll" parameterType="Object" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY where IS_DELETED=0
+	</select>
+
+	<!-- 根据code查出已插入的数据 -->
+	<select id="readExcel" parameterType="Object" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where  IS_DELETED=0 and  CODE=#{code}
+	</select>
+	<!-- 根据参数状态查询 -->
+	<select id="listByParamstatus" parameterType="Map" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and PARAM_STATUS=#{paramStatus}
+		order by
+		CREATED_AT DESC
+	</select>
+	<!-- 根据关键字查出品目名称 -->
+	<select id="listByKeyword" parameterType="Map" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and NAME like '%'||#{name}||'%'
+
+	</select>
+	<!-- 根据产品名称和参数状态查询 -->
+	<select id="listByCateogryName" parameterType="Map" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and  NAME like '%'||#{name}||'%'
+		AND
+		PARAM_STATUS = '3'
+	</select>
+
+	<!-- 根据部门id进行修改 -->
+	<select id="findByOrgId" parameterType="Map" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and ORGNIZATION_ID =#{orgnization.id}
+	</select>
+	<!-- 根据id删除 -->
+	<delete id="deleteByPrimaryKey" parameterType="Object">
+		delete from
+		T_SES_BMS_ENG_CATEGORY
+		where ID = #{id}
+	</delete>
+
+	<!-- 新增 -->
+	<insert id="insert" parameterType="ses.model.bms.Category">
+		insert into T_SES_BMS_ENG_CATEGORY
+		(ID, NAME, STATUS,
+		PARENT_ID, CREATED_AT, UPDATED_AT,
+		ATTCHMENT_ID,
+		DESCRIPTION, CLASSIFY_STATUS,
+		CODE,
+		POSITION,IS_DELETED,IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE)
+		values (#{id}, #{name}, #{status},
+		#{parentId}, #{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP},
+		#{description}, #{classify},
+		#{code},
+		#{position},#{is_deleted},#{isPublish},#{kind},#{paramStatus},#{acceptRange},#{paramPublishRange})
+	</insert>
+
+	<insert id="insertSelective" parameterType="ses.model.bms.Category">
+		insert into T_SES_BMS_ENG_CATEGORY
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="name != null">
+				NAME,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+			<if test="parentId != null">
+				PARENT_ID,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="description != null">
+				DESCRIPTION,
+			</if>
+			<if test="classify != null">
+				CLASSIFY_STATUS,
+			</if>
+			<if test="code != null">
+				CODE,
+			</if>
+			<if test="position != null">
+				POSITION,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="isPublish != null">
+				IS_PUBLISH,
+			</if>
+			<if test="kind != null">
+				KIND,
+			</if>
+			<if test="paramStatus != null">
+				PARAM_STATUS,
+			</if>
+			<if test="acceptRange != null">
+				ACCEPT_RANGE,
+			</if>
+			<if test="paramPublishRange">
+				PARAM_PUBLISH_RANGE,
+			</if>
+			<if test="categoryAttchment != null">
+				ATTCHMENT_ID,
+			</if>
+			<if test="orgnization != null">
+				ORGNIZATION_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="name != null">
+				#{name},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+			<if test="parentId != null">
+				#{parentId},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="description != null">
+				#{description},
+			</if>
+			<if test="classify != null">
+				#{classify},
+			</if>
+			<if test="code != null">
+				#{code},
+			</if>
+			<if test="position != null">
+				#{position},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted},
+			</if>
+			<if test="isPublish != null">
+				#{isPublish},
+			</if>
+			<if test="kind != null">
+				#{kind},
+			</if>
+			<if test="paramStatus != null">
+				#{paramStatus},
+			</if>
+			<if test="acceptRange != null">
+				#{acceptRange},
+			</if>
+			<if test="paramPublishRange != null">
+				#{paramPublishRange},
+			</if>
+			<if test="categoryAttchment != null">
+				#{categoryAttchment.id},
+			</if>
+			<if test="orgnization != null">
+				#{orgnization.id},
+			</if>
+		</trim>
+	</insert>
+
+	<!-- 根据id修改 -->
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.bms.Category">
+		update T_SES_BMS_ENG_CATEGORY
+		<set>
+			<if test="name != null">
+				NAME = #{name},
+			</if>
+			<if test="status != null">
+				STATUS = #{status},
+			</if>
+			<if test="parentId != null">
+				PARENT_ID= #{parentId},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+
+			<if test="description != null">
+				DESCRIPTION = #{description},
+			</if>
+			<if test="classify != null">
+				CLASSIFY_STATUS = #{classify},
+			</if>
+			<if test="code != null">
+				CODE = #{code},
+			</if>
+			<if test="position != null">
+				POSITION = #{position},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted},
+			</if>
+			<if test="isPublish != null">
+				IS_PUBLISH = #{isPublish},
+			</if>
+			<if test="kind != null">
+				KIND = #{kind},
+			</if>
+			<if test="paramStatus != null">
+				PARAM_STATUS = #{paramStatus},
+			</if>
+			<if test="acceptRange != null">
+				ACCEPT_RANGE= #{acceptRange},
+			</if>
+			<if test="paramPublishRange != null">
+				PARAM_PUBLISH_RANGE = #{paramPublishRange},
+			</if>
+			<if test="categoryAttchment != null">
+				ATTCHMENT_ID = #{categoryAttchment},
+			</if>
+			<if test="orgnization != null">
+				ORGNIZATION_ID = #{orgnization.id},
+			</if>
+			<if test="auditDate != null">
+				AUDIT_DATE = #{auditDate,jdbcType=TIMESTAMP},
+			</if>
+			<if test="auditPersonId != null and auditPersonId !=''">
+				AUDIT_PERSON_ID = #{auditPersonId},
+			</if>
+			<if test="auditAdvise != null and auditAdvise !=''">
+				AUDIT_ADVISE = #{auditAdvise}
+			</if>
+		</set>
+		where ID = #{id}
+	</update>
+
+	<!-- 根据id修改 名称 -->
+	<update id="updateNameById" parameterType="Object">
+		update
+		T_SES_BMS_ENG_CATEGORY
+		set NAME = #{name},
+		where ID=#{id}
+	</update>
+
+	<select id="findCategoryByType" parameterType="ses.model.bms.Category"
+		resultMap="CateMap">
+		select * from T_SES_BMS_ENG_CATEGORY where IS_DELETED=0
+		<if test="kind!=null and kind != ''">
+			and KIND like #{kind}
+		</if>
+		<if test="parentId!=null and parentId != ''">
+			and PARENT_ID = #{parentId}
+		</if>
+	</select>
+	<!-- 查询品目名称 -->
+	<select id="checkName" parameterType="Object" resultType="Object">
+		select
+		count(1) from
+		T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=1 and name = #{Name}
+	</select>
+	
+	<!-- 按名称查询品目名称是否存在-->
+	<select id="findByCode" parameterType="java.lang.String" resultType="java.lang.Integer">
+		select
+		count(1) from
+		T_SES_BMS_ENG_CATEGORY
+		where IS_DELETED=0 and CODE = #{code}
+	</select>
+	
+	<!-- 逻辑删除节点以及节点下的子节点 -->
+	<update id="deleted" parameterType="java.util.List">
+		UPDATE T_SES_BMS_ENG_CATEGORY SET
+		IS_DELETED = 1 WHERE
+		<foreach collection="list" item="tree"   >
+		   OR ID=#{tree.id}
+		</foreach>
+	</update>
+	
+	<!-- 按照状态查询 -->
+	<select id="findTreeByStatus" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE IS_DELETED=0 
+		AND PARENT_ID = #{id} 
+		AND PARAM_STATUS >= #{status}
+		ORDER BY POSITION
+	</select>
+	
+	<!-- 按照状态查询 -->
+	<select id="findPublishTree" resultMap="CateMap" flushCache="true">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE IS_DELETED=0 
+		AND PARENT_ID = #{id} 
+		AND IS_PUBLISH = 0
+		<if test="status != null">
+		 AND CLASSIFY_STATUS in (#{status},3)
+		</if>
+		ORDER BY CODE
+	</select>
+	
+	
+	<select id="findCategory" parameterType="Map" resultMap="CateMap">
+	    SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		<where>
+			1=1
+			<if test="isDeleted != null">
+				and	IS_DELETED = #{isDeleted}
+			</if>
+		    <if test="isPublish != null">
+				and IS_PUBLISH = #{isPublish}
+			</if>
+			 <if test="product != null">
+				and CLASSIFY_STATUS in (1,3)
+			</if>
+			 <if test="sale != null">
+				and CLASSIFY_STATUS in (2,3)
+			</if>
+			 <if test="paramStatus != null">
+				and PARAM_STATUS =#{paramStatus}
+			</if>
+			<if test="parentId != null">
+				and PARENT_ID= #{parentId}
+			</if>
+			
+		</where>
+	</select>
+	
+	<!-- 根据主键id查询 -->
+	<select id="findById" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE ID = #{_parameter}
+	</select>
+	
+	<!-- 根据名称模糊查询 -->
+	<select id="searchByName" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_ENG_CATEGORY
+		WHERE NAME like '%${_parameter}%'
+	</select>
+</mapper>
