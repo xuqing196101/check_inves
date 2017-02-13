@@ -53,6 +53,7 @@
             	$("#remark").val(result.remark);
             	$("#name").val(result.name);
             	$("#id").val(result.id);
+            	$("#typeName").val(result.type);
             	layer.open({
                     type: 1,
                     title: '添加评审项信息',

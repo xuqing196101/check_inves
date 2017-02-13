@@ -429,6 +429,8 @@ function judge(index) {
 						if (parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) < parseFloat(scoreArr[k])) {
 						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[k + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<=') {
 						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 1] == scoreArr[h + 2] && scoreArr[h + 2] == '<=') {
+						} else if (scoreArr[h] > scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] == scoreArr[k + 2] && scoreArr[h + 1] == '<') {
+						} else if (scoreArr[h] > scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] != scoreArr[k + 2]) {
 						} else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] == scoreArr[k + 1] && scoreArr[k + 1] == '<' ) ) {
 						} else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] != scoreArr[k + 1]) ) {
 						} else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) >= parseFloat(scoreArr[k + 3])) {

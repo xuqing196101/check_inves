@@ -266,8 +266,11 @@
 			   						var showPicId = $(pic_show).children("#showId")[0].id;
 			   						sid = $("#" +showPicId).val();
 			   					}
+			   					//console.dir(sid == 'flshow');
 			   					showInitAfterUpload(sid);
-			   					window.location.reload();
+			   					if (sid == 'flshow') {
+			   						window.location.reload();
+			   					}
 			   				}
 			   	});
 			});

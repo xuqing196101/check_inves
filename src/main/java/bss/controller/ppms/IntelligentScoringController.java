@@ -389,28 +389,34 @@ public class IntelligentScoringController extends BaseController{
 	        } else {
 	            boolean isFlag = true;
 	            double paiMing = 0.0;
+	            List<String> socreList = new ArrayList<String>();
+	            
 	            BidMethod condition = new BidMethod();
 	            condition.setProjectId(bm.getProjectId());
 	            condition.setPackageId(bm.getPackageId());
 	            condition.setType(bm.getTypeName());
 	            List<BidMethod> bdList = bidMethodService.findListByBidMethod(condition);
 	            for (BidMethod bidMethod : bdList) {
-	                /*if (bidMethod.getRemainScore() != null && Double.parseDouble(bidMethod.getRemainScore()) > paiMing) {
+	                if (bidMethod.getRemainScore() != null && Double.parseDouble(bidMethod.getRemainScore()) > paiMing) {
 	                     paiMing = Double.parseDouble(bidMethod.getRemainScore()); 
 	                }
-	                if (bm.getId() != null && !"".equals(bm.getId()) && bm.getRemainScore().equals(bidMethod.getRemainScore()) && bm.getId().equals(bidMethod.getId())) {
-	                    
-	                } else if (bm.getId() != null && !"".equals(bm.getId()) && !bm.getRemainScore().equals(bidMethod.getRemainScore()) && bm.getId().equals(bidMethod.getId())) {
-	                    if (Double.parseDouble(bm.getRemainScore()) < paiMing) {
-                            msg += "排序号已用到了" + paiMing + ",请填写大于" +paiMing + "的排序号.";
+	                socreList.add(bidMethod.getRemainScore());
+	            }
+                for (BidMethod bidMethod : bdList) {
+                    if (bm.getId() != null && !"".equals(bm.getId()) && bm.getRemainScore().equals(bidMethod.getRemainScore()) && bm.getId().equals(bidMethod.getId())) {
+                        
+                    } else if (bm.getId() != null && !"".equals(bm.getId()) && !bm.getRemainScore().equals(bidMethod.getRemainScore()) && bm.getId().equals(bidMethod.getId())) {
+                        if (socreList.contains(bm.getRemainScore())) {
+                            msg += "排序号重复且排序号已用到了" + paiMing + ",请填写大于" +paiMing + "的排序号.";
                             count++;
                         }
-	                } else {*/
-	                    if (bm.getRemainScore().equals(bidMethod.getRemainScore())) {
+                    } else {
+                        if (bm.getId() == null && bm.getRemainScore().equals(bidMethod.getRemainScore())) {
                             isFlag = false;
                             break;
                         }
-	            }
+                }
+                }
 	            if (!isFlag) {
                     msg += "排序号重复";
                     count++;
@@ -436,6 +442,7 @@ public class IntelligentScoringController extends BaseController{
 	        if (count == 0) {
 	          msg += "添加成功";
 	          if (bm.getId() != null && !"".equals(bm.getId())) {
+	              bm.setTypeName(null);
 	              bidMethodService.updateBidMethod(bm);
 	          } else {
 	              bidMethodService.saveBidMethod(bm);
