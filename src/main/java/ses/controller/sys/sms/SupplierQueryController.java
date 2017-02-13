@@ -46,6 +46,7 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -294,16 +295,16 @@ public class SupplierQueryController extends BaseSupplierController {
      */
     @RequestMapping("/selectByCategory")
     public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model) {
-        /*if (categoryIds != null && !"".equals(categoryIds)) {
+        if (categoryIds != null && !"".equals(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
-        }*/
+        }
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
         getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));
         model.addAttribute("supplier", sup);
         model.addAttribute("categoryIds", categoryIds);
-       /* Category category = new Category();
+        /*Category category = new Category();
         List<String> list=new ArrayList<String>();
         if (categoryIds != null) {
             list=Arrays.asList(categoryIds.split(",")); 

@@ -90,7 +90,7 @@
 						async: {
 							autoParam: ["id"],
 							enable: true,
-							url: "${pageContext.request.contextPath}/category/query_category.do",
+							url: "${pageContext.request.contextPath}/category/createtree.do",
 							otherParam: {
 								categoryIds: "${categoryIds}",
 							},
