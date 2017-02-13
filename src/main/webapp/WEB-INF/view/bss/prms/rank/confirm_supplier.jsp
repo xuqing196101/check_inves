@@ -1,10 +1,10 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
-
-<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!DOCTYPE HTML>
 <html>
-  <head>
+	<head>
+		<%@ include file="/WEB-INF/view/common.jsp" %>
     <title>My JSP 'expert_list.jsp' starting page</title>
     
 	<meta http-equiv="pragma" content="no-cache">
@@ -27,10 +27,10 @@
 				url: "${pageContext.request.contextPath}/packageExpert/removeSaleTender.do",
 				data: {"supplierId": supplierId, "packageId": packageId, "projectId": projectId},
 				success: function (response) {
-					layer.msg("移除成功!",{offset: ['100px', '350px']});
+					$("#"+supplierId+"_"+packageId).text('已移除');
+					$("#"+supplierId+"_"+packageId).next().children().attr("disabled","disabled");
+					layer.msg("移除成功!",{offset: '100px'});
 					//window.location.reload();
-					$("#"+supplierId).html("已移除");
-					$("#"+supplierId).next().children().attr("disabled","disabled");
 				},
 				error: function () {
 					layer.msg("抱歉,移除失败!",{offset: ['100px', '350px']});
@@ -64,7 +64,7 @@
 					    <td class="tc w50">${count}</td>
 					    <td class="tc">${supp.packageNames}</td>
 					    <td class="tc">${supp.suppliers.supplierName}</td>
-					    <td class="tc" id="${supp.suppliers.id}">
+					    <td class="tc" id="${supp.suppliers.id}_${supp.packages}">
 					    <c:if test="${supp.isFirstPass == 0 && supp.isRemoved eq '0'}">不合格</c:if>
 					    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
 					    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>

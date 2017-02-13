@@ -132,7 +132,6 @@
 	                  <c:if test="${supplier.packages eq pack.id}">
 		                <td class="tc" colspan="2">
 		                	<fmt:formatNumber type="number" value="${fn:substringBefore(supplier.reviewResult,'_')}" pattern="0.0000" maxFractionDigits="4"/>
-		                  
 		                </td>
 	                  </c:if>
 	                </c:forEach>
