@@ -85,6 +85,14 @@
 		    		  });
 				});
 		}
+		
+		$(function(){
+			var allTable = document.getElementsByTagName("table");
+			for(var j = 1; j < allTable[0].rows.length; j++) {
+				$(allTable[0].rows).eq(j).find("td:first").text(j);;
+			}
+		});
+		
 		</script>
 	</head>
 
@@ -112,7 +120,8 @@
 						</tr>
 					</thead>
 					<c:forEach items="${supplierList }" var="list" varStatus="vs">
-						<tr>
+						<c:if test="${not empty list.packageName}">
+							<tr>
 							<td class="tc">${vs.index+1}</td>
 							<td class="tl">${list.supplierName}</td>
 							<td class="tl">${list.packageName }</td>
@@ -148,6 +157,7 @@
 								</c:if>
 							</td>
 						</tr>
+						</c:if>
 					</c:forEach>
 				</table>
 			</div>

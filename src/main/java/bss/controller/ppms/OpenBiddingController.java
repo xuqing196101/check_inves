@@ -1082,7 +1082,12 @@ public class OpenBiddingController {
     HashMap<String, Object> map = new HashMap<String, Object>();
     HashMap<String, Object> map1 = new HashMap<String, Object>();
     if ("1".equals(count)) {
-      model.addAttribute("count1", packList.size());
+      HashMap<String, Object> map2 = new HashMap<String, Object>();
+      map2.put("projectId", projectId);
+      List<Packages> pl = packageService.findPackageById(map2);
+      if (pl != null) {
+          model.addAttribute("count1", pl.size());
+      }
     }
     if (packId != null) {
       for (Packages pack : packList) {
@@ -1664,7 +1669,13 @@ public class OpenBiddingController {
       }
     }
     if ("1".equals(count)) {
-      model.addAttribute("count", listPackage.size());
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("projectId", projectId);
+        List<Packages> pl = packageService.findPackageById(map2);
+        if (pl != null) {
+            model.addAttribute("count", pl.size());
+        }
+      
     }
     if (packId != null) {
       for (Packages pack : listPackage) {
