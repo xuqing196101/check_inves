@@ -49,7 +49,7 @@ function importAdd(){
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container p0">
     <div class="row">
-    <div class="col-md-9 col-xs-9 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
+    <div class="col-md-9 col-xs-12 col-sm-9" id="welcome">你好，欢迎来到军队采购网！
       <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
        <% if (environment != null && environment.equals("1")){ %>
          <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
@@ -57,7 +57,7 @@ function importAdd(){
          <%} %>
 	   <% } %>
     </div> 
-       <div class="col-md-3 col-xs-3 col-sm-3 head_right"> 
+       <div class="col-md-3 col-xs-12 col-sm-3 head_right"> 
     <!-- 根据session判断 -->
         <c:if test="${properties['ipAddressType'] == 0}">
            <a>网站编号：${properties['website.no']}</a>|

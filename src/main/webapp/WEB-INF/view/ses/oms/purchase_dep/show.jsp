@@ -510,12 +510,12 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey w14" >采购机构名称：</td>
-                      <td>${purchaseDep.name }</td>
-                      <td class="bggrey w14">采购机构简称：</td>
-                      <td>${purchaseDep.shortName }</td>
-                      <td class="bggrey w14">采购机构单位级别：</td>
-                      <td>
+                      <td class="bggrey" width="13%" >采购机构名称：</td>
+                      <td width="20%">${purchaseDep.name }</td>
+                      <td class="bggrey" width="13%">采购机构简称：</td>
+                      <td width="20%">${purchaseDep.shortName }</td>
+                      <td class="bggrey" width="14%">采购机构单位级别：</td>
+                      <td width="20%">
                         <c:forEach items="${unitLevelList}" var="unitLevel">
                            <c:if test="${unitLevel.id == purchaseDep.levelDep}">
                              ${unitLevel.name}
@@ -525,30 +525,30 @@
                     </tr>
                     
                     <tr>
-                      <td class="bggrey w14">行政隶属单位：</td>
+                      <td class="bggrey">行政隶属单位：</td>
                       <td>${purchaseDep.subordinateOrgName }</td>
-                      <td class="bggrey w14">采购业务范围：</td>
+                      <td class="bggrey">采购业务范围：</td>
                       <td>${purchaseDep.businessRange }</td>
-                      <td class="bggrey w14">采购机构地址：</td>
+                      <td class="bggrey">采购机构地址：</td>
                       <td>${purchaseDep.address }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey w14">邮编：</td>
+                      <td class="bggrey">邮编：</td>
                       <td>${purchaseDep.postCode }</td>
-                      <td class="bggrey w14">省：</td>
+                      <td class="bggrey">省：</td>
                       <td>${area.name }</td>
-                      <td class="bggrey w14">市：</td>
+                      <td class="bggrey">市：</td>
                       <td>${area1.name }</td>
                     </tr>
                     
                     <tr>
-                      <td class="bggrey w14">值班室电话：</td>
-                      <td>${purchaseDep.dutyRoomPhone }</td>
-                      <td class="bggrey w14">传真号：</td>
-                      <td>${purchaseDep.fax }</td>
-                      <td class="bggrey w14">是否具有审核供应商：</td>
-                      <td>
+                      <td class="bggrey" width="13%">值班室电话：</td>
+                      <td width="20%">${purchaseDep.dutyRoomPhone }</td>
+                      <td class="bggrey" width="13%">传真号：</td>
+                      <td width="20%">${purchaseDep.fax }</td>
+                      <td class="bggrey" width="14%">是否具有审核供应商：</td>
+                      <td width="20%">
                         <c:if test="${'1' eq purchaseDep.isAuditSupplier}">是 </c:if>
                         <c:if test="${'0' eq purchaseDep.isAuditSupplier}">否 </c:if>
                       </td>
@@ -562,8 +562,8 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey">采购资质等级：</td>
-                      <td>
+                      <td class="bggrey" width="13%">采购资质等级：</td>
+                      <td  width="20%">
                         <c:if test="${'1' eq purchaseDep.quaLevel}">一级 </c:if>
                         <c:if test="${'2' eq purchaseDep.quaLevel}">二级 </c:if>
                         <c:if test="${'3' eq purchaseDep.quaLevel}">三级 </c:if>
@@ -574,15 +574,15 @@
                         <c:if test="${'8' eq purchaseDep.quaLevel}">八级 </c:if>
                         <c:if test="${'9' eq purchaseDep.quaLevel}">九级</c:if>
                       </td>
-                      <td class="bggrey ">采购资质范围：</td>
-                      <td>
+                      <td class="bggrey "  width="13%">采购资质范围：</td>
+                      <td  width="20%">
                         <c:if test="${'1' eq purchaseDep.quaRange}">综合 </c:if>
                         <c:if test="${'2' eq purchaseDep.quaRange}">物资 </c:if>
                         <c:if test="${'3' eq purchaseDep.quaRange}">工程</c:if>
                         <c:if test="${'4' eq purchaseDep.quaRange}">服务</c:if>
                       </td>
-                      <td class="bggrey ">采购资质编号：</td>
-                      <td>${purchaseDep.quaCode }</td>
+                      <td class="bggrey"  width="14%">采购资质编号：</td>
+                      <td  width="20%">${purchaseDep.quaCode }</td>
                     </tr>
                     
                     <tr>
@@ -607,12 +607,11 @@
                   <tbody>
                   
                     <tr>
-                      <td class="bggrey">单位主要领导姓名：</td>
-                      <td>${purchaseDep.leaderTelephone}</td>
-                      <td class="bggrey ">军官编制人数：</td>
-                      <td>${purchaseDep.officerCountnum}</td>
+                      <td class="bggrey"  width="20%">单位主要领导姓名：</td>
+                      <td width="30%">${purchaseDep.leaderTelephone}</td>
+                      <td class="bggrey" width="20%">军官编制人数：</td>
+                      <td width="30%">${purchaseDep.officerCountnum}</td>
                     </tr>
-                    
                     <tr>
                       <td class="bggrey ">军官现有人数：</td>
                       <td>${purchaseDep.officerNowCounts}</td>
@@ -646,14 +645,12 @@
                 <h2 class="count_flow jbxx">甲方信息</h2>
                 <table class="table table-bordered">
                   <tbody>
-                  
                     <tr>
-                      <td class="bggrey">单位名称：</td>
-                      <td>${purchaseDep.depName}</td>
-                      <td class="bggrey ">法定代表人：</td>
-                      <td>${purchaseDep.legal}</td>
+                      <td class="bggrey" width="20%">单位名称：</td>
+                      <td width="30%">${purchaseDep.depName}</td>
+                      <td class="bggrey" width="20%">法定代表人：</td>
+                      <td width="30%">${purchaseDep.legal}</td>
                     </tr>
-                    
                     <tr>
                       <td class="bggrey ">委托代理人：</td>
                       <td>${purchaseDep.agent}</td>

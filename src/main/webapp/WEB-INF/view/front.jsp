@@ -21,7 +21,7 @@
 <script>
 	var globalPath = "${pageContext.request.contextPath}";
 </script>
-
+<meta name="viewport" content="user-scalable=no, width=device-width" />  
 
 <!-- 前端js -->
 <script src="${pageContext.request.contextPath}/public/front/js/jquery.min.js"></script>

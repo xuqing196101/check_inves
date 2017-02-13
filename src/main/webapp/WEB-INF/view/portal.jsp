@@ -6,6 +6,7 @@
   //内外网
   String ipAddressType = PropUtil.getProperty("ipAddressType");
 %>
+<meta name="viewport" content="user-scalable=no, width=device-width" />  
 <link href="${pageContext.request.contextPath}/public/portal/images/favicon.ico"  rel="shortcut icon" type="image/x-icon" />
 <link href="${pageContext.request.contextPath}/public/portal/css/bootstrap.min.css" media="screen" rel="stylesheet">
 <link href="${pageContext.request.contextPath}/public/portal/css/style.css" media="screen" rel="stylesheet" type="text/css">
