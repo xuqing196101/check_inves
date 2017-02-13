@@ -445,6 +445,7 @@ public class ScoreModelUtil {
     public static List<SupplyMark> getScoreByModelFourB(ScoreModel scoreModel,ArrayList<SupplyMark> supplyMarkList){
         if(supplyMarkList!=null && supplyMarkList.size()>0){
             Collections.sort(supplyMarkList, new SortByParam());
+            Collections.reverse(supplyMarkList);
             double minScore = ( scoreModel.getMinScore()!=null && !scoreModel.getMinScore().equals("") ) ?Double.parseDouble(scoreModel.getMinScore()) :0;
             minScore = FloatUtil.round(minScore, 4);
             String type = scoreModel.getAddSubtractTypeName();

@@ -1177,6 +1177,16 @@
 				LEFT JOIN T_SES_SMS_SUPPLIER t2 ON t1. ID = t2. ID 
 				LEFT JOIN T_SES_BMS_AREA T3 ON T2.ADDRESS = T3. ID
 				LEFT JOIN T_SES_BMS_AREA T4 ON T3.PARENT_ID = T4. ID 
+				<if test="item != null and item!= ''">
+				 RIGHT  JOIN (
+						select supplier_id as id from T_SES_SMS_SUPPLIER_ITEM where category_id in (
+							<foreach item="item" index="index" collection="item" open=""
+								separator="," close="">
+								#{item}
+							</foreach>
+						)	
+				) t5  on t1.ID = t5.ID
+				</if>
 			)
 		WHERE
 			1 = 1
@@ -1206,12 +1216,6 @@
 			<foreach item="itemType" index="index" collection="itemType"
 				open="" separator="" close="">
 				and "INSTR"(typeId, #{itemType})>0
-			</foreach>
-		</if>
-		<if test="item != null and item!= ''">
-			<foreach item="item" index="index" collection="item" open=""
-				separator="" close="">
-				and "INSTR"(categoryId, #{item})>0
 			</foreach>
 		</if>
 		<if test="scoreStart != null and scoreStart != '' ">

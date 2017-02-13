@@ -1209,23 +1209,24 @@ public class OpenBiddingController {
         }
         List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
         if (allQuote != null && allQuote.size() > 0) {
-          for (Quote conditionQuote : allQuote) {
-            if (conditionQuote.getSupplier()!=null&&conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
-              conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
-              for (Quote qp : listQuotebyPackage1) {
-                if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplierId().equals(conditionQuote.getSupplierId())) {
-                  conditionQuote.setTotal(qp.getTotal());
-                  conditionQuote.setQuotePrice(qp.getQuotePrice());
-                  conditionQuote.setRemark(qp.getRemark());
-                  conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+            for (Quote conditionQuote : allQuote) {
+                if (conditionQuote.getSupplier()!=null&&conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
+                    conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
+                    for (Quote qp : listQuotebyPackage1) {
+                        if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplierId().equals(conditionQuote.getSupplierId())) {
+                            conditionQuote.setTotal(qp.getTotal());
+                            conditionQuote.setQuotePrice(qp.getQuotePrice());
+                            conditionQuote.setRemark(qp.getRemark());
+                            conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+                        }
+                    }
+                    saleTender.setTotal(conditionQuote.getTotal());
+                    saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                    saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                    saleTender.setQuoteId(conditionQuote.getId());
+                    break;
                 }
-              }
-              saleTender.setTotal(conditionQuote.getTotal());
-              saleTender.setDeliveryTime(conditionQuote.getDeliveryTime());
-              saleTender.setIsTurnUp(conditionQuote.getIsTurnUp());
-              saleTender.setQuoteId(conditionQuote.getId());
             }
-          }
         }
       }
       map.put("id", pack.getId());
