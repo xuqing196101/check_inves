@@ -756,7 +756,7 @@ public class ExpertController extends BaseController {
 			} else {
 				while(true) {
 				    Category cate = null;
-				    if (flag != null) {
+				    if (flag == null) {
 				        cate = categoryService.selectByPrimaryKey(id);
 				    } else {
 				        cate = engCategoryService.selectByPrimaryKey(id);
