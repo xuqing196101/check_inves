@@ -510,16 +510,28 @@ public class ExpertController extends BaseController {
 	 * @param categoryId
 	 * @return
 	 */
-	public List < Category > getChildrenNodes(String categoryId) {
-		List < Category > allChildrenNodes = new ArrayList < Category > ();
-		List < Category > childrenList = categoryService.findPublishTree(categoryId, null);
-		allChildrenNodes.addAll(childrenList);
-		if(childrenList != null && childrenList.size() > 0) {
-			for(Category cate: childrenList) {
-				allChildrenNodes.addAll(getChildrenNodes(cate.getId()));
-			}
-		}
-		return allChildrenNodes;
+	public List < Category > getChildrenNodes(String categoryId, String flag) {
+	    if (flag == null) {
+	        List < Category > allChildrenNodes = new ArrayList < Category > ();
+	        List < Category > childrenList = categoryService.findPublishTree(categoryId, null);
+	        allChildrenNodes.addAll(childrenList);
+	        if(childrenList != null && childrenList.size() > 0) {
+	            for(Category cate: childrenList) {
+	                allChildrenNodes.addAll(getChildrenNodes(cate.getId(), null));
+	            }
+	        }
+	        return allChildrenNodes;
+	    } else {
+	        List < Category > allChildrenNodes = new ArrayList < Category > ();
+            List < Category > childrenList = categoryService.findPublishTree(categoryId, null);
+            allChildrenNodes.addAll(childrenList);
+            if(childrenList != null && childrenList.size() > 0) {
+                for(Category cate: childrenList) {
+                    allChildrenNodes.addAll(getChildrenNodes(cate.getId(), "ENG_INFO"));
+                }
+            }
+            return allChildrenNodes;
+	    }
 	}
 
 	/**
@@ -535,16 +547,25 @@ public class ExpertController extends BaseController {
 	@ResponseBody
 	@RequestMapping("/saveCategory")
 	public void saveCategory(String expertId, String categoryId, String type, String typeId, boolean isParent) {
-		if("1".equals(type)) {
+		String code = DictionaryDataUtil.findById(typeId).getCode();
+		String flag = null;
+		if (code.equals("ENG_INFO_ID")) {
+		    flag = "ENG_INFO";
+		}
+	    if("1".equals(type)) {
 			Expert expert = new Expert();
 			expert.setId(expertId);
 			// 递归获取当前节点的所有子节点
-			List < Category > list = getChildrenNodes(categoryId);
-			list.add(categoryService.selectByPrimaryKey(categoryId));
+			List < Category > list = getChildrenNodes(categoryId, flag);
+			if (flag == null) {
+			    list.add(categoryService.selectByPrimaryKey(categoryId));
+			} else {
+			    list.add(engCategoryService.selectByPrimaryKey(categoryId));
+			}
 			// 去重
 			removeSame(list);
 			// 去除父节点,只保存子节点
-			removeParentNodes(list);
+			removeParentNodes(list, flag);
 			for(Category cate: list) {
 				ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, cate.getId());
 				if(expertCategory == null) {
@@ -571,7 +592,12 @@ public class ExpertController extends BaseController {
 					String id = category.getCategoryId();
 					boolean isDel = false;
 					a: while(true) {
-						Category cate1 = categoryService.selectByPrimaryKey(id);
+					    Category cate1 = null;
+					    if (flag == null) {
+					        cate1 = categoryService.selectByPrimaryKey(id);
+					    } else {
+					        cate1 = engCategoryService.selectByPrimaryKey(id);
+					    }
 						if(cate1 != null) {
 							if(cate1.getParentId().equals(categoryId)) {
 								isDel = true;
@@ -2371,10 +2397,15 @@ public class ExpertController extends BaseController {
 	 * @param categoryId 
 	 * @return
 	 */
-	public List < Category > getAllParentNode(String categoryId) {
+	public List < Category > getAllParentNode(String categoryId, String flag) {
 		List < Category > categoryList = new ArrayList < Category > ();
 		while(true) {
 			Category cate = categoryService.findById(categoryId);
+			if (flag == null) {
+			    cate = categoryService.findById(categoryId); 
+			} else {
+			    cate = engCategoryService.findById(categoryId); 
+			}
 			if(cate == null) {
 				DictionaryData root = DictionaryDataUtil.findById(categoryId);
 				Category rootNode = new Category();
@@ -2401,7 +2432,7 @@ public class ExpertController extends BaseController {
 		String categoryId = supplierItem.getCategoryId();
 		SupplierCateTree cateTree = new SupplierCateTree();
 		// 递归获取所有父节点
-		List < Category > parentNodeList = getAllParentNode(categoryId);
+		List < Category > parentNodeList = getAllParentNode(categoryId, null);
 		// 加入根节点
 		for(int i = 0; i < parentNodeList.size(); i++) {
 			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
@@ -2886,12 +2917,16 @@ public class ExpertController extends BaseController {
 	 * @param list Category类型的List
 	 * @return
 	 */
-	public void removeParentNodes(List < Category > list) {
+	public void removeParentNodes(List < Category > list, String flag) {
 		Category cate = null;
 		List < Category > childrenList = new ArrayList < Category > ();
 		for(int i = 0; i < list.size(); i++) {
 			cate = list.get(i);
-			childrenList = categoryService.findPublishTree(cate.getId(), null);
+			if (flag == null) {
+			    childrenList = categoryService.findPublishTree(cate.getId(), null);
+			} else {
+			    childrenList = engCategoryService.findPublishTree(cate.getId(), null);
+			}
 			if(childrenList.size() > 0) {
 				list.remove(i);
 			}
@@ -3070,12 +3105,17 @@ public class ExpertController extends BaseController {
 	 */
 	@RequestMapping("/getCategories")
 	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
+	    String code = DictionaryDataUtil.findById(typeId).getCode();
+	    String flag = null;
+	    if (code.equals("ENG_INFO_ID")) {
+	        flag = "ENG_INFO";
+	    }
 	    // 查询已选中的节点信息
 	    List<ExpertCategory> expertItems = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
             String categoryId = item.getCategoryId();
-            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, flag);
             if(cateTree != null && cateTree.getRootNode() != null) {
                 allTreeList.add(cateTree);
             }
@@ -3102,10 +3142,10 @@ public class ExpertController extends BaseController {
      * @param categoryId 产品Id
      * @return List<CategoryTree> tree对象List
      */
-    public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+    public SupplierCateTree getTreeListByCategoryId(String categoryId, String flag) {
         SupplierCateTree cateTree = new SupplierCateTree();
         // 递归获取所有父节点
-        List < Category > parentNodeList = getAllParentNode(categoryId);
+        List < Category > parentNodeList = getAllParentNode(categoryId, flag);
         // 加入根节点
         for(int i = 0; i < parentNodeList.size(); i++) {
             DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
@@ -3116,7 +3156,12 @@ public class ExpertController extends BaseController {
         // 加入一级节点
         if(cateTree.getRootNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId()); 
+                }
                 if(cate != null && cate.getParentId() != null) {
                     DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
                     if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
@@ -3128,9 +3173,19 @@ public class ExpertController extends BaseController {
         // 加入二级节点
         if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId());
+                }
                 if(cate != null && cate.getParentId() != null) {
-                    Category parentNode = categoryService.findById(cate.getParentId());
+                    Category parentNode = null;
+                    if (flag == null) {
+                        parentNode = categoryService.findById(cate.getParentId());
+                    } else {
+                        parentNode = engCategoryService.findById(cate.getParentId());
+                    }
                     if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
                         cateTree.setSecondNode(cate.getName());
                     }
@@ -3140,9 +3195,19 @@ public class ExpertController extends BaseController {
         // 加入三级节点
         if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId());
+                }
                 if(cate != null && cate.getParentId() != null) {
-                    Category parentNode = categoryService.findById(cate.getParentId());
+                    Category parentNode = null;
+                    if (flag == null) {
+                        parentNode = categoryService.findById(cate.getParentId());
+                    } else {
+                        parentNode = engCategoryService.findById(cate.getParentId());
+                    }
                     if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
                         cateTree.setThirdNode(cate.getName());
                     }
@@ -3152,9 +3217,19 @@ public class ExpertController extends BaseController {
         // 加入末级节点
         if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId());
+                }
                 if(cate != null && cate.getParentId() != null) {
-                    Category parentNode = categoryService.findById(cate.getParentId());
+                    Category parentNode = null;
+                    if (flag == null) {
+                        parentNode = categoryService.findById(cate.getParentId());
+                    } else {
+                        parentNode = engCategoryService.findById(cate.getParentId());
+                    }
                     if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
                         cateTree.setFourthNode(cate.getName());
                     }
