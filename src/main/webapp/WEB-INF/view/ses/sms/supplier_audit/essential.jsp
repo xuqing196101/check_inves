@@ -56,8 +56,8 @@
 		    $("#"+obj.id+"").each(function() {
 		      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
-          if(auditField ="businessScope"){
-						auditContent = $(this).parents("li").find("textarea").val();
+          if(auditField =="businessScope" || auditField =="description"){
+						auditContent = $(this).parents("li").find("textarea").text();
 					}
     		});
 					var index = layer.prompt({
@@ -401,6 +401,12 @@
 				   		<span class="hand" onclick="reason1(this,'supplierBank');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">基本账户开户许可证：</span> 
 				      <u:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+						</li>
+						<li class="col-md-12 col-sm-12 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商简介：</span>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0">
+								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="description" onclick="reason(this)" <c:if test="${fn:contains(field,'description')}"> style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('description');"</c:if>>${suppliers.description }</textarea>
+							</div>
 						</li>
 					</ul>
 
