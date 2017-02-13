@@ -369,7 +369,7 @@ public interface ExpertService {
      * @param cateName
      * @return
      */
-    List<Category> searchByName(String cateName);
+    List<Category> searchByName(String cateName, String flag);
     
     /**
      *〈简述〉专家后台评审页面分页展示

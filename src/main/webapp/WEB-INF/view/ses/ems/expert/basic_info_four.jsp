@@ -147,13 +147,23 @@ session.setAttribute("tokenSession", tokenValue);
 		  		</h2>
 				<div class="tab-content padding-top-20">
 					<div class="headline-v2">
-						<h2>打印专家申请表、承诺书</h2>
+						<h2> 申请表和承诺书下载 </h2>
 					</div>
 					<div>
 						<div class="margin-top-30"></div>
 						<div align="left">
-							<a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">申请表下载</a>
-							<a class="btn btn-windows input" onclick='downloadBook()' href="javascript:void(0)">承诺书下载</a>
+							<ul class="list-unstyled f14">					
+								<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
+								    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5">下载 《评审专家入库申请表》</span> 
+								    <a class="mt3 color7171C6" onclick='downloadTable()' href="javascript:void(0)"><i class="download mr5"></i></a>
+							    </li>
+						    </ul>
+						    <ul class="list-unstyled f14">					
+								<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
+								    <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5">下载《评审专家承诺书》</span> 
+								    <a class="mt3 color7171C6" onclick='downloadBook()' href="javascript:void(0)"><i class="download mr5"></i></a> 
+							    </li>
+						    </ul>
 						</div>
 						<table class="table table-bordered table-condensed ">
 							<div class="margin-top-30"></div>

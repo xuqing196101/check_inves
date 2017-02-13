@@ -1505,6 +1505,7 @@ public class ExpertController extends BaseController {
 				}
 				//修改时间
 				expert.setSubmitAt(new Date());
+				expert.setAuditAt(new Date());
 				service.updateByPrimaryKeySelective(expert);
 			} catch(Exception e) {
 				e.printStackTrace();
@@ -2845,12 +2846,20 @@ public class ExpertController extends BaseController {
 		return list != null && list.size() > 0 ? "1" : "0";
 	}
 
-	public String getParentId(String cateId) {
-		Category cate = categoryService.selectByPrimaryKey(cateId);
-		if(cate != null) {
-			cateId = getParentId(cate.getParentId());
-		}
-		return cateId;
+	public String getParentId(String cateId, String flag) {
+	    if (flag == null) {
+	        Category cate = categoryService.selectByPrimaryKey(cateId);
+	        if(cate != null) {
+	            cateId = getParentId(cate.getParentId(), null);
+	        }
+	        return cateId;
+	    } else {
+	        Category cate = engCategoryService.selectByPrimaryKey(cateId);
+            if(cate != null) {
+                cateId = getParentId(cate.getParentId(), "ENG_INFO");
+            }
+            return cateId;
+	    }
 	}
 
 	/**
@@ -2896,99 +2905,157 @@ public class ExpertController extends BaseController {
 	 * @param nodeId 节点Id
 	 * @return 返回CategoryList
 	 */
-	public List < Category > getParentNodeList(String nodeId) {
-		List < Category > parentNodeList = new ArrayList < Category > ();
-		Category category = categoryService.findById(nodeId);
-		if(category != null) {
-			String parentId = category.getParentId();
-			if(parentId != null && !"".equals(parentId)) {
-				Category cate = categoryService.findById(parentId);
-				if(cate != null) {
-					parentNodeList.add(cate);
-					List < Category > parentList = getParentNodeList(cate.getId());
-					parentNodeList.addAll(parentList);
-				}
-			}
-		}
-		return parentNodeList;
+	public List < Category > getParentNodeList(String nodeId, String flag) {
+	    if (flag == null) {
+	        List < Category > parentNodeList = new ArrayList < Category > ();
+	        Category category = categoryService.findById(nodeId);
+	        if(category != null) {
+	            String parentId = category.getParentId();
+	            if(parentId != null && !"".equals(parentId)) {
+	                Category cate = categoryService.findById(parentId);
+	                if(cate != null) {
+	                    parentNodeList.add(cate);
+	                    List < Category > parentList = getParentNodeList(cate.getId(), null);
+	                    parentNodeList.addAll(parentList);
+	                }
+	            }
+	        }
+	        return parentNodeList;
+	    } else {
+	        List < Category > parentNodeList = new ArrayList < Category > ();
+            Category category = engCategoryService.findById(nodeId);
+            if(category != null) {
+                String parentId = category.getParentId();
+                if(parentId != null && !"".equals(parentId)) {
+                    Category cate = engCategoryService.findById(parentId);
+                    if(cate != null) {
+                        parentNodeList.add(cate);
+                        List < Category > parentList = getParentNodeList(cate.getId(), "ENG_INFO");
+                        parentNodeList.addAll(parentList);
+                    }
+                }
+            }
+            return parentNodeList;
+	    }
 	}
 
 	@ResponseBody
 	@RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
 	public String searchCate(String typeId, String cateName, String expertId, String supplierId) {
-	    String type = typeId;
-		if(supplierId != null) {
-			if(typeId.equals("SALES") || typeId.equals("PRODUCT")) {
-				typeId = DictionaryDataUtil.getId("GOODS");
-			} else {
-				typeId = DictionaryDataUtil.getId(typeId);
-			}
-		}
-		// 查询出所有满足条件的品目
-		List < Category > categoryList = service.searchByName(cateName);
-		// 循环判断是不是当前树的节点
-		List < Category > cateList = new ArrayList < Category > ();
-		for(Category category: categoryList) {
-			String parentId = getParentId(category.getId());
-			if(parentId.equals(typeId)) {
-				cateList.add(category);
-			}
-		}
-		// 去重
-		removeSame(cateList);
-		// 获取被选中的节点的父节点
-		List < Category > allCateList = new ArrayList < Category > ();
-		allCateList.addAll(cateList);
-		for(Category category: cateList) {
-			List < Category > list = getParentNodeList(category.getId());
-			allCateList.addAll(list);
-		}
-		// 去重
-		removeSame(allCateList);
-		// 最后加入根节点
-		DictionaryData data = DictionaryDataUtil.findById(typeId);
-		Category root = new Category();
-		root.setId(data.getId());
-		if("PRODUCT".equals(type)) {
-			data.setName(data.getName() + "生产");
-		} else if("SALES".equals(type)) {
-			data.setName(data.getName() + "销售");
-		}
-		root.setName(data.getName());
-		allCateList.add(root);
-		// 将筛选完的List转换为CategoryTreeList
-		List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
-		for(Category category: allCateList) {
-			CategoryTree treeNode = new CategoryTree();
-			treeNode.setId(category.getId());
-			treeNode.setName(category.getName());
-			treeNode.setParentId(category.getParentId());
-			// 判断是否为父级节点
-			List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
-			if(nodesList != null && nodesList.size() > 0) {
-				treeNode.setIsParent("true");
-			}
-			treeList.add(treeNode);
-		}
-		for(CategoryTree treeNode: treeList) {
-			// 判断是否被选中
-			if(expertId != null) {
-				treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null));
-			} else if(supplierId != null) {
-				treeNode.setChecked(isSupplierChecked(treeNode.getId(), supplierId, type));
-			}
-		}
-		return JSON.toJSONString(treeList);
-	}
-
-	public List < Category > getAll(String pid) {
-		List < Category > list = new ArrayList < Category > ();
-		List < Category > tree = categoryService.findPublishTree(pid, null);
-		for(Category c: tree) {
-
-		}
-
-		return list;
+	    if (typeId.equals("ENG_INFO_ID")) {
+            // 查询出所有满足条件的品目
+            List < Category > categoryList = service.searchByName(cateName, "ENG_INFO");
+            // 循环判断是不是当前树的节点
+            List < Category > cateList = new ArrayList < Category > ();
+            for(Category category: categoryList) {
+                String parentId = getParentId(category.getId(), "ENG_INFO");
+                if(parentId.equals(typeId)) {
+                    cateList.add(category);
+                }
+            }
+            // 去重
+            removeSame(cateList);
+            // 获取被选中的节点的父节点
+            List < Category > allCateList = new ArrayList < Category > ();
+            allCateList.addAll(cateList);
+            for(Category category: cateList) {
+                List < Category > list = getParentNodeList(category.getId(), "ENG_INFO");
+                allCateList.addAll(list);
+            }
+            // 去重
+            removeSame(allCateList);
+            // 最后加入根节点
+            DictionaryData data = DictionaryDataUtil.findById(typeId);
+            Category root = new Category();
+            root.setId(data.getId());
+            root.setName(data.getName());
+            allCateList.add(root);
+            // 将筛选完的List转换为CategoryTreeList
+            List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
+            for(Category category: allCateList) {
+                CategoryTree treeNode = new CategoryTree();
+                treeNode.setId(category.getId());
+                treeNode.setName(category.getName());
+                treeNode.setParentId(category.getParentId());
+                // 判断是否为父级节点
+                List < Category > nodesList = engCategoryService.findPublishTree(category.getId(), null);
+                if(nodesList != null && nodesList.size() > 0) {
+                    treeNode.setIsParent("true");
+                }
+                treeList.add(treeNode);
+            }
+            for(CategoryTree treeNode: treeList) {
+                // 判断是否被选中
+                if(expertId != null) {
+                    treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, "ENG_INFO"));
+                }
+            }
+            return JSON.toJSONString(treeList);
+	    } else {
+	        String type = typeId;
+	        if(supplierId != null) {
+	            if(typeId.equals("SALES") || typeId.equals("PRODUCT")) {
+	                typeId = DictionaryDataUtil.getId("GOODS");
+	            } else {
+	                typeId = DictionaryDataUtil.getId(typeId);
+	            }
+	        }
+	        // 查询出所有满足条件的品目
+	        List < Category > categoryList = service.searchByName(cateName, null);
+	        // 循环判断是不是当前树的节点
+	        List < Category > cateList = new ArrayList < Category > ();
+	        for(Category category: categoryList) {
+	            String parentId = getParentId(category.getId(), null);
+	            if(parentId.equals(typeId)) {
+	                cateList.add(category);
+	            }
+	        }
+	        // 去重
+	        removeSame(cateList);
+	        // 获取被选中的节点的父节点
+	        List < Category > allCateList = new ArrayList < Category > ();
+	        allCateList.addAll(cateList);
+	        for(Category category: cateList) {
+	            List < Category > list = getParentNodeList(category.getId(), null);
+	            allCateList.addAll(list);
+	        }
+	        // 去重
+	        removeSame(allCateList);
+	        // 最后加入根节点
+	        DictionaryData data = DictionaryDataUtil.findById(typeId);
+	        Category root = new Category();
+	        root.setId(data.getId());
+	        if("PRODUCT".equals(type)) {
+	            data.setName(data.getName() + "生产");
+	        } else if("SALES".equals(type)) {
+	            data.setName(data.getName() + "销售");
+	        }
+	        root.setName(data.getName());
+	        allCateList.add(root);
+	        // 将筛选完的List转换为CategoryTreeList
+	        List < CategoryTree > treeList = new ArrayList < CategoryTree > ();
+	        for(Category category: allCateList) {
+	            CategoryTree treeNode = new CategoryTree();
+	            treeNode.setId(category.getId());
+	            treeNode.setName(category.getName());
+	            treeNode.setParentId(category.getParentId());
+	            // 判断是否为父级节点
+	            List < Category > nodesList = categoryService.findPublishTree(category.getId(), null);
+	            if(nodesList != null && nodesList.size() > 0) {
+	                treeNode.setIsParent("true");
+	            }
+	            treeList.add(treeNode);
+	        }
+	        for(CategoryTree treeNode: treeList) {
+	            // 判断是否被选中
+	            if(expertId != null) {
+	                treeNode.setChecked(isExpertChecked(treeNode.getId(), expertId, typeId, null));
+	            } else if(supplierId != null) {
+	                treeNode.setChecked(isSupplierChecked(treeNode.getId(), supplierId, type));
+	            }
+	        }
+	        return JSON.toJSONString(treeList);
+	    }
 	}
 	
 	/**

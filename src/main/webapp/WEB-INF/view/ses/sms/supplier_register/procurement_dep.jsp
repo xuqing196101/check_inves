@@ -125,8 +125,8 @@
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+contact+"</td>"+
-								"<td>"+contactAddress+"</td>"+
-								"<td>"+contactTelephone+"</td></tr>"
+								"<td>"+contactTelephone+"</td>" +
+								"<td>"+contactAddress+"</td></tr>"
 							);
 					}else{
 						$("#"+flag).append(
@@ -134,8 +134,8 @@
 								"<td>"+i+"</td>"+
 								"<td>"+name+"</td>"+
 								"<td>"+contact+"</td>"+
-								"<td>"+contactAddress+"</td>"+
-								"<td>"+contactTelephone+"</td></tr>"
+								"<td>"+contactTelephone+"</td>" +
+								"<td>"+contactAddress+"</td></tr>"
 							);
 					}
 				});
@@ -190,8 +190,7 @@
 			<div class="container clear margin-top-30">
 				<h2 class="padding-20 mt40 ml30">
 					<span class="new_step current fl"><i class="">1</i>
-<!-- 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">1</i>
- -->						<div class="line"></div> <span class="step_desc_01">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
+					<div class="line"></div> <span class="step_desc_01">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_02">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
 						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">4</i>
 						<div class="line"></div> <span class="step_desc_02">资质文件维护</span> </span> <span class="new_step current fl"><i class="">5</i>
@@ -248,29 +247,11 @@
 													         </c:if>
 												         </c:forEach>
 													</select>
-<!-- 													<input type="submit" class="btn padding-left-20 padding-right-20 btn_back mt1 ml10" value="查询" />
- -->												</div>
-											<!-- 	 <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-												 
-												 <select id="children_area_select_id" name="address" > -->
-				         
-				 <%--           <c:forEach  items="${city }" var="city">
-					         <c:if test="${city.id==currSupplier.address }">
-					          <option value="${city.id }" selected="selected" >${city.name }</option>
-					         </c:if>
-				           <c:if test="${city.id!=currSupplier.address }">
-					          <option value="${city.id }"  >${city.name }</option>
-					         </c:if>
-				         </c:forEach> --%>
-				         
-				         
-								      <!--    </select> -->
-								         
-								         <!-- </div> -->
+												</div>
 				         
 											</form>
 										</li>
-									</ul><!-- <br /> -->
+									</ul>
 									<h2 class="f16 ">
 										推荐采购机构
 									</h2>
@@ -279,10 +260,10 @@
 											<tr>
 												<th class="info w30"><input type="radio" disabled="disabled"></th>
 												<th class="info w50">序号</th>
-												<th class="info w200">采购机构</th>
-												<th class="info">联系人</th>
+												<th class="info w300">采购机构</th>
+												<th class="info w150">联系人</th>
+												<th class="info w150">联系电话</th>
 												<th class="info">联系地址</th>
-												<th class="info w100">联系电话</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs"></tbody>
@@ -294,11 +275,11 @@
 										<thead>
 											<tr>
 												<th class="info w30"><input type="radio" disabled="disabled"></th>
-											    <th class="info w50">序号</th>
-											    <th class="info w200">采购机构</th>
-											    <th class="info">联系人</th>
-											    <th class="info">联系地址</th>
-											    <th class="info w100">联系电话</th>
+												<th class="info w50">序号</th>
+												<th class="info w300">采购机构</th>
+												<th class="info w150">联系人</th>
+												<th class="info w150">联系电话</th>
+												<th class="info">联系地址</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
@@ -308,8 +289,8 @@
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
 													<td class="tc">${org1.contact}</td>
-													<td class="tc">${org1.contactAddress}</td>
 													<td class="tc">${org1.contactTelephone}</td>
+													<td class="tc">${org1.contactAddress}</td>
 												</tr>
 											</c:forEach>
 										</tbody>

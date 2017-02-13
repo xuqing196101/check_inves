@@ -111,30 +111,26 @@
 							<input name="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
 							
 							<div class="tab-content padding-top-20">
-								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in " id="tab-1">
 									<div class="margin-bottom-0  categories">
 										<div class="headline-v2">
 			  								<h2>上传供应商申请表、承诺书  (将第七步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传)</h2>
 										</div>
-											<table class="table table-bordered">
-										   	   <tr>
-										   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
-										   	     <td>
-										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
-												   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
-											     </td>
-										   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
-										   	     <td>
-										   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
-												   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
-										   	     </td>
-										   	   </tr>
-											 </table>
-				
-				
-											<div class="clear"></div>
-										</ul>
+										<table class="table table-bordered">
+									   	   <tr>
+									   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
+									   	     <td>
+									   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
+											   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
+										     </td>
+									   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
+									   	     <td>
+									   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+											   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+									   	     </td>
+									   	   </tr>
+										 </table>
+										<div class="clear"></div>
 									</div>
 								</div>
 							</div>

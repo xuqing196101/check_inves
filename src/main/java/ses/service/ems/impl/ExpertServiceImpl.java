@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.bms.EngCategoryMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
 import ses.dao.ems.ExpertAttachmentMapper;
@@ -77,6 +78,8 @@ public class ExpertServiceImpl implements ExpertService {
 	private DictionaryDataMapper dictionaryDataMapper;
 	@Autowired
 	private CategoryMapper categoryMapper;
+	@Autowired
+	private EngCategoryMapper engCategoryMapper;
 	@Autowired
     private RoleServiceI roleService;
 	@Autowired
@@ -875,9 +878,12 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public List<Category> searchByName(String cateName) {
-        // TODO Auto-generated method stub
-        return categoryMapper.searchByName(cateName);
+    public List<Category> searchByName(String cateName, String flag) {
+        if (flag == null) {
+            return categoryMapper.searchByName(cateName);
+        } else {
+            return engCategoryMapper.searchByName(cateName);
+        }
     }
 
     /**
