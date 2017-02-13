@@ -418,8 +418,8 @@
 				for (var k = h+1; k < scoreArr.length - 1; k++) {
 					if (k % 5 == 0) {//验证区间是否包含别的区间
 						if (parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) < parseFloat(scoreArr[k])) {
-						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[k + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<=') {
-						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 1] == scoreArr[h + 2] && scoreArr[h + 2] == '<=') {
+						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[k + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<=' && scoreArr[h + 1] == '<') {
+						} else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 1] == scoreArr[h + 2] && scoreArr[h + 2] == '<=' && scoreArr[k + 1] == '<') {
 						} else if (scoreArr[h] > scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] == scoreArr[k + 2] && scoreArr[h + 1] == '<') {
 						} else if (scoreArr[h] > scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] != scoreArr[k + 2]) {
 						} else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] == scoreArr[k + 1] && scoreArr[k + 1] == '<' ) ) {
