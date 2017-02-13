@@ -760,7 +760,7 @@ $().ready(function() {
 				});
 			}
 			
-			//显示不同过的理由
+			//显示不通过的理由
 			function errorMsg(auditField, auditType){
 				var supplierId = "${currSupplier.id}";
 				$.ajax({

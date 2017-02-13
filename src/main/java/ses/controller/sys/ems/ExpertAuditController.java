@@ -28,7 +28,6 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;

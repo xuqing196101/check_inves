@@ -656,7 +656,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 	@RequestMapping("supplierType")
 	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId) {
-		//勾选的供应商类-型
+		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);
 
@@ -678,6 +678,30 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("field", field);
 		}
+		
+		/**
+		 * 供应商类型
+		 */
+		//供应商类code
+		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
+		String supplierTypeCode = "";
+		for(SupplierTypeRelate s: typeIds) {
+			supplierTypeCode += s.getSupplierTypeId() + ",";
+		}
+		request.setAttribute("supplierTypeCode", supplierTypeCode);
+		
+		
+		List < DictionaryData > list = DictionaryDataUtil.find(6);
+		for(int i = 0; i < list.size(); i++) {
+			String code = list.get(i).getCode();
+			if(code.equals("GOODS")) {
+				list.remove(list.get(i));
+			}
+		}
+		request.setAttribute("supplieType", list);
+		
+		List < DictionaryData > wlist = DictionaryDataUtil.find(8);
+		request.setAttribute("wlist", wlist);
 
 		/**
 		 * 生产

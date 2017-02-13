@@ -142,15 +142,15 @@
 							<select name="status" class="w178" id="status">
 								<option value="">-请选择-</option>
 								<c:if test="${sign == 1}">
-									<option <c:if test="${state eq '0'}">selected</c:if> value="0">待初审</option>
-								<option <c:if test="${state eq '1'}">selected</c:if> value="1">初审通过</option>
-								<option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
-								<option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未通过</option>
+									<option <c:if test="${state eq '0' or state == null}">selected</c:if> value="0">待初审</option>
+									<option <c:if test="${state eq '1'}">selected</c:if> value="1">初审通过</option>
+									<option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
+									<option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未通过</option>
 								</c:if>
 								<c:if test="${sign == 2}">
-									<option <c:if test="${state eq '4'}">selected</c:if> value="4">待复审</option>
-								<option <c:if test="${state eq '3'}">selected</c:if> value="5">复审通过</option>
-								<option <c:if test="${state eq '6'}">selected</c:if> value="6">复审踢除</option>
+									<option <c:if test="${state eq '4' or state == null}">selected</c:if> value="4">待复审</option>
+									<option <c:if test="${state eq '3'}">selected</c:if> value="5">复审通过</option>
+									<option <c:if test="${state eq '6'}">selected</c:if> value="6">复审踢除</option>
 								</c:if>
 							</select>
 						</li>

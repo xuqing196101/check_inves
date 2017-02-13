@@ -80,7 +80,7 @@
 			<table class="table table-bordered">
 				<tr>
 					<td class="tc info"> 品目名称</td>
-					<td colspan="3" class="tc info">合同上传</td>
+					<td colspan="3" class="tc info">合同上传（体现甲乙双方盖章及工程名称、地点的相关页）</td>
 					<td colspan="3" class="tc info">收款进账单</td>
 					<td class="tc info w50" rowspan="2">操作</td>
 				</tr>

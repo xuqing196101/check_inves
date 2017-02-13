@@ -950,6 +950,9 @@ public class SupplierController extends BaseSupplierController {
 			return "ses/sms/supplier_register/template_upload";
 		}
 		supplierService.commit(supplier);
+		//更新审核时间
+		supplier.setAuditDate(new Date());
+		supplierAuditService.updateStatus(supplier);
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");
 		request.getSession().removeAttribute("supplierDictionaryData");

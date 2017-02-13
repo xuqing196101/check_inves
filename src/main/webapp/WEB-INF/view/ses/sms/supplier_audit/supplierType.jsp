@@ -37,7 +37,68 @@
 				$("li").each(function() {
 					$(this).find("p").hide();
 				});
+				
+				//选中信息头
+				var typeIds = "${supplierTypeCode}";
+				var ids = typeIds.split(",");
+				//回显
+				var checklist1 = document.getElementsByName("chkItem_1");
+				for(var i = 0; i < checklist1.length; i++) {
+					var vals = checklist1[i].value;
+					for(var j = 0; j < ids.length; j++) {
+						if(ids[j] == vals) {
+							checklist1[i].checked = true;
+						}
+					}
+				}
+				var checklist2 = document.getElementsByName("chkItem_2");
+				for(var i = 0; i < checklist2.length; i++) {
+					var vals = checklist2[i].value;
+					for(var j = 0; j < ids.length; j++) {
+						if(ids[j] == vals) {
+							checklist2[i].checked = true;
+						}
+					}
+				}
 			});
+			
+			//供应商类型复选框
+			function reasonType(auditField,auditFieldName){
+			  var supplierId = $("#supplierId").val();
+			  var appear = auditField + "_show";
+				var index = layer.prompt({
+			    title : '请填写不通过的理由：', 
+			    formType : 2, 
+			    offset : '100px',
+				}, 
+		    function(text){
+				    $.ajax({
+				      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+				      type:"post",
+				      dataType:"json",
+				      data:{
+				      	"auditType": "supplierType_page",
+								"auditFieldName": auditFieldName,
+								"auditContent": auditFieldName+"类型",
+								"suggest": text,
+								"supplierId": supplierId,
+								"auditField": auditField
+				      },
+				      success:function(result){
+				        result = eval("(" + result + ")");
+				        if(result.msg == "fail"){
+				           layer.msg('该条信息已审核过！', {	            
+				             shift: 6, //动画类型
+				             offset:'100px'
+				          });
+				        }
+				      }
+				    });
+				    $("#"+appear+"").css('visibility', 'visible');
+		      layer.close(index);
+			    });
+		  	}
+			
 
 			//生产
 			function reasonProduction(id, str) {
@@ -566,6 +627,22 @@
 						</li>
 						<li onclick="jump('reasonsList')">
 							<a aria-expanded="false">审核汇总</a>
+						</li>
+					</ul>
+					
+					<!-- 供应商类型信息头 -->
+					<ul class="ul_list count_flow">
+						<li>
+							<div>
+						       <c:forEach items="${wlist }" var="obj" >
+								    <span class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
+						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+						      </c:forEach>
+						      <c:forEach items="${supplieType }" var="obj" >
+								    <span class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
+						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+						      </c:forEach>
+						  </div>
 						</li>
 					</ul>
 
