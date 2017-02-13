@@ -2893,3 +2893,8 @@ h2.list_title{
 	text-align: right;
 	margin: 0 0 5px 0px;
 }
+
+/* 三级页面文章内容左右间距 */
+.details_box{
+	padding: 30px 3%;
+}

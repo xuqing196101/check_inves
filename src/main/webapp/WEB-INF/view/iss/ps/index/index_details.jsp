@@ -27,7 +27,7 @@ $(document).ready(function(){
 	  </div>
    </div>
    <div class="container content height-350 job-content ">
-   <div class="col-md-12 p30_40 border1 margin-top-20">
+   <div class="col-md-12 col-sm-12 col-xs-12 border1 margin-top-20 details_box">
      <h3 class="tc f22">
 	   <div class="title bbgrey ">${articleDetail.name}</div>
 	 </h3>
