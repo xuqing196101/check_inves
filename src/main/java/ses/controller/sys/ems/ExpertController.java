@@ -2942,7 +2942,7 @@ public class ExpertController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
 	public String searchCate(String typeId, String cateName, String expertId, String supplierId) {
-	    if (typeId.equals("ENG_INFO_ID")) {
+	    if (DictionaryDataUtil.findById(typeId).getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
             List < Category > categoryList = service.searchByName(cateName, "ENG_INFO");
             // 循环判断是不是当前树的节点
