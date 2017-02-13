@@ -143,8 +143,10 @@
 				  	<th class="info">供应商名称</th>
 				  	<th class="info w100">报价<br/>(单位：万元)</th>
 				  	<th class="info">交货期限</th>
+				  	<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 				  	<th class="info w100">状态</th>
 					<th class="info">放弃原因</th>
+					</c:if>
 			    </tr>
 			</thead>
 		<c:forEach items="${treemap.value}" var="treemapValue" varStatus="vs">
@@ -157,8 +159,10 @@
 					    <td class="tl">${treemapValue.suppliers.supplierName}</td>
 						<td class="tr">${treemapValue.total}</td>
 						<td class="tc">${treemapValue.deliveryTime}</td>
+						<c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
 						<td class="tc">${treemapValue.isRemoved}</td>
 						<td class="tc">${treemapValue.removedReason}</td>
+						</c:if>
 				    </tr>
 				</c:if>
 		</c:forEach>
