@@ -212,7 +212,7 @@
 
 @media(max-width: 768px) {
 	.header-v4 .navbar-default .navbar-toggle {
-		margin: -1px 0 0;
+		margin: 0;
 	}
 }
 

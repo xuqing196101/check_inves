@@ -150,7 +150,7 @@
           <script src="${pageContext.request.contextPath}/public/portal/js/script.js"></script>
         </div>
 
-        <div class="col-md-4 ">
+        <div class="col-md-4 col-sm-12 col-xs-12 ">
           <div class="tab-v1">
             <h2 class="nav nav-tabs bb1 mt0">
             <c:choose>
@@ -195,12 +195,12 @@
     <!-- /* 集中采购开始*/-->
     <div class="container">
       <div class="row magazine-page clear">
-        <div class="col-md-12">
-          <h2 class="floor_title col-md-12">集中采购</h2>
+        <div class="col-sm-12 col-md-12 col-xs-12">
+          <h2 class="floor_title col-sm-12 col-md-12 col-xs-12">集中采购</h2>
         </div>
       </div>
       <div class="row magazine-page clear">
-        <div class="col-md-4 mb10 login_box">
+        <div class="col-md-4 col-sm-12 col-xs-12 mb10 login_box">
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  	  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
@@ -342,7 +342,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 mb10 login_box">
+        <div class="col-md-4 col-sm-12 col-xs-12 mb10 login_box">
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
@@ -483,7 +483,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 mb10 login_box">
+        <div class="col-md-4 col-sm-12 col-xs-12 mb10 login_box">
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
@@ -629,12 +629,12 @@
 
     <div class="container">
       <div class="row magazine-page clear">
-        <div class="col-md-12">
-          <h2 class="floor_title col-md-12">部队采购</h2>
+        <div class="col-sm-12 col-md-12 col-xs-12">
+          <h2 class="floor_title col-sm-12 col-md-12 col-xs-12">部队采购</h2>
         </div>
       </div>
       <div class="row magazine-page clear">
-        <div class="col-md-4 mb10 login_box">
+        <div class="col-md-4 col-sm-12 col-xs-12 mb10 login_box">
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
@@ -775,7 +775,7 @@
           </div>
         </div>
 
-        <div class="col-md-4 mb10 login_box">
+        <div class="col-md-4 col-sm-12 col-xs-12 mb10 login_box">
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
@@ -915,7 +915,7 @@
             </div>
           </div>
         </div>
-        <div class="col-md-4 mb10 login_box">
+        <div class="col-md-4 col-sm-12 col-xs-12 mb10 login_box">
           <div class=" border1 job-content floor_kind floor_news">
             <h2>
 		  <ul class="list-unstyled col-md-12 col-sm-12 col-xs-12 buyer_news m0 p0">
@@ -1061,12 +1061,12 @@
     <!--业务办理开始-->
     <div class="container">
       <div class="row magazine-page clear">
-        <div class="col-md-12">
-          <h2 class="floor_title col-md-12">业务办理</h2>
+        <div class="col-sm-12 col-md-12 col-xs-12">
+          <h2 class="floor_title col-sm-12 col-md-12 col-xs-12">业务办理</h2>
         </div>
       </div>
       <div class="row magazine-page clear">
-        <div class="col-md-12">
+        <div class="col-sm-12 col-md-12 col-xs-12">
           <div class="border1 flow_btn fl mr14">
             <div class="ywbl_01">
             <% if (environment != null && environment.equals("0")){ %>
@@ -1181,8 +1181,8 @@
     <!--采购信息开始-->
     <div class="container">
       <div class="row magazine-page clear">
-        <div class="col-md-12">
-          <h2 class="floor_title col-md-12">采购信息</h2>
+        <div class="col-sm-12 col-md-12 col-xs-12">
+          <h2 class="floor_title col-sm-12 col-md-12 col-xs-12">采购信息</h2>
         </div>
       </div>
       <div class="row magazine-page clear">

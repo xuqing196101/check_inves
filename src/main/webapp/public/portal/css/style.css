@@ -1980,7 +1980,7 @@ img.img-mouse {
 
 /**/
 /* */
-@media(min-width:768px){
+@media(min-width:401px){
 .section-focus-pic{margin:0px auto 0 auto;height:354px;width:100%;overflow:hidden;position:relative;}
 }
 @media(max-width:400px){
