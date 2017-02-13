@@ -7,7 +7,7 @@
   <script type="text/javascript">
 	function ycDiv(obj, index){
 		if ($(obj).hasClass("spread") && !$(obj).hasClass("shrink")) {
-	    	$(obj).removeClass("shrink");
+	    	$(obj).removeClass("spread");
 	    	$(obj).addClass("shrink");
 	  	} else {
 	    	if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
@@ -31,7 +31,7 @@
 	$(function(){
 		var flag = "${flag}";
 		if (flag == '1') {
-			layer.msg("没有显示出来的包为暂未结束评审状态!",{offset: ['200px', '260px']});
+			layer.msg("没有显示出来的包为暂未结束评审状态!",{offset: '200px'});
 		}
 	});
   </script>
@@ -126,16 +126,17 @@
 	                  </tr>
 	                </c:if>
 	              </c:forEach>
-          	  	  <%-- <tr>
+          	  	  <tr>
 	                <td class="tc" colspan="2">报价</td>
 	                <c:forEach items="${supplierList}" var="supplier">
 	                  <c:if test="${supplier.packages eq pack.id}">
 		                <td class="tc" colspan="2">
-		                  111
+		                	<fmt:formatNumber type="number" value="${fn:substringBefore(supplier.reviewResult,'_')}" pattern="0.0000" maxFractionDigits="4"/>
+		                  
 		                </td>
 	                  </c:if>
 	                </c:forEach>
-	              </tr> --%>
+	              </tr>
 	              <tr>
 	                <td class="tc" colspan="2">总结</td>
 	                <c:forEach items="${supplierList}" var="supplier">
@@ -188,7 +189,7 @@
 	                  </c:if>
 	                </c:forEach>
                 </c:if>
-                <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName || 'PBFF_ZDJF' eq pack.bidMethodTypeName}">
+                <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
                 <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
 	                <td class="tc" colspan="2">
@@ -200,6 +201,15 @@
 	                      ${rank.reviewResult}
 	                    </c:if>
 	                  </c:forEach>
+	                </td>
+                  </c:if>
+                </c:forEach>
+                </c:if>
+                <c:if test="${'PBFF_ZDJF' eq pack.bidMethodTypeName}">
+                <c:forEach items="${supplierList}" var="supplier">
+                  <c:if test="${supplier.packages eq pack.id}">
+	                <td class="tc" colspan="2">
+	                  ${fn:substringAfter(supplier.reviewResult,"_")}
 	                </td>
                   </c:if>
                 </c:forEach>

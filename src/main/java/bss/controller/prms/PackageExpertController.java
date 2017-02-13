@@ -3843,7 +3843,8 @@ public class PackageExpertController {
                   BigDecimal v = packageExpertService.getPriceSupplier(st, packageId, projectId);
                   //插入排名
                   HashMap<String, Object> ranMap = new HashMap<String, Object>();
-                  ranMap.put("reviewResult", i+1);
+                  int rank = i+1;
+                  ranMap.put("reviewResult", v+"_"+rank);
                   ranMap.put("supplierId", st.getSuppliers().getId());
                   ranMap.put("packageId", st.getPackages());
                   saleTenderService.updateRank(ranMap);
