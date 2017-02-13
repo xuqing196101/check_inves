@@ -2567,7 +2567,7 @@ a.yjfk{
 }
 
 .floor_news .tab-content .tab-pane {
-    height: 320px;
+    height: 315px;
     position: relative;
 }
 .tab_more{
@@ -2583,15 +2583,15 @@ a.yjfk{
 	width:100%;
 }
 .job-content .categories li {
-    padding: 4px 0;
+    padding:0;
     font-size: 14px;
 }
 span.list_squre {
     display: block;
     float: left;
     font-size: 8px;
-    height: 30px;
-    line-height: 20px;
+    height: 25px;
+    line-height: 25px;
     color:#ef0000;
     margin-right:5px;
 }
@@ -2897,4 +2897,15 @@ h2.list_title{
 /* 三级页面文章内容左右间距 */
 .details_box{
 	padding: 30px 3%;
+}
+.list_new li{
+	padding: 2px 0px!important;
+}
+.list_new li span, .list_new li a{
+	display: block;
+	line-height: 29px;
+}
+ .list_new li span.hex{
+	display: block;
+	text-align: right;
 }
