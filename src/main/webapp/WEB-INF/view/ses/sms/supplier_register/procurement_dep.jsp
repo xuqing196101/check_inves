@@ -22,6 +22,17 @@
 	
 	/** 加载地区根节点 */
 	function loadRootArea() {
+		var address = "${currSupplier.address}";
+		var parentAddress;
+		$.ajax({
+			url : "${pageContext.request.contextPath}/area/findParentAddress.do",
+			type : "post",
+			data : {"addressId" : address}, 
+			dataType : "json",
+			success : function(result) {
+				parentAddress = result;
+			}
+		});
 		$.ajax({
 			url : "${pageContext.request.contextPath}/area/find_root_area.do",
 			type : "post",
@@ -30,11 +41,16 @@
 				var html = "";
 				html += "<option value=''>请选择</option>";
 				for(var i = 0; i < result.length; i++) {
-					html += "<option id='" + result[i].id + "' value='" + result[i].id + "'>" +  result[i].name + "</option>";
+					if (result[i].id == parentAddress) {
+						html += "<option id='" + result[i].id + "' value='" + result[i].id + "' selected>" +  result[i].name + "</option>";
+					} else {
+						html += "<option id='" + result[i].id + "' value='" + result[i].id + "'>" +  result[i].name + "</option>";
+					}
 				}
 				$("#root_area_select_id").append(html);
 			},
 		});
+		loadChildren();
 	}
 	
 	/** 保存基本信息 */
@@ -62,8 +78,9 @@
 	
 	
 
-	function loadChildren(obj) {
-		var id = $(obj).val();
+	function loadChildren() {
+		var id = $("#root_area_select_id").val();
+		var address = "${currSupplier.address}";
 		if (id) {
 			$.ajax({
 				url : globalPath + "/area/find_area_by_parent_id.do",
@@ -75,7 +92,11 @@
 				success : function(result) {
 					var html = "<option > 请选择</option>";
 					for ( var i = 0; i < result.length; i++) {
-						html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
+						if (result[i].id == address) {
+							html += "<option value='" + result[i].id + "' selected>" + result[i].name + "</option>";
+						} else {
+							html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
+						}
 					}
 					$("#children_area_select_id").empty();
 					$("#children_area_select_id").append(html);
@@ -225,7 +246,7 @@
 										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
 											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
 												<div class="select_common">
-													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren(this)">
+													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren()">
 														<option value="">请选择</option>
 														<c:forEach  items="${privnce }" var="prin">
 													         <c:if test="${prin.id==orgnization.provinceId }">

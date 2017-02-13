@@ -216,4 +216,18 @@ public class AreaController {
 		}
 		return JSON.toJSON(new ArrayList<Area>()).toString();
 	}
+	
+	/**
+	 *〈简述〉
+	 * 获取父级节点的Id
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param addressId 子节点Id
+	 * @return
+	 */
+	@ResponseBody
+	@RequestMapping("/findParentAddress")
+	public String findParentAddress(String addressId) {
+	    return areaService.listById(addressId).getParentId();
+	}
 }
