@@ -593,8 +593,7 @@
 					dataType: "json",
 					success: function(data) {
 						/* alert(data.suggest); */
-						layer.msg(data.suggest, {
-							offset: '300px'
+						layer.msg("不通过理由：" + data.suggest, {offset: '300px'
 						});
 					}
 				});

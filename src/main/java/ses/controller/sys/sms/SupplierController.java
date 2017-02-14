@@ -607,6 +607,15 @@ public class SupplierController extends BaseSupplierController {
 			 */
 			SupplierAudit supplierAudit = new SupplierAudit();
 			supplierAudit.setSupplierId(supplier.getId());;
+			//供应商勾选的类型
+			StringBuffer typePageField = new StringBuffer();
+			supplierAudit.setAuditType("supplierType_page");
+			List < SupplierAudit > typeAuditList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			for(SupplierAudit audit: typeAuditList) {
+				typePageField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("typePageField", typePageField);
+			
 			//生产
 			StringBuffer proPageField = new StringBuffer();
 			supplierAudit.setAuditType("mat_pro_page");

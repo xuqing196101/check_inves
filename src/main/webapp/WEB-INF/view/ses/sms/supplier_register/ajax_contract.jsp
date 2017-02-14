@@ -54,7 +54,7 @@ $(function() {
 					data: {"supplierId": supplierId, "auditField": auditField, "auditType": auditType},
 					dataType: "json",
 					success: function(data){
-					layer.msg(data.suggest , {offset: '200px'});
+					layer.msg("不通过理由：" + data.suggest , {offset: '200px'});
 					}
 				});
 			}
