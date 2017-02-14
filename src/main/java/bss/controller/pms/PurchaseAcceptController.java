@@ -111,7 +111,9 @@ public class PurchaseAcceptController extends BaseController{
 		if(list2!=null&&list2.size()>0){
 			for(PurchaseOrg p:list2){
 				Orgnization dep= orgnizationService.getOrgByPrimaryKey(p.getOrgId());
-				listDep.add(dep.getShortName());
+				if(dep!=null){
+					listDep.add(dep.getShortName());	
+				}
 			}
 		}else{
 			listDep.add("heheh");

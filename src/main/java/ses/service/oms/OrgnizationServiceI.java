@@ -142,5 +142,19 @@ public interface OrgnizationServiceI {
 	 * @return
 	 */
     public String moveOrder(String id, String targetId, String moveType);
+    
+    /**
+     * 
+    * @Title: orderPosition
+    * @Description:移动排序 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @param targetId     
+    * @return void     
+    * @throws
+     */
+    public void orderPosition(String id, Integer position,String targetId,Integer position2);
+    
+    public void sameDep(String id, Integer position,String targetId,Integer position2);
 
 }

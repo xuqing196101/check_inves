@@ -203,4 +203,6 @@ public interface OrgnizationMapper {
     * @throws
      */
     List<Orgnization> getParent(@Param("id")String id);
+    
+    List<Orgnization>  getMove(@Param("parentId")String id,@Param("position")Integer position);
 }

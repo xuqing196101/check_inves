@@ -209,8 +209,21 @@ public class PurchaseManageController {
 	@ResponseBody
 	@RequestMapping(value="/moveOrder")
 	public String moveOrder(String id, String targetId, String moveType){
-	    String res = orgnizationServiceI.moveOrder(id, targetId, moveType);
-	    return res;
+		Orgnization org1 = orgnizationServiceI.getOrgByPrimaryKey(id);
+		Orgnization org2 = orgnizationServiceI.getOrgByPrimaryKey(targetId);
+		if(!org1.getParentId().equals(org2.getParentId())){
+			//
+			//根据tarObj>POSITION得到一个list集合循环+1
+			//根据This.obj>Postion得到一个list集合+1
+			orgnizationServiceI.orderPosition(org1.getId(), Integer.valueOf(org1.getPosition()), org2.getId(), Integer.valueOf(org2.getPosition()));
+			
+		}else{
+			orgnizationServiceI.sameDep(org1.getId(), Integer.valueOf(org1.getPosition()), org2.getId(), Integer.valueOf(org2.getPosition()));
+
+//			 orgnizationServiceI.moveOrder(id, targetId, moveType);
+		}
+	   
+	    return "";
 	}
 	
 	/**

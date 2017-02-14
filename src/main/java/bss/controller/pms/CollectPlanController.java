@@ -125,7 +125,10 @@ public class CollectPlanController extends BaseController {
 	if(list2!=null&&list2.size()>0){
 		for(PurchaseOrg p:list2){
 			Orgnization dep= orgnizationServiceI.getOrgByPrimaryKey(p.getOrgId());
-			listDep.add(dep.getShortName());
+			if(dep!=null){
+				listDep.add(dep.getShortName());
+			}
+			
 		}
 	}else{
 		listDep.add("sss");

@@ -44,6 +44,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -138,6 +139,10 @@ public class PurchaseRequiredController extends BaseController{
 		Map<String,Object> map=new HashMap<String,Object>();
 		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 		model.addAttribute("requires", requires);
+		
+		
+		List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
+		model.addAttribute("manages", manages);
 		return "bss/pms/purchaserequird/list";
 	}
 	/**

@@ -136,6 +136,12 @@
 	}
 
 	
+	function cancel(){
+		/* alert("cs");
+ 		var index = parent.layer.getFrameIndex(window.name); 
+ 		parent. */
+ 		layer.closeAll();
+ 	}
 	
   </script>
   </head>
@@ -273,7 +279,7 @@
 		 <input type="hidden" name="cid" id="cid" value="">
 		<div class="col-md-12 col-xs-12 col-sm-12 tc mt10">
 	     	<button class="btn" onclick="closeLayer()" >确认</button>
-	   	    <button class="btn" onclick="cancels()" >取消</button>
+	     	<input type="button"  class="btn" onclick="cancel()" value="取消">
 	    </div>
 	 </form>   
  </div>

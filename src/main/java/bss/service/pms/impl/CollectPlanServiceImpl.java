@@ -133,19 +133,42 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		uniqueId= dep(uniqueId);
 		List<PurchaseRequired>  all=new LinkedList<PurchaseRequired>();
 //		Set<String> diff=new HashSet<String>();
+		Integer count=1;
 		List<String> diff=new ArrayList<String>();
 		if(uniqueId!=null&&uniqueId.size()>0){
+//			List<PurchaseRequired>  list= purchaseRequiredService.getUnique(uniqueId.get(0));
+//			  all.addAll(list);
 		for(int i = 0; i < uniqueId.size(); i++){
-			for(int k = 0;k < (i<=1?i:(i-1)) ; k++){
-				List<PurchaseRequired>  list1= purchaseRequiredService.getUnique(uniqueId.get(i));
-				List<PurchaseRequired>  list2= purchaseRequiredService.getUnique(uniqueId.get(k));
-				if(list1.get(0).getDepartment().equals(list2.get(0).getDepartment())){
-					diff.add(uniqueId.get(i));
-					diff.add(uniqueId.get(k));
+			if(i==0){
+				  List<PurchaseRequired>  list= purchaseRequiredService.getUnique(uniqueId.get(0));
+				  all.addAll(list);
+			}
+//			else
+				if(i>=1){
+				String no1 = uniqueId.get(i-1);
+				String no2 = uniqueId.get(i);
+				List<PurchaseRequired>  list1= purchaseRequiredService.getUnique(no1);
+				List<PurchaseRequired>  list2= purchaseRequiredService.getUnique(no2);
+				
+				 if(list1.get(0).getDepartment().equals(list2.get(0).getDepartment())){
+					 List<PurchaseRequired> list3 = getChildren(list1,list2,request);
+//					 
+					 all.addAll(list3);
+				}else{
+					count++;
+					String string = NumberUtils.translate(count);
+					list2.get(0).setSeq(string);
+					all.addAll(list2);
+					request.getSession().removeAttribute("NoCount");
+				}
+				 
+//				if(list1.get(0).getDepartment().equals(list2.get(0).getDepartment())){
+//					diff.add(uniqueId.get(i));
+//					diff.add(uniqueId.get(k));
 //					diff.add(list1.get(k).getId());
 //					list1.remove(i);
 //					i = i-1; 
-			       break;
+//			       break;
 				}
 			}
 		}
@@ -182,43 +205,44 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 //					}
 //				}
 //			}
-		}
-		Integer count=0;
-		if(diff!=null&&diff.size()>0){
-			for(int i=0;i<diff.size();i++){
-				if(i==0){
-					  List<PurchaseRequired>  list= purchaseRequiredService.getUnique(diff.get(i));
-					  all.addAll(list);
-				}
-				if(i<diff.size()-1){
-					String no1 = diff.get(i);
-					String no2 = diff.get(i+1);
-					   List<PurchaseRequired>  list= purchaseRequiredService.getUnique(no1);
-					  List<PurchaseRequired>  list2 = purchaseRequiredService.getUnique(no2);
-					 if(list.get(0).getUserId().equals(list2.get(0).getUserId())){
-						 List<PurchaseRequired> list3 = getChildren(list,list2,request);
-						 count++;
-						 all.addAll(list3);
-					}else{
-						String string = NumberUtils.translate(i+2);
-						list2.get(0).setSeq(string);
-						all.addAll(list2);
-					}
-				}
-			}
+//		}
+//		Integer count=0;
+//		if(diff!=null&&diff.size()>0){
+//			for(int i=0;i<diff.size();i++){
+//				if(i==0){
+//					  List<PurchaseRequired>  list= purchaseRequiredService.getUnique(diff.get(i));
+//					  all.addAll(list);
+//				}
+//				else 
+//				if(i<diff.size()-1){
+//					String no1 = diff.get(i);
+//					String no2 = diff.get(i+1);
+//					   List<PurchaseRequired>  list= purchaseRequiredService.getUnique(no1);
+//					  List<PurchaseRequired>  list2 = purchaseRequiredService.getUnique(no2);
+//					 if(list.get(0).getUserId().equals(list2.get(0).getUserId())){
+//						 List<PurchaseRequired> list3 = getChildren(list,list2,request);
+//						 count++;
+//						 all.addAll(list3);
+//					}else{
+//						String string = NumberUtils.translate(i+2);
+//						list2.get(0).setSeq(string);
+//						all.addAll(list2);
+//					}
+//				}
+//			}
 		
-		}
-		
-		uniqueId.removeAll(diff);
-		 
-		if(uniqueId!=null&&uniqueId.size()>0){
-			for(String str:uniqueId){
-				count++;
-				List<PurchaseRequired>  list= purchaseRequiredService.getUnique(str);
-				list.get(0).setSeq( NumberUtils.translate(count));
-				all.addAll(list);
-			}
-		}
+//		}
+//		
+//		uniqueId.removeAll(diff);
+//		 
+//		if(uniqueId!=null&&uniqueId.size()>0){
+//			for(String str:uniqueId){
+//				count++;
+//				List<PurchaseRequired>  list= purchaseRequiredService.getUnique(str);
+//				list.get(0).setSeq( NumberUtils.translate(count));
+//				all.addAll(list);
+//			}
+//		}
 		
 		
 		for(int i=0;i<all.size();i++){
@@ -317,6 +341,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 	* @throws
 	 */
 	public List<String>  dep(List<String> uniqueId) {
+		//获取顶级ID
 		PurchaseRequired p = new PurchaseRequired();
 		List<Orgnization> allList=new ArrayList<Orgnization>();
 		List<Orgnization> detailList=new ArrayList<Orgnization>();
@@ -350,6 +375,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 //				}
 //			}
 //		}
+		//对顶级id去重
 		for (int i = 0; i < allList.size(); i++)  //外循环是循环的次数
         {
             for (int j = allList.size() - 1 ; j > i; j--)  //内循环是 外循环一次比较的次数
@@ -365,6 +391,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		
 		
 //		allList.removeAll(same);
+		//对顶级id排序
 	      Collections.sort(allList, new Comparator<Orgnization>(){  
 	    	  
 	            /*  
@@ -386,7 +413,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 	            }  
 	        });  
 	      
-	      
+	      //循环遍历
 		for(Orgnization org:allList){
 			Orgnization orgnization = orgnizationMapper.findOrgByPrimaryKey(org.getId());
 			detailList.add(orgnization);

@@ -957,7 +957,7 @@
     
     <select id="getUniqueId" parameterType="String" resultMap="PurchaseRequired_Map">
     SELECT <include refid="Base_Column_List" />
-     from T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID=(SELECT ID FROM T_BSS_PMS_PURCHASE_DETAIL WHERE HISTORY_STATUS='0'  and IS_DELETE='0' and PARENT_ID='1'
+     from T_BSS_PMS_PURCHASE_DETAIL WHERE PARENT_ID in(SELECT ID FROM T_BSS_PMS_PURCHASE_DETAIL WHERE HISTORY_STATUS='0'  and IS_DELETE='0' and PARENT_ID='1'
 				and UNIQUE_ID =#{uniqueId})
 				
 				

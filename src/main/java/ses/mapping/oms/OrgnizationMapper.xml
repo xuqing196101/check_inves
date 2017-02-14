@@ -845,4 +845,11 @@
 	</select>
 	
 	
+	<select id="getMove"   resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+ 		 from T_SES_OMS_ORG 
+        where  PARENT_ID=#{parentId} and POSITION>#{position}
+	</select>
+	
+	
 </mapper>
