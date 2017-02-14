@@ -113,7 +113,7 @@
 				$("#categoryIds").val('');
 				$("#supplierTypeIds").val('');
 				$("option")[0].selected = true;
-				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3";
+				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5";
 			}
 			$(function() {
 				var optionNodes = $("option");
@@ -390,7 +390,7 @@
 				<h2>供应商数量统计</h2>
 			</div>
 			<h2 class="search_detail">
-  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=3" method="post" class="mb0">
+  			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
 		       <ul class="demand_list">
                   <li>
