@@ -117,4 +117,14 @@ public interface ExpertAuditMapper {
      * @return void
      */
     void updateIsDeleteByExpertId (String expertId); 
+    
+    /**
+     * @Title: deleteByExpertId
+     * @author XuQing 
+     * @date 2017-2-14 下午5:05:58  
+     * @Description:删除记录
+     * @param @param expertId      
+     * @return void
+     */
+    void deleteByExpertId (String expertId);
 }

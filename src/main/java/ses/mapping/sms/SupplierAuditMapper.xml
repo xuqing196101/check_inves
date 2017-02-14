@@ -39,6 +39,12 @@
     delete from T_SES_SMS_SUPPLIER_AUDIT
     where ID = #{id}
   </delete>
+  
+  <delete id="deleteBySupplierId" parameterType="java.lang.String">
+  	delete from T_SES_SMS_SUPPLIER_AUDIT
+    where SUPPLIER_ID = #{supplierId}
+  </delete>
+  
   <insert id="insert" parameterType="ses.model.sms.SupplierAudit">
     insert into T_SES_SMS_SUPPLIER_AUDIT (ID, SUGGEST, AUDIT_TYPE, 
       USER_ID, SUPPLIER_ID, STATUS, 

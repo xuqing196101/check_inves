@@ -948,6 +948,9 @@ public class SupplierController extends BaseSupplierController {
 		supplierService.commit(supplier);
 		//更新审核时间
 		supplier.setAuditDate(new Date());
+		//刪除上次的審核記錄
+		supplierAuditService.deleteBySupplierId(supplier.getId());
+				
 		supplierAuditService.updateStatus(supplier);
 		request.getSession().removeAttribute("currSupplier");
 		request.getSession().removeAttribute("sysKey");

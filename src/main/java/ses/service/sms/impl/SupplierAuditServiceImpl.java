@@ -674,6 +674,19 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
     return listSupplier;
   
   }
+  
+  /**
+   * @Title: deleteBySupplierId
+   * @author XuQing 
+   * @date 2017-2-14 下午4:59:14  
+   * @Description:删除记录
+   * @param @param supplierId      
+   * @return void
+   */
+	@Override
+	public void deleteBySupplierId(String supplierId) {
+		supplierAuditMapper.deleteBySupplierId(supplierId);
+	}
 	
 	
 	

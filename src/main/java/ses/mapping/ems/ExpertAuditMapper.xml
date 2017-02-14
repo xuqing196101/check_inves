@@ -222,4 +222,9 @@
     where
     	EXPERT_ID = #{expertId}
   </update>
+  
+  <delete id="deleteByExpertId" parameterType="java.lang.String">
+    delete from T_SES_EMS_EXPERT_AUDIT
+    where EXPERT_ID = #{expertId}
+  </delete>
 </mapper>

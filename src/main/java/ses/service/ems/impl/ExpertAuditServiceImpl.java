@@ -226,4 +226,17 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 			return null;
 		}
 	}
+	
+    /**
+     * @Title: deleteByExpertId
+     * @author XuQing 
+     * @date 2017-2-14 下午5:05:58  
+     * @Description:删除记录
+     * @param @param expertId      
+     * @return void
+     */
+	@Override
+	public void deleteByExpertId(String expertId) {
+		mapper.deleteByExpertId(expertId);
+	}
 }

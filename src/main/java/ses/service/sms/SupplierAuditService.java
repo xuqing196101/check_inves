@@ -318,4 +318,14 @@ public interface SupplierAuditService {
      * @return
      */
     List<Supplier> selectSaleTenderSupplier(Supplier supplier,Integer page);
+    
+    /**
+     * @Title: deleteBySupplierId
+     * @author XuQing 
+     * @date 2017-2-14 下午4:59:14  
+     * @Description:删除记录
+     * @param @param supplierId      
+     * @return void
+     */
+    void deleteBySupplierId(String supplierId);
 } 
