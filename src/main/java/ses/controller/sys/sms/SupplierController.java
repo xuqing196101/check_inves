@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -85,6 +86,7 @@ import ses.util.FtpUtil;
 import ses.util.IdentityCode;
 import ses.util.PathUtil;
 import ses.util.PropUtil;
+import ses.util.SupplierLevelUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
 
@@ -637,7 +639,7 @@ public class SupplierController extends BaseSupplierController {
 				servePageField.append(audit.getAuditField() + ",");
 			}
 			model.addAttribute("servePageField", servePageField);
-
+			
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);

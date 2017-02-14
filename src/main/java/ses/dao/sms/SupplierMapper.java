@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -325,5 +326,12 @@ public interface SupplierMapper {
     
     List<Supplier> queryAll();
  
-    
+    /**
+     *〈简述〉
+     * 获取最小成立时间
+     *〈详细描述〉
+     * @author WangHuijie
+     * @return minDate
+     */
+    Date getMinFoundDate();
 }

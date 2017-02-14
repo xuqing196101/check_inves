@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -123,9 +124,24 @@ public interface SupplierFinanceMapper {
 	 */
 	List<SupplierFinance> findFinanceBySid(SupplierFinance supplierFinance);
 	
-	
 	List<SupplierFinance> getFinanceBySid(@Param("supplierId")String supplierId );
-	
-	
+
+    /**
+     *〈简述〉
+     * 获取最大平均净资产总额
+     *〈详细描述〉
+     * @author WangHuijie
+     * @return maxTotalNetAssets
+     */
+    BigDecimal getMaxTotalNetAssets();
+
+    /**
+     *〈简述〉
+     * 获取最大平均营业收入
+     *〈详细描述〉
+     * @author WangHuijie
+     * @return maxTaking
+     */
+    BigDecimal getMaxTaking();
 	
 }

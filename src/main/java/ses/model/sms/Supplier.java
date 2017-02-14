@@ -10,6 +10,7 @@ import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
+import ses.util.SupplierLevelUtil;
 import bss.model.ppms.ProjectDetail;
 
 /**
@@ -636,6 +637,39 @@ public class Supplier implements Serializable {
     
     /**唱标的时候显示物资明细*/
     private List<ProjectDetail> pdList;
+    
+    /**供应商分级要素得分(物资生产)**/
+    private BigDecimal levelScoreProduct;
+    
+    /**供应商分级要素得分(物资销售)**/
+    private BigDecimal levelScoreSales;
+    
+    public BigDecimal getLevelScoreProduct() {
+        return levelScoreProduct;
+    }
+
+    public void setLevelScoreProduct(BigDecimal levelScoreProduct) {
+        this.levelScoreProduct = levelScoreProduct;
+    }
+
+    public BigDecimal getLevelScoreSales() {
+        return levelScoreSales;
+    }
+
+    public void setLevelScoreSales(BigDecimal levelScoreSales) {
+        this.levelScoreSales = levelScoreSales;
+    }
+
+    public BigDecimal getLevelScoreService() {
+        return levelScoreService;
+    }
+
+    public void setLevelScoreService(BigDecimal levelScoreService) {
+        this.levelScoreService = levelScoreService;
+    }
+
+    /**供应商分级要素得分(服务)**/
+    private BigDecimal levelScoreService;
 
     public List<ProjectDetail> getPdList() {
         return pdList;

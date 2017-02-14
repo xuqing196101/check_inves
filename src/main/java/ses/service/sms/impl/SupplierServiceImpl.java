@@ -63,6 +63,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
+import ses.util.SupplierLevelUtil;
 
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -359,6 +360,12 @@ public class SupplierServiceImpl implements SupplierService {
         
         //更新供应商
         supplier.setUpdatedAt(new Date());
+        
+        // 供应商分级要素得分
+        supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
+        supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
+        supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));
+        
         supplierMapper.updateByPrimaryKeySelective(supplier);
         
         //更新用户
@@ -780,7 +787,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public Date getMinFoundDate() {
-        return null;
+        return supplierMapper.getMinFoundDate();
     }
 
     /**
@@ -788,7 +795,7 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public BigDecimal getMaxTotalNetAssets() {
-        return null;
+        return supplierFinanceMapper.getMaxTotalNetAssets();
     }
 
     /**
@@ -796,6 +803,6 @@ public class SupplierServiceImpl implements SupplierService {
      */
     @Override
     public BigDecimal getMaxTaking() {
-        return null;
+        return supplierFinanceMapper.getMaxTaking();
     }
 }

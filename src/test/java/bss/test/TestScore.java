@@ -1,5 +1,6 @@
 package bss.test;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -7,9 +8,17 @@ import org.junit.Test;
 
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
+import ses.util.DictionaryDataUtil;
 import ses.util.ScoreModelUtil;
+import ses.util.SupplierLevelUtil;
 
 public class TestScore {
+    
+    @Test
+    public void testSupplierLevelScore() {
+        BigDecimal score = SupplierLevelUtil.getScore("529e68e5351842f1910b5b2f97a03b78", "PRODUCT");
+        System.out.println(score);
+    }
     
     @Test
     public void testOne() {//测试正常

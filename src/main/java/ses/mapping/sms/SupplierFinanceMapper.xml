@@ -322,7 +322,21 @@
 		ORDER BY YEAR DESC
 	</select>
 	
+	<select id="getMaxTotalNetAssets" resultType="java.math.BigDecimal">
+		SELECT MAX(a.avg_score) 
+		FROM (
+			SELECT ID,avg(TOTAL_NET_ASSETS) avg_score 
+			FROM T_SES_SMS_SUPPLIER_FINANCE 
+			GROUP BY ID
+			) a 
+	</select>
 	
-	
-	
+	<select id="getMaxTaking" resultType="java.math.BigDecimal">
+		SELECT MAX(a.avg_score) 
+		FROM (
+			SELECT ID,avg(TAKING) avg_score 
+			FROM T_SES_SMS_SUPPLIER_FINANCE 
+			GROUP BY ID
+			) a 
+	</select>
 </mapper>

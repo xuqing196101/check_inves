@@ -50,22 +50,6 @@ public class SupplierLevelUtil {
     private static SupplierLevelUtil supplierLevelUtil;
     
     /**
-     *〈简述〉
-     * Service实例化
-     *〈详细描述〉
-     * @author WangHuijie
-     * @param supplierServiceImpl
-     * @param categoryServiceImpl
-     * @param supplierItemServiceImpl
-     */
-    public void setDdService(ExpertService expertServiceImpl, SupplierService supplierServiceImpl, CategoryService categoryServiceImpl, SupplierItemService supplierItemServiceImpl){
-        this.expertServiceImpl = expertServiceImpl;
-        this.supplierServiceImpl = supplierServiceImpl;
-        this.categoryServiceImpl = categoryServiceImpl;
-        this.supplierItemServiceImpl = supplierItemServiceImpl;
-    }
-    
-    /**
      *〈简述〉初始化
      *〈详细描述〉
      * @author WangHuijie
@@ -86,12 +70,11 @@ public class SupplierLevelUtil {
      * @author WangHuijie
      * @param supplierId 供应商编号
      * @param typeCode 品目类别
-     * @return 供应商等级Integer
-     * @throws ParseException 
+     * @return 分级要素得分BigDecimal
      */
-    public BigDecimal getLevel(String supplierId, String typeCode) throws ParseException {
+    public static BigDecimal getScore(String supplierId, String typeCode) {
         BigDecimal score = new BigDecimal(0);
-        Supplier supplier = supplierServiceImpl.get(supplierId);
+        Supplier supplier = supplierLevelUtil.supplierServiceImpl.get(supplierId);
         
         /** 分级要素总分:成立时间 **/
         BigDecimal dateScoreSum = new BigDecimal(20);
@@ -126,19 +109,23 @@ public class SupplierLevelUtil {
         BigDecimal takingScore = new BigDecimal(0);
             
         // 获取最早成立时间
-        Date minFoundDate = supplierServiceImpl.getMinFoundDate();
+        Date minFoundDate = supplierLevelUtil.supplierServiceImpl.getMinFoundDate();
         // 计算成立时间分数
-        int minFoundDateScore = expertServiceImpl.daysBetween(minFoundDate);
-        int foundDateScore = expertServiceImpl.daysBetween(foundDate);
-        dateScore = new BigDecimal(minFoundDateScore).divide(new BigDecimal(foundDateScore), 5, RoundingMode.HALF_UP).multiply(dateScoreSum);
+        int minFoundDateScore = 0;
+        int foundDateScore = 0;
+        try {
+            minFoundDateScore = supplierLevelUtil.expertServiceImpl.daysBetween(minFoundDate);
+            foundDateScore = supplierLevelUtil.expertServiceImpl.daysBetween(foundDate);
+        } catch (ParseException e) {}
+        dateScore = new BigDecimal(foundDateScore).divide(new BigDecimal(minFoundDateScore), 5, RoundingMode.HALF_UP).multiply(dateScoreSum);
         
         // 获取最大平均净资产
-        BigDecimal maxTotalNetAssets = supplierServiceImpl.getMaxTotalNetAssets();
+        BigDecimal maxTotalNetAssets = supplierLevelUtil.supplierServiceImpl.getMaxTotalNetAssets();
         // 计算最大平均净资产分数
         totalNetAssetsScore = totalNetAssets.divide(maxTotalNetAssets, 5, RoundingMode.HALF_UP).multiply(totalNetAssetsScoreSum);
         
         // 获取最大营业收入
-        BigDecimal maxTaking = supplierServiceImpl.getMaxTaking();
+        BigDecimal maxTaking = supplierLevelUtil.supplierServiceImpl.getMaxTaking();
         // 计算最大营业收入分数
         takingScore = taking.divide(maxTaking, 5, RoundingMode.HALF_UP).multiply(takingScoreSum);
         
@@ -146,5 +133,20 @@ public class SupplierLevelUtil {
         score = dateScore.add(totalNetAssetsScore).add(takingScore);
             
         return score;
+    }
+    
+    /**
+     *〈简述〉
+     * 计算供应商等级
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param score 供应商分级要素得分
+     * @param typeCode 品目类别
+     * @return 供应商等级Integer
+     */
+    public static Integer getLevel(BigDecimal score, String typeCode) {
+        Integer level = 1;
+        
+        return level;
     }
 }

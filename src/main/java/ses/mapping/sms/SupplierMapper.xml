@@ -14,6 +14,9 @@
 		<result column="ADDRESS" property="address" />
 		<result column="COUNT" property="count" />
 		<result column="BANK_NAME" property="bankName" />
+		<result column="LEVEL_SCORE_PRODUCT" property="levelScoreProduct" />
+		<result column="LEVEL_SCORE_SALES" property="levelScoreSales" />
+		<result column="LEVEL_SCORE_SERVICE" property="levelScoreService" />
 		<result column="DESCRIPTION" property="description" />
 		<result column="BANK_ACCOUNT" property="bankAccount" />
 		<result column="POST_CODE" property="postCode" />
@@ -108,7 +111,7 @@
 		CREATED_AT, UPDATED_AT,SUBMIT_AT,
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
-		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION
+		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -667,6 +670,15 @@
 		<set>
 			<if test="loginName != null">
 				LOGIN_NAME = #{loginName},
+			</if>
+			<if test="levelScoreProduct != null">
+				LEVEL_SCORE_PRODUCT = #{levelScoreProduct},
+			</if>
+			<if test="levelScoreSales != null">
+				LEVEL_SCORE_SALES = #{levelScoreSales},
+			</if>
+			<if test="levelScoreService != null">
+				LEVEL_SCORE_SERVICE = #{levelScoreService},
 			</if>
 			<if test="description != null">
 				DESCRIPTION = #{description},
@@ -1518,4 +1530,9 @@
 		WHERE  SUPPLIER_STATUS in(1,5,7)
 	</select>
 	
+	<select id="getMinFoundDate" resultType="java.util.Date">
+	   	SELECT
+		min(FOUND_DATE)
+		FROM T_SES_SMS_SUPPLIER
+	</select>
 </mapper>
