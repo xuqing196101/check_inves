@@ -737,6 +737,12 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		Integer pos=Integer.valueOf(targetOrg.getPosition())+1;
 		orgThis.setPosition(String.valueOf(pos));
 		orgniztionMapper.updateOrgnizationById(orgThis);
+		if(targetOrg.getPosition().equals("1")){
+			orgThis.setPosition("1");
+			orgniztionMapper.updateOrgnizationById(orgThis);
+			targetOrg.setPosition("2");
+			orgniztionMapper.updateOrgnizationById(targetOrg);
+		}
 		
 	}
     
