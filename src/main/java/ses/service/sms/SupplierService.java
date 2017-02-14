@@ -236,4 +236,5 @@ public interface SupplierService {
     * @return
     */
    List<ContractBean> getContract(List<Category> itemsList);
+   
 }
