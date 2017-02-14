@@ -34,12 +34,17 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.ExpExtractRecord;
+import ses.model.ems.ProExtSupervise;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpExtractRecordService;
+import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
 import ses.util.ComparatorDetail;
@@ -57,6 +62,7 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.Task;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
@@ -67,6 +73,7 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.TaskService;
 
 import com.alibaba.fastjson.JSON;
@@ -126,9 +133,17 @@ public class ProjectController extends BaseController {
     @Autowired
     private RoleServiceI roleService;
     
-    
     @Autowired
     private PurchaseDetailService purchaseDetailService;
+    
+    @Autowired
+    private SaleTenderService saleTenderService;
+    
+    @Autowired
+    private ExpExtractRecordService expExtractRecordService;
+    
+    @Autowired
+    private ProjectSupervisorServicel projectSupervisorService; 
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -145,6 +160,8 @@ public class ProjectController extends BaseController {
     @RequestMapping("/list")
     public String list(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {      
         if(user != null && user.getOrg() != null){
+            //根据id查询部门
+            Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
             HashMap<String,Object> map = new HashMap<String,Object>();
             if(project.getName() !=null && !project.getName().equals("")){
                 map.put("name", project.getName());
@@ -155,14 +172,48 @@ public class ProjectController extends BaseController {
             if(project.getStatus() != null && !project.getStatus().equals("")){
                 map.put("status", project.getStatus());
             }
-            map.put("purchaseDepId", user.getOrg().getId());
             map.put("principal", user.getId());
             if(page==null){
                 page = 1;
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<Project> list = projectService.selectProjectsByConition(map);
+            //判断如果是管理部门
+            if("2".equals(orgnization.getTypeName())){
+                HashMap<String,Object> maps = new HashMap<String,Object>();
+                List<Project> list = projectService.selectProjectsByConition(map);
+                List<Project> list2 = new ArrayList<Project>();
                 for(int i=0;i<list.size();i++){
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    } finally {
+                        maps.put("projectId", list.get(i).getId());
+                        List<ProjectTask> projectTask = projectTaskService.queryByNo(maps);
+                        for (ProjectTask projectTask2 : projectTask) {
+                            Task task = taskservice.selectById(projectTask2.getTaskId());
+                            if(task != null){
+                                if(user.getOrg().getId().equals(task.getOrgId())){
+                                    maps.put("taskId", task.getId());
+                                    List<ProjectTask> projectTasks = projectTaskService.queryByNo(maps);
+                                    Project project2 = projectService.selectById(projectTasks.get(0).getProjectId());
+                                    list2.add(project2);
+                                }
+                            }
+                        }
+                    }
+                }
+                //项目去重
+                removeProject(list2);
+                model.addAttribute("info", new PageInfo<Project>(list2));
+            }
+            
+            //判断如果是采购机构
+            if("1".equals(orgnization.getTypeName())){
+                map.put("purchaseDepId", user.getOrg().getId());
+                List<Project> list = projectService.selectProjectsByConition(map);
+                for (int i = 0; i < list.size(); i++ ) {
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
                         list.get(i).setProjectContractor(contractor.getRelName());
@@ -170,10 +221,12 @@ public class ProjectController extends BaseController {
                         list.get(i).setProjectContractor("");
                     }
                 }
-                model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-                model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
                 model.addAttribute("info", new PageInfo<Project>(list));
-                model.addAttribute("projects", project);
+            }
+                
+            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+            model.addAttribute("projects", project);
         }
         //判断是不是监管人员(采购管理人员)
         HashMap<String,Object> roleMap = new HashMap<String,Object>();
@@ -696,12 +749,29 @@ public class ProjectController extends BaseController {
     
     /**
      * 
-     *〈删除冗余〉
+     *〈采购明细去重〉
      *〈详细描述〉
      * @author FengTian
      * @param list
      */
     public void removeSame(List<PurchaseDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    /**
+     * 
+     *〈项目去重〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param list
+     */
+    public void removeProject(List<Project> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
                 if (list.get(j).getId().equals(list.get(i).getId())) {
@@ -1284,6 +1354,7 @@ public class ProjectController extends BaseController {
                         }
                         double money = budget;
                         newDetails.get(i).setBudget(money);
+                        newDetails.get(i).setDetailStatus(0);
                     }
                     if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
                         if(!oneParentId.contains(newDetails.get(i).getParentId())){
@@ -1526,11 +1597,13 @@ public class ProjectController extends BaseController {
         List<Task> list1 = new ArrayList<Task>();
         for (ProjectTask projectTask : tasks) {
             Task task = taskservice.selectById(projectTask.getTaskId());
-            if(task != null){
+            if(task != null && task.getAcceptTime() != null){
                 list1.add(task);
             }
-        }   
-        sortDate(list1);
+        }  
+        if(list1 != null && list1.size() > 0){
+            sortDate(list1);
+        }
         if(list1 != null && list1.size() > 0){
             Task task = taskservice.selectById(list1.get(list1.size()-1).getId());
             model.addAttribute("task", task);
@@ -2241,7 +2314,7 @@ public class ProjectController extends BaseController {
                 List<ProjectDetail> details = detailService.selectById(map);
                 Packages p = new Packages();
                 p.setId(wantPackId.get(wantPackId.size()-1).getId());
-                if(details.get(0).getStatus().equals("1")){
+                if(details.get(0).getStatus() == null || "".equals(details.get(0).getStatus()) || details.get(0).getStatus().equals("1")){
                     p.setStatus(1);
                     packageService.updateByPrimaryKeySelective(p);
                 }else{
@@ -2287,7 +2360,7 @@ public class ProjectController extends BaseController {
             List<ProjectDetail> details = detailService.selectById(map);
             Packages p = new Packages();
             p.setId(wantPackId.get(wantPackId.size()-1).getId());
-            if(details.get(0).getStatus().equals("1")){
+            if(details.get(0).getStatus() == null || "".equals(details.get(0).getStatus()) || details.get(0).getStatus().equals("1")){
                 p.setStatus(1);
                 packageService.updateByPrimaryKeySelective(p);
             }else{
@@ -3034,76 +3107,168 @@ public class ProjectController extends BaseController {
     }*/
     
     
+    @RequestMapping("/feibiao")
+    public String feibiao(String id, Integer page, Model model){
+        if(StringUtils.isNotBlank(id)){
+            Project project = projectService.selectById(id);
+            FlowDefine fd = new FlowDefine();
+            fd.setPurchaseTypeId(project.getPurchaseType());
+            List<FlowDefine> list = flowMangeService.listByPage(fd, page == null ? 1 : page);
+            model.addAttribute("project", project);
+            model.addAttribute("list", list);
+        }
+        return "bss/ppms/open_bidding/abandoned";
+    }
+    
     
     @RequestMapping("/abandoned")
     @ResponseBody
-    public String abandoned(String id, String projectId){
+    public String abandoned(String id, String projectId, String flowDefineId){
         if(StringUtils.isNotBlank(projectId)){
-            //新增一个项目
-            Project projects = new Project();
             Project project = projectService.selectById(projectId);
-            projects.setName(project.getName());
-            projects.setStatus(project.getStatus());
-            projects.setProjectNumber(project.getProjectNumber());
-            if(project.getPrincipal() != null){
-                projects.setPrincipal(project.getPrincipal());
-            }
-            if(project.getIpone() != null){
-                projects.setIpone(project.getIpone());
-            }
-            if(project.getSupplierNumber() != null){
-                projects.setSupplierNumber(project.getSupplierNumber());
-            }
-            if(project.getPurchaseType() != null){
-                projects.setPurchaseType(project.getPurchaseType());
-            }
-            if(project.getSectorOfDemand() != null){
-                projects.setSectorOfDemand(project.getSectorOfDemand());
-            }
-            if(project.getPurchaseDepId() != null){
-                projects.setPurchaseDepId(project.getPurchaseDepId());
-            }
-            if(project.getDeadline() != null){
-                projects.setDeadline(project.getDeadline());
-            }
-            if(project.getBidDate() != null){
-                projects.setBidDate(project.getBidDate());
-            }
-            if(project.getBidAddress() != null){
-                projects.setBidAddress(project.getBidAddress());
-            }
-            projects.setAmount(project.getAmount());
-            if(project.getIsRehearse() != null){
-                projects.setIsRehearse(project.getIsRehearse());
-            }
-            projects.setCreateAt(new Date());
-            if(project.getStartTime() != null){
-                projects.setStartTime(project.getStartTime());
-            }
-            if(project.getIsImport() != null){
-                projects.setIsImport(project.getIsImport());
-            }
-            if(project.getIsProvisional() != null){
-                projects.setIsProvisional(project.getIsProvisional());
-            }
-            if(project.getPlanType() != null){
-                projects.setPlanType(project.getPlanType());
-            }
-            if(project.getConfirmFile() != null){
-                projects.setConfirmFile(project.getConfirmFile());
-            }
-            projectService.insert(projects);
-            String proId = projects.getId();
-            
-            
-            if(StringUtils.isNotBlank(id)){
+            DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+            if(StringUtils.isNotBlank(flowDefineId)){
                 String[] ids = id.split(",");
-                for (int i = 0; i < ids.length; i++ ) {
-                    //更改包下的项目ID
-                    Packages packages = packageService.selectByPrimaryKeyId(ids[i]);
-                    packages.setName("第"+(ids.length+1)+"包");
-                    packages.setProjectId(proId);
-                    packageService.updateByPrimaryKeySelective(packages);
+                FlowDefine flowDefine = flowMangeService.getFlowDefine(flowDefineId);
+                //根据流程步骤来判断废到哪步
+                    //新增一个项目
+                    Project projects = new Project();
+                    projects.setName(project.getName());
+                    projects.setStatus(project.getStatus());
+                    projects.setProjectNumber(project.getProjectNumber());
+                    if(project.getPrincipal() != null){
+                        projects.setPrincipal(project.getPrincipal());
+                    }
+                    if(project.getIpone() != null){
+                        projects.setIpone(project.getIpone());
+                    }
+                    if(project.getSupplierNumber() != null){
+                        projects.setSupplierNumber(project.getSupplierNumber());
+                    }
+                    if(project.getPurchaseType() != null){
+                        projects.setPurchaseType(project.getPurchaseType());
+                    }
+                    if(project.getSectorOfDemand() != null){
+                        projects.setSectorOfDemand(project.getSectorOfDemand());
+                    }
+                    if(project.getPurchaseDepId() != null){
+                        projects.setPurchaseDepId(project.getPurchaseDepId());
+                    }
+                    if(project.getDeadline() != null){
+                        projects.setDeadline(project.getDeadline());
+                    }
+                    if(project.getBidDate() != null){
+                        projects.setBidDate(project.getBidDate());
+                    }
+                    if(project.getBidAddress() != null){
+                        projects.setBidAddress(project.getBidAddress());
+                    }
+                    projects.setAmount(project.getAmount());
+                    if(project.getIsRehearse() != null){
+                        projects.setIsRehearse(project.getIsRehearse());
+                    }
+                    projects.setCreateAt(new Date());
+                    if(project.getStartTime() != null){
+                        projects.setStartTime(project.getStartTime());
+                    }
+                    if(project.getIsImport() != null){
+                        projects.setIsImport(project.getIsImport());
+                    }
+                    if(project.getIsProvisional() != null){
+                        projects.setIsProvisional(project.getIsProvisional());
+                    }
+                    if(project.getPlanType() != null){
+                        projects.setPlanType(project.getPlanType());
+                    }
+                    if(project.getConfirmFile() != null){
+                        projects.setConfirmFile(project.getConfirmFile());
+                    }
+                    projectService.insert(projects);
+                    String proId = projects.getId();
+                    
+                    
+                        
+                        for (int i = 0; i < ids.length; i++ ) {
+                            //更改包下的项目ID
+                            Packages packages = packageService.selectByPrimaryKeyId(ids[i]);
+                            packages.setProjectId(proId);
+                            packageService.updateByPrimaryKeySelective(packages);
+                            
+                            //修改项目明细下的项目ID
+                            HashMap<String, Object> map = new HashMap<>();
+                            map.put("packageId", ids[i]);
+                            List<ProjectDetail> detail = detailService.selectById(map);
+                            if(detail != null && detail.size() > 0){
+                                for (ProjectDetail projectDetail : detail) {
+                                    projectDetail.setProject(new Project(proId));
+                                    detailService.update(projectDetail);
+                                }
+                            }
+                        }
+                if (flowDefine.getStep() > 1) {//第二步
+                    if("GKZB".equals(findById.getCode())){
+                        
+                    }
+                    
+                } else if (flowDefine.getStep() > 2) {//第三步
+                    
+                } else if (flowDefine.getStep() > 3) {//第四步
+                    if("GKZB".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(ids[i]);
+                            List<SaleTender> find = saleTenderService.find(saleTender);
+                            for (SaleTender saleTender2 : find) {
+                                saleTender2.setProjectId(proId);
+                                saleTenderService.update(saleTender2);
+                            }
+                        }
+                    }
+                } else if (flowDefine.getStep() > 4) {//第五步
+                    if("GKZB".equals(findById.getCode())){
+                        ExpExtractRecord record = new ExpExtractRecord();
+                        record.setProjectId(project.getId());
+                        List<ExpExtractRecord> extractRecord = expExtractRecordService.showExpExtractRecord(record);
+                        ExpExtractRecord records = new ExpExtractRecord();
+                        records.setId(WfUtil.createUUID());
+                        records.setCreatedAt(extractRecord.get(0).getCreatedAt());
+                        records.setExtractingConditions(extractRecord.get(0).getExtractingConditions());
+                        records.setExtractionSites(extractRecord.get(0).getExtractionSites());
+                        records.setProjectName(extractRecord.get(0).getProjectName());
+                        records.setProjectCode(extractRecord.get(0).getProjectCode());
+                        records.setExtractionTime(extractRecord.get(0).getExtractionTime());
+                        records.setExtractTheWay(extractRecord.get(0).getExtractTheWay());
+                        records.setExtractsPeople(extractRecord.get(0).getExtractsPeople());
+                        records.setProjectId(proId);
+                        expExtractRecordService.insert(records);
+                        
+                        ProExtSupervise extSupervise = new ProExtSupervise();
+                        extSupervise.setProjectId(project.getId());
+                        List<ProExtSupervise> listPro = projectSupervisorService.list(extSupervise);
+                        ProExtSupervise extSupervises = new ProExtSupervise();
+                        extSupervises.setProjectId(proId);
+                        extSupervises.setCreatedAt(listPro.get(0).getCreatedAt());
+                        extSupervises.setRelName(listPro.get(0).getRelName());
+                        extSupervises.setCompany(listPro.get(0).getCompany());
+                        extSupervises.setPhone(listPro.get(0).getPhone());
+                        extSupervises.setDuties(listPro.get(0).getDuties());
+                        projectSupervisorService.insert(extSupervises);
+                    }
+                } else if (flowDefine.getStep() > 5) {//第六步
+                    if("GKZB".equals(findById.getCode())){
+                        
+                    }
+                    
+                } else if (flowDefine.getStep() > 6) {//第七步
+                    
+                } else if (flowDefine.getStep() > 7) {//第八步
+                    
+                } else if (flowDefine.getStep() > 8) {//第九步
+                    
+                } else if (flowDefine.getStep() > 9) {//第十步
+                    
+                } else if (flowDefine.getStep() > 10) {//第十一步
+                    
                 }
             }
         }
