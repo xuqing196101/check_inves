@@ -555,18 +555,20 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
     			org.setPosition(String.valueOf(pos));
     			orgniztionMapper.updateOrgnizationById(org);
     		}
-    		List<Orgnization> targetMove = orgniztionMapper.getMove(targetOrg.getId(), Integer.valueOf(targetOrg.getPosition()));
-    		for(Orgnization org:targetMove){
-    			Integer pos=Integer.valueOf(org.getPosition())+1;
-    			org.setPosition(String.valueOf(pos));
-    			orgniztionMapper.updateOrgnizationById(org);
-    		}
+    		List<Orgnization> targetMove = orgniztionMapper.getMove(targetOrg.getId(), 0);
+//    		for(Orgnization org:targetMove){
+//    			Integer pos=Integer.valueOf(org.getPosition())+1;
+//    			org.setPosition(String.valueOf(pos));
+//    			orgniztionMapper.updateOrgnizationById(org);
+//    		}
     		
 //    		Orgnization org = orgniztionMapper.findOrgByPrimaryKey(id);
 //    		Orgnization targetOrg = orgniztionMapper.findOrgByPrimaryKey(targetId);
     		String pid=targetOrg.getId();
     		orgThis.setParentId(pid);
+    		
     		Integer pos=targetMove.size()+1;
+		 
     		orgThis.setPosition(String.valueOf(pos));
     		orgniztionMapper.updateOrgnizationById(orgThis);
         }

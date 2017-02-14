@@ -218,9 +218,13 @@ public class PurchaseManageController {
 			orgnizationServiceI.orderPosition(org1.getId(), Integer.valueOf(org1.getPosition()), org2.getId(), Integer.valueOf(org2.getPosition()));
 			
 		}else{
-			orgnizationServiceI.sameDep(org1.getId(), Integer.valueOf(org1.getPosition()), org2.getId(), Integer.valueOf(org2.getPosition()));
+			if(moveType.equals("inner")){
+				 orgnizationServiceI.moveOrder(id, targetId, moveType);
+			}else{
+				orgnizationServiceI.sameDep(org1.getId(), Integer.valueOf(org1.getPosition()), org2.getId(), Integer.valueOf(org2.getPosition()));
+			}
 
-//			 orgnizationServiceI.moveOrder(id, targetId, moveType);
+ 		
 		}
 	   
 	    return "";
