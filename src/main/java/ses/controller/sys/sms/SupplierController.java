@@ -1884,12 +1884,14 @@ public class SupplierController extends BaseSupplierController {
 		if(StringUtils.isNotBlank(id)) {
 			List < Category > child = categoryService.findPublishTree(id, status);
 			Integer level = SupplierLevelUtil.getLevel(supplierId, code);
-			for (int i = 0; i < child.size(); i++) {
-			    Category cate = child.get(i);
-                if (cate.getLevel() != null && cate.getLevel() < level) {
-                    child.remove(i);
-                }
-            }
+			if (level != null) {
+			    for (int i = 0; i < child.size(); i++) {
+			        Category cate = child.get(i);
+			        if (cate.getLevel() != null && cate.getLevel() < level) {
+			            child.remove(i);
+			        }
+			    }
+			}
 			for(Category c: child) {
 				CategoryTree ct1 = new CategoryTree();
 				ct1.setName(c.getName());

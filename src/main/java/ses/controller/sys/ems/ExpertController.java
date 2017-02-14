@@ -75,6 +75,7 @@ import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
+import ses.util.SupplierLevelUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.controller.base.BaseController;
@@ -2978,7 +2979,8 @@ public class ExpertController extends BaseController {
 	@ResponseBody
 	@RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
 	public String searchCate(String typeId, String cateName, String expertId, String supplierId) {
-	    if (DictionaryDataUtil.findById(typeId).getCode().equals("ENG_INFO_ID")) {
+	    DictionaryData typeData = DictionaryDataUtil.findById(typeId);
+	    if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
             List < Category > categoryList = service.searchByName(cateName, "ENG_INFO");
             // 循环判断是不是当前树的节点
@@ -3038,6 +3040,26 @@ public class ExpertController extends BaseController {
 	        }
 	        // 查询出所有满足条件的品目
 	        List < Category > categoryList = service.searchByName(cateName, null);
+            Integer level = SupplierLevelUtil.getLevel(supplierId, type);
+            if (level != null) {
+                for (int i = 0; i < categoryList.size(); i++) {
+                    Category cate = categoryList.get(i);
+                    if (cate != null) {
+                        if (cate.getLevel() != null && cate.getLevel() < level) {
+                            categoryList.remove(i);
+                        } else {
+                            if (cate.getParentId() != null) {
+                                Category parentCate = categoryService.findById(cate.getParentId());
+                                if (parentCate != null) {
+                                    if (parentCate.getLevel() != null && parentCate.getLevel() < level) {
+                                        categoryList.remove(i);
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
 	        // 循环判断是不是当前树的节点
 	        List < Category > cateList = new ArrayList < Category > ();
 	        for(Category category: categoryList) {
