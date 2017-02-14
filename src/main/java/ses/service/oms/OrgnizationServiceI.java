@@ -155,6 +155,6 @@ public interface OrgnizationServiceI {
      */
     public void orderPosition(String id, Integer position,String targetId,Integer position2);
     
-    public void sameDep(String id, Integer position,String targetId,Integer position2);
+    public void sameDep(String id, Integer position,String targetId,Integer position2,String type);
 
 }
