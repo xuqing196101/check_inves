@@ -122,8 +122,8 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
      * @return ExpExtractRecord
      */
     @Override
-    public ExpExtractRecord showExpExtractRecord(ExpExtractRecordService expExtractRecordService) {
-        return expExtractRecordMapper.selectByPrimaryKey("21321");
+    public List<ExpExtractRecord> showExpExtractRecord(ExpExtractRecord expExtractRecord) {
+        return expExtractRecordMapper.list(expExtractRecord);
     }
 
     /**

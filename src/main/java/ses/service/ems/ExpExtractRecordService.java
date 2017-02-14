@@ -51,7 +51,7 @@ public interface ExpExtractRecordService {
      * @param @return      
      * @return ExpExtractRecord
      */
-    ExpExtractRecord showExpExtractRecord(ExpExtractRecordService expExtractRecordService);
+    List<ExpExtractRecord> showExpExtractRecord(ExpExtractRecord expExtractRecord);
 
     /**
      * 
