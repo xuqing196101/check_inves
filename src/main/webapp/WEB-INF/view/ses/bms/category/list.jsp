@@ -32,7 +32,7 @@
 					type:"get",
 				},
 				callback:{
-			    	onClick:zTreeOnClick,//点击节点触发的事件
+			    	onClick: zTreeOnClick,//点击节点触发的事件
        			    
 			    }, 
 				data:{
@@ -78,6 +78,11 @@
 			$("#fileId_downBsId").val(treeNode.id);
 			$("#fileId_showdel").val("false");
 			$("#uploadBtnId").hide();
+			if (treeNode.level == 3) {
+				$("#levelTrId").removeClass("dis_none");
+			} else {
+				$("#levelTrId").addClass("dis_none");
+			}
 	    	nodeName = node.name;
     		update(treeNode);
     		selectedNode = treeNode;
@@ -132,6 +137,11 @@
 						} else {
 							$("#typeTrId").hide();
 						}
+						if (level == 3) {
+							$("#levelTrId").removeClass("dis_none");
+						} else {
+							$("#levelTrId").addClass("dis_none");
+						}
 						loadRadioHtml("");
 					}
 				});
@@ -149,6 +159,7 @@
     	$("#cateId").val("");
 		$("#posId").val("");
 		$("#descId").val("");
+		$("#levelId").val("");
     }
 
 	/**修改节点信息*/
@@ -170,6 +181,7 @@
 					$("#pid").val(cate.parentId);
 					$("#parentNameId").text(nodeName);
 					$("#cateId").val(cate.name);
+					$("#levelId").val(cate.level);
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
@@ -226,7 +238,7 @@
     	$("#cateTipsId").text("");
     	$("#posTipsId").text("");
     	$("#descTipsId").text("");
-    	
+    	$("#levelTipsId").text("");
     }
     
     /** 保存后的提示 */
@@ -664,6 +676,16 @@
        				</div>
        		      </td>
            	    </tr>
+           	    <tr class="dis_none" id="levelTrId">
+           		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
+           		  <td id="levelTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="level" >
+       		    	  <input id="levelId" type="text" name='level' required="required" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+       		    	  <span class="add-on">i</span>
+       		    	</div>
+       		    	  <span id="levelTipsId" class="red clear span_style" />
+           		  </td>
+           		</tr>
            	    <tr>
        	    	  <td class='info'>图片</td>
        	    	  <td>

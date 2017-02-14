@@ -158,7 +158,6 @@ public class CategoryController extends BaseSupplierController {
     public ResBean save(HttpServletRequest request) {
         
         ResBean resBean = categoryService.saveCategory(request);
-        
         return resBean;
     }
 
