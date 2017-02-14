@@ -235,6 +235,18 @@
       function back(){
     	  window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseUnitList.html"; 
       }
+      
+      
+      function isAudit(){
+        var name = $("#isAuditSupplier").val();
+        name = $.trim(name);
+        if(name == "1"){
+          $("li").removeClass("dnone");
+        }else{
+          $("#aa").addClass("dnone");
+          $("#bb").addClass("dnone");
+        }
+      }
     </script>
   </head>
 
@@ -372,12 +384,24 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否具有审核供应商资格</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="isAuditSupplier" required>
+                      <select name="isAuditSupplier" id="isAuditSupplier" required onchange="isAudit();">
                        <option  value="" <c:if test="${null eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>请选择</option>
                         <option value="1" <c:if test="${'1' eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>是</option>
                         <option value="0" <c:if test="${'0' eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>否</option>
                       </select>
                       <div class="cue">${ERR_isAuditSupplier}</div>
+                    </div>
+                  </li>
+                  
+                  <li id="aa" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="supplierContact" type="text" required  value="${purchaseDep.supplierContact}"> <span class="add-on">i</span>
+                    </div>
+                  </li>
+                  
+                  <li id="bb" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人电话</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="supplierPhone" type="text" required isTel="true" value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   

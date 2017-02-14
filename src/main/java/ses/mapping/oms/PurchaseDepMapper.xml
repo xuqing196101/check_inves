@@ -68,6 +68,8 @@
 		d.QUA_START_DATE as quaStartDate,
 		d.QUA_STATUS as quaStatus,
 		d.QUA_STASH_REASON as quaStashReason,
+		d.SUPPLIER_CONTACT as supplierContact,
+		d.SUPPLIER_PHONE as supplierPhone,
 		o.QUA_NORMAL_REASON as quaNormalReason,
 		o.QUA_TERMINAL_REASON as quaTerminalReason
 		from T_SES_OMS_ORG o
@@ -502,6 +504,12 @@
 			<if test="accountName != null and accountName != ''">
 				ACCOUNT_NAME,
 			</if>
+			<if test="supplierContact != null and supplierContact != ''">
+        SUPPLIER_CONTACT,
+      </if>
+      <if test="supplierPhone != null and supplierPhone != ''">
+        SUPPLIER_PHONE,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">
@@ -654,6 +662,12 @@
 			<if test="accountName != null and accountName != ''">
 				#{accountName},
 			</if>
+			<if test="supplierContact != null and supplierContact != ''">
+        #{supplierContact},
+      </if>
+      <if test="supplierPhone != null and supplierPhone != ''">
+        #{supplierPhone},
+      </if>
 		</trim>
 	</insert>
 	<!-- 更新采购机构 -->
@@ -810,6 +824,12 @@
 			</if>
 			 <if test="accountName != null and accountName != ''">
         ACCOUNT_NAME = #{accountName},
+      </if>
+      <if test="supplierContact != null and supplierContact != ''">
+        SUPPLIER_CONTACT = #{supplierContact},
+      </if>
+      <if test="supplierPhone != null and supplierPhone != ''">
+        SUPPLIER_PHONE = #{supplierPhone},
       </if>
 		</set>
 		where ORG_ID=#{id}

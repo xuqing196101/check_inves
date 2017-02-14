@@ -4,6 +4,7 @@
 <html>
   <head>
 <%@include file="/WEB-INF/view/common.jsp" %>
+<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
     <script type="text/javascript">
       var tab = 1;
@@ -38,6 +39,15 @@
           });
         }
         loadProvice();
+        
+        var name = $("#isAuditSupplier").val();
+        name = $.trim(name);
+        if(name == "1"){
+          $("li").removeClass("dnone");
+        }else{
+          $("#aa").addClass("dnone");
+          $("#bb").addClass("dnone");
+        }
       });
        
       
@@ -222,8 +232,20 @@
              id.push($(this).val());
         }); 
         $("#ids").val(id);
+        $("#formID").validForm();
         $("#formID").submit();
      }
+     
+     function isAudit(){
+        var name = $("#isAuditSupplier").val();
+        name = $.trim(name);
+        if(name == "1"){
+          $("li").removeClass("dnone");
+        }else{
+          $("#aa").addClass("dnone");
+          $("#bb").addClass("dnone");
+        }
+      }
      
     </script>
   </head>
@@ -274,35 +296,35 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="name" type="text" value="${purchaseDep.name }"> <span class="add-on">i</span>
+                      <input class="input_group" name="name" type="text" required value="${purchaseDep.name }"> <span class="add-on">i</span>
                      <div class="cue">${ERR_name}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构简称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="shortName" type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
+                      <input class="input_group" name="shortName" required type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_shortName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactName" type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactName" required type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactMobile" type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactMobile" required type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构单位级别</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="levelDep">
+                      <select name="levelDep" required>
                         <c:forEach items="${unitLevelList}" var="unitLevel">
                           <option value="${unitLevel.id}" <c:if test="${purchaseDep.levelDep == unitLevel.id}"> selected="selected"</c:if> >${unitLevel.name}</option>
                         </c:forEach>
@@ -312,7 +334,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>行政隶属单位</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="subordinateOrgName" value="${purchaseDep.subordinateOrgName }" type="text">
+                      <input class="input_group" name="subordinateOrgName" required value="${purchaseDep.subordinateOrgName }" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_subordinateOrgName}</div>
                     </div>
@@ -320,7 +342,7 @@
                   
                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>省</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="provinceId" id="province" onchange="loadCities(this.value);">
+                      <select name="provinceId" id="province" onchange="loadCities(this.value);" required>
                       </select> <input type="hidden" id="pid" value="${purchaseDep.provinceId }">
                       <div class="cue">${ERR_provinceId}</div>
                     </div>
@@ -328,7 +350,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>市</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="cityId" id="city">
+                      <select name="cityId" id="city" required>
                       </select> 
                       <input type="hidden"  id="cid" value="${purchaseDep.cityId}">
                       <div class="cue">${ERR_cityId}</div>
@@ -337,21 +359,21 @@
                   
                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="address" type="text" value="${purchaseDep.address }"> <span class="add-on">i</span>
+                      <input class="input_group" name="address" required type="text" value="${purchaseDep.address }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_address}</div>
                     </div>
                   </li>
                   
                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>邮编</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="postCode" value="${purchaseDep.postCode}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="postCode" required value="${purchaseDep.postCode}" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> <span class="add-on">i</span>
                        <div class="cue">${ERR_postCode}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>传真号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="fax" type="text" value="${purchaseDep.fax}"> <span class="add-on">i</span>
+                      <input class="input_group" name="fax" isFax="true" type="text" required value="${purchaseDep.fax}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_fax}</div>
                     </div>
                   </li>
@@ -360,19 +382,31 @@
 
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>值班室电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="dutyRoomPhone" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="dutyRoomPhone" required isTel="true" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否具有审核供应商</span>
                     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-                      <select name="isAuditSupplier">
+                      <select name="isAuditSupplier" id="isAuditSupplier" onchange="isAudit();" required>
                         <option  value="" <c:if test="${null eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>请选择</option>
                         <option value="1" <c:if test="${'1' eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>是</option>
                         <option value="0" <c:if test="${'0' eq purchaseDep.isAuditSupplier}">selected="selected" </c:if>>否</option>
                       </select>
                       <div class="cue">${ERR_isAuditSupplier}</div>
+                    </div>
+                  </li>
+                  
+                  <li id="aa" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="supplierContact" type="text" required  value="${purchaseDep.supplierContact}"> <span class="add-on">i</span>
+                    </div>
+                  </li>
+                  
+                  <li id="bb" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人电话</span>
+                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+                      <input class="input_group" name="supplierPhone" type="text" required isTel="true" value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   

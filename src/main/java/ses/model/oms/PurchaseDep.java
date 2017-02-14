@@ -48,6 +48,9 @@ public class PurchaseDep extends Orgnization{
     private Integer quaRange;//采购资质范围,1：综合2：物资3：工程 4：服务 
     
     
+    private String supplierContact;//供应商注册联系人
+    
+    private String supplierPhone;//供应商注册联系人电话
 
     private String quaCert;
     
@@ -537,6 +540,17 @@ public class PurchaseDep extends Orgnization{
     public void setAccountName(String accountName) {
       this.accountName = accountName;
     }
-    
-	
+    public String getSupplierContact() {
+        return supplierContact;
+    }
+    public void setSupplierContact(String supplierContact) {
+        this.supplierContact = supplierContact;
+    }
+    public String getSupplierPhone() {
+        return supplierPhone;
+    }
+    public void setSupplierPhone(String supplierPhone) {
+        this.supplierPhone = supplierPhone;
+    }
+   
 }
