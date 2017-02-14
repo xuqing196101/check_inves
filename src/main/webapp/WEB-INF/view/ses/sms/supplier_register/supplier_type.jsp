@@ -249,14 +249,14 @@ $().ready(function() {
 	    var count = 0;
 	    if (isProCheck == true) {
 		    $("#cert_pro_list_tbody_id").find("tr").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isProCheck) {
 		    		flag = false;
 		    		layer.msg("物资生产资质证书信息不能为空! ");
 		    	}
 		    	count++;
 		    });
 		    $("#cert_pro_list_tbody_id").find("input[type='text']").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isProCheck) {
 		    		flag = false;
 		    		layer.msg("物资生产资质证书信息不能为空! ");
 		    	}
@@ -270,7 +270,7 @@ $().ready(function() {
 	 	// 判断有没有勾选物资销售
 	    if (isSaleCheck == true) {
 		    $("#cert_sell_list_tbody_id").find("input[type='text']").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isSaleCheck) {
 		    		flag = false;
 		    		layer.msg("物资销售资质证书信息不能为空! ");
 		    	}
@@ -279,19 +279,19 @@ $().ready(function() {
 	 	// 判断有没有勾选工程
 	    if (isSaleCheck == true) {
 		    $("#reg_person_list_tbody_id").find("input[type='text']").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isEngCheck) {
 		    		flag = false;
 		    		layer.msg("注册人员信息不能为空! ");
 		    	}
 		    });
 		    $("#cert_eng_list_tbody_id").find("input[type='text']").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isEngCheck) {
 		    		flag = false;
 		    		layer.msg("工程证书信息不能为空! ");
 		    	}
 		    });
 		    $("#aptitute_list_tbody_id").find("input[type='text']").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isEngCheck) {
 		    		flag = false;
 		    		layer.msg("工程资质证书信息不能为空! ");
 		    	}
@@ -300,7 +300,7 @@ $().ready(function() {
 	 	// 判断有没有勾选服务
 	    if (isSaleCheck == true) {
 		    $("#cert_se_list_tbody_id").find("input[type='text']").each(function(index,element){
-		    	if (element.value == "") {
+		    	if (element.value == "" || !isServerCheck) {
 		    		flag = false;
 		    		layer.msg("服务资质证书信息不能为空! ");
 		    	}
