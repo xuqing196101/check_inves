@@ -179,13 +179,13 @@ session.setAttribute("tokenSession", tokenValue);
 						$.each(obj, function(i, result) {
 							i = i + 1;
 							var name = result.name;
-							var contact = result.contact;
-							var contactAddress = result.contactAddress;
-							var contactTelephone = result.contactTelephone;
+							var contactName = result.contactName;
+							var address = result.address;
+							var contactMobile = result.contactMobile;
 							if(name == null) name = "";
-							if(contact == null) contact = "";
-							if(contactAddress == null) contactAddress = "";
-							if(contactTelephone == null) contactTelephone = "";
+							if(contactName == null) contactName = "";
+							if(address == null) address = "";
+							if(contactMobile == null) contactMobile = "";
 							var flag;
 							if(result.flag == '1') {
 								flag = "purchase_orgs";
@@ -197,18 +197,18 @@ session.setAttribute("tokenSession", tokenValue);
 									"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
 									"<td>" + i + "</td>" +
 									"<td>" + name + "</td>" +
-									"<td>" + contact + "</td>" +
-									"<td>" + contactTelephone + "</td>" +
-									"<td>" + contactAddress + "</td></tr>"
+									"<td>" + contactName + "</td>" +
+									"<td>" + contactMobile + "</td>" +
+									"<td>" + address + "</td></tr>"
 								);
 							} else {
 								$("#" + flag).append(
 									"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
 									"<td>" + i + "</td>" +
 									"<td>" + name + "</td>" +
-									"<td>" + contact + "</td>" +
-									"<td>" + contactTelephone + "</td>" +
-									"<td>" + contactAddress + "</td></tr>"
+									"<td>" + contactName + "</td>" +
+									"<td>" + contactMobile + "</td>" +
+									"<td>" + address + "</td></tr>"
 								);
 							}
 						});
@@ -258,13 +258,13 @@ session.setAttribute("tokenSession", tokenValue);
 						$.each(obj, function(i, result) {
 							i = i + 1;
 							var name = result.name;
-							var contact = result.contact;
-							var contactAddress = result.contactAddress;
-							var contactTelephone = result.contactTelephone;
+							var contactName = result.contactName;
+							var address = result.address;
+							var contactMobile = result.contactMobile;
 							if(name == null) name = "";
-							if(contact == null) contact = "";
-							if(contactAddress == null) contactAddress = "";
-							if(contactTelephone == null) contactTelephone = "";
+							if(contactName == null) contactName = "";
+							if(address == null) address = "";
+							if(contactMobile == null) contactMobile = "";
 							var flag;
 							if(result.flag == '1') {
 								flag = "purchase_orgs";
@@ -276,18 +276,18 @@ session.setAttribute("tokenSession", tokenValue);
 									"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
 									"<td>" + i + "</td>" +
 									"<td>" + name + "</td>" +
-									"<td>" + contact + "</td>" +
-									"<td>" + contactAddress + "</td>" +
-									"<td>" + contactTelephone + "</td></tr>"
+									"<td>" + contactName + "</td>" +
+									"<td>" + contactMobile + "</td>" + 
+									"<td>" + address + "</td></tr>"
 								);
 							} else {
 								$("#" + flag).append(
 									"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
 									"<td>" + i + "</td>" +
 									"<td>" + name + "</td>" +
-									"<td>" + contact + "</td>" +
-									"<td>" + contactAddress + "</td>" +
-									"<td>" + contactTelephone + "</td></tr>"
+									"<td>" + contactName + "</td>" +
+									"<td>" + contactMobile + "</td>" +
+									"<td>" + address + "</td></tr>"
 								);
 							}
 						});
