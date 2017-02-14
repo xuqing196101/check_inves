@@ -3117,6 +3117,7 @@ public class ExpertController extends BaseController {
             String categoryId = item.getCategoryId();
             SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, flag);
             if(cateTree != null && cateTree.getRootNode() != null) {
+            	cateTree.setItemsId(categoryId);
                 allTreeList.add(cateTree);
             }
         }
@@ -3132,6 +3133,19 @@ public class ExpertController extends BaseController {
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (expertItems));
         model.addAttribute("itemsList", allTreeList);
+        
+		// 如果状态为退回修改则查询没通过的字段 
+		ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setSuggestType("six");
+		List < ExpertAudit > auditList = expertAuditService.selectFailByExpertId(expertAudit);
+		// 所有的不通过字段的名字
+		StringBuffer errorField = new StringBuffer();
+		for(ExpertAudit audit: auditList) {
+			errorField.append(audit.getAuditField() + ",");
+		}
+		model.addAttribute("errorField", errorField);
+        
         return "ses/ems/expert/ajax_items";
 	}
 	

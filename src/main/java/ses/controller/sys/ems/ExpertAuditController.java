@@ -38,6 +38,7 @@ import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.EngCategoryService;
 import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
@@ -87,6 +88,9 @@ public class ExpertAuditController {
 
 	@Autowired
 	private ProjectExtractService projectExtractService;
+	
+	@Autowired
+	private EngCategoryService engCategoryService; //工程专业信息
 
 	/**
 	 * 地区
@@ -488,7 +492,7 @@ public class ExpertAuditController {
 		}
 		a: for(int i = 0; i < allTypeId.size(); i++) {
 			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-			if(dictionaryData != null && dictionaryData.getName().contains("经济")) {
+			if(dictionaryData != null && dictionaryData.getKind() == 19) {
 				allTypeId.remove(i);
 				continue a;
 			};
@@ -501,9 +505,12 @@ public class ExpertAuditController {
 		String matCodeId=DictionaryDataUtil.getId("GOODS");
 		String engCodeId=DictionaryDataUtil.getId("PROJECT");
 		String serCodeId=DictionaryDataUtil.getId("SERVICE");
+		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
+		
 		model.addAttribute("matCodeId", matCodeId);
 		model.addAttribute("engCodeId", engCodeId);
 		model.addAttribute("serCodeId", serCodeId);
+		model.addAttribute("engInfoId", engInfoId);
 		
 		return "ses/ems/expertAudit/product";
 	}
@@ -522,14 +529,19 @@ public class ExpertAuditController {
 	 */
 	@RequestMapping("/getCategories")
 	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
+		String code = DictionaryDataUtil.findById(typeId).getCode();
+	    String flag = null;
+	    if (code.equals("ENG_INFO_ID")) {
+	        flag = "ENG_INFO";
+	    }
 	    // 查询已选中的节点信息
 	    List<ExpertCategory> expertItems = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
             String categoryId = item.getCategoryId();
-            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, flag);
             if(cateTree != null && cateTree.getRootNode() != null) {
-            	cateTree.setItemsId(item.getCategoryId());
+            	cateTree.setItemsId(categoryId);
                 allTreeList.add(cateTree);
             }
         }
@@ -555,10 +567,10 @@ public class ExpertAuditController {
      * @param categoryId 产品Id
      * @return List<CategoryTree> tree对象List
      */
-    public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+	public SupplierCateTree getTreeListByCategoryId(String categoryId, String flag) {
         SupplierCateTree cateTree = new SupplierCateTree();
         // 递归获取所有父节点
-        List < Category > parentNodeList = getAllParentNode(categoryId);
+        List < Category > parentNodeList = getAllParentNode(categoryId, flag);
         // 加入根节点
         for(int i = 0; i < parentNodeList.size(); i++) {
             DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
@@ -569,7 +581,12 @@ public class ExpertAuditController {
         // 加入一级节点
         if(cateTree.getRootNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId()); 
+                }
                 if(cate != null && cate.getParentId() != null) {
                     DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
                     if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
@@ -581,9 +598,19 @@ public class ExpertAuditController {
         // 加入二级节点
         if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId());
+                }
                 if(cate != null && cate.getParentId() != null) {
-                    Category parentNode = categoryService.findById(cate.getParentId());
+                    Category parentNode = null;
+                    if (flag == null) {
+                        parentNode = categoryService.findById(cate.getParentId());
+                    } else {
+                        parentNode = engCategoryService.findById(cate.getParentId());
+                    }
                     if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
                         cateTree.setSecondNode(cate.getName());
                     }
@@ -593,9 +620,19 @@ public class ExpertAuditController {
         // 加入三级节点
         if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId());
+                }
                 if(cate != null && cate.getParentId() != null) {
-                    Category parentNode = categoryService.findById(cate.getParentId());
+                    Category parentNode = null;
+                    if (flag == null) {
+                        parentNode = categoryService.findById(cate.getParentId());
+                    } else {
+                        parentNode = engCategoryService.findById(cate.getParentId());
+                    }
                     if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
                         cateTree.setThirdNode(cate.getName());
                     }
@@ -605,9 +642,19 @@ public class ExpertAuditController {
         // 加入末级节点
         if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
             for(int i = 0; i < parentNodeList.size(); i++) {
-                Category cate = categoryService.findById(parentNodeList.get(i).getId());
+                Category cate = null;
+                if (flag == null) {
+                    cate = categoryService.findById(parentNodeList.get(i).getId());
+                } else {
+                    cate = engCategoryService.findById(parentNodeList.get(i).getId());
+                }
                 if(cate != null && cate.getParentId() != null) {
-                    Category parentNode = categoryService.findById(cate.getParentId());
+                    Category parentNode = null;
+                    if (flag == null) {
+                        parentNode = categoryService.findById(cate.getParentId());
+                    } else {
+                        parentNode = engCategoryService.findById(cate.getParentId());
+                    }
                     if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
                         cateTree.setFourthNode(cate.getName());
                     }
@@ -624,10 +671,15 @@ public class ExpertAuditController {
 	 * @param categoryId 
 	 * @return
 	 */
-	public List < Category > getAllParentNode(String categoryId) {
+	public List < Category > getAllParentNode(String categoryId, String flag) {
 		List < Category > categoryList = new ArrayList < Category > ();
 		while(true) {
 			Category cate = categoryService.findById(categoryId);
+			if (flag == null) {
+			    cate = categoryService.findById(categoryId); 
+			} else {
+			    cate = engCategoryService.findById(categoryId); 
+			}
 			if(cate == null) {
 				DictionaryData root = DictionaryDataUtil.findById(categoryId);
 				Category rootNode = new Category();
