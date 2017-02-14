@@ -264,4 +264,14 @@ public interface SupplierService {
     * @return maxTaking
     */
    BigDecimal getMaxTaking();
+   
+   /**
+    *〈简述〉
+    * 获取所有不为空的分级要素分值
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param typeCode 类型
+    * @return List<BigDecimal>
+    */
+   List<BigDecimal> getAllLevelScore(String typeCode);
 }

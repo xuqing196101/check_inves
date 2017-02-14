@@ -805,4 +805,20 @@ public class SupplierServiceImpl implements SupplierService {
     public BigDecimal getMaxTaking() {
         return supplierFinanceMapper.getMaxTaking();
     }
+
+    /**
+     * @see ses.service.sms.SupplierService#getAllLevelScore(java.lang.String)
+     */
+    @Override
+    public List<BigDecimal> getAllLevelScore(String typeCode) {
+        if (typeCode.equals("PRODUCT")) {
+            return supplierMapper.getProLevelScore();
+        } else if (typeCode.equals("SALES")) {
+            return supplierMapper.getSalesLevelScore();
+        } else if (typeCode.equals("SERVICE")) {
+            return supplierMapper.getServiceLevelScore();
+        } else {
+            return null;
+        }
+    }
 }

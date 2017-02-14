@@ -1535,4 +1535,28 @@
 		min(FOUND_DATE)
 		FROM T_SES_SMS_SUPPLIER
 	</select>
+	
+	<select id="getProLevelScore" resultType="java.math.BigDecimal">
+	   	SELECT
+		LEVEL_SCORE_PRODUCT
+		FROM T_SES_SMS_SUPPLIER
+		WHERE LEVEL_SCORE_PRODUCT is not null
+		ORDER BY LEVEL_SCORE_PRODUCT ASC
+	</select>
+	
+	<select id="getSalesLevelScore" resultType="java.math.BigDecimal">
+	   	SELECT
+		LEVEL_SCORE_SALES
+		FROM T_SES_SMS_SUPPLIER
+		WHERE LEVEL_SCORE_SALES is not null
+		ORDER BY LEVEL_SCORE_SALES ASC
+	</select>
+	
+	<select id="getServiceLevelScore" resultType="java.math.BigDecimal">
+	   	SELECT
+		LEVEL_SCORE_SERVICE
+		FROM T_SES_SMS_SUPPLIER
+		WHERE LEVEL_SCORE_SERVICE is not null
+		ORDER BY LEVEL_SCORE_SERVICE ASC
+	</select>
 </mapper>

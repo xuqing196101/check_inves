@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -334,4 +335,34 @@ public interface SupplierMapper {
      * @return minDate
      */
     Date getMinFoundDate();
+    
+    /**
+     *〈简述〉
+     * 获取不为空的分级要素分值--物资生产
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param typeCode 类型
+     * @return List<BigDecimal>
+     */
+    List<BigDecimal> getProLevelScore();
+    
+    /**
+     *〈简述〉
+     * 获取不为空的分级要素分值--物资销售
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param typeCode 类型
+     * @return List<BigDecimal>
+     */
+    List<BigDecimal> getSalesLevelScore();
+    
+    /**
+     *〈简述〉
+     * 获取不为空的分级要素分值--服务
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param typeCode 类型
+     * @return List<BigDecimal>
+     */
+    List<BigDecimal> getServiceLevelScore();
 }

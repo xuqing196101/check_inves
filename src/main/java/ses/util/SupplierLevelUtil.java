@@ -140,13 +140,42 @@ public class SupplierLevelUtil {
      * 计算供应商等级
      *〈详细描述〉
      * @author WangHuijie
-     * @param score 供应商分级要素得分
+     * @param supplierId 供应商ID
      * @param typeCode 品目类别
      * @return 供应商等级Integer
      */
-    public static Integer getLevel(BigDecimal score, String typeCode) {
-        Integer level = 1;
-        
+    public static Integer getLevel(String supplierId, String typeCode) {
+        BigDecimal score = null;
+        if (typeCode.equals("PRODUCT")) {
+            score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreProduct();
+        } else if (typeCode.equals("SALES")) {
+            score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreSales();
+        } else if (typeCode.equals("SALES")) {
+            score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreService();
+        } else {
+            return null;
+        }
+        Integer level = null;
+        List<BigDecimal> scoreList = supplierLevelUtil.supplierServiceImpl.getAllLevelScore(typeCode);
+        if (scoreList.size() == 1) {
+            level = 1;
+        } else {
+            for (int i = 0; i < scoreList.size(); i++) {
+                if (scoreList.get(i).equals(score)) {
+                    if (typeCode.equals("PRODUCT")) {
+                        if ((double)scoreList.size() * 0.4 >= i) {
+                            // 前四组
+                            level = i * 10 / scoreList.size() + 1;
+                        } else {
+                            // 后四组
+                            level = (i * 20 - 8 * scoreList.size()) / (3 * scoreList.size()) + 5;
+                        }
+                    } else if (typeCode.equals("SALES") || typeCode.equals("SERVICE")) {
+                        level = i * 5 / scoreList.size() + 1;
+                    }
+                }
+            }
+        }
         return level;
     }
 }
