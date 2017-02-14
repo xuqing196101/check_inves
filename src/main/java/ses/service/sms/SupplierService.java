@@ -1,5 +1,6 @@
 package ses.service.sms;
 
+import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -237,4 +238,30 @@ public interface SupplierService {
     */
    List<ContractBean> getContract(List<Category> itemsList);
    
+   /**
+    *〈简述〉
+    * 获取最小成立时间
+    *〈详细描述〉
+    * @author WangHuijie
+    * @return minDate
+    */
+   Date getMinFoundDate();
+
+   /**
+    *〈简述〉
+    * 获取最大平均净资产总额
+    *〈详细描述〉
+    * @author WangHuijie
+    * @return maxTotalNetAssets
+    */
+   BigDecimal getMaxTotalNetAssets();
+
+   /**
+    *〈简述〉
+    * 获取最大平均营业收入
+    *〈详细描述〉
+    * @author WangHuijie
+    * @return maxTaking
+    */
+   BigDecimal getMaxTaking();
 }

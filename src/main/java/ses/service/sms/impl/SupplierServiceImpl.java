@@ -1,5 +1,6 @@
 package ses.service.sms.impl;
 
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -774,4 +775,27 @@ public class SupplierServiceImpl implements SupplierService {
         return contract;
     }
     
+    /**
+     * @see ses.service.sms.SupplierService#getMinFoundDate()
+     */
+    @Override
+    public Date getMinFoundDate() {
+        return null;
+    }
+
+    /**
+     * @see ses.service.sms.SupplierService#getMaxTotalNetAssets()
+     */
+    @Override
+    public BigDecimal getMaxTotalNetAssets() {
+        return null;
+    }
+
+    /**
+     * @see ses.service.sms.SupplierService#getMaxTaking()
+     */
+    @Override
+    public BigDecimal getMaxTaking() {
+        return null;
+    }
 }
