@@ -92,10 +92,11 @@ public class IntelligentScoringController extends BaseController{
 	
 	@RequestMapping(value = "checkScore")
 	@ResponseBody
-	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id ){
+	public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id, String checked){
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(23);
 	    Double score = 0.0;
 	    Integer result = 0;
+	    int checkCount = 0;
         for (DictionaryData dictionaryData : ddList) {
             MarkTerm mt = new MarkTerm();
             mt.setTypeName(dictionaryData.getId());
@@ -111,6 +112,11 @@ public class IntelligentScoringController extends BaseController{
                 mt1.setPackageId(packageId);
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
+                    
+                    if ("1".equals(markTerm.isChecked())) {
+                        checkCount ++;
+                    }
+                    
                     if (markTerm.getSmId().equals(id)){
                         continue;
                     }
@@ -137,6 +143,10 @@ public class IntelligentScoringController extends BaseController{
 	            result = 1; //新增的时候
 	        }
 	    }
+
+        if (result == 1 && checkCount == 1 && "1".equals(checked)) {
+            result = 2;//提示已存在
+        }
 	    return result;
 	}
 	
@@ -246,6 +256,7 @@ public class IntelligentScoringController extends BaseController{
                                 mtChildren.setCreatedAt(new Date(nowDate));
                                 mtChildren.setMaxScore(markTerm2.getMaxScore());
                                 mtChildren.setProjectId(id);
+                                mtChildren.setChecked(markTerm2.isChecked());
                                 mtChildren.setRemainScore(markTerm2.getRemainScore());
                                 mtChildren.setTypeName(markTerm2.getTypeName());
                                 markTermService.saveMarkTerm(mtChildren);
@@ -846,6 +857,7 @@ public class IntelligentScoringController extends BaseController{
 			if (mtList != null && mtList.size() > 0) {
 			    MarkTerm markTerm = mtList.get(0);
 			    markTerm.setName(scoreModel.getReviewContent());
+			    markTerm.setChecked(scoreModel.getIscheck() + "");
 			    markTermService.updateMarkTerm(markTerm);
 			}
 			HashMap<String, Object> map  = new HashMap<String,Object>();
@@ -881,6 +893,7 @@ public class IntelligentScoringController extends BaseController{
 			mt.setPackageId(scoreModel.getPackageId());
 			mt.setProjectId(scoreModel.getProjectId());
 			mt.setMaxScore("0");
+			mt.setChecked(scoreModel.getIscheck() + "");
 			//mt.setTypeName();
 			markTermService.saveMarkTerm(mt);
 			scoreModel.setMarkTermId(mt.getId());

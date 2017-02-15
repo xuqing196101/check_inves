@@ -315,6 +315,7 @@ public class FirstAuditTemplatController extends BaseController{
             if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
                 scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
             }
+            scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
             model.addAttribute("scoreModel", scoreModelList.get(0));
         }
         model.addAttribute("projectId", markTerm.getProjectId());
@@ -501,6 +502,7 @@ public class FirstAuditTemplatController extends BaseController{
             if (mtList != null && mtList.size() > 0) {
                 MarkTerm markTerm = mtList.get(0);
                 markTerm.setName(scoreModel.getReviewContent());
+                markTerm.setChecked(scoreModel.getIscheck() + "");
                 markTermService.updateMarkTerm(markTerm);
             }
             HashMap<String, Object> map  = new HashMap<String,Object>();
@@ -535,6 +537,7 @@ public class FirstAuditTemplatController extends BaseController{
             mt.setPackageId(scoreModel.getPackageId());
             mt.setProjectId(scoreModel.getProjectId());
             mt.setMaxScore("0");
+            mt.setChecked(scoreModel.getIscheck() + "");
             markTermService.saveMarkTerm(mt);
             scoreModel.setMarkTermId(mt.getId());
             scoreModelService.saveScoreModel(scoreModel);

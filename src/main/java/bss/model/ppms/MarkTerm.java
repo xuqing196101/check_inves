@@ -23,7 +23,7 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	private String name;//名称
 	private String pname;//父节点名称
 	private String url;//
-	private boolean checked;//
+	private String checked;//
 	private Integer isDeleted;//
 	private Date createdAt;//
 	private Date updatedAt;//
@@ -139,10 +139,10 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	public void setUrl(String url) {
 		this.url = url;
 	}
-	public boolean isChecked() {
+	public String isChecked() {
 		return checked;
 	}
-	public void setChecked(boolean checked) {
+	public void setChecked(String checked) {
 		this.checked = checked;
 	}
 	public Integer getIsDeleted() {
