@@ -1161,10 +1161,18 @@ public class PackageExpertController {
         
         //根据评分办法筛选后的供应商
         List<SaleTender> finalSupplier = new ArrayList<SaleTender>();
+        //封装合格和不合格的供应商
+        HashMap<String, Object> rejectByPriceMap = new HashMap<String, Object>();
+        //根据有效平均报价剔除不合格供应商
+        rejectByPriceMap = packageExpertService.rejectByPrice(packageId, projectId, supplierList);
         
-        for (SaleTender saleTender : supplierList) {
+        //根据有效经济技术平均分剔除不合格供应商
+        finalSupplier = packageExpertService.rejectByScore(packageId, projectId, rejectByPriceMap);
+       
+        /*for (SaleTender saleTender : supplierList) {
             String msg = "";
             map.put("supplierId", saleTender.getSuppliers().getId());
+            
             List<ExpertScore> scoreList = expertScoreService.selectByMap(map);
             // 去重
             removeRankSame(scoreList);
@@ -1213,46 +1221,24 @@ public class PackageExpertController {
               finalSa.setTotalPrice(totalPriceSupplier);
               finalSupplier.add(finalSa);
             }
-            
-            // 向SUPPLIER_CHECK_PASS表中插入不偏离数据
-            /*if (flag == 0) {
-              BigDecimal totalSupplier = new BigDecimal(0);
-              totalSupplier= totalSupplier.add(economicScore);
-              totalSupplier= totalSupplier.add(technologyScore);
-              SupplierCheckPass record = new SupplierCheckPass();
-              record.setId(UUID.randomUUID().toString().replace("-", "").toUpperCase());
-              record.setPackageId(packageId);
-              record.setProjectId(projectId);
-              record.setSupplierId(saleTender.getSuppliers().getId());
-              record.setTotalScore(totalSupplier);
-              record.setTotalPrice(totalPriceSupplier);
-              
-              SupplierCheckPass checkPass = new SupplierCheckPass();
-              checkPass.setPackageId(packageId);
-              checkPass.setSupplierId(saleTender.getSuppliers().getId());
-              //判断是否有旧数据
-              List<SupplierCheckPass> oldList= checkPassService.listCheckPass(checkPass);
-              if (oldList != null && oldList.size() > 0) {
-                for (SupplierCheckPass supplierCheckPass : oldList) {
-                  //删除原数据
-                  checkPassService.delete(supplierCheckPass.getId());
-                }
-              }
-              checkPassService.insert(record);
-            }*/
             map.put("reviewResult", resultMap.get("reviewResult"));
             saleTenderService.editSumScore(map);
-        }
+        }*/
         //往saleTener插入最终供应商排名
         service.rank(packageId, projectId, finalSupplier);
         for (int i = 0; i < finalSupplier.size(); i++) {
           SaleTender st = finalSupplier.get(i);
+          String reviewResult = st.getReviewResult();
+          int rank = i+1;
+          reviewResult += rank;
           //插入排名
           HashMap<String, Object> ranMap = new HashMap<String, Object>();
-          ranMap.put("reviewResult", i+1);
+          ranMap.put("reviewResult", reviewResult);
           ranMap.put("supplierId", st.getSuppliers().getId());
           ranMap.put("packageId", st.getPackages());
-          saleTenderService.updateRank(ranMap);
+          ranMap.put("economicScore", st.getEconomicScore());
+          ranMap.put("technologyScore", st.getTechnologyScore());
+          saleTenderService.editSumScore(ranMap);
           //向SUPPLIER_CHECK_PASS表中插入预中标供应商
           BigDecimal totalSupplier = new BigDecimal(0);
           totalSupplier= totalSupplier.add(st.getEconomicScore());

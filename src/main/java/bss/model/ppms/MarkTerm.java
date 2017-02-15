@@ -23,7 +23,7 @@ public class MarkTerm implements Serializable ,java.lang.Comparable{
 	private String name;//名称
 	private String pname;//父节点名称
 	private String url;//
-	private String checked;//
+	private String checked;//1:价格分
 	private Integer isDeleted;//
 	private Date createdAt;//
 	private Date updatedAt;//

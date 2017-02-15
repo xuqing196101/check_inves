@@ -63,6 +63,9 @@
       	<if test="bidMethodId != null">
         	and mt.BID_METHOD_ID =#{bidMethodId}
       	</if>
+      	<if test="checked != null">
+        	and mt.CHECKED =#{checked}
+      	</if>
       	ORDER BY mt.CREATED_AT ASC	
    </select> 
    <select id="findMarkTermById" parameterType="java.lang.String" resultType="bss.model.ppms.MarkTerm">

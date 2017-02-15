@@ -46,8 +46,11 @@
 		<if test="isGrade != null">
 			AND IS_GRADE = #{isGrade}
 		</if>
-		<if test="IS_GRADE_GATHER != null">
+		<if test="isGatherGather != null">
 			AND IS_GRADE_GATHER = #{isGatherGather}
+		</if>
+		<if test="reviewTypeId != null and reviewTypeId != ''">
+			AND REVIEW_TYPE_ID = #{reviewTypeId}
 		</if>
 	</select>
 	<!-- 根据包id删除 -->

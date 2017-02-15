@@ -27,6 +27,10 @@ public class Jzjf {
     
     //是否参与排名
     String isRank;
+    
+    //有效经济技术平均分
+    String effectiveAverageScore;
+    
     public String getBidPrice() {
       return bidPrice;
     }
@@ -68,6 +72,12 @@ public class Jzjf {
     }
     public void setIsRank(String isRank) {
       this.isRank = isRank;
+    }
+    public String getEffectiveAverageScore() {
+      return effectiveAverageScore;
+    }
+    public void setEffectiveAverageScore(String effectiveAverageScore) {
+      this.effectiveAverageScore = effectiveAverageScore;
     }
     
 }

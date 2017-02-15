@@ -54,6 +54,25 @@
                   </c:if>
                 </c:forEach>
           </c:if>
+          <c:if test="${'OPEN_ZHPFF' eq pack.bidMethodTypeName}">
+         		<c:set var="isDone1" value="0" scope="page"></c:set>
+         		<c:forEach items="${supplierList}" var="supplier">
+                  <c:if test="${isDone1 ne '1' && supplier.packages eq pack.id}">
+         			<c:set var="num1" value="0" scope="page"></c:set>
+         			<c:forEach var="msg" items="${fn:split(supplier.reviewResult, '_')}">
+                        <c:if test="${num1 eq '1' }">
+		                                                有效经济技术平均分（不含价格因素）：<fmt:formatNumber type="number" value="${msg}" pattern="0.00" maxFractionDigits="2"/>     
+		                <c:set var="num1" value="2" scope="page"></c:set>                               
+                        </c:if>
+                        <c:if test="${num1 eq '0' }">
+		                                                有效平均报价：<fmt:formatNumber type="number" value="${msg}" pattern="0.0000" maxFractionDigits="4"/>     
+		                <c:set var="num1" value="1" scope="page"></c:set>                               
+                        </c:if>
+                    </c:forEach>
+                  	<c:set var="isDone1" value="1" scope="page"></c:set>
+                  </c:if>
+                </c:forEach>
+          </c:if>
           
           <div class="p0${vs.index}">
             <table class="table table-bordered table-condensed table-hover table-striped   p0 space_nowrap">
@@ -130,7 +149,7 @@
 	                <td class="tc" colspan="2">报价</td>
 	                <c:forEach items="${supplierList}" var="supplier">
 	                  <c:if test="${supplier.packages eq pack.id}">
-		                <td class="tc" colspan="2">
+		                <td class="tr" colspan="2">
 		                	<fmt:formatNumber type="number" value="${fn:substringBefore(supplier.reviewResult,'_')}" pattern="0.0000" maxFractionDigits="4"/>
 		                </td>
 	                  </c:if>
@@ -154,10 +173,10 @@
           	  	  	<td class="tc w100">差价（与中标参考价的差价）</td>
           	  	  	<c:forEach items="${supplierList}" var="supplier">
 	                  <c:if test="${supplier.packages eq pack.id}">
-		                <td class="tc">
+		                <td class="tr">
 		                  	<fmt:formatNumber type="number" value="${supplier.jzjf.supplierPrice}" pattern="0.0000" maxFractionDigits="4"/>
 		                </td>
-		                <td class="tc">
+		                <td class="tr">
 		                	<c:if test="${supplier.jzjf.supplierPrice >= supplier.jzjf.bidPrice}">
 			                	<fmt:formatNumber type="number" value="${supplier.jzjf.supplierPrice - supplier.jzjf.bidPrice}" pattern="0.0000" maxFractionDigits="4"/>
 		                	</c:if>
@@ -169,10 +188,10 @@
 	                </c:forEach>
           	  	  </tr>
           	  	  <tr>
+          	  	  	<td class="tc" colspan="2">总结</td>
           	  	  	<c:forEach items="${supplierList}" var="supplier">
 	                  <c:if test="${supplier.packages eq pack.id}">
-		                <td class="tc" colspan="2">符合
-		                </td>
+		                <td class="tc" colspan="2">符合</td>
 		              </c:if>
 		            </c:forEach>
           	  	  </tr>
@@ -197,7 +216,13 @@
 	                      ${rank.rank}
 	                    </c:if>
 	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and rank.reviewResult != null and rank.reviewResult ne ''}">
-	                      ${rank.reviewResult}
+		         			<c:set var="num2" value="0" scope="page"></c:set>
+		         			<c:forEach var="msg" items="${fn:split(rank.reviewResult, '_')}">
+				                <c:set var="num2" value="${num2+1}" scope="page"></c:set>                               
+		                        <c:if test="${num2 eq '3' }">
+		                        	${msg}
+		                        </c:if>
+		                    </c:forEach>
 	                    </c:if>
 	                  </c:forEach>
 	                </td>

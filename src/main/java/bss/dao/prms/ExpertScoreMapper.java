@@ -1,6 +1,7 @@
 
 package bss.dao.prms;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -60,4 +61,13 @@ public interface ExpertScoreMapper {
      * @param mapSearch
      */
     void backScore(Map<String, Object> mapSearch);
+
+    /**
+     *〈简述〉
+     * 计算供应商总得分
+     * @author WangHuijie
+     * @param map3
+     * @return
+     */
+    BigDecimal selectSumByMap(Map<String, Object> map3);
 }

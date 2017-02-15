@@ -209,4 +209,32 @@ public interface PackageExpertService {
          */
         BigDecimal getPriceSupplier(SaleTender st, String packageId, String projectId);
         
+        /**
+         *〈简述〉
+         * 该包供应商总分数
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param packageId
+         * @param supplierList
+         * @return
+         */
+        BigDecimal getTotalScore(String packageId, List<SaleTender> supplierList);
+        
+        /**
+         *〈简述〉
+         * 该包供应商去除价格得分总分数
+         *〈详细描述〉
+         * @author Ye MaoLin
+         * @param packageId
+         * @param supplierList
+         * @return
+         */
+        BigDecimal getTotalScoreRejectByPrice(String packageId, List<SaleTender> supplierList);
+        
+        HashMap<String, Object> rejectByPrice(String packageId, String projectId,
+            List<SaleTender> supplierList);
+        
+        List<SaleTender> rejectByScore(String packageId, String projectId,
+            HashMap<String, Object> rejectByPriceMap);
+        
 }

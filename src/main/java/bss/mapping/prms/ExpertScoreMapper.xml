@@ -207,4 +207,27 @@
   	where PROJECT_ID = #{projectId}
   	and PACKAGE_ID = #{packageId}
   </update>
+  
+  <!-- 计算供应商总得分 -->
+  <select id="selectSumByMap" parameterType="Map" resultType="Object">
+    select 
+    	sum(SCORE)
+    from T_BSS_PRMS_EXPERT_SCORE
+    where 1=1
+      <if test="expertId != null and expertId != ''">
+       AND EXPERT_ID = #{expertId,jdbcType=VARCHAR}
+      </if>
+      <if test="projectId != null and projectId != ''">
+       AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+      </if>
+      <if test="packageId != null and packageId != ''">
+       AND PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+      </if>
+      <if test="supplierId != null and supplierId != ''">
+       AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+      </if>
+      <if test="isReject != null and isReject == 1 and scoreModelId != null and scoreModelId != ''">
+       AND SCORE_MODEL_ID != #{scoreModelId,jdbcType=VARCHAR}
+      </if>
+  </select>
 </mapper>

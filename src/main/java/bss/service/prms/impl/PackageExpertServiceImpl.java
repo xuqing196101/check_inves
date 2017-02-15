@@ -38,12 +38,14 @@ import ses.util.WfUtil;
 
 import bss.dao.ppms.BidMethodMapper;
 import bss.dao.ppms.MarkTermMapper;
+import bss.dao.ppms.SaleTenderMapper;
 import bss.dao.ppms.ScoreModelMapper;
 import bss.dao.ppms.SupplierCheckPassMapper;
 import bss.dao.prms.ExpertScoreMapper;
 import bss.dao.prms.PackageExpertMapper;
 import bss.dao.prms.ReviewFirstAuditMapper;
 import bss.dao.prms.ReviewProgressMapper;
+import bss.formbean.Jzjf;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.SaleTender;
@@ -91,6 +93,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     private DictionaryDataMapper dictionaryDataMapper;
     @Autowired
     private SupplierCheckPassMapper checkPassMapper;
+    @Autowired
+    private SaleTenderMapper saleTenderMapper;
       
       
 	  /**
@@ -504,6 +508,7 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           //平均报价偏离值
           totalPriceStandard = totalPriceAver.multiply(totalPricePercent);
           
+          msg += totalPriceAver+"_"+totalScoreAver+"_";
           //该供应商平均分偏离计算
           BigDecimal totalSupplier = new BigDecimal(0);
           totalSupplier= totalSupplier.add(economicScore);
@@ -520,42 +525,30 @@ public class PackageExpertServiceImpl implements PackageExpertService {
           } else {
             msg += "";
           }
-          //该供应商平均报价偏离计算
-          /*Quote quote = new Quote();
-          quote.setProjectId(projectId);
-          quote.setPackageId(packageId);
-          quote.setSupplierId(saleTender.getSuppliers().getId());
-          List<Quote> allQuote = quoteMapper.selectByPrimaryKey(quote);
-          
-          if (allQuote != null && allQuote.size()>0) {
-              if (allQuote.get(0).getQuotePrice() == null) {
-                totalPriceSupplier = totalPriceSupplier.add(allQuote.get(0).getTotal());
-              } else {
-                  BigDecimal totalPrice2 = BigDecimal.ZERO;
-                  for (Quote q : allQuote) {
-                      totalPrice2 = q.getQuotePrice().add(totalPrice2);
-                  }
-                  totalPriceSupplier = totalPriceSupplier.add(totalPrice2);
-              }
-          }*/
-          totalPriceSupplier =  getTocalPriceSupplier(saleTender, projectId, packageId);
+          totalPriceSupplier = getTocalPriceSupplier(saleTender, projectId, packageId);
+          saleTender.setTotalPrice(totalPriceSupplier);
           if (totalPriceSupplier.compareTo(totalPriceAver) == 1) {
               //供应商与平均报价金额的偏离值
               BigDecimal v = totalPriceSupplier.subtract(totalPriceAver);
               //如果偏离值大于标准偏离值
               if (totalPriceStandard.compareTo(v) == -1) {
-                BigDecimal percent = totalScorePercent.multiply(new BigDecimal(100));
+                BigDecimal percent = totalPricePercent.multiply(new BigDecimal(100));
                 msg += "报价高于有效平均报价的"+percent+"%.";
                 flag = 1;
               }
           } else {
             msg += "";
           }
+          
           if (flag == 1) {
             resultMap.put("finalSupplier", null);
           } 
           if (flag == 0) {
-            //返回有效供应商
+            //返回有效供应商+
+            Jzjf jzjf = new Jzjf();
+            jzjf.setEffectiveAverageQuotation(totalPriceAver.toString());
+            jzjf.setEffectiveAverageScore(totalScoreAver.toString());
+            saleTender.setJzjf(jzjf);
             resultMap.put("finalSupplier", saleTender);
           }
         }
@@ -608,44 +601,43 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     
     //计算供应商总得分
     BigDecimal getTotalScore(List<SaleTender> supplierList, Map<String, Object> map){
-      //包内供应商总得分
-      BigDecimal totalScore = new BigDecimal(0);  
-      for (SaleTender saleTender : supplierList) {
-          map.put("supplierId", saleTender.getSuppliers().getId());
-          List<ExpertScore> scoreList = expertScoremapper.selectByMap(map);
-          // 去重
-          removeRankSame(scoreList);
-          BigDecimal economicScore = new BigDecimal(0);
-          BigDecimal technologyScore = new BigDecimal(0);
-          for (ExpertScore score : scoreList) {
-              ScoreModel scoModel = new ScoreModel();
-              scoModel.setId(score.getScoreModelId());
-              // 根据id查看scoreModel对象
-              ScoreModel scoreModel = scoreModelMapper.findScoreModelByScoreModel(scoModel);
-              if (scoreModel != null) {
-                  MarkTerm mt = null;
-                  if (scoreModel.getMarkTermId() != null && !"".equals(scoreModel.getMarkTermId())){
-                      mt = markTermMapper.findMarkTermById(scoreModel.getMarkTermId());
-                      if (mt.getTypeName() == null || "".equals(mt.getTypeName())) {
-                          mt = markTermMapper.findMarkTermById(mt.getPid());
-                      }
-                  }
-                  DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(mt.getTypeName());
-                  if ("ECONOMY".equals(data.getCode())) {
-                      // 经济
-                      economicScore = economicScore.add(score.getScore());
-                  } else if ("TECHNOLOGY".equals(data.getCode())) {
-                      // 技术
-                      technologyScore = technologyScore.add(score.getScore());
-                  }
-              }
-          }
-          // 将算好的总分放入map
-          map.put("economicScore", economicScore);
-          map.put("technologyScore", technologyScore);
-          totalScore = totalScore.add(economicScore);
-          totalScore = totalScore.add(technologyScore);
+        //包内供应商总得分
+        BigDecimal totalScore = new BigDecimal(0);
+        String packageId = (String) map.get("packageId");
+        //获取该包的经济评审专家
+        Map<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("packageId", packageId);
+        map1.put("reviewTypeId", DictionaryDataUtil.getId("ECONOMY"));
+        List<PackageExpert>  economyExperts = packageExpertMapper.selectList(map1);
+        //获取该包的技术评审专家
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("packageId", packageId);
+        map2.put("reviewTypeId", DictionaryDataUtil.getId("TECHNOLOGY"));
+        List<PackageExpert> technologyExperts = packageExpertMapper.selectList(map2);
+        //经济总得分
+        BigDecimal economicScore = new BigDecimal(0);
+        //技术总得分
+        BigDecimal technologyScore = new BigDecimal(0);
+        for (SaleTender saleTender : supplierList) {
+            if (economyExperts != null && economyExperts.size() > 0) {
+              Map<String, Object> map3 = new HashMap<String, Object>();
+              map3.put("expertId", economyExperts.get(0).getExpert().getId());
+              map3.put("packageId", packageId);
+              map3.put("supplierId", saleTender.getSuppliers().getId());
+              BigDecimal supplierEconomicScore = expertScoremapper.selectSumByMap(map3);
+              economicScore = economicScore.add(supplierEconomicScore);
+            }
+            if (technologyExperts != null && technologyExperts.size() > 0) {
+              Map<String, Object> map4 = new HashMap<String, Object>();
+              map4.put("expertId", technologyExperts.get(0).getExpert().getId());
+              map4.put("packageId", packageId);
+              map4.put("supplierId", saleTender.getSuppliers().getId());
+              BigDecimal supplierTechnologyScore = expertScoremapper.selectSumByMap(map4);
+              technologyScore = technologyScore.add(supplierTechnologyScore);
+            }
         }
+        totalScore = totalScore.add(economicScore);
+        totalScore = totalScore.add(technologyScore);
         return totalScore;
     }
     
@@ -725,8 +717,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
             }  
             //总得分相同则按报价排名
             if(totalScore1.compareTo(totalScore2) == 0){
-                BigDecimal price1 = getTocalPriceSupplier(o1, projectId, packageId);
-                BigDecimal price2 = getTocalPriceSupplier(o2, projectId, packageId);
+                BigDecimal price1 = o1.getTotalPrice();
+                BigDecimal price2 = o2.getTotalPrice();
                 if(price1.compareTo(price2) == 1){  
                   return 1;
                 }
@@ -838,8 +830,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         //根据供应商的最新报价排名
         Collections.sort(finalSupplier,new Comparator<SaleTender>(){
           public int compare(SaleTender o1, SaleTender o2) {  
-            BigDecimal totalPrice1 = getTocalPriceSupplier(o1, projectId, packageId);
-            BigDecimal totalPrice2 = getTocalPriceSupplier(o2, projectId, packageId);
+            BigDecimal totalPrice1 = o1.getTotalPrice();
+            BigDecimal totalPrice2 = o2.getTotalPrice();
             if(totalPrice1.compareTo(totalPrice2) == 1){  
                 return 1;
             }  
@@ -1164,6 +1156,240 @@ public class PackageExpertServiceImpl implements PackageExpertService {
     @Override
     public BigDecimal getPriceSupplier(SaleTender st, String packageId, String projectId) {
       return getTocalPriceSupplier(st, projectId, packageId);
+    }
+    @Override
+    public BigDecimal getTotalScore(String packageId, List<SaleTender> supplierList) {
+      Map<String, Object> map = new HashMap<String, Object>();
+      map.put("packageId", packageId);
+      return getTotalScore(supplierList, map);
+    }
+    @Override
+    public BigDecimal getTotalScoreRejectByPrice(String packageId, List<SaleTender> supplierList) {
+        //包内供应商去除价格分后的总得分
+        BigDecimal totalScore = new BigDecimal(0);
+        MarkTerm markTerm = new MarkTerm();
+        markTerm.setPackageId(packageId);
+        markTerm.setChecked("1");
+        //查询包下价格评审项
+        List<MarkTerm> markTerms = markTermMapper.findListByMarkTerm(markTerm);
+        //获取该包的经济评审专家
+        Map<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("packageId", packageId);
+        map1.put("reviewTypeId", DictionaryDataUtil.getId("ECONOMY"));
+        List<PackageExpert>  economyExperts = packageExpertMapper.selectList(map1);
+        //获取该包的技术评审专家
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("packageId", packageId);
+        map2.put("reviewTypeId", DictionaryDataUtil.getId("TECHNOLOGY"));
+        List<PackageExpert> technologyExperts = packageExpertMapper.selectList(map2);
+        //经济总得分
+        BigDecimal economicScore = new BigDecimal(0);
+        //技术总得分
+        BigDecimal technologyScore = new BigDecimal(0);
+        for (SaleTender saleTender : supplierList) {
+            if (economyExperts != null && economyExperts.size() > 0) {
+              Map<String, Object> map3 = new HashMap<String, Object>();
+              map3.put("expertId", economyExperts.get(0).getExpert().getId());
+              map3.put("packageId", packageId);
+              map3.put("supplierId", saleTender.getSuppliers().getId());
+              if (markTerms != null && markTerms.size() > 0) {
+                map3.put("isReject", 1);
+                map3.put("scoreModelId", markTerms.get(0).getSmId());
+              }
+              BigDecimal supplierEconomicScore = expertScoremapper.selectSumByMap(map3);
+              economicScore = economicScore.add(supplierEconomicScore);
+            }
+            if (technologyExperts != null && technologyExperts.size() > 0) {
+              Map<String, Object> map4 = new HashMap<String, Object>();
+              map4.put("expertId", technologyExperts.get(0).getExpert().getId());
+              map4.put("packageId", packageId);
+              map4.put("supplierId", saleTender.getSuppliers().getId());
+              if (markTerms != null && markTerms.size() > 0) {
+                map4.put("isReject", 1);
+                map4.put("scoreModelId", markTerms.get(0).getSmId());
+              }
+              BigDecimal supplierTechnologyScore = expertScoremapper.selectSumByMap(map4);
+              technologyScore = technologyScore.add(supplierTechnologyScore);
+            }
+        }
+        totalScore = totalScore.add(economicScore);
+        totalScore = totalScore.add(technologyScore);
+        return totalScore;
+    }
+    @Override
+    public HashMap<String, Object> rejectByPrice(String packageId, String projectId,
+        List<SaleTender> supplierList) {
+        List<SaleTender> passList = new ArrayList<SaleTender>();
+        List<SaleTender> noPassList = new ArrayList<SaleTender>();
+        //该包供应商总报价
+        BigDecimal totalPrice = getTotalPrice(packageId, projectId, supplierList);
+        //供应商报价不得超过有效供应商报价平均值百分比
+        BigDecimal totalPricePercent = new BigDecimal(0);
+        BidMethod condition = new BidMethod();
+        condition.setProjectId(projectId);
+        condition.setPackageId(packageId);
+        List<BidMethod> bmList = bidMethodMapper.findScoreMethod(condition);
+        BigDecimal valid = new BigDecimal(0);
+        if (bmList != null && bmList.size() > 0) {
+            valid = bmList.get(0).getValid();
+            totalPricePercent = valid.divide(new BigDecimal(100));
+        }
+        //供应商数量
+        int suppNum = supplierList.size();
+        BigDecimal supplierNum = new BigDecimal(suppNum);
+        //供应商平均报价
+        BigDecimal supplierAver = totalPrice.divide(supplierNum, 4, RoundingMode.HALF_UP);
+        //供应商有效平均报价
+        BigDecimal effectiveAverageQuotation = supplierAver.add(supplierAver.multiply(totalPricePercent));
+        for (SaleTender saleTender : supplierList) {
+            //供应商报价
+            BigDecimal v = getTocalPriceSupplier(saleTender, projectId, packageId);
+            saleTender.setTotalPrice(v);
+            if (v.compareTo(effectiveAverageQuotation) == 1) {
+                noPassList.add(saleTender);
+            } else {
+                passList.add(saleTender);
+            }
+        }
+        HashMap<String, Object> rejectByPriceMap = new HashMap<String, Object>();
+        rejectByPriceMap.put("passSupplier", passList);
+        rejectByPriceMap.put("noPassSupplier", noPassList);
+        rejectByPriceMap.put("effectiveAverageQuotation", effectiveAverageQuotation);
+        rejectByPriceMap.put("valid", valid);
+        return rejectByPriceMap;
+    }
+    @Override
+    public List<SaleTender> rejectByScore(String packageId, String projectId,
+        HashMap<String, Object> rejectByPriceMap) {
+        //最终剩余供应商
+        List<SaleTender> finals = new ArrayList<SaleTender>();
+      
+        //根据报价被剔除的供应商
+        List<SaleTender> noPassSupplier = (List<SaleTender>) rejectByPriceMap.get("noPassSupplier");
+        
+        //根据报价剔除后的供应商
+        List<SaleTender> finalSupplier = (List<SaleTender>) rejectByPriceMap.get("passSupplier");
+        
+        //供应商有效平均报价
+        BigDecimal effectiveAverageQuotation = (BigDecimal) rejectByPriceMap.get("effectiveAverageQuotation");
+        //不得高于有效平均报价的百分比
+        BigDecimal valid = (BigDecimal) rejectByPriceMap.get("valid");
+        //该包供应商总分数
+        BigDecimal totalScore = getTotalScore(packageId, finalSupplier);
+        //该包供应商去除价格得分总分数
+        BigDecimal totalScoreRejectByPrice = getTotalScoreRejectByPrice(packageId, finalSupplier);
+        //经济技术评分不得低于经济技术评分百分比
+        BigDecimal totalScorePercent = new BigDecimal(0);
+        BidMethod condition = new BidMethod();
+        condition.setProjectId(projectId);
+        condition.setPackageId(packageId);
+        List<BidMethod> bmList = bidMethodMapper.findScoreMethod(condition);
+        BigDecimal bussiness = new BigDecimal(0);
+        if (bmList != null && bmList.size() > 0) {
+            bussiness = bmList.get(0).getBusiness();
+            totalScorePercent = bussiness.divide(new BigDecimal(100));
+        }
+        //供应商数量
+        int suppNum = finalSupplier.size();
+        BigDecimal supplierNum = new BigDecimal(suppNum);
+        //供应商平均得分
+        BigDecimal supplierAver = totalScoreRejectByPrice.divide(supplierNum, 4, RoundingMode.HALF_UP);
+        //供应商有效平均的得分
+        BigDecimal effectiveAverageScore = supplierAver.subtract(supplierAver.multiply(totalScorePercent));
+        for (SaleTender saleTender : finalSupplier) {
+            //经济得分
+            BigDecimal economicScore = getSupplierScore(0, "ECONOMY", saleTender, packageId, projectId);
+            //技术得分
+            BigDecimal technologyScore = getSupplierScore(0, "TECHNOLOGY", saleTender, packageId, projectId);
+            saleTender.setEconomicScore(economicScore);
+            saleTender.setTechnologyScore(technologyScore);
+            //去除价格得分的经济得分
+            BigDecimal economicScoreRejectPrice = getSupplierScore(1, "ECONOMY", saleTender, packageId, projectId);
+            //去除价格得分的技术得分
+            BigDecimal technologyScoreRejectPrice = getSupplierScore(1, "TECHNOLOGY", saleTender, packageId, projectId);
+            //去除价格得分后的总分
+            BigDecimal supplierScoreRejectPrice = economicScoreRejectPrice.add(technologyScoreRejectPrice);
+            if (supplierScoreRejectPrice.compareTo(effectiveAverageScore) == -1) {
+                String msg = "";
+                Map<String, Object> map1 = new HashMap<String, Object>();
+                map1.put("supplierId", saleTender.getSuppliers().getId());
+                map1.put("packageId", packageId);
+                map1.put("economicScore", economicScore);
+                map1.put("technologyScore", technologyScore);
+                msg += effectiveAverageQuotation + "_" + effectiveAverageScore + "_";
+                msg += "经济技术平均得分低于有效经济技术平均得分的"+bussiness+"%";
+                map1.put("reviewResult", msg);
+                saleTenderService.editSumScore(map1);
+            } else {
+                String reviewResult = effectiveAverageQuotation + "_" + effectiveAverageScore + "_";
+                saleTender.setReviewResult(reviewResult);
+                finals.add(saleTender);
+            }
+        }
+        for (SaleTender saleTender : noPassSupplier) {
+            String msg = "";
+            Map<String, Object> map1 = new HashMap<String, Object>();
+            map1.put("supplierId", saleTender.getSuppliers().getId());
+            map1.put("packageId", packageId);
+            BigDecimal economicScore = getSupplierScore(0, "ECONOMY", saleTender, packageId, projectId);
+            BigDecimal technologyScore = getSupplierScore(0, "TECHNOLOGY", saleTender, packageId, projectId);
+            map1.put("economicScore", economicScore);
+            map1.put("technologyScore", technologyScore);
+            msg += effectiveAverageQuotation + "_" + effectiveAverageScore + "_";
+            msg += "报价高于有效平均报价的"+valid+"%";
+            map1.put("reviewResult", msg);
+            saleTenderService.editSumScore(map1);
+        }
+        return finals;
+    }
+    private BigDecimal getSupplierScore(int i, String str, SaleTender saleTender, String packageId,
+        String projectId) {
+        BigDecimal score = new BigDecimal(0);
+        List<MarkTerm> markTerms = new ArrayList<MarkTerm>();
+        if (i == 1) {
+            MarkTerm markTerm = new MarkTerm();
+            markTerm.setPackageId(packageId);
+            markTerm.setChecked("1");
+            //查询包下价格评审项
+            markTerms = markTermMapper.findListByMarkTerm(markTerm);
+        }
+        //获取该包的经济评审专家
+        Map<String, Object> map1 = new HashMap<String, Object>();
+        map1.put("packageId", packageId);
+        map1.put("reviewTypeId", DictionaryDataUtil.getId("ECONOMY"));
+        List<PackageExpert>  economyExperts = packageExpertMapper.selectList(map1);
+        //获取该包的技术评审专家
+        Map<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("packageId", packageId);
+        map2.put("reviewTypeId", DictionaryDataUtil.getId("TECHNOLOGY"));
+        List<PackageExpert> technologyExperts = packageExpertMapper.selectList(map2);
+        if (economyExperts != null && economyExperts.size() > 0 && "ECONOMY".equals(str)) {
+            Map<String, Object> map3 = new HashMap<String, Object>();
+            map3.put("expertId", economyExperts.get(0).getExpert().getId());
+            map3.put("packageId", packageId);
+            map3.put("projectId", projectId);
+            map3.put("supplierId", saleTender.getSuppliers().getId());
+            if (i == 1 && markTerms != null && markTerms.size() > 0) {
+                map3.put("isReject", 1);
+                map3.put("scoreModelId", markTerms.get(0).getSmId());
+            }
+            //获取供应商经济得分
+            score = expertScoremapper.selectSumByMap(map3);
+        }
+        if (technologyExperts != null && technologyExperts.size() > 0 && "TECHNOLOGY".equals(str)) {
+            Map<String, Object> map3 = new HashMap<String, Object>();
+            map3.put("expertId", technologyExperts.get(0).getExpert().getId());
+            map3.put("packageId", packageId);
+            map3.put("projectId", projectId);
+            map3.put("supplierId", saleTender.getSuppliers().getId());
+            if (i == 1 && markTerms != null && markTerms.size() > 0) {
+              map3.put("isReject", 1);
+              map3.put("scoreModelId", markTerms.get(0).getSmId());
+          }
+            //获取供应商技术得分
+            score = expertScoremapper.selectSumByMap(map3);
+        }
+        return score;
     }
  
 }
