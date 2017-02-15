@@ -7,13 +7,24 @@
 <%@ include file="/WEB-INF/view/common.jsp"%>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <script type="text/javascript">
- /*  $(function(){
-   var no = generateMixed();
-    $("#documentNumber").val(no);
-  }); */
-  function start(){
-   
-    $("#form1").submit();
+  function start(id){
+    $.ajax({
+          url: "${pageContext.request.contextPath}/advancedProject/verifys.html",
+          data: "id=" + id,
+          type: "post",
+          dataType: "json",
+          success: function(result) {
+          alert(result);
+            if(result == "1"){
+              layer.alert("请上传彩色扫描件", {
+              shade: 0.01
+             });
+            }else{
+              $("#form1").submit();
+            }
+          },
+        });    
+    
   }
   
   function generateMixed() {
@@ -35,7 +46,7 @@
 
 <body>
 <div class="container">
-  <form id="att" action="${pageContext.request.contextPath}/advancedProject/transmit.html"  method="post" name="form1" class="simple" target="_parent">
+  <form id="form1" action="${pageContext.request.contextPath}/advancedProject/transmit.html"  method="post" name="form1" class="simple" target="_parent">
     <div id="openDiv" class="layui-layer-wrap" >
       <div class="drop_window">
         <ul class="list-unstyled">
@@ -60,7 +71,7 @@
 	          </div>
 	       </li>
 	       <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
-	              <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">预研通知书上传:</span>
+	              <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5"><div class="star_red">*</div>预研通知书上传:</span>
 	              <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
 	                 <u:upload id="upload_id" businessId="${projectId}" multiple="true"  auto="true" typeId="${advancedAdvice}" sysKey="2"/>
 	                 <u:show showId="upload_id" businessId="${projectId}" sysKey="2" typeId="${advancedAdvice}"/>
@@ -71,7 +82,7 @@
       </div>
     </div>
     <div class="tc mt10 col-md-12 col-xs-12 com-sm-12">
-      <input class="btn btn-windows save" type="submit" value="确认">
+      <button class="btn btn-windows save" type="button" onclick="start('${projectId}');">确认</button>
       <input class="btn btn-windows cancel" value="取消" type="button" onclick="cancel();">
     </div>
   </form>

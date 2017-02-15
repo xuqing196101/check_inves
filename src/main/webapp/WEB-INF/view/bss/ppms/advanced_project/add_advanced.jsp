@@ -10,7 +10,7 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>
+    <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script> --%>
       <script type = "text/javascript" >
 
         function check(ele) {
@@ -63,7 +63,6 @@
         $('input[name="chkItem"]:checked').each(function() {
           ids.push($(this).val());
         });
-        alert(ids);
         if(proName == "") {
           layer.tips("项目名称不允许为空", "#proName");
         } else if(projectNumber == "") {
@@ -73,7 +72,7 @@
             shade: 0.01
           });
         } else {
-          /* layer.open({
+           layer.open({
             type: 2, //page层
             area: ['80%', '300px'],
             title: '下达',
@@ -83,7 +82,7 @@
             shadeClose: true,
             content: '${pageContext.request.contextPath}/advancedProject/attachment.html?proName=' + proName +
               '&projectNumber=' + projectNumber + '&department=' + department + '&purchaseType=' + purchaseType + '&ids=' + ids + '&planType=' + planType + '&organization=' + organization,
-          }); */
+          }); 
         }
 
       }
@@ -145,7 +144,7 @@
         <div>
           <h2 class="count_flow"><i>2</i>需求明细</h2>
           <div class="ul_list">
-            <div class="content" id="content">
+            <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
               <table id="table" class="table table-bordered table-condensed lockout">
                 <thead>
                   <tr class="space_nowrap">

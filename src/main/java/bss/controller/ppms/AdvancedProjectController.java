@@ -52,6 +52,7 @@ import ses.util.WfUtil;
 import ses.util.WordUtil;
 
 import common.annotation.CurrentUser;
+import common.model.UploadFile;
 import common.service.UploadService;
 
 import bss.controller.base.BaseController;
@@ -445,6 +446,17 @@ public class AdvancedProjectController extends BaseController {
         project.setProjectNumber(projectNumber);
         Boolean flag = advancedProjectService.SameNameCheck(project);
         return JSON.toJSONString(flag);
+    }
+    
+    @ResponseBody
+    @RequestMapping("/verifys")
+    public String verifys(String id){
+       List<UploadFile> list = uploadService.getFilesOther(id, null, "2");
+       if(list != null && list.size() > 0){
+          return "0";
+       }else{
+          return "1";
+       }
     }
     
     /**

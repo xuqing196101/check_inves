@@ -10,11 +10,60 @@
 	<head>
 	<%@ include file="/WEB-INF/view/common.jsp"%>
 	<script type="text/javascript">
-function save(obj){
+    function save(obj){
         var y;  
           oRect = obj.getBoundingClientRect();  
           y=oRect.top-150;  
           x=oRect.left;
+          var reg = /^\d+\.?\d*$/;
+          var typename= $("#typeName").val();
+          var business = $("input[name='business']").val();
+          var valid = $("input[name='valid']").val();
+          var fr = $("input[name='floatingRatio']").val();
+          if (typename == 0) {
+            if (valid == "" || fr =="") {
+              layer.msg("表单需要填写完整",{offset: ['30%', '40%']});
+              return;
+            }
+            if(!reg.exec(valid)) {
+          layer.msg("请填写数字",{offset: ['30%', '40%']});
+          return;
+        }
+        if(!reg.exec(fr)) {
+          layer.msg("请填写数字",{offset: ['30%', '40%']});
+          return;
+        }
+        if(reg.exec(fr)  < 3  || reg.exec(fr) > 5) {
+          layer.msg("浮动比例只能在：3%-5%",{offset: ['30%', '40%']});
+          return;
+        }
+        if(reg.exec(valid) >40) {
+          layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
+          return;
+        }
+          }
+          if (typename == 2) {
+            if (valid == "" || business =="") {
+              layer.msg("表单需要填写完整",{offset: ['30%', '40%']});
+              return;
+            }
+            if(!reg.exec(valid)) {
+          layer.msg("请填写数字",{offset: ['30%', '40%']});
+          return;
+        }
+        if(!reg.exec(business)) {
+          layer.msg("请填写数字",{offset: ['30%', '40%']});
+          return;
+        }
+        if(reg.exec(valid) >40) {
+          layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
+          return;
+        }
+        if(reg.exec(valid) >40) {
+          layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
+          return;
+        }
+          }
       form1.submit();
     }
     
@@ -84,7 +133,9 @@ function save(obj){
                   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
                 <select class="w180" name="typeName" id="typeName"  onchange="show(this.value);">
                     <c:forEach items="${ddList}" var="list" varStatus="vs">
+                      <c:if test="${vs.index != 1 }">
                       <option value="${vs.index}">${list.name}</option>
+                      </c:if>
                     </c:forEach>
                 </select>
                 </div>
@@ -93,18 +144,22 @@ function save(obj){
                 <div id="floatingRatio" class="col-md-12 col-xs- 12 col-sm-12 p0">
                 <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">浮动比例(%):</span> 
                 <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                    <input name="floatingRatio" type="text" value="${bidMethod.floatingRatio }">
-                    <span class="add-on">i</span>
+                    <input name="floatingRatio"  type="text" value="${bidMethod.floatingRatio }">
+                    <span class="add-on hand">i</span>
+                    <span class="input-tip">浮动比例只能在：3%-5%</span>
                 </div>
+                <div class="cue">${fr }</div>
                 </div>
               </li>
               <li class="col-md-3 col-sm-6 col-xs-12 clear" >
                  <div id="valid" class="col-md-12 col-xs- 12 col-sm-12 p0">
                  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">供应商报价不得高于有效供应商报价平均值的百分比(%)：</span> 
                  <div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                    <input name="valid"  type="text" value="${bidMethod.valid }">
-                    <span class="add-on">i</span>
+                    <input name="valid"   type="text" value="${bidMethod.valid }">
+                    <span class="add-on hand">i</span>
+                    <span class="input-tip">平均值不能高于40%</span>
                  </div>
+                 <div class="cue">${valid }</div>
                  </div>
                   <!-- <span>供应商报价不得超过有效供应商报价平均值百分比</span> -->
               </li>
@@ -116,6 +171,7 @@ function save(obj){
                     <input name="business"  type="text" value="${bidMethod.business }">
                      <span class="add-on">i</span>
                 </div>
+                <div class="cue">${busi }</div>
                 </div>
               </li>
             </ul>
