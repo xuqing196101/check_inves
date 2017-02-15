@@ -880,7 +880,7 @@ $().ready(function() {
 													    <div class="cue"><sf:errors path="supplierMatPro.totalTech"/></div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人数量：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 工人（职员）：</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<input type="text" name="supplierMatPro.totalWorker" onkeyup="checknums(this)"  required value="${currSupplier.supplierMatPro.totalWorker}" <c:if test="${fn:contains(proPageField,'totalWorker')}">style="border: 1px solid red;" onmouseover="errorMsg('totalWorker','mat_pro_page')"</c:if>/>
 													   <span class="add-on cur_point">i</span>
@@ -942,25 +942,24 @@ $().ready(function() {
 													   <div class="cue"><sf:errors path="supplierMatPro.researchLead"/></div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家军队科研项目：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.countryPro" required maxlength="100" value="${currSupplier.supplierMatPro.countryPro}" <c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>/>
-													   <span class="add-on cur_point">i</span>
-													   <span class="input-tip">不能为空</span>
-													   <div class="cue"> ${contry } </div>
-													   <div class="cue"><sf:errors path="supplierMatPro.countryPro"/></div>
+												<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+													<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 承担国家军队科研项目：</span>
+													<div class="col-md-12 col-xs-12 col-sm-12 p0">
+														<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" name="supplierMatPro.countryPro" <c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryPro}</textarea>
+														<div class="cue">
+															<sf:errors path="supplierMatPro.countryPro" />
+														</div>
 													</div>
 												</li>
-												<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 国家军队科技奖项：</span>
-													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<input type="text" name="supplierMatPro.countryReward" required maxlength="100" value="${currSupplier.supplierMatPro.countryReward}" <c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>/>
-													   <span class="add-on cur_point">i</span>
-													   <span class="input-tip">不能为空</span>
-													    <div class="cue"> ${reward } </div>
-													    <div class="cue"><sf:errors path="supplierMatPro.countryReward"/></div>
+												<li class="col-md-12 col-xs-12 col-sm-12 mb25">
+													<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获得国家军队科技奖项：</span>
+													<div class="col-md-12 col-xs-12 col-sm-12 p0">
+														<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" name="supplierMatPro.countryReward" <c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryReward}</textarea>
+														<div class="cue">
+															<sf:errors path="supplierMatPro.countryReward" />
+														</div>
 													</div>
 												</li>
-												<!-- <div class="clear"></div> -->
 										</fieldset>
 	
 	

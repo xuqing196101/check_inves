@@ -1,3 +1,4 @@
+
 package ses.controller.sys.sms;
 
 import java.io.File;
@@ -1336,12 +1337,6 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 			model.addAttribute("err_security", "请上传文件!");
 		}
-		//近三年内无重大违法记录声明
-		List < UploadFile > bearlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBearchCert(), Constant.SUPPLIER_SYS_KEY.toString());
-		if(bearlist != null && bearlist.size() <= 0) {
-			count++;
-			model.addAttribute("err_bearch", "请上传文件!");
-		}
 		//近三年财务信息
 		List < UploadFile > branchlist = new ArrayList < UploadFile > ();
 		List < SupplierFinance > listSupplierFinances = supplier.getListSupplierFinances();
@@ -1469,14 +1464,6 @@ public class SupplierController extends BaseSupplierController {
 		}
 		if(supplierMatPro.getResearchLead() == null || supplierMatPro.getResearchLead().length() > 12) {
 			model.addAttribute("leader", "不能为空或者字符串过长");
-			bool = false;
-		}
-		if(supplierMatPro.getCountryPro() == null || supplierMatPro.getCountryPro().length() > 80) {
-			model.addAttribute("contry", "不能为空或者字符串过长");
-			bool = false;
-		}
-		if(supplierMatPro.getCountryReward() == null || supplierMatPro.getCountryPro().length() > 80) {
-			model.addAttribute("reward", "不能为空或者字符串过长");
 			bool = false;
 		}
 		if(supplierMatPro.getTotalBeltline() == null) {

@@ -644,6 +644,9 @@ public class Supplier implements Serializable {
     /**供应商分级要素得分(物资销售)**/
     private BigDecimal levelScoreSales;
     
+    /**近三年内有无重大违法记录 0无违法 1有违法**/
+    private String isIllegal;
+    
     public BigDecimal getLevelScoreProduct() {
         return levelScoreProduct;
     }
@@ -1687,6 +1690,14 @@ public class Supplier implements Serializable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getIsIllegal() {
+        return isIllegal;
+    }
+
+    public void setIsIllegal(String isIllegal) {
+        this.isIllegal = isIllegal;
     }
 	
 	

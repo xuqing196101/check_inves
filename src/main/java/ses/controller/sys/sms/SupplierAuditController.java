@@ -113,19 +113,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	private TodosService todosService;
 
 	/**
-	 * 用户
-	 */
-	@Autowired
-	private UserServiceI userServiceI;
-
-	/**
 	 * 数据字典
 	 */
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
-
-	@Autowired
-	private SupplierExtRelateService supplierExtRelateService;
 
 	/**
 	 * 境外分支
@@ -1060,6 +1051,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAudit.setStatus(supplier.getStatus());
 			supplierAudit.setSupplierId(supplierId);
 			supplierAuditService.updateStatusById(supplierAudit);
+		}
+		
+		// 删除之前的历史记录
+		SupplierHistory supplierHistory = new SupplierHistory();
+		supplierHistory.setSupplierId(supplierId);
+		supplierHistoryService.delete(supplierHistory);
+		
+		// 新增历史记录
+		if (supplier.getStatus() == 2) {
+		    supplierHistoryService.insertHistoryInfo(supplierId);
 		}
 		return "redirect:supplierAll.html";
 	}
