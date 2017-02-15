@@ -6,18 +6,17 @@
     <result column="SUPPLIER_ID" property="supplierId" />
     <result column="BEFORE_FIELD" property="beforeField" />
     <result column="MODIFY_TYPE" property="modifyType" />
-    <!-- <result column="BEFORE_CONTENT" property="beforeContent" /> -->
     <result column="BEFORE_CONTENT" property="beforeContent" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="RELATION_ID" property="relationId" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, <!-- BEFORE_CONTENT, --> BEFORE_CONTENT, CREATED_AT, RELATION_ID
+    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID
   </sql>
   
   <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
     select 
-    	<include refid="Base_Column_List"></include>
+    	<include refid="Base_Column_List"/>
     from 
     	T_SES_SMS_SUPPLIER_HISTORY
     where 
@@ -38,8 +37,8 @@
   </select>
 
   <insert id="insert" parameterType="ses.model.sms.SupplierHistory">
-    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, <!-- BEFORE_CONTENT, --> BEFORE_CONTENT, CREATED_AT, RELATION_ID)
-    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, <!-- #{beforeContent}, --> #{beforeContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}
+    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID)
+    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, #{beforeContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}
   </insert>
   
   <!-- 插入审核记录 -->
@@ -58,11 +57,6 @@
       <if test="modifyType != null">
         MODIFY_TYPE,
       </if>
-      <!-- 
-      <if test="beforeContent != null">
-        BEFORE_CONTENT,
-      </if>
-       -->
       <if test="beforeContent != null">
         BEFORE_CONTENT,
       </if>
@@ -86,11 +80,6 @@
       <if test="modifyType != null">
         #{modifyType},
       </if>
-      <!-- 
-      <if test="beforeContent != null">
-        #{beforeContent},
-      </if>
-       -->
       <if test="beforeContent != null">
         #{beforeContent},
       </if>
