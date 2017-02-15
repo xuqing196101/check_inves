@@ -22,7 +22,6 @@ import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
-import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
@@ -49,9 +48,7 @@ import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
-import ses.service.bms.CategoryParameterService;
 import ses.service.bms.DictionaryDataServiceI;
-import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -66,7 +63,6 @@ import ses.util.PropUtil;
 import ses.util.SupplierLevelUtil;
 
 import common.model.UploadFile;
-import common.service.UploadService;
 
 
 /**
@@ -100,25 +96,13 @@ public class SupplierServiceImpl implements SupplierService {
     private SupplierItemService supplierItemService;
 
     @Autowired
-    private CategoryParameterService categoryParameterService;
-
-    @Autowired
     private CategoryMapper  categoryMapper;
-
-    @Autowired
-    private ProductParamMapper productParamMapper;
 
     @Autowired
     private UserServiceI userService;
 
     @Autowired
     private RoleServiceI roleService;
-
-    @Autowired
-    private PreMenuServiceI preMenuService;
-
-    @Autowired
-    private UploadService uploadFileService;
 
     @Autowired
     private UserServiceI userServiceI;

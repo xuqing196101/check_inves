@@ -1746,7 +1746,6 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, Model model, String name) {
 		Supplier supp = supplierMapper.queryByName(name);
-		//		Supplier supplier = supplierService.get("61a6b3713e754c7c8efdc7d942eb7834");
 		Supplier supplier = supplierService.get(supp.getId());
 
 		if(supplier.getAddress() != null) {
@@ -1768,7 +1767,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin1 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin1.setId(id);
-				fin1.setYear(String.valueOf(oneYear()));
+				fin1.setYear(String.valueOf(threeYear()));
 				supplier.getListSupplierFinances().add(fin1);
 			}
 			SupplierFinance finance2 = supplierFinanceService.getFinance(supplier.getId(), String.valueOf(twoYear()));
@@ -1784,7 +1783,7 @@ public class SupplierController extends BaseSupplierController {
 				SupplierFinance fin3 = new SupplierFinance();
 				String id = UUID.randomUUID().toString().replaceAll("-", "");
 				fin3.setId(id);
-				fin3.setYear(String.valueOf(threeYear()));
+				fin3.setYear(String.valueOf(oneYear()));
 				supplier.getListSupplierFinances().add(fin3);
 			}
 		}

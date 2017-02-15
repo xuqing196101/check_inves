@@ -286,7 +286,7 @@
 		<if test="supplierId !=null and supplierId !=''">
 		    and SUPPLIER_ID = #{supplierId}
 		</if>
-		ORDER BY YEAR DESC
+		ORDER BY YEAR ASC
 	</select>
 	
 	
@@ -319,7 +319,7 @@
 		<if test="supplierId !=null and supplierId !=''">
 		    and SUPPLIER_ID = #{supplierId}
 		</if>
-		ORDER BY YEAR DESC
+		ORDER BY YEAR ASC
 	</select>
 	
 	<select id="getMaxTotalNetAssets" resultType="java.math.BigDecimal">

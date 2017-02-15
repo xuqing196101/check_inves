@@ -21,6 +21,7 @@ import ses.model.sms.SupplierFinance;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierFinanceService;
 import ses.util.PropertiesUtil;
+import ses.util.WfUtil;
 
 /**
  * @Title: SupplierFinanceServiceImpl
@@ -183,20 +184,17 @@ public class SupplierFinanceServiceImpl implements SupplierFinanceService {
 		yearList.add(year2);
 		yearList.add(year3);
 		SupplierFinance sf1=new SupplierFinance();
-		String id1 = UUID.randomUUID().toString().replaceAll("-", "");
-		sf1.setId(id1);
-		sf1.setYear(String.valueOf(yearList.get(2)));
+		sf1.setId(WfUtil.createUUID());
+		sf1.setYear(String.valueOf(yearList.get(0)));
 		
 		SupplierFinance sf2=new SupplierFinance();
-		String id2 = UUID.randomUUID().toString().replaceAll("-", "");
-		sf2.setId(id2);
-		
+		sf2.setId(WfUtil.createUUID());
 		sf2.setYear(String.valueOf(yearList.get(1)));
-		SupplierFinance sf3=new SupplierFinance();
-		String id3 = UUID.randomUUID().toString().replaceAll("-", "");
-		sf3.setId(id3);
 		
-		sf3.setYear(String.valueOf(yearList.get(0)));
+		SupplierFinance sf3=new SupplierFinance();
+		sf3.setId(WfUtil.createUUID());
+		sf3.setYear(String.valueOf(yearList.get(2)));
+		
 		List<SupplierFinance> list=new  ArrayList<SupplierFinance>();
 		list.add(sf1);
 		list.add(sf2);
