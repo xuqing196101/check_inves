@@ -46,7 +46,7 @@ import common.constant.StaticVariables;
 public class EngCategoryServiceImpl implements EngCategoryService {
 
     @Autowired
-    private EngCategoryMapper categoryMapper;
+    private EngCategoryMapper engCcategoryMapper;
 
     @Autowired
     private SupplierItemMapper supplierItemMapper;
@@ -78,11 +78,11 @@ public class EngCategoryServiceImpl implements EngCategoryService {
    
     
     public void insertSelective(Category category) {
-        categoryMapper.insertSelective(category);
+        engCcategoryMapper.insertSelective(category);
     }
 
     public List<Category> findTreeByPid(String id) {
-        return categoryMapper.findTreeByPid(id);
+        return engCcategoryMapper.findTreeByPid(id);
     }
     
     
@@ -93,7 +93,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     @Override
     public List<Category> findTreeByStatus(String id, Integer status) {
         
-        return categoryMapper.findTreeByStatus(id, status);
+        return engCcategoryMapper.findTreeByStatus(id, status);
     }
     
     /**
@@ -102,15 +102,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      */
     @Override
     public List<Category> findPublishTree(String id, Integer status) {
-        return categoryMapper.findPublishTree(id, status);
+        return engCcategoryMapper.findPublishTree(id, status);
     }
 
     public void updateByPrimaryKey(Category category) {
-        categoryMapper.updateByPrimaryKey(category);
+        engCcategoryMapper.updateByPrimaryKey(category);
     }
 
     public Category selectByPrimaryKey(String id) {
-        Category category = categoryMapper.selectByPrimaryKey(id);
+        Category category = engCcategoryMapper.selectByPrimaryKey(id);
         return category;
     }
     
@@ -120,7 +120,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      */
     @Override
     public Category getCategoryQuaById(String id) {
-        Category category = categoryMapper.selectByPrimaryKey(id);
+        Category category = engCcategoryMapper.selectByPrimaryKey(id);
         if (category != null && StringUtils.isNotBlank(category.getId())){
             List<CategoryQua> list = categoryQuaMapper.findList(category.getId());
             String generalIds = "";
@@ -172,23 +172,23 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     }
 
     public void updateNameById(String id) {
-        categoryMapper.updateNameById(id);
+        engCcategoryMapper.updateNameById(id);
     }
 
     public int deleteByPrimaryKey(String id) {
-        return categoryMapper.deleteByPrimaryKey(id);
+        return engCcategoryMapper.deleteByPrimaryKey(id);
     }
 
     public void updateByPrimaryKeySelective(Category category) {
-        categoryMapper.updateByPrimaryKeySelective(category);
+        engCcategoryMapper.updateByPrimaryKeySelective(category);
     }
 
     public List<Category> readExcel(Category category) {
-        return categoryMapper.readExcel(category);
+        return engCcategoryMapper.readExcel(category);
     }
 
     public List<Category> selectAll() {
-        return categoryMapper.selectAll();
+        return engCcategoryMapper.selectAll();
     }
     
     
@@ -436,18 +436,18 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     public List<Category> listByKeyword(Map<String, Object> map) {
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-        return categoryMapper.listByKeyword(map);
+        return engCcategoryMapper.listByKeyword(map);
     }
     
     @Override
     public List<Category> listByKeyname(Map<String, Object> map) {
-        return categoryMapper.listByKeyword(map);
+        return engCcategoryMapper.listByKeyword(map);
     }
     
     @Override
     public List<Category> listByParent(String pid) {
         // TODO Auto-generated method stub
-        return categoryMapper.findTreeByPid(pid);
+        return engCcategoryMapper.findTreeByPid(pid);
     }
 
     /**
@@ -460,7 +460,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
      */
     public Category findById(String id) {
         // TODO Auto-generated method stub
-        return categoryMapper.findById(id);
+        return engCcategoryMapper.findById(id);
     }
 
     /**
@@ -478,7 +478,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
         if (kind != null && !"".equals(kind)) {
             category.setKind("%" + kind + "%");
         }
-        List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+        List<Category> listCategorys = engCcategoryMapper.findCategoryByType(category);
 
         // 查询供应商勾选品目类型
         SupplierItem st = new SupplierItem();
@@ -505,7 +505,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     }
     @Override
     public List<SupplierTypeTree> findCategoryByTypeAndDisabled(Category category, String supplierId) {
-        List<Category> listCategorys = categoryMapper.findCategoryByType(category);
+        List<Category> listCategorys = engCcategoryMapper.findCategoryByType(category);
 
         // 查询供应商勾选品目类型
         List<SupplierItem> listSupplierItems = supplierItemMapper.findSupplierItemBySupplierId(supplierId);
@@ -556,7 +556,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                 listSupplierTypeTrees.add(supplierTypeTree);
             }
             Map<String, Object> map = new HashMap<String, Object>();
-            List<Category> categoryList = categoryMapper.findCategory(map);
+            List<Category> categoryList = engCcategoryMapper.findCategory(map);
             if (categoryList != null && categoryList.size() > 0) {
                 for (Category catge : categoryList) {
                     SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
@@ -584,7 +584,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                     listSupplierTypeTrees.add(supplierTypeTree);
                 }
             } else if(category.getId() != null && !"".equals(category.getId()) ){
-                List<Category> categoryList = categoryMapper.findTreeByPid(category.getId());
+                List<Category> categoryList = engCcategoryMapper.findTreeByPid(category.getId());
                 if (categoryList != null && categoryList.size() > 0) {
                     for (Category catge : categoryList) {
                         SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
@@ -600,7 +600,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                 if (listCategoryIds.size() > 0) {
                     Set<String> setList = new HashSet<String>();
                     for (String string : listCategoryIds) {
-                        String pid = categoryMapper.selectByPrimaryKey(string).getParentId();
+                        String pid = engCcategoryMapper.selectByPrimaryKey(string).getParentId();
                         setList.add(pid);
                     }
                     //加入父节点
@@ -616,7 +616,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                     }
                     for (String string : setList) {
                         //给子节点加入进来
-                        List<Category> categoryList = categoryMapper.findTreeByPid(string);
+                        List<Category> categoryList = engCcategoryMapper.findTreeByPid(string);
                         if (categoryList != null && categoryList.size() > 0) {
                             for (Category catge : categoryList) {
                                 SupplierTypeTree supplierTypeTree1 = new SupplierTypeTree();
@@ -639,14 +639,14 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     @Override
     public BigDecimal checkName(String name) {
         // TODO Auto-generated method stub
-        return categoryMapper.checkName(name);
+        return engCcategoryMapper.checkName(name);
     }
 
     @Override
     public List<Category> listByParamstatus(Map<String, Integer> map) {
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-        return categoryMapper.listByParamstatus(map);
+        return engCcategoryMapper.listByParamstatus(map);
     }
 
 
@@ -655,20 +655,20 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     public List<Category> findByStatus( Map<String, Object> map) {
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-        return categoryMapper.findByStatus();
+        return engCcategoryMapper.findByStatus();
     }
 
     @Override
     public List<Category> findByOrgId(String id) {
         // TODO Auto-generated method stub
-        return	categoryMapper.findByOrgId(id);
+        return	engCcategoryMapper.findByOrgId(id);
     }
 
     @Override
     public List<Category> listByCateogryName(Map<String, Object> map) {
         PropertiesUtil config = new PropertiesUtil("config.properties");
         PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
-        return categoryMapper.listByCateogryName(map);
+        return engCcategoryMapper.listByCateogryName(map);
     }
 
     /**
@@ -681,15 +681,15 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     public void deleted(String Id){
         //根据父节点找出子节点 
         List<Category>   list = new  ArrayList<Category>();
-//        list=categoryMapper.findTreeByPid(Id);
+//        list=engCcategoryMapper.findTreeByPid(Id);
         Category e=new Category();
         e.setId(Id);
         list.add(e);
-        categoryMapper.deleted(list);
+        engCcategoryMapper.deleted(list);
     }
     
     public Integer findByCode(String code){
-       return  categoryMapper.findByCode(code);
+       return  engCcategoryMapper.findByCode(code);
     }
     
     /**
@@ -718,7 +718,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
 
 	@Override
 	public List<Category> findCategory(Map<String, Object> map,Integer page) {
-		List<Category> list = categoryMapper.findCategory(map);
+		List<Category> list = engCcategoryMapper.findCategory(map);
 		PageHelper.startPage(page,30);
 		return list;
 	}

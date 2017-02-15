@@ -193,7 +193,7 @@
 		var operaValue = $("#operaFlag").val();
 		var types = getTypeValue();
 		var open = getOpenValue();
-		var root = getCurrentRoot(selectedNode);
+		//var root = getCurrentRoot(selectedNode);
 		$("#classify").val(1);
     	$.ajax({
     		dataType:"json",

@@ -51,7 +51,7 @@ import common.constant.StaticVariables;
 @RequestMapping("/engCategory")
 public class EngCategoryController extends BaseSupplierController {
     @Autowired
-    private EngCategoryService categoryService;
+    private EngCategoryService engCategoryService;
 
     private Map<String, Object> listCategory = new HashMap<String, Object>();
 
@@ -90,9 +90,9 @@ public class EngCategoryController extends BaseSupplierController {
             return JSON.toJSONString(jList);
         }
         String list="";
-        List<Category> cateList=categoryService.findTreeByPid(category.getId());
+        List<Category> cateList=engCategoryService.findTreeByPid(category.getId());
         for(Category cate:cateList){
-            List<Category> cList=categoryService.findTreeByPid(cate.getId());
+            List<Category> cList=engCategoryService.findTreeByPid(cate.getId());
             CategoryTree ct=new CategoryTree();
             if(!cList.isEmpty()){
                 ct.setIsParent("true");
@@ -150,7 +150,7 @@ public class EngCategoryController extends BaseSupplierController {
     @RequestMapping(value = "/save", produces = "application/json;charset=UTF-8")
     public ResBean save(HttpServletRequest request) {
         
-        ResBean resBean = categoryService.saveCategory(request);
+        ResBean resBean = engCategoryService.saveCategory(request);
         
         return resBean;
     }
@@ -168,7 +168,7 @@ public class EngCategoryController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/update", produces = "application/json;charset=UTF-8")
     public Category update (String id) {
-        Category cate = categoryService.getCategoryQuaById(id);
+        Category cate = engCategoryService.getCategoryQuaById(id);
         return cate;
     }
     
@@ -185,7 +185,7 @@ public class EngCategoryController extends BaseSupplierController {
     @RequestMapping(value = "/calledStatus", produces = "text/html;charset=UTF-8")
     public String calledStatus(String id, String opera){
         
-        return  categoryService.estimate(id, opera,StaticVariables.CATEGORY_ASSIGNED_MSG,StaticVariables.CATEGORY_ASSIGNED_STATUS);
+        return  engCategoryService.estimate(id, opera,StaticVariables.CATEGORY_ASSIGNED_MSG,StaticVariables.CATEGORY_ASSIGNED_STATUS);
     }
 
     /**
@@ -198,7 +198,7 @@ public class EngCategoryController extends BaseSupplierController {
      */
     @RequestMapping("/rename")
     public String updateName(HttpServletRequest request, Category category) {
-        categoryService.updateByPrimaryKeySelective(category);
+        engCategoryService.updateByPrimaryKeySelective(category);
         return "ses/bms/engCategory/list";
     }
 
@@ -212,7 +212,7 @@ public class EngCategoryController extends BaseSupplierController {
      */ 
     @RequestMapping("/del")
     public void deleteById(Category  category){
-        categoryService.deleteByPrimaryKey(category.getId());
+        engCategoryService.deleteByPrimaryKey(category.getId());
     }
     /**
      * 
@@ -226,11 +226,11 @@ public class EngCategoryController extends BaseSupplierController {
     @RequestMapping("/deleted")
     public String change(HttpServletRequest request){
         String id = request.getParameter("id");
-        Category category = categoryService.selectByPrimaryKey(id);
+        Category category = engCategoryService.selectByPrimaryKey(id);
         if (category != null) {
             category.setIsDeleted(1);
             category.setUpdatedAt(new Date());
-            categoryService.updateByPrimaryKeySelective(category);
+            engCategoryService.updateByPrimaryKeySelective(category);
             return "success";
         }
         return "failed";
@@ -248,7 +248,7 @@ public class EngCategoryController extends BaseSupplierController {
      */
     @RequestMapping(value = "find_category")
     public void findCategory(HttpServletResponse response, Category category, String supplierId) throws IOException {
-        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.findCategoryByType(category, supplierId);
+        List<SupplierTypeTree> listSupplierTypeTrees = engCategoryService.findCategoryByType(category, supplierId);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(json);
@@ -270,7 +270,7 @@ public class EngCategoryController extends BaseSupplierController {
      */
     @RequestMapping(value = "find_category_and_disabled")
     public void findCategoryAndDisabled(HttpServletResponse response, Category category, String supplierId) throws IOException {
-        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.findCategoryByTypeAndDisabled(category, supplierId);
+        List<SupplierTypeTree> listSupplierTypeTrees = engCategoryService.findCategoryByTypeAndDisabled(category, supplierId);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
         response.setContentType("text/html;charset=utf-8");
         response.getWriter().write(json);
@@ -297,7 +297,7 @@ public class EngCategoryController extends BaseSupplierController {
     	if(categoryIds!=null){
         	 list=Arrays.asList(categoryIds.split(","));
         }
-        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list, 0);
+        List<SupplierTypeTree> listSupplierTypeTrees = engCategoryService.queryCategory(category, list, 0);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
         json = json.replaceAll("parent", "isParent").replaceAll("isParentId", "parentId");
         response.setContentType("text/html;charset=utf-8");
@@ -321,7 +321,7 @@ public class EngCategoryController extends BaseSupplierController {
         if(categoryIds!=null){
              list=Arrays.asList(categoryIds.split(","));
         }
-        List<SupplierTypeTree> listSupplierTypeTrees = categoryService.queryCategory(category, list,1);
+        List<SupplierTypeTree> listSupplierTypeTrees = engCategoryService.queryCategory(category, list,1);
         String json = JSON.toJSONStringWithDateFormat(listSupplierTypeTrees, "yyyy-MM-dd HH:mm:ss");
         json = json.replaceAll("parent", "isParent").replaceAll("isParentId", "parentId");
         response.setContentType("text/html;charset=utf-8");
