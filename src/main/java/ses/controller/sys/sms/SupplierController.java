@@ -1345,9 +1345,9 @@ public class SupplierController extends BaseSupplierController {
 			branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierAuditOpinion(), Constant.SUPPLIER_SYS_KEY.toString()));
 			branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierLiabilities(), Constant.SUPPLIER_SYS_KEY.toString()));
 			branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierCashFlow(), Constant.SUPPLIER_SYS_KEY.toString()));
-			branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString()));
+			//branchlist.addAll(uploadService.getFilesOther(supplierFinance.getId(), supplierDictionary.getSupplierOwnerChange(), Constant.SUPPLIER_SYS_KEY.toString()));
 		}
-		if(branchlist.size() < 15) {
+		if(branchlist.size() < 12) {
 			count++;
 			model.addAttribute("err_bearchFile", "请上传文件!");
 		}

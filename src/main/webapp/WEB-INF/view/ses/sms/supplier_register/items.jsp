@@ -117,7 +117,7 @@
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
 		if (treeNode == null) {
-			// 加载已选品目列表
+			// 加载已选产品类别列表
 			var code;
 			if (treeId == 'tree_ul_id_1') {
 				code = "PRODUCT";
@@ -347,9 +347,9 @@
 <!-- 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i> -->
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_02">品目信息</span> </span> <span class="new_step fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_02">产品类别信息</span> </span> <span class="new_step fl"><i class="">4</i>
 						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step  fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_02">品目合同上传</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">产品类别合同上传</span> </span> <span class="new_step fl"><i class="">6</i>
 						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
 						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
 						<span class="step_desc_01">申请表承诺书上传</span> 
@@ -366,16 +366,16 @@
 					<div class="padding-top-10" >
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
-								<li id="li_id_1" onclick="loadTab('PRODUCT','tree_ul_id_1',1);" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a></li>
+								<li id="li_id_1" onclick="loadTab('PRODUCT','tree_ul_id_1',1);" class="active"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">物资-生产型产品类别信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
-								<li id="li_id_2" onclick="loadTab('SALES','tree_ul_id_2',2);" ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a></li>
+								<li id="li_id_2" onclick="loadTab('SALES','tree_ul_id_2',2);" ><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型产品类别信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-								<li id="li_id_3" onclick="loadTab('PROJECT','tree_ul_id_3',null);" ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a></li>
+								<li id="li_id_3" onclick="loadTab('PROJECT','tree_ul_id_3',null);" ><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程产品类别信息</a></li>
 							</c:if>
 							<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-								<li id="li_id_4" onclick="loadTab('SERVICE','tree_ul_id_4',null);" ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a></li>
+								<li id="li_id_4" onclick="loadTab('SERVICE','tree_ul_id_4',null);" ><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务产品类别信息</a></li>
 							</c:if>
 						</ul>
 						<div class="tab-content padding-top-20" id="tab_content_div_id">
@@ -383,10 +383,10 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<h2 class="f16 ">
-											勾选物资生产型品目信息
+											勾选物资生产型产品类别信息
 									</h2>
 									<div id="div-1" class="mb10">
-								  	产品名称:<input type="text" id="cate-1">
+								  	产品类别:<input type="text" id="cate-1">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 								  	</div>
@@ -399,10 +399,10 @@
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300" id="tab-2">
 									<h2 class="f16 ">
-											勾选物资销售型品目信息
+											勾选物资销售型产品类别信息
 									</h2>
 									<div id="div-2" class="mb10">
-								  	产品名称:<input type="text" id="cate-2">
+								  	产品类别:<input type="text" id="cate-2">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 								  	</div>
@@ -415,10 +415,10 @@
 							<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 									<h2 class="f16  ">
-									      	勾选工程品目信息
+									      	勾选工程产品类别信息
 									</h2>
 									<div id="div-3" class="mb10">
-								  	产品名称:<input type="text" id="cate-3">
+								  	产品类别:<input type="text" id="cate-3">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 								  	</div>
@@ -431,10 +431,10 @@
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
 									<h2 class="f16">
-										 勾选服务品目信息
+										 勾选服务产品类别信息
 									</h2>
 									<div id="div-4" class="mb10">
-								  	产品名称:<input type="text" id="cate-4">
+								  	产品类别:<input type="text" id="cate-4">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null)"/>
 								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 								  	</div>
