@@ -185,7 +185,7 @@
 			              </td>
 			              <td>
 			                 <div class="department">
-			                   <c:if test="${obj.purchaseCount!=null }">
+			                   <c:if test="${obj.purchaseCount==null }">
 			                 ${obj.department}
 			                 </c:if>
 			                 </div>
