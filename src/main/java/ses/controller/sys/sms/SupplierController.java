@@ -257,12 +257,12 @@ public class SupplierController extends BaseSupplierController {
 					public int compare(SupplierFinance finance1, SupplierFinance finance2) {
 						// 按照SupplierFinance的年份进行升序排列  
 						if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
-							return -1;
+							return 1;
 						}
 						if(finance1.getYear().equals(finance2.getYear())) {
 							return 0;
 						} else {
-							return 1;
+							return -1;
 						}
 					}
 				});
@@ -371,12 +371,12 @@ public class SupplierController extends BaseSupplierController {
 				public int compare(SupplierFinance finance1, SupplierFinance finance2) {
 					// 按照SupplierFinance的年份进行升序排列  
 					if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
-						return -1;
+						return 1;
 					}
 					if(finance1.getYear().equals(finance2.getYear())) {
 						return 0;
 					} else {
-						return 1;
+						return -1;
 					}
 				}
 			});
@@ -387,12 +387,12 @@ public class SupplierController extends BaseSupplierController {
 				public int compare(SupplierFinance finance1, SupplierFinance finance2) {
 					// 按照SupplierFinance的年份进行升序排列  
 					if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
-						return -1;
+						return 1;
 					}
 					if(finance1.getYear().equals(finance2.getYear())) {
 						return 0;
 					} else {
-						return 1;
+						return -1;
 					}
 				}
 			});

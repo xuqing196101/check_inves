@@ -61,21 +61,21 @@
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
 								<div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-							       <input id="login_input_id" type="text" name="loginName" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
+							       <input id="login_input_id" type="text" name="loginName" placeholder="由6-20位字母数字和下划线组成" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
 								   <span class="cue">${err_msg_loginName }</span> 
 								</div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12  col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12  p0"><i class="red mr5">*</i>登录密码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								  <input type="password" name="password" value="${supplier.password}" class="col-md-12 col-sm-12 col-xs-12">
+								  <input type="password" name="password" value="${supplier.password}" placeholder="密码长度为6-20位" class="col-md-12 col-sm-12 col-xs-12">
 								  <span class="cue" >${err_msg_password }</span> 
 								</div>
 							</div>
 							<div class="login_item margin-top-10 col-md-12 col-sm-12 col-xs-12 ">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>确认密码：</label> 
 								 <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-								   <input type="password" name="confirmPassword" value="${supplier.confirmPassword}" class="col-md-12 col-sm-12 col-xs-12">
+								   <input type="password" name="confirmPassword" value="${supplier.confirmPassword}" placeholder="请再次输入密码" class="col-md-12 col-sm-12 col-xs-12">
 								   <span class="cue">${err_msg_ConfirmPassword }</span> 
 								</div>
 							</div>
