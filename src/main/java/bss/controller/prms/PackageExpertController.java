@@ -358,8 +358,10 @@ public class PackageExpertController {
                 //每个包有几个供应商
                 pk.setSuList(suList);
                 BigDecimal projectBudget = BigDecimal.ZERO;
-                for (Quote q : pk.getSuList().get(0).getQuoteList()) {
-                    projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+                if (pk.getSuList() != null && pk.getSuList().size() > 0) {
+                    for (Quote q : pk.getSuList().get(0).getQuoteList()) {
+                        projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+                    }
                 }
                 //项目预算
                 pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
