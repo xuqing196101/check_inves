@@ -54,7 +54,7 @@ public class AreaServiceImpl implements AreaServiceI {
 	 * @param @param area
 	 * @return void
 	 */
-	@Override
+/*	@Override
 	public void save(Area area) {
 	    Area aa = null;
         if(area.getId() != null && !"".equals(area.getId())){
@@ -66,7 +66,30 @@ public class AreaServiceImpl implements AreaServiceI {
         area.setIsDeleted(0);
         area.setCreatedAt(new Date());
 		areaMapper.save(area);
-	}
+	}*/
+	
+	@Override
+    public void save(Area area) {
+        if(area.getId() != null && !"".equals(area.getId())){
+            Area aa = areaMapper.selectById(area.getId());
+            List<Area> areas = areaMapper.findAreaByParentId(aa.getId());
+            if(areas != null && areas.size() > 0){
+                for (Area area2 : areas) {
+                    if(area.getName().equals(area2.getName())){
+                        area2.setIsDeleted(0);
+                        areaMapper.update(area2);
+                    }
+                }
+            }
+           
+            //area.setParentId(aa.getId());
+        }else{
+            area.setParentId(ROOT_PID);
+            area.setIsDeleted(0);
+            area.setCreatedAt(new Date());
+            areaMapper.save(area);
+        }
+    }
 	
 	/**
 	 * 

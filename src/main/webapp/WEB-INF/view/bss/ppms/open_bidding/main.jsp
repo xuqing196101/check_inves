@@ -50,7 +50,7 @@
 		}
 	}
 	
-	function abandoned(id){
+/* 	function abandoned(id){
 	  layer.confirm('您确定要废标吗?',{
               title : '提示',
               offset: ['30%', '40%'],
@@ -74,9 +74,9 @@
                 
               }
                
-              /* window.setTimeout(function() {
+               window.setTimeout(function() {
               location.reload();
-              }, 1000); */
+              }, 1000); 
             },
             error : function() {
               layer.msg("废标失败", {
@@ -85,7 +85,21 @@
             }
             });
           });
-	}
+	} */
+	
+	
+	 function abandoned(id){
+	   layer.open({
+        type: 2, //page层
+        area: ['600px', '400px'],
+        title: '废标',
+        shade: 0.01, //遮罩透明度
+        moveType: 1, //拖拽风格，0是默认，1是传统拖动
+        shift: 1, //0-6的动画形式，-1不开启
+        shadeClose: true,
+        content: '${pageContext.request.contextPath}/project/feibiao.html?id=' + id,
+     });
+   }
 </script>
 </head>
 

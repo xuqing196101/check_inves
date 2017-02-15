@@ -15,6 +15,7 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -295,6 +296,62 @@ public class SaleTenderController {
   return "bss/ppms/sall_tender/suppliers_list";
 }
 
+  
+  /**
+   * 
+   *〈判断最少供应商〉
+   *〈详细描述〉
+   * @author FengTian
+   * @param projectId
+   * @return
+   */
+  @RequestMapping(value="/number",produces = "text/html;charset=UTF-8")
+  @ResponseBody
+  public String number(String projectId){
+      HashMap<String, Object> map = new HashMap<String, Object>();
+      map.put("projectId",projectId);
+      List<Packages> list = packageService.findPackageById(map);
+      if(list != null && list.size() > 0){
+          for (int i = 0; i < list.size(); i++ ) {
+              Project project = projectService.selectById(projectId);
+              SaleTender saleTender = new SaleTender();
+              saleTender.setProject(new Project(projectId));
+              saleTender.setPackages(list.get(i).getId());
+              //获取包下的供应商
+              List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+              //判断供应商人数是否和项目的最少供应商符合
+              if(saleTenderList.size() < project.getSupplierNumber()){
+                  Packages packages = new Packages();
+                  packages.setName(list.get(i).getName());
+                  packages.setProject(project);
+                  String json = JSON.toJSONString(packages);
+                  return json;
+              }
+          }
+      }
+      return "1";
+  }
+  
+  /**
+   * 
+   *〈是否转竞争性谈判〉
+   *〈详细描述〉
+   * @author FengTian
+   * @param projectId
+   * @return
+   */
+  @RequestMapping("/transfer")
+  public String transfer(String projectId){
+      if(StringUtils.isNotBlank(projectId)){
+          Project project = projectService.selectById(projectId);
+          if(project != null){
+              //修改项目状态
+              project.setStatus(DictionaryDataUtil.getId("JZXTP"));
+              projectService.update(project);
+          }
+      }
+      return "redirect:project/excute.html?id="+projectId;
+  }
 
 @RequestMapping("/startTask")
 @ResponseBody

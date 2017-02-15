@@ -128,6 +128,18 @@ public interface UploadService {
     public List<UploadFile> getFilesOther(String businessId, String typeId, String sysKey);
     
     /**
+     * 
+     *〈简述〉获取已经删除的文件
+     *〈详细描述〉
+     * @author FengTian
+     * @param businessId
+     * @param typeId
+     * @param sysKey
+     * @return
+     */
+    public List<UploadFile> getFilesOthers(String businessId, String typeId, String sysKey);
+    
+    /**
      *〈简述〉文件删除
      *〈详细描述〉
      * @author Ye MaoLin

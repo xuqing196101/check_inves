@@ -924,9 +924,11 @@
 	<!-- 根据Id更新状态 -->
 	<update id="updatePurchById" parameterType="ses.model.oms.PurchaseDep">
 		update T_SES_OMS_PURCHASE_DEP
+		<set>
 		<if test="quaStatus != null">
 			QUA_STATUS = #{quaStatus,jdbcType=NUMERIC},
 		</if>
+		</set>
 		where ID=#{id}
 	</update>
 

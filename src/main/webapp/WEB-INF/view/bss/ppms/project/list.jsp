@@ -115,6 +115,10 @@
             layer.alert("项目已废标", {
               offset: ['30%', '40%'],
             });
+          }else if(status == "已取消") {
+            layer.alert("项目已取消", {
+              offset: ['30%', '40%'],
+            });
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {

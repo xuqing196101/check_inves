@@ -7,7 +7,6 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js"></script>
     <script type="text/javascript">
       //勾选明细
       function check(ele) {
@@ -122,7 +121,7 @@
     <div class="container">
 
       <!-- 项目戳开始 -->
-      <div class="content" id="content">
+      <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
         <table id="table" class="table table-bordered table-condensed lockout">
           <thead>
             <tr class="space_nowrap">

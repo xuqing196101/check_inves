@@ -32,7 +32,6 @@
 				        data : $("#formID").serialize(),
 				        success: function(data) {
 				        	if(data == 'ok'){
-				        		alert(222);
 				        		parent.updateStatus(quaStatus,str);
 				        		cancel();
 				        	}

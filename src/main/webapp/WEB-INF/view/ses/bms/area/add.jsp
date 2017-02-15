@@ -76,8 +76,11 @@
   <script type="text/javascript">
     $(function(){
         $("#save").click(function(){
-            
-            $.ajax({  
+            var name = $("#name").val();
+            if(name == ""){
+              $("#sps").html("名称不能为空").css('color', 'red');
+            }else{
+              $.ajax({  
                type: "POST",  
                url: "${pageContext.request.contextPath}/area/save.html",  
                data: $("#form1").serializeArray(),  
@@ -94,7 +97,7 @@
                     layer.msg("添加失败",{offset: ['150px', '180px']});
                 }
             });
-            
+            }
         });
         /* $("#backups").click(function(){
             var index = parent.layer.getFrameIndex(window.name); //先得到当前iframe层的索引
@@ -131,8 +134,9 @@
                  <li class="col-md-3 col-sm-6 col-xs-12">
                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">名称</span>
                    <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                    <input class="input_group" name="name" maxlength="30" type="text">
+                    <input class="input_group" name="name" id="name" maxlength="30" type="text">
                     <span class="add-on">i</span>
+                    <div class="cue" id="sps"></div>
                    </div>
                  </li>
                </ul>

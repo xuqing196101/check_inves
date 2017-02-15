@@ -5,7 +5,6 @@
 <html>
   <head>
   <%@ include file="/WEB-INF/view/common.jsp"%>
-  <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
   <script type="text/javascript">
   /** 全选全不选 */
   function selectAll(){
@@ -74,7 +73,7 @@
     <div class="col-md-12 pl20 mt10">
       <button class="btn btn-windows back" onclick="location.href='javascript:history.go(-1);'">返回</button>
     </div>
-    <div class="content table_box" id="content">
+    <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
       <c:if test="${lists != null }">
         <table id="table" class="table table-bordered table-condensed lockout">
           <thead>

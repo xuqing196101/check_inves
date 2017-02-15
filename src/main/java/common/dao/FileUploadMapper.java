@@ -62,6 +62,18 @@ public interface FileUploadMapper {
      * @return
      */
     List<UploadFile> getFiles(@Param("tableName")String tableName, @Param("businessId")String businessId, @Param("typeId")String typeId);
+    
+    /**
+     * 
+     *〈简述〉获取已经删除的文件
+     *〈详细描述〉
+     * @author FengTian
+     * @param tableName
+     * @param businessId
+     * @param typeId
+     * @return
+     */
+    List<UploadFile> getIsFiles(@Param("tableName")String tableName, @Param("businessId")String businessId, @Param("typeId")String typeId);
 
     /**
      * 

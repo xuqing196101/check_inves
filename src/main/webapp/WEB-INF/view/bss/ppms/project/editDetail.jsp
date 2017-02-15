@@ -7,7 +7,6 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
     <script type="text/javascript">
       function sum2(obj) { //数量
         var id = $(obj).next().val();
@@ -201,7 +200,7 @@
         <div>
           <h2 class="count_flow"><i>2</i>修改项目明细</h2>
           <div class="ul_list">
-            <div class="content" id="content">
+            <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
               <table id="table" class="table table-bordered table-condensed lockout">
                 <thead>
                   <tr class="space_nowrap">
@@ -222,9 +221,10 @@
                   </tr>
                 </thead>
                 <tbody>
+                  <c:set var="certProNumber" value="0"/>
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
                     <tr class="${obj.parentId}" style="cursor: pointer;">
-                      <td><div class="seq">${obj.serialNumber}</td>
+                      <td><div class="seq">${obj.serialNumber}</div></td>
                       <td>
                         <div class="department">
                           ${obj.department} 
@@ -242,31 +242,16 @@
                       <td class="tc"><div class="item">${obj.item}</div></td>
                       <td class="tc">
                       <div class="purchasecount">
-                        <c:if test="${obj.purchaseCount!=null }">
+                        <c:if test="${obj.purchaseCount!=null}">
                           <input type="hidden" name="ss" value="${obj.id }">
-                          <input maxlength="11" class="w50" id="purchaseCount" onblur="sum2(this);" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount}" type="text" />
+                          <input maxlength="11" class="w50" id="purchaseCount" onblur="sum2(this);" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${certProNumber}].purchaseCount" value="${obj.purchaseCount}" type="text" />
                           <input type="hidden" name="ss" value="${obj.parentId }">
                         </c:if>
                         <c:if test="${obj.purchaseCount==null }">
-                          <input class="purchasecount" disabled="disabled" type="text" name="lists[${vs.index }].purchaseCount" value="${obj.purchaseCount }">
+                          <input class="purchasecount" disabled="disabled" type="text" name="lists[${certProNumber}].purchaseCount" value="${obj.purchaseCount }">
                         </c:if>
                         </div>
                       </td>
-                     <%--  <td class="tc p0">
-                        <c:if test="${obj.price!=null }">
-                          <input type="hidden" name="ss" value="${obj.id }">
-                          <input maxlength="11" id="price" name="lists[${vs.index }].price" type="text" onblur="sum1(this);" value="${obj.price}" />
-                          <input type="hidden" name="ss" value="${obj.parentId }">
-                        </c:if>
-                        <c:if test="${obj.price==null}">
-                          <input style="border: 0px;" readonly="readonly" type="text" name="lists[${vs.index }].price" value="${obj.price }">
-                        </c:if>
-                      </td>
-                      <td class="tc p0">
-                        <input type="hidden" name="ss" value="${obj.id }">
-                        <input maxlength="11" id="budget" name="lists[${vs.index }].budget" class="border0 tr pr20" type="text" readonly="readonly" value="${obj.budget}" />
-                        <input type="hidden" name="ss" value="${obj.parentId }">
-                      </td> --%>
                       <td><div class="deliverdate">${obj.deliverDate}</div></td>
                       <td class="advice">
                         <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
@@ -275,7 +260,7 @@
 
                             </c:when>
                             <c:otherwise>
-                              <select name="lists[${vs.index }].purchaseType" onchange="sel(this);" class="purchasetype" id="select">
+                              <select name="lists[${certProNumber}].purchaseType" onchange="sel(this);" class="purchasetype" id="select">
                                 <c:forEach items="${kind}" var="kind">
                                   <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
@@ -283,9 +268,9 @@
                         </c:otherwise>
                         </c:choose>
                         </c:if>
-                        <input type="hidden" id="idss" name="lists[${vs.index }].id" value="${obj.id }">
-                        <input type="hidden" name="lists[${vs.index }].requiredId" value="${obj.requiredId }">
-                        <input type="hidden" name="lists[${vs.index }].project" value="${obj.project.id}">
+                        <input type="hidden" name="lists[${certProNumber}].id" value="${obj.id}">
+                        <input type="hidden" name="lists[${certProNumber}].requiredId" value="${obj.requiredId}">
+                        <input type="hidden" name="lists[${certProNumber}].project" value="${obj.project.id}">
                       </td>
                       <td>
                         <div class="purchasename">${obj.supplier}</div>
@@ -303,6 +288,7 @@
                         <div class="memo">${obj.memo}</div>
                       </td>
                     </tr>
+                    <c:set var="certProNumber" value="${certProNumber + 1}"/>
                   </c:forEach>
                 </tbody>
               </table>

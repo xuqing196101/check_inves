@@ -106,7 +106,7 @@
                           <div class="w80">${obj.purchaseCount}</div>
                         </td>
                         <td class="tl">
-                          <div class="w80">${obj.deliverDate}</div》
+                          <div class="w80">${obj.deliverDate}</div>
                         </td>
                         <td class="tc">
                           <div class="w100">

@@ -104,6 +104,7 @@ public class Quote {
     //每个包下面的供应商
     private List<Supplier> suList;
     
+    //放弃报价  3是假删除
     private Integer isRemove;
     
     private String giveUpReason;

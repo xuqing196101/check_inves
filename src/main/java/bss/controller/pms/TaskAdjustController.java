@@ -42,7 +42,10 @@ import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
+import bss.model.ppms.Project;
 import bss.model.ppms.ProjectAttachments;
+import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
@@ -52,6 +55,9 @@ import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
 import bss.service.ppms.ProjectAttachmentsService;
+import bss.service.ppms.ProjectDetailService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
@@ -90,9 +96,6 @@ public class TaskAdjustController extends BaseController{
 	private OrgnizationServiceI orgnizationService;
 	
 	@Autowired
-	private ProjectAttachmentsService projectAttachmentsService;
-	
-	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	@Autowired
@@ -113,6 +116,15 @@ public class TaskAdjustController extends BaseController{
 	
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+	
+	@Autowired
+	private ProjectTaskService projectTaskService;
+	
+	@Autowired
+	private ProjectService projectService;
+	
+	@Autowired 
+	private ProjectDetailService projectDetailService;
 	
 	
 	/**
@@ -386,12 +398,14 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/update")
 	public String updateById(PurchaseRequiredFormBean list){
-		Map<String,Object> map=new HashMap<String,Object>();
+		HashMap<String,Object> map=new HashMap<String,Object>();
+		List<PurchaseDetail> lists = new ArrayList<>();
 		if(list!=null){
 			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
 				for( PurchaseDetail pd:list.getListDetail()){
 					if( pd.getId()!=null){
 						purchaseDetailService.updateByPrimaryKeySelective(pd);
+						lists.add(pd);
 //						String id = UUID.randomUUID().toString().replaceAll("-", "");
 //						map.put("oid", id);
 //						PurchaseRequired queryById = purchaseRequiredService.queryById(p.getId());
@@ -423,6 +437,8 @@ public class TaskAdjustController extends BaseController{
 //				}
 //			}
 		}
+		
+		
 		
 //		ProjectAttachments project=new ProjectAttachments();
 //		String id = UUID.randomUUID().toString().replaceAll("-", "");
@@ -480,10 +496,20 @@ public class TaskAdjustController extends BaseController{
 	    if (StringUtils.isNotBlank(ids)){
 	        if (ids.contains(StaticVariables.COMMA_SPLLIT)){
 	            String [] strArray = ids.split(StaticVariables.COMMA_SPLLIT);
+	            HashMap<String, Object> map = new HashMap<>(); 
 	            for (String id: strArray){
 	            	Task task = taskService.selectById(id);
 	            	task.setStatus(2);
 	            	taskService.update(task);
+	            	map.put("taskId", task.getId());
+	            	List<ProjectTask> projectTask = projectTaskService.queryByNo(map);
+	            	if(projectTask != null && projectTask.size() > 0){
+	            	    for (ProjectTask projectTask2 : projectTask) {
+	                        Project project = projectService.selectById(projectTask2.getProjectId());
+	                        project.setStatus(DictionaryDataUtil.getId("YQX"));
+	                        projectService.update(project);
+	                    }
+	            	}
 	            }
 	        }  
 	    }

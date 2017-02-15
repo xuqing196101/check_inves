@@ -41,12 +41,14 @@ import ses.model.ems.ProExtSupervise;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
+import ses.model.sms.Quote;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
+import ses.service.sms.SupplierQuoteService;
 import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -80,6 +82,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 
 /**
@@ -143,7 +147,13 @@ public class ProjectController extends BaseController {
     private ExpExtractRecordService expExtractRecordService;
     
     @Autowired
-    private ProjectSupervisorServicel projectSupervisorService; 
+    private ProjectSupervisorServicel projectSupervisorService;
+    
+    @Autowired
+    private UploadService uploadService;
+    
+    @Autowired
+    private SupplierQuoteService quoteService; 
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -1709,11 +1719,11 @@ public class ProjectController extends BaseController {
             if(lists.getLists()!=null&&lists.getLists().size()>0){
                 for( ProjectDetail details:lists.getLists()){
                     if( details.getId()!=null){
-                        project.setPurchaseType(details.getPurchaseType());
-                        projectService.update(project);
                         detailService.update(details);
                     }
                 }
+                project.setPurchaseType(lists.getLists().get(lists.getLists().size() - 1).getPurchaseType());
+                projectService.update(project);
             }
         }
         return "redirect:list.html";
@@ -3220,7 +3230,10 @@ public class ProjectController extends BaseController {
                             List<SaleTender> find = saleTenderService.find(saleTender);
                             for (SaleTender saleTender2 : find) {
                                 saleTender2.setProjectId(proId);
+                                saleTender2.setIsTurnUp(null);
                                 saleTenderService.update(saleTender2);
+                                List<UploadFile> file = uploadService.getFilesOther(saleTender2.getId(), null, "1");
+                                uploadService.updateFile(file.get(0), 1);
                             }
                         }
                     }
@@ -3256,10 +3269,50 @@ public class ProjectController extends BaseController {
                     }
                 } else if (flowDefine.getStep() > 5) {//第六步
                     if("GKZB".equals(findById.getCode())){
-                        
+                        for (int i = 0; i < ids.length; i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(ids[i]);
+                            List<SaleTender> find = saleTenderService.find(saleTender);
+                            for (SaleTender saleTender2 : find) {
+                                /*saleTender2.setIsTurnUp(null);  稍后测试在看
+                                saleTenderService.update(saleTender2);*/
+                                List<UploadFile> file = uploadService.getFilesOthers(saleTender2.getId(), null, "1");
+                                for (UploadFile uploadFile : file) {
+                                    uploadFile.setIsDelete(0);
+                                    uploadService.updateFile(uploadFile, 1);
+                                }
+                            }
+                            
+                            Quote quote =  new Quote();
+                            quote.setPackageId(ids[i]);
+                            quote.setProjectId(projectId);
+                            List<Quote> quotes = quoteService.get(quote);
+                            for (Quote quote2 : quotes) {
+                                List<Quote> list = new ArrayList<Quote>();
+                                quote2.setIsRemove(3);
+                                list.add(quote2);
+                                quoteService.update(list);
+                            }
+                        }
                     }
                     
                 } else if (flowDefine.getStep() > 6) {//第七步
+                    if("GKZB".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            Quote quote =  new Quote();
+                            quote.setPackageId(ids[i]);
+                            quote.setProjectId(projectId);
+                            List<Quote> quotes = quoteService.get(quote);
+                            for (Quote quote2 : quotes) {
+                                List<Quote> list = new ArrayList<Quote>();
+                                quote2.setProjectId(proId);
+                                quote2.setIsRemove(null);
+                                list.add(quote2);
+                                quoteService.update(list);
+                            }
+                        }
+                        
+                    }
                     
                 } else if (flowDefine.getStep() > 7) {//第八步
                     

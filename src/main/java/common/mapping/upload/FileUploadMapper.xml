@@ -57,6 +57,20 @@
   	 </if>
   </select>
   
+  <!-- 获取已经删除的文件 -->
+  <select id="getIsFiles" resultMap="BaseResultMap_File" >
+     SELECT 
+     <include refid="BASE_FILE_LIST" />
+     FROM ${tableName}
+     WHERE IS_DELETED = 1
+     <if test="businessId != null">
+      AND BUSINESS_ID = #{businessId,jdbcType=VARCHAR}
+     </if>
+     <if test="typeId != null">
+      AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
+     </if>
+  </select>
+  
   <!-- 根据Id查询 -->
   <select id="getFileById" resultMap="BaseResultMap_File">
   	 SELECT 

@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp"%>
 	   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-       <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script>
+       <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head_two.js" ></script> --%>
 		<script type="text/javascript">
 		      var clickState = 0;
       $(function() {
@@ -448,7 +448,7 @@
 
 			<c:if test="${!empty list}">
 				<div class="content table_box" id="package">
-				  <div id="content" class="col-md-12 col-sm-12 col-xs-12 p0"> 
+				  <div id="content" class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll"> 
 					<table id="table" class="table table-bordered table-condensed lockout">
 						<thead>
 						  <tr class="space_nowrap">

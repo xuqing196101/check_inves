@@ -6,7 +6,6 @@
   <head>
   <%@ include file="/WEB-INF/view/common.jsp"%>
   <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-  <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js" ></script>
   <script type="text/javascript">
 </script>
 </head>
@@ -15,7 +14,7 @@
   <!-- 录入采购计划开始-->
   <div class="container">
     <!-- 项目戳开始 -->
-    <div class="content" id="content">
+    <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
       <c:if test="${lists != null }">
         <table id="table" class="table table-bordered table-condensed lockout">
           <thead>

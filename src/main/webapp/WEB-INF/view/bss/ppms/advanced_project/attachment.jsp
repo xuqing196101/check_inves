@@ -14,7 +14,6 @@
           type: "post",
           dataType: "json",
           success: function(result) {
-          alert(result);
             if(result == "1"){
               layer.alert("请上传彩色扫描件", {
               shade: 0.01
