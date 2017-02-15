@@ -55,7 +55,7 @@
 							"categoryId": id,
 							"expertId": expertId,
 						},
-						dataFilter: ajaxDataFilter,
+						//dataFilter: ajaxDataFilter,
 						dataType: "json",
 						type: "get"
 					},

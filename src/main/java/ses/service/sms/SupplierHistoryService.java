@@ -19,4 +19,13 @@ public interface SupplierHistoryService {
 	 * @param supplierHistory
 	 */
 	public void delete(SupplierHistory supplierHistory);
+	
+	/**
+	 *〈简述〉
+	 * 导入历史记录信息
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param supplierId 供应商Id
+	 */
+	public void insertHistoryInfo(String supplierId);
 }

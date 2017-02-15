@@ -8,7 +8,6 @@ public class SupplierHistory {
 	private String beforeField;  //修改之前字段
 	private String modifyType;  //修改之后字段
 	private String beforeContent;  //修改之后内容
-	private String afterContent;  //修改之前内容
 	private String relationId;  //关联ID
 	private Date createdAt;  // 创建时间
 	public String getSupplierId() {
@@ -34,12 +33,6 @@ public class SupplierHistory {
 	}
 	public void setBeforeContent(String beforeContent) {
 		this.beforeContent = beforeContent;
-	}
-	public String getAfterContent() {
-		return afterContent;
-	}
-	public void setAfterContent(String afterContent) {
-		this.afterContent = afterContent;
 	}
 	public String getRelationId() {
 		return relationId;
