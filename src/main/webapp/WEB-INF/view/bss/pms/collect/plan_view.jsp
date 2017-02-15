@@ -209,17 +209,17 @@
                </div>
               </td>
               <td>
-               <div class="price"> <fmt:formatNumber type="number"   pattern="#,#00.00#" value="${obj.price }" /></div>
+               <div class="price"> <fmt:formatNumber type="number"   pattern="#,###.00#" value="${obj.price }" /></div>
               </td>
               <td>
-               <div class="budget"><fmt:formatNumber type="number"   pattern="#,#00.00#" value="${obj.budget}" /></div>
+               <div class="budget"><fmt:formatNumber type="number"   pattern="#,###.00#" value="${obj.budget}" /></div>
               </td>
               <td>
                <div class="deliverdate">${obj.deliverDate }</div>
               </td>
               <td class="tc">
                 <div class="purchasetype">
-                <c:if test="${obj.price!=null }">
+                <c:if test="${obj.purchaseCount!=null }">
                  <c:forEach items="${kind}" var="kind" >
                  <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                  </c:forEach>
@@ -228,7 +228,7 @@
               </td>
               <td class="tl">
                 <div class="organization">
-                 <c:if test="${obj.price!=null }">
+                 <c:if test="${obj.purchaseCount!=null }">
                   <c:forEach items="${org}" var="og" >
                    <c:if test="${og.orgId == obj.organization}">${og.name}</c:if>
                   </c:forEach>

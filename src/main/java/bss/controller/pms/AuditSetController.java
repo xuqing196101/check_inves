@@ -438,7 +438,7 @@ public class AuditSetController {
 	     sheet.setColumnWidth(9, 2300);
 	     sheet.setColumnWidth(10, 2500);
 	     sheet.setColumnWidth(11, 2300);
-	     sheet.setColumnWidth(12, 2300);
+	     sheet.setColumnWidth(12, 3000);
 	     sheet.setColumnWidth(13, 3000);
 	    
 	     //表头第一行
@@ -675,9 +675,11 @@ public class AuditSetController {
 	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		        style.setWrapText(true);
 		        cell.setCellStyle(style);
-	   	        if(p.getPrice()!=null){
+	   	        if(p.getPurchaseCount()!=null){
 	   	        	DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
-	   	        	cell.setCellValue(dicType.getName()); 
+	   	        	if(dicType!=null){
+	   	        		cell.setCellValue(dicType.getName()); 
+	   	        	}
 	   	        }
 	   	        
 	   	        
@@ -686,7 +688,7 @@ public class AuditSetController {
 	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
 		        style.setWrapText(true);
 		        cell.setCellStyle(style);
-	   	         if(p.getPrice()!=null){
+	   	         if(p.getPurchaseCount()!=null){
 		   	        Orgnization orgnization = purchaseRequiredService.queryPur(p.getOrganization());
 		   	        if(orgnization!=null){
 	   	        		cell.setCellValue(orgnization.getName());
@@ -991,7 +993,7 @@ public class AuditSetController {
 	   	     sheet.setColumnWidth(9, 2300);
 	   	     sheet.setColumnWidth(10, 2500);
 	   	     sheet.setColumnWidth(11, 2300);
-	   	     sheet.setColumnWidth(12, 2300);
+	   	     sheet.setColumnWidth(12, 3000);
 	   	     sheet.setColumnWidth(13, 3000);
 	   	     
 	   	    HSSFCellStyle style = workbook.createCellStyle();
@@ -1069,7 +1071,7 @@ public class AuditSetController {
 	        
 	        cell = row.createCell(12);
 	        cell.setCellStyle(style);
-	        cell.setCellValue("供应商");  
+	        cell.setCellValue("供应商名称");  
 	        
 	        
 	        cell = row.createCell(13);
