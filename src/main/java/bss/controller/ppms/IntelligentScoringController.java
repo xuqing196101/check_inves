@@ -113,7 +113,10 @@ public class IntelligentScoringController extends BaseController{
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
                     
-                    if ("1".equals(markTerm.isChecked())) {
+                    if (id == null && "1".equals(markTerm.isChecked())) {
+                        checkCount ++;
+                    }
+                    if (id != null && !markTerm.getSmId().equals(id) && "1".equals(markTerm.isChecked())) {
                         checkCount ++;
                     }
                     
@@ -1315,6 +1318,7 @@ public class IntelligentScoringController extends BaseController{
 		    if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
                 scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
             }
+		    scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
 			model.addAttribute("scoreModel", scoreModelList.get(0));
 		}
 		model.addAttribute("projectId", markTerm.getProjectId());
