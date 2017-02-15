@@ -14,6 +14,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierMatPro;
 import ses.service.sms.SupplierMatProService;
+import ses.util.WfUtil;
 
 @Service(value = "supplierMatProService")
 public class SupplierMatProServiceImpl implements SupplierMatProService {
@@ -78,12 +79,14 @@ public class SupplierMatProServiceImpl implements SupplierMatProService {
     @Override
 	public SupplierMatPro init() {
 	     SupplierCertPro proCert=new SupplierCertPro();
-	
-	     String id = UUID.randomUUID().toString().replaceAll("-", "");
-	     proCert.setId(id);
+	     proCert.setId(WfUtil.createUUID());
 	     proCert.setName("质量管理体系认证证书");
+	     SupplierCertPro cert=new SupplierCertPro();
+	     cert.setId(WfUtil.createUUID());
          List<SupplierCertPro> priList=new ArrayList<SupplierCertPro>();
          priList.add(proCert);
+         priList.add(cert);
+         
          SupplierMatPro pro = new  SupplierMatPro();
 	
 	   

@@ -1323,7 +1323,7 @@ $().ready(function() {
 										</fieldset>
 							
 	 	               					<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-						 	              <span class="font_line">注册人员信息 </span>
+						 	              <span class="font_line">取得注册资质的人员信息 </span>
 											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 											    <button type="button" class="btn" onclick="openRegPerson()">新增</button>
 											    <button type="button" class="btn" onclick="deleteRegPerson()">删除</button>
@@ -1334,8 +1334,8 @@ $().ready(function() {
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"  onchange="checkAll(this, 'reg_person_list_tbody_id')"/></th>
-														<th class="info">注册名称</th>
-														<th class="info">注册人数</th>
+														<th class="info">注册资格名称</th>
+														<th class="info">注册人姓名</th>
 													</tr>
 												</thead>
 												<tbody id="reg_person_list_tbody_id">

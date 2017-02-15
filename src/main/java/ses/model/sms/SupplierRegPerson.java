@@ -35,7 +35,7 @@ public class SupplierRegPerson implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_REG_PERSON.REG_NUMBER
 	 * </pre>
 	 */
-	private Integer regNumber;
+	private String regNumber;
 
 	public String getId() {
 		return id;
@@ -61,11 +61,11 @@ public class SupplierRegPerson implements Serializable {
 		this.regType = regType;
 	}
 
-	public Integer getRegNumber() {
+	public String getRegNumber() {
 		return regNumber;
 	}
 
-	public void setRegNumber(Integer regNumber) {
+	public void setRegNumber(String regNumber) {
 		this.regNumber = regNumber;
 	}
 }
