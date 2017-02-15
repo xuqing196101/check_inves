@@ -601,7 +601,10 @@ public class AuditSetController {
 		        style.setWrapText(true);
 	   	        style.setAlignment(CellStyle.ALIGN_LEFT);
 		        cell.setCellStyle(style);
-	   	        		cell.setCellValue(p.getDepartment());
+		        if(p.getPurchaseCount()==null){
+		        	cell.setCellValue(p.getDepartment());
+		        }
+	   	        		
 //	   	        	}
 //	   	        	
 //	   	        }

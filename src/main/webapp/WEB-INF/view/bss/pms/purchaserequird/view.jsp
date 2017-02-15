@@ -234,7 +234,11 @@
 							<td>
 							   <div class="seq">${obj.seq }</div> 
 							</td>
-							<td><div class="department">${obj.department}</div></td >
+							<td><div class="department">
+							 <c:if test="${obj.purchaseCount==null }">
+						    	${obj.department}
+							 </c:if>
+							</div></td >
 							<%-- <td class="tl pl20">
 							     <c:forEach items="${requires }" var="re" >
 									  <c:if test="${obj.department==re.id }"> ${re.name }</c:if>

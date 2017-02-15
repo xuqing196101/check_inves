@@ -184,7 +184,11 @@
 			                 <div class="seq">${obj.seq } <input type="hidden" id="planNo" value="${obj.planNo}"/></div>
 			              </td>
 			              <td>
-			                 <div class="department">${obj.department}</div>
+			                 <div class="department">
+			                   <c:if test="${obj.purchaseCount!=null }">
+			                 ${obj.department}
+			                 </c:if>
+			                 </div>
 			              </td >
 			              <td title="${obj.goodsName}">
 			                <div class="goodsname">
