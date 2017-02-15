@@ -82,6 +82,16 @@ public class ScoreModel implements Serializable{
 	private Integer relationScore;
 	//展示模型一B
 	private List<String> model1BJudgeContent;
+	
+	private String ischeck;
+
+    public String getIscheck() {
+        return ischeck;
+    }
+
+    public void setIscheck(String ischeck) {
+        this.ischeck = ischeck;
+    }
 
     public List<String> getModel1BJudgeContent() {
         return model1BJudgeContent;

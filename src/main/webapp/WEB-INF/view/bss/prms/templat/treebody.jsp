@@ -52,6 +52,8 @@
 				}
 			}
 		}
+		var ischeck = '${scoreModel.ischeck}';
+		$("#check").val(ischeck);
 	});
 	
 	function judgeRelationScore(index) {
@@ -682,16 +684,19 @@
 	    var standScore = $("#standardScore").val();
 	    var maxScore = $("#maxScore").val();
 	    var id = $("#id").val();
+	    var isChecked = $("#check").val();
 		var s = validteModel().form();
 		console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
-	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",
+	            url: "${pageContext.request.contextPath}/intelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,
 	            dataType:'json',
 	            success:function(result){
 	                  if (result == 0){
 					     layer.msg("评分项已超过100分,请检查",{offset: ['150px']});     	
+	                  } else if (result == 2) {
+	                  	 layer.msg("每个包必须要有一个评审计算价格得分的唯一标识,有且只能为一个",{offset: ['150px']});    
 	                  } else {
 	                  	$("#formID").attr('action','${pageContext.request.contextPath}/auditTemplat/operatorScoreModel.do').submit();
 	                  }
@@ -929,6 +934,16 @@
                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>评审指标名称：</div>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                   <input name="name" id="name" value="${scoreModel.name}" type="text">
+	                </div>
+                  </li>
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否标识(评审计算价格得分的唯一标识) ：</div>
+	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+	                     <select id="check" name="ischeck">
+						    	<option value="">请选择</option>
+						    	<option value="1">是</option>
+						    	<option value="0">否</option>
+						  </select>
 	                </div>
                   </li>
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">

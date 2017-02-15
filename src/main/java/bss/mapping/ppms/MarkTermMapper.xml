@@ -135,6 +135,9 @@
        <if test="typeName != null">
         TYPE_NAME,
       </if>
+       <if test="checked != null">
+        CHECKED,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <!-- sysdate, -->
@@ -170,6 +173,9 @@
       </if>
       <if test="typeName != null">
          #{typeName},
+      </if>
+      <if test="checked != null">
+         #{checked},
       </if>
     </trim>
   </insert>
@@ -212,6 +218,9 @@
       </if>
       <if test="typeName != null">
         ,TYPE_NAME = #{typeName}
+      </if>
+      <if test="checked != null">
+        ,CHECKED = #{checked}
       </if>
     where ID = #{id}
   </update>
