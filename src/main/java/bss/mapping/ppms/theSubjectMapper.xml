@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.ppms.theSubjectMapper">
+	<resultMap id="BaseResultMap" type="bss.model.ppms.theSubject">
+		<!-- @mbggenerated -->
+		<id column="ID" jdbcType="VARCHAR" property="id" />
+		<result column="DETAIL_ID" jdbcType="VARCHAR" property="detailId" />
+		<result column="GOODS_NAME" jdbcType="VARCHAR" property="goodsName" />
+		<result column="STAND" jdbcType="VARCHAR" property="stand" />
+		<result column="QUALIT_STAND" jdbcType="VARCHAR" property="qualitStand" />
+		<result column="ITEM" jdbcType="VARCHAR" property="item" />
+		<result column="PURCHASE_COUNT" jdbcType="VARCHAR" property="purchaseCount" />
+		<result column="UNIT_PRICE" jdbcType="DECIMAL" property="unitPrice" />
+		<result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		<!-- @mbggenerated -->
+		ID, DETAIL_ID, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT,
+		UNIT_PRICE,
+		CREATED_AT, UPDATED_AT, PACKAGE_ID, PROJECT_ID
+	</sql>
+	<select id="selectByPrimaryKey" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PPMS_THE_SUBJECT
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		<!-- @mbggenerated -->
+		delete from T_BSS_PPMS_THE_SUBJECT
+		where ID = #{id,jdbcType=VARCHAR}
+	</delete>
+	<insert id="insertSelective" parameterType="bss.model.ppms.theSubject">
+		<!-- @mbggenerated -->
+		insert into T_BSS_PPMS_THE_SUBJECT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="detailId != null">
+				DETAIL_ID,
+			</if>
+			<if test="goodsName != null">
+				GOODS_NAME,
+			</if>
+			<if test="stand != null">
+				STAND,
+			</if>
+			<if test="qualitStand != null">
+				QUALIT_STAND,
+			</if>
+			<if test="item != null">
+				ITEM,
+			</if>
+			<if test="purchaseCount != null">
+				PURCHASE_COUNT,
+			</if>
+			<if test="unitPrice != null">
+				UNIT_PRICE,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="packageId != null">
+				PACKAGE_ID,
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="detailId != null">
+				#{detailId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null">
+				#{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="stand != null">
+				#{stand,jdbcType=VARCHAR},
+			</if>
+			<if test="qualitStand != null">
+				#{qualitStand,jdbcType=VARCHAR},
+			</if>
+			<if test="item != null">
+				#{item,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseCount != null">
+				#{purchaseCount,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null">
+				#{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="packageId != null">
+				#{packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				#{projectId,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.theSubject">
+		<!-- @mbggenerated -->
+		update T_BSS_PPMS_THE_SUBJECT
+		<set>
+			<if test="detailId != null">
+				DETAIL_ID = #{detailId,jdbcType=VARCHAR},
+			</if>
+			<if test="goodsName != null">
+				GOODS_NAME = #{goodsName,jdbcType=VARCHAR},
+			</if>
+			<if test="stand != null">
+				STAND = #{stand,jdbcType=VARCHAR},
+			</if>
+			<if test="qualitStand != null">
+				QUALIT_STAND = #{qualitStand,jdbcType=VARCHAR},
+			</if>
+			<if test="item != null">
+				ITEM = #{item,jdbcType=VARCHAR},
+			</if>
+			<if test="purchaseCount != null">
+				PURCHASE_COUNT = #{purchaseCount,jdbcType=VARCHAR},
+			</if>
+			<if test="unitPrice != null">
+				UNIT_PRICE = #{unitPrice,jdbcType=DECIMAL},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=DATE},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=DATE},
+			</if>
+			<if test="packageId != null">
+				PACKAGE_ID = #{packageId,jdbcType=VARCHAR},
+			</if>
+			<if test="projectId != null">
+				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+
+	<!-- 查询 -->
+	<select id="list">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PPMS_THE_SUBJECT
+	</select>
+
+	<!-- 批量插入 -->
+	<insert id="insertList" parameterType="java.util.List">
+		INSERT INTO T_BSS_PPMS_THE_SUBJECT
+		(DETAIL_ID, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, UNIT_PRICE,
+		PACKAGE_ID, PROJECT_ID)
+		<foreach collection="list" item="item" index="index"
+			separator="union" close=")" open="(">
+			select
+			#{item.detailId,jdbcType=VARCHAR},
+			#{item.goodsName,jdbcType=VARCHAR},
+			#{item.stand,jdbcType=VARCHAR},
+			#{item.qualitStand,jdbcType=VARCHAR},
+			#{item.item,jdbcType=VARCHAR},
+			#{item.purchaseCount,jdbcType=VARCHAR},
+			#{item.unitPrice,jdbcType=DECIMAL},
+			#{item.packageId,jdbcType=VARCHAR},
+			#{item.projectId,jdbcType=VARCHAR}
+			from dual
+		</foreach>
+	</insert>
+</mapper>
