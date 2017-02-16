@@ -78,7 +78,13 @@
 	                      ${rank.rank}
 	                    </c:if>
 	                    <c:if test="${rank.packageId eq pack.id and rank.supplierId eq supplier.suppliers.id and rank.reviewResult != null and rank.reviewResult ne ''}">
-	                      ${rank.reviewResult}
+	                      <c:set var="num2" value="0" scope="page"></c:set>
+		         			<c:forEach var="msg" items="${fn:split(rank.reviewResult, '_')}">
+				                <c:set var="num2" value="${num2+1}" scope="page"></c:set>                               
+		                        <c:if test="${num2 eq '3' }">
+		                        	${msg}
+		                        </c:if>
+		                    </c:forEach>
 	                    </c:if>
 	                  </c:forEach>
 	                </td>
