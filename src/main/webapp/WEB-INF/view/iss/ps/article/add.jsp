@@ -548,10 +548,10 @@
         ]
 
       }
-      
       UE.Editor.prototype.placeholder = function (justPlainText) {
 		var _editor = this;
 		_editor.addListener("focus", function () {
+			UE.dom.domUtils.setStyles(self.ue.body, {'color': 'black'});
 			var localHtml = _editor.getPlainTxt();
 			if ($.trim(localHtml) === $.trim(justPlainText)) {
 				_editor.setContent(" ");
@@ -559,6 +559,9 @@
 		});
 		_editor.addListener("blur", function () {
 			var localHtml = _editor.getContent();
+			if(localHtml == "" || localHtml == null) {
+				UE.dom.domUtils.setStyles(self.ue.body, {'color': '#ff9999'});
+			}
 			if (!localHtml) {
 				_editor.setContent(justPlainText);
 			}
@@ -572,9 +575,13 @@
       var ue = UE.getEditor('editor', option);
       var content = '${article.content}';
       var messageTip = "${properties['messageTip']}";
+      
       ue.ready(function() {
-        /* ue.placeholder(messageTip); */
+        ue.placeholder(messageTip);
+        UE.dom.domUtils.setStyles(self.ue.body, {'color': '#ff9999'});
       });
+      
+      
     </script>
 
   </body>
