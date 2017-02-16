@@ -1703,7 +1703,7 @@ public class OpenBiddingController {
       }
       pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
       for (SaleTender saleTender : saleTenderList) {
-        if (saleTender.getPackages().indexOf(pk.getId()) != -1) {
+        if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() == 0) {
           Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
           supplier.setPdList(detailList);
           suList.add(supplier);
