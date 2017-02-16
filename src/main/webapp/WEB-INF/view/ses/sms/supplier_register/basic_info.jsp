@@ -593,7 +593,8 @@
 					dataType: "json",
 					success: function(data) {
 						/* alert(data.suggest); */
-						layer.msg("不通过理由：" + data.suggest, {offset: '300px'
+						layer.msg("不通过理由：" + data.suggest, {
+							offset: '300px'
 						});
 					}
 				});
@@ -1584,7 +1585,7 @@
 												</thead>
 												<tbody id="finance_list_tbody_id">
 													<%--  <c:if test="${finance.year!=null}"> --%>
-													<c:set var="infoId" value="${finance.id }_info"/>
+													<c:set var="infoId" value="${finance.id }_info" />
 													<tr <c:if test="${fn:contains(audit,infoId)}"> onmouseover="errorMsg('${infoId}')"</c:if>>
 														<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
 										</td> --%>
@@ -1635,7 +1636,7 @@
 												</thead>
 												<tbody id="finance_attach_list_tbody_id">
 													<%-- <c:if test="${finance.year!=null}"> --%>
-													<c:set var="file" value="${finance.id }_file"/>
+													<c:set var="file" value="${finance.id }_file" />
 													<tr <c:if test="${fn:contains(audit,file)}"> onmouseover="errorMsg('${file}')"</c:if>>
 														<%-- <td class="tc"> <input type="checkbox" value="${finance.id}" /> 
 									</td> --%>

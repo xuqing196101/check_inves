@@ -84,12 +84,11 @@ $(function() {
       <input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
       <table class="table table-bordered">
         <tr>
-          <td class="info tc w258"> 品目名称</td>
+          <td class="info tc w258" rowspan="2"> 产品名称或小类</td>
           <td colspan="3" class="info tc">合同上传(体现甲乙双方盖章及工程名称、地点的相关页,最多五页)</td>
           <td colspan="3" class="info tc">收款进账单</td>
         </tr>
         <tr>
-          <td class="info tc"> 末级节点</td>
           <c:forEach items="${years}" var="year">
             <td class="info tc">${year}</td>
           </c:forEach>
