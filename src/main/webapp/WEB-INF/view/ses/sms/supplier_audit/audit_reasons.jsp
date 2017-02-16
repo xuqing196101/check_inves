@@ -30,7 +30,7 @@
        });
 
 	   function tijiao(status){
-	     $("#status").val(status);
+	     $("#supplierStatus").val(status);
 		 form1.submit();
 	   }
 			
@@ -44,7 +44,7 @@
 	   //审核
 	   function shenhe(status){
 	   			var supplierId = $("input[name='supplierId']").val();
-	   			if(status == "6"){
+	   			if(supplierStatus == "6"){
 	   				var index = layer.prompt({
 						title: '请填写理由：',
 						formType: 2,
@@ -55,13 +55,13 @@
 								data: {"reason" : text , "supplierId" : supplierId},
 								success: function() {
 									//提交审核
-									$("#status").val(status);
+									$("#supplierStatus").val(status);
 								  $("#form_shen").submit();
 								}
 							});
 						});
 	   			}else{
-	   				$("#status").val(status);
+	   				$("#supplierStatus").val(status);
 						$("#form_shen").submit();
 	   			}
 				}
@@ -253,9 +253,10 @@
         
           <form id="form_id" action="" method="post">
               <input name="supplierId" value="${supplierId}" type="hidden">
+              <input name="supplierStatus" value="${supplierStatus}" type="hidden">
           </form>
           
-          <c:if test="${status == 3 }">
+          <c:if test="${supplierStatus == 3 }">
              <h2 class="count_flow"><i>1</i>问题汇总</h2>
           </c:if>
           
@@ -303,7 +304,7 @@
 	           <a class="btn"  type="button" onclick="lastStep();">上一步</a>
 	         </div>
           </ul>
-	        <c:if test="${status == 5}">
+	        <c:if test="${supplierStatus == 5}">
 		        <!-- <h2 class="count_flow"><i></i>上传考察表报告</h2> -->
 			      <ul class="ul_list">
 		          <li class="col-md-6 p0 mb25">
@@ -319,22 +320,22 @@
 	        <div class="col-md-12 add_regist tc">
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
+	            <input name="supplierStatus" value="${supplierStatus}" type="hidden">
 	            <input name="id" type="hidden">
-	            <input type="hidden" name="status" id="status"/>
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">
 	              <div class="col-md-12 add_regist tc">
           			<!-- <a class="btn"  type="button" onclick="lastStep();">上一步</a> -->
-		            <c:if test="${status == 0}">
+		            <c:if test="${supplierStatus == 0}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(1)" value="审核通过 " id="tongguo">
 		              <input class="btn btn-windows back"  type="button" onclick="shenhe(2)" value="退回修改" id="tuihui">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(3)" value="审核不通过" id="butongguo">
 		            </c:if>
-		            <c:if test="${status == 4}">
+		            <c:if test="${supplierStatus == 4}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(5)" value="复核通过 " id="tongguo">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(6)" value="复核不通过" id="butongguo">
 		            </c:if>
-		            <c:if test="${status == 5}">
+		            <c:if test="${supplierStatus == 5}">
 		              <input class="btn btn-windows git"  type="button" onclick="shenhe(7)" value="合格 " id="hege">
 		              <input class="btn btn-windows cancel"  type="button" onclick="shenhe(8)" value="不合格" id="buhege">
 		            </c:if>

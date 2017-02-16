@@ -11,6 +11,8 @@ public interface SupplierHistoryMapper {
 	
 	List<SupplierHistory> selectAllBySupplierId(SupplierHistory supplierHistory);
 	
+	List<SupplierHistory> findListBySupplierId(SupplierHistory supplierHistory);
+	
 	/**
      *〈简述〉删除历史记录
      *〈详细描述〉

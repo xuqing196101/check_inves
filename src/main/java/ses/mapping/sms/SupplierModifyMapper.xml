@@ -18,7 +18,7 @@
     select 
     	<include refid="Base_Column_List"/>
     from 
-    	T_SES_SMS_SUPPLIER_HISTORY
+    	T_SES_SMS_SUPPLIER_MODIFY
     where 
     	SUPPLIER_ID = #{supplierId} 
     <if test="modifyType != null">
@@ -34,22 +34,15 @@
       and RELATION_ID = #{relationId}
     </if>
   </select>
-  
-  <select id="selectAllBySupplierId"   parameterType="ses.model.sms.SupplierModify" resultMap="BaseResultMap">
-    select 
-    	BEFORE_FIELD
-    from T_SES_SMS_SUPPLIER_HISTORY
-    where SUPPLIER_ID = #{supplierId} 
-  </select>
 
   <insert id="insert" parameterType="ses.model.sms.SupplierModify">
-    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID)
+    insert into T_SES_SMS_SUPPLIER_MODIFY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID)
     values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, #{beforeContent}, #{listType,jdbcType=TIMESTAMP}, #{relationId}
   </insert>
   
   <!-- 插入审核记录 -->
   <insert id="insertSelective" parameterType="ses.model.sms.SupplierModify">
-    insert into T_SES_SMS_SUPPLIER_HISTORY
+    insert into T_SES_SMS_SUPPLIER_MODIFY
     <trim prefix="(" suffix=")" suffixOverrides=",">
       <if test="id != null">
         ID,
@@ -103,7 +96,7 @@
   
   <!-- 删除历史记录 -->
   <delete id="delete" parameterType="ses.model.sms.SupplierModify">
-  	 delete from T_SES_SMS_SUPPLIER_HISTORY
+  	 delete from T_SES_SMS_SUPPLIER_MODIFY
   	 where SUPPLIER_ID = #{supplierId}
   	 <if test="beforeField != null">
   	 	and BEFORE_FIELD = #{beforeField}
