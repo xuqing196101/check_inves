@@ -29,10 +29,10 @@
          };
        });
 
-	   function tijiao(status){
+	   /* function tijiao(status){
 	     $("#supplierStatus").val(status);
 		 form1.submit();
-	   }
+	   } */
 			
 		//上一步
 	   function lastStep(){
@@ -44,7 +44,7 @@
 	   //审核
 	   function shenhe(status){
 	   			var supplierId = $("input[name='supplierId']").val();
-	   			if(supplierStatus == "6"){
+	   			if(status == 6){
 	   				var index = layer.prompt({
 						title: '请填写理由：',
 						formType: 2,
@@ -55,13 +55,14 @@
 								data: {"reason" : text , "supplierId" : supplierId},
 								success: function() {
 									//提交审核
-									$("#supplierStatus").val(status);
+									$("#status").val(status);
 								  $("#form_shen").submit();
 								}
 							});
 						});
 	   			}else{
-	   				$("#supplierStatus").val(status);
+	   				$("#status").val(status);
+	   				$("#status").val(status);
 						$("#form_shen").submit();
 	   			}
 				}
@@ -320,7 +321,7 @@
 	        <div class="col-md-12 add_regist tc">
 	          <form id="form_shen" action="${pageContext.request.contextPath}/supplierAudit/updateStatus.html"  enctype="multipart/form-data">
 	            <input name="supplierId" value="${supplierId}" type="hidden">
-	            <input name="supplierStatus" value="${supplierStatus}" type="hidden">
+	            <input name="status" id="status" type="hidden">
 	            <input name="id" type="hidden">
 	            <div class="margin-bottom-0  categories">
 	              <div class="col-md-12 add_regist tc">

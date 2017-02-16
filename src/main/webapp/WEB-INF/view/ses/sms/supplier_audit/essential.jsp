@@ -358,7 +358,7 @@
 
 					<form id="form_id" action="${pageContext.request.contextPath}/supplierAudit/financial.html" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
-						<input name="supplierStatus" value="${suppliers.status }" >
+						<input name="supplierStatus" value="${suppliers.status }" type="hidden">
 					</form>
 
 					<h2 class="count_flow"><i>1</i>企业信息</h2>
