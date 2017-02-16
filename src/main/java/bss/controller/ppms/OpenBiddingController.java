@@ -1210,7 +1210,7 @@ public class OpenBiddingController {
         List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
         if (allQuote != null && allQuote.size() > 0) {
             for (Quote conditionQuote : allQuote) {
-                if (conditionQuote.getSupplier()!=null&&conditionQuote.getSupplier().getId().equals(saleTender.getSuppliers().getId()) &&
+                if (conditionQuote.getSupplierId().equals(saleTender.getSuppliers().getId()) &&
                     conditionQuote.getProjectId().equals(saleTender.getProject().getId()) && saleTender.getPackages().equals(conditionQuote.getPackageId())) {
                     for (Quote qp : listQuotebyPackage1) {
                         if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplierId().equals(conditionQuote.getSupplierId())) {
@@ -1236,6 +1236,7 @@ public class OpenBiddingController {
     }
     model.addAttribute("treeMap", treeMap);
     model.addAttribute("projectId", projectId);
+    model.addAttribute("dd", dictionaryData);
     return "bss/ppms/open_bidding/bid_file/view_chang_total";
   }
 
@@ -1265,7 +1266,7 @@ public class OpenBiddingController {
     List<Quote> listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote);
     for (SaleTender saleTender : stList) {
       for (Quote qp : listQuotebyPackage) {
-        if (qp.getSupplier() != null && qp.getSupplier().getId().equals(saleTender.getSuppliers().getId())) {
+        if (qp.getSupplierId().equals(saleTender.getSuppliers().getId())) {
           saleTender.setTotal(qp.getTotal());
           saleTender.setDeliveryTime(qp.getDeliveryTime());
           saleTender.setQuoteId(qp.getId());
@@ -1648,8 +1649,11 @@ public class OpenBiddingController {
     List<Date> listDate =  supplierQuoteService.selectQuoteCount(condition);
     //packId代再次报价
     if (listDate != null && listDate.size() > 0  && packId == null) {
-      //如果有明细就是查看了
+        //如果有明细就是查看了
       return "redirect:viewMingxi.html?projectId=" + projectId;
+    }
+    if (listDate != null && listDate.size() > 0) {
+        model.addAttribute("listDate", listDate.size());
     }
     Quote quote2 = new Quote();
     HashMap<String, Object> map = new HashMap<String, Object>();
