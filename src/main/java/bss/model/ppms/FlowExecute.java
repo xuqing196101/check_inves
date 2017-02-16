@@ -15,6 +15,9 @@ public class FlowExecute implements Serializable{
 
     private String packageId;
 
+    /**
+     * 1:执行完成 2：执行中 0：未执行
+     */
     private Integer status;
 
     private Date createdAt;

@@ -75,7 +75,7 @@
           </c:if>
           
           <div class="p0${vs.index}">
-            <table class="table table-bordered table-condensed table-hover table-striped   p0 space_nowrap">
+            <table class="table table-bordered table-condensed table-hover    p0 space_nowrap">
               <tr>
                 <td class="tc" rowspan="2">分类</td>
                 <td class="tc" rowspan="2">评委名称</td>
@@ -88,7 +88,7 @@
               <tr>
               <c:forEach items="${supplierList}" var="supplier">
                   <c:if test="${supplier.packages eq pack.id}">
-	                <td class="tc" colspan="2">检查结果</td>
+	                <td class="info tc" colspan="2">检查结果</td>
                   </c:if>
                 </c:forEach>
               </tr>

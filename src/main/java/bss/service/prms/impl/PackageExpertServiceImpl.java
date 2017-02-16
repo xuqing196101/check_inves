@@ -830,8 +830,8 @@ public class PackageExpertServiceImpl implements PackageExpertService {
         //根据供应商的最新报价排名
         Collections.sort(finalSupplier,new Comparator<SaleTender>(){
           public int compare(SaleTender o1, SaleTender o2) {  
-            BigDecimal totalPrice1 = o1.getTotalPrice();
-            BigDecimal totalPrice2 = o2.getTotalPrice();
+            BigDecimal totalPrice1 = getTocalPriceSupplier(o1, projectId, packageId);
+            BigDecimal totalPrice2 = getTocalPriceSupplier(o2, projectId, packageId);
             if(totalPrice1.compareTo(totalPrice2) == 1){  
                 return 1;
             }  

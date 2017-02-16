@@ -45,38 +45,42 @@
       	  window.opener.callback();
       	  window.close();//当前页面关闭
       }
+      
+      function printdiv(printpage){
+		var headstr = "<html><head><title></title></head><body>";
+		var footstr = "</body>";
+		var newstr = document.all.item(printpage).innerHTML;
+		var oldstr = document.body.innerHTML;
+		document.body.innerHTML = headstr+newstr+footstr;
+		window.print(); 
+		document.body.innerHTML = oldstr;
+		return false;
+	  }
   </script>
   <body>
   	<div class="container">
     	<div class="mt5 mb5 fr">
-		    <button class="btn" onclick="window.print();" type="button">打印</button>
+		    <button class="btn" onclick="printdiv('div_print');" type="button">打印</button>
 	   	</div>
 	   	<div class="headline-v2">
 	   		<h2>专家咨询委员会</h2>
 	   	</div>
+	   	<div id="div_print">
 	   	<div class="mt10 tc">
 	   		<h2>${project.name}--${pack.name}</h2>
 	   	</div>
-	   	<div class="content table_box over_scroll">
-	  	<table id="tabId" class="table table-bordered table-condensed table-hover table-striped  p0 space_nowrap">
+	  	<table id="tabId" class="table table-bordered table-condensed table-hover">
  		  <thead>
 		      <tr>
 		        <th class="info">评审内容/供应商</th>
 		        <c:set var="suppliers" value="0" />
 		        <c:forEach items="${saleTenderList}" var="supplier" varStatus="vs">
 		        	<c:set var="suppliers" value="${suppliers+1}" />
-		        	<th class="info" colspan="2">${supplier.suppliers.supplierName}</th>
+		        	<th class="info" colspan="2">${supplier.suppliers.supplierName}单位IQ点进去往来款</th>
 		        </c:forEach>
 		      </tr>
 	      </thead>
 	      <tbody id="content">
-	  	  <tr>
-	  	  	  <td></td>
-  	  		  <c:forEach items="${saleTenderList}">
-	        	<td class="info tc"><div class="green">合格</div></td>
-	        	<td class="info tc"><div class="red">不合格</div></td>
-        	  </c:forEach>
-	  	  </tr>
 	      <c:forEach items="${dds}" var="d">
 		  	  <tr><td class="info" colspan="${(suppliers+1)*2}"><b>${d.name}</b></td></tr>
 		  	  <c:forEach items="${firstAudits}" var="first" varStatus="vs">
@@ -137,8 +141,8 @@
 	  	  </tr>
 	     </tbody>
   		</table>
+  		</div>
   	  </div>
-  	</div>
   	<div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
   		<c:if test="${flag != '1' }">
 			<input type="button" onclick="submit1();"  value="提交" class="btn btn-windows git">
