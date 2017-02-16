@@ -60,6 +60,8 @@ function judge(index) {
         }
       }
     }
+    var ischeck = '${scoreModel.ischeck}';
+    $("#check").val(ischeck);
   });
   function judgeRelationScore(index) {
     gernerator();
@@ -104,6 +106,51 @@ function judge(index) {
       }
     }
   }
+  
+  function judgeRelationScore2(index) {
+    gernerator();
+    var relation = $("#addSubtractTypeName").find("option:checked").val();
+    if (index == 1) {
+      if (relation == 1) {
+        //最低分
+        $("#relationScore").val(0);
+      } else {
+        //最高分
+        $("#relationScore").val(1);
+      }
+    } else {
+      if (relation == 1) {
+        //最高分
+        $("#relationScore").val(1);
+      } else {
+        //最低分
+        $("#relationScore").val(0);
+      }
+    }
+  }
+  
+  function judgeRelationScore3(index) {
+    gernerator();
+      var relation = $("#relation").find("option:checked").val();
+    if (index == 1) {
+      if (relation == 1) {
+        //最低分
+          $("#relationScore").val(0);
+      } else {
+        //最高分 
+          $("#relationScore").val(1);
+      }
+    } else {
+      if (relation == 1) {
+        //最高分
+          $("#relationScore").val(1);
+      } else {
+        //最低分
+          $("#relationScore").val(0);
+      }
+    }
+  }
+  
   
   function choseModel(){
     var model = $("#model").val();
@@ -314,23 +361,93 @@ function judge(index) {
   //动态添加参数区间
   var num2 =1;
   function addParamInterval(){
+    var table = document.getElementById("model73");
     var pinum = $("#num2").val();
     if(pinum>0){
       num2 = Number(pinum) + Number(1);
     }
+    num2 = table.rows.length;
     var tr ="";
     tr += "<tr>";
     tr += "<td class='w50 tc'>"+num2+"</td>";
-    tr += "<td><input class='w40' type='text' id=startParam"+num2+" name='pi.startParam'></td>";
-    tr += "<td class='tc'><select name='pi.startRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
-    tr += "<td><input class='w40' type='text' id=endParam"+num2+" name='pi.endParam'></td>";
-    tr += "<td class='tc'><select name='pi.endRelation'><option value='0' >></option><option value='1'>>=</option></select></td>";
-    tr += "<td><input class='w40' type='text' id=score"+num2+" name='pi.score'></td>";
-    tr += "<td><textarea class='' id="+num2+" name='pi.explain'></textarea></td>";
+    tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=startParam"+num2+" name='pi.startParam'></td>";
+    tr += "<td class='tc'><select onchange='checkNum()' name='pi.startRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
+    tr += "<td class='tc'>参数值</td>";
+    tr += "<td class='tc'><select onchange='checkNum()' name='pi.endRelation'><option value='0' ><</option><option value='1'><=</option></select></td>";
+    tr += "<td class='tc'><input style='width:60px' type='text' onblur='checkNum(this.value)' id=endParam"+num2+" name='pi.endParam'></td>";
+    tr += "<td class='tc'><input style='width:60px' onblur='checkNum(this.value)' type='text' id=score"+num2+" name='pi.score'></td>";
+    tr += "<td></td>";
     tr += "<td><a href='javascript:void(0);' onclick='delTr(this)'>删除</a></td>";
     tr += "</tr>";
     $("#model73 tbody").append(tr);
     num2++;
+  }
+  
+  $(function() {
+    setTimeout("checkNum()", 100);
+  });
+  
+  var scoreStr;//这个是检查为空的情况
+  var scoreCount;//这个是检查起始值要小于结束值的情况
+  var checkScore;//这个是要检查区间重复的情况
+  function checkNum() {
+    var table = document.getElementById("model73");
+    scoreStr = '';
+    scoreCount = 0;
+    checkScore = 0;
+    var j = 1;
+    for (j; j < table.rows.length; j++) {
+      var startParam = $(table.rows).eq(j).find("td").eq("1").find("input").val();
+      var startParamRelation = $(table.rows).eq(j).find("td").eq("2").find("select").find("option:checked").text();
+      var endParamRelation = $(table.rows).eq(j).find("td").eq("4").find("select").find("option:checked").text();
+      var endParam = $(table.rows).eq(j).find("td").eq("5").find("input").val();
+      var score = $(table.rows).eq(j).find("td").eq("6").find("input").val();
+      if (startParam == '' || startParamRelation == '' || endParamRelation == '' || endParam == '' || score == '') {
+        scoreCount ++;
+        break;
+      }
+      var str = startParam + "," + startParamRelation + "," + endParamRelation + "," + endParam + "," + score + ",";
+      var canshuzhi = $(table.rows).eq(j).find("td").eq("3").text();
+      $(table.rows).eq(j).find("td").eq("7").text(startParam + startParamRelation + canshuzhi + endParamRelation + endParam + " 得分:" + score);
+      scoreStr += str;
+    }
+    var scoreArr = new Array();
+    scoreArr = scoreStr.split(",");
+    for (var i = 0; i < scoreArr.length - 1; i++) {//长度减一是因为后面多了一个逗号
+      if (i % 5 == 0) {//验证某个区间是否合格
+          if (parseFloat(scoreArr[i + 3]) > parseFloat(scoreArr[i])) {
+        } else if (scoreArr[i] == scoreArr[i + 3] && scoreArr[i+1] == scoreArr[i+2] && scoreArr[i+1] == '<=') {
+          } else {
+              layer.msg("起始值要小于等于结束值");
+              checkScore ++;
+              break;
+          }
+      }
+    };
+    labe : for (var h = 0; h < scoreArr.length -1; h++) {
+      if (h % 5 == 0) {
+        for (var k = h+1; k < scoreArr.length - 1; k++) {
+          if (k % 5 == 0) {//验证区间是否包含别的区间
+            if (parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) < parseFloat(scoreArr[k])) {
+            } else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[k + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<=' && scoreArr[h + 1] == '<') {
+            } else if (scoreArr[h] == scoreArr[k] && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 1] == scoreArr[h + 2] && scoreArr[h + 2] == '<=' && scoreArr[k + 1] == '<') {
+            } else if (scoreArr[h] > scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] == scoreArr[k + 2] && scoreArr[h + 1] == '<') {
+            } else if (scoreArr[h] > scoreArr[k] && parseFloat(scoreArr[h]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] != scoreArr[k + 2]) {
+            } else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] == scoreArr[k + 1] && scoreArr[k + 1] == '<' ) ) {
+            } else if ((parseFloat(scoreArr[h]) < parseFloat(scoreArr[k]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k]) && scoreArr[h + 2] != scoreArr[k + 1]) ) {
+            } else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) >= parseFloat(scoreArr[k + 3])) {
+            } else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] == scoreArr[k + 2] && scoreArr[k + 2] == '<') {
+            } else if (parseFloat(scoreArr[h]) > parseFloat(scoreArr[k + 3]) && parseFloat(scoreArr[h + 3]) == parseFloat(scoreArr[k + 3]) && scoreArr[h + 1] != scoreArr[k + 2]) {
+            } else {
+              checkScore ++;
+              layer.msg("区间重复,请重新录入"); 
+              console.dir(checkScore);
+              break labe;
+            };
+          }
+        };
+      }
+    };
   }
   function delTr(obj){
     var tr=obj.parentNode.parentNode;
@@ -351,7 +468,7 @@ function judge(index) {
     var standardScore = $("#standardScore").val();
     //var judgeNumber = $("#judgeNumber").val();
     var str = judgeContent  + " "+"是"+standardScore+"分 "+"否0分";
-    $("#easyUnderstandContent1").val(str);
+    $("#easyUnderstandContent1").text(str);
   }
   function gerneratorTwo(){
     var reviewParam = $("#reviewParam").val();
@@ -456,14 +573,14 @@ function judge(index) {
     var standardScore = $("#standardScore").val();
     var unit = $("#unit").val();
     var str = "以" + reviewParam +"最高为基准,得分=("+reviewParam+"/基准值)*"+standardScore;
-    $("#easyUnderstandContent5").val(str);
+    $("#easyUnderstandContent5").text(str);
   }
   function gerneratorSix(){
     var reviewParam = $("#reviewParam").val();
     var standardScore = $("#standardScore").val();
     var unit = $("#unit").val();
     var str = "以" + reviewParam +"最低为基准,得分=(基准值/"+reviewParam+")*"+standardScore;
-    $("#easyUnderstandContent6").val(str);
+    $("#easyUnderstandContent6").text(str);
   }
   function gerneratorSeven(){
     var reviewParam  = $("#reviewParam").val();
@@ -475,12 +592,14 @@ function judge(index) {
     var maxScore   = $("#maxScore").val();
     var minScore  = $("#minScore").val();
     var type ="";
-    var addSubtractTypeName = $("#addSubtractTypeName").val();
+    var addSubtractTypeName = $("#addSubtractTypeName7").val();
     if(addSubtractTypeName=="0"){
-      var str = "加分实例:" + reviewParam +",低于" +reviewStandScore+"为0分,每增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+      var str =  "加分实例:" + reviewParam +",低于" +reviewStandScore+unit+"为"+ minScore+"分,每增加"+intervalNumber+unit+"加"+score+ "分, 最高分为"+maxScore+"分, 高于"+deadlineNumber+unit+"得"+maxScore+"分";
+      //加分实例：手机按键正常次数，低于4%以下为0分，每增加4%加4分，最高分为4分，高于4%，得4分
       $("#easyUnderstandContent7").text(str);
     }else{
-      var str = "减分实例:" + reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,没减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+      var str ="减分实例:" +  reviewParam +",低于" +reviewStandScore+unit+"为"+maxScore+"分,每增加"+intervalNumber+unit+"减"+score+ " 分,最低分为"+minScore+"分,高于"+deadlineNumber+unit+ "得"+minScore+"分";
+      // 减分实例：百公里耗油，低于4%以下为4分，每增加4%减4分，最低分为4分，高于4%，得0分
       $("#easyUnderstandContent7").text(str);
     }
   }
@@ -494,12 +613,14 @@ function judge(index) {
     var maxScore   = $("#maxScore").val();
     var minScore  = $("#minScore").val();
     var type ="";
-    var addSubtractTypeName = $("#addSubtractTypeName").val();
+    var addSubtractTypeName = $("#addSubtractTypeName8").val();
     if(addSubtractTypeName=="0"){
-      var str = "加分实例:" +  reviewParam +",高于" +reviewStandScore+"为"+maxScore+"分,每减少"+intervalNumber+"减"+score+ " 最低分分"+minScore+" 低于"+deadlineNumber+ "得"+minScore+"分";
+      var str =  "加分实例:" + reviewParam +",高于" +reviewStandScore+unit+"为"+minScore+"分,每减少"+intervalNumber+unit+"加"+score+ "分, 最高分为"+maxScore+"分,低于"+deadlineNumber+unit+ "得"+maxScore+"分";
+       // 加分实例：汽车尾气排放量，高于2%以上为0分，每减少1%加3分，最高分为4分，低于3%，得4分 
       $("#easyUnderstandContent8").text(str);
     }else{
-      var str = "减分实例:" + reviewParam +",低于" +reviewStandScore+"为0分,每增加"+intervalNumber+"加"+score+ " 最高分"+maxScore+" 最低分"+minScore+" 高于"+deadlineNumber+ "得"+maxScore+"分";
+      var str ="减分实例:" +  reviewParam +",高于" +reviewStandScore+unit+"为"+maxScore+"分,每减少"+intervalNumber+unit+"减"+score+ " 最低分为"+minScore+"分, 低于"+deadlineNumber+unit+ "得"+minScore+"分";
+      //减分实例：汽车尾气排放量，高于2%以上为4分，每减少1%减3分，最低分为0分，低于3%，得0分 
       $("#easyUnderstandContent8").text(str);
     }
   }
@@ -516,7 +637,7 @@ function judge(index) {
         }
       }
     }
-    $("#easyUnderstandContent9").val(str);
+    $("#easyUnderstandContent9").text(str);
   }
   
   function gerneratorTen(){
@@ -563,20 +684,31 @@ function judge(index) {
       $("#standardScore").val(standardScore);
       $("#judgeContent").val(result);
     }
+    if (scoreCount > 0) {
+      layer.msg("参数没有填写完整,请录入");
+      return;
+    }
+    if (checkScore > 0) {
+      layer.msg("区间不成立,请重新录入");
+      return;
+    }
       var standScore = $("#standardScore").val();
       var maxScore = $("#maxScore").val();
       var id = $("#id").val();
+      var isChecked = $("#check").val();
     var s = validteModel().form();
     console.dir(s);
     if(s){
       $.ajax({   
               type: "get",  
-              url: "${pageContext.request.contextPath}/adIntelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}",        
+              url: "${pageContext.request.contextPath}/adIntelligentScore/checkScore.do?standScore="+standScore+"&id="+id+"&maxScore="+maxScore+"&projectId=${projectId}"+"&packageId=${packageId}" + "&checked="+isChecked,        
               dataType:'json',
               success:function(result){
                     if (result == 0){
                layer.msg("评分项已超过100分,请检查",{offset: ['150px']});       
-                    } else {
+                    }  else if (result == 2) {
+                       layer.msg("每个包必须要有一个评审计算价格得分的唯一标识,有且只能为一个",{offset: ['150px']});    
+                    }  else {
                       $("#formID").attr('action','${pageContext.request.contextPath}/adIntelligentScore/operatorScoreModel.do').submit();
                     }
               },
@@ -589,6 +721,7 @@ function judge(index) {
       return;
     }
   }
+  
   function pageOnLoad(){
     var model = $("#sm").val();
     $("#showParamButton").hide();
@@ -887,6 +1020,16 @@ function judge(index) {
                      <input name="name" id="name" value="${scoreModel.name}" type="text">
                   </div>
                   </li>
+                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                    <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否标识(评审计算价格得分的唯一标识) ：</div>
+                  <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                       <select id="check" name="ischeck">
+                  <option value="">请选择</option>
+                  <option value="1">是</option>
+                  <option value="0">否</option>
+              </select>
+                  </div>
+                  </li>
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6">
                      <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>选择模型 ：</div>
                    <div class="col-md-12 col-sm-12 col-xs-12 p0 select_common">
@@ -930,9 +1073,10 @@ function judge(index) {
             </th> -->
             <th class="w50">序号</th>
             <th class="">起始值</th>
-            <th class="">参数和起始值关系</th>
+            <th class="">参数和<br/>起始值关系</th>
+            <th class="">评审参数<br/>对应数值</th>
+            <th class="">参数和<br/>结束值关系</th>
             <th class="">结束值</th>
-            <th class="">参数和结束值关系</th>
             <th class="">得分</th>
             <th class="">解释</th>
             <th class="">操作</th>
@@ -1141,7 +1285,7 @@ function judge(index) {
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>加减分类型</td>
         <td>
-          <select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore(this.options[this.options.selectedIndex].value)">
+          <select name="addSubtractTypeName" id="addSubtractTypeName" onchange="judgeRelationScore3(this.options[this.options.selectedIndex].value)">
             <option value="0" <c:if test="${scoreModel.addSubtractTypeName == 0}">selected="selected"</c:if> >加分</option>
             <option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
           </select>
@@ -1166,7 +1310,7 @@ function judge(index) {
         <tr class="show">
           <td class="w180 tc"><span class="star_red">*</span>与基准数额关系</td>
           <td>
-              <select name="relation" id="relation" onchange="judgeRelationScore1(this.options[this.options.selectedIndex].value)">
+              <select name="relation" id="relation" onchange="judgeRelationScore2(this.options[this.options.selectedIndex].value)">
                      <option <c:if test="${scoreModel.relation == 0}"> selected="selected" </c:if> value="0">大于等于</option>
                      <option <c:if test="${scoreModel.relation == 1}"> selected="selected" </c:if> value="1">小于等于</option>
                </select>
@@ -1298,12 +1442,14 @@ function judge(index) {
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>加减分分值</td>
-        <td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }"></td>
+        <td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
         <td><span class="blue">每个区间的分之差,加分加多少分,减分减多少分</span></td>
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>区间类型</td>
-        <td><select name="intervalTypeName" id="intervalTypeName71" onchange="modelSevenAddSubstact71();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+        <td><select name="intervalTypeName" id="intervalTypeName71" onchange="modelSevenAddSubstact71();">
+        <option value="0" selected="selected">以基准值,每个区间的差额相等</option><option value="1">以区间,每个区间的差额不等</option>
+        </select></td>
         <td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
       </tr>
       <tr>
@@ -1360,7 +1506,9 @@ function judge(index) {
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>区间类型</td>
-        <td><select name="intervalTypeName" id="intervalTypeName72" onchange="modelSevenAddSubstact72();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
+        <td><select name="intervalTypeName" id="intervalTypeName72" onchange="modelSevenAddSubstact72();">
+        <option value="0">以基准值,每个区间的差额相等</option><option value="1" selected="selected">以区间,每个区间的差额不等</option>
+        </select></td>
         <td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
       </tr>
       <tr>
@@ -1404,13 +1552,15 @@ function judge(index) {
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>加减分分值</td>
-        <td><input name="score" id="score" onkeyup="gernerator();" value="${scoreModel.score }"></td>
+        <td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
         <td><span class="blue">每个区间的分之差,加分加多少分,减分减多少分</span></td>
       </tr>
       
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>区间类型</td>
-        <td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();"><option value="0" selected="selected">差额相等</option><option value="1">差额区间</option></select></td>
+        <td><select name="intervalTypeName" id="intervalTypeName81" onchange="modelSevenAddSubstact81();">
+        <option value="0" selected="selected">以基准值,每个区间的差额相等</option><option value="1">以区间,每个区间的差额不等</option>
+        </select></td>
         <td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
       </tr>
       <tr>
@@ -1478,7 +1628,9 @@ function judge(index) {
       </tr>
       <tr>
         <td class="w180 tc"><span class="star_red">*</span>区间类型</td>
-        <td><select name="intervalTypeName" id="intervalTypeName82" onchange="modelSevenAddSubstact82();"><option value="0">差额相等</option><option value="1" selected="selected">差额区间</option></select></td>
+        <td><select name="intervalTypeName" id="intervalTypeName82" onchange="modelSevenAddSubstact82();">
+        <option value="0">以基准值,每个区间的差额相等</option><option value="1" selected="selected">以区间,每个区间的差额不等</option>
+        </select></td>
         <td><span class="blue">如果每个区间差额都相等建议选用此区间类型</span></td>
       </tr>
       <tr>
@@ -1537,9 +1689,9 @@ function judge(index) {
         <td class=" w300 tc"><span class="star_red">*</span>评审参数</td>
         <td><input name="reviewParam" onkeyup="gernerator();" id="reviewParam" value="${scoreModel.reviewParam }" ></td>
         <td><span class="blue">
-          该参数代表需要录入供应商的参数名称。<br/>
-          减分例子：碳纤维自行车重量参数由小至大排序评分,第一名得1分,其余依次递减0.15分,最低分为0分,其中</span><span class="red">碳纤维自行车重量</span><span class="blue">就为评审参数<br/>
-          加分例子：矿泉水容量大小排序评分,第一名得0分,其余依次递增0.15分,最高分为1分,其中</span><span class="red">矿泉水容量</span><span class="blue">就为评审参数</span>
+          *该参数代表需要录入供应商的参数名称。<br/>
+           减分例子：产品生产工序符合产品技术标准情况评分排名，排名第一的得最高分，其余其余依次递减0.1分。其中</span><span class="red">产品生产工序符合产品技术标准情况排名</span><span class="blue">就为评审参数<br/>
+          加分例子：上年度消费管理局罚款金额大小排名情况,第一名得最低分,其余依次递增0.1分,最高分为1分,其中</span><span class="red">上年度消费管理局罚款金额排名</span><span class="blue">就为评审参数</span>
         </td>
       </tr>
       <tr>

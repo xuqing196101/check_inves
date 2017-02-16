@@ -514,5 +514,21 @@
         where  PROJECT_ID = #{pid} and REQUIRED_ID = #{rid} 
     </select>
     
+    <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT
+				  p.PROJECT_ID,p.DEPARTMENT
+				FROM
+				  T_BSS_PPMS_PROJECTS_DETAIL p
+				WHERE p.DEPARTMENT IN (
+				  SELECT
+				    o. NAME
+				  FROM
+				    T_SES_OMS_ORG o
+				  LEFT JOIN T_SES_BMS_USER u ON o.ID = u.ORG_ID
+				  WHERE
+				    u.ID = #{id}
+				) 
+    </select>
+    
     
 </mapper>

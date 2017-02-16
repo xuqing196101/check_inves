@@ -53,4 +53,6 @@ public interface ProjectDetailMapper {
 	 
 	 List<ProjectDetail> getByPidAndRid(@Param("pid")String pid,@Param("rid")String rid);
 	 
+	 List<ProjectDetail> selectByDemand(HashMap<String,Object> map);
+	 
 }

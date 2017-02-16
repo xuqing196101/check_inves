@@ -233,6 +233,20 @@ public class ProjectController extends BaseController {
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
             }
+            
+            //判断如果是需求部门
+            if("0".equals(orgnization.getTypeName())){
+                HashMap<String, Object> mop = new HashMap<>();
+                List<Project> newPro = new ArrayList<Project>();
+                mop.put("id", user.getId());
+                List<ProjectDetail> lists = detailService.selectByDemand(mop);
+                removeDetail(lists);
+                for (ProjectDetail projectDetail : lists) {
+                    Project project2 = projectService.selectById(projectDetail.getProject().getId());
+                    newPro.add(project2);
+                }
+                model.addAttribute("info", new PageInfo<Project>(newPro));
+            }
                 
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
@@ -574,7 +588,7 @@ public class ProjectController extends BaseController {
      * @param num
      * @return
      */
-     @RequestMapping("/nextStep")
+     @RequestMapping(value="/nextStep",produces = "text/html;charset=UTF-8")
      public String nextStep(Project project,Model model, String num, String checkId){
          String status = DictionaryDataUtil.getId("YLX_DFB");
          project.setStatus(status);
@@ -785,6 +799,23 @@ public class ProjectController extends BaseController {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
                 if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    /**
+     * 
+     *〈明细项目ID去重〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param list
+     */
+    public void removeDetail(List<ProjectDetail> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getProject().getId().equals(list.get(i).getProject().getId())) {
                     list.remove(j);
                 }
             }

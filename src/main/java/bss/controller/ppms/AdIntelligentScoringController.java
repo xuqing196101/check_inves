@@ -5,6 +5,7 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -85,10 +86,11 @@ public class AdIntelligentScoringController extends BaseController{
 	
     @RequestMapping(value = "checkScore")
     @ResponseBody
-    public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id ){
+    public Integer checkScore(String standScore, String maxScore, String projectId, String packageId, String id, String checked){
         List<DictionaryData> ddList = DictionaryDataUtil.find(23);
         Double score = 0.0;
         Integer result = 0;
+        int checkCount = 0;
         for (DictionaryData dictionaryData : ddList) {
             MarkTerm mt = new MarkTerm();
             mt.setTypeName(dictionaryData.getId());
@@ -104,6 +106,14 @@ public class AdIntelligentScoringController extends BaseController{
                 mt1.setPackageId(packageId);
                 List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
                 for (MarkTerm markTerm : mtValue) {
+                    
+                    if (id == null && "1".equals(markTerm.isChecked())) {
+                        checkCount ++;
+                    }
+                    if (id != null && !markTerm.getSmId().equals(id) && "1".equals(markTerm.isChecked())) {
+                        checkCount ++;
+                    }
+                    
                     if (markTerm.getSmId().equals(id)){
                         continue;
                     }
@@ -126,7 +136,13 @@ public class AdIntelligentScoringController extends BaseController{
                 if (resultScore <= 100){
                     result = 1;
                 }
-            } 
+            }  else {
+                result = 1; //新增的时候
+            }
+        }
+
+        if (result == 1 && checkCount == 1 && "1".equals(checked)) {
+            result = 2;//提示已存在
         }
         return result;
     }
@@ -163,8 +179,8 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	@RequestMapping("/loadTemplat")
 	public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
-	    try{
-	      //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
+        try{
+            //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
             HashMap<String, Object> condition = new HashMap<String, Object>();
             condition.put("projectId", projectId);
             condition.put("packageId", packageId);
@@ -184,10 +200,12 @@ public class AdIntelligentScoringController extends BaseController{
             ScoreModel smCondition = new ScoreModel();
             smCondition.setProjectId(id);
             List<ScoreModel> smList = scoreModelService.findListByScoreModel(smCondition);
-          //模型七八的差额区间数据
+            //模型七八的差额区间数据
             List<ParamInterval> piList = new ArrayList<ParamInterval>();
             //模型七八对应的差额区间查询条件
             ParamInterval paramInterval = new ParamInterval();
+            long nowDate = new Date().getTime();
+            long addTime = 1000l;//一秒
             for (BidMethod bidMethod : bmList) {
                 //修改之前新增一条
                 BidMethod bm = new BidMethod();
@@ -218,14 +236,19 @@ public class AdIntelligentScoringController extends BaseController{
                         
                         for (MarkTerm markTerm2 : mtList) {
                             if (markTerm.getId().equals(markTerm2.getPid())) {
+                                
                                 MarkTerm mtChildren = new MarkTerm();
                                 mtChildren.setId(null);
                                 mtChildren.setPid(mt.getId());
                                 mtChildren.setName(markTerm2.getName());
                                 mtChildren.setIsDeleted(0);
-                                mtChildren.setCreatedAt(new Date());
+                                //每条增加的时间都不一样
+                                addTime = addTime + 1000l;
+                                nowDate = nowDate + addTime;
+                                mtChildren.setCreatedAt(new Date(nowDate));
                                 mtChildren.setMaxScore(markTerm2.getMaxScore());
                                 mtChildren.setProjectId(id);
+                                mtChildren.setChecked(markTerm2.isChecked());
                                 mtChildren.setRemainScore(markTerm2.getRemainScore());
                                 mtChildren.setTypeName(markTerm2.getTypeName());
                                 markTermService.saveMarkTerm(mtChildren);
@@ -305,6 +328,7 @@ public class AdIntelligentScoringController extends BaseController{
                 scoreModel.setPackageId(packageId);
                 scoreModelService.updateScoreModel(scoreModel);
             }
+            
           String msg = "引入成功";
           response.setContentType("text/html;charset=utf-8");
           response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
@@ -314,7 +338,7 @@ public class AdIntelligentScoringController extends BaseController{
         } finally{
             response.getWriter().close();
         }
-	  }
+      }
 	
 	@RequestMapping(value = "deleteScoreModel")
 	public String deleteScoreModel(String id, Integer deleteStatus, String projectId ,String packageId) {
@@ -694,7 +718,6 @@ public class AdIntelligentScoringController extends BaseController{
         String[] startParam = request.getParameterValues("pi.startParam");
         String[] endParam = request.getParameterValues("pi.endParam");
         String[] score = request.getParameterValues("pi.score");
-        String[] explain = request.getParameterValues("pi.explain");
         String[] startRelation = request.getParameterValues("pi.startRelation");
         String[] endRelation = request.getParameterValues("pi.endRelation");
          if (scoreModel.getReviewContent() != null && !"".equals(scoreModel.getReviewContent())) {
@@ -708,6 +731,7 @@ public class AdIntelligentScoringController extends BaseController{
             if (mtList != null && mtList.size() > 0) {
                 MarkTerm markTerm = mtList.get(0);
                 markTerm.setName(scoreModel.getReviewContent());
+                markTerm.setChecked(scoreModel.getIscheck() + "");
                 markTermService.updateMarkTerm(markTerm);
             }
             HashMap<String, Object> map  = new HashMap<String,Object>();
@@ -728,7 +752,6 @@ public class AdIntelligentScoringController extends BaseController{
                     p.setEndParam(endParam[i]);
                     p.setEndRelation(endRelation[i]);
                     p.setScore(score[i]);
-                    p.setExplain(explain[i]);
                     p.setProjectId(scoreModel.getProjectId());
                     p.setPackageId(scoreModel.getPackageId());
                     paramIntervalService.saveParamInterval(p);
@@ -744,6 +767,7 @@ public class AdIntelligentScoringController extends BaseController{
             mt.setPackageId(scoreModel.getPackageId());
             mt.setProjectId(scoreModel.getProjectId());
             mt.setMaxScore("0");
+            mt.setChecked(scoreModel.getIscheck() + "");
             //mt.setTypeName();
             markTermService.saveMarkTerm(mt);
             scoreModel.setMarkTermId(mt.getId());
@@ -761,15 +785,14 @@ public class AdIntelligentScoringController extends BaseController{
                     p.setEndParam(endParam[i]);
                     p.setScore(score[i]);
                     p.setEndRelation(endRelation[i]);
-                    p.setExplain(explain[i]);
                     p.setProjectId(scoreModel.getProjectId());
                     p.setPackageId(scoreModel.getPackageId());
                     paramIntervalService.saveParamInterval(p);
                 }
             }
         }
-		return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId();
-	}
+        return "redirect:editPackageScore.html?projectId="+scoreModel.getProjectId()+"&packageId="+scoreModel.getPackageId();
+    }
 	/**
 	 * 
 	 * @Title: add
@@ -986,7 +1009,8 @@ public class AdIntelligentScoringController extends BaseController{
 	 */
 	@RequestMapping("gettreebody")
 	public String gettreebody(@ModelAttribute MarkTerm markTerm,Model model,HttpServletRequest request ,String addStatus) throws UnsupportedEncodingException {
-	    String packageId = request.getParameter("packageId");
+
+        String packageId = request.getParameter("packageId");
         ScoreModel scoreModel = new ScoreModel();
         scoreModel.setName(URLDecoder.decode(markTerm.getName(), "UTF-8"));
         scoreModel.setMarkTermId(markTerm.getId()==null?"":markTerm.getId());
@@ -1002,23 +1026,22 @@ public class AdIntelligentScoringController extends BaseController{
             for (ParamInterval paramInterval : piList) {
                 count++;
                 String startParam = paramInterval.getStartParam() == null ? "" : paramInterval.getStartParam();
-                sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input class='w40' type='text' value='" + startParam + "'name='pi.startParam'>");
+                sb.append("<tr><td class=tc>" + count + "</td><td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + startParam + "'name='pi.startParam'>");
                 if ("0".equals(paramInterval.getStartRelation())) {
-                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0' selected='selected'><</option><option value='1'><=</option></select></td>");
+                    sb.append("</td><td class=tc><select onchange='checkNum()' name='pi.startRelation'><option value='0' selected='selected'><</option><option value='1'><=</option></select></td><td class='tc'>参数值</td>");
                 } else {
-                    sb.append("</td><td class=tc><select name='pi.startRelation'><option value='0'><</option><option value='1' selected='selected'><=</option></select></td>");
+                    sb.append("</td><td class=tc><select onchange='checkNum()' name='pi.startRelation'><option value='0'><</option><option value='1' selected='selected'><=</option></select></td><td class='tc'>参数值</td>");
+                }
+                if ("0".equals(paramInterval.getEndRelation())) {
+                    sb.append("<td class=tc><select onchange='checkNum()' name='pi.endRelation'><option value='0'  selected='selected' ><</option><option value='1'><=</option></select></td>");
+                } else {
+                    sb.append("<td class=tc><select onchange='checkNum()' name='pi.endRelation'><option value='0' ><</option><option value='1'  selected='selected'><=</option></select></td>");
                 }
                 String endParam = paramInterval.getEndParam() == null ? "" : paramInterval.getEndParam();
-                sb.append("<td class=tc><input class='w40' type='text' value='" + endParam + "'name='pi.endParam'></td>");
-                if ("0".equals(paramInterval.getEndRelation())) {
-                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0'  selected='selected' >></option><option value='1'>>=</option></select></td>");
-                } else {
-                    sb.append("<td class=tc><select name='pi.endRelation'><option value='0' >></option><option value='1'  selected='selected'>>=</option></select></td>");
-                }
+                sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + endParam + "'name='pi.endParam'></td>");
                 String score = paramInterval.getScore() == null ? "" : paramInterval.getScore();
-                sb.append("<td class=tc><input class='w40' type='text' value='" + score + "'name='pi.score'></td>");
-                String explain = paramInterval.getExplain() == null ? "" :paramInterval.getExplain();
-                sb.append("<td class=tc><textarea  name='pi.explain'>" + explain + "</textarea></td>");
+                sb.append("<td class=tc><input style='width:60px' onblur='checkNum()' type='text' value='" + score + "'name='pi.score'></td>");
+                sb.append("<td></td>");
                 sb.append("<td class=tc><a href=javascript:void(0); onclick=delTr(this)>删除</a></td></tr>");
             }
             String scoreStr = sb.toString();
@@ -1028,12 +1051,16 @@ public class AdIntelligentScoringController extends BaseController{
         model.addAttribute("packageId", packageId);
         model.addAttribute("markTermId", markTerm.getId());
         String markTermName ="";
-        /*if(markTerm.getName()!=null && !markTerm.getName().equals("")){
-            markTermName = URLDecoder.decode(markTerm.getName(), "UTF-8");
-        }*/
         model.addAttribute("markTermName",markTermName );
         if(scoreModelList!=null && scoreModelList.size()>0){
-            
+            if (scoreModelList.get(0).getJudgeContent() != null && !"".equals(scoreModelList.get(0).getJudgeContent())) {
+                List<String> list = Arrays.asList(scoreModelList.get(0).getJudgeContent().split("\\|"));
+                scoreModelList.get(0).setModel1BJudgeContent(list);
+            }
+            if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
+                scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
+            }
+            scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
             model.addAttribute("scoreModel", scoreModelList.get(0));
         }
         model.addAttribute("projectId", markTerm.getProjectId());

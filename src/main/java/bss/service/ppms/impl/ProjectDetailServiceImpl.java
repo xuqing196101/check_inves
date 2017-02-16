@@ -128,4 +128,10 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 		return projectDetailMapper.getByPidAndRid(pid, rid);
 	}
 
+    @Override
+    public List<ProjectDetail> selectByDemand(HashMap<String, Object> map) {
+
+        return projectDetailMapper.selectByDemand(map);
+    }
+
 }

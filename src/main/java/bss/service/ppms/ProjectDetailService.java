@@ -49,5 +49,7 @@ public interface ProjectDetailService {
 	
 	List<ProjectDetail> getByPidAndRid(String pid,String rid);
 	
+	List<ProjectDetail> selectByDemand(HashMap<String,Object> map);
+	
 	
 }
