@@ -9,9 +9,10 @@
     <result column="BEFORE_CONTENT" property="beforeContent" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
     <result column="RELATION_ID" property="relationId" />
+    <result column="LIST_TYPE" property="listType" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID
+    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID, LIST_TYPE
   </sql>
   
   <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
@@ -38,7 +39,7 @@
 
   <insert id="insert" parameterType="ses.model.sms.SupplierHistory">
     insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, CREATED_AT, RELATION_ID)
-    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, #{beforeContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}
+    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, #{beforeContent}, #{createdAt,jdbcType=TIMESTAMP}, #{relationId}, #{listType}
   </insert>
   
   <!-- 插入审核记录 -->
@@ -66,6 +67,9 @@
       <if test="relationId != null">
         RELATION_ID,
       </if>
+      <if test="listType != null">
+        LIST_TYPE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -88,6 +92,9 @@
       </if>
       <if test="relationId != null">
         #{relationId},
+      </if>
+      <if test="listType != null">
+        #{listType},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">

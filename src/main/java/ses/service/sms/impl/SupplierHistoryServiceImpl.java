@@ -68,7 +68,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	private static final int CERT_APT_LIST = 9;
 	
 	/**物资销售-资质证书信息**/
-	private static final int CERT_SE_LIST = 1;
+	private static final int CERT_SE_LIST = 10;
 	
 	public void  add(SupplierHistory supplierHistory){
 		supplierHistoryMapper.insertSelective(supplierHistory);
@@ -114,24 +114,24 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setmodifyType("basic_page");
                 historyInfo.setCreatedAt(date);
                 historyInfo.setRelationId(address.getId());
-    
+                historyInfo.setListType(ADDRESS_LIST);
                 // 邮编
-                historyInfo.setBeforeField("code" + ADDRESS_LIST);
+                historyInfo.setBeforeField("code");
                 historyInfo.setBeforeContent(address.getCode());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 省
-                historyInfo.setBeforeField("provinceId" + ADDRESS_LIST);
+                historyInfo.setBeforeField("provinceId");
                 historyInfo.setBeforeContent(address.getProvinceId());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 市
-                historyInfo.setBeforeField("address" + ADDRESS_LIST);
+                historyInfo.setBeforeField("address");
                 historyInfo.setBeforeContent(address.getAddress());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 市
-                historyInfo.setBeforeField("detailAddress" + ADDRESS_LIST);
+                historyInfo.setBeforeField("detailAddress");
                 historyInfo.setBeforeContent(address.getDetailAddress());
                 supplierHistoryMapper.insertSelective(historyInfo);
             }
@@ -146,24 +146,25 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setmodifyType("basic_page");
                 historyInfo.setCreatedAt(date);
                 historyInfo.setRelationId(branch.getId());
+                historyInfo.setListType(BRANCH_LIST);
 
                 // 名称
-                historyInfo.setBeforeField("organizationName" + BRANCH_LIST);
+                historyInfo.setBeforeField("organizationName");
                 historyInfo.setBeforeContent(branch.getOrganizationName());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 国家
-                historyInfo.setBeforeField("country" + BRANCH_LIST);
+                historyInfo.setBeforeField("country");
                 historyInfo.setBeforeContent(branch.getCountry());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 地址
-                historyInfo.setBeforeField("detailAddress" + BRANCH_LIST);
+                historyInfo.setBeforeField("detailAddress");
                 historyInfo.setBeforeContent(branch.getDetailAddress());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 生产经营范围
-                historyInfo.setBeforeField("businessSope" + BRANCH_LIST);
+                historyInfo.setBeforeField("businessSope");
                 historyInfo.setBeforeContent(branch.getBusinessSope());
                 supplierHistoryMapper.insertSelective(historyInfo);
             }
@@ -178,44 +179,44 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setmodifyType("finance_page");
                 historyInfo.setCreatedAt(date);
                 historyInfo.setRelationId(finances.getId());
-    
+                historyInfo.setListType(FINANCES_LIST);
                 // 年份
-                historyInfo.setBeforeField("year" + FINANCES_LIST);
+                historyInfo.setBeforeField("year");
                 historyInfo.setBeforeContent(finances.getYear());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 名称
-                historyInfo.setBeforeField("name" + FINANCES_LIST);
+                historyInfo.setBeforeField("name");
                 historyInfo.setBeforeContent(finances.getName());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 联系电话
-                historyInfo.setBeforeField("telephone" + FINANCES_LIST);
+                historyInfo.setBeforeField("telephone");
                 historyInfo.setBeforeContent(finances.getTelephone());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 姓名
-                historyInfo.setBeforeField("auditors" + FINANCES_LIST);
+                historyInfo.setBeforeField("auditors");
                 historyInfo.setBeforeContent(finances.getAuditors());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 资产总额
-                historyInfo.setBeforeField("totalAssets" + FINANCES_LIST);
+                historyInfo.setBeforeField("totalAssets");
                 historyInfo.setBeforeContent(finances.getTotalAssets().toString());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 负债总额
-                historyInfo.setBeforeField("totalLiabilities" + FINANCES_LIST);
+                historyInfo.setBeforeField("totalLiabilities");
                 historyInfo.setBeforeContent(finances.getTotalLiabilities().toString());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 净资产总额
-                historyInfo.setBeforeField("totalNetAssets" + FINANCES_LIST);
+                historyInfo.setBeforeField("totalNetAssets");
                 historyInfo.setBeforeContent(finances.getTotalNetAssets().toString());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 营业收入
-                historyInfo.setBeforeField("taking" + FINANCES_LIST);
+                historyInfo.setBeforeField("taking");
                 historyInfo.setBeforeContent(finances.getTaking().toString());
                 supplierHistoryMapper.insertSelective(historyInfo);
             }
@@ -230,29 +231,30 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setmodifyType("shareholder_page");
                 historyInfo.setCreatedAt(date);
                 historyInfo.setRelationId(holder.getId());
+                historyInfo.setListType(HOLDER_LIST);
     
                 // 出资人性质
-                historyInfo.setBeforeField("nature" + HOLDER_LIST);
+                historyInfo.setBeforeField("nature");
                 historyInfo.setBeforeContent(holder.getNature());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 出资人姓名
-                historyInfo.setBeforeField("name" + HOLDER_LIST);
+                historyInfo.setBeforeField("name");
                 historyInfo.setBeforeContent(holder.getName());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 出资人社会统一信用代码
-                historyInfo.setBeforeField("identity" + HOLDER_LIST);
+                historyInfo.setBeforeField("identity");
                 historyInfo.setBeforeContent(holder.getIdentity());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 出资人股份
-                historyInfo.setBeforeField("shares" + HOLDER_LIST);
+                historyInfo.setBeforeField("shares");
                 historyInfo.setBeforeContent(holder.getShares());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 比例
-                historyInfo.setBeforeField("proportion" + HOLDER_LIST);
+                historyInfo.setBeforeField("proportion");
                 historyInfo.setBeforeContent(holder.getProportion());
                 supplierHistoryMapper.insertSelective(historyInfo);
             }
@@ -371,34 +373,34 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     historyInfo.setmodifyType("mat_pro_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(certPro.getId());
-                    
+                    historyInfo.setListType(CERT_PRO_LIST);
                     // 资质证书名称
-                    historyInfo.setBeforeField("name" + CERT_PRO_LIST);
+                    historyInfo.setBeforeField("name");
                     historyInfo.setBeforeContent(certPro.getName());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 资质等级
-                    historyInfo.setBeforeField("levelCert" + CERT_PRO_LIST);
+                    historyInfo.setBeforeField("levelCert");
                     historyInfo.setBeforeContent(certPro.getLevelCert());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 发证机关
-                    historyInfo.setBeforeField("licenceAuthorith" + CERT_PRO_LIST);
+                    historyInfo.setBeforeField("licenceAuthorith");
                     historyInfo.setBeforeContent(certPro.getLicenceAuthorith());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 有效期（起始时间）
-                    historyInfo.setBeforeField("expStartDate" + CERT_PRO_LIST);
+                    historyInfo.setBeforeField("expStartDate");
                     historyInfo.setBeforeContent(format.format(certPro.getExpStartDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 有效期（结束时间）
-                    historyInfo.setBeforeField("expEndDate" + CERT_PRO_LIST);
+                    historyInfo.setBeforeField("expEndDate");
                     historyInfo.setBeforeContent(format.format(certPro.getExpEndDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 是否年检
-                    historyInfo.setBeforeField("mot" + CERT_PRO_LIST);
+                    historyInfo.setBeforeField("mot");
                     historyInfo.setBeforeContent(certPro.getMot().toString());
                     supplierHistoryMapper.insertSelective(historyInfo);
                 }
@@ -449,34 +451,34 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setmodifyType("mat_sell_page");
                 historyInfo.setCreatedAt(date);
                 historyInfo.setRelationId(certSell.getId());
-                
+                historyInfo.setListType(CERT_SALES_LIST);
                 // 资质证书名称
-                historyInfo.setBeforeField("name" + CERT_SALES_LIST);
+                historyInfo.setBeforeField("name");
                 historyInfo.setBeforeContent(certSell.getName());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 资质等级
-                historyInfo.setBeforeField("levelCert" + CERT_SALES_LIST);
+                historyInfo.setBeforeField("levelCert");
                 historyInfo.setBeforeContent(certSell.getLevelCert());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 发证机关
-                historyInfo.setBeforeField("licenceAuthorith" + CERT_SALES_LIST);
+                historyInfo.setBeforeField("licenceAuthorith");
                 historyInfo.setBeforeContent(certSell.getLicenceAuthorith());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 有效期（起始时间）
-                historyInfo.setBeforeField("expStartDate" + CERT_SALES_LIST);
+                historyInfo.setBeforeField("expStartDate");
                 historyInfo.setBeforeContent(format.format(certSell.getExpStartDate()));
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 有效期（结束时间）
-                historyInfo.setBeforeField("expStartDate" + CERT_SALES_LIST);
+                historyInfo.setBeforeField("expStartDate");
                 historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 //是否年检
-                historyInfo.setBeforeField("mot" + CERT_SALES_LIST);
+                historyInfo.setBeforeField("mot");
                 historyInfo.setBeforeContent(certSell.getMot().toString());
                 supplierHistoryMapper.insertSelective(historyInfo);
         	}
@@ -525,14 +527,15 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                      historyInfo.setmodifyType(" mat_eng_page");
                      historyInfo.setCreatedAt(date);
                      historyInfo.setRelationId(regPerson.getId());
+                     historyInfo.setListType(REG_PERSON_LIST);
                      
                      //注册名称
-                     historyInfo.setBeforeField("regType" + REG_PERSON_LIST);
+                     historyInfo.setBeforeField("regType");
                      historyInfo.setBeforeContent(regPerson.getRegType());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //注册人数
-                     historyInfo.setBeforeField("regNumber" + REG_PERSON_LIST);
+                     historyInfo.setBeforeField("regNumber");
                      historyInfo.setBeforeContent(regPerson.getRegNumber().toString());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
@@ -549,69 +552,70 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     historyInfo.setmodifyType(" mat_eng_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(certEng.getId());
-            		
+                    historyInfo.setListType(CERT_ENGS_LIST);
+                    
             		 // 资质资格类型
-                    historyInfo.setBeforeField("certType" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("certType");
                     historyInfo.setBeforeContent(certEng.getCertType());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 证书编号
-                    historyInfo.setBeforeField("certCode" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("certCode");
                     historyInfo.setBeforeContent(certEng.getCertCode());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 资质资格最高等级
-                    historyInfo.setBeforeField("certMaxLevel" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("certMaxLevel");
                     historyInfo.setBeforeContent(certEng.getCertMaxLevel());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 技术负责人姓名
-                    historyInfo.setBeforeField("techName" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("techName");
                     historyInfo.setBeforeContent(certEng.getTechName());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 技术负责人职称
-                    historyInfo.setBeforeField("techPt" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("techPt");
                     historyInfo.setBeforeContent(certEng.getTechPt());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 技术负责人职务
-                    historyInfo.setBeforeField("techJop" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("techJop");
                     historyInfo.setBeforeContent(certEng.getTechJop());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 单位负责人姓名
-                    historyInfo.setBeforeField("depName" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("depName");
                     historyInfo.setBeforeContent(certEng.getDepName());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 单位负责人职称
-                    historyInfo.setBeforeField("depPt" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("depPt");
                     historyInfo.setBeforeContent(certEng.getDepPt());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     //单位负责人职务
-                    historyInfo.setBeforeField("depJop" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("depJop");
                     historyInfo.setBeforeContent(certEng.getDepJop());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 发证机关
-                    historyInfo.setBeforeField("licenceAuthorith" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("licenceAuthorith");
                     historyInfo.setBeforeContent(certEng.getLicenceAuthorith());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 发证日期	
-                    historyInfo.setBeforeField("expStartDate" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("expStartDate");
                     historyInfo.setBeforeContent(format.format(certEng.getExpStartDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 证书有效期截止日期
-                    historyInfo.setBeforeField("expEndDate" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("expEndDate");
                     historyInfo.setBeforeContent(format.format(certEng.getExpEndDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 证书状态
-                    historyInfo.setBeforeField("certStatus" + CERT_ENGS_LIST);
+                    historyInfo.setBeforeField("certStatus");
                     historyInfo.setBeforeContent(certEng.getCertStatus().toString());
                     supplierHistoryMapper.insertSelective(historyInfo);
             	}
@@ -626,69 +630,70 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                      historyInfo.setmodifyType(" mat_eng_page");
                      historyInfo.setCreatedAt(date);
                      historyInfo.setRelationId(aptitute.getId());
+                     historyInfo.setListType(CERT_APT_LIST);
                      
                      //资质资格类型
-                     historyInfo.setBeforeField("certType" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("certType");
                      historyInfo.setBeforeContent(aptitute.getCertType());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //证书编号	
-                     historyInfo.setBeforeField("certCode" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("certCode");
                      historyInfo.setBeforeContent(aptitute.getCertCode());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //资质资格序列
-                     historyInfo.setBeforeField("aptituteSequence" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteSequence");
                      historyInfo.setBeforeContent(aptitute.getAptituteSequence());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //专业类别
-                     historyInfo.setBeforeField("professType" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("professType");
                      historyInfo.setBeforeContent(aptitute.getProfessType());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //资质资格等级
-                     historyInfo.setBeforeField("aptituteLevel" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteLevel");
                      historyInfo.setBeforeContent(aptitute.getAptituteLevel());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //是否主项资质
-                     historyInfo.setBeforeField("isMajorFund" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("isMajorFund");
                      historyInfo.setBeforeContent(aptitute.getIsMajorFund().toString());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //批准资质资格内容
-                     historyInfo.setBeforeField("aptituteContent" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteContent");
                      historyInfo.setBeforeContent(aptitute.getAptituteContent());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //首次批准资质资格文号
-                     historyInfo.setBeforeField("aptituteCode" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteCode");
                      historyInfo.setBeforeContent(aptitute.getAptituteCode());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //首次批准资质资格日期
-                     historyInfo.setBeforeField("aptituteDate" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteDate");
                      historyInfo.setBeforeContent(format.format(aptitute.getAptituteDate()));
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //资质资格取得方式
-                     historyInfo.setBeforeField("aptituteWay" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteWay");
                      historyInfo.setBeforeContent(aptitute.getAptituteWay());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //资质资格状态
-                     historyInfo.setBeforeField("aptituteStatus" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteStatus");
                      historyInfo.setBeforeContent(aptitute.getAptituteStatus().toString());
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //资质资格状态变更时间
-                     historyInfo.setBeforeField("aptituteChangeAt" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteChangeAt");
                      historyInfo.setBeforeContent(format.format(aptitute.getAptituteChangeAt()));
                      supplierHistoryMapper.insertSelective(historyInfo);
                      
                      //资质资格状态变更原因
-                     historyInfo.setBeforeField("aptituteChangeReason" + CERT_APT_LIST);
+                     historyInfo.setBeforeField("aptituteChangeReason");
                      historyInfo.setBeforeContent(aptitute.getAptituteChangeReason());
                      supplierHistoryMapper.insertSelective(historyInfo);
             	}
@@ -738,34 +743,35 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     historyInfo.setmodifyType("mat_serve_page");
                     historyInfo.setCreatedAt(date);
                     historyInfo.setRelationId(matSe.getId());
-        
+                    historyInfo.setListType(CERT_SE_LIST);
+                    
                     // 资质证书名称
-                    historyInfo.setBeforeField("name" + CERT_SE_LIST);
+                    historyInfo.setBeforeField("name");
                     historyInfo.setBeforeContent(matSe.getName());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 资质等级
-                    historyInfo.setBeforeField("levelCert" + CERT_SE_LIST);
+                    historyInfo.setBeforeField("levelCert");
                     historyInfo.setBeforeContent(matSe.getLevelCert());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 发证机关
-                    historyInfo.setBeforeField("licenceAuthorith" + CERT_SE_LIST);
+                    historyInfo.setBeforeField("licenceAuthorith");
                     historyInfo.setBeforeContent(matSe.getLicenceAuthorith());
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 有效期（起始时间）
-                    historyInfo.setBeforeField("expStartDate" + CERT_SE_LIST);
+                    historyInfo.setBeforeField("expStartDate");
                     historyInfo.setBeforeContent(format.format(matSe.getExpStartDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 有效期（结束时间）
-                    historyInfo.setBeforeField("expStartDate" + CERT_SE_LIST);
+                    historyInfo.setBeforeField("expStartDate");
                     historyInfo.setBeforeContent(format.format(matSe.getExpEndDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     //是否年检
-                    historyInfo.setBeforeField("mot" + CERT_SE_LIST);
+                    historyInfo.setBeforeField("mot");
                     historyInfo.setBeforeContent(matSe.getMot().toString());
                     supplierHistoryMapper.insertSelective(historyInfo);
                 }

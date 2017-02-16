@@ -25,6 +25,7 @@ import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierMatEngMapper;
 import ses.dao.sms.SupplierMatProMapper;
 import ses.dao.sms.SupplierMatServeMapper;
+import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierStarsMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeMapper;
@@ -40,6 +41,7 @@ import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierStars;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
@@ -146,6 +148,13 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	 */
 	@Autowired
 	SupplierTypeRelateMapper supplierTypeRelateMapper;
+	
+	/**
+	 * 审核退回后供应商修改记录
+	 */
+	@Autowired
+	SupplierModifyMapper supplierModifyMapper;
+	
 	/**
 	 * @Title: supplierList
 	 * @author Xu Qing
@@ -687,6 +696,7 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	public void deleteBySupplierId(String supplierId) {
 		supplierAuditMapper.deleteBySupplierId(supplierId);
 	}
+
 	
 	
 	

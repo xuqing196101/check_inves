@@ -52,6 +52,7 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
@@ -59,15 +60,14 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TodosService;
-import ses.service.bms.UserServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
-import ses.service.sms.SupplierExtRelateService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
@@ -157,6 +157,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	@Autowired
 	private UploadService uploadService;
 	
+	@Autowired
+	private SupplierModifyService supplierModifyService;
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -253,7 +255,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
-
+		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -1053,7 +1055,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAuditService.updateStatusById(supplierAudit);
 		}
 		
-		// 删除之前的历史记录
+		/*// 删除之前的历史记录
 		SupplierHistory supplierHistory = new SupplierHistory();
 		supplierHistory.setSupplierId(supplierId);
 		supplierHistoryService.delete(supplierHistory);
@@ -1061,7 +1063,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 新增历史记录
 		if (supplier.getStatus() == 2) {
 		    supplierHistoryService.insertHistoryInfo(supplierId);
-		}
+		}*/
 		return "redirect:supplierAll.html";
 	}
 

@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierModifyMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierModify">
+    <id column="ID" property="id" />
+    <result column="SUPPLIER_ID" property="supplierId" />
+    <result column="BEFORE_FIELD" property="beforeField" />
+    <result column="MODIFY_TYPE" property="modifyType" />
+    <result column="BEFORE_CONTENT" property="beforeContent" />
+    <result column="LIST_TYPE" property="listType" />
+    <result column="RELATION_ID" property="relationId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID
+  </sql>
+  
+  <select id="selectBySupplierId"   parameterType="ses.model.sms.SupplierModify" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List"/>
+    from 
+    	T_SES_SMS_SUPPLIER_HISTORY
+    where 
+    	SUPPLIER_ID = #{supplierId} 
+    <if test="modifyType != null">
+      and MODIFY_TYPE = #{modifyType}
+    </if>
+    <if test="beforeField != null">
+      and BEFORE_FIELD = #{beforeField}
+    </if>
+    <if test="listType != null">
+      and LIST_TYPE = #{listType}
+    </if>
+    <if test="relationId != null">
+      and RELATION_ID = #{relationId}
+    </if>
+  </select>
+  
+  <select id="selectAllBySupplierId"   parameterType="ses.model.sms.SupplierModify" resultMap="BaseResultMap">
+    select 
+    	BEFORE_FIELD
+    from T_SES_SMS_SUPPLIER_HISTORY
+    where SUPPLIER_ID = #{supplierId} 
+  </select>
+
+  <insert id="insert" parameterType="ses.model.sms.SupplierModify">
+    insert into T_SES_SMS_SUPPLIER_HISTORY (ID, SUPPLIER_ID, BEFORE_FIELD, MODIFY_TYPE, BEFORE_CONTENT, LIST_TYPE, RELATION_ID)
+    values (#{id}, #{supplierId}, #{beforeField}, #{modifyType}, #{beforeContent}, #{listType,jdbcType=TIMESTAMP}, #{relationId}
+  </insert>
+  
+  <!-- 插入审核记录 -->
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierModify">
+    insert into T_SES_SMS_SUPPLIER_HISTORY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="beforeField != null">
+        BEFORE_FIELD,
+      </if>
+      <if test="modifyType != null">
+        MODIFY_TYPE,
+      </if>
+      <if test="beforeContent != null">
+        BEFORE_CONTENT,
+      </if>
+      <if test="listType != null">
+        LIST_TYPE,
+      </if>
+      <if test="relationId != null">
+        RELATION_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="beforeField != null">
+        #{beforeField},
+      </if>
+      <if test="modifyType != null">
+        #{modifyType},
+      </if>
+      <if test="beforeContent != null">
+        #{beforeContent},
+      </if>
+      <if test="listType != null">
+        #{listType},
+      </if>
+      <if test="relationId != null">
+        #{relationId},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  </selectKey>
+  </insert>
+  
+  <!-- 删除历史记录 -->
+  <delete id="delete" parameterType="ses.model.sms.SupplierModify">
+  	 delete from T_SES_SMS_SUPPLIER_HISTORY
+  	 where SUPPLIER_ID = #{supplierId}
+  	 <if test="beforeField != null">
+  	 	and BEFORE_FIELD = #{beforeField}
+  	 </if>
+  </delete>
+</mapper>

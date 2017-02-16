@@ -14,9 +14,11 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierType;
 /**
@@ -328,4 +330,5 @@ public interface SupplierAuditService {
      * @return void
      */
     void deleteBySupplierId(String supplierId);
+
 } 

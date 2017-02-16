@@ -7,9 +7,10 @@ public class SupplierHistory {
 	private String supplierId;  //供应商Id
 	private String beforeField;  //修改之前字段
 	private String modifyType;  //修改之后字段
-	private String beforeContent;  //修改之后内容
+	private String beforeContent;  //修改之前内容
 	private String relationId;  //关联ID
 	private Date createdAt;  // 创建时间
+	private Integer listType; //列表类型
 	public String getSupplierId() {
 		return supplierId;
 	}
@@ -52,6 +53,12 @@ public class SupplierHistory {
 	public void setId(String id) {
 		this.id = id;
 	}
-	
+	public Integer getListType() {
+		return listType;
+	}
+	public void setListType(Integer listType) {
+		this.listType = listType;
+	}
+
 	
 }
