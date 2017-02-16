@@ -1665,8 +1665,9 @@ public class ArticleController extends BaseSupplierController {
    * @return void
    */
   @RequestMapping(value = "/aritcleTypeParentId", produces = "application/json;charest=utf-8")
-  public void aritcleTypeParentId(@CurrentUser User user, HttpServletResponse response, String parentId,
+  public void aritcleTypeParentId(HttpServletResponse response, String parentId,
       HttpServletRequest request, String type) throws Exception {
+    User user = (User) request.getSession().getAttribute("loginUser");
     List<ArticleType> list = new ArrayList<ArticleType>();
     if (parentId != null) {
       ArticleType articleType = articleTypeService.selectTypeByPrimaryKey(parentId);

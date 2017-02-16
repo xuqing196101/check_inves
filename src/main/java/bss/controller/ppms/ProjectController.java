@@ -1619,6 +1619,25 @@ public class ProjectController extends BaseController {
         project.setStatus(status);
         project.setStartTime(new Date());
         projectService.update(project);
+      /*//设置各环节经办人默认为承办人
+        FlowExecute flowExecute = new FlowExecute();
+        flowExecute.setProjectId(id);
+        flowExecute.setStatus(0);
+        flowExecute.setCreatedAt(new Date());
+        flowExecute.setUpdatedAt(new Date());
+        flowExecute.setOperatorId(user.getId());
+        flowExecute.setOperatorName(user.getRelName());
+        flowExecute.setIsDeleted(0);
+        FlowDefine flowDefine = new FlowDefine();
+        flowDefine.setPurchaseTypeId(project.getPurchaseType());
+        flowDefine.setIsDeleted(0);
+        List<FlowDefine> flowDefines = flowMangeService.find(flowDefine);
+        for (FlowDefine fd : flowDefines) {
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setFlowDefineId(fd.getId());
+            flowExecute.setStep(fd.getStep());
+            flowMangeService.saveExecute(flowExecute);
+        }*/
         if(users.getId().equals(principal)){
             return "redirect:excute.html?id="+project.getId();
         }
