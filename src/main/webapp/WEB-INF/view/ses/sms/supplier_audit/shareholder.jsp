@@ -238,12 +238,13 @@
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
         </form>
         <ul class="ul_list count_flow">
+        	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，列出出资金额前十位的信息，但出资比例应高于50%）</h5>
           <table class="table table-bordered table-condensed table-hover">
             <thead>
 		          <tr>
 		            <th class="info w50">序号</th>
-		            <th class="info">出资人名称或姓名</th>
 		            <th class="info">出资人性质</th>
+		            <th class="info">出资人名称或姓名</th>
 		            <th class="info">统一社会信用代码或身份证号码</th>
 		            <th class="info">出资金额或股份(万元/份)</th>
 		            <th class="info">比例(%)</th>
@@ -253,11 +254,11 @@
 	            <c:forEach items="${shareholder}" var="s" varStatus="vs">
 	              <tr>
 		              <td class="tc">${vs.index + 1}</td>
-		              <td class="tl pl20" id="${s.id }" >${s.name}</td>
 		              <td class="tc">
 		              	<c:if test="${s.nature eq '1'}">法人</c:if>
 		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
 		              </td>
+		              <td class="tl pl20" id="${s.id }" >${s.name}</td>
 		              <td class="tc" >${s.identity}</td>
 		              <td class="tc" >${s.shares}</td>
 		              <td class="tc" >${s.proportion}</td>

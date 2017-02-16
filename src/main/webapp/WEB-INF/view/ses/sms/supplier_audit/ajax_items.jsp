@@ -45,10 +45,10 @@
   <table class="table table-bordered table-hover">
     <tr>
       <td class="info tc w50">序号</td>
-      <td class="info tc w100">品目类别</td>
-      <td class="info tc">大类名称</td>
-      <td class="info tc">中类名称</td>
-      <td class="info tc">小类名称</td>
+      <td class="info tc w100">类别</td>
+      <td class="info tc">大类</td>
+      <td class="info tc">中类</td>
+      <td class="info tc">小类</td>
       <td class="info tc">品种名称</td>
       <td class="info tc">操作</td>
     </tr>

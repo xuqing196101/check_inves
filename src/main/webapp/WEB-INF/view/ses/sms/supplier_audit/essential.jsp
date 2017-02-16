@@ -380,7 +380,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照类型：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业执照登记类型：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="businessType" class="hand " value="${suppliers.businessType } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessType')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessType');"</c:if>>
 							</div>
@@ -392,7 +392,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">开户行账户：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">银行账号：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="bankAccount" class="hand " value="${suppliers.bankAccount } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankAccount')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('bankAccount');"</c:if>>
 							</div>
@@ -403,7 +403,7 @@
 							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商简介：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">公司简介：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
 								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="description" onclick="reason(this)" <c:if test="${fn:contains(field,'description')}"> style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('description');"</c:if>>${suppliers.description }</textarea>
 							</div>
@@ -474,7 +474,7 @@
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>4</i>法定代表信息</h2>
+					<h2 class="count_flow"><i>4</i>法定代表人信息</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">姓名：</span>
@@ -510,7 +510,7 @@
 							<u:show showId="identity_down_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
 							<p class="b f18 ml10 red">×</p>
 						</li> --%>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面）:</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
 					    <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
            		<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
            	</li>
@@ -623,7 +623,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册资本(万元)：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册资本（人民币：万元）：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="registFund" class="hand " value="${suppliers.registFund } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'registFund')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('registFund');"</c:if>>
 							</div>
@@ -668,14 +668,14 @@
 							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">经营范围：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业范围（按照营业执照上填写）：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
 								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="businessScope" onclick="reason(this)" <c:if test="${fn:contains(field,'businessScope')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessScope');"</c:if>>${suppliers.businessScope }</textarea>
 							</div>
 						</li>
 					</ul>
 
-					<h2 class="count_flow"><i>8</i>境外分支</h2>
+					<h2 class="count_flow"><i>8</i>境外信息</h2>
 					<ul class="ul_list">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
              	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">境外分支机构：</span>

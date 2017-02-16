@@ -745,13 +745,13 @@
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科研项目：</span>
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">承担国家军队科研项目：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="countryPro_production" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryPro }" <c:if test="${fn:contains(field,'countryPro')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryPro','mat_pro_page');"</c:if>>
 											</div>
 										</li>
 										<li class="col-md-3 col-sm-6 col-xs-12 pl15">
-											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家军队科技奖项：</span>
+											<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">获得国家军队科技奖项：</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input id="countryReward_production" type="text" onclick="reasonProduction1(this)" value="${supplierMatPros.countryReward }" <c:if test="${fn:contains(field,'countryReward')}">style="border: 1px solid #FF8C00;" onMouseOver="isCompare('countryReward','mat_pro_page');"</c:if>>
 											</div>

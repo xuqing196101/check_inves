@@ -309,7 +309,7 @@
 					</form>
 
 					<c:forEach items="${financial}" var="f" varStatus="vs">
-						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（单位：万元）</h2>
+						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（金额单位：万元）</h2>
 						<ul class="ul_list count_flow">
 							<table class="table table-bordered  table-condensed table-hover">
 								<thead>
@@ -320,10 +320,10 @@
 										<th class="info">事务所联系电话</th>
 										<th class="info">审计人姓名</th>
 										<!-- <th class="info">指标</th> -->
-										<th class="info">资产总额(万元)</th>
-										<th class="info">负债总额(万元)</th>
-										<th class="info">净资产总额(万元)</th>
-										<th class="info">营业收入(万元)</th>
+										<th class="info">资产总额</th>
+										<th class="info">负债总额</th>
+										<th class="info">净资产总额</th>
+										<th class="info">营业收入</th>
 										<th class="info w50">操作</th>
 									</tr>
 								</thead>
