@@ -400,8 +400,6 @@ public class TackController extends BaseController{
                     list5.addAll(selectByParent);
                 }
             }
-            removeSame(list5);
-            sort(list5);
             HashMap<String,Object> map = new HashMap<>();
             removeSame(list5);
             sort(list5);
@@ -854,7 +852,7 @@ public class TackController extends BaseController{
                                 detailss.add(purchaseRequired);
                             }
                         }
-                     
+                        if(detailss != null && detailss.size() > 0){
                             for(AdvancedDetail ad:detailss){
                                 for(PurchaseDetail p:detail){
                                     if(ad.getRequiredId().equals(p.getId())){
@@ -873,8 +871,7 @@ public class TackController extends BaseController{
                                 request.getSession().setAttribute("details", detailss);
                                 return num;
                             }
-                            
-                            
+                        }
                     }
                 }
             }
