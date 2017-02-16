@@ -42,12 +42,16 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.sms.Quote;
+import ses.model.sms.SupplierExtUser;
+import ses.model.sms.SupplierExtracts;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpExtractRecordService;
 import ses.service.ems.ProjectSupervisorServicel;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseServiceI;
+import ses.service.sms.SupplierExtUserServicel;
+import ses.service.sms.SupplierExtractsService;
 import ses.service.sms.SupplierQuoteService;
 import ses.util.ComparatorDetail;
 import ses.util.DictionaryDataUtil;
@@ -154,6 +158,12 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private SupplierQuoteService quoteService; 
+    
+    @Autowired
+    private SupplierExtractsService supplierExtractsService;
+    
+    @Autowired
+    private SupplierExtUserServicel supplierExtUserService;
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -299,12 +309,18 @@ public class ProjectController extends BaseController {
          }
          map.put("page", page.toString());
          PageHelper.startPage(page,Integer.parseInt("10"));
+         List<Task> taskLists = new ArrayList<Task>();
          List<Task> taskList = taskservice.listByProjectTask(map);
+         for (Task task : taskList) {
+            if(task.getCollectId() != null){
+                taskLists.add(task);
+            }
+        }
          HashMap<String, Object> map1 = new HashMap<>();
          map1.put("typeName", "2");
          List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map1);
          model.addAttribute("list2",orgnizations);
-         model.addAttribute("list", new PageInfo<Task>(taskList));
+         model.addAttribute("list", new PageInfo<Task>(taskLists));
          model.addAttribute("id", uuid);
          model.addAttribute("orgId", user.getOrg().getId());
          model.addAttribute("name", name);
@@ -346,134 +362,137 @@ public class ProjectController extends BaseController {
       public String addDetails(@CurrentUser User user, String projectId,String id,Model model,String name, String orgId,String projectNumber, HttpServletRequest request) {
           //根据采购明细ID，获取项目明细
           Task task = taskservice.selectById(projectId);
-          List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
-          List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
-          for(int i=0;i<listp.size();i++){
-              if(listp.get(i).getPrice() != null){
-                  if(!listp.get(i).getOrganization().equals(user.getOrg().getId())){
-                      list1.add(listp.get(i)); 
+          if(task.getCollectId() != null){
+              List<PurchaseDetail> listp = purchaseDetailService.getUnique(task.getCollectId());
+              List<PurchaseDetail> list1=new ArrayList<PurchaseDetail>();
+              for(int i=0;i<listp.size();i++){
+                  if(listp.get(i).getPrice() != null){
+                      if(!listp.get(i).getOrganization().equals(user.getOrg().getId())){
+                          list1.add(listp.get(i)); 
+                      }
                   }
               }
-          }
-          listp.removeAll(list1);
-          List<PurchaseDetail> lists=new ArrayList<PurchaseDetail>();
-          for (PurchaseDetail purchaseDetail : listp) {
-              if(purchaseDetail.getPrice() != null){
-                  HashMap<String, Object> map = new HashMap<>();
-                  map.put("id", purchaseDetail.getId());
-                  List<PurchaseDetail> selectByParent = purchaseDetailService.selectByParent(map);
-                  lists.addAll(selectByParent);
+              listp.removeAll(list1);
+              List<PurchaseDetail> lists=new ArrayList<PurchaseDetail>();
+              for (PurchaseDetail purchaseDetail : listp) {
+                  if(purchaseDetail.getPrice() != null){
+                      HashMap<String, Object> map = new HashMap<>();
+                      map.put("id", purchaseDetail.getId());
+                      List<PurchaseDetail> selectByParent = purchaseDetailService.selectByParent(map);
+                      lists.addAll(selectByParent);
+                  }
               }
-          }
-          HashMap<String,Object> map = new HashMap<>();
-          removeSame(lists);
-          sort(lists);
-          int serialoneOne = 1;
-          int serialtwoTwo = 1;
-          int serialthreeThree = 1;
-          int serialfourFour = 1;
-          int serialfiveFive = 0;
-          int serialOne = 1;
-          int serialTwo = 1;
-          int serialThree = 1;
-          int serialFour = 1;
-          int serialSix = 0;
-          int serialFive = 0;
-          List<String> newParentId = new ArrayList<>();
-          List<String> oneParentId = new ArrayList<>();
-          List<String> twoParentId = new ArrayList<>();
-          List<String> threeParentId = new ArrayList<>();
-          List<String> fourParentId = new ArrayList<>();
-          List<String> fiveParentId = new ArrayList<>();
-          for(int i=0;i<lists.size();i++){
-              HashMap<String,Object> detailMap = new HashMap<>();
-              detailMap.put("id",lists.get(i).getId());
-              List<PurchaseDetail> dlist = purchaseDetailService.selectByParentId(detailMap);
-              List<PurchaseDetail> plist = purchaseDetailService.selectByParent(detailMap);
-              if(dlist.size()>1){
-                  lists.get(i).setDetailStatus(0);
-              }
-              if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
-                  if(!oneParentId.contains(lists.get(i).getParentId())){
-                      oneParentId.add(lists.get(i).getParentId());
-                      serialoneOne = 1;
+              HashMap<String,Object> map = new HashMap<>();
+              removeSame(lists);
+              sort(lists);
+              int serialoneOne = 1;
+              int serialtwoTwo = 1;
+              int serialthreeThree = 1;
+              int serialfourFour = 1;
+              int serialfiveFive = 0;
+              int serialOne = 1;
+              int serialTwo = 1;
+              int serialThree = 1;
+              int serialFour = 1;
+              int serialSix = 0;
+              int serialFive = 0;
+              List<String> newParentId = new ArrayList<>();
+              List<String> oneParentId = new ArrayList<>();
+              List<String> twoParentId = new ArrayList<>();
+              List<String> threeParentId = new ArrayList<>();
+              List<String> fourParentId = new ArrayList<>();
+              List<String> fiveParentId = new ArrayList<>();
+              for(int i=0;i<lists.size();i++){
+                  HashMap<String,Object> detailMap = new HashMap<>();
+                  detailMap.put("id",lists.get(i).getId());
+                  List<PurchaseDetail> dlist = purchaseDetailService.selectByParentId(detailMap);
+                  List<PurchaseDetail> plist = purchaseDetailService.selectByParent(detailMap);
+                  if(dlist.size()>1){
+                      lists.get(i).setDetailStatus(0);
                   }
-                  lists.get(i).setSeq(test(serialoneOne));
-                  serialoneOne ++;
-              }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
-                  if(!twoParentId.contains(lists.get(i).getParentId())){
-                      twoParentId.add(lists.get(i).getParentId());
-                      serialtwoTwo = 1;
-                  }
-                  lists.get(i).setSeq("（"+test(serialtwoTwo)+"）");
-                  serialtwoTwo ++;
-              }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
-                  if(!threeParentId.contains(lists.get(i).getParentId())){
-                      threeParentId.add(lists.get(i).getParentId());
-                      serialthreeThree = 1;
-                  }
-                  lists.get(i).setSeq(String.valueOf(serialthreeThree));
-                  serialthreeThree ++;
-              }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
-                  if(!fourParentId.contains(lists.get(i).getParentId())){
-                      fourParentId.add(lists.get(i).getParentId());
-                      serialfourFour = 1;
-                  }
-                  lists.get(i).setSeq("（"+String.valueOf(serialfourFour)+"）");
-                  serialfourFour ++;
-              }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
-                  if(!fiveParentId.contains(lists.get(i).getParentId())){
-                      fiveParentId.add(lists.get(i).getParentId());
-                      serialfiveFive = 0;
-                  }
-                  char serialNum = (char) (97 + serialfiveFive);
-                  lists.get(i).setSeq(String.valueOf(serialNum));
-                  serialfiveFive++;
-              }
-              if(dlist.size()==1){
-                  map.put("id", lists.get(i).getId());
-                  List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
-                  if(!newParentId.contains(lists.get(i).getParentId())){
-                      serialOne = 1;
-                      serialTwo = 1;
-                      serialThree = 1;
-                      serialFour = 1;
-                      serialFive = 0;
-                      serialSix = 0;
-                      newParentId.add(lists.get(i).getParentId());
-                  }
-                  if(list.size()==1){
-                      lists.get(i).setSeq(test(serialOne));
-                      serialOne ++;
-                  }else if(list.size()==2){
-                      lists.get(i).setSeq("（"+test(serialTwo)+"）");
-                      serialTwo ++;
-                  }else if(list.size()==3){
-                      lists.get(i).setSeq(String.valueOf(serialThree));
-                      serialThree ++;
-                  }else if(list.size()==4){
-                      lists.get(i).setSeq("（"+String.valueOf(serialFour)+"）");
-                      serialFour ++;
-                  }else if(list.size()==5){
-                      char serialNum = (char) (97 + serialFive);
+                  if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                      if(!oneParentId.contains(lists.get(i).getParentId())){
+                          oneParentId.add(lists.get(i).getParentId());
+                          serialoneOne = 1;
+                      }
+                      lists.get(i).setSeq(test(serialoneOne));
+                      serialoneOne ++;
+                  }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                      if(!twoParentId.contains(lists.get(i).getParentId())){
+                          twoParentId.add(lists.get(i).getParentId());
+                          serialtwoTwo = 1;
+                      }
+                      lists.get(i).setSeq("（"+test(serialtwoTwo)+"）");
+                      serialtwoTwo ++;
+                  }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                      if(!threeParentId.contains(lists.get(i).getParentId())){
+                          threeParentId.add(lists.get(i).getParentId());
+                          serialthreeThree = 1;
+                      }
+                      lists.get(i).setSeq(String.valueOf(serialthreeThree));
+                      serialthreeThree ++;
+                  }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                      if(!fourParentId.contains(lists.get(i).getParentId())){
+                          fourParentId.add(lists.get(i).getParentId());
+                          serialfourFour = 1;
+                      }
+                      lists.get(i).setSeq("（"+String.valueOf(serialfourFour)+"）");
+                      serialfourFour ++;
+                  }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                      if(!fiveParentId.contains(lists.get(i).getParentId())){
+                          fiveParentId.add(lists.get(i).getParentId());
+                          serialfiveFive = 0;
+                      }
+                      char serialNum = (char) (97 + serialfiveFive);
                       lists.get(i).setSeq(String.valueOf(serialNum));
-                      serialFive ++;
-                  }else if(list.size()==6){
-                      char serialNum = (char) (97 + serialSix);
-                      lists.get(i).setSeq("（"+serialNum+"）");
-                      serialSix ++;
+                      serialfiveFive++;
                   }
+                  if(dlist.size()==1){
+                      map.put("id", lists.get(i).getId());
+                      List<PurchaseDetail> list = purchaseDetailService.selectByParent(map);
+                      if(!newParentId.contains(lists.get(i).getParentId())){
+                          serialOne = 1;
+                          serialTwo = 1;
+                          serialThree = 1;
+                          serialFour = 1;
+                          serialFive = 0;
+                          serialSix = 0;
+                          newParentId.add(lists.get(i).getParentId());
+                      }
+                      if(list.size()==1){
+                          lists.get(i).setSeq(test(serialOne));
+                          serialOne ++;
+                      }else if(list.size()==2){
+                          lists.get(i).setSeq("（"+test(serialTwo)+"）");
+                          serialTwo ++;
+                      }else if(list.size()==3){
+                          lists.get(i).setSeq(String.valueOf(serialThree));
+                          serialThree ++;
+                      }else if(list.size()==4){
+                          lists.get(i).setSeq("（"+String.valueOf(serialFour)+"）");
+                          serialFour ++;
+                      }else if(list.size()==5){
+                          char serialNum = (char) (97 + serialFive);
+                          lists.get(i).setSeq(String.valueOf(serialNum));
+                          serialFive ++;
+                      }else if(list.size()==6){
+                          char serialNum = (char) (97 + serialSix);
+                          lists.get(i).setSeq("（"+serialNum+"）");
+                          serialSix ++;
+                      }
+                  }
+              
               }
-          
+              model.addAttribute("kind", DictionaryDataUtil.find(5));
+              model.addAttribute("orgId", orgId);
+              model.addAttribute("user", user.getOrg().getId());
+              model.addAttribute("projectId", projectId);
+              model.addAttribute("id", id);
+              model.addAttribute("lists", lists);
+              model.addAttribute("name", name);
+              model.addAttribute("projectNumber", projectNumber);
           }
-          model.addAttribute("kind", DictionaryDataUtil.find(5));
-          model.addAttribute("orgId", orgId);
-          model.addAttribute("user", user.getOrg().getId());
-          model.addAttribute("projectId", projectId);
-          model.addAttribute("id", id);
-          model.addAttribute("lists", lists);
-          model.addAttribute("name", name);
-          model.addAttribute("projectNumber", projectNumber);
+          
           return "bss/ppms/project/addDetail";
       }
       
@@ -3264,9 +3283,40 @@ public class ProjectController extends BaseController {
                                 saleTender2.setIsTurnUp(null);
                                 saleTenderService.update(saleTender2);
                                 List<UploadFile> file = uploadService.getFilesOther(saleTender2.getId(), null, "1");
+                                file.get(0).setIsDelete(1);
                                 uploadService.updateFile(file.get(0), 1);
                             }
                         }
+                    }
+                    
+                    if("JZXTP".equals(findById.getCode()) || "YQZB".equals(findById.getCode())){
+                        SupplierExtracts record = new SupplierExtracts();
+                        record.setProjectId(project.getId());
+                        List<SupplierExtracts> extractRecord = supplierExtractsService.listExtractRecord(record, 0);
+                        SupplierExtracts records = new SupplierExtracts();
+                        records.setId(WfUtil.createUUID());
+                        records.setCreatedAt(extractRecord.get(0).getCreatedAt());
+                        //records.setExtractingConditions(extractRecord.get(0).get);
+                        records.setExtractionSites(extractRecord.get(0).getExtractionSites());
+                        records.setProjectName(extractRecord.get(0).getProjectName());
+                        records.setProjectCode(extractRecord.get(0).getProjectCode());
+                        records.setExtractionTime(extractRecord.get(0).getExtractionTime());
+                        records.setExtractTheWay(extractRecord.get(0).getExtractTheWay());
+                        records.setExtractsPeople(extractRecord.get(0).getExtractsPeople());
+                        records.setProjectId(proId);
+                        supplierExtractsService.insert(records);
+                        
+                        SupplierExtUser extSupervise = new SupplierExtUser();
+                        extSupervise.setProjectId(project.getId());
+                        List<SupplierExtUser> listPro = supplierExtUserService.list(extSupervise);
+                        SupplierExtUser extSupervises = new SupplierExtUser();
+                        extSupervises.setProjectId(proId);
+                        extSupervises.setCreatedAt(listPro.get(0).getCreatedAt());
+                        extSupervises.setRelName(listPro.get(0).getRelName());
+                        extSupervises.setCompany(listPro.get(0).getCompany());
+                        extSupervises.setPhone(listPro.get(0).getPhone());
+                        extSupervises.setDuties(listPro.get(0).getDuties());
+                        supplierExtUserService.insert(extSupervises);
                     }
                 } else if (flowDefine.getStep() > 4) {//第五步
                     if("GKZB".equals(findById.getCode())){
@@ -3298,8 +3348,25 @@ public class ProjectController extends BaseController {
                         extSupervises.setDuties(listPro.get(0).getDuties());
                         projectSupervisorService.insert(extSupervises);
                     }
+                    
+                    
+                    if("JZXTP".equals(findById.getCode()) || "YQZB".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(ids[i]);
+                            List<SaleTender> find = saleTenderService.find(saleTender);
+                            for (SaleTender saleTender2 : find) {
+                                saleTender2.setProjectId(proId);
+                                saleTender2.setIsTurnUp(null);
+                                saleTenderService.update(saleTender2);
+                                List<UploadFile> file = uploadService.getFilesOther(saleTender2.getId(), null, "1");
+                                file.get(0).setIsDelete(1);
+                                uploadService.updateFile(file.get(0), 1);
+                            }
+                        }
+                    }
                 } else if (flowDefine.getStep() > 5) {//第六步
-                    if("GKZB".equals(findById.getCode())){
+                    if("GKZB".equals(findById.getCode()) || "JZXTP".equals(findById.getCode())){
                         for (int i = 0; i < ids.length; i++ ) {
                             SaleTender saleTender = new SaleTender();
                             saleTender.setPackages(ids[i]);
@@ -3327,8 +3394,39 @@ public class ProjectController extends BaseController {
                         }
                     }
                     
+                    if("YQZB".equals(findById.getCode())){
+                        ExpExtractRecord record = new ExpExtractRecord();
+                        record.setProjectId(project.getId());
+                        List<ExpExtractRecord> extractRecord = expExtractRecordService.showExpExtractRecord(record);
+                        ExpExtractRecord records = new ExpExtractRecord();
+                        records.setId(WfUtil.createUUID());
+                        records.setCreatedAt(extractRecord.get(0).getCreatedAt());
+                        records.setExtractingConditions(extractRecord.get(0).getExtractingConditions());
+                        records.setExtractionSites(extractRecord.get(0).getExtractionSites());
+                        records.setProjectName(extractRecord.get(0).getProjectName());
+                        records.setProjectCode(extractRecord.get(0).getProjectCode());
+                        records.setExtractionTime(extractRecord.get(0).getExtractionTime());
+                        records.setExtractTheWay(extractRecord.get(0).getExtractTheWay());
+                        records.setExtractsPeople(extractRecord.get(0).getExtractsPeople());
+                        records.setProjectId(proId);
+                        expExtractRecordService.insert(records);
+                        
+                        ProExtSupervise extSupervise = new ProExtSupervise();
+                        extSupervise.setProjectId(project.getId());
+                        List<ProExtSupervise> listPro = projectSupervisorService.list(extSupervise);
+                        ProExtSupervise extSupervises = new ProExtSupervise();
+                        extSupervises.setProjectId(proId);
+                        extSupervises.setCreatedAt(listPro.get(0).getCreatedAt());
+                        extSupervises.setRelName(listPro.get(0).getRelName());
+                        extSupervises.setCompany(listPro.get(0).getCompany());
+                        extSupervises.setPhone(listPro.get(0).getPhone());
+                        extSupervises.setDuties(listPro.get(0).getDuties());
+                        projectSupervisorService.insert(extSupervises);
+                    
+                    }
+                    
                 } else if (flowDefine.getStep() > 6) {//第七步
-                    if("GKZB".equals(findById.getCode())){
+                    if("GKZB".equals(findById.getCode()) || "JZXTP".equals(findById.getCode())){
                         for (int i = 0; i < ids.length; i++ ) {
                             Quote quote =  new Quote();
                             quote.setPackageId(ids[i]);
@@ -3342,11 +3440,38 @@ public class ProjectController extends BaseController {
                                 quoteService.update(list);
                             }
                         }
-                        
                     }
                     
                 } else if (flowDefine.getStep() > 7) {//第八步
-                    
+                    if("JZXTP".equals(findById.getCode())){
+                        ExpExtractRecord record = new ExpExtractRecord();
+                        record.setProjectId(project.getId());
+                        List<ExpExtractRecord> extractRecord = expExtractRecordService.showExpExtractRecord(record);
+                        ExpExtractRecord records = new ExpExtractRecord();
+                        records.setId(WfUtil.createUUID());
+                        records.setCreatedAt(extractRecord.get(0).getCreatedAt());
+                        records.setExtractingConditions(extractRecord.get(0).getExtractingConditions());
+                        records.setExtractionSites(extractRecord.get(0).getExtractionSites());
+                        records.setProjectName(extractRecord.get(0).getProjectName());
+                        records.setProjectCode(extractRecord.get(0).getProjectCode());
+                        records.setExtractionTime(extractRecord.get(0).getExtractionTime());
+                        records.setExtractTheWay(extractRecord.get(0).getExtractTheWay());
+                        records.setExtractsPeople(extractRecord.get(0).getExtractsPeople());
+                        records.setProjectId(proId);
+                        expExtractRecordService.insert(records);
+                        
+                        ProExtSupervise extSupervise = new ProExtSupervise();
+                        extSupervise.setProjectId(project.getId());
+                        List<ProExtSupervise> listPro = projectSupervisorService.list(extSupervise);
+                        ProExtSupervise extSupervises = new ProExtSupervise();
+                        extSupervises.setProjectId(proId);
+                        extSupervises.setCreatedAt(listPro.get(0).getCreatedAt());
+                        extSupervises.setRelName(listPro.get(0).getRelName());
+                        extSupervises.setCompany(listPro.get(0).getCompany());
+                        extSupervises.setPhone(listPro.get(0).getPhone());
+                        extSupervises.setDuties(listPro.get(0).getDuties());
+                        projectSupervisorService.insert(extSupervises);
+                    }
                 } else if (flowDefine.getStep() > 8) {//第九步
                     
                 } else if (flowDefine.getStep() > 9) {//第十步
