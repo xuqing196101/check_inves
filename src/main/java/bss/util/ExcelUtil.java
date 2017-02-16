@@ -372,19 +372,17 @@ public class ExcelUtil {
 //	        				
 //	        			 }
 	        			 if(cell.getColumnIndex()==12){
-	        				if(cell.getCellType()==1){
-	        					rq.setOrganization(cell.getStringCellValue());
-	        					 continue;
-	        				
-	        				}else if(cell.getCellType()!=3){ 
-	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行M列错误";
-		        				 map.put("errMsg", errMsg);
-		        				 bool=false;
-		        				 break;
-	        				}
-	        			 }
-	        			 if(cell.getColumnIndex()==13){
-	        				if(cell.getCellType()==1){
+//	        				if(cell.getCellType()==1){
+//	        					rq.setOrganization(cell.getStringCellValue());
+//	        					 continue;
+//	        				
+//	        				}else if(cell.getCellType()!=3){ 
+//	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行M列错误";
+//		        				 map.put("errMsg", errMsg);
+//		        				 bool=false;
+//		        				 break;
+//	        				}
+	        				 if(cell.getCellType()==1){
 	        					 rq.setMemo(cell.getStringCellValue());
 	        					 continue;
 	        				}else if(cell.getCellType()!=3){
@@ -394,6 +392,18 @@ public class ExcelUtil {
 		        				 bool=false;
 		        				 break;
 	        				}
+	        			 }
+	        			 if(cell.getColumnIndex()==13){
+//	        				if(cell.getCellType()==1){
+//	        					 rq.setMemo(cell.getStringCellValue());
+//	        					 continue;
+//	        				}else if(cell.getCellType()!=3){
+//	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，N列错误";
+//		        				 map.put("errMsg", errMsg);
+////		        				 continue;
+//		        				 bool=false;
+//		        				 break;
+//	        				}
 	        			 }
 	        			 rq.setPlanName(planName);
 	        			 rq.setStatus("1");
