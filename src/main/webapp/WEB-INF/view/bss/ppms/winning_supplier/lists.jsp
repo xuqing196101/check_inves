@@ -153,6 +153,41 @@
           <table class="table table-bordered table-condensed table-hover table-striped">
             <thead>
               <tr>
+<!--                 <th class="w30"> -->
+<!--                   <input type="checkbox" id="checkAll" onclick="selectAll()" /> -->
+<!--                 </th> -->
+<!--                 <th class="w50 info">序号</th> -->
+                <th class="info">包名</th>
+                <th class="info">供应商</th>
+                <th class="info">最终报价</th>
+              </tr>
+            </thead>
+            <c:forEach items="${packList }" var="pack" varStatus="vs">
+              <tr>
+<!--                 <td class="tc w30"> -->
+<%--                   <input type="checkbox" value="${pack.id }" name="chkItem" onclick="check()"> --%>
+<!--                 </td> -->
+<%--                 <td class="tc w30">${vs.count }</td> --%>
+                <td class="tc">${pack.name }</td>
+                <c:if test="${fn:length(pack.listCheckPasses) != 0}">
+                  <c:forEach items="${pack.listCheckPasses}" var="list">
+                    <td class="tc">
+                      ${list.supplier.supplierName}
+                    </td>
+                    <td class="tc">
+                      ${list.totalPrice}
+                    </td>
+                  </c:forEach>
+                </c:if>
+              </tr>
+            </c:forEach>
+          </table>
+        </div>
+        
+          <div class="content table_box pl0">
+          <table class="table table-bordered table-condensed table-hover table-striped">
+            <thead>
+              <tr>
                 <th class="w30">
                   <input type="checkbox" id="checkAll" onclick="selectAll()" />
                 </th>

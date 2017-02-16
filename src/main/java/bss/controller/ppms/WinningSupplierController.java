@@ -173,11 +173,13 @@ public class WinningSupplierController extends BaseController {
     List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
     for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
       //查询报价历史记录
-      Quote quote = new Quote();
-      quote.setPackageId(packageId);
-      quote.setSupplierId(supplierCheckPass.getSupplier().getId());
-      List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
-      supplierCheckPass.getSupplier().setListQuote(quoteList);
+      if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
+        Quote quote = new Quote();
+        quote.setPackageId(packageId);
+        quote.setSupplierId(supplierCheckPass.getSupplier().getId());
+        List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+        supplierCheckPass.getSupplier().setListQuote(quoteList);
+      }
     }
 
     model.addAttribute("supplierCheckPass", listSupplierCheckPass);
@@ -412,7 +414,16 @@ public class WinningSupplierController extends BaseController {
     return JSON.toJSONString(SUCCESS);
   }
   
-  
+  /**
+   * 
+   *〈简述〉完成
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param projectId
+   * @param flowDefineId
+   * @param sq
+   * @return
+   */
   @ResponseBody
   @RequestMapping("/finish")
   public String finish(String  projectId, String flowDefineId,HttpServletRequest sq){
@@ -640,4 +651,25 @@ public class WinningSupplierController extends BaseController {
     checkPass.setIsDeleted(1);
     return  JSON.toJSONString(checkPassService.update(checkPass));
   }
+  
+  /**
+   * 
+   *〈简述〉录入标的
+   *〈详细描述〉
+   * @author Wang Wenshuai
+   * @param passId checkId
+   * @return
+   */
+  @RequestMapping("/inputList")
+  public String inputList(Model model,String packageId,String projectId){
+    model.addAttribute("packageId", packageId);
+    model.addAttribute("projectId", projectId);
+    //获取明细
+    HashMap<String,Object> map = new HashMap<>();
+    map.put("packageId", packageId);
+    List<ProjectDetail> detailList = detailService.selectById(map);
+    model.addAttribute("detailList", detailList);
+    return  "bss/ppms/winning_supplier/add_list";
+  }
+  
 }

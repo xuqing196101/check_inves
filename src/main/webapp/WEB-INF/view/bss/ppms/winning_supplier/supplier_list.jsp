@@ -413,6 +413,10 @@
 		    	  }
       }
       
+      //录入表的
+      function InputBD(){
+    	  window.location.href="${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}";  
+      }
       //关联选中
       function associateSelected(id,obj,index){
     	  var associate = document.getElementsByName("associate"+index);
@@ -510,7 +514,7 @@
               </c:if>
               <th class="w50">占比（%）</th>
               <th class="w100">实际成交总价（万元）</th>
-<!--               <th style="width: 80px;">中标金额（万元）</th> -->
+              <th style="width: 80px;">操作</th>
             </tr>
           </thead>
           <c:forEach items="${supplierCheckPass}" var="checkpass" varStatus="vs">
@@ -562,7 +566,7 @@
                   </td>
                   </c:if>
             
-<%--                <td class="tc opinter" id="wonPrice${vs.index }">${checkpass.wonPrice }</td> --%>
+               <td class="tc opinter" ><button class="btn btn-windows back" onclick="InputBD();" type="button">录入标的</button></td>
             </tr>
               <tr class="tc hide" >
                 <td colspan="10">
