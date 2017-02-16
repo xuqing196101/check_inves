@@ -28,10 +28,10 @@
 </td>
 <td class="tc"><input type="text" class="border0" onblur="tempSave()" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt"/></td>
 <td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason"/></td>
-<td class="tc w200">
+<!-- <td class="tc w200">
 <div class="w200">
  <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${id}" typeId="${typeId}" sysKey="${sysKey}"  auto="true" />
  <u:show showId="apt_show_${certAptNumber}" businessId="${id}" typeId="${typeId}" sysKey="${sysKey}" />
-</div>
+</div> -->
 </td>
 </tr>

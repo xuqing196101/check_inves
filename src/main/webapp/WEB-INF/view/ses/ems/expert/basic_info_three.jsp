@@ -128,214 +128,8 @@ session.setAttribute("tokenSession", tokenValue);
 				window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
 			}
 
-			function purDepBack() {
-				$("#purchase_orgs").empty();
-				$("#purchase_orgs2").empty();
-				var purDepId = "${expert.purchaseDepId}";
-				$.ajax({
-					url: '${pageContext.request.contextPath}/expert/getPIdandCIdByPurDepId.do',
-					data: {
-						"purDepId": purDepId
-					},
-					type: "post",
-					dataType: "json",
-					cache: false,
-					async: false,
-					success: function(data) {
-						if(data != null) {
-							$("#addr2").val(data.PROVINCEID);
-							$.ajax({
-								url: "${pageContext.request.contextPath}/area/find_by_parent_id.do",
-								data: {
-									"id": data.PROVINCEID
-								},
-								async: false,
-								dataType: "json",
-								success: function(response, status, request) {
-									$("#add2").empty();
-									$("#add2").append("<option  value=''>-请选择-</option>");
-									$.each(response, function(i, result) {
-										$("#add2").append("<option value='" + result.id + "'>" + result.name + "</option>");
-									});
-								}
-							});
-							$("#add2").val(data.CITYID);
-						}
-					}
-				});
-				var shengId = $("#addr2").val();
-				var shiId = $("#add2").val();
-				$.ajax({
-					url: '${pageContext.request.contextPath}/expert/showJiGou.do',
-					data: {
-						"pId": shengId,
-						"zId": shiId
-					},
-					//type:"post",
-					dataType: "json",
-					cache: false,
-					async: false,
-					success: function(obj) {
-						$.each(obj, function(i, result) {
-							i = i + 1;
-							var name = result.name;
-							var contactName = result.contactName;
-							var address = result.address;
-							var contactMobile = result.contactMobile;
-							if(name == null) name = "";
-							if(contactName == null) contactName = "";
-							if(address == null) address = "";
-							if(contactMobile == null) contactMobile = "";
-							var flag;
-							if(result.flag == '1') {
-								flag = "purchase_orgs";
-							} else {
-								flag = "purchase_orgs2";
-							}
-							if(purDepId == result.id) {
-								$("#" + flag).append(
-									"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
-									"<td>" + i + "</td>" +
-									"<td>" + name + "</td>" +
-									"<td>" + contactName + "</td>" +
-									"<td>" + contactMobile + "</td>" +
-									"<td>" + address + "</td></tr>"
-								);
-							} else {
-								$("#" + flag).append(
-									"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
-									"<td>" + i + "</td>" +
-									"<td>" + name + "</td>" +
-									"<td>" + contactName + "</td>" +
-									"<td>" + contactMobile + "</td>" +
-									"<td>" + address + "</td></tr>"
-								);
-							}
-						});
-					}
-				});
-			}
-
 			function addPurList() {
 				supplierRegist();
-			}
-
-			function showJiGou() {
-				$("#purchase_orgs").empty();
-				$("#purchase_orgs2").empty();
-				//采购机构
-				var sup = $("#purchaseDepId").val();
-				var purDepId = "";
-				var expertId = "${expert.id}";
-				if(expertId) {
-					$.ajax({
-						url: '${pageContext.request.contextPath}/expert/getPurDepIdByExpertId.do',
-						data: {
-							"expertId": expertId
-						},
-						cache: false,
-						async: false,
-						success: function(data) {
-							purDepId = data;
-						}
-					});
-				} else {
-					purDepId = sup;
-				}
-				var shengId = $("#addr2").val();
-				var shiId = $("#add2").val();
-				$.ajax({
-					url: '${pageContext.request.contextPath}/expert/showJiGou.do',
-					data: {
-						"pId": shengId,
-						"zId": shiId
-					},
-					//type:"post",
-					dataType: "json",
-					cache: false,
-					async: false,
-					success: function(obj) {
-						$.each(obj, function(i, result) {
-							i = i + 1;
-							var name = result.name;
-							var contactName = result.contactName;
-							var address = result.address;
-							var contactMobile = result.contactMobile;
-							if(name == null) name = "";
-							if(contactName == null) contactName = "";
-							if(address == null) address = "";
-							if(contactMobile == null) contactMobile = "";
-							var flag;
-							if(result.flag == '1') {
-								flag = "purchase_orgs";
-							} else {
-								flag = "purchase_orgs2";
-							}
-							if(purDepId == result.id) {
-								$("#" + flag).append(
-									"<tr align='center' ><td><input checked='checked' type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
-									"<td>" + i + "</td>" +
-									"<td>" + name + "</td>" +
-									"<td>" + contactName + "</td>" +
-									"<td>" + contactMobile + "</td>" + 
-									"<td>" + address + "</td></tr>"
-								);
-							} else {
-								$("#" + flag).append(
-									"<tr align='center' ><td><input type='radio' name='purchaseDepId'  value='" + result.id + "' /></td>" +
-									"<td>" + i + "</td>" +
-									"<td>" + name + "</td>" +
-									"<td>" + contactName + "</td>" +
-									"<td>" + contactMobile + "</td>" +
-									"<td>" + address + "</td></tr>"
-								);
-							}
-						});
-					}
-				});
-			}
-
-			var parentId;
-			var addressId = "${expert.address}";
-			$(function() {
-				$("input").bind("change", submitformExpert);
-			});
-			window.onload = function() {
-				//地区回显和数据显示
-				$.ajax({
-					url: "${pageContext.request.contextPath}/area/find_by_id.do",
-					data: {
-						"id": addressId
-					},
-					async: false,
-					success: function(obj) {
-						$.each(obj, function(i, result) {
-							if(addressId == result.id) {
-								parentId = result.parentId;
-								$("#add2").append("<option selected='true' value='" + result.id + "'>" + result.name + "</option>");
-							} else {
-								$("#add2").append("<option value='" + result.id + "'>" + result.name + "</option>");
-							}
-						});
-					}
-				});
-				//地区
-				$.ajax({
-					url: "${pageContext.request.contextPath}/area/listByOne.do",
-					async: false,
-					success: function(obj) {
-						$.each(obj, function(i, result) {
-							if(parentId == result.id) {
-								$("#addr2").append("<option selected='true' value='" + result.id + "'>" + result.name + "</option>");
-							} else {
-								$("#addr2").append("<option value='" + result.id + "'>" + result.name + "</option>");
-							}
-						});
-					}
-				});
-				//validateBase();
-				showJiGou();
-				purDepBack();
 			}
 
 			function tab4(att) {
@@ -407,24 +201,6 @@ session.setAttribute("tokenSession", tokenValue);
 					<div class="clear"></div>
 				</h2>
 				<div class="container container_box">
-					<ul class="ul_list mt20">
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">省</span>
-							<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-								<select id="addr2" onchange="func2();">
-									<option value="">-请选择-</option>
-								</select>
-							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">市</span>
-							<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-								<select name="address2" id="add2" onchange="showJiGou()">
-									<option value="">-请选择-</option>
-								</select>
-							</div>
-						</li>
-					</ul>
 					<h2 class="list_title">推荐采购机构</h2>
 					<table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
@@ -437,7 +213,20 @@ session.setAttribute("tokenSession", tokenValue);
 								<th class="info">联系地址</th>
 							</tr>
 						</thead>
-						<tbody id="purchase_orgs"></tbody>
+						<tbody id="purchase_orgs2">
+							<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+								<c:if test="${org1.cityId eq expert.address}">
+								<tr>
+									<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+									<td class="tc">${vs.index + 1}</td>
+									<td class="tc">${org1.name}</td>
+									<td class="tc">${org1.supplierContact}</td>
+									<td class="tc">${org1.supplierPhone}</td>
+									<td class="tc">${org1.address}</td>
+								</tr>
+							  </c:if>
+							</c:forEach>
+						</tbody>
 					</table>
 					<h2 class="list_title">其他采购机构</h2>
 					<table class="table table-bordered table-condensed table-hover table-striped">
@@ -452,6 +241,18 @@ session.setAttribute("tokenSession", tokenValue);
 							</tr>
 						</thead>
 						<tbody id="purchase_orgs2">
+							<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+								<c:if test="${org1.cityId ne expert.address}">
+								<tr>
+									<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+									<td class="tc">${vs.index + 1}</td>
+									<td class="tc">${org1.name}</td>
+									<td class="tc">${org1.supplierContact}</td>
+									<td class="tc">${org1.supplierPhone}</td>
+									<td class="tc">${org1.address}</td>
+								</tr>
+							  </c:if>
+							</c:forEach>
 						</tbody>
 					</table>
 					<h6>

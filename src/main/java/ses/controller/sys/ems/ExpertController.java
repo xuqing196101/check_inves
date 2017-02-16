@@ -2402,7 +2402,7 @@ public class ExpertController extends BaseController {
 	public List < Category > getAllParentNode(String categoryId, String flag) {
 		List < Category > categoryList = new ArrayList < Category > ();
 		while(true) {
-			Category cate = categoryService.findById(categoryId);
+			Category cate = null;
 			if (flag == null) {
 			    cate = categoryService.findById(categoryId); 
 			} else {

@@ -1352,11 +1352,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_bearchFile", "请上传文件!");
 		}
 		//供应商执照
-		List < UploadFile > list = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBusinessCert(), Constant.SUPPLIER_SYS_KEY.toString());
+		/*List < UploadFile > list = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBusinessCert(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(list != null && list.size() <= 0) {
 			count++;
 			model.addAttribute("err_business", "请上传文件!");
-		}
+		}*/
 		//		List<SupplierFinance> finace = supplierFinanceMapper.findFinanceBySupplierId(supplier.getId());
 		//		if(finace!=null&&finace.size()<1){
 		//			    count++;

@@ -1053,7 +1053,7 @@ $().ready(function() {
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info w200">附件</th>
+														<th class="info w200">证书图片</th>
 													</tr>
 												</thead>
 												<tbody id="cert_pro_list_tbody_id">
@@ -1180,7 +1180,7 @@ $().ready(function() {
 														<th class="info">有效期（起止时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info w200">附件</th>
+														<th class="info w200">证书图片</th>
 													</tr>
 												</thead>
 												<tbody id="cert_sell_list_tbody_id">
@@ -1383,7 +1383,7 @@ $().ready(function() {
 														<th class="info"><div class="w120"> 发证日期</div> </th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
-														<th class="info w200">附件</th>
+														<th class="info w200">证书图片</th>
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
@@ -1453,7 +1453,7 @@ $().ready(function() {
 														<th class="info">资质资格状态</th>
 														<th class="info">资质资格状态变更时间</th>
 														<th class="info">资质资格状态变更原因</th>
-														<th class="info w200">附件</th>
+														<!-- <th class="info w200">证书图片</th> -->
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -1488,10 +1488,10 @@ $().ready(function() {
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd"/>"/></td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" required="required" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}"/></td>
 															<td class="tc w200" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
-															<div class="w200">
-															 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
-															 <u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
-															 </div>
+															<!-- <div class="w200">
+																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
+															 	<u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
+															</div> -->
 															</td>
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}"/>
@@ -1584,7 +1584,7 @@ $().ready(function() {
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">是否年检</th>
-														<th class="info w200"> <div class="w200 fl"> 附件</div> </th>
+														<th class="info w200"> <div class="w200 fl"> 证书图片</div> </th>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">

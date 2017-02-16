@@ -19,40 +19,6 @@
 		showJiGou($("#children_area_select_id"));
 	});
 	
-	
-	/** 加载地区根节点 */
-	function loadRootArea() {
-		var address = "${currSupplier.address}";
-		var parentAddress;
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/findParentAddress.do",
-			type : "post",
-			data : {"addressId" : address}, 
-			dataType : "json",
-			success : function(result) {
-				parentAddress = result;
-			}
-		});
-		$.ajax({
-			url : "${pageContext.request.contextPath}/area/find_root_area.do",
-			type : "post",
-			dataType : "json",
-			success : function(result) {
-				var html = "";
-				html += "<option value=''>请选择</option>";
-				for(var i = 0; i < result.length; i++) {
-					if (result[i].id == parentAddress) {
-						html += "<option id='" + result[i].id + "' value='" + result[i].id + "' selected>" +  result[i].name + "</option>";
-					} else {
-						html += "<option id='" + result[i].id + "' value='" + result[i].id + "'>" +  result[i].name + "</option>";
-					}
-				}
-				$("#root_area_select_id").append(html);
-			},
-		});
-		loadChildren();
-	}
-	
 	/** 保存基本信息 */
 	function saveProcurementDep(flag) {
 		var size = $(":radio:checked").size();
@@ -75,130 +41,39 @@
 		
 
 	}
-	
-	
-
-	function loadChildren() {
-		var id = $("#root_area_select_id").val();
-		var address = "${currSupplier.address}";
-		if (id) {
-			$.ajax({
-				url : globalPath + "/area/find_area_by_parent_id.do",
-				type : "post",
-				dataType : "json",
-				data : {
-					id : id
-				},
-				success : function(result) {
-					var html = "<option > 请选择</option>";
-					for ( var i = 0; i < result.length; i++) {
-						if (result[i].id == address) {
-							html += "<option value='" + result[i].id + "' selected>" + result[i].name + "</option>";
-						} else {
-							html += "<option value='" + result[i].id + "'>" + result[i].name + "</option>";
-						}
-					}
-					$("#children_area_select_id").empty();
-					$("#children_area_select_id").append(html);
-
-					// 自动选中
-				},
-			});
-		}
+	function prev(){
+		 $("#flag").val("5");
+		 $("#items_info_form_id").submit();
 	}
-
 	
-	
-		function showJiGou(obj){
-			$("#purchase_orgs").empty();
-			$("#purchase_orgs2").empty();
-		var shengId = $("#root_area_select_id").val();
-		var shiId = $(obj).val();
-		var orgId = $("#orgId").val();
-		var purDepId = "${currSupplier.procurementDepId}";
+	///暂存
+	function temporarySave(){
+		
+		var procurementDepId = $("input[type='radio']:checked").val();
+		$("#procurementDepId").val(procurementDepId);
+		
+		
+		$("input[name='flag']").val("1");
 		$.ajax({
-			url:'${pageContext.request.contextPath}/expert/showJiGou.do',
-			data:{"pId":shengId,"zId":shiId},
-			//type:"post",
-			dataType:"json",
-			cache: false,
-	        async: false,
-			success:function(obj){
-				$.each(obj,function(i,result){
-					i=i+1;
-					var name=result.name;
-					var contactName = result.contactName;
-					var address=result.address;
-					var contactMobile = result.contactMobile;
-					if(name==null)name="";
-					if(contactName == null) contactName = "";
-					if(address==null)address="";
-					if(contactMobile==null)contactMobile="";
-					var flag;
-					if (result.flag == '1') {
-						flag = "purchase_orgs";
-					} else {
-						flag = "purchase_orgs2";
-					}
-					if(purDepId==result.id){
-						$("#"+flag).append(
-								"<tr align='center' ><td><input checked='checked' onclick='checkDep(this)' type='radio' name='procurementDepId'  value='"+result.id+"' /></td>"+
-								"<td>"+i+"</td>"+
-								"<td>"+name+"</td>"+
-								"<td>"+contactName+"</td>"+
-								"<td>" + contactMobile + "</td>" +
-								"<td>" + address + "</td></tr>"
-							);
-					}else{
-						$("#"+flag).append(
-								"<tr align='center' ><td><input type='radio' onclick='checkDep(this)' name='procurementDepId'  value='"+result.id+"' /></td>"+
-								"<td>"+i+"</td>"+
-								"<td>"+name+"</td>"+
-								"<td>"+contactName+"</td>"+
-								"<td>" + contactMobile + "</td>" +
-								"<td>" + address + "</td></tr>"
-							);
-					}
-				});
+			url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
+			type : "post",
+			data : $("#procurement_dep_form_id").serializeArray(),
+			contextType: "application/x-www-form-urlencoded",
+			success:function(msg){
+			 
+		 	if (msg == 'ok'){
+					layer.msg('暂存成功');
+				} 
+			  if (msg == 'failed'){
+					layer.msg('暂存失败');
+				}  
 			}
 		});
 	}
 	
-	
-		
-		function prev(){
-			 $("#flag").val("5");
-			 $("#items_info_form_id").submit();
-		}
-		
-		///暂存
-		function temporarySave(){
-			
-			var procurementDepId = $("input[type='radio']:checked").val();
-			$("#procurementDepId").val(procurementDepId);
-			
-			
-			$("input[name='flag']").val("1");
-			$.ajax({
-				url : "${pageContext.request.contextPath}/supplier/temporarySave.do",
-				type : "post",
-				data : $("#procurement_dep_form_id").serializeArray(),
-				contextType: "application/x-www-form-urlencoded",
-				success:function(msg){
-				 
-			 	if (msg == 'ok'){
-						layer.msg('暂存成功');
-					} 
-				  if (msg == 'failed'){
-						layer.msg('暂存失败');
-					}  
-				}
-			});
-		}
-		
-		function checkDep(obj){
-			$("#procurementDepId").val(obj.value);
-		}
+	function checkDep(obj){
+		$("#procurementDepId").val(obj.value);
+	}
 </script>
 
 </head>
@@ -239,40 +114,8 @@
 							<input name="flag"  type="hidden" />
 						</form>
 						<div class="tab-content padding-top-20">
-							<!-- 物资生产型 -->
 							<div class="tab-pane fade active in height-300" id="tab-1">
 								<div class="margin-bottom-0  categories">
-									<ul class="list-unstyled list-flow">
-										<li class="col-md-6 p0"><span class=""> 选择您所在的城市：</span>
-											<form action="${pageContext.request.contextPath}/supplier/search_org.html" method="post">
-												<div class="select_common">
-													<select class="w100 fz13" id="root_area_select_id" name=pid" onchange="loadChildren()">
-														<option value="">请选择</option>
-														<c:forEach  items="${privnce }" var="prin">
-													         <c:if test="${prin.id==orgnization.provinceId }">
-													          <option value="${prin.id }" selected="selected" >${prin.name }</option>
-													         </c:if>
-												           <c:if test="${prin.id!=orgnization.provinceId }">
-													          <option value="${prin.id }"  >${prin.name }</option>
-													         </c:if>
-												         </c:forEach>
-													</select>
-													
-													<select class="w100 fz13" id="children_area_select_id" name="cid" onchange="showJiGou(this)">
-														 <c:forEach  items="${city }" var="city">
-													         <c:if test="${city.id==orgnization.cityId }">
-													          <option value="${city.id }" selected="selected" >${city.name }</option>
-													         </c:if>
-												           <c:if test="${city.id!=orgnization.cityId }">
-													          <option value="${city.id }"  >${city.name }</option>
-													         </c:if>
-												         </c:forEach>
-													</select>
-												</div>
-				         
-											</form>
-										</li>
-									</ul>
 									<h2 class="f16 ">
 										推荐采购机构
 									</h2>
@@ -287,7 +130,20 @@
 												<th class="info">联系地址</th>
 											</tr>
 										</thead>
-										<tbody id="purchase_orgs"></tbody>
+										<tbody id="purchase_orgs2">
+											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+											  <c:if test="${org1.cityId eq currSupplier.address}">
+												<tr>
+													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
+													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${org1.name}</td>
+													<td class="tc">${org1.supplierContact}</td>
+													<td class="tc">${org1.supplierPhone}</td>
+													<td class="tc">${org1.address}</td>
+												</tr>
+											  </c:if>
+											</c:forEach>
+										</tbody>
 									</table>
 									<h2 class="f16 ">
 										 其他采购机构
@@ -305,14 +161,16 @@
 										</thead>
 										<tbody id="purchase_orgs2">
 											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+												<c:if test="${org1.cityId ne currSupplier.address}">
 												<tr>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
 													<td class="tc">${org1.name}</td>
-													<td class="tc">${org1.contactName}</td>
-													<td class="tc">${org1.contactMobile}</td>
+													<td class="tc">${org1.supplierContact}</td>
+													<td class="tc">${org1.supplierPhone}</td>
 													<td class="tc">${org1.address}</td>
 												</tr>
+											  </c:if>
 											</c:forEach>
 										</tbody>
 									</table>
