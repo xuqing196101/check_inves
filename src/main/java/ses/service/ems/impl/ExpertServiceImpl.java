@@ -878,11 +878,11 @@ public class ExpertServiceImpl implements ExpertService {
     }
 
     @Override
-    public List<Category> searchByName(String cateName, String flag) {
+    public List<Category> searchByName(String cateName, String flag, String codeName) {
         if (flag == null) {
-            return categoryMapper.searchByName(cateName);
+            return categoryMapper.searchByName(cateName, codeName);
         } else {
-            return engCategoryMapper.searchByName(cateName);
+            return engCategoryMapper.searchByName(cateName, codeName);
         }
     }
 

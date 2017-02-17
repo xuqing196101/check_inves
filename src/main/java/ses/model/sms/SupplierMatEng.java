@@ -58,15 +58,23 @@ public class SupplierMatEng implements Serializable {
 
 	/**
 	 * <pre>
-	 * 技术工人
+	 * 国家或军队保密工程业绩
 	 * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.CONFIDENTIAL_ACHIEVEMENT
 	 * </pre>
 	 */
 	private String confidentialAchievement;
 	
 	/**
+	 * <pre>
+	 * 是否有国家或军队保密工程业绩  0无  1有
+	 * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.IS_HAVING_CON_ACHI
+	 * </pre>
+	 */
+	private String isHavingConAchi;
+	
+	/**
      * <pre>
-     * 国家或军队保密工程业绩
+     * 技术工人
      * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.
      * </pre>
      */
@@ -206,5 +214,13 @@ public class SupplierMatEng implements Serializable {
 
     public void setConfidentialAchievement(String confidentialAchievement) {
         this.confidentialAchievement = confidentialAchievement;
+    }
+
+    public String getIsHavingConAchi() {
+        return isHavingConAchi;
+    }
+
+    public void setIsHavingConAchi(String isHavingConAchi) {
+        this.isHavingConAchi = isHavingConAchi;
     }
 }
