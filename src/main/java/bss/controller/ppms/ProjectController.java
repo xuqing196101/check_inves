@@ -1163,13 +1163,14 @@ public class ProjectController extends BaseController {
                                      if(bottomDetail.get(i).getProjectStatus()==0){
                                          break;
                                      }else if(i==bottomDetail.size()-1){
-                                         List<String> purchase = conllectPurchaseService.getId(bottomDetail.get(0).getUniqueId());
-                                         if(purchase.size() > 0){
-                                             Task task1 = taskservice.selectByCollectId(purchase.get(0));
-                                             task1.setNotDetail(1);
-                                             taskservice.update(task1);
-                                         }
-                                         
+                                         HashMap<String, Object> map = new HashMap<>();
+                                         map.put("purchaseId", bottomDetail.get(0).getOrganization());
+                                         map.put("collectId", bottomDetail.get(0).getUniqueId());
+                                         List<Task> likeByName = taskservice.likeByName(map);
+                                         for (Task task2 : likeByName) {
+                                             task2.setNotDetail(1);
+                                             taskservice.update(task2);
+                                        }
                                      }
                                  }
                                   
@@ -1700,10 +1701,15 @@ public class ProjectController extends BaseController {
                 ps.setProjectDetails(detailList);
             }
         }
+        String id2 = DictionaryDataUtil.getId("PROJECT_IMPLEMENT");
+        User user2 = userService.getUserById(pr.getPrincipal());
+        List<UploadFile> listD = uploadService.getFilesOther(pr.getId(), id2, "2");
         model.addAttribute("user", user);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         model.addAttribute("packageList", list);
+        model.addAttribute("listd", listD);
         model.addAttribute("project", pr);
+        model.addAttribute("relName", user2);
         model.addAttribute("orgnization", orgnization);
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("budgetAmount", details.get(0).getBudget());

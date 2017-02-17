@@ -707,8 +707,13 @@ public class AdvancedProjectController extends BaseController {
         }else{
             map.put("projectId", projectId);
             map.put("id", details.getRequiredId());
+            List<AdvancedDetail> list1 = new ArrayList<AdvancedDetail>();
             List<AdvancedDetail> list = detailService.selectByParent(map);
-            String json = JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss");
+            list1.addAll(list);
+            List<AdvancedDetail> lists = detailService.selectByParentId(map);
+            list1.addAll(lists);
+            removeSames(list1);
+            String json = JSON.toJSONStringWithDateFormat(list1, "yyyy-MM-dd HH:mm:ss");
             response.setContentType("text/html;charset=utf-8");
             response.getWriter().write(json);
             response.getWriter().flush();
@@ -757,6 +762,17 @@ public class AdvancedProjectController extends BaseController {
     
     
     public void removeSame(List<PurchaseRequired> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    
+    public void removeSames(List<AdvancedDetail> list) {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
                 if (list.get(j).getId().equals(list.get(i).getId())) {

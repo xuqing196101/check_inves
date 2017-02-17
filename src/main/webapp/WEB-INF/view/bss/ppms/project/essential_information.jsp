@@ -7,7 +7,20 @@
   <head>
   	<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <!-- 文件上传 -->
+		<link href="${pageContext.request.contextPath}/public/webupload/css/webuploader.css" media="screen" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" media="screen" rel="stylesheet" type="text/css">
+		<!-- 文件显示 -->
+		<link href="${pageContext.request.contextPath}/public/webupload/css/viewer.css" media="screen" rel="stylesheet" type="text/css">
+		
+		<!-- 文件上传 -->
+		<script src="${pageContext.request.contextPath}/public/webupload/js/webuploader.js"></script>
+		<script src="${pageContext.request.contextPath }/public/webuploadFT/upload.js"></script>
+		<!-- 文件显示 -->
+		
+		<script src="${pageContext.request.contextPath}/public/webupload/js/viewer.js"></script>
+		<script src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
+    
     <script src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>	
     <script type="text/javascript">
@@ -138,6 +151,40 @@
 				});
       }
      
+     
+      /** 全选全不选 */
+      function selectAll() {
+        var checklist = document.getElementsByName("chkItem");
+        var checkAll = document.getElementById("checkAll");
+        if(checkAll.checked) {
+          for(var i = 0; i < checklist.length; i++) {
+            checklist[i].checked = true;
+          }
+        } else {
+          for(var j = 0; j < checklist.length; j++) {
+            checklist[j].checked = false;
+          }
+        }
+      }
+
+      /** 单选 */
+      function check() {
+        var count = 0;
+        var checklist = document.getElementsByName("chkItem");
+        var checkAll = document.getElementById("checkAll");
+        for(var i = 0; i < checklist.length; i++) {
+          if(checklist[i].checked == false) {
+            checkAll.checked = false;
+            break;
+          }
+          for(var j = 0; j < checklist.length; j++) {
+            if(checklist[j].checked == true) {
+              checkAll.checked = true;
+              count++;
+            }
+          }
+        }
+      }
 				
 				
       function ycDiv(obj, index) {
@@ -283,6 +330,43 @@
          content : '${pageContext.request.contextPath}/project/viewIdss.html?id=' + id+'&projectId='+projectId,
        });
 			}
+			
+			
+			function downloads(){
+			   var id = [];
+			   $('input[name="chkItem"]:checked').each(function() {
+          id.push($(this).val());
+         });
+			   var a = "2";
+			   download(id,a,null,null);
+			}
+			
+			
+			function deleted(){
+			   var ids = [];
+         $('input[name="chkItem"]:checked').each(function() {
+          ids.push($(this).val());
+         });
+         var a = "2";
+         //removeFile(ids,a,null);
+         $.ajax({
+			    type:"post",
+			    url: "${pageContext.request.contextPath}/file/deleteFile.html?id="+ids+"&key="+a,
+			    async:true,
+			    success:function(msg){
+			      if (msg == "ok"){
+			        window.location.reload();
+			      }
+			    }
+			  });
+			}
+			
+			
+			function views(id){
+			   var projectId = "${project.id}";
+			   var a = "2";
+			   openViewDIv(projectId,id,a,null,null);
+			}
     </script>
   </head>
 
@@ -333,7 +417,7 @@
                           <input name="sectorOfDemand" class="m0" id="sectorOfDemand" value="${orgnization.name}" type="text"/>
                         </c:if>
                       </td>
-                      <td class="bggrey"><span class="red star_red">*</span>最少供应商人数:</td>
+                      <td class="bggrey"><span class="red star_red">*</span>最少供应商数量:</td>
                       <td class="p0"><input name="supplierNumber" class="m0" id="supplierNumber" value="${project.supplierNumber}" type="text"/></td>
                     </tr>
                     <tr>
@@ -507,9 +591,38 @@
             </div>
           </div>
           <div class="tab-pane fade active over_hideen" id="tab-5">
-            <div>上传附件：</div>
-            <u:upload id="upload123" groups="upload123,upload_id" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件"/>
-            <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" />
+            <u:upload id="upload123" groups="upload123,upload_id" multiple="true" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件"/>
+            <%-- <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" /> --%>
+            &nbsp;
+            <button class="btn btn-windows input" onclick="downloads();">下载</button>
+            <button class="btn btn-windows delete" onclick="deleted();">删除</button>
+            <table class="table table-bordered table-condensed mt5">
+              <thead>
+                    <tr>
+                      <th class="w30">
+				                <input type="checkbox" id="checkAll" onclick="selectAll()" />
+				              </th>
+                      <th class="info w50">序号</th>
+                      <th class="info">附件名称</th>
+                      <th class="info">操作人</th>
+                      <th class="info">上传时间</th>
+                    </tr>
+                </thead>
+            <c:forEach items="${listd}" var="data" varStatus="vs">
+                <tr>
+                      <td class="tc w30">
+	                      <input type="checkbox" value="${data.id }" name="chkItem" onclick="check()">
+	                    </td>
+                      <td class="tc w50">${vs.index+1}</td>
+                      <td class="tl" onclick="views('${data.typeId}')">${data.name}</td>
+                      <td class="tl" onclick="views('${data.typeId}')">${relName.relName}</td>
+                      <td class="tl">
+                      <fmt:formatDate type='date' value='${data.createDate}' pattern=" yyyy-MM-dd HH:mm:ss " />
+                      </td>
+                    </tr>
+            </c:forEach>
+            </table>
+            
           </div>
         </div>
       </div>

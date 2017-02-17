@@ -96,7 +96,6 @@ public class UploadController {
     @RequestMapping("/deleteFile")
     @ResponseBody
     public String deleteFile(HttpServletRequest request){
-        
         String msg = uploadService.updateFile(request);
         return msg;
     }

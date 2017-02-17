@@ -150,7 +150,7 @@
                         <td class="tl"><div class="w80">${obj.qualitStand}</div></td>
                         <td class="tc"><div class="w80">${obj.item}</div></td>
                         <td class="tc"><div class="w80">${obj.purchaseCount}</div></td>
-                        <td class="tl"><div class="w80">${obj.deliverDate},/</td>
+                        <td class="tl"><div class="w80">${obj.deliverDate}</div></td>
                         <td class="tc">
                               <c:forEach items="${kind}" var="kind">
                                 <c:if test="${kind.id == obj.purchaseType}">

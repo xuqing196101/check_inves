@@ -113,6 +113,12 @@
     <if test="status != null">
        and  t.STATUS = #{status}
      </if>
+     <if test="purchaseId != null">
+       and  t.PURCHASE_ID = #{purchaseId}
+     </if>
+     <if test="collectId != null">
+       and  t.COLLECT_ID = #{collectId}
+     </if>
      <if test="taskNature != null">
        and  t.TASK_NATURE = #{taskNature}
      </if>
