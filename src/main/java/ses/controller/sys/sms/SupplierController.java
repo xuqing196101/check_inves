@@ -5,7 +5,6 @@ import java.io.File;
 import java.io.IOException;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
-import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -52,6 +51,7 @@ import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -1397,7 +1397,7 @@ public class SupplierController extends BaseSupplierController {
 	//生产信息校验
 	public boolean validatePro(HttpServletRequest request, SupplierMatPro supplierMatPro, Model model) {
 		boolean bool = true;
-		if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
+		/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
 			model.addAttribute("org", "不能为空或者字符串过长");
 			bool = false;
 		}
@@ -1432,7 +1432,7 @@ public class SupplierController extends BaseSupplierController {
 		if(supplierMatPro.getTotalWorker() != null && !supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")) {
 			model.addAttribute("work", "格式不正确");
 			bool = false;
-		}
+		}*/
 		if(supplierMatPro.getScaleTech() == null) {
 			model.addAttribute("stech", "不能为空");
 			bool = false;
@@ -1466,7 +1466,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("leader", "不能为空或者字符串过长");
 			bool = false;
 		}
-		if(supplierMatPro.getTotalBeltline() == null) {
+		/*if(supplierMatPro.getTotalBeltline() == null) {
 			model.addAttribute("line", "不能为空或者字符串过长");
 			bool = false;
 		}
@@ -1489,19 +1489,19 @@ public class SupplierController extends BaseSupplierController {
 		if(supplierMatPro.getTotalQc() == null) {
 			model.addAttribute("tQc", "不能为空");
 			bool = false;
-		}
+		}*/
 		/*	if(supplierMatPro.getTotalQc()!=null&&!supplierMatPro.getTotalDevice().toString().matches("^[0-9]*$")){
   			model.addAttribute("tQc", "格式不正确");
   			bool=false;	
   		}*/
-		if(supplierMatPro.getQcLead() == null || supplierMatPro.getQcLead().length() > 12) {
+		/*if(supplierMatPro.getQcLead() == null || supplierMatPro.getQcLead().length() > 12) {
 			model.addAttribute("tqcLead", "不能为空");
 			bool = false;
 		}
 		if(supplierMatPro.getQcDevice() == null || supplierMatPro.getQcLead().length() > 12) {
 			model.addAttribute("tqcDevice", "不能为空");
 			bool = false;
-		}
+		}*/
 		//		List<SupplierCertPro> list = supplierMatPro.getListSupplierCertPros();
 		//		if(list==null||list.size()<1){
 		//			model.addAttribute("cert_pro", "请添加生产资质证书信息");
@@ -1514,7 +1514,7 @@ public class SupplierController extends BaseSupplierController {
 	//销售信息校验
 	public boolean validateSale(HttpServletRequest request, SupplierMatSell supplierMatPro, Model model) {
 			boolean bool = true;
-			if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
+			/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
 				model.addAttribute("sale_org", "不能为空或者字符串过长");
 				bool = false;
 			}
@@ -1550,17 +1550,17 @@ public class SupplierController extends BaseSupplierController {
 				model.addAttribute("sale_work", "格式不正确");
 				bool = false;
 			}
-			//		List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
-			//		if(list==null||list.size()<1){
-			//			model.addAttribute("sale_cert", "资质证书不能为空");
-			//			bool=false;
-			//		}
+			List<SupplierCertSell> list = supplierMatPro.getListSupplierCertSells();
+			if(list==null||list.size()<1){
+    			model.addAttribute("sale_cert", "资质证书不能为空");
+    			bool=false;
+			}*/
 			return bool;
 		}
 		//工程信息校验
 	public boolean validateEng(HttpServletRequest request, SupplierMatEng supplierMatPro, Model model) {
 			boolean bool = true;
-			if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
+			/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
 				model.addAttribute("eng_org", "不能为空或者字符串过长");
 				bool = false;
 			}
@@ -1580,7 +1580,7 @@ public class SupplierController extends BaseSupplierController {
 			if(supplierMatPro.getTotalTechWorker() == null || !supplierMatPro.getTotalTechWorker().toString().matches("^[0-9]*$")) {
 				model.addAttribute("eng_worker", "不能为空或者不是数字类型");
 				bool = false;
-			}
+			}*/
 			//	   List<SupplierAptitute> aptitutes = supplierMatPro.getListSupplierAptitutes();
 			//	   if(aptitutes==null||aptitutes.size()<1){
 			//		  model.addAttribute("eng_aptitutes", "请添加资格资质证书信息");
@@ -1601,7 +1601,7 @@ public class SupplierController extends BaseSupplierController {
 		//服务信息校验
 	public boolean validateServer(HttpServletRequest request, SupplierMatServe supplierMatPro, Model model) {
 		boolean bool = true;
-		if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
+		/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
 			model.addAttribute("fw_org", "不能为空");
 			bool = false;
 		}
@@ -1636,7 +1636,7 @@ public class SupplierController extends BaseSupplierController {
 		if(supplierMatPro.getTotalWorker() != null && !supplierMatPro.getTotalWorker().toString().matches("^[0-9]*$")) {
 			model.addAttribute("fw_work", "格式不正确");
 			bool = false;
-		}
+		}*/
 		//		List<SupplierCertServe> list = supplierMatPro.getListSupplierCertSes();
 		//		if(list==null||list.size()<1){
 		//			model.addAttribute("fw_cert", "请添加服务证书信息");
