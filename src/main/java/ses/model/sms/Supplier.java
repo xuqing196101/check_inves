@@ -647,6 +647,9 @@ public class Supplier implements Serializable {
     /**近三年内有无重大违法记录 0无违法 1有违法**/
     private String isIllegal;
     
+    /**参加政府或军队采购经历登记表**/
+    private String purchaseExperience;
+    
     public BigDecimal getLevelScoreProduct() {
         return levelScoreProduct;
     }
@@ -1698,6 +1701,14 @@ public class Supplier implements Serializable {
 
     public void setIsIllegal(String isIllegal) {
         this.isIllegal = isIllegal;
+    }
+
+    public String getPurchaseExperience() {
+        return purchaseExperience;
+    }
+
+    public void setPurchaseExperience(String purchaseExperience) {
+        this.purchaseExperience = purchaseExperience;
     }
 	
 	

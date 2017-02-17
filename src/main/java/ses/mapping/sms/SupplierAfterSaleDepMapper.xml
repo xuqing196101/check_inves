@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierAfterSaleDepMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierAfterSaleDep">
+    <id column="ID" property="id"/>
+    <result column="NAME" property="name"/>
+    <result column="TYPE" property="type"/>
+    <result column="ADDRESS" property="address"/>
+    <result column="LEAD_NAME" property="leadName"/>
+    <result column="MOBILE" property="mobile"/>
+    <result column="SUPPLIER_ID" property="supplierId"/>
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, TYPE, ADDRESS, LEAD_NAME, MOBILE, SUPPLIER_ID
+  </sql>
+  
+  <!-- 根据主键查询 -->
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap">
+	SELECT
+	<include refid="Base_Column_List" />
+	FROM T_SES_SMS_SUPPLIER_AFTER_SALE
+	WHERE ID = #{id}
+  </select>
+  
+  <!-- 根据主键删除 -->
+  <select id="deleteByPrimaryKey" resultMap="BaseResultMap">
+	DELETE FROM T_SES_SMS_SUPPLIER_AFTER_SALE
+	WHERE ID = #{id}
+  </select>
+</mapper>

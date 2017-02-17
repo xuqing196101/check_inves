@@ -7,6 +7,7 @@
 		<result column="MOBILE" property="mobile" />
 		<result column="PASSWORD" property="password" />
 		<result column="IS_ILLEGAL" property="isIllegal" />
+		<result column="PURCHASE_EXPERIENCE" property="purchaseExperience" />
 		<result column="SUPPLIER_NAME" property="supplierName" />
 		<result column="WEBSITE" property="website" />
 		<result column="FOUND_DATE" property="foundDate" jdbcType="TIMESTAMP" />
@@ -112,7 +113,7 @@
 		CREATED_AT, UPDATED_AT,SUBMIT_AT,
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
-		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL
+		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -256,6 +257,9 @@
 			</if>
 			<if test="isIllegal != null">
 				IS_ILLEGAL,
+			</if>
+			<if test="purchaseExperience != null">
+				PURCHASE_EXPERIENCE,
 			</if>
 			<if test="mobile != null">
 				MOBILE,
@@ -469,6 +473,9 @@
 			</if>
 			<if test="isIllegal != null">
 				#{isIllegal},
+			</if>
+			<if test="purchaseExperience != null">
+				#{purchaseExperience},
 			</if>
 			<if test="mobile != null">
 				#{mobile},
@@ -692,6 +699,9 @@
 			</if>
 			<if test="isIllegal != null">
 				IS_ILLEGAL = #{isIllegal},
+			</if>
+			<if test="purchaseExperience != null">
+				PURCHASE_EXPERIENCE = #{purchaseExperience},
 			</if>
 			<if test="mobile != null">
 				MOBILE = #{mobile},
