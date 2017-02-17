@@ -1197,7 +1197,7 @@
 
 										<!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
 										<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-											<span class="font_line">证书信息  </span>
+											<span class="font_line">供应商资质（认证）证书信息</span>
 											<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 												<button type="button" class="btn" onclick="openCertEng()">新增</button>
 												<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
@@ -1208,16 +1208,10 @@
 													<thead>
 														<tr class="space_nowrap">
 															<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_eng_list_tbody_id')" /></th>
-															<th class="info">资质资格类型</th>
+															<th class="info">证书名称</th>
 															<th class="info">证书编号</th>
-															<th class="info">资质资格最高等级</th>
-															<th class="info">技术负责人姓名</th>
-															<th class="info">技术负责人职称</th>
-															<th class="info">技术负责人职务</th>
-															<th class="info">单位负责人姓名</th>
-															<th class="info">单位负责人职称</th>
-															<th class="info">单位负责人职务</th>
-															<th class="info">发证机关</th>
+															<th class="info">资质等级</th>
+															<th class="info">发证机关或机构</th>
 															<th class="info">
 																<div class="w120"> 发证日期</div>
 															</th>
@@ -1237,12 +1231,6 @@
 																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType" value="${certEng.certType}" /></td>
 																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input class="w120 border0" required="required" type="text" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode" value="${certEng.certCode}" /></td>
 																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certMaxLevel" value="${certEng.certMaxLevel}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techName" value="${certEng.techName}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techPt" value="${certEng.techPt}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].techJop" value="${certEng.techJop}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depName" value="${certEng.depName}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depPt" value="${certEng.depPt}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].depJop" value="${certEng.depJop}" /></td>
 																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith" value="${certEng.licenceAuthorith}" /></td>
 																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate" value="<fmt:formatDate value="${certEng.expStartDate}" pattern="yyyy-MM-dd "/>"/></td>
 																<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate" value="<fmt:formatDate value="${certEng.expEndDate}"/>" pattern="yyyy-MM-dd" /></td>
@@ -1269,7 +1257,7 @@
 
 										<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
 										<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-											<span class="font_line"> 资质证书信息 </span>
+											<span class="font_line"> 供应商资质证书详细信息 </span>
 											<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
 												<button type="button" class="btn" onclick="openAptitute()">新增</button>
 												<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
@@ -1280,19 +1268,12 @@
 													<thead>
 														<tr class="space_nowrap">
 															<th class="info"><input type="checkbox" onchange="checkAll(this, 'aptitute_list_tbody_id')" /></th>
-															<th class="info">资质资格类型</th>
-															<th class="info">证书编号</th>
-															<th class="info">资质资格序列</th>
+															<th class="info">证书名称</th>
+															<th class="info">资质类型</th>
+															<th class="info">资质序列</th>
 															<th class="info">专业类别</th>
-															<th class="info">资质资格等级</th>
+															<th class="info">资质等级</th>
 															<th class="info">是否主项资质</th>
-															<th class="info">批准资质资格内容</th>
-															<th class="info">首次批准资质资格文号</th>
-															<th class="info">首次批准资质资格日期</th>
-															<th class="info">资质资格取得方式</th>
-															<th class="info">资质资格状态</th>
-															<th class="info">资质资格状态变更时间</th>
-															<th class="info">资质资格状态变更原因</th>
 															<!-- <th class="info w200">证书图片</th> -->
 														</tr>
 													</thead>
@@ -1314,24 +1295,6 @@
 																		<option value="1" <c:if test="${aptitute.isMajorFund==1}"> selected="selected"</c:if>>是</option>
 																		<option value="0" <c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 																	</select>
-																</td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteContent" value="${aptitute.aptituteContent}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteCode" value="${aptitute.aptituteCode}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteDate" value="<fmt:formatDate value="${aptitute.aptituteDate}"/>" pattern="yyyy-MM-dd" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteWay" value="${aptitute.aptituteWay}" /></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
-																	<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteStatus" class="w100p border0">
-																		<option value="1" <c:if test="${aptitute.aptituteStatus==1}"> selected="selected"</c:if> >有效</option>
-																		<option value="0" <c:if test="${aptitute.aptituteStatus==0}"> selected="selected"</c:if>>无效</option>
-																	</select>
-																</td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" required="required" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeAt" value="<fmt:formatDate value="${aptitute.aptituteChangeAt}" pattern="yyyy-MM-dd "/>"/></td>
-																<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" required="required" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteChangeReason" value="${aptitute.aptituteChangeReason}" /></td>
-																<td class="tc w200" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
-																	<!-- <div class="w200">
-																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="apt_up_${certAptNumber}" multiple="true" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}"  auto="true" />
-															 	<u:show showId="apt_show_${certAptNumber}" businessId="${aptitute.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
-															</div> -->
 																</td>
 															</tr>
 															<c:set var="certAptNumber" value="${certAptNumber + 1}" />
