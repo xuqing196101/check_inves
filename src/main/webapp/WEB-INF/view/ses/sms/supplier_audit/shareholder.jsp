@@ -236,6 +236,7 @@
 
         <form id="form_id" action="" method="post" >
             <input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+            <input name="supplierStatus" value="${supplierStatus}" type="hidden">
         </form>
         <ul class="ul_list count_flow">
         	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，列出出资金额前十位的信息，但出资比例应高于50%）</h5>

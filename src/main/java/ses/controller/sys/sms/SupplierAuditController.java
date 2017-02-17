@@ -344,6 +344,12 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("field", field);
 		}
+
+		//插入对比后的数据
+		SupplierModify supplierModify= new SupplierModify();
+		supplierModify.setSupplierId(supplierId);
+		supplierModifyService.insertModifyRecord(supplierModify);
+		
 		return "ses/sms/supplier_audit/essential";
 	}
 
@@ -356,12 +362,13 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("financial")
-	public String financialInformation(HttpServletRequest request, String supplierId) {
-		List < SupplierFinance > list = supplierAuditService.supplierFinanceBySupplierId(supplierId);
+	public String financialInformation(HttpServletRequest request, String supplierId, Integer supplierStatus) {
+		request.setAttribute("supplierId", supplierId);
+		request.setAttribute("supplierStatus", supplierStatus);
+		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
-		request.setAttribute("supplierId", supplierId);
 
 		//文件
 		if(supplierId != null) {
@@ -371,7 +378,21 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-
+		
+		/*//查出全部退回修改的信息
+		if(supplierStatus != null && supplierStatus == 0) {
+			SupplierHistory supplierHistory = new SupplierHistory();
+			supplierHistory.setSupplierId(supplierId);
+			List < SupplierHistory > editList = supplierHistoryService.selectAllBySupplierId(supplierHistory);
+			StringBuffer field = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getBeforeField();
+				field.append(beforeField + ",");
+			}
+			request.setAttribute("field", field);
+		}
+		SupplierModifyService*/
+		
 		return "ses/sms/supplier_audit/financial";
 	}
 
@@ -384,8 +405,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("shareholder")
-	public String shareholderInformation(HttpServletRequest request, SupplierStockholder supplierStockholder) {
+	public String shareholderInformation(HttpServletRequest request, SupplierStockholder supplierStockholder , Integer supplierStatus) {
 		String supplierId = supplierStockholder.getSupplierId();
+		request.setAttribute("supplierStatus", supplierStatus);
+		
 		List < SupplierStockholder > list = supplierAuditService.ShareholderBySupplierId(supplierId);
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -648,7 +671,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 	@RequestMapping("supplierType")
-	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId) {
+	public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
+		request.setAttribute("supplierStatus", supplierStatus);
+		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierId", supplierId);
@@ -868,7 +893,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("reasonsList")
-	public String reasonsList(HttpServletRequest request, SupplierAudit supplierAudit) {
+	public String reasonsList(HttpServletRequest request, SupplierAudit supplierAudit, Integer supplierStatus) {
 		String supplierId = supplierAudit.getSupplierId();
 		if(supplierId == null) {
 			supplierId = (String) request.getSession().getAttribute("supplierId");
@@ -883,8 +908,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
-		Integer status = supplier.getStatus();
-		request.setAttribute("status", status);
+		request.setAttribute("supplierStatus", supplierStatus);
 
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
@@ -1055,7 +1079,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAuditService.updateStatusById(supplierAudit);
 		}
 		
-		/*// 删除之前的历史记录
+		// 删除之前的历史记录
 		SupplierHistory supplierHistory = new SupplierHistory();
 		supplierHistory.setSupplierId(supplierId);
 		supplierHistoryService.delete(supplierHistory);
@@ -1063,7 +1087,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		// 新增历史记录
 		if (supplier.getStatus() == 2) {
 		    supplierHistoryService.insertHistoryInfo(supplierId);
-		}*/
+		}
 		return "redirect:supplierAll.html";
 	}
 
@@ -1186,7 +1210,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping("applicationForm")
-	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier) throws IOException {
+	public String applicationForm(HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, Integer supplierStatus) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
 		supplier = supplierAuditService.supplierById(supplierId);
 		request.setAttribute("applicationForm", supplier);
@@ -1197,7 +1221,8 @@ public class SupplierAuditController extends BaseSupplierController {
 		//文件
 		request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-
+		
+		request.setAttribute("supplierStatus", supplierStatus);
 		return "ses/sms/supplier_audit/application_form";
 	}
 
@@ -1212,8 +1237,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping("items")
-	public String itemInformation(HttpServletResponse response, HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, SupplierItem supplierItem, Integer pageNum) throws IOException {
+	public String itemInformation(HttpServletResponse response, HttpServletRequest request, SupplierAudit supplierAudit, Supplier supplier, SupplierItem supplierItem, Integer pageNum , Integer supplierStatus) throws IOException {
 		String supplierId = supplierAudit.getSupplierId();
+		request.setAttribute("supplierStatus", supplierStatus);
+		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -1663,7 +1690,8 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "aptitude")
-	public String aptitude(Model model, String supplierId) {
+	public String aptitude(Model model, String supplierId, Integer supplierStatus) {
+		model.addAttribute("supplierStatus", supplierStatus);
 		String supplierTypeIds = supplierTypeRelateService.findBySupplier(supplierId);
 
 		//勾选的供应商类型
@@ -2188,7 +2216,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/contract")
-	public String contractUp(String supplierId, Model model) {
+	public String contractUp(String supplierId, Model model, Integer supplierStatus) {
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s: typeIds) {
@@ -2196,6 +2224,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		model.addAttribute("supplierTypeIds", supplierTypeIds);
 		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("supplierStatus", supplierStatus);
 		return "ses/sms/supplier_audit/contract";
 	}
 

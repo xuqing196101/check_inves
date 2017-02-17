@@ -30,6 +30,24 @@
     </if>
   </select>
   
+  <select id="findListBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
+    select 
+    	<include refid="Base_Column_List"/>
+    from 
+    	T_SES_SMS_SUPPLIER_HISTORY
+    where 
+    	SUPPLIER_ID = #{supplierId} 
+    <if test="modifyType != null">
+      and MODIFY_TYPE = #{modifyType}
+    </if>
+    <if test="listType != null">
+      and LIST_TYPE = #{listType}
+    </if>
+    <if test="relationId != null">
+      and RELATION_ID = #{relationId}
+    </if>
+  </select>
+  
   <select id="selectAllBySupplierId"   parameterType="ses.model.sms.SupplierHistory" resultMap="BaseResultMap">
     select 
     	BEFORE_FIELD

@@ -1219,6 +1219,7 @@
 				</form>
 				<form id="form_id" action="" method="post">
 					<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+					<input name="supplierStatus" value="${supplierStatus}" type="hidden">
 				</form>
 	</body>
 

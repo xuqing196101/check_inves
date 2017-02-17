@@ -19,37 +19,73 @@
     <association property="projectDetail" column="PRODUCT_ID" select="bss.dao.ppms.ProjectDetailMapper.selectByPrimaryKey"/>
     <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
   </resultMap>
+ <resultMap id="BaseResultMapTwo" type="ses.model.sms.Quote">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="QUOTE_PRICE" jdbcType="DECIMAL" property="quotePrice" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="TOTAL" jdbcType="DECIMAL" property="total" />
+    <result column="PRODUCT_ID" jdbcType="VARCHAR" property="productId" />
+    <result column="DELIVERY_TIME" jdbcType="VARCHAR" property="deliveryTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
+    <result column="IS_REMOVE" jdbcType="DECIMAL" property="isRemove" />
+    <result column="GIVE_UP_REASON" jdbcType="VARCHAR" property="giveUpReason" />
+  </resultMap>
+  
+   <resultMap id="BaseResultMapThree" type="ses.model.sms.Quote">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="QUOTE_PRICE" jdbcType="DECIMAL" property="quotePrice" />
+    <result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
+    <result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="TOTAL" jdbcType="DECIMAL" property="total" />
+    <result column="PRODUCT_ID" jdbcType="VARCHAR" property="productId" />
+    <result column="DELIVERY_TIME" jdbcType="VARCHAR" property="deliveryTime" />
+    <result column="REMARK" jdbcType="VARCHAR" property="remark" />
+    <result column="IS_TURN_UP" jdbcType="DECIMAL" property="isTurnUp" />
+    <result column="IS_REMOVE" jdbcType="DECIMAL" property="isRemove" />
+    <result column="GIVE_UP_REASON" jdbcType="VARCHAR" property="giveUpReason" />
+    <association property="supplier" column="SUPPLIER_ID" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
+    <association property="projectDetail" column="PRODUCT_ID" select="bss.dao.ppms.ProjectDetailMapper.selectByPrimaryKey"/>
+  </resultMap>
+  
   <sql id="Base_Column_List">
     ID, CREATED_AT, QUOTE_PRICE, PACKAGE_ID, PROJECT_ID, SUPPLIER_ID,TOTAL,PRODUCT_ID,DELIVERY_TIME,REMARK,IS_TURN_UP,IS_REMOVE,GIVE_UP_REASON
   </sql>
-  <select id="selectByPrimaryKey" parameterType="ses.model.sms.Quote" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_SES_SMS_SUPPLIER_QUOTE
-    where 1=1 AND (IS_REMOVE is NULL or IS_REMOVE = 1)
-    <if test="id != null and id != '' ">
-	AND  ID = #{id,jdbcType=VARCHAR}
-    </if>
-    <if test="packageId != null and packageId != '' ">
-	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
-    </if>
-    <if test="projectId != null and projectId != '' ">
-	AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
-    </if>
-    <if test="supplierId != null and supplierId != '' ">
-	AND  SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
-    </if>
-    <if test="productId != null and productId != '' ">
-	AND  PRODUCT_ID = #{productId,jdbcType=VARCHAR}
-    </if>
-     <if test="createdAt != null and createdAt != '' ">
-	AND  CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
-    </if>
-    ORDER BY CREATED_AT ASC
+  <select id="selectByPrimaryKey" parameterType="ses.model.sms.Quote" resultMap="BaseResultMapTwo">
+    select ss.SUPPLIER_NAME as supplierName, s.* from (
+		select 
+	    <include refid="Base_Column_List" />
+	    from T_SES_SMS_SUPPLIER_QUOTE
+	    where 1=1 AND (IS_REMOVE is NULL or IS_REMOVE = 2)
+	    <if test="id != null and id != '' ">
+		AND  ID = #{id,jdbcType=VARCHAR}
+	    </if>
+	    <if test="packageId != null and packageId != '' ">
+		AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="projectId != null and projectId != '' ">
+		AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="supplierId != null and supplierId != '' ">
+		AND  SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	    </if>
+	    <if test="productId != null and productId != '' ">
+		AND  PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+	    </if>
+	     <if test="createdAt != null and createdAt != '' ">
+		AND  CREATED_AT = #{createdAt,jdbcType=TIMESTAMP}
+	    </if>
+	) s LEFT JOIN T_SES_SMS_SUPPLIER  ss
+	on s.supplier_id =  SS.id ORDER BY s.CREATED_AT DESC
   </select>
   <!--查询报价次数  -->
   <select id="selectQuoteCount" parameterType="ses.model.sms.Quote" resultType="java.util.Date">
-  	SELECT CREATED_AT FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 AND (IS_REMOVE is NULL or IS_REMOVE = 1)
+  	SELECT CREATED_AT FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 AND (IS_REMOVE is NULL or IS_REMOVE = 2)
   	
   	<if test="projectId != null and projectId != '' ">
 	AND  PROJECT_ID = #{projectId,jdbcType=VARCHAR}
@@ -63,10 +99,10 @@
   	 GROUP BY CREATED_AT ORDER BY CREATED_AT
   </select>
   <!--查询报价历史 -->
-  <select id="selectQuoteHistory" parameterType="ses.model.sms.Quote" resultMap="BaseResultMap">
+  <select id="selectQuoteHistory" parameterType="ses.model.sms.Quote" resultMap="BaseResultMapThree">
   	SELECT 
   	 <include refid="Base_Column_List" />
-  	  FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 and (IS_REMOVE is NULL or IS_REMOVE = 1)
+  	  FROM "JDCG"."T_SES_SMS_SUPPLIER_QUOTE" where 1=1 and (IS_REMOVE is NULL or IS_REMOVE = 2)
      <if test="packageId != null and packageId != '' ">
 	AND  PACKAGE_ID = #{packageId,jdbcType=VARCHAR}
     </if>

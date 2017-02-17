@@ -139,6 +139,9 @@
 <body onload="addTotal()">
 <!-- 表格开始-->  
        <div class="clear">
+       	<c:if test="${not empty count}">
+		<h2 class="tc">第${listDate + 1}轮报价</h2>
+		</c:if>
 		<input id="projectId" name="projectId" value="${projectId}" type="hidden" />
 		<c:forEach items="${listPackage}" var="listPackage" varStatus="vs">
 		<c:set value="${vs.index}" var="index"></c:set>
@@ -195,8 +198,13 @@
 			</c:forEach>
 		</c:forEach>
 		<div class="col-md-12 tc">
-			<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
-			<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+		    	<c:if test="${not empty listDate}">
+		    	<input class="btn btn-windows save" value="结束报价" type="button" onclick="eachTable(this)">
+		    	<input class="btn btn-windows reset" value="返回" type="button" onclick="back()">
+		    	</c:if>
+		    	<c:if test="${empty listDate}">
+		    	<input class="btn btn-windows save" value="结束唱标" type="button" onclick="eachTable(this)">
+		    	</c:if>
 		</div>
 	</div>
 </body>

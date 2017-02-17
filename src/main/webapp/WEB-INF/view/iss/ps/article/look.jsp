@@ -215,6 +215,15 @@
         ue.setDisabled(true);
       });
     </script>
+    
+    <script src="${pageContext.request.contextPath }/public/ueditor/ueditor.parse.js"></script>
+<script>
+setTimeout(function(){uParse('div',
+{
+ 'highlightJsUrl':'${pageContext.request.contextPath }/public/ueditor/third-party/SyntaxHighlighter/shCore.js',
+ 'highlightCssUrl':'${pageContext.request.contextPath }/public/ueditor/third-party/SyntaxHighlighter/shCoreDefault.css'})
+},300);
+</script>
   </body>
 
 </html>

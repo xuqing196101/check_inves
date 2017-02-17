@@ -109,6 +109,16 @@ public class Quote {
     
     private String giveUpReason;
     
+    private String supplierName;
+    
+    public String getSupplierName() {
+        return supplierName;
+    }
+
+    public void setSupplierName(String supplierName) {
+        this.supplierName = supplierName;
+    }
+
     public Integer getIsRemove() {
         return isRemove;
     }

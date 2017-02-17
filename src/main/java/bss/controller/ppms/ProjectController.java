@@ -1619,6 +1619,25 @@ public class ProjectController extends BaseController {
         project.setStatus(status);
         project.setStartTime(new Date());
         projectService.update(project);
+      /*//设置各环节经办人默认为承办人
+        FlowExecute flowExecute = new FlowExecute();
+        flowExecute.setProjectId(id);
+        flowExecute.setStatus(0);
+        flowExecute.setCreatedAt(new Date());
+        flowExecute.setUpdatedAt(new Date());
+        flowExecute.setOperatorId(user.getId());
+        flowExecute.setOperatorName(user.getRelName());
+        flowExecute.setIsDeleted(0);
+        FlowDefine flowDefine = new FlowDefine();
+        flowDefine.setPurchaseTypeId(project.getPurchaseType());
+        flowDefine.setIsDeleted(0);
+        List<FlowDefine> flowDefines = flowMangeService.find(flowDefine);
+        for (FlowDefine fd : flowDefines) {
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setFlowDefineId(fd.getId());
+            flowExecute.setStep(fd.getStep());
+            flowMangeService.saveExecute(flowExecute);
+        }*/
         if(users.getId().equals(principal)){
             return "redirect:excute.html?id="+project.getId();
         }
@@ -3289,7 +3308,7 @@ public class ProjectController extends BaseController {
                         }
                     }
                     
-                    if("JZXTP".equals(findById.getCode()) || "YQZB".equals(findById.getCode())){
+                    if("JZXTP".equals(findById.getCode()) || "YQZB".equals(findById.getCode()) || "XJCG".equals(findById.getCode())){
                         SupplierExtracts record = new SupplierExtracts();
                         record.setProjectId(project.getId());
                         List<SupplierExtracts> extractRecord = supplierExtractsService.listExtractRecord(record, 0);
@@ -3350,7 +3369,7 @@ public class ProjectController extends BaseController {
                     }
                     
                     
-                    if("JZXTP".equals(findById.getCode()) || "YQZB".equals(findById.getCode())){
+                    if("JZXTP".equals(findById.getCode()) || "YQZB".equals(findById.getCode()) || "XJCG".equals(findById.getCode())){
                         for (int i = 0; i < ids.length; i++ ) {
                             SaleTender saleTender = new SaleTender();
                             saleTender.setPackages(ids[i]);
@@ -3394,7 +3413,7 @@ public class ProjectController extends BaseController {
                         }
                     }
                     
-                    if("YQZB".equals(findById.getCode())){
+                    if("YQZB".equals(findById.getCode()) || "XJCG".equals(findById.getCode())){
                         ExpExtractRecord record = new ExpExtractRecord();
                         record.setProjectId(project.getId());
                         List<ExpExtractRecord> extractRecord = expExtractRecordService.showExpExtractRecord(record);
@@ -3442,6 +3461,35 @@ public class ProjectController extends BaseController {
                         }
                     }
                     
+                    if("YQZB".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(ids[i]);
+                            List<SaleTender> find = saleTenderService.find(saleTender);
+                            for (SaleTender saleTender2 : find) {
+                                /*saleTender2.setIsTurnUp(null);  稍后测试在看
+                                saleTenderService.update(saleTender2);*/
+                                List<UploadFile> file = uploadService.getFilesOthers(saleTender2.getId(), null, "1");
+                                for (UploadFile uploadFile : file) {
+                                    uploadFile.setIsDelete(0);
+                                    uploadService.updateFile(uploadFile, 1);
+                                }
+                            }
+                            
+                            Quote quote =  new Quote();
+                            quote.setPackageId(ids[i]);
+                            quote.setProjectId(projectId);
+                            List<Quote> quotes = quoteService.get(quote);
+                            for (Quote quote2 : quotes) {
+                                List<Quote> list = new ArrayList<Quote>();
+                                quote2.setIsRemove(3);
+                                list.add(quote2);
+                                quoteService.update(list);
+                            }
+                        }
+                    
+                    }
+                    
                 } else if (flowDefine.getStep() > 7) {//第八步
                     if("JZXTP".equals(findById.getCode())){
                         ExpExtractRecord record = new ExpExtractRecord();
@@ -3471,6 +3519,24 @@ public class ProjectController extends BaseController {
                         extSupervises.setPhone(listPro.get(0).getPhone());
                         extSupervises.setDuties(listPro.get(0).getDuties());
                         projectSupervisorService.insert(extSupervises);
+                    }
+                    
+                    
+                    if("YQZB".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            Quote quote =  new Quote();
+                            quote.setPackageId(ids[i]);
+                            quote.setProjectId(projectId);
+                            List<Quote> quotes = quoteService.get(quote);
+                            for (Quote quote2 : quotes) {
+                                List<Quote> list = new ArrayList<Quote>();
+                                quote2.setProjectId(proId);
+                                quote2.setIsRemove(null);
+                                list.add(quote2);
+                                quoteService.update(list);
+                            }
+                        }
+                    
                     }
                 } else if (flowDefine.getStep() > 8) {//第九步
                     

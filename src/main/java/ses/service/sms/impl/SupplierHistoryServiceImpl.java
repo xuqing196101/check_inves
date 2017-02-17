@@ -1,7 +1,6 @@
 package ses.service.sms.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -29,9 +28,8 @@ import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierService;
-import ses.util.WfUtil;
 
-@Service
+@Service(value = "supplierHistoryService")
 public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 
 	@Autowired
