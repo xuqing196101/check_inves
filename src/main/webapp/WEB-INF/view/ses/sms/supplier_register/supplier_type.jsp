@@ -165,6 +165,13 @@
 					id.push($(this).val());
 				});
 				$("input[name='supplierTypeIds']").val(id);
+				var businessScope = "";
+				$("input[name='area_check']").each(function(i, result){
+					if (result.checked) {
+						businessScope = businessScope + result.value + ",";
+					}
+				});
+				$("#businessScope").val(businessScope);
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type: "post",
@@ -275,7 +282,7 @@
 					});
 				}
 				// 判断有没有勾选工程
-				if(isSaleCheck == true) {
+				if(isEngCheck == true) {
 					$("#reg_person_list_tbody_id").find("input[type='text']").each(function(index, element) {
 						if(element.value == "" || !isEngCheck) {
 							flag = false;
@@ -296,7 +303,7 @@
 					});
 				}
 				// 判断有没有勾选服务
-				if(isSaleCheck == true) {
+				if(isServerCheck == true) {
 					$("#cert_se_list_tbody_id").find("input[type='text']").each(function(index, element) {
 						if(element.value == "" || !isServerCheck) {
 							flag = false;
@@ -806,6 +813,14 @@
 					$("#conAchi").attr("required", false);
 				}
 			}
+			
+			function disAreaFile (obj) {
+				if (obj.checked) {
+					$(obj).parent().next().removeClass("dis_none");
+				} else {
+					$(obj).parent().next().addClass("dis_none");
+				}
+			}
 		</script>
 
 	</head>
@@ -1143,9 +1158,11 @@
 										<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 											<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
 											<ul class="list-unstyled overflow_h">
+												<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}">
 												<c:forEach items="${rootArea}" var="area" varStatus="st">
-													<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>> ${area.name}：</span>
-														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+													<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+														<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>><input type="checkbox" name="area_check" value="${area.id}" onchange="disAreaFile(this)" <c:if test="${fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">checked="checked"</c:if>> ${area.name}：</span>
+														<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 <c:if test="${!fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">dis_none</c:if>">
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
 															<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
 														</div>

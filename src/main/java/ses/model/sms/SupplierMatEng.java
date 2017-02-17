@@ -95,6 +95,14 @@ public class SupplierMatEng implements Serializable {
 	 * </pre>
 	 */
 	private Date updatedAt;
+	
+	/**
+	 * <pre>
+	 * 承揽业务范围
+	 * 表字段 : T_SES_SMS_SUPPLIER_MAT_ENG.BUSINESS_SCOPE
+	 * </pre>
+	 */
+	private String businessScope;
 
 	private List<SupplierCertEng> listSupplierCertEngs = new ArrayList<SupplierCertEng>();
 
@@ -222,5 +230,13 @@ public class SupplierMatEng implements Serializable {
 
     public void setIsHavingConAchi(String isHavingConAchi) {
         this.isHavingConAchi = isHavingConAchi;
+    }
+
+    public String getBusinessScope() {
+        return businessScope;
+    }
+
+    public void setBusinessScope(String businessScope) {
+        this.businessScope = businessScope;
     }
 }
