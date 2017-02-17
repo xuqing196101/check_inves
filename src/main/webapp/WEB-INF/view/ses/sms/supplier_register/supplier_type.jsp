@@ -584,8 +584,13 @@
 
 			$(function() {
 				window.onload = function() {
-					$("#conAchiDiv").hide();
-					$("#conAchi").attr("required", false);
+					var isHavingConAchi = "${currSupplier.supplierMatEng.isHavingConAchi}";
+					if(isHavingConAchi == '1'){
+						$("#conAchiDiv").show();
+					} else {
+						$("#conAchiDiv").hide();
+					}
+					
 					$("input").bind("blur", tempSave);
 					$("select").bind("change", tempSave);
 					var pro = "${pro}";
@@ -1111,9 +1116,9 @@
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red"></i>是否有国家或军队保密工程业绩</span>
 													<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-														<select name="isHavingConAchi" id="isHavingConAchi" onchange="disConAchi()" <c:if test="${fn:contains(audit,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConAchi')"</c:if>>
-															<option value="0">无</option>
-															<option value="1">有</option>
+														<select name="supplierMatEng.isHavingConAchi" id="isHavingConAchi" onchange="disConAchi()" <c:if test="${fn:contains(audit,'isHavingConAchi')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConAchi')"</c:if>>
+															<option value="0" <c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '0'}">selected</c:if>>无</option>
+															<option value="1" <c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">selected</c:if>>有</option>
 														</select>
 													</div>
 												</li>
@@ -1145,7 +1150,7 @@
 													<li class="col-md-12 col-xs-12 col-sm-12 mb25">
 														<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>国家或军队保密工程业绩：</span>
 														<div class="col-md-12 col-xs-12 col-sm-12 p0">
-															<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" id="conAchi" required="required" name="supplierMatEng.confidentialAchievement" <c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg('confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
+															<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" id="conAchi" <c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">required="required"</c:if> name="supplierMatEng.confidentialAchievement" <c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg('confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
 															<div class="cue">
 																<sf:errors path="supplierMatEng.confidentialAchievement" />
 															</div>
