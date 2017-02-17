@@ -301,4 +301,9 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		return purchaseRequiredMapper.getUniqueId(list);
 	}
 
+	
+	public List<PurchaseRequired> queryListUniqueId(Map<String, Object> map) {
+		 List<PurchaseRequired> list = purchaseRequiredMapper.getByDep(map);
+			return list;
+		}
 }

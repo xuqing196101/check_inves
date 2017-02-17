@@ -33,8 +33,10 @@ import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.alibaba.fastjson.JSON;
@@ -74,6 +76,9 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
     private PurchaseDetailService purchaseDetailService;
+	
+	@Autowired
+	private PurchaseManagementService purchaseManagementService;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -106,21 +111,23 @@ public class PurchaseAcceptController extends BaseController{
 		map.put("planName", purchaseRequired.getPlanName());
 //		purchaseRequired.setIsMaster(1);
 		//所有的需求部门
-		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+		
+		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page);
+//		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 		List<String> listDep=new ArrayList<String>();
 		if(list2!=null&&list2.size()>0){
-			for(PurchaseOrg p:list2){
-				Orgnization dep= orgnizationService.getOrgByPrimaryKey(p.getOrgId());
-				if(dep!=null){
-					listDep.add(dep.getShortName());	
-				}
+			for(PurchaseManagement p:list2){
+//				Orgnization dep= orgnizationService.getOrgByPrimaryKey(p.getOrgId());
+//				if(dep!=null){
+					listDep.add(p.getPurchaseId());	
+//				}
 			}
 		}else{
 			listDep.add("heheh");
 		}
 		
 		map.put("list", listDep);
-		List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map, page == null ? 1 : page);
+		List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
 		for (PurchaseRequired pur : list) {
 		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
 		}

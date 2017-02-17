@@ -3,12 +3,12 @@ package bss.controller.pms;
 import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
-import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -33,7 +33,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -41,10 +40,12 @@ import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
+import ses.model.oms.util.CommonConstant;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -56,17 +57,18 @@ import ses.util.PathUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PlanFormBean;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
+import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.util.Excel;
 import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
-import common.bean.ResponseBean;
-import common.constant.Constant;
 import common.constant.StaticVariables;
 /**
  * 
@@ -104,6 +106,9 @@ public class PurchaseRequiredController extends BaseController{
 	
 	@Autowired
 	private SupplierService  supplierService;
+	
+	@Autowired
+	private PurchaseManagementService purchaseManagementService;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -131,7 +136,18 @@ public class PurchaseRequiredController extends BaseController{
 		if (page == null ){
 		    page = StaticVariables.DEFAULT_PAGE;
 		}
-		purchaseRequired.setUserId(user.getId());
+		List<Role> roles = user.getRoles();
+		boolean bool=false;
+		if(roles!=null&&roles.size()>0){
+			for(Role r:roles){
+				if(r.getCode().equals("NEED_M")){
+					bool=true;
+				}
+			}
+		}
+		if(bool!=true){
+			purchaseRequired.setUserId(user.getId());
+		} 
 		List<PurchaseRequired> list = purchaseRequiredService.query(purchaseRequired,page);
 		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
@@ -140,9 +156,12 @@ public class PurchaseRequiredController extends BaseController{
 		List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
 		model.addAttribute("requires", requires);
 		
-		
+//		HashMap<String, Object> maps = new HashMap<String, Object>();
+//		maps.put("typeName", StaticVariables.ORG_TYPE_MANAGE);
+//		List<Orgnization> manages = orgnizationServiceI.findOrgnizationList(maps);
 		List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
-		model.addAttribute("manages", manages);
+//		model.addAttribute("manages", manages);
+		model.addAttribute("manages", manages.size());
 		return "bss/pms/purchaserequird/list";
 	}
 	/**
@@ -671,15 +690,36 @@ public class PurchaseRequiredController extends BaseController{
 	    * @throws
 	     */
 	    @RequestMapping("/submit")
-	    public String submit(String planNo){
-	    	PurchaseRequired p=new PurchaseRequired();
-	    	p.setUniqueId(planNo);
-	    	p.setStatus("2");
-	    	p.setDetailStatus(0);
-	    	p.setAuditDate(new Date());
-	    	purchaseRequiredService.updateStatus(p);
-//	    	purchaseRequiredService.update(planNo, "2");
-	    	return "redirect:list.html";
+	    public String submit(@CurrentUser User user,String planNo,Model model,Integer page){
+	    	
+	    	//每页显示十条
+		    if (page == null){
+		        page = 1;
+		    }
+			PageHelper.startPage(page,CommonConstant.PAGE_SIZE);
+			List<Orgnization> orgnizationList =new LinkedList<Orgnization>();
+			List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
+			for(PurchaseOrg po:manages){
+				Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(po.getPurchaseDepId());
+				orgnizationList.add(orgnization);
+			}
+			
+//			HashMap<String, Object> map = new HashMap<String, Object>();
+//			map.put("typeName", StaticVariables.ORG_TYPE_MANAGE);
+//			
+//			
+//			List<Orgnization> orgnizationList = orgnizationServiceI.findOrgnizationList(map);
+			model.addAttribute("list", new PageInfo<Orgnization>(orgnizationList));
+			model.addAttribute("uniqueId", planNo);
+			
+//	    	PurchaseRequired p=new PurchaseRequired();
+//	    	p.setUniqueId(planNo);
+//	    	p.setStatus("2");
+//	    	p.setDetailStatus(0);
+//	    	p.setAuditDate(new Date());
+//	    	purchaseRequiredService.updateStatus(p);
+//	    	return "redirect:list.html";
+			return "bss/pms/purchaserequird/add_purchase_org";
 	    }
 	
 	    @RequestMapping("/ztree")
@@ -704,6 +744,24 @@ public class PurchaseRequiredController extends BaseController{
 	    	String id = UUID.randomUUID().toString().replaceAll("-", "");
 	    	
 	    	return id;
+	    }
+	    @RequestMapping("/submanage")
+	    public String submanage(String uniqueId,String managementId){
+	    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+	    	PurchaseManagement pm=new PurchaseManagement();
+	    	pm.setId(id);
+	    	pm.setManagementId(managementId);
+	    	pm.setPurchaseId(uniqueId);
+	    	purchaseManagementService.add(pm);
+	    	
+	    	PurchaseRequired p=new PurchaseRequired();
+	    	p.setUniqueId(uniqueId);
+	    	p.setStatus("2");
+	    	p.setDetailStatus(0);
+	    	p.setAuditDate(new Date());
+	    	purchaseRequiredService.updateStatus(p);
+	    	
+	    	return "redirect:list.html";
 	    }
 	    
 	    /**

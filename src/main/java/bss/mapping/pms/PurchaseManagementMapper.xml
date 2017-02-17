@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="bss.dao.pms.PurchaseManagementMapper">
+  <resultMap id="BaseResultMap" type="bss.model.pms.PurchaseManagement">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
+    <result column="MANAGEMENT_ID" jdbcType="VARCHAR" property="managementId" />
+    <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, PURCHASE_ID, MANAGEMENT_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_PURCHASE_MANAGEMENT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_BSS_PMS_PURCHASE_MANAGEMENT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.pms.PurchaseManagement">
+    insert into T_BSS_PMS_PURCHASE_MANAGEMENT (ID, PURCHASE_ID, MANAGEMENT_ID,CREATE_AT
+      )
+    values (#{id,jdbcType=VARCHAR}, #{purchaseId,jdbcType=VARCHAR}, #{managementId,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.pms.PurchaseManagement">
+    insert into T_BSS_PMS_PURCHASE_MANAGEMENT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="purchaseId != null">
+        PURCHASE_ID,
+      </if>
+      <if test="managementId != null">
+        MANAGEMENT_ID,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="purchaseId != null">
+        #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="managementId != null">
+        #{managementId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseManagement">
+    update T_BSS_PMS_PURCHASE_MANAGEMENT
+    <set>
+      <if test="purchaseId != null">
+        PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
+      </if>
+      <if test="managementId != null">
+        MANAGEMENT_ID = #{managementId,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.pms.PurchaseManagement">
+    update T_BSS_PMS_PURCHASE_MANAGEMENT
+    set PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
+      MANAGEMENT_ID = #{managementId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  
+  <select id="queryByMid" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_PURCHASE_MANAGEMENT
+    where MANAGEMENT_ID = #{mid} order By CREATE_AT
+  </select>
+</mapper>

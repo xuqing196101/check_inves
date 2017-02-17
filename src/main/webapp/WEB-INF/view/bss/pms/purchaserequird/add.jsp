@@ -336,7 +336,7 @@
 			}
 
 			function same(obj,parentId) {
-
+				            $(obj).parent().parent().find("td:eq(1)").children(":last").val(parentId);
 			 			  	$(obj).parent().parent().find("td:eq(7)").children(":last").val(parentId);
 					    	$(obj).parent().parent().find("td:eq(8)").children(":last").val(parentId);
 					    	$(obj).parent().parent().find("td:eq(9)").children(":last").val(parentId);  

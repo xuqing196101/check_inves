@@ -181,14 +181,27 @@
 	function sub(){
 		var id=[]; 
 		var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
-		
+		var manages="${manages}";
 		status = $.trim(status);
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(id.length==1){
+		if(manages<1){
+			layer.alert("没有关联管理部门",{offset: ['222px', '390px'], shade:0.01});
+		}
+		else if(id.length==1&&manages>0){
 			if(status == "未提交"||status == "受理退回"){
-			     window.location.href="${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id;
+		    	layer.open({
+					type : 2, //page层
+					area : [ '550px', '500px' ],
+					title : "管理部门",
+					shade : 0.01, //遮罩透明度
+					moveType : 1, //拖拽风格，0是默认，1是传统拖动
+					shift : 1, //0-6的动画形式，-1不开启
+					shadeClose : true,
+					content : "${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id
+				 });
+			   //  window.location.href="${pageContext.request.contextPath}/purchaser/submit.html?planNo="+id;
 			}else{
 			     layer.alert("已提交",{offset: ['322px', '790px'], shade:0.01});
 			}

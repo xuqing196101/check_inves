@@ -358,7 +358,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
    */
   public List<PurchaseOrg> get(String id){
     HashMap<String,Object> map=new HashMap<String,Object>();
-    map.put("purchaseDepId", id);
+    map.put("orgId", id);
     List<PurchaseOrg> list = purchaseOrgMapper.selectById(map);
     return list;
   }

@@ -44,10 +44,12 @@ import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.util.ExcelUtil;
 import bss.util.NumberUtils;
@@ -94,6 +96,9 @@ public class CollectPlanController extends BaseController {
 	private OrgnizationServiceI orgnizationServiceI;
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
+	
+	@Autowired
+	private PurchaseManagementService purchaseManagementService;
   
     /**
 		* @Title: queryPlan
@@ -120,14 +125,16 @@ public class CollectPlanController extends BaseController {
     }
 //    map.put("status", 1);
     map.put("isMaster", "1");
-	List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+	List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page);
+
+//	List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 	List<String> listDep=new ArrayList<String>();
 	if(list2!=null&&list2.size()>0){
-		for(PurchaseOrg p:list2){
-			Orgnization dep= orgnizationServiceI.getOrgByPrimaryKey(p.getOrgId());
-			if(dep!=null){
-				listDep.add(dep.getShortName());
-			}
+		for(PurchaseManagement p:list2){
+//			Orgnization dep= orgnizationServiceI.getOrgByPrimaryKey(p.getOrgId());
+//			if(dep!=null){
+				listDep.add(p.getPurchaseId());
+//			}
 			
 		}
 	}else{
@@ -135,7 +142,8 @@ public class CollectPlanController extends BaseController {
 	}
 	
 	map.put("list", listDep);
-    List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map,page==null?1:page);
+//    List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map,page==null?1:page);
+    List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
     PageInfo<PurchaseRequired> info = new PageInfo<>(list);
     model.addAttribute("info", info);
     model.addAttribute("inf", purchaseRequired);

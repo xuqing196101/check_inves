@@ -318,4 +318,16 @@ public interface PurchaseRequiredService {
     public Orgnization queryPur(String id);
     
     List<String> getUniqueId(List<String> list);
+    
+    /**
+     * 
+    * @Title: queryListUniqueId
+    * @Description: 根据各级管理部门的id查询对应的需求计划
+    * author: Li Xiaoxiao 
+    * @param @param map
+    * @param @return     
+    * @return List<PurchaseRequired>     
+    * @throws
+     */
+    List<PurchaseRequired> queryListUniqueId(Map<String,Object> map);
 }

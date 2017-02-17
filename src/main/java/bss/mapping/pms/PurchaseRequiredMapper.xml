@@ -1006,7 +1006,7 @@
 			</if>
 			
 			<if test="list != null">
-			   and DEPARTMENT in
+			   and UNIQUE_ID in
 			     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
 					  #{item}  
 				 </foreach>  

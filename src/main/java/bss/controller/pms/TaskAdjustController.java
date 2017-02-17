@@ -397,7 +397,7 @@ public class TaskAdjustController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list){
+	public String updateById(PurchaseRequiredFormBean list,String details){
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		List<PurchaseDetail> lists = new ArrayList<>();
 		if(list!=null){
@@ -452,6 +452,18 @@ public class TaskAdjustController extends BaseController{
 //		FtpUtil.connectFtp(PropUtil.getProperty("file.upload.path.supplier"));
 //		 FtpUtil.upload2("plan", file);
 //		FtpUtil.closeFtp();
+		String[] ids = details.split(",");
+		HashMap<String,Object> maps=new HashMap<String,Object>();
+		
+		Project project=new Project();
+		for(String did:ids){
+			maps.put("requiredId", did);
+			List<ProjectDetail> selectById = projectDetailService.selectById(maps);
+			project.setId(selectById.get(0).getProject().getId());
+			project.setStatus(DictionaryDataUtil.getId("YQX"));
+			projectService.update(project);
+			
+		}
 		return "redirect:list.html";
 	}
 	/**
