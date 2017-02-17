@@ -1405,7 +1405,7 @@
 	       	   </div>
 		    </li>  --%>
 
-								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
+							    <%--<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮编</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="businessPostCode" onkeyup="checknums(this)" required isZipCode="true" value="${currSupplier.businessPostCode}" <c:if test="${fn:contains(audit,'businessPostCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessPostCode')"</c:if>/>
@@ -1417,7 +1417,7 @@
 										</div>
 									</div>
 
-								</li>
+								</li> --%>
 
 								<%--     <li class="col-md-3 col-sm-6 col-xs-12">
 		     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 

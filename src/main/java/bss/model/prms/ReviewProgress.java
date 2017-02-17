@@ -20,6 +20,11 @@ public class ReviewProgress {
     private Integer isGather;
     //结束状态 0：未结束  1：已结束
     private Integer isFinish;
+    
+    //提交评审人数
+    private Integer finishNum;
+    //未提交评审人数
+    private Integer noFinishNum;
 
     public String getId() {
         return id;
@@ -99,6 +104,22 @@ public class ReviewProgress {
 
     public void setIsFinish(Integer isFinish) {
         this.isFinish = isFinish;
+    }
+
+    public Integer getFinishNum() {
+      return finishNum;
+    }
+
+    public void setFinishNum(Integer finishNum) {
+      this.finishNum = finishNum;
+    }
+
+    public Integer getNoFinishNum() {
+      return noFinishNum;
+    }
+
+    public void setNoFinishNum(Integer noFinishNum) {
+      this.noFinishNum = noFinishNum;
     }
 
 }

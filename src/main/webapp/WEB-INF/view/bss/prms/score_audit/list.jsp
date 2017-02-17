@@ -126,9 +126,9 @@
 		        <td class="tc w30">${vs.count} </td>
 		        <td class="tc">${rp.packageName}</td>
 		        <td class="tc">
-		          <c:if test="${rp.auditStatus == 0}">符合性检查未开始</c:if>
-		          <c:if test="${rp.auditStatus == 1}">符合性检查中</c:if>
-		          <c:if test="${rp.auditStatus == 2}">符合性检查完成</c:if>
+		          <c:if test="${rp.auditStatus == 0}">符合性和资格性检查未开始</c:if>
+		          <c:if test="${rp.auditStatus == 1}">符合性和资格性检查中</c:if>
+		          <c:if test="${rp.auditStatus == 2}">符合性和资格性检查完成</c:if>
 		          <c:if test="${rp.auditStatus == 3}">经济技术评审中</c:if>
 		          <c:if test="${rp.auditStatus == 4}">经济技术评审完成</c:if>
 		        </td>
@@ -140,7 +140,8 @@
 			                 style="width:${rp.scoreProgress*100}%;"> 
 			             </div> 
 			          </div>
-					  <span class="fl padding-5">${rp.scoreProgress*100}%</span>
+					  <%-- <span class="fl padding-5">${rp.scoreProgress*100}%</span> --%>
+					  <span class="fl padding-5">${rp.finishNum}人完成，${rp.noFinishNum}人未完成</span>
 				  </div>
 			    </td>
 			    <td class="tc w100">

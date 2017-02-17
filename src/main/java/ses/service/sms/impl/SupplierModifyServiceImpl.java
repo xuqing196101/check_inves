@@ -36,7 +36,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	 * @return List<SupplierHistory>
 	 */
 	@Override
-	public SupplierHistory selectBySupplierId(SupplierModify supplierModify) {
+	public List<SupplierModify> selectBySupplierId(SupplierModify supplierModify) {
 		
 		return supplierModifyMapper.selectBySupplierId(supplierModify);
 	}
@@ -64,7 +64,8 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
      * @return void
      */
 	@Override
-	public void insertModifyRecord (SupplierModify supplierModify){		
+	public void insertModifyRecord (SupplierModify supplierModify){	
+		
 		SupplierHistory supplierHistory =new SupplierHistory();
 		String supplierId = supplierModify.getSupplierId();
 		
@@ -89,49 +90,49 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					//会计事务所名称
 					if (history.getBeforeField().equals("name") && !history.getBeforeContent().equals(finance.getName())) {
 						supplierModify.setBeforeField("name");
-						supplierModify.setBeforeContent(finance.getName());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//事务所联系电话
 					if (history.getBeforeField().equals("telephone") && !history.getBeforeContent().equals(finance.getTelephone())) {
 						supplierModify.setBeforeField("telephone");
-						supplierModify.setBeforeContent(finance.getTelephone());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//审计人姓名
 					if (history.getBeforeField().equals("auditors") && !history.getBeforeContent().equals(finance.getAuditors())) {
 						supplierModify.setBeforeField("auditors");
-						supplierModify.setBeforeContent(finance.getAuditors());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//资产总额
 					if (history.getBeforeField().equals("totalAssets") && !history.getBeforeContent().equals(finance.getTotalAssets().toString())) {
 						supplierModify.setBeforeField("totalAssets");
-						supplierModify.setBeforeContent(finance.getTotalAssets().toString());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//负债总额
 					if (history.getBeforeField().equals("totalLiabilities") && !history.getBeforeContent().equals(finance.getTotalLiabilities().toString())) {
 						supplierModify.setBeforeField("totalLiabilities");
-						supplierModify.setBeforeContent(finance.getTotalLiabilities().toString());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//净资产总额
 					if (history.getBeforeField().equals("totalNetAssets") && !history.getBeforeContent().equals(finance.getTotalNetAssets().toString())) {
 						supplierModify.setBeforeField("totalNetAssets");
-						supplierModify.setBeforeContent(finance.getTotalNetAssets().toString());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//营业收入
 					if (history.getBeforeField().equals("taking") && !history.getBeforeContent().equals(finance.getTaking().toString())) {
 						supplierModify.setBeforeField("taking");
-						supplierModify.setBeforeContent(finance.getTaking().toString());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 				}
@@ -160,41 +161,70 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					//出资人性质
 					if (history.getBeforeField().equals("nature") && !history.getBeforeContent().equals(stockholder.getNature())) {
 						supplierModify.setBeforeField("nature");
-						supplierModify.setBeforeContent(stockholder.getNature());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//出资人名称或姓名
 					if (history.getBeforeField().equals("name") && !history.getBeforeContent().equals(stockholder.getName())) {
 						supplierModify.setBeforeField("name");
-						supplierModify.setBeforeContent(stockholder.getName());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//统一社会信用代码或身份证号码
 					if (history.getBeforeField().equals("identity") && !history.getBeforeContent().equals(stockholder.getIdentity())) {
 						supplierModify.setBeforeField("identity");
-						supplierModify.setBeforeContent(stockholder.getIdentity());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//出资金额或股份（万元/万份）
 					if (history.getBeforeField().equals("shares") && !history.getBeforeContent().equals(stockholder.getShares())) {
 						supplierModify.setBeforeField("shares");
-						supplierModify.setBeforeContent(stockholder.getShares());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 					//比例（%）
 					if (history.getBeforeField().equals("proportion") && !history.getBeforeContent().equals(stockholder.getProportion())) {
 						supplierModify.setBeforeField("proportion");
-						supplierModify.setBeforeContent(stockholder.getProportion());
+						supplierModify.setBeforeContent(history.getBeforeContent());
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
 				}
 			}
 		}
+	}
+
+	/**
+	 * @Title: findBySupplierId
+	 * @author XuQing 
+	 * @date 2017-2-17 上午10:21:59  
+	 * @Description:查询
+	 * @param @param supplierModify
+	 * @param @return      
+	 * @return SupplierModify
+	 */
+	@Override
+	public SupplierModify findBySupplierId(SupplierModify supplierModify) {
+		
+		return supplierModifyMapper.findBySupplierId(supplierModify);
+	}
+
+	/**
+     * @Title: add
+     * @author XuQing 
+     * @date 2017-2-17 下午2:48:40  
+     * @Description:插入基本信息
+     * @param @param supplierModify      
+     * @return void
+     */
+	@Override
+	public void add(SupplierModify supplierModify) {
+		
+		supplierModifyMapper.add(supplierModify);
 	}
 
 	

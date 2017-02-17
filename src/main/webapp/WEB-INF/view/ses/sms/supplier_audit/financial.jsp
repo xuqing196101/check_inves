@@ -145,6 +145,23 @@
 				$('body').append(form);
 				form.submit();
 			}
+			
+			// 提示修改之前的信息
+			function showContent(field, id) {
+				var supplierId = $("#supplierId").val();
+				var showId = field + "_" +id;
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
+					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"finance_page", "relationId":id},
+					async: false,
+					success: function(result) {
+						layer.tips("修改前:" + result, "#" + showId, 
+						{
+							tips: 3
+						});
+					}
+				});
+			}
 		</script>
 
 		<script type="text/javascript">
@@ -331,14 +348,14 @@
 								<tr>
 									<%-- <td class="tc">${vs.index + 1}</td> --%>
 									<td class="tc w50" id="${f.id }">${f.year } </td>
-									<td class="tc">${f.name }</td>
-									<td class="tc">${f.telephone }</td>
-									<td class="tc">${f.auditors }</td>
+									<td class="tc" id="name_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${f.id}');"</c:if>>${f.name }</td>
+									<td class="tc" id="telephone_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_telephone'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('telephone','${f.id}');"</c:if>>${f.telephone }</td>
+									<td class="tc" id="auditors_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_auditors'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('auditors','${f.id}');"</c:if>>${f.auditors }</td>
 									<%-- <td class="tc">${f.quota }</td> --%>
-									<td class="tc">${f.totalAssets }</td>
-									<td class="tc">${f.totalLiabilities }</td>
-									<td class="tc">${f.totalNetAssets}</td>
-									<td class="tc">${f.taking}</td>
+									<td class="tc" id="totalAssets_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalAssets'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalAssets','${f.id}');"</c:if>>${f.totalAssets }</td>
+									<td class="tc" id="totalLiabilities_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalLiabilities'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalLiabilities','${f.id}');"</c:if>>${f.totalLiabilities }</td>
+									<td class="tc" id="totalNetAssets_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalNetAssets'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalNetAssets','${f.id}');"</c:if>>${f.totalNetAssets}</td>
+									<td class="tc" id="taking_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_taking'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('taking','${f.id}');"</c:if>>${f.taking}</td>
 									<td class="tc w50">
 										<a onclick="reason('${f.id}_info','财务信息');" id="${f.id}_info_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 										<p id="${f.id}_info_show"><img src='/zhbj/public/backend/images/sc.png'></p>

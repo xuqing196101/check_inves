@@ -248,5 +248,5 @@ public interface EngCategoryMapper {
      * @param cateName 产品名称
      * @return Category 集合
      */
-    public List<Category> searchByName(String cateName);
+    public List<Category> searchByName(String cateName, String codeName);
 }

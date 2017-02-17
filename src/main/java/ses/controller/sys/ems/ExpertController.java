@@ -2978,11 +2978,11 @@ public class ExpertController extends BaseController {
 
 	@ResponseBody
 	@RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
-	public String searchCate(String typeId, String cateName, String expertId, String supplierId) {
+	public String searchCate(String typeId, String cateName, String expertId, String supplierId, String codeName) {
 	    DictionaryData typeData = DictionaryDataUtil.findById(typeId);
 	    if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
-            List < Category > categoryList = service.searchByName(cateName, "ENG_INFO");
+            List < Category > categoryList = service.searchByName(cateName, "ENG_INFO", codeName);
             // 循环判断是不是当前树的节点
             List < Category > cateList = new ArrayList < Category > ();
             for(Category category: categoryList) {
@@ -3039,7 +3039,7 @@ public class ExpertController extends BaseController {
 	            }
 	        }
 	        // 查询出所有满足条件的品目
-	        List < Category > categoryList = service.searchByName(cateName, null);
+	        List < Category > categoryList = service.searchByName(cateName, null, codeName);
             Integer level = SupplierLevelUtil.getLevel(supplierId, type);
             if (level != null) {
                 for (int i = 0; i < categoryList.size(); i++) {

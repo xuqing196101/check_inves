@@ -10,12 +10,14 @@
 		<result column="TOTAL_MANAGE" property="totalMange" />
 		<result column="TOTAL_TECH_WORKER" property="totalTechWorker" />
 		<result column="CONFIDENTIAL_ACHIEVEMENT" property="confidentialAchievement" />
+		<result column="IS_HAVING_CON_ACHI" property="isHavingConAchi" />
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP"/>
+		<result column="BUSINESS_SCOPE" property="businessScope"/>
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, SUPPLIER_ID, ORG_NAME, TOTAL_TECH, TOTAL_GL_NORMAL, TOTAL_MANAGE, TOTAL_TECH_WORKER,
-		CREATED_AT, UPDATED_AT, confidentialAchievement
+		CREATED_AT, UPDATED_AT, CONFIDENTIAL_ACHIEVEMENT, IS_HAVING_CON_ACHI, BUSINESS_SCOPE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -70,6 +72,12 @@
 			<if test="confidentialAchievement != null">
 				CONFIDENTIAL_ACHIEVEMENT,
 			</if>
+			<if test="isHavingConAchi != null">
+				IS_HAVING_CON_ACHI,
+			</if>
+			<if test="businessScope != null">
+				BUSINESS_SCOPE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -101,6 +109,12 @@
 			</if>
 			<if test="confidentialAchievement != null">
 				#{confidentialAchievement},
+			</if>
+			<if test="isHavingConAchi != null">
+				#{isHavingConAchi},
+			</if>
+			<if test="businessScope != null">
+				#{businessScope},
 			</if>
 		</trim>
 		<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -136,6 +150,12 @@
 			</if>
 			<if test="confidentialAchievement != null">
 				CONFIDENTIAL_ACHIEVEMENT = #{confidentialAchievement},
+			</if>
+			<if test="isHavingConAchi != null">
+				IS_HAVING_CON_ACHI = #{isHavingConAchi},
+			</if>
+			<if test="businessScope != null">
+				BUSINESS_SCOPE = #{businessScope},
 			</if>
 		</set>
 		where ID = #{id}

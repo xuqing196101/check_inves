@@ -43,8 +43,8 @@
 		function updateSaleTender() {
 			var allTable = document.getElementsByTagName("table");
 			for(var j = 1; j < allTable[0].rows.length; j++) {
-				var isTurnUp = $(allTable[0].rows).eq(j).find("td:last").find("select").find("option:checked").text();
-				var supplierId = $(allTable[0].rows).eq(j).find("td:last").find("select").val();
+				var isTurnUp = $(allTable[0].rows).eq(j).find("td").eq("3").find("select").find("option:checked").text();
+				var supplierId = $(allTable[0].rows).eq(j).find("td").eq("3").find("select").val();
 				if (isTurnUp == '请选择') {
 					layer.msg("必须选择是否到场",{offset: ['25%', '25%']});
 					return;
@@ -55,8 +55,8 @@
 					layer.close(index);
 					var allTable = document.getElementsByTagName("table");
 					for(var j = 1; j < allTable[0].rows.length; j++) {
-						var isTurnUp = $(allTable[0].rows).eq(j).find("td:last").find("select").find("option:checked").text();
-						var supplierId = $(allTable[0].rows).eq(j).find("td:last").find("select").val();
+						var isTurnUp = $(allTable[0].rows).eq(j).find("td").eq("3").find("select").find("option:checked").text();
+						var supplierId = $(allTable[0].rows).eq(j).find("td").eq("3").find("select").val();
 						if (isTurnUp == '未到场') {
 							isTurnUp = 1;
 						} else if (isTurnUp == '请选择') {
@@ -93,6 +93,22 @@
 			}
 		});
 		
+		function yincUpload(obj) {
+			var textVal = $(obj).find("option:selected").text();
+			var arr = new Array();
+			arr = $(obj).parents("tr").find("td:last").find("div");
+			
+			if (textVal == '已到场') {
+				for (var i = 0; i < arr.length; i++) {
+					$(arr[i]).removeClass("hide");
+				}
+			} else {
+				for (var i = 0; i < arr.length; i++) {
+					$(arr[i]).addClass("hide");
+				}
+			}
+		}
+		
 		</script>
 	</head>
 
@@ -115,8 +131,8 @@
 							<th class="w50 info">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">关联的包名</th>
-							<th class="info">投标文件</th>
 							<th class="info">是否到场</th>
+							<th class="info">投标文件</th>
 						</tr>
 					</thead>
 					<c:forEach items="${supplierList }" var="list" varStatus="vs">
@@ -125,6 +141,22 @@
 							<td class="tc">${vs.index+1}</td>
 							<td class="tl">${list.supplierName}</td>
 							<td class="tl">${list.packageName }</td>
+							<td class="tc">
+								<c:if test="${empty list.isturnUp}">
+									<select onchange="yincUpload(this)">
+										<option value="">请选择</option>
+										<option value="${list.id}">已到场</option>
+										<option value="${list.id}">未到场</option>
+									</select>
+								</c:if>
+								
+								<c:if test="${not empty list.isturnUp and list.isturnUp == 0}">
+									已到场
+								</c:if>
+								<c:if test="${not empty list.isturnUp and list.isturnUp == 1}">
+									未到场
+								</c:if>
+							</td>
 							<td>
 							    <c:if test="${flag == false}">
 									<c:if test="${fn:length(supplierList) > 1}">
@@ -139,22 +171,6 @@
 							  	 <c:if test="${flag == true}">
 									<a class="mt3 color7171C6" href="javascript:download('${list.bidFileId}', '${sysKey}')">${list.bidFileName}</a>							
 						  		 </c:if>
-							</td>
-							<td class="tc">
-								<c:if test="${empty list.isturnUp}">
-									<select>
-										<option value="">请选择</option>
-										<option value="${list.id}">已到场</option>
-										<option value="${list.id}">未到场</option>
-									</select>
-								</c:if>
-								
-								<c:if test="${not empty list.isturnUp and list.isturnUp == 0}">
-									已到场
-								</c:if>
-								<c:if test="${not empty list.isturnUp and list.isturnUp == 1}">
-									未到场
-								</c:if>
 							</td>
 						</tr>
 						</c:if>

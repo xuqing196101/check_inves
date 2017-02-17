@@ -1486,7 +1486,7 @@ public class OpenBiddingController {
                 if (list != null && list.size() > 0) {
                     List<UploadFile> blist1 = uploadService.getFilesOther(st.getId(), list.get(0).getId(),  Constant.SUPPLIER_SYS_KEY.toString());
                     if (blist1 != null && blist1.size() == 0) {
-                        if (!strList.contains(st.getSuppliers().getId())) {
+                        if (!strList.contains(st.getSuppliers().getId()) && Integer.parseInt(jsonQuote.getString("isTurnUp")) == 0) {
                           count ++ ;
                           break labe;
                         }
@@ -1703,7 +1703,7 @@ public class OpenBiddingController {
       }
       pk.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
       for (SaleTender saleTender : saleTenderList) {
-        if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() == 0) {
+        if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null && saleTender.getIsTurnUp() == 0) {
           Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
           supplier.setPdList(detailList);
           suList.add(supplier);

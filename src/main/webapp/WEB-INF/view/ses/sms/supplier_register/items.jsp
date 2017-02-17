@@ -286,7 +286,7 @@
 		$("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
 	}
 	
-	function searchCate(cateId, treeId,type,seq) {
+	function searchCate(cateId, treeId,type,seq, code) {
 		var zNodes;
 		var zTreeObj;
 		var setting = {
@@ -313,14 +313,15 @@
 		// 加载中的菊花图标
 		loading = layer.load(1);
 		var cateName = $("#" + cateId).val();
-		if (cateName == "") {
+		var codeName = $("#" + code).val();
+		if (cateName == "" && codeName == "") {
 			loadTab(type,treeId,seq);
 		} else {
 			var supplierId= $("#supplierId").val();
 			var id = type;
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expert/searchCate.do",
-				data: {"typeId" : id, "cateName" : cateName, "supplierId" : supplierId},
+				data: {"typeId" : id, "cateName" : cateName, "supplierId" : supplierId, "codeName": codeName},
 				async: false,
 				dataType: "json",
 				success: function(data){
@@ -387,8 +388,8 @@
 									</h2>
 									<div id="div-1" class="mb10">
 								  	产品类别:<input type="text" id="cate-1">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1)"/>
-								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								          编码:<input type="text" id="code-1">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1,'code-1')"/>
 								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
@@ -403,8 +404,8 @@
 									</h2>
 									<div id="div-2" class="mb10">
 								  	产品类别:<input type="text" id="cate-2">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2)"/>
-								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								          编码:<input type="text" id="code-2">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2,'code-2')"/>
 								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
@@ -419,8 +420,8 @@
 									</h2>
 									<div id="div-3" class="mb10">
 								  	产品类别:<input type="text" id="cate-3">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null)"/>
-								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								          编码:<input type="text" id="code-3">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null,'code-3')"/>
 								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
@@ -435,8 +436,8 @@
 									</h2>
 									<div id="div-4" class="mb10">
 								  	产品类别:<input type="text" id="cate-4">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null)"/>
-								  	<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+								          编码:<input type="text" id="code-4">
+								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null,'code-4')"/>
 								  	</div>
 									<div class="lr0_tbauto">
 										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>

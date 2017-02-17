@@ -21,7 +21,7 @@
 		  });
 		});
 		
-		function reason(id){
+		function reason(id, str){
 		  /* var offset = "";
 		  if (window.event) {
 		    e = event || window.event;
@@ -34,7 +34,7 @@
 		      offset = "200px";
 		  } */
 		  var supplierId=$("#supplierId").val();
-		  var auditContent=$("#"+id).text()+"股东信息"; //审批的字段内容
+		  var auditContent=str + "股东信息"; //审批的字段内容
 		  var auditType=$("#shareholder").text();//审核类型
 		  var index = layer.prompt({
 		    title: '请填写不通过的理由：', 
@@ -45,7 +45,7 @@
 		    $.ajax({
 		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 		      type:"post",
-		      data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+		      data: {"auditType":"shareholder_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 		      dataType:"json",
 		      success:function(result){
 		      result = eval("(" + result + ")");
@@ -77,6 +77,24 @@
 		  $("#form_id").attr("action",action);
 		  $("#form_id").submit();
 		}
+		
+		// 提示修改之前的信息
+			function showContent(field, id) {
+				var supplierId = $("#supplierId").val();
+				var showId = field + "_" +id;
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
+					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"shareholder_page", "relationId":id},
+					async: false,
+					success: function(result) {
+						layer.tips("修改前:" + result, "#" + showId, 
+						{
+							tips: 3
+						});
+					}
+				});
+			}
+		
     </script>
     
 		<script type="text/javascript">
@@ -239,7 +257,7 @@
             <input name="supplierStatus" value="${supplierStatus}" type="hidden">
         </form>
         <ul class="ul_list count_flow">
-        	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，列出出资金额前十位的信息，但出资比例应高于50%）</h5>
+        	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，出资金额前十位的信息，但出资比例应高于50%）</h5>
           <table class="table table-bordered table-condensed table-hover">
             <thead>
 		          <tr>
@@ -255,17 +273,17 @@
 	            <c:forEach items="${shareholder}" var="s" varStatus="vs">
 	              <tr>
 		              <td class="tc">${vs.index + 1}</td>
-		              <td class="tc">
+		              <td class="tc" id="nature_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_nature'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('nature','${s.id}');"</c:if>>
 		              	<c:if test="${s.nature eq '1'}">法人</c:if>
 		              	<c:if test="${s.nature eq '2'}">自然人</c:if>
 		              </td>
-		              <td class="tl pl20" id="${s.id }" >${s.name}</td>
-		              <td class="tc" >${s.identity}</td>
-		              <td class="tc" >${s.shares}</td>
-		              <td class="tc" >${s.proportion}</td>
+		              <td class="tl pl20" id="name_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${s.id}');"</c:if> >${s.name}</td>
+		              <td class="tc" id="identity_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_identity'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('identity','${s.id}');"</c:if>>${s.identity}</td>
+		              <td class="tc" id="shares_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_shares'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('shares','${s.id}');"</c:if>>${s.shares}</td>
+		              <td class="tc" id="proportion_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_proportion'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('proportion','${s.id}');"</c:if>>${s.proportion}</td>
 		              <td class="tc w50" >
 		                <a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
-		                <p onclick="reason('${s.id}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+		                <p onclick="reason('${s.id}','${s.name}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 		              </td>
 	              </tr>
 	            </c:forEach>

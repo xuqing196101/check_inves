@@ -444,6 +444,12 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_BMS_ENG_CATEGORY
-		WHERE NAME like '%${_parameter}%'
+		WHERE 1 = 1
+		<if test="param1 != null">
+			AND NAME like '%${param1}%'
+		</if> 
+		<if test="param1 != null">
+			AND CODE like '%${param2}%'
+		</if> 
 	</select>
 </mapper>

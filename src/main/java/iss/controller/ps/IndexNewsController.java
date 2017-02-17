@@ -75,7 +75,7 @@ import ses.util.PropertiesUtil;
  *@Title:IndexNewsController
  *@Description:首页信息控制类
  *@author QuJie
- *@date 2016-8-29上午8:50:21
+ *@date 2016-8-29上午8:50:22
  */
 @Controller
 @Scope("prototype")
