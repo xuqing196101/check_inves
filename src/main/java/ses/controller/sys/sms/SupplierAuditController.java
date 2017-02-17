@@ -379,19 +379,20 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
-		/*//查出全部退回修改的信息
+		//查出财务修改前的信息
 		if(supplierStatus != null && supplierStatus == 0) {
-			SupplierHistory supplierHistory = new SupplierHistory();
-			supplierHistory.setSupplierId(supplierId);
-			List < SupplierHistory > editList = supplierHistoryService.selectAllBySupplierId(supplierHistory);
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("finance_page");
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer field = new StringBuffer();
 			for(int i = 0; i < editList.size(); i++) {
-				String beforeField = editList.get(i).getBeforeField();
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
 				field.append(beforeField + ",");
 			}
 			request.setAttribute("field", field);
 		}
-		SupplierModifyService*/
+		
 		
 		return "ses/sms/supplier_audit/financial";
 	}
@@ -1637,48 +1638,51 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "/showModify", produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public String showModify(SupplierHistory supplierHistory, HttpServletRequest request) throws ParseException {
-		supplierHistory = supplierHistoryService.findBySupplierId(supplierHistory);
+	public String showModify(SupplierModify supplierModify, HttpServletRequest request) throws ParseException {
+		supplierModify = supplierModifyService.findBySupplierId(supplierModify);
 
-		//在数据字典里查询营业执照类型
-		if(supplierHistory.getBeforeField().equals("businessType") && supplierHistory.getBeforeField() != null) {
-			String showModify = "";
-			String typeid = supplierHistory.getBeforeContent();
-			List < DictionaryData > list = DictionaryDataUtil.find(17);
-			for(int i = 0; i < list.size(); i++) {
-				if(typeid.equals(list.get(i).getId())) {
-					showModify = list.get(i).getName();
+		if(supplierModify.getmodifyType().equals("basic_page")){
+			//在数据字典里查询营业执照类型
+			if(supplierModify.getBeforeField().equals("businessType") && supplierModify.getBeforeField() != null) {
+				String showModify = "";
+				String typeid = supplierModify.getBeforeContent();
+				List < DictionaryData > list = DictionaryDataUtil.find(17);
+				for(int i = 0; i < list.size(); i++) {
+					if(typeid.equals(list.get(i).getId())) {
+						showModify = list.get(i).getName();
+					}
 				}
+				return JSON.toJSONString(showModify);
 			}
-			return JSON.toJSONString(showModify);
-		}
 
-		/**
-		 * 查询地址
-		 */
-		List < Area > privnce = areaService.findRootArea();
-		Area area = new Area();
-		String sonAddress = "";
-		String parentAddress = "";
-		if(supplierHistory.getBeforeField() != null && (supplierHistory.getBeforeField().equals("address") || supplierHistory.getBeforeField().equals("concatCity") || supplierHistory.getBeforeField().equals("armyBuinessCity"))) {
-			area = areaService.listById(supplierHistory.getBeforeContent());
-			sonAddress = area.getName();
-			for(int i = 0; i < privnce.size(); i++) {
-				if(area.getParentId().equals(privnce.get(i).getId())) {
-					parentAddress = privnce.get(i).getName();
+			/**
+			 * 查询地址
+			 */
+			List < Area > privnce = areaService.findRootArea();
+			Area area = new Area();
+			String sonAddress = "";
+			String parentAddress = "";
+			if(supplierModify.getBeforeField() != null && (supplierModify.getBeforeField().equals("address") || supplierModify.getBeforeField().equals("concatCity") || supplierModify.getBeforeField().equals("armyBuinessCity"))) {
+				area = areaService.listById(supplierModify.getBeforeContent());
+				sonAddress = area.getName();
+				for(int i = 0; i < privnce.size(); i++) {
+					if(area.getParentId().equals(privnce.get(i).getId())) {
+						parentAddress = privnce.get(i).getName();
+					}
 				}
+				return JSON.toJSONString(parentAddress + sonAddress);
 			}
-			return JSON.toJSONString(parentAddress + sonAddress);
-		}
 
-		// Wed Feb 01 00:00:00 CST 2017         String
-		if(supplierHistory.getBeforeField() != null && supplierHistory.getBeforeField().equals("foundDate")) {
-			SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
-			Date date = sdf.parse(supplierHistory.getBeforeContent());
-			String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
-			return JSON.toJSONString(d);
+			// Wed Feb 01 00:00:00 CST 2017         String
+			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("foundDate")) {
+				SimpleDateFormat sdf = new SimpleDateFormat("EEE MMM dd HH:mm:ss Z yyyy", Locale.UK);
+				Date date = sdf.parse(supplierModify.getBeforeContent());
+				String d = new SimpleDateFormat("yyyy-MM-dd").format(date);
+				return JSON.toJSONString(d);
+			}
 		}
-		return JSON.toJSONString(supplierHistory.getBeforeContent());
+		
+		return JSON.toJSONString(supplierModify.getBeforeContent());
 	}
 
 	/**

@@ -36,7 +36,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	 * @return List<SupplierHistory>
 	 */
 	@Override
-	public SupplierHistory selectBySupplierId(SupplierModify supplierModify) {
+	public List<SupplierModify> selectBySupplierId(SupplierModify supplierModify) {
 		
 		return supplierModifyMapper.selectBySupplierId(supplierModify);
 	}
@@ -195,6 +195,21 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				}
 			}
 		}
+	}
+
+	/**
+	 * @Title: findBySupplierId
+	 * @author XuQing 
+	 * @date 2017-2-17 上午10:21:59  
+	 * @Description:查询
+	 * @param @param supplierModify
+	 * @param @return      
+	 * @return SupplierModify
+	 */
+	@Override
+	public SupplierModify findBySupplierId(SupplierModify supplierModify) {
+		
+		return supplierModifyMapper.findBySupplierId(supplierModify);
 	}
 
 	

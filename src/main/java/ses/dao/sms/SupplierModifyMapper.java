@@ -1,6 +1,7 @@
 package ses.dao.sms;
 
-import ses.model.sms.SupplierHistory;
+import java.util.List;
+
 import ses.model.sms.SupplierModify;
 
 public interface SupplierModifyMapper {
@@ -24,7 +25,18 @@ public interface SupplierModifyMapper {
 	 * @param @return      
 	 * @return List<SupplierHistory>
 	 */
-	SupplierHistory selectBySupplierId (SupplierModify supplierModify);
+	List<SupplierModify> selectBySupplierId (SupplierModify supplierModify);
+	
+	/**
+	 * @Title: findBySupplierId
+	 * @author XuQing 
+	 * @date 2017-2-17 上午10:21:59  
+	 * @Description:查询
+	 * @param @param supplierModify
+	 * @param @return      
+	 * @return SupplierModify
+	 */
+	SupplierModify findBySupplierId (SupplierModify supplierModify);
 	
 	/**
 	 * @Title: delete
