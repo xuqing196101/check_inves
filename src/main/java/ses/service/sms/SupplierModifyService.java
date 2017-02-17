@@ -47,5 +47,15 @@ public interface SupplierModifyService {
 	 * @return SupplierModify
 	 */
 	SupplierModify findBySupplierId (SupplierModify supplierModify);
+	
+	/**
+     * @Title: add
+     * @author XuQing 
+     * @date 2017-2-17 下午2:48:40  
+     * @Description:插入基本信息
+     * @param @param supplierModify      
+     * @return void
+     */
+    void add (SupplierModify supplierModify);
 
 }

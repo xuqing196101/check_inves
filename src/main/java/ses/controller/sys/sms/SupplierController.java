@@ -60,6 +60,7 @@ import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
@@ -80,6 +81,7 @@ import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
+import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
@@ -180,6 +182,9 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private UserServiceI userService;
+	
+	@Autowired
+	private SupplierModifyService supplierModifyService;
 
 	/**
 	 * @Title: getIdentity
@@ -1297,10 +1302,10 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("err_bAddress", "经营地址不能为空!");
 		//			count++;
 		//		}
-		if(supplier.getBusinessPostCode() == null) {
+		/*if(supplier.getBusinessPostCode() == null) {
 			model.addAttribute("err_bCode", "不能为空!");
 			count++;
-		}
+		}*/
 		if(supplier.getBusinessPostCode() != null && !ValidateUtils.Zipcode(supplier.getBusinessPostCode().toString())) {
 			model.addAttribute("err_bCode", "邮编格式不正确!");
 			count++;
@@ -2103,22 +2108,23 @@ public class SupplierController extends BaseSupplierController {
 			String[] spl = sb.toString().split(";");
 			if(spl[0].trim().length() != 0) {
 				for(String sss: spl) {
-					SupplierHistory sh = new SupplierHistory();
+					SupplierModify supplierModify = new SupplierModify();
 					String[] ss = sss.split(",");
 					String id = UUID.randomUUID().toString().replaceAll("-", "");
-					sh.setId(id);
-					sh.setSupplierId(supplierId);
-					sh.setBeforeField(ss[0]);
-					sh.setBeforeContent(ss[1]);
+					supplierModify.setId(id);
+					supplierModify.setSupplierId(supplierId);
+					supplierModify.setBeforeField(ss[0]);
+					supplierModify.setBeforeContent(ss[1]);
 					// sh.setAfterContent(ss[1]);
-					sh.setCreatedAt(new Date());
-					sh.setmodifyType("basic_page");
+					/*sh.setCreatedAt(new Date());*/
+					supplierModify.setmodifyType("basic_page");
+					supplierModify.setListType(0);
+					SupplierModify mo = supplierModifyService.findBySupplierId(supplierModify);
 					// 删除之前的记录
-					SupplierHistory history = supplierHistoryService.findBySupplierId(sh);
-					if(history != null) {
-						supplierHistoryService.delete(history);
+					 if(mo != null) {
+						 supplierModifyService.delete(mo);
 					}
-					supplierHistoryService.add(sh);
+					supplierModifyService.add(supplierModify);
 				}
 			}
 		}

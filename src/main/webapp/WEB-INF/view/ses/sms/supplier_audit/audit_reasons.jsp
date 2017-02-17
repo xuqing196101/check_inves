@@ -283,7 +283,7 @@
                    <td class="tc">
                      <c:if test="${reasons.auditType eq 'basic_page'}">详细信息</c:if>
                      <c:if test="${reasons.auditType eq 'finance_page'}">财务信息</c:if>
-                     <c:if test="${reasons.auditType eq 'stockholder_page'}">股东信息</c:if>
+                     <c:if test="${reasons.auditType eq 'shareholder_page'}">股东信息</c:if>
                      <%-- <c:if test="${reasons.auditType == 'mat_pro_page'}">物资-生产信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_sell_page'}">物资-销售信息</c:if>
                      <c:if test="${reasons.auditType == 'mat_eng_page'}">工程信息</c:if>

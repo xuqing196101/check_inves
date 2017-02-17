@@ -115,12 +115,68 @@
   </selectKey>
   </insert>
   
+  <insert id="add" parameterType="ses.model.sms.SupplierModify">
+    insert into T_SES_SMS_SUPPLIER_MODIFY
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="beforeField != null">
+        BEFORE_FIELD,
+      </if>
+      <if test="modifyType != null">
+        MODIFY_TYPE,
+      </if>
+      <if test="beforeContent != null">
+        BEFORE_CONTENT,
+      </if>
+      <if test="listType != null">
+        LIST_TYPE,
+      </if>
+      <if test="relationId != null">
+        RELATION_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId},
+      </if>
+      <if test="beforeField != null">
+        #{beforeField},
+      </if>
+      <if test="modifyType != null">
+        #{modifyType},
+      </if>
+      <if test="beforeContent != null">
+        #{beforeContent},
+      </if>
+      <if test="listType != null">
+        #{listType},
+      </if>
+      <if test="relationId != null">
+        #{relationId},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+      select sys_guid() from dual
+  </selectKey>
+  </insert>
+  
   <!-- 删除历史记录 -->
   <delete id="delete" parameterType="ses.model.sms.SupplierModify">
   	 delete from T_SES_SMS_SUPPLIER_MODIFY
   	 where SUPPLIER_ID = #{supplierId}
   	 <if test="beforeField != null">
   	 	and BEFORE_FIELD = #{beforeField}
+  	 </if>
+  	 <if test="listType != null">
+  	 	and LIST_TYPE = #{listType}
   	 </if>
   </delete>
 </mapper>

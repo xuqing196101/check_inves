@@ -469,9 +469,20 @@
 							<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
 							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
 							<u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+						</li> --%>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">近三年内有无重大违法记录：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<c:if test="${'1' eq suppliers.isIllegal }">
+									<input id="isIllegal" class="hand " value="有违法" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isIllegal');"</c:if>>
+								</c:if>
+								<c:if test="${'0' eq suppliers.isIllegal }">
+									<input id="isIllegal" class="hand " value="无违法" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isIllegal');"</c:if>>
+								</c:if>
+							</div>
 						</li>
 					</ul>
 

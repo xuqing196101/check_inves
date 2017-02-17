@@ -416,7 +416,21 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("supplierId", supplierId);
 		request.setAttribute("shareholder", list);
-
+		
+		//查出财务修改前的信息
+		if(supplierStatus != null && supplierStatus == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("shareholder_page");
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer field = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				field.append(beforeField + ",");
+			}
+			request.setAttribute("field", field);
+		}
+		
 		//下一步的跳转页面
 		String url = null;
 		if(supplierTypeName.contains("生产")) {
