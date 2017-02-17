@@ -67,7 +67,7 @@
 					    <td class="tc" id="${supp.suppliers.id}_${supp.packages}">
 					    <c:if test="${supp.isFirstPass == 0 && supp.isRemoved eq '0'}">不合格</c:if>
 					    <c:if test="${supp.isFirstPass == 1 && supp.isRemoved eq '0'}">合格</c:if>
-					    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性审查未结束</c:if>
+					    <c:if test="${supp.isFirstPass == null && supp.isRemoved eq '0'}">符合性和资格性审查未结束</c:if>
 					    <c:if test="${supp.isRemoved eq '1'}">已移除</c:if>
 					    <c:if test="${supp.isRemoved eq '2'}">已放弃报价</c:if>
 					    </td>

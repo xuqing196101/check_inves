@@ -1447,6 +1447,12 @@ public class PackageExpertController {
            pemap.put("packageId", pg.getId());
            // 查询包关联专家实体
            List<PackageExpert> selectList = packageExpertService.selectList(pemap);
+           Map<String, Object> pemap2 = new HashMap<>();
+           pemap2.put("projectId", projectId);
+           pemap2.put("packageId", pg.getId());
+           pemap2.put("isAudit", 1);
+           // 查询包下提交评审的专家
+           List<PackageExpert> selectList2 = packageExpertService.selectList(pemap2);
            if (rplist == null || rplist.size() <= 0) {
                //如果该包进度不存在
                ReviewProgress reviewProgress = new ReviewProgress();
@@ -1458,20 +1464,18 @@ public class PackageExpertController {
                reviewProgress.setScoreProgress(0.00);
                reviewProgress.setTotalProgress(0.00);
                reviewProgress.setIsGather(0);
+               reviewProgress.setFinishNum(0);
+               reviewProgress.setNoFinishNum(selectList.size());
                reviewProgressList.add(reviewProgress);
            } else {
-               /*//是否汇总  0:未汇总 1：已汇总
-               Integer isGather = 1;
-               if (selectList != null && selectList.size() > 0) {
-                   for (PackageExpert packageExpert : selectList) {
-                       if (packageExpert.getIsGather() != SONE) {
-                           isGather = 0;
-                           break;
-                       }
-                   }
-               }*/
                ReviewProgress reviewProgress = rplist.get(0);
-               //reviewProgress.setIsGather(isGather);
+               if (selectList2 != null && selectList2.size() > 0) {
+                   reviewProgress.setFinishNum(selectList2.size());
+                   reviewProgress.setNoFinishNum(selectList.size() - selectList2.size());
+               } else {
+                   reviewProgress.setFinishNum(0);
+                   reviewProgress.setNoFinishNum(selectList.size());
+               }
                reviewProgressList.add(reviewProgress);
            }
        }
@@ -1625,44 +1629,53 @@ public class PackageExpertController {
      */
     @RequestMapping("/toScoreAudit")
     public String toScoreAudit(String projectId, Model model, String flowDefineId){
-        Map<String, Object> map = new HashMap<String, Object>();
-        map.put("projectId", projectId);
         // 进度集合
-        List<ReviewProgress> reviewProgressList = reviewProgressService.selectByMap(map);
+        List<ReviewProgress> reviewProgressList = new ArrayList<ReviewProgress>();
         List<Packages> packages = packageService.listResultExpert(projectId);
-        if (reviewProgressList.size() < packages.size()) {
-            for (Packages pg : packages) {
-                Map<String, Object> map2 = new HashMap<String, Object>();
-                map2.put("projectId", projectId);
-                map2.put("packageId", pg.getId());
-                //查询该包有没有评审进度数据
-                List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
-                if (rplist == null || rplist.size() <= 0) {
-                    ReviewProgress reviewProgress = new ReviewProgress();
-                    reviewProgress.setAuditStatus("0");
-                    reviewProgress.setFirstAuditProgress(0.00);
-                    reviewProgress.setPackageId(pg.getId());
-                    reviewProgress.setPackageName(pg.getName());
-                    reviewProgress.setProjectId(projectId);
-                    reviewProgress.setScoreProgress(0.00);
-                    reviewProgress.setTotalProgress(0.00);
-                    reviewProgress.setAuditStatus("0");
-                    reviewProgressList.add(reviewProgress);
-                }
-            }
+        for (Packages pg : packages) {
+            Map<String, Object> map2 = new HashMap<String, Object>();
+            map2.put("projectId", projectId);
+            map2.put("packageId", pg.getId());
+            //查询该包有没有评审进度数据
+            List<ReviewProgress> rplist = reviewProgressService.selectByMap(map2);
+            Map<String, Object> pemap = new HashMap<>();
+            pemap.put("projectId", projectId);
+            pemap.put("packageId", pg.getId());
+            // 查询包关联专家实体
+            List<PackageExpert> selectList = packageExpertService.selectList(pemap);
+            Map<String, Object> pemap2 = new HashMap<>();
+            pemap2.put("projectId", projectId);
+            pemap2.put("packageId", pg.getId());
+            pemap2.put("isGrade", 1);
+            // 查询包下提交评审的专家
+            List<PackageExpert> selectList2 = packageExpertService.selectList(pemap2);
+            if (rplist == null || rplist.size() <= 0) {
+                ReviewProgress reviewProgress = new ReviewProgress();
+                reviewProgress.setAuditStatus("0");
+                reviewProgress.setFirstAuditProgress(0.00);
+                reviewProgress.setPackageId(pg.getId());
+                reviewProgress.setPackageName(pg.getName());
+                reviewProgress.setProjectId(projectId);
+                reviewProgress.setScoreProgress(0.00);
+                reviewProgress.setTotalProgress(0.00);
+                reviewProgress.setAuditStatus("0");
+                reviewProgress.setFinishNum(0);
+                reviewProgress.setNoFinishNum(selectList.size());
+                reviewProgressList.add(reviewProgress);
+            } else {
+              ReviewProgress reviewProgress = rplist.get(0);
+              if (selectList2 != null && selectList2.size() > 0) {
+                  reviewProgress.setFinishNum(selectList2.size());
+                  reviewProgress.setNoFinishNum(selectList.size() - selectList2.size());
+              } else {
+                  reviewProgress.setFinishNum(0);
+                  reviewProgress.setNoFinishNum(selectList.size());
+              }
+              reviewProgressList.add(reviewProgress);
+          }
         }
-        /*for (ReviewProgress review : reviewProgressList) {
-            map.put("packageId", review.getPackageId());
-            List<PackageExpert> list = packageExpertService.selectList(map);
-            if (list != null && list.size() > 0) {
-                Integer isFinish = list.get(0).getIsGatherGather() == (short) 1 ? 1 : 0;
-                review.setIsFinish(isFinish);
-            }
-        }*/
-        
         //按包的创建时间排序
-        ListSort(reviewProgressList);
-        
+        //ListSort(reviewProgressList);
         // 包信息
         model.addAttribute("packageList", packages);
         model.addAttribute("projectId", projectId);
