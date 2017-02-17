@@ -9,6 +9,18 @@
 
 	<head>
 		<%@ include file="../../../common.jsp"%>
+		<link href="${pageContext.request.contextPath}/public/webupload/css/webuploader.css" media="screen" rel="stylesheet" type="text/css">
+		<link href="${pageContext.request.contextPath}/public/webupload/css/uploadView.css" media="screen" rel="stylesheet" type="text/css">
+		<!-- 文件显示 -->
+		<link href="${pageContext.request.contextPath}/public/webupload/css/viewer.css" media="screen" rel="stylesheet" type="text/css">
+		
+		<!-- 文件上传 -->
+		<script src="${pageContext.request.contextPath}/public/webupload/js/webuploader.js"></script>
+		<script src="${pageContext.request.contextPath}/public/webuploadSBW/upload.js"></script>
+		<!-- 文件显示 -->
+		<script src="${pageContext.request.contextPath}/public/webupload/js/viewer.js"></script>
+		<script src="${pageContext.request.contextPath}/public/webupload/js/display.js"></script>
+		
 		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
 		<title></title>
 		<!-- Meta -->
@@ -49,8 +61,8 @@
 					</div>
 					<ul class="list-unstyled list-flow p0_20 mt10">
 						<li id="bill_li_id" class="col-md-6 p0"><span class="zzzx w245"><i class="red">＊</i> 激活证明：</span>
-							<up:upload id="jihuoFile_up" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-							<up:show showId="jihuoFile_up" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" />
+							<u:upload id="jihuoFile_up" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+							<u:show showId="jihuoFile_up" businessId="${id}" sysKey="${sysKey}" typeId="${typeId}" />
 						</li>
 					</ul>
 				</div>

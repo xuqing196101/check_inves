@@ -129,7 +129,7 @@
 							<td class="bggrey">登陆名：</td>
 							<td>${ir.loginName }</td>
 							<td class="bggrey ">密码：</td>
-							<td>${ir.password }</td>
+							<td>******</td>
 							<td class="bggrey ">企业名称：</td>
 							<td>${ir.name }</td>
 						</tr>
