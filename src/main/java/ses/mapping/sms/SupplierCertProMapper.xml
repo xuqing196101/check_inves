@@ -5,6 +5,7 @@
 		<id column="ID" property="id" />
 		<result column="MAT_PRO_ID" property="matProId" />
 		<result column="NAME" property="name" />
+		<result column="CODE" property="code" />
 		<result column="LEVEL_CERT" property="levelCert" />
 		<result column="LICENCE_AUTHORITH" property="licenceAuthorith" />
 		<result column="EXP_START_DATE" property="expStartDate" jdbcType="TIMESTAMP"/>
@@ -15,7 +16,7 @@
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, MAT_PRO_ID, NAME, LEVEL_CERT, LICENCE_AUTHORITH, EXP_START_DATE, EXP_END_DATE,
-		MOT, ATTACH
+		MOT, ATTACH, CODE
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -49,6 +50,9 @@
 			<if test="name != null">
 				NAME,
 			</if>
+			<if test="code != null">
+				CODE,
+			</if>
 			<if test="levelCert != null">
 				LEVEL_CERT,
 			</if>
@@ -78,6 +82,9 @@
 			<if test="name != null">
 				#{name},
 			</if>
+			<if test="code != null">
+				#{code},
+			</if>
 			<if test="levelCert != null">
 				#{levelCert},
 			</if>
@@ -106,6 +113,9 @@
 			</if>
 			<if test="name != null">
 				NAME = #{name},
+			</if>
+			<if test="code != null">
+				CODE = #{code},
 			</if>
 			<if test="levelCert != null">
 				LEVEL_CERT = #{levelCert},

@@ -972,11 +972,12 @@
 															<tr>
 																<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_pro_list_tbody_id')" /></th>
 																<th class="info" style="width: 120px">资质证书名称</th>
+																<th class="info">证书编号</th>
 																<th class="info">资质等级</th>
-																<th class="info">发证机关</th>
-																<th class="info">有效期（起止时间）</th>
+																<th class="info">发证机关或机构</th>
+																<th class="info">有效期（起始时间）</th>
 																<th class="info">有效期（结束时间）</th>
-																<th class="info">是否年检</th>
+																<th class="info">证书状态</th>
 																<th class="info w200">证书图片</th>
 															</tr>
 														</thead>
@@ -992,6 +993,7 @@
 																		</div>
 																	</td>
 																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].name" value="${certPro.name}" class="border0" /> </td>
+																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].code" value="${certPro.code}" class="border0" /> </td>
 																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert" value="${certPro.levelCert}" class="border0" /> </td>
 																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith" value="${certPro.licenceAuthorith}" class="border0" /></td>
 																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
@@ -1000,12 +1002,7 @@
 																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																		<input type="text" required="required" name="supplierMatPro.listSupplierCertPros[${certProNumber}].expEndDate" onClick="WdatePicker()" readonly="readonly" value="<fmt:formatDate value="${certPro.expEndDate}" pattern="yyyy-MM-dd "/>" class="border0" />
 																	</td>
-																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
-																		<select name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" class="w100p border0">
-																			<option value="1" <c:if test="${certPro.mot=='1'}"> selected="selected"</c:if> >是</option>
-																			<option value="0" <c:if test="${certPro.mot=='0'}"> selected="selected"</c:if>>否</option>
-																		</select>
-																	</td>
+																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatPro.listSupplierCertPros[${certProNumber}].mot" value="${certPro.mot}" class="border0" /> </td>
 																	<td class="tc" <c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
 																		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pro_up_${certProNumber}" multiple="true" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" auto="true" />
 																		<u:show showId="pro_show_${certProNumber}" businessId="${certPro.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />
@@ -1041,11 +1038,12 @@
 														<tr>
 															<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_sell_list_tbody_id')" /></th>
 															<th class="info">资质证书名称</th>
+															<th class="info">证书编号</th>
 															<th class="info">资质等级</th>
-															<th class="info">发证机关</th>
-															<th class="info">有效期（起止时间）</th>
+															<th class="info">发证机关或机构</th>
+															<th class="info">有效期（起始时间）</th>
 															<th class="info">有效期（结束时间）</th>
-															<th class="info">是否年检</th>
+															<th class="info">证书状态</th>
 															<th class="info w200">证书图片</th>
 														</tr>
 													</thead>
@@ -1058,6 +1056,7 @@
 																	<input type="hidden" required="required" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id" value="${certSell.id}" class="border0">
 																</td>
 																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name" value="${certSell.name}" class="border0" /></td>
+																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].code" value="${certSell.code}" class="border0" /></td>
 																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" value="${certSell.levelCert}" class="border0" /></td>
 																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" value="${certSell.licenceAuthorith}" class="border0" /></td>
 																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
@@ -1066,12 +1065,7 @@
 																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																	<input type="text" readonly="readonly" required="required" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" value="<fmt:formatDate value="${certSell.expEndDate}" pattern="yyyy-MM-dd "/>" class="border0" />
 																</td>
-																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
-																	<select name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="w100p border0">
-																		<option value="1" <c:if test="${certSell.mot=='1'}"> selected="selected"</c:if>>是</option>
-																		<option value="0" <c:if test="${certSell.mot=='0'}"> selected="selected"</c:if>>否</option>
-																	</select>
-																</td>
+																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input required="required" type="text" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" value="${certSell.mot}" class="border0" /></td>
 																<td class="tc" <c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
 																	<div class="w200 fl">
 																		<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="sale_up_${certSaleNumber}" multiple="true" businessId="${certSell.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" auto="true" />
@@ -1327,11 +1321,12 @@
 														<tr>
 															<th class="info"><input type="checkbox" onchange="checkAll(this, 'cert_se_list_tbody_id')" /></th>
 															<th class="info">资质证书名称</th>
+															<th class="info">证书编号</th>
 															<th class="info">资质等级</th>
-															<th class="info">发证机关</th>
+															<th class="info">发证机关或机构</th>
 															<th class="info">有效期（起始时间）</th>
 															<th class="info">有效期（结束时间）</th>
-															<th class="info">是否年检</th>
+															<th class="info">证书状态</th>
 															<th class="info w200">
 																<div class="w200 fl"> 证书图片</div>
 															</th>
@@ -1346,16 +1341,12 @@
 																	<input type="hidden" required="required" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id" value="${certSe.id}">
 																</td>
 																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name" value="${certSe.name}" /></td>
+																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code" value="${certSe.code}" /></td>
 																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert" value="${certSe.levelCert}" /></td>
 																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith" value="${certSe.licenceAuthorith}" /></td>
 																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate" value="<fmt:formatDate value="${certSe.expStartDate}" pattern="yyyy-MM-dd "/>"/></td>
 																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate" value="<fmt:formatDate value="${certSe.expEndDate}" pattern="yyyy-MM-dd "/>"/></td>
-																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
-																	<select name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" class="w100p border0">
-																		<option value="1" <c:if test="${certSe.mot==1}"> selected="selected"</c:if>>是</option>
-																		<option value="0" <c:if test="${certSe.mot==0}"> selected="selected"</c:if>>否</option>
-																	</select>
-																</td>
+																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input type="text" required="required" class="border0" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot" value="${certSe.mot}" /></td>
 																<td class="tc" <c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
 																	<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="se_up_${certSeNumber}" multiple="true" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" auto="true" />
 																	<u:show showId="se_show_${certSeNumber}" businessId="${certSe.id}" typeId="${supplierDictionaryData.supplierBusinessCert}" sysKey="${sysKey}" />

@@ -29,6 +29,14 @@ public class SupplierCertPro implements Serializable {
 	 * </pre>
 	 */
 	private String name;
+	
+	/**
+	 * <pre>
+	 * 名称
+	 * 表字段 : T_SES_SMS_SUPPLIER_CERT_PRO.CODE
+	 * </pre>
+	 */
+	private String code;
 
 	/**
 	 * <pre>
@@ -64,11 +72,11 @@ public class SupplierCertPro implements Serializable {
 
 	/**
 	 * <pre>
-	 * 是否年检 0代表无 1代表是
+	 * 证书状态
 	 * 表字段 : T_SES_SMS_SUPPLIER_CERT_PRO.MOT
 	 * </pre>
 	 */
-	private Integer mot;
+	private String mot;
 	
 	/** 是否年检(用于申请表下载) **/
 	private String isMot;
@@ -141,11 +149,11 @@ public class SupplierCertPro implements Serializable {
 		this.expEndDate = expEndDate;
 	}
 
-	public Integer getMot() {
+	public String getMot() {
 		return mot;
 	}
 
-	public void setMot(Integer mot) {
+	public void setMot(String mot) {
 		this.mot = mot;
 	}
 
@@ -179,6 +187,14 @@ public class SupplierCertPro implements Serializable {
 
     public void setIsMot(String isMot) {
         this.isMot = isMot;
+    }
+
+    public String getCode() {
+        return code;
+    }
+
+    public void setCode(String code) {
+        this.code = code;
     }
 
 }
