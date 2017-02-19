@@ -6,6 +6,11 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <title>供应商注册</title>
+<style type="text/css">
+	.current{
+		cursor:pointer;
+	}
+	</style>
 <script type="text/javascript">
 	var zTreeObj;
 	var zNodes;
@@ -176,6 +181,7 @@
 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
 		}else{
 			$("#flag").val(flag);
+			sessionStorage.formD=JSON.stringify($("#items_info_form_id").serializeArray());
 			$("#items_info_form_id").submit();
 		}
 	}
@@ -334,13 +340,14 @@
 			});
 		}
 	}
+	sessionStorage.locationC=window.location.href;
 </script>
 </head>
 
 <body>
 	<div class="wrapper">
-
-		<!-- 项目戳开始 -->
+<%@include file="supplierNav.jsp" %>
+	<%-- 	<!-- 项目戳开始 -->
 		<c:if test="${currSupplier.status != 7}">
 			<div class="container clear margin-top-30">
 				<h2 class="padding-20 mt40 ml30">
@@ -348,17 +355,17 @@
 <!-- 						<div class="line"></div> <span class="step_desc_01">用户名密码</span> </span> <span class="new_step current fl"><i class="">2</i> -->
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_02">产品类别信息</span> </span> <span class="new_step fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_02">产品类别</span> </span> <span class="new_step fl"><i class="">4</i>
 						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step  fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_02">产品类别合同上传</span> </span> <span class="new_step fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
-						<span class="step_desc_01">申请表承诺书上传</span> 
+						<div class="line"></div> <span class="step_desc_02">销售(承包)合同</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_01">采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
+						<span class="step_desc_01">提交</span> 
 					</span>
 					<div class="clear"></div>
 				</h2>
 			</div>
-		</c:if>
+		</c:if> --%>
 
 		<!--基本信息-->
 		<div class="container content height-300">
@@ -455,7 +462,7 @@
 	
 	 <div class="btmfix">
 	  	  <div class="mt5 mb5 tc">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">上一步</button>
+	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">111上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
 	  	  </div>
@@ -473,4 +480,5 @@
 	<!-- footer -->
 	<!-- <c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if> -->
 </body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
 </html>

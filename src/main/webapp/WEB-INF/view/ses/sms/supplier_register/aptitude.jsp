@@ -8,6 +8,11 @@
 		<%@ include file="/reg_head.jsp"%>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商注册</title>
+		<style type="text/css">
+.current {
+	cursor: pointer;
+}
+</style>
 		<script type="text/javascript">
 			function saveItems() {
 				$("input[name='flag']").val("file");
@@ -30,6 +35,8 @@
 
 			function next() {
 				$("input[name='flag']").val("2");
+				
+				sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
 				$("#items_info_form_id").submit();
 				/*  var id="${currSupplier.id}";
 				 window.location.href="${pageContext.request.contextPath}/supplier/contract.html?supplierId="+id; */
@@ -71,32 +78,34 @@
 					layer.alert("没有需要上传的资质文件，请直接点击下一步！");
 				}
 			});
+			
+				sessionStorage.locationD=window.location.href;
 		</script>
 
 	</head>
 
 	<body onload="psize()">
 		<div class="wrapper">
-
-			<!-- 项目戳开始 -->
+<%@include file="supplierNav.jsp" %>
+		<%-- 	<!-- 项目戳开始 -->
 			<c:if test="${currSupplier.status != 7}">
 				<div class="container clear margin-top-30">
 					<h2 class="padding-20 mt40 ml30">
 				       	<span class="new_step current fl"><i class="">1</i>
 						<div class="line"></div> <span class="step_desc_02">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_01">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_02">品目信息</span> </span> <span class="new_step current fl"> <i class="">4</i>
+						<div class="line"></div> <span class="step_desc_02">产品类别</span> </span> <span class="new_step current fl"> <i class="">4</i>
 						<div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span> <span class="new_step  fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_02">品目合同上传</span> </span> <span class="new_step fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_01">初审采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_02">打印申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
-						<span class="step_desc_01">申请表承诺书上传</span> 
+						<div class="line"></div> <span class="step_desc_02">销售(承包)合同</span> </span> <span class="new_step fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_01">采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
+						<span class="step_desc_01">提交</span> 
 					</span>
 					<div class="clear"></div>
 				</h2>
 				</div>
 			</c:if>
-
+ --%>
 			<!--基本信息-->
 			<div class="container content ">
 				<div class="row magazine-page">
@@ -249,5 +258,5 @@
 			<input name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }" type="hidden" />
 		</form>
 	</body>
-
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
 </html>

@@ -172,7 +172,9 @@
 				});
 				if(flag) {
 					$("input[name='flag']").val(obj);
+					sessionStorage.formB=JSON.stringify($("#basic_info_form_id").serializeArray());
 					$("#basic_info_form_id").submit();
+					
 				} else {
 					layer.msg(msg, {
 						offset: '300px'
@@ -607,6 +609,7 @@
 					}
 				});
 			}
+			sessionStorage.locationA=window.location.href;
 		</script>
 	</head>
 
@@ -1798,6 +1801,5 @@
 			</div>
 		</div>
 	</body>
-	<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/common.js"></script>
-	<%= %>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
 </html>

@@ -6,6 +6,11 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <title>供应商注册</title>
+		<style type="text/css">
+.current {
+	cursor: pointer;
+}
+</style>
 <script type="text/javascript">
 
 	$(function() {
@@ -24,6 +29,7 @@
 		var size = $(":radio:checked").size();
 		if(flag==='prev'){
 			  $("input[name='flag']").val(flag);
+			  sessionStorage.formG=JSON.stringify($("#procurement_dep_form_id").serializeArray());
 			$("#procurement_dep_form_id").submit();
 		}else{
 			if (!size) {
@@ -74,31 +80,32 @@
 	function checkDep(obj){
 		$("#procurementDepId").val(obj.value);
 	}
+		sessionStorage.locationF=window.location.href;
 </script>
 
 </head>
 
 <body>
 	<div class="wrapper">
-
-		<!-- 项目戳开始 -->
+<%@include file="supplierNav.jsp" %>
+		<%-- <!-- 项目戳开始 -->
 		<c:if test="${currSupplier.status != 7}">
 			<div class="container clear margin-top-30">
 				<h2 class="padding-20 mt40 ml30">
 					<span class="new_step current fl"><i class="">1</i>
 					<div class="line"></div> <span class="step_desc_01">基本信息</span> </span> <span class="new_step current fl"><i class="">2</i>
 						<div class="line"></div> <span class="step_desc_02">供应商类型</span> </span> <span class="new_step current fl"><i class="">3</i>
-						<div class="line"></div> <span class="step_desc_01">品目信息</span> </span> <span class="new_step current fl"><i class="">4</i>
+						<div class="line"></div> <span class="step_desc_01">产品类别</span> </span> <span class="new_step current fl"><i class="">4</i>
 						<div class="line"></div> <span class="step_desc_02">资质文件维护</span> </span> <span class="new_step current fl"><i class="">5</i>
-						<div class="line"></div> <span class="step_desc_01">品目合同上传</span> </span> <span class="new_step current  fl"><i class="">6</i>
-						<div class="line"></div> <span class="step_desc_02">初审采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
-						<div class="line"></div> <span class="step_desc_01">打印申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
-						<span class="step_desc_02">申请表承诺书上传</span> 
+						<div class="line"></div> <span class="step_desc_01">销售(承包)合同</span> </span> <span class="new_step current  fl"><i class="">6</i>
+						<div class="line"></div> <span class="step_desc_02">采购机构</span> </span> <span class="new_step fl"><i class="">7</i>
+						<div class="line"></div> <span class="step_desc_01">承诺书和申请表</span> </span> <span class="new_step fl"><i class="">8</i> 
+						<span class="step_desc_02">提交</span> 
 					</span>
 					<div class="clear"></div>
 				</h2>
 			</div>
-		</c:if>
+		</c:if> --%>
 
 		<!--基本信息-->
 		<div class="container content height-350">
@@ -202,4 +209,5 @@
 	<c:if test="${currSupplier.status != 7}">
 	</c:if>
 </body>
+<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
 </html>
