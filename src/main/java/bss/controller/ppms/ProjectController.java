@@ -2107,6 +2107,7 @@ public class ProjectController extends BaseController {
                             showDetails.get(j).setDetailStatus(0);
                         }
                     }
+                    paixu(showDetails,id);
                     model.addAttribute("list", showDetails);
                 }
             }
