@@ -248,23 +248,62 @@
 
 				stocIndex++;
 				$("#stockIndex").val(stocIndex);
+			}
+			
+			function openAfterSaleDep() {
 
-				/* 	if (!supplierId) {
-						layer.msg("请暂存供应商基本信息 !", {
-							offset : '300px',
-						});
-					} else {
-						layer.open({
-							type : 2,
-							title : '添加供应商股东信息',
-							// skin : 'layui-layer-rim', //加上边框
-							area : [ '50%', '420px' ], //宽高
-							offset : '100px',
-							scrollbar : false,
-							content : globalPath + '/supplier_stockholder/add_stockholder.html?&supplierId=' + supplierId + '&sign=1', //url
-							closeBtn : 1, //不显示关闭按钮
-						});
-					} */
+				var afterSaleIndex = $("#afterSaleIndex").val();
+				var supplierId = $("input[name='id']").val();
+				var id;
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/getUUID.do",
+					async: false,
+					success: function(data) {
+						id = data;
+					}
+				});
+				$("#afterSaleDep_list_tbody_id").append("<tr>" +
+					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
+					"</td>" +
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' value=''> </td>" +
+					"<td class='tc'>  <select class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
+					"<option value='1'>自营</option>" +
+					" <option value='2'>合作</option>" +
+					"</select> </td>" +
+					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' value=''> </td>" +
+					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' value=''></td>" +
+					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
+
+				afterSaleIndex++;
+				$("#afterSaleIndex").val(afterSaleIndex);
+			}
+			
+			function deleteAfterSaleDep() {
+				var checkboxs = $("#afterSaleDep_list_tbody_id").find(":checkbox:checked");
+				var afterSaleDepIds = "";
+				$(checkboxs).each(function(index) {
+					var tr = $(this).parent().parent();
+					$(tr).remove();
+					if(index > 0) {
+						afterSaleDepIds += ",";
+					}
+					afterSaleDepIds += $(this).val();
+				});
+				var size = checkboxs.length;
+				if(size > 0) {
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplier/deleteAfterSaleDep.do",
+						async: false,
+						data: {
+							"afterSaleDepIds": afterSaleDepIds,
+						},
+					});
+				} else {
+					layer.alert("请至少勾选一条记录 !", {
+						offset: '200px',
+						scrollbar: false,
+					});
+				}
 			}
 
 			function deleteStockholder() {
@@ -296,7 +335,7 @@
 					});
 				}
 			}
-
+			
 			var infotd;
 			var filetd;
 
@@ -1735,7 +1774,7 @@
 
 					<div class="padding-top-10 clear">
 						<h2 class="count_flow clear pt20"> <i>4</i><font color=red>*</font> 出资人（股东）信息  （说明：出资人（股东）多于10人的，列出出资金额前十位的信息，但出资比例应高于50%）</h2>
-						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
 									<button class="btn btn-windows add" type="button" onclick="openStockholder()">新增</button>
@@ -1784,6 +1823,58 @@
 							</div>
 						</div>
 					</div>
+					
+					<!-- 售后服务机构信息 -->
+					<div class="clear">
+						<h2 class="count_flow clear pt20"> <i>5</i><font color=red>*</font> 售后服务机构一览表</h2>
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
+							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
+								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+									<button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
+									<button class="btn btn-windows delete" type="button" onclick="deleteAfterSaleDep()">删除</button>
+									<span class="red">${afterSale}</span>
+								</div>
+								<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
+									<table id="share_table_id" class="table table-bordered table-condensed mt5 table_wrap table_input left_table">
+										<thead>
+											<tr>
+												<th class="info"><input type="checkbox" onchange="checkAll(this, 'afterSaleDep_list_tbody_id')" />
+												</th>
+												<th class="info">分支（或服务）机构名称</th>
+												<th class="info">类别</th>
+
+												<th class="info">所在县市</th>
+												<th class="info">负责人</th>
+												<th class="info">联系电话</th>
+											</tr>
+										</thead>
+										<tbody id="afterSaleDep_list_tbody_id">
+											<c:forEach items="${currSupplier.listSupplierAfterSaleDep}" var="afterSaleDep" varStatus="dep">
+												<tr <c:if test="${fn:contains(audit,afterSaleDep.id)}"> onmouseover="errorMsg('${afterSaleDep.id}')"</c:if>>
+													<input type="hidden" name='listSupplierAfterSaleDep[${dep.index }].id' value="${afterSaleDep.id}" />
+													<input type="hidden" name='listSupplierAfterSaleDep[${dep.index }].supplierId' value="${afterSaleDep.supplierId}" />
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>>
+														<input type="checkbox" value="${afterSaleDep.id}" />
+													</td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].name' value='${afterSaleDep.name}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>>
+														<select name="listSupplierAfterSaleDep[${dep.index }].type" class="w100p border0">
+															<option value="1" <c:if test="${afterSaleDep.type == 1}"> selected="selected"</c:if> >自营</option>
+															<option value="2" <c:if test="${afterSaleDep.type == 2}"> selected="selected" </c:if> >合作</option>
+														</select>
+													</td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' value='${afterSaleDep.address}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].leadName' value='${afterSaleDep.leadName}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].mobile' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${afterSaleDep.mobile}'></td>
+												</tr>
+											</c:forEach>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+					
 				</form>
 			</div>
 		</div>
@@ -1791,6 +1882,7 @@
 		<input type="hidden" id="index" value="${fn:length(currSupplier.addressList)}">
 		<input type="hidden" id="branchIndex" value="${fn:length(currSupplier.branchList)}">
 		<input type="hidden" id="stockIndex" value="${fn:length(currSupplier.listSupplierStockholders)}">
+		<input type="hidden" id="afterSaleIndex" value="${fn:length(currSupplier.listSupplierAfterSaleDep)}">
 		<div class="btmfix">
 			<div style="margin-top: 15px;text-align: center;">
 				<button type="button" class="btn save" onclick="temporarySave();">暂存</button>
@@ -1799,5 +1891,4 @@
 		</div>
 	</body>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/common.js"></script>
-	<%= %>
 </html>

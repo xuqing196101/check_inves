@@ -20,6 +20,7 @@ import ses.service.sms.SupplierAfterSaleDepService;
 @Service(value = "supplierAfterSaleDepService")
 public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepService {
 
+    /** 售后服务机构Mapper **/
     @Autowired
     private SupplierAfterSaleDepMapper supplierAfterSaleDepMapper;
     
@@ -36,7 +37,7 @@ public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepServ
      */
     @Override
     public void saveOrUpdateAfterSaleDep(SupplierAfterSaleDep supplierAfterSaleDep) {
-        
+        supplierAfterSaleDepMapper.insertSelective(supplierAfterSaleDep);
     }
 
     /**

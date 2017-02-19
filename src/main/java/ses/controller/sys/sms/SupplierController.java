@@ -37,6 +37,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
 import ses.dao.sms.SupplierStockholderMapper;
@@ -49,12 +50,11 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -72,6 +72,7 @@ import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAfterSaleDepService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
@@ -152,6 +153,12 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private SupplierStockholderMapper supplierStockholderMapper; //股东信息
+	
+	@Autowired
+	private SupplierAfterSaleDepMapper supplierAfterSaleDepMapper; //售后服务机构
+	
+	@Autowired
+	private SupplierAfterSaleDepService supplierAfterSaleDepService; //售后服务机构
 
 	@Autowired
 	private SupplierFinanceService supplierFinanceService;
@@ -294,6 +301,11 @@ public class SupplierController extends BaseSupplierController {
 			List < SupplierStockholder > stock = supplierStockholderMapper.findStockholderBySupplierId(sup.getId());
 			if(stock != null && stock.size() > 0) {
 				sup.setListSupplierStockholders(stock);
+			}
+			//售后服务机构
+			List < SupplierAfterSaleDep > afterSaleDep = supplierAfterSaleDepMapper.findAfterSaleDepBySupplierId(sup.getId());
+			if(afterSaleDep != null && afterSaleDep.size() > 0) {
+			    sup.setListSupplierAfterSaleDep(afterSaleDep);
 			}
 
 			//供应商地址信息
@@ -554,6 +566,14 @@ public class SupplierController extends BaseSupplierController {
 			}
 		}
 		supplier.setListSupplierStockholders(stockHolders);
+		List < SupplierAfterSaleDep > afterSaleDep = supplier.getListSupplierAfterSaleDep();
+		for(int i = 0; i < afterSaleDep.size(); i++) {
+		    SupplierAfterSaleDep afterSale = afterSaleDep.get(i);
+		    if(afterSale != null && afterSale.getSupplierId() == null) {
+		        afterSaleDep.remove(i);
+		    }
+		}
+		supplier.setListSupplierAfterSaleDep(afterSaleDep);
 		boolean info = validateBasicInfo(request, model, supplier);
 		List < SupplierTypeRelate > relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		model.addAttribute("relate", relate);
@@ -667,6 +687,9 @@ public class SupplierController extends BaseSupplierController {
 			}
 			if(supplier2.getListSupplierStockholders() != null && supplier2.getListSupplierStockholders().size() > 0) {
 				supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders());
+			}
+			if(supplier2.getListSupplierAfterSaleDep() != null && supplier2.getListSupplierAfterSaleDep().size() > 0) {
+			    supplier.setListSupplierAfterSaleDep(supplier2.getListSupplierAfterSaleDep());
 			}
 			if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
 				for(SupplierAddress b: supplier.getAddressList()) {
@@ -1392,6 +1415,32 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 		}
+		// 售后服务机构
+        if(supplier.getListSupplierAfterSaleDep() == null || supplier.getListSupplierAfterSaleDep().size() < 1) {
+            count++;
+            model.addAttribute("afterSale", "请添加售后服务机构信息!");
+        }
+        if(supplier.getListSupplierAfterSaleDep() != null && supplier.getListSupplierAfterSaleDep().size() > 0) {
+            List < SupplierAfterSaleDep > afterSaleList = supplier.getListSupplierAfterSaleDep();
+            for(SupplierAfterSaleDep afterSale : afterSaleList) {
+                if(afterSale.getName() == null || afterSale.getName() == "") {
+                    count++;
+                    model.addAttribute("afterSale", "售后服务机构名称不能为空！");
+                }
+                if(afterSale.getAddress() == null || afterSale.getAddress() == "") {
+                    count++;
+                    model.addAttribute("afterSale", "售后服务机构地址不能为空！");
+                }
+                if(afterSale.getLeadName() == null || afterSale.getLeadName() == "") {
+                    count++;
+                    model.addAttribute("afterSale", "售后服务机构负责人不能为空！");
+                }
+                if(afterSale.getMobile() == null || afterSale.getMobile() == "") {
+                    count++;
+                    model.addAttribute("afterSale", "售后服务机构联系方式不能为空！");
+                }
+            }
+        }
 
 		if(count > 0) {
 			return false;
@@ -2320,5 +2369,22 @@ public class SupplierController extends BaseSupplierController {
 		return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
 			headers, HttpStatus.CREATED);
 	}
+	
+    /**
+     *〈简述〉
+     * 异步删除售后服务机构
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param request
+     * @param stockholderIds
+     * @param supplierId
+     * @param model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/deleteAfterSaleDep")
+    public void deleteCertEng(String afterSaleDepIds) {
+        supplierAfterSaleDepService.deleteAfterSaleDep(afterSaleDepIds);
+    }
 
 }

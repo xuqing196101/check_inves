@@ -489,6 +489,8 @@ public class Supplier implements Serializable {
 
 	private List<SupplierStockholder> listSupplierStockholders = new ArrayList<SupplierStockholder>();
 
+    private List<SupplierAfterSaleDep> listSupplierAfterSaleDep = new ArrayList<SupplierAfterSaleDep>();
+
 	private SupplierMatPro supplierMatPro;
 
 	private SupplierMatSell supplierMatSell;
@@ -1275,6 +1277,14 @@ public class Supplier implements Serializable {
 		this.listSupplierStockholders = listSupplierStockholders;
 	}
 
+    public List<SupplierAfterSaleDep> getListSupplierAfterSaleDep() {
+        return listSupplierAfterSaleDep;
+    }
+
+    public void setListSupplierAfterSaleDep(List<SupplierAfterSaleDep> listSupplierAfterSaleDep) {
+        this.listSupplierAfterSaleDep = listSupplierAfterSaleDep;
+    }
+    
 	public SupplierMatPro getSupplierMatPro() {
 		return supplierMatPro;
 	}

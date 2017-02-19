@@ -1,5 +1,7 @@
 package ses.dao.sms;
 
+import java.util.List;
+
 import ses.model.sms.SupplierAfterSaleDep;
 
 /**
@@ -31,4 +33,32 @@ public interface SupplierAfterSaleDepMapper {
      * @author WangHuijie
      */
     public void deleteByPrimaryKey(String id);
+    
+    /**
+     *〈简述〉
+     * 新增一条记录
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierAfterSaleDep
+     */
+    public void insertSelective(SupplierAfterSaleDep supplierAfterSaleDep);
+    
+    /**
+     *〈简述〉
+     * 根据主键ID修改
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierAfterSaleDep
+     */
+    public void updateByPrimaryKeySelective(SupplierAfterSaleDep supplierAfterSaleDep);
+    
+    /**
+     *〈简述〉
+     * 根据供应商ID查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierId
+     * @return
+     */
+    public List < SupplierAfterSaleDep > findAfterSaleDepBySupplierId(String supplierId);
 }
