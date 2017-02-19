@@ -1827,7 +1827,7 @@
 					<!-- 售后服务机构信息 -->
 					<div class="clear">
 						<h2 class="count_flow clear pt20"> <i>5</i><font color=red>*</font> 售后服务机构一览表</h2>
-						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
 									<button class="btn btn-windows add" type="button" onclick="openAfterSaleDep()">新增</button>
@@ -1875,6 +1875,17 @@
 						</div>
 					</div>
 					
+					<!-- 参加政府或军队采购经历登记表 -->
+					<div class="clear">
+						<h2 class="count_flow clear pt20"> <i>6</i> 参加政府或军队采购经历登记表 </h2>
+						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
+							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
+								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" name="purchaseExperience" <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
+								</div>
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 		</div>
