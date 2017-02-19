@@ -7,6 +7,11 @@
 		<%@ include file="/reg_head.jsp"%>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>供应商注册</title>
+		<style type="text/css">
+	.current{
+		cursor:pointer;
+	}
+</style>
 		<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 		<script type="text/javascript">
 			$().ready(function() {
@@ -173,6 +178,9 @@
 						offset: '300px'
 					});
 				}
+				
+				
+				
 			}
 
 			/** 暂存 */
@@ -1790,5 +1798,6 @@
 			</div>
 		</div>
 	</body>
-
+	<script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/common.js"></script>
+	<%= %>
 </html>
