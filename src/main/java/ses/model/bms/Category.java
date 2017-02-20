@@ -142,6 +142,9 @@ public class Category {
 
     /** 供应商注册等级要求 **/
     private Integer level;
+    
+    /** 工程类供应商注册等级要求 **/
+    private String engLevel;
 
     public Orgnization getOrgnization() {
         return orgnization;
@@ -398,6 +401,14 @@ public class Category {
 
     public void setLevel(Integer level) {
         this.level = level;
+    }
+
+    public String getEngLevel() {
+        return engLevel;
+    }
+
+    public void setEngLevel(String engLevel) {
+        this.engLevel = engLevel;
     }
 
 }
