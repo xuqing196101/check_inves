@@ -13,4 +13,15 @@ public interface SupplierCertEngService {
 	
 	
 	List<SupplierCertEng> queryByEngId(String endId);
+	
+	/**
+     *〈简述〉
+     * 根据证书编号和供应商ID查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param code
+     * @param supplierId
+     * @return
+     */
+    List<SupplierCertEng> selectCertEngByCode(String code, String supplierId);
 }

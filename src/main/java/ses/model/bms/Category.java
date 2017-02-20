@@ -141,7 +141,7 @@ public class Category {
     private transient String profileSalesQuaNames;
 
     /** 供应商注册等级要求 **/
-    private Integer level;
+    private String level;
     
     /** 工程类供应商注册等级要求 **/
     private String engLevel;
@@ -395,11 +395,11 @@ public class Category {
         this.profileSalesQuaNames = profileSalesQuaNames;
     }
 
-    public Integer getLevel() {
+    public String getLevel() {
         return level;
     }
 
-    public void setLevel(Integer level) {
+    public void setLevel(String level) {
         this.level = level;
     }
 

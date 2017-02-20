@@ -59,4 +59,15 @@ public interface SupplierCertEngMapper {
     List<SupplierCertEng> findCertEngBySupplierId(String supplierId);
     
     void deleteById(String id);
+    
+    /**
+     *〈简述〉
+     * 根据证书编号和供应商ID查询
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param code
+     * @param supplierId
+     * @return
+     */
+    List<SupplierCertEng> selectCertEngByCode(String code, String supplierId);
 }

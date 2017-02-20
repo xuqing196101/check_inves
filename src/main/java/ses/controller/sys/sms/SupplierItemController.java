@@ -102,7 +102,7 @@ public class SupplierItemController extends BaseController {
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
-			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				cateTree.setItemsId(item.getId());
 				allTreeList.add(cateTree);
@@ -175,7 +175,7 @@ public class SupplierItemController extends BaseController {
 	 * @param categoryId 产品Id
 	 * @return List<CategoryTree> tree对象List
 	 */
-	public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+	public SupplierCateTree getTreeListByCategoryId(String categoryId, SupplierItem item) {
 		SupplierCateTree cateTree = new SupplierCateTree();
 		// 递归获取所有父节点
 		List < Category > parentNodeList = getAllParentNode(categoryId);
@@ -233,6 +233,28 @@ public class SupplierItemController extends BaseController {
 					}
 				}
 			}
+		}
+		
+		// 工程类等级
+		if (item != null) {
+		    // 等级
+		    if (item != null && item.getLevel() != null) {
+	            cateTree.setLevel(item.getLevel());
+	        }
+		    // 证书编号
+	        if (item != null && item.getCertCode() != null) {
+	            cateTree.setCertCode(item.getCertCode());
+	        }
+	        // 所有等级List
+	        List<String> levelList = new ArrayList<String>();
+	        Category cate = categoryService.selectByPrimaryKey(categoryId);
+	        if (cate != null && cate.getEngLevel() != null) {
+	            String[] levelIds = cate.getEngLevel().split(",");
+	            for (String id : levelIds) {
+	                levelList.add(DictionaryDataUtil.findById(id).getName());
+	            }
+	        }
+	        cateTree.setLevelList(levelList);
 		}
 		return cateTree;
 	}
@@ -331,7 +353,9 @@ public class SupplierItemController extends BaseController {
 			// 总数量
 			List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 			for(String type: typeIds) {
-				itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+			    if (!DictionaryDataUtil.findById(type).getCode().equals("PROJECT")) {
+			        itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+			    }
 			}
 			// 实际上传数量
 			List < UploadFile > filesList;
@@ -393,12 +417,6 @@ public class SupplierItemController extends BaseController {
 		//根据品目id查询所有的证书信息
 		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
 
-		//查询所有的三级目录工程
-		List < Category > listProject = getProject(supplier.getId(), supplierTypeIds);
-		removeSame(listProject);
-		//根据品目id查询所有的工证书
-		List < QualificationBean > projectQua = supplierService.queryCategoyrId(listProject, 1);
-
 		//查询所有的三级品目服务
 		List < Category > listService = getServer(supplier.getId(), supplierTypeIds);
 		removeSame(listService);
@@ -408,7 +426,6 @@ public class SupplierItemController extends BaseController {
 		//生产证书
 		List < Qualification > qaList = new ArrayList < Qualification > ();
 		List < Qualification > saleList = new ArrayList < Qualification > ();
-		List < Qualification > projectList = new ArrayList < Qualification > ();
 		List < Qualification > serviceList = new ArrayList < Qualification > ();
 
 		if(list3 != null && list3.size() > 0) {
@@ -420,12 +437,6 @@ public class SupplierItemController extends BaseController {
 		if(saleQua != null && saleQua.size() > 0) {
 			for(QualificationBean qb: saleQua) {
 				saleList.addAll(qb.getList());
-			}
-		}
-		//工程
-		if(projectQua != null && projectQua.size() > 0) {
-			for(QualificationBean qb: projectQua) {
-				projectList.addAll(qb.getList());
 			}
 		}
 		//服务
@@ -453,14 +464,6 @@ public class SupplierItemController extends BaseController {
 			sbShow.append("saleShow" + i + ",");
 
 		}
-		if(projectList != null && projectList.size() > 0) {
-			int projectlen = projectList.size() + 1;
-			for(int i = 1; i < projectlen; i++) {
-				sbUp.append("projectUp" + i + ",");
-				sbShow.append("projectShow" + i + ",");
-
-			}
-		}
 
 		if(serviceList != null && serviceList.size() > 0) {
 			int serverlen = serviceList.size() + 1;
@@ -470,20 +473,14 @@ public class SupplierItemController extends BaseController {
 
 			}
 		}
-		/*saleUp.append(sbUp);
-		saleShow.append(sbShow);*/
 		model.addAttribute("saleUp", sbUp.toString());
 		model.addAttribute("saleShow", sbShow.toString());
-		/*	model.addAttribute("sbUp", sbUp);
-			model.addAttribute("sbShow", sbShow);*/
 		model.addAttribute("cateList", list3);
 		model.addAttribute("saleQua", saleQua);
-		model.addAttribute("projectQua", projectQua);
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("businessId", supplier.getId());
 		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
-		//		model.addAttribute("len", len);
 		
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
@@ -497,6 +494,29 @@ public class SupplierItemController extends BaseController {
 		}
 		model.addAttribute("audit", errorField);
 		
+		// 工程
+		String supplierId = supplierItem.getSupplierId();
+        String[] typeIds = supplierTypeIds.split(",");
+		boolean isEng = false;
+        for (String type : typeIds) {
+            if (type.equals("PROJECT")) {
+                isEng = true;
+                break;
+            }
+        }
+        if (isEng) {
+            List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierId, "PROJECT", null);
+            List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+            for(SupplierItem item: listSupplierItems) {
+                String categoryId = item.getCategoryId();
+                SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
+                if(cateTree != null && cateTree.getRootNode() != null) {
+                    cateTree.setItemsId(item.getId());
+                    allTreeList.add(cateTree);
+                }
+            }
+            model.addAttribute("allTreeList", allTreeList);
+        }
 		return "ses/sms/supplier_register/aptitude";
 
 	}

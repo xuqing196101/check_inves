@@ -258,7 +258,7 @@ public class CategoryServiceImpl implements CategoryService {
             Category category = new Category();
             category.setId(id);
             category.setCode(code);
-            category.setLevel(level == null ? null : Integer.parseInt(level));
+            category.setLevel(level);
             category.setEngLevel(engLevel);
             category.setParentId(request.getParameter("parentId"));
             category.setName(name);
@@ -289,7 +289,7 @@ public class CategoryServiceImpl implements CategoryService {
                 category.setCode(code);
                 category.setDescription(desc);
                 category.setName(name);
-                category.setLevel(level == null ? null : Integer.parseInt(level));
+                category.setLevel(level);
                 category.setEngLevel(engLevel);
                 category.setUpdatedAt(new Date());
                 if (classified != null){

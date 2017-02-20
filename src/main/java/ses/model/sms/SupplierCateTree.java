@@ -1,5 +1,7 @@
 package ses.model.sms;
 
+import java.util.List;
+
 /**
  * 版权：(C) 版权所有 2011-2016
  * <简述> 供应商品目信息下载封装类
@@ -26,8 +28,33 @@ public class SupplierCateTree {
     /** 四级节点 **/
     private String fourthNode;
     
-    /** 四级节点 **/
+    /** 供应商品目ID **/
     private String itemsId;
+    
+    /** 等级 **/
+    private String level;
+    
+    /** 证书编号 **/
+    private String certCode;
+    
+    /** 该品目所有等级 **/
+    private List<String> levelList;
+
+    public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getCertCode() {
+        return certCode;
+    }
+
+    public void setCertCode(String certCode) {
+        this.certCode = certCode;
+    }
 
     public String getRootNode() {
         return rootNode;
@@ -76,5 +103,13 @@ public class SupplierCateTree {
 	public void setItemsId(String itemsId) {
 		this.itemsId = itemsId;
 	}
+
+    public List<String> getLevelList() {
+        return levelList;
+    }
+
+    public void setLevelList(List<String> levelList) {
+        this.levelList = levelList;
+    }
     
 }

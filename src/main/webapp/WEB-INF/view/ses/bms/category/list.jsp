@@ -173,7 +173,7 @@
     	$("#cateId").val("");
 		$("#posId").val("");
 		$("#descId").val("");
-		$("#levelId").val("0");
+		$("#levelId").val("");
 		$("#engLevelId").val("");
 		$("#engLevelSelect").find("option").each(function(index, element){
 			element.selected = false;

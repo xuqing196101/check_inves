@@ -43,4 +43,12 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
 		return supplierCertEngMapper.findCertEngByMatEngId(endId);
 	}
 
+    /**
+     * @see ses.service.sms.SupplierCertEngService#selectCertEngByCode(java.lang.String, java.lang.String)
+     */
+    @Override
+    public List<SupplierCertEng> selectCertEngByCode(String code, String supplierId) {
+        return supplierCertEngMapper.selectCertEngByCode(code, supplierId);
+    }
+
 }

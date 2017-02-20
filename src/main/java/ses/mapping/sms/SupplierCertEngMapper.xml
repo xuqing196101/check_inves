@@ -252,5 +252,16 @@
 		where ID = #{id}
 	</delete>
 	
+	<select id="selectCertEngByCode" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		from T_SES_SMS_SUPPLIER_CERT_ENG t1
+		inner join 
+            T_SES_SMS_SUPPLIER_MAT_ENG t2 
+        on
+            t1.MAT_ENG_ID = t2.ID
+		where t2.SUPPLIER_ID = #{param2}
+		and t1.CERT_CODE = #{param1}
+	</select>
 	
 </mapper>

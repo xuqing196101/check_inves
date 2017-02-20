@@ -83,8 +83,30 @@ public class SupplierItem implements Serializable {
 	private String addServeCategoryIds;
 
 	private String deleteServeCategoryIds;
+	
+	/**等级**/
+	private String level;
+	
+	/**证书编号**/
+	private String certCode;
 
-	public String getId() {
+	public String getLevel() {
+        return level;
+    }
+
+    public void setLevel(String level) {
+        this.level = level;
+    }
+
+    public String getCertCode() {
+        return certCode;
+    }
+
+    public void setCertCode(String certCode) {
+        this.certCode = certCode;
+    }
+
+    public String getId() {
 		return id;
 	}
 

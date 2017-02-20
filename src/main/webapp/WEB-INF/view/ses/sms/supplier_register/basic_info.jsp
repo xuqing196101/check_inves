@@ -771,7 +771,7 @@
 				 </li>   --%>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 基本账户开户行</span>
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 基本账户开户银行</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="bankName" maxlength="50" required="required" value="${currSupplier.bankName}" <c:if test="${fn:contains(audit,'bankName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bankName')"</c:if>/>
 										<span class="add-on cur_point">i</span>
@@ -839,7 +839,7 @@
 							<legend>地址信息</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-									<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 "><i class="red">*</i> 注册地址邮编</span>
+									<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5 "><i class="red">*</i> 住所邮编</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="postCode" required isZipCode="true" value="${currSupplier.postCode}" <c:if test="${fn:contains(audit,'postCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('postCode')"</c:if>/>
 										<span class="add-on cur_point">i</span>
@@ -852,7 +852,7 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 注册公司地址</span>
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 住所地址</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="root_area_select_id" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address')"</c:if>>
@@ -886,7 +886,7 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 注册公司详细地址</span>
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 住所详细地址</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="detailAddress" value="${currSupplier.detailAddress}" required maxlength="50" <c:if test="${fn:contains(audit,'detailAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress')"</c:if>>
 										<span class="add-on cur_point">i</span>
@@ -1802,7 +1802,7 @@
 
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
 
-													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${stockholder.identity}'> </td>
+													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\dxX]/g,'')" value='${stockholder.identity}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>
 												</tr>
@@ -1881,7 +1881,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000" placeholder="供应商组织机构设置、人员情况以及产品信息等内容。" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
 									<div class="cue">
 										<sf:errors path="description" />
 									</div>
