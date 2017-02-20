@@ -79,7 +79,8 @@
 				}
 			});
 			
-				sessionStorage.locationD=window.location.href;
+				sessionStorage.locationD=true;
+				sessionStorage.index=4;
 		</script>
 
 	</head>

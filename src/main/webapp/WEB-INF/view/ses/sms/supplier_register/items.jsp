@@ -181,7 +181,6 @@
 			layer.alert("请选择一个节点",{offset: ['150px', '500px'], shade:0.01});
 		}else{
 			$("#flag").val(flag);
-			sessionStorage.formD=JSON.stringify($("#items_info_form_id").serializeArray());
 			$("#items_info_form_id").submit();
 		}
 	}
@@ -340,7 +339,8 @@
 			});
 		}
 	}
-	sessionStorage.locationC=window.location.href;
+	sessionStorage.locationC=true;
+	sessionStorage.index=3;
 </script>
 </head>
 
@@ -462,7 +462,7 @@
 	
 	 <div class="btmfix">
 	  	  <div class="mt5 mb5 tc">
-	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">111上一步</button>
+	  	  	   	<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="prev('3')">上一步</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="saveItems(2)">暂存</button>
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next(1)">下一步</button>
 	  	  </div>

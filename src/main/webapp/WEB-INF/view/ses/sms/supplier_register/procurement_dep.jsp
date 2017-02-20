@@ -80,7 +80,8 @@
 	function checkDep(obj){
 		$("#procurementDepId").val(obj.value);
 	}
-		sessionStorage.locationF=window.location.href;
+		sessionStorage.locationF=true;
+		sessionStorage.index=6;
 </script>
 
 </head>

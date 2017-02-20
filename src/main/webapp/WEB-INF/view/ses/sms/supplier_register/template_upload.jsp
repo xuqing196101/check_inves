@@ -78,7 +78,8 @@
 		$("input[name='fileName']").val(fileName);
 		$("#download_form_id").submit();
 	}
-		sessionStorage.locationH=window.location.href;
+		sessionStorage.locationH=true;
+		sessionStorage.index=8;
 </script>
 
 </head>

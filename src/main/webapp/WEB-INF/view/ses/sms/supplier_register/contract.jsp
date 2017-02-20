@@ -120,7 +120,8 @@
 	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
 	}
-			sessionStorage.locationE=window.location.href;
+			sessionStorage.locationE=true;
+			sessionStorage.index=5;
 </script>
 </head>
 

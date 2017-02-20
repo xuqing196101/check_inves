@@ -337,7 +337,6 @@
 					}
 				});
 		if (flag == true) {
-		  sessionStorage.formC=JSON.stringify($("#save_pro_form_id").serializeArray());
 			$("#save_pro_form_id").submit();
 		}
 
@@ -906,7 +905,8 @@
 			$(obj).parent().next().addClass("dis_none");
 		}
 	}
-	sessionStorage.locationB=window.location.href;
+	sessionStorage.locationB=true;
+	sessionStorage.index=2;
 </script>
 
 </head>

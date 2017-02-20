@@ -56,7 +56,8 @@
 			}
 		});
 	}
-		sessionStorage.locationG=window.location.href;
+		sessionStorage.locationG=true;
+		sessionStorage.index=7;
 </script>
 
 </head>

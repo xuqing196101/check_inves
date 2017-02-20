@@ -545,6 +545,8 @@ public class SupplierController extends BaseSupplierController {
 	 */
 	@RequestMapping(value = "perfect_basic")
 	public String perfectBasic(HttpServletRequest request, Model model, Supplier supplier) throws Exception {
+		
+		
 		// 非空处理
 		List < SupplierStockholder > stockHolders = supplier.getListSupplierStockholders();
 		for(int i = 0; i < stockHolders.size(); i++) {
@@ -749,7 +751,6 @@ public class SupplierController extends BaseSupplierController {
 		boolean pro = true;
 		boolean server = true;
 		boolean project = true;
-
 		String[] str = supplier.getSupplierTypeIds().trim().split(",");
 
 		for(String s: str) {
@@ -809,6 +810,10 @@ public class SupplierController extends BaseSupplierController {
 		}
 	}
 
+	@RequestMapping(value = "san")
+	public String san(HttpServletRequest request, Supplier supplier, String flag, Model model) throws IOException {
+		return "ses/sms/supplier_register/items";
+	}
 	/**
 	 * @Title: perfectDep
 	 * @author: Wang Zhaohua
