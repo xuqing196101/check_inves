@@ -254,7 +254,7 @@
 	
 	<select id="selectCertEngByCode" resultMap="BaseResultMap">
 		SELECT
-		<include refid="Base_Column_List"/>
+		t1.*
 		from T_SES_SMS_SUPPLIER_CERT_ENG t1
 		inner join 
             T_SES_SMS_SUPPLIER_MAT_ENG t2 

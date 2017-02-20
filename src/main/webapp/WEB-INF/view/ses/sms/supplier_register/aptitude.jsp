@@ -70,12 +70,24 @@
 			}
 			
 			// 根据证书编号获取附件信息
-			function getFileByCode(obj){
+			function getFileByCode(obj, number){
 				var certCode = $(obj).val();
 				var supplierId = $("#supplierId").val();
-				var url = "${pageContext.request.contextPath}/supplier/getFileByCode.html?certCode=" + certCode + "&supplierId=" + supplierId;
 				// 通过append将附件信息追加到指定位置
-				$(obj).parent().next().append(url);
+				$.ajax({
+					url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+					async : false,
+					dataType : "html",
+					data : {
+						"certCode" : certCode,
+						"supplierId" : supplierId,
+						"number" : number,
+					},
+					success : function(data) {
+						$(obj).parent().next().append(data);
+						init_web_upload();
+					}
+				});
 			}
 			
 			$(function(){
@@ -226,7 +238,7 @@
 										      	    </c:forEach>
 										      	  </select>
 										      	</td>
-										     	<td><input type="text" value="${cate.certCode}" onchange="getFileByCode(this)"></td>
+										     	<td><input type="text" value="${cate.certCode}" onchange="getFileByCode(this, '${vs.index}')"></td>
 										      	<td></td>
 										      </tr>
 										    </c:forEach>

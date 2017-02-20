@@ -2407,10 +2407,10 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value = "/getFileByCode")
     public ModelAndView addSeCert(String certCode, String supplierId, Model model, String number) {
         List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(certCode, supplierId);
-        if (certEng != null) {
+        if (certEng != null && certEng.size() > 0) {
             model.addAttribute("number", number);
             //初始化供应商注册附件类型
-            model.addAttribute("id", certEng.get(1).getId());
+            model.addAttribute("id", certEng.get(0).getId());
             model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
             model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             return new ModelAndView("ses/sms/supplier_register/supplier_eng_file");
