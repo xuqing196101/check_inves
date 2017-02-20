@@ -1349,6 +1349,9 @@
 		<collection property="listSupplierStockholders"
 			select="ses.dao.sms.SupplierStockholderMapper.findStockholderBySupplierId"
 			column="ID" />
+		<collection property="listSupplierAfterSaleDep"
+			select="ses.dao.sms.SupplierAfterSaleDepMapper.findAfterSaleDepBySupplierId"
+			column="ID" />
 		<collection property="listSupplierTypeRelates"
 			select="ses.dao.sms.SupplierTypeRelateMapper.findSupplierTypeBySupplierId"
 			column="ID" />

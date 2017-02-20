@@ -97,3 +97,9 @@
 		float: none !important;
 	}
 }
+
+@media (max-width:1023px){
+   .ratio{
+	display: none;
+   }
+}

@@ -22,6 +22,7 @@ import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.QualificationMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAuditMapper;
 import ses.dao.sms.SupplierFinanceMapper;
 import ses.dao.sms.SupplierMapper;
@@ -41,6 +42,7 @@ import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -133,6 +135,9 @@ public class SupplierServiceImpl implements SupplierService {
     
     @Autowired
     private  SupplierStockholderMapper supplierStockholderMapper;
+    
+    @Autowired
+    private  SupplierAfterSaleDepMapper supplierAfterSaleDepMapper;
     
     @Autowired
     private  AreaMapper areaMapper;
@@ -373,7 +378,7 @@ public class SupplierServiceImpl implements SupplierService {
 		if(supplier.getListSupplierFinances()!=null && supplier.getListSupplierFinances().size()>0){
 			supplierFinanceService.add(supplier.getListSupplierFinances(),supplier.getId());
 		}
-		 if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
+		if(supplier.getListSupplierStockholders()!=null&&supplier.getListSupplierStockholders().size()>0){
 			 for(SupplierStockholder s:supplier.getListSupplierStockholders()){
 			     if (s != null && s.getId() != null) {
 			         SupplierStockholder stockHolder = supplierStockholderMapper.selectByPrimaryKey(s.getId());
@@ -386,6 +391,21 @@ public class SupplierServiceImpl implements SupplierService {
 					
 			 }
 		 }
+		
+		//售后服务机构
+		if(supplier.getListSupplierAfterSaleDep() != null && supplier.getListSupplierAfterSaleDep().size() > 0){
+            for(SupplierAfterSaleDep s : supplier.getListSupplierAfterSaleDep()){
+                if (s != null && s.getId() != null) {
+                    SupplierAfterSaleDep afterSaleDep = supplierAfterSaleDepMapper.selectByPrimaryKey(s.getId());
+                    if(afterSaleDep == null){
+                        supplierAfterSaleDepMapper.insertSelective(s); 
+                    }else{
+                        supplierAfterSaleDepMapper.updateByPrimaryKeySelective(s);
+                    }
+                }
+                   
+            }
+        }
     }
 
     /**
