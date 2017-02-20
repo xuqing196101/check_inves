@@ -70,6 +70,8 @@
 		d.QUA_STASH_REASON as quaStashReason,
 		d.SUPPLIER_CONTACT as supplierContact,
 		d.SUPPLIER_PHONE as supplierPhone,
+		d.SUPPLIER_ADDRESS as supplierAddress,
+    d.SUPPLIER_POSTCODE as supplierPostcode,
 		o.QUA_NORMAL_REASON as quaNormalReason,
 		o.QUA_TERMINAL_REASON as quaTerminalReason
 		from T_SES_OMS_ORG o
@@ -510,6 +512,12 @@
       <if test="supplierPhone != null and supplierPhone != ''">
         SUPPLIER_PHONE,
       </if>
+      <if test="supplierAddress != null and supplierAddress != ''">
+        SUPPLIER_ADDRESS,
+      </if>
+      <if test="supplierPostcode != null and supplierPostcode != ''">
+        SUPPLIER_POSTCODE,
+      </if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null and id != ''">
@@ -667,6 +675,12 @@
       </if>
       <if test="supplierPhone != null and supplierPhone != ''">
         #{supplierPhone},
+      </if>
+      <if test="supplierAddress != null and supplierAddress != ''">
+        #{supplierAddress},
+      </if>
+      <if test="supplierPostcode != null and supplierPostcode != ''">
+        #{supplierPostcode},
       </if>
 		</trim>
 	</insert>
@@ -830,6 +844,12 @@
       </if>
       <if test="supplierPhone != null and supplierPhone != ''">
         SUPPLIER_PHONE = #{supplierPhone},
+      </if>
+      <if test="supplierAddress != null and supplierAddress != ''">
+        SUPPLIER_ADDRESS = #{supplierAddress},
+      </if>
+      <if test="supplierPostcode != null and supplierPostcode != ''">
+        SUPPLIER_POSTCODE = #{supplierPostcode},
       </if>
 		</set>
 		where ORG_ID=#{id}

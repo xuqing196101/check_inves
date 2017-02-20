@@ -337,8 +337,13 @@
 			   $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
          });
-			   var a = "2";
-			   download(id,a,null,null);
+         if(id.length > 0){
+           var a = "2";
+           download(id,a,null,null);
+         }else{
+            layer.msg("请选择！");
+         }
+			   
 			}
 			
 			
@@ -349,16 +354,21 @@
          });
          var a = "2";
          //removeFile(ids,a,null);
-         $.ajax({
-			    type:"post",
-			    url: "${pageContext.request.contextPath}/file/deleteFile.html?id="+ids+"&key="+a,
-			    async:true,
-			    success:function(msg){
-			      if (msg == "ok"){
-			        window.location.reload();
-			      }
-			    }
-			  });
+         if(ids.length > 0){
+            $.ajax({
+		          type:"post",
+		          url: "${pageContext.request.contextPath}/file/deleteFile.html?id="+ids+"&key="+a,
+		          async:true,
+		          success:function(msg){
+		            if (msg == "ok"){
+		              window.location.reload();
+		            }
+		          }
+		        });
+         }else{
+            layer.msg("请选择！");
+         }
+         
 			}
 			
 			
@@ -614,7 +624,7 @@
 	                      <input type="checkbox" value="${data.id }" name="chkItem" onclick="check()">
 	                    </td>
                       <td class="tc w50">${vs.index+1}</td>
-                      <td class="tl" onclick="views('${data.typeId}')">${data.name}</td>
+                      <td class="tl" ><a href="javascript:void(0)" onclick="views('${data.typeId}');">${data.name}</a></td>
                       <td class="tl" onclick="views('${data.typeId}')">${relName.relName}</td>
                       <td class="tl">
                       <fmt:formatDate type='date' value='${data.createDate}' pattern=" yyyy-MM-dd HH:mm:ss " />

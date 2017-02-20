@@ -184,7 +184,7 @@
           </table>
         </div>
         
-          <div class="content table_box pl0">
+          <%-- <div class="content table_box pl0">
           <table class="table table-bordered table-condensed table-hover table-striped">
             <thead>
               <tr>
@@ -217,7 +217,7 @@
               </tr>
             </c:forEach>
           </table>
-        </div>
+        </div> --%>
   </body>
 
 </html>

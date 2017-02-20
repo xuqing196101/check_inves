@@ -64,6 +64,8 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseDetail;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
+import bss.model.ppms.Negotiation;
+import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -75,6 +77,8 @@ import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.NegotiationReportService;
+import bss.service.ppms.NegotiationService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -164,6 +168,12 @@ public class ProjectController extends BaseController {
     
     @Autowired
     private SupplierExtUserServicel supplierExtUserService;
+    
+    @Autowired
+    private NegotiationReportService reportService;
+    
+    @Autowired
+    private NegotiationService negotiationService;
     
     /** SCCUESS */
     private static final String SUCCESS = "SCCUESS";
@@ -3296,6 +3306,22 @@ public class ProjectController extends BaseController {
                         
                     }
                     
+                    if("DYLY".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(ids[i]);
+                            List<SaleTender> find = saleTenderService.find(saleTender);
+                            for (SaleTender saleTender2 : find) {
+                                saleTender2.setProjectId(proId);
+                                saleTender2.setIsTurnUp(null);
+                                saleTenderService.update(saleTender2);
+                                List<UploadFile> file = uploadService.getFilesOther(saleTender2.getId(), null, "1");
+                                file.get(0).setIsDelete(1);
+                                uploadService.updateFile(file.get(0), 1);
+                            }
+                        }
+                    }
+                    
                 } else if (flowDefine.getStep() > 2) {//第三步
                     
                 } else if (flowDefine.getStep() > 3) {//第四步
@@ -3344,6 +3370,39 @@ public class ProjectController extends BaseController {
                         extSupervises.setDuties(listPro.get(0).getDuties());
                         supplierExtUserService.insert(extSupervises);
                     }
+                    
+                    
+                    if("DYLY".equals(findById.getCode())){
+                        ExpExtractRecord record = new ExpExtractRecord();
+                        record.setProjectId(project.getId());
+                        List<ExpExtractRecord> extractRecord = expExtractRecordService.showExpExtractRecord(record);
+                        ExpExtractRecord records = new ExpExtractRecord();
+                        records.setId(WfUtil.createUUID());
+                        records.setCreatedAt(extractRecord.get(0).getCreatedAt());
+                        records.setExtractingConditions(extractRecord.get(0).getExtractingConditions());
+                        records.setExtractionSites(extractRecord.get(0).getExtractionSites());
+                        records.setProjectName(extractRecord.get(0).getProjectName());
+                        records.setProjectCode(extractRecord.get(0).getProjectCode());
+                        records.setExtractionTime(extractRecord.get(0).getExtractionTime());
+                        records.setExtractTheWay(extractRecord.get(0).getExtractTheWay());
+                        records.setExtractsPeople(extractRecord.get(0).getExtractsPeople());
+                        records.setProjectId(proId);
+                        expExtractRecordService.insert(records);
+                        
+                        ProExtSupervise extSupervise = new ProExtSupervise();
+                        extSupervise.setProjectId(project.getId());
+                        List<ProExtSupervise> listPro = projectSupervisorService.list(extSupervise);
+                        ProExtSupervise extSupervises = new ProExtSupervise();
+                        extSupervises.setProjectId(proId);
+                        extSupervises.setCreatedAt(listPro.get(0).getCreatedAt());
+                        extSupervises.setRelName(listPro.get(0).getRelName());
+                        extSupervises.setCompany(listPro.get(0).getCompany());
+                        extSupervises.setPhone(listPro.get(0).getPhone());
+                        extSupervises.setDuties(listPro.get(0).getDuties());
+                        projectSupervisorService.insert(extSupervises);
+                    
+                    }
+                    
                 } else if (flowDefine.getStep() > 4) {//第五步
                     if("GKZB".equals(findById.getCode())){
                         ExpExtractRecord record = new ExpExtractRecord();
@@ -3390,6 +3449,36 @@ public class ProjectController extends BaseController {
                                 uploadService.updateFile(file.get(0), 1);
                             }
                         }
+                    }
+                    
+                    
+                    if("DYLY".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            saleTender.setPackages(ids[i]);
+                            List<SaleTender> find = saleTenderService.find(saleTender);
+                            for (SaleTender saleTender2 : find) {
+                                /*saleTender2.setIsTurnUp(null);  稍后测试在看
+                                saleTenderService.update(saleTender2);*/
+                                List<UploadFile> file = uploadService.getFilesOthers(saleTender2.getId(), null, "1");
+                                for (UploadFile uploadFile : file) {
+                                    uploadFile.setIsDelete(0);
+                                    uploadService.updateFile(uploadFile, 1);
+                                }
+                            }
+                            
+                            Quote quote =  new Quote();
+                            quote.setPackageId(ids[i]);
+                            quote.setProjectId(projectId);
+                            List<Quote> quotes = quoteService.get(quote);
+                            for (Quote quote2 : quotes) {
+                                List<Quote> list = new ArrayList<Quote>();
+                                quote2.setIsRemove(3);
+                                list.add(quote2);
+                                quoteService.update(list);
+                            }
+                        }
+                    
                     }
                 } else if (flowDefine.getStep() > 5) {//第六步
                     if("GKZB".equals(findById.getCode()) || "JZXTP".equals(findById.getCode())){
@@ -3451,6 +3540,24 @@ public class ProjectController extends BaseController {
                     
                     }
                     
+                    
+                    if("DYLY".equals(findById.getCode())){
+                        for (int i = 0; i < ids.length; i++ ) {
+                            Quote quote =  new Quote();
+                            quote.setPackageId(ids[i]);
+                            quote.setProjectId(projectId);
+                            List<Quote> quotes = quoteService.get(quote);
+                            for (Quote quote2 : quotes) {
+                                List<Quote> list = new ArrayList<Quote>();
+                                quote2.setProjectId(proId);
+                                quote2.setIsRemove(null);
+                                list.add(quote2);
+                                quoteService.update(list);
+                            }
+                        }
+                    
+                    }
+                    
                 } else if (flowDefine.getStep() > 6) {//第七步
                     if("GKZB".equals(findById.getCode()) || "JZXTP".equals(findById.getCode())){
                         for (int i = 0; i < ids.length; i++ ) {
@@ -3495,6 +3602,21 @@ public class ProjectController extends BaseController {
                             }
                         }
                     
+                    }
+                    
+                    
+                    if("DYLY".equals(findById.getCode())){
+                        HashMap<String, Object> map = new HashMap<>();
+                        for (int i = 0; i < ids.length; i++ ) {
+                            map.put("packageId", ids[i]);
+                            List<Negotiation> listByNegotiation = negotiationService.listByNegotiation(map);
+                            if(listByNegotiation != null && listByNegotiation.size() > 0){
+                                for (Negotiation negotiation : listByNegotiation) {
+                                    negotiation.setProjectId(proId);
+                                    negotiationService.update(negotiation);
+                                }
+                            }
+                        }
                     }
                     
                 } else if (flowDefine.getStep() > 7) {//第八步
@@ -3548,6 +3670,20 @@ public class ProjectController extends BaseController {
                 } else if (flowDefine.getStep() > 8) {//第九步
                     
                 } else if (flowDefine.getStep() > 9) {//第十步
+                    if("DYLY".equals(findById.getCode())){
+                        HashMap<String, Object> map = new HashMap<>();
+                        for (int i = 0; i < ids.length; i++ ) {
+                            map.put("packageId", ids[i]);
+                            List<NegotiationReport> listByNegotiation = reportService.listByNegotiation(map);
+                            if(listByNegotiation != null && listByNegotiation.size() > 0){
+                                for (NegotiationReport negotiationReport : listByNegotiation) {
+                                    negotiationReport.setProjectId(proId);
+                                    reportService.update(negotiationReport);
+                                }
+                            }
+                        }
+                    
+                    }
                     
                 } else if (flowDefine.getStep() > 10) {//第十一步
                     
