@@ -386,7 +386,7 @@
 
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>值班室电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="dutyRoomPhone" required isPhone="true" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="dutyRoomPhone" isTel="true" required  type="text"  value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
