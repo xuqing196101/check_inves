@@ -2836,6 +2836,89 @@ public class PackageExpertController {
       return "bss/prms/first_audit/print_view";
     }
     
+    @RequestMapping("/print")
+    public String print(String auditType, String projectId, String packageId, Model model, String expertId, HttpSession session){
+      Map<String, Object> pMap = new HashMap<String, Object>();
+      pMap.put("packageId", packageId);
+      pMap.put("projectId", projectId);
+      pMap.put("expertId", expertId);
+      List<PackageExpert> packageExperts = packageExpertService.selectList(pMap);
+      String kind = null;
+      if (packageExperts != null && packageExperts.size() > 0) {
+          model.addAttribute("isSubmit", packageExperts.get(0).getIsAudit());
+          kind = packageExperts.get(0).getReviewTypeId();
+      }
+      Expert expert = expertService.selectByPrimaryKey(expertId);
+      model.addAttribute("expert", expert);
+      //创建封装的实体
+      Extension extension = new Extension();
+      HashMap<String ,Object> map = new HashMap<>();
+      map.put("projectId", projectId);
+      map.put("id", packageId);
+      //查询包信息
+      List<Packages> list = packageService.findPackageById(map);
+      if(list!=null && list.size()>0){
+        Packages packages = list.get(0);
+        model.addAttribute("pack", packages);
+        //放入包信息
+        extension.setPackageId(packages.getId());
+        extension.setPackageName(packages.getName());
+      }
+      //查询项目信息
+      Project project = projectService.selectById(projectId);
+      if(project!=null){
+        model.addAttribute("project", project);
+        //放入项目信息
+        extension.setProjectId(project.getId());
+        extension.setProjectName(project.getName());
+        extension.setProjectCode(project.getProjectNumber());
+      }
+      //获取包下的评审项
+      FirstAudit firstAudit = new FirstAudit();
+      firstAudit.setPackageId(packageId);
+      if ("1".equals(auditType)) {
+        firstAudit.setIsConfirm((short)1);
+        firstAudit.setKind(kind);
+      } else {
+        firstAudit.setIsConfirm((short)0);
+      }
+      List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+        //放入初审项集合
+      extension.setFirstAuditList(fas);
+      // 获取符合性审查通过且到场没被移除的供应商
+      SaleTender saleTender = new SaleTender();
+      saleTender.setPackages(packageId);
+      if ("1".equals(auditType)) {
+          saleTender.setIsFirstPass(1);
+          saleTender.setIsRemoved("0");
+      }
+      saleTender.setIsTurnUp(0);
+      List<SaleTender> supplierList = saleTenderService.findByCon(saleTender);
+      extension.setSupplierList(supplierList);
+     
+      //查询审核过的信息用于回显
+      Map<String, Object> reviewFirstAuditMap = new HashMap<>();
+      reviewFirstAuditMap.put("projectId", projectId);
+      reviewFirstAuditMap.put("packageId", packageId);
+      reviewFirstAuditMap.put("expertId", expertId);
+      List<ReviewFirstAudit> reviewFirstAuditList = reviewFirstAuditService.selectList(reviewFirstAuditMap);
+      //回显信息放进去
+      model.addAttribute("reviewFirstAuditList", reviewFirstAuditList);
+      //把封装的实体放入域中
+      model.addAttribute("extension", extension);
+      List<DictionaryData> dds = new ArrayList<DictionaryData>();
+      if ("1".equals(auditType)) {
+          DictionaryData dd = DictionaryDataUtil.findById(kind);
+          dds.add(dd); 
+          model.addAttribute("dds", dds);
+      } else {
+          dds = DictionaryDataUtil.find(22);
+          model.addAttribute("dds", dds);
+      }
+      model.addAttribute("expertId", expertId);
+      return "bss/prms/first_audit/print";
+    }
+    
     /**
      *〈简述〉
      * 确定供应商

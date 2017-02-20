@@ -1630,7 +1630,7 @@ public class ProjectController extends BaseController {
         project.setStatus(status);
         project.setStartTime(new Date());
         projectService.update(project);
-      /*//设置各环节经办人默认为承办人
+        //设置各环节经办人默认为承办人
         FlowExecute flowExecute = new FlowExecute();
         flowExecute.setProjectId(id);
         flowExecute.setStatus(0);
@@ -1648,7 +1648,7 @@ public class ProjectController extends BaseController {
             flowExecute.setFlowDefineId(fd.getId());
             flowExecute.setStep(fd.getStep());
             flowMangeService.saveExecute(flowExecute);
-        }*/
+        }
         if(users.getId().equals(principal)){
             return "redirect:excute.html?id="+project.getId();
         }
