@@ -201,6 +201,7 @@ public class CategoryServiceImpl implements CategoryService {
         
         String name = request.getParameter("name");
         String level = request.getParameter("level");
+        String engLevel = request.getParameter("engLevel");
         String id = request.getParameter("id");
         String code = request.getParameter("code");
         String operaType = request.getParameter("opera");
@@ -258,6 +259,7 @@ public class CategoryServiceImpl implements CategoryService {
             category.setId(id);
             category.setCode(code);
             category.setLevel(level == null ? null : Integer.parseInt(level));
+            category.setEngLevel(engLevel);
             category.setParentId(request.getParameter("parentId"));
             category.setName(name);
             category.setStatus(1);
@@ -288,6 +290,7 @@ public class CategoryServiceImpl implements CategoryService {
                 category.setDescription(desc);
                 category.setName(name);
                 category.setLevel(level == null ? null : Integer.parseInt(level));
+                category.setEngLevel(engLevel);
                 category.setUpdatedAt(new Date());
                 if (classified != null){
                     category.setClassify(classified);

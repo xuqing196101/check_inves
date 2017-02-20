@@ -79,9 +79,16 @@
 			$("#fileId_showdel").val("false");
 			$("#uploadBtnId").hide();
 			if (treeNode.level == 3) {
-				$("#levelTrId").removeClass("dis_none");
+				if (node.getParentNode().getParentNode().name == "工程") {
+					$("#engLevelTrId").removeClass("dis_none");
+					$("#levelTrId").addClass("dis_none");
+				} else {
+					$("#levelTrId").removeClass("dis_none");
+					$("#engLevelTrId").addClass("dis_none");
+				}
 			} else {
 				$("#levelTrId").addClass("dis_none");
+				$("#engLevelTrId").addClass("dis_none");
 			}
 	    	nodeName = node.name;
     		update(treeNode);
@@ -138,9 +145,16 @@
 							$("#typeTrId").hide();
 						}
 						if (level == 3) {
-							$("#levelTrId").removeClass("dis_none");
+							if (node.getParentNode().getParentNode().name == "工程") {
+								$("#engLevelTrId").removeClass("dis_none");
+								$("#levelTrId").addClass("dis_none");
+							} else {
+								$("#levelTrId").removeClass("dis_none");
+								$("#engLevelTrId").addClass("dis_none");
+							}
 						} else {
 							$("#levelTrId").addClass("dis_none");
+							$("#engLevelTrId").addClass("dis_none");
 						}
 						loadRadioHtml("");
 					}
@@ -159,7 +173,11 @@
     	$("#cateId").val("");
 		$("#posId").val("");
 		$("#descId").val("");
-		$("#levelId").val("");
+		$("#levelId").val("0");
+		$("#engLevelId").val("");
+		$("#engLevelSelect").find("option").each(function(index, element){
+			element.selected = false;
+		});
     }
 
 	/**修改节点信息*/
@@ -182,6 +200,16 @@
 					$("#parentNameId").text(nodeName);
 					$("#cateId").val(cate.name);
 					$("#levelId").val(cate.level);
+					if (cate.getEngLevel != null && cate.getEngLevel != "undefined") {
+						var engLevel = cate.getEngLevel.split(",");
+						for (var i = 0; i < engLevel.length; i++) {
+							$("#engLevelSelect").find("option").each(function(index, element){
+								if (element.value == engLevel[i]) {
+									element.selected = true;
+								}
+							});
+						}
+					}
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
@@ -222,6 +250,14 @@
 			}
 		}
 		
+		var engLevel = "";
+		$("#engLevelSelect").find("option").each(function(index, element){
+			if (element.selected == true) {
+				engLevel = engLevel + element.value + ",";
+			}
+		});
+		$("#engLevelId").val(engLevel);
+		
     	$.ajax({
     		dataType:"json",
     		type:"post",
@@ -239,6 +275,7 @@
     	$("#posTipsId").text("");
     	$("#descTipsId").text("");
     	$("#levelTipsId").text("");
+    	$("#engLevelTipsId").text("");
     }
     
     /** 保存后的提示 */
@@ -680,10 +717,24 @@
            		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
            		  <td id="levelTdId">
        		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="level" >
-       		    	  <input id="levelId" type="text" name='level' required="required" maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+       		    	  <input id="levelId" type="text" name='level' maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')"/>
        		    	  <span class="add-on">i</span>
        		    	</div>
        		    	  <span id="levelTipsId" class="red clear span_style" />
+           		  </td>
+           		</tr>
+           	    <tr class="dis_none" id="engLevelTrId">
+           		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
+           		  <td id="engLevelTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="engLevel" >
+       		    	  <input id="engLevelId" type="hidden" name='engLevel'/>
+       		    	  <select multiple="multiple" id="engLevelSelect">
+       		    	  	<c:forEach items="${levelList}" var="level">
+       		    	  	  <option value="${level.id}">${level.name}</option>
+       		    	  	</c:forEach>
+       		    	  </select>
+       		    	</div>
+       		    	<span id="engLevelTipsId" class="red clear span_style" />
            		  </td>
            		</tr>
            	    <tr>

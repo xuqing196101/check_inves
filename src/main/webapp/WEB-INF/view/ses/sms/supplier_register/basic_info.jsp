@@ -1024,7 +1024,7 @@
 							</ul>
 						</fieldset>
 						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-							<legend>法定法人信息</legend>
+							<legend>法定代表人信息</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 姓名</span>
