@@ -6,7 +6,7 @@
   <head>
     <%@ include file="../../../../common.jsp"%>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script src="<%=request.getContextPath()%>public/laypage-v1.3/laypage/laypage.js"></script>
     <title>供应商列表展示</title>
     
 <script type="text/javascript">
@@ -19,7 +19,7 @@ $(function(){
 		    skip: true, //是否开启跳页
 		    total:"${list.total}",
 		    startRow:"${list.startRow}",
-		    endRow:"${list.endRow}",
+		    endRow:"${list.endRow}",//"${list.endRow}"
 		    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 		        var page = location.search.match(/page=(\d+)/);
@@ -27,7 +27,7 @@ $(function(){
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		            location.href = '<%=basePath%>offer/list.html?page='+e.curr;
+		            location.href = '<%=request.getContextPath()%>offer/list.html?page='+e.curr;
 		        }
 		    }
 		});
@@ -106,7 +106,7 @@ function add(){
     <div class="container">
      <div class="p10_25">
      <h2 class="padding-10 border1">
-       <form action="<%=basePath %>offer/search.html" method="post" class="mb0">
+       <form action="<%=request.getContextPath() %>offer/search.html" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li class="fl">
 	    	<label class="fl">合同名称：</label><span><input type="text" name="name" value="${name }" class=""/></span>

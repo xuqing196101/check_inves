@@ -45,6 +45,11 @@
 	  	 window.location.href = "${ pageContext.request.contextPath }/article/serch.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name;
 	  }
     </script>
+    <style type="text/css">
+    	.margin-left-0 li {
+    		float: none;
+    	}
+    </style>
   </head>
 
   <body>

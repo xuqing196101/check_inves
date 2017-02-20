@@ -566,10 +566,18 @@
           ]
         ]
       }
-      var ue = UE.getEditor('editor', option);
+      
+      
+      
+	  var ue = UE.getEditor('editor', option);
       var content = '${article.content}';
+      var messageTip = "${properties['messageTip']}";
       ue.ready(function() {
-        ue.setContent(content);
+    	  
+    	  UE.dom.domUtils.setStyles(self.ue.body, {
+				'color' : 'black'
+			});
+          ue.setContent(content);
       });
     </script>
 

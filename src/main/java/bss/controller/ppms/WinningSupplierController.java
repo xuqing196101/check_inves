@@ -657,6 +657,7 @@ public class WinningSupplierController extends BaseController {
    *〈简述〉录入标的
    *〈详细描述〉
    * @author Wang Wenshuai
+   * 后续修改@author Ma Mingwei
    * @param passId checkId
    * @return
    */
@@ -669,7 +670,7 @@ public class WinningSupplierController extends BaseController {
     map.put("packageId", packageId);
     List<ProjectDetail> detailList = detailService.selectById(map);
     model.addAttribute("detailList", detailList);
-    return  "bss/ppms/winning_supplier/add_list";
+    return "bss/ppms/winning_supplier/add_list";
   }
   
 }
