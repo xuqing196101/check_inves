@@ -56,7 +56,7 @@
 		    $("#"+obj.id+"").each(function() {
 		      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
-          if(auditField =="businessScope" || auditField =="description"){
+          if(auditField =="businessScope" || auditField =="description" ||  auditField =="purchaseExperience"){
 						auditContent = $(this).parents("li").find("textarea").text();
 					}
     		});
@@ -189,7 +189,7 @@
 				var supplierId = $("#id").val();
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
-					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"basic_page"},
+					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"basic_page", "listType":"0"},
 					async: false,
 					success: function(result) {
 						layer.tips("修改前:" + result, "#" + field, {
@@ -659,12 +659,12 @@
 								<div id="businessAddress3" class="abolish">×</div>
 							</div>
 						</li> --%>
-						<li class="col-md-3 col-sm-6 col-xs-12">
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="businessPostCode" class="hand " value="${suppliers.businessPostCode } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessPostCode')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessPostCode');"</c:if>>
 							</div>
-						</li>
+						</li> --%>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'businessCert');">营业执照：</span>
 							<%-- <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -730,57 +730,50 @@
             	</c:if>
 						</c:forEach>
 					</ul>
-
-					<%-- <h2 class="count_flow"><i>8</i>境外分支</h2>
-          <ul class="ul_list">
-            <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="overseasBranch2">境外分支机构：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <c:if test="${suppliers.overseasBranch == 0}">
-                  <input id="overseasBranch" class="hand " value="无" type="text" onclick="reason(this.id,'overseasBranch')" >
-                </c:if>
-                <c:if test="${suppliers.overseasBranch == 1}">
-                  <input id="overseasBranch" class="hand " value="有" type="text" onclick="reason(this.id,'overseasBranch')" >
-                </c:if>
-                <div id="overseasBranch3" class="abolish">×</div>
-              </div>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="overseasBranch" class="hand " value="<c:if test="${suppliers.overseasBranch == 0}">无</c:if><c:if test="${suppliers.overseasBranch == 1}">有</c:if>" type="text" onclick="reason(this.id,'overseasBranch')" >
-                <div id="overseasBranch3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchCountry2">境外分支所在国家(地区)：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="branchCountry" class="hand " value="${suppliers.branchCountry } " type="text" onclick="reason(this.id,'branchCountry')" >
-                <div id="branchCountry3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12 ">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchAddress2">分支地址：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="branchAddress" class="hand " value="${suppliers.branchAddress } " type="text" onclick="reason(this.id,'branchAddress')" >
-                <div id="branchAddress3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-3 col-sm-6 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchName2">机构名称：</span>
-              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-                <input id="branchName" class="hand " value="${suppliers.branchName } " type="text" onclick="reason(this.id,'branchName')" >
-                <div id="branchName3" class="abolish">×</div>
-              </div>
-            </li>
-            <li class="col-md-12 col-sm-12 col-xs-12">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" id="branchBusinessScope2">分支生产经营范围：</span>
-              <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="branchBusinessScope" onclick="reason(this.id,'branchBusinessScope')" >${suppliers.branchBusinessScope }</textarea>
-                <div id="branchBusinessScope3" onclick="reason(this.id)" class="abolish">×</div>
-              </div>
-            </li>
-          </ul> --%>
+					
+					<h2 class="count_flow"><i>9</i>售后服务机构一览表</h2>
+					<c:forEach items="${listSupplierAfterSaleDep}" var="afterSaleDep" varStatus="vs">
+						<ul class="ul_list">
+							<table class="table table-bordered  table-condensed table-hover">
+								<thead>
+									<tr>
+										<th class="info w50">序号</th>
+										<th class="info">分支（或服务）机构名称</th>
+										<th class="info">类别</th>
+										<th class="info">所在县市</th>
+										<th class="info">负责人</th>
+										<th class="info">联系电话</th>
+									</tr>
+								</thead>
+								<tbody id="finance_attach_list_tbody_id">
+									<tr>
+										<td class="tc w50">${vs.index + 1}</td>
+										<td class="tc">${afterSaleDep.name}</td>
+										<td class="tc">${afterSaleDep.name}</td>
+										<td class="tc">
+											<c:if test="${afterSaleDep.type == 1}">自营</c:if>
+											<c:if test="${afterSaleDep.type == 2}">合作</c:if>
+										</td>
+										<td class="tc">${afterSaleDep.leadName}</td>
+										<td class="tc">${afterSaleDep.mobile}</td>
+									</tr>
+								</tbody>
+							</table>
+						</ul>
+					</c:forEach>
+					
+					<h2 class="count_flow"><i>10</i>参加政府或军队采购经历登记表</h2>
+					<ul class="ul_list">
+						<li class="col-md-12 col-sm-12 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" type="hidden" style="display:none">参加政府或军队采购经历登记表：</span>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0">
+								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="purchaseExperience" onclick="reason(this)">${suppliers.purchaseExperience }</textarea>
+							</div>
+						</li>
+					</ul>
 				</div>
+				
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
-					<!-- <a class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="zhancun();">暂存</a> -->
 					<a class="btn" type="button" onclick="nextStep();">下一步</a>
 				</div>
 			</div>
