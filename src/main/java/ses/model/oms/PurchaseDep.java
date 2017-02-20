@@ -81,7 +81,7 @@ public class PurchaseDep extends Orgnization{
     @Length(min=0,max=20,message="长度不可超过20")
     private String depName;//单位名称
 
-    @Length(min=0,max=10,message="长度不可超过10")
+    @Length(min=0,max=10,message="长度不可超过50")
     private String legal;//法定代表人
 
     @Length(min=0,max=20,message="长度不可超过20")

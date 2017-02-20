@@ -244,8 +244,10 @@
         if(name == "1"){
           $("li").removeClass("dnone");
         }else{
-          $("#aa").addClass("dnone");
-          $("#bb").addClass("dnone");
+          $("#contact").addClass("dnone");
+          $("#phone").addClass("dnone");
+          $("#address").addClass("dnone");
+          $("#postcode").addClass("dnone");
         }
       }
      
@@ -384,7 +386,7 @@
 
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>值班室电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="dutyRoomPhone" required isTel="true" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="dutyRoomPhone" required isPhone="true" type="text" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
@@ -408,19 +410,19 @@
                   
                   <li id="phone" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierPhone" type="text" required isTel="true" value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierPhone" type="text" required isPhone="true" value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
                   <li id="address" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierContact" type="text" required  value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierAddress" type="text" required  value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
                   <li id="postcode" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>邮编</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierPhone" type="text" required isZipCode="true" value="${purchaseDep.supplierPostcode}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierPostcode" type="text" required isZipCode="true" value="${purchaseDep.supplierPostcode}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
@@ -593,7 +595,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">法定代表人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="legal" value="${purchaseDep.legal}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="legal" maxlength="10" value="${purchaseDep.legal}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_legal}</div>
                     </div>
                   </li>
