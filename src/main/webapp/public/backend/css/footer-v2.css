@@ -51,3 +51,10 @@
 	color: #555;
 	margin-bottom: 0;
 }
+
+
+@media (max-width:1023px){
+   .ratio{
+	display: none;
+   }
+}

@@ -637,7 +637,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
               <address class="">
 			  Copyright &#169 2016 版权所有：中央军委后勤保障部 京ICP备09055519号
               </address>
-              <div class="">
+              <div class="ratio">
 		       浏览本网主页，建议将电脑显示屏的分辨率调为1024*768
               </div> 
             <!-- End Address -->
