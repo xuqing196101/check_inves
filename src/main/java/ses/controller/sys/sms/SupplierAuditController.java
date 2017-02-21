@@ -256,9 +256,14 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
-		//插入对比后的数据
+		
+		/**
+		 * 插入对比后的数据
+		 */
 		SupplierModify supplierModify= new SupplierModify();
 		supplierModify.setSupplierId(supplierId);
+		//先删除对比的旧数据
+		supplierModifyService.delete(supplierModify);
 		supplierModifyService.insertModifyRecord(supplierModify);
 		
 		//勾选的供应商类型
@@ -343,7 +348,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//查出修改前的信息
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
-			
+			//地址信息
+			supplierModify.setListType(1);
+			supplierModify.setRelationId(null);
+			supplierModify.setId(null);
+			supplierModify.setBeforeField(null);
+			supplierModify.setBeforeContent(null);
+			List < SupplierModify > fieldAddressList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldAddress = new StringBuffer();
+			for(int i = 0; i < fieldAddressList.size(); i++) {
+				String beforeField = fieldAddressList.get(i).getRelationId() +"_"+ fieldAddressList.get(i).getBeforeField();
+				fieldAddress.append(beforeField + ",");
+			}
+			request.setAttribute("fieldAddress", fieldAddress);
 			
 			//售后服务机构一览表修改前的信息
 			supplierModify.setListType(11);
