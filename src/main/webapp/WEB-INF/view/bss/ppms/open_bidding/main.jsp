@@ -128,13 +128,14 @@
 	
 	//变更当前环节经办人
 	function updateCurrOperator(){
+		var projectId = "${project.id}";
 		var currFlowDefineId = $("#currHuanjieId").val();
 		var currUpdateUserId = $("#currPrincipal").val();
 		$.ajax({
                 type: "POST",
                 url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
 				dataType: "json", //返回格式为json
-                data:{"currFlowDefineId":currFlowDefineId ,"currUpdateUserId":currUpdateUserId},
+                data:{"currFlowDefineId":currFlowDefineId ,"currUpdateUserId":currUpdateUserId, "projectId":projectId},
                 success: function(data) {
                     if(data.success){
                     	layer.msg("变更当前环节经办人成功",{offset: '100px'});
@@ -281,7 +282,7 @@
                       <div class="tag-box tag-box-v4 col-md-9 pt10" >
                       	  <input type="hidden" id="isOperate">
                       	  <form id="updateLinkId" action="" method="post" class="w100p fl mb10 border1 padding-10 bg11">
-					      	 <input type="hidden" name="projectId" value="${project.id}">
+					      	 <input type="hidden" id="projectId" name="projectId" value="${project.id}">
 					      	 <div class="fr" id="updateOperateId">
 					      		<span class="fl h30 lh30">经办人：</span>
 					      		<div class="w200 fl">
