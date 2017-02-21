@@ -966,7 +966,7 @@
 								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConCert')"</c:if>><i class="red">*</i> 国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-										<select name="isHavingConCert" id="isHavingConCert" onclick="removeOption(this)" onchange="dis_bearch(this)" class="fl mr10">
+										<select name="isHavingConCert" id="isHavingConCert" onclick="removeOption(this)" onchange="dis_bearch(this)" class="fl mr10 w120">
 											<option value="">请选择</option>
 											<option value="0" <c:if test="${currSupplier.isHavingConCert eq '0'}">selected</c:if>>无</option>
 											<option value="1" <c:if test="${currSupplier.isHavingConCert eq '1'}">selected</c:if>>有</option>
