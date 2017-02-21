@@ -1,13 +1,23 @@
 package bss.test;
 
-import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
+import net.sf.json.JSONArray;
+import net.sf.json.JSONObject;
+
 import org.junit.Test;
+
+
+
+
+
+
+
+import com.alibaba.fastjson.JSON;
 
 import bss.model.pms.PurchaseRequired;
 
@@ -130,4 +140,17 @@ public class test {
 			
 		}
 		
+		@Test
+		public void testHistory(){
+			TestUser tu=new TestUser();
+			tu.setName("李晓");
+			tu.setAge(18);
+			tu.setSex("男");
+		
+			JSONObject jsonString =JSONObject.fromObject(tu);
+			System.out.print(jsonString);
+			TestUser object = (TestUser) JSONObject.toBean(jsonString, TestUser.class);
+//			TestUser object = (TestUser) JSONObject
+			System.out.print(object.getAge());
+		}
 }

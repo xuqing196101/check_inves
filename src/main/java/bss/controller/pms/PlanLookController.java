@@ -1,13 +1,27 @@
 package bss.controller.pms;
 
+import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.stereotype.Controller;
@@ -670,5 +684,310 @@ public class PlanLookController extends BaseController {
         binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
     } 
 	
+	
+    @RequestMapping("/excel")
+	@ResponseBody
+	public String excel(HttpServletRequest request,HttpServletResponse response,String uniqueId) throws UnsupportedEncodingException{
+    	List<PurchaseDetail> list = purchaseDetailService.getUnique(uniqueId);
+ 
+		
+		String filedisplay = "明细.xls";
+		response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
+		HSSFWorkbook workbook = new HSSFWorkbook();
+	     HSSFSheet sheet = workbook.createSheet("1"); 
+	     HSSFCellStyle style = workbook.createCellStyle();
+		 style.setBorderBottom(HSSFCellStyle.BORDER_HAIR);
+		 style.setBorderLeft(HSSFCellStyle.BORDER_HAIR);
+		 style.setBorderTop(HSSFCellStyle.BORDER_HAIR);
+		 style.setBorderRight(HSSFCellStyle.BORDER_HAIR);
+		 style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	     style.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+	   
+	     
+	     
+	     sheet.setColumnWidth(0, 2000); 
+	     sheet.setColumnWidth(1, 3000); 
+	     sheet.setColumnWidth(2, 3000);
+	     sheet.setColumnWidth(3, 3000);
+	     sheet.setColumnWidth(4, 3200);
+	     sheet.setColumnWidth(5, 1200);
+	     sheet.setColumnWidth(6, 2300);
+	     sheet.setColumnWidth(7, 2300);
+	     sheet.setColumnWidth(8, 2300);
+	     sheet.setColumnWidth(9, 2300);
+	     sheet.setColumnWidth(10, 2500);
+	     sheet.setColumnWidth(11, 2300);
+	     sheet.setColumnWidth(12, 3000);
+	     sheet.setColumnWidth(13, 3000);
+	    
+	     //表头第一行
+	     HSSFRow row = sheet.createRow(0);  
+			//
+	     HSSFCell  cell = row.createCell(0);
+	     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	     String planName = list.get(0).getPlanName();
+	     generateName(workbook,sheet,planName);
+ 
+	     generateHeader(workbook,sheet);
+ 
+	        int count=2;
+			for(PurchaseDetail p:list){
+	        	row = sheet.createRow(count);
+	   	        cell = row.createCell(0);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        cell.setCellStyle(style);
+	   			cell.setCellValue(p.getSeq()); 
+	   	        cell = row.createCell(1);  
+		        style.setWrapText(true);
+	   	        style.setAlignment(CellStyle.ALIGN_LEFT);
+		        cell.setCellStyle(style);
+		        if(p.getPurchaseCount()==null){
+		        	cell.setCellValue(p.getDepartment());
+		        }
+	   	        		
+	   	      
+	   	        cell = row.createCell(2); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getGoodsName());
+	   	        cell = row.createCell(3); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getStand());
+	   	        cell = row.createCell(4);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getQualitStand());
+	   	        cell = row.createCell(5);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getItem()); 
+	   	        cell = row.createCell(6); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		        cell.setCellStyle(style);
+	   	        if(p.getPurchaseCount()!=null){
+	   	        	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+	   	           
+	   	         cell.setCellValue(d);  
+	   	        }
+	   	       
+	   	        
+	   	        cell = row.createCell(7);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		        cell.setCellStyle(style);
+	   	        if(p.getPrice()!=null){
+		   	        double price = p.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		   	        cell.setCellValue(price);
+	   	        }
+	   	     
+	   	          
+	   	        
+	   	        cell = row.createCell(8); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+		        cell.setCellStyle(style);
+	   	        if(p.getBudget()!=null){
+	   	         double budget = p.getBudget().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		   	      
+		   	        cell.setCellValue(budget); 
+	   	        }
+	   	      
+	   	        
+	   	        cell = row.createCell(9);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getDeliverDate());  
+	   	        
+	   	        cell = row.createCell(10);  
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        if(p.getPurchaseCount()!=null){
+	   	        	DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
+	   	        	if(dicType!=null){
+	   	        		cell.setCellValue(dicType.getName()); 
+	   	        	}
+	   	        }
+	   	        
+	   	        
+	   	        cell = row.createCell(11);
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	         if(p.getPurchaseCount()!=null){
+	   	        	 if(p.getOrganization()!=null){
+	   	        		 Orgnization orgnization = purchaseRequiredService.queryPur(p.getOrganization());
+	 		   	        if(orgnization!=null){
+	 	   	        		cell.setCellValue(orgnization.getName());
+	 	   	        	}
+	   	        	 }
+		   	       
+	   	         
+	   	        }
+	   	         
+	   	        
+	   	        
+	   	        cell = row.createCell(12); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getSupplier());  
+	   	        
+	   	        
+	   	        cell = row.createCell(13); 
+	   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+	   	        cell.setCellValue(p.getMemo());  
+	    
+ 
+	   	        
+	   	     count++;
+	        }
+	        
+	        
+	     ServletOutputStream fileOut=null;
+		 try{
+			filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+			fileOut=response.getOutputStream();
+		    workbook.write(fileOut);
+		    fileOut.close();  
+			}catch(Exception e){	
+		}
+			
+		return "";	
+	}	
+    
+    
+    
+	 
+	 public  void generateHeader(HSSFWorkbook workbook,HSSFSheet sheet){
+
+	        HSSFRow row = sheet.createRow(1);
+           HSSFCell cell = row.createCell(0);
+           sheet.setColumnWidth(0, 2000); 
+	   	    sheet.setColumnWidth(1, 3000); 
+	   	    sheet.setColumnWidth(2, 3000);
+	   	    sheet.setColumnWidth(3, 3000);
+	   	    sheet.setColumnWidth(4, 3200);
+	   	     sheet.setColumnWidth(5, 1200);
+	   	     sheet.setColumnWidth(6, 2300);
+	   	     sheet.setColumnWidth(7, 2300);
+	   	     sheet.setColumnWidth(8, 2300);
+	   	     sheet.setColumnWidth(9, 2300);
+	   	     sheet.setColumnWidth(10, 2500);
+	   	     sheet.setColumnWidth(11, 2300);
+	   	     sheet.setColumnWidth(12, 3000);
+	   	     sheet.setColumnWidth(13, 3000);
+	   	     
+	   	    HSSFCellStyle style = workbook.createCellStyle();
+	   	    HSSFFont font = workbook.createFont();  
+	   	 
+	     	style.setBorderBottom(HSSFCellStyle.BORDER_HAIR);
+		    style.setBorderLeft(HSSFCellStyle.BORDER_HAIR);
+		    style.setBorderTop(HSSFCellStyle.BORDER_HAIR);
+		    style.setBorderRight(HSSFCellStyle.BORDER_HAIR);
+		    style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		    font.setFontHeightInPoints((short) 9);
+		    font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setFont(font);
+	        cell.setCellStyle(style);
+			cell.setCellValue("序号");
+	        cell = row.createCell(1); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("需求部门");
+	        cell = row.createCell(2);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("物资类别及名称");
+	        cell = row.createCell(3); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("规格型号");
+	        cell = row.createCell(4); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("质量技术标准");
+	        cell = row.createCell(5);  
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("计量单位"); 
+	        cell = row.createCell(6);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("采购数量");  
+	        
+	        cell = row.createCell(7); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("单价（元）");  
+	        
+	        cell = row.createCell(8); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("预算金额（万元）");  
+	        
+	        cell = row.createCell(9); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("交货期限");  
+	        
+	        cell = row.createCell(10);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("采购方式");  
+	        
+	        cell = row.createCell(11);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("采购机构"); 
+	        
+	        cell = row.createCell(12);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("供应商名称");  
+	        
+	        
+	        cell = row.createCell(13);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("备注");
+		 }   
+	 
+	 
+	 
+	 
+	 public  void generateName(HSSFWorkbook workbook,HSSFSheet sheet,String planName){
+		//表头第一行
+	     HSSFRow row = sheet.createRow(0);  
+			//
+	     HSSFCell  cell = row.createCell(0);
+	     HSSFCellStyle style = workbook.createCellStyle();
+	   	 HSSFFont font = workbook.createFont(); 
+	   	 font.setFontHeightInPoints((short) 22);
+	   	 style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+	     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	     style.setFont(font);
+	     cell.setCellStyle(style);
+	     row.setHeight((short) 800);
+	     cell.setCellValue(planName);
+	     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)13));
+	     
+	 }
+	 
+	 
 	
 }

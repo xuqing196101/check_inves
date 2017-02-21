@@ -184,8 +184,16 @@
 				$('input[name="chkItem"]:checked').each(function() {
 					id.push($(this).val());
 				});
+				var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
 				if(id.length == 1) {
-					window.location.href = "${pageContext.request.contextPath }/accept/submit.html?planNo=" + id;
+					if($.trim(status)=="待受理"){
+						window.location.href = "${pageContext.request.contextPath }/accept/submit.html?planNo=" + id;
+					}else{
+						layer.alert("请选择待受理计划！", {
+							offset: ['222px', '390px'],
+							shade: 0.01
+						});
+					}
 				} else if(id.length > 1) {
 					layer.alert("只能选择一个", {
 						offset: ['222px', '390px'],
@@ -202,6 +210,27 @@
 			//重置
 			function resetQuery() {
 				$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+			}
+			
+			//下载
+			function down() {
+				var id = [];
+				$('input[name="chkItem"]:checked').each(function() {
+					id.push($(this).val());
+				});
+				if(id.length == 1) {
+					window.location.href = "${pageContext.request.contextPath }/accept/excel.html?uniqueId=" + id;
+				} else if(id.length > 1) {
+					layer.alert("只能选择一个", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
+				} else {
+					layer.alert("请选中一条", {
+						offset: ['222px', '390px'],
+						shade: 0.01
+					});
+				}
 			}
 		</script>
 
@@ -266,7 +295,7 @@
 
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows git" onclick="sub()">受理</button>
-				<!-- <button class="btn btn-windows delete" onclick="del()">删除</button> -->
+			    <button class="btn btn-windows output" onclick="down()">下载打印</button>  
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
@@ -285,12 +314,12 @@
 					<c:forEach items="${info.list}" var="obj" varStatus="vs">
 						<tr class="pointer tc">
 							<td class="w30">
-								<c:if test="${obj.status=='2' }">
+							<%-- 	<c:if test="${obj.status=='2' }"> --%>
 									<input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()" alt="">
-								</c:if>
+								<%-- </c:if>
 								<c:if test="${obj.status!='2' }">
 								 
-								</c:if>
+								</c:if> --%>
 							</td>
 							<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 							<td onclick="view('${obj.uniqueId}')" class="tl pl20">${obj.department}</td >

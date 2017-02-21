@@ -391,8 +391,8 @@
 			  <button class="btn btn-windows check" onclick="sets()">审核轮次设置</button>
 			  <button class="btn btn-windows check" onclick="auditPersonSets()">审核人员设置</button>
 				<button class="btn btn-windows check" onclick="audit()">审核</button>
-				<button class="btn btn-windows input" onclick="down()">下载</button>
-				<button class="btn btn-windows print" onclick="print()">打印</button>
+				<button class="btn btn-windows input" onclick="down()">下载打印</button>
+				<!-- <button class="btn btn-windows print" onclick="print()">打印</button> -->
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
