@@ -22,7 +22,6 @@
 				$(this).hide();
             }); 
 		}
-       	
     })
      /** 全选全不选 */
     function selectAll(index){

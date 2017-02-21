@@ -293,7 +293,12 @@ public class ProjectServiceImpl implements ProjectService {
           if (users != null && users.size() > 0) {
               flowExecute2.setOperatorName(users.get(0).getRelName()); 
           }
+          flowExecute2.setUpdatedAt(new Date());
           flowExecuteMapper.update(flowExecute2);
+          FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+          if (flowDefine != null) {
+              jsonObj.put("url", flowDefine.getUrl());
+          }
           jsonObj.put("success", true);
       } else {
           jsonObj.put("success", false);

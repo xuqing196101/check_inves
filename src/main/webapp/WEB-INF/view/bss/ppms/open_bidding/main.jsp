@@ -139,6 +139,8 @@
                 success: function(data) {
                     if(data.success){
                     	layer.msg("变更当前环节经办人成功",{offset: '100px'});
+                    	
+                    	jumpLoad(data.url, projectId, currFlowDefineId);
                     }
                 },
                 error: function(data){
