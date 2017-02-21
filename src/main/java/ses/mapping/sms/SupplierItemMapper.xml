@@ -77,7 +77,7 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
-			<if test="CATE_LEVEL != null">
+			<if test="cateLevel != null">
 				CATE_LEVEL,
 			</if>
 			<if test="DIY_LEVEL != null">

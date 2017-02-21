@@ -1117,7 +1117,7 @@
 															<th class="info">有效期（起始时间）</th>
 															<th class="info">有效期（结束时间）</th>
 															<th class="info">证书状态</th>
-															<th class="info w200">证书图片</th>
+															<th class="info w200">证书图片（可上传多张）</th>
 														</tr>
 													</thead>
 													<tbody id="cert_pro_list_tbody_id">
@@ -1234,7 +1234,7 @@
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">证书状态</th>
-														<th class="info w200">证书图片</th>
+														<th class="info w200">证书图片（可上传多张）</th>
 													</tr>
 												</thead>
 												<tbody id="cert_sell_list_tbody_id">
@@ -1337,7 +1337,7 @@
 										<ul class="list-unstyled overflow_h">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
 												class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i
-													class="red"></i>是否有国家或军队保密工程业绩</span>
+													class="red">*</i> 是否有国家或军队保密工程业绩</span>
 												<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 													<select name="supplierMatEng.isHavingConAchi"
 														id="isHavingConAchi" onchange="disConAchi()"
@@ -1511,7 +1511,7 @@
 															<div class="w120">发证日期</div></th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
-														<th class="info w200">证书图片</th>
+														<th class="info w200">证书图片（可上传多张）</th>
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
@@ -1623,7 +1623,7 @@
 														<th class="info">专业类别</th>
 														<th class="info">资质等级</th>
 														<th class="info">是否主项资质</th>
-														<!-- <th class="info w200">证书图片</th> -->
+														<!-- <th class="info w200">证书图片（可上传多张）</th> -->
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -1723,7 +1723,7 @@
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">证书状态</th>
 														<th class="info w200">
-															<div class="w200 fl">证书图片</div></th>
+															<div class="w200 fl">证书图片（可上传多张）</div></th>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">

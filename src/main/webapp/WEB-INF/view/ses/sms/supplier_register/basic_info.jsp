@@ -471,6 +471,7 @@
 					$("#bearchCertDiv").hide();
 				} else {
 					$("#bearchCertDiv").show();
+					init_web_upload();
 				}
 			}
 
