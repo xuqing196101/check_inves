@@ -115,10 +115,12 @@
     							dataType: "json",
     							async: false,
     							success: function(response){
+    							
+    							console.info(response)
     								if (response.isok == "1") {
     									// 没有超过45天
-    									//询问框
-    		    						layer.confirm("您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!", {
+    									//询问框   原著:您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!
+    		    						layer.confirm("您选择的是: "+response.businessRange+" 联系人: "+response.contact+" 电话:  "+response.contactTelephone+" 地址:  "+response.contactAddress, {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {

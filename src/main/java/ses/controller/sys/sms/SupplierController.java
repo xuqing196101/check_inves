@@ -53,6 +53,7 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -565,6 +566,14 @@ public class SupplierController extends BaseSupplierController {
 		
 		
 		// 非空处理
+	    List < SupplierAddress > addressList = supplier.getAddressList();
+	    for(int i = 0; i < addressList.size(); i++) {
+	        SupplierAddress address = addressList.get(i);
+	        if(address != null && address.getSupplierId() == null) {
+	            addressList.remove(i);
+	        }
+	    }
+	    supplier.setAddressList(addressList);
 		List < SupplierStockholder > stockHolders = supplier.getListSupplierStockholders();
 		for(int i = 0; i < stockHolders.size(); i++) {
 			SupplierStockholder stocker = stockHolders.get(i);
@@ -1371,6 +1380,14 @@ public class SupplierController extends BaseSupplierController {
 		if(slist != null && slist.size() <= 0) {
 			count++;
 			model.addAttribute("err_security", "请上传文件!");
+		}
+		//国家或军队保密证书
+		if (supplier.getIsHavingConCert() != null && supplier.getIsHavingConCert().equals("1")) {
+		    List < UploadFile > bearchlist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBearchCert(), Constant.SUPPLIER_SYS_KEY.toString());
+		    if(bearchlist != null && bearchlist.size() <= 0) {
+		        count++;
+		        model.addAttribute("err_bearch", "请上传文件!");
+		    }
 		}
 		//近三年财务信息
 		List < UploadFile > branchlist = new ArrayList < UploadFile > ();
@@ -2416,6 +2433,12 @@ public class SupplierController extends BaseSupplierController {
             return new ModelAndView("ses/sms/supplier_register/supplier_eng_file");
         }
         return null;
+    }
+    
+    @ResponseBody
+    @RequestMapping("/saveItemsInfo")
+    public void saveItemsInfo(Supplier supplier) {
+        supplierItemService.updateByPrimaryKeySelective(supplier.getListSupplierItems());
     }
 
 }

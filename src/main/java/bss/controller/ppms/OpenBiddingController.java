@@ -2752,78 +2752,8 @@ public class OpenBiddingController {
   @ResponseBody
   public void getNextFd(@CurrentUser User user, HttpServletResponse response, HttpServletRequest request, String projectId, String flowDefineId) throws Exception{
       try {
-          JSONObject jsonObj = new JSONObject();
-          Project project = projectService.selectById(projectId);
-          //当前点击环节
-          FlowDefine flowDefine = new FlowDefine();
-          if ("0".equals(flowDefineId)) {
-              //默认进来第一环节
-              FlowDefine define = new FlowDefine();
-              define.setIsDeleted(0);
-              define.setPurchaseTypeId(project.getPurchaseType());
-              define.setStep(1);
-              List<FlowDefine> defines = flowMangeService.find(define);
-              if (defines != null && defines.size() > 0) {
-                  flowDefine = defines.get(0);
-              }
-          } else {
-              flowDefine = flowMangeService.getFlowDefine(flowDefineId);
-          }
-          //当前登录人对当前环节的操作权限
-          FlowExecute execute = new FlowExecute();
-          execute.setFlowDefineId(flowDefine.getId());
-          execute.setIsDeleted(0);
-          execute.setProjectId(projectId);
-          execute.setStatus(0);
-          List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
-          if (executes != null && executes.size() > 0) {
-              User u = userService.getUserById(executes.get(0).getOperatorId());
-              if (u != null) {
-                  jsonObj.put("operateName", u.getRelName());
-              }
-              if (executes.get(0).getOperatorId().equals(user.getId())) {
-                  //具有操作权限
-                  jsonObj.put("isOperate", 1);
-              } else {
-                  //具有查看权限
-                  jsonObj.put("isOperate", 0);
-              }
-          }
-          
-          FlowDefine fd = new FlowDefine();
-          fd.setPurchaseTypeId(flowDefine.getPurchaseTypeId());
-          fd.setStep(flowDefine.getStep() + 1);
-          List<FlowDefine> nextFlowDefine = flowMangeService.find(fd);
-          if (nextFlowDefine != null && nextFlowDefine.size() > 0) {
-              //下一环节
-              FlowDefine fDefine = nextFlowDefine.get(0);
-              FlowExecute flowExecute = new FlowExecute();
-              flowExecute.setFlowDefineId(fDefine.getId());
-              flowExecute.setIsDeleted(0);
-              flowExecute.setProjectId(projectId);
-              flowExecute.setStatus(0);
-              List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
-              if (flowExecutes != null && flowExecutes.size() > 0) {
-                  FlowExecute flowExecute2 = flowExecutes.get(0);
-                  jsonObj.put("success", true);
-                  jsonObj.put("isEnd", false);
-                  jsonObj.put("operatorId", flowExecute2.getOperatorId());
-                  jsonObj.put("flowDefineId", fDefine.getId());
-                  jsonObj.put("flowDefineName", fDefine.getName());
-                  List<PurchaseInfo> purchaseInfo = new ArrayList<>();
-                  if(user != null && user.getOrg() != null){
-                     //获取当前用户所属机构人员
-                     purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
-                  }
-                  jsonObj.put("users", purchaseInfo);
-                  response.getWriter().print(jsonObj.toString());
-              }
-          } else {
-              //当前环节是最后一个环节
-              jsonObj.put("success", true);
-              jsonObj.put("isEnd", true);
-              response.getWriter().print(jsonObj.toString());
-          }
+          JSONObject jsonObj = projectService.getNextFlow(user, projectId, flowDefineId);
+          response.getWriter().print(jsonObj.toString());
           response.getWriter().flush();
       } catch (Exception e) {
           e.printStackTrace();
@@ -2871,6 +2801,5 @@ public class OpenBiddingController {
       } finally{
           response.getWriter().close();
       }
-    
   }
 }

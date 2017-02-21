@@ -126,13 +126,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 						supplierModify.setBeforeContent(parentAddress + sonAddress);
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
-					
-					
-					/**
-					 * 查询地址
-					 */
-					
-					
+
 					//生产经营详细地址：
 					if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(address.getDetailAddress())) {
 						supplierModify.setBeforeField("detailAddress");

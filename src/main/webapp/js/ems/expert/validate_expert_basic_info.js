@@ -1,6 +1,7 @@
 //判断采购机构
 function validateJiGou(){
 	 var jigou = document.getElementsByName("purchaseDepId");
+	 
 		    var msglen=jigou.length;  
 		    for(i=0;i<msglen;i++){  
 		      if(jigou[i].checked==true){  

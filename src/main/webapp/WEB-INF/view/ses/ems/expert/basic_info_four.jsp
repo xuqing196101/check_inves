@@ -137,12 +137,12 @@ session.setAttribute("tokenSession", tokenValue);
 			<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
 				<h2 class="padding-20 mt40">
 					<span id="dy1" class="new_step current fl" onclick='pre1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span> 
-					<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
-					<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品目录</span> </span>
-					<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span id="dy4" class="new_step current fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
-					<span id="dy5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
+					<!-- <span id="dy2" class="new_step current fl" onclick='pre2()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>  -->
+					<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
+					<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">3</i><div class="line"></div> <span class="step_desc_01">产品类别</span> </span>
+					<span id="dy3" class="new_step current fl" onclick='pre3()'><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span id="dy4" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
+					<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_02">提交审核</span> </span> 
 					<div class="clear"></div>
 		  		</h2>
 				<div class="tab-content padding-top-20">
@@ -165,7 +165,21 @@ session.setAttribute("tokenSession", tokenValue);
 							    </li>
 						    </ul>
 						</div>
-						<table class="table table-bordered table-condensed ">
+					
+						<div class="btmfix">
+							<div class="mt15 tc">
+								<button class="btn" type="button" onclick="pre3()">上一步</button>
+								<button class="btn" type="button" onclick="four('ok')">下一步</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+		<jsp:include page="/index_bottom.jsp"></jsp:include>
+	</body>
+	<!-- 168 行 原位置 -->
+	<!--	<table class="table table-bordered table-condensed ">
 							<div class="margin-top-30"></div>
 							<tr>
 								<td width="12%" class="bggrey">姓名</td>
@@ -284,18 +298,5 @@ session.setAttribute("tokenSession", tokenValue);
 								<td width="12%" class="bggrey">需要申请回避的情况 </td>
 								<td colspan="3">${expert.avoidanceSituation}</td>
 							</tr>
-						</table>
-						<div class="btmfix">
-							<div class="mt15 tc">
-								<button class="btn" type="button" onclick="pre3()">上一步</button>
-								<button class="btn" type="button" onclick="four('ok')">下一步</button>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
-		</form>
-		<jsp:include page="/index_bottom.jsp"></jsp:include>
-	</body>
-
+						</table>  -->
 </html>

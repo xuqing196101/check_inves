@@ -580,7 +580,7 @@ function importAdd(){
 	     <% if (environment != null && environment.equals("1")){ %>
 	        <a onclick="registerTip();">
 	     <% } %>
-		   专家注册
+		   评审专家注册
 		 <i></i>
 		</a>	  
 	  </div>

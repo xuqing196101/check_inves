@@ -958,6 +958,10 @@ public class ExpertController extends BaseController {
 			PurchaseDep purchaseDep = depList.get(0);
 			allInfo.put("contact", purchaseDep.getContact() == null ? "暂无" : purchaseDep.getContact());
 			allInfo.put("contactTelephone", purchaseDep.getContactTelephone() == null ? "暂无" : purchaseDep.getContactTelephone());
+			allInfo.put("contactAddress", purchaseDep.getContactAddress() == null ? "暂无" : purchaseDep.getContactAddress());
+			allInfo.put("contactAddress", purchaseDep.getContactAddress() == null ? "暂无" : purchaseDep.getContactAddress());
+			allInfo.put("businessRange", purchaseDep.getBusinessRange() == null ? "暂无" : purchaseDep.getBusinessRange());
+			
 		}
 		return JSON.toJSONString(allInfo);
 	}
@@ -1828,7 +1832,7 @@ public class ExpertController extends BaseController {
 		 *〈简述〉项目评审 只显示项目
 		 *〈详细描述〉
 		 * @author Song Biaowei
-		 * @param model 模型
+		 * @param model 模型	
 		 * @param session session
 		 * @return String
 		 */

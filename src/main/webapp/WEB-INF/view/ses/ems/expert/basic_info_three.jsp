@@ -79,9 +79,9 @@ session.setAttribute("tokenSession", tokenValue);
 			}
 			/** 专家完善注册信息页面 */
 			function supplierRegist() {
-				if(!validateJiGou()) {
+				/* if(!validateJiGou()) {
 					return false;
-				}
+				} */
 				//暂存无提示
 				submitForm2();
 			}
@@ -160,6 +160,9 @@ session.setAttribute("tokenSession", tokenValue);
 					offset: ['300px', '750px']
 				});
 			}
+			
+			
+			
 		</script>
 	</head>
 
@@ -192,12 +195,12 @@ session.setAttribute("tokenSession", tokenValue);
 			<div id="reg_box_id_5" class="container clear margin-top-30 yinc">
 				<h2 class="padding-20 mt40">
 					<span id="jg1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
-					<span id="jg2" class="new_step current fl" onclick='pre()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
-					<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
-					<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品目录</span> </span>
-					<span id="jg3" class="new_step current fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
-					<span id="jg4" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
-					<span id="jg5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
+					<!-- <span id="jg2" class="new_step current fl" onclick='pre()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span> -->
+					<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
+					<span id="ty6" class="new_step current fl" onclick='pre6()'><i class="">3</i><div class="line"></div> <span class="step_desc_01">产品类别</span> </span>
+					<span id="jg3" class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
+					<span id="jg4" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
+					<span id="jg5" class="new_step fl"><i class="">6</i> <span class="step_desc_02">提交审核</span> </span> 
 					<div class="clear"></div>
 				</h2>
 				<div class="container container_box">
@@ -208,9 +211,10 @@ session.setAttribute("tokenSession", tokenValue);
 								<th class="info w30"><input type="radio" disabled="disabled"></th>
 								<th class="info w50">序号</th>
 								<th class="info w300">采购机构</th>
-								<th class="info w150">联系人</th>
+								<th class="info w150">地点</th>
+								<!-- <th class="info w150">联系人</th>
 								<th class="info w150">联系电话</th>
-								<th class="info">联系地址</th>
+								<th class="info">联系地址</th> -->
 							</tr>
 						</thead>
 						<tbody id="purchase_orgs2">
@@ -220,9 +224,9 @@ session.setAttribute("tokenSession", tokenValue);
 									<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 									<td class="tc">${vs.index + 1}</td>
 									<td class="tc">${org1.name}</td>
-									<td class="tc">${org1.supplierContact}</td>
-									<td class="tc">${org1.supplierPhone}</td>
-									<td class="tc">${org1.address}</td>
+									<%-- <td class="tc">${org1.supplierContact}</td>
+									<td class="tc">${org1.supplierPhone}</td>--%>
+									<td class="tc">${org1.address}</td> 
 								</tr>
 							  </c:if>
 							</c:forEach>
@@ -235,9 +239,10 @@ session.setAttribute("tokenSession", tokenValue);
 								<th class="info w30"><input type="radio" disabled="disabled"></th>
 								<th class="info w50">序号</th>
 								<th class="info w300">采购机构</th>
-								<th class="info w150">联系人</th>
+								<th class="info w150">地点</th>
+								<!-- <th class="info w150">联系人</th>
 								<th class="info w150">联系电话</th>
-								<th class="info">联系地址</th>
+								<th class="info">联系地址</th> -->
 							</tr>
 						</thead>
 						<tbody id="purchase_orgs2">
@@ -247,9 +252,9 @@ session.setAttribute("tokenSession", tokenValue);
 									<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 									<td class="tc">${vs.index + 1}</td>
 									<td class="tc">${org1.name}</td>
-									<td class="tc">${org1.supplierContact}</td>
-									<td class="tc">${org1.supplierPhone}</td>
-									<td class="tc">${org1.address}</td>
+									<%-- <td class="tc">${org1.supplierContact}</td>
+									<td class="tc">${org1.supplierPhone}</td>--%>
+									<td class="tc">${org1.address}</td> 
 								</tr>
 							  </c:if>
 							</c:forEach>

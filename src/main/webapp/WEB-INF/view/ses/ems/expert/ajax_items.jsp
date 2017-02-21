@@ -45,7 +45,7 @@
       <td class="info tc">大类名称</td>
       <td class="info tc">中类名称</td>
       <td class="info tc">小类名称</td>
-      <td class="info tc">品种名称</td>
+      <!-- <td class="info tc">品种名称</td> -->
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr <c:if test="${fn:contains(errorField,item.itemsId)}">onmouseover="errorMsg('${item.itemsId}')"</c:if>>
@@ -54,7 +54,7 @@
 		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.firstNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.secondNode}</td>
 		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.thirdNode}</td>
-		    <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.fourthNode}</td>
+		    <%-- <td class="tl pl20" <c:if test="${fn:contains(errorField,item.itemsId)}">style="border: 1px solid #ef0000;"</c:if>>${item.fourthNode}</td> --%>
       </tr>
     </c:forEach>
   </table> 

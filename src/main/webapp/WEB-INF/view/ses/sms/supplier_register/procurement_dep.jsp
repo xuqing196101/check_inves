@@ -144,7 +144,7 @@
 												<tr>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
-													<td class="tc">${org1.name}</td>
+													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.supplierContact}</td>
 													<td class="tc">${org1.supplierPhone}</td>
 													<td class="tc">${org1.address}</td>
@@ -173,7 +173,7 @@
 												<tr>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
 													<td class="tc">${vs.index + 1}</td>
-													<td class="tc">${org1.name}</td>
+													<td class="tc">${org1.shortName}</td>
 													<td class="tc">${org1.supplierContact}</td>
 													<td class="tc">${org1.supplierPhone}</td>
 													<td class="tc">${org1.address}</td>
