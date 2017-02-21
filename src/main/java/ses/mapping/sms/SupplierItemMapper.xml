@@ -9,14 +9,15 @@
 		<result column="STATUS" property="status" />
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP"/>
 		<result column="CATE_LEVEL" property="level"/>
+		<result column="DIY_LEVEL" property="diyLevel"/>
 		<result column="CERT_CODE" property="certCode"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL
 	</sql>
 	
 	<sql id="Base_Column">
-		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE
+		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL
 	</sql>
 	
 	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -79,6 +80,9 @@
 			<if test="CATE_LEVEL != null">
 				CATE_LEVEL,
 			</if>
+			<if test="DIY_LEVEL != null">
+				DIY_LEVEL,
+			</if>
 			<if test="certCode != null">
 				CERT_CODE,
 			</if>
@@ -107,6 +111,9 @@
 			</if>
 			<if test="level != null">
 				#{level},
+			</if>
+			<if test="diyLevel != null">
+				#{diyLevel},
 			</if>
 			<if test="certCode != null">
 				#{certCode},
@@ -137,6 +144,9 @@
 			</if>
 			<if test="level != null">
 				CATE_LEVEL = #{level},
+			</if>
+			<if test="diyLevel != null">
+				DIY_LEVEL = #{diyLevel},
 			</if>
 			<if test="certCode != null">
 				CERT_CODE = #{certCode},

@@ -6,13 +6,16 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 <script type="text/javascript">
  
-	var ids=[]; 
+ 
 	function sum2(obj){  //数量
 		var val = $(obj).val();
 		var  id=$(obj).prev().val();
 		var defVal = obj.defaultValue;
 		if(val != defVal) {
-			ids.push(id);
+			var td=$(obj).parent().parent().children(":last");
+			$(td).children(":last").prev().prev().val(id);
+		}else{
+			$(obj).parent().parent().children(":last").children(":last").prev().prev().val("");
 		} 
         var purchaseCount = $(obj).val()-0;//数量
         var price2 = $(obj).parent().next().children(":last").prev();//价钱
@@ -25,6 +28,17 @@
     } 
     
        function sum1(obj){
+    	var val = $(obj).val();
+   		var  id=$(obj).prev().val();
+   		var defVal = obj.defaultValue;
+   		if(val != defVal) {
+   			var td=$(obj).parent().parent().children(":last");
+   			$(td).children(":last").prev().val(id);
+   		}else{
+   			$(obj).parent().parent().children(":last").children(":last").prev().val("");
+   		} 
+   		
+   		
         var purchaseCount = $(obj).val()-0; //价钱
          var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
       	 var sum = purchaseCount*price2/10000;
@@ -85,6 +99,7 @@
 	       
 	       
 	       function sel(obj){
+	    	   var defVal;
 	    	   var org=$(obj).val();
 	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
 	    		 if(price==""){
@@ -102,11 +117,21 @@
 	    		      	 		   if(v1==opt){
 	    		      	 			 var td=$(this).find("td:eq(10)");
 	    		      	 			var options= $(td).find("option");
-	    			      	 		  $(options).each(function(){
+	    			      	 		  $(options).each(function(i){
+	    			      	 			if (options[i].defaultSelected) {
+											defVal = options[i].value;
+										}
+	    			      	 			
 	    			      	  		   var opt=$(this).val();
 	    			      	  		   if(org==opt){
 	    			      	  			$(this).prop("selected",true);
-	    			      	  			   
+	    			      	  		if(defVal!=org){
+					      	  			var eid=$(this).parent().prev().val();
+					      	  		   $(this).parent().parent().parent().children(":last").children(":last").prev().val(eid);
+							       		}else{
+							       			$(this).parent().parent().parent().children(":last").children(":last").prev().val("");
+							       		}
+		    			      	  		
 	    			      	  		   }else{
 	    			      	  			$(this).prop("selected",false);
 	    			      	  			  // $(this).removeAttr("selected");
@@ -123,6 +148,7 @@
 	       }  
 	      
 	    function org(obj){
+	    	   var defVal;
 	    		 var org=$(obj).val();
 				 var price=$(obj).parent().prev().prev().prev().prev().val();
 				 if(price==""){
@@ -139,11 +165,20 @@
 				      			  var opt= $(this).find("td:eq(11)").children(":first").val() ;
 				      	 		   if(v1==opt){
 				      	 			 var td=$(this).find("td:eq(11)");
-				      	 			var options= $(td).find("option");
-					      	 		  $(options).each(function(){
+				      	 			 var options= $(td).find("option");
+					      	 		  $(options).each(function(i){
+					      	 			if (options[i].defaultSelected) {
+											defVal = options[i].value;
+										}
 					      	  		   var opt=$(this).val();
 					      	  		   if(org==opt){
 					      	  			$(this).prop("selected",true);
+							      	  		if(defVal!=org){
+							      	  			var eid=$(this).parent().prev().val();
+							      	  		   $(this).parent().parent().parent().children(":last").children(":last").val(eid);
+								       		}else{
+								       			$(this).parent().parent().parent().children(":last").children(":last").val("");
+								       		}
 					      	  			  // $(this).attr("selected", "selected");  
 					      	  		   }else{
 					      	  			$(this).prop("selected",false);
@@ -159,7 +194,8 @@
 				          
 				 }
 	       }  
-	       
+	   
+	 
 	       
 	       
 /* 	       function FixTable(TableID, FixColumnNumber, width, height) {
@@ -256,13 +292,13 @@
 	    	    		var  id=$(obj).prev().val();
 	    	    		var defVal = obj.defaultValue;
 	    	    		if(val != defVal) {
-	    	    			ids.push(id);
+	    	    			$(obj).next().val(id);
+	    	    		}else{
+	    	    			$(obj).next().val("");
 	    	    		} 
 	    	        }
 	    	        
 	    	        function sub(){
-	    	        	var ds=unique(ids);
-	    	        	$("#task_detail").val(ds);
 	    	   		 $("#table").find("#adjust").submit();
 	    	   		 
 	    	   	}
@@ -442,7 +478,7 @@
 							</td>
 							<td>
 							<input type="hidden" name="ss" value="${obj.id}"  >
-								<select name="listDetail[${vs.index }].purchasetype" class="purchasetype" <c:if test="${obj.price==null}"> onchange="sel(this)"  </c:if> id="select">
+								<select name="listDetail[${vs.index }].purchasetype" class="purchasetype" onchange="sel(this)"   id="select">
 	              				    <option value="" >请选择</option>
 		                            <c:forEach items="${types }" var="mt">
 									  <option value="${mt.id }"<c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
@@ -453,7 +489,7 @@
 							<td class="tc">
 								<%--<input type="hidden" name="listDetail[${vs.index }].organization" value="${obj.organization }">--%>
 								<input type="hidden" name="ss" value="${obj.id}"  >
-								<select class="org organization"  <c:if test="${obj.price==null}"> onchange="org(this)"  </c:if>   name="listDetail[${vs.index }].organization">
+								<select class="org organization"    onchange="org(this)"  name="listDetail[${vs.index }].organization">
 		 							<option value="">请选择</option>
 									<c:forEach items="${orgs }" var="ss">
 										<c:if test="${obj.organization==ss.orgId }">
@@ -478,6 +514,10 @@
 							<input   type="hidden" name="ss"   value="${obj.id }">
 							<input class="memo"  type="text" name="listDetail[${vs.index }].memo" onblur="cancelProject(this)"  value="${obj.memo }">
 							<input type="hidden"    name="details" value=""/>
+							<input type="hidden" class="count"   name="details" value=""/>
+							<input type="hidden" class="price"   name="details" value=""/>
+							<input type="hidden" class="purchaseType"   name="details" value=""/>
+							<input type="hidden" class="org"   name="details" value=""/>
 					<%-- 			<input type="hidden" name="listDetail[${vs.index }].planName" value="${obj.planName }">
 								<input type="hidden" name="listDetail[${vs.index }].planNo" value="${obj.planNo }">
 								<input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType }">

@@ -87,6 +87,9 @@ public class SupplierItem implements Serializable {
 	/**等级**/
 	private String level;
 	
+	/**自定义等级**/
+	private String diyLevel;
+	
 	/**证书编号**/
 	private String certCode;
 
@@ -241,4 +244,12 @@ public class SupplierItem implements Serializable {
 	public void setDeleteServeCategoryIds(String deleteServeCategoryIds) {
 		this.deleteServeCategoryIds = deleteServeCategoryIds;
 	}
+
+    public String getDiyLevel() {
+        return diyLevel;
+    }
+
+    public void setDiyLevel(String diyLevel) {
+        this.diyLevel = diyLevel;
+    }
 }

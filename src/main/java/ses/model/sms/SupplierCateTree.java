@@ -39,6 +39,20 @@ public class SupplierCateTree {
     
     /** 该品目所有等级 **/
     private List<String> levelList;
+    
+    /** 工程对应附件Id **/
+    private String fileId;
+    
+    /** 自定义等级 **/
+    private String diyLevel;
+
+    public String getFileId() {
+        return fileId;
+    }
+
+    public void setFileId(String fileId) {
+        this.fileId = fileId;
+    }
 
     public String getLevel() {
         return level;
@@ -110,6 +124,14 @@ public class SupplierCateTree {
 
     public void setLevelList(List<String> levelList) {
         this.levelList = levelList;
+    }
+
+    public String getDiyLevel() {
+        return diyLevel;
+    }
+
+    public void setDiyLevel(String diyLevel) {
+        this.diyLevel = diyLevel;
     }
     
 }

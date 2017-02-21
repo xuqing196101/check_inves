@@ -256,6 +256,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	 */
 	@RequestMapping("essential")
 	public String essentialInformation(HttpServletRequest request, Supplier supplier, String supplierId, Integer sign) {
+		//插入对比后的数据
+		SupplierModify supplierModify= new SupplierModify();
+		supplierModify.setSupplierId(supplierId);
+		supplierModifyService.insertModifyRecord(supplierModify);
 		
 		//勾选的供应商类型
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -332,31 +336,25 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		request.setAttribute("supplierAddress", supplierAddress);
-
-		//查出全部退回修改的信息
-		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
-			SupplierModify supplierModify = new SupplierModify();
-			supplierModify.setSupplierId(supplierId);
-			supplierModify.setmodifyType("basic_page");
-			supplierModify.setListType(0);
-			List < SupplierModify > editList = supplierModifyService.selectBySupplierId(supplierModify);
-			StringBuffer field = new StringBuffer();
-			for(int i = 0; i < editList.size(); i++) {
-				String beforeField = editList.get(i).getBeforeField();
-				field.append(beforeField + ",");
-			}
-			request.setAttribute("field", field);
-		}
 		
 		//售后服务机构一览表
 		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplierService.get(supplierId).getListSupplierAfterSaleDep();
 		request.setAttribute("listSupplierAfterSaleDep",listSupplierAfterSaleDep);
 		
-		//插入对比后的数据
-		SupplierModify supplierModify= new SupplierModify();
-		supplierModify.setSupplierId(supplierId);
-		supplierModifyService.insertModifyRecord(supplierModify);
-		
+		//查出修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			
+			
+			//售后服务机构一览表修改前的信息
+			supplierModify.setListType(11);
+			List < SupplierModify > afterSaleDepList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldAfterSaleDep = new StringBuffer();
+			for(int i = 0; i < afterSaleDepList.size(); i++) {
+				String beforeField = afterSaleDepList.get(i).getRelationId() +"_"+ afterSaleDepList.get(i).getBeforeField();
+				fieldAfterSaleDep.append(beforeField + ",");
+			}
+			request.setAttribute("fieldAfterSaleDep", fieldAfterSaleDep);
+		}
 		return "ses/sms/supplier_audit/essential";
 	}
 

@@ -32,7 +32,8 @@
 					$("#currUserName").html(data.operateName);
 					$("#isOperate").val(data.isOperate);
 					if (!data.isEnd) {
-						$("#updateLinkId").show();
+						$("#nextHaunjie").show();
+						$("#updateOperateId").show();
 						$("#huanjie").html(data.flowDefineName);
 						$("#huanjieId").val(data.flowDefineId);
 						$("#principal").empty();
@@ -45,7 +46,8 @@
 						$("#principal").select2("val", data.operatorId);
 					}
 					if (data.isEnd) {
-						$("#updateLinkId").hide();
+						$("#nextHaunjie").hide();
+						$("#updateOperateId").hide();
 					}
 				} 
 			}
@@ -67,7 +69,8 @@
 					$("#currUserName").html(data.operateName);
 					$("#isOperate").val(data.isOperate);
 					if (!data.isEnd) {
-						$("#updateLinkId").show();
+						$("#nextHaunjie").show();
+						$("#updateOperateId").show();
 						$("#huanjie").html(data.flowDefineName);
 						$("#huanjieId").val(data.flowDefineId);
 						$("#principal").empty();
@@ -80,13 +83,11 @@
 						$("#principal").select2("val", data.operatorId);
 					}
 					if (data.isEnd) {
-						$("#updateLinkId").hide();
+						$("#nextHaunjie").hide();
+						$("#updateOperateId").hide();
 					}
 				} 
-			},
-			error: function(data){
-                layer.msg("请稍后再试",{offset: '100px'});
-            }
+			}
 		});
 		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
       	$("#as").attr("href",urls);
@@ -249,7 +250,7 @@
                       	  <input type="hidden" id="isOperate">
                       	  <form id="updateLinkId" action="" method="post" class="w100p fl mb10 border1 padding-10 bg11">
 					      	 <input type="hidden" name="projectId" value="${project.id}">
-					      	 <div class="fr">
+					      	 <div class="fr" id="updateOperateId">
 					      		<span class="fl h30 lh30">经办人：</span>
 					      		<div class="w200 fl">
 					      			<select id="principal" name="principal" onchange="change(this.options[this.selectedIndex].value)"></select>
@@ -258,7 +259,7 @@
 					      			<input type="button" class="btn btn-windows git" onclick="updateOperator();" value="变更"></input>
 					      		</div>
 					      	</div>
-					      	<div class="fr mr10">
+					      	<div class="fr mr10" id="nextHaunjie">
 					      		<span class="fl h30 lh30">下一环节：</span>
 					      		<div  class="fl">
 					      		    <input type="hidden" id="huanjieId" name="huanjieId"><span id="huanjie" class="h30 lh30"></span>

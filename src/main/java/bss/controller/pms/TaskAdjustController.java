@@ -457,11 +457,14 @@ public class TaskAdjustController extends BaseController{
 		
 		Project project=new Project();
 		for(String did:ids){
-			maps.put("requiredId", did);
-			List<ProjectDetail> selectById = projectDetailService.selectById(maps);
-			project.setId(selectById.get(0).getProject().getId());
-			project.setStatus(DictionaryDataUtil.getId("YQX"));
-			projectService.update(project);
+			if(did.trim().length()!=0){
+				maps.put("requiredId", did);
+				List<ProjectDetail> selectById = projectDetailService.selectById(maps);
+				project.setId(selectById.get(0).getProject().getId());
+				project.setStatus(DictionaryDataUtil.getId("YQX"));
+				projectService.update(project);
+			}
+		
 			
 		}
 		return "redirect:list.html";

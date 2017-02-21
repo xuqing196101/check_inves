@@ -329,6 +329,17 @@ public class SupplierItemServiceImpl implements SupplierItemService {
     @Override
     public List<SupplierItem> findByMap(Map<String, Object> map) {
         return supplierItemMapper.findByMap(map);
+    }
+
+    /**
+     * @see ses.service.sms.SupplierItemService#updateByPrimaryKeySelective(java.util.List)
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void updateByPrimaryKeySelective(List<SupplierItem> itemList) {
+        for (SupplierItem item : itemList) {
+            supplierItemMapper.updateByPrimaryKeySelective(item);
+        }
     }		 
 	
 }

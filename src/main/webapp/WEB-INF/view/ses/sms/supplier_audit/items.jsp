@@ -426,19 +426,19 @@
             	<i></i>
 	          </li>
 						<li onclick="jump('items')" class="active">
-							<a aria-expanded="false">品目信息</a>
+							<a aria-expanded="false">产品类别</a>
 							<i></i>
 						</li>
 						<li onclick="jump('aptitude')">
-							<a aria-expanded="false">资质文件</a>
+							<a aria-expanded="false">资质文件维护</a>
 							<i></i>
 						</li>
 						<li onclick="jump('contract')">
-							<a aria-expanded="false">品目合同</a>
+							<a aria-expanded="false">销售合同</a>
 							<i></i>
 						</li>
 						<li onclick="jump('applicationForm')">
-							<a aria-expanded="false">申请表</a>
+							<a aria-expanded="false">承诺书和申请表</a>
 							<i></i>
 						</li>
 						<li onclick="jump('reasonsList')">

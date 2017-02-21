@@ -678,6 +678,9 @@ public class Supplier implements Serializable {
 
     /**供应商分级要素得分(服务)**/
     private BigDecimal levelScoreService;
+    
+    /**供应商分级要素得分(服务)**/
+    private String isHavingConCert;
 
     public List<ProjectDetail> getPdList() {
         return pdList;
@@ -1719,6 +1722,14 @@ public class Supplier implements Serializable {
 
     public void setPurchaseExperience(String purchaseExperience) {
         this.purchaseExperience = purchaseExperience;
+    }
+
+    public String getIsHavingConCert() {
+        return isHavingConCert;
+    }
+
+    public void setIsHavingConCert(String isHavingConCert) {
+        this.isHavingConCert = isHavingConCert;
     }
 	
 	
