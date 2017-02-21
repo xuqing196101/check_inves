@@ -284,13 +284,6 @@
 		}
 		// 判断有没有勾选工程
 		if (isEngCheck == true) {
-			$("#reg_person_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isEngCheck) {
-							flag = false;
-							layer.msg("注册人员信息不能为空! ");
-						}
-					});
 			$("#cert_eng_list_tbody_id").find("input[type='text']").each(
 					function(index, element) {
 						if (element.value == "" || !isEngCheck) {

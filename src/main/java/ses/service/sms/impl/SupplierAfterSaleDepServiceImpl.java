@@ -45,8 +45,10 @@ public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepServ
      */
     @Override
     public void deleteAfterSaleDep(String afterSaleDepIds) {
-        for (String id : afterSaleDepIds.split(",")) {
-            supplierAfterSaleDepMapper.deleteByPrimaryKey(id);
+        if (afterSaleDepIds != null) {
+            for (String id : afterSaleDepIds.split(",")) {
+                supplierAfterSaleDepMapper.deleteByPrimaryKey(id);
+            }
         }
     }
 
