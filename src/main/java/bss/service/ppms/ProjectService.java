@@ -4,7 +4,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+
 import org.springframework.http.ResponseEntity;
+
+import ses.model.bms.User;
 
 import bss.model.ppms.Project;
 
@@ -97,4 +101,15 @@ public interface ProjectService {
     List<Project> selectProjectsByConition(HashMap<String,Object> map);
     
     int updatePurchaseDep(Project project);
+    
+    /**
+     *〈简述〉获取下一流程环节
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param user 
+     * @param projectId
+     * @param flowDefineId
+     * @return
+     */
+    JSONObject getNextFlow(User user, String projectId, String flowDefineId);
 }
