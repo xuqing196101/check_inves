@@ -258,7 +258,7 @@
 			}
 
 			function down() {
-				window.location.href = "${pageContext.request.contextPath}/purchaser/download.html?filename=模板.xlsx";
+				window.location.href = "${pageContext.request.contextPath}/purchaser/download.do";
 			}
 
 			function delets() {
