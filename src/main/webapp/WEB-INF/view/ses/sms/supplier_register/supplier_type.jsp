@@ -288,14 +288,14 @@
 					function(index, element) {
 						if (element.value == "" || !isEngCheck) {
 							flag = false;
-							layer.msg("工程证书信息不能为空! ");
+							layer.msg("工程资质（认证）证书信息不能为空! ");
 						}
 					});
 			$("#aptitute_list_tbody_id").find("input[type='text']").each(
 					function(index, element) {
 						if (element.value == "" || !isEngCheck) {
 							flag = false;
-							layer.msg("工程资质证书信息不能为空! ");
+							layer.msg("工程资质证书详细信息不能为空! ");
 						}
 					});
 		}
@@ -874,6 +874,7 @@
 	function disConAchi() {
 		if ($("#isHavingConAchi").val() == '1') {
 			$("#conAchiDiv").show();
+			init_web_upload();
 			$("#conAchi").attr("required", true);
 		} else {
 			$("#conAchiDiv").hide();
@@ -1378,7 +1379,9 @@
 														<u:show showId="conAch_show"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}" />
-													</div></li>
+													</div>
+													<div class="cue">${err_conAch}</div>
+													</li>
 												<li class="col-md-12 col-xs-12 col-sm-12 mb25"><span
 													class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
 														<i class="red">* </i>国家或军队保密工程业绩：</span>

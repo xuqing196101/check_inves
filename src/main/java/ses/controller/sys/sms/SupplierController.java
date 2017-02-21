@@ -1665,6 +1665,13 @@ public class SupplierController extends BaseSupplierController {
 		//工程信息校验
 	public boolean validateEng(HttpServletRequest request, SupplierMatEng supplierMatPro, Model model) {
 			boolean bool = true;
+			if(supplierMatPro.getIsHavingConAchi() != null && supplierMatPro.getIsHavingConAchi().equals("1")) {
+			    List < UploadFile > tlist = uploadService.getFilesOther(supplierMatPro.getSupplierId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch(), Constant.SUPPLIER_SYS_KEY.toString());
+	            if(tlist != null && tlist.size() <= 0) {
+	                bool = false;
+	                model.addAttribute("err_conAch", "请上传文件!");
+	            }
+            }
 			/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
 				model.addAttribute("eng_org", "不能为空或者字符串过长");
 				bool = false;
