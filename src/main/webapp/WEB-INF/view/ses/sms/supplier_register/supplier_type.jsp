@@ -1402,18 +1402,21 @@
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
+										<div class="ml20">
+											省、直辖市：
+										    <select multiple="multiple" size="5">
+										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
+										    	  	<option value="${area.id}">${area.name}</option>
+										    	</c:forEach>
+										    </select>
+										</div>
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope"
 												id="businessScope"
 												value="${currSupplier.supplierMatEng.businessScope}">
 											<c:forEach items="${rootArea}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
-													class="col-md-12 col-sm-12 col-xs-12 padding-left-5"
-													<c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>><input
-														type="checkbox" name="area_check" value="${area.id}"
-														onchange="disAreaFile(this)"
-														<c:if test="${fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">checked="checked"</c:if>>
-														${area.name}：</span>
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>
+													<span>${area.name}：</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload

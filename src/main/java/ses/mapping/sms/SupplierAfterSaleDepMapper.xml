@@ -77,9 +77,6 @@
 				#{supplierId},
 			</if>
 		</trim>
-			<selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
-			SELECT sys_guid() FROM dual
-		</selectKey>
   	</insert>
 	
 	<!-- 根据主键修改 -->

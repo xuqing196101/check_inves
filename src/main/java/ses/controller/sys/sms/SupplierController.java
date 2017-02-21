@@ -592,13 +592,14 @@ public class SupplierController extends BaseSupplierController {
 		}
 		supplier.setListSupplierStockholders(stockHolders);
 		List < SupplierAfterSaleDep > afterSaleDep = supplier.getListSupplierAfterSaleDep();
+		List < SupplierAfterSaleDep > afterSaleList = new ArrayList<SupplierAfterSaleDep>();
 		for(int i = 0; i < afterSaleDep.size(); i++) {
 		    SupplierAfterSaleDep afterSale = afterSaleDep.get(i);
-		    if(afterSale != null && afterSale.getSupplierId() == null) {
-		        afterSaleDep.remove(i);
+		    if(afterSale.getId() != null) {
+		        afterSaleList.add(afterSale);
 		    }
 		}
-		supplier.setListSupplierAfterSaleDep(afterSaleDep);
+		supplier.setListSupplierAfterSaleDep(afterSaleList);
 		boolean info = validateBasicInfo(request, model, supplier);
 		List < SupplierTypeRelate > relate = supplierTypeRelateService.queryBySupplier(supplier.getId());
 		model.addAttribute("relate", relate);
@@ -714,26 +715,33 @@ public class SupplierController extends BaseSupplierController {
 			if(supplier2.getListSupplierStockholders() != null && supplier2.getListSupplierStockholders().size() > 0) {
 				supplier.setListSupplierStockholders(supplier2.getListSupplierStockholders());
 			}
-			if(supplier2.getListSupplierAfterSaleDep() != null && supplier2.getListSupplierAfterSaleDep().size() > 0) {
-			    supplier.setListSupplierAfterSaleDep(supplier2.getListSupplierAfterSaleDep());
+			List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier2.getListSupplierAfterSaleDep();
+			if(listSupplierAfterSaleDep != null && listSupplierAfterSaleDep.size() > 0) {
+			    for (int i = 1; i < listSupplierAfterSaleDep.size(); i++) {
+			        SupplierAfterSaleDep afterSale = listSupplierAfterSaleDep.get(i);
+                    if (afterSale.getId() == null) {
+                        listSupplierAfterSaleDep.remove(i);
+                    }
+                }
+			    supplier2.setListSupplierAfterSaleDep(supplier2.getListSupplierAfterSaleDep());
 			}
-			if(supplier.getAddressList() != null && supplier.getAddressList().size() > 0) {
-				for(SupplierAddress b: supplier.getAddressList()) {
+			if(supplier2.getAddressList() != null && supplier2.getAddressList().size() > 0) {
+				for(SupplierAddress b: supplier2.getAddressList()) {
 					if(StringUtils.isNotBlank(b.getProvinceId())) {
 						List < Area > city = areaService.findAreaByParentId(b.getProvinceId());
 						b.setAreaList(city);
 					}
 				}
 			}
-			if(supplier.getConcatProvince() != null) {
-				List < Area > concity = areaService.findAreaByParentId(supplier.getConcatProvince());
-				supplier.setConcatCityList(concity);
+			if(supplier2.getConcatProvince() != null) {
+				List < Area > concity = areaService.findAreaByParentId(supplier2.getConcatProvince());
+				supplier2.setConcatCityList(concity);
 			}
-			if(supplier.getArmyBuinessProvince() != null) {
-				List < Area > armcity = areaService.findAreaByParentId(supplier.getArmyBuinessProvince());
-				supplier.setArmyCity(armcity);
+			if(supplier2.getArmyBuinessProvince() != null) {
+				List < Area > armcity = areaService.findAreaByParentId(supplier2.getArmyBuinessProvince());
+				supplier2.setArmyCity(armcity);
 			}
-			initCompanyType(model, supplier);
+			initCompanyType(model, supplier2);
 			return "ses/sms/supplier_register/basic_info";
 		}
 	}

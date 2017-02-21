@@ -37,7 +37,11 @@ public class SupplierAfterSaleDepServiceImpl implements SupplierAfterSaleDepServ
      */
     @Override
     public void saveOrUpdateAfterSaleDep(SupplierAfterSaleDep supplierAfterSaleDep) {
-        supplierAfterSaleDepMapper.insertSelective(supplierAfterSaleDep);
+        if (supplierAfterSaleDep.getId() == null) {
+            supplierAfterSaleDepMapper.insertSelective(supplierAfterSaleDep);
+        } else {
+            supplierAfterSaleDepMapper.updateByPrimaryKeySelective(supplierAfterSaleDep);
+        }
     }
 
     /**
