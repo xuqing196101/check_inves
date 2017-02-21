@@ -805,7 +805,7 @@ public class ExpExtractRecordController extends BaseController {
         todos.setIsDeleted((short)0);
         todos.setIsFinish((short)0);
         //待办名称
-        todos.setName(expExtRelate.getExpert().getRelName()+"专家复审");
+        todos.setName(expExtRelate.getExpert().getRelName()+"专家复查");
         //todos.setReceiverId();
         //接受人id
         todos.setOrgId(expExtRelate.getExpert().getPurchaseDepId());

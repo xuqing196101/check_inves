@@ -85,7 +85,7 @@
 
 			//上一步
 			function lastStep() {
-				var action = "${pageContext.request.contextPath}/expertAudit/experience.html";
+				var action = "${pageContext.request.contextPath}/expertAudit/basicInfo.html";
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
@@ -143,10 +143,10 @@
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">基本信息</a>
 							<i></i>
 						</li>
-						<li onclick="jump('experience')">
+						<!-- <li onclick="jump('experience')">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">经历经验</a>
 							<i></i>
-						</li>
+						</li> -->
 						<li class="active">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a>
 							<i></i>
@@ -188,6 +188,7 @@
 		<input value="${expert.id}" id="expertId" type="hidden">
 		<form id="form_id" action="" method="post">
    	  <input name="expertId" value="${expert.id}" type="hidden">
+   	  <input name="sign" value="${sign}" type="hidden">
     </form>
 	</body>
 </html>

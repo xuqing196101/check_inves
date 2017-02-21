@@ -45,7 +45,7 @@
 				}
 				var state = $("#" + id + "").parent("tr").find("td").eq(7).text().trim();
 				/* var isExtract = $("#" + id + "_isExtract").text(); */
-				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复审踢除") {
+				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复查通过" || state == "复查未通过" || state == "复审通过" || state == "复审未通过") {
 					layer.msg("请选择待审核项 !", {
 						offset: '100px',
 					});
@@ -74,9 +74,8 @@
 				}
 
 				var id = $(":radio:checked").val();
-				var state = $("#" + id + "").parent("tr").find("td").eq(8).text().trim();
-
-				if(state == "待初审" || state == "待复审" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过") {
+				var state = $("#" + id + "").parent("tr").find("td").eq(7).text().trim();
+				if(state == "待初审" || state == "待复审" || state == "待复查" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
 					layer.msg("请选择未通过的专家 !", {
 						offset: '100px',
 					});
@@ -128,6 +127,7 @@
 			<div class="search_detail">
 				<form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
 					<input name="expertId" type="hidden" />
+					<input name="sign" type="hidden" value="${sign }"/>
 				</form>
 				<form action="${pageContext.request.contextPath}/expertAudit/list.html" method="post" id="formSearch" class="mb0">
 					<input type="hidden" name="pageNum" id="pageNum">
@@ -194,26 +194,35 @@
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td> --%>
 							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td>
-							<c:if test="${(expert.status eq '0')}">
+							<c:if test="${(sign == 1 and expert.status eq '0')}">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '1' }">
+							<c:if test="${sign == 1 and expert.status eq '1' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审通过</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '2' }">
+							<c:if test="${sign == 1 and expert.status eq '2' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">初审未通过</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '3' }">
+							<c:if test="${sign == 1 and expert.status eq '3' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '4' }">
+							<c:if test="${sign == 2 and expert.status eq '4' }">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '5' }">
+							<c:if test="${sign == 2 and expert.status eq '5' }">
+								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查通过</span></td>
+							</c:if>
+							<c:if test="${sign == 2 and expert.status eq '6' }">
+								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未通过</span></td>
+							</c:if>
+							<c:if test="${sign == 3 and expert.status eq '5' }">
+								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
+							</c:if>
+							<c:if test="${sign == 3 and expert.status eq '7' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审通过</span></td>
 							</c:if>
-							<c:if test="${expert.status eq '6' }">
-								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审踢除</span></td>
+							<c:if test="${sign == 3 and expert.status eq '8' }">
+								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审未通过</span></td>
 							</c:if>
 						</tr>
 					</c:forEach>
