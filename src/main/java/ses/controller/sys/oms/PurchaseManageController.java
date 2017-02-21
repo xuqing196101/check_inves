@@ -618,14 +618,14 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }*/
-	    if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
+	    /*if(!ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
 	        model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
 	        model.addAttribute("lists", purchaseOrgList);
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
-	    }
+	    }*/
 	    if(purchaseDep.getLegal() == null && "".equals(purchaseDep.getLegal())){
             model.addAttribute("ERR_legal", "不能为空");
             model.addAttribute("purchaseDep", purchaseDep);
@@ -633,7 +633,7 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/add";
         }
-	    if(ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+	    if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
 	        model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -641,7 +641,7 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }
-	    if(!ValidateUtils.isNull(purchaseDep.getBankAccount()) && !ValidateUtils.BANK_ACCOUNT(purchaseDep.getBankAccount().toString())){
+	    if(!ValidateUtils.isNull(purchaseDep.getBankAccount())){
 	        model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -693,7 +693,7 @@ public class PurchaseManageController {
             return "ses/oms/purchase_dep/edit";
         }
        
-        if(ValidateUtils.isNotNull(purchaseDep.getPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getPostCode())){
+        if(!ValidateUtils.isNotNull(purchaseDep.getPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getPostCode())){
             model.addAttribute("ERR_postCode", "请输入正确的邮编");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
@@ -708,21 +708,21 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }*/
-        if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
-            model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
+        /*if(!ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
+            model.addAttribute("ERR_contactTelephone", "不能为空");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
-        }
-        if(ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+        }*/
+        if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
             model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(!ValidateUtils.isNull(purchaseDep.getBankAccount()) && !ValidateUtils.BANK_ACCOUNT(purchaseDep.getBankAccount().toString())){
+        if(!ValidateUtils.isNull(purchaseDep.getBankAccount())){
             model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
