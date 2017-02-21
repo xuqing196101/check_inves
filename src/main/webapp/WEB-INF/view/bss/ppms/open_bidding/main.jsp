@@ -29,7 +29,14 @@
 			type: "POST", //请求方式           
 			success: function(data) {
 				if (data.success) {
-					$("#currUserName").html(data.operateName);
+					//当前环节经办人
+					$("#currHuanjieId").val(data.currFlowDefineId);
+					$("#currPrincipal").empty();
+					$.each(data.users, function(i, user) {
+						$("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+					});
+					$("#currPrincipal").select2();
+					$("#currPrincipal").select2("val", data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
 					if (!data.isEnd) {
 						$("#nextHaunjie").show();
@@ -52,7 +59,6 @@
 				} 
 			}
 		});
-		$("#onmouse").addClass("btmfixs");
 	}); 
 	
 	function back(){
@@ -67,7 +73,14 @@
 			type: "POST", //请求方式           
 			success: function(data) {
 				if (data.success) {
-					$("#currUserName").html(data.operateName);
+					//当前环节经办人
+					$("#currHuanjieId").val(data.currFlowDefineId);
+					$("#currPrincipal").empty();
+					$.each(data.users, function(i, user) {
+						$("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+					});
+					$("#currPrincipal").select2();
+					$("#currPrincipal").select2("val", data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
 					if (!data.isEnd) {
 						$("#nextHaunjie").show();
@@ -76,9 +89,7 @@
 						$("#huanjieId").val(data.flowDefineId);
 						$("#principal").empty();
 						$.each(data.users, function(i, user) {
-							if(user.relName != null && user.relName != '') {
-								$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-							}
+							$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
 						});
 						$("#principal").select2();
 						$("#principal").select2("val", data.operatorId);
@@ -97,7 +108,7 @@
       	// $("#open_bidding_main").load(urls);
 	}
 	
-	//变更经办人
+	//提交下一环节经办人
 	function updateOperator(){
 		$.ajax({
                 type: "POST",
@@ -106,7 +117,27 @@
                 data:$('#updateLinkId').serialize(),
                 success: function(data) {
                     if(data.success){
-                    	layer.msg("变更成功",{offset: '100px'});
+                    	layer.msg("提交下一环节经办人成功",{offset: '100px'});
+                    }
+                },
+                error: function(data){
+                    layer.msg("请稍后再试",{offset: '100px'});
+                }
+            });
+	}
+	
+	//变更当前环节经办人
+	function updateCurrOperator(){
+		var currFlowDefineId = $("#currHuanjieId").val();
+		var currUpdateUserId = $("#currPrincipal").val();
+		$.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
+				dataType: "json", //返回格式为json
+                data:{"currFlowDefineId":currFlowDefineId ,"currUpdateUserId":currUpdateUserId},
+                success: function(data) {
+                    if(data.success){
+                    	layer.msg("变更当前环节经办人成功",{offset: '100px'});
                     }
                 },
                 error: function(data){
@@ -168,16 +199,6 @@
           });
 	} */
 	
-	function bigImg(x){
-     $(x).removeClass("btmfixs");
-     $(x).addClass("btmfix");
-     
-   }
-   
-   function normalImg(x){
-     $(x).removeClass("btmfix");
-     $(x).addClass("btmfixs");
-   }
 	
 	 function abandoned(id){
 	   layer.open({
@@ -264,10 +285,10 @@
 					      	 <div class="fr" id="updateOperateId">
 					      		<span class="fl h30 lh30">经办人：</span>
 					      		<div class="w200 fl">
-					      			<select id="principal" name="principal" onchange="change(this.options[this.selectedIndex].value)"></select>
+					      			<select id="principal" name="principal"></select>
 					      		</div>
 					      		<div class="fl ml5">
-					      			<input type="button" class="btn btn-windows git" onclick="updateOperator();" value="变更"></input>
+					      			<input type="button" class="btn btn-windows git" onclick="updateOperator();" value="提交"></input>
 					      		</div>
 					      	</div>
 					      	<div class="fr mr10" id="nextHaunjie">
@@ -277,15 +298,16 @@
 					      		</div>
 					        </div>
 					        <div class="fl mr10">
-					      		<span class="fl h30 lh30">当前环节经办人：</span>
-					      		<div  class="fl">
-					      		    <span id="currUserName" class="h30 lh30"></span>
+					      		<span class="fl h30 lh30">变更经办人：</span>
+					      		<div  class="w150 fl">
+					      			<input type="hidden" id="currHuanjieId">
+					      		    <select id="currPrincipal" name="currPrincipal" onchange="updateCurrOperator()"></select>
 					      		</div>
 					        </div>
                       	  </form>
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
-					  <div id="onmouse" onmouseover="bigImg(this)" onmouseout="normalImg(this)">
+					  <div class="btmfix" >
 					    <div class="mt5 mb5 tc">
 					       <%-- <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button> --%>
 					       <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>

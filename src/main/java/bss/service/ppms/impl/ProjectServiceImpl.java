@@ -219,6 +219,7 @@ public class ProjectServiceImpl implements ProjectService {
       } else {
           flowDefine = flowDefineMapper.get(flowDefineId);
       }
+      jsonObj.put("currFlowDefineId", flowDefine.getId());
       //当前登录人对当前环节的操作权限
       FlowExecute execute = new FlowExecute();
       execute.setFlowDefineId(flowDefine.getId());
@@ -230,7 +231,7 @@ public class ProjectServiceImpl implements ProjectService {
           List<User> users = userMapper.selectByPrimaryKey(executes.get(0).getOperatorId());
           if (users != null && users.size() > 0) {
               jsonObj.put("operateName", users.get(0).getRelName());
-            
+              jsonObj.put("currOperatorId", users.get(0).getId());
           }
           if (executes.get(0).getOperatorId().equals(user.getId())) {
               //具有操作权限
@@ -272,6 +273,30 @@ public class ProjectServiceImpl implements ProjectService {
           //当前环节是最后一个环节
           jsonObj.put("success", true);
           jsonObj.put("isEnd", true);
+      }
+      return jsonObj;
+  }
+
+  @Override
+  public JSONObject updateCurrOperator(String projectId, String currFlowDefineId, String currUpdateUserId) {
+      JSONObject jsonObj = new JSONObject();
+      FlowExecute flowExecute = new FlowExecute();
+      flowExecute.setFlowDefineId(currFlowDefineId);
+      flowExecute.setProjectId(projectId);
+      flowExecute.setIsDeleted(0);
+      flowExecute.setStatus(0);
+      List<FlowExecute> flowExecutes = flowExecuteMapper.findList(flowExecute);
+      if (flowExecutes != null && flowExecutes.size() > 0) {
+          FlowExecute flowExecute2 = flowExecutes.get(0);
+          flowExecute2.setOperatorId(currUpdateUserId);
+          List<User> users = userMapper.selectByPrimaryKey(currUpdateUserId);
+          if (users != null && users.size() > 0) {
+              flowExecute2.setOperatorName(users.get(0).getRelName()); 
+          }
+          flowExecuteMapper.update(flowExecute2);
+          jsonObj.put("success", true);
+      } else {
+          jsonObj.put("success", false);
       }
       return jsonObj;
   }
