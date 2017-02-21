@@ -454,6 +454,15 @@
 
 				}
 			}
+			
+			// 控制保密证书的显示与隐藏
+			function dis_bearch(obj){
+				if ($(obj).val() == '0') {
+					$(obj).next().addClass("dis_none");
+				} else {
+					$(obj).next().removeClass("dis_none");
+				}
+			}
 
 			function checknums(obj) {
 				var vals = $(obj).val();
@@ -1014,12 +1023,26 @@
 									<div class="cue"> ${err_security } </div>
 								</li>
 
-								<li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
+								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isIllegal')"</c:if>><i class="red">*</i> 近三年内有无重大违法记录</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<input type="radio" name="isIllegal" value="1" <c:if test="${'1' eq currSupplier.isIllegal}">checked="checked"</c:if>/> 有违法
 										<input type="radio" name="isIllegal" value="0" <c:if test="${'1' ne currSupplier.isIllegal}">checked="checked"</c:if>/> 无违法
 									</div>
+								</li>
+								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConCert')"</c:if>><i class="red">*</i> 有无国家或军队保密资格证书</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0">
+										<select name="isHavingConCert" onchange="dis_bearch(this)">
+											<option value="0">无</option>
+											<option value="1">有</option>
+										</select>
+										<div class="<c:if test="${currSupplier.isHavingConCert ne '1'}">dis_none</c:if>">
+											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
+											<u:show showId="bearchcert_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+										</div>
+									</div>
+									<div class="cue"> ${err_bearch } </div>
 								</li>
 							</ul>
 						</fieldset>
@@ -1615,7 +1638,7 @@
 														<th class="w50 info">年份</th>
 														<th class="info">会计事务所名称</th>
 														<th class="info">事务所联系电话</th>
-														<th class="info">审计人姓名</th>
+														<th class="info">审计人姓名（2人）</th>
 														<!-- <th class="info">指标</th> -->
 														<th class="info">资产总额</th>
 														<th class="info">负债总额</th>
