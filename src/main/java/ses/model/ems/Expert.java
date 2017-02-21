@@ -111,6 +111,27 @@ public class Expert extends ExpertHistory implements Serializable {
     /**参加工作时间*/
     @DateTimeFormat(pattern="yyyy-MM")
     private Date timeToWork;
+    /**执业资格*/
+    private String professional;
+    public String getProfessional() {
+		return professional;
+	}
+
+	public void setProfessional(String professional) {
+		this.professional = professional;
+	}
+
+	public Date getTimeProfessional() {
+		return timeProfessional;
+	}
+
+	public void setTimeProfessional(Date timeProfessional) {
+		this.timeProfessional = timeProfessional;
+	}
+
+	/**执业时间*/
+    @DateTimeFormat(pattern="yyyy-MM")
+    private Date timeProfessional;
     /**从事专业起始时间*/
     @DateTimeFormat(pattern="yyyy-MM")
     private Date timeStartWork;
