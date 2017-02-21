@@ -450,6 +450,7 @@ public class SupplierController extends BaseSupplierController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		//初始化公司性质
 		model.addAttribute("company", DictionaryDataUtil.find(17));
+		model.addAttribute("nature", DictionaryDataUtil.find(32));
 		//初始化所在国家
 		model.addAttribute("foregin", DictionaryDataUtil.find(24));
 	}
@@ -641,6 +642,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("attid", attid);
 			List < DictionaryData > company = DictionaryDataUtil.find(17);
 			model.addAttribute("company", company);
+	        model.addAttribute("nature", DictionaryDataUtil.find(32));
 			List < Area > privnce = areaService.findRootArea();
 			model.addAttribute("privnce", privnce);
 
@@ -1389,6 +1391,14 @@ public class SupplierController extends BaseSupplierController {
 		        model.addAttribute("err_bearch", "请上传文件!");
 		    }
 		}
+		if (supplier.getIsHavingConCert() == null || supplier.getIsHavingConCert().equals("")) {
+		    count++;
+            model.addAttribute("err_isHavingConCert", "请选择有或者无！");
+		}
+		if (supplier.getIsIllegal() == null || supplier.getIsIllegal().equals("")) {
+            count++;
+            model.addAttribute("err_isIllegal", "请选择有或者无！");
+        }
 		//近三年财务信息
 		List < UploadFile > branchlist = new ArrayList < UploadFile > ();
 		List < SupplierFinance > listSupplierFinances = supplier.getListSupplierFinances();
@@ -1867,6 +1877,7 @@ public class SupplierController extends BaseSupplierController {
 		}
 
 		model.addAttribute("company", DictionaryDataUtil.find(17));
+        model.addAttribute("nature", DictionaryDataUtil.find(32));
 		List<SupplierStockholder> stockList = supplier.getListSupplierStockholders();
         if (stockList == null || stockList.size() == 0) {
             SupplierStockholder stock = new SupplierStockholder();

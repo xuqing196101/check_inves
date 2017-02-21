@@ -43,6 +43,14 @@ public class Supplier implements Serializable {
 	private String loginName;
 	
 	/**
+	 * <pre>
+	 * 企业性质
+	 * 表字段 : T_SES_SMS_SUPPLIER.BUSINESS_NATURE
+	 * </pre>
+	 */
+	private String businessNature;
+	
+	/**
      * <pre>
      * 登录名
      * 表字段 : T_SES_SMS_SUPPLIER.DESCRIPTION
@@ -1730,6 +1738,14 @@ public class Supplier implements Serializable {
 
     public void setIsHavingConCert(String isHavingConCert) {
         this.isHavingConCert = isHavingConCert;
+    }
+
+    public String getBusinessNature() {
+        return businessNature;
+    }
+
+    public void setBusinessNature(String businessNature) {
+        this.businessNature = businessNature;
     }
 	
 	

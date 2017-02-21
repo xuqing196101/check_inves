@@ -650,6 +650,17 @@
 				$("#conAchiDiv").hide();
 			}
 
+			// 工程类
+			var businessScope = "${currSupplier.supplierMatEng.businessScope}";
+			$("input[name='area_check']").each(function(i, element){
+				if (businessScope.indexOf(element.value) != -1) {
+					$(element).parent().next().show();
+				} else {
+					$(element).parent().next().hide();
+				}
+			});
+			
+			
 			$("input").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
 			var pro = "${pro}";
@@ -899,9 +910,9 @@
 
 	function disAreaFile(obj) {
 		if (obj.checked) {
-			$(obj).parent().next().removeClass("dis_none");
+			$(obj).parent().next().show();
 		} else {
-			$(obj).parent().next().addClass("dis_none");
+			$(obj).parent().next().hide();
 		}
 	}
 	sessionStorage.locationB=true;
@@ -1428,7 +1439,7 @@
 														<c:if test="${fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">checked="checked"</c:if>>
 														${area.name}：</span>
 													<div
-														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 <c:if test="${!fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">dis_none</c:if>">
+														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload
 															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 															maxcount="5" businessId="${currSupplier.id}_${area.name}"

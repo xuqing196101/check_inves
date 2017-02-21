@@ -4,6 +4,7 @@
 	<resultMap id="BaseResultMap" type="ses.model.sms.Supplier">
 		<id column="ID" property="id" />
 		<result column="LOGIN_NAME" property="loginName" />
+		<result column="BUSINESS_NATURE" property="businessNature" />
 		<result column="IS_HAVING_CON_CERT" property="isHavingConCert" />
 		<result column="MOBILE" property="mobile" />
 		<result column="PASSWORD" property="password" />
@@ -115,7 +116,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT
+		IS_HAVING_CON_CERT, BUSINESS_NATURE
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -253,6 +254,9 @@
 			</if>
 			<if test="loginName != null">
 				LOGIN_NAME,
+			</if>
+			<if test="businessNature != null">
+				BUSINESS_NATURE,
 			</if>
 			<if test="isHavingConCert != null">
 				IS_HAVING_CON_CERT,
@@ -472,6 +476,9 @@
 			</if>
 			<if test="loginName != null">
 				#{loginName},
+			</if>
+			<if test="businessNature != null">
+				#{businessNature},
 			</if>
 			<if test="isHavingConCert != null">
 				#{isHavingConCert},
@@ -695,6 +702,9 @@
 			</if>
 			<if test="isHavingConCert != null">
 				IS_HAVING_CON_CERT = #{isHavingConCert},
+			</if>
+			<if test="businessNature != null">
+				BUSINESS_NATURE = #{businessNature},
 			</if>
 			<if test="levelScoreProduct != null">
 				LEVEL_SCORE_PRODUCT = #{levelScoreProduct},
