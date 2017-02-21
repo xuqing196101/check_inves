@@ -10,8 +10,10 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.model.bms.Area;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
@@ -26,6 +28,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierService;
 
@@ -37,6 +40,9 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	
 	@Autowired
 	private SupplierService supplierService;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	
 	/**地址信息**/
 	private static final int ADDRESS_LIST = 1;
@@ -67,6 +73,9 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	
 	/**物资服务-资质证书信息**/
 	private static final int CERT_SE_LIST = 10;
+	
+	/**售后服务机构一览表**/
+	private static final int AFTER_SALE_SERVICE = 11;
 	
 	public void  add(SupplierHistory supplierHistory){
 		supplierHistoryMapper.insertSelective(supplierHistory);
@@ -118,17 +127,22 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 historyInfo.setBeforeContent(address.getCode());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
-                // 省
-                historyInfo.setBeforeField("provinceId");
-                historyInfo.setBeforeContent(address.getProvinceId());
-                supplierHistoryMapper.insertSelective(historyInfo);
-                
-                // 市
+                //生产经营地址：
+                List < Area > privnce = areaService.findRootArea();
+				Area area = new Area();
+				area = areaService.listById(address.getAddress());
+				String sonAddress = area.getName();
+				String parentAddress = null;
+				for(int i = 0; i < privnce.size(); i++) {
+					if(area.getParentId().equals(privnce.get(i).getId())) {
+						parentAddress = privnce.get(i).getName();
+					}
+				}
                 historyInfo.setBeforeField("address");
-                historyInfo.setBeforeContent(address.getAddress());
+                historyInfo.setBeforeContent(parentAddress + sonAddress);
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
-                // 市
+                //生产经营详细地址
                 historyInfo.setBeforeField("detailAddress");
                 historyInfo.setBeforeContent(address.getDetailAddress());
                 supplierHistoryMapper.insertSelective(historyInfo);
@@ -482,7 +496,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 有效期（结束时间）
-                historyInfo.setBeforeField("expStartDate");
+                historyInfo.setBeforeField("expEndDate");
                 historyInfo.setBeforeContent(format.format(certSell.getExpEndDate()));
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
@@ -786,7 +800,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
                     // 有效期（结束时间）
-                    historyInfo.setBeforeField("expStartDate");
+                    historyInfo.setBeforeField("expEndDate");
                     historyInfo.setBeforeContent(format.format(matSe.getExpEndDate()));
                     supplierHistoryMapper.insertSelective(historyInfo);
                     
@@ -797,6 +811,46 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 }
             }
         }
+        
+        
+        // 售后服务机构一览表
+        List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplier.getListSupplierAfterSaleDep();
+        if (listSupplierStockholders != null && listSupplierStockholders.size() > 0) {
+            for (SupplierAfterSaleDep afterSaleDep : listSupplierAfterSaleDep) {
+                historyInfo = new SupplierHistory();
+                historyInfo.setSupplierId(supplierId);
+                historyInfo.setmodifyType("basic_page");
+                historyInfo.setCreatedAt(date);
+                historyInfo.setRelationId(afterSaleDep.getId());
+                historyInfo.setListType(AFTER_SALE_SERVICE);
+    
+                // 分支（或服务）机构名称
+                historyInfo.setBeforeField("name");
+                historyInfo.setBeforeContent(afterSaleDep.getName());
+                supplierHistoryMapper.insertSelective(historyInfo);
+                
+                // 类别
+                historyInfo.setBeforeField("type");
+                historyInfo.setBeforeContent(afterSaleDep.getType().toString());
+                supplierHistoryMapper.insertSelective(historyInfo);
+                
+                //所在县市
+                historyInfo.setBeforeField("address");
+                historyInfo.setBeforeContent(afterSaleDep.getAddress());
+                supplierHistoryMapper.insertSelective(historyInfo);
+                
+                //负责人
+                historyInfo.setBeforeField("leadName");
+                historyInfo.setBeforeContent(afterSaleDep.getLeadName());
+                supplierHistoryMapper.insertSelective(historyInfo);
+                
+                //联系电话
+                historyInfo.setBeforeField("mobile");
+                historyInfo.setBeforeContent(afterSaleDep.getMobile());
+                supplierHistoryMapper.insertSelective(historyInfo);
+            }
+        }
+        
     }
     
 }

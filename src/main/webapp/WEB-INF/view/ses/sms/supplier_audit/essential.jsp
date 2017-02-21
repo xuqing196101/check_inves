@@ -198,6 +198,23 @@
 					}
 				});
 			}
+			
+			// 提示修改之前的信息(列表)
+			function showContent(field, id, type) {
+				var supplierId = $("#id").val();
+				var showId = field + "_" +id;
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplierAudit/showModify.do",
+					data: {"supplierId":supplierId, "beforeField":field, "modifyType":"basic_page", "relationId":id, "listType": type},
+					async: false,
+					success: function(result) {
+						layer.tips("修改前:" + result, "#" + showId, 
+						{
+							tips: 3
+						});
+					}
+				});
+			}
 		</script>
 
 		<script type="text/javascript">
@@ -732,8 +749,8 @@
 					</ul>
 					
 					<h2 class="count_flow"><i>9</i>售后服务机构一览表</h2>
-					<c:forEach items="${listSupplierAfterSaleDep}" var="afterSaleDep" varStatus="vs">
 						<ul class="ul_list">
+						
 							<table class="table table-bordered  table-condensed table-hover">
 								<thead>
 									<tr>
@@ -746,22 +763,23 @@
 									</tr>
 								</thead>
 								<tbody id="finance_attach_list_tbody_id">
-									<tr>
-										<td class="tc w50">${vs.index + 1}</td>
-										<td class="tc">${afterSaleDep.name}</td>
-										<td class="tc">${afterSaleDep.name}</td>
-										<td class="tc">
-											<c:if test="${afterSaleDep.type == 1}">自营</c:if>
-											<c:if test="${afterSaleDep.type == 2}">合作</c:if>
-										</td>
-										<td class="tc">${afterSaleDep.leadName}</td>
-										<td class="tc">${afterSaleDep.mobile}</td>
-									</tr>
+									<c:forEach items="${listSupplierAfterSaleDep}" var="a" varStatus="vs">
+										<tr>
+											<td class="tc w50">${vs.index + 1}</td>
+											<td class="tc" id="name_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_name'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('name','${a.id}','11');"</c:if>>${a.name}</td>
+											<td class="tc" id="type_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_type'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('type','${a.id}','11');"</c:if>>
+												<c:if test="${a.type == 1}">自营</c:if>
+												<c:if test="${a.type == 2}">合作</c:if>
+											</td>
+											<td class="tc w50" id="address_${a.id }"<c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_address'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('address','${a.id}','11');"</c:if>>${a.address}</td>
+											<td class="tc" id="leadName_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_leadName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('leadName','${a.id}','11');"</c:if>>${a.leadName}</td>
+											<td class="tc" id="mobile_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_mobile'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mobile','${a.id}','11');"</c:if>>${a.mobile}</td>
+										</tr>
+									</c:forEach>
 								</tbody>
 							</table>
-						</ul>
-					</c:forEach>
-					
+						
+					</ul>
 					<h2 class="count_flow"><i>10</i>参加政府或军队采购经历登记表</h2>
 					<ul class="ul_list">
 						<li class="col-md-12 col-sm-12 col-xs-12">
