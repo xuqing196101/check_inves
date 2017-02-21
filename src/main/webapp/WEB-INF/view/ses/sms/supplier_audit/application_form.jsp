@@ -206,19 +206,19 @@
 		           	<i></i>
 			      </li>
 		          <li onclick = "jump('items')">
-	            	<a aria-expanded="false" href="#tab-4" >品目信息</a>
+	            	<a aria-expanded="false" href="#tab-4" >产品类别</a>
 	            	<i></i>
 	          	</li>
 	          	<li onclick="jump('aptitude')">
-								<a aria-expanded="false">资质文件</a>
+								<a aria-expanded="false">资质文件维护</a>
 								<i></i>
 							</li>
 		          <li onclick = "jump('contract')" >
-		            <a aria-expanded="false" href="#tab-4">品目合同</a>
+		            <a aria-expanded="false" href="#tab-4">销售合同</a>
 		             <i></i>
 		          </li>
 		          <li onclick = "jump('applicationForm')" class="active" >
-		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">申请表</a>
+		            <a aria-expanded="false" href="#tab-4" data-toggle="tab">承诺书和申请表</a>
 		            <i></i>
 		          </li>
 		          <li onclick = "jump('reasonsList')">
