@@ -353,7 +353,7 @@ public class SupplierItemController extends BaseController {
 			// 总数量
 			List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 			for(String type: typeIds) {
-			    if (!DictionaryDataUtil.findById(type).getCode().equals("PROJECT")) {
+			    if (!type.equals("PROJECT")) {
 			        itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
 			    }
 			}
