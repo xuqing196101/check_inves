@@ -247,16 +247,16 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-3">
 										<form id="item_form" method="post">
-										  <table class="table table-bordered">
+										  <table class="table table-bordered table-input">
 											<tr>
-										      <td class="info tc w50">序号</td>
-										      <td class="info tc w100">类别</td>
-										      <td class="info tc">大类</td>
-										      <td class="info tc">中类</td>
-										      <td class="info tc">小类</td>
-										      <td class="info tc w300">等级选择</td>
-										      <td class="info tc">证书编号</td>
-										      <td class="info tc w150">证书图片</td>
+										      <th class="info tc w50">序号</th>
+										      <th class="info tc w100">类别</th>
+										      <th class="info tc">大类</th>
+										      <th class="info tc">中类</th>
+										      <th class="info tc">小类</th>
+										      <th class="info tc w300">等级选择</th>
+										      <th class="info tc">证书编号</th>
+										      <th class="info tc w150">证书图片</th>
 										    </tr>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 										      <tr>
@@ -269,16 +269,16 @@
 										        <td>${cate.secondNode}</td>
 										        <td>${cate.thirdNode}</td>
 										      	<td>
-										      	  <select name="listSupplierItems[${vs.index}].level" onchange="disLevel(this)">
+										      	  <select name="listSupplierItems[${vs.index}].level" onchange="disLevel(this)" class="border0">
 										      	    <option value="">请选择</option>
 										      	    <c:forEach items="${cate.levelList}" var="level">
 										      	      <option value="${level}" <c:if test="${cate.level eq level}">selected</c:if>>${level}</option>
 										      	    </c:forEach>
 										      	    <option value="其它" <c:if test="${cate.level eq '其它'}">selected</c:if>>其它</option>
 										      	  </select>
-										      	  <input type="text" onblur="tempSave()" name="listSupplierItems[${vs.index}].diyLevel" value="${cate.diyLevel}" class="<c:if test="${cate.level ne '其它'}">dis_none</c:if>">
+										      	  <input type="text"  class="border0" onblur="tempSave()" name="listSupplierItems[${vs.index}].diyLevel" value="${cate.diyLevel}" class="<c:if test="${cate.level ne '其它'}">dis_none</c:if>">
 										      	</td>
-										     	<td><input type="text" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}')"></td>
+										     	<td><input type="text"  class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}')"></td>
 										      	<td class="tc">
 										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 										      	</td>

@@ -1033,9 +1033,9 @@
 								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConCert')"</c:if>><i class="red">*</i> 有无国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-										<select name="isHavingConCert" onchange="dis_bearch(this)">
-											<option value="0">无</option>
-											<option value="1">有</option>
+										<select name="isHavingConCert" onchange="dis_bearch(this)" class="f1 mr5">
+											<option value="0" <c:if test="${currSupplier.isHavingConCert eq '0'}">selected</c:if>>无</option>
+											<option value="1" <c:if test="${currSupplier.isHavingConCert eq '1'}">selected</c:if>>有</option>
 										</select>
 										<div class="<c:if test="${currSupplier.isHavingConCert ne '1'}">dis_none</c:if>">
 											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
