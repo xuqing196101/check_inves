@@ -641,8 +641,8 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }
-	    if(!ValidateUtils.isNull(purchaseDep.getBankAccount())){
-	        model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
+	    if(ValidateUtils.isNull(purchaseDep.getBankAccount())){
+	        model.addAttribute("ERR_bankAccount", "不能为空");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
 	        model.addAttribute("lists", purchaseOrgList);
@@ -722,7 +722,7 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(!ValidateUtils.isNull(purchaseDep.getBankAccount())){
+        if(ValidateUtils.isNull(purchaseDep.getBankAccount())){
             model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
