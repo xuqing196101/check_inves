@@ -125,7 +125,7 @@
 							<div class="tab-pane fade active in height-300" id="tab-1">
 								<div class="margin-bottom-0  categories">
 									<h2 class="f16 ">
-										推荐采购机构
+										推荐采购机构（以公司注册地址作为推荐采购机构依据）
 									</h2>
 									<table class="table table-bordered table-condensed">
 										<thead>
@@ -133,22 +133,20 @@
 												<th class="info w30"><input type="radio" disabled="disabled"></th>
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
-												<th class="info w150">联系人</th>
-												<th class="info w150">联系电话</th>
-												<th class="info">联系地址</th>
+												<th class="info">地址</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
-											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+											<c:set var="vs" value="1"/>
+											<c:forEach items="${allPurList}" var="org1" varStatus="vs1">
 											  <c:if test="${org1.cityId eq currSupplier.address}">
 												<tr>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
-													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
-													<td class="tc">${org1.supplierContact}</td>
-													<td class="tc">${org1.supplierPhone}</td>
 													<td class="tc">${org1.address}</td>
 												</tr>
+												<c:set var="vs" value="${vs + 1}"/>
 											  </c:if>
 											</c:forEach>
 										</tbody>
@@ -162,22 +160,20 @@
 												<th class="info w30"><input type="radio" disabled="disabled"></th>
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
-												<th class="info w150">联系人</th>
-												<th class="info w150">联系电话</th>
-												<th class="info">联系地址</th>
+												<th class="info">地址</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
-											<c:forEach items="${allPurList}" var="org1" varStatus="vs">
+											<c:set var="vs" value="1"/>
+											<c:forEach items="${allPurList}" var="org1">
 												<c:if test="${org1.cityId ne currSupplier.address}">
 												<tr>
 													<td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)" name="procurementDepId" <c:if test="${org1.provinceId==currSupplier.procurementDepId}"> checked='checked' </c:if> /></td>
-													<td class="tc">${vs.index + 1}</td>
+													<td class="tc">${vs}</td>
 													<td class="tc">${org1.shortName}</td>
-													<td class="tc">${org1.supplierContact}</td>
-													<td class="tc">${org1.supplierPhone}</td>
 													<td class="tc">${org1.address}</td>
 												</tr>
+												<c:set var="vs" value="${vs + 1}"/>
 											  </c:if>
 											</c:forEach>
 										</tbody>

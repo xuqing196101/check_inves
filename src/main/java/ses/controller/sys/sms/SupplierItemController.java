@@ -402,6 +402,13 @@ public class SupplierItemController extends BaseController {
 			map1.put("typeName", "1");
 			List < PurchaseDep > list1 = purchaseOrgnizationService
 				.findPurchaseDepList(map1);
+			for (PurchaseDep org : list1) {
+			    Area pro = areaService.listById(org.getProvinceId());
+			    Area city = areaService.listById(org.getCityId());
+			    if (pro != null && city != null) {
+			        org.setAddress(pro.getName() + city.getName());
+			    }
+            }
 			model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
