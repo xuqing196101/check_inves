@@ -77,10 +77,10 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
-			<if test="cateLevel != null">
+			<if test="level != null">
 				CATE_LEVEL,
 			</if>
-			<if test="DIY_LEVEL != null">
+			<if test="diyLevel != null">
 				DIY_LEVEL,
 			</if>
 			<if test="certCode != null">

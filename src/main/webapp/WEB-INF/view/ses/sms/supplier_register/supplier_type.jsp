@@ -1410,7 +1410,13 @@
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>
 													<input type="checkbox" name="area_check" value="${area.id}" onchange="disAreaFile(this)"
 														<c:if test="${fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">checked="checked"</c:if>>
-														${area.name}：</span>
+														${area.name}</span>
+													</li>
+											</c:forEach>
+											<div class="clear h50"></div>
+											<c:forEach items="${rootArea}" var="area" varStatus="st">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>
+													<span> ${area.name}</span>
 													<div
 														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload
