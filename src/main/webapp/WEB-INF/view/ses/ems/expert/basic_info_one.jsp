@@ -660,7 +660,7 @@ session.setAttribute("tokenSession", tokenValue);
 					cache: false,
 					async: false,
 					success: function(data) {
-						if(data.length < 3) {
+						if(data.length < 4) {
 							layer.msg("还有未上传!", {
 								offset: ['300px', '750px']
 							});
