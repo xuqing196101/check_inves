@@ -15,39 +15,7 @@
 				});
 			})
 
-			/** 全选全不选 */
-			function selectAll() {
-				var checklist = document.getElementsByName("chkItem");
-				var checkAll = document.getElementById("checkAll");
-				if(checkAll.checked) {
-					for(var i = 0; i < checklist.length; i++) {
-						checklist[i].checked = true;
-					}
-				} else {
-					for(var j = 0; j < checklist.length; j++) {
-						checklist[j].checked = false;
-					}
-				}
-			}
 
-			/** 单选 */
-			function check() {
-				var count = 0;
-				var checklist = document.getElementsByName("chkItem");
-				var checkAll = document.getElementById("checkAll");
-				for(var i = 0; i < checklist.length; i++) {
-					if(checklist[i].checked == false) {
-						checkAll.checked = false;
-						break;
-					}
-					for(var j = 0; j < checklist.length; j++) {
-						if(checklist[j].checked == true) {
-							checkAll.checked = true;
-							count++;
-						}
-					}
-				}
-			}
 
 			function view(no) {
 
@@ -311,6 +279,8 @@
 					var status=$("input[name='status']").val();		
 					var val = $(obj).find("option:selected").text();
 					var defVal;
+					var defValue;
+		/* 			
 					var opts=obj.getElementsByTagName('option'); 
 						for (var i in opts) {
 							if (opts[i].defaultSelected) {
@@ -343,7 +313,7 @@
 							  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 							  	 }
 							 
-						} 
+						}  */
 						 var org=$(obj).val();
 						 var price=$(obj).parent().prev().prev().prev().prev().val();
 						 if(price==""){
@@ -361,13 +331,51 @@
 						      	 		   if(v1==opt){
 						      	 			 var td=$(this).find("td:eq(10)");
 						      	 			var options= $(td).find("option");
-							      	 		  $(options).each(function(){
+							      	 		  $(options).each(function(i){
+							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().val();
+							      	 			var dValue=$(this).val();
+							      	 			if (defValue==dValue) {
+													defVal = options[i].text;
+												}
+							      	 			
 							      	  		   var opt=$(this).val();
 							      	  		   if(org==opt){
 							      	  			$(this).prop("selected",true);
+							      	  			
+							      	  		  var o = this;
+						      	  			   var tr=o.parentNode.parentNode.parentNode;	
+												var index=tr.rowIndex; //获取第几行，然后给赋值
+												var td=o.parentNode.parentNode;
+												var tdIndex=td.cellIndex;
+												var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+							      	  		 if(org!=defValue){
+							      	  		   if($.trim(defVal)==""||defVal=="undefined"){
+						      	  	     		   defVal="空值";
+						      	  	     		 }  
+							      	  		 
+												  if(status=='3'){
+													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
+											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+											  			var newVal=inpval+curval;
+												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
+												  }
+												  if(status=='5'){
+													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
+											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+											  			var newVal=inpval+curval;
+												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
+												  	   }
+												 if(status=='7'){
+													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
+											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+											  			var newVal=inpval+curval;
+												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
+												  	 }
+												 
+											} 
 							      	  			  //  $(this).attr("selected", "selected");  
 							      	  		   }else{
-							      	  			$(this).removeAttr("selected");
+							      	  		     $(this).removeAttr("selected");
 							      	  		   }
 								      	  	   });
 						      	 		   }  
@@ -386,7 +394,8 @@
 					var status=$("input[name='status']").val();		
 					var val = $(obj).find("option:selected").text();
 					var defVal;
-					var opts=obj.getElementsByTagName('option'); 
+					var defValue;
+				/* 	var opts=obj.getElementsByTagName('option'); 
 						for (var i in opts) {
 							if (opts[i].defaultSelected) {
 								defVal = opts[i].text;
@@ -418,7 +427,7 @@
 							  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 							  	 }
 							 
-						} 
+						}  */
 						 
 						 var org=$(obj).val();
 						 var price=$(obj).parent().prev().prev().prev().prev().val();
@@ -437,11 +446,51 @@
 						      	 		   if(v1==opt){
 						      	 			 var td=$(this).find("td:eq(11)");
 						      	 			var options= $(td).find("option");
-							      	 		  $(options).each(function(){
+							      	 		  $(options).each(function(i){
+							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").val();
+							      	 			var dValue=$(this).val();
+							      	 			if (defValue==dValue) {
+													defVal = options[i].text;
+												}
+							      	 			
+							      	 			
 							      	  		   var opt=$(this).val();
 							      	  		   if(org==opt){
 							      	  			$(this).prop("selected",true);
 							      	  			   //  $(this).attr("selected", "selected");  
+							      	  			  var o = this;
+							      	  			   var tr=o.parentNode.parentNode.parentNode;	
+													var index=tr.rowIndex; //获取第几行，然后给赋值
+													var td=o.parentNode.parentNode;
+													var tdIndex=td.cellIndex;
+													var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+						
+							      	  	     	 if(org!=defValue){
+							      	  	     	   if($.trim(defVal)==""||defVal=="undefined"){
+							      	  	     		   defVal="空值";
+							      	  	     		 }  
+												  if(status=='3'){
+													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
+											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+											  			var newVal=inpval+curval;
+												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
+												  }
+												  if(status=='5'){
+													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
+											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+											  			var newVal=inpval+curval;
+												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
+												  	   }
+												 if(status=='7'){
+													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
+											  			var curval=tdVal1+"由"+defVal+"变成"+val;
+											  			var newVal=inpval+curval;
+												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
+												  	 }
+												 
+											} 
+							      	  			   
+							      	  			   
 							      	  		   }else{
 							      	  			$(this).removeAttr("selected");
 							      	  		   }
@@ -457,7 +506,10 @@
 						  	 
 				}
 				
-				
+		
+				function eavlChildren(obj){
+					
+				}
 		</script>
 	</head>
 
@@ -597,7 +649,7 @@
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 											<input type="hidden" name="ss" value="${obj.id }">
 												<select name="listDetail[${vs.index }].purchaseType" onchange="typeChange(this)" class="purchasetype">
-													<option value="" <c:if test="${obj.price==null }"> selected="selected" </c:if> >请选择</option> 
+													<option value="空值"  selected="selected"  >请选择</option> 
 													<c:forEach items="${mType }" var="mt">
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 													</c:forEach>
@@ -609,6 +661,7 @@
 											<%-- <c:if test="${obj.purchaseCount!=null }">  --%>
 											<input type="hidden" name="ss" value="${obj.id }">
 												<select   name="listDetail[${vs.index }].organization" onchange="orgChange(this)" class="organization">
+														<option value="空值" selected="selected" >请选择</option> 
 													<c:forEach items="${org }" var="ss">
 														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
@@ -621,12 +674,14 @@
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 											<td><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }" class="memo">
 											<td>
+												<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>
+												<input type="hidden" class="org" name="org" value="${obj.organization}"/>
 												<%-- <div class="w160">
 														<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 														<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 												   </div> --%>	
 											</td>
-											<td>
+											<!-- <td> -->
 											<%-- 	<input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
 												<input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
 												<input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
@@ -638,7 +693,7 @@
 												<input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
 												<input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
 												<input type="hidden" name="list[${vs.index }].status" value="${obj.status }"> --%>
-											</td>
+											<!-- </td> -->
 						 				</tr>
 									</c:forEach>
 								</tbody>
@@ -695,7 +750,7 @@
 									</select>
 								</td>
 								<td class="tc"> --%>
-									<input type="text"  <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>    name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
+									<input type="text"  <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>   style="width:330px;"  name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
 								</td>
 								</c:if>
 								

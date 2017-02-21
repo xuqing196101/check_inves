@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
@@ -139,7 +140,22 @@ public class PlanLookController extends BaseController {
 			collectPlan.setStatus(null);
 		}   
 		
-		collectPlan.setUserId(user.getId());
+		
+		
+		List<Role> roles = user.getRoles();
+		boolean bool=false;
+		if(roles!=null&&roles.size()>0){
+			for(Role r:roles){
+				if(r.getCode().equals("MANAGE_M")){
+					bool=true;
+				}
+			}
+		}
+		if(bool!=true){
+			collectPlan.setUserId(user.getId());
+		} 
+		
+		
 		List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page==null?1:page);
 		PageInfo<CollectPlan> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
