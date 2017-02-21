@@ -22,24 +22,46 @@
 					data: $("#items_info_form_id").serializeArray(),
 					contextType: "application/x-www-form-urlencoded",
 					success: function(msg) {
-
-						if(msg == 'ok') {
-							layer.msg('暂存成功');
-						}
-						if(msg == 'failed') {
-							layer.msg('暂存失败');
-						}
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
+							type: "post",
+							data: $("#item_form").serializeArray(),
+							success: function(){
+								if(msg == 'ok') {
+									layer.msg('暂存成功');
+								}
+								if(msg == 'failed') {
+									layer.msg('暂存失败');
+								}
+							}
+						});
+					}
+				});
+			}
+			
+			// 无提示暂存
+			function tempSave() {
+				$("input[name='flag']").val("file");
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/temporarySave.do",
+					type: "post",
+					data: $("#items_info_form_id").serializeArray(),
+					contextType: "application/x-www-form-urlencoded",
+					success: function(msg) {
+						$.ajax({
+							url: "${pageContext.request.contextPath}/supplier/saveItemsInfo.do",
+							type: "post",
+							data: $("#item_form").serializeArray(),
+						});
 					}
 				});
 			}
 
 			function next() {
+				tempSave();
 				$("input[name='flag']").val("2");
-				
 				sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
 				$("#items_info_form_id").submit();
-				/*  var id="${currSupplier.id}";
-				 window.location.href="${pageContext.request.contextPath}/supplier/contract.html?supplierId="+id; */
 			}
 
 			function prev() {
@@ -84,10 +106,21 @@
 						"number" : number,
 					},
 					success : function(data) {
-						$(obj).parent().next().append(data);
+						$(obj).parent().next().html(data);
 						init_web_upload();
 					}
 				});
+				tempSave();
+			}
+			
+			// 控制其它等级的显示和影藏
+			function disLevel(obj){
+				if ($(obj).val() == "其它") {
+					$(obj).next().removeClass("dis_none");
+				} else {
+					$(obj).next().addClass("dis_none");
+				}
+				tempSave();
 			}
 			
 			$(function(){
@@ -213,36 +246,46 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-3">
-										<table class="table table-bordered">
+										<form id="item_form" method="post">
+										  <table class="table table-bordered">
 											<tr>
 										      <td class="info tc w50">序号</td>
 										      <td class="info tc w100">类别</td>
 										      <td class="info tc">大类</td>
 										      <td class="info tc">中类</td>
 										      <td class="info tc">小类</td>
-										      <td class="info tc">等级选择</td>
+										      <td class="info tc w300">等级选择</td>
 										      <td class="info tc">证书编号</td>
-										      <td class="info tc w200">证书图片</td>
+										      <td class="info tc w150">证书图片</td>
 										    </tr>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 										      <tr>
-										        <td class="tc">${vs.index + 1}</td>
+										        <td class="tc">
+										          ${vs.index + 1}
+										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
+										        </td>
 										        <td class="tc">${cate.rootNode}</td>
 										        <td>${cate.firstNode}</td>
 										        <td>${cate.secondNode}</td>
 										        <td>${cate.thirdNode}</td>
 										      	<td>
-										      	  <select>
+										      	  <select name="listSupplierItems[${vs.index}].level" onchange="disLevel(this)">
+										      	    <option value="">请选择</option>
 										      	    <c:forEach items="${cate.levelList}" var="level">
 										      	      <option value="${level}" <c:if test="${cate.level eq level}">selected</c:if>>${level}</option>
 										      	    </c:forEach>
+										      	    <option value="其它" <c:if test="${cate.level eq '其它'}">selected</c:if>>其它</option>
 										      	  </select>
+										      	  <input type="text" onblur="tempSave()" name="listSupplierItems[${vs.index}].diyLevel" value="${cate.diyLevel}" class="<c:if test="${cate.level ne '其它'}">dis_none</c:if>">
 										      	</td>
-										     	<td><input type="text" value="${cate.certCode}" onchange="getFileByCode(this, '${vs.index}')"></td>
-										      	<td></td>
+										     	<td><input type="text" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}')"></td>
+										      	<td class="tc">
+										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
+										      	</td>
 										      </tr>
 										    </c:forEach>
-										</table>
+										  </table>
+										</form>
 										<c:set value="${divCount+1}" var="divCount" />
 									</div>
 								</c:if>

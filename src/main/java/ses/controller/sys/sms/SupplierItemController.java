@@ -25,13 +25,14 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
-import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAuditService;
+import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -39,7 +40,6 @@ import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-import common.annotation.SystemControllerLog;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -56,7 +56,7 @@ public class SupplierItemController extends BaseController {
 	private SupplierService supplierService;
 
 	@Autowired
-	private OrgnizationServiceI orgnizationServiceI;
+	private SupplierCertEngService supplierCertEngService;
 
 	@Autowired
 	private AreaServiceI areaService;
@@ -512,10 +512,18 @@ public class SupplierItemController extends BaseController {
                 SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
                 if(cateTree != null && cateTree.getRootNode() != null) {
                     cateTree.setItemsId(item.getId());
+                    cateTree.setDiyLevel(item.getDiyLevel());
+                    if (cateTree.getCertCode() != null) {
+                        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
+                        if (certEng != null && certEng.size() > 0) {
+                            cateTree.setFileId(certEng.get(0).getId());
+                        }
+                    }
                     allTreeList.add(cateTree);
                 }
             }
             model.addAttribute("allTreeList", allTreeList);
+            model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
         }
 		return "ses/sms/supplier_register/aptitude";
 

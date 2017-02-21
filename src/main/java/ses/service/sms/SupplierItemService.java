@@ -89,4 +89,13 @@ public interface SupplierItemService {
 	 * @param supplierItem
 	 */
 	public void deleteItems(SupplierItem supplierItem);
+	
+	/**
+	 *〈简述〉
+	 * 根据主键修改
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param itemList
+	 */
+	public void updateByPrimaryKeySelective(List<SupplierItem> itemList);
 }

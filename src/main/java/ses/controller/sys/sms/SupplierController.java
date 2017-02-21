@@ -53,6 +53,7 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -2416,6 +2417,12 @@ public class SupplierController extends BaseSupplierController {
             return new ModelAndView("ses/sms/supplier_register/supplier_eng_file");
         }
         return null;
+    }
+    
+    @ResponseBody
+    @RequestMapping("/saveItemsInfo")
+    public void saveItemsInfo(Supplier supplier) {
+        supplierItemService.updateByPrimaryKeySelective(supplier.getListSupplierItems());
     }
 
 }
