@@ -41,6 +41,17 @@
         }
         
         loadProvice();
+        
+        var name = $("#isAuditSupplier").val();
+        name = $.trim(name);
+        if(name == "1"){
+          $("li").removeClass("dnone");
+        }else{
+          $("#contact").addClass("dnone");
+          $("#phone").addClass("dnone");
+          $("#address").addClass("dnone");
+          $("#postcode").addClass("dnone");
+        }
       });
       
       /** 全选 **/
