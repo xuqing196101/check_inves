@@ -633,7 +633,7 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/add";
         }
-	    if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+	    /*if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode())){
 	        model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -648,7 +648,7 @@ public class PurchaseManageController {
 	        model.addAttribute("lists", purchaseOrgList);
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
-	    }
+	    }*/
 	    
 	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty,
 	        siteType,siteNumber,location,area,crewSize);
@@ -715,7 +715,7 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }*/
-        if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
+        /*if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
             model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
@@ -728,7 +728,7 @@ public class PurchaseManageController {
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
-        }
+        }*/
 	    purchaseOrgnizationServiceI.update(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty,
 	        siteType,siteNumber,location,area,crewSize);
 	                                
