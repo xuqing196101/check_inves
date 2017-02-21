@@ -98,7 +98,7 @@ public class FlowManageServiceImpl implements FlowMangeService {
         FlowExecute temp = new FlowExecute();
         temp.setFlowDefineId(flowDefineId);
         temp.setProjectId(projectId);
-        List<FlowExecute> flowExecutes = findFlowExecute(temp);
+        List<FlowExecute> flowExecutes = flowExecuteMapper.findExecuted(temp);
         //如果该项目该环节流程已经执行过
         if (flowExecutes != null && flowExecutes.size() > 0) {
             //执行记录设置为假删除状态
