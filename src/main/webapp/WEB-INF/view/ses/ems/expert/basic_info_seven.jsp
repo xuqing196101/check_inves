@@ -124,11 +124,22 @@ session.setAttribute("tokenSession", tokenValue);
 				var ids = typeIds.split(",");
 				//回显
 				var checklist1 = document.getElementsByName("chkItem_1");
+				$(checklist1[1]).change(function(){
+				if($(this).prop("checked")){
+					$("#zyzg").show();
+				}else{
+				$("#zyzg").hide();
+				}
+				})
+				
+				
 				for(var i = 0; i < checklist1.length; i++) {
 					var vals = checklist1[i].value;
 					for(var j = 0; j < ids.length; j++) {
 						if(ids[j] == vals) {
 							checklist1[i].checked = true;
+							
+							
 						}
 					}
 				}
@@ -138,6 +149,7 @@ session.setAttribute("tokenSession", tokenValue);
 					for(var j = 0; j < ids.length; j++) {
 						if(ids[j] == vals) {
 							checklist2[i].checked = true;
+							
 						}
 					}
 				}
@@ -218,6 +230,53 @@ session.setAttribute("tokenSession", tokenValue);
 							</div>
 						</li>
 					</ul>
+					
+					<ul  style="display:none" id="zyzg">
+					<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+							class="red"></i>执业资格</span> <!--/执业资格  -->
+						<div
+							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+							<input
+								<c:if test="${fn:contains(errorField,'执业资格')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('执业资格')"</c:if>
+								maxlength="20" value="${expert.professional}"
+								name="professional" id="professional" type="text" />
+							<span class="add-on">i</span> <span class="input-tip">不能为空</span>
+						</div></li>
+					<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+							class="red"></i> 执业资格证书</span>
+						<div
+							class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+							<c:if test="${fn:contains(errorField,'执业资格证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('执业资格证书')"</c:if>>
+							<u:upload
+								singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+								exts="${properties['file.picture.type']}" id="expert3"
+								groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+								multiple="true" businessId="${sysId}" sysKey="${expertKey}"
+								typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true" />
+							<u:show showId="show3"
+								groups="show1,show2,show3,show4,show5,show6,show7,show8"
+								businessId="${sysId}" sysKey="${expertKey}"
+								typeId="${typeMap.EXPERT_TITLE_TYPEID}" />
+						</div></li>
+					<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格时间</span>
+						<!--/职业资格时间  -->
+						<div
+							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+							<input
+								<c:if test="${fn:contains(errorField,'执业资格时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('执业资格时间')"</c:if>
+								value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM' />"
+								readonly="readonly" name="timeProfessional" id="timeProfessional"
+								type="text"
+								onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})" /> <span
+								class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
+						</div></li> 
+					
+					
+					</ul>
+					
 					<div class="btmfix">
 						<div style="margin-top: 15px;text-align: center;">
 							<button class="btn" id="nextBind" type="button" onclick='pre()'>上一步</button>

@@ -120,7 +120,7 @@
     								if (response.isok == "1") {
     									// 没有超过45天
     									//询问框   原著:您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!
-    		    						layer.confirm("您选择的是: "+response.businessRange+" 联系人: "+response.contact+" 电话:  "+response.contactTelephone+" 地址:  "+response.contactAddress, {
+    		    						layer.confirm(" 您已经提交了审核  机构: "+response.businessRange+" 联系人: "+response.contact+" 电话:  "+response.contactTelephone+" 地址:  "+response.contactAddress, {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {

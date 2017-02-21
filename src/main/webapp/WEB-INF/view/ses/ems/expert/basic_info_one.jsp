@@ -37,6 +37,7 @@
 				});
 			}
 			var parentId;
+				var  wtj=4;
 			var addressId = "${expert.address}";
 			window.onload = function() {
 				//地区回显和数据显示
@@ -396,13 +397,13 @@
 					});
 					return false;
 				} */
-				var hightEducation = $("#hightEducation").val();
+			/* 	var hightEducation = $("#hightEducation").val();
 				if(!hightEducation) {
 					layer.msg("请选择最高学历!", {
 						offset: ['300px', '750px']
 					});
 					return false;
-				}
+				} */
 				/* var degree = $("#degree").val();
 				if(!degree) {
 					layer.msg("请选择最高学位!", {
@@ -659,6 +660,12 @@
 					}
 				 } 
 
+ 
+ var isReferenceLftter = $("#isReferenceLftter").val();
+ 	if(isReferenceLftter=="1"){
+ 	wtj=5;
+ 	}
+ 
 				var id_areaSelect = $("#add").val();
 				if(!id_areaSelect) {
 					layer.msg("请选择区域 !", {
@@ -676,7 +683,7 @@
 					cache: false,
 					async: false,
 					success: function(data) {
-						if(data.length < 4) {
+						if(data.length < wtj) {
 							layer.msg("还有未上传!", {
 								offset: ['300px', '750px']
 							});
@@ -813,6 +820,7 @@
 					}
 				});
 			}
+		
 		</script>
 </head>
 
@@ -868,6 +876,7 @@
 					<i>1</i>专家个人信息
 				</h2>
 				<ul class="ul_list">
+				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
 							class="red">*</i> 专家姓名</span>
@@ -885,12 +894,14 @@
 							<select name="gender" id="gender"
 								<c:if test="${fn:contains(errorField,'性别')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('性别')"</c:if>>
 								<option selected="selected" value="">-请选择-</option>
-								<c:forEach items="${sexList}" var="sex" varStatus="vs">
-									<option
-										<c:if test="${expert.gender eq sex.id}">selected="selected"</c:if>
-										value="${sex.id}">${sex.name}</option>
-								</c:forEach>
+								<div class="container container_box" style>
+									<c:forEach items="${sexList}" var="sex" varStatus="vs">
+										<option
+											<c:if test="${expert.gender eq sex.id}">selected="selected"</c:if>
+											value="${sex.id}">${sex.name}</option>
+									</c:forEach>
 							</select>
+
 						</div></li>
 					<li class="col-md-3 col-sm-6 col-xs-12"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -951,67 +962,8 @@
 								<c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('所在单位')"</c:if> />
 							<span class="add-on">i</span> <span class="input-tip">不能为空</span>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red">*</i> 缴纳社会保险证明</span>
-						<div
-							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<%-- <input maxlength="30" value="${expert.coverNote}" name="coverNote" id="coverNote" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"</c:if>/>
-								 --%>
-							<select style="width:80%" name="coverNote" id="coverNote"
-								<c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
-								<option
-									<c:if test="${expert.coverNote eq expert.coverNote}">selected="selected"</c:if>
-									value="${expert.coverNote}">${expert.coverNote}</option>
-								<c:if test="${expert.coverNote eq '是'}">
-									<option>否</option>
-								</c:if>
-								<c:if test="${expert.coverNote eq '否'}">
-									<option>是</option>
-								</c:if>
-							</select>
-						</div></li>
-					<c:choose>
-						<c:when test="${expert.coverNote eq '否'}">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span
-								class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-									class="red">*</i><span id="qhys1"> 退休证书或退休证明</span> </span>
-								<div
-									class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-									<c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
-									<u:upload
-										singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-										exts="${properties['file.picture.type']}" id="expert9"
-										groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-										multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true" />
-									<u:show showId="show9"
-										groups="show1,show2,show3,show4,show5,show6,show7,show8"
-										businessId="${sysId}" sysKey="${expertKey}"
-										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" />
-								</div></li>
-						</c:when>
-
-						<c:otherwise>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span
-								class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-									class="red">*</i> <span id="qhys2">社保证明</span> </span>
-								<div
-									class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-									<c:if test="${fn:contains(errorField,'社保证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('社保证明')"</c:if>>
-									<u:upload
-										singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-										exts="${properties['file.picture.type']}" id="expert5"
-										groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-										multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true" />
-									<u:show showId="show5"
-										groups="show1,show2,show3,show4,show5,show6,show7,show8"
-										businessId="${sysId}" sysKey="${expertKey}"
-										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" />
-								</div></li>
-						</c:otherwise>
-					</c:choose>
+					
+				
 					<c:if test="${expert.coverNote eq '否'}">
 
 					</c:if>
@@ -1044,6 +996,73 @@
 								<c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('单位地址')"</c:if> />
 							<span class="add-on">i</span> <span class="input-tip">xx市xx区xx街道xx号</span>
 						</div></li>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+							class="red">*</i> 缴纳社会保险证明</span>
+						<div
+							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+							<%--  <input maxlength="30" value="${expert.coverNote}" name="coverNote" id="coverNote" type="text" <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('居民身份证号码')"</c:if>/>
+							 --%>	 
+							 
+							 <select name="coverNote" id="coverNote" style="width:100%;" <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
+								<option <c:if test="${expert.coverNote eq '1'}">selected="selected"</c:if> value="1">是</option>
+								<option <c:if test="${expert.coverNote eq '0'}">selected="selected"</c:if> value="0">否</option>
+								
+							</select>
+							 
+							<%-- <select style="width:80%" name="coverNote" id="coverNote"
+								<c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
+								<option
+									<c:if test="${expert.coverNote eq expert.coverNote}">selected="selected"</c:if>
+									value="${expert.coverNote}">${expert.coverNote}</option>
+								<c:if test="${expert.coverNote eq '是'}">
+									<option>否</option>
+								</c:if>
+								<c:if test="${expert.coverNote eq '否'}">
+									<option>是</option>
+								</c:if>
+							</select> --%>
+						</div></li>
+							
+						
+							<li class="col-md-3 col-sm-6 col-xs-12" id="txzs" style="display:none"><span
+								class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+									class="red">*</i><span id="qhys1"> 退休证书或退休证明</span> </span>
+								<div
+									class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+									<c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
+									<u:upload
+										singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+										exts="${properties['file.picture.type']}" id="expert9"
+										groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+										multiple="true" businessId="${sysId}" sysKey="${expertKey}"
+										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true" />
+									<u:show showId="show9"
+										groups="show1,show2,show3,show4,show5,show6,show7,show8"
+										businessId="${sysId}" sysKey="${expertKey}"
+										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" />
+								</div></li>
+					
+
+						
+							<li class="col-md-3 col-sm-6 col-xs-12" id="sbzm" style="display:black"><span
+								class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+									class="red">*</i> <span id="qhys2">社保证明</span> </span>
+								<div
+									class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+									<c:if test="${fn:contains(errorField,'社保证明')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('社保证明')"</c:if>>
+									<u:upload
+										singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+										exts="${properties['file.picture.type']}" id="expert5"
+										groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+										multiple="true" businessId="${sysId}" sysKey="${expertKey}"
+										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" auto="true" />
+									<u:show showId="show5"
+										groups="show1,show2,show3,show4,show5,show6,show7,show8"
+										businessId="${sysId}" sysKey="${expertKey}"
+										typeId="${typeMap.EXPERT_PHOTO_TYPEID}" />
+								</div></li>
+						
 					<li class="col-md-3 col-sm-6 col-xs-12"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 单位邮编</span>
 						<div
@@ -1092,7 +1111,19 @@
 						</div></li>
 
 					<%-- </c:if>  --%>
-
+						<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
+							参加工作时间</span>
+						<div
+							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+							<input
+								<c:if test="${fn:contains(errorField,'参加工作时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('参加工作时间')"</c:if>
+								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />"
+								readonly="readonly" name="makeTechDate" id="makeTechDate"
+								type="text"
+								onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})" /> <span
+								class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
+						</div></li>
 					<c:if test="${expert.expertsFrom eq 'ARMY'}">
 						<li class="col-md-3 col-sm-6 col-xs-12"><span
 							class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1143,19 +1174,7 @@
 									typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}" />
 							</div></li>
 					</c:if>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
-							参加工作时间</span>
-						<div
-							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input
-								<c:if test="${fn:contains(errorField,'参加工作时间')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('参加工作时间')"</c:if>
-								value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />"
-								readonly="readonly" name="makeTechDate" id="makeTechDate"
-								type="text"
-								onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})" /> <span
-								class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
-						</div></li>
+					
 					<li class="col-md-3 col-sm-6 col-xs-12"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
 							class="red">*</i> 从事专业</span>
@@ -1224,7 +1243,7 @@
 								class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
 						</div></li>
 
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
+					<%-- <li class="col-md-3 col-sm-6 col-xs-12"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
 							class="red"></i>执业资格</span> <!--/执业资格  -->
 						<div
@@ -1264,81 +1283,51 @@
 								type="text"
 								onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})" /> <span
 								class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red"></i> 毕业院校及专业</span>
+						</div></li> --%>
+					
+					
+					
+					
+					
+							<li class="col-md-3 col-sm-6 col-xs-12"><span
+						class="col-md-12 col-xs-12 col-sm-12 padding-left-5">相关机关事业部门推荐信</span>
 						<div
 							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input maxlength="40" value="${expert.graduateSchool}"
-								name="graduateSchool" id="graduateSchool" type="text"
-								<c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业院校及专业')"</c:if> />
-							<span class="add-on">i</span> <span class="input-tip">不能为空，如：XXX大学XXX专业</span>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red">*</i> 最高学历</span>
-						<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-							<select name="hightEducation" id="hightEducation"
-								<c:if test="${fn:contains(errorField,'最高学历')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('最高学历')"</c:if>>
-								<option selected="selected" value="">-请选择-</option>
-								<c:forEach items="${xlList}" var="xl" varStatus="vs">
-									<option
-										<c:if test="${expert.hightEducation eq xl.id}">selected="selected"</c:if>
-										value="${xl.id}">${xl.name}</option>
-								</c:forEach>
+							<span class="input-tip">相关机关事业部门推荐信</span> <select
+								style="width:80%" name="isReferenceLftter" id="isReferenceLftter"
+								<c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
+								<option <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if> value="1">是</option>
+								<option <c:if test="${expert.isReferenceLftter eq '0'}">selected="selected"</c:if> value="0">否</option>
 							</select>
 						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
+					<li class="col-md-3 col-sm-6 col-xs-12" id="tjx" style="display:none"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red"></i> 毕业证书</span>
+							class="red">*</i> 推荐信</span>
 						<div
 							class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-							<c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('毕业证书')"</c:if>>
+							<c:if test="${fn:contains(errorField,'推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('推荐信')"</c:if>>
 							<u:upload
 								singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-								exts="${properties['file.picture.type']}" id="expert2"
+								exts="${properties['file.picture.type']}" id="expert37"
 								groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
 								multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-								typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" auto="true" />
-							<u:show showId="show2"
+								typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true" />
+							<u:show showId="show37"
 								groups="show1,show2,show3,show4,show5,show6,show7,show8"
 								businessId="${sysId}" sysKey="${expertKey}"
-								typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}" />
+								typeId="${typeMap.EXPERT_TITLE_TYPEID}" />
 						</div></li>
-
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red"></i> 最高学位</span>
-						<div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
-							<select name="degree" id="degree"
-								<c:if test="${fn:contains(errorField,'最高学位')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('最高学位')"</c:if>>
-								<option selected="selected" value="">-请选择-</option>
-								<c:forEach items="${xwList}" var="xw" varStatus="vs">
-									<option
-										<c:if test="${expert.degree eq xw.id}">selected="selected"</c:if>
-										value="${xw.id}">${xw.name}</option>
-								</c:forEach>
-							</select>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red"></i> 学位证书</span>
-						<div
-							class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-							<c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"</c:if>>
-							<u:upload
-								singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-								exts="${properties['file.picture.type']}" id="expert4"
-								groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-								multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-								typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true" />
-							<u:show showId="show4"
-								groups="show1,show2,show3,show4,show5,show6,show7,show8"
-								businessId="${sysId}" sysKey="${expertKey}"
-								typeId="${typeMap.EXPERT_DEGREE_TYPEID}" />
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
+					
+					</ul>
+					<ul class="ul_list">
+					
+						
+						
+						
+						
+						
+					<li class="col-md-3 col-sm-6 col-xs-12">
+					<span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
 							class="red">*</i> 手机</span>
 						<div
@@ -1347,13 +1336,14 @@
 								name="mobile" id="mobile" type="text"
 								<c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('手机')"</c:if> />
 							<span class="add-on">i</span> <span class="input-tip">手机号码暂不支持修改</span>
-						</div></li>
+						</div>
+					</li>
 					<li class="col-md-3 col-sm-6 col-xs-12"><span
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
 							class="red">*</i> 固定电话</span>
 						<div
 							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input maxlength="15" value="${expert.telephone}"
+							<input maxlength="15" value="${expert.telephone}"  
 								name="telephone" id="telephone" type="text"
 								<c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('固定电话')"</c:if> />
 							<span class="add-on">i</span> <span class="input-tip">如:
@@ -1363,7 +1353,7 @@
 						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话</span>
 						<div
 							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<input value="${expert.fax}" name="fax" id="fax" type="text"
+							<input value="${expert.fax}" name="fax" id="fax" type="text"  
 								<c:if test="${fn:contains(errorField,'传真电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('传真电话')"</c:if> />
 							<span class="add-on">i</span> <span class="input-tip">如:
 								XXX - XXXXXXX</span>
@@ -1378,118 +1368,102 @@
 								<c:if test="${fn:contains(errorField,'个人邮箱')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('个人邮箱')"</c:if> />
 							<span class="add-on">i</span> <span class="input-tip">不能为空，如：XXXX@XX.com</span>
 						</div></li>
+			
 
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5">相关机关事业部门推荐信</span>
-						<div
-							class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-							<span class="input-tip">相关机关事业部门推荐信</span> <select
-								style="width:80%" name="tuijianxin" id="tuijianxin"
-								<c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
-								<%-- <option <c:if test="${expert.tuijianxin eq expert.tuijianxin}">selected="selected"</c:if> value="${expert.tuijianxin}">${expert.tuijianxin}</option>
-									<c:if  test="${expert.coverNote eq '有'}">
-									<option >无</option>
-									</c:if>
-									<c:if  test="${expert.coverNote eq '无'}">
-									<option >有</option>
-									</c:if> --%>
-								<option selected="selected">无</option>
-								<option>有</option>
-							</select>
-						</div></li>
-					<li class="col-md-3 col-sm-6 col-xs-12"><span
-						class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-							class="red"></i> 推荐信</span>
+
+
+
+				</ul>
+
+				</ul>
+
+				<h2 class="count_flow">
+					<i>2</i> <font color=red>*</font> 主要工作经历
+				</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+						<div class="padding-top-1 clear">
+
+
+							<li><textarea
+									<c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if>
+									rows="10" name="jobExperiences" id="jobExperiences"
+									style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'主要工作经历')}">border: 1px solid #ef0000;</c:if>'
+									placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
+							</li>
+					</li>
+				</ul>
+
+
+				<h2 class="count_flow">
+					<i>3</i> <font color=red></font> 专业学术成果
+				</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+						<div class="padding-top-1 clear">
+
+
+							<li><textarea
+									<c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if>
+									rows="10" name="academicAchievement" id="academicAchievement"
+									style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'专业学术成果')}">border: 1px solid #ef0000;</c:if>'
+									placeholder="">${expert.academicAchievement}</textarea></li>
+					</li>
+				</ul>
+
+
+				<h2 class="count_flow">
+					<i>4</i> <font color=red></font> 获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)
+				</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 						<div
 							class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-							<c:if test="${fn:contains(errorField,'技术职称')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('技术职称')"</c:if>>
+							<c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"</c:if>>
 							<u:upload
 								singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-								exts="${properties['file.picture.type']}" id="expert13"
+								exts="${properties['file.picture.type']}" id="expert19"
 								groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
 								multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-								typeId="${typeMap.EXPERT_TITLE_TYPEID}" auto="true" />
-							<u:show showId="show13"
+								typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true" />
+							<u:show showId="show19"
 								groups="show1,show2,show3,show4,show5,show6,show7,show8"
 								businessId="${sysId}" sysKey="${expertKey}"
-								typeId="${typeMap.EXPERT_TITLE_TYPEID}" />
-						</div></li>
-					<li class="col-md-12 col-sm-6 col-xs-12">
-						<div class="padding-top-10 clear">
-							<h2 class="count_flow">
-								<font color=red>*</font> 主要工作经历
-							</h2>
-							<ul class="ul_list">
-								<li><textarea
-										<c:if test="${fn:contains(errorField,'主要工作经历')}">onmouseover="errorMsg('主要工作经历')"</c:if>
-										rows="10" name="jobExperiences" id="jobExperiences"
-										style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'主要工作经历')}">border: 1px solid #ef0000;</c:if>'
-										placeholder="包括时间、工作单位、职务、工作内容等">${expert.jobExperiences}</textarea>
-								</li>
-							</ul>
-						</div></li>
-					<li class="col-md-12 col-sm-6 col-xs-12">
-						<div class="padding-top-10 clear">
-							<h2 class="count_flow">
-								<font color=red></font> 专业学术成果
-							</h2>
-							<ul class="ul_list">
-								<li><textarea
-										<c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if>
-										rows="10" name="academicAchievement" id="academicAchievement"
-										style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'专业学术成果')}">border: 1px solid #ef0000;</c:if>'
-										placeholder="">${expert.academicAchievement}</textarea></li>
-							</ul>
-						</div></li>
-					<li class="col-md-12 col-sm-6 col-xs-12">
-						<div class="padding-top-10 clear">
-							<h2 class="count_flow">
-								<font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)
-							</h2>
-
-							<div
-								class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-								<c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"</c:if>>
-								<u:upload
-									singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-									exts="${properties['file.picture.type']}" id="expert19"
-									groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-									multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-									typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true" />
-								<u:show showId="show19"
-									groups="show1,show2,show3,show4,show5,show6,show7,show8"
-									businessId="${sysId}" sysKey="${expertKey}"
-									typeId="${typeMap.EXPERT_DEGREE_TYPEID}" />
-							</div>
-						</div></li>
-					<li class="col-md-12 col-sm-6 col-xs-12">
-						<div class="padding-top-10 clear">
-							<h2 class="count_flow">
-								<font color=red></font> 参加军队地方采购评审情况
-							</h2>
-							<ul class="ul_list">
-								<li><textarea
-										<c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if>
-										rows="10" name="reviewSituation" id="reviewSituation"
-										style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 1px solid #ef0000;</c:if>'
-										placeholder="">${expert.reviewSituation}</textarea></li>
-							</ul>
-						</div></li>
-					<li class="col-md-12 col-sm-6 col-xs-12">
-						<div class="padding-top-10 clear">
-							<h2 class="count_flow">
-								<font color=red></font> 需要申请回避的情况
-							</h2>
-							<ul class="ul_list">
-								<li><textarea
-										<c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if>
-										rows="10" name="avoidanceSituation" id="avoidanceSituation"
-										style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">border: 1px solid #ef0000;</c:if>'
-										placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
-								</li>
-							</ul>
+								typeId="${typeMap.EXPERT_DEGREE_TYPEID}" />
 						</div></li>
 				</ul>
+
+				<h2 class="count_flow">
+					<i>5</i> <font color=red></font>参加军队地方采购评审情况
+				</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+						<div class="padding-top-1 clear">
+
+							<li><textarea
+									<c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">onmouseover="errorMsg('参加军队地方采购评审情况')"</c:if>
+									rows="10" name="reviewSituation" id="reviewSituation"
+									style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'参加军队地方采购评审情况')}">border: 1px solid #ef0000;</c:if>'
+									placeholder="">${expert.reviewSituation}</textarea></li>
+					</li>
+				</ul>
+
+				<h2 class="count_flow">
+					<i>6</i> <font color=red></font>需要申请回避的情况
+				</h2>
+				<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+						<div class="padding-top-1 clear">
+							<li><textarea
+									<c:if test="${fn:contains(errorField,'需要申请回避的情况')}">onmouseover="errorMsg('需要申请回避的情况')"</c:if>
+									rows="10" name="avoidanceSituation" id="avoidanceSituation"
+									style='height: 150px; width: 100%; resize: none; <c:if test="${fn:contains(errorField,'需要申请回避的情况')}">border: 1px solid #ef0000;</c:if>'
+									placeholder="近3年内,存在劳动关系的供应商,或者担任过供应商的董事、监事,或者是供应商的控股股东（实际控制人）；与供应商法定代表人或者主要负责人有夫妻、直系血亲、三代以内旁系血亲或者近姻亲关系；发生过法律纠纷的供应商；其它需要回避的情况。">${expert.avoidanceSituation}</textarea>
+							</li>
+					</li>
+				</ul>
+
+
 				<!-- 专家专业信息 -->
 				<div class="btmfix">
 					<div style="margin-top: 15px;text-align: center;">
@@ -1497,10 +1471,39 @@
 						<button class="btn" id="nextBind" type="button" onclick='fun()'>下一步</button>
 					</div>
 				</div>
+
+
+
 			</div>
 		</div>
 	</form>
 	<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
-
+	<script type="text/javascript">
+		(function(){
+		
+			
+		$("#coverNote").change(function(){
+			if($(this).val()=="1"){
+			  $("#sbzm").show();
+			  $("#txzs").hide();
+			}else{
+			
+			$("#sbzm").hide();
+			$("#txzs").show();
+			}
+		});
+		
+		$("#isReferenceLftter").change(function(){
+			if($(this).val()=="1"){
+			  $("#tjx").show();
+			  wtj=5;
+			}else{
+			$("#tjx").hide();
+			wtj=4;
+			}
+		});
+		
+		})();
+	</script>
 </html>

@@ -141,7 +141,18 @@ public class Expert extends ExpertHistory implements Serializable {
     private String unitAddress;
     /**邮编*/
     private String postCode;
-    /**学位*/
+    //是否推荐信
+    private int isReferenceLftter;
+    
+    public int getIsReferenceLftter() {
+		return isReferenceLftter;
+	}
+
+	public void setIsReferenceLftter(int isReferenceLftter) {
+		this.isReferenceLftter = isReferenceLftter;
+	}
+
+	/**学位*/
     private String degree;
     /**现任职务*/
     @NotNull(message = "不能为空") 
