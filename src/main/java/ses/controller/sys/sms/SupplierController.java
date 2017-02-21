@@ -566,6 +566,14 @@ public class SupplierController extends BaseSupplierController {
 		
 		
 		// 非空处理
+	    List < SupplierAddress > addressList = supplier.getAddressList();
+	    for(int i = 0; i < addressList.size(); i++) {
+	        SupplierAddress address = addressList.get(i);
+	        if(address != null && address.getSupplierId() == null) {
+	            addressList.remove(i);
+	        }
+	    }
+	    supplier.setAddressList(addressList);
 		List < SupplierStockholder > stockHolders = supplier.getListSupplierStockholders();
 		for(int i = 0; i < stockHolders.size(); i++) {
 			SupplierStockholder stocker = stockHolders.get(i);
