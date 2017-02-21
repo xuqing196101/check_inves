@@ -171,7 +171,7 @@
 				var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
 					if(!regTelephone.test(element.value)) {
-						msg = "事务所联系方式格式有误!";
+						msg = "事务所联系电话格式有误!";
 						flag = false;
 					}
 				});
@@ -183,9 +183,6 @@
 						offset: '300px'
 					});
 				}
-				
-				
-				
 			}
 
 			/** 暂存 */
@@ -808,7 +805,6 @@
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="children_area_select_id" name="address" <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address')"</c:if>>
-
 												<c:forEach items="${city }" var="city">
 													<c:if test="${city.id==currSupplier.address }">
 														<option value="${city.id }" selected="selected">${city.name }</option>
@@ -828,7 +824,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="detailAddress" value="${currSupplier.detailAddress}" required maxlength="50" <c:if test="${fn:contains(audit,'detailAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress')"</c:if>>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空</span>
+										<span class="input-tip">住所地址为营业执照注册地址</span>
 										<div class="cue">${err_detailAddress } </div>
 										<div class="cue">
 											<sf:errors path="detailAddress" />
@@ -1779,7 +1775,7 @@
 					
 					<!-- 售后服务机构信息 -->
 					<div class="clear">
-						<h2 class="count_flow clear pt20"> <i>5</i><font color=red>*</font> 售后服务机构一览表</h2>
+						<h2 class="count_flow clear pt20"> <i>5</i><font color=red>*</font> 售后服务机构</h2>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
@@ -1830,7 +1826,7 @@
 					
 					<!-- 参加政府或军队采购经历登记表 -->
 					<div class="clear">
-						<h2 class="count_flow clear pt20"> <i>6</i> 参加政府或军队采购经历登记表 </h2>
+						<h2 class="count_flow clear pt20"> <i>6</i> 参加政府或军队采购经历 </h2>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">

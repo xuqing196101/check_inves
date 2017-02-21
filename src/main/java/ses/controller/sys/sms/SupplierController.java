@@ -570,7 +570,7 @@ public class SupplierController extends BaseSupplierController {
 	    List < SupplierAddress > addressList = supplier.getAddressList();
 	    for(int i = 0; i < addressList.size(); i++) {
 	        SupplierAddress address = addressList.get(i);
-	        if(address != null && address.getSupplierId() == null) {
+	        if(address != null && address.getId() == null) {
 	            addressList.remove(i);
 	        }
 	    }
@@ -1070,6 +1070,14 @@ public class SupplierController extends BaseSupplierController {
             stockList.add(stock);
             stock.setSupplierId(supplier.getId());
             supplier.setListSupplierStockholders(stockList);
+        }
+        List<SupplierAfterSaleDep> afterSaleDep = supplier.getListSupplierAfterSaleDep();
+        if (afterSaleDep == null || afterSaleDep.size() == 0) {
+            SupplierAfterSaleDep stock = new SupplierAfterSaleDep();
+            stock.setId(WfUtil.createUUID());
+            afterSaleDep.add(stock);
+            stock.setSupplierId(supplier.getId());
+            supplier.setListSupplierAfterSaleDep(afterSaleDep);
         }
 		model.addAttribute("currSupplier", supplier);
 		request.getSession().setAttribute("jump.page", "basic_info");

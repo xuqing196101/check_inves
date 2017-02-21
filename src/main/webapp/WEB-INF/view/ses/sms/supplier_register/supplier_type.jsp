@@ -282,16 +282,6 @@
 				layer.msg("物资生产资质证书信息不能为空! ");
 			}
 		}
-		// 判断有没有勾选物资销售
-		if (isSaleCheck == true) {
-			$("#cert_sell_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isSaleCheck) {
-							flag = false;
-							layer.msg("物资销售资质证书信息不能为空! ");
-						}
-					});
-		}
 		// 判断有没有勾选工程
 		if (isEngCheck == true) {
 			$("#reg_person_list_tbody_id").find("input[type='text']").each(
@@ -313,16 +303,6 @@
 						if (element.value == "" || !isEngCheck) {
 							flag = false;
 							layer.msg("工程资质证书信息不能为空! ");
-						}
-					});
-		}
-		// 判断有没有勾选服务
-		if (isServerCheck == true) {
-			$("#cert_se_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isServerCheck) {
-							flag = false;
-							layer.msg("服务资质证书信息不能为空! ");
 						}
 					});
 		}
