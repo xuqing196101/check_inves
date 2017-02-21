@@ -406,10 +406,10 @@
 	  				<span id="ty1" class="new_step current fl" onclick="one()"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 	  				<span id="ty2" class="new_step current fl" onclick="pre()"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
 	  				<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">3</i><div class="line"></div> <span class="step_desc_02">专家类别</span> </span>
-	  				<span id="ty6" class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品目录</span> </span>
+	  				<span id="ty6" class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">产品类别</span> </span>
 	  				<span id="ty3" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">采购机构</span> </span> 
 	  				<span id="ty4" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">文件下载</span> </span> 
-	  				<span id="ty5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">文件上传</span> </span> 
+	  				<span id="ty5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">提交审核</span> </span> 
 	  				<div class="clear"></div>
 				</h2>
 				<div class="col-md-12 tab-v2 job-content mt20">
@@ -420,24 +420,24 @@
 								<c:if test="${cate.code eq 'GOODS'}">
 									<c:set value="${liCount+1}" var="liCount" />
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资技术专家参评产品目录</a>
 									</li>
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专家参评产品目录</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
+										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程采购专家参评产品目录</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务品目信息</a>
+										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务技术专家参评产品目录</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>

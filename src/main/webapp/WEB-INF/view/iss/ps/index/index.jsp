@@ -1075,7 +1075,7 @@
 	        <% if (environment != null && environment.equals("1")){ %>
 	             <a onclick="registerTip();" class="qyzc">
 	        <% } %>
-                <span>企业注册</span>
+                <span>供应商注册</span>
               </a>
             </div>
             <div class="ywbl_01">
@@ -1085,7 +1085,7 @@
 	        <% if (environment != null && environment.equals("1")){ %>
 	             <a onclick="registerTip();" class="zjzc">
 	        <% } %>
-                <span>专家注册</span>
+                <span>评审专家注册</span>
               </a>
             </div>
             <div class="ywbl_01">

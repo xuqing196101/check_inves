@@ -480,7 +480,7 @@ function importAdd(){
 
       <!-- 专家 -->
         <li class="dropdown other zhuanjia_li mega-menu-fullwidth">
-          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商</a>
+          <a class="dropdown-toggle" data-toggle="dropdown" href="javascript:void(0);" ><i class="zhuanjia nav_icon"></i>供应商管理</a>
 	<!--供应商鼠标移动开始-->
 		<div class="drop_next dropdown-menu" >
 	     <div class="row magazine-page clear">
@@ -566,7 +566,7 @@ function importAdd(){
 
       <!-- 投诉 -->
         <li class="dropdown other tousu_li mega-menu-fullwidth">
-          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
+          <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家管理</a>
 	<!--评审专家鼠标移动开始-->
 		 <div class="drop_next dropdown-menu" >
 	   <div class="row magazine-page clear">
@@ -580,7 +580,7 @@ function importAdd(){
 	     <% if (environment != null && environment.equals("1")){ %>
 	        <a onclick="registerTip();">
 	     <% } %>
-		   专家注册
+		   评审专家注册
 		 <i></i>
 		</a>	  
 	  </div>
