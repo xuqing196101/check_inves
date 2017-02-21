@@ -35,6 +35,7 @@ import ses.model.bms.User;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierAuditNot;
@@ -334,9 +335,11 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		//查出全部退回修改的信息
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
-			SupplierHistory supplierHistory = new SupplierHistory();
-			supplierHistory.setSupplierId(supplierId);
-			List < SupplierHistory > editList = supplierHistoryService.selectAllBySupplierId(supplierHistory);
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("basic_page");
+			supplierModify.setListType(0);
+			List < SupplierModify > editList = supplierModifyService.selectBySupplierId(supplierModify);
 			StringBuffer field = new StringBuffer();
 			for(int i = 0; i < editList.size(); i++) {
 				String beforeField = editList.get(i).getBeforeField();
@@ -344,7 +347,11 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("field", field);
 		}
-
+		
+		//售后服务机构一览表
+		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplierService.get(supplierId).getListSupplierAfterSaleDep();
+		request.setAttribute("listSupplierAfterSaleDep",listSupplierAfterSaleDep);
+		
 		//插入对比后的数据
 		SupplierModify supplierModify= new SupplierModify();
 		supplierModify.setSupplierId(supplierId);
@@ -696,20 +703,31 @@ public class SupplierAuditController extends BaseSupplierController {
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-
-		//查出全部退回修改的信息
+		
+		/**
+		 * 退回修改前的信息
+		 */
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
-			SupplierHistory supplierHistory = new SupplierHistory();
-			supplierHistory.setSupplierId(supplierId);
-			List < SupplierHistory > editList = supplierHistoryService.selectAllBySupplierId(supplierHistory);
-			StringBuffer field = new StringBuffer();
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_pro_page");
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			//产品研发能力
+			StringBuffer fieldProOne = new StringBuffer();
 			for(int i = 0; i < editList.size(); i++) {
 				String beforeField = editList.get(i).getBeforeField();
-				field.append(beforeField + ",");
+				fieldProOne.append(beforeField + ",");
 			}
-			request.setAttribute("field", field);
+			request.setAttribute("fieldProOne", fieldProOne);
+			//资质证书
+			StringBuffer fieldProTwo = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldProTwo.append(beforeField + ",");
+			}
+			request.setAttribute("fieldProTwo", fieldProTwo);
 		}
 		
 		/**
@@ -771,7 +789,22 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierCertSell", supplierCertSell);
 		request.setAttribute("supplierMatSells", supplierMatSell);
 		request.setAttribute("supplierId", supplierId);
-
+		
+		//资质证书退回修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_sell_page");
+			supplierModify.setListType(6);
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldSell = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldSell.append(beforeField + ",");
+			}
+			request.setAttribute("fieldSell", fieldSell);
+		}
+		
 		/**
 		 * 工程
 		 */
@@ -823,7 +856,54 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("rootArea", existenceArea);
 		}
-
+		
+		
+		//注册人员-退回修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setListType(7);
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldRegPersons = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldRegPersons.append(beforeField + ",");
+			}
+			request.setAttribute("fieldRegPersons", fieldRegPersons);
+		}
+		
+		//证书信息-退回修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setListType(8);
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldCertEngs = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldCertEngs.append(beforeField + ",");
+			}
+			request.setAttribute("fieldCertEngs", fieldCertEngs);
+		}
+		
+		//资质证书信息-退回修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setListType(9);
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldAptitutes = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldAptitutes.append(beforeField + ",");
+			}
+			request.setAttribute("fieldAptitutes", fieldAptitutes);
+		}
+		
+		
 		/**
 		 * 服务
 		 */
@@ -840,6 +920,22 @@ public class SupplierAuditController extends BaseSupplierController {
 		//组织结构和人员
 		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
 		request.setAttribute("supplierMatSes", supplierMatSe);
+		
+		//证书信息-退回修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_serve_page");
+			supplierModify.setListType(10);
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldServe = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldServe.append(beforeField + ",");
+			}
+			request.setAttribute("fieldServe", fieldServe);
+		}
+		
 
 		return "ses/sms/supplier_audit/supplierType";
 	}
@@ -1098,6 +1194,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		SupplierHistory supplierHistory = new SupplierHistory();
 		supplierHistory.setSupplierId(supplierId);
 		supplierHistoryService.delete(supplierHistory);
+		
+		//删除该供应商对比后的数据
+		SupplierModify supplierModify = new SupplierModify();
+		supplierModify.setSupplierId(supplierId);
+		supplierModifyService.delete(supplierModify);
 		
 		// 新增历史记录
 		if (supplier.getStatus() == 2) {
@@ -1655,7 +1756,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	public String showModify(SupplierModify supplierModify, HttpServletRequest request) throws ParseException {
 		supplierModify = supplierModifyService.findBySupplierId(supplierModify);
 
-		if(supplierModify.getmodifyType().equals("basic_page")){
+		if(supplierModify.getmodifyType().equals("basic_page") && supplierModify.getListType() == 0){
 			//在数据字典里查询营业执照类型
 			if(supplierModify.getBeforeField().equals("businessType") && supplierModify.getBeforeField() != null) {
 				String showModify = "";

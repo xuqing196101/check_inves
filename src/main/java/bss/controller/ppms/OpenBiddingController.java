@@ -8,19 +8,15 @@ import iss.service.ps.ArticleTypeService;
 import java.io.IOException;
 import java.io.OutputStream;
 import java.math.BigDecimal;
-import java.net.URLDecoder;
 import java.sql.Timestamp;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.TreeMap;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,6 +42,7 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseInfo;
 import ses.model.oms.PurchaseOrg;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
@@ -53,15 +50,19 @@ import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
 import ses.service.bms.TodosService;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.oms.PurchaseServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
+import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
@@ -237,6 +238,12 @@ public class OpenBiddingController {
 
   @Autowired
   private BidMethodService bidMethodService;
+  
+  @Autowired
+  private PurchaseServiceI purchaseService;
+  
+  @Autowired
+  private UserServiceI userService;
   /**
    * @Fields jsonData : ajax返回数据封装类
    */
@@ -2729,5 +2736,141 @@ public class OpenBiddingController {
       model.addAttribute("article1", article1);
     }
 
+  }
+  
+  /**
+   *〈简述〉获取下一流程环节
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param response
+   * @param request
+   * @param art
+   * @param flowDefineId
+   * @throws Exception
+   */
+  @RequestMapping("/getNextFd")
+  @ResponseBody
+  public void getNextFd(@CurrentUser User user, HttpServletResponse response, HttpServletRequest request, String projectId, String flowDefineId) throws Exception{
+      try {
+          JSONObject jsonObj = new JSONObject();
+          Project project = projectService.selectById(projectId);
+          //当前点击环节
+          FlowDefine flowDefine = new FlowDefine();
+          if ("0".equals(flowDefineId)) {
+              //默认进来第一环节
+              FlowDefine define = new FlowDefine();
+              define.setIsDeleted(0);
+              define.setPurchaseTypeId(project.getPurchaseType());
+              define.setStep(1);
+              List<FlowDefine> defines = flowMangeService.find(define);
+              if (defines != null && defines.size() > 0) {
+                  flowDefine = defines.get(0);
+              }
+          } else {
+              flowDefine = flowMangeService.getFlowDefine(flowDefineId);
+          }
+          //当前登录人对当前环节的操作权限
+          FlowExecute execute = new FlowExecute();
+          execute.setFlowDefineId(flowDefine.getId());
+          execute.setIsDeleted(0);
+          execute.setProjectId(projectId);
+          execute.setStatus(0);
+          List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+          if (executes != null && executes.size() > 0) {
+              User u = userService.getUserById(executes.get(0).getOperatorId());
+              if (u != null) {
+                  jsonObj.put("operateName", u.getRelName());
+              }
+              if (executes.get(0).getOperatorId().equals(user.getId())) {
+                  //具有操作权限
+                  jsonObj.put("isOperate", 1);
+              } else {
+                  //具有查看权限
+                  jsonObj.put("isOperate", 0);
+              }
+          }
+          
+          FlowDefine fd = new FlowDefine();
+          fd.setPurchaseTypeId(flowDefine.getPurchaseTypeId());
+          fd.setStep(flowDefine.getStep() + 1);
+          List<FlowDefine> nextFlowDefine = flowMangeService.find(fd);
+          if (nextFlowDefine != null && nextFlowDefine.size() > 0) {
+              //下一环节
+              FlowDefine fDefine = nextFlowDefine.get(0);
+              FlowExecute flowExecute = new FlowExecute();
+              flowExecute.setFlowDefineId(fDefine.getId());
+              flowExecute.setIsDeleted(0);
+              flowExecute.setProjectId(projectId);
+              flowExecute.setStatus(0);
+              List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
+              if (flowExecutes != null && flowExecutes.size() > 0) {
+                  FlowExecute flowExecute2 = flowExecutes.get(0);
+                  jsonObj.put("success", true);
+                  jsonObj.put("isEnd", false);
+                  jsonObj.put("operatorId", flowExecute2.getOperatorId());
+                  jsonObj.put("flowDefineId", fDefine.getId());
+                  jsonObj.put("flowDefineName", fDefine.getName());
+                  List<PurchaseInfo> purchaseInfo = new ArrayList<>();
+                  if(user != null && user.getOrg() != null){
+                     //获取当前用户所属机构人员
+                     purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
+                  }
+                  jsonObj.put("users", purchaseInfo);
+                  response.getWriter().print(jsonObj.toString());
+              }
+          } else {
+              //当前环节是最后一个环节
+              jsonObj.put("success", true);
+              jsonObj.put("isEnd", true);
+              response.getWriter().print(jsonObj.toString());
+          }
+          response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
+  }
+  
+  /**
+   *〈简述〉更改经办人
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param request
+   * @param response
+   * @param projectId
+   * @throws IOException
+   */
+  @RequestMapping("/updateOperator")
+  @ResponseBody
+  public void updateOperator (HttpServletRequest request, HttpServletResponse response, String projectId) throws IOException {
+      try {
+          String flowDefineId = request.getParameter("huanjieId");
+          String userId = request.getParameter("principal");
+          User user = userService.getUserById(userId);
+          FlowExecute flowExecute = new FlowExecute();
+          flowExecute.setFlowDefineId(flowDefineId);
+          flowExecute.setIsDeleted(0);
+          flowExecute.setProjectId(projectId);
+          flowExecute.setStatus(0);
+          List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
+          if (flowExecutes != null && flowExecutes.size() > 0) {
+            FlowExecute execute = flowExecutes.get(0);
+            execute.setOperatorId(userId);
+            if (user != null) {
+                execute.setOperatorName(user.getRelName());
+            }
+            flowMangeService.updateExecute(execute);
+            JSONObject jsonObj = new JSONObject();
+            jsonObj.put("success", true);
+            response.getWriter().print(jsonObj.toString());
+          }
+          response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
+    
   }
 }

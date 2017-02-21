@@ -69,6 +69,27 @@
 				});
 			}
 			
+			// 根据证书编号获取附件信息
+			function getFileByCode(obj, number){
+				var certCode = $(obj).val();
+				var supplierId = $("#supplierId").val();
+				// 通过append将附件信息追加到指定位置
+				$.ajax({
+					url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+					async : false,
+					dataType : "html",
+					data : {
+						"certCode" : certCode,
+						"supplierId" : supplierId,
+						"number" : number,
+					},
+					success : function(data) {
+						$(obj).parent().next().append(data);
+						init_web_upload();
+					}
+				});
+			}
+			
 			$(function(){
 				var cateList = "${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}";
 				var saleQua = "${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}";
@@ -126,7 +147,7 @@
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
-								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT') and fn:length(projectQua) > 0}">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'>
 										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-3')" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a>
 									</li>
@@ -193,23 +214,34 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-3">
 										<table class="table table-bordered">
-											<c:set value="0" var="plength"> </c:set>
-											<c:forEach items="${projectQua }" var="project">
-												<tr>
-													<td class="w200">${project.categoryName }
-													</td>
-													<td>
-														<c:forEach items="${project.list }" var="project">
-															<c:set value="${plength+1}" var="plength"></c:set>
-															<div class="mr5 fl" <c:if test="${fn:contains(audit,project.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${project.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="projectUp${plength}" multiple="true" buttonName="${project.name}" groups="${saleUp}" businessId="${project.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-																<div class="clear"></div>
-																<u:show showId="projectShow${plength}" groups="${saleShow}" businessId="${project.flag}" sysKey="${sysKey}" typeId="${typeId}" />
-															</div>
-														</c:forEach>
-													</td>
-												</tr>
-											</c:forEach>
+											<tr>
+										      <td class="info tc w50">序号</td>
+										      <td class="info tc w100">类别</td>
+										      <td class="info tc">大类</td>
+										      <td class="info tc">中类</td>
+										      <td class="info tc">小类</td>
+										      <td class="info tc">等级选择</td>
+										      <td class="info tc">证书编号</td>
+										      <td class="info tc w200">证书图片</td>
+										    </tr>
+										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
+										      <tr>
+										        <td class="tc">${vs.index + 1}</td>
+										        <td class="tc">${cate.rootNode}</td>
+										        <td>${cate.firstNode}</td>
+										        <td>${cate.secondNode}</td>
+										        <td>${cate.thirdNode}</td>
+										      	<td>
+										      	  <select>
+										      	    <c:forEach items="${cate.levelList}" var="level">
+										      	      <option value="${level}" <c:if test="${cate.level eq level}">selected</c:if>>${level}</option>
+										      	    </c:forEach>
+										      	  </select>
+										      	</td>
+										     	<td><input type="text" value="${cate.certCode}" onchange="getFileByCode(this, '${vs.index}')"></td>
+										      	<td></td>
+										      </tr>
+										    </c:forEach>
 										</table>
 										<c:set value="${divCount+1}" var="divCount" />
 									</div>
@@ -227,9 +259,9 @@
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
 															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${ser.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="serverUp${plength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
-																<u:show showId="serverShow${plength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
+																<u:show showId="serverShow${slength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 															</div>
 														</c:forEach>
 													</td>

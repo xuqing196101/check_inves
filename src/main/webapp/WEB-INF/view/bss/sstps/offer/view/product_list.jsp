@@ -6,7 +6,7 @@
   <head>
     <%@ include file="../../../../common.jsp"%>
     <script type="text/javascript" src="<%=request.getContextPath()%>/public/layer/layer.js"></script>
-    <script src="<%=basePath%>public/laypage-v1.3/laypage/laypage.js"></script>
+    <script src="<%=request.getContextPath()%>public/laypage-v1.3/laypage/laypage.js"></script>
     <title>产品报价</title>
     
 <script type="text/javascript">
@@ -28,7 +28,7 @@ $(function(){
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		        	var id = "${id}";
-		            location.href = '<%=basePath%>offer/selectProduct.html?id=+"id"&page='+e.curr;
+		            location.href = '<%=request.getContextPath()%>offer/selectProduct.html?id=+"id"&page='+e.curr;
 		        }
 		    }
 		});

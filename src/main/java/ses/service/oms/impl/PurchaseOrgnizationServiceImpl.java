@@ -224,6 +224,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
         }
       }
     }
+    purchaseDep.setId(orgId);
     purchaseDep.setQuaStatus(0);
     return purchaseDepMapper.update(purchaseDep);
   }

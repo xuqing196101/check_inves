@@ -610,15 +610,15 @@ public class PurchaseManageController {
             return "ses/oms/purchase_dep/add";
         }
        
-	    if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
+	    /*if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
 	        model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
 	        model.addAttribute("lists", purchaseOrgList);
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
-	    }
-	    if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && !ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+	    }*/
+	    if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
 	        model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -626,6 +626,13 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }
+	    if(purchaseDep.getLegal() == null && "".equals(purchaseDep.getLegal())){
+            model.addAttribute("ERR_legal", "不能为空");
+            model.addAttribute("purchaseDep", purchaseDep);
+            model.addAttribute("lists", purchaseOrgList);
+            model.addAttribute("orgInfos", orgInfos);
+            return "ses/oms/purchase_dep/add";
+        }
 	    if(ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
 	        model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
 	        model.addAttribute("purchaseDep", purchaseDep);
@@ -693,13 +700,14 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }
-        if(ValidateUtils.isNotNull(purchaseDep.getDutyRoomPhone()) && !ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
+        
+        /*if(ValidateUtils.isNotNull(purchaseDep.getDutyRoomPhone()) && ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
             model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
-        }
+        }*/
         if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && !ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
             model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
             model.addAttribute("purchaseDep", purchaseDep);

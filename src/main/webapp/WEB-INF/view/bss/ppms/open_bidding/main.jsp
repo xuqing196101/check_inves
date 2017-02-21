@@ -6,6 +6,7 @@
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <script type="text/javascript">
 	$(function(){
 	    $("#menu a").click(function() {
@@ -20,6 +21,35 @@
 				$(this).addClass("active").siblings().removeClass("active");
 			});
 		});
+		var projectId = "${project.id}";
+		$.ajax({
+			url: "${pageContext.request.contextPath }/open_bidding/getNextFd.do?flowDefineId=0&projectId="+projectId,
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data.success) {
+					$("#currUserName").html(data.operateName);
+					$("#isOperate").val(data.isOperate);
+					if (!data.isEnd) {
+						$("#updateLinkId").show();
+						$("#huanjie").html(data.flowDefineName);
+						$("#huanjieId").val(data.flowDefineId);
+						$("#principal").empty();
+						$.each(data.users, function(i, user) {
+							if(user.relName != null && user.relName != '') {
+								$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+							}
+						});
+						$("#principal").select2();
+						$("#principal").select2("val", data.operatorId);
+					}
+					if (data.isEnd) {
+						$("#updateLinkId").hide();
+					}
+				} 
+			}
+		});
 	}); 
 	
 	function back(){
@@ -27,11 +57,60 @@
 	}
 	
 	function jumpLoad(url, projectId, flowDefineId){
+		$.ajax({
+			url: "${pageContext.request.contextPath }/open_bidding/getNextFd.do?flowDefineId="+flowDefineId+"&projectId="+projectId,
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data.success) {
+					$("#currUserName").html(data.operateName);
+					$("#isOperate").val(data.isOperate);
+					if (!data.isEnd) {
+						$("#updateLinkId").show();
+						$("#huanjie").html(data.flowDefineName);
+						$("#huanjieId").val(data.flowDefineId);
+						$("#principal").empty();
+						$.each(data.users, function(i, user) {
+							if(user.relName != null && user.relName != '') {
+								$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+							}
+						});
+						$("#principal").select2();
+						$("#principal").select2("val", data.operatorId);
+					}
+					if (data.isEnd) {
+						$("#updateLinkId").hide();
+					}
+				} 
+			},
+			error: function(data){
+                layer.msg("请稍后再试",{offset: '100px'});
+            }
+		});
 		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
-      $("#as").attr("href",urls);
-      var el=document.getElementById('as');
-       el.click();//触发打开事件
-      // $("#open_bidding_main").load(urls);
+      	$("#as").attr("href",urls);
+      	var el=document.getElementById('as');
+       	el.click();//触发打开事件
+      	// $("#open_bidding_main").load(urls);
+	}
+	
+	//变更经办人
+	function updateOperator(){
+		$.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/open_bidding/updateOperator.html",
+				dataType: "json", //返回格式为json
+                data:$('#updateLinkId').serialize(),
+                success: function(data) {
+                    if(data.success){
+                    	layer.msg("变更成功",{offset: '100px'});
+                    }
+                },
+                error: function(data){
+                    layer.msg("请稍后再试",{offset: '100px'});
+                }
+            });
 	}
 	
 	function jumpChild(url){
@@ -150,7 +229,7 @@
 						 </ul>
 					  </div>
 					  <!-- 右侧内容开始-->
-					  <input type="hidden" id="initurl" value="${url }">
+					  <input type="hidden" id="initurl" value="${url}">
 					  <!-- <div class="tag-box tag-box-v4 col-md-9 "  id="open_bidding_main">
 					  		
 					  </div> -->
@@ -166,7 +245,32 @@
 							window.onresize = getContentSize;
  					  </script>
                       <!-- 右侧内容开始-->
-                      <div class="tag-box tag-box-v4 col-md-9" >
+                      <div class="tag-box tag-box-v4 col-md-9 pt10" >
+                      	  <input type="hidden" id="isOperate">
+                      	  <form id="updateLinkId" action="" method="post" class="w100p fl mb10 border1 padding-10 bg11">
+					      	 <input type="hidden" name="projectId" value="${project.id}">
+					      	 <div class="fr">
+					      		<span class="fl h30 lh30">经办人：</span>
+					      		<div class="w200 fl">
+					      			<select id="principal" name="principal" onchange="change(this.options[this.selectedIndex].value)"></select>
+					      		</div>
+					      		<div class="fl ml5">
+					      			<input type="button" class="btn btn-windows git" onclick="updateOperator();" value="变更"></input>
+					      		</div>
+					      	</div>
+					      	<div class="fr mr10">
+					      		<span class="fl h30 lh30">下一环节：</span>
+					      		<div  class="fl">
+					      		    <input type="hidden" id="huanjieId" name="huanjieId"><span id="huanjie" class="h30 lh30"></span>
+					      		</div>
+					        </div>
+					        <div class="fl mr10">
+					      		<span class="fl h30 lh30">当前环节经办人：</span>
+					      		<div  class="fl">
+					      		    <span id="currUserName" class="h30 lh30"></span>
+					      		</div>
+					        </div>
+                      	  </form>
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
 					  <div class="btmfix" >

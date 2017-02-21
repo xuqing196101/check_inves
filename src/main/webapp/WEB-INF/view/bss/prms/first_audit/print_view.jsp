@@ -49,13 +49,17 @@
 	    });
 	   
    }
+   
+   function printResult(projectId,packageId,expertId){
+   	   window.location.href="${pageContext.request.contextPath}/packageExpert/print.html?projectId="+projectId+"&packageId="+packageId+"&expertId="+expertId;
+   }
   </script>
   <body>
     <div class="container">
 		 
 		<div class="container clear" id="package">
 			<div class="mt5 mb5 fr">
-			    <button class="btn" onclick="window.print();" type="button">打印检查数据</button>
+			    <button class="btn" onclick="printResult('${project.id}','${pack.id}','${expert.id}');" type="button">打印检查数据</button>
 		   	</div>
 		    <div class="headline-v2">
 		   		<h2>资格性符合性检查数据</h2>
@@ -64,9 +68,8 @@
 		   		<h2>${project.name}--${pack.name}</h2>
 		   	</div>
 			<form action="" method="post" >
-		   	   <div class="content table_box over_scroll">
 			   	   <h4>评审人员：${expert.relName}</h4>
-				   <table class="table table-bordered table-condensed table-hover space_nowrap" id="table2">
+				   <table class="table table-bordered table-condensed table-hover" id="table2">
 				   		<thead>
 				   		  <th class="info space_nowrap">资格性和符合性检查项</th>
 				   		  <c:set var="suppliers" value="0" />
@@ -87,13 +90,14 @@
 					      	  <td class="w260"><a href="javascript:void(0);" title="${first.content}">${first.name}</a></td>
 					      	  <c:forEach items="${extension.supplierList }" var="supplier" varStatus="v">
 					      	  	<c:if test="${fn:contains(supplier.packages,extension.packageId)}">
-			   		                <td class="tc space_nowrap">
+			   		                <td class="tc">
 			   		                    <c:forEach items="${reviewFirstAuditList }" var="r" >
 			   		                      <c:if test="${isSubmit == 0 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId}">暂无</c:if>
 			   		                      <c:if test="${isSubmit == 1 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==0 }">合格</c:if>
 			   		                      <c:if test="${isSubmit == 1 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==1 }">
 			   		                    	  <div class="red">不合格</div>
-			   		                    	 <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${expertId}');">查看理由</a>
+			   		                    	  理由：${r.rejectReason}地区温度计晴空万里低级趣味地区完全忘了考虑带你去看玩电脑得去问ID进去卡了五毒俱全来得及情况为代价
+			   		                    	 <%-- <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${expertId}');">查看理由</a> --%>
 			   		                      </c:if>
 			   		                    </c:forEach>
 			   		                </td>
@@ -105,7 +109,6 @@
 				   		</c:forEach>
 				   </table>
 				   <h4>专家签名：</h4>
-			   </div>
 			</form>
 		</div> 
 	</div>

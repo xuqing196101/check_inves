@@ -37,6 +37,9 @@
 	</delete>
 	<insert id="insertSelective" parameterType="bss.model.ppms.theSubject">
 		<!-- @mbggenerated -->
+		<selectKey keyProperty="id" resultType="String" order="BEFORE">
+	        select sys_guid() from dual
+	    </selectKey>
 		insert into T_BSS_PPMS_THE_SUBJECT
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -165,6 +168,7 @@
 
 	<!-- 批量插入 -->
 	<insert id="insertList" parameterType="java.util.List">
+		
 		INSERT INTO T_BSS_PPMS_THE_SUBJECT
 		(DETAIL_ID, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT, UNIT_PRICE,
 		PACKAGE_ID, PROJECT_ID)

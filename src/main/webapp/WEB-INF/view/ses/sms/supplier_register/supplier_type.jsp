@@ -466,19 +466,18 @@
 		var matProId = $("input[name='supplierMatPro.id']").val();
 		var supplierId = $("input[name='id']").val();
 		var certProNumber = $("#certProNumber").val();
-		$
-				.ajax({
-					url : "${pageContext.request.contextPath}/supplier/addProductCert.do",
-					async : false,
-					dataType : "html",
-					data : {
-						"number" : certProNumber
-					},
-					success : function(data) {
-						$("#cert_pro_list_tbody_id").append(data);
-						init_web_upload();
-					}
-				});
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/addProductCert.do",
+			async : false,
+			dataType : "html",
+			data : {
+				"number" : certProNumber
+			},
+			success : function(data) {
+				$("#cert_pro_list_tbody_id").append(data);
+				init_web_upload();
+			}
+		});
 		certProNumber++;
 		$("#certProNumber").val(certProNumber);
 	}

@@ -53,6 +53,7 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -75,6 +76,7 @@ import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAfterSaleDepService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierFinanceService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
@@ -192,6 +194,9 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierModifyService supplierModifyService;
+	
+	@Autowired
+	private SupplierCertEngService supplierCertEngService;
 
 	/**
 	 * @Title: getIdentity
@@ -1929,7 +1934,7 @@ public class SupplierController extends BaseSupplierController {
 			if (level != null) {
 			    for (int i = 0; i < child.size(); i++) {
 			        Category cate = child.get(i);
-			        if (cate.getLevel() != null && cate.getLevel() < level) {
+			        if (cate.getLevel() != null && Integer.parseInt(cate.getLevel()) < level) {
 			            child.remove(i);
 			        }
 			    }
@@ -2387,6 +2392,30 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping(value = "/deleteAfterSaleDep")
     public void deleteCertEng(String afterSaleDepIds) {
         supplierAfterSaleDepService.deleteAfterSaleDep(afterSaleDepIds);
+    }
+    
+    /**
+     *〈简述〉根据证书编号获取附件信息
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param certCode
+     * @param supplierId
+     * @param Model
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getFileByCode")
+    public ModelAndView addSeCert(String certCode, String supplierId, Model model, String number) {
+        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(certCode, supplierId);
+        if (certEng != null && certEng.size() > 0) {
+            model.addAttribute("number", number);
+            //初始化供应商注册附件类型
+            model.addAttribute("id", certEng.get(0).getId());
+            model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+            model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+            return new ModelAndView("ses/sms/supplier_register/supplier_eng_file");
+        }
+        return null;
     }
 
 }

@@ -27,7 +27,7 @@
           <div class="row container margin-bottom-10">
             <div class="col-md-8">
               <a href="">
-                 <img alt="Logo" src="<%=basePath%>public/ZHQ/images/logo.png" id="logo-header">
+                 <img alt="Logo" src="<%=request.getContextPath()%>public/ZHQ/images/logo.png" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->

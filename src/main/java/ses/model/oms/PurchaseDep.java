@@ -51,6 +51,10 @@ public class PurchaseDep extends Orgnization{
     private String supplierContact;//供应商注册联系人
     
     private String supplierPhone;//供应商注册联系人电话
+    
+    private String supplierAddress;
+    
+    private String supplierPostcode;
 
     private String quaCert;
     
@@ -77,7 +81,7 @@ public class PurchaseDep extends Orgnization{
     @Length(min=0,max=20,message="长度不可超过20")
     private String depName;//单位名称
 
-    @Length(min=0,max=10,message="长度不可超过10")
+    @Length(min=0,max=10,message="长度不可超过50")
     private String legal;//法定代表人
 
     @Length(min=0,max=20,message="长度不可超过20")
@@ -551,6 +555,18 @@ public class PurchaseDep extends Orgnization{
     }
     public void setSupplierPhone(String supplierPhone) {
         this.supplierPhone = supplierPhone;
+    }
+    public String getSupplierAddress() {
+        return supplierAddress;
+    }
+    public void setSupplierAddress(String supplierAddress) {
+        this.supplierAddress = supplierAddress;
+    }
+    public String getSupplierPostcode() {
+        return supplierPostcode;
+    }
+    public void setSupplierPostcode(String supplierPostcode) {
+        this.supplierPostcode = supplierPostcode;
     }
    
 }

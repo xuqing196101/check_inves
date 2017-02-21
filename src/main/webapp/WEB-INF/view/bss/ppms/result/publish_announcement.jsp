@@ -9,7 +9,7 @@
   
     <title></title>
     
-    <script src="<%=basePath%>public/layer/layer.js"></script>
+    <script src="<%=request.getContextPath()%>public/layer/layer.js"></script>
 <script type="text/javascript">
     function addAttach(){
         html="<input id='pic' type='file' class='toinline' name='attaattach'/><a href='#' onclick='deleteattach(this)' class='toinline red redhover'>x</a><br/>";
@@ -29,7 +29,7 @@
 
    
    <div class="container">
-    <form  id ="form" action="<%=basePath%>resultAnnouncement/publishBidAnnouncement.do" method="post" target="_parent" enctype="multipart/form-data">
+    <form  id ="form" action="<%=request.getContextPath()%>resultAnnouncement/publishBidAnnouncement.do" method="post" target="_parent" enctype="multipart/form-data">
 
        <ul class="list-unstyled list-flow p0_20">
      <li class="col-md-6 p0 mb0">

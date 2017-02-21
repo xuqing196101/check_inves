@@ -34,6 +34,7 @@ import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryAttachmentService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 
 /**
@@ -126,6 +127,7 @@ public class CategoryController extends BaseSupplierController {
     @RequestMapping("/get")
     public String get(HttpServletRequest request,Model model) {
         model.addAttribute("cate",new Category());
+        model.addAttribute("levelList", DictionaryDataUtil.find(31));
         return "ses/bms/category/list";
     }
     
