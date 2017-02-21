@@ -15,6 +15,16 @@
 
   </head>
   <script type="text/javascript">
+  	$(function() {
+  		//获取查看或操作权限
+       	var isOperate = $('#isOperate', window.parent.document).val();
+       	if(isOperate == 0) {
+       		//只具有查看权限，隐藏操作按钮
+			$(":button").each(function(){ 
+				$(this).hide();
+            }); 
+		}
+    })
 	//查看供应商报价
 	 function supplierView(supplierId){
 	    var projectId=$("#projectId").val();
@@ -221,7 +231,7 @@
 				 	<h2 onclick="ycDivmingxi(this,'${index}')" class="count_flow shrink hand">包名:<span class="f14 blue">${listPackage.name }</span></h2>
 				 </c:if>
 				 <c:if test="${dd.code eq 'JZXTP' || dd.code eq 'DYLY'}">
-			        	 <c:if test="${listPackage.isEndPrice != 1 }">
+			        	<c:if test="${listPackage.isEndPrice != 1 }">
 			        		<button class="btn" onclick = "quoteAgain('${project.id}','${listPackage.id}')">再次报价</button>
 			        	</c:if>
 			        	 <c:if test="${listPackage.isEndPrice ==1 }">

@@ -4,10 +4,19 @@
 <!DOCTYPE HTML>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
-		<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-       
+       	$(function() {
+	  		//获取查看或操作权限
+	       	var isOperate = $('#isOperate', window.parent.document).val();
+	       	if(isOperate == 0) {
+	       		//只具有查看权限，隐藏操作按钮
+				$(":button").each(function(){ 
+					$(this).hide();
+	            }); 
+			}
+    	})
         //导出
         function exportWord(){
             $("#form").attr("action",'${pageContext.request.contextPath}/open_bidding/export.html');   
