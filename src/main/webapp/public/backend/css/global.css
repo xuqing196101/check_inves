@@ -1270,6 +1270,18 @@ table .input_group .add-on{
     z-index: 1000000;
 }
 
+.btmfixs {
+    width: 100%;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    background: #E0E0E0;
+    box-shadow: 0px -1px 4px #ddd;
+    height: 10px;
+    border-top: 1px solid #dadada;
+    z-index: 1000000;
+}
+
 /**明细宽度样式开始*/
 table.lockout{
   border-bottom-color: #dddddd; 

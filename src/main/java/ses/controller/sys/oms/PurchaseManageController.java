@@ -618,7 +618,7 @@ public class PurchaseManageController {
 	        model.addAttribute("orgInfos", orgInfos);
 	        return "ses/oms/purchase_dep/add";
 	    }*/
-	    if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+	    if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
 	        model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
 	        model.addAttribute("purchaseDep", purchaseDep);
 	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
@@ -708,7 +708,7 @@ public class PurchaseManageController {
             model.addAttribute("orgInfos", orgInfos);
             return "ses/oms/purchase_dep/edit";
         }*/
-        if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone()) && !ValidateUtils.Mobile(purchaseDep.getContactTelephone())){
+        if(ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
             model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
             model.addAttribute("purchaseDep", purchaseDep);
             model.addAttribute("lists", purchaseOrgList);
