@@ -85,8 +85,8 @@ $(function() {
       <table class="table table-bordered">
         <tr>
           <td class="info tc w258" rowspan="2"> 产品名称或小类</td>
-          <td colspan="3" class="info tc"><c:if test="${supplierTypeId eq 'PROJECT'}">承包合同</c:if><c:if test="${supplierTypeId ne 'PROJECT'}">销售合同</c:if>(体现甲乙双方盖章及标的相关页)</td>
-          <td colspan="3" class="info tc">收款进账单</td>
+          <td colspan="3" class="info tc"><c:if test="${supplierTypeId eq 'PROJECT'}">承包合同</c:if><c:if test="${supplierTypeId ne 'PROJECT'}">销售合同</c:if>(体现甲乙双方盖章及标的相关页，最多上传5张)</td>
+          <td colspan="3" class="info tc">证明合同有效履行的相应银行收款进账单(最多上传5张)</td>
         </tr>
         <tr>
           <c:forEach items="${years}" var="year">
