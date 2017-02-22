@@ -632,14 +632,15 @@ public class SupplierController extends BaseSupplierController {
 			//物资生产类型的必须有的证书
 			if(supplier.getSupplierMatPro() == null) {
 				supplier.setSupplierMatPro(supplierMatProService.init());
-				supplier.setSupplierMatSell(supplierMatSellService.init());
-				supplier.setSupplierMatEng(supplierMatEngService.init());
-				supplier.setSupplierMatSe(supplierMatSeService.init());
-			} else if(supplier.getSupplierMatPro().getOrgName() == null) {
-                supplier.setSupplierMatPro(supplierMatProService.init());
-                supplier.setSupplierMatSell(supplierMatSellService.init());
-                supplier.setSupplierMatEng(supplierMatEngService.init());
-                supplier.setSupplierMatSe(supplierMatSeService.init());
+			}
+			if(supplier.getSupplierMatSell() == null) {
+			    supplier.setSupplierMatSell(supplierMatSellService.init());
+			}
+			if(supplier.getSupplierMatEng() == null) {
+			    supplier.setSupplierMatEng(supplierMatEngService.init());
+			}
+			if(supplier.getSupplierMatSe() == null) {
+			    supplier.setSupplierMatSe(supplierMatSeService.init());
 			}
 			String attid = DictionaryDataUtil.getId("SUPPLIER_PRODUCT");
 			model.addAttribute("currSupplier", supplier);

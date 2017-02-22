@@ -173,7 +173,7 @@
 				var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
 					if(!regTelephone.test(element.value)) {
-						msg = "事务所联系电话格式有误!";
+						msg = "会计事务所联系电话格式有误!";
 						flag = false;
 					}
 				});

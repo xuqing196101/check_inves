@@ -5,10 +5,10 @@
 		<id column="ID" property="id" />
 		<result column="MAT_ENG_ID" property="matEngId" />
 		<result column="REG_TYPE" property="regType" />
-		<result column="REG_NUMBER" property="regNumber" />
+		<result column="REG_NAME" property="regNumber" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, MAT_ENG_ID, REG_TYPE, REG_NUMBER
+		ID, MAT_ENG_ID, REG_TYPE, REG_NAME
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
 		select
@@ -22,7 +22,7 @@
 	</delete>
 	<insert id="insert" parameterType="ses.model.sms.SupplierRegPerson">
 		insert into T_SES_SMS_SUPPLIER_REG_PERSON (ID, MAT_ENG_ID, REG_TYPE,
-		REG_NUMBER)
+		REG_NAME)
 		values (#{id}, #{matEngId}, #{regType},
 		#{regNumber})
 	</insert>
@@ -39,7 +39,7 @@
 				REG_TYPE,
 			</if>
 			<if test="regNumber != null">
-				REG_NUMBER,
+				REG_NAME,
 			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -67,7 +67,7 @@
 				REG_TYPE = #{regType},
 			</if>
 			<if test="regNumber != null">
-				REG_NUMBER = #{regNumber},
+				REG_NAME = #{regNumber},
 			</if>
 		</set>
 		where ID = #{id}
@@ -76,7 +76,7 @@
 		update T_SES_SMS_SUPPLIER_REG_PERSON
 		set MAT_ENG_ID = #{matEngId},
 		REG_TYPE = #{regType},
-		REG_NUMBER = #{regNumber}
+		REG_NAME = #{regNumber}
 		where ID = #{id}
 	</update>
 	<select id="findRegPersonByMatEngId" parameterType="java.lang.String" resultMap="BaseResultMap">
