@@ -1486,10 +1486,12 @@
 		$("#coverNote").change(function(){
 			if($(this).val()=="1"){
 			  $("#sbzm").show();
+                init_web_upload();
 			  $("#txzs").hide();
 			}else{
 			
 			$("#sbzm").hide();
+                init_web_upload();
 			$("#txzs").show();
 			}
 		});
@@ -1497,6 +1499,7 @@
 		$("#isReferenceLftter").change(function(){
 			if($(this).val()=="1"){
 			  $("#tjx").show();
+                init_web_upload();
 			  wtj=5;
 			}else{
 			$("#tjx").hide();

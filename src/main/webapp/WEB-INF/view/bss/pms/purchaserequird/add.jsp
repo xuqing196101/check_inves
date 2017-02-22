@@ -258,7 +258,7 @@
 			}
 
 			function down() {
-				window.location.href = "${pageContext.request.contextPath}/purchaser/download.html?filename=模板.xlsx";
+				window.location.href = "${pageContext.request.contextPath}/purchaser/download.do";
 			}
 
 			function delets() {
@@ -413,12 +413,13 @@
 
 			//选择采购方式
 			function changeType(obj) {
-				$(obj).parent().next().find("input").val("");
-				var purchaseType = $("#select option:selected").text(); //选中的文本
-				if(purchaseType == "单一来源") {
-					$(obj).parent().next().find("input").removeAttr("disabled");
+			//	$(obj).parent().next().find("input").val("");
+				var purchaseType = $(obj).find("option:selected").text(); //选中的文本
+				if($.trim(purchaseType) == "单一来源") {
+					$(obj).parent().next().find("input").removeAttr("readonly");
 				} else {
-					$(obj).parent().next().find("input").attr("disabled", "disabled");
+					$(obj).parent().next().find("input").val("");
+					$(obj).parent().next().find("input").attr("readonly", "readonly");
 				}
 			}
 			
@@ -663,7 +664,7 @@
 																
 													               +"  </td>"
 													               +"  <td>"
-													               +"    <input class='purchasename' type='text' name='list[" + i + "].supplier' value='"+isValueLegal(data[i].supplier)+"'/>"
+													               +"    <input class='purchasename' type='text' name='list[" + i + "].supplier'  readonly='readonly' value='"+isValueLegal(data[i].supplier)+"'/>"
 													               +"  </td>"
 													               +"  <td>"
 													               +"    <input class='FreeTax' type='text' name='list[" + i + "].isFreeTax' value='"+isValueLegal(data[i].isFreeTax)+"'/>"
@@ -1316,13 +1317,13 @@
 											</select>
 										</td>
 										<td>
-										    <select name="list[0].supplier" class="purchasename" onchange="changeType(this)" id="pType[0]">
+										   <%--  <select name="list[0].supplier" class="purchasename" onchange="changeType(this)" id="pType[0]">
 												<option value="">请选择</option>
 												<c:forEach items="${suppliers }" var="sup">
 													<option value="${sup.supplierName }">${sup.supplierName }</option>
 												</c:forEach>
-											</select>
-										<!-- <input type="text" name="list[0].supplier" class="m0 w260 border0"> --></td>
+											</select> --%>
+										<input type="text" name="list[0].supplier" class="m0 w260 border0"></td>
 										<td><input type="text" name="list[0].isFreeTax" class="freetax"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].goodsUse" class="goodsuse"></td>
 										<td name="userNone" class="tc  p0"><input type="text" name="list[0].useUnit" class="useunit"></td>

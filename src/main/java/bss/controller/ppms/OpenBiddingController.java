@@ -40,9 +40,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseInfo;
 import ses.model.oms.PurchaseOrg;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
@@ -61,7 +59,6 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
-import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
@@ -2763,7 +2760,7 @@ public class OpenBiddingController {
   }
   
   /**
-   *〈简述〉更改经办人
+   *〈简述〉提交下一环节经办人
    *〈详细描述〉
    * @author Ye MaoLin
    * @param request
@@ -2795,6 +2792,30 @@ public class OpenBiddingController {
             jsonObj.put("success", true);
             response.getWriter().print(jsonObj.toString());
           }
+          response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
+  }
+  
+  /**
+   *〈简述〉变更当前环节经办人
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param request
+   * @param response
+   * @param currFlowDefineId
+   * @param currUpdateUserId
+   * @throws IOException 
+   */
+  @RequestMapping("/updateCurrOperator")
+  @ResponseBody
+  public void updateCurrOperator (HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String currUpdateUserId, String projectId) throws IOException{
+      try {
+          JSONObject jsonObj = projectService.updateCurrOperator(projectId, currFlowDefineId, currUpdateUserId);
+          response.getWriter().print(jsonObj.toString());
           response.getWriter().flush();
       } catch (Exception e) {
           e.printStackTrace();

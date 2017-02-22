@@ -298,10 +298,10 @@
 							<a aria-expanded="false" data-toggle="tab">基本信息</a>
 							<i></i>
 						</li>
-						<li onclick="jump('experience')">
+						<!-- <li onclick="jump('experience')">
 							<a aria-expanded="false" data-toggle="tab">经历经验</a>
 							<i></i>
-						</li>
+						</li> -->
 						<li onclick="jump('expertType')">
 							<a aria-expanded="false" data-toggle="tab">专家类别</a>
 							<i></i>
@@ -391,6 +391,7 @@
 		<input value="${expertId}" id="expertId" type="hidden">
 		<form id="form_id" action="" method="post">
 			<input name="expertId" value="${expertId}" type="hidden">
+			<input name="sign" value="${sign}" type="hidden">
 		</form>
 	</body>
 

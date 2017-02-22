@@ -112,4 +112,15 @@ public interface ProjectService {
      * @return
      */
     JSONObject getNextFlow(User user, String projectId, String flowDefineId);
+    
+    /**
+     *〈简述〉变更当前环节经办人
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param currFlowDefineId
+     * @param currUpdateUserId
+     * @param currUpdateUserId2 
+     * @return
+     */
+    JSONObject updateCurrOperator(String currFlowDefineId, String currUpdateUserId, String currUpdateUserId2);
 }

@@ -155,7 +155,7 @@
 			 	</c:if>
         </div>
         <div class="p0${vsKey.index}">
-		<table class="table table-bordered table-condensed mt5">
+		<table class="table table-bordered table-condensed mt5 left_table table_input">
 			<thead>
 				<tr>
 					<th class="info w50">序号</th>
@@ -175,8 +175,8 @@
 			    		<input type="hidden" onclick="update(this,'${treemapValue.suppliers.id}','${treemapValue.packages}','${treemapValue.project.id}','${treemapValue.quoteId}')" />
 				    </td>
 				    <td class="tl">${treemapValue.suppliers.supplierName}</td>
-					<td class="tc"><input class="w60"  maxlength="16" /></td>
-					<td class="tc"><input class="w90"/></td>
+					<td class="tc"><input   maxlength="16" type="text"/></td>
+					<td class="tc"><input type="text"/></td>
 					<c:if test="${not empty count}">
 					<td class="tc">
 							<select>

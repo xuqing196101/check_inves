@@ -28,6 +28,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
@@ -46,6 +47,7 @@ import ses.service.ems.ExpertService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -174,7 +176,7 @@ public class ExpertAuditController {
 		model.addAttribute("result", new PageInfo < Expert > (expertList));
 		model.addAttribute("expertList", expertList);
 
-		//初审复审标识（1初审，2复审）
+		//初审复审标识（1初审，2复查，3复审）
 		model.addAttribute("sign", expert.getSign());
 		request.getSession().setAttribute("signs", expert.getSign());
 
@@ -203,10 +205,13 @@ public class ExpertAuditController {
 	 * @return String
 	 */
 	@RequestMapping("/basicInfo")
-	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId) {
+	public String basicInfo(Expert expert, Model model, Integer pageNum, String expertId, Integer sign) {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
-
+		
+		//初审复审标识（1初审，2复查，3复审）
+		model.addAttribute("sign", sign);
+		
 		//专家来源
 		if(expert.getExpertsFrom() != null) {
 			DictionaryData expertsFrom = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
@@ -480,8 +485,10 @@ public class ExpertAuditController {
 	 * @return String
 	 */
 	@RequestMapping("/product")
-	public String product(Expert expert, Model model, String expertId) {
-
+	public String product(Expert expert, Model model, String expertId, Integer sign) {
+		//初审复审标识（1初审，2复查，3复审）
+		model.addAttribute("sign", sign);
+		
 		expert = expertService.selectByPrimaryKey(expertId);
 
 		List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
@@ -806,8 +813,10 @@ public class ExpertAuditController {
 	 * @return String
 	 */
 	@RequestMapping("/expertFile")
-	public String expertFile(Expert expert, Model model, String expertId) {
-
+	public String expertFile(Expert expert, Model model, String expertId, Integer sign) {
+		//初审复审标识（1初审，2复查，3复审）
+		model.addAttribute("sign", sign);
+				
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
@@ -900,7 +909,10 @@ public class ExpertAuditController {
 	 * @return String
 	 */
 	@RequestMapping("/expertType")
-	public String expertType(ExpertAudit expertAudit, Model model, String expertId) {
+	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
+		//初审复审标识（1初审，2复查，3复审）
+		model.addAttribute("sign", sign);
+		
 		// 产品类型数据字典
 		List < DictionaryData > spList = DictionaryDataUtil.find(6);
 		model.addAttribute("spList", spList);
@@ -952,8 +964,10 @@ public class ExpertAuditController {
 	 * @return String
 	 */
 	@RequestMapping("/reasonsList")
-	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId) {
-
+	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
+		//初审复审标识（1初审，2复查，3复审）
+		model.addAttribute("sign", sign);
+		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
 		model.addAttribute("reasonsList", reasonsList);
 		//查看是否有记录
@@ -1001,7 +1015,7 @@ public class ExpertAuditController {
 		/**
 		 * 更新待办（已完成）
 		 */
-		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("5") || status.equals("6")) {
+		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("5") || status.equals("6") || status.equals("7") || status.equals("8")) {
 			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
 
 		}
@@ -1009,35 +1023,30 @@ public class ExpertAuditController {
 		/**
 		 * 待办
 		 */
-		/*if(status.equals("1")){
-			//待初审已完成
-			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
-			*/
-		/**
-		 * 推送
-		 */
-		/*
-				    todos.setCreatedAt(new Date());
-				    todos.setIsDeleted((short)0);
-				    todos.setIsFinish((short)0);
-				    //待办名称
-				    todos.setName(expertName+"专家复审");
-				    //todos.setReceiverId();
-				    //接受人id
-				    todos.setOrgId(record.getPurchaseDepId());
-				    //权限id
-				    PropertiesUtil config = new PropertiesUtil("config.properties");
-				    todos.setPowerId(config.getString("zjdb"));
-				    //发送人id
-				    todos.setSenderId(user.getId());
-				    //类型
-				    todos.setUndoType((short)2);
-				    //发送人姓名
-				    todos.setSenderName(expert.getRelName());
-				    //审核地址
-				    todos.setUrl("expertAudit/basicInfo.html?expertId=" + expertId);
-				    todosService.insert(todos );
-				}*/
+		if ("5".equals(status)){
+	        Todos todos = new Todos();
+	        todos.setCreatedAt(new Date());
+	        todos.setIsDeleted((short)0);
+	        todos.setIsFinish((short)0);
+	        //待办名称
+	        todos.setName(expert.getRelName()+"专家复审");
+	        //todos.setReceiverId();
+	        //接受人id
+	        todos.setOrgId(expert.getPurchaseDepId());
+	        //权限id
+	        PropertiesUtil config = new PropertiesUtil("config.properties");
+	        todos.setPowerId(config.getString("zjdb"));
+	        //发送人id
+	        User user = (User)request.getSession().getAttribute("loginUser");
+	        todos.setSenderId(user.getId());
+	        //类型
+	        todos.setUndoType((short)2);
+	        //发送人姓名
+	        todos.setSenderName(expert.getRelName());
+	        //审核地址
+	        todos.setUrl("expertAudit/basicInfo.html?expertId=" + expert.getId());
+	        todosService.insert(todos );
+	      }
 
 		return "redirect:list.html";
 	}

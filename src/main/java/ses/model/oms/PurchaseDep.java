@@ -52,9 +52,9 @@ public class PurchaseDep extends Orgnization{
     
     private String supplierPhone;//供应商注册联系人电话
     
-    private String supplierAddress;
+    private String supplierAddress;//供应商注册地址
     
-    private String supplierPostcode;
+    private String supplierPostcode;//邮编
 
     private String quaCert;
     

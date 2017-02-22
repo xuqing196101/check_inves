@@ -1086,7 +1086,12 @@
 		<if test="sign == 2">
 			(IS_SUBMIT = 1
 			AND (STATUS = '4' OR STATUS = '5' OR STATUS = '6'))
-		</if>)
+		</if>
+		<if test="sign == 3">
+			(IS_SUBMIT = 1
+			AND (STATUS = '5' OR STATUS = '7' OR STATUS = '8'))
+		</if>
+		)
 		<if test="relName != null and relName !=''">
 			AND REAL_NAME LIKE #{relName}
 		</if>

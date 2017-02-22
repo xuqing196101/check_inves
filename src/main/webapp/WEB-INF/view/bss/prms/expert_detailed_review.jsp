@@ -5,7 +5,15 @@
 <head>
 <title>各包分配专家</title>
 <script type="text/javascript">
-
+	$(function() {
+  		//获取查看或操作权限
+       	var isOperate = $('#isOperate', window.parent.document).val();
+       	if(isOperate == 0) {
+			$(":button").each(function(){ 
+				$(this).hide();
+            }); 
+		}
+    })
 	function selectAll(obj){
 		// 全选/全不选
 		$("input[name='checkItem']").each(function(i,result){

@@ -111,7 +111,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					}
 					
 					//生产经营地址：
-					if (history.getBeforeField().equals("address") && !history.getBeforeContent().equals(address.getAddress())) {
+					if(history.getBeforeField().equals("address")){
 						List < Area > privnce = areaService.findRootArea();
 						Area area = new Area();
 						area = areaService.listById(address.getAddress());
@@ -122,9 +122,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 								parentAddress = privnce.get(i).getName();
 							}
 						}
-						supplierModify.setBeforeField("address");
-						supplierModify.setBeforeContent(parentAddress + sonAddress);
-						supplierModifyMapper.insertSelective(supplierModify);
+						if (!history.getBeforeContent().equals(parentAddress + sonAddress)) {
+							supplierModify.setBeforeField("address");
+							supplierModify.setBeforeContent(history.getBeforeContent());
+							supplierModifyMapper.insertSelective(supplierModify);
+						}
 					}
 
 					//生产经营详细地址：

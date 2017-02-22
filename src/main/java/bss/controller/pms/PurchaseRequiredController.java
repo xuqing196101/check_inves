@@ -276,8 +276,8 @@ public class PurchaseRequiredController extends BaseController{
 	    String id = UUID.randomUUID().toString().replaceAll("-", "");
 	    model.addAttribute("id", id);
 	   
-	    List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
-	    model.addAttribute("suppliers", suppliers);
+	   /* List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
+	    model.addAttribute("suppliers", suppliers);*/
 		return "bss/pms/purchaserequird/add";
 	}
 	
@@ -678,7 +678,7 @@ public class PurchaseRequiredController extends BaseController{
 	        headers.setContentDispositionFormData("attachment", fileName);   
 	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
 	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
-	                                          headers, HttpStatus.CREATED);    
+	                                          headers, HttpStatus.OK);    
 	    }
 	    /**
 	     * 

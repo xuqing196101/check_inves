@@ -46,9 +46,16 @@
 
 				// loadRootArea();
 				autoSelected("business_select_id", "${currSupplier.businessType}");
+				autoSelected("nature_select_id", "${currSupplier.businessNature}");
 				autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
 				if($("#overseas_branch_select_id").val() == "1") {
 					$("li[name='branch']").show();
+				}
+				autoSelected("isHavingConCert", "${currSupplier.isHavingConCert}");
+				if($("#isHavingConCert").val() == "1") {
+					$("#bearchCertDiv").show();
+				} else {
+					$("#bearchCertDiv").hide();
 				}
 
 				if("${currSupplier.status}" == 7) {
@@ -166,7 +173,7 @@
 				var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
 					if(!regTelephone.test(element.value)) {
-						msg = "事务所联系方式格式有误!";
+						msg = "事务所联系电话格式有误!";
 						flag = false;
 					}
 				});
@@ -178,9 +185,6 @@
 						offset: '300px'
 					});
 				}
-				
-				
-				
 			}
 
 			/** 暂存 */
@@ -297,6 +301,9 @@
 						data: {
 							"afterSaleDepIds": afterSaleDepIds,
 						},
+						success: function(){
+							layer.msg("删除成功！");
+						}
 					});
 				} else {
 					layer.alert("请至少勾选一条记录 !", {
@@ -327,6 +334,9 @@
 							"stockholderIds": stockholderIds,
 							"supplierId": supplierId
 						},
+						success: function(){
+							layer.msg("删除成功！");
+						}
 					});
 				} else {
 					layer.alert("请至少勾选一条记录 !", {
@@ -436,31 +446,31 @@
 				$('body').append(form);
 				form.submit();
 			}
+			
+			// 去除请选择选项
+			function removeOption(obj) {
+				$(obj).find("option").each(function(i, element){
+					if (element.value == "") {
+						$(element).remove();
+					}
+				});
+			}
 
 			function dis(obj) {
 				var vals = $(obj).val();
 				if(vals == 1) {
 					$("li[name='branch']").show();
-					/* 	$('#sup_country').removeAttr('disabled');
-						$('#sup_businessScope').removeAttr('disabled');
-						$('#sup_branchName').removeAttr('disabled');
-						$('#sup_branchAddress').removeAttr('disabled'); */
 				} else {
 					$("li[name='branch']").hide();
-					/* 		$('#sup_country').attr('disabled',"true");
-							$('#sup_businessScope').attr('disabled',"true");
-							$('#sup_branchName').attr('disabled',"true");
-							$('#sup_branchAddress').attr('disabled',"true"); */
-
 				}
 			}
 			
 			// 控制保密证书的显示与隐藏
 			function dis_bearch(obj){
 				if ($(obj).val() == '0') {
-					$(obj).next().addClass("dis_none");
+					$("#bearchCertDiv").hide();
 				} else {
-					$(obj).next().removeClass("dis_none");
+					$("#bearchCertDiv").show();
 				}
 			}
 
@@ -667,7 +677,6 @@
 			<div class="container container_box">
 				<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post">
 					<input name="id" value="${currSupplier.id}" type="hidden" />
-					<%-- 	<input name="defaultPage" value="${defaultPage}" type="hidden" />  --%>
 					<input name="flag" type="hidden" />
 					<div>
 						<h2 class="count_flow"> <i>1</i> 基本信息</h2>
@@ -678,12 +687,6 @@
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 公司名称</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input id="supplierName_input_id" type="text" name="supplierName" required="required" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
-										<%--  <c:if test="${fn:contains(audit,'supplierName')}">
-						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
-					    </c:if> --%>
-										<%-- <c:if test="${!fn:contains(audit,'supplierName')}">
-									
-   					    </c:if> --%>
 										<span class="add-on">i</span>
 										<span class="input-tip">不能为空</span>
 										<div class="cue"> ${err_msg_supplierName } </div>
@@ -697,11 +700,6 @@
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">公司网址</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="website" isUrl="isUrl" value="${currSupplier.website}" <c:if test="${fn:contains(audit,'website')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('website')"</c:if> >
-										<%-- <c:if test="${fn:contains(audit,'website')}">
-						    <span class="add-on" style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
-					    </c:if> --%>
-										<%-- <c:if test="${!fn:contains(audit,'website')}">
-					     </c:if> --%>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">例如：www.baidu.com</span>
 										<div class="cue"> ${err_msg_website } </div>
@@ -729,55 +727,20 @@
 											<c:forEach items="${company }" var="obj">
 												<option value="${obj.id }" <c:if test="${obj.id==currSupplier.businessType }">selected="selected"</c:if> >${obj.name }</option>
 											</c:forEach>
-											<!-- <option>外资企业</option>
-						<option>民营企业</option>
-						<option>股份制企业</option>
-						<option>私营企业</option> -->
 										</select>
 									</div>
 								</li>
-								<%-- 	 
-				  <li class="col-md-3 col-sm-6 col-xs-12">
-					   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
-					   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-				        <input type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
-				        <span class="add-on cur_point">i</span>
-				        <div class="cue"> ${err_bAddress } </div>
-			       	   </div>
-				  </li> --%>
 
-								<%-- 	  <li class="col-md-3 col-sm-6 col-xs-12">
-				    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 公司地址</span>
-				    <div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
-				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="root_area_select_id" onchange="loadChildren(this)">
-				     
-				         <c:forEach  items="${privnce }" var="prin">
-					         <c:if test="${prin.id==area.parentId }">
-					          <option value="${prin.id }" selected="selected" >${prin.name }</option>
-					         </c:if>
-				           <c:if test="${prin.id!=area.parentId }">
-					          <option value="${prin.id }"  >${prin.name }</option>
-					         </c:if>
-				         </c:forEach>
-				         
-				         
-				         </select></div> 
-				         <div class="col-md-5 col-xs-5 col-sm-5 mr5 p0"><select id="children_area_select_id" name="address" >
-				         
-				           <c:forEach  items="${city }" var="city">
-					         <c:if test="${city.id==currSupplier.address }">
-					          <option value="${city.id }" selected="selected" >${city.name }</option>
-					         </c:if>
-				           <c:if test="${city.id!=currSupplier.address }">
-					          <option value="${city.id }"  >${city.name }</option>
-					         </c:if>
-				         </c:forEach>
-				         
-				         
-				         </select></div>
-				         <div class="cue"> ${err_msg_address } </div>
-			        </div>		        
-				 </li>   --%>
+								<li class="col-md-3 col-sm-6 col-xs-12">
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 企业性质</span>
+									<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+										<select required name="businessNature" id="nature_select_id" <c:if test="${fn:contains(audit,'businessNature')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessNature')"</c:if>>
+											<c:forEach items="${nature }" var="obj">
+												<option value="${obj.id }" <c:if test="${obj.id eq currSupplier.businessNature}">selected="selected"</c:if>>${obj.name}</option>
+											</c:forEach>
+										</select>
+									</div>
+								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 基本账户开户银行</span>
@@ -789,7 +752,6 @@
 										<div class="cue">
 											<sf:errors path="bankName" />
 										</div>
-
 									</div>
 								</li>
 
@@ -812,35 +774,7 @@
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bank_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" />
 										<u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 									</div>
-									<%--  <div class="cue"> ${err_bearch } </div> --%>
 								</li>
-
-								<%-- 			 <li id="breach_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-				   <span class="col-md-5 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 基本账户开户许可证</span> 
-				   <div class="col-md-6 col-sm-12 col-xs-12 p0">
-				     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bank_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" /> 
-				     <u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
-				   </div>
-				    <div class="cue"> ${err_bearch } </div>
-				</li> --%>
-
-								<%-- 	 
-				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i>邮编</span>
-				   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			        <input type="text" name="postCode" value="${currSupplier.postCode}" />
-			        <span class="add-on cur_point">i</span>
-			         <div class="cue"> ${err_msg_bankAccount } </div>
-			       </div>
-				 </li>   --%>
-
-								<%-- 	<li class="col-md-12 col-xs-12 col-sm-12 mb25">
-			    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>详细地址</span>
-			    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-				       <textarea class="col-md-12 col-xs-12 col-sm-12 h130"  name="detailAddress">${currSupplier.detailAddress}</textarea>
-				       <div class="cue"> ${err_detailAddress } </div>
-		       	    </div>
-				</li>  --%>
 							</ul>
 						</fieldset>
 
@@ -879,7 +813,6 @@
 										</div>
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="children_area_select_id" name="address" <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address')"</c:if>>
-
 												<c:forEach items="${city }" var="city">
 													<c:if test="${city.id==currSupplier.address }">
 														<option value="${city.id }" selected="selected">${city.name }</option>
@@ -899,7 +832,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="detailAddress" value="${currSupplier.detailAddress}" required maxlength="50" <c:if test="${fn:contains(audit,'detailAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress')"</c:if>>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空</span>
+										<span class="input-tip">住所地址为营业执照注册地址</span>
 										<div class="cue">${err_detailAddress } </div>
 										<div class="cue">
 											<sf:errors path="detailAddress" />
@@ -1006,7 +939,7 @@
 								</li>
 
 								<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('billCert')"</c:if>><i class="red">*</i> 近三年银行基本账户年末对账单</span>
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('billCert')"</c:if>><i class="red">*</i> 近三年银行基本账户年末对账单</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
 										<u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
@@ -1023,21 +956,32 @@
 									<div class="cue"> ${err_security } </div>
 								</li>
 
-								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isIllegal')"</c:if>><i class="red">*</i> 近三年内有无重大违法记录</span>
+								<li class="col-md-6 col-sm-12 col-xs-12 mb25 h30">
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isIllegal')"</c:if>><i class="red">*</i> 近三年内有无重大违法记录</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-										<input type="radio" name="isIllegal" value="1" <c:if test="${'1' eq currSupplier.isIllegal}">checked="checked"</c:if>/> 有违法
-										<input type="radio" name="isIllegal" value="0" <c:if test="${'1' ne currSupplier.isIllegal}">checked="checked"</c:if>/> 无违法
+										<select name="isIllegal" id="isIllegal" onclick="removeOption(this)" class="fl mr10 w120">
+											<option value="">请选择</option>
+											<option value="0" <c:if test="${currSupplier.isIllegal eq '0'}">selected</c:if>>无违法</option>
+											<option value="1" <c:if test="${currSupplier.isIllegal eq '1'}">selected</c:if>>有违法</option>
+										</select>
 									</div>
+									<div class="cue"> ${err_isIllegal } </div>
 								</li>
 								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConCert')"</c:if>><i class="red">*</i> 国家或军队保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-										<select name="isHavingConCert" onchange="dis_bearch(this)" class="fl mr5">
+										<select name="isHavingConCert" id="isHavingConCert" onclick="removeOption(this)" onchange="dis_bearch(this)" class="fl mr10 w120">
+											<option value="">请选择</option>
 											<option value="0" <c:if test="${currSupplier.isHavingConCert eq '0'}">selected</c:if>>无</option>
 											<option value="1" <c:if test="${currSupplier.isHavingConCert eq '1'}">selected</c:if>>有</option>
 										</select>
-										<div class="<c:if test="${currSupplier.isHavingConCert ne '1'}">dis_none</c:if>">
+									</div>
+									<div class="cue"> ${err_isHavingConCert } </div>
+								</li>
+								<li class="col-md-6 col-sm-12 col-xs-12 mb25" id="bearchCertDiv">
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'bearchCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bearchCert')"</c:if>><i class="red">*</i> 保密资格证书</span>
+									<div class="col-md-6 col-sm-12 col-xs-12 p0">
+										<div>
 											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
 											<u:show showId="bearchcert_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
 										</div>
@@ -1075,51 +1019,19 @@
 									</div>
 								</li>
 
-								<%-- 	    
-		     <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证正面</span> 
-			   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
-			     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
-			     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-			   </div>
-			   <div class="cue"> ${err_bearch } </div>
-			</li> --%>
-
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierIdentityUp')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierIdentityUp')"</c:if>><i class="red">*</i> 身份证复印件（正反面在一张上）</span>
 									<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" />
 										<u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
 									</div>
+									<div class="cue"> ${err_identityUp } </div>
 								</li>
 
-								<%--        <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 居民身份证附件</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-					     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
-					     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-                    </div>
-                </li> --%>
-
-								<%--      <li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 身份证反面</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-					   			     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
-			    					 <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
-                    </div>
-                </li> --%>
-
-								<%--               
-			 <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证反面</span> 
-			   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
-			     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
-			     <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
-			   </div>
-			   <div class="cue"> ${err_bearch } </div>
-			</li> --%>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalMobile" required isTel="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
+										<input type="text" name="legalMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 										<div class="cue"> ${err_legalMobile } </div>
@@ -1142,23 +1054,6 @@
 									</div>
 								</li>
 
-								<%--   <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证正面</span> 
-			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-			     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" /> 
-			     <u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-			   </div>
-			   <div class="cue"> ${err_bearch } </div> 
-			</li>--%>
-
-								<%--  <li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 身份证反面</span> 
-			   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-			     <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="identity_down_up" multiple="true"  groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" auto="true" /> 
-			     <u:show showId="identity_down_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentitydown}" />
-			   </div>
-			 <div class="cue"> ${err_bearch } </div> 
-			</li>--%>
 							</ul>
 						</fieldset>
 
@@ -1181,7 +1076,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 传真</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="contactFax" required isFax="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
+										<input type="text" name="contactFax" required isFax="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 										<div class="cue"> ${err_fax } </div>
@@ -1194,7 +1089,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="contactMobile" required isTel="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
+										<input type="text" name="contactMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 										<div class="cue"> ${err_catMobile } </div>
@@ -1298,7 +1193,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 传真</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="armyBusinessFax" required isFax="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
+										<input type="text" name="armyBusinessFax" required isFax="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 										<div class="cue"> ${err_armFax } </div>
@@ -1311,7 +1206,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="armyBuinessMobile" required isTel="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
+										<input type="text" name="armyBuinessMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
 										<div class="cue"> ${err_armMobile } </div>
@@ -1448,58 +1343,6 @@
 										<div class="cue"> ${err_sDate } </div>
 									</div>
 								</li>
-
-								<%-- 	    <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业截止时间</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			   	<fmt:formatDate value="${currSupplier.businessEndDate}" pattern="yyyy-MM-dd" var="businessEndDate" />
-		        <input type="text" readonly="readonly" onClick="WdatePicker()" name="businessEndDate" value="${businessEndDate}"   />
-		        <span class="add-on cur_point">i</span>
-		        <div class="cue"> ${err_eDate } </div>
-	       	   </div>
-		    </li>  --%>
-
-								<%--     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
-			   <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-		        <input type="text" name="businessAddress" value="${currSupplier.businessAddress}" />
-		        <span class="add-on cur_point">i</span>
-		        <div class="cue"> ${err_bAddress } </div>
-	       	   </div>
-		    </li>  --%>
-
-							    <%--<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮编</span>
-									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="businessPostCode" onkeyup="checknums(this)" required isZipCode="true" value="${currSupplier.businessPostCode}" <c:if test="${fn:contains(audit,'businessPostCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessPostCode')"</c:if>/>
-										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，长度必须为6位</span>
-										<div class="cue"> ${err_bCode } </div>
-										<div class="cue">
-											<sf:errors path="businessPostCode" />
-										</div>
-									</div>
-
-								</li> --%>
-
-								<%--     <li class="col-md-3 col-sm-6 col-xs-12">
-		     <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
-				   <div class="col-md-12 col-sm-12 col-xs-12 p0 mb25">
-					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
-		   	   		 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
-				   </div>
-				   <div class="cue"> ${err_business } </div>
-		    </li>  --%>
-
-								<%--  	<li id="breach_li_id" class="col-md-3 col-sm-6 col-xs-12 mb25">
-				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业执照:</span> 
-				   <div class="col-md-12 col-sm-12 col-xs-12 p0 h30">
-					 <u:show showId="business_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" /> 
-		   	   		 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="business_up" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" auto="true" />
-				   </div>
-				   <div class="cue"> ${err_bearch } </div>
-				</li>
-				 --%>
 
 								<li class="col-md-3 col-sm-6 col-xs-12 mb25"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" <c:if test="${fn:contains(audit,'businessCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessCert')"</c:if>><i class="red">*</i> 营业执照</span>
 									<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -1659,7 +1502,7 @@
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${finance.telephone}">
+															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" onkeyup="value=value.replace(/[^\d]/g,'')" value="${finance.telephone}">
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
@@ -1839,7 +1682,7 @@
 					
 					<!-- 售后服务机构信息 -->
 					<div class="clear">
-						<h2 class="count_flow clear pt20"> <i>5</i><font color=red>*</font> 售后服务机构一览表</h2>
+						<h2 class="count_flow clear pt20"> <i>5</i><font color=red>*</font> 售后服务机构</h2>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
@@ -1878,7 +1721,7 @@
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' value='${afterSaleDep.address}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].leadName' value='${afterSaleDep.leadName}'> </td>
-													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].mobile' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${afterSaleDep.mobile}'></td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].mobile' onkeyup="value=value.replace(/[^\d]/g,'')" value='${afterSaleDep.mobile}'></td>
 												</tr>
 											</c:forEach>
 										</tbody>
@@ -1890,10 +1733,10 @@
 					
 					<!-- 参加政府或军队采购经历登记表 -->
 					<div class="clear">
-						<h2 class="count_flow clear pt20"> <i>6</i> 参加政府或军队采购经历登记表 </h2>
+						<h2 class="count_flow clear pt20"> <i>6</i> 参加政府或军队采购经历 </h2>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
-								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
 									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" name="purchaseExperience" <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
 								</div>
 							</div>
@@ -1903,7 +1746,7 @@
 						<h2 class="count_flow clear pt20"> <i>7</i><font color=red>*</font> 公司简介 </h2>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
-								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
+								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
 									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000" placeholder="供应商组织机构设置、人员情况以及产品信息等内容。" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
 									<div class="cue">
 										<sf:errors path="description" />

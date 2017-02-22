@@ -14,6 +14,15 @@
 
   </head>
   <script type="text/javascript">
+  	$(function() {
+  		//获取查看或操作权限
+       	var isOperate = $('#isOperate', window.parent.document).val();
+       	if(isOperate == 0) {
+			$(":button").each(function(){ 
+				$(this).hide();
+            }); 
+		}
+    })
      /** 全选全不选 */
     function selectAll(index){
          var checklist = document.getElementsByName ("chkItemExpert"+index);

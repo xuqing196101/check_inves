@@ -150,19 +150,18 @@
 			onclick="add(this);" type="button">新增</button>
 	</div>
 	<div class="content table_box pl0">
-		<table
-			class="table table-bordered table-condensed table-hover table-striped">
-			<tr class="tc ">
+		<table class="table table-bordered table-condensed table_input left_table table_input">
+			<tr class="tc">
 				<!-- 		                <th class="w30"> -->
 				<!-- 		                  <input type="checkbox" id="checkAll"  onclick="selectAll()" /> -->
 				<!-- 		                </th> -->
 				<!--                     <th class="w30">序号</th> -->
-				<th class="150">
+				<th>
 				<input type="checkbox" name="cks"/>
 				</th>
-				<th class="150">物资名称</th>
-				<th>规格型号</th>
-				<th>质量技术标准</th>
+				<th width="20%">物资名称</th>
+				<th width="20%">规格型号</th>
+				<th width="20%">质量技术标准</th>
 				<th>计量单位</th>
 				<th>采购数量</th>
 				<th>单价（元）</th>
@@ -171,8 +170,8 @@
 				<tr class="tc ">
 					<%--                       <td class=""> <input type="checkbox" value="${pack.id }" name="chkItem" onclick="check()"></td> --%>
 					<%--                       <td>${detail.serialNumber}</td> --%>
-					<td>
-			<input type="checkbox" name="ck" class="ck" title="${detail.id }"/>
+					<td >
+						<input type="checkbox" name="ck" class="ck" title="${detail.id }"/>
 					</td>
 					<td title="${detail.goodsName}"><input type="hidden"
 						name="detailId" value="${detail.id }"> <input

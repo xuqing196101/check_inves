@@ -148,7 +148,8 @@
 						shade: 0.01
 					});
 				} else if(id.length >= 1) {
-
+					var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
+				   if($.trim(status)=="待汇总"){
 					index = layer.open({
 						type: 1, //page层
 						area: ['500px', '300px'],
@@ -160,6 +161,12 @@
 						offset: ['80px', '600px'],
 						content: $('#content'),
 					});
+					}else{
+						layer.alert("请选择待汇总的需求计划！", {
+							offset: ['222px', '390px'],
+							shade: 0.01
+						});
+					}
 				} else {
 					layer.alert("请选中一条", {
 						offset: ['222px', '390px'],
@@ -217,7 +224,7 @@
 				if($.trim(val) == ""){
 					  layer.alert("计划名称不允许为空",{offset: ['222px', '390px'], shade:0.01});
 				}else{
-					$("#collect_form").submit();
+						$("#collect_form").submit();
 				}
 				
 				
@@ -249,6 +256,8 @@
 						shade: 0.01
 					});
 				} else if(ids.length >= 1) {
+					var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).text();
+					if($.trim(status)=="待汇总"){
 					layer.open({
 						type: 2, //page层
 						area: ['80%', '90%'],
@@ -260,7 +269,14 @@
 						offset: ['0px', '10%'],
 						content: '${pageContext.request.contextPath}/collect/collectlist.html?type=' + goodsType,
 					});
-
+				 }else{
+					 
+					 layer.alert("请选择待汇总的需求计划！", {
+							offset: ['222px', '390px'],
+							shade: 0.01
+						});
+				 }
+					
 				} else {
 					layer.alert("请选中一条", {
 						offset: ['222px', '390px'],
@@ -339,6 +355,28 @@
         window.location.href = "${pageContext.request.contextPath }/collect/view.html?planNo="+no;
       } */
  
+    //下载
+		function down() {
+			var id = [];
+			$('input[name="chkItem"]:checked').each(function() {
+				id.push($(this).val());
+			});
+			if(id.length == 1) {
+				window.location.href = "${pageContext.request.contextPath }/accept/excel.html?uniqueId=" + id;
+			} else if(id.length > 1) {
+				layer.alert("只能选择一个", {
+					offset: ['222px', '390px'],
+					shade: 0.01
+				});
+			} else {
+				layer.alert("请选中一条", {
+					offset: ['222px', '390px'],
+					shade: 0.01
+				});
+			}
+		}
+      
+      
 		</script>
 	</head>
 
@@ -409,6 +447,7 @@
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="collected()">添加至已有计划中</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="advanced()">下达预研项目</button>
 		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="loadplan()">导入采购计划</button>
+		<button class="btn padding-left-10 padding-right-10 btn_back" onclick="down()">下载打印</button>
 	 </div>
    <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped ">
@@ -430,9 +469,9 @@
 			  <td class="tc w30">
 			  <input type="hidden" value="${obj.planType }"> 
 			
-			 <c:if test="${obj.status==3 }">
+		<%-- 	 <c:if test="${obj.status==3 }"> --%>
               <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt="">
-              </c:if>
+             <%--  </c:if> --%>
                <c:if test="${obj.status!=3 }">
              <%--  <input type="checkbox" disabled="disabled"  value="${obj.uniqueId }" name="chkItem" onclick="check()"  alt=""> --%>
               </c:if>

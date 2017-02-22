@@ -282,47 +282,20 @@
 				layer.msg("物资生产资质证书信息不能为空! ");
 			}
 		}
-		// 判断有没有勾选物资销售
-		if (isSaleCheck == true) {
-			$("#cert_sell_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isSaleCheck) {
-							flag = false;
-							layer.msg("物资销售资质证书信息不能为空! ");
-						}
-					});
-		}
 		// 判断有没有勾选工程
 		if (isEngCheck == true) {
-			$("#reg_person_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isEngCheck) {
-							flag = false;
-							layer.msg("注册人员信息不能为空! ");
-						}
-					});
 			$("#cert_eng_list_tbody_id").find("input[type='text']").each(
 					function(index, element) {
 						if (element.value == "" || !isEngCheck) {
 							flag = false;
-							layer.msg("工程证书信息不能为空! ");
+							layer.msg("工程资质（认证）证书信息不能为空! ");
 						}
 					});
 			$("#aptitute_list_tbody_id").find("input[type='text']").each(
 					function(index, element) {
 						if (element.value == "" || !isEngCheck) {
 							flag = false;
-							layer.msg("工程资质证书信息不能为空! ");
-						}
-					});
-		}
-		// 判断有没有勾选服务
-		if (isServerCheck == true) {
-			$("#cert_se_list_tbody_id").find("input[type='text']").each(
-					function(index, element) {
-						if (element.value == "" || !isServerCheck) {
-							flag = false;
-							layer.msg("服务资质证书信息不能为空! ");
+							layer.msg("工程资质证书详细信息不能为空! ");
 						}
 					});
 		}
@@ -650,6 +623,17 @@
 				$("#conAchiDiv").hide();
 			}
 
+			// 工程类
+			var businessScope = "${currSupplier.supplierMatEng.businessScope}";
+			$("input[name='area_check']").each(function(i, element){
+				if (businessScope.indexOf(element.value) != -1) {
+					$(element).parent().next().show();
+				} else {
+					$(element).parent().next().hide();
+				}
+			});
+			
+			
 			$("input").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
 			var pro = "${pro}";
@@ -890,6 +874,7 @@
 	function disConAchi() {
 		if ($("#isHavingConAchi").val() == '1') {
 			$("#conAchiDiv").show();
+			init_web_upload();
 			$("#conAchi").attr("required", true);
 		} else {
 			$("#conAchiDiv").hide();
@@ -899,9 +884,9 @@
 
 	function disAreaFile(obj) {
 		if (obj.checked) {
-			$(obj).parent().next().removeClass("dis_none");
+			$(obj).parent().next().show();
 		} else {
-			$(obj).parent().next().addClass("dis_none");
+			$(obj).parent().next().hide();
 		}
 	}
 	sessionStorage.locationB=true;
@@ -1394,7 +1379,9 @@
 														<u:show showId="conAch_show"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}" />
-													</div></li>
+													</div>
+													<div class="cue">${err_conAch}</div>
+													</li>
 												<li class="col-md-12 col-xs-12 col-sm-12 mb25"><span
 													class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
 														<i class="red">* </i>国家或军队保密工程业绩：</span>
@@ -1428,7 +1415,7 @@
 														<c:if test="${fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">checked="checked"</c:if>>
 														${area.name}：</span>
 													<div
-														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 <c:if test="${!fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">dis_none</c:if>">
+														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload
 															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 															maxcount="5" businessId="${currSupplier.id}_${area.name}"
