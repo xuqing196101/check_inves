@@ -128,41 +128,47 @@
 			layer.msg("请选择供应商类型");
 			return false;
 		}
-
-		
-				$.ajax({
-					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
-					type : "post",
-					data : $("#save_pro_form_id").serializeArray(),
-					contextType : "application/x-www-form-urlencoded",
-					success : function(msg) {
-						layer.msg('暂存成功');
-						var data = msg.split(",");
-						if (data[0] != "null" && data[0] != null) {
-							$("input[name='supplierMatPro.id']").val(data[0]);
-						} else {
-							$("input[name='supplierMatPro.id']").val("");
-						}
-						if (data[1] != "null" && data[1] != null) {
-							$("input[name='supplierMatSell.id']").val(data[1]);
-						} else {
-							$("input[name='supplierMatSell.id']").val("");
-						}
-						if (data[2] != "null" && data[2] != null) {
-							$("input[name='supplierMatEng.id']").val(data[2]);
-						} else {
-							$("input[name='supplierMatEng.id']").val("");
-						}
-						if (data[3] != "null" && data[3] != null) {
-							$("input[name='supplierMatSe.id']").val(data[3]);
-						} else {
-							$("input[name='supplierMatSe.id']").val("");
-						}
-					},
-					error : function() {
-						layer.msg('暂存失败!');
-					}
-				});
+		// 保存工程地址附件信息
+		var areaIds = "";
+		$("#areaSelect").find("option").each(function(i, element){
+			if (element.selected == true) {
+				areaIds = areaIds + element.value + ",";
+			}
+		});
+		$("#businessScope").val(areaIds);
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
+			type : "post",
+			data : $("#save_pro_form_id").serializeArray(),
+			contextType : "application/x-www-form-urlencoded",
+			success : function(msg) {
+				layer.msg('暂存成功');
+				var data = msg.split(",");
+				if (data[0] != "null" && data[0] != null) {
+					$("input[name='supplierMatPro.id']").val(data[0]);
+				} else {
+					$("input[name='supplierMatPro.id']").val("");
+				}
+				if (data[1] != "null" && data[1] != null) {
+					$("input[name='supplierMatSell.id']").val(data[1]);
+				} else {
+					$("input[name='supplierMatSell.id']").val("");
+				}
+				if (data[2] != "null" && data[2] != null) {
+					$("input[name='supplierMatEng.id']").val(data[2]);
+				} else {
+					$("input[name='supplierMatEng.id']").val("");
+				}
+				if (data[3] != "null" && data[3] != null) {
+					$("input[name='supplierMatSe.id']").val(data[3]);
+				} else {
+					$("input[name='supplierMatSe.id']").val("");
+				}
+			},
+			error : function() {
+				layer.msg('暂存失败!');
+			}
+		});
 	}
 
 	//无提示实时暂存
@@ -172,15 +178,15 @@
 			id.push($(this).val());
 		});
 		$("input[name='supplierTypeIds']").val(id);
-		var businessScope = "";
-		$("input[name='area_check']").each(function(i, result) {
-			if (result.checked) {
-				businessScope = businessScope + result.value + ",";
+		// 保存工程地址附件信息
+		var areaIds = "";
+		$("#areaSelect").find("option").each(function(i, element){
+			if (element.selected == true) {
+				areaIds = areaIds + element.value + ",";
 			}
 		});
-		$("#businessScope").val(businessScope);
-		$
-				.ajax({
+		$("#businessScope").val(areaIds);
+		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",
 					data : $("#save_pro_form_id").serializeArray(),
@@ -409,21 +415,20 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
-			layer
-					.confirm(
-							"已勾选" + size + "条记录, 确定删除 !",
-							{
-								offset : '200px',
-								scrollbar : false,
-							},
-							function(index) {
-								window.location.href = "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.html?aptituteIds="
-										+ aptituteIds
-										+ "&supplierId="
-										+ supplierId;
-								layer.close(index);
-
-							});
+			layer.confirm(
+				"已勾选" + size + "条记录, 确定删除 !",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					window.location.href = "${pageContext.request.contextPath}/supplier_aptitute/delete_aptitute.html?aptituteIds="
+							+ aptituteIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index);
+	
+				});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
 				offset : '200px',
@@ -613,6 +618,17 @@
 			});
 		}
 	}
+	
+	//控制省市附件的显示与隐藏
+	function disAreaFile(obj){
+		$(obj).find("option").each(function(i,element){
+			if (element.selected == true) {
+				$("#area_" + element.value).show();
+			} else {
+				$("#area_" + element.value).hide();
+			}
+		});
+	}
 
 	$(function() {
 		window.onload = function() {
@@ -625,13 +641,13 @@
 
 			// 工程类
 			var businessScope = "${currSupplier.supplierMatEng.businessScope}";
-			$("input[name='area_check']").each(function(i, element){
+			$("#areaSelect").find("option").each(function(i, element){
 				if (businessScope.indexOf(element.value) != -1) {
-					$(element).parent().next().show();
-					//$(obj).parent().next().removeClass("dis_none");
+					element.selected = true;
+					$("#area_" + element.value).show();
 				} else {
-					$(element).parent().next().hide();
-					//$(obj).parent().next().addClass("dis_none");
+					element.selected = false;
+					$("#area_" + element.value).hide();
 				}
 			});
 			
@@ -759,21 +775,20 @@
 		});
 		var size = checkboxs.length;
 		if (size > 0) {
-			layer
-					.confirm(
-							"已勾选" + size + "条记录, 确定删除 !",
-							{
-								offset : '200px',
-								scrollbar : false,
-							},
-							function(index) {
-								window.location.href = "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.html?certEngIds="
-										+ certEngIds
-										+ "&supplierId="
-										+ supplierId;
-								layer.close(index);
-
-							});
+			layer.confirm(
+				"已勾选" + size + "条记录, 确定删除 !",
+				{
+					offset : '200px',
+					scrollbar : false,
+				},
+				function(index) {
+					window.location.href = "${pageContext.request.contextPath}/supplier_cert_eng/delete_cert_eng.html?certEngIds="
+							+ certEngIds
+							+ "&supplierId="
+							+ supplierId;
+					layer.close(index);
+	
+				});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
 				offset : '200px',
@@ -786,18 +801,17 @@
 		var id = $(obj).next().val();
 		var sid = $("#sid").val();
 		if (id.length > 0) {
-			layer
-					.open({
-						type : 2,
-						title : '查询产品分类',
-						// skin : 'layui-layer-rim', //加上边框
-						area : [ '800px', '500px' ], //宽高
-						offset : '100px',
-						scrollbar : false,
-						content : '${pageContext.request.contextPath}/supplier/category.html?id='
-								+ id + '&&sid=' + sid, //url
-						closeBtn : 1, //不显示关闭按钮
-					});
+			layer.open({
+				type : 2,
+				title : '查询产品分类',
+				// skin : 'layui-layer-rim', //加上边框
+				area : [ '800px', '500px' ], //宽高
+				offset : '100px',
+				scrollbar : false,
+				content : '${pageContext.request.contextPath}/supplier/category.html?id='
+						+ id + '&&sid=' + sid, //url
+				closeBtn : 1, //不显示关闭按钮
+			});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
 				offset : '200px',
@@ -837,21 +851,20 @@
 	// 高亮不通过的字段
 	function displayReason(auditField, auditType) {
 		var supplierId = "${currSupplier.id}";
-		$
-				.ajax({
-					url : "${pageContext.request.contextPath}/supplierAudit/displayReason.do",
-					data : {
-						"supplierId" : supplierId,
-						"auditField" : auditField,
-						"auditType" : auditType
-					},
-					dataType : json,
-					success : function(data) {
-						layer.msg(data.suggest, {
-							offset : '200px'
-						});
-					}
+		$.ajax({
+			url : "${pageContext.request.contextPath}/supplierAudit/displayReason.do",
+			data : {
+				"supplierId" : supplierId,
+				"auditField" : auditField,
+				"auditType" : auditType
+			},
+			dataType : json,
+			success : function(data) {
+				layer.msg(data.suggest, {
+					offset : '200px'
 				});
+			}
+		});
 	}
 
 	//显示不通过的理由
@@ -883,16 +896,7 @@
 			$("#conAchi").attr("required", false);
 		}
 	}
-
-	function disAreaFile(obj) {
-		if (obj.checked) {
-			$(obj).parent().next().show();
-			//$(obj).parent().next().removeClass("dis_none");
-		} else {
-			$(obj).parent().next().hide();
-			//$(obj).parent().next().addClass("dis_none");
-		}
-	}
+	
 	sessionStorage.locationB=true;
 	sessionStorage.index=2;
 </script>
@@ -1383,8 +1387,8 @@
 														<u:show showId="conAch_show"
 															businessId="${currSupplier.id}" sysKey="${sysKey}"
 															typeId="${supplierDictionaryData.supplierConAch}" />
+														<div class="cue">${err_conAch}</div>
 													</div>
-													<div class="cue">${err_conAch}</div>
 													</li>
 												<li class="col-md-12 col-xs-12 col-sm-12 mb25"><span
 													class="col-md-12 col-xs-12 col-sm-12 padding-left-5">
@@ -1406,29 +1410,25 @@
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
 										<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
+										<div class="ml20">
+											省、直辖市：
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)">
+										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
+										    	  	<option value="${area.id}">${area.name}</option>
+										    	</c:forEach>
+										    </select>
+										</div>
 										<ul class="list-unstyled overflow_h">
-											<input type="hidden" name="supplierMatEng.businessScope"
-												id="businessScope"
-												value="${currSupplier.supplierMatEng.businessScope}">
+											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}">
 											<c:forEach items="${rootArea}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>
-													<input type="checkbox" name="area_check" value="${area.id}" onchange="disAreaFile(this)"
-														<c:if test="${fn:contains(currSupplier.supplierMatEng.businessScope, area.id)}">checked="checked"</c:if>>
-														${area.name}</span>
-													<div
-														class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<u:upload
-															singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-															maxcount="5" businessId="${currSupplier.id}_${area.name}"
-															sysKey="${sysKey}"
-															typeId="${supplierDictionaryData.supplierConAch}"
-															exts="${properties['file.picture.type']}"
-															id="conAch_up_${st.index+1}" multiple="true" auto="true" />
-														<u:show showId="area_show_${st.index+1}"
-															businessId="${currSupplier.id}_${area.name}"
-															sysKey="${sysKey}"
-															typeId="${supplierDictionaryData.supplierConAch}" />
-													</div></li>
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}">
+													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
+													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
+														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+														<div class="cue">${area.errInfo}</div>
+													</div>
+												</li>
 											</c:forEach>
 										</ul>
 									</fieldset>

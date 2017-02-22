@@ -3,6 +3,7 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.text.SimpleDateFormat;
@@ -46,6 +47,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -53,7 +55,6 @@ import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
-import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
@@ -808,7 +809,8 @@ public class SupplierController extends BaseSupplierController {
 		boolean server = true;
 		boolean project = true;
 		String[] str = supplier.getSupplierTypeIds().trim().split(",");
-
+		
+		List<Area> areaList = areaService.findRootArea();
 		for(String s: str) {
 			if(s.equals("PRODUCT")) {
 				pro = validatePro(request, supplier.getSupplierMatPro(), model);
@@ -823,7 +825,7 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 			if(s.equals("PROJECT")) {
-				project = validateEng(request, supplier.getSupplierMatEng(), model);
+				project = validateEng(request, supplier.getSupplierMatEng(), model, areaList);
 				if(info == true) {
 					supplierMatEngService.saveOrUpdateSupplierMatPro(supplier);
 				}
@@ -861,7 +863,7 @@ public class SupplierController extends BaseSupplierController {
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-            model.addAttribute("rootArea", areaService.findRootArea());
+            model.addAttribute("rootArea", areaList);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
@@ -1671,54 +1673,37 @@ public class SupplierController extends BaseSupplierController {
 			}*/
 			return bool;
 		}
-		//工程信息校验
-	public boolean validateEng(HttpServletRequest request, SupplierMatEng supplierMatPro, Model model) {
-			boolean bool = true;
-			if(supplierMatPro.getIsHavingConAchi() != null && supplierMatPro.getIsHavingConAchi().equals("1")) {
-			    List < UploadFile > tlist = uploadService.getFilesOther(supplierMatPro.getSupplierId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch(), Constant.SUPPLIER_SYS_KEY.toString());
-	            if(tlist != null && tlist.size() <= 0) {
-	                bool = false;
-	                model.addAttribute("err_conAch", "请上传文件!");
-	            }
+	//工程信息校验
+	public boolean validateEng(HttpServletRequest request, SupplierMatEng supplierMatPro, Model model, List<Area> areaList) {
+		boolean bool = true;
+		if(supplierMatPro.getIsHavingConAchi() != null && supplierMatPro.getIsHavingConAchi().equals("1")) {
+		    List < UploadFile > tlist = uploadService.getFilesOther(supplierMatPro.getSupplierId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierConAch(), Constant.SUPPLIER_SYS_KEY.toString());
+            if(tlist != null && tlist.size() <= 0) {
+                bool = false;
+                model.addAttribute("err_conAch", "请上传文件!");
             }
-			/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
-				model.addAttribute("eng_org", "不能为空或者字符串过长");
-				bool = false;
-			}
-			if(supplierMatPro.getTotalTech() == null || !supplierMatPro.getTotalTech().toString().matches("^[0-9]*$")) {
-				model.addAttribute("eng_tech", "不能为空或者不是数字类型");
-				bool = false;
-			}
-			if(supplierMatPro.getTotalGlNormal() == null || !supplierMatPro.getTotalGlNormal().toString().matches("^[0-9]*$")) {
-				model.addAttribute("eng_normal", "不能为空或者不是数字类型");
-				bool = false;
-			}
-
-			if(supplierMatPro.getTotalMange() == null || !supplierMatPro.getTotalMange().toString().matches("^[0-9]*$")) {
-				model.addAttribute("eng_manage", "不能为空或者不是数字类型");
-				bool = false;
-			}
-			if(supplierMatPro.getTotalTechWorker() == null || !supplierMatPro.getTotalTechWorker().toString().matches("^[0-9]*$")) {
-				model.addAttribute("eng_worker", "不能为空或者不是数字类型");
-				bool = false;
-			}*/
-			//	   List<SupplierAptitute> aptitutes = supplierMatPro.getListSupplierAptitutes();
-			//	   if(aptitutes==null||aptitutes.size()<1){
-			//		  model.addAttribute("eng_aptitutes", "请添加资格资质证书信息");
-			//		  bool=false;
-			//	   }
-			//	   List<SupplierCertEng> certEngs = supplierMatPro.getListSupplierCertEngs();
-			//	   if(certEngs==null||certEngs.size()<1){
-			//		      model.addAttribute("eng_cert", "请添加证书信息");
-			//			  bool=false;
-			//	   }
-			//	   List<SupplierRegPerson> persons = supplierMatPro.getListSupplierRegPersons();
-			//	   if(persons==null||persons.size()<1){
-			//		   model.addAttribute("eng_persons", "请添加证书信息");
-			//		   bool=false;
-			//	   }
-			return bool;
+        }
+		String businessScope = supplierMatPro.getBusinessScope();
+		if (businessScope != null) {
+		    String[] scope = businessScope.split(",");
+		    for (String areaId : scope) {
+		        Area recond = areaService.listById(areaId);
+		        if (recond != null) {
+		            List < UploadFile > list = uploadService.getFilesOther(supplierMatPro.getSupplierId() + "_" + recond.getName(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
+		            if(list != null && list.size() <= 0) {
+		                bool = false;
+		                for (Area area : areaList) {
+		                    if (area.getId().equals(recond.getId())) {
+		                        area.setErrInfo("请上传文件！");
+		                    }
+		                }
+		                break;
+		            }
+		        }
+            }
 		}
+		return bool;
+	}
 		//服务信息校验
 	public boolean validateServer(HttpServletRequest request, SupplierMatServe supplierMatPro, Model model) {
 		boolean bool = true;
@@ -1865,7 +1850,60 @@ public class SupplierController extends BaseSupplierController {
 	}
 
 	@RequestMapping("login")
-	public String login(HttpServletRequest request, Model model, String name) {
+	public String login(HttpServletRequest request, HttpServletResponse response, Model model, String name) throws IOException {
+	    
+        User user = (User) request.getSession().getAttribute("loginUser");
+        response.setContentType("textml;charset=utf-8");
+        if(user==null){
+            String path = request.getContextPath();
+            String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+            PrintWriter out = response.getWriter();
+            StringBuilder builder = new StringBuilder();
+            builder.append("<HTML><HEAD>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("</HEAD>");
+            builder.append("<script type=\"text/javascript\">"); 
+            builder.append("$(function() {");
+            builder.append("layer.confirm('您未登陆，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+            builder.append("window.top.location.href='"); 
+            builder.append(basePath+"index/sign.html");  
+            builder.append("';"); 
+            builder.append("});");
+            builder.append("});");
+            builder.append("</script>");  
+            builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+            out.print(builder.toString());
+            out.flush();  
+            out.close(); 
+        }
+     
+        if(!user.getLoginName().equals(name)){
+            String path = request.getContextPath();
+            String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+            PrintWriter out = response.getWriter();
+            StringBuilder builder = new StringBuilder();
+            builder.append("<HTML><HEAD>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
+            builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
+            builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+            builder.append("</HEAD>");
+            builder.append("<script type=\"text/javascript\">"); 
+            builder.append("$(function() {");
+            builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+            builder.append("window.top.location.href='"); 
+            builder.append(basePath+"index/sign.html");  
+            builder.append("';"); 
+            builder.append("});");
+            builder.append("});");
+            builder.append("</script>");  
+            builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+            out.print(builder.toString());
+            out.flush();  
+            out.close(); 
+        }
+	    
 		Supplier supp = supplierMapper.queryByName(name);
 		Supplier supplier = supplierService.get(supp.getId());
 

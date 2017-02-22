@@ -43,6 +43,8 @@ public class Area {
 	 * @Fields name : 地区名称
 	 */
     private String name;
+    
+    private String errInfo;
 
     public String getId() {
         return id;
@@ -106,5 +108,13 @@ public class Area {
 
     public void setName(String name) {
         this.name = name == null ? null : name.trim();
+    }
+
+    public String getErrInfo() {
+        return errInfo;
+    }
+
+    public void setErrInfo(String errInfo) {
+        this.errInfo = errInfo;
     }
 }
