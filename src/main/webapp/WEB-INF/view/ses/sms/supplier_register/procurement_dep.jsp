@@ -133,7 +133,7 @@
 												<th class="info w30"><input type="radio" disabled="disabled"></th>
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
-												<th class="info">地址</th>
+												<th class="info">地点</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
@@ -160,7 +160,7 @@
 												<th class="info w30"><input type="radio" disabled="disabled"></th>
 												<th class="info w50">序号</th>
 												<th class="info w300">采购机构</th>
-												<th class="info">地址</th>
+												<th class="info">地点</th>
 											</tr>
 										</thead>
 										<tbody id="purchase_orgs2">
