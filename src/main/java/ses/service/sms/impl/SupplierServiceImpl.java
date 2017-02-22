@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -791,4 +793,33 @@ public class SupplierServiceImpl implements SupplierService {
             return null;
         }
     }
+
+    /**
+     * @see ses.service.sms.SupplierService#getScoreBySupplierId(java.lang.String)
+     */
+    @Override
+    public BigDecimal getScoreBySupplierId(String supplierId) {
+        Supplier supplier = get(supplierId);
+        List<SupplierFinance> listSupplierFinances = supplier.getListSupplierFinances();
+        // 对年份进行排序
+        Collections.sort(listSupplierFinances, new Comparator < SupplierFinance > () {
+            public int compare(SupplierFinance finance1, SupplierFinance finance2) {
+                // 按照SupplierFinance的年份进行升序排列  
+                if(Integer.parseInt(finance1.getYear()) > Integer.parseInt(finance2.getYear())) {
+                    return 1;
+                }
+                if(finance1.getYear().equals(finance2.getYear())) {
+                    return 0;
+                } else {
+                    return -1;
+                }
+            }
+        });
+        BigDecimal score = new BigDecimal(0);
+        score = score.add(listSupplierFinances.get(0).getTotalNetAssets().multiply(BigDecimal.valueOf(0.2)));
+        score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
+        score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));
+        return score;
+    }
+    
 }

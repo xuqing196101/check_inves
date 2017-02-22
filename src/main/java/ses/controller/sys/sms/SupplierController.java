@@ -6,6 +6,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -613,7 +614,14 @@ public class SupplierController extends BaseSupplierController {
 		}
 
 		if(info) {
-			Supplier before = supplierService.get(supplier.getId());
+		    Supplier before = supplierService.get(supplier.getId());
+		    // 判断是否满足条件
+		    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+		    if (score.compareTo(BigDecimal.valueOf(100)) != 1) {
+	            initCompanyType(model, before);
+	            request.setAttribute("notPass", "notPass");
+	            return "ses/sms/supplier_register/basic_info";
+		    }
 			if(before.getStatus().equals(2)) {
 				record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 			}
@@ -1865,7 +1873,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model, String name) throws IOException {
 	    
-        User user = (User) request.getSession().getAttribute("loginUser");
+        String user = (String) request.getSession().getAttribute("loginUser");
         response.setContentType("textml;charset=utf-8");
         if(user==null){
             String path = request.getContextPath();
@@ -1892,7 +1900,7 @@ public class SupplierController extends BaseSupplierController {
             out.close(); 
         }
      
-        if(!user.getLoginName().equals(name)){
+        if(!user.equals(name)){
             String path = request.getContextPath();
             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
             PrintWriter out = response.getWriter();
@@ -2542,6 +2550,29 @@ public class SupplierController extends BaseSupplierController {
     @RequestMapping("/saveItemsInfo")
     public void saveItemsInfo(Supplier supplier) {
         supplierItemService.updateByPrimaryKeySelective(supplier.getListSupplierItems());
+    }
+    
+    /**
+     *〈简述〉
+     * 异步判断供应商是否满足下载条件
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/isPass")
+    public String isPass(String supplierId) {
+        BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
+        List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        for (SupplierTypeRelate type : relate) {
+            if (type.getSupplierTypeId().equals("SALES")) {
+                if (score.compareTo(BigDecimal.valueOf(3000)) != 1) {
+                    return "0";
+                }
+            }
+        }
+        return "1";
     }
 
 }

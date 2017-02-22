@@ -274,4 +274,14 @@ public interface SupplierService {
     * @return List<BigDecimal>
     */
    List<BigDecimal> getAllLevelScore(String typeCode);
+   
+   /**
+    *〈简述〉
+    * 计算供应商三年加权平均净资产
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param supplierId
+    * @return
+    */
+   BigDecimal getScoreBySupplierId(String supplierId);
 }

@@ -395,7 +395,7 @@
 									</h2>
 									<div id="div-1" class="mb10">
 								  	产品类别:<input type="text" id="cate-1">
-								          编码:<input type="text" id="code-1">
+								          目录编码:<input type="text" id="code-1">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1,'code-1')"/>
 								  	</div>
 									<div class="lr0_tbauto">
@@ -411,7 +411,7 @@
 									</h2>
 									<div id="div-2" class="mb10">
 								  	产品类别:<input type="text" id="cate-2">
-								          编码:<input type="text" id="code-2">
+								          目录编码:<input type="text" id="code-2">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2,'code-2')"/>
 								  	</div>
 									<div class="lr0_tbauto">
@@ -427,7 +427,7 @@
 									</h2>
 									<div id="div-3" class="mb10">
 								  	产品类别:<input type="text" id="cate-3">
-								          编码:<input type="text" id="code-3">
+								          目录编码:<input type="text" id="code-3">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null,'code-3')"/>
 								  	</div>
 									<div class="lr0_tbauto">
@@ -443,7 +443,7 @@
 									</h2>
 									<div id="div-4" class="mb10">
 								  	产品类别:<input type="text" id="cate-4">
-								          编码:<input type="text" id="code-4">
+								          目录编码:<input type="text" id="code-4">
 								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null,'code-4')"/>
 								  	</div>
 									<div class="lr0_tbauto">

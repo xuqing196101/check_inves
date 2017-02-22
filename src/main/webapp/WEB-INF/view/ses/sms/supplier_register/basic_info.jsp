@@ -19,52 +19,56 @@
 			});
 
 			$(function() {
-				$("#page_ul_id").find("li").click(function() {
-					var id = $(this).attr("id");
-					var page = "tab-" + id.charAt(id.length - 1);
-					$("input[name='defaultPage']").val(page);
-				});
-				var defaultPage = "${defaultPage}";
-				if(defaultPage) {
-					var num = defaultPage.charAt(defaultPage.length - 1);
-					$("#page_ul_id").find("li").each(function(index) {
-						if(index == num - 1) {
-							$(this).attr("class", "active");
-						} else {
-							$(this).removeAttr("class");
-						}
-					});
-					$("#tab_content_div_id").find(".tab-pane").each(function() {
-						var id = $(this).attr("id");
-						if(id == defaultPage) {
-							$(this).attr("class", "tab-pane fade height-200 active in");
-						} else {
-							$(this).attr("class", "tab-pane fade height-200");
-						}
-					});
-				}
-
-				// loadRootArea();
-				autoSelected("business_select_id", "${currSupplier.businessType}");
-				autoSelected("nature_select_id", "${currSupplier.businessNature}");
-				autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
-				if($("#overseas_branch_select_id").val() == "1") {
-					$("li[name='branch']").show();
-				}
-				autoSelected("isHavingConCert", "${currSupplier.isHavingConCert}");
-				if($("#isHavingConCert").val() == "1") {
-					$("#bearchCertDiv").show();
+				var notPass = "${notPass}";
+				if (notPass == "notPass") {
+					layer.msg("抱歉，您的信息不满足要求，无法继续注册！");
 				} else {
-					$("#bearchCertDiv").hide();
-				}
+					$("#page_ul_id").find("li").click(function() {
+						var id = $(this).attr("id");
+						var page = "tab-" + id.charAt(id.length - 1);
+						$("input[name='defaultPage']").val(page);
+					});
+					var defaultPage = "${defaultPage}";
+					if(defaultPage) {
+						var num = defaultPage.charAt(defaultPage.length - 1);
+						$("#page_ul_id").find("li").each(function(index) {
+							if(index == num - 1) {
+								$(this).attr("class", "active");
+							} else {
+								$(this).removeAttr("class");
+							}
+						});
+						$("#tab_content_div_id").find(".tab-pane").each(function() {
+							var id = $(this).attr("id");
+							if(id == defaultPage) {
+								$(this).attr("class", "tab-pane fade height-200 active in");
+							} else {
+								$(this).attr("class", "tab-pane fade height-200");
+							}
+						});
+					}
 
-				if("${currSupplier.status}" == 7) {
-					showReason();
-				}
-				if("${currSupplier.overseasBranch}" == '0' || "${currSupplier.overseasBranch}" == null) {
-					$("li[name='branch']").hide();
-				}
+					// loadRootArea();
+					autoSelected("business_select_id", "${currSupplier.businessType}");
+					autoSelected("nature_select_id", "${currSupplier.businessNature}");
+					autoSelected("overseas_branch_select_id", "${currSupplier.overseasBranch}");
+					if($("#overseas_branch_select_id").val() == "1") {
+						$("li[name='branch']").show();
+					}
+					autoSelected("isHavingConCert", "${currSupplier.isHavingConCert}");
+					if($("#isHavingConCert").val() == "1") {
+						$("#bearchCertDiv").show();
+					} else {
+						$("#bearchCertDiv").hide();
+					}
 
+					if("${currSupplier.status}" == 7) {
+						showReason();
+					}
+					if("${currSupplier.overseasBranch}" == '0' || "${currSupplier.overseasBranch}" == null) {
+						$("li[name='branch']").hide();
+					}
+				}
 			});
 
 			/** 加载地区根节点 */
@@ -508,7 +512,7 @@
 					"</div>" +
 					"</li> " +
 					"<li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产经营地址</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产经营地址（填写所有地址）</span>" +
 					"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
 					"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
 					" <option value=''>请选择</option>" +
@@ -621,7 +625,7 @@
 					"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 					" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-					"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80'  id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+					"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='300' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
 					" </div>" +
 					" </li>");
 				inde++;
@@ -686,7 +690,7 @@
 							<legend>企业信息</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 公司名称</span>
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 供应商名称</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input id="supplierName_input_id" type="text" name="supplierName" required="required" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
 										<span class="add-on">i</span>
@@ -699,7 +703,7 @@
 									</div>
 								</li>
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">公司网址</span>
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">网址</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="website" isUrl="isUrl" value="${currSupplier.website}" <c:if test="${fn:contains(audit,'website')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('website')"</c:if> >
 										<span class="add-on cur_point">i</span>
@@ -844,8 +848,6 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
-										<!-- 	<input type="button" class="btn" value="新增"/>
-						<input type="button" class="btn" value="删除"/> -->
 									</div>
 								</li>
 
@@ -864,7 +866,7 @@
 										</li>
 
 										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营地址</span>
+											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营地址（填写所有地址）</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 													<select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
@@ -917,14 +919,6 @@
 										</li>
 									</c:forEach>
 								</div>
-
-								<%--  <li class="col-md-12 col-xs-12 col-sm-12 mb25">
-			    	<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>详细地址</span>
-			    	<div class="col-md-12 col-xs-12 col-sm-12 p0">
-				       <textarea class="col-md-12 col-xs-12 col-sm-12 h130"  name="detailAddress">${currSupplier.detailAddress}</textarea>
-				       <div class="cue"> ${err_detailAddress } </div>
-		       	    </div>
-				</li>  --%>
 							</ul>
 						</fieldset>
 
@@ -1336,7 +1330,7 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 营业有效期   <input type="checkbox" name="branchName" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 有效期   <input type="checkbox" name="branchName" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
 										<input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
@@ -1355,9 +1349,9 @@
 								</li>
 
 								<li class="col-md-12 col-xs-12 col-sm-12 mb25">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>营业范围（按照营业执照上填写）</span>
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>经营范围（按照营业执照填写）</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 p0">
-										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="300" required="required" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
 										<div class="cue">
 											<sf:errors path="businessScope" />
 										</div>
@@ -1450,7 +1444,7 @@
 										<li name="branch" style="display: none;" class="col-md-12 col-xs-12 col-sm-12 mb25">
 											<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="branchbusinessSope" required name="branchList[${vs.index }].businessSope">${bran.businessSope}</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="300" id="branchbusinessSope" required name="branchList[${vs.index }].businessSope">${bran.businessSope}</textarea>
 												<div class="cue">
 													<sf:errors path="branchList[${vs.index }].businessSope" />
 												</div>
@@ -1631,7 +1625,7 @@
 					</div>
 
 					<div class="padding-top-10 clear">
-						<h2 class="count_flow clear pt20"> <i>4</i><font color=red>*</font> 出资人（股东）信息  （说明：出资人（股东）多于10人的，列出出资金额前十位的信息，但出资比例应高于50%）</h2>
+						<h2 class="count_flow clear pt20"> <i>4</i><font color=red>*</font> 出资人（股东）信息  （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h2>
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb5">
@@ -1700,7 +1694,7 @@
 												</th>
 												<th class="info">分支（或服务）机构名称</th>
 												<th class="info">类别</th>
-												<th class="info">所在县市</th>
+												<th class="info">所在省县市</th>
 												<th class="info">负责人</th>
 												<th class="info">联系电话</th>
 											</tr>
@@ -1738,7 +1732,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000" name="purchaseExperience" <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="500" name="purchaseExperience" <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
 								</div>
 							</div>
 						</div>
@@ -1748,7 +1742,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000" placeholder="供应商组织机构设置、人员情况以及产品信息等内容。" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="500" placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在500字以内。" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
 									<div class="cue">
 										<sf:errors path="description" />
 									</div>

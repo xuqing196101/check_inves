@@ -22,22 +22,34 @@
 
 			//下载
 			function downloadTable() {
-				var index = layer.load(1, {
-					shade: [0.1, '#fff'] //0.1透明度的白色背景
-				});
+				var index = layer.load(1);
 				var supplierId = "${currSupplier.id}";
 				$.ajax({
-					url: "${pageContext.request.contextPath}/expert/getSupplierInfo.do",
+					url: "${pageContext.request.contextPath}/supplier/isPass.do",
 					data: {
 						"supplierId": supplierId
 					},
 					type: "post",
-					dataType: "json",
-					success: function(supplier) {
-						layer.close(index);
-						var supplierJson = JSON.stringify(supplier);
-						$("#supplierJson").val(supplierJson);
-						$("#download_form").submit();
+					success: function(data) {
+						if (data == "1") {
+							$.ajax({
+								url: "${pageContext.request.contextPath}/expert/getSupplierInfo.do",
+								data: {
+									"supplierId": supplierId
+								},
+								type: "post",
+								dataType: "json",
+								success: function(supplier) {
+									layer.close(index);
+									var supplierJson = JSON.stringify(supplier);
+									$("#supplierJson").val(supplierJson);
+									$("#download_form").submit();
+								}
+							});
+						} else {
+							layer.msg("下载失败，您的信息不满足物资销售型供应商的要求！");
+							layer.close(index);
+						}
 					}
 				});
 			}
