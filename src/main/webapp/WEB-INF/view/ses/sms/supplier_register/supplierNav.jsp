@@ -18,7 +18,7 @@
 				<span class="step_desc_02">采购机构</span> </span> <span id="locationG" class="new_step fl"><i class="">7</i>
 				<div class="line"></div> 
 				<span class="step_desc_01">承诺书和申请表</span> </span> <span id="locationH" class="new_step fl"><i class="">8</i> 
-				<span class="step_desc_02">提交</span> </span>
+				<span class="step_desc_02">提交审核</span> </span>
 			<div class="clear"></div>
 		</h2>
 	</div>

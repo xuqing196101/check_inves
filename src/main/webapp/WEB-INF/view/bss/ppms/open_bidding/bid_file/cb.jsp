@@ -7,7 +7,17 @@
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
 <%@ include file="/WEB-INF/view/common.jsp"%>
-<script type="text/javascript">		
+<script type="text/javascript">	
+	$(function() {
+  		//获取查看或操作权限
+       	var isOperate = $('#isOperate', window.parent.document).val();
+       	if(isOperate == 0) {
+       		//只具有查看权限，隐藏操作按钮
+			$(":button").each(function(){ 
+				$(this).hide();
+            }); 
+		}
+    })	
 	$(function(){
 	   if('${date}'>0){
 	   	setTimeout("openNewWindow()", 500);

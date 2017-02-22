@@ -12,6 +12,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <script type="text/javascript">
+    	$(function() {
+	  		//获取查看或操作权限
+	       	var isOperate = $('#isOperate', window.parent.document).val();
+	       	if(isOperate == 0) {
+				$(":button").each(function(){ 
+					$(this).hide();
+	            }); 
+			}
+	    })
       function download() {
       	var id = [];
         $('input[name="chkItem_supplier"]:checked').each(function() {

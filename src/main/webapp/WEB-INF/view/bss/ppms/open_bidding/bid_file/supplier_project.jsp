@@ -31,6 +31,20 @@
 		<meta name="author" content="">
 
 		<script type="text/javascript">
+		$(function() {
+	  		//获取查看或操作权限
+	       	var isOperate = $('#isOperate', window.parent.document).val();
+	       	if(isOperate == 0) {
+				$(":button").each(function(){ 
+					$(this).hide();
+	            }); 
+	            $("div[id^='upload_tag']").each(function(i){  
+  					$(this).hide();
+				});	
+	            $("#batch_upload").hide();
+	            
+			}
+	    })
 		function download(id, key) {
 			var form = $("<form>");
 			form.attr('style', 'display:none');
@@ -117,7 +131,7 @@
 		<!-- 我的页面开始-->
 		<div class="">
 			<!-- 表格开始-->
-			<div class="col-md-12 pl20 mt10">
+			<div class="col-md-12 pl20 mt10" id="batch_upload">
 			<c:if test="${flag == false}">
 				 <u:upload id="flUpload" exts="txt,rar,zip,doc,docx" businessId="1234567890-1234567890-1234567890" multiple="true" buttonName="批量上传"  groups="${supplierList[0].groupsUploadId}" auto="true" typeId="${typeId}" sysKey="${sysKey}"/> 
 				 <u:show showId="flshow" groups="${supplierList[0].groupShowId}" businessId="1234567890-1234567890-1234567890" sysKey="${sysKey}" typeId="${typeId}" />
@@ -135,7 +149,7 @@
 							<th class="info">投标文件</th>
 						</tr>
 					</thead>
-					<c:forEach items="${supplierList }" var="list" varStatus="vs">
+					<c:forEach items="${supplierList}" var="list" varStatus="vs">
 						<c:if test="${not empty list.packageName}">
 							<tr>
 							<td class="tc">${vs.index+1}</td>
@@ -159,14 +173,16 @@
 							</td>
 							<td>
 							    <c:if test="${flag == false}">
-									<c:if test="${fn:length(supplierList) > 1}">
-										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-										<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
-								  	</c:if>
-								  	<c:if test="${fn:length(supplierList) == 1}">
-										<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
-										<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
-								  	</c:if>
+							    	<div id="upload_tag_${vs.index+1}">
+										<c:if test="${fn:length(supplierList) > 1}">
+											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+											<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
+									  	</c:if>
+									  	<c:if test="${fn:length(supplierList) == 1}">
+											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+											<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
+									  	</c:if>
+							    	</div>
 							  	</c:if>
 							  	 <c:if test="${flag == true}">
 									<a class="mt3 color7171C6" href="javascript:download('${list.bidFileId}', '${sysKey}')">${list.bidFileName}</a>							

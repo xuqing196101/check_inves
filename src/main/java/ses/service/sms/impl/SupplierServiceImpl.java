@@ -145,16 +145,6 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     public Supplier get(String id) {
         Supplier supplier = supplierMapper.getSupplier(id);
-        //		List<SupplierTypeRelate> listSupplierTypeRelates = supplier.getListSupplierTypeRelates();
-
-        //		String supplierTypeNames = "";
-        //		for(int i = 0; i < listSupplierTypeRelates.size(); i++) {
-        //			if (i > 0) {
-        //				supplierTypeNames += ",";
-        //			}
-        //			supplierTypeNames += listSupplierTypeRelates.get(i).getSupplierTypeName();
-        //		}
-        //		supplier.setSupplierTypeNames(supplierTypeNames);
         List<SupplierTypeRelate> relateList = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(id);
         supplier.setListSupplierFinances(null);
         List<SupplierFinance> fiance = supplierFinanceMapper.getFinanceBySid(id);
@@ -164,7 +154,6 @@ public class SupplierServiceImpl implements SupplierService {
             for(SupplierTypeRelate s:relateList){
                 sb.append(s.getSupplierTypeId()).append(",");
             }
-            //			supplier.setListSupplierTypeRelates(relateList);
         }
         supplier.setSupplierTypeIds(sb.toString());
         SupplierDictionaryData supplierDictionaryData = dictionaryDataServiceI.getSupplierDictionary();
@@ -199,29 +188,6 @@ public class SupplierServiceImpl implements SupplierService {
                 }
             }
         }
-
-//        List<SupplierItem> itemList = supplierItemService.getSupplierId(id);
-//        List<CategoryParameter> categoryList=new LinkedList<CategoryParameter>();
-//        List<ProductParam>  paramList=new LinkedList<ProductParam>();
-//        if(itemList!=null&&itemList.size()>0){
-//
-//            for(SupplierItem s:itemList){
-//                Category category = categoryMapper.selectByPrimaryKey(s.getCategoryId());
-//                s.setCategoryName(category.getName());
-//                List<CategoryParameter> cateList = categoryParameterService.getParametersByItemId(s.getCategoryId());
-//                List<ProductParam> paramValue = productParamMapper.querySupplierIdCateoryId(s.getSupplierId(), s.getCategoryId());
-//                paramList.addAll(paramValue);
-//                categoryList.addAll(cateList);
-//            }
-//        }
-//        supplier.setListSupplierItems(itemList);
-//        supplier.setCategoryParam(categoryList);
-//        for(ProductParam p:paramList){
-//            List<UploadFile> file = uploadFileService.getFilesOther(p.getParamValue(), null, "1");
-//            if(file.size()>0){
-//                p.setParamValue(file.get(0).getName());
-//            }
-//        }
 
         List<SupplierBranch> list = supplierBranchService.findSupplierBranch(id);
         if(list.size()>0){

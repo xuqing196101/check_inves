@@ -610,45 +610,6 @@ public class PurchaseManageController {
             return "ses/oms/purchase_dep/add";
         }
        
-	    /*if(!ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
-	        model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
-	        model.addAttribute("purchaseDep", purchaseDep);
-	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
-	        model.addAttribute("lists", purchaseOrgList);
-	        model.addAttribute("orgInfos", orgInfos);
-	        return "ses/oms/purchase_dep/add";
-	    }*/
-	    /*if(!ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
-	        model.addAttribute("ERR_contactTelephone", "请输入正确的手机号码");
-	        model.addAttribute("purchaseDep", purchaseDep);
-	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
-	        model.addAttribute("lists", purchaseOrgList);
-	        model.addAttribute("orgInfos", orgInfos);
-	        return "ses/oms/purchase_dep/add";
-	    }*/
-	    if(purchaseDep.getLegal() == null && "".equals(purchaseDep.getLegal())){
-            model.addAttribute("ERR_legal", "不能为空");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/add";
-        }
-	    /*if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode())){
-	        model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
-	        model.addAttribute("purchaseDep", purchaseDep);
-	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
-	        model.addAttribute("lists", purchaseOrgList);
-	        model.addAttribute("orgInfos", orgInfos);
-	        return "ses/oms/purchase_dep/add";
-	    }
-	    if(ValidateUtils.isNull(purchaseDep.getBankAccount())){
-	        model.addAttribute("ERR_bankAccount", "不能为空");
-	        model.addAttribute("purchaseDep", purchaseDep);
-	        model.addAttribute("purchaseDepIds", purchaseDep.getId());
-	        model.addAttribute("lists", purchaseOrgList);
-	        model.addAttribute("orgInfos", orgInfos);
-	        return "ses/oms/purchase_dep/add";
-	    }*/
 	    
 	    purchaseOrgnizationServiceI.savePurchaseDep(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty,
 	        siteType,siteNumber,location,area,crewSize);
@@ -693,42 +654,7 @@ public class PurchaseManageController {
             return "ses/oms/purchase_dep/edit";
         }
        
-        if(!ValidateUtils.isNotNull(purchaseDep.getPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getPostCode())){
-            model.addAttribute("ERR_postCode", "请输入正确的邮编");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
         
-        /*if(ValidateUtils.isNotNull(purchaseDep.getDutyRoomPhone()) && ValidateUtils.Tel(purchaseDep.getDutyRoomPhone())){
-            model.addAttribute("ERR_dutyRoomPhone", "请输入正确的电话号码");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }*/
-        /*if(!ValidateUtils.isNotNull(purchaseDep.getContactTelephone())){
-            model.addAttribute("ERR_contactTelephone", "不能为空");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }*/
-        /*if(!ValidateUtils.isNotNull(purchaseDep.getUnitPostCode()) && !ValidateUtils.Zipcode(purchaseDep.getUnitPostCode().toString())){
-            model.addAttribute("ERR_unitPostCode", "请输入正确的邮编");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }
-        if(ValidateUtils.isNull(purchaseDep.getBankAccount())){
-            model.addAttribute("ERR_bankAccount", "请输入正确的银行账号");
-            model.addAttribute("purchaseDep", purchaseDep);
-            model.addAttribute("lists", purchaseOrgList);
-            model.addAttribute("orgInfos", orgInfos);
-            return "ses/oms/purchase_dep/edit";
-        }*/
 	    purchaseOrgnizationServiceI.update(purchaseDep,selectedItem,purchaseUnitName,purchaseUnitDuty,
 	        siteType,siteNumber,location,area,crewSize);
 	                                

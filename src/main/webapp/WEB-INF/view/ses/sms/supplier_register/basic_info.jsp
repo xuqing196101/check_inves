@@ -267,16 +267,16 @@
 					}
 				});
 				$("#afterSaleDep_list_tbody_id").append("<tr>" +
-					"<td class='tc'><input type='checkbox' value='' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value=" + id + "><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
+					"<td class='tc'><input type='checkbox' value='" + id + "' /><input type='hidden' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].id' value='" + id + "'><input type='hidden' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].supplierId' value=" + supplierId + ">" +
 					"</td>" +
-					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' value=''> </td>" +
-					"<td class='tc'>  <select class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
+					"<td class='tc'><input type='text' style='border:0px;' onblur='tempSave()' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].name' value=''> </td>" +
+					"<td class='tc'>  <select onchange='tempSave()' class='w100p border0' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].type'>" +
 					"<option value='1'>自营</option>" +
 					" <option value='2'>合作</option>" +
 					"</select> </td>" +
-					"<td class='tc'><input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' value=''> </td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' value=''></td>" +
-					"<td class='tc'> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
+					"<td class='tc'><input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].address' value=''> </td>" +
+					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].leadName' value=''></td>" +
+					"<td class='tc'> <input type='text' onblur='tempSave()' style='border:0px;' name='listSupplierAfterSaleDep[" + afterSaleIndex + "].mobile' value=''> </td>" + "</tr>");
 
 				afterSaleIndex++;
 				$("#afterSaleIndex").val(afterSaleIndex);
@@ -471,6 +471,7 @@
 					$("#bearchCertDiv").hide();
 				} else {
 					$("#bearchCertDiv").show();
+					init_web_upload();
 				}
 			}
 
@@ -795,7 +796,7 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 住所地址</span>
+									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 住所地址（营业执照上的登记地址）</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 											<select id="root_area_select_id" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'address')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address')"</c:if>>
@@ -832,7 +833,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="detailAddress" value="${currSupplier.detailAddress}" required maxlength="50" <c:if test="${fn:contains(audit,'detailAddress')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress')"</c:if>>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">住所地址为营业执照注册地址</span>
+										<span class="input-tip">不能为空</span>
 										<div class="cue">${err_detailAddress } </div>
 										<div class="cue">
 											<sf:errors path="detailAddress" />
@@ -1698,7 +1699,6 @@
 												</th>
 												<th class="info">分支（或服务）机构名称</th>
 												<th class="info">类别</th>
-
 												<th class="info">所在县市</th>
 												<th class="info">负责人</th>
 												<th class="info">联系电话</th>

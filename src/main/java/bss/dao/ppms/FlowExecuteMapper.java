@@ -15,4 +15,6 @@ public interface FlowExecuteMapper {
     int update(FlowExecute fe);
 
     List<FlowExecute> findList(FlowExecute fe);
+
+    List<FlowExecute> findExecuted(FlowExecute temp);
 }

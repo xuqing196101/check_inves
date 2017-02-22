@@ -204,7 +204,7 @@ session.setAttribute("tokenSession", tokenValue);
 					<div class="clear"></div>
 				</h2>
 				<div class="container container_box">
-					<h2 class="list_title">推荐采购机构</h2>
+					<h2 class="list_title">推荐采购机构（以公司注册地址作为推荐采购机构依据）</h2>
 					<table class="table table-bordered table-condensed table-hover table-striped">
 						<thead>
 							<tr>
