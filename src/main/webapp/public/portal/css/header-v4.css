@@ -1121,14 +1121,30 @@ line-height:100%;
  z-index:1000;
  background:#ffffff;
  }
- .search-block-v2{
-  overflow: hidden;
-  padding-bottom: 100px;
+ @media (min-width:401px){
+   .gpgz_moblie{
+  	 display: none;
+  }
+  .search_gpgz{
+     background:url(../images/gpgz.png) no-repeat left 60px;
+  }
+    .search-block-v2{
+ 	 overflow: hidden;
+  	 padding-bottom: 100px;
+  }
+    .head_logo{
+  	 margin: 20 0px;
+  }
  }
- .search_gpgz{
-   background:url(../images/gpgz.png) no-repeat left 60px;
- }
- .gpgz{
-  background:url(../images/gpgz.png) no-repeat left top;
-  height:80px;
+
+ @media (max-width:400px){
+  .search-block-v2{
+  	padding-bottom: 0px;
+  }
+  .gpgz_moblie{
+  	display: block;
+  }
+  .search_gpgz{
+ 	padding:0px;
+  }
  }

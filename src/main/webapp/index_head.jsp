@@ -49,7 +49,7 @@ function importAdd(){
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container p0">
     <div class="row">
-    <div class="col-md-5 col-xs-12 col-sm-5" id="welcome">你好，欢迎来到军队采购网！
+    <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">你好，欢迎来到军队采购网！
       <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
        <% if (environment != null && environment.equals("1")){ %>
          <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
@@ -57,13 +57,13 @@ function importAdd(){
          <%} %>
 	   <% } %>
     </div> 
-       <div class="col-md-7 col-xs-12 col-sm-7 head_right"> 
+       <div class="col-md-7 col-sm-7 head_right pr5 pl0 fr"> 
     <!-- 根据session判断 -->
         <c:if test="${properties['ipAddressType'] == 0}">
            <a>网站编号：${properties['website.no']}</a>|
         </c:if>
-    	 <a onclick="myInfo()">我的信息</a>   
-    	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">| 退出</a>
+    	 <a onclick="myInfo()">我的信息</a>|    
+    	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">退出</a>
 	   </div>
 	  </div>
     </div>
@@ -77,14 +77,17 @@ function importAdd(){
         <!-- logo和搜索 -->
         <div class="navbar-header col-md-12 col-xs-12 col-sm-12">
           <div class="row margin-bottom-10">
-            <div class="col-md-5 col-sm-5 col-xs-12 m20_0">
+            <div class="col-md-5 col-sm-5 col-xs-12 head_logo">
               <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
                  <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="100%" id="logo-header">
               </a>
             </div>
 			<!--搜索开始-->
             <div class="col-md-7 col-sm-7 col-xs-12 search_gpgz">
-              <div class="search-block-v2 col-md-offset-5 col-sm-offset-5 col-xs-offset-0">
+              <div class="col-xs-12 gpgz_moblie">
+                <img src="${pageContext.request.contextPath}/public/portal/images/gpgz.png" width="100%">
+              </div>
+              <div class="col-md-7 col-xs-12 col-sm-7 search-block-v2 col-md-offset-5 col-sm-offset-5 col-xs-offset-0">
                   <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch.html" method="get">
 				    <div style="display:none">
 				     <input name="utf8" value="✓" type="hidden">

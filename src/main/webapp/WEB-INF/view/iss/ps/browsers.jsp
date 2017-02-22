@@ -17,7 +17,7 @@
 			min-width:290px;
 		}
 		.brower_box{
-	  		width:700px;
+	  		width:740px;
 			margin:0 auto;
 			overflow:hidden;
 			min-width:290px;
@@ -43,16 +43,13 @@
 			text-decoration:none;
 		}
 		.brower_box .chrome{
-			background-color:#FB4125;
+			background-color:#159F5C;
 		}
 		.brower_box .firefox{
-			background-color:#166BAE;
+			background-color:#ff0000;
 		}
 		.brower_box .internet{
 			background-color:#2971EA;
-		}
-		.brower_box .chrome{
-			background-color:#FF0000;
 		}
 		.brower_box .intel{
 			background-color:#23bae9;
@@ -95,7 +92,7 @@
 	  <div class="brower_box">
 	  		<div class="bro_squre">
 			  <p><img src="${pageContext.request.contextPath}/public/portal/images/firefox.png"/></p>
-			  </p><a class="btn tc firefox" href="javascript:downloadBrowser('firefox');">使用Firefox浏览器</a></p>
+			  </p><a class="btn tc firefox" href="javascript:downloadBrowser('firefox');">（推荐）使用Firefox浏览器</a></p>
 			</div>
 	  
 			<div class="bro_squre">
