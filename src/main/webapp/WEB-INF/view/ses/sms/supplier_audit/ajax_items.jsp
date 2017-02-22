@@ -52,7 +52,7 @@
       <td class="info tc">小类</td>
       <td class="info tc">品种名称</td>
       <td class="info tc">操作</td>
-      <td class="info tc">附件</td>
+      <!-- <td class="info tc">附件</td> -->
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
       <tr>
@@ -66,10 +66,10 @@
 					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 					<p id="${item.itemsId}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 				</td>
-				<td >
+				<%-- <td >
 					<u:upload id="up${vs.index + 1 }" businessId="${item.itemsId}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPresentation}" auto="true" /> 
 		      <u:show showId="show${vs.index + 1 }" businessId="${item.itemsId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPresentation}" />
-				</td>
+				</td> --%>
       </tr>
     </c:forEach>
   </table> 
