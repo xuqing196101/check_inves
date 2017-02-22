@@ -69,16 +69,24 @@
 	   	<div class="mt10 tc">
 	   		<h2>${project.name}--${pack.name}</h2>
 	   	</div>
-	  	<table id="tabId" class="table table-bordered table-condensed table-hover">
+	   	<div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+	  	<table id="tabId" class="table table-bordered table-condensed table-hover p0 space_nowrap">
  		  <thead>
 		      <tr>
-		        <th class="info">评审内容/供应商</th>
+		        <th class="info" rowspan="2">评审内容/供应商</th>
 		        <c:set var="suppliers" value="0" />
 		        <c:forEach items="${saleTenderList}" var="supplier" varStatus="vs">
 		        	<c:set var="suppliers" value="${suppliers+1}" />
-		        	<th class="info" colspan="2">${supplier.suppliers.supplierName}单位IQ点进去往来款</th>
+		        	<th class="info" colspan="2">${supplier.suppliers.supplierName}</th>
 		        </c:forEach>
 		      </tr>
+		      <tr>
+		      	<c:forEach items="${saleTenderList}" var="supplier" varStatus="vs">
+		        	<th class="info" >合格</th>
+		        	<th class="info" >不合格</th>
+		        </c:forEach>
+		      </tr>
+		      
 	      </thead>
 	      <tbody id="content">
 	      <c:forEach items="${dds}" var="d">
@@ -141,6 +149,7 @@
 	  	  </tr>
 	     </tbody>
   		</table>
+  		</div>
   		</div>
   	  </div>
   	<div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
