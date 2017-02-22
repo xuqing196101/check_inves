@@ -665,7 +665,6 @@
  	if(isReferenceLftter=="1"){
  	wtj=5;
  	}
- 
 				var id_areaSelect = $("#add").val();
 				if(!id_areaSelect) {
 					layer.msg("请选择区域 !", {
@@ -1503,6 +1502,7 @@
 			  wtj=5;
 			}else{
 			$("#tjx").hide();
+
 			wtj=4;
 			}
 		});
