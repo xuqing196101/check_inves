@@ -400,8 +400,7 @@ public class SupplierItemController extends BaseController {
 			}
 			HashMap < String, Object > map1 = new HashMap < String, Object > ();
 			map1.put("typeName", "1");
-			List < PurchaseDep > list1 = purchaseOrgnizationService
-				.findPurchaseDepList(map1);
+			List < PurchaseDep > list1 = purchaseOrgnizationService.findPurchaseDepList(map1);
 			for (PurchaseDep org : list1) {
 			    Area pro = areaService.listById(org.getProvinceId());
 			    Area city = areaService.listById(org.getCityId());
