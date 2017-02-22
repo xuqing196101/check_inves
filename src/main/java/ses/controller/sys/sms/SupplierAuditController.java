@@ -379,6 +379,16 @@ public class SupplierAuditController extends BaseSupplierController {
 				fieldAfterSaleDep.append(beforeField + ",");
 			}
 			request.setAttribute("fieldAfterSaleDep", fieldAfterSaleDep);
+			
+			//境外分支
+			supplierModify.setListType(2);
+			List < SupplierModify > branchList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldBranch = new StringBuffer();
+			for(int i = 0; i < branchList.size(); i++) {
+				String beforeField = branchList.get(i).getRelationId() +"_"+ branchList.get(i).getBeforeField();
+				fieldBranch.append(beforeField + ",");
+			}
+			request.setAttribute("fieldBranch", fieldBranch);
 		}
 		return "ses/sms/supplier_audit/essential";
 	}

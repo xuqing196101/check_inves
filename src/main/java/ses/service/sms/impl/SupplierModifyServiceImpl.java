@@ -13,6 +13,7 @@ import ses.model.bms.Area;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
+import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
@@ -140,7 +141,55 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 			}
 		}
 		
+		/**
+		 * 境外分支
+		 */
+		supplierHistory.setSupplierId(supplierId);
+		supplierHistory.setmodifyType("basic_page");
+		supplierHistory.setListType(2);
+		List<SupplierHistory> list = supplierHistoryMapper.findListBySupplierId(supplierHistory);
+
+		List<SupplierBranch> branchList = supplierService.get(supplierId).getBranchList();
+		supplierModify.setSupplierId(supplierId);
+		supplierModify.setListType(2);
+		supplierModify.setmodifyType("basic_page");
 		
+		for(SupplierHistory history : list){
+			for(SupplierBranch supplierBranch: branchList){
+				if(history.getRelationId().equals(supplierBranch.getId())){
+					supplierModify.setRelationId(supplierBranch.getId());
+					
+					// 机构名称
+					if (history.getBeforeField().equals("organizationName") && !history.getBeforeContent().equals(supplierBranch.getOrganizationName())) {
+						supplierModify.setBeforeField("organizationName");
+						supplierModify.setBeforeContent(history.getBeforeContent());
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+					
+					// 所在国家（地区）
+					if (history.getBeforeField().equals("countryName") && !history.getBeforeContent().equals(supplierBranch.getCountryName())) {
+						supplierModify.setBeforeField("countryName");
+						supplierModify.setBeforeContent(history.getBeforeContent());
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+					
+					// 详细地址
+					if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(supplierBranch.getDetailAddress())) {
+						supplierModify.setBeforeField("detailAddress");
+						supplierModify.setBeforeContent(history.getBeforeContent());
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+					
+					// 生产经营范围
+					if (history.getBeforeField().equals("businessSope") && !history.getBeforeContent().equals(supplierBranch.getBusinessSope())) {
+						supplierModify.setBeforeField("businessSope");
+						supplierModify.setBeforeContent(history.getBeforeContent());
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+				}
+			}
+		}
+
 		/**
 		 * 财务信息
 		 */
