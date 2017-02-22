@@ -624,6 +624,7 @@
 		$(obj).find("option").each(function(i,element){
 			if (element.selected == true) {
 				$("#area_" + element.value).show();
+				init_web_upload();
 			} else {
 				$("#area_" + element.value).hide();
 			}
@@ -645,6 +646,7 @@
 				if (businessScope.indexOf(element.value) != -1) {
 					element.selected = true;
 					$("#area_" + element.value).show();
+					init_web_upload();
 				} else {
 					element.selected = false;
 					$("#area_" + element.value).hide();

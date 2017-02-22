@@ -502,6 +502,7 @@
 					"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产经营地址邮编</span>" +
 					"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 					"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
+					"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / onblur='tempSave()'>" +
 					"<span class='add-on cur_point'>i</span>" +
 					" <div class='cue'> </div>" +
 					"</div>" +

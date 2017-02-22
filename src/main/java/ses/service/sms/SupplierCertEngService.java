@@ -24,4 +24,14 @@ public interface SupplierCertEngService {
      * @return
      */
     List<SupplierCertEng> selectCertEngByCode(String code, String supplierId);
+    
+    /**
+     *〈简述〉
+     * 校验证书编号是否重复
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierCertEng
+     * @return
+     */
+    boolean validateCertCode(SupplierCertEng supplierCertEng);
 }

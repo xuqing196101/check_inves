@@ -1702,9 +1702,22 @@ public class SupplierController extends BaseSupplierController {
 		        }
             }
 		}
+		List<SupplierCertEng> listSupplierCertEngs = supplierMatPro.getListSupplierCertEngs();
+		if (listSupplierCertEngs != null && listSupplierCertEngs.size() > 0) {
+		    for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
+                if (supplierCertEng.getId() != null && supplierCertEng.getCertCode() != null) {
+                    boolean flag = supplierCertEngService.validateCertCode(supplierCertEng);
+                    if (!flag) {
+                        bool = false;
+                        model.addAttribute("eng_cert", "证书编号已被占用！");
+                        break;
+                    }
+                }
+            }
+		}
 		return bool;
 	}
-		//服务信息校验
+	//服务信息校验
 	public boolean validateServer(HttpServletRequest request, SupplierMatServe supplierMatPro, Model model) {
 		boolean bool = true;
 		/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {

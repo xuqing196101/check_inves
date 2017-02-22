@@ -51,4 +51,21 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
         return supplierCertEngMapper.selectCertEngByCode(code, supplierId);
     }
 
+    /**
+     * @see ses.service.sms.SupplierCertEngService#validateCertCode(ses.model.sms.SupplierCertEng)
+     */
+    @Override
+    public boolean validateCertCode(SupplierCertEng supplierCertEng) {
+        List<SupplierCertEng> validateCertCode = supplierCertEngMapper.validateCertCode(supplierCertEng.getCertCode());
+        if (validateCertCode.size() == 1) {
+            if (validateCertCode.get(0).getId().equals(supplierCertEng.getId())) {
+                return true;
+            } else {
+                return false;
+            }
+        } else {
+            return false;
+        }
+    }
+
 }

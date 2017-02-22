@@ -264,4 +264,10 @@
 		and t1.CERT_CODE = #{param1}
 	</select>
 	
+	<!-- 证书编号唯一校验 -->
+	<select id="validateCertCode" resultMap="BaseResultMap">
+		SELECT ID 
+		FROM T_SES_SMS_SUPPLIER_CERT_ENG
+		WHERE CERT_CODE = #{certCode}
+	</select>
 </mapper>

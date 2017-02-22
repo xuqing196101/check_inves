@@ -70,4 +70,14 @@ public interface SupplierCertEngMapper {
      * @return
      */
     List<SupplierCertEng> selectCertEngByCode(String code, String supplierId);
+    
+    /**
+     *〈简述〉
+     * 校验证书编号的唯一
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param certCode
+     * @return
+     */
+    List<SupplierCertEng> validateCertCode(String certCode);
 }
