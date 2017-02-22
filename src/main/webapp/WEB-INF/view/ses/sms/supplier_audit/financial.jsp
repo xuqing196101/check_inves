@@ -336,7 +336,7 @@
 										<th class="info w50">年份</th>
 										<th class="info">会计事务所名称</th>
 										<th class="info">事务所联系电话</th>
-										<th class="info">审计人姓名</th>
+										<th class="info">审计人姓名（2人）</th>
 										<!-- <th class="info">指标</th> -->
 										<th class="info">资产总额</th>
 										<th class="info">负债总额</th>

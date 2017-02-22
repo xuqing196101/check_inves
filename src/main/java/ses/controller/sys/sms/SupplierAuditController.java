@@ -287,8 +287,16 @@ public class SupplierAuditController extends BaseSupplierController {
 				supplier.setBusinessType(businessType);
 			}
 		}
+		
+		//在数据字典里查询企业性质
+		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
+		for(int i = 0; i < businessList.size(); i++) {
+			if(supplier.getBusinessNature().equals(businessList.get(i).getId())) {
+				String businessNature = list.get(i).getName();
+				supplier.setBusinessNature(businessNature);
+			}
+		}
 		request.setAttribute("suppliers", supplier);
-
 		List < SupplierBranch > supplierBranchList = supplierBranchService.findSupplierBranch(supplierId);
 		request.setAttribute("supplierBranchList", supplierBranchList);
 

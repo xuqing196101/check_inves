@@ -404,7 +404,13 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本账户开户行：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">企业性质：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="businessNature" class="hand " value="${suppliers.businessNature } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'businessNature')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('businessNature');"</c:if>>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">基本账户开户银行：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="bankName" class="hand " value="${suppliers.bankName } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'bankName')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('bankName');"</c:if>>
 							</div>
@@ -420,29 +426,23 @@
 				      <u:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 						</li>
-						<li class="col-md-12 col-sm-12 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">公司简介：</span>
-							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="description" onclick="reason(this)" <c:if test="${fn:contains(field,'description')}"> style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('description');"</c:if>>${suppliers.description }</textarea>
-							</div>
-						</li>
 					</ul>
 
 					<h2 class="count_flow"><i>2</i>地址信息</h2>
 					<ul class="ul_list hand">
-						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册地址邮编：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">住所邮编：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="postCode" class="hand " value="${suppliers.postCode }" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'postCode')}"> style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('postCode');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">注册公司地址：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"> 住所地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input  id="address" class="hand " value="${parentAddress}${sonAddress } " type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'address')}"> style="border: 1px solid #FF8C00;" onMouseOver="isCompare('address');"</c:if>>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
-							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">注册公司详细地址：</span>
+							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">住所详细地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="detailAddress" class="hand fl" onclick="reason(this)" type="text" value="${suppliers.detailAddress}" <c:if test="${fn:contains(field,'detailAddress')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('detailAddress');"</c:if>>
 							</div>
@@ -501,6 +501,20 @@
 								</c:if>
 							</div>
 						</li>
+						<c:if test="${suppliers.isHavingConCert eq '0'}">
+							<li class="col-md-3 col-sm-6 col-xs-12">
+								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">国家或军队保密资格证书：</span>
+								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+									<input id="isHavingConCert" class="hand " value="无" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isHavingConCert')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isHavingConCert');"</c:if>>
+								</div>
+							</li>
+						</c:if>
+						<c:if test="${suppliers.isHavingConCert eq '1'}">
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'supplierBearchCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">保密资格证书：</span>
+									<u:show showId="bearchcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+									<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							</li>
+						</c:if>
 					</ul>
 
 					<h2 class="count_flow"><i>4</i>法定代表人信息</h2>
@@ -771,7 +785,7 @@
 												<c:if test="${a.type == 1}">自营</c:if>
 												<c:if test="${a.type == 2}">合作</c:if>
 											</td>
-											<td class="tc w50" id="address_${a.id }"<c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_address'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('address','${a.id}','11');"</c:if>>${a.address}</td>
+											<td class="tc" id="address_${a.id }"<c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_address'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('address','${a.id}','11');"</c:if>>${a.address}</td>
 											<td class="tc" id="leadName_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_leadName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('leadName','${a.id}','11');"</c:if>>${a.leadName}</td>
 											<td class="tc" id="mobile_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_mobile'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mobile','${a.id}','11');"</c:if>>${a.mobile}</td>
 										</tr>
@@ -780,15 +794,24 @@
 							</table>
 						
 					</ul>
-					<h2 class="count_flow"><i>10</i>参加政府或军队采购经历登记表</h2>
+					<h2 class="count_flow"><i>10</i>参加政府或军队采购经历</h2>
 					<ul class="ul_list">
 						<li class="col-md-12 col-sm-12 col-xs-12">
-							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" type="hidden" style="display:none">参加政府或军队采购经历登记表：</span>
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="display:none">参加政府或军队采购经历登记表：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
 								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="purchaseExperience" onclick="reason(this)">${suppliers.purchaseExperience }</textarea>
 							</div>
 						</li>
 					</ul>
+					<h2 class="count_flow"><i>11</i>公司简介</h2>
+					<ul class="ul_list">
+						<li class="col-md-12 col-sm-12 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="display:none">公司简介：</span>
+							<div class="col-md-12 col-sm-12 col-xs-12 p0">
+								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="description" onclick="reason(this)" <c:if test="${fn:contains(field,'description')}"> style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('description');"</c:if>>${suppliers.description }</textarea>
+							</div>
+						</li>
+					</ul>				
 				</div>
 				
 				<div class="col-md-12 col-sm-12 col-xs-12 add_regist tc">
