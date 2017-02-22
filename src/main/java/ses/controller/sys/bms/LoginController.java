@@ -171,10 +171,12 @@ public class LoginController {
                     String date = (String) map.get("date");
                     Orgnization orgnization = ( Orgnization ) map.get("orgnization");
                     
+                    req.getSession().setAttribute("loginSupplier", map.get("supplier"));
+                    req.getSession().setAttribute("loginUser", u);
                     
                     if ("success".equals(msg)) {
-                        req.getSession().setAttribute("loginSupplier", map.get("supplier"));
-                        req.getSession().setAttribute("loginUser", u);
+//                        req.getSession().setAttribute("loginSupplier", map.get("supplier"));
+//                        req.getSession().setAttribute("loginUser", u);
                         List<PreMenu> resource = preMenuService.getMenu(u);
                         req.getSession().setAttribute("resource", resource);
                         //req.getSession().setAttribute("resource", u.getMenus());
