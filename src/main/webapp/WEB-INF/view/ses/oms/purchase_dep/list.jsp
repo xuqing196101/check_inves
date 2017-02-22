@@ -256,7 +256,7 @@
 										<a href="javascript:void(0)" onclick="show('${p.id}');">${p.name}</a>
 										</td>
 										<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
-										<td class="tl pl20" onclick="show('${p.id}');">${p.address}</td>
+										<td class="tl pl20" onclick="show('${p.id}');">${p.areaName}${p.address}</td>
 										<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
 										<td class="tl pl20" onclick="show('${p.id}');">${p.quaCode}</td>
 										<td class="tc" onclick="show('${p.id}');">

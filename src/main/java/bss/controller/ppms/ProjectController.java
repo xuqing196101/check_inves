@@ -187,7 +187,7 @@ public class ProjectController extends BaseController {
      * @param project 项目实体
      * @return 跳转list页面
      */
-    @RequestMapping("/list")
+    @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {      
         if(user != null && user.getOrg() != null){
             //根据id查询部门

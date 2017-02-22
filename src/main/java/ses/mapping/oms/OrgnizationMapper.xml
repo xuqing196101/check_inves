@@ -709,6 +709,9 @@
       <if test="telephone != null and telephone != ''">
         TELEPHONE
       </if>
+      <if test="createdAt != null and createdAt != ''">
+        CREATED_AT
+      </if>
 	  </trim>
 	  <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null and id != ''">
@@ -749,6 +752,9 @@
       </if>
       <if test="telephone != null and telephone != ''">
         #{telephone}
+      </if>
+      <if test="createdAt != null and createdAt != ''">
+        #{createdAt}
       </if>
     </trim>
 	</insert>
