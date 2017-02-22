@@ -166,8 +166,8 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 国家
-                historyInfo.setBeforeField("country");
-                historyInfo.setBeforeContent(branch.getCountry());
+                historyInfo.setBeforeField("countryName");
+                historyInfo.setBeforeContent(branch.getCountryName());
                 supplierHistoryMapper.insertSelective(historyInfo);
                 
                 // 地址
