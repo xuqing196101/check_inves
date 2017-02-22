@@ -34,10 +34,8 @@ function sumbits(){
         var setting = {
           check: {
             enable: true,
-            chkboxType: {
-              "Y": "",
-              "N": ""
-            }
+            chkStyle: "radio",
+			radioType: "all"
           },
           view: {
             dblClickExpand: false
@@ -67,7 +65,7 @@ function sumbits(){
         var cityObj = $("#expertsTypeName");
         var cityOffset = $("#expertsTypeName").offset();
         $("#expertTypeContent").css({
-          left: cityOffset.left + "px",
+          left: cityOffset.left + 16 + "px",
           top: cityOffset.top + cityObj.outerHeight() + "px"
         }).slideDown("fast");
         $("body").bind("mousedown", onBodyDownExpertType);
@@ -106,6 +104,7 @@ function sumbits(){
         cityObj.attr("value", v);
         cityObj.attr("title", v);
         $("#expertsTypeId").val(rid);
+        hideExpertType();
         
       }
       
@@ -156,7 +155,7 @@ function sumbits(){
         var cityObj = $("#packageName");
         var cityOffset = $("#packageName").offset();
         $("#packageContent").css({
-          left: cityOffset.left + "px",
+          left: cityOffset.left + 16 + "px",
           top: cityOffset.top + cityObj.outerHeight() + "px"
         }).slideDown("fast");
         $("body").bind("mousedown", onBodyDownPackageType);

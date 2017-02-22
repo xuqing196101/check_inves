@@ -168,6 +168,10 @@ public class ExpExtractRecordServiceImpl implements ExpExtractRecordService {
         user.setLoginName(loginName);
         user.setTypeId(uuId);
         user.setPassword(loginPwd);
+        user.setRelName(expert.getRelName());
+        user.setMobile(expert.getMobile());
+        user.setIdNumber(expert.getIdCardNumber());
+        user.setDuites(expert.getAtDuty());
         userServiceI.save(user, null);
         //新增权限
         Role role = new Role();

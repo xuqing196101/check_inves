@@ -1168,6 +1168,9 @@ public class ExpExtractRecordController extends BaseController {
       if(expert.getMobile() != null && !"".equals(expert.getMobile())){
         expert.setMobile(URLDecoder.decode(expert.getMobile(),"UTF-8"));
       }
+      if(expert.getRemarks() != null && !"".equals(expert.getRemarks())){
+        expert.setRemarks(URLDecoder.decode(expert.getRemarks(),"UTF-8"));
+      }
     }
     if (loginName != null && !"".equals(loginName)) {
       loginName = URLDecoder.decode(loginName,"UTF-8");
