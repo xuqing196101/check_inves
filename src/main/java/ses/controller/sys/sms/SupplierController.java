@@ -1873,7 +1873,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model, String name) throws IOException {
 	    
-        User user = (User) request.getSession().getAttribute("loginUser");
+        String user = (String) request.getSession().getAttribute("loginUser");
         response.setContentType("textml;charset=utf-8");
         if(user==null){
             String path = request.getContextPath();
@@ -1900,7 +1900,7 @@ public class SupplierController extends BaseSupplierController {
             out.close(); 
         }
      
-        if(!user.getLoginName().equals(name)){
+        if(!user.equals(name)){
             String path = request.getContextPath();
             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
             PrintWriter out = response.getWriter();
