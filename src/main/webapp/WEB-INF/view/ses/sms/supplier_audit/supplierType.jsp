@@ -655,7 +655,7 @@
 					<!-- 供应商类型信息头 -->
 					<ul class="ul_list count_flow">
 						<li>
-							<div>
+							<div class="tc">
 						       <c:forEach items="${wlist }" var="obj" >
 								    <span class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
@@ -673,24 +673,24 @@
 						<c:if test="${fn:contains(supplierTypeNames, '生产')}">
 						<c:set value="${liCount+1}" var="liCount"/>
 							<li class="active">
-								<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型信息</a>
+								<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型专业信息</a>
 							</li>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '销售')}">
 							<li class='<c:if test="${liCount == 0}">active</c:if>'>
-								<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型信息</a>
+								<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型专业信息</a>
 							</li>
 							<c:set value="${liCount+1}" var="liCount"/>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 							<li class='<c:if test="${liCount == 0}">active</c:if>'>
-								<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程信息</a>
+								<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程专业信息</a>
 							</li>
 							<c:set value="${liCount+1}" var="liCount"/>
 						</c:if>
 						<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 							<li class='<c:if test="${liCount == 0}">active</c:if>'>
-								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务信息</a>
+								<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务专业信息</a>
 							</li>
 							<c:set value="${liCount+1}" var="liCount"/>
 						</c:if>
@@ -1016,7 +1016,7 @@
 										<c:forEach items="${rootArea}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${area.name}：</span>
-													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
+													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 													<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 											</li>
 										</c:forEach>

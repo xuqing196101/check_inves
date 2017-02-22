@@ -5,6 +5,7 @@
 
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<title>产品目录</title>
 		<script type="text/javascript">
 			//下一步

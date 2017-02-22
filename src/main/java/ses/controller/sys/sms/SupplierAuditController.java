@@ -1397,7 +1397,7 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		supplier = supplierService.get(supplierId);
 		request.setAttribute("currSupplier", supplier);
-
+		
 		//上一步
 		String lastUrl = null;
 		if(supplierTypeName.contains("服务")) {
@@ -1454,6 +1454,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());
 		model.addAttribute("result", new PageInfo < > (listSupplierItems));
 		model.addAttribute("itemsList", allTreeList);
+		
+		//考察报告
+		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
 		return "ses/sms/supplier_audit/ajax_items";
 	}
 	

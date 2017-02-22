@@ -68,6 +68,8 @@ public class SupplierDictionaryData implements Serializable {
 	
 	private String supplierProContract;//供应商省级行政区对应合同主要页
 	
+	private String supplierPresentation; //供应商现场考察报告 
+	
 	public String getSupplierTaxCert() {
 		return supplierTaxCert;
 	}
@@ -315,7 +317,14 @@ public class SupplierDictionaryData implements Serializable {
     public void setSupplierProContract(String supplierProContract) {
         this.supplierProContract = supplierProContract;
     }
-  
-	
+
+	public String getSupplierPresentation() {
+		return supplierPresentation;
+	}
+
+	public void setSupplierPresentation(String supplierPresentation) {
+		this.supplierPresentation = supplierPresentation;
+	}
+
 
 }
