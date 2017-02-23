@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.0.xsd
+	http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-4.0.xsd http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-4.0.xsd
+	http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-4.0.xsd">
+
+	<!-- redis单机 通过连接池 -->
+	<bean id="jedisPoolConfig" class="redis.clients.jedis.JedisPoolConfig">
+		<property name="maxIdle" value="${redis.pool.maxIdle}" /> <!--最大能够保持idel状态的对象数 -->
+		<property name="maxTotal" value="${redis.pool.maxTotal}" /><!--最大分配的对象数 -->
+		<property name="testOnBorrow" value="${redis.pool.testOnBorrow}" /><!--当调用borrow Oject方法时，是否进行有效性检查 -->
+	</bean>
+
+	<bean id="jedisPool" class="redis.clients.jedis.JedisPool"
+		destroy-method="close">
+ 		<constructor-arg index="0" ref="jedisPoolConfig"/>
+		<constructor-arg index="1" name="host" value="${redis.pool.host}" />
+		<constructor-arg index="2" name="port" value="${redis.pool.port}" type="int" />
+		<constructor-arg index="3" name="timeout" value="${redis.pool.timeout}" type="int" />
+		<constructor-arg index="4" name="password" value="${redis.pool.password}" />
+	</bean>
+
+	<bean id="cacheFilter" class="iss.filter.CacheFilter">
+		<property name="cacheHomePage" ref="jedisPool" />
+		<!-- 注入缓存首页url -->
+		<property name="homeUrl">
+			<list>
+				<value>${FirstURL}</value>
+				<value>${SecondURL}</value>
+				<value>${ThreeURL}</value>
+				<value>${FourURL}</value>
+			</list>
+		</property>
+
+		<!-- 设置缓存时间 -->
+		<property name="homeCacheTime" value="${homeCacheTime}" />
+		<!-- 首页缓存redis的key -->
+		<property name="homeKey" value="${homeKey}" />
+	</bean>
+</beans>
