@@ -68,4 +68,12 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
         }
     }
 
+    /**
+     * @see ses.service.sms.SupplierCertEngService#getLevel(java.lang.String, java.lang.String)
+     */
+    @Override
+    public String getLevel(String typeId, String certCode) {
+        return null;
+    }
+
 }

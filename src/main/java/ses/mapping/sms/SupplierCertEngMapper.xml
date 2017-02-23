@@ -270,4 +270,10 @@
 		FROM T_SES_SMS_SUPPLIER_CERT_ENG
 		WHERE CERT_CODE = #{certCode}
 	</select>
+	
+	<select id="getLevel">
+		SELECT ID 
+		FROM T_SES_SMS_SUPPLIER_CERT_ENG
+		WHERE CERT_CODE = #{certCode}
+	</select>
 </mapper>

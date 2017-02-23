@@ -11,13 +11,14 @@
 		<result column="CATE_LEVEL" property="level"/>
 		<result column="DIY_LEVEL" property="diyLevel"/>
 		<result column="CERT_CODE" property="certCode"/>
+		<result column="QUALIFICATION_TYPE" property="qualificationType"/>
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL
+		ID, SUPPLIER_ID, CATEGORY_ID, SUPPLIER_TYPE_RELATE_ID, STATUS, CREATED_AT, UPDATED_AT, CATE_LEVEL, CERT_CODE, DIY_LEVEL, QUALIFICATION_TYPE
 	</sql>
 	
 	<sql id="Base_Column">
-		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL
+		s.ID, s.SUPPLIER_ID, s.CATEGORY_ID, s.SUPPLIER_TYPE_RELATE_ID, s.STATUS, s.CREATED_AT, s.UPDATED_AT, s.CATE_LEVEL, s.CERT_CODE, s.DIY_LEVEL, s.QUALIFICATION_TYPE
 	</sql>
 	
 	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -86,6 +87,9 @@
 			<if test="certCode != null">
 				CERT_CODE,
 			</if>
+			<if test="qualificationType != null">
+				QUALIFICATION_TYPE,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -117,6 +121,9 @@
 			</if>
 			<if test="certCode != null">
 				#{certCode},
+			</if>
+			<if test="qualificationType != null">
+				${qualificationType}
 			</if>
 		</trim>
 	
@@ -150,6 +157,9 @@
 			</if>
 			<if test="certCode != null">
 				CERT_CODE = #{certCode},
+			</if>
+			<if test="qualificationType != null">
+				QUALIFICATION_TYPE = #{qualificationType},
 			</if>
 		</set>
 		where ID = #{id}

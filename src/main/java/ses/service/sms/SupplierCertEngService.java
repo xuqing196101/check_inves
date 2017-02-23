@@ -34,4 +34,14 @@ public interface SupplierCertEngService {
      * @return
      */
     boolean validateCertCode(SupplierCertEng supplierCertEng);
+    
+    /**
+     *〈简述〉根据类型和证书编号查询等级
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param typeId
+     * @param certCode
+     * @return
+     */
+    String getLevel(String typeId, String certCode);
 }

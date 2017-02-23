@@ -23,6 +23,14 @@ public class SupplierItem implements Serializable {
 	 * </pre>
 	 */
 	private String supplierId;
+	
+	/**
+	 * <pre>
+	 * 供应商ID
+	 * 表字段 : T_SES_SMS_SUPPLIER_ITEMS.QUALIFICATION_TYPE
+	 * </pre>
+	 */
+	private String qualificationType;
 
 	/**
 	 * <pre>
@@ -251,5 +259,13 @@ public class SupplierItem implements Serializable {
 
     public void setDiyLevel(String diyLevel) {
         this.diyLevel = diyLevel;
+    }
+
+    public String getQualificationType() {
+        return qualificationType;
+    }
+
+    public void setQualificationType(String qualificationType) {
+        this.qualificationType = qualificationType;
     }
 }

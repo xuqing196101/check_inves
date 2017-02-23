@@ -2616,4 +2616,18 @@ public class SupplierController extends BaseSupplierController {
     public String getAptLevel(String typeId) {
         return null;
     }
+    
+    /**
+     *〈简述〉根据类型和证书编号获取等级
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param typeId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/getLevel")
+    public String getAptLevel(String typeId, String certCode) {
+        
+        return null;
+    }
 }

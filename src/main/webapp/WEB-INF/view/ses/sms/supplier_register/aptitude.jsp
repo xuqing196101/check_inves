@@ -269,10 +269,16 @@
 										        <td>${cate.firstNode}</td>
 										        <td>${cate.secondNode}</td>
 										        <td>${cate.thirdNode}</td>
-										      	<td>
-										      	  <input type="text" class="border0" onblur="tempSave()" name="listSupplierItems[${vs.index}].level" value="${cate.level}">
-										      	</td>
+										        <td>${cate.thirdNode}</td>
+										        <td>
+										        	<select name="listSupplierItems[${vs.index}].qualificationType" onchange="getLevel">
+										        		<c:forEach items="${cate.typeList}" var="type">
+										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
+										        		</c:forEach>
+										        	</select>
+										        </td>
 										     	<td><input type="text"  class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}')"></td>
+										      	<td>${cate.level}"</td>
 										      	<td class="tc">
 										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 										      	</td>

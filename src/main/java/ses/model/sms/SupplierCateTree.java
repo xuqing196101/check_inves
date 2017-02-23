@@ -2,6 +2,8 @@ package ses.model.sms;
 
 import java.util.List;
 
+import ses.model.bms.Qualification;
+
 /**
  * 版权：(C) 版权所有 2011-2016
  * <简述> 供应商品目信息下载封装类
@@ -38,10 +40,13 @@ public class SupplierCateTree {
     private String certCode;
     
     /** 该品目所有等级 **/
-    private List<String> levelList;
+    private List<Qualification> typeList;
     
     /** 工程对应附件Id **/
     private String fileId;
+    
+    /** 工程对应附件Id **/
+    private String qualificationType;
     
     /** 自定义等级 **/
     private String diyLevel;
@@ -118,20 +123,28 @@ public class SupplierCateTree {
 		this.itemsId = itemsId;
 	}
 
-    public List<String> getLevelList() {
-        return levelList;
-    }
-
-    public void setLevelList(List<String> levelList) {
-        this.levelList = levelList;
-    }
-
     public String getDiyLevel() {
         return diyLevel;
     }
 
     public void setDiyLevel(String diyLevel) {
         this.diyLevel = diyLevel;
+    }
+
+    public List<Qualification> getTypeList() {
+        return typeList;
+    }
+
+    public void setTypeList(List<Qualification> typeList) {
+        this.typeList = typeList;
+    }
+
+    public String getQualificationType() {
+        return qualificationType;
+    }
+
+    public void setQualificationType(String qualificationType) {
+        this.qualificationType = qualificationType;
     }
     
 }

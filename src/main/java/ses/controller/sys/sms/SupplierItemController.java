@@ -249,16 +249,13 @@ public class SupplierItemController extends BaseController {
 	        if (item != null && item.getCertCode() != null) {
 	            cateTree.setCertCode(item.getCertCode());
 	        }
-	        // 所有等级List
-	        List<String> levelList = new ArrayList<String>();
-	        Category cate = categoryService.selectByPrimaryKey(categoryId);
-	        if (cate != null && cate.getEngLevel() != null) {
-	            String[] levelIds = cate.getEngLevel().split(",");
-	            for (String id : levelIds) {
-	                levelList.add(DictionaryDataUtil.findById(id).getName());
-	            }
+	        // 资质等级
+	        if (item != null && item.getQualificationType() != null) {
+	            cateTree.setQualificationType(item.getQualificationType());
 	        }
-	        cateTree.setLevelList(levelList);
+	        // 所有等级List
+	        List<Qualification> typeList = null;//根据categoryId查询工程资质的List出来
+	        cateTree.setTypeList(typeList);
 		}
 		return cateTree;
 	}
