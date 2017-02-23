@@ -56,6 +56,9 @@
 		<result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
 		<result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
 		<result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
+        <result column="IS_REFERENCE_LETTER" jdbcType="VARCHAR" property="isReferenceLftter" />
+
+
 	</resultMap>
 	<sql id="Base_Column_List">
 		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -79,7 +82,8 @@
 		PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
 		REVIEW_SITUATION,
 		AVOIDANCE_SITUATION,
-		AUDIT_AT
+		AUDIT_AT,
+		IS_REFERENCE_LETTER
 	</sql>
 	<sql id="Column_List">
 		e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,

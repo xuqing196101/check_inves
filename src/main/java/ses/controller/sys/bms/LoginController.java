@@ -117,6 +117,7 @@ public class LoginController {
                 logger.info("验证码输入有误");
                 out.print("errorcode");
             } else if (u != null) {
+                req.getSession().setAttribute("register", true);
                 //查询该用户的供应商角色
                 HashMap<String, Object> supplierMap = new HashMap<String, Object>();
                 supplierMap.put("userId", u.getId());
@@ -138,7 +139,6 @@ public class LoginController {
                         Map<String, Object> map = expertService.loginRedirect(u);
                         Object object = map.get("expert");
                         if (object != null) {
-                        	req.getSession().setAttribute("register", true);
                             // 拉黑 阻止登录
                             if (object.equals("1")) {
                                 out.print("black");
