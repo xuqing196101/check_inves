@@ -124,7 +124,7 @@ public class SupplierCertEng implements Serializable {
 	 * 表字段 : T_SES_SMS_SUPPLIER_CERT_ENG.CERT_STATUS
 	 * </pre>
 	 */
-	private Integer certStatus;
+	private String certStatus;
 
 	/**
 	 * <pre>
@@ -248,11 +248,11 @@ public class SupplierCertEng implements Serializable {
 		this.expEndDate = expEndDate;
 	}
 
-	public Integer getCertStatus() {
+	public String getCertStatus() {
 		return certStatus;
 	}
 
-	public void setCertStatus(Integer certStatus) {
+	public void setCertStatus(String certStatus) {
 		this.certStatus = certStatus;
 	}
 
