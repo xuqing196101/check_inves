@@ -42,7 +42,7 @@
 		<url-pattern>/*</url-pattern>
 	</filter-mapping>
   
-<filter>
+<!-- <filter>
 <filter-name>SecurityFilter</filter-name>
 <filter-class>ses.util.SecurityFilter</filter-class>
     <init-param>
@@ -50,6 +50,7 @@
         <param-value>login.html;sign.html;get_identity.html;selectIndexNews.html</param-value>
     </init-param>
 </filter>
+
 <filter-mapping>
 <filter-name>SecurityFilter</filter-name>
 <url-pattern>*.do</url-pattern>
@@ -57,7 +58,7 @@
   <filter-mapping>
 <filter-name>SecurityFilter</filter-name>
 <url-pattern>*.html</url-pattern>
-</filter-mapping>
+</filter-mapping> -->
 
   <listener>
     <description>spring监听器</description>
