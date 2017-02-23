@@ -104,7 +104,8 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
 				"SUPPLIER_CATEGORY",
 				"SUPPLIER_BANK",
 				"SUPPLIER_CON_ACH",
-				"SUPPLIER_PRO_CONTRACT"
+				"SUPPLIER_PRO_CONTRACT",
+				"INDENTITY_UP"
 			};
 		param.put("strs", strs);
 		param.put("isDeleted", 0);

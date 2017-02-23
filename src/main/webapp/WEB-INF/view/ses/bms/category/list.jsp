@@ -120,7 +120,10 @@
 			var node = nodes[0];
 			var nodes = getCurrentRoot(node);
 			$("#operaFlag").val('add');
-			if (level == 2){
+			if (nodes.classify && nodes.classify == "PROJECT" && level == 3){
+				showQua(null, nodes.classify);
+			}
+			if (nodes.classify && nodes.classify == "GOODS" && level == 2){
 				showQua(null, nodes.classify);
 			}
 			if (node) {
@@ -213,7 +216,10 @@
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
-					if (level == 3){
+					if (node.classify && node.classify == "PROJECT" && level == 4){
+						showQua(cate, node.classify);
+					}
+					if (node.classify && node.classify == "GOODS" && level == 3){
 						showQua(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS"){

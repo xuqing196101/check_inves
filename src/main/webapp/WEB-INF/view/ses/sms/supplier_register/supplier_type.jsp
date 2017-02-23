@@ -1454,8 +1454,8 @@
 												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}">
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
-														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
+														<u:show showId="area_show_${st.index+1}" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 														<div class="cue">${area.errInfo}</div>
 													</div>
 												</li>

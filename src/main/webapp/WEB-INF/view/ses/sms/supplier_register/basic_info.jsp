@@ -21,7 +21,7 @@
 			$(function() {
 				var notPass = "${notPass}";
 				if (notPass == "notPass") {
-					layer.msg("抱歉，您的信息不满足要求，无法继续注册！");
+					layer.msg("近3年加权平均净资产不满足注册要求！");
 				} else {
 					$("#page_ul_id").find("li").click(function() {
 						var id = $(this).attr("id");
@@ -783,8 +783,8 @@
 									<div class="col-md-12 col-sm-12 col-xs-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bank_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" />
 										<u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
+										<div class="cue"> ${err_supplierBank } </div>
 									</div>
-									<div class="cue"> ${err_supplierBank } </div>
 								</li>
 
 							</ul>
@@ -936,8 +936,8 @@
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="taxcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" auto="true" />
 										<u:show showId="taxcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
+										<div class="cue"> ${err_taxCert } </div>
 									</div>
-									<div class="cue"> ${err_taxCert } </div>
 								</li>
 
 								<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
@@ -945,8 +945,8 @@
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
 										<u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
+										<div class="cue"> ${err_bil } </div>
 									</div>
-									<div class="cue"> ${err_bil } </div>
 								</li>
 
 								<li id="security_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
@@ -954,8 +954,8 @@
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="curitycert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" auto="true" />
 										<u:show showId="curitycert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
+										<div class="cue"> ${err_security } </div>
 									</div>
-									<div class="cue"> ${err_security } </div>
 								</li>
 
 								<li class="col-md-6 col-sm-12 col-xs-12 mb25 h30">
@@ -966,8 +966,8 @@
 											<option value="0" <c:if test="${currSupplier.isIllegal eq '0'}">selected</c:if>>无违法</option>
 											<option value="1" <c:if test="${currSupplier.isIllegal eq '1'}">selected</c:if>>有违法</option>
 										</select>
+										<div class="cue"> ${err_isIllegal } </div>
 									</div>
-									<div class="cue"> ${err_isIllegal } </div>
 								</li>
 								<li class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'isHavingConCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isHavingConCert')"</c:if>><i class="red">*</i> 国家或军队保密资格证书</span>
@@ -977,18 +977,16 @@
 											<option value="0" <c:if test="${currSupplier.isHavingConCert eq '0'}">selected</c:if>>无</option>
 											<option value="1" <c:if test="${currSupplier.isHavingConCert eq '1'}">selected</c:if>>有</option>
 										</select>
+										<div class="cue"> ${err_isHavingConCert } </div>
 									</div>
-									<div class="cue"> ${err_isHavingConCert } </div>
 								</li>
 								<li class="col-md-6 col-sm-12 col-xs-12 mb25" id="bearchCertDiv">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'bearchCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('bearchCert')"</c:if>><i class="red">*</i> 保密资格证书</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-										<div>
-											<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
-											<u:show showId="bearchcert_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
-										</div>
+										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" auto="true" />
+										<u:show showId="bearchcert_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
+										<div class="cue"> ${err_bearch } </div>
 									</div>
-									<div class="cue"> ${err_bearch } </div>
 								</li>
 							</ul>
 						</fieldset>
@@ -1025,8 +1023,8 @@
 									<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bearchcert_up_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" auto="true" />
 										<u:show showId="bearchcert_up_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
+										<div class="cue"> ${err_identityUp } </div>
 									</div>
-									<div class="cue"> ${err_identityUp } </div>
 								</li>
 
 
@@ -1035,7 +1033,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="legalMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
+										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_legalMobile } </div>
 										<div class="cue">
 											<sf:errors path="legalMobile" />
@@ -1080,7 +1078,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="contactFax" required isFax="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
+										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_fax } </div>
 										<div class="cue">
 											<sf:errors path="contactFax" />
@@ -1093,7 +1091,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="contactMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
+										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_catMobile } </div>
 										<div class="cue">
 											<sf:errors path="contactMobile" />
@@ -1119,7 +1117,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="contactEmail" required email value="${currSupplier.contactEmail}" <c:if test="${fn:contains(audit,'contactEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactEmail')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如：XXXX@XX.com</span>
+										<span class="input-tip">不能为空，如：123456@qq.com</span>
 										<div class="cue"> ${err_catEmail } </div>
 										<div class="cue">
 											<sf:errors path="contactEmail" />
@@ -1197,7 +1195,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="armyBusinessFax" required isFax="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
+										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_armFax } </div>
 										<div class="cue">
 											<sf:errors path="armyBusinessFax" />
@@ -1210,7 +1208,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="armyBuinessMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如: XXXX-XXXXXXX</span>
+										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_armMobile } </div>
 										<div class="cue">
 											<sf:errors path="armyBuinessMobile" />
@@ -1236,7 +1234,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="armyBuinessEmail" required email value="${currSupplier.armyBuinessEmail}" <c:if test="${fn:contains(audit,'armyBuinessEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessEmail')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，如：XXXX@XX.com</span>
+										<span class="input-tip">不能为空，如：123456@qq.com</span>
 										<div class="cue"> ${err_armEmail } </div>
 										<div class="cue">
 											<sf:errors path="armyBuinessEmail" />
@@ -1461,42 +1459,33 @@
 							</ul>
 						</fieldset>
 						<!-- 财务信息 -->
-						<h2 class="count_flow clear pt20"> <i>3</i><font color=red>*</font> 近三年财务信息
-	  <span class="red"> ${err_bearchFile}</span></h2>
+						<h2 class="count_flow clear pt20"> <i>3</i> 近三年财务信息
+	  					<span class="red"> ${err_bearchFile}</span></h2>
 						<div class="padding-top-10 clear" id="financeInfo">
 							<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
 								<h2 class="count_flow clear">${finance.year}年财务信息  <span style="float:right" class="b">（金额单位：万元）</span>  </h2>
-								<div class="col-md-12 col-xs-12 col-sm-12 border_font">
-									<!--   <legend>列表</legend> -->
+								<div class="col-md-12 col-xs-12 col-sm-12 border_font <c:if test="${vs.index != 2}">mb10</c:if>">
 									<div class="col-md-12 col-sm-12 col-xs-12 p0 over_auto">
 										<div class="col-md-12 col-sm-12 col-xs-12 p0 tl">
-											<%-- 	<button type="button" class="btn btn-windows add" onclick="openFinance(this,'${finance.year}')">维护</button> --%>
-											<!-- 	<button type="button" class="btn btn-windows delete" onclick="deleteFinance()">删除</button> -->
 											<span class="red"></span>
 										</div>
 										<div class="col-md-12 col-sm-12 col-xs-12 p0">
 											<table class="table table-bordered table-condensed mt5 table_wrap table_input">
 												<thead>
 													<tr>
-														<!-- 	infotd=$(obj).parent().next().children().children(":last"); <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
-								</th> -->
 														<th class="w50 info">年份</th>
-														<th class="info">会计事务所名称</th>
-														<th class="info">事务所联系电话</th>
-														<th class="info">审计人姓名（2人）</th>
-														<!-- <th class="info">指标</th> -->
-														<th class="info">资产总额</th>
-														<th class="info">负债总额</th>
-														<th class="info">净资产总额</th>
-														<th class="info">营业收入</th>
+														<th class="info"><font color=red>*</font> 会计事务所名称</th>
+														<th class="info"><font color=red>*</font> 事务所联系电话</th>
+														<th class="info"><font color=red>*</font> 审计人姓名（2人）</th>
+														<th class="info"><font color=red>*</font> 资产总额</th>
+														<th class="info"><font color=red>*</font> 负债总额</th>
+														<th class="info"><font color=red>*</font> 净资产总额</th>
+														<th class="info"><font color=red>*</font> 营业收入</th>
 													</tr>
 												</thead>
 												<tbody id="finance_list_tbody_id">
-													<%--  <c:if test="${finance.year!=null}"> --%>
 													<c:set var="infoId" value="${finance.id }_info" />
 													<tr <c:if test="${fn:contains(audit,infoId)}"> onmouseover="errorMsg('${infoId}')"</c:if>>
-														<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
-										</td> --%>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}" required>
 															<input type="text" required="required" class="w50 border0 tc" name="listSupplierFinances[${vs.index }].year" value="${finance.year}" > </td>
@@ -1510,7 +1499,6 @@
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
 
 														</td>
-														<%-- 	<td class="tc">${finance.quota}</td> --%>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].totalAssets" value="${finance.totalAssets}">
 
@@ -1525,110 +1513,52 @@
 															<input type="text" required="required" class="w80 border0" onkeyup="checknums(this)" name="listSupplierFinances[${vs.index }].taking" value="${finance.taking}">
 														</td>
 													</tr>
-													<%-- </c:if> --%>
 												</tbody>
 											</table>
 
 											<table id="finance_attach_list_id" class="table table-bordered table-condensed mt5 table_wrap table_input">
 												<thead>
 													<tr>
-														<!-- <th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
-								</th> -->
 														<th class="w50 info">年份</th>
-														<th class="info">审计报告的审计意见</th>
-														<th class="info">资产负债表</th>
-														<th class="info">财务利润表</th>
-														<th class="info">现金流量表</th>
+														<th class="info"><font color=red>*</font> 审计报告的审计意见</th>
+														<th class="info"><font color=red>*</font> 资产负债表</th>
+														<th class="info"><font color=red>*</font> 财务利润表</th>
+														<th class="info"><font color=red>*</font> 现金流量表</th>
 														<th class="info">所有者权益变动表</th>
 													</tr>
 												</thead>
 												<tbody id="finance_attach_list_tbody_id">
-													<%-- <c:if test="${finance.year!=null}"> --%>
 													<c:set var="file" value="${finance.id }_file" />
 													<tr <c:if test="${fn:contains(audit,file)}"> onmouseover="errorMsg('${file}')"</c:if>>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>${finance.year}</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
-
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_audit_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierAuditOpinion}" auto="true" />
 															<u:show showId="fina_${vs.index}_audit" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierAuditOpinion}" sysKey="${sysKey}" />
-
-															<%-- <a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a> --%>
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
-
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_lia_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierLiabilities}" auto="true" />
 															<u:show showId="fina_${vs.index}_lia" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierLiabilities}" sysKey="${sysKey}" />
-
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_pro_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProfit}" auto="true" />
-
 															<u:show showId="fina_${vs.index}_pro" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierProfit}" sysKey="${sysKey}" />
-															<%-- 			 <a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList} </a> --%>
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_cash_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierCashFlow}" auto="true" />
 															<u:show showId="fina_${vs.index}_cash" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierCashFlow}" sysKey="${sysKey}" />
-
-															<%-- 	<a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a>
- --%> </td>
+	 													</td>
 														<td class="tc" <c:if test="${fn:contains(audit,file)}">style="border: 1px solid #ef0000;" </c:if>>
-
 															<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="fina_${vs.index}_change_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${finance.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierOwnerChange}" auto="true" />
 															<u:show showId="fina_${vs.index}_change" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${finance.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
-
+														</td>
+													</tr>
+												</tbody>
+											</table>
 										</div>
-
-										<%-- 									<a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
- --%> </td>
-										</tr>
-										<%-- 	</c:if> --%>
-										</tbody>
-										</table>
-
 									</div>
 								</div>
-						</div>
-						<%--  <fieldset class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-	 	    	   <legend>附件</legend>
-	 	    	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-					  <table id="finance_attach_list_id" class="table table-bordered table-condensed mt5">
-						<thead>
-							<tr>
-								<th class="w30 info"><input type="checkbox" onchange="checkAllForFinance(this)" />
-								</th>
-								<th class="w50 info">年份</th>
-								<th class="info">财务利润表</th>
-								<th class="info">审计报告的审计意见</th>
-								<th class="info">资产负债表</th>
-								<th class="info">现金流量表</th>
-								<th class="info">所有者权益变动表</th>
-							</tr>
-						</thead>
-						<tbody id="finance_attach_list_tbody_id">
-							<c:forEach items="${currSupplier.listSupplierFinances}" var="finance" varStatus="vs">
-								<tr>
-									<td class="tc"><input type="checkbox" value="${finance.id}" />
-									</td>
-									<td class="tc">${finance.year}</td>
-									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.auditOpinionId}', '${sysKey}')">${finance.auditOpinion}</a>
-									</td>
-									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.liabilitiesListId}', '${sysKey}')">${finance.liabilitiesList}</a>
-									</td>
-									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.profitListId}', '${sysKey}')">${finance.profitList}</a>
-									</td>
-									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.cashFlowStatementId}', '${sysKey}')">${finance.cashFlowStatement}</a>
-									</td>
-									<td class="tc"><a class="mt3 color7171C6" href="javascript:download('${finance.changeListId}', '${sysKey}')">${finance.changeList}</a>
-									</td>
-								</tr>
 							</c:forEach>
-						  </tbody>
-					  </table>
-				</div>
-			</fieldset> --%>
-						</c:forEach>
-					</div>
+						</div>
 
 					<div class="padding-top-10 clear">
 						<h2 class="count_flow clear pt20"> <i>4</i><font color=red>*</font> 出资人（股东）信息  （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h2>
@@ -1669,7 +1599,6 @@
 													</td>
 
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].name' value='${stockholder.name}'> </td>
-
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].identity' onkeyup="value=value.replace(/[^\dxX]/g,'')" value='${stockholder.identity}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].shares' value='${stockholder.shares}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,stockholder.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierStockholders[${stockvs.index }].proportion' value='${stockholder.proportion}'></td>

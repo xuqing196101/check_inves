@@ -1715,7 +1715,7 @@ public class SupplierController extends BaseSupplierController {
 		    for (String areaId : scope) {
 		        Area recond = areaService.listById(areaId);
 		        if (recond != null) {
-		            List < UploadFile > list = uploadService.getFilesOther(supplierMatPro.getSupplierId() + "_" + recond.getName(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
+		            List < UploadFile > list = uploadService.getFilesOther(supplierMatPro.getSupplierId() + "_" + recond.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
 		            if(list != null && list.size() <= 0) {
 		                bool = false;
 		                for (Area area : areaList) {
