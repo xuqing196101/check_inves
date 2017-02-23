@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.bms.QualificationLevelMapper">
+    <resultMap id="qualificationLevelMap" type="ses.model.bms.QualificationLevel">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="QUALIFCATION_ID" jdbcType="VARCHAR" property="qualificationId" />
+        <result column="GRADE" jdbcType="VARCHAR" property="grade" />
+    </resultMap>
+
+    <!-- 所有列 -->
+    <sql id="BASE_COLUMN_SQL">
+        ID, QUALIFCATION_ID,GRADE
+    </sql>
+    <!-- 查询 -->
+    <select id="findList"  parameterType="String" resultMap="qualificationLevelMap">
+        SELECT
+        <include refid="BASE_COLUMN_SQL" />
+        FROM T_SES_BMS_QUALIFICATE_LEVEL
+        WHERE  QUALIFCATION_ID = #{qualificationId,jdbcType=VARCHAR}
+
+
+    </select>
+    <!-- 保存 -->
+    <insert id="save" parameterType="ses.model.bms.QualificationLevel" >
+
+        INSERT INTO T_SES_BMS_QUALIFICATE_LEVEL
+        (ID, QUALIFCATION_ID ,GRADE ) values
+        (#{id}, #{qualificationId,jdbcType=VARCHAR},#{grade,jdbcType=GRADE})
+    </insert>
+    
+    
+    
+</mapper>

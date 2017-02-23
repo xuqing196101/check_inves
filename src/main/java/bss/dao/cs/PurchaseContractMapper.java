@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import ses.model.oms.Orgnization;
-
 import bss.model.cs.PurchaseContract;
 
 public interface PurchaseContractMapper {
@@ -149,19 +148,20 @@ public interface PurchaseContractMapper {
      */
     List<PurchaseContract> selectFormalContract(Map<String,Object> map);
     
-    /**
-     * 
-    * @Title: selectDraftById
-    * @author QuJie 
-    * @date 2016-10-10 上午10:13:58  
-    * @Description: 根据id查询合同草稿
-    * @param @param id
-    * @param @return      
-    * @return List<PurchaseContract>
-     */
-    PurchaseContract selectDraftById(String id);
     
     /**
+	 * 
+	* @Title: selectDraftById
+	* @author QuJie 
+	* @date 2016-10-10 上午10:13:58  
+	* @Description: 根据id查询合同草稿
+	* @param @param id
+	* @param @return      
+	* @return List<PurchaseContract>
+	 */
+	PurchaseContract selectDraftById(String id);
+
+	/**
      * 
     * @Title: selectRoughById
     * @author QuJie 
