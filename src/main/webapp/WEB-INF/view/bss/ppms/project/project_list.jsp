@@ -69,144 +69,41 @@
         window.location.href = "${pageContext.request.contextPath}/project/view.html?id=" + id;
       }
 
-      //进入实施页面
-      var flag = true;
-
-      function start() {
-        var id = [];
-        $('input[name="chkItem"]:checked').each(function() {
-          id.push($(this).val());
-        });
-        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
-        status = $.trim(status);
-        var currPage = ${info.pageNum};
-        if(id.length == 1) {
-          if(status == "YLX_DFB" || status == "YFB_DSS") {
-            $.ajax({
-              url: "${pageContext.request.contextPath}/project/viewPackages.html",
-              data: "id=" + id,
-              type: "post",
-              dataType: "json",
-              success: function(result) {
-                if(result == 0) {
-                  layer.open({
-                    type: 2, //page层
-                    area: ['800px', '500px'],
-                    title: '请上传项目批文',
-                    shade: 0.01, //遮罩透明度
-                    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-                    shift: 1, //0-6的动画形式，-1不开启
-                    shadeClose: true,
-                    content: '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
-                  });
-                } else if(result == 1) {
-                  layer.alert("项目中有明细尚未分包,请进修改页面进行分包", {
-                    offset: ['30%', '40%'],
-                  });
-                  $(".layui-layer-shade").remove();
-                }
-              }
-            });
-          }else if(status == "YJFB") {
-            layer.alert("项目已废标", {
-              offset: ['30%', '40%'],
-            });
-          }else if(status == "YQX") {
-            layer.alert("项目已取消", {
-              offset: ['30%', '40%'],
-            });
-          } else {
-            window.location.href = "${pageContext.request.contextPath}/project/excute.html?id=" + id + "&page=" + currPage;
-          }
-        } else if(id.length > 1) {
-          layer.alert("只能选择一个", {
-            offset: ['222px', '390px'],
-            shade: 0.01,
-          });
-        } else {
-          layer.alert("请选择需要启动的项目", {
-            offset: ['222px', '390px'],
-            shade: 0.01,
-          });
-        }
-      }
-
-      //项目分包
-      function subPackage() {
-        var status = "";
-        var count = 0;
-        var chkItem = document.getElementsByName("chkItem");
-        var str = "";
-        for(var i = 0; i < chkItem.length; i++) {
-          if(chkItem[i].checked == true) {
-            count++;
-          }
-        }
-        if(count > 1) {
-          layer.alert("只能选择一项", {
-            offset: ['222px', '390px'],
-          });
-          $(".layui-layer-shade").remove();
-          return;
-        } else if(count == 0) {
-          layer.alert("请先选择一项", {
-            offset: ['222px', '390px'],
-          });
-          $(".layui-layer-shade").remove();
-          return;
-        } else {
-          for(var i = 0; i < chkItem.length; i++) {
-            if(chkItem[i].checked == true) {
-              str = chkItem[i].value;
-              status = $(chkItem[i]).prev().val();
-            }
-          }
-          if(status == 3) {
-            window.location.href = "${pageContext.request.contextPath}/project/subPackage.html?id=" + str;
-          } else if(status == 1) {
-            layer.alert("项目在实施中，不可进行分包操作，请重新选择", {
-              offset: ['222px', '390px'],
-            });
-            $(".layui-layer-shade").remove();
-            return;
-          } else if(status == 2) {
-            layer.alert("项目已完成，不可进行分包操作，请重新选择", {
-              offset: ['222px', '390px'],
-            });
-            $(".layui-layer-shade").remove();
-            return;
-          }
-        }
-      }
 
       //修改项目信息
       function edit() {
-        var id = [];
-        $('input[name="chkItem"]:checked').each(function() {
-          id.push($(this).val());
-        });
-        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
-        status = $.trim(status);
-        if(id.length == 1) {
-          if(status == "YLX_DFB" || status == "YFB_DSS") {
-            window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
-          }else{
-            layer.alert("实施中的项目不能修改", {
-              offset: ['222px', '730px'],
-              shade: 0.01,
-            });
-          }
-        } else if(id.length > 1) {
-          layer.alert("只能选择一个", {
-            offset: ['222px', '730px'],
-            shade: 0.01,
-          });
-        } else {
-          layer.alert("请选择需要修改的任务", {
-            offset: ['222px', '730px'],
-            shade: 0.01,
-          });
+        var typeName = $("#orgn").val();
+        if(typeName == "1"){
+           var id = [];
+	        $('input[name="chkItem"]:checked').each(function() {
+	          id.push($(this).val());
+	        });
+	        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
+	        status = $.trim(status);
+	        if(id.length == 1) {
+	          if(status == "YLX_DFB" || status == "YFB_DSS") {
+	            window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
+	          }else{
+	            layer.alert("实施中的项目不能修改", {
+	              offset: ['222px', '730px'],
+	              shade: 0.01,
+	            });
+	          }
+	        } else if(id.length > 1) {
+	          layer.alert("只能选择一个", {
+	            offset: ['222px', '730px'],
+	            shade: 0.01,
+	          });
+	        } else {
+	          layer.alert("请选择需要修改的项目", {
+	            offset: ['222px', '730px'],
+	            shade: 0.01,
+	          });
+	        }
+        }else{
+          layer.msg("只有当前采购机构的才能立项!");
         }
+       
       }
 
       //重置
@@ -214,6 +111,16 @@
         $("#proName").attr("value", "");
         $("#projectNumber").attr("value", "");
         $("#status option:selected").removeAttr("selected");
+      }
+      
+      
+      function typeName(){
+        var typeName = $("#orgn").val();
+        if(typeName == "1"){
+           window.location.href = "${pageContext.request.contextPath}/project/add.html";
+        }else{
+          layer.msg("只有当前采购机构的才能立项!");
+        }
       }
     </script>
   </head>
@@ -246,7 +153,7 @@
       </div>
       <!-- 项目戳开始 -->
       <h2 class="search_detail">
-    <form action="${pageContext.request.contextPath}/project/list.html" id="form1" method="post" class="mb0">
+    <form action="${pageContext.request.contextPath}/project/listProject.html" id="form1" method="post" class="mb0">
       <ul class="demand_list">
       <li>
         <label class="fl">项目名称： </label>
@@ -280,7 +187,9 @@
     </h2>
       <c:if test="${admin!=1 }">
         <div class="col-md-12 pl20 mt10">
-          <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
+          <button class="btn btn-windows add" onclick="typeName()">立项</button>
+          <button class="btn btn-windows edit" onclick="edit();">修改</button>
+          <input type="hidden" id="orgn" value="${orgnization.typeName}"/>
         </div>
       </c:if>
 
