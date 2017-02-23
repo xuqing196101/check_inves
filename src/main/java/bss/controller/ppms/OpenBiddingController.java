@@ -630,7 +630,7 @@ public class OpenBiddingController {
   }
 
   /**
-   * Description: 保存招标公告
+   * Description: 保存公告
    * 
    * @author Ye MaoLin
    * @version 2016-10-18
@@ -704,7 +704,7 @@ public class OpenBiddingController {
             }
           }
         }
-        //查询公告列表中是否有该项目的招标公告
+        //查询公告列表中是否有该项目的公告
         Article art = articelService.selectArticleById(article.getId());
         if (art != null ){
           articelService.update(article);
@@ -714,6 +714,16 @@ public class OpenBiddingController {
           articelService.addArticle(article);
           //该环节设置为执行中状态
           flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 2);
+        }
+        
+        //更新项目状态
+        String noticeType = request.getParameter("noticeType");
+        if ("purchase".equals(noticeType)) {
+          Project project = projectService.selectById(article.getProjectId());
+          if (project != null) {
+              String code = "ZBGGNZZ";
+              projectService.updateStatus(project, code);
+          }
         }
         jsonData.setSuccess(true);
 
