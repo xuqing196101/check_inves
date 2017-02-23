@@ -8,6 +8,9 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <title>供应商注册</title>
 <%@ include file="/WEB-INF/view/common/validate.jsp"%>
+<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
 <style type="text/css">
 .current {
 	cursor: pointer;
@@ -654,7 +657,7 @@
 			});
 			
 			$("select[id^='certType_']").each(function(i, element){
-				getAptLevel(element);
+				getAptLevel($(element));
 			});
 			
 			$("input").bind("blur", tempSave);
@@ -678,7 +681,7 @@
 			}
 			if (msg != "") {
 				var msg = msg.substring(0, msg.length - 1);
-				layer.msg(msg + "!");
+				layer.msg(msg + "没有通过校验!");
 			}
 			var checkeds = $("#supplierTypes").val();
 			if (checkeds != "") {
@@ -853,7 +856,8 @@
 		}
 	}
 	
-	function getAptLevel(obj){
+	//之前的代码，管用
+	function getAptLevel_annotation(obj){
 		var typeId = $(obj).val();
 		if (typeId != null && typeId != "") {
 			$(obj).parent().next().next().next().find("select").html("");
@@ -875,6 +879,69 @@
 					}
 				}
 			});
+		}
+	}
+	
+	//资质类型下拉框改变时调用的方法
+	function getAptLevel(obj){
+		if(obj instanceof jQuery) {
+			var typeId = obj.val();
+			if (typeId != null && typeId != "") {
+				obj.parent().next().next().next().find("select").html("");
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
+					data: {
+						"typeId": typeId,
+					},
+					dataType: "json",
+					success: function(data){
+						var easyuiData = [];
+						for(var i = 0; i < data.length; i++){
+							var optionDOM = "";
+							var cur_str = "";
+							if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
+								//optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
+								cur_str = {label : data[i].id,value : data[i].name,selected : true};
+							} else {
+								//var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+								cur_str = {label : data[i].id,value : data[i].name};
+							}
+							
+							easyuiData.push(cur_str);
+							//obj.parent().next().next().next().find("select").append(optionDOM);
+						}
+						$("#certGrade_select").combobox({
+							valueField: 'label',
+							textField: 'value',
+							data: easyuiData
+						});
+						
+					}
+				});
+			}
+		} else {
+			var typeId = $(obj).val();
+			if (typeId != null && typeId != "") {
+				$(obj).parent().next().next().next().find("select").html("");
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
+					data: {
+						"typeId": typeId,
+					},
+					dataType: "json",
+					success: function(data){
+						for(var i = 0; i < data.length; i++){
+							var optionDOM = "";
+							if ($(obj).next().val() != "" && $(obj).next().val() == data[i].id) {
+								optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
+							} else {
+								var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+							}
+							$(obj).parent().next().next().next().find("select").append(optionDOM);
+						}
+					}
+				});
+			}
 		}
 	}
 
@@ -1132,7 +1199,7 @@
 										</ul>
 
 										<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-											<span class="font_line"> 资质证书信息 </span>
+											<span class="font_line"><font class="red">*</font> 资质证书信息 </span>
 											<div class="col-md-12 col-sm-12 col-xs-12 mb10 p0">
 												<button type="button" class="btn btn-windows add"
 													onclick="openCertPro()">新增</button>
@@ -1223,11 +1290,11 @@
 																		exts="${properties['file.picture.type']}"
 																		id="pro_up_${certProNumber}" multiple="true"
 																		businessId="${certPro.id}"
-																		typeId="${supplierDictionaryData.supplierBusinessCert}"
+																		typeId="${supplierDictionaryData.supplierProCert}"
 																		sysKey="${sysKey}" auto="true" /> <u:show
 																		showId="pro_show_${certProNumber}"
 																		businessId="${certPro.id}"
-																		typeId="${supplierDictionaryData.supplierBusinessCert}"
+																		typeId="${supplierDictionaryData.supplierProCert}"
 																		sysKey="${sysKey}" /></td>
 															</tr>
 															<c:set var="certProNumber" value="${certProNumber + 1}" />
@@ -1341,11 +1408,11 @@
 																		exts="${properties['file.picture.type']}"
 																		id="sale_up_${certSaleNumber}" multiple="true"
 																		businessId="${certSell.id}"
-																		typeId="${supplierDictionaryData.supplierBusinessCert}"
+																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" auto="true" />
 																	<u:show showId="sale_show_${certSaleNumber}"
 																		businessId="${certSell.id}"
-																		typeId="${supplierDictionaryData.supplierBusinessCert}"
+																		typeId="${supplierDictionaryData.supplierSellCert}"
 																		sysKey="${sysKey}" />
 																</div></td>
 														</tr>
@@ -1522,7 +1589,7 @@
 
 									<!--  <h2 class="count_flow">供应商工程资质资格证书信息  </h2> -->
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-										<span class="font_line">供应商资质（认证）证书信息</span>
+										<span class="font_line"><font class="red">*</font> 供应商资质（认证）证书信息</span>
 										<div class="fl col-md-12 col-xs-12 col-sm-12 p0">
 											<button type="button" class="btn" onclick="openCertEng()">新增</button>
 											<button type="button" class="btn" onclick="deleteCertEng()">删除</button>
@@ -1600,16 +1667,9 @@
 																value="<fmt:formatDate value="${certEng.expEndDate}"/>"
 																pattern="yyyy-MM-dd" />
 															</td>
-															<td class="tc"
-																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
-																<select
-																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus"
-																class="w100p border0">
-																	<option value="1"
-																		<c:if test="${certEng.certStatus==1}"> selected="selected"</c:if>>有效</option>
-																	<option value="0"
-																		<c:if test="${certEng.certStatus==0}"> selected="selected"</c:if>>无效</option>
-															</select></td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
+																<input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" value="${certEng.certStatus}" />
+															</td>
 															<td class="tc">
 																<div class="w200 fl">
 																	<u:upload
@@ -1617,11 +1677,11 @@
 																		exts="${properties['file.picture.type']}"
 																		id="eng_up_${certEngNumber}" multiple="true"
 																		businessId="${certEng.id}"
-																		typeId="${supplierDictionaryData.supplierBusinessCert}"
+																		typeId="${supplierDictionaryData.supplierEngCert}"
 																		sysKey="${sysKey}" auto="true" />
 																	<u:show showId="eng_show_${certEngNumber}"
 																		businessId="${certEng.id}"
-																		typeId="${supplierDictionaryData.supplierBusinessCert}"
+																		typeId="${supplierDictionaryData.supplierEngCert}"
 																		sysKey="${sysKey}" />
 																</div></td>
 														</tr>
@@ -1636,7 +1696,7 @@
 
 									<!-- 	    <h2 class="count_flow">供应商资质资格信息   </h2> -->
 									<div class="col-md-12 col-sm-12 col-xs-12 border_font mt20">
-										<span class="font_line"> 供应商资质证书详细信息 </span>
+										<span class="font_line"><font class="red">*</font> 供应商资质证书详细信息 </span>
 										<div class="col-md-12 col-md-12 col-xs-12 col-sm-12 p0">
 											<button type="button" class="btn" onclick="openAptitute()">新增</button>
 											<button type="button" class="btn" onclick="deleteAptitute()">删除</button>
@@ -1686,12 +1746,19 @@
 																value="${aptitute.certCode}" />
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
+																 <!-- 
 																<select id="certType_${certAptNumber}" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" class="w100p border0" onchange="getAptLevel(this)">
 																	<c:forEach items="${typeList}" var="type">
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
 																	</c:forEach>
+																</select> -->
+																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">   
+																    <c:forEach items="${typeList}" var="type">
+																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
+																	</c:forEach>
 																</select>
-																<input type="hidden" value="${aptitute.aptituteLevel}">
+																
+																<input type="hidden" class="forSelectId" value="${aptitute.aptituteLevel}">
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
@@ -1706,7 +1773,22 @@
 																value="${aptitute.professType}" />
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
+																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
+																 -->
+																<select id="certGrade_select" title="cnjewfn" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																	
+																</select>
+																<script type="text/javascript">
+																	$("select[title='cnjewfn']").each(function() {
+																		var $obj = $(this);
+																		$obj.combobox({
+																			onChange : function(newValue,oldValue) {
+																				getAptLevel($obj);
+																			},
+																		});
+																	});
+																</script>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
@@ -1829,11 +1911,11 @@
 																	exts="${properties['file.picture.type']}"
 																	id="se_up_${certSeNumber}" multiple="true"
 																	businessId="${certSe.id}"
-																	typeId="${supplierDictionaryData.supplierBusinessCert}"
+																	typeId="${supplierDictionaryData.supplierServeCert}"
 																	sysKey="${sysKey}" auto="true" /> <u:show
 																	showId="se_show_${certSeNumber}"
 																	businessId="${certSe.id}"
-																	typeId="${supplierDictionaryData.supplierBusinessCert}"
+																	typeId="${supplierDictionaryData.supplierServeCert}"
 																	sysKey="${sysKey}" /></td>
 														</tr>
 														<c:set var="certSeNumber" value="${certSeNumber + 1}"></c:set>
