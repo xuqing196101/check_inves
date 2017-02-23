@@ -1466,4 +1466,13 @@ table.lockout .extrafile{
 	width:150px;
 	text-align: left;
 }
+.level_desc span{
+	display: inline-block;
+	height: 15px;
+	line-height: 25px;
+	margin-right:10px;
+	width: 175px;
+}
+
+
 /**鏄庣粏瀹藉害鏍峰紡缁撴潫*/

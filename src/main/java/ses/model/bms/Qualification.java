@@ -18,7 +18,7 @@ public class Qualification {
     private String id;
     /** 名称 **/
     private String name;
-    /** 类型,1:通用,2:专业**/
+    /** 类型,1:通用,2:专业,4:工程**/ 
     private Integer type;
     /** 是否删除,0:未删除,1:删除 **/
     private Integer isDeleted;
