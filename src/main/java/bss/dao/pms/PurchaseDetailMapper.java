@@ -107,7 +107,7 @@ public interface PurchaseDetailMapper {
     * @throws
      */
     List<PurchaseDetail> queryByNo(@Param("planNo")String planNo);
-    /**
+	/**
      * 
     * @Title: delete
     * @Description:根据编号进行逻辑删除
