@@ -171,7 +171,7 @@ function ok(){
 	if (type == 1){
 		parent.addGeneralValue(choseedIds,choseedNames);
 	}
-	if (type == 2){
+	if (type == 2 || type == 4){
 		parent.addProfileValue(choseedIds,choseedNames);
 	}
 	if (type == 3){
