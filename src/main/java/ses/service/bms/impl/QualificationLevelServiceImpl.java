@@ -30,7 +30,7 @@ public class QualificationLevelServiceImpl  implements QualificationLevelService
         if (pageNum == null){
             pageNum = 1;
         }
-        return mapper.findList(qualificationId);
+        return qualificationLevelMapper.findList(qualificationId);
     }
     /**
      *
@@ -39,7 +39,7 @@ public class QualificationLevelServiceImpl  implements QualificationLevelService
      
 	@Override
 	public void save(String id, String qualificationId, String grade) {
-		// TODO Auto-generated method stub
+		// TODO Auto-generated method stubz
 		
 	}
 	@Override
