@@ -123,4 +123,13 @@ public interface ProjectService {
      * @return
      */
     JSONObject updateCurrOperator(String currFlowDefineId, String currUpdateUserId, String currUpdateUserId2);
+    
+    /**
+     *〈简述〉更新项目状态
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param project
+     * @param code
+     */
+    void updateStatus(Project project, String code);
 }
