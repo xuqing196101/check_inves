@@ -86,7 +86,7 @@
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-				<button class="btn btn-windows add" type="button" onclick="level();">添加等级</button>
+				<button class="btn btn-windows add" type="button" onclick="level();">维护等级</button>
 			  </div>
 			  <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">
