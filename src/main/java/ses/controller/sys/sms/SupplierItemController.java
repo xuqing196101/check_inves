@@ -521,10 +521,13 @@ public class SupplierItemController extends BaseController {
                 if(cateTree != null && cateTree.getRootNode() != null) {
                     cateTree.setItemsId(item.getId());
                     cateTree.setDiyLevel(item.getDiyLevel());
-                    if (cateTree.getCertCode() != null) {
+                    if (cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
                         List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
                         if (certEng != null && certEng.size() > 0) {
-                            cateTree.setFileId(certEng.get(0).getId());
+                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), certEng.get(0).getId());
+                            if (level != null) {
+                                cateTree.setFileId(certEng.get(0).getId());
+                            }
                         }
                     }
                     allTreeList.add(cateTree);

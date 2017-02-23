@@ -92,24 +92,64 @@
 			}
 			
 			// 根据证书编号获取附件信息
-			function getFileByCode(obj, number){
-				var certCode = $(obj).val();
+			function getFileByCode(obj, number, flag){
+				var certCode = "";
+				if (flag == "1") {
+					certCode = $(obj).parent().next().find("input").val();
+					// 清空等级和附件
+					$(obj).parent().next().next().html("");
+					$(obj).parent().next().next().next().html("");
+				} else {
+					certCode = $(obj).val();
+					// 清空等级和附件
+					$(obj).parent().next().html("");
+					$(obj).parent().next().next().html("");
+				}
 				var supplierId = $("#supplierId").val();
-				// 通过append将附件信息追加到指定位置
-				$.ajax({
-					url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
-					async : false,
-					dataType : "html",
-					data : {
-						"certCode" : certCode,
-						"supplierId" : supplierId,
-						"number" : number,
-					},
-					success : function(data) {
-						$(obj).parent().next().html(data);
-						init_web_upload();
-					}
-				});
+				var typeId = "";
+				if (flag == "1") {
+					typeId = $(obj).val();
+				} else {
+					typeId = $(obj).parent().prev().find("select").val();
+				}
+				if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined") {
+					$.ajax({
+						url : "${pageContext.request.contextPath}/supplier/getLevel.do",
+						data: {
+							"typeId": typeId,
+							"certCode": certCode,
+							"supplierId": supplierId,
+						},
+						success: function(data){
+							if (data != null && data != "") {
+								if (flag == "1") {
+									$(obj).parent().next().next().html(data);
+								} else {
+									$(obj).parent().next().html(data);
+								}
+								// 通过append将附件信息追加到指定位置
+								$.ajax({
+									url : "${pageContext.request.contextPath}/supplier/getFileByCode.do",
+									async : false,
+									dataType : "html",
+									data : {
+										"certCode" : certCode,
+										"supplierId" : supplierId,
+										"number" : number,
+									},
+									success : function(data) {
+										if (flag == "1") {
+											$(obj).parent().next().next().next().html(data);
+										} else {
+											$(obj).parent().next().next().html(data);
+										}
+										init_web_upload();
+									}
+								});
+							}
+						}
+					});
+				}
 				tempSave();
 			}
 			
@@ -254,9 +294,9 @@
 										      <th class="info tc">大类</th>
 										      <th class="info tc">中类</th>
 										      <th class="info tc">小类</th>
-										      <th class="info tc">资质类型</th>
-										      <th class="info tc">证书编号</th>
-										      <th class="info tc w150">等级选择</th>
+										      <th class="info tc w150">资质类型</th>
+										      <th class="info tc w150">证书编号</th>
+										      <th class="info tc w150">资质等级</th>
 										      <th class="info tc w150">证书图片</th>
 										    </tr>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
@@ -269,16 +309,15 @@
 										        <td>${cate.firstNode}</td>
 										        <td>${cate.secondNode}</td>
 										        <td>${cate.thirdNode}</td>
-										        <td>${cate.thirdNode}</td>
 										        <td>
-										        	<select name="listSupplierItems[${vs.index}].qualificationType" onchange="getLevel">
+										        	<select class="border0 p0 w150" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">
 										        		<c:forEach items="${cate.typeList}" var="type">
 										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
 										        		</c:forEach>
 										        	</select>
 										        </td>
-										     	<td><input type="text"  class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}')"></td>
-										      	<td>${cate.level}"</td>
+										     	<td><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onchange="getFileByCode(this, '${vs.index}', '2')"></td>
+										      	<td>${cate.level}</td>
 										      	<td class="tc">
 										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 										      	</td>

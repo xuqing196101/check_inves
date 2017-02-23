@@ -43,5 +43,5 @@ public interface SupplierCertEngService {
      * @param certCode
      * @return
      */
-    String getLevel(String typeId, String certCode);
+    String getLevel(String typeId, String certCode, String supplierId);
 }

@@ -272,8 +272,22 @@
 	</select>
 	
 	<select id="getLevel">
-		SELECT ID 
-		FROM T_SES_SMS_SUPPLIER_CERT_ENG
-		WHERE CERT_CODE = #{certCode}
+		SELECT t2.APTITUTE_ LEVEL
+		FROM 
+			T_SES_SMS_SUPPLIER_CERT_ENG t1
+		inner join 
+			T_SES_SMS_SUPPLIER_APTITUTE t2
+		on 
+			t1.CERT_NAME = t2.CERT_NAME
+		and
+			t1.CERT_CODE = t2.CERT_CODE
+		WHERE 
+			t1.CERT_CODE = #{param2} 
+		and 
+			t2.CERT_TYPE = #{param1}
+		and 
+			t1.MAT_ENG_ID = ${param3}
+		and 
+			t2.MAT_ENG_ID = #{param3}
 	</select>
 </mapper>

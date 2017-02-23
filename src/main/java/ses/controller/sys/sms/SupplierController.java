@@ -2626,8 +2626,8 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping("/getLevel")
-    public String getAptLevel(String typeId, String certCode) {
-        
-        return null;
+    public String getAptLevel(String typeId, String certCode, String supplierId) {
+        Supplier supplier = supplierService.get(supplierId);
+        return supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
     }
 }
