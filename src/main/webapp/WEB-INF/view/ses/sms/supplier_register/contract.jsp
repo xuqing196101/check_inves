@@ -83,6 +83,7 @@
 	  	 $("#tab-2").html("");
 	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
+	  	 init_web_upload_in("#" + id);
 	}
 	
 	function loadPageTwo(id, url, supplierTypeId) {
@@ -95,6 +96,7 @@
 	  	 $("#tab-4").html("");
 	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
+	  	 init_web_upload_in("#" + id);
 	}
 	
 	function loadPageThree(id, url, supplierTypeId) {
@@ -107,6 +109,7 @@
 	  	 $("#tab-2").html("");
 	  	 $("#tab-4").html("");
 	  	 $("#"+id).load(path);
+	  	 init_web_upload_in("#" + id);
 	}
 	
 	function loadPageFour(id, url, supplierTypeId) {
@@ -119,6 +122,7 @@
 	  	 $("#tab-2").html("");
 	  	 $("#tab-3").html("");
 	  	 $("#"+id).load(path);
+	  	 init_web_upload_in("#" + id);
 	}
 			sessionStorage.locationE=true;
 			sessionStorage.index=5;
