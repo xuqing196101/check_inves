@@ -501,26 +501,20 @@
                       <td>
                         <fmt:formatDate value='${project.startTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                       </td>
-                      <td class="bggrey">招标公告发布时间:</td>
-                      <td><fmt:formatDate value='${project.noticeNewsTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-                    </tr>
-                    <tr>
                       <td class="bggrey">招标公告审批时间:</td>
                       <td><fmt:formatDate value='${project.appTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                    </tr>
+                    <tr>
+                       <td class="bggrey">项目结束时间:</td>
+                      <td><fmt:formatDate value='${project.endTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">供应商报名时间:</td>
-                      <td>${project.signUpTime}</td>
+                      <td><fmt:formatDate value='${project.signUpTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">报名截止时间:</td>
                       <td><fmt:formatDate value='${project.applyDeanline}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                       <td class="bggrey">售后维护时间:</td>
                       <td><fmt:formatDate value='${project.maintenanceTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-                    </tr>
-                    <tr>
-                      <td class="bggrey">发送中标通知书时间:</td>
-                      <td><fmt:formatDate value='${project.noticeTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-                      <td class="bggrey">项目结束时间:</td>
-                      <td><fmt:formatDate value='${project.endTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     </tr>
                     <tr>
                       <td class="bggrey">合同签订时间:</td>

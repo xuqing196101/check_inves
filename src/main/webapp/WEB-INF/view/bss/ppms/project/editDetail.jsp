@@ -146,7 +146,7 @@
       }
 
       function goBack() {
-        window.location.href = "${pageContext.request.contextPath }/project/list.html";
+        window.location.href = "${pageContext.request.contextPath }/project/listProject.html";
       }
     </script>
   </head>
@@ -221,13 +221,15 @@
                   </tr>
                 </thead>
                 <tbody>
-                  <c:set var="certProNumber" value="0"/>
+                  <c:set var="certProNumber" value="0" />
                   <c:forEach items="${lists}" var="obj" varStatus="vs">
                     <tr class="${obj.parentId}" style="cursor: pointer;">
-                      <td><div class="seq">${obj.serialNumber}</div></td>
+                      <td>
+                        <div class="seq">${obj.serialNumber}</div>
+                      </td>
                       <td>
                         <div class="department">
-                          ${obj.department} 
+                          ${obj.department}
                         </div>
                       </td>
                       <td>
@@ -239,20 +241,24 @@
                       <td>
                         <div class="qualitstand">${obj.qualitStand}</div>
                       </td>
-                      <td class="tc"><div class="item">${obj.item}</div></td>
                       <td class="tc">
-                      <div class="purchasecount">
-                        <c:if test="${obj.purchaseCount!=null}">
-                          <input type="hidden" name="ss" value="${obj.id }">
-                          <input maxlength="11" class="w50" id="purchaseCount" onblur="sum2(this);" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${certProNumber}].purchaseCount" value="${obj.purchaseCount}" type="text" />
-                          <input type="hidden" name="ss" value="${obj.parentId }">
-                        </c:if>
-                        <c:if test="${obj.purchaseCount==null }">
-                          <input class="purchasecount" disabled="disabled" type="text" name="lists[${certProNumber}].purchaseCount" value="${obj.purchaseCount }">
-                        </c:if>
+                        <div class="item">${obj.item}</div>
+                      </td>
+                      <td class="tc">
+                        <div class="purchasecount">
+                          <c:if test="${obj.purchaseCount!=null}">
+                            <input type="hidden" name="ss" value="${obj.id }">
+                            <input maxlength="11" class="w50" id="purchaseCount" onblur="sum2(this);" onkeyup="this.value=this.value.replace(/\D/g,'')" onafterpaste="this.value=this.value.replace(/\D/g,'')" name="lists[${certProNumber}].purchaseCount" value="${obj.purchaseCount}" type="text" />
+                            <input type="hidden" name="ss" value="${obj.parentId }">
+                          </c:if>
+                          <c:if test="${obj.purchaseCount==null }">
+                            <input class="purchasecount" disabled="disabled" type="text" name="lists[${certProNumber}].purchaseCount" value="${obj.purchaseCount }">
+                          </c:if>
                         </div>
                       </td>
-                      <td><div class="deliverdate">${obj.deliverDate}</div></td>
+                      <td>
+                        <div class="deliverdate">${obj.deliverDate}</div>
+                      </td>
                       <td class="advice">
                         <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
                           <c:choose>
@@ -260,11 +266,14 @@
 
                             </c:when>
                             <c:otherwise>
-                              <select name="lists[${certProNumber}].purchaseType" onchange="sel(this);" class="purchasetype" id="select">
+                              <c:forEach items="${kind}" var="kind">
+			                          <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+			                        </c:forEach>
+                              <%-- <select name="lists[${certProNumber}].purchaseType" onchange="sel(this);" class="purchasetype" id="select">
                                 <c:forEach items="${kind}" var="kind">
                                   <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
-                        </select>
+                        </select> --%>
                         </c:otherwise>
                         </c:choose>
                         </c:if>
@@ -288,7 +297,7 @@
                         <div class="memo">${obj.memo}</div>
                       </td>
                     </tr>
-                    <c:set var="certProNumber" value="${certProNumber + 1}"/>
+                    <c:set var="certProNumber" value="${certProNumber + 1}" />
                   </c:forEach>
                 </tbody>
               </table>

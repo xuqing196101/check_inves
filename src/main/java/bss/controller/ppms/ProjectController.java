@@ -281,6 +281,112 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/list";
     }
     
+    
+    /**
+     * 〈简述〉 
+     * 〈详细描述〉.
+     * @author FengTian
+     * @param page 分页
+     * @param model 内置对象
+     * @param project 项目实体
+     * @return 跳转list页面
+     */
+    @RequestMapping(value="/listProject",produces = "text/html;charset=UTF-8")
+    public String listProject(@CurrentUser User user,Project project,Integer page, Model model, HttpServletRequest request) {      
+        if(user != null && user.getOrg() != null){
+            //根据id查询部门
+            Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
+            HashMap<String,Object> map = new HashMap<String,Object>();
+            if(project.getName() !=null && !project.getName().equals("")){
+                map.put("name", project.getName());
+            }
+            if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
+                map.put("projectNumber", project.getProjectNumber());
+            }
+            if(project.getStatus() != null && !project.getStatus().equals("")){
+                map.put("status", project.getStatus());
+            }
+            map.put("principal", user.getId());
+            if(page==null){
+                page = 1;
+            }
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            //判断如果是管理部门
+            if("2".equals(orgnization.getTypeName())){
+                HashMap<String,Object> maps = new HashMap<String,Object>();
+                List<Project> list = projectService.selectProjectsByConition(map);
+                List<Project> list2 = new ArrayList<Project>();
+                for(int i=0;i<list.size();i++){
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    } finally {
+                        maps.put("projectId", list.get(i).getId());
+                        List<ProjectTask> projectTask = projectTaskService.queryByNo(maps);
+                        for (ProjectTask projectTask2 : projectTask) {
+                            Task task = taskservice.selectById(projectTask2.getTaskId());
+                            if(task != null){
+                                if(user.getOrg().getId().equals(task.getOrgId())){
+                                    maps.put("taskId", task.getId());
+                                    List<ProjectTask> projectTasks = projectTaskService.queryByNo(maps);
+                                    Project project2 = projectService.selectById(projectTasks.get(0).getProjectId());
+                                    list2.add(project2);
+                                }
+                            }
+                        }
+                    }
+                }
+                //项目去重
+                removeProject(list2);
+                model.addAttribute("info", new PageInfo<Project>(list2));
+            }
+            
+            //判断如果是采购机构
+            if("1".equals(orgnization.getTypeName())){
+                map.put("purchaseDepId", user.getOrg().getId());
+                List<Project> list = projectService.selectProjectsByConition(map);
+                for (int i = 0; i < list.size(); i++ ) {
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
+                }
+                model.addAttribute("info", new PageInfo<Project>(list));
+            }
+            
+            //判断如果是需求部门
+            if("0".equals(orgnization.getTypeName())){
+                HashMap<String, Object> mop = new HashMap<>();
+                List<Project> newPro = new ArrayList<Project>();
+                mop.put("id", user.getId());
+                List<ProjectDetail> lists = detailService.selectByDemand(mop);
+                removeDetail(lists);
+                for (ProjectDetail projectDetail : lists) {
+                    Project project2 = projectService.selectById(projectDetail.getProject().getId());
+                    newPro.add(project2);
+                }
+                model.addAttribute("info", new PageInfo<Project>(newPro));
+            }
+                
+            model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+            model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+            model.addAttribute("projects", project);
+            model.addAttribute("orgnization", orgnization);
+        }
+        //判断是不是监管人员(采购管理人员)
+        HashMap<String,Object> roleMap = new HashMap<String,Object>();
+        roleMap.put("userId", user.getId());
+        roleMap.put("code", "SUPERVISER_R");
+        BigDecimal i = roleService.checkRolesByUserId(roleMap);
+        model.addAttribute("admin", i);
+        return "bss/ppms/project/project_list";
+    }
+    
+    
     /**
      * @Title: add
      * @author Shen Zhenfei 
@@ -1789,28 +1895,17 @@ public class ProjectController extends BaseController {
             model.addAttribute("lists", detail);
             return "bss/ppms/project/editDetail";
         }
-        /*for (int i = 0; i < lists.getLists().size(); i++ ) {
-            HashMap<String, Object> map1 = new HashMap<>();
-            map1.put("id", lists.getLists().get(i).getRequiredId());
-            map1.put("projectId", lists.getLists().get(i).getProject().getId());
-            List<ProjectDetail> aa = detailService.selectByParentId(map1);
-            if(aa.size() == 1){
-               project.setPurchaseType(aa.get(0).getPurchaseType());
-               projectService.update(project);
-            }
-            
-        }*/   
+        projectService.update(project);
         //修改项目明细
         if(lists!=null){
-            if(lists.getLists()!=null&&lists.getLists().size()>0){
+            /*if(lists.getLists()!=null&&lists.getLists().size()>0){
                 for( ProjectDetail details:lists.getLists()){
                     if( details.getId()!=null){
                         detailService.update(details);
                     }
                 }
-                project.setPurchaseType(lists.getLists().get(lists.getLists().size() - 1).getPurchaseType());
-                projectService.update(project);
-            }
+                
+            }*/
         }
         return "redirect:list.html";
     }
