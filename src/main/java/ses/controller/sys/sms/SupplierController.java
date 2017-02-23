@@ -1417,6 +1417,13 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 			model.addAttribute("err_taxCert", "请上传文件!");
 		}
+		//* 基本账户开户许可证
+        List < UploadFile > supplierBank = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBank(), Constant.SUPPLIER_SYS_KEY.toString());
+        if(supplierBank != null && supplierBank.size() <= 0) {
+            count++;
+            model.addAttribute("err_supplierBank", "请上传文件!");
+        }
+
 		//* 近三年银行基本账户年末对账单
 		List < UploadFile > blist = uploadService.getFilesOther(supplier.getId(), supplierDictionary.getSupplierBillCert(), Constant.SUPPLIER_SYS_KEY.toString());
 		if(blist != null && blist.size() <= 0) {
