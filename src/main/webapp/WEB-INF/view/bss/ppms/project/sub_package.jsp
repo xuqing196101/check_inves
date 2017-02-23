@@ -235,7 +235,7 @@
 
       //返回
       function back() {
-        window.location.href = "${pageContext.request.contextPath }/project/list.html";
+        window.location.href = "${pageContext.request.contextPath }/project/listProject.html";
       }
 
       //包下勾选明细
