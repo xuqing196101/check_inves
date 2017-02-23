@@ -116,7 +116,7 @@ function loadCss(){
 		$("#tabSpeciId").addClass("active");
 		$("#titleId").text("专用资质管理");
 	}if (type == "4"){
-		$("#tabSpeciId").addClass("active");
+		$("#tabPoject").addClass("active");
 		$("#titleId").text("工程资质管理");
 	}
 }

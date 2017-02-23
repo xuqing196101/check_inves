@@ -345,7 +345,7 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             model.addAttribute("rootArea", areaService.findRootArea());
-            model.addAttribute("typeList", qualificationService.findList(null, null, 3));
+            model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 			return "ses/sms/supplier_register/supplier_type";
 		}
 
