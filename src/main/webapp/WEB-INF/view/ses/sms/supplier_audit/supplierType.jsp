@@ -1016,7 +1016,7 @@
 										<c:forEach items="${rootArea}" var="area" varStatus="st">
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${area.name}：</span>
-													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.name}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
+													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
 													<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
 											</li>
 										</c:forEach>
@@ -1110,6 +1110,7 @@
 											<thead>
 												<tr>
 													<th class="info">证书名称</th>
+													<th class="info">证书编号</th>
 													<th class="info">资质类型</th>
 													<th class="info">资质序列</th>
 													<th class="info">专业类别</th>
@@ -1128,8 +1129,13 @@
 											</thead>
 											<c:forEach items="${supplierAptitutes}" var="s" varStatus="vs">
 												<tr>
-													<td class="tc" id="certType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>${s.certType }</td>
+													<td class="tc" id="certName_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certName','${s.id }','mat_eng_page');"</c:if>>${s.certName }</td>
 													<td class="tc" id="certCode_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
+													<td class="tc" id="certType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>
+														<c:forEach items="${typeList}" var="type">
+ 															<c:if test="${s.certType eq type.id}">${type.name}</c:if>
+														</c:forEach>
+													</td>
 													<td class="tc" id="aptituteSequence_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_aptituteSequence'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('aptituteSequence','${s.id }','mat_eng_page');"</c:if>>${s.aptituteSequence }</td>
 													<td class="tc" id="professType_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_professType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('professType','${s.id }','mat_eng_page');"</c:if>>${s.professType }</td>
 													<td class="tc" id="aptituteLevel_${s.id }" <c:if test="${fn:contains(fieldAptitutes,s.id.concat('_aptituteLevel'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('aptituteLevel','${s.id }','mat_eng_page');"</c:if>>${s.aptituteLevel }</td>
