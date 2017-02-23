@@ -22,9 +22,10 @@
     </select>
     <!-- 保存 -->
     <insert id="save" parameterType="ses.model.bms.QualificationLevel" >
-        (ID, QUALIFCATION_ID ,GRADE ) values
-        (#{id}, #{qualificationId,jdbcType=VARCHAR},#{grade,jdbcType=VARCHAR})
+       insert into  T_SES_BMS_QUALIFCATE_LEVEL (ID, QUALIFCATION_ID ,GRADE ) values
+        (#{id}, #{qualificationId},#{grade})
     </insert>
+    
    <delete id="delete" parameterType="String">
    delete from T_SES_BMS_QUALIFCATE_LEVEL  where QUALIFCATION_ID = #{qualificationId}
    </delete>
