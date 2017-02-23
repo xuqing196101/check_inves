@@ -862,7 +862,7 @@
 										<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产经营地址邮编</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" required isZipCode="true" name="addressList[${vs.index }].code" value="${addr.code}" />
+												<input type="text" required isZipCode="true" name="addressList[${vs.index }].code" value="${addr.code}" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('code_${addr.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
 												<span class="input-tip">不能为空，长度为6位</span>
 												<div class="cue">
@@ -875,7 +875,7 @@
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营地址（填写所有地址）</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-													<select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId">
+													<select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
 														<option value="">请选择</option>
 														<c:forEach items="${privnce }" var="prin">
 															<c:if test="${prin.id==addr.provinceId }">
@@ -889,7 +889,7 @@
 													</select>
 												</div>
 												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-													<select id="children_area_select_id" name="addressList[${vs.index }].address">
+													<select id="children_area_select_id" name="addressList[${vs.index }].address" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
 														<c:forEach items="${addr.areaList }" var="city">
 															<c:if test="${city.id==addr.address }">
 																<option value="${city.id }" selected="selected">${city.name }</option>
@@ -907,7 +907,7 @@
 										<li class="col-md-3 col-sm-6 col-xs-12">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营详细地址</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-												<input type="text" name="addressList[${vs.index }].detailAddress" required="required" maxlength="50" value="${addr.detailAddress }">
+												<input type="text" name="addressList[${vs.index }].detailAddress" required="required" maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
 												<span class="add-on cur_point">i</span>
 												<span class="input-tip">不能为空</span>
 												<div class="cue">

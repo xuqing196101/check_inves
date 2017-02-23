@@ -44,6 +44,11 @@
 				$("li").each(function() {
 					$(this).find("p").hide();
 				});
+				
+				
+				$("td").each(function() {
+		  $(this).find("a").eq(0).hide();
+		  });
 			});
 			
 			//审核input框
@@ -166,7 +171,38 @@
 					layer.close(index);
 				});
 			}
-
+			
+			//审核列表
+			function auditList(id, str){
+		  var supplierId = $("#id").val();
+		  var auditContent=str + "分支机构信息"; //审批的字段内容
+		  var index = layer.prompt({
+		    title: '请填写不通过的理由：', 
+		    formType: 2, 
+		    offset: '100px',
+		    }, 
+		    function(text){
+		    $.ajax({
+		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+		      type:"post",
+		      data: {"auditType":"basic_page","auditFieldName":"售后服务机构一览表","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+		      dataType:"json",
+		      success:function(result){
+		      result = eval("(" + result + ")");
+		      if(result.msg == "fail"){
+		        layer.msg('该条信息已审核过！', {
+		          shift: 6, //动画类型
+		          offset:'100px'
+		            });
+		        }
+		      }
+		      });
+		        $("#"+id+"_hidden").hide();
+			      $("#"+id+"_show").show();
+			       layer.close(index);
+		    });
+		  }
+			
 			function nextStep() {
 				$("#form_id").submit();
 			}
@@ -774,6 +810,7 @@
 										<th class="info">所在县市</th>
 										<th class="info">负责人</th>
 										<th class="info">联系电话</th>
+										<th class="info">操作</th>
 									</tr>
 								</thead>
 								<tbody id="finance_attach_list_tbody_id">
@@ -788,11 +825,14 @@
 											<td class="tc" id="address_${a.id }"<c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_address'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('address','${a.id}','11');"</c:if>>${a.address}</td>
 											<td class="tc" id="leadName_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_leadName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('leadName','${a.id}','11');"</c:if>>${a.leadName}</td>
 											<td class="tc" id="mobile_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_mobile'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mobile','${a.id}','11');"</c:if>>${a.mobile}</td>
+											<td class="tc w50" >
+				                <a id="${a.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
+				                <p onclick="auditList('${a.id}','${a.name}');" id="${a.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+				              </td>
 										</tr>
 									</c:forEach>
 								</tbody>
 							</table>
-						
 					</ul>
 					<h2 class="count_flow"><i>10</i>参加政府或军队采购经历</h2>
 					<ul class="ul_list">

@@ -12,10 +12,7 @@
 <td class="tc"><input type="text" onblur="tempSave()" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expStartDate"/></td>
 <td class="tc"><input type="text" onblur="tempSave()" class="border0" readonly="readonly" onClick="WdatePicker()" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].expEndDate"/></td>
 <td class="tc">
-  	<select name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" class="w100p border0" onchange="tempSave()">
-		<option value="1">有效</option>
-		<option value="0">无效</option>
-	</select>
+	<input type="text" onblur="tempSave()" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus"/>
 </td>
 <td class="tc w200">
 <div class="w200">

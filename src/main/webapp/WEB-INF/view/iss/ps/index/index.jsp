@@ -1069,12 +1069,15 @@
         <div class="col-sm-12 col-md-12 col-xs-12">
           <div class="border1 flow_btn fl flow_one">
             <div class="ywbl_01 col-xs-4 col-sm-4">
+	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
+            <%--
             <% if (environment != null && environment.equals("0")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
 	        <% } %>
 	        <% if (environment != null && environment.equals("1")){ %>
 	             <a onclick="registerTip();" class="qyzc">
 	        <% } %>
+	         --%>
                 <span>供应商注册</span>
               </a>
             </div>

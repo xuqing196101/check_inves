@@ -44,7 +44,7 @@ $(document).ready(function(){
 	 </div>
 	 <div class="extra_file">
 	      <span id="extra_file" class="fl mt12"> 附件：</span>
-	      <div>
+	      <div class="mt10">
 	          <u:show showId="artice_file_show" delete="false" businessId="${articleId}" sysKey="${articleSysKey}" typeId="${artiAttachTypeId }" />
 	      </div>
 	 </div>

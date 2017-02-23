@@ -1650,7 +1650,7 @@ public class SupplierController extends BaseSupplierController {
 		    for (SupplierCertPro cert : list) {
 	            List < UploadFile > filelist = uploadService.getFilesOther(cert.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProCert(), Constant.SUPPLIER_SYS_KEY.toString());
 	            if(filelist != null && filelist.size() <= 0) {
-	                model.addAttribute("err_conAch", "还有证书图片未上传!");
+	                model.addAttribute("cert_pro", "还有证书图片未上传!");
 	                return false;
 	            }
             }
