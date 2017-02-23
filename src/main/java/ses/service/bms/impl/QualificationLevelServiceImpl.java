@@ -52,4 +52,19 @@ public class QualificationLevelServiceImpl  implements QualificationLevelService
 		}
 		return lis1;
 	}
+	@Override
+	public void add(QualificationLevel qualificationLevel) {
+		qualificationLevelMapper.save(qualificationLevel);
+		
+	}
+	@Override
+	public List<QualificationLevel> queryByQId(String qid) {
+		// TODO Auto-generated method stub
+		return qualificationLevelMapper.findList(qid);
+	}
+	@Override
+	public void deleteByQuaId(String quaId) {
+		 
+		qualificationLevelMapper.delete(quaId);
+	}
 }

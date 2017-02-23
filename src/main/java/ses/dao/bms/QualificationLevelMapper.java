@@ -15,4 +15,11 @@ public interface QualificationLevelMapper {
     public void save(QualificationLevel qualificationLevel);
 
     public List<QualificationLevel> findList(@Param("qualificationId")String qualificationId);
+    /**
+     *等级是三的
+     * @returnde
+     */
+    public List<QualificationLevel> getThird();
+    
+    public void delete(@Param("qualificationId")String qualificationId);
 }

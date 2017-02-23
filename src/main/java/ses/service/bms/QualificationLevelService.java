@@ -18,4 +18,10 @@ public interface QualificationLevelService {
 
     
     public List<DictionaryData> getByQuaId(String id);
+    
+    public void add(QualificationLevel qualificationLevel);
+    
+    public List<QualificationLevel> queryByQId(String qid);
+    
+    public void deleteByQuaId(String quaId);
 }

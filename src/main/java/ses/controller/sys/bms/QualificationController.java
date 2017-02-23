@@ -1,6 +1,8 @@
 package ses.controller.sys.bms;
 
+import java.util.LinkedList;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -14,8 +16,12 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.github.pagehelper.PageInfo;
 
 import common.bean.ResponseBean;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
+import ses.model.bms.QualificationLevel;
+import ses.service.bms.QualificationLevelService;
 import ses.service.bms.QualificationService;
+import ses.util.DictionaryDataUtil;
 
 /**
  * 
@@ -35,6 +41,9 @@ public class QualificationController {
     @Autowired
     private QualificationService quaService;
     
+    @Autowired
+    private QualificationLevelService qualificationLevelService;
+    
     /**
      * 
      *〈简述〉初始化页面
@@ -48,6 +57,11 @@ public class QualificationController {
     public String init(Model model, HttpServletRequest request){
         String type = request.getParameter("type");
         model.addAttribute("type", type);
+        /**
+         * 查询所有的资质等级
+         */
+        List<DictionaryData> list = DictionaryDataUtil.find(31);
+        model.addAttribute("kind", list);
         return   "/ses/bms/qualification/list";
     }
     
@@ -160,4 +174,40 @@ public class QualificationController {
         return "/ses/bms/qualification/quaLayer";
     }
     
+    @RequestMapping("/update")
+    @ResponseBody
+    public String update(String qid,String did){
+    	qualificationLevelService.deleteByQuaId(qid);
+    	QualificationLevel qua=new QualificationLevel();
+    	String[] dids = did.split(",");
+    	for(String str:dids){
+    		String id=UUID.randomUUID().toString().replaceAll("-", "");
+        	qua.setId(id);
+        	qua.setQualificationId(qid);
+        	qua.setGrade(str);
+        	qualificationLevelService.add(qua);
+    	}
+    	
+    	return "redirect:init.html";
+    }
+    /**
+     * 回显对应的资质文件等级
+     * @param 
+     * @return
+     */
+    
+    @RequestMapping("/getlevle")
+    public String echo(String id,Model model){
+    	String str="";
+    	List<QualificationLevel> list = qualificationLevelService.queryByQId(id);
+    	for(QualificationLevel q:list){
+    		str+=q.getGrade()+",";
+    	}
+        List<DictionaryData> kind = DictionaryDataUtil.find(31);
+        model.addAttribute("kind", kind);
+        model.addAttribute("list", str);
+        model.addAttribute("id", id);
+    	return "/ses/bms/qualification/level";
+    }
 }
+

@@ -10,6 +10,34 @@
 		  list(1);
 		  loadCss();
 	  });
+	  
+	  function level(){
+		  var idArray = [];
+		  var count = 0;	
+			$("input[name='chkItem']:checked").each(function(){
+				idArray.push($(this).val());
+				count ++;
+		  });
+			
+		   if (count != 1){
+				layer.msg("请选择一条记录进行编辑");
+				return ;
+			}else{
+				  layer.open({
+					  type: 2,
+					  title: "资质证书等级",
+					  skin: 'layui-layer-rim',
+					  shadeClose: true,
+					  area: ['580px','200px'],
+					  content:  "${pageContext.request.contextPath}/qualification/getlevle.html?id="+idArray,
+					}); 
+			}
+		   
+		   
+		 
+	  }
+	  
+	 
    </script>
   </head>
   <body>
@@ -32,6 +60,8 @@
           <ul class="nav nav-tabs bgwhite" id="tabUl">
             <li id="tabNormald" onclick="loadTab(this,1);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">通用资质</a></li>
 			<li id="tabSpeciId" onclick="loadTab(this,2);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">专用资质</a></li>
+          	<li id="tabPoject" onclick="loadTab(this,3);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">工程资质</a></li>
+          
           </ul>
           <div class="tab-content">
             <div class="headline-v2">
@@ -56,6 +86,7 @@
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+				<button class="btn btn-windows add" type="button" onclick="level();">添加等级</button>
 			  </div>
 			  <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">
@@ -101,6 +132,33 @@
         </div>
 	  </div>
 	</div>
+	
+	<div id="dicDiv" class="dnone layui-layer-wrap" >
+	   <div class="drop_window">
+	     <ul class="list-unstyled">
+		   <li class="mt10 col-md-12 p0">
+			 <span class="col-md-12">
+			  <!--  <input  id="quaName"  name="name"  class="title col-md-12 pl20"   type="text"> -->
+			  	<c:forEach items="${kind }" var="obj">
+			  	<span> <input name="did"    type="checkbox" value="${obj.id }"> ${obj.name } </span> 
+			     </c:forEach>
+			              
+			 </span>
+	       </li>
+	       <div class="clear"></div>
+	    </ul>
+	    <div class="tc  mt10 col-md-12">
+          <button class="btn btn-windows save"  onclick="saveAp();" type="button">确定 </button>
+		  <button class="btn btn-windows cancel"   onclick="cancel();"  type="button">取消</button>
+        </div>
+	  </div>
+	</div>
+	
+	<form  id="qua_form" action="${pageContext.request.contextPath}/qualification/update.html" method="post">
+		<input type="hidden" name="did" id="adid" value="">
+		<input type="hidden" name="qid" id="qid" value="">
+	</form>
+	
 	
   </body>
 </html>
