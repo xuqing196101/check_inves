@@ -95,8 +95,10 @@
             </div>
             <div class="col-md-3 col-xs-3 col-sm-3 head_right">
               <!-- 根据session判断 -->
-                <a href="javascript:void(0)">网站编号：${properties['website.no']}</a>|
-    	 		<a onclick="myInfo()">我的信息</a>
+                <a href="javascript:void(0)">网站编号：${properties['website.no']}</a>
+    	 		<c:if test="${not empty loginUser }">
+    	 			|<a onclick="myInfo()">我的信息</a>
+    	 		</c:if>
             </div>
           </div>
         </div>
