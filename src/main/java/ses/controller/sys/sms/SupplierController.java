@@ -47,8 +47,6 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Qualification;
-import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -58,6 +56,7 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -1644,12 +1643,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tqcDevice", "不能为空");
 			bool = false;
 		}*/
-		//		List<SupplierCertPro> list = supplierMatPro.getListSupplierCertPros();
-		//		if(list==null||list.size()<1){
-		//			model.addAttribute("cert_pro", "请添加生产资质证书信息");
-		//			bool=false;	
-		//		}
-
+		List<SupplierCertPro> list = supplierMatPro.getListSupplierCertPros();
+		if(list == null || list.size() < 1){
+		    model.addAttribute("cert_pro", "请添加资质证书信息");
+		    bool=false;	
+		}
 		return bool;
 	}
 
