@@ -83,7 +83,7 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	public void saveOrUpdate(SupplierItem supplierItem) {
 	    String categoryId = supplierItem.getCategoryId();
 	    List<Category> categoryList = new ArrayList<Category>();
-	    categoryList.addAll(getChildrenNodes(categoryId));
+	    //categoryList.addAll(getChildrenNodes(categoryId));
 	    categoryList.addAll(getAllParentNode(categoryId));
 	    Map<String, Object> map = new HashMap<String, Object>();
 	    map.put("supplierId", supplierItem.getSupplierId());
