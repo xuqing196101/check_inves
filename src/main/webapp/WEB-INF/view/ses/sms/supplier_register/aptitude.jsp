@@ -300,9 +300,9 @@
 											      <th class="info tc">大类</th>
 											      <th class="info tc">中类</th>
 											      <th class="info tc">小类</th>
-											      <th class="info tc w150">资质类型</th>
-											      <th class="info tc w150">证书编号</th>
-											      <th class="info tc w150">资质等级</th>
+											      <th class="info tc w200">资质类型</th>
+											      <th class="info tc w100">证书编号</th>
+											      <th class="info tc w100">资质等级</th>
 											      <th class="info tc w150">证书图片</th>
 										   		</tr>
 										    </thead>
@@ -317,7 +317,7 @@
 										        <td>${cate.secondNode}</td>
 										        <td>${cate.thirdNode}</td>
 										        <td>
-										        	<select class="border0 p0 w150" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">
+										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">
 										        		<c:forEach items="${cate.typeList}" var="type">
 										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
 										        		</c:forEach>
