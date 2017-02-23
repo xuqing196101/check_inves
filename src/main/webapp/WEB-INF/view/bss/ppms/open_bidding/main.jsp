@@ -59,6 +59,7 @@
 				} 
 			}
 		});
+		$("#onmouse").addClass("btmfixs");
 	}); 
 	
 	function back(){
@@ -215,6 +216,19 @@
         content: '${pageContext.request.contextPath}/project/feibiao.html?id=' + id,
      });
    }
+   
+   
+   
+   function bigImg(x){
+     $(x).removeClass("btmfixs");
+     $(x).addClass("btmfix");
+     
+   }
+   
+    function normalImg(x){
+     $(x).removeClass("btmfix");
+     $(x).addClass("btmfixs");
+   }
 </script>
 </head>
 
@@ -310,7 +324,7 @@
                       	  </form>
                          <iframe  frameborder="0" name="open_bidding_main" id="open_bidding_iframe"  scrolling="auto" marginheight="0"  width="100%" onLoad="iFrameHeight()"  src="${pageContext.request.contextPath}/${url}"></iframe>
                       </div>
-					  <div class="btmfix" >
+					  <div id="onmouse" onmouseover="bigImg(this)" onmouseout="normalImg(this)">
 					    <div class="mt5 mb5 tc">
 					       <%-- <button class="btn btn-windows delete" onclick="abandoned('${project.id}');" type="button">废标</button> --%>
 					       <button class="btn btn-windows back" onclick="back();" type="button">返回列表</button>
