@@ -28,7 +28,7 @@
 					  title: "资质证书等级",
 					  skin: 'layui-layer-rim',
 					  shadeClose: true,
-					  area: ['580px','200px'],
+					  area: ['580px','400px'],
 					  content:  "${pageContext.request.contextPath}/qualification/getlevle.html?id="+idArray,
 					}); 
 			}
