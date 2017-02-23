@@ -2,6 +2,7 @@ package ses.model.sms;
 
 import java.util.List;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 
 /**
@@ -34,7 +35,7 @@ public class SupplierCateTree {
     private String itemsId;
     
     /** 等级 **/
-    private String level;
+    private DictionaryData level;
     
     /** 证书编号 **/
     private String certCode;
@@ -59,11 +60,11 @@ public class SupplierCateTree {
         this.fileId = fileId;
     }
 
-    public String getLevel() {
+    public DictionaryData getLevel() {
         return level;
     }
 
-    public void setLevel(String level) {
+    public void setLevel(DictionaryData level) {
         this.level = level;
     }
 

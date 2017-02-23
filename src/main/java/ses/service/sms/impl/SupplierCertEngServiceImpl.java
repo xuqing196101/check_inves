@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -73,7 +74,11 @@ public class SupplierCertEngServiceImpl implements SupplierCertEngService {
      */
     @Override
     public String getLevel(String typeId, String certCode, String supplierId) {
-        return supplierCertEngMapper.getLevel(typeId, certCode, supplierId);
+        Map<String, String> level = supplierCertEngMapper.getLevel(typeId, certCode, supplierId);
+        if (level != null && level.size() > 0) {
+            return level.get("APT_LEVEL");
+        }
+        return null;
     }
 
 }

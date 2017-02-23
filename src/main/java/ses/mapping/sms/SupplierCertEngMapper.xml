@@ -271,23 +271,24 @@
 		WHERE CERT_CODE = #{certCode}
 	</select>
 	
-	<select id="getLevel">
-		SELECT t2.APTITUTE_ LEVEL
+	<select id="getLevel" resultType="java.util.Map">
+		SELECT 
+			t2."APTITUTE_ LEVEL" apt_level
 		FROM 
-			T_SES_SMS_SUPPLIER_CERT_ENG t1
-		inner join 
-			T_SES_SMS_SUPPLIER_APTITUTE t2
-		on 
-			t1.CERT_NAME = t2.CERT_NAME
-		and
-			t1.CERT_CODE = t2.CERT_CODE
+			"T_SES_SMS_SUPPLIER_CERT_ENG" t1
+		INNER JOIN 
+			"T_SES_SMS_SUPPLIER_APTITUTE" t2
+		ON 
+			t1."CERT_TYPE" = t2."CERT_NAME"
+		AND
+			t1."CERT_CODE" = t2."CERT_CODE"
 		WHERE 
-			t1.CERT_CODE = #{param2} 
-		and 
-			t2.CERT_TYPE = #{param1}
-		and 
-			t1.MAT_ENG_ID = ${param3}
-		and 
-			t2.MAT_ENG_ID = #{param3}
+			t1."CERT_CODE" = #{param2} 
+		AND 
+			t2."CERT_TYPE" = #{param1}
+		AND 
+			t1."MAT_ENG_ID" = #{param3}
+		AND 
+			t2."MAT_ENG_ID" = #{param3}
 	</select>
 </mapper>

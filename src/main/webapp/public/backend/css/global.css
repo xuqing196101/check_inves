@@ -1270,9 +1270,7 @@ table .input_group .add-on{
     z-index: 1000000;
 }
 
-<<<<<<< HEAD
 /**鏄庣粏瀹藉害鏍峰紡寮�*/
-=======
 .btmfixs {
     width: 100%;
     position: fixed;
@@ -1286,7 +1284,6 @@ table .input_group .add-on{
 }
 
 /**明细宽度样式开始*/
->>>>>>> 40b39d6f29e635424bc902f2d011dd2aa032ecac
 table.lockout{
   border-bottom-color: #dddddd; 
   border-top-color: #dddddd; 

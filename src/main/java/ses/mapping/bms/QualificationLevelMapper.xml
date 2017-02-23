@@ -15,15 +15,14 @@
     <select id="findList"  parameterType="String" resultMap="qualificationLevelMap">
         SELECT
         <include refid="BASE_COLUMN_SQL" />
-        FROM T_SES_BMS_QUALIFICATE_LEVEL
+        FROM T_SES_BMS_QUALIFCATE_LEVEL
         WHERE  QUALIFCATION_ID = #{qualificationId,jdbcType=VARCHAR}
 
 
     </select>
     <!-- 保存 -->
     <insert id="save" parameterType="ses.model.bms.QualificationLevel" >
-
-        INSERT INTO T_SES_BMS_QUALIFICATE_LEVEL
+        INSERT INTO T_SES_BMS_QUALIFCATE_LEVEL
         (ID, QUALIFCATION_ID ,GRADE ) values
         (#{id}, #{qualificationId,jdbcType=VARCHAR},#{grade,jdbcType=GRADE})
     </insert>

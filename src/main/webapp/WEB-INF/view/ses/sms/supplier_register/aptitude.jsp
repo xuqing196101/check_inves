@@ -97,12 +97,14 @@
 				if (flag == "1") {
 					certCode = $(obj).parent().next().find("input").val();
 					// 清空等级和附件
-					$(obj).parent().next().next().html("");
+					$(obj).parent().next().next().find("input[type='text']").val("");
+					$(obj).parent().next().next().find("input[type='hidden']").val("");
 					$(obj).parent().next().next().next().html("");
 				} else {
 					certCode = $(obj).val();
 					// 清空等级和附件
-					$(obj).parent().next().html("");
+					$(obj).parent().next().find("input[type='text']").val("");
+					$(obj).parent().next().find("input[type='hidden']").val("");
 					$(obj).parent().next().next().html("");
 				}
 				var supplierId = $("#supplierId").val();
@@ -120,12 +122,15 @@
 							"certCode": certCode,
 							"supplierId": supplierId,
 						},
-						success: function(data){
-							if (data != null && data != "") {
+						dataType: "json",
+						success: function(result){
+							if (result != null && result != "") {
 								if (flag == "1") {
-									$(obj).parent().next().next().html(data);
+									$(obj).parent().next().next().find("input[type='text']").val(result.name);
+									$(obj).parent().next().next().find("input[type='hidden']").val(result.id);
 								} else {
-									$(obj).parent().next().html(data);
+									$(obj).parent().next().find("input[type='text']").val(result.name);
+									$(obj).parent().next().find("input[type='hidden']").val(result.id);
 								}
 								// 通过append将附件信息追加到指定位置
 								$.ajax({
@@ -287,18 +292,20 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-3">
 										<form id="item_form" method="post">
-										  <table class="table table-bordered table-input">
-											<tr>
-										      <th class="info tc w50">序号</th>
-										      <th class="info tc w100">类别</th>
-										      <th class="info tc">大类</th>
-										      <th class="info tc">中类</th>
-										      <th class="info tc">小类</th>
-										      <th class="info tc w150">资质类型</th>
-										      <th class="info tc w150">证书编号</th>
-										      <th class="info tc w150">资质等级</th>
-										      <th class="info tc w150">证书图片</th>
-										    </tr>
+										  <table class="table table-bordered table_input">
+											<thead>
+												<tr>
+											      <th class="info tc w50">序号</th>
+											      <th class="info tc w50">类别</th>
+											      <th class="info tc">大类</th>
+											      <th class="info tc">中类</th>
+											      <th class="info tc">小类</th>
+											      <th class="info tc w150">资质类型</th>
+											      <th class="info tc w150">证书编号</th>
+											      <th class="info tc w150">资质等级</th>
+											      <th class="info tc w150">证书图片</th>
+										   		</tr>
+										    </thead>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 										      <tr>
 										        <td class="tc">
@@ -316,8 +323,11 @@
 										        		</c:forEach>
 										        	</select>
 										        </td>
-										     	<td><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onchange="getFileByCode(this, '${vs.index}', '2')"></td>
-										      	<td>${cate.level}</td>
+										     	<td><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
+										     	<td>
+										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}">
+										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">
+										     	</td>
 										      	<td class="tc">
 										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 										      	</td>

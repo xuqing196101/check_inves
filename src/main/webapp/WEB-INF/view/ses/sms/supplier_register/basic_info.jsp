@@ -174,10 +174,14 @@
 					}
 				});
 				// 事务所联系方式格式校验
-				var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/
+				var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/;
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
 					if(!regTelephone.test(element.value)) {
 						msg = "会计事务所联系电话格式有误!";
+						flag = false;
+					}
+					if(element.value == "") {
+						msg = "近三年财务信息不能为空!";
 						flag = false;
 					}
 				});
@@ -687,12 +691,12 @@
 					<div>
 						<h2 class="count_flow"> <i>1</i> 基本信息</h2>
 						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
-							<legend>企业信息</legend>
+							<legend>供应商信息</legend>
 							<ul class="list-unstyled f14">
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 供应商名称</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="supplierName_input_id" type="text" name="supplierName" required="required" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
+										<input id="supplierName_input_id" type="text" name="supplierName" required="required" onkeyup="value=value.replace(/[^\u4e00-\u9fa5\w]/g,'')" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
 										<span class="add-on">i</span>
 										<span class="input-tip">不能为空</span>
 										<div class="cue"> ${err_msg_supplierName } </div>
@@ -780,7 +784,9 @@
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="bank_up" maxcount="1" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" auto="true" />
 										<u:show showId="bank_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
 									</div>
+									<div class="cue"> ${err_supplierBank } </div>
 								</li>
+
 							</ul>
 						</fieldset>
 
@@ -1492,8 +1498,8 @@
 														<%-- <td class="tc">  <input type="checkbox" value="${finance.id}" />  
 										</td> --%>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}">
-															<input type="text" required="required" class="w50 border0 tc" name="listSupplierFinances[${vs.index }].year" value="${finance.year}"> </td>
+															<input type="hidden" name="listSupplierFinances[${vs.index }].id" value="${finance.id}" required>
+															<input type="text" required="required" class="w50 border0 tc" name="listSupplierFinances[${vs.index }].year" value="${finance.year}" > </td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
 														</td>

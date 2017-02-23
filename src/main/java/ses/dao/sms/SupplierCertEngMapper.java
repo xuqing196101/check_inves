@@ -1,6 +1,7 @@
 package ses.dao.sms;
 
 import java.util.List;
+import java.util.Map;
 
 import ses.model.sms.SupplierCertEng;
 
@@ -89,5 +90,5 @@ public interface SupplierCertEngMapper {
      * @param certCode
      * @return
      */
-    String getLevel(String typeId, String certCode, String supplierId);
+    Map<String, String> getLevel(String typeId, String certCode, String supplierId);
 }

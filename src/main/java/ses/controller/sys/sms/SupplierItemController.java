@@ -243,7 +243,7 @@ public class SupplierItemController extends BaseController {
 		if (item != null) {
 		    // 等级
 		    if (item != null && item.getLevel() != null) {
-	            cateTree.setLevel(item.getLevel());
+	            cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
 	        }
 		    // 证书编号
 	        if (item != null && item.getCertCode() != null) {
@@ -254,7 +254,13 @@ public class SupplierItemController extends BaseController {
 	            cateTree.setQualificationType(item.getQualificationType());
 	        }
 	        // 所有等级List
-	        List<Qualification> typeList = null;//根据categoryId查询工程资质的List出来
+	        List<Category> cateList = new ArrayList<Category>();
+	        cateList.add(categoryService.selectByPrimaryKey(categoryId));
+	        List<QualificationBean> type = supplierService.queryCategoyrId(cateList, 4);
+	        List<Qualification> typeList = new ArrayList<Qualification>();
+	        if (type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+	            typeList = type.get(0).getList();
+	        }
 	        cateTree.setTypeList(typeList);
 		}
 		return cateTree;
@@ -524,7 +530,7 @@ public class SupplierItemController extends BaseController {
                     if (cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
                         List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
                         if (certEng != null && certEng.size() > 0) {
-                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), certEng.get(0).getId());
+                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
                             if (level != null) {
                                 cateTree.setFileId(certEng.get(0).getId());
                             }

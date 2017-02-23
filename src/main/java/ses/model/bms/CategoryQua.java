@@ -18,7 +18,7 @@ public class CategoryQua {
     private String categoryId;
     /** 资质Id **/
     private String quaId;
-    /** 资质类型Id  1:通用 2：物资生产型 3：物资销售型**/
+    /** 资质类型Id  1:通用 2：物资生产型 3：物资销售型 4：工程类**/
     private int quaType;
 
     public String getId() {
