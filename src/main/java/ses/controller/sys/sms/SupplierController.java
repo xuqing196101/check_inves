@@ -2633,9 +2633,13 @@ public class SupplierController extends BaseSupplierController {
      * @return
      */
     @ResponseBody
-    @RequestMapping("/getLevel")
+    @RequestMapping(value = "/getLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId, String certCode, String supplierId) {
         Supplier supplier = supplierService.get(supplierId);
-        return supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
+        String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
+        if (level != null) {
+            return JSON.toJSONString(DictionaryDataUtil.findById(level));
+        }
+        return null;
     }
 }

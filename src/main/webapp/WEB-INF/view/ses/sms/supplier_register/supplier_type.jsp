@@ -871,7 +871,7 @@
 						} else {
 							var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
 						}
-						$(obj).parent().next().next().next().find("select").append();
+						$(obj).parent().next().next().next().find("select").append(optionDOM);
 					}
 				}
 			});
