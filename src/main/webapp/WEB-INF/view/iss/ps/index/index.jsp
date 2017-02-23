@@ -1067,8 +1067,8 @@
       </div>
       <div class="row magazine-page clear">
         <div class="col-sm-12 col-md-12 col-xs-12">
-          <div class="border1 flow_btn fl mr14">
-            <div class="ywbl_01">
+          <div class="border1 flow_btn fl flow_one">
+            <div class="ywbl_01 col-xs-4 col-sm-4">
             <% if (environment != null && environment.equals("0")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
 	        <% } %>
@@ -1078,7 +1078,7 @@
                 <span>供应商注册</span>
               </a>
             </div>
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-4 col-sm-4">
             <% if (environment != null && environment.equals("0")){ %>
 	             <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc"> 
 	        <% } %>
@@ -1088,7 +1088,7 @@
                 <span>评审专家注册</span>
               </a>
             </div>
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/index/sign.html" onclick="importAdd()" class="jksdj">
                 <span>进口商登记</span>
               </a>
@@ -1096,7 +1096,7 @@
           </div>
 
           <div class="border1 flow_btn fl">
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-4 col-sm-4">
            <% if (environment != null && environment.equals("1")){ %>
              <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
                <a href="http://21.100.16.6" class="wssc">
@@ -1111,22 +1111,22 @@
                 <span>网上商城</span>
               </a>
             </div>
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" onclick="setting()" class="dxcpjj">
                 <span>定型产品竞价</span>
               </a>
             </div>
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" onclick="drugs()" class="ypcg">
                 <span>药品采购</span>
               </a>
             </div>
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-6 col-sm-6">
               <a href="javascript:void(0)" class="fwcg">
                 <span>服务采购</span>
               </a>
             </div>
-            <div class="ywbl_01">
+            <div class="ywbl_01 col-xs-6 col-sm-6">
               <!-- <a href="javascript:void(0)" onclick="hotLine()" class="fwrx"> -->
               <a href="javascript:void(0)"  class="fwrx">
                 <span>服务热线</span>
@@ -1134,17 +1134,17 @@
             </div>
           </div>
           <div class="border1 flow_btn clear">
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="cpml">
                 <span>产品目录</span>
               </a>
             </div>
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="jscsk">
                 <span>技术参数库</span>
               </a>
             </div>
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
             <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
 	             <a href="${pageContext.request.contextPath }/dataDownload/getIndexList.html" class="zlxz">
 	        <% } %>
@@ -1154,22 +1154,22 @@
                 <span>资料下载</span>
               </a>
             </div>
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-12 col-sm-12">
               <a href="javascript:void(0)" class="cpshfw">
                 <span>产品售后服务</span>
               </a>
             </div>
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="zxts">
                 <span>在线投诉</span>
               </a>
             </div>
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="${pageContext.request.contextPath}/park/getIndex.html" class="cglt">
                 <span>采购论坛</span>
               </a>
             </div>
-            <div class="ywbl_02">
+            <div class="ywbl_02 col-xs-4 col-sm-4">
               <a href="javascript:void(0)" class="yjfk">
                 <span>意见反馈</span>
               </a>
@@ -1310,7 +1310,7 @@
     </div>
     </div>
     
-    <div class="prompt_tips hide">
+    <div class="prompt_tips">
      <div class="prompt_top">
                    提示信息
        <span class="close_icon" id="close"></span>
