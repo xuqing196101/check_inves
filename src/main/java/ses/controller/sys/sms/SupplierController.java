@@ -72,6 +72,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
+import ses.service.bms.QualificationLevelService;
 import ses.service.bms.QualificationService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
@@ -126,6 +127,9 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private SupplierMatSellService supplierMatSellService; // 供应商物资销售专业信息
+	
+	@Autowired
+	private QualificationLevelService qualificationLevelService; // 供应商物资销售专业信息
 
 	@Autowired
 	private SupplierMatSeService supplierMatSeService; // 供应商服务专业信息
@@ -2614,6 +2618,10 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     @RequestMapping(value = "/getAptLevel", produces = "application/json;charset=utf-8")
     public String getAptLevel(String typeId) {
+        List<DictionaryData> data = qualificationLevelService.getByQuaId(typeId);
+        if (data != null) {
+            return JSON.toJSONString(data);
+        }
         return null;
     }
     
