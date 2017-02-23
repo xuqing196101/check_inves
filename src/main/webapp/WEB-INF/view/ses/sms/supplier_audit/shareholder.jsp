@@ -35,7 +35,6 @@
 		  } */
 		  var supplierId=$("#supplierId").val();
 		  var auditContent=str + "股东信息"; //审批的字段内容
-		  var auditType=$("#shareholder").text();//审核类型
 		  var index = layer.prompt({
 		    title: '请填写不通过的理由：', 
 		    formType: 2, 
