@@ -60,10 +60,10 @@ function importAdd(){
        <div class="col-md-7 col-sm-7 head_right pr5 pl0 fr"> 
     <!-- 根据session判断 -->
         <c:if test="${properties['ipAddressType'] == 0}">
-           <a>网站编号：${properties['website.no']}</a>|
+           <a class="web_number">网站编号：${properties['website.no']} &nbsp;|</a>
         </c:if>
-    	 <a onclick="myInfo()">我的信息</a>|    
-    	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">退出</a>
+    	 <a onclick="myInfo()">我的信息  </a>    
+    	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">&nbsp;|&nbsp;退出</a>
 	   </div>
 	  </div>
     </div>
