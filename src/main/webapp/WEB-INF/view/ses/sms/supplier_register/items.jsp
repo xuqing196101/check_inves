@@ -330,9 +330,13 @@
 				async: false,
 				dataType: "json",
 				success: function(data){
-					zNodes = data;
-					zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
-					zTreeObj.expandAll(true);//全部展开
+					if (data.length == 1) {
+						layer.msg("没有符合查询条件的产品类别信息！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#" + treeId), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
 					// 关闭加载中的菊花图标
 					layer.close(loading);
 				}
