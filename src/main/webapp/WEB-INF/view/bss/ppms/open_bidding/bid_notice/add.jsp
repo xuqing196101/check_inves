@@ -157,7 +157,7 @@
 	    </div>
 	    <input type="hidden" id="is_saveNotice" value="${saveStatus}">
 	    <input type="hidden" name="flowDefineId" id="flowDefineId" value="${flowDefineId}">
-	    <input type="hidden" id="noticeType" value="${noticeType}">
+	    <input type="hidden" id="noticeType" name="noticeType" value="${noticeType}">
 	    <input type="hidden" name="articleTypeId" id="articleTypeId" value="${article.articleType.id}">
 	    <input type="hidden" name="secondArticleTypeId" id="articleTypeId" value="${article.secondArticleTypeId}">
 	    <input type="hidden" name="threeArticleTypeId" id="articleTypeId" value="${article.threeArticleTypeId}">
@@ -171,7 +171,7 @@
 			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})"><br>
 			 </c:if>
 			 <c:if test="${article.name == null && noticeType == 'win'}">
-			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}中标公告(${project.projectNumber})"><br>
+			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}中标公示(${project.projectNumber})"><br>
 			 </c:if>
 			 <c:if test="${article.name != null}">
 			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${article.name}"><br>

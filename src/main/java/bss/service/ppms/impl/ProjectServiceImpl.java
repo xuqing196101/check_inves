@@ -22,6 +22,7 @@ import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.oms.PurchaseInfoMapper;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import bss.dao.ppms.FlowDefineMapper;
@@ -304,6 +305,12 @@ public class ProjectServiceImpl implements ProjectService {
           jsonObj.put("success", false);
       }
       return jsonObj;
+  }
+
+  @Override
+  public void updateStatus(Project project, String code) {
+      project.setStatus(DictionaryDataUtil.getId(code));
+      projectMapper.updateByPrimaryKeySelective(project);
   }
 	
 }
