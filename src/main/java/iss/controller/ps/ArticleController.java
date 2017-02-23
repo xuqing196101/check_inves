@@ -38,6 +38,9 @@ import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 
+import bss.model.ppms.Project;
+import bss.service.ppms.ProjectService;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
@@ -72,6 +75,9 @@ public class ArticleController extends BaseSupplierController {
 
   @Autowired
   private UploadService uploadService;
+  
+  @Autowired
+  private ProjectService projectService;
 
   private Logger logger = Logger.getLogger(LoginController.class);
 
@@ -1214,7 +1220,17 @@ public class ArticleController extends BaseSupplierController {
         } else {
           article.setLastArticleTypeId(article.getFourArticleTypeId());
         }
-       
+        
+        //更新项目中的公告发布时间
+        String projectId = temp.getProjectId();
+        if (projectId != null && !"".equals(projectId)) {
+            Project project = projectService.selectById(projectId);
+              if (project != null) {
+                  project.setAppTime(new Date());
+                  projectService.update(project);
+              }
+        }
+        
         articleService.update(article);
         
 
