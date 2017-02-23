@@ -477,8 +477,15 @@
 		 title ="添加通用资质要求";
 	 }
 	 if (type == 2){
-		 ids = $("#profileIQuaId").val();
-		 title ="添加物资生产型专业资质要求";
+	 	var root = getCurrentRoot(selectedNode);
+		if (root.classify && root.classify == "PROJECT"){
+			ids = $("#profileIQuaId").val();
+		 	title ="添加工程专业资质要求";
+		 	type = 4;
+		} else {
+			 ids = $("#profileIQuaId").val();
+			 title ="添加物资生产型专业资质要求";
+		}
 	 }
 	 if (type == 3){
 		 ids = $("#profileSalesId").val();

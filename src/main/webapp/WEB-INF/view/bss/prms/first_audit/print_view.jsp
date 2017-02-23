@@ -69,7 +69,8 @@
 		   	</div>
 			<form action="" method="post" >
 			   	   <h4>评审人员：${expert.relName}</h4>
-				   <table class="table table-bordered table-condensed table-hover" id="table2">
+			   	   <div class="over_scroll col-md-12 col-xs-12 col-sm-12 p0 m0">
+				   <table class="table table-bordered table-condensed table-hover p0 space_nowrap" id="table2">
 				   		<thead>
 				   		  <th class="info space_nowrap">资格性和符合性检查项</th>
 				   		  <c:set var="suppliers" value="0" />
@@ -108,6 +109,7 @@
 		 	            </c:forEach>
 				   		</c:forEach>
 				   </table>
+				   </div>
 				   <h4>专家签名：</h4>
 			</form>
 		</div> 
