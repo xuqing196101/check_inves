@@ -1,4 +1,3 @@
-
 package ses.controller.sys.sms;
 
 import java.io.File;
@@ -48,12 +47,14 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
@@ -71,6 +72,7 @@ import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.NoticeDocumentService;
+import ses.service.bms.QualificationService;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
@@ -133,6 +135,9 @@ public class SupplierController extends BaseSupplierController {
 
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI; // 机构
+	
+	@Autowired
+	private QualificationService qualificationService; // 资质类型
 
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
@@ -716,6 +721,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("rootArea", areaService.findRootArea());
+			model.addAttribute("typeList", qualificationService.findList(null, null, 3));
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -872,6 +878,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             model.addAttribute("rootArea", areaList);
+            model.addAttribute("typeList", qualificationService.findList(null, null, 3));
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
@@ -1723,6 +1730,27 @@ public class SupplierController extends BaseSupplierController {
                 }
             }
 		}
+		
+		// 校验详细信息表里的编号和名称是否和证书信息表的匹配
+		List<SupplierAptitute> listSupplierAptitutes = supplierMatPro.getListSupplierAptitutes();
+		if (listSupplierAptitutes != null && listSupplierAptitutes.size() > 0) {
+		    outer: for (SupplierAptitute supplierAptitute : listSupplierAptitutes) {
+                boolean flag = false;
+		        if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
+                    inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
+                        if (supplierAptitute.getCertName().equals(supplierCertEng.getCertType()) && supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
+                            flag = true;
+                            break inner;
+                        }
+                    }
+                }
+		        if (!flag) {
+		            bool = false;
+                    model.addAttribute("eng_aptitutes", "证书编号、名称与资质（认证）证书不匹配！");
+                    break outer;
+		        }
+		    }
+		}
 		return bool;
 	}
 	//服务信息校验
@@ -1873,7 +1901,7 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("login")
 	public String login(HttpServletRequest request, HttpServletResponse response, Model model, String name) throws IOException {
 	    
-        String user = (String) request.getSession().getAttribute("loginUser");
+        String user = (String) request.getSession().getAttribute("loginName");
         response.setContentType("textml;charset=utf-8");
         if(user==null){
             String path = request.getContextPath();
@@ -2462,6 +2490,7 @@ public class SupplierController extends BaseSupplierController {
 		//初始化供应商注册附件类型
 		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCertFile());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		model.addAttribute("typeList", qualificationService.findList(null, null, 3));
 		return new ModelAndView("ses/sms/supplier_register/add_apt_cert");
 	}
 
@@ -2575,4 +2604,16 @@ public class SupplierController extends BaseSupplierController {
         return "1";
     }
 
+    /**
+     *〈简述〉根据类型获取等级
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param typeId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping(value = "/getAptLevel", produces = "application/json;charset=utf-8")
+    public String getAptLevel(String typeId) {
+        return null;
+    }
 }

@@ -30,6 +30,7 @@ import ses.model.sms.SupplierItem;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierCertEngService;
@@ -69,6 +70,9 @@ public class SupplierItemController extends BaseController {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private QualificationService qualificationService;
 
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService;
@@ -338,6 +342,7 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             model.addAttribute("rootArea", areaService.findRootArea());
+            model.addAttribute("typeList", qualificationService.findList(null, null, 3));
 			return "ses/sms/supplier_register/supplier_type";
 		}
 

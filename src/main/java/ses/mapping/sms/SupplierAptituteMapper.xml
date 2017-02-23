@@ -5,6 +5,7 @@
 		<id column="ID" property="id" />
 		<result column="MAT_ENG_ID" property="matEngId" />
 		<result column="CERT_TYPE" property="certType" />
+		<result column="CERT_NAME" property="certName" />
 		<result column="CERT_CODE" property="certCode" />
 		<result column="APTITUTE_SEQUENCE" property="aptituteSequence" />
 		<result column="PROFESS_TYPE" property="professType" />
@@ -21,7 +22,7 @@
 		<result column="ID_" property="attachCertId" />
 	</resultMap>
 	<sql id="Base_Column_List">
-		ID, MAT_ENG_ID, CERT_TYPE, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, "APTITUTE_ LEVEL",
+		ID, MAT_ENG_ID, CERT_TYPE, CERT_NAME, CERT_CODE, APTITUTE_SEQUENCE, PROFESS_TYPE, "APTITUTE_ LEVEL",
 		IS_MAJOR_FUND, APTITUTE_CONTENT, APTITUTE_CODE, APTITUTE_DATE, APTITUTE_WAY, APTITUTE_STATUS,
 		APTITUTE_CHANGE_AT, APTITUTE_CHANGE_REASON, ATTACH_CERT
 	</sql>
@@ -60,6 +61,9 @@
 			</if>
 			<if test="certType != null">
 				CERT_TYPE,
+			</if>
+			<if test="certName != null">
+				CERT_NAME,
 			</if>
 			<if test="certCode != null">
 				CERT_CODE,
@@ -111,6 +115,9 @@
 			<if test="certType != null">
 				#{certType},
 			</if>
+			<if test="certName != null">
+				#{certName},
+			</if>
 			<if test="certCode != null">
 				#{certCode},
 			</if>
@@ -161,6 +168,9 @@
 			</if>
 			<if test="certType != null">
 				CERT_TYPE = #{certType},
+			</if>
+			<if test="certName != null">
+				CERT_NAME = #{certName},
 			</if>
 			<if test="certCode != null">
 				CERT_CODE = #{certCode},

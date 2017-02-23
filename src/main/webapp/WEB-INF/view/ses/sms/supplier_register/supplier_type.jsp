@@ -653,6 +653,9 @@
 				}
 			});
 			
+			$("select[id^='certType_']").each(function(i, element){
+				getAptLevel(element);
+			});
 			
 			$("input").bind("blur", tempSave);
 			$("select").bind("change", tempSave);
@@ -675,7 +678,7 @@
 			}
 			if (msg != "") {
 				var msg = msg.substring(0, msg.length - 1);
-				layer.msg(msg + "不能为空!");
+				layer.msg(msg + "!");
 			}
 			var checkeds = $("#supplierTypes").val();
 			if (checkeds != "") {
@@ -847,6 +850,31 @@
 		} else {
 			$("#err_fund").text();
 			$("#err_fund").empty();
+		}
+	}
+	
+	function getAptLevel(obj){
+		var typeId = $(obj).val();
+		if (typeId != null && typeId != "") {
+			$(obj).parent().next().next().next().find("select").html("");
+			$.ajax({
+				url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
+				data: {
+					"typeId": typeId,
+				},
+				dataType: "json",
+				success: function(data){
+					for(var i = 0; i < data.length; i++){
+						var optionDOM = "";
+						if ($(obj).next().val() != "" && $(obj).next().val() == data[i].id) {
+							optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
+						} else {
+							var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+						}
+						$(obj).parent().next().next().next().find("select").append();
+					}
+				}
+			});
 		}
 	}
 
@@ -1623,13 +1651,13 @@
 														<th class="info"><input type="checkbox"
 															onchange="checkAll(this, 'aptitute_list_tbody_id')" />
 														</th>
-														<th class="info">证书名称</th>
-														<th class="info">资质类型</th>
+														<th class="info w150">证书名称</th>
+														<th class="info w150">证书编号</th>
+														<th class="info w200">资质类型</th>
 														<th class="info">资质序列</th>
 														<th class="info">专业类别</th>
-														<th class="info">资质等级</th>
+														<th class="info w200">资质等级</th>
 														<th class="info">是否主项资质</th>
-														<!-- <th class="info w200">证书图片（可上传多张）</th> -->
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -1648,14 +1676,22 @@
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
-																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType"
-																value="${aptitute.certType}" />
+																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"
+																value="${aptitute.certName}" />
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
 																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"
 																value="${aptitute.certCode}" />
+															</td>
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
+																<select id="certType_${certAptNumber}" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" class="w100p border0" onchange="getAptLevel(this)">
+																	<c:forEach items="${typeList}" var="type">
+																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
+																	</c:forEach>
+																</select>
+																<input type="hidden" value="${aptitute.aptituteLevel}">
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
@@ -1669,11 +1705,8 @@
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].professType"
 																value="${aptitute.professType}" />
 															</td>
-															<td class="tc"
-																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
-																type="text" required="required" class="border0"
-																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel"
-																value="${aptitute.aptituteLevel}" />
+															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
+																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
@@ -1715,7 +1748,7 @@
 										</div>
 										<div class="col-md-12 col-xs-12 col-sm-12 over_scroll p0">
 											<table id="share_table_id"
-												class="table table-bordered table-condensed mt5 table_input table_wrap">
+												class="table table-bordered table-condensed mt5 table_wrap left_table table_input">
 												<thead>
 													<tr>
 														<th class="info"><input type="checkbox"
@@ -1728,8 +1761,7 @@
 														<th class="info">有效期（起始时间）</th>
 														<th class="info">有效期（结束时间）</th>
 														<th class="info">证书状态</th>
-														<th class="info w200">
-															<div class="w200 fl">证书图片（可上传多张）</div></th>
+														<th class="info w200">证书图片（可上传多张）</th>
 													</tr>
 												</thead>
 												<tbody id="cert_se_list_tbody_id">

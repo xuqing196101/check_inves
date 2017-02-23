@@ -254,8 +254,9 @@
 										      <th class="info tc">大类</th>
 										      <th class="info tc">中类</th>
 										      <th class="info tc">小类</th>
-										      <th class="info tc w300">等级选择</th>
+										      <th class="info tc">资质类型</th>
 										      <th class="info tc">证书编号</th>
+										      <th class="info tc w150">等级选择</th>
 										      <th class="info tc w150">证书图片</th>
 										    </tr>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
@@ -269,14 +270,7 @@
 										        <td>${cate.secondNode}</td>
 										        <td>${cate.thirdNode}</td>
 										      	<td>
-										      	  <select name="listSupplierItems[${vs.index}].level" onchange="disLevel(this)" class="border0">
-										      	    <option value="">请选择</option>
-										      	    <c:forEach items="${cate.levelList}" var="level">
-										      	      <option value="${level}" <c:if test="${cate.level eq level}">selected</c:if>>${level}</option>
-										      	    </c:forEach>
-										      	    <option value="其它" <c:if test="${cate.level eq '其它'}">selected</c:if>>其它</option>
-										      	  </select>
-										      	  <input type="text"  class="border0" onblur="tempSave()" name="listSupplierItems[${vs.index}].diyLevel" value="${cate.diyLevel}" class="<c:if test="${cate.level ne '其它'}">dis_none</c:if>">
+										      	  <input type="text" class="border0" onblur="tempSave()" name="listSupplierItems[${vs.index}].level" value="${cate.level}">
 										      	</td>
 										     	<td><input type="text"  class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}')"></td>
 										      	<td class="tc">

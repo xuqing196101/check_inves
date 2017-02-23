@@ -29,6 +29,14 @@ public class SupplierAptitute implements Serializable {
 	 * </pre>
 	 */
 	private String certType;
+	
+	/**
+	 * <pre>
+	 * 证书名称
+	 * 表字段 : T_SES_SMS_SUPPLIER_APTITUTE.CERT_NAME
+	 * </pre>
+	 */
+	private String certName;
 
 	/**
 	 * <pre>
@@ -271,5 +279,13 @@ public class SupplierAptitute implements Serializable {
 	public void setAttachCertId(String attachCertId) {
 		this.attachCertId = attachCertId;
 	}
+
+    public String getCertName() {
+        return certName;
+    }
+
+    public void setCertName(String certName) {
+        this.certName = certName;
+    }
 	
 }
