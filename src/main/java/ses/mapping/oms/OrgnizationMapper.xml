@@ -857,5 +857,17 @@
         where  PARENT_ID=#{parentId} and POSITION>#{position}
 	</select>
 	
+	<select id="getNext"   resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+ 		 from T_SES_OMS_ORG 
+        where  PARENT_ID=#{parentId} and POSITION>#{position} and POSITION&lt;=#{last} order by  POSITION
+	</select>
+	
+	<select id="getPrev"   resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+ 		 from T_SES_OMS_ORG 
+        where  PARENT_ID=#{parentId} and POSITION>=#{position} and POSITION&lt;#{last} order by POSITION desc
+	</select>
+	
 	
 </mapper>

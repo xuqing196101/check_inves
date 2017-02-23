@@ -205,4 +205,10 @@ public interface OrgnizationMapper {
     List<Orgnization> getParent(@Param("id")String id);
     
     List<Orgnization>  getMove(@Param("parentId")String id,@Param("position")Integer position);
+    
+    List<Orgnization>  getNext(@Param("parentId")String id,@Param("position")Integer position,@Param("last")Integer last);
+    
+    List<Orgnization>  getPrev(@Param("parentId")String id,@Param("position")Integer position,@Param("last")Integer last);
+
+    
 }
