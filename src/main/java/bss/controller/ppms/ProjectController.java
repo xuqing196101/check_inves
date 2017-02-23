@@ -1907,7 +1907,7 @@ public class ProjectController extends BaseController {
                 
             }*/
         }
-        return "redirect:list.html";
+        return "redirect:listProject.html";
     }
     
     @ResponseBody
@@ -3198,7 +3198,7 @@ public class ProjectController extends BaseController {
         
         detailService.deleteByProject(id);
         projectService.delete(id);
-        return "redirect:list.html";
+        return "redirect:listProject.html";
     }
     
     /**
