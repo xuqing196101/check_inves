@@ -1759,8 +1759,12 @@ public class PackageExpertController {
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         for (Packages pack : packList) {
             saleTender.setPackages(pack.getId());
-            supplierList.addAll(saleTenderService.find(saleTender));
+            saleTender.setIsFirstPass(1);
+            saleTender.setIsRemoved("0");
+            saleTender.setIsTurnUp(0);
+            supplierList.addAll(saleTenderService.findByCon(saleTender));
         }
+        
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         // 判断是否是综合评分法
         for (SaleTender supp : supplierList) {
@@ -1772,13 +1776,11 @@ public class PackageExpertController {
                     supp.setJzjf(jzjf);
                 }
                 if (!"OPEN_ZHPFF".equals(methodCode)) {
-                    if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && "0".equals(supp.getIsRemoved()) && supp.getIsTurnUp() == 0) {
-                        BigDecimal pass = new BigDecimal(100);
-                        //合格的供应商
-                        if (supp.getEconomicScore().compareTo(pass) == 0 && supp.getTechnologyScore().compareTo(pass) == 0) {
-                            suppList.add(supp);
-                        }
-                    } 
+                    BigDecimal pass = new BigDecimal(100);
+                    //合格的供应商
+                    if (supp.getEconomicScore() != null && supp.getTechnologyScore() != null && supp.getEconomicScore().compareTo(pass) == 0 && supp.getTechnologyScore().compareTo(pass) == 0) {
+                        suppList.add(supp);
+                    }
                 } else {
                     suppList.add(supp);
                 }

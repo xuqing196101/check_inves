@@ -1069,12 +1069,15 @@
         <div class="col-sm-12 col-md-12 col-xs-12">
           <div class="border1 flow_btn fl flow_one">
             <div class="ywbl_01 col-xs-4 col-sm-4">
+	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
+            <%--
             <% if (environment != null && environment.equals("0")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
 	        <% } %>
 	        <% if (environment != null && environment.equals("1")){ %>
 	             <a onclick="registerTip();" class="qyzc">
 	        <% } %>
+	         --%>
                 <span>供应商注册</span>
               </a>
             </div>
@@ -1316,7 +1319,7 @@
        <span class="close_icon" id="close"></span>
      </div>
       <div class="prompt_main">
-                  <a href="javascript:void(0)">  原系统采购公告账号已作废，请各单位按要求重新申请！</a>
+                  <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=8B96764A39E64F5CADDA0013DE6B4719">${properties['indexTip']}</a>
       </div>
       <div class="prompt_btn">
         <button class="btn">了解详情</button>

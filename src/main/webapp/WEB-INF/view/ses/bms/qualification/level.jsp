@@ -59,6 +59,12 @@
 			}
 			
 	  }
+	  
+	  function cancels(){
+		  var index = parent.layer.getFrameIndex(window.name); //获取窗口索引
+		  parent.layer.close(index);
+		  
+	  }
    </script>
   </head>
   <body>
@@ -70,23 +76,16 @@
 	
 	<div id="dicDiv" class="layui-layer-wrap" >
 	   <div class="drop_window">
-	     <ul class="list-unstyled">
-		   <li class="mt10 col-md-12 p0">
-			 <span class="col-md-12">
+			 <div class="col-md-12 col-sm-12 col-xs-12 level_desc">
 			  <!--  <input  id="quaName"  name="name"  class="title col-md-12 pl20"   type="text"> -->
 			  	<c:forEach items="${kind }" var="obj">
-			  		
-			     	     <span> <input name="chkItem"   type="checkbox" value="${obj.id }"> ${obj.name } </span> 
-			     	
+			  		<span> <input name="chkItem"   type="checkbox" value="${obj.id }"> ${obj.name } </span> 
 			     </c:forEach>
-			              
-			 </span>
-	       </li>
-	       <div class="clear"></div>
-	    </ul>
-	    <div class="tc  mt10 col-md-12">
+			 </div>
+	    <div class="tc mt10 col-md-12 col-sm-12 col-xs-12">
+	       <br/>
           <button class="btn btn-windows save"  onclick="saveAp();" type="button">确定 </button>
-		  <button class="btn btn-windows cancel"   onclick="cancel();"  type="button">取消</button>
+		  <button class="btn btn-windows cancel"   onclick="cancels();"  type="button">取消</button>
         </div>
 	  </div>
 	</div>

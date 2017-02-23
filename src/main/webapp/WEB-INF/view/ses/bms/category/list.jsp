@@ -80,15 +80,15 @@
 			$("#uploadBtnId").hide();
 			if (treeNode.level == 3) {
 				if (node.getParentNode().getParentNode().name == "工程") {
-					$("#engLevelTrId").removeClass("dis_none");
-					$("#levelTrId").addClass("dis_none");
+					/* $("#engLevelTrId").removeClass("dis_none"); */
+					/* $("#levelTrId").addClass("dis_none"); */
 				} else {
-					$("#levelTrId").removeClass("dis_none");
-					$("#engLevelTrId").addClass("dis_none");
+					/* $("#levelTrId").removeClass("dis_none"); */
+					/* $("#engLevelTrId").addClass("dis_none"); */
 				}
 			} else {
-				$("#levelTrId").addClass("dis_none");
-				$("#engLevelTrId").addClass("dis_none");
+				/* $("#levelTrId").addClass("dis_none"); */
+				/* $("#engLevelTrId").addClass("dis_none"); */
 			}
 	    	nodeName = node.name;
     		update(treeNode);
@@ -120,7 +120,13 @@
 			var node = nodes[0];
 			var nodes = getCurrentRoot(node);
 			$("#operaFlag").val('add');
-			if (level == 2){
+			if (nodes.classify && nodes.classify == "PROJECT" && level == 3){
+				showQua(null, nodes.classify);
+			}
+			if (nodes.classify && nodes.classify == "GOODS" && level == 2){
+				showQua(null, nodes.classify);
+			}
+			if (nodes.classify && nodes.classify == "SERVICE" && level == 2){
 				showQua(null, nodes.classify);
 			}
 			if (node) {
@@ -146,15 +152,15 @@
 						}
 						if (level == 3) {
 							if (node.getParentNode().getParentNode().name == "工程") {
-								$("#engLevelTrId").removeClass("dis_none");
-								$("#levelTrId").addClass("dis_none");
+								/* $("#engLevelTrId").removeClass("dis_none"); */
+								/* $("#levelTrId").addClass("dis_none"); */
 							} else {
-								$("#levelTrId").removeClass("dis_none");
-								$("#engLevelTrId").addClass("dis_none");
+								/* $("#levelTrId").removeClass("dis_none"); */
+								/* $("#engLevelTrId").addClass("dis_none"); */
 							}
 						} else {
-							$("#levelTrId").addClass("dis_none");
-							$("#engLevelTrId").addClass("dis_none");
+							/* $("#levelTrId").addClass("dis_none"); */
+							/* $("#engLevelTrId").addClass("dis_none"); */
 						}
 						loadRadioHtml("");
 					}
@@ -173,11 +179,11 @@
     	$("#cateId").val("");
 		$("#posId").val("");
 		$("#descId").val("");
-		$("#levelId").val("");
-		$("#engLevelId").val("");
+		/* $("#levelId").val(""); */
+		/* $("#engLevelId").val("");
 		$("#engLevelSelect").find("option").each(function(index, element){
 			element.selected = false;
-		});
+		}); */
     }
 
 	/**修改节点信息*/
@@ -199,8 +205,8 @@
 					$("#pid").val(cate.parentId);
 					$("#parentNameId").text(nodeName);
 					$("#cateId").val(cate.name);
-					$("#levelId").val(cate.level);
-					if (cate.getEngLevel != null && cate.getEngLevel != "undefined") {
+					/* $("#levelId").val(cate.level); */
+					/* if (cate.getEngLevel != null && cate.getEngLevel != "undefined") {
 						var engLevel = cate.getEngLevel.split(",");
 						for (var i = 0; i < engLevel.length; i++) {
 							$("#engLevelSelect").find("option").each(function(index, element){
@@ -209,11 +215,17 @@
 								}
 							});
 						}
-					}
+					} */
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
-					if (level == 3){
+					if (node.classify && node.classify == "PROJECT" && level == 4){
+						showQua(cate, node.classify);
+					}
+					if (node.classify && node.classify == "GOODS" && level == 3){
+						showQua(cate, node.classify);
+					}
+					if (node.classify && node.classify == "SERVICE" && level == 3){
 						showQua(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS"){
@@ -250,13 +262,13 @@
 			}
 		}
 		
-		var engLevel = "";
+		/* var engLevel = "";
 		$("#engLevelSelect").find("option").each(function(index, element){
 			if (element.selected == true) {
 				engLevel = engLevel + element.value + ",";
 			}
 		});
-		$("#engLevelId").val(engLevel);
+		$("#engLevelId").val(engLevel); */
 		
     	$.ajax({
     		dataType:"json",
@@ -274,8 +286,8 @@
     	$("#cateTipsId").text("");
     	$("#posTipsId").text("");
     	$("#descTipsId").text("");
-    	$("#levelTipsId").text("");
-    	$("#engLevelTipsId").text("");
+    	/* $("#levelTipsId").text(""); */
+    	/* $("#engLevelTipsId").text(""); */
     }
     
     /** 保存后的提示 */
@@ -465,8 +477,15 @@
 		 title ="添加通用资质要求";
 	 }
 	 if (type == 2){
-		 ids = $("#profileIQuaId").val();
-		 title ="添加物资生产型专业资质要求";
+	 	var root = getCurrentRoot(selectedNode);
+		if (root.classify && root.classify == "PROJECT"){
+			ids = $("#profileIQuaId").val();
+		 	title ="添加工程专业资质要求";
+		 	type = 4;
+		} else {
+			 ids = $("#profileIQuaId").val();
+			 title ="添加物资生产型专业资质要求";
+		}
 	 }
 	 if (type == 3){
 		 ids = $("#profileSalesId").val();
@@ -713,7 +732,7 @@
        				</div>
        		      </td>
            	    </tr>
-           	    <tr class="dis_none" id="levelTrId">
+           	    <!-- <tr class="dis_none" id="levelTrId">
            		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
            		  <td id="levelTdId">
        		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="level" >
@@ -722,8 +741,8 @@
        		    	</div>
        		    	  <span id="levelTipsId" class="red clear span_style" />
            		  </td>
-           		</tr>
-           	    <tr class="dis_none" id="engLevelTrId">
+           		</tr> -->
+           	    <%-- <tr class="dis_none" id="engLevelTrId">
            		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
            		  <td id="engLevelTdId">
        		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="engLevel" >
@@ -736,7 +755,7 @@
        		    	</div>
        		    	<span id="engLevelTipsId" class="red clear span_style" />
            		  </td>
-           		</tr>
+           		</tr> --%>
            	    <tr>
        	    	  <td class='info'>图片</td>
        	    	  <td>

@@ -69,9 +69,9 @@
 		       d.DEP_ID       as depId,
 		       d.IS_ROOT         as isRoot,
 		       d.EMAIL      as email,
-		       d.STATUS     as status
+		       d.STATUS     as status,
 		       d.CONTACT_NAME      as contactName,
-           d.CONTACT_MOBILE     as contactMobile,
+           d.CONTACT_MOBILE     as contactMobile
 		  from T_SES_OMS_ORG     d
 		       where d.ID =#{id}
    </select>
@@ -855,6 +855,18 @@
 	select <include refid="baseSearchSql"/>
  		 from T_SES_OMS_ORG 
         where  PARENT_ID=#{parentId} and POSITION>#{position}
+	</select>
+	
+	<select id="getNext"   resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+ 		 from T_SES_OMS_ORG 
+        where  PARENT_ID=#{parentId} and POSITION>#{position} and POSITION&lt;=#{last} order by  POSITION
+	</select>
+	
+	<select id="getPrev"   resultMap="baseOrgnization" >
+	select <include refid="baseSearchSql"/>
+ 		 from T_SES_OMS_ORG 
+        where  PARENT_ID=#{parentId} and POSITION>=#{position} and POSITION&lt;#{last} order by POSITION desc
 	</select>
 	
 	

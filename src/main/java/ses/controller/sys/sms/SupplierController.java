@@ -47,8 +47,6 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
-import ses.model.bms.Qualification;
-import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -58,6 +56,7 @@ import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
@@ -725,7 +724,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("rootArea", areaService.findRootArea());
-			model.addAttribute("typeList", qualificationService.findList(null, null, 3));
+			model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -882,7 +881,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             model.addAttribute("rootArea", areaList);
-            model.addAttribute("typeList", qualificationService.findList(null, null, 3));
+            model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
@@ -1538,7 +1537,6 @@ public class SupplierController extends BaseSupplierController {
 
 	//生产信息校验
 	public boolean validatePro(HttpServletRequest request, SupplierMatPro supplierMatPro, Model model) {
-		boolean bool = true;
 		/*if(supplierMatPro.getOrgName() == null || supplierMatPro.getOrgName().length() > 12) {
 			model.addAttribute("org", "不能为空或者字符串过长");
 			bool = false;
@@ -1577,36 +1575,36 @@ public class SupplierController extends BaseSupplierController {
 		}*/
 		if(supplierMatPro.getScaleTech() == null) {
 			model.addAttribute("stech", "不能为空");
-			bool = false;
+            return false;
 		}
 		if(supplierMatPro.getScaleTech() != null && !supplierMatPro.getScaleTech().matches("^[-+]?\\d+(\\.\\d+)?$")) {
 			model.addAttribute("stech", "格式不正确");
-			bool = false;
+            return false;
 		}
 		if(supplierMatPro.getScaleHeightTech() == null) {
 			model.addAttribute("height", "格式不正确");
-			bool = false;
+            return false;
 		}
 		if(supplierMatPro.getScaleHeightTech() != null && !supplierMatPro.getScaleHeightTech().matches("^[-+]?\\d+(\\.\\d+)?$")) {
 			model.addAttribute("height", "格式不正确");
-			bool = false;
+            return false;
 		}
 		if(supplierMatPro.getResearchName() == null) {
 			model.addAttribute("reName", "不能为空");
-			bool = false;
+            return false;
 		}
 		if(supplierMatPro.getTotalResearch() == null) {
 			model.addAttribute("tRe", "不能为空");
-			bool = false;
+            return false;
 		}
 
 		if(supplierMatPro.getTotalResearch() != null && !supplierMatPro.getTotalResearch().toString().matches("^[0-9]*$")) {
 			model.addAttribute("tRe", "只能输入整数");
-			bool = false;
+            return false;
 		}
 		if(supplierMatPro.getResearchLead() == null || supplierMatPro.getResearchLead().length() > 12) {
 			model.addAttribute("leader", "不能为空或者字符串过长");
-			bool = false;
+            return false;
 		}
 		/*if(supplierMatPro.getTotalBeltline() == null) {
 			model.addAttribute("line", "不能为空或者字符串过长");
@@ -1644,13 +1642,20 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("tqcDevice", "不能为空");
 			bool = false;
 		}*/
-		//		List<SupplierCertPro> list = supplierMatPro.getListSupplierCertPros();
-		//		if(list==null||list.size()<1){
-		//			model.addAttribute("cert_pro", "请添加生产资质证书信息");
-		//			bool=false;	
-		//		}
-
-		return bool;
+		List<SupplierCertPro> list = supplierMatPro.getListSupplierCertPros();
+		if(list == null || list.size() < 1){
+		    model.addAttribute("cert_pro", "请添加资质证书信息");
+		    return false;
+		} else {
+		    for (SupplierCertPro cert : list) {
+	            List < UploadFile > filelist = uploadService.getFilesOther(cert.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProCert(), Constant.SUPPLIER_SYS_KEY.toString());
+	            if(filelist != null && filelist.size() <= 0) {
+	                model.addAttribute("cert_pro", "还有证书图片未上传!");
+	                return false;
+	            }
+            }
+		}
+		return true;
 	}
 
 	//销售信息校验
@@ -1715,7 +1720,7 @@ public class SupplierController extends BaseSupplierController {
 		    for (String areaId : scope) {
 		        Area recond = areaService.listById(areaId);
 		        if (recond != null) {
-		            List < UploadFile > list = uploadService.getFilesOther(supplierMatPro.getSupplierId() + "_" + recond.getName(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
+		            List < UploadFile > list = uploadService.getFilesOther(supplierMatPro.getSupplierId() + "_" + recond.getId(), dictionaryDataServiceI.getSupplierDictionary().getSupplierProContract(), Constant.SUPPLIER_SYS_KEY.toString());
 		            if(list != null && list.size() <= 0) {
 		                bool = false;
 		                for (Area area : areaList) {
@@ -2501,7 +2506,7 @@ public class SupplierController extends BaseSupplierController {
 		//初始化供应商注册附件类型
 		model.addAttribute("typeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCertFile());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-		model.addAttribute("typeList", qualificationService.findList(null, null, 3));
+		model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 		return new ModelAndView("ses/sms/supplier_register/add_apt_cert");
 	}
 

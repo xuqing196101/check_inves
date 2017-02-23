@@ -26,8 +26,6 @@
 <script src="${pageContext.request.contextPath}/public/backend/js/browser.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/jquery.ba-hashchange.min.js"></script>
 <script src="${pageContext.request.contextPath}/public/backend/js/masterslider.js"></script>
-<!-- 待删除的 -->
-<script src="${pageContext.request.contextPath}/public/accordion/SpryAccordion.js"></script>
 
 <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
 <script src="${pageContext.request.contextPath}/public/select2/js/select2.js"></script>

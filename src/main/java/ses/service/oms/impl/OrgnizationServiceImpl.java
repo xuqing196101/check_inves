@@ -719,26 +719,27 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	@Override
 	public void sameDep(String id, Integer position, String targetId,
 			Integer position2,String type) {
-		if(type.equals("next")){
+		if(position<position2){
 			Orgnization orgThis = orgniztionMapper.findOrgByPrimaryKey(id);
 			Orgnization targetOrg = orgniztionMapper.findOrgByPrimaryKey(targetId);
 			
-			List<Orgnization> move = orgniztionMapper.getMove(orgThis.getParentId(), position);
+			List<Orgnization> move = orgniztionMapper.getNext(orgThis.getParentId(), position,position2);
 			for(Orgnization org:move){
 				Integer pos=Integer.valueOf(org.getPosition())-1;
+//				last=Integer.valueOf(org.getPosition());
 				org.setPosition(String.valueOf(pos));
 				orgniztionMapper.updateOrgnizationById(org);
 			}
-			List<Orgnization> targetMove = orgniztionMapper.getMove(targetOrg.getParentId(), position2);
-			for(Orgnization org:targetMove){
-				Integer pos=Integer.valueOf(org.getPosition())+1;
-				org.setPosition(String.valueOf(pos));
-				orgniztionMapper.updateOrgnizationById(org);
-			}
+//			List<Orgnization> targetMove = orgniztionMapper.getMove(targetOrg.getParentId(), position2);
+//			for(Orgnization org:targetMove){
+//				Integer pos=Integer.valueOf(org.getPosition())+1;
+//				org.setPosition(String.valueOf(pos));
+//				orgniztionMapper.updateOrgnizationById(org);
+//			}
 			
-			String pid=targetOrg.getParentId();
-			orgThis.setParentId(pid);
-			Integer pos=Integer.valueOf(targetOrg.getPosition())+1;
+//			String pid=targetOrg.getParentId();
+//			orgThis.setParentId(pid);
+			Integer pos=Integer.valueOf(targetOrg.getPosition());
 			orgThis.setPosition(String.valueOf(pos));
 			orgniztionMapper.updateOrgnizationById(orgThis);
 			if(targetOrg.getPosition().equals("1")){
@@ -748,24 +749,25 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 				orgniztionMapper.updateOrgnizationById(targetOrg);
 			}
 		}else{
+			
 			Orgnization orgThis = orgniztionMapper.findOrgByPrimaryKey(id);
 			Orgnization targetOrg = orgniztionMapper.findOrgByPrimaryKey(targetId);
-			List<Orgnization> targetMove = orgniztionMapper.getMove(targetOrg.getParentId(), position2);
+			List<Orgnization> targetMove = orgniztionMapper.getPrev(targetOrg.getParentId(),position2,position);
 			for(Orgnization org:targetMove){
 				Integer pos=Integer.valueOf(org.getPosition())+1;
 				org.setPosition(String.valueOf(pos));
 				orgniztionMapper.updateOrgnizationById(org);
 			}
-			List<Orgnization> move = orgniztionMapper.getMove(orgThis.getParentId(), position);
-			for(Orgnization org:move){
-				Integer pos=Integer.valueOf(org.getPosition())-1;
-				org.setPosition(String.valueOf(pos));
-				orgniztionMapper.updateOrgnizationById(org);
-			}
+//			List<Orgnization> move = orgniztionMapper.getMove(orgThis.getParentId(), position);
+//			for(Orgnization org:move){
+//				Integer pos=Integer.valueOf(org.getPosition())-1;
+//				org.setPosition(String.valueOf(pos));
+//				orgniztionMapper.updateOrgnizationById(org);
+//			}
 			
-			String pid=targetOrg.getParentId();
-			orgThis.setParentId(pid);
-			Integer pos=Integer.valueOf(targetOrg.getPosition())+1;
+//			String pid=targetOrg.getParentId();
+//			orgThis.setParentId(pid);
+			Integer pos=Integer.valueOf(targetOrg.getPosition());
 			orgThis.setPosition(String.valueOf(pos));
 			orgniztionMapper.updateOrgnizationById(orgThis);
 			if(targetOrg.getPosition().equals("1")){

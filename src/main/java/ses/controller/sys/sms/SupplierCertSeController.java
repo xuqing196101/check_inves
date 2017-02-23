@@ -22,21 +22,24 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import com.alibaba.fastjson.JSON;
-
-import common.constant.Constant;
-import common.model.UploadFile;
-import common.service.UploadService;
+import ses.model.bms.Area;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierDictionaryData;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierCertSeService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 @Controller
 @Scope("prototype")
@@ -54,6 +57,12 @@ public class SupplierCertSeController extends BaseSupplierController {
 	
 	@Autowired
 	private UploadService uploadService;
+	
+	@Autowired
+	private QualificationService qualificationService;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	
 	
 	@RequestMapping(value = "/add_cert_se")
@@ -126,6 +135,9 @@ public class SupplierCertSeController extends BaseSupplierController {
         //初始化供应商注册附件类型
         model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+        List<Area> areaList = areaService.findRootArea();
+        model.addAttribute("rootArea", areaList);
+        model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 		return "ses/sms/supplier_register/supplier_type";	
 	}
 	

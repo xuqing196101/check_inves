@@ -469,7 +469,7 @@
 			AND NAME like '%${param1}%'
 		</if> 
 		<if test="param2 != null">
-			AND CODE like '%${param2}%'
+			AND CODE = #{param2}
 		</if> 
 	</select>
 </mapper>

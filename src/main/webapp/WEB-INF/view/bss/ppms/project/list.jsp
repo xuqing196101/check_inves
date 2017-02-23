@@ -185,18 +185,16 @@
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
         });
-        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
+        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
         status = $.trim(status);
         if(id.length == 1) {
-          if(status == "项目基本信息已完善" || status == "拟制评审文件" || status == "招标公告拟制完毕" || status == "供应商抽取完毕" || status == "发售标书完毕" || status == "抽取评审专家完毕" || status == "开标唱标完毕" || status == "专家签到完成" ||
-            status == "资格性和符合性审查中" || status == "经济技术审查中" || status == "评审完成" || status == "拟制中标公告完毕" || status == "确认中标供应商" || status == "实施结束" || status == "拟制评分标准" || status == "待开标" ||
-            status == "招标文件已提交" || status == "已分包，待实施") {
+          if(status == "YLX_DFB" || status == "YFB_DSS") {
+            window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
+          }else{
             layer.alert("实施中的项目不能修改", {
               offset: ['222px', '730px'],
               shade: 0.01,
             });
-          } else {
-            window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
@@ -282,8 +280,6 @@
     </h2>
       <c:if test="${admin!=1 }">
         <div class="col-md-12 pl20 mt10">
-          <a class="btn btn-windows add" href="${pageContext.request.contextPath}/project/add.html">立项</a>
-          <button class="btn btn-windows edit" onclick="edit();">修改</button>
           <button class="btn btn-windows apply" onclick="start();" type="button">实施</button>
         </div>
       </c:if>
