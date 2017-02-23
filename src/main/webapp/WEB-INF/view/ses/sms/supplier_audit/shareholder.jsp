@@ -45,7 +45,7 @@
 		    $.ajax({
 		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 		      type:"post",
-		      data: {"auditType":"shareholder_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+		      data: {"auditType":"basic_page","auditFieldName":"股东信息","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 		      dataType:"json",
 		      success:function(result){
 		      result = eval("(" + result + ")");
