@@ -60,7 +60,7 @@
           <ul class="nav nav-tabs bgwhite" id="tabUl">
             <li id="tabNormald" onclick="loadTab(this,1);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">通用资质</a></li>
 			<li id="tabSpeciId" onclick="loadTab(this,2);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">专用资质</a></li>
-          	<li id="tabPoject" onclick="loadTab(this,3);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">工程资质</a></li>
+          	<li id="tabPoject" onclick="loadTab(this,4);" ><a href="javascript:void(0)"  data-toggle="tab" class="f18">工程资质</a></li>
           
           </ul>
           <div class="tab-content">
