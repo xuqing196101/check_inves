@@ -51,7 +51,7 @@
 	}
   </script>
   <body>
-	    <h2 class="list_title">确定供应商</h2>
+	    <h2 class="list_title">合格供应商</h2>
    		<input type="hidden" id="projectId" value="${projectId}">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>

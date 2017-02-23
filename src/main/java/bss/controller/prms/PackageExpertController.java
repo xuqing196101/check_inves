@@ -2942,9 +2942,11 @@ public class PackageExpertController {
             sale.setPackageNames(packageService.find(pack).get(0).getName());
             map.put("packageId", sale.getPackages());
             List<PackageExpert> list = packageExpertService.selectList(map);
-            if (list != null && list.size() > 0) {
-                Integer isFinish = list.get(0).getIsGatherGather() == (short) 1 ? 1 : 0;
-                sale.setIsFinish(isFinish);
+            for (PackageExpert packageExpert : list) {
+                if (packageExpert.getIsGrade() == 1) {
+                    sale.setIsFinish(1);
+                    break;
+                }
             }
         }
         List<Packages> packages = new ArrayList<Packages>();
