@@ -492,13 +492,15 @@ function importAdd(){
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
-	          <%--  <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
+	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
+	        <%-- 
 	        <% if (environment != null && environment.equals("0")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
 	        <% } %>
 	        <% if (environment != null && environment.equals("1")){ %>
 	              <a onclick="registerTip();" >
 	        <% } %>
+	        --%>
 		     	供应商注册
 		     <i></i>
 		    </a>	  

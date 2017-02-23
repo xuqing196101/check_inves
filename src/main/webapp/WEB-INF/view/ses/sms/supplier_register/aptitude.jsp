@@ -171,7 +171,7 @@
 			$(function(){
 				var cateList = "${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}";
 				var saleQua = "${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}";
-				var projectQua = "${fn:contains(currSupplier.supplierTypeIds, 'PROJECT') and fn:length(projectQua) > 0}";
+				var projectQua = "${fn:contains(currSupplier.supplierTypeIds, 'PROJECT') and fn:length(allTreeList) > 0}";
 				var serviceQua = "${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}";
 				if (cateList == "false" && saleQua == "false" && projectQua == "false" && serviceQua == "false") {
 					layer.alert("没有需要上传的资质文件，请直接点击下一步！");
