@@ -185,7 +185,7 @@
 		    $.ajax({
 		      url:"${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
 		      type:"post",
-		      data: {"auditType":"basic_page","auditFieldName":"售后服务机构一览表","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
+		      data: {"auditType":"basic_page","auditFieldName":"售后服务机构","auditContent":auditContent,"suggest":text,"supplierId":supplierId,"auditField":id},
 		      dataType:"json",
 		      success:function(result){
 		      result = eval("(" + result + ")");
@@ -798,7 +798,7 @@
 						</c:forEach>
 					</ul>
 					
-					<h2 class="count_flow"><i>9</i>售后服务机构一览表</h2>
+					<h2 class="count_flow"><i>9</i>售后服务机构</h2>
 						<ul class="ul_list">
 						
 							<table class="table table-bordered  table-condensed table-hover">

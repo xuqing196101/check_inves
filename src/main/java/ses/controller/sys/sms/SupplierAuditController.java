@@ -60,6 +60,7 @@ import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.bms.TodosService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
@@ -160,6 +161,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierModifyService supplierModifyService;
+	
+	@Autowired
+	private QualificationService qualificationService; // 资质类型
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -862,6 +866,17 @@ public class SupplierAuditController extends BaseSupplierController {
 					}
 				}
 			}
+			//资质登记
+			List < DictionaryData > businessList = DictionaryDataUtil.find(31);
+			for(DictionaryData data : businessList){
+				for(SupplierAptitute a:supplierAptitute){
+					if(data.getId().equals(a.getAptituteLevel())){
+						a.setAptituteLevel(data.getName());
+					}
+				}
+			}
+			//资质类型
+			request.setAttribute("typeList", qualificationService.findList(null, null, 4));
 			request.setAttribute("supplierAptitutes", supplierAptitute);
 
 			//组织结构
@@ -878,10 +893,10 @@ public class SupplierAuditController extends BaseSupplierController {
 			//承揽业务范围
 			List<Area> listArea= areaService.findRootArea();
 			SupplierDictionaryData dictionary = dictionaryDataServiceI.getSupplierDictionary();
-			String typeId =  dictionary.getSupplierConAch();
+			String typeId =  dictionary.getSupplierProContract();
 			List<Area> existenceArea = new ArrayList<>();
 			for(Area area : listArea){
-				String businessId = supplierId + "_" + area.getName();
+				String businessId = supplierId + "_" + area.getId();
 				List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
 				if(!listUpload.isEmpty()){
 					existenceArea.add(area);
@@ -889,8 +904,6 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("rootArea", existenceArea);
 		}
-		
-		
 		//注册人员-退回修改前的信息
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();

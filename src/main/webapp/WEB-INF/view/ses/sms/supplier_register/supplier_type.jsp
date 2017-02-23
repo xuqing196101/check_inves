@@ -636,6 +636,9 @@
 
 	$(function() {
 		window.onload = function() {
+			$(".textbox").css({
+				"border": "0px",
+			});
 			var isHavingConAchi = "${currSupplier.supplierMatEng.isHavingConAchi}";
 			if (isHavingConAchi == '1') {
 				$("#conAchiDiv").show();
