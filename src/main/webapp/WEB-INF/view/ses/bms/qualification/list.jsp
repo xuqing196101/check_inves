@@ -86,7 +86,9 @@
 			    <button class="btn btn-windows add" type="button" onclick="add()">新增</button>
 				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+				<c:if test="${type==4}">
 				<button class="btn btn-windows add" type="button" onclick="level();">维护等级</button>
+				</c:if>
 			  </div>
 			  <div class="content table_box">
 		        <table class="table table-bordered table-condensed table-hover table-striped" id="dataTable">
