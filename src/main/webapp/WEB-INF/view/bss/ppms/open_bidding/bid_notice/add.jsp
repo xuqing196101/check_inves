@@ -233,11 +233,17 @@
     var option ={
     	toolbars: [
           [
-            'undo', 'redo', '|',
-            'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',
-            'fontfamily', 'fontsize', '|',
-            'indent', '|',
-            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify',
+            'fullscreen', 'source', '|', 'undo', 'redo', '|','bold', 
+            'italic', 'underline', 'fontborder', 'strikethrough',
+            'superscript', 'subscript', 'removeformat', 'formatmatch', 
+            'autotypeset', 'blockquote', 'pasteplain', '|', 'forecolor',
+            'backcolor', 'insertorderedlist', 'insertunorderedlist', 
+            'selectall', 'cleardoc', '|','rowspacingtop', 'rowspacingbottom',
+            'lineheight', '|','customstyle', 'paragraph', 'fontfamily', 
+            'fontsize', '|', 'directionalityltr', 'directionalityrtl', 'indent', '|',
+            'justifyleft', 'justifycenter', 'justifyright', 'justifyjustify', '|',
+            'anchor','pagebreak', '|', 'horizontal', 'date', 'time', 'spechars', '|',
+            'preview', 'searchreplace', 'help',
           ]
         ]	
     }
