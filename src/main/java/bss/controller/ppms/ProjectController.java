@@ -1809,6 +1809,23 @@ public class ProjectController extends BaseController {
         HashMap<String, Object> map1 = new HashMap<String, Object>();
         map1.put("id", projectId);
         List<ProjectDetail> details = detailService.selectById(map1);
+        List<String> ss = new ArrayList<String>();
+        if(details != null && details.size() > 0){
+            for (ProjectDetail projectDetail : details) {
+                if("1".equals(projectDetail.getParentId())){
+                    ss.add(projectDetail.getRequiredId());
+                }
+            }
+        }
+        List<PurchaseDetail> det = new ArrayList<PurchaseDetail>();
+        for (String string : ss) {
+            PurchaseDetail detail = purchaseDetailService.queryById(string);
+            det.add(detail);
+        }
+        if(det != null && det.size() > 0){
+            sortDated(det);
+            model.addAttribute("auditDate", det.get(det.size()-1).getAuditDate());
+        }
         List<Packages> list = packageService.findPackageById(map);
         if(list != null && list.size()>0){
             for(Packages ps:list){
@@ -1842,6 +1859,17 @@ public class ProjectController extends BaseController {
                Task task = (Task) o1;
                Task task2 = (Task) o2;
               return task.getAcceptTime().compareTo(task2.getAcceptTime());
+           }
+        });
+    }
+    
+    public void sortDated(List<PurchaseDetail> list){
+        Collections.sort(list, new Comparator<PurchaseDetail>(){
+           @Override
+           public int compare(PurchaseDetail o1, PurchaseDetail o2) {
+               PurchaseDetail task = (PurchaseDetail) o1;
+               PurchaseDetail task2 = (PurchaseDetail) o2;
+              return task.getAuditDate().compareTo(task2.getAuditDate());
            }
         });
     }
