@@ -149,7 +149,7 @@ public class CacheFilter implements Filter {
 				return cachePage;
 			}
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
 			RedisUtils.returnResource(jedis, cacheHomePage);
@@ -179,7 +179,7 @@ public class CacheFilter implements Filter {
 			// 设置缓存存储时间
 			jedis.expire(homeKey, homeCacheTime);
 		} catch (Exception e) {
-			e.printStackTrace();
+			log.info("redis连接异常...");
 		} finally {
 			// 关闭资源
 			RedisUtils.returnResource(jedis, cacheHomePage);
