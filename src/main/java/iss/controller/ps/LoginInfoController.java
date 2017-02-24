@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import common.utils.JdcgResult;
+
 import ses.model.bms.User;
 
 @Controller
@@ -28,9 +30,12 @@ public class LoginInfoController {
 	 */
 	@RequestMapping("/loginInfo")
 	@ResponseBody
-	public User loginInfo(HttpServletRequest req) {
+	public JdcgResult loginInfo(HttpServletRequest req) {
+		// 获取登陆用户信息
 		User existUser = (User) req.getSession().getAttribute("loginUser");
-		
-		return existUser;
+		if (existUser != null) {
+			return JdcgResult.build(200, existUser.getLoginName());
+		}
+		return JdcgResult.build(404, "用户未登陆");
 	}
 }

@@ -20,11 +20,11 @@ $(function(){
 			    type: "POST",
 			    dataType: "json",
 			    success: function(data) {
-			    	if(data!=null&&data.loginName!=null&&""!=data.loginName){
-			    	   $("#welcome").html(data.loginName+"你好，欢迎来到军队采购网！");
+			    	if(data!=null&&data.status==200){
+			    	   $("#welcome").html(data.msg+"你好，欢迎来到军队采购网！");
 			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
 			    	}else{
-			    	    $("#welcome").html("你好，欢迎来到军队采购网！");
+			    	    $("#welcome").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
 			    	    $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
 			    	}
 			    }
