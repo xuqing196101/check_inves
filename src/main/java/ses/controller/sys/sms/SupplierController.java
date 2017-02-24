@@ -954,8 +954,11 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_download")
-	public String perfectDownload(HttpServletRequest request, Supplier supplier, String jsp, String flag, Model model, String supplierTypeIds) {
-		supplier = supplierService.get(supplier.getId());
+	public String perfectDownload(HttpServletRequest request, Supplier supplier, String supplierId, String jsp, String flag, Model model, String supplierTypeIds) {
+        if (supplierId == null) {
+            supplierId = supplier.getId();
+        }
+	    supplier = supplierService.get(supplierId);
 
 		if("next".equals(flag)) {
 			Integer sysKey = Constant.SUPPLIER_SYS_KEY;
@@ -967,7 +970,7 @@ public class SupplierController extends BaseSupplierController {
 
 			return "ses/sms/supplier_register/template_upload";
 		} else {
-			supplier = supplierService.get(supplier.getId());
+			supplier = supplierService.get(supplierId);
 			HashMap < String, Object > map = new HashMap < String, Object > ();
 			// 采购机构
 			List < PurchaseDep > depList = null;
@@ -1024,8 +1027,11 @@ public class SupplierController extends BaseSupplierController {
 	 * @throws IOException 
 	 */
 	@RequestMapping(value = "perfect_upload")
-	public String perfectUpload(HttpServletRequest request, Supplier supplier, String jsp, String flag, Model model, String supplierTypeIds) throws IOException {
-		boolean bool = validateUpload(model, supplier.getId());
+	public String perfectUpload(HttpServletRequest request, Supplier supplier, String supplierId, String jsp, String flag, Model model, String supplierTypeIds) throws IOException {
+		if (supplierId != null) {
+		    supplier = supplierService.get(supplierId);
+		}
+	    boolean bool = validateUpload(model, supplier.getId());
 
 		if(!"commit".equals(jsp)) {
 			supplierService.perfectBasic(supplier);
@@ -2651,6 +2657,52 @@ public class SupplierController extends BaseSupplierController {
         String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
         if (level != null) {
             return JSON.toJSONString(DictionaryDataUtil.findById(level));
+        }
+        return null;
+    }
+    
+    @RequestMapping("/updateStep")
+    public String updateStep(String step, String supplierId, Model model) {
+        int stepNumber = Integer.parseInt(step);
+        if (stepNumber == 1) {
+            model.addAttribute("id", supplierId);
+            return "redirect:register.html";
+        } else if (stepNumber == 2) {
+            model.addAttribute("flag", "3");
+            model.addAttribute("supId", supplierId);
+            return "redirect:/supplier_item/save_or_update.html";
+        } else if (stepNumber == 3) {
+            model.addAttribute("flag", "1");
+            model.addAttribute("supplierId", supplierId);
+            return "redirect:contract.html";
+        } else if (stepNumber == 4) {
+            String supplierTypeIds = "";
+            List<SupplierTypeRelate> queryBySupplier = supplierTypeRelateService.queryBySupplier(supplierId);
+            for (SupplierTypeRelate type : queryBySupplier) {
+                supplierTypeIds = supplierTypeIds + type.getSupplierTypeId() + ",";
+            }
+            model.addAttribute("supplierTypeIds", supplierTypeIds);
+            model.addAttribute("flag", "1");
+            model.addAttribute("supId", supplierId);
+            return "redirect:/supplier_item/save_or_update.html";
+        } else if (stepNumber == 5) {
+            String supplierTypeIds = "";
+            List<SupplierTypeRelate> queryBySupplier = supplierTypeRelateService.queryBySupplier(supplierId);
+            for (SupplierTypeRelate type : queryBySupplier) {
+                supplierTypeIds = supplierTypeIds + type.getSupplierTypeId() + ",";
+            }
+            model.addAttribute("supplierTypeIds", supplierTypeIds);
+            model.addAttribute("flag", "5");
+            model.addAttribute("supplierId", supplierId);
+            return "redirect:contract.html";
+        } else if (stepNumber == 6) {
+            model.addAttribute("flag", "prve");
+            model.addAttribute("supplierId", supplierId);
+            return "redirect:perfect_download.html";
+        } else if (stepNumber == 7) {
+            model.addAttribute("jsp", "prve");
+            model.addAttribute("supplierId", supplierId);
+            return "redirect:perfect_upload.html";
         }
         return null;
     }

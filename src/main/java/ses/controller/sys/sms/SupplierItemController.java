@@ -298,9 +298,11 @@ public class SupplierItemController extends BaseController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "save_or_update")
-	public String saveOrUpdate(HttpServletRequest request, SupplierItem supplierItem, String flag, Model model, String supplierTypeIds, String clickFlag) {
-
-		Supplier supplier = supplierService.get(supplierItem.getSupplierId());
+	public String saveOrUpdate(HttpServletRequest request, String supId, SupplierItem supplierItem, String flag, Model model, String supplierTypeIds, String clickFlag) {
+	    if (supId == null) {
+	        supId = supplierItem.getSupplierId();
+	    }
+		Supplier supplier = supplierService.get(supId);
 		HashMap < String, Object > map = new HashMap < String, Object > ();
 		if(supplier.getProcurementDepId() != null) {
 			map.put("id", supplier.getProcurementDepId());
@@ -509,7 +511,6 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("audit", errorField);
 		
 		// 工程
-		String supplierId = supplierItem.getSupplierId();
         String[] typeIds = supplierTypeIds.split(",");
 		boolean isEng = false;
         for (String type : typeIds) {
@@ -519,7 +520,7 @@ public class SupplierItemController extends BaseController {
             }
         }
         if (isEng) {
-            List<SupplierItem> listSupplierItems = getProject(supplierId, "PROJECT");
+            List<SupplierItem> listSupplierItems = getProject(supId, "PROJECT");
             List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
             for(SupplierItem item: listSupplierItems) {
                 String categoryId = item.getCategoryId();
@@ -528,9 +529,9 @@ public class SupplierItemController extends BaseController {
                     cateTree.setItemsId(item.getId());
                     cateTree.setDiyLevel(item.getDiyLevel());
                     if (cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-                        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
+                        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
                         if (certEng != null && certEng.size() > 0) {
-                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
+                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
                             if (level != null) {
                                 cateTree.setFileId(certEng.get(0).getId());
                             }
