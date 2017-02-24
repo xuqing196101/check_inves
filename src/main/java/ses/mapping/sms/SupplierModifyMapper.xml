@@ -179,4 +179,10 @@
   	 	and LIST_TYPE = #{listType}
   	 </if>
   </delete>
+  
+  <delete id="deleteByType" parameterType="ses.model.sms.SupplierModify">
+  	 delete from T_SES_SMS_SUPPLIER_MODIFY
+  	 where SUPPLIER_ID = #{supplierId}
+  	 	and LIST_TYPE != '0'
+  </delete>
 </mapper>

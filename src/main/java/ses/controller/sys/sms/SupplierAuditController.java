@@ -274,7 +274,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		SupplierModify supplierModify= new SupplierModify();
 		supplierModify.setSupplierId(supplierId);
 		//先删除对比的旧数据
-		supplierModifyService.delete(supplierModify);
+		supplierModifyService.deleteByType(supplierModify);
 		supplierModifyService.insertModifyRecord(supplierModify);
 		
 		//勾选的供应商类型
@@ -380,6 +380,16 @@ public class SupplierAuditController extends BaseSupplierController {
 				fieldAddress.append(beforeField + ",");
 			}
 			request.setAttribute("fieldAddress", fieldAddress);
+			
+			//input
+			supplierModify.setListType(0);
+			List < SupplierModify > fieldList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer field = new StringBuffer();
+			for(int i = 0; i < fieldList.size(); i++) {
+				String beforeField = fieldList.get(i).getBeforeField();
+				field.append(beforeField + ",");
+			}
+			request.setAttribute("field", field);
 			
 			//售后服务机构一览表修改前的信息
 			supplierModify.setListType(11);

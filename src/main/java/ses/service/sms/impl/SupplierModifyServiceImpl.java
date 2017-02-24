@@ -849,6 +849,14 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		
 		supplierModifyMapper.add(supplierModify);
 	}
+	
+	/**
+	 * 删除
+	 */
+	@Override
+	public void deleteByType(SupplierModify supplierModify) {
+		supplierModifyMapper.deleteByType(supplierModify);
+	}
 
 	
 }

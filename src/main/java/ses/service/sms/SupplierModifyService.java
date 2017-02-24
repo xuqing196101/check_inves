@@ -57,5 +57,15 @@ public interface SupplierModifyService {
      * @return void
      */
     void add (SupplierModify supplierModify);
+    
+    /**
+	 * @Title: delete
+	 * @author XuQing 
+	 * @date 2017-2-16 下午4:24:18  
+	 * @Description:删除
+	 * @param @param supplierModify      
+	 * @return void
+	 */
+    void deleteByType (SupplierModify supplierModify);
 
 }
