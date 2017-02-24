@@ -616,7 +616,7 @@
 				<div class="col-md-12 col-sm-12 col-xs-12 tab-v2 job-content">
 					<ul class="flow_step">
 						<li onclick="jump('essential')">
-							<a aria-expanded="false">详细信息</a>
+							<a aria-expanded="false">基本信息</a>
 							<i></i>
 						</li>
 						<li onclick="jump('financial')">
@@ -1073,7 +1073,7 @@
 												<tr>
 													<td class="tc" id="certType_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certType','${s.id }','mat_eng_page');"</c:if>>${s.certType }</td>
 													<td class="tc" id="certCode_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certCode','${s.id }','mat_eng_page');"</c:if>>${s.certCode }</td>
-													<td class="tc" id="certMaxLevel_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certCode'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certMaxLevel','${s.id }','mat_eng_page');"</c:if>>${s.certMaxLevel }</td>
+													<td class="tc" id="certMaxLevel_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certMaxLevel'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certMaxLevel','${s.id }','mat_eng_page');"</c:if>>${s.certMaxLevel }</td>
 													<%-- <td class="tc">${s.techName }</td>
 													<td class="tc">${s.techPt }</td>
 													<td class="tc">${s.techJop }</td>
@@ -1088,10 +1088,7 @@
 														<%-- <fmt:formatDate value="${s.expStartDate }" pattern='yyyy-MM-dd' /> --%>
 														<fmt:formatDate value="${s.expEndDate }" pattern='yyyy-MM-dd' />
 													</td>
-													<td class="tc" id="certStatus_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certStatus'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certStatus','${s.id }','mat_eng_page');"</c:if>>
-														<c:if test="${s.certStatus==0 }">无效</c:if>
-														<c:if test="${s.certStatus==1 }">有效</c:if>
-													</td>
+													<td class="tc" id="certStatus_${s.id }" <c:if test="${fn:contains(fieldCertEngs,s.id.concat('_certStatus'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('certStatus','${s.id }','mat_eng_page');"</c:if>>${s.certStatus}</td>
 													<td class="tc" >
 														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td>
