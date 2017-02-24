@@ -58,7 +58,7 @@
 	          };
 	       });
 	      
-	      $.ajax({
+	       $.ajax({
 	          contentType: "application/json;charset=UTF-8",
 	          url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulOrg.do",
 	          type: "POST",
@@ -75,7 +75,7 @@
 	            $("#purchaseDeps").select2();
 	            $("#purchaseDeps").select2("val", "${project.orgnization.id}");
 	          }
-	    });
+	    }); 
 	      
 	    $.ajax({
 	          contentType: "application/json;charset=UTF-8",
@@ -201,15 +201,26 @@
 		}
 	 
 	 function changeXuqiuDep(){
-		 var purchaseDepId = $("#purchaseDeps").select2("val");
+		  var purchaseDepId = $("#purchaseDeps").select2("val"); 
+		 //var purchaseDepId = $("#purchaseDeps").val();
 		 $.ajax({
 	          contentType: "application/json;charset=UTF-8",
 	          url: "${pageContext.request.contextPath}/purchaseContract/changeXuqiu.do?id="+purchaseDepId,
 	          type: "POST",
 	          dataType: "json",
-	          success: function(org) {
-	        	  $("#purchaseContactTelephone").val(org.telephone);
-	        	  $("#purchaseContactAddress").val(org.address);
+	          success: function(purchaseDep) {
+	        	  /* 甲方法人purchaseLegal,甲方委托代理人purchaseAgent,甲方联系人purchaseContact,
+		            甲方联系电话purchaseContactTelephone,甲方通讯地址purchaseContactAddress，
+		      甲方邮政编码purchaseUnitpostCode,甲方付款单位:purchasePayDep，甲方开户银行purchaseBank,甲方银行账号purchaseBankAccount_string */
+	        	  $("#purchaseLegal").val(purchaseDep.legal);
+	        	  $("#purchaseAgent").val(purchaseDep.agent);
+	        	  $("#purchaseContact").val(purchaseDep.contact);
+	        	  $("#purchaseContactTelephone").val(purchaseDep.contactTelephone);
+	        	  $("#purchaseContactAddress").val(purchaseDep.contactAddress);
+	        	  $("#purchaseUnitpostCode").val(purchaseDep.unitPostCode);
+	        	  $("#purchasePayDep").val(purchaseDep.payDep);
+	        	  $("#purchaseBank").val(purchaseDep.bank);
+	        	  $("#purchaseBankAccount_string").val(purchaseDep.bankAccount);
 	          }
 	    });
 	 }
@@ -485,6 +496,7 @@
 			dataType:"json",
 			data:{"draftGitAt":draftGitAt,"draftReviewedAt":draftReviewedAt},
 			success:function(data){
+				
 				if(data==1){
 					$("#status").val("1");
 					var draftGitAt = $("#draftGitAt").val();
@@ -627,7 +639,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" id="budget" name="budget_string" value="${project.budgetAmount}" type="text">
+			        	<input class=" contract_name" id="budget" name="budget_string" value="${projectBud}" type="text">
 			        	<div class="cue">${ERR_budget}</div>
 	       			</div>
 				 </li>
@@ -648,7 +660,7 @@
 				 --%><li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同类型：</span>
 				     <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-			        	<select name="contractType" class=" contract_name">
+			        	<select name="contractType" style="width: 100%;" class=" contract_name">
 			        		<option></option>
 			        		<option value="0">正常采购合同</option>
 			        		<option value="1">以厂代储合同</option>
@@ -658,12 +670,12 @@
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
-				   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>采购方式：</span>
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购方式：</span>
 				     <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
-			        	<select name="purchaseType" id="purchaseType"  class="contract_name">
+			        	<select name="purchaseType" id="purchaseType" style="width: 100%;" class=" contract_name">
 			        		<option></option>
 			        		<c:forEach items="${kinds}" var="kind">
-			        			<option value="${kind.id}">${kind.name}</option>
+			        			<option value="${kind.id}" <c:if test="${kind.id==project.purchaseType}">selected="selected"</c:if>  >${kind.name}</option>
 			        		</c:forEach>
 			        	</select>
 			        	<div class="cue">${ERR_purchaseType}</div>
@@ -682,72 +694,81 @@
 			 <ul class="list-unstyled ul_list">
 	    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方单位：</span>
-			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			       <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<select id="purchaseDeps" name="purchaseDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeXuqiuDep()">
                 		</select>
 			        	<!-- <input class=" supplier_id" name="purchaseDepName" value="${project.orgnization.name}" type="text"> -->
 			        	<div class="cue">${ERR_purchaseDepName}</div>
-	       			</div>
+	       			</div> 
+	       			<%-- <div class="select_common col-sm-12 col-xs-12 col-md-12 p0">
+			        	<select  id="purchaseDeps" name="purchaseDepName" class="contract_name" onchange="changeXuqiuDep()">
+			        		<option></option>
+			        		<c:forEach items="${orgs}" var="orgs">
+			        			<option value="${orgs.id}" <c:if test="${orgs.id==purchaseDep.orgId}">selected="selected"</c:if>  >${orgs.name}</option>
+			        		</c:forEach>
+			        	</select>
+			        	<div class="cue">${ERR_purchaseDepName}</div>
+			        </div> --%>
 				 </li>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" name="purchaseLegal" value="" type="text">
+			        <input class=" supplier_name" id="purchaseLegal" name="purchaseLegal" value="${project.purchaseDep.legal}" type="text">
 			        <div class="cue">${ERR_purchaseLegal}</div>
 			       </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方委托代理人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <input class=" supplier_name" name="purchaseAgent" value="" type="text">
+			        <input class=" supplier_name" id="purchaseAgent" name="purchaseAgent" value="${project.purchaseDep.agent}" type="text">
 			        <div class="cue">${ERR_purchaseAgent}</div>
 			       </div>
 				 </li>
 	    		 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系人：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseContact" value="${project.orgnization.contactName}" type="text">
+			         <input class=" supplier_name" id="purchaseContact" name="purchaseContact" value="${project.purchaseDep.contact}" type="text">
 			         <div class="cue">${ERR_purchaseContact}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方联系电话：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${project.orgnization.contactName}" type="text">
+			         <input class=" supplier_name" id="purchaseContactTelephone" name="purchaseContactTelephone" value="${project.purchaseDep.contactTelephone}" type="text">
 			         <div class="cue">${ERR_purchaseContactTelephone}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12"><div class="red star_red">*</div>甲方通讯地址：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${project.orgnization.address}" type="text">
+			         <input class=" supplier_name" id="purchaseContactAddress" name="purchaseContactAddress" value="${project.purchaseDep.contactAddress}" type="text">
 			         <div class="cue">${ERR_purchaseContactAddress}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方邮政编码：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseUnitpostCode" value="" type="text">
+			         <input class=" supplier_name" id="purchaseUnitpostCode" name="purchaseUnitpostCode" value="${project.purchaseDep.unitPostCode}" type="text">
 			         <div class="cue">${ERR_purchaseUnitpostCode}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方付款单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchasePayDep" value="" type="text">
+			         <input class=" supplier_name" id="purchasePayDep" name="purchasePayDep" value="${project.purchaseDep.payDep}" type="text">
 			         <div class="cue">${ERR_purchasePayDep}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方开户银行：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBank" value="" type="text">
+			         <input class=" supplier_name" name="purchaseBank" id="purchaseBank" value="${project.purchaseDep.bank}" type="text">
 			         <div class="cue">${ERR_purchaseBank}</div>
 			        </div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方银行账号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" name="purchaseBankAccount_string" value="" type="text">
+			         <input class=" supplier_name" name="purchaseBankAccount_string" id="purchaseBankAccount_string" value="${project.purchaseDep.bankAccount}" type="text">
 			         <div class="cue">${ERR_purchaseBankAccount}</div>
 			        </div>
 				 </li>
@@ -796,7 +817,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方通讯地址：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			         <input class=" supplier_name" id="supplierContactAddress" name="supplierContactAddress" value="${project.dealSupplier.address}" type="text">
+			         <input class=" supplier_name" id="supplierContactAddress" name="supplierContactAddress" value="${project.dealSupplier.area.name}" type="text">
 			         <div class="cue">${ERR_supplierContactAddress}</div>
 			        </div>
 				 </li>

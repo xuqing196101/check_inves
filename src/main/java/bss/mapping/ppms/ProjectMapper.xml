@@ -54,12 +54,14 @@
     <result column="PLAN_TYPE" property="planType"/>
     <result column="CONFIRM_FILE" property="confirmFile"/>
     <result column="AUDIT_REASON" property="auditReason"/>
+    <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
-    <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
+    <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
     <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
+    <association property="orgnization" column="PURCHASE_DEP_ID" select="ses.dao.oms.OrgnizationMapper.selectByPrimaryKey"/>
   </resultMap>
   
-    <resultMap id="ProjectResultMap" type="bss.model.ppms.Project">
+   <!--  <resultMap id="ProjectResultMap" type="bss.model.ppms.Project">
     <id column="ID"  property="id" />
     <result column="NAME" property="name" />
     <result column="PROJECT_NUMBER"  property="projectNumber" />
@@ -116,7 +118,7 @@
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
      <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
          <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
-  </resultMap>
+  </resultMap> -->
   
   <sql id="Base_Column_List">
     ID, NAME, PROJECT_NUMBER, STATUS, PRINCIPAL, IPONE, LINKMAN, LINKMAN_IPONE, BID_UNIT, ADDRESS, 
@@ -253,7 +255,7 @@
         AND PROJECT_NUMBER = #{projectNumber}
      </if> 
    </select>
-  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="ProjectResultMap">
+  <select id="selectProjectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
