@@ -39,6 +39,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
@@ -51,18 +52,20 @@ import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierRegPerson;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.NoticeDocumentService;
 import ses.service.bms.PreMenuServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertAttachmentService;
@@ -94,7 +97,6 @@ import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.constant.Constant;
 import common.constant.StaticVariables;
 
@@ -105,6 +107,8 @@ public class ExpertController extends BaseController {
 	private UserServiceI userService; // 用户管理
 	@Autowired
 	private ExpertService service; // 专家管理
+	@Autowired
+	private QualificationService qualificationService; // 专家管理
 	@Autowired
 	private PurchaseOrgnizationServiceI purchaseOrgnizationService; // 采购机构管理
 	@Autowired
@@ -2274,7 +2278,13 @@ public class ExpertController extends BaseController {
 	 * @param supplier 供应商
 	 */
 	public void handingData(Supplier supplier) {
-
+	    
+	    // 申报时间
+	    supplier.setReportTime(new Date());
+	    
+	    // 机构
+	    supplier.setProcurementDepId(purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId()).getName());
+	    
 		// 地址
 		Area area = areaServiceI.listById(supplier.getAddress());
 		if(area != null) {
@@ -2283,13 +2293,35 @@ public class ExpertController extends BaseController {
 			supplier.setAddress(province + city + supplier.getDetailAddress());
 		}
 
+		// 企业性质
+        supplier.setBusinessNature(DictionaryDataUtil.findById(supplier.getBusinessNature()).getName());
+		
+        // 承揽业务范围
+        String businessScope = supplier.getSupplierMatEng().getBusinessScope();
+        StringBuffer busScope = new StringBuffer("");
+        if (businessScope != null && !"".equals(businessScope)) {
+            String[] areas = businessScope.split(",");
+            for (String areaId : areas) {
+                Area areaData = areaServiceI.listById(areaId);
+                if (areaData != null) {
+                    busScope.append(areaData.getName() + "、");
+                }
+            }
+            supplier.getSupplierMatEng().setBusinessScope(busScope.toString().substring(0, busScope.toString().length() - 1));
+        }
+        
 		// 类型
 		StringBuffer supplierTypeId = new StringBuffer();
 		String[] typeIds = supplier.getSupplierTypeIds().split(",");
 		for(String typeId: typeIds) {
-			String typeName = DictionaryDataUtil.get(typeId).getName();
-			if(typeName != null) {
-				supplierTypeId.append(typeName + "、");
+			DictionaryData typeData = DictionaryDataUtil.get(typeId);
+			if(typeData != null) {
+			    if (typeData.getCode().equals("PROJECT")) {
+			        supplier.setIsEng("success");
+			    } else {
+			        supplier.setIsEngOther("success");
+			    }
+				supplierTypeId.append(typeData.getName() + "、");
 			}
 		}
 		if(!"".equals(supplierTypeId) && supplierTypeId.length() > 0) {
@@ -2332,6 +2364,7 @@ public class ExpertController extends BaseController {
 		        for(SupplierCertServe server: listSupplierCertSes) {
 		            SupplierCertPro pro = new SupplierCertPro();
 		            pro.setName(server.getName());
+		            pro.setCode(server.getCode());
 		            pro.setLevelCert(server.getLevelCert());
 		            pro.setLicenceAuthorith(server.getLicenceAuthorith());
 		            pro.setExpStartDate(server.getExpStartDate());
@@ -2339,35 +2372,23 @@ public class ExpertController extends BaseController {
 		            pro.setMot(server.getMot());
 		            listSupplierCertPros.add(pro);
 		        }
-		        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
 		    }
-		}
-
-		List < SupplierRegPerson > listSupplierRegPersons = new ArrayList < SupplierRegPerson > ();
-		if (supplier.getSupplierMatEng() != null && supplier.getSupplierMatEng().getListSupplierRegPersons() != null) {
-		    listSupplierRegPersons = supplier.getSupplierMatEng().getListSupplierRegPersons();
-		    List < SupplierRegPerson > persons = new ArrayList < SupplierRegPerson > ();
-		    List < List < SupplierRegPerson >> personList = new ArrayList < List < SupplierRegPerson >> ();
-		    // 注册人员信息,换行后的内容
-		    if(listSupplierRegPersons != null && listSupplierRegPersons.size() > 2) {
-		        for(int i = 0; i < listSupplierRegPersons.size(); i++) {
-		            if(i > 1) {
-		                if(i % 2 == 0 && i + 1 != listSupplierRegPersons.size()) {
-		                    persons.add(listSupplierRegPersons.get(i));
-		                    persons.add(listSupplierRegPersons.get(i + 1));
-		                    personList.add(persons);
-		                } else if(i + 1 == listSupplierRegPersons.size()) {
-		                    persons.add(listSupplierRegPersons.get(i));
-		                    personList.add(persons);
-		                }
-		            }
-		        }
-		    }
-		    supplier.getSupplierMatEng().setPersons(personList);
-		    
-		    // 工程类注册人员信息
-		    Integer personSize = listSupplierRegPersons != null && listSupplierRegPersons.size() % 2 == 0 ? listSupplierRegPersons.size() / 2 : listSupplierRegPersons.size() / 2 + 1;
-		    supplier.setPersonSize(personSize);
+		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
+		    if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null) {
+		        listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+                for(SupplierCertSell sell: listSupplierCertSells) {
+                    SupplierCertPro pro = new SupplierCertPro();
+                    pro.setName(sell.getName());
+                    pro.setCode(sell.getCode());
+                    pro.setLevelCert(sell.getLevelCert());
+                    pro.setLicenceAuthorith(sell.getLicenceAuthorith());
+                    pro.setExpStartDate(sell.getExpStartDate());
+                    pro.setExpEndDate(sell.getExpEndDate());
+                    pro.setMot(sell.getMot());
+                    listSupplierCertPros.add(pro);
+                }
+                supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+            }
 		}
 
 		// 品目信息
@@ -2378,6 +2399,21 @@ public class ExpertController extends BaseController {
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				allTreeList.add(cateTree);
 			}
+		}
+		
+		// 工程类证书
+		if (supplier.getIsEng() != null) {
+		    List<SupplierAptitute> listSupplierAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
+		    for (SupplierAptitute apt : listSupplierAptitutes) {
+		        Qualification certType = qualificationService.getQualification(apt.getCertType());
+                if (certType != null) {
+                    apt.setCertType(certType.getName());
+                }
+                DictionaryData aptituteLevel = DictionaryDataUtil.findById(apt.getAptituteLevel());
+                if (aptituteLevel != null) {
+                    apt.setAptituteLevel(aptituteLevel.getName());
+                }
+            }
 		}
 		supplier.setAllTreeList(allTreeList);
 	}

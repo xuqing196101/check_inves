@@ -50,9 +50,12 @@ public class Supplier implements Serializable {
 	 */
 	private String businessNature;
 	
+	/**申报时间**/
+	private Date reportTime;
+	
 	/**
      * <pre>
-     * 登录名
+     * 供应商简介
      * 表字段 : T_SES_SMS_SUPPLIER.DESCRIPTION
      * </pre>
      */
@@ -691,8 +694,14 @@ public class Supplier implements Serializable {
     /**供应商分级要素得分(服务)**/
     private BigDecimal levelScoreService;
     
-    /**供应商分级要素得分(服务)**/
+    /**是否有国家保密证书**/
     private String isHavingConCert;
+    
+    /**是否是工程类**/
+    private String isEng;
+    
+    /**是否是除了工程之外的类**/
+    private String isEngOther;
 
     public List<ProjectDetail> getPdList() {
         return pdList;
@@ -1759,6 +1768,30 @@ public class Supplier implements Serializable {
 	public void setArea(Area area) {
 		this.area = area;
 	}
+
+    public Date getReportTime() {
+        return reportTime;
+    }
+
+    public void setReportTime(Date reportTime) {
+        this.reportTime = reportTime;
+    }
+
+    public String getIsEng() {
+        return isEng;
+    }
+
+    public void setIsEng(String isEng) {
+        this.isEng = isEng;
+    }
+
+    public String getIsEngOther() {
+        return isEngOther;
+    }
+
+    public void setIsEngOther(String isEngOther) {
+        this.isEngOther = isEngOther;
+    }
 	
 	
 	
