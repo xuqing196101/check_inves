@@ -74,7 +74,8 @@
       //              if(pass.length>2){
       //                layer.alert("已选择",{offset: ['100px', '300px'], shade:0.01});
       //              }else{
-      window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&projectId=${projectId}";
+      //window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&projectId=${projectId}";
+      window.location.href = "${pageContext.request.contextPath}/winningSupplier/confirmSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&projectId=${projectId}";
       //              }
 
       //            }

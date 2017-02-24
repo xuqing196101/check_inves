@@ -144,13 +144,120 @@ public class WinningSupplierController extends BaseController {
    *〈详细描述〉
    * @author Wang Wenshuai 
    * @param model
+   * @param packageId   供应商id,是一个","分开的字符串
+   * @param pid 是真正的packageId
    * @param projectId
    * @param flowDefineId
    * @return 路径
    */
   @RequestMapping("/packageSupplier")
-  public String selectpackage(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
-    if (view != null && view == 1) {  
+  public String selectpackage(Model model, String pid, String packageId, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
+	  
+	  //调用service层方法把传过来的供应商id，确定为中标 @author Ma Mingwei
+	  checkPassService.changeSupplierWonTheBidding(packageId,priceRatios);
+	  
+    if (view != null && view == 1) {
+      SupplierCheckPass scp = new SupplierCheckPass();
+      scp.setPackageId(packageId);
+      scp.setIsWonBid((short)1);
+      List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
+      String[] rat = ratio(listCheck.size());
+      for (int i = 0,l = listCheck.size(); i < l; i++ ) {
+        if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
+          Double  price = (Double.parseDouble(rat[i])/100)*Double.parseDouble(listCheck.get(0).getTotalPrice().toString());
+          SupplierCheckPass supplierCheckPass = listCheck.get(i);
+          supplierCheckPass.setWonPrice(new BigDecimal(price).setScale(2, BigDecimal.ROUND_HALF_UP));
+          supplierCheckPass.setPriceRatio(rat[i]);
+          checkPassService.update(supplierCheckPass); 
+
+        }
+
+      }
+    }
+    SupplierCheckPass checkPass = new SupplierCheckPass();
+    //checkPass.setPackageId(packageId);
+    String ids[] = packageId.split(",");
+    String str_id = "";
+    for (String id : ids) {
+		str_id += "'" + id + "',";
+	}
+    str_id = str_id.substring(0,str_id.lastIndexOf(","));
+    str_id = "(" + str_id + ")";
+    checkPass.setId(str_id);
+    //查询是否中标条件---已中标的
+    checkPass.setIsWonBid((short)1);
+    
+    List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
+    for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
+      //查询报价历史记录
+      if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
+        Quote quote = new Quote();
+        quote.setPackageId(packageId);
+        quote.setSupplierId(supplierCheckPass.getSupplier().getId());
+        List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+        supplierCheckPass.getSupplier().setListQuote(quoteList);
+      }
+    }
+
+    model.addAttribute("supplierCheckPass", listSupplierCheckPass);
+    model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
+    model.addAttribute("flowDefineId", flowDefineId);
+    model.addAttribute("projectId", projectId);
+    model.addAttribute("packageId", packageId);
+    model.addAttribute("pid", pid);
+    model.addAttribute("view", view);
+
+    //获取已有中标供应商的包组
+    String[] packcount = checkPassService.selectWonBid(projectId);
+    List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+    if (packList.size() != packcount.length){
+      model.addAttribute("error", ERROR);
+    }
+    //             //修改流程状态
+    flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
+    
+    //修改项目流程
+/*    Project project = new Project();
+    project.setId(projectId);
+    project.setStatus(DictionaryDataUtil.getId("QRZBGYS"));
+    projectService.update(project);*/
+    //查询报价历史记录
+    Quote quote = new Quote();
+    quote.setPackageId(pid);
+    List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+    if (quoteList.size()>0) {
+      if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+        model.addAttribute("quote", 0);//提示唱总价
+      }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+        model.addAttribute("quote", 1);//提示唱明细
+      }
+    }
+    //展示框设置
+    if (view != null && view == 1) {
+      model.addAttribute("quote", 1);
+    }
+    HashMap<String,Object> map = new HashMap<>();
+    map.put("packageId", pid);
+    
+    List<ProjectDetail> detailList = detailService.selectById(map);
+    model.addAttribute("detailList", detailList);
+
+    return "bss/ppms/winning_supplier/supplier_list";
+  }
+  
+  /**
+   * 
+   *〈简述〉获取包下所有供应商信息
+   *〈详细描述〉
+   * @author Ma Mingwei
+   * @param model
+   * @param projectId
+   * @param flowDefineId
+   * @return 路径---确认供应商页面
+   */
+  @RequestMapping("/confirmSupplier")
+  public String confirmSupplier(Model model, String packageId, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
+    if (view != null && view == 1) {
       SupplierCheckPass scp = new SupplierCheckPass();
       scp.setPackageId(packageId);
       scp.setIsWonBid((short)1);
@@ -220,10 +327,11 @@ public class WinningSupplierController extends BaseController {
     }
     HashMap<String,Object> map = new HashMap<>();
     map.put("packageId", packageId);
+    
     List<ProjectDetail> detailList = detailService.selectById(map);
     model.addAttribute("detailList", detailList);
 
-    return "bss/ppms/winning_supplier/supplier_list";
+    return "bss/ppms/winning_supplier/supplier_check";
   }
 
   private String[] ratio(Integer key) {
@@ -662,12 +770,13 @@ public class WinningSupplierController extends BaseController {
    * @return
    */
   @RequestMapping("/inputList")
-  public String inputList(Model model,String packageId,String projectId){
+  public String inputList(Model model,String packageId,String projectId,String pid){
     model.addAttribute("packageId", packageId);
     model.addAttribute("projectId", projectId);
+    model.addAttribute("pid", pid);
     //获取明细
     HashMap<String,Object> map = new HashMap<>();
-    map.put("packageId", packageId);
+    map.put("packageId", pid);
     List<ProjectDetail> detailList = detailService.selectById(map);
     model.addAttribute("detailList", detailList);
     return "bss/ppms/winning_supplier/add_list";

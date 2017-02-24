@@ -112,4 +112,13 @@ public interface SupplierCheckPassService {
    * @return
    */
   String amountRransaction(String[] priceRatio,String[] SupplierId,String[] detail,String packageId);
+
+  /**
+   *〈简述〉根据传过来的ID确定为中标
+   *〈详细描述〉
+   * @author Ma Mingwei
+   * @param packageId   供应商id,是一个","分开的字符串
+ * @param priceRatios 
+   */
+  void changeSupplierWonTheBidding(String packageId, String priceRatios);
 }

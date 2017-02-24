@@ -56,6 +56,7 @@ public class TheSubjectController extends BaseController {
 	 * 〈简述〉批量插入标的 〈详细描述〉
 	 * 
 	 * @author Wang Wenshuai
+	 * 后期改动@author Ma Mingwei
 	 * @return
 	 */
 	@RequestMapping("/batchInsert")
@@ -67,6 +68,24 @@ public class TheSubjectController extends BaseController {
 		}
 		//theSubjectService.insertList(subjectList);
 		return "INSERT";
+	}
+	
+	/**
+	 * 
+	 * 〈简述〉批量插入标的 〈详细描述〉
+	 * 
+	 * @author Ma Mingwei
+	 * @return
+	 */
+	@RequestMapping("/batchUpdate")
+	@ResponseBody
+	public String batchUpdate(@RequestBody List<theSubject> subjectChangeList) {
+		
+		for (theSubject subject : subjectChangeList) {
+			theSubjectService.update(subject);
+		}
+		//theSubjectService.insertList(subjectList);
+		return "UPDATE";
 	}
 
 	/**

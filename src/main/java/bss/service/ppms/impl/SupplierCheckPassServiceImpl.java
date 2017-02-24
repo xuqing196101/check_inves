@@ -220,4 +220,24 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
                                   String packageId) {
     return packageId;
   }
+
+  /**
+   *〈简述〉根据传过来的ID确定为中标
+   *〈详细描述〉
+   * @author Ma Mingwei
+   * @param packageId   供应商id,是一个","分开的字符串
+   */
+	@Override
+	public void changeSupplierWonTheBidding(String packageId, String priceRatio) {
+		// TODO Auto-generated method stub
+		String[] pids = packageId.split(",");
+		String[] priceRatios = priceRatio.split(",");
+		for (int i = 0;i < pids.length;i++) {
+			SupplierCheckPass record = new SupplierCheckPass();
+			record.setId(pids[i]);
+			record.setIsWonBid((short)1);
+			record.setPriceRatio(priceRatios[i]);
+			checkPassMapper.updateByPrimaryKeySelective(record);
+		}
+	}
 }

@@ -2,6 +2,7 @@ package bss.model.ppms;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 import ses.model.oms.PurchaseDep;
 
@@ -101,6 +102,19 @@ public class ProjectDetail {
      * 需求部门名称
      */
     private String orgName;
+    
+    /**
+     * 明细对应的标的列表
+     */
+    private List<theSubject> subjectList;
+    
+	public List<theSubject> getSubjectList() {
+		return subjectList;
+	}
+
+	public void setSubjectList(List<theSubject> subjectList) {
+		this.subjectList = subjectList;
+	}
 
 	public Integer getIsTurnUp() {
         return isTurnUp;

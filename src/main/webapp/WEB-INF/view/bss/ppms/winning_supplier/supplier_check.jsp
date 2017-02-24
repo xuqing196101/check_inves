@@ -168,7 +168,7 @@
 
 	/** 计算金额*/
 	function ratio(index) {
-		var quote = "${quote}";//0提示唱总价//1提示唱明细
+		var quote = "${quote}";
 		var checklist = document.getElementsByName("chkItem");
 		for (var j = 0; j < checklist.length; j++) {
 			$("#" + checklist[j].value).find("#priceRatio").text("");
@@ -208,7 +208,8 @@
 			//算出实际成交金额
 			$('input[name="chkItem"]:checked').each(
 					function() {
-						$("#" + $(this).val()).find("#priceRatio").text(ratio[i]);
+						$("#" + $(this).val()).find("#priceRatio").text(
+								ratio[i]);
 						//                var totalprice = $("#"+id[0]).find("#totalPrice").text();
 						var price = 0;
 
@@ -262,7 +263,6 @@
 
 						i++;
 					});
-
 		}
 	}
 
@@ -281,10 +281,12 @@
 		var id = [];
 		var wonPrice = [];
 		var isNull = 0;
+		var priceRatio = [];
 		var quote = "${quote}";
 
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
+			priceRatio.push($(this).parent().parent().find("[title='priceRatio']").text());
 
 			var sq = 0;
 			if (quote == 0) {
@@ -308,69 +310,19 @@
 				});
 			} else {
 				layer.confirm(
-					'确定后将不可修改,是否确定',
+					'确定后将跳转到录入标的,是否确定',
 					{
 						title : '提示',
 						offset : [ '100px', '300px' ],
 						shade : 0.01
 					},
 					function(index) {
-						var json = '${supplierCheckPassJosn}';
+						//var json = '${supplierCheckPassJosn}';
+						var json = '';
 						layer.close(index);
-						$.ajax({
-							type : "post",
-							url : "${pageContext.request.contextPath}/winningSupplier/comparison.do",
-							data : "checkPassId=" + id
-									+ "&&jsonCheckPass="
-									+ json + "&&wonPrice="
-									+ wonPrice,
-							dataType : "json",
-							success : function(data) {
-								//                           alert(data);
-								if (data == "SCCUESS") {
-									window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}';
-								} else {
-									var iframeWin;
-									var type = 0;
-									layer.open({
-										type : 2,
-										title : '上传',
-										shadeClose : false,
-										shade : 0.01,
-										area : [
-												'367px',
-												'180px' ], //宽高
-										content : '${pageContext.request.contextPath}/winningSupplier/upload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='
-												+ id
-												+ '&&wonPrice='
-												+ wonPrice,
-										success : function(
-												layero,
-												index) {
-											iframeWin = window[layero
-													.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-										},
-										btn : [
-												'保存',
-												'关闭' ],
-										yes : function() {
-											iframeWin
-													.upload();
-											type = 1;
-										},
-										btn2 : function() {
-											delFileAjax();
-										},
-										end : function() {
-											if (type != 1) {
-												delFileAjax();
-											}
-										}
-									});
-								}
-							}
-						});
-					});
+						window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
+					}
+				);
 			}
 		} else {
 			layer.alert("请选择供应商", {
@@ -458,57 +410,10 @@
 		}
 	}
 	
-	//双击占比tr时，改变占比
-	function changePriceRatio(objTD) {
-		var $obj = $(objTD);
-		var $childInput = $obj.children("input");
-		var changeStatus = $childInput.attr("title");
-		var changeStatusNum = 1;
-		var changeStatusJudge = "";
-		for(var i = 0;i < changeStatus.length;i++) {
-			if(changeStatus.charAt(i) > 0 && changeStatus.charAt(i) < 10) {
-				changeStatusNum = changeStatus.substr(i,changeStatus.length);
-				changeStatusJudge = changeStatus.substr(0,i);
-			}
-		}
-		var isContinue = 1;
-		var tempNum = 1 + parseInt(changeStatusNum);
-		
-		$(".forChangeRatio").each(function(index) {
-			var tempStr = "changed" + tempNum;
-			if($(this).attr("title") == tempStr) {
-				isContinue = 0;
-			}
-			
-		});
-		if($(".forChangeRatio").size() == (tempNum - 1)) {
-			isContinue = 0;
-		}
-		if(isContinue == 0) {
-			if(changeStatusJudge == "unchanged") {
-				$childInput.css({
-					border : "1px solid black"
-				});
-				$childInput.removeAttr("readonly");
-				$childInput.attr("title","changed" + changeStatusNum);
-			} else if(changeStatusJudge == "changed") {
-				$childInput.css({
-					border : "0px solid grey"
-				});
-				$childInput.attr("readonly","readonly");
-				$childInput.attr("title","unchanged" + changeStatusNum);
-			}
-		}
-	}
-	
-	//占比改变调用
-	function priceRatioConfirm(obj) {
-		alert("值改了");
-	}
 
 	//录入表的
 	function InputBD() {
-		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&pid=${pid}";
+		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}";
 	}
 	//关联选中
 	function associateSelected(id, obj, index) {
@@ -549,10 +454,13 @@
 						.parent().find("td:eq(7)").text()) / 100;
 				if ($("#rela" + index).prop("checked")) {
 					if ("${quote}" == 0) {
-						$(obj).parent().parent().find("td:eq(7)").text("");
-						$(obj).parent().parent().find("td:eq(8)").text("");
+						$(obj).parent().parent().find("td:eq(7)").text(
+								"");
+						$(obj).parent().parent().find("td:eq(8)").text(
+								"");
 					} else {
-						var price = $(obj).parent().parent().find("td:eq(8)").text();
+						var price = $(obj).parent().parent().find(
+								"td:eq(8)").text();
 						$(obj).parent().parent().find("td:eq(7)").text(
 								parseFloat(bfb * purchaseCount));
 						$(obj).parent().parent().find("td:eq(9)")
@@ -592,12 +500,12 @@
 
 <body>
 
-	<h2 class="list_title mb0 clear">已中标供应商</h2>
+	<h2 class="list_title mb0 clear">确认中标供应商</h2>
 
 	<c:if test="${view != 1 }">
 		<div class="col-md-12 col-xs-12 col-sm-12 mt10 p0">
-			<!-- <button class="btn " onclick="save();" type="button">确定</button>
-			<button class="btn " onclick="del(this);" type="button">移除</button> -->
+			<button class="btn " onclick="save();" type="button">确定</button>
+			<button class="btn " onclick="del(this);" type="button">移除</button>
 		</div>
 	</c:if>
 	<div class="content table_box pl0">
@@ -605,11 +513,10 @@
 			class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
 				<tr class="info">
-					<!-- 
 					<c:if test="${view != 1}">
 						<th class="w30"><input id="checkAll" type="checkbox"
 							onclick="selectAll()" /></th>
-					</c:if> -->
+					</c:if>
 					<th class="w200">供应商名称</th>
 					<!--               <th class="w100">参加时间</th> -->
 					<th style="width: 110px;">&nbsp;总报价&nbsp;（万元）</th>
@@ -619,14 +526,11 @@
 						<th style="width: 50px;">中标状态</th>
 					</c:if>
 					<th class="w50">占比（%）</th>
-					<th class="w100">实际成交总价（万元）</th>
-					<th style="width: 80px;">操作</th>
 				</tr>
 			</thead>
 			<c:forEach items="${supplierCheckPass}" var="checkpass"
 				varStatus="vs">
 				<tr id="${checkpass.id}">
-					<!-- 
 					<c:if test="${view != 1}">
 						<td class="tc opinter"><c:if
 								test="${checkpass.isDeleted == 0}">
@@ -636,10 +540,9 @@
 									value="${checkpass.id}" />
 
 							</c:if></td>
-					</c:if> -->
+					</c:if>
 					<td class="opinter" title="${checkpass.supplier.supplierName }">
-						<span onclick="ycDiv(this,'${checkpass.id}')"
-						class="count_flow shrink hand"></span> <c:choose>
+						<c:choose>
 							<c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
                     ${fn:substring(checkpass.supplier.supplierName , 0, 10)}...
                  </c:when>
@@ -662,117 +565,9 @@
 							<td class="tc opinter">已中标</td>
 						</c:if>
 					</c:if>
-					<td class="tc opinter" title="laskdf" id="priceRatio" ondblclick="changePriceRatio(this)">
-						<input type="text" class="forChangeRatio" onchange="priceRatioConfirm(this)" title="unchanged${(vs.index+1) }" style="width: 32px;height: 26px;text-align: center;border: none;margin-top: 8px;" readonly="readonly" value="${checkpass.priceRatio}"/>
-					</td>
-					<c:if test="${quote==0 }">
-						<td class="tc opinter"><input type="text" name="singQuote"
-							id="singQuote" value="${checkpass.wonPrice }" /></td>
-					</c:if>
-					<c:if test="${quote==1 }">
-						<td class="tc opinter" id="singQuote">${checkpass.wonPrice }
-							<input type="hidden" name="singQuote" id="singQuotehhide">
-						</td>
-					</c:if>
-
-					<td class="tc opinter"><button class="btn btn-windows back"
-							onclick="InputBD();" type="button">录入标的</button></td>
+					<td class="tc opinter" id="priceRatio" title="priceRatio">${checkpass.priceRatio}</td>
 				</tr>
-				<tr class="tc hide">
-					<td colspan="10">
-						<table
-							class="table table-bordered table-condensed table-hover table-striped">
-							<tr class="tc ">
-								<th class="hide"></th>
-								<th class="w30">序号</th>
-								<th class="150">物资名称</th>
-								<th>规格型号</th>
-								<th>质量技术标准</th>
-								<th>计量单位</th>
-								<th>采购数量</th>
-								<th>单价（元）</th>
-								<!-- 
-								<c:if test="${quote == 1 }">
-									<th>报价（万元）</th>
-								</c:if> -->
-							</tr>
-							<c:forEach items="${detailList }" var="detail" varStatus="p">
-								<tr name="detail${checkpass.id}"
-									id="${checkpass.id}${detail.id}" class="tc hide">
-									<td class="hide"><input type="checkbox"
-										value="${detail.id}"
-										onclick="associateSelected('${detail.id}',this,'${checkpass.id}')"
-										name="associate${checkpass.id}" /></td>
-									<td>${detail.serialNumber}</td>
-									<td title="${detail.goodsName}"><c:choose>
-											<c:when test="${fn:length(detail.goodsName ) > 20}">
-                           ${fn:substring(detail.goodsName  , 0, 20)}......
-                       </c:when>
-											<c:otherwise>
-                                ${detail.goodsName }
-                        </c:otherwise>
-										</c:choose></td>
-									<td class="w150" title=" ${detail.stand }"><c:choose>
-											<c:when test="${fn:length(detail.stand) > 20}">
-                           ${fn:substring(detail.stand , 0, 20)}......
-                       </c:when>
-											<c:otherwise>
-                           ${detail.stand }
-                        </c:otherwise>
-										</c:choose></td>
-									<td title="${detail.qualitStand }"><c:choose>
-											<c:when test="${fn:length(detail.qualitStand ) > 20}">
-                           ${fn:substring(detail.qualitStand , 0, 20)}......
-                       </c:when>
-											<c:otherwise>
-                            ${detail.qualitStand }
-                        </c:otherwise>
-										</c:choose></td>
-									<td>${detail.item }</td>
-									<%-- 	                    <c:if test="${quote==0 }"> --%>
-									<%-- 	                      <td>${checkpass.wonPrice }</td> --%>
-									<%-- 	                    </c:if> --%>
-									<td id="purchaseCount">${detail.purchaseCount}</td>
-									<td>${detail.price }</td>
-									<!-- 
-									<c:if test="${quote == 1 }">
-										<td id="Quotedamount"><c:forEach var="listQuote"
-												items="${checkpass.supplier.listQuote }">
-												<c:if test="${detail.id == listQuote.productId }">
-	                         ${listQuote.quotePrice} 
-	                       </c:if>
-											</c:forEach></td>
-									</c:if> -->
-								</tr>
-								<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
-								<tr class="tc ">
-									<td>${detail.serialNumber}-${s.index + 1 }
-									</td>
-									<td>${subject.goodsName }
-									</td>
-									<td>${subject.stand }
-									</td>
-									<td>${subject.qualitStand }
-									</td>
-									<td>${subject.item }
-									</td>
-									<td>${subject.purchaseCount }
-									</td>
-									<td>${subject.unitPrice }
-									</td>
-									<!-- 
-									<td>${subject.goodsName }
-									</td>
-									 -->
-								</tr>
-								</c:forEach>
-							</c:forEach>
-						</table>
-					</td>
-				</tr>
-				
 			</c:forEach>
-
 		</table>
 		<div class="col-md-12 tc">
 			<button class="btn btn-windows back" onclick="history.go(-1)"

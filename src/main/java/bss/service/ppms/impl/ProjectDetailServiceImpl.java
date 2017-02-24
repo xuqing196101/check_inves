@@ -12,13 +12,17 @@ import ses.util.PropertiesUtil;
 import com.github.pagehelper.PageHelper;
 
 import bss.dao.ppms.ProjectDetailMapper;
+import bss.dao.ppms.theSubjectMapper;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.theSubject;
 import bss.service.ppms.ProjectDetailService;
 
 @Service("projectDetailService")
 public class ProjectDetailServiceImpl implements ProjectDetailService {
 	@Autowired
 	private ProjectDetailMapper projectDetailMapper ;
+	@Autowired
+	private theSubjectMapper theSubjectMapper;
 
 	@Override
 	public ProjectDetail selectByPrimaryKey(String id) {
@@ -47,7 +51,15 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 
 	@Override
 	public List<ProjectDetail> selectById(HashMap<String,Object> map) {
-		return projectDetailMapper.selectById(map);
+		List<ProjectDetail> projectDetailList = projectDetailMapper.selectById(map);
+		for (ProjectDetail projectDetail : projectDetailList) {
+			//定义一个list集合查询符合map条件的标的信息
+			map.put("forSubjectDetailId", projectDetail.getId());
+			List<theSubject> subjectList = theSubjectMapper.selectById(map);
+			projectDetail.setSubjectList(subjectList);
+		}
+		
+		return projectDetailList;
 	}
 
 	@Override

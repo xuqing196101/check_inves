@@ -1,5 +1,6 @@
 package bss.dao.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.theSubject;
@@ -36,6 +37,10 @@ public interface theSubjectMapper {
      * 集合
      */
     List<theSubject> list(theSubject subject);
+    /**
+     * 
+     */
+    List<theSubject> selectById(HashMap<String,Object> map);
     
     /**
      *〈简述〉批量插入
