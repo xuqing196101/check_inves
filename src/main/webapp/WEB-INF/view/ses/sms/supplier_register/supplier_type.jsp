@@ -885,12 +885,27 @@
 		}
 	}
 	
+	var tempText = "";
+	function getAptLevelSelect(record) {
+		tempText = record.text;
+		
+	}
 	//资质类型下拉框改变时调用的方法
 	function getAptLevel(obj){
 		if(obj instanceof jQuery) {
 			var typeId = obj.val();
+			var currentText = obj.combobox("getText");
+			var allText = obj.combobox("getData");
+				$("#certGrade_select").combobox({
+					valueField: 'label',
+					textField: 'value',
+					data: [{
+						"label" : "",
+						"value" : "",
+						"selected" : true
+					}]
+				});
 			if (typeId != null && typeId != "") {
-				obj.parent().next().next().next().find("select").html("");
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
 					data: {
@@ -909,7 +924,6 @@
 								//var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
 								cur_str = {label : data[i].id,value : data[i].name};
 							}
-							
 							easyuiData.push(cur_str);
 							//obj.parent().next().next().next().find("select").append(optionDOM);
 						}
@@ -918,7 +932,6 @@
 							textField: 'value',
 							data: easyuiData
 						});
-						
 					}
 				});
 			}
@@ -935,7 +948,7 @@
 					success: function(data){
 						for(var i = 0; i < data.length; i++){
 							var optionDOM = "";
-							if ($(obj).next().val() != "" && $(obj).next().val() == data[i].id) {
+							if ($(obj).parent().children(".forSelectId").val() != "" && $(obj).parent().children(".forSelectId").val() == data[i].id) {
 								optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
 							} else {
 								var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
@@ -1756,9 +1769,17 @@
 																	</c:forEach>
 																</select> -->
 																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">   
+																    <c:set var="tempForShowOption" value="go" scope="page"/>
 																    <c:forEach items="${typeList}" var="type">
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
+																		<c:if test="${aptitute.certType eq type.id}">
+																			<c:set var="tempForShowOption" value="notgo"/>
+																		</c:if>
 																	</c:forEach>
+																	<c:if test="${tempForShowOption eq 'go' }">
+																		<option value="${aptitute.id}" selected="selected">${aptitute.certType}</option>
+																	</c:if>
+																	
 																</select>
 																
 																<input type="hidden" class="forSelectId" value="${aptitute.aptituteLevel}">
@@ -1779,14 +1800,20 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select" title="cnjewfn" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
-																	
+																<select id="certGrade_select" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																	<c:if test="${tempForShowOption eq 'go' }">
+																		<option selected="selected">${aptitute.aptituteLevel}</option>
+																	</c:if>
+																	<c:set var="tempForShowOption" value="notgo"/>
 																</select>
 																<script type="text/javascript">
 																	$("select[title='cnjewfn']").each(function() {
 																		var $obj = $(this);
 																		$obj.combobox({
-																			onChange : function(newValue,oldValue) {
+																			onSelect : function(record) {
+																				getAptLevelSelect(record);
+																			},
+																			onChange : function() {
 																				getAptLevel($obj);
 																			},
 																		});
