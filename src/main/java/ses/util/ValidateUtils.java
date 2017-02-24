@@ -20,7 +20,7 @@ public class ValidateUtils {
     private static final String  V_INTEGER = "^-?[1-9]\\d*$";  
     
     /** 两位小数金额  */
-    private static final String V_MONEY = "^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,2})?$";
+    private static final String V_MONEY = "^([1-9][\\d]{0,14}|0)(\\.[\\d]{1,4})?$";
     
     /** 年份  */
     private static final String V_YEAR = "^(19|20)\\d{2}$";

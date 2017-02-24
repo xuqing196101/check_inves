@@ -299,7 +299,6 @@
 											      <th class="info tc w50">类别</th>
 											      <th class="info tc">大类</th>
 											      <th class="info tc">中类</th>
-											      <th class="info tc">小类</th>
 											      <th class="info tc w200">资质类型</th>
 											      <th class="info tc w100">证书编号</th>
 											      <th class="info tc w100">资质等级</th>
@@ -307,28 +306,27 @@
 										   		</tr>
 										    </thead>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
-										      <tr>
-										        <td class="tc">
+										      <tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
+										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										          ${vs.index + 1}
 										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
 										        </td>
-										        <td class="tc">${cate.rootNode}</td>
-										        <td>${cate.firstNode}</td>
-										        <td>${cate.secondNode}</td>
-										        <td>${cate.thirdNode}</td>
-										        <td>
+										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>${cate.rootNode}</td>
+										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>${cate.firstNode}</td>
+										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>${cate.secondNode}</td>
+										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">
 										        		<c:forEach items="${cate.typeList}" var="type">
 										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
 										        		</c:forEach>
 										        	</select>
 										        </td>
-										     	<td><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
-										     	<td>
+										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
+										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}">
 										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">
 										     	</td>
-										      	<td class="tc">
+										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
 										      	</td>
 										      </tr>

@@ -309,8 +309,10 @@ public class ProjectServiceImpl implements ProjectService {
 
   @Override
   public void updateStatus(Project project, String code) {
-      project.setStatus(DictionaryDataUtil.getId(code));
-      projectMapper.updateByPrimaryKeySelective(project);
+      if (project != null) {
+          project.setStatus(DictionaryDataUtil.getId(code));
+          projectMapper.updateByPrimaryKeySelective(project);
+      }
   }
 	
 }

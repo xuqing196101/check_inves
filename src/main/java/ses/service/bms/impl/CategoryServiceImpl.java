@@ -139,7 +139,7 @@ public class CategoryServiceImpl implements CategoryService {
                             generalNames += qua.getName() + ",";
                         }
                         
-                        if (cq.getQuaType() == StaticVariables.CATEGORY_QUALIFICATION_PROFILE){
+                        if (cq.getQuaType() == StaticVariables.CATEGORY_QUALIFICATION_PROFILE || cq.getQuaType() == StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE){
                             profileIds += cq.getQuaId() + ",";
                             profileNames += qua.getName() + ",";
                         }
@@ -212,14 +212,19 @@ public class CategoryServiceImpl implements CategoryService {
         String profileSalesIds = request.getParameter("profileSalesIds");
         String isPublish = request.getParameter("isPublish");
         String classify = request.getParameter("classify");
-        
+        //判断是否工程品目
+        String isPorject = request.getParameter("isProjectCate");
         Integer isPublished = null;
         Integer classified = null;
+        Integer isProjected = null;
         if (StringUtils.isNotBlank(isPublish)){
             isPublished = Integer.parseInt(isPublish);
         }
         if (StringUtils.isNotBlank(classify)){
             classified = Integer.parseInt(classify);
+        }
+        if (StringUtils.isNotBlank(isPorject)){
+          isProjected = Integer.parseInt(isPorject);
         }
         
         ResBean res = new ResBean();
@@ -275,7 +280,7 @@ public class CategoryServiceImpl implements CategoryService {
             }
             insertSelective(category);
             saveGeneral(id, generalIds);
-            saveProfile(id, profileIds);
+            saveProfile(id, profileIds, isProjected);
             //保存物资销售型资质文件id
             saveProfileSales(id, profileSalesIds);
             res.setSuccess(true);
@@ -301,7 +306,7 @@ public class CategoryServiceImpl implements CategoryService {
                 updateByPrimaryKeySelective(category);
                 delCategoryQua(id);
                 saveGeneral(id, generalIds);
-                saveProfile(id, profileIds);
+                saveProfile(id, profileIds, isProjected);
                 //保存物资销售型资质文件id
                 saveProfileSales(id, profileSalesIds);
                 res.setSuccess(true);
@@ -368,16 +373,26 @@ public class CategoryServiceImpl implements CategoryService {
      * @author myc 
      * @param categorId 品目Id
      * @param profileIds 资质Id
+     * @param isProjected 
      */
-    private void saveProfile(String categorId, String profileIds){
+    private void saveProfile(String categorId, String profileIds, Integer isProjected){
         if (StringUtils.isNotBlank(profileIds)){
             if (profileIds.contains(StaticVariables.COMMA_SPLLIT)){
                 String [] profileArray = profileIds.split(",");
                 for (String profileId : profileArray){
-                    saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                    if (isProjected != null && isProjected == 1) {
+                        //如果是工程品目
+                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE);
+                    } else {
+                        saveCategoryQua(categorId, profileId, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                    }
                 }
             } else {
-                saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                if (isProjected != null && isProjected == 1) {
+                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROJECT_PROFILE);
+                } else {
+                    saveCategoryQua(categorId, profileIds, StaticVariables.CATEGORY_QUALIFICATION_PROFILE);
+                }
             }
         }
     }

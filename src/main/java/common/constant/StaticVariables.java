@@ -143,6 +143,8 @@ public class StaticVariables {
     public static final Integer CATEGORY_QUALIFICATION_PROFILE = 2;
     /** 企业资质-物资销售型专业 **/
     public static final Integer CATEGORY_QUALIFICATION_SALES_PROFILE = 3;
+    /** 企业资质-工程 **/
+    public static final Integer CATEGORY_QUALIFICATION_PROJECT_PROFILE = 4;
     
     
     /**

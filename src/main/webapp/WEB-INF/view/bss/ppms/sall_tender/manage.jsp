@@ -45,8 +45,8 @@
 	          <ul class="nav nav-tabs bgwhite">
 	            <li class="active" onclick="loadPageFirst('tab-1','saleTender/view.html')"><a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18">登记供应商</a></li>
 	            <c:if test="${kind != 'DYLY'}">
-				     <li class="" onclick="loadPageSecond('tab-2','saleTender/downList.html');"><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">下载标书</a></li>
-				     </c:if>
+			     <li class="" onclick="loadPageSecond('tab-2','saleTender/downList.html');"><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">下载标书</a></li>
+			    </c:if>
 	          </ul>
 	          <div class="tab-content padding-top-20">
 	            <div class="tab-pane fade active in" id="tab-1">

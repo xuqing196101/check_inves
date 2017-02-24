@@ -687,6 +687,21 @@ public class OpenBiddingController {
           article.setStatus(0);
           article.setUpdatedAt(new Date());
           jsonData.setMessage("暂存成功");
+          
+          //更新项目状态
+          String noticeType = request.getParameter("noticeType");
+          //如果是拟制采购公告，更新项目状态为采购公告编制
+          if ("purchase".equals(noticeType)) {
+            Project project = projectService.selectById(article.getProjectId());
+            String code = "ZBGGNZZ";
+            projectService.updateStatus(project, code);
+          }
+          //如果是拟制中标公告，更新项目状态为中标公示编制
+          if ("win".equals(noticeType)) {
+            Project project = projectService.selectById(article.getProjectId());
+            String code = "NZZBGG";
+            projectService.updateStatus(project, code);
+          }
         }
         if (flag == 1) {
           //提交
@@ -694,6 +709,34 @@ public class OpenBiddingController {
           article.setUpdatedAt(new Date());
           article.setSubmitAt(new Date());
           jsonData.setMessage("提交成功");
+          //更新项目状态
+          String noticeType = request.getParameter("noticeType");
+          if ("purchase".equals(noticeType)) {
+            Project project = projectService.selectById(article.getProjectId());
+            String puchaseTypeCode = DictionaryDataUtil.findById(project.getPurchaseType()).getCode();
+            if ("GKZB".equals(puchaseTypeCode)) {
+                //如果是公开招标更新项目状态为发售标书
+                String code = "FSBSZ";
+                projectService.updateStatus(project, code);
+            } else if ("JZXTP".equals(puchaseTypeCode)) {
+              
+            } else {
+                //如果是询价、邀请招标、竞争性谈判更新项目状态为抽取供应商
+                String code = "GYSCQZ";
+                projectService.updateStatus(project, code);
+            }
+          }
+          if ("win".equals(noticeType)) {
+            Project project = projectService.selectById(article.getProjectId());
+            String puchaseTypeCode = DictionaryDataUtil.findById(project.getPurchaseType()).getCode();
+            if ("JZXTP".equals(puchaseTypeCode)) {
+              
+            } else {
+                //如果不是单一来源，项目状态为确认中标供应商
+                String code = "QRZBGYS";
+                projectService.updateStatus(project, code);
+            }
+          }
         }
         if (ranges != null && ranges.length > 0){
           if (ranges.length > 1){
@@ -716,15 +759,6 @@ public class OpenBiddingController {
           flowMangeService.flowExe(request, flowDefineId, article.getProjectId(), 2);
         }
         
-        //更新项目状态
-        String noticeType = request.getParameter("noticeType");
-        if ("purchase".equals(noticeType)) {
-          Project project = projectService.selectById(article.getProjectId());
-          if (project != null) {
-              String code = "ZBGGNZZ";
-              projectService.updateStatus(project, code);
-          }
-        }
         jsonData.setSuccess(true);
 
         jsonData.setObj(article);

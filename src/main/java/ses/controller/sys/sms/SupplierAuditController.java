@@ -67,6 +67,7 @@ import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierModifyService;
@@ -162,8 +163,14 @@ public class SupplierAuditController extends BaseSupplierController {
 	@Autowired
 	private SupplierModifyService supplierModifyService;
 	
+	/**
+	 * 资质类型
+	 */
 	@Autowired
-	private QualificationService qualificationService; // 资质类型
+	private QualificationService qualificationService; 
+	
+	@Autowired
+	private SupplierCertEngService supplierCertEngService;
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -1442,7 +1449,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		for(SupplierItem item: listSupplierItems) {
 			String categoryId = item.getCategoryId();
-			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId);
+			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
 			
 			if(cateTree != null && cateTree.getRootNode() != null) {
 				cateTree.setItemsId(item.getId());
@@ -1483,7 +1490,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @param categoryId 产品Id
 	 * @return List<CategoryTree> tree对象List
 	 */
-	public SupplierCateTree getTreeListByCategoryId(String categoryId) {
+	public SupplierCateTree getTreeListByCategoryId(String categoryId, SupplierItem item) {
 		SupplierCateTree cateTree = new SupplierCateTree();
 		// 递归获取所有父节点
 		List < Category > parentNodeList = getAllParentNode(categoryId);
@@ -1883,11 +1890,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
 
 		//查询所有的三级目录工程
-		List < Category > listProject = getProject(supplierId, supplierTypeIds);
-		removeSame(listProject);
+		/*List < Category > listProject = getProject(supplierId, supplierTypeIds);
+		removeSame(listProject);*/
 
 		//根据品目id查询所有的工证书
-		List < QualificationBean > projectQua = supplierService.queryCategoyrId(listProject, 1);
+		/*List < QualificationBean > projectQua = supplierService.queryCategoyrId(listProject, 1);*/
 
 		//查询所有的三级品目服务
 		List < Category > listService = getServer(supplierId, supplierTypeIds);
@@ -1917,11 +1924,11 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//工程
-		if(projectQua != null && projectQua.size() > 0) {
+		/*if(projectQua != null && projectQua.size() > 0) {
 			for(QualificationBean qb: projectQua) {
 				projectList.addAll(qb.getList());
 			}
-		}
+		}*/
 
 		//服务
 		if(serviceQua != null && serviceQua.size() > 0) {
@@ -1945,12 +1952,12 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 
 		//工程
-		if(projectList != null && projectList.size() > 0) {
+		/*if(projectList != null && projectList.size() > 0) {
 			int projectlen = projectList.size() + 1;
 			for(int i = 1; i < projectlen; i++) {
 				sbShow.append("projectShow" + i + ",");
 			}
-		}
+		}*/
 
 		//服务
 		if(serviceList != null && serviceList.size() > 0) {
@@ -1959,11 +1966,45 @@ public class SupplierAuditController extends BaseSupplierController {
 				sbShow.append("serverShow" + i + ",");
 			}
 		}
+		
+		// 工程
+        String[] typeIds = supplierTypeIds.split(",");
+		boolean isEng = false;
+        for (String type : typeIds) {
+            if (type.equals("PROJECT")) {
+                isEng = true;
+                break;
+            }
+        }
+        if (isEng) {
+            List<SupplierItem> listSupplierItems = getProject(supplierId, "PROJECT");
+            List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+            for(SupplierItem item: listSupplierItems) {
+                String categoryId = item.getCategoryId();
+                SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
+                if(cateTree != null && cateTree.getRootNode() != null) {
+                    cateTree.setItemsId(item.getId());
+                    cateTree.setDiyLevel(item.getDiyLevel());
+                    if (cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
+                        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
+                        if (certEng != null && certEng.size() > 0) {
+                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
+                            if (level != null) {
+                                cateTree.setFileId(certEng.get(0).getId());
+                            }
+                        }
+                    }
+                    allTreeList.add(cateTree);
+                }
+            }
+            model.addAttribute("allTreeList", allTreeList);
+            model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+        }
 
 		model.addAttribute("saleShow", sbShow);
 		model.addAttribute("cateList", list3);
 		model.addAttribute("saleQua", saleQua);
-		model.addAttribute("projectQua", projectQua);
+		/*model.addAttribute("projectQua", projectQua);*/
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
@@ -2016,28 +2057,20 @@ public class SupplierAuditController extends BaseSupplierController {
 	}
 
 	//工程
-	public List < Category > getProject(String supplierId, String code) {
-		List < Category > categoryList = new ArrayList < Category > ();
-
-		String[] types = code.split(",");
-		for(String s: types) {
-			String categoryId = "";
-			if(s != null) {
-				if(s.equals("PROJECT")) {
-					categoryId = DictionaryDataUtil.getId("PROJECT");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
-					for(SupplierItem c: category) {
-						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-						cate.setParentId(c.getId());
-						categoryList.add(cate);
-
+		public List<SupplierItem> getProject(String supplierId, String code) {
+			String[] types = code.split(",");
+			for(String s: types) {
+				String categoryId = "";
+				if(s != null) {
+					if(s.equals("PROJECT")) {
+						categoryId = DictionaryDataUtil.getId("PROJECT");
+						return supplierItemService.getCategory(supplierId, categoryId, s);
 					}
 				}
-			}
-		}
 
-		return categoryList;
-	}
+			}
+			return null;
+		}
 
 	//服务
 	public List < Category > getServer(String supplierId, String code) {

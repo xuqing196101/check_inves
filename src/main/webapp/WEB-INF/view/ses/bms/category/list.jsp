@@ -120,7 +120,7 @@
 			var node = nodes[0];
 			var nodes = getCurrentRoot(node);
 			$("#operaFlag").val('add');
-			if (nodes.classify && nodes.classify == "PROJECT" && level == 3){
+			if (nodes.classify && nodes.classify == "PROJECT" && level == 2){
 				showQua(null, nodes.classify);
 			}
 			if (nodes.classify && nodes.classify == "GOODS" && level == 2){
@@ -219,7 +219,7 @@
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					showInit();
-					if (node.classify && node.classify == "PROJECT" && level == 4){
+					if (node.classify && node.classify == "PROJECT" && level == 3){
 						showQua(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS" && level == 3){
@@ -261,7 +261,10 @@
 				$("#classify").val(2);
 			}
 		}
-		
+		//如果是工程
+		if (root.classify == "PROJECT"){
+			$("#isProject").val(1);
+		}
 		/* var engLevel = "";
 		$("#engLevelSelect").find("option").each(function(index, element){
 			if (element.selected == true) {
@@ -659,6 +662,7 @@
        		<input type="hidden" id="operaId" name="opera" />
        		<input type="hidden" id="isPublish" name="isPublish" />
        		<input type="hidden" id="classify" name="classify" />
+       		<input type="hidden" id="isProject" name="isProjectCate" />
             <table id="result"  class="table table-bordered table-condensedb" >
            	  <tbody>
            	 	<tr>

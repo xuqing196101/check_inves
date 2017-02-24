@@ -193,8 +193,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}else{
 			dataMap.put("purchaseBank", "");
 		}
-		if(pur.getPurchaseBankAccount()!=null){
-			dataMap.put("purchaseBankAccount", pur.getPurchaseBankAccount());
+		if(pur.getPurchaseBankAccount_string()!=null){
+			dataMap.put("purchaseBankAccount", pur.getPurchaseBankAccount_string());
 		}else{
 			dataMap.put("purchaseBankAccount", "");
 		}
@@ -256,8 +256,8 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		}else{
 			dataMap.put("supplierBank", "");
 		}
-		if(pur.getSupplierBankAccount()!=null){
-			dataMap.put("supplierBankAccount", pur.getSupplierBankAccount());
+		if(pur.getSupplierBankAccount_string()!=null){
+			dataMap.put("supplierBankAccount", pur.getSupplierBankAccount_string());
 		}else{
 			dataMap.put("supplierBankAccount", "");
 		}

@@ -1,6 +1,7 @@
 package bss.controller.cs;
 
 import ses.util.DictionaryDataUtil;
+
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -35,6 +36,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -127,6 +129,11 @@ public class PurchaseContractController extends BaseSupplierController{
     @Autowired
     private RoleServiceI roleService;
 
+    @Autowired
+    private ProjectDetailService detailService;
+    
+    @Autowired
+    private PurChaseDepOrgService chaseDepOrgService;
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -539,6 +546,7 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @param @throws Exception      
 	* @return String
 	 */
+
 	@RequestMapping("/createCommonContract")
 	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
 		String supcheckid = request.getParameter("supcheckid");
@@ -584,15 +592,46 @@ public class PurchaseContractController extends BaseSupplierController{
 		Supplier supplier = supplierService.selectById(supids[0]);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", ids[0]);
+		String planNos = "";
+		
 		Packages pack = packageService.findPackageById(map).get(0);
 		Project project = projectService.selectById(pack.getProjectId());
+		//获取计划号
+		String[] productIds={pack.getProjectId()};
+		HashMap<String, Object> taskMap = new HashMap<String, Object>();
+		taskMap.put("idArray",productIds);
+		List<ProjectTask> taskList = projectTaskService.queryByProjectNos(taskMap);
+		for(ProjectTask pur:taskList){
+			Task task = taskService.selectById(pur.getTaskId());
+			planNos=task.getDocumentNumber();
+		}
+		//获取包的预算价格
+		HashMap<String, Object> map1 = new HashMap<String, Object>();
+		map1.put("packageId", pack.getId());
+		map1.put("projectId", pack.getProjectId());
+		List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
+		BigDecimal projectBudget = BigDecimal.ZERO;
+		for (ProjectDetail projectDetail : detailList) {
+		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+	    }
+		BigDecimal projectBud = projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP);
+		
+		//所有甲方机构
+		//List<Orgnization> orgs = orgnizationServiceI.initOrgByType("1");
 		project.setDealSupplier(supplier);
-		Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(project.getSectorOfDemand());
-		project.setOrgnization(org);
+		
+		/*Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(project.getSectorOfDemand());
+		project.setOrgnization(org);*/
+		
+		//PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());
 		model.addAttribute("project", project);
 		model.addAttribute("transactionAmount", amounts);
 		model.addAttribute("id", contractuuid);
 		model.addAttribute("supcheckid",supcheckid);
+		model.addAttribute("projectBud",projectBud);
+		model.addAttribute("planNos",planNos);
+		//model.addAttribute("orgs",orgs);
+		//model.addAttribute("purchaseDep",purchaseDep);
 		return "bss/cs/purchaseContract/newContract";
 	}
 	
@@ -2436,9 +2475,11 @@ public class PurchaseContractController extends BaseSupplierController{
      * @param @throws Exception      
      * @return void
      */
+    
     @RequestMapping(value="/findAllUsefulOrg",produces="application/json;charest=utf-8")
     public void findAllUsefulOrg(HttpServletResponse response,HttpServletRequest request) throws Exception{
-        List<Orgnization> list = purchaseContractService.findAllUsefulOrg();
+        //List<Orgnization> list = purchaseContractService.findAllUsefulOrg();
+        List<Orgnization> list = orgnizationServiceI.initOrgByType("1");
         super.writeJson(response, list);
     }
 
@@ -2486,8 +2527,9 @@ public class PurchaseContractController extends BaseSupplierController{
      */
     @RequestMapping(value="/changeXuqiu",produces="application/json;charest=utf-8")
     public void changeXuqiu(String id,HttpServletResponse response,HttpServletRequest request) throws Exception{
-        Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(id);
-        super.writeJson(response, org);
+    	PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(id);
+    	
+        super.writeJson(response, purchaseDep);
     }
 
     /**

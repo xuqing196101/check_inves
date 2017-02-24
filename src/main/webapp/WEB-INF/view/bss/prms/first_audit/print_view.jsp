@@ -50,16 +50,18 @@
 	   
    }
    
-   function printResult(projectId,packageId,expertId){
-   	   window.location.href="${pageContext.request.contextPath}/packageExpert/print.html?projectId="+projectId+"&packageId="+packageId+"&expertId="+expertId;
+   function printResult(projectId,packageId,expertId,auditType){
+   	   window.location.href="${pageContext.request.contextPath}/packageExpert/print.html?projectId="+projectId+"&packageId="+packageId+"&expertId="+expertId+"&auditType="+auditType;
+
    }
+
   </script>
   <body>
     <div class="container">
 		 
 		<div class="container clear" id="package">
 			<div class="mt5 mb5 fr">
-			    <button class="btn" onclick="printResult('${project.id}','${pack.id}','${expert.id}');" type="button">打印检查数据</button>
+			    <button class="btn" onclick="printResult('${project.id}','${pack.id}','${expert.id}','${auditType}');" type="button">打印检查数据</button>
 		   	</div>
 		    <div class="headline-v2">
 		   		<h2>资格性符合性检查数据</h2>
@@ -97,7 +99,7 @@
 			   		                      <c:if test="${isSubmit == 1 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==0 }">合格</c:if>
 			   		                      <c:if test="${isSubmit == 1 && r.supplierId eq supplier.suppliers.id && r.firstAuditId eq first.id && r.expertId eq expertId && r.isPass==1 }">
 			   		                    	  <div class="red">不合格</div>
-			   		                    	  理由：${r.rejectReason}地区温度计晴空万里低级趣味地区完全忘了考虑带你去看玩电脑得去问ID进去卡了五毒俱全来得及情况为代价
+			   		                    	  理由：${r.rejectReason}
 			   		                    	 <%-- <a id="notPassReason_${v.index}_${vs.index}" name="notPassReason" href="javascript:void(0);" onclick="reason('${first.id}','${supplier.suppliers.id }','${expertId}');">查看理由</a> --%>
 			   		                      </c:if>
 			   		                    </c:forEach>
