@@ -279,8 +279,6 @@
 		INNER JOIN 
 			"T_SES_SMS_SUPPLIER_APTITUTE" t2
 		ON 
-			t1."CERT_TYPE" = t2."CERT_NAME"
-		AND
 			t1."CERT_CODE" = t2."CERT_CODE"
 		WHERE 
 			t1."CERT_CODE" = #{param2} 
