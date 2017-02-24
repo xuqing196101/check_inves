@@ -1,6 +1,7 @@
 package ses.controller.sys.ems;
 
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -93,6 +94,7 @@ import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 
@@ -343,12 +345,15 @@ public class ExpertController extends BaseController {
 	 * @param response
 	 * @param model
 	 * @return String
+	 * @throws Exception 
 	 */
 
 	@RequestMapping("/toAddBasicInfo")
 	public String toAddBasicInfo(@RequestParam("userId") String userId,
-		HttpServletRequest request, HttpServletResponse response,
-		Model model) {
+		HttpServletRequest request, HttpServletResponse response,RedirectAttributes attr,
+		Model model) throws Exception {
+		login( userId,  response,  request,
+	    		  attr) ;
 		model.addAttribute("userId", userId);
 		User user = userService.getUserById(userId);
 		String typeId = user.getTypeId();
@@ -3279,4 +3284,68 @@ public class ExpertController extends BaseController {
         }
         return cateTree;
     }
+    
+    
+    @RequestMapping("/login")
+    public String  login(String userId,HttpServletResponse response,HttpServletRequest request,
+    		RedirectAttributes attr) throws Exception{
+    	 String loginName = (String) request.getSession().getAttribute("loginName");
+    	 response.setContentType("text/html");
+    	 response.setCharacterEncoding("utf-8");
+         if(loginName==null){
+             String path = request.getContextPath();
+             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+             PrintWriter out = response.getWriter();
+             StringBuilder builder = new StringBuilder();
+             builder.append("<HTML><HEAD>");
+             builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
+             builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
+             builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+             builder.append("</HEAD>");
+             builder.append("<script type=\"text/javascript\">"); 
+             builder.append("$(function() {");
+             builder.append("layer.confirm('您未登陆，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+             builder.append("window.top.location.href='"); 
+             builder.append(basePath+"index/sign.html");  
+             builder.append("';"); 
+             builder.append("});");
+             builder.append("});");
+             builder.append("</script>");  
+             builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+             out.print(builder.toString());
+             out.flush();  
+             out.close(); 
+         }
+      
+         if(!loginName.equals(userId)){
+        	 response.setContentType("textml;charset=utf-8");
+             String path = request.getContextPath();
+             String basePath =  request.getScheme()+"://"+ request.getServerName()+":"+ request.getServerPort()+path+"/";
+             PrintWriter out = response.getWriter();
+             StringBuilder builder = new StringBuilder();
+             builder.append("<HTML><HEAD>");
+             builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/backend/js/jquery.min.js'></script>");
+             builder.append("<script language='javascript' type='text/javascript' src='"+basePath+"/public/layer/layer.js'></script>");
+             builder.append("<link href='"+basePath+"/public/backend/css/common.css' media='screen' rel='stylesheet'>");
+             builder.append("</HEAD>");
+             builder.append("<script type=\"text/javascript\">"); 
+             builder.append("$(function() {");
+             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+             builder.append("window.top.location.href='"); 
+             builder.append(basePath+"index/sign.html");  
+             builder.append("';"); 
+             builder.append("});");
+             builder.append("});");
+             builder.append("</script>");  
+             builder.append("<BODY><div style='width:1000px; height: 1000px;'></div></BODY></HTML>");
+             out.print(builder.toString());
+             out.flush();  
+             out.close(); 
+         }
+         attr.addAttribute("userId", userId);
+    	
+    	return "redirect:toAddBasicInfo.html";
+    }
+    
+    
 }

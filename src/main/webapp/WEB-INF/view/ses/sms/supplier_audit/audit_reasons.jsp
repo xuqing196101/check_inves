@@ -191,7 +191,7 @@
         <div class="col-md-12 tab-v2 job-content">
 	          <ul class="flow_step">
 		          <li onclick = "jump('essential')">
-		            <a aria-expanded="false" href="#tab-1">详细信息</a>
+		            <a aria-expanded="false" href="#tab-1">基本信息</a>
 		            <i></i>
 		          </li>
 		          <li onclick = "jump('financial')">
@@ -281,7 +281,7 @@
                    <td class="tc w30"><input type="checkbox" value="${reasons.id }" name="chkItem"  id="${reasons.id}"></td>
                    <td class="tc">${vs.index + 1}</td>
                    <td class="tc">
-                     <c:if test="${reasons.auditType eq 'basic_page'}">详细信息</c:if>
+                     <c:if test="${reasons.auditType eq 'basic_page'}">基本信息</c:if>
                      <c:if test="${reasons.auditType eq 'finance_page'}">财务信息</c:if>
                      <c:if test="${reasons.auditType eq 'shareholder_page'}">股东信息</c:if>
                      <%-- <c:if test="${reasons.auditType == 'mat_pro_page'}">物资-生产信息</c:if>

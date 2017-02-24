@@ -20,7 +20,7 @@ p, li, li a, label {
     color: #555;
 }
 
-/** 鎼滅储 */
+
 .search_detail {
 	padding: 10px;
 	background: #e5f6f8;
@@ -36,7 +36,7 @@ p, li, li a, label {
 	clear: both;
 }
 
-/** 寮瑰嚭妗嗙殑table鏍峰紡 **/
+
 .openLayer_table_box {
 	padding: 5px 20px 0px 20px;
 	clear: both;
@@ -85,7 +85,7 @@ p, li, li a, label {
 	color: #555;
 }
 
-/** 鍒楄〃鏍峰紡 **/
+
 .table thead>tr>th {
 	border-bottom: none;
 	color: #333;
@@ -111,7 +111,7 @@ p, li, li a, label {
 	border: 1px solid #ddd;
 }
 
-/** 闈㈠寘瀵艰埅  */
+
 .margin-top-10 {
 	margin-top: 10px;
 }
@@ -322,7 +322,7 @@ p, li, li a, label {
 .breadcrumbs-v3.breadcrumbs-lg {
 	padding: 200px 0;
 }
-/* 娴佺▼鍥惧浘鐗囧畾浣�*/
+
 .breadcrumbs-v3 .img-v1 {
 	background-position: -38px -455px;
 	background-image:url("../images/icons.png");
@@ -393,7 +393,6 @@ p, li, li a, label {
 	}
 }
 
-/** 琛ㄥ崟鏍峰紡 **/
 .container_box{
 	margin-top:20px;
 	padding-bottom:20px;
@@ -413,7 +412,6 @@ p, li, li a, label {
     font-size: 18px;
 }
 
-/** 铏氱嚎杈规鏍峰紡 */
 .ul_list {
     list-style-type: none;
     font-size: 14px;
@@ -426,7 +424,6 @@ p, li, li a, label {
     padding: 20px 20px 10px !important;
 }
 
-/* 涓存椂锛氬幓鎺夐攣琛ㄥご琛ㄥ垪锛岄渶姹傝鍒掓殏鏃朵娇鐢ㄧ殑涓�釜list铏氱嚎妗嗘牱寮�*/
 .require_ul_list {
     list-style-type: none;
     font-size: 14px;
@@ -440,7 +437,6 @@ p, li, li a, label {
     height: 500px;
 }
 
-/** 鏌ョ湅椤甸潰绔栫嚎鏃犵櫧鑹茶儗鏅牱寮�*/
 h2.list_title{
 	height:16px;
 	line-height: 16px;
@@ -449,7 +445,6 @@ h2.list_title{
 	font-size: 16px;
 	margin: 15px 0;
 }
-/**琛ㄥ崟椤甸潰搴忓彿鏍峰紡 */
 .count_flow i {
     width: 24px;
     height: 24px;
@@ -471,7 +466,6 @@ h2.list_title{
 	float:left;
 }
 
-/**涓婁紶涓嬭浇鏍峰紡*/
 .download {
     padding: 5px 12px;
     background: url(../images/download.png) no-repeat 0px;
@@ -488,7 +482,6 @@ h2.list_title{
 .input-append label{
 	font-size: 14px;
 }
-/** 涓婁紶鏍峰紡 */
 a.upload {
     padding-left: 30px;
     background: url(../images/upload.png) no-repeat 0px;
@@ -535,7 +528,6 @@ a.thumbnail {
 	margin-bottom:3px!important;
 }
 
-/**涓嬫媺閫夋嫨妗嗘牱寮�/
 .select_common{
     display: inline-block;
     white-space: nowrap;
@@ -555,7 +547,6 @@ li:first-child {
     border-left: 0px;
 }
 
-/** 璇︽儏鏍峰紡  **/
 .s_news{
   padding-left:45px !important;
   background-image:url(../images/xxxi.png)!important;
@@ -614,7 +605,6 @@ li:first-child {
 	margin-right:20px;
 }
 
-/** 鍘嗗彶璁板綍-鏃堕棿杞存牱寮�**/
 .tml_container {
     background-image:url(../images/list_line.png);
 }
@@ -763,7 +753,6 @@ li:first-child {
   background:url(../images/percent.png) no-repeat 5px;
 }
 
-/* 宸︿晶鐐瑰嚮鍒囨崲鍙充晶鍒囨崲鏄剧ず鏍峰紡 */
 .btn_list{
   list-style-type:none;
 }
@@ -848,7 +837,6 @@ li:first-child {
   background-color:#99CC33;
  }
 
-/**鐧诲綍椤甸潰鏍峰紡*/
 .light_list{
   height:35px;
   line-height:35px;
@@ -905,7 +893,7 @@ li:first-child {
 .tnone{
 	display: none;
 }
-/**楠岃瘉鏍峰紡 */
+
 .cue{
 	position:absolute;
 	left:0px;
@@ -915,7 +903,7 @@ li:first-child {
 	color:#ef0000;
 	font-size:12px;
 }
-/** 鍦板浘鏍峰紡 */
+
 #mapsId {
     height: 700px;
     min-width: 310px;
@@ -929,7 +917,7 @@ li:first-child {
     color: gray;
 }
 
-/**澧炲姞鐢ㄦ埛绠＄悊澧炲姞椤甸潰鏍峰紡*/
+
 .checkUser{
 	position:absolute;
 	right:0px;top:-20px;
@@ -945,7 +933,7 @@ li:first-child {
 	color:red;
 }
 
-/*鍚堝悓鏄庣粏鏍峰紡*/
+
 .dw188 {
 	display:none;
 	position: absolute;
@@ -967,7 +955,7 @@ li:first-child {
 	width:auto!important;
 	height:auto!important;
 }
-/* 缁熻鍒楄〃銆佺粺璁″垎鏋愬浘鍥炬爣鏍峰紡 */
+
 .total_list{
   padding-left:45px !important;
   background-image:url(../images/tjlb.png)!important;
@@ -985,7 +973,7 @@ li:first-child {
 .drop_window{
     padding:10px 10%;
 }
-/* 妗ｆ鏍峰紡娣诲姞 */
+
 .dangan_file{
 	font-size:26px;
 	height:50px;
@@ -1000,7 +988,7 @@ li:first-child {
 	height:40px;
 	line-height: 40px;
 }
-/*鑰冭瘯鏍峰紡娣诲姞*/
+
 .score_box{
 	width: 40%;
     margin: 0 auto;
@@ -1021,12 +1009,12 @@ li:first-child {
 	height:32px;
 	clear:both;
 }
-/*钃濊壊瀛椾綋鏍峰紡*/
+
 .green_link {
   color: #8fc31f !important;
  }
 
-/** 闅愯棌寰呯敤涓婁紶鎸夐挳鐨刣iv */
+
 .dis_none{
  	position: absolute;
  	opacity: 0;
@@ -1049,7 +1037,7 @@ li:first-child {
 }
 
 
-/** ul浠垮埗琛ㄦ牸 */
+
 .ul_table{
 	width:100%;
 	display: table;
@@ -1068,7 +1056,7 @@ li:first-child {
 	height:33px;
 	line-height: 33px;
 }
-/** input鍚庨潰璺熺潃鐨勭孩鑹裁�*/
+
 .abolish{
 	position:absolute;
 	right:10px;
@@ -1077,7 +1065,7 @@ li:first-child {
 	font-size: 18px;
 	cursor: pointer;
 }
-/**铏氱嚎妗嗕笂甯︽湁瀛楁牱寮�/
+
 .border_font {
     background-color: #ffffff;
     border: 1px dashed #dddddd;
@@ -1114,7 +1102,7 @@ table .input_group .add-on{
 	font-size: 13px;
 }
 
-/* 璇勫椤规坊鍔犳寜閽�*/
+
 .item_size{
 	height: 20px;
 	width:20px;
@@ -1125,7 +1113,7 @@ table .input_group .add-on{
 	background-image: url(../images/icons.png);
 	cursor: pointer;
 }
-/* 璇勫椤规坊鍔犳柊澧炪�淇敼銆佸垹闄ゆ寜閽�*/
+
 .addItem {
 	background-position: -168px -782px;
 }
@@ -1135,7 +1123,7 @@ table .input_group .add-on{
 .deleteItem{
 	background-position: -48px -1022px
 }
-/*鍚庡彴棣栭〉鍏憡*/
+
 .backend_new{
 	list-style-type: none;
 	padding: 10px;
@@ -1193,7 +1181,7 @@ table .input_group .add-on{
 	white-space: nowrap;
 }
 
-/*鍊掕鏃舵牱寮�/
+
 .kaibiao_time {
     line-height: 95px;
     padding-top: 70px;
@@ -1241,7 +1229,7 @@ table .input_group .add-on{
 .announce .kaibiao_all .kb_title{
 	font-size:2.5em;
 }
-/*缁勭粐涓撳璇勫*/
+
 .tab-v2 .expert_tab li a{
 	padding:10px;
 	font-size:16px;
@@ -1257,7 +1245,7 @@ table .input_group .add-on{
 	border:0px;
 }
 
-/** 鎮诞鎸夐挳 **/
+
 .btmfix {
     width: 100%;
     position: fixed;
@@ -1270,7 +1258,7 @@ table .input_group .add-on{
     z-index: 1000000;
 }
 
-/**鏄庣粏瀹藉害鏍峰紡寮�*/
+
 .btmfixs {
     width: 100%;
     position: fixed;
@@ -1283,7 +1271,7 @@ table .input_group .add-on{
     z-index: 1000000;
 }
 
-/**明细宽度样式开始*/
+
 table.lockout{
   border-bottom-color: #dddddd; 
   border-top-color: #dddddd; 
@@ -1474,5 +1462,3 @@ table.lockout .extrafile{
 	width: 175px;
 }
 
-
-/**鏄庣粏瀹藉害鏍峰紡缁撴潫*/

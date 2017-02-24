@@ -519,7 +519,7 @@ public class SupplierItemController extends BaseController {
             }
         }
         if (isEng) {
-            List<SupplierItem> listSupplierItems = supplierItemService.findCategoryList(supplierId, "PROJECT", null);
+            List<SupplierItem> listSupplierItems = getProject(supplierId, "PROJECT");
             List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
             for(SupplierItem item: listSupplierItems) {
                 String categoryId = item.getCategoryId();
@@ -669,27 +669,19 @@ public class SupplierItemController extends BaseController {
 	}
 
 	//工程
-	public List < Category > getProject(String supplierId, String code) {
-		List < Category > categoryList = new ArrayList < Category > ();
-
+	public List<SupplierItem> getProject(String supplierId, String code) {
 		String[] types = code.split(",");
 		for(String s: types) {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("PROJECT")) {
 					categoryId = DictionaryDataUtil.getId("PROJECT");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
-					for(SupplierItem c: category) {
-						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-						cate.setParentId(c.getId());
-						categoryList.add(cate);
-					}
+					return supplierItemService.getCategory(supplierId, categoryId, s);
 				}
 			}
 
 		}
-
-		return categoryList;
+		return null;
 	}
 
 	//服务

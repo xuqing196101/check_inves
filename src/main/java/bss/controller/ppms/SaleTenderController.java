@@ -517,6 +517,8 @@ public String saveSupplier(String ids,String packages,String status,HttpServletR
     for(String str:listIds){
       saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)2, attribute.getId(),packages));
     }
+    Project project = projectService.selectById(projectId);
+    projectService.updateStatus(project, "FSBSZ");
   }
   return "redirect:view.html?projectId="+projectId+"&ix="+ix;
 }

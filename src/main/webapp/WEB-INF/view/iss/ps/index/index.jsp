@@ -63,6 +63,10 @@
 	  function hotLine(){
 	  	layer.alert("服务热线：66946342(吕工)");
 	  }
+	  
+	  function indexTip(id){
+	  	window.location.href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id="+id;
+	  }
     </script>
   </head>
 
@@ -1319,10 +1323,10 @@
        <span class="close_icon" id="close"></span>
      </div>
       <div class="prompt_main">
-                  <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id=8B96764A39E64F5CADDA0013DE6B4719">${properties['indexTip']}</a>
+                  <a href="javascript:void(0);" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">${properties['indexTip']}</a>
       </div>
       <div class="prompt_btn">
-        <button class="btn">了解详情</button>
+        <button class="btn" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">了解详情</button>
       </div>
     </div>
   </body>

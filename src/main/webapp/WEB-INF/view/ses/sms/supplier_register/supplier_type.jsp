@@ -1485,7 +1485,7 @@
 
 												</div></li>
 											<div id="conAchiDiv">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10" <c:if test="${fn:contains(audit,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierConAch')"</c:if>><span
 													class="col-md-12 col-sm-12 col-xs-12 padding-left-5"
 													<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierConAch','mat_eng_page')"</c:if>><i
 														class="red">*</i> 承包合同主要页及保密协议：</span>
@@ -1525,7 +1525,7 @@
 										<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
 										<div class="ml20">
 											省、直辖市：
-										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)">
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">
 										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
 										    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
@@ -1534,7 +1534,7 @@
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}">
 											<c:forEach items="${rootArea}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />

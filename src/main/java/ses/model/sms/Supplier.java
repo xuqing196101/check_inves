@@ -622,6 +622,10 @@ public class Supplier implements Serializable {
 	private List<Area> concatCityList=new ArrayList<Area>();
 	
 	private List<Area> armyCity=new ArrayList<Area>();
+	/**
+	 * 字典
+	 */
+	private Area area;
 	
 	private String packageName;
 	
@@ -1747,6 +1751,14 @@ public class Supplier implements Serializable {
     public void setBusinessNature(String businessNature) {
         this.businessNature = businessNature;
     }
+
+	public Area getArea() {
+		return area;
+	}
+
+	public void setArea(Area area) {
+		this.area = area;
+	}
 	
 	
 	
