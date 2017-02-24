@@ -165,7 +165,7 @@
           <div class="col-md-12 tab-v2 job-content">
 	          <ul class="flow_step">
 		          <li onclick = "jump('essential')">
-		            <a aria-expanded="false" href="#tab-1">详细信息</a>
+		            <a aria-expanded="false" href="#tab-1">基本信息</a>
 		            <i></i>
 		          </li>
 		          <li onclick = "jump('financial')">

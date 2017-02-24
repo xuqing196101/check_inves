@@ -1754,7 +1754,7 @@ public class SupplierController extends BaseSupplierController {
                 boolean flag = false;
 		        if (supplierAptitute.getCertName() != null && supplierAptitute.getCertCode() != null) {
                     inner: for (SupplierCertEng supplierCertEng : listSupplierCertEngs) {
-                        if (supplierAptitute.getCertName().equals(supplierCertEng.getCertType()) && supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
+                        if (supplierAptitute.getCertCode().equals(supplierCertEng.getCertCode())) {
                             flag = true;
                             break inner;
                         }

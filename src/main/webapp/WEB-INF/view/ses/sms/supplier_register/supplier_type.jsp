@@ -885,12 +885,27 @@
 		}
 	}
 	
+	var tempText = "";
+	function getAptLevelSelect(record) {
+		tempText = record.text;
+		
+	}
 	//资质类型下拉框改变时调用的方法
 	function getAptLevel(obj){
 		if(obj instanceof jQuery) {
 			var typeId = obj.val();
+			var currentText = obj.combobox("getText");
+			var allText = obj.combobox("getData");
+				$("#certGrade_select").combobox({
+					valueField: 'label',
+					textField: 'value',
+					data: [{
+						"label" : "",
+						"value" : "",
+						"selected" : true
+					}]
+				});
 			if (typeId != null && typeId != "") {
-				obj.parent().next().next().next().find("select").html("");
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
 					data: {
@@ -909,7 +924,6 @@
 								//var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
 								cur_str = {label : data[i].id,value : data[i].name};
 							}
-							
 							easyuiData.push(cur_str);
 							//obj.parent().next().next().next().find("select").append(optionDOM);
 						}
@@ -918,7 +932,6 @@
 							textField: 'value',
 							data: easyuiData
 						});
-						
 					}
 				});
 			}
@@ -935,7 +948,7 @@
 					success: function(data){
 						for(var i = 0; i < data.length; i++){
 							var optionDOM = "";
-							if ($(obj).next().val() != "" && $(obj).next().val() == data[i].id) {
+							if ($(obj).parent().children(".forSelectId").val() != "" && $(obj).parent().children(".forSelectId").val() == data[i].id) {
 								optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
 							} else {
 								var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
@@ -1472,7 +1485,7 @@
 
 												</div></li>
 											<div id="conAchiDiv">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10"><span
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10" <c:if test="${fn:contains(audit,'supplierConAch')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierConAch')"</c:if>><span
 													class="col-md-12 col-sm-12 col-xs-12 padding-left-5"
 													<c:if test="${fn:contains(engPageField,'supplierConAch')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierConAch','mat_eng_page')"</c:if>><i
 														class="red">*</i> 承包合同主要页及保密协议：</span>
@@ -1512,7 +1525,7 @@
 										<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
 										<div class="ml20">
 											省、直辖市：
-										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)">
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">
 										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
 										    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
@@ -1521,7 +1534,7 @@
 										<ul class="list-unstyled overflow_h">
 											<input type="hidden" name="supplierMatEng.businessScope" id="businessScope" value="${currSupplier.supplierMatEng.businessScope}">
 											<c:forEach items="${rootArea}" var="area" varStatus="st">
-												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}">
+												<li class="col-md-3 col-sm-6 col-xs-12 pl10" id="area_${area.id}" >
 													<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(engPageField,area.name)}">style="border: 1px solid red;" onmouseover="errorMsg('${area.name}','mat_eng_page')"</c:if>>${area.name}</span>
 													<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 														<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" maxcount="5" businessId="${currSupplier.id}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" exts="${properties['file.picture.type']}" id="conAch_up_${st.index+1}" multiple="true" auto="true" />
@@ -1756,9 +1769,17 @@
 																	</c:forEach>
 																</select> -->
 																<select title="cnjewfn" id="certType_${certAptNumber}" class="w100p border0" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certType" style="width:200px;border: none;">   
+																    <c:set var="tempForShowOption" value="go" scope="page"/>
 																    <c:forEach items="${typeList}" var="type">
 																		<option value="${type.id}" <c:if test="${aptitute.certType eq type.id}">selected</c:if>>${type.name}</option>
+																		<c:if test="${aptitute.certType eq type.id}">
+																			<c:set var="tempForShowOption" value="notgo"/>
+																		</c:if>
 																	</c:forEach>
+																	<c:if test="${tempForShowOption eq 'go' }">
+																		<option value="${aptitute.id}" selected="selected">${aptitute.certType}</option>
+																	</c:if>
+																	
 																</select>
 																
 																<input type="hidden" class="forSelectId" value="${aptitute.aptituteLevel}">
@@ -1779,14 +1800,20 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select" title="cnjewfn" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
-																	
+																<select id="certGrade_select" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																	<c:if test="${tempForShowOption eq 'go' }">
+																		<option selected="selected">${aptitute.aptituteLevel}</option>
+																	</c:if>
+																	<c:set var="tempForShowOption" value="notgo"/>
 																</select>
 																<script type="text/javascript">
 																	$("select[title='cnjewfn']").each(function() {
 																		var $obj = $(this);
 																		$obj.combobox({
-																			onChange : function(newValue,oldValue) {
+																			onSelect : function(record) {
+																				getAptLevelSelect(record);
+																			},
+																			onChange : function() {
 																				getAptLevel($obj);
 																			},
 																		});

@@ -86,6 +86,7 @@
 		<result column="ARMY_BUSINESS_CITY" property="armyBuinessCity" />
 		<result column="IS_PROVISIONAL" property="isProvisional" />
 
+        <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
 
 	<resultMap type="ses.model.sms.Supplier" id="supplierTypeMap"

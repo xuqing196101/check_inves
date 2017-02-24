@@ -142,6 +142,7 @@ public class LoginController {
                         Map<String, Object> map = expertService.loginRedirect(u);
                         Object object = map.get("expert");
                         if (object != null) {
+                        	req.getSession().setAttribute("loginName", u.getId());
                             // 拉黑 阻止登录
                             if (object.equals("1")) {
                                 out.print("black");

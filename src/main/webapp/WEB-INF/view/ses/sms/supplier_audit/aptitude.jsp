@@ -169,7 +169,7 @@
 				<div class="col-md-12 tab-v2 job-content">
 					<ul class="flow_step">
 						<li onclick="jump('essential')">
-							<a aria-expanded="false" href="#tab-1">详细信息</a>
+							<a aria-expanded="false" href="#tab-1">基本信息</a>
 							<i></i>
 						</li>
 						<li onclick="jump('financial')">
@@ -244,7 +244,7 @@
 								</li>
 								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '工程') and fn:length(projectQua) > 0}">
+							<c:if test="${fn:contains(supplierTypeNames, '工程') and fn:length(allTreeList) > 0}">
 								<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'>
 									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
 									<c:set value="${liCount+1}" var="liCount"/>
@@ -333,18 +333,45 @@
 							<!-- 工程 -->
 							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
 								<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-3">
+									<c:set value="0" var="plength"> </c:set>
 									<table class="table table-bordered">
-										<c:set value="0" var="plength"> </c:set>
-										<!-- <thead>
+										<thead>
 											<tr>
-												<th class="tc info">名称</th>
-												<th class="tc info">环保管理体系认证证书</th>
-												<th class="tc info">国家行业准入证书</th>
-												<th class="tc info">质量管理体系认证证书</th>
-												<th class="tc info">审核操作</th>
-											</tr>
-										</thead> -->
-
+									    	<th class="info tc w50">序号</th>
+									      <th class="info tc">类别</th>
+									      <th class="info tc">大类</th>
+									      <th class="info tc">中类</th>
+									      <th class="info tc">资质类型</th>
+									      <th class="info tc">证书编号</th>
+									      <th class="info tc">资质等级</th>
+									     	<th class="info tc">证书图片</th>
+									     	<th class="info tc">操作</th>
+										  </tr>
+										</thead>
+								    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
+								      <tr>
+								      	<td>${vs.index + 1}</td>
+								      	<td>${cate.rootNode}</td>
+								      	<td>${cate.firstNode}</td>
+								      	<td>${cate.secondNode}</td>
+								      	<td>
+								      		<c:forEach items="${cate.typeList}" var="type">
+										      	<c:if test="${cate.qualificationType eq type.id}">${type.name}</c:if>
+										     	</c:forEach>
+										    </td>
+								      	<td>${cate.certCode}</td>
+								      	<td>${cate.level.name}</td>
+								      	<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/></td>
+								      	<td class="tc w50">
+													<a onclick="reason('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+													<p ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+											 </td>
+								      </tr>
+								    </c:forEach>
+								  </table>
+									
+									
+									<%-- <table class="table table-bordered">
 										<c:forEach items="${projectQua }" var="project">
 											<tr>
 												<td class="tc info">${project.categoryName }
@@ -359,13 +386,9 @@
 															<p id="${pr.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>
-												<%-- <td class="tc w100">
-													<a onclick="reason('工程品目信息','${project.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
-													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-												</td> --%>
 											</tr>
 										</c:forEach>
-									</table>
+									</table> --%>
 								</div>
 							</c:if>
 
