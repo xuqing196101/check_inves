@@ -692,7 +692,7 @@
 		            <span id="sp2" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 		            <span id="ty3" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
 		            <span id="sp4" class="new_step fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span>
-		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售（承包）合同</span> </span>
+		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">合同信息</span> </span>
 		            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 		            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
 		            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
