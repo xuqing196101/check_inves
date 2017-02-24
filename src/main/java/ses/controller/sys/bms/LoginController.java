@@ -18,6 +18,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
@@ -303,4 +306,5 @@ public class LoginController {
         req.getSession().removeAttribute("loginUser");
         return "redirect:/";
     }
+    
 }

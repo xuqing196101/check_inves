@@ -16,8 +16,9 @@
   <head>
 
     <jsp:include page="/index_head.jsp"></jsp:include>
-
+ 
     <script type="text/javascript">
+    
       $(function() {
       	$("#close").click(function(){
           	$(".prompt_tips").hide();          

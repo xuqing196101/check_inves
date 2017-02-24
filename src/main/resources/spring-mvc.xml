@@ -135,6 +135,7 @@
 			<mvc:exclude-mapping path="/supplier/isCommit.*" />
 			<mvc:exclude-mapping path="/supplier/getUUID.*" />
 			<mvc:exclude-mapping path="/supplier/validateCreditCode.*" />
+			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />
 			
 <!-- 			地区管理 -->
 			<mvc:exclude-mapping path="/area/find_root_area.*" />

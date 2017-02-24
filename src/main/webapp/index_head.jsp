@@ -14,6 +14,24 @@
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
+	
+		$.ajax({
+			    url: "${pageContext.request.contextPath}/userInfo/loginInfo.do",
+			    type: "POST",
+			    dataType: "json",
+			    success: function(data) {
+			    	if(data!=null&&data.loginName!=null&&""!=data.loginName){
+			    	   $("#welcome").html(data.loginName+"你好，欢迎来到军队采购网！");
+			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
+			    	}else{
+			    	    $("#welcome").html("你好，欢迎来到军队采购网！");
+			    	    $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
+			    	}
+			    }
+		});
+		
+	
+	
 	if(user!=null && user!=''){
 		$("#welcome").html(user+"你好，欢迎来到军队采购网！");
 	}else {
@@ -27,13 +45,17 @@ $(function(){
 })
 
 function myInfo(){
+   window.location.href="${pageContext.request.contextPath}/login/index.html";
+}
+/* 
+function myInfo(){
 	if(user!=null && user!=''){
 		window.location.href="${pageContext.request.contextPath}/login/index.html";
 	}else{
 		window.location.href="${pageContext.request.contextPath}/index/sign.html";
 	}
 }
-
+ */
 function importAdd(){
 	if(user==null){
 		layer.alert("请先登录",{offset: ['222px', '390px'], shade:0.01});
@@ -41,33 +63,37 @@ function importAdd(){
 	}
 	window.location.href="${pageContext.request.contextPath}/importSupplier/register.html";
 }
-
 </script>
 </head>
 <body>
 <div class="wrapper">
   <div class="head_top col-md-12 col-xs-12 col-sm-12">
    <div class="container p0">
+   
     <div class="row">
     <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">你好，欢迎来到军队采购网！
-      <a href="${pageContext.request.contextPath}/index/sign.html" class="red">【请登录】</a>
+      <a href="${pageContext.request.contextPath}/index/sign.html" class="red" id="red">【请登录】</a>
        <% if (environment != null && environment.equals("1")){ %>
          <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
            <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 
          <%} %>
 	   <% } %>
     </div> 
-       <div class="col-md-7 col-sm-7 head_right pr5 pl0 fr"> 
+       <div class="col-md-7 col-sm-7 head_right pr5 pl0 fr" id="properties"> 
     <!-- 根据session判断 -->
-        <c:if test="${properties['ipAddressType'] == 0}">
+         <c:if test="${properties['ipAddressType'] == 0}">
            <a class="web_number">网站编号：${properties['website.no']} &nbsp;</a>
         </c:if>
-    	 <c:if test="${not empty loginUser }">
- 	 		|<a onclick="myInfo()">我的信息</a>
- 	 	 </c:if>  
+    	 <c:if test="${not empty loginUser }"> 
+ 	 		|<a id="my" onclick="myInfo()">我的信息</a>
+ 	  </c:if>  
     	 <a href="${pageContext.request.contextPath}/login/loginOut.html" id="exit">&nbsp;|&nbsp;退出</a>
+	  
+	  
 	   </div>
 	  </div>
+	  
+	  
     </div>
   </div>
   </div>
