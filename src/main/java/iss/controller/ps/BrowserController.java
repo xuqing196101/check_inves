@@ -113,6 +113,25 @@ public class BrowserController {
 	     downloadFile(request, response, filePath, fileName);
 	  }
 	
+	  
+	  @RequestMapping("/categoryDownload")
+	  public void categoryDownload(HttpServletRequest request, HttpServletResponse response){
+	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
+	     UploadUtil.createDir(path);
+	     String fileName = PropUtil.getProperty("供应注册须知.doc");
+	     String filePath = path + File.separator + fileName;
+	     downloadFile(request, response, filePath, fileName);
+	  }
+	  
+	  @RequestMapping("/supplierDownload")
+	  public void supplier(HttpServletRequest request, HttpServletResponse response){
+	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
+	     UploadUtil.createDir(path);
+	     String fileName = PropUtil.getProperty("产品分类目录.xlsx");
+	     String filePath = path + File.separator + fileName;
+	     downloadFile(request, response, filePath, fileName);
+	  }
+	  
 	/**
 	 * 
 	 *〈简述〉 根据游览器版本返回文件名称
@@ -139,5 +158,7 @@ public class BrowserController {
 		 }
 		 return fileName;
 	}
+	
+	
 }
 

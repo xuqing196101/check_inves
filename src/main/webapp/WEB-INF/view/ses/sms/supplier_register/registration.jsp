@@ -36,10 +36,10 @@
 					${doc}
 					<div class="mt40">
 						<div class="fl">
-							文件下载：<span class="ml10">供应商注册须知</span><a href="javascript:downSupplierNotice();" class="download"></a>
+							文件下载：<span class="ml10">供应商注册须知</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="download"></a>
 						</div>
 						<div class="fl ml20">
-							产品分类目录<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
+							产品分类目录<a href="${pageContext.request.contextPath}/browser/categoryDownload.html" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>
