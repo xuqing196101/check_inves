@@ -1512,7 +1512,7 @@
 										<legend> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
 										<div class="ml20">
 											省、直辖市：
-										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)">
+										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">
 										    	<c:forEach items="${rootArea}" var="area" varStatus="st">
 										    	  	<option value="${area.id}">${area.name}</option>
 										    	</c:forEach>
