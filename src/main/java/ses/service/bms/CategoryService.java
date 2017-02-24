@@ -304,6 +304,7 @@ import ses.model.sms.SupplierTypeTree;
      *〈详细描述〉
      * @author myc
      * @param id 品目Id
+     * @param isProjectCate 
      * @return Category
      */
     public Category getCategoryQuaById(String id);
