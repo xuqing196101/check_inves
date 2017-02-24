@@ -88,7 +88,7 @@
     							btn : [ '是', '否' ]
     						//按钮
     						}, function() {
-    							window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=" + flag[1];
+    							window.location.href = "${pageContext.request.contextPath}/expert/login.html?userId=" + flag[1];
     						}, function() {
     							layer.close(index);
     							window.location.href = "${pageContext.request.contextPath}/";
