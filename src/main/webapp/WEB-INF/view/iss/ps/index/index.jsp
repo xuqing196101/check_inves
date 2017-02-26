@@ -57,9 +57,13 @@
         layer.msg("正在建设中");
       }
       
-      function registerTip(){
+      function expertRegisterTip(){
 		layer.msg("暂未开放，请耐心等待！");
 	  }	
+	  
+	  function supplierRegisterTip(){
+		layer.msg("供应商请到外网注册");
+	  }
 	  
 	  function hotLine(){
 	  	layer.alert("服务热线：66946342(吕工)");
@@ -1074,24 +1078,22 @@
         <div class="col-sm-12 col-md-12 col-xs-12">
           <div class="border1 flow_btn fl flow_one">
             <div class="ywbl_01 col-xs-4 col-sm-4">
-	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
-            <%--
-            <% if (environment != null && environment.equals("0")){ %>
+	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc">  --%>
+            <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="qyzc"> 
 	        <% } %>
-	        <% if (environment != null && environment.equals("1")){ %>
-	             <a onclick="registerTip();" class="qyzc">
+	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+	             <a onclick="supplierRegisterTip();" class="qyzc">
 	        <% } %>
-	         --%>
                 <span>供应商注册</span>
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
             <% if (environment != null && environment.equals("0")){ %>
-	             <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc"> 
+	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
 	        <% } %>
 	        <% if (environment != null && environment.equals("1")){ %>
-	             <a onclick="registerTip();" class="zjzc">
+	             <a onclick="expertRegisterTip();" class="zjzc">
 	        <% } %>
                 <span>评审专家注册</span>
               </a>

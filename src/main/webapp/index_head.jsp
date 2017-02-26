@@ -518,15 +518,14 @@ function importAdd(){
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
-	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
-	        <%-- 
-	        <% if (environment != null && environment.equals("0")){ %>
+	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
+	        
+	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
 	        <% } %>
-	        <% if (environment != null && environment.equals("1")){ %>
-	              <a onclick="registerTip();" >
+	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+	              <a onclick="supplierRegisterTip();" >
 	        <% } %>
-	        --%>
 		     	供应商注册
 		     <i></i>
 		    </a>	  
@@ -606,12 +605,11 @@ function importAdd(){
 	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	     <%-- <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html"> --%>
 	     <% if (environment != null && environment.equals("0")){ %>
 	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
 	     <% } %>
 	     <% if (environment != null && environment.equals("1")){ %>
-	        <a onclick="registerTip();">
+	        <a onclick="expertRegisterTip();">
 	     <% } %>
 		   评审专家注册
 		 <i></i>
