@@ -150,7 +150,7 @@ public class SupplierLevelUtil {
             score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreProduct();
         } else if (typeCode.equals("SALES")) {
             score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreSales();
-        } else if (typeCode.equals("SALES")) {
+        } else if (typeCode.equals("SERVICE")) {
             score = supplierLevelUtil.supplierServiceImpl.selectById(supplierId).getLevelScoreService();
         } else {
             return null;
