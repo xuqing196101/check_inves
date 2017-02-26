@@ -245,13 +245,18 @@
 			    	  <li>
 				    	<label class="fl">姓名：</label><span><input type="text" id="relName" value="${user.relName}" name="relName" class=""/></span>
 				      </li>
+				      <li>
+				    	<label class="fl">单位：</label><span><input type="text" id="orgName" value="${user.orgName}" name="orgName" class=""/></span>
+				      </li>
 			    	  <li>
 				    	<label class="fl">角色：</label>
 				    	   <span>
 					        <select id="" name="roleId">
 					        	<option value="">全部</option>
 					        	<c:forEach items="${roles}" var="r" varStatus="vs">
-					        		<option value="${r.id}" <c:if test="${r.id eq user.roleId}">selected</c:if> >${r.name}</option>
+					        		<c:if test="${r.code != 'SUPPLIER_R' && r.code != 'EXPERT_R' && r.code != 'IMPORT_AGENT_R'}">
+						        		<option value="${r.id}" <c:if test="${r.id eq user.roleId}">selected</c:if> >${r.name}</option>
+					        		</c:if>
 					        	</c:forEach>
 					        </select>
 					        </span>

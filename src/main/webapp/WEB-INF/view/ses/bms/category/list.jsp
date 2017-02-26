@@ -468,7 +468,6 @@
   
  //隐藏 
  function hideQua(){
- 	alert(1);
  	 $("#profileSalesId").val("");
  	 $("#profileIQuaId").val("");
  	 $("#generalIQuaId").val("");   
