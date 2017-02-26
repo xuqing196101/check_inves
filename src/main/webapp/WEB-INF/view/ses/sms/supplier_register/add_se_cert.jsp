@@ -9,8 +9,8 @@
 <td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"/></td>
 <td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].levelCert"/></td>
 <td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"/></td>
-<td class="tc"><input type="text" class="border0" onblur="tempSave()" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate"/></td>
-<td class="tc"><input type="text" class="border0" onblur="tempSave()" readonly="readonly" onClick="WdatePicker()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"/></td>
+<td class="tc"><input type="text" class="border0" onblur="tempSave()" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expStartDate"/></td>
+<td class="tc"><input type="text" class="border0" onblur="tempSave()" readonly="readonly" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].expEndDate"/></td>
 <td class="tc"><input type="text" class="border0" onblur="tempSave()" name="supplierMatSe.listSupplierCertSes[${certSeNumber}].mot"/></td>
 <td class="tc w200">
  <div class="w200">

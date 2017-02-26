@@ -10,10 +10,10 @@
 <td class="tc"><input type="text" onblur="tempSave()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].levelCert" class="border0"/></td>
 <td class="tc"><input type="text" onblur="tempSave()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith" class="border0"/></td>
 <td class="tc">
-<input type="text" readonly="readonly" onblur="tempSave()" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" class="border0"/>
+<input type="text" readonly="readonly" onblur="tempSave()" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',maxDate:'%y-%M-%d'})" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expStartDate" class="border0"/>
    </td>
 <td class="tc">
-	<input type="text" readonly="readonly" onblur="tempSave()" onClick="WdatePicker()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" class="border0"/>
+	<input type="text" readonly="readonly" onblur="tempSave()" onClick="WdatePicker({dateFmt:'yyyy-MM-dd',minDate:'%y-%M-%d'})" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].expEndDate" class="border0"/>
 </td>
 <td class="tc"><input type="text" onblur="tempSave()" name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].mot" class="border0"/></td>
 <td class="tc w200">
