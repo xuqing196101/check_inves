@@ -219,6 +219,7 @@
 			}
 			$(function() {
 				$("input").bind("blur", tempSave);
+				$("textarea").bind("blur", tempSave);
 				$("select").bind("change", tempSave);
 			});
 			/** 无提示实时保存 */

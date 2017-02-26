@@ -111,13 +111,23 @@
 			callback: {
 				onCheck: saveCategory,
 				onAsyncSuccess: zTreeOnAsyncSuccess,
-				onExpand: zTreeOnExpand
+				onExpand: zTreeOnExpand,
+				beforeCheck: zTreeBeforeCheck
 			},
 			view: {
 				showLine: true
 			}
 	 	};
 		$.fn.zTree.init($("#" + kind), setting, zNodes);
+	}
+	
+	function zTreeBeforeCheck(treeId, treeNode) {
+	    if (treeNode.isParent == true) {
+	    	layer.msg("请在末节点上进行操作！");
+	    	return false;
+	    } else {
+			return true;	    	
+	    }
 	}
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
@@ -310,7 +320,8 @@
 			callback: {
 				onCheck: saveCategory,
 				onAsyncSuccess: zTreeOnAsyncSuccess,
-				onExpand: zTreeOnExpand
+				onExpand: zTreeOnExpand,
+				beforeCheck: zTreeBeforeCheck
 			},view: {
 				showLine: true
 			}
