@@ -666,21 +666,21 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<QualificationBean> queryCategoyrId(List<Category> list, Integer quaType) {
 		List<QualificationBean> quaList=new ArrayList<QualificationBean>();
-		
+		List<Category> newList = new ArrayList<Category>();
 		for(int i = 0; i < list.size(); i++){
 		    Category category = list.get(i);
 			QualificationBean quaBean=new QualificationBean();
 			//根据品目id查询所要上传的资质文件
 			List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(category.getId(), quaType);
 			List<Qualification> qua = get(categoryQua, category.getParentId());
-			if (qua.size() == 0) {
-			    list.remove(i);
-			} else {
+			if (qua.size() != 0) {
+			    newList.add(list.get(i));
 			    quaBean.setCategoryName(category.getName());
 			    quaBean.setList(qua);
 			    quaList.add(quaBean);
 			}
 		}
+		list = newList;
 		return quaList;
 	}
  

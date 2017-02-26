@@ -196,7 +196,6 @@ public class SupplierItemServiceImpl implements SupplierItemService {
     	List<SupplierItem> list=new ArrayList<SupplierItem>();
     	//一级节点
     	List<SupplierItem> cateLIst = supplierItemMapper.getBySupplierIdCategoryId(supplierId, categoryId, type);
-    //		list.addAll(cateLIst);
     
     	for(SupplierItem s:cateLIst){
     	   //二级节点
