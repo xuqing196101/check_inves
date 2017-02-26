@@ -118,7 +118,7 @@ public class BrowserController {
 	  public void categoryDownload(HttpServletRequest request, HttpServletResponse response){
 	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
 	     UploadUtil.createDir(path);
-	     String fileName = PropUtil.getProperty("file.doc");
+	     String fileName = PropUtil.getProperty("file.excel");
 	     String filePath = path + File.separator + fileName;
 	     downloadFile(request, response, filePath, fileName);
 	  }
@@ -127,7 +127,7 @@ public class BrowserController {
 	  public void supplier(HttpServletRequest request, HttpServletResponse response){
 	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
 	     UploadUtil.createDir(path);
-	     String fileName = PropUtil.getProperty("file.excel");
+	     String fileName = PropUtil.getProperty("file.doc");
 	     String filePath = path + File.separator + fileName;
 	     downloadFile(request, response, filePath, fileName);
 	  }
