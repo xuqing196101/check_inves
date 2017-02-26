@@ -647,6 +647,20 @@ public class UserManageController extends BaseController{
 	}
 	
 	/**
+	 *〈简述〉查看用户权限
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param model
+	 * @param id
+	 * @return
+	 */
+	@RequestMapping("/viewPreMenu")
+  public String viewPreMenu(Model model,String id){
+    model.addAttribute("uid", id);
+    return "ses/bms/user/view_menu";
+  }
+	
+	/**
 	 * Description: 保存用户-权限菜单关联
 	 * 
 	 * @author Ye MaoLin

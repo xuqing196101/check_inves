@@ -181,6 +181,61 @@ public class PreMenuController {
 	}
 	
 	/**
+	 *〈简述〉查询用户权限
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param request
+	 * @param response
+	 * @param userId
+	 * @throws IOException
+	 */
+	@RequestMapping("/viewTreedata")
+  public void viewTreedata(HttpServletRequest request, HttpServletResponse response, String userId) throws IOException {
+	    try {
+	      List<String> menuIds = preMenuService.findByUids(userId);
+	      List<Map<String, Object>> mapList  = new ArrayList<Map<String,Object>>();
+	      for (String menuId : menuIds) {
+	        PreMenu preMenu = preMenuService.get(menuId);
+	        if (preMenu != null) {
+	          Map<String, Object> map = new HashMap<String, Object>();
+	          map.put("id", menuId);
+	          map.put("pId", preMenu.getParentId() != null ? preMenu.getParentId().getId()
+	              : 0);
+	          map.put("name", preMenu.getName());
+	          mapList.add(map);
+	        }
+	      }
+	      String jsonstr = JSON.toJSONString(mapList);
+	      response.setContentType("text/html;charset=utf-8");
+	      response.getWriter().print(jsonstr);
+	      response.getWriter().flush();
+	    } catch (Exception e) {
+	      e.printStackTrace();
+	    } finally{
+	      response.getWriter().close();
+	    }
+	}
+	
+	/**
+	 *〈简述〉用户查看权限的条件搜索
+	 *〈详细描述〉
+	 * @author Ye MaoLin
+	 * @param userId
+	 * @return
+	 */
+	@RequestMapping(value="/findForViewSelect" ) 
+  @ResponseBody
+  public List<PreMenu> findForViewSelect(String userId) {
+      List<PreMenu> preMenus = new ArrayList<>();
+      List<String> menuIds = preMenuService.findByUids(userId);
+      for (String menuId : menuIds) {
+          PreMenu preMenu = preMenuService.get(menuId);
+          preMenus.add(preMenu);
+      }
+      return preMenus;
+  }
+	
+	/**
 	 * Description: 跳转添加页码
 	 * 
 	 * @author Ye MaoLin

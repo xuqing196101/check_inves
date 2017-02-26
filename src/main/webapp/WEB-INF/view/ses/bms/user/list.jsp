@@ -219,6 +219,21 @@
                 }
 	     });    
 	}
+	
+	function viewPermission(id){
+		layer.open({
+			  type: 2, //page层
+			  area: ['300px', '420px'],
+			  title: '用户权限',
+			  closeBtn: 1,
+			  shade:0.01, //遮罩透明度
+			  moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			  shift: 1, //0-6的动画形式，-1不开启
+			  offset: '60px',
+			  shadeClose: false,
+			  content: '${pageContext.request.contextPath}/user/viewPreMenu.html?id='+id
+		});
+	}
   </script>
   </head>
   <body>
@@ -288,6 +303,7 @@
 					  <th class="info">单位</th>
 					  <th class="info">联系电话</th>
 					  <th class="info">角色</th>
+					  <th class="info">权限</th>
 					</tr>
 		      </thead>
 		      <tbody>
@@ -315,6 +331,9 @@
 			        		</c:if>
 			        	</c:forEach>
 			        		<input type="hidden" id="role_code" value="${roleCode}">
+					  </td>
+					  <td>
+					  	<a href="#" onclick="viewPermission('${user.id}');">查看</a>
 					  </td>
 					</tr>
 				</c:forEach>
