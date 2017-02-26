@@ -839,7 +839,7 @@
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5" style="display:none">参加政府或军队采购经历登记表：</span>
 							<div class="col-md-12 col-sm-12 col-xs-12 p0">
-								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="purchaseExperience" onclick="reason(this)">${suppliers.purchaseExperience }</textarea>
+								<textarea class="col-md-12 col-xs-12 col-sm-12 h80" id="purchaseExperience" onclick="reason(this)" <c:if test="${fn:contains(field,'purchaseExperience')}"> style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('purchaseExperience');"</c:if>>${suppliers.purchaseExperience }</textarea>
 							</div>
 						</li>
 					</ul>

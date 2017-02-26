@@ -76,6 +76,7 @@ import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
+import ses.util.SupplierLevelUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -782,6 +783,16 @@ public class SupplierAuditController extends BaseSupplierController {
 				fieldProTwo.append(beforeField + ",");
 			}
 			request.setAttribute("fieldProTwo", fieldProTwo);
+			
+			
+			//供应商类型
+			supplierModify.setmodifyType("supplier_type");
+			StringBuffer fieldType = new StringBuffer();
+			List<SupplierModify> typeList = supplierModifyService.selectBySupplierId(supplierModify);
+			for(SupplierModify m : typeList){
+				fieldType.append(m.getBeforeField() + ",");
+			}
+			request.setAttribute("fieldType", fieldType);
 		}
 		
 		/**
@@ -1121,6 +1132,15 @@ public class SupplierAuditController extends BaseSupplierController {
 		supplier.setId(supplierId);
 		supplier.setAuditDate(new Date());
 		supplierAuditService.updateStatus(supplier);
+		
+		if(supplier.getStatus() != null && supplier.getStatus() == 1){
+			// 供应商分级要素得分
+	        supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
+	        supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
+	        supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));
+	        supplierService.updateSupplierProcurementDep(supplier);
+		}
+		
 		//更新待办
 		supplier = supplierAuditService.supplierById(supplierId);
 		String supplierName = supplier.getSupplierName();

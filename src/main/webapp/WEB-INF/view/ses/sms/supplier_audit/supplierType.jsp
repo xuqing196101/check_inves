@@ -657,11 +657,11 @@
 						<li>
 							<div class="tc">
 						       <c:forEach items="${wlist }" var="obj" >
-								    <span class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
+								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 						      </c:forEach>
 						      <c:forEach items="${supplieType }" var="obj" >
-								    <span class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
+								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
 						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 						      </c:forEach>
 						  </div>
