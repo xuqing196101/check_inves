@@ -18,11 +18,6 @@
     <jsp:include page="/index_head.jsp"></jsp:include>
  
     <script type="text/javascript">
-    
-      $(function() {
-      	$("#close").click(function(){
-          	$(".prompt_tips").hide();          
-       	});
         var browser = navigator.appName;
         var b_version = navigator.appVersion;
         var version = parseFloat(b_version);
@@ -1320,18 +1315,7 @@
     </div>
     </div>
     
-    <div class="prompt_tips">
-     <div class="prompt_top">
-                   提示信息
-       <span class="close_icon" id="close"></span>
-     </div>
-      <div class="prompt_main">
-                  <a href="javascript:void(0);" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">${properties['indexTip']}</a>
-      </div>
-      <div class="prompt_btn">
-        <button class="btn" onclick="indexTip('8B96764A39E64F5CADDA0013DE6B4719')">了解详情</button>
-      </div>
-    </div>
+
   </body>
 
 </html>
