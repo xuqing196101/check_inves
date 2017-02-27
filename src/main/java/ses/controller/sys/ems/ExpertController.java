@@ -2250,14 +2250,14 @@ public class ExpertController extends BaseController {
 		String filePath = request.getSession().getServletContext()
 			.getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String name = new String(("供应商入库申请表.doc").getBytes("UTF-8"),
+		String name = new String(("军队供应商库入库申请表.doc").getBytes("UTF-8"),
 			"UTF-8");
 		Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
 		/** 创建word文件 **/
 		String fileName = WordUtil.createWord(supplier, "supplier.ftl",
 			name, request);
 		// 下载后的文件名
-		String downFileName = new String("供应商入库申请表.doc".getBytes("UTF-8"),
+		String downFileName = new String("军队供应商库入库申请表.doc".getBytes("UTF-8"),
 			"iso-8859-1"); // 为了解决中文名称乱码问题
 		return service.downloadFile(fileName, filePath, downFileName);
 	}
@@ -2561,7 +2561,7 @@ public class ExpertController extends BaseController {
 		String filePath = request.getSession().getServletContext()
 			.getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String name = new String(("供应商承诺书.doc").getBytes("UTF-8"),
+		String name = new String(("军队供应商承诺书.doc").getBytes("UTF-8"),
 			"UTF-8");
 		/** 生成word 返回文件名 */
 		String fileName = WordUtil.createWord(null, "supplierNotice.ftl",

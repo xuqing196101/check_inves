@@ -130,7 +130,7 @@
 											</ul>
 											<ul class="list-unstyled f14">
 												<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
-													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierPledge')"</c:if>>下载 《军队供应商入库申请表》</span>
+													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierPledge')"</c:if>>下载 《军队供应商库入库申请表》</span>
 													<a class="mt3 color7171C6" href="javascript:downloadTable()"><i class="download mr5"></i></a>
 												</li>
 											</ul>

@@ -493,6 +493,7 @@ public class SupplierController extends BaseSupplierController {
 		HashMap < String, Object > map1 = new HashMap < String, Object > ();
 		map1.put("typeName", "1");
 		List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
+		List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
 		for(PurchaseDep purchaseDep: list) {
 			for(Orgnization org: listOrgnizations1) {
 				if(purchaseDep.getOrgnization().getId().equals(org.getId())) {
@@ -500,7 +501,12 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 		}
-		model.addAttribute("allPurList", list);
+		for(PurchaseDep purchaseDep: list) {
+		    if (purchaseDep.getIsAuditSupplier() == 1) {
+		        purList.add(purchaseDep);
+		    }
+		}
+		model.addAttribute("allPurList", purList);
 		return "ses/sms/supplier_register/procurement_dep";
 	}
 
@@ -928,12 +934,18 @@ public class SupplierController extends BaseSupplierController {
 			HashMap < String, Object > map1 = new HashMap < String, Object > ();
 			map1.put("typeName", "1");
 			List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
+	        List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
 			for(PurchaseDep purchaseDep: list) {
 				if(purchaseDep.equals(orgId)) {
 					list.remove(purchaseDep);
 				}
 			}
-			model.addAttribute("allPurList", list);
+			for(PurchaseDep purchaseDep: list) {
+			    if (purchaseDep.getIsAuditSupplier() == 1) {
+			        purList.add(purchaseDep);
+			    }
+			}
+			model.addAttribute("allPurList", purList);
 			return "ses/sms/supplier_register/procurement_dep";
 		} else {
 			supplier = supplierService.get(supplier.getId());
@@ -998,6 +1010,7 @@ public class SupplierController extends BaseSupplierController {
 			map1.put("typeName", "1");
 
 			List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
+            List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
 			if(depList != null && depList.size() != 0) {
 				for(PurchaseDep purchaseDep: list) {
 					for(Orgnization org: depList) {
@@ -1009,7 +1022,12 @@ public class SupplierController extends BaseSupplierController {
 					}
 				}
 			}
-			model.addAttribute("allPurList", list);
+			for(PurchaseDep purchaseDep: list) {
+			    if (purchaseDep.getIsAuditSupplier() == 1) {
+			        purList.add(purchaseDep);
+			    }
+			}
+			model.addAttribute("allPurList", purList);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
 	}

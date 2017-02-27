@@ -507,7 +507,7 @@
 					}
 				});
 				$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产经营地址邮编</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
 					"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 					"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
 					"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / onblur='tempSave()'>" +
@@ -516,7 +516,7 @@
 					"</div>" +
 					"</li> " +
 					"<li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产经营地址（填写所有地址）</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营地址（填写所有地址）</span>" +
 					"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
 					"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
 					" <option value=''>请选择</option>" +
@@ -535,7 +535,7 @@
 					" </li> " +
 
 					" <li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产经营详细地址</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
 					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 					"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' onblur='tempSave()'>" +
 					"<span class='add-on cur_point'>i</span>" +
@@ -559,7 +559,7 @@
 					btmCount++;
 				});
 				if(btmCount == 2) {
-					layer.msg("生产经营地址必须至少保留一个!", {
+					layer.msg("生产或经营地址必须至少保留一个!", {
 						offset: '300px'
 					});
 				} else {
@@ -872,7 +872,7 @@
 								<div id="address_list_body">
 									<c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产经营地址邮编</span>
+											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产或经营地址邮编</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input type="text" required isZipCode="true" name="addressList[${vs.index }].code" value="${addr.code}" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('code_${addr.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
@@ -884,7 +884,7 @@
 										</li>
 
 										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营地址（填写所有地址）</span>
+											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营地址（填写所有地址）</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 													<select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
@@ -917,7 +917,7 @@
 										</li>
 
 										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营详细地址</span>
+											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营详细地址</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input type="text" name="addressList[${vs.index }].detailAddress" required="required" maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
 												<span class="add-on cur_point">i</span>
