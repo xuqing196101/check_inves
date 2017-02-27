@@ -92,6 +92,9 @@
       <if test="relName != null and relName != ''">
         and u.REL_NAME like CONCAT(CONCAT('%', #{relName}), '%')
       </if>
+      <if test="orgName != null and orgName != ''">
+        and u.ORG_NAME like CONCAT(CONCAT('%', #{orgName}), '%')
+      </if>
       <if test="updatedAt != null">
         and u.UPDATED_AT = #{updatedAt} 
       </if>
@@ -575,7 +578,7 @@
 		*
 		FROM
 			T_SES_BMS_USER u
-		LEFT JOIN (
+		INNER JOIN (
 			SELECT
 				ID,
 				wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
@@ -589,6 +592,10 @@
 						T_SES_BMS_USER u
 						LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
 		      			LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
+		      		WHERE
+						t3.CODE != 'SUPPLIER_R'
+					AND t3.CODE != 'EXPERT_R'
+					AND t3.CODE != 'IMPORT_AGENT_R'
 				)
 			GROUP BY ID
 		) t4 ON u. ID = t4. ID

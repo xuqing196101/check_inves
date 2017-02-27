@@ -111,13 +111,23 @@
 			callback: {
 				onCheck: saveCategory,
 				onAsyncSuccess: zTreeOnAsyncSuccess,
-				onExpand: zTreeOnExpand
+				onExpand: zTreeOnExpand,
+				beforeCheck: zTreeBeforeCheck
 			},
 			view: {
 				showLine: true
 			}
 	 	};
 		$.fn.zTree.init($("#" + kind), setting, zNodes);
+	}
+	
+	function zTreeBeforeCheck(treeId, treeNode) {
+	    if (treeNode.isParent == true) {
+	    	layer.msg("请在末节点上进行操作！");
+	    	return false;
+	    } else {
+			return true;	    	
+	    }
 	}
 	
 	function zTreeOnAsyncSuccess(event, treeId, treeNode, msg) {
@@ -310,7 +320,8 @@
 			callback: {
 				onCheck: saveCategory,
 				onAsyncSuccess: zTreeOnAsyncSuccess,
-				onExpand: zTreeOnExpand
+				onExpand: zTreeOnExpand,
+				beforeCheck: zTreeBeforeCheck
 			},view: {
 				showLine: true
 			}
@@ -392,7 +403,7 @@
 								<!-- 物资生产型 -->
 								<div class="tab-pane fade active in height-300" id="tab-1">
 									<h2 class="f16 ">
-											勾选物资生产型产品类别信息
+											<font color="red">*</font> 勾选物资生产型产品类别信息
 									</h2>
 									<div id="div-1" class="mb10">
 								  	产品类别:<input type="text" id="cate-1">
@@ -408,7 +419,7 @@
 								<!-- 物资销售型 -->
 								<div class="tab-pane fade height-300" id="tab-2">
 									<h2 class="f16 ">
-											勾选物资销售型产品类别信息
+											<font color="red">*</font> 勾选物资销售型产品类别信息
 									</h2>
 									<div id="div-2" class="mb10">
 								  	产品类别:<input type="text" id="cate-2">
@@ -424,7 +435,7 @@
 							<!-- 服务 -->
 								<div class="tab-pane fade height-200" id="tab-3">
 									<h2 class="f16  ">
-									      	勾选工程产品类别信息
+									      	<font color="red">*</font> 勾选工程产品类别信息
 									</h2>
 									<div id="div-3" class="mb10">
 								  	产品类别:<input type="text" id="cate-3">
@@ -440,7 +451,7 @@
 								<!-- 生产 -->
 								<div class="tab-pane fade height-200" id="tab-4">
 									<h2 class="f16">
-										 勾选服务产品类别信息
+										 <font color="red">*</font> 勾选服务产品类别信息
 									</h2>
 									<div id="div-4" class="mb10">
 								  	产品类别:<input type="text" id="cate-4">

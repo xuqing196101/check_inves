@@ -128,7 +128,7 @@ function reset(){
 	  </table>
 	  <div id="pagediv" align="right"></div>
 	   <div class="col-md-12 col-sm-12 col-xs-12 tc">
-    <button class="btn btn-windows add" type="button" onclick="add()">添加</button>
+    <button class="btn btn-windows git" type="button" onclick="add()">提交</button>
     <button class="btn btn-windows cancel" type="button" onclick="closess();">取消</button>
   </div>
 	</div>

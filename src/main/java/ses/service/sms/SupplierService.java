@@ -284,4 +284,12 @@ public interface SupplierService {
     * @return
     */
    BigDecimal getScoreBySupplierId(String supplierId);
+   
+   /**
+    *〈简述〉供应商注销
+    *〈详细描述〉
+    * @author WangHuijie
+    * @param supplierId
+    */
+   void deleteSupplier(String supplierId);
 }

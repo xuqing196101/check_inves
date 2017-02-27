@@ -2916,7 +2916,7 @@ h2.list_title{
 /*首页提示框样式*/
 .prompt_top{
 	width:100%;
-	background-color:#2C9FA6;
+	background-color:#FCBE3F;
 	color:#ffffff;
 	font-size:14px;
 	line-height:35px; 
@@ -2938,16 +2938,16 @@ h2.list_title{
 }
 .prompt_tips{
 	width:260px;
-	height:auto;
 	border:1px solid #dddddd;
     -webkit-box-shadow: 0 5px 10px rgba(0,0,0,.2);
     box-shadow: 0 5px 10px rgba(0,0,0,.2);
     position: fixed;
     z-index: 10000;
     font-size:16px;
-    right:0px;
-    bottom:0px;
     background-color:#ffffff;
+    height:140px;
+    bottom:0px;
+    right:0px;
 }
 .prompt_main{
 	padding:15px 10px;
@@ -2961,7 +2961,9 @@ h2.list_title{
 	text-align: right;
 	margin: 0 0 5px 0px;
 }
-
+.prompt_btn .btn{
+	background-color: #fcbe3f;
+}
 /* 三级页面文章内容左右间距 */
 .details_box{
 	padding: 30px 3%;

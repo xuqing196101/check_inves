@@ -70,7 +70,7 @@ public class SupplierItemController extends BaseController {
 
 	@Autowired
 	private CategoryService categoryService;
-	
+
 	@Autowired
 	private QualificationService qualificationService;
 
@@ -79,7 +79,7 @@ public class SupplierItemController extends BaseController {
 
 	@Autowired
 	private SupplierAuditService supplierAuditService;
-	
+
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
@@ -130,7 +130,7 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("supplierTypeRelateId", supplierItem.getSupplierTypeRelateId());
 		model.addAttribute("result", new PageInfo < > (listSupplierItems));
 		model.addAttribute("itemsList", allTreeList);
-		
+
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplierItem.getSupplierId());;
@@ -142,7 +142,7 @@ public class SupplierItemController extends BaseController {
 			errorField.append(audit.getAuditField() + ",");
 		}
 		model.addAttribute("audit", errorField);
-		
+
 		return "ses/sms/supplier_register/ajax_items";
 	}
 
@@ -238,30 +238,30 @@ public class SupplierItemController extends BaseController {
 				}
 			}
 		}
-		
+
 		// 工程类等级
-		if (item != null) {
-		    // 等级
-		    if (item != null && item.getLevel() != null) {
-	            cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
-	        }
-		    // 证书编号
-	        if (item != null && item.getCertCode() != null) {
-	            cateTree.setCertCode(item.getCertCode());
-	        }
-	        // 资质等级
-	        if (item != null && item.getQualificationType() != null) {
-	            cateTree.setQualificationType(item.getQualificationType());
-	        }
-	        // 所有等级List
-	        List<Category> cateList = new ArrayList<Category>();
-	        cateList.add(categoryService.selectByPrimaryKey(categoryId));
-	        List<QualificationBean> type = supplierService.queryCategoyrId(cateList, 4);
-	        List<Qualification> typeList = new ArrayList<Qualification>();
-	        if (type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
-	            typeList = type.get(0).getList();
-	        }
-	        cateTree.setTypeList(typeList);
+		if(item != null) {
+			// 等级
+			if(item != null && item.getLevel() != null) {
+				cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
+			}
+			// 证书编号
+			if(item != null && item.getCertCode() != null) {
+				cateTree.setCertCode(item.getCertCode());
+			}
+			// 资质等级
+			if(item != null && item.getQualificationType() != null) {
+				cateTree.setQualificationType(item.getQualificationType());
+			}
+			// 所有等级List
+			List < Category > cateList = new ArrayList < Category > ();
+			cateList.add(categoryService.selectByPrimaryKey(categoryId));
+			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+				typeList = type.get(0).getList();
+			}
+			cateTree.setTypeList(typeList);
 		}
 		return cateTree;
 	}
@@ -299,9 +299,9 @@ public class SupplierItemController extends BaseController {
 	 */
 	@RequestMapping(value = "save_or_update")
 	public String saveOrUpdate(HttpServletRequest request, String supId, SupplierItem supplierItem, String flag, Model model, String supplierTypeIds, String clickFlag) {
-	    if (supId == null) {
-	        supId = supplierItem.getSupplierId();
-	    }
+		if(supId == null) {
+			supId = supplierItem.getSupplierId();
+		}
 		Supplier supplier = supplierService.get(supId);
 		HashMap < String, Object > map = new HashMap < String, Object > ();
 		if(supplier.getProcurementDepId() != null) {
@@ -316,10 +316,10 @@ public class SupplierItemController extends BaseController {
 				model.addAttribute("city", city);
 				model.addAttribute("listOrgnizations1", depList);
 			}
-			
+
 		}
 		List < Area > privnce = areaService.findRootArea();
-		
+
 		model.addAttribute("privnce", privnce);
 		Map < String, Object > maps = supplierService.getCategory(supplier.getId());
 		model.addAttribute("server", maps.get("server"));
@@ -346,8 +346,8 @@ public class SupplierItemController extends BaseController {
 			//初始化供应商注册附件类型
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-            model.addAttribute("rootArea", areaService.findRootArea());
-            model.addAttribute("typeList", qualificationService.findList(null, null, 4));
+			model.addAttribute("rootArea", areaService.findRootArea());
+			model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 			return "ses/sms/supplier_register/supplier_type";
 		}
 
@@ -363,9 +363,9 @@ public class SupplierItemController extends BaseController {
 			// 总数量
 			List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 			for(String type: typeIds) {
-			    if (!type.equals("PROJECT")) {
-			        itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
-			    }
+				if(!type.equals("PROJECT")) {
+					itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
+				}
 			}
 			// 实际上传数量
 			List < UploadFile > filesList;
@@ -411,13 +411,13 @@ public class SupplierItemController extends BaseController {
 			HashMap < String, Object > map1 = new HashMap < String, Object > ();
 			map1.put("typeName", "1");
 			List < PurchaseDep > list1 = purchaseOrgnizationService.findPurchaseDepList(map1);
-			for (PurchaseDep org : list1) {
-			    Area pro = areaService.listById(org.getProvinceId());
-			    Area city = areaService.listById(org.getCityId());
-			    if (pro != null && city != null) {
-			        org.setAddress(pro.getName() + city.getName());
-			    }
-            }
+			for(PurchaseDep org: list1) {
+				Area pro = areaService.listById(org.getProvinceId());
+				Area city = areaService.listById(org.getCityId());
+				if(pro != null && city != null) {
+					org.setAddress(pro.getName() + city.getName());
+				}
+			}
 			model.addAttribute("allPurList", list1);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
@@ -471,8 +471,6 @@ public class SupplierItemController extends BaseController {
 			sbShow.append("pShow" + i + ",");
 
 		}
-		/*   StringBuffer saleUp=new StringBuffer("");
-		   StringBuffer saleShow=new StringBuffer("");*/
 		//销售
 		int slaelen = saleList.size() + 1;
 		for(int i = 1; i < slaelen; i++) {
@@ -497,7 +495,7 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("businessId", supplier.getId());
 		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
-		
+
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
 		s.setSupplierId(supplier.getId());;
@@ -509,40 +507,40 @@ public class SupplierItemController extends BaseController {
 			errorField.append(audit.getAuditField() + ",");
 		}
 		model.addAttribute("audit", errorField);
-		
+
 		// 工程
-        String[] typeIds = supplierTypeIds.split(",");
+		String[] typeIds = supplierTypeIds.split(",");
 		boolean isEng = false;
-        for (String type : typeIds) {
-            if (type.equals("PROJECT")) {
-                isEng = true;
-                break;
-            }
-        }
-        if (isEng) {
-            List<SupplierItem> listSupplierItems = getProject(supId, "PROJECT");
-            List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-            for(SupplierItem item: listSupplierItems) {
-                String categoryId = item.getCategoryId();
-                SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
-                if(cateTree != null && cateTree.getRootNode() != null) {
-                    cateTree.setItemsId(item.getId());
-                    cateTree.setDiyLevel(item.getDiyLevel());
-                    if (cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-                        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
-                        if (certEng != null && certEng.size() > 0) {
-                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
-                            if (level != null) {
-                                cateTree.setFileId(certEng.get(0).getId());
-                            }
-                        }
-                    }
-                    allTreeList.add(cateTree);
-                }
-            }
-            model.addAttribute("allTreeList", allTreeList);
-            model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
-        }
+		for(String type: typeIds) {
+			if(type.equals("PROJECT")) {
+				isEng = true;
+				break;
+			}
+		}
+		if(isEng) {
+			List < SupplierItem > listSupplierItems = getProject(supId, "PROJECT");
+			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+			for(SupplierItem item: listSupplierItems) {
+				String categoryId = item.getCategoryId();
+				SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
+				if(cateTree != null && cateTree.getRootNode() != null) {
+					cateTree.setItemsId(item.getId());
+					cateTree.setDiyLevel(item.getDiyLevel());
+					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
+						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
+						if(certEng != null && certEng.size() > 0) {
+							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
+							if(level != null) {
+								cateTree.setFileId(certEng.get(0).getId());
+							}
+						}
+					}
+					allTreeList.add(cateTree);
+				}
+			}
+			model.addAttribute("allTreeList", allTreeList);
+			model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+		}
 		return "ses/sms/supplier_register/aptitude";
 
 	}
@@ -629,25 +627,37 @@ public class SupplierItemController extends BaseController {
 
 	//生产所有的三级目录
 	public List < Category > getSupplier(String supplierId, String code) {
-			List < Category > categoryList = new ArrayList < Category > ();
-			String[] types = code.split(",");
-			for(String s: types) {
-				String categoryId = "";
-				if(s != null) {
-					if(s.equals("PRODUCT")) {
-						categoryId = DictionaryDataUtil.getId("GOODS");
-						List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
-						for(SupplierItem c: category) {
-							Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-							cate.setParentId(c.getId());
-							categoryList.add(cate);
+		List < Category > categoryList = new ArrayList < Category > ();
+		String[] types = code.split(",");
+		for(String s: types) {
+			String categoryId = "";
+			if(s != null) {
+				if(s.equals("PRODUCT")) {
+					/*categoryId = DictionaryDataUtil.getId("GOODS");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+                    Map<String, Object> searchMap = new HashMap<String, Object>();
+                    searchMap.put("supplierId", supplierId);
+                    searchMap.put("type", s);
+				    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
+					for(SupplierItem c: category) {
+						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+						if (cate == null) {
+						    cate = new Category();
+						    DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+						    cate.setId(data.getId());
+						    cate.setParentId(data.getId());
+						    cate.setName(data.getName());
+						} else {
+						    cate.setParentId(c.getId());
 						}
+						categoryList.add(cate);
 					}
 				}
 			}
-			return categoryList;
 		}
-		//销售
+		return categoryList;
+	}
+	//销售
 	public List < Category > getSale(String supplierId, String code) {
 		List < Category > categoryList = new ArrayList < Category > ();
 
@@ -656,12 +666,24 @@ public class SupplierItemController extends BaseController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("SALES")) {
-					categoryId = DictionaryDataUtil.getId("GOODS");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
+					/*categoryId = DictionaryDataUtil.getId("GOODS");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+				    Map<String, Object> searchMap = new HashMap<String, Object>();
+                    searchMap.put("supplierId", supplierId);
+                    searchMap.put("type", s);
+                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
-						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-						cate.setParentId(c.getId());
-						categoryList.add(cate);
+					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+                        if (cate == null) {
+                            cate = new Category();
+                            DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+                            cate.setId(data.getId());
+                            cate.setParentId(data.getId());
+                            cate.setName(data.getName());
+                        } else {
+                            cate.setParentId(c.getId());
+                        }
+                        categoryList.add(cate);
 					}
 				}
 			}
@@ -670,7 +692,7 @@ public class SupplierItemController extends BaseController {
 	}
 
 	//工程
-	public List<SupplierItem> getProject(String supplierId, String code) {
+	public List < SupplierItem > getProject(String supplierId, String code) {
 		String[] types = code.split(",");
 		for(String s: types) {
 			String categoryId = "";
@@ -694,12 +716,24 @@ public class SupplierItemController extends BaseController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("SERVICE")) {
-					categoryId = DictionaryDataUtil.getId("SERVICE");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
+					/*categoryId = DictionaryDataUtil.getId("SERVICE");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+				    Map<String, Object> searchMap = new HashMap<String, Object>();
+                    searchMap.put("supplierId", supplierId);
+                    searchMap.put("type", s);
+                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
-						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
-						cate.setParentId(c.getId());
-						categoryList.add(cate);
+					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
+                        if (cate == null) {
+                            cate = new Category();
+                            DictionaryData data = DictionaryDataUtil.findById(c.getCategoryId());
+                            cate.setId(data.getId());
+                            cate.setParentId(data.getId());
+                            cate.setName(data.getName());
+                        } else {
+                            cate.setParentId(c.getId());
+                        }
+                        categoryList.add(cate);
 					}
 				}
 			}

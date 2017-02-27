@@ -212,24 +212,24 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
 									<c:set value="${liCount+1}" var="liCount" />
 									<li id="li_id_1" class="active">
-										<a aria-expanded="true" onmouseup="init_web_upload_in('#tab-1')" href="#tab-1" data-toggle="tab" class="f18">物资-生产型品目信息</a>
+										<a aria-expanded="true" onmouseup="init_web_upload_in('#tab-1')" href="#tab-1" data-toggle="tab" class="f18">物资-生产型资质信息</a>
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>'>
-										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-2')" href="#tab-2" data-toggle="tab" class="f18">物资-销售型品目信息</a>
+										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-2')" href="#tab-2" data-toggle="tab" class="f18">物资-销售型资质信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>'>
-										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-3')" href="#tab-3" data-toggle="tab" class="f18">工程品目信息</a>
+										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-3')" href="#tab-3" data-toggle="tab" class="f18">工程资质信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>'>
-										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-4')" href="#tab-4" data-toggle="tab" class="f18">服务品目信息</a>
+										<a aria-expanded="false" onmouseup="init_web_upload_in('#tab-4')" href="#tab-4" data-toggle="tab" class="f18">服务资质信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
@@ -240,6 +240,9 @@
 									<!-- 物资生产型 -->
 									<c:set value="0" var="prolength" />
 									<div class="fades active" id="tab-1">
+										<h2 class="f16  ">
+										      	<font color="red">*</font> 上传物资-生产型资质文件
+										</h2>
 										<table class="table table-bordered">
 											<c:forEach items="${cateList }" var="obj">
 												<tr>
@@ -264,6 +267,9 @@
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if>fade height-300" id="tab-2">
+										<h2 class="f16  ">
+										      	<font color="red">*</font> 上传物资-销售型资质文件
+										</h2>
 										<table class="table table-bordered">
 											<c:forEach items="${saleQua }" var="sale">
 												<tr>
@@ -287,6 +293,9 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-3">
+										<h2 class="f16  ">
+										      	<font color="red">*</font> 上传工程资质文件
+										</h2>
 										<form id="item_form" method="post">
 										  <table class="table table-bordered table_input">
 											<thead>
@@ -334,6 +343,9 @@
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
+										<h2 class="f16  ">
+										      	<font color="red">*</font> 上传服务资质文件
+										</h2>
 										<table class="table table-bordered">
 											<c:set value="0" var="slength"> </c:set>
 

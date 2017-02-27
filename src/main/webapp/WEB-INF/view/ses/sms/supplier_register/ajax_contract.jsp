@@ -76,6 +76,9 @@ $(function() {
 	  <c:set var="fileShow" value="serShow"/>
 	</c:if>
   <div class="col-xs-12 col-sm-12 col-md-12 p0 over_scroll mb20">
+	<h2 class="f16  ">
+      	<font color="red">*</font> 上传<c:if test="${supplierTypeId eq 'PRODUCT'}">物资-生产型</c:if><c:if test="${supplierTypeId eq 'SALES'}">物资-销售型</c:if><c:if test="${supplierTypeId eq 'PROJECT'}">工程</c:if><c:if test="${supplierTypeId eq 'SERVICE'}">服务</c:if>合同信息
+	</h2>
     <form id="formSearch" action="${pageContext.request.contextPath}/supplier/ajaxContract.html">
       <input type="hidden" name="pageNum" id="pageNum">
       <input type="hidden" name="supplierId" id="supplierId" value="${supplierId}">

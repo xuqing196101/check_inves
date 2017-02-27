@@ -1604,4 +1604,10 @@
 		WHERE LEVEL_SCORE_SERVICE is not null
 		ORDER BY LEVEL_SCORE_SERVICE ASC
 	</select>
+	
+	<!-- 供应商注销 -->
+	<delete id="deleteSupplier">
+		DELETE FROM T_SES_SMS_SUPPLIER
+		WHERE ID = #{id}
+	</delete>
 </mapper>

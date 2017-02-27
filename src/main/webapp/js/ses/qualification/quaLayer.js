@@ -26,6 +26,8 @@ function list(curr){
 				var obj = res.obj;
 				loadList(obj.list,obj.pageNum,obj.pageSize);
 				loadPage(obj.pages,obj.total,obj.startRow,obj.endRow,curr);
+				var ids = $("#ids").val();
+				selectedValue(ids);
 			}
 		}
 	});

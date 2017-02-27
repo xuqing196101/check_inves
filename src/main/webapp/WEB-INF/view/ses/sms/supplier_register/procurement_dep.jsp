@@ -6,7 +6,7 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <title>供应商注册</title>
-		<style type="text/css">
+<style type="text/css">
 .current {
 	cursor: pointer;
 }
@@ -122,6 +122,9 @@
 						<div class="tab-content padding-top-20">
 							<div class="tab-pane fade active in height-300" id="tab-1">
 								<div class="margin-bottom-0 categories mb50">
+									<h2 class="f16  ">
+								      	<font color="red">*</font> 选择采购机构
+									</h2>
 									<h2 class="f16 ">
 										推荐采购机构（以公司注册地址作为推荐采购机构依据）
 									</h2>
@@ -185,23 +188,18 @@
 		</div>
 	</div>
 	
-	  <div class="btmfix">
-	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
-	  	  </div>
-	  </div>
+    <div class="btmfix">
+  	  	<div style="margin-top: 15px;text-align: center;">
+ 			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
+	    	<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
+	    	<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
+  	  	</div>
+    </div>
 	  
-	  <form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
 		<input name="flag" value="1" id="flag" type="hidden" /> 
 	</form>
-	
-	
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}">
-	</c:if>
 </body>
 </html>

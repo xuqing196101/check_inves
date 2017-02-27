@@ -1,7 +1,6 @@
 package ses.service.sms.impl;
 
 import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,14 +19,15 @@ import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
-import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierTypeRelateService;
 
 @Service(value = "supplierModifyService")
 public class SupplierModifyServiceImpl implements SupplierModifyService{
@@ -43,6 +43,9 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	
 	@Autowired
 	private SupplierHistoryMapper supplierHistoryMapper;
+	
+	@Autowired
+	private SupplierTypeRelateService supplierTypeRelateService;
 	
 	/**
 	 * @Title: selectField
@@ -86,6 +89,23 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 		SupplierHistory supplierHistory =new SupplierHistory();
 		String supplierId = supplierModify.getSupplierId();
+		
+		/**
+		 * 供应商类型
+		 */
+		supplierHistory.setSupplierId(supplierId);
+		supplierHistory.setmodifyType("supplier_type");
+		List<SupplierHistory> historyList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
+		
+		String findBySupplier = supplierTypeRelateService.findBySupplier(supplierId);
+		for(SupplierHistory h : historyList){
+			if(!findBySupplier.contains(h.getBeforeField())){
+				supplierModify.setBeforeField(h.getBeforeField());
+				supplierModify.setmodifyType("supplier_type");
+				supplierModify.setListType(12);
+				supplierModifyMapper.insertSelective(supplierModify);
+			}
+		}
 		
 		/**
 		 * 地址信息

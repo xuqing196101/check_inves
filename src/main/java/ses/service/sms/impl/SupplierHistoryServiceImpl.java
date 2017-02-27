@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
 import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
@@ -28,6 +29,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierService;
@@ -43,6 +45,9 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
 	
 	@Autowired
 	private AreaServiceI areaService;
+	
+	@Autowired
+	private SupplierTypeRelateMapper supplierTypeRelateMapper;
 	
 	/**地址信息**/
 	private static final int ADDRESS_LIST = 1;
@@ -109,8 +114,24 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         SupplierHistory historyInfo = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         
-        // 获取供应商信息
+        // 获取供应商信息R
         Supplier supplier = supplierService.get(supplierId);
+        
+        //供应商类型
+        List<SupplierTypeRelate> supplierType = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
+        for(SupplierTypeRelate type : supplierType){
+        	 historyInfo = new SupplierHistory();
+             historyInfo.setSupplierId(supplierId);
+             historyInfo.setmodifyType("supplier_type");
+             historyInfo.setCreatedAt(date);
+
+             // 名称
+             historyInfo.setBeforeField(type.getSupplierTypeId());
+             historyInfo.setBeforeContent(type.getSupplierTypeName());
+             historyInfo.setRelationId(type.getId());
+             supplierHistoryMapper.insertSelective(historyInfo);
+        }
+        
         
         // 生产经营地址信息
         List<SupplierAddress> addressList = supplier.getAddressList();

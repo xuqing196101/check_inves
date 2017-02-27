@@ -211,6 +211,18 @@
 		  }
 	       
 	
+	      function historys(obj){
+	        	var val = $(obj).val();
+	            var  id=$(obj).prev().val();
+	    		var defVal = obj.defaultValue;
+	    		if(val != defVal) {
+	    			$(obj).next().val(id);
+	    		}else{
+	    			$(obj).next().val("");
+	    		} 
+ 	        }
+	      
+	      
 	      function submit(){
 	    	  
 	    	  var mc=$("#jhmc").val();
@@ -350,13 +362,25 @@
                   </td>
                   <td>
                       <div class="goodsname">
-                  		<textarea name="list[${vs.index }].goodsName" class="target">${obj.goodsName}</textarea>
+                        <input   type="hidden" name="ss"   value="${obj.id }">
+                  		<textarea name="list[${vs.index }].goodsName"  onblur="historys(this)" class="target">${obj.goodsName}</textarea>
+                  		 <input type="hidden"    name="history" value=""/>
                       </div>
                   </td>
-                  <td><input type="text" name="list[${vs.index }].stand" value="${obj.stand}" class="stand"></td>
-                  <td><input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}" class="qualitstand"></td>
-                  <td><input type="text" name="list[${vs.index }].item" value="${obj.item}" class="item"></td>
-                  
+                  <td>
+                   <input   type="hidden" name="ss"   value="${obj.id }">
+                  <input type="text" name="list[${vs.index }].stand" value="${obj.stand}" onblur="historys(this)" class="stand">
+                   <input type="hidden"    name="history" value=""/>
+                  </td>
+                  <td>
+                  <input   type="hidden" name="ss"   value="${obj.id }">
+                  <input type="text" name="list[${vs.index }].qualitStand" value="${obj.qualitStand}"  onblur="historys(this)" class="qualitstand">
+                  <input type="hidden"    name="history" value=""/>
+                  </td>
+                  <td>
+                  <input   type="hidden" name="ss"   value="${obj.id }">
+                  <input type="text" name="list[${vs.index }].item" value="${obj.item}" onblur="historys(this)" class="item"></td>
+                   <input type="hidden"    name="history" value=""/>
                   <td>
                     <c:if test="${obj.purchaseCount!=null}">
                       <input   type="hidden" name="ss"   value="${obj.id }" >
@@ -382,7 +406,12 @@
                     <input maxlength="11" id="budget" name="list[${vs.index }].budget" type="text" readonly="readonly"  value="${obj.budget}" class="budget"/>
                     <input type="hidden" name="ss"   value="${obj.parentId }">
                   </td>
-                  <td class="tc"><textarea name="list[${vs.index }].deliverDate" class="target deliverdate">${obj.deliverDate}</textarea></td>
+                  <td class="tc">
+                   <input   type="hidden" name="ss"   value="${obj.id }">
+                  <textarea name="list[${vs.index }].deliverDate" onblur="historys(this)"  class="target deliverdate">${obj.deliverDate}</textarea>
+                    <input type="hidden"    name="history" value=""/>
+                  </td>
+                 
                   <td>
              <%--       <c:if test="${obj.price!=null}"> --%>
                      <input type="hidden" name="ss" value="${obj.id}"  >
@@ -394,11 +423,19 @@
                       </select> 
                   <%--    </c:if> --%>
                   </td>
-                  <td><textarea name="list[${vs.index }].supplier" class="target purchasename">${obj.supplier}</textarea></td>
-                  <td><input type="text" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax}" class="freetax"></td>
+                  <td>
+                  <input   type="hidden" name="ss"   value="${obj.id }">
+                  <textarea name="list[${vs.index }].supplier" onblur="historys(this)"  class="target purchasename">${obj.supplier}</textarea>
+                  <input type="hidden"    name="history" value=""/>
+                  </td>
+                  <td><input type="text" name="list[${vs.index }].isFreeTax" onblur="historys(this)"  value="${obj.isFreeTax}" class="freetax"></td>
                  <%--  <td><input type="text" name="list[${vs.index }].goodsUse" value="${obj.goodsUse}"></td>
                   <td><input type="text" name="list[${vs.index }].userUnit" value="${obj.userUnit}"></td> --%>
-                  <td><div class="memo">${obj.memo}</div>
+                  <td><div class="memo">
+                  <input   type="hidden" name="ss"   value="${obj.id }">
+                    <textarea name="list[${vs.index }].memo"  onblur="historys(this)" class="target purchasename">${obj.memo}</textarea>
+                    <input type="hidden"    name="history" value=""/>
+                  </div>
                   <td>
                  <%--  ${obj.id} --%>
 							  <%--  <div class="extrafile">

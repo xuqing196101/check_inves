@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
@@ -666,21 +668,21 @@ public class SupplierServiceImpl implements SupplierService {
 	@Override
 	public List<QualificationBean> queryCategoyrId(List<Category> list, Integer quaType) {
 		List<QualificationBean> quaList=new ArrayList<QualificationBean>();
-		
+		List<Category> newList = new ArrayList<Category>();
 		for(int i = 0; i < list.size(); i++){
 		    Category category = list.get(i);
 			QualificationBean quaBean=new QualificationBean();
 			//根据品目id查询所要上传的资质文件
 			List<CategoryQua> categoryQua = categoryQuaMapper.findListSupplier(category.getId(), quaType);
 			List<Qualification> qua = get(categoryQua, category.getParentId());
-			if (qua.size() == 0) {
-			    list.remove(i);
-			} else {
+			if (qua.size() != 0) {
+			    newList.add(list.get(i));
 			    quaBean.setCategoryName(category.getName());
 			    quaBean.setList(qua);
 			    quaList.add(quaBean);
 			}
 		}
+		list = newList;
 		return quaList;
 	}
  
@@ -820,6 +822,15 @@ public class SupplierServiceImpl implements SupplierService {
         score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
         score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));
         return score;
+    }
+
+    /**
+     * @see ses.service.sms.SupplierService#deleteSupplier(java.lang.String)
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteSupplier(String supplierId) {
+        supplierMapper.deleteSupplier(supplierId);
     }
     
 }

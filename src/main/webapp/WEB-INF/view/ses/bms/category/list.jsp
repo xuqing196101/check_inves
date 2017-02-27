@@ -94,6 +94,8 @@
     		update(treeNode);
     		selectedNode = treeNode;
     	} else {
+    		level = 1;
+    		selectedNode = treeNode;
     		$("#tableDivId").addClass("dis_none");
     	}
     }
@@ -123,10 +125,10 @@
 			if (nodes.classify && nodes.classify == "PROJECT" && level == 2){
 				showQua(null, nodes.classify);
 			}
-			if (nodes.classify && nodes.classify == "GOODS" && level == 2){
+			if (nodes.classify && nodes.classify == "GOODS"){
 				showQua(null, nodes.classify);
 			}
-			if (nodes.classify && nodes.classify == "SERVICE" && level == 2){
+			if (nodes.classify && nodes.classify == "SERVICE"){
 				showQua(null, nodes.classify);
 			}
 			if (node) {
@@ -222,10 +224,10 @@
 					if (node.classify && node.classify == "PROJECT" && level == 3){
 						showQua(cate, node.classify);
 					}
-					if (node.classify && node.classify == "GOODS" && level == 3){
+					if (node.classify && node.classify == "GOODS"){
 						showQua(cate, node.classify);
 					}
-					if (node.classify && node.classify == "SERVICE" && level == 3){
+					if (node.classify && node.classify == "SERVICE"){
 						showQua(cate, node.classify);
 					}
 					if (node.classify && node.classify == "GOODS"){
@@ -466,6 +468,12 @@
   
  //隐藏 
  function hideQua(){
+ 	 $("#profileSalesId").val("");
+ 	 $("#profileIQuaId").val("");
+ 	 $("#generalIQuaId").val("");   
+ 	 $("#profileSalesName").val("");
+ 	 $("#profileIQuaName").val("");
+ 	 $("#generalIQuaName").val("");
 	 $("#generaQuaTr").hide();
 	 $("#profileQuaTr").hide();
 	 $("#profileQuaTr_sales").hide();
@@ -718,7 +726,7 @@
        				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
            	    </tr>
-           	    <tr id="profileQuaTr_sales" class="dnone">
+           	    <tr id="profileQuaTr_sales" class="dnone"> 
        			  <td class='info'>物资销售型专业资质要求</td>
        			  <td>
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >

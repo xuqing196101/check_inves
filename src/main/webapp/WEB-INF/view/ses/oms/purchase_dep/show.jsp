@@ -496,7 +496,7 @@
               <a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">场所信息</a>
             </li>
             <li id="li_id_3" class="">
-              <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">关联采购部门部门信息</a>
+              <a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">关联采购管理部门信息</a>
             </li>
           </ul>
           <form action="${pageContext.request.contextPath}/purchaseManage/updatePurchaseDep.do" method="post" id="formID">

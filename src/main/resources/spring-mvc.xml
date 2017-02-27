@@ -145,6 +145,7 @@
 			<mvc:exclude-mapping path="/login/loginOut.*" />
 <!-- 			文件上传和下载 -->
 			<mvc:exclude-mapping path="/file/*.*" />
+			<mvc:exclude-mapping path="/browser/*.*" />
 			
 <!-- 			后期删除此项 -->
 			<mvc:exclude-mapping path="/my_test/*.*" />

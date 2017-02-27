@@ -217,7 +217,7 @@
 							<th class="info budget">预算金额<br>（万元）</th>
 							<th class="info deliverdate">交货期限</th>
 							<th class="info purchasetype">采购方式</th>
-							<c:if test="${org_advice!=null }">
+							<c:if test="${org_advice!=2}">
 							 <th class="info organization">采购机构</br>建议</th>
 							 </c:if>
 							<th class="info purchasename">供应商名称</th>
@@ -286,7 +286,7 @@
                                </c:if>
                               </div>
                             </td>
-                            <c:if test="${org_advice!=null }">
+                            <c:if test="${org_advice!=2 }">
 						 	 <td>
 						 	  <div class="organization">
 						 	    <c:if test="${obj.purchaseCount!=null }">

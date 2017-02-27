@@ -7,10 +7,18 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
+
 <head>
 <!--导航js-->
 
 <%@ include file="/WEB-INF/view/portal.jsp" %>
+<script type="text/javascript"> 
+  		$(function(){
+		   $("#close").click(function(){
+		   		$(".prompt_tips").hide();
+		   });
+		});
+</script>
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){
@@ -21,10 +29,10 @@ $(function(){
 			    dataType: "json",
 			    success: function(data) {
 			    	if(data!=null&&data.status==200){
-			    	   $("#welcome").html(data.msg+"你好，欢迎来到军队采购网！");
+			    	   $("#welcome_words").html(data.msg+"你好，欢迎来到军队采购网！");
 			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
 			    	}else{
-			    	    $("#welcome").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
+			    	    $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
 			    	    $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
 			    	}
 			    }
@@ -33,7 +41,7 @@ $(function(){
 	
 	
 	if(user!=null && user!=''){
-		$("#welcome").html(user+"你好，欢迎来到军队采购网！");
+		$("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
 	}else {
 	    $("#exit").remove();
 	    
@@ -71,8 +79,11 @@ function importAdd(){
    <div class="container p0">
    
     <div class="row">
-    <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">你好，欢迎来到军队采购网！
-      <a href="${pageContext.request.contextPath}/index/sign.html" class="red" id="red">【请登录】</a>
+    <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">
+    	<span id="welcome_words">
+    	      你好，欢迎来到军队采购网!
+	      <a href="${pageContext.request.contextPath}/index/sign.html" class="red" id="red">【请登录】</a>
+    	</span>
        <% if (environment != null && environment.equals("1")){ %>
          <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
            <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 
@@ -518,15 +529,14 @@ function importAdd(){
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
 	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
-	          <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
-	        <%-- 
-	        <% if (environment != null && environment.equals("0")){ %>
+	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
+	        
+	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
 	        <% } %>
-	        <% if (environment != null && environment.equals("1")){ %>
-	              <a onclick="registerTip();" >
+	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
+	              <a onclick="supplierRegisterTip();" >
 	        <% } %>
-	        --%>
 		     	供应商注册
 		     <i></i>
 		    </a>	  
@@ -606,12 +616,11 @@ function importAdd(){
 	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	     <%-- <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html"> --%>
 	     <% if (environment != null && environment.equals("0")){ %>
 	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
 	     <% } %>
 	     <% if (environment != null && environment.equals("1")){ %>
-	        <a onclick="registerTip();">
+	        <a onclick="expertRegisterTip();">
 	     <% } %>
 		   评审专家注册
 		 <i></i>

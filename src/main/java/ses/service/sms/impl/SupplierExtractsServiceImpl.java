@@ -156,6 +156,9 @@ public class SupplierExtractsServiceImpl implements SupplierExtractsService {
         user.setLoginName(loginName);
         user.setTypeId(uuId);
         user.setPassword(loginPwd);
+        user.setOrgName(suuplier.getSupplierName());
+        user.setRelName(suuplier.getArmyBusinessName());
+        user.setMobile(suuplier.getArmyBuinessTelephone());
         userServiceI.save(user, null);
         //新增权限
         Role role = new Role();
