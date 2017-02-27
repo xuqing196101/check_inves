@@ -122,6 +122,9 @@
 						<div class="tab-content padding-top-20">
 							<div class="tab-pane fade active in height-300" id="tab-1">
 								<div class="margin-bottom-0 categories mb50">
+									<h2 class="f16  ">
+								      	<font color="red">*</font> 选择采购机构
+									</h2>
 									<h2 class="f16 ">
 										推荐采购机构（以公司注册地址作为推荐采购机构依据）
 									</h2>
