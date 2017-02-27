@@ -17,6 +17,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
 
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
@@ -820,6 +822,15 @@ public class SupplierServiceImpl implements SupplierService {
         score = score.add(listSupplierFinances.get(1).getTotalNetAssets().multiply(BigDecimal.valueOf(0.3)));
         score = score.add(listSupplierFinances.get(2).getTotalNetAssets().multiply(BigDecimal.valueOf(0.5)));
         return score;
+    }
+
+    /**
+     * @see ses.service.sms.SupplierService#deleteSupplier(java.lang.String)
+     */
+    @Override
+    @Transactional(propagation = Propagation.REQUIRED)
+    public void deleteSupplier(String supplierId) {
+        supplierMapper.deleteSupplier(supplierId);
     }
     
 }

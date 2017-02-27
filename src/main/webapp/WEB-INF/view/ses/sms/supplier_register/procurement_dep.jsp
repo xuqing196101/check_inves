@@ -6,7 +6,7 @@
 <head>
 <%@ include file="/reg_head.jsp"%>
 <title>供应商注册</title>
-		<style type="text/css">
+<style type="text/css">
 .current {
 	cursor: pointer;
 }
@@ -188,23 +188,18 @@
 		</div>
 	</div>
 	
-	  <div class="btmfix">
-	  	  <div style="margin-top: 15px;text-align: center;">
-	  	  	   			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
-					    <button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
-	  	  </div>
-	  </div>
+    <div class="btmfix">
+  	  	<div style="margin-top: 15px;text-align: center;">
+ 			<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="prev()">上一步</button>
+	    	<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="temporarySave()">暂存</button>
+	    	<button type="button" class="btn padding-left-20 padding-right-20 btn_back margin-5" onclick="saveProcurementDep('next')">下一步</button>
+  	  	</div>
+    </div>
 	  
-	  <form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
+	<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
 		<input name="supplierId" value="${currSupplier.id}" type="hidden" /> 
 		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
 		<input name="flag" value="1" id="flag" type="hidden" /> 
 	</form>
-	
-	
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}">
-	</c:if>
 </body>
 </html>

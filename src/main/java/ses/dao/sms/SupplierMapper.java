@@ -365,4 +365,12 @@ public interface SupplierMapper {
      * @return List<BigDecimal>
      */
     List<BigDecimal> getServiceLevelScore();
+    
+    /**
+     *〈简述〉供应商注销
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param supplierId
+     */
+    void deleteSupplier(String supplierId);
 }
