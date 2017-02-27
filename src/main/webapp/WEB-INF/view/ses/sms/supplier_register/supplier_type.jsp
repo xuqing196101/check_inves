@@ -430,7 +430,6 @@
 							+ "&supplierId="
 							+ supplierId;
 					layer.close(index);
-	
 				});
 		} else {
 			layer.alert("请至少勾选一条记录 !", {
@@ -660,7 +659,7 @@
 			});
 			
 			$("select[id^='certType_']").each(function(i, element){
-				getAptLevel($(element));
+				getAptLevel($(this));
 			});
 			
 			$("input").bind("blur", tempSave);
@@ -891,11 +890,12 @@
 		
 	}
 	//资质类型下拉框改变时调用的方法
-	function getAptLevel(obj){
+	function getAptLevel(obj,enterWay){
 		if(obj instanceof jQuery) {
 			var typeId = obj.val();
 			var currentText = obj.combobox("getText");
 			var allText = obj.combobox("getData");
+			/*
 				$("#certGrade_select").combobox({
 					valueField: 'label',
 					textField: 'value',
@@ -905,6 +905,8 @@
 						"selected" : true
 					}]
 				});
+			*/
+			
 			if (typeId != null && typeId != "") {
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
@@ -914,24 +916,74 @@
 					dataType: "json",
 					success: function(data){
 						var easyuiData = [];
-						for(var i = 0; i < data.length; i++){
-							var optionDOM = "";
-							var cur_str = "";
-							if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
-								//optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
-								cur_str = {label : data[i].id,value : data[i].name,selected : true};
-							} else {
-								//var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
-								cur_str = {label : data[i].id,value : data[i].name};
-							}
+						var flag_certGrade = 0;
+						if(data == null || data == {} || data == "") {
+							var cur_str = {label : typeId,value : typeId,selected : true};
 							easyuiData.push(cur_str);
-							//obj.parent().next().next().next().find("select").append(optionDOM);
+						} else {
+							for(var i = 0; i < data.length; i++){
+								var optionDOM = "";
+								var cur_str = "";
+								if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
+									//optionDOM = "<option value='" + data[i].id + "' selected='selected'>" + data[i].name + "</option>";
+									cur_str = {label : data[i].id,value : data[i].name,selected : true};
+									flag_certGrade = 1;
+								} else {
+									//var optionDOM = "<option value='" + data[i].id + "'>" + data[i].name + "</option>";
+									cur_str = {label : data[i].id,value : data[i].name};
+								}
+								easyuiData.push(cur_str);
+								//obj.parent().next().next().next().find("select").append(optionDOM);
+							}
 						}
-						$("#certGrade_select").combobox({
-							valueField: 'label',
-							textField: 'value',
-							data: easyuiData
-						});
+						
+						if(enterWay == "addBtn") {
+							if(flag_certGrade == 0) {
+								easyuiData[0].selected = true;
+							}
+							obj.parent().parent().find("[id^='certGrade_addSelect']").combobox({
+								valueField: 'label',
+								textField: 'value',
+								data: easyuiData
+							});
+						} else {
+							if(flag_certGrade == 0) {
+								easyuiData[0].selected = true;
+							}
+							
+							var objId = obj.attr("id");
+							var objIdNum = 0;
+							for(var i = 0;i < objId.length;i++) {
+								if(objId.charAt(i) > 0 && objId.charAt(i) < 10) {
+									objIdNum = objId.substr(i,objId.length);
+									//changeStatusJudge = changeStatus.substr(0,i);
+									break;
+								}
+							}
+							var currentText = obj.combobox("getText");
+							var flag_current = 0;
+							var selectData = obj.combobox("getData");
+							for(var i = 0;i < selectData.length;i++) {
+								if(selectData[i].value == currentText) {
+									flag_current = 1;
+								}
+							}
+							
+							if(flag_current == 0) {
+								$("[id='certGrade_select" + objIdNum + "']").combobox({
+									valueField: 'label',
+									textField: 'value',
+									data: easyuiData
+								});
+							} else {
+								$("[id='certGrade_select" + objIdNum + "']").combobox({
+									valueField: 'label',
+									textField: 'value',
+									data: ""
+								});
+							}
+							
+						}
 					}
 				});
 			}
@@ -1771,7 +1823,7 @@
 																		</c:if>
 																	</c:forEach>
 																	<c:if test="${tempForShowOption eq 'go' }">
-																		<option value="${aptitute.id}" selected="selected">${aptitute.certType}</option>
+																		<option value="${aptitute.certType}" selected="selected">${aptitute.certType}</option>
 																	</c:if>
 																	
 																</select>
@@ -1794,7 +1846,7 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																<select id="certGrade_select${certAptNumber}" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
 																	<c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if>
