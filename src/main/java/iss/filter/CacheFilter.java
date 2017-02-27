@@ -12,13 +12,13 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
-
 import common.utils.RedisUtils;
 
 /**
@@ -102,7 +102,7 @@ public class CacheFilter implements Filter {
 		// 访问的是主页
 		// 从缓存中得到主页html
 		String html = getHtmlFromCache();
-		if (null == html) {
+		if (StringUtils.isEmpty(html)) {
 			// 缓存中没有
 			// 截取生成的html并放入缓存
 			log.info("首页面缓存不存在，生成缓存");
