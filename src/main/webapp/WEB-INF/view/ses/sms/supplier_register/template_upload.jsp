@@ -85,6 +85,27 @@
 	}
 		sessionStorage.locationH=true;
 		sessionStorage.index=8;
+		
+		
+			//退回理由
+			function errorMsg(auditField) {
+				var supplierId = "${currSupplier.id}";
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier/audit.html",
+					data: {
+						"supplierId": supplierId,
+						"auditField": auditField,
+						"auditType": "download_page"
+					},
+					dataType: "json",
+					success: function(data) {
+						/* alert(data.suggest); */
+						layer.msg("不通过理由：" + data.suggest, {
+							offset: '300px'
+						});
+					}
+				});
+			}
 </script>
 
 </head>
@@ -125,12 +146,12 @@
 										<table class="table table-bordered">
 									   	   <tr>
 									   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
-									   	     <td>
+									   	     <td <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierRegList')"</c:if>>
 									   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
 											   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
 										     </td>
 									   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
-									   	     <td>
+									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierPledge')"</c:if>>
 									   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
 											   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
 									   	     </td>

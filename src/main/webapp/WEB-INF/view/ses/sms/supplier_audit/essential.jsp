@@ -530,10 +530,10 @@
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">近三年内有无重大违法记录：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<c:if test="${'1' eq suppliers.isIllegal }">
-									<input id="isIllegal" class="hand " value="有违法" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isIllegal');"</c:if>>
+									<input id="isIllegal" class="hand " value="有" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isIllegal');"</c:if>>
 								</c:if>
 								<c:if test="${'0' eq suppliers.isIllegal }">
-									<input id="isIllegal" class="hand " value="无违法" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isIllegal');"</c:if>>
+									<input id="isIllegal" class="hand " value="无" type="text" onclick="reason(this)" <c:if test="${fn:contains(field,'isIllegal')}">style="border: 1px solid #FF8C00;"  onMouseOver="isCompare('isIllegal');"</c:if>>
 								</c:if>
 							</div>
 						</li>

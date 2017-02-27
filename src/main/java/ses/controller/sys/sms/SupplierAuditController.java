@@ -1846,18 +1846,29 @@ public class SupplierAuditController extends BaseSupplierController {
 
 		if(supplierModify.getmodifyType().equals("basic_page") && supplierModify.getListType() == 0){
 			//在数据字典里查询营业执照类型
-			if(supplierModify.getBeforeField().equals("businessType") && supplierModify.getBeforeField() != null) {
+			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessType")) {
 				String showModify = "";
-				String typeid = supplierModify.getBeforeContent();
+				String typeId = supplierModify.getBeforeContent();
 				List < DictionaryData > list = DictionaryDataUtil.find(17);
 				for(int i = 0; i < list.size(); i++) {
-					if(typeid.equals(list.get(i).getId())) {
+					if(typeId.equals(list.get(i).getId())) {
 						showModify = list.get(i).getName();
 					}
 				}
 				return JSON.toJSONString(showModify);
 			}
-
+			//在数据字典里查询企业性质
+			if(supplierModify.getBeforeField() != null && supplierModify.getBeforeField().equals("businessNature")){
+				String showModify = "";
+				List < DictionaryData > businessList = DictionaryDataUtil.find(32);
+				for(int i = 0; i < businessList.size(); i++) {
+					if(businessList.get(i).getId().equals(supplierModify.getBeforeContent())) {
+						showModify = businessList.get(i).getName();
+					}
+				}
+				return JSON.toJSONString(showModify);
+			}
+			
 			/**
 			 * 查询地址
 			 */
@@ -1884,6 +1895,16 @@ public class SupplierAuditController extends BaseSupplierController {
 				return JSON.toJSONString(d);
 			}
 		}
+		
+		//近三年内有无重大违法记录
+		if(supplierModify.getBeforeField().equals("isIllegal")){
+			if(supplierModify.getBeforeContent().equals("1")){
+				supplierModify.setBeforeContent("有");
+			}else{
+				supplierModify.setBeforeContent("无");
+			}
+		}
+		
 		
 		return JSON.toJSONString(supplierModify.getBeforeContent());
 	}

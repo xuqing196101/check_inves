@@ -913,18 +913,6 @@ public class SupplierController extends BaseSupplierController {
 			supplier = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
 			model.addAttribute("supplierTypeIds", supplierTypeIds);
-			
-			// 所有的不通过字段的名字
-			SupplierAudit s = new SupplierAudit();
-			s.setSupplierId(supplier.getId());;
-			s.setAuditType("download_page");
-			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
-			StringBuffer errorField = new StringBuffer();
-			for(SupplierAudit audit: auditLists) {
-				errorField.append(audit.getAuditField() + ",");
-			}
-			model.addAttribute("audit", errorField);
-			
 			return "ses/sms/supplier_register/template_download";
 		} else if(flag.equals("store")) {
 			supplierService.updateSupplierProcurementDep(supplier);
@@ -979,7 +967,16 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("currSupplier", supplier);
 
 			model.addAttribute("supplierTypeIds", supplierTypeIds);
-
+			// 所有的不通过字段的名字
+			SupplierAudit s = new SupplierAudit();
+			s.setSupplierId(supplier.getId());;
+			s.setAuditType("download_page");
+			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+			StringBuffer errorField = new StringBuffer();
+			for(SupplierAudit audit: auditLists) {
+				errorField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("audit", errorField);
 			return "ses/sms/supplier_register/template_upload";
 		} else {
 			supplier = supplierService.get(supplierId);
