@@ -46,7 +46,7 @@
       	  window.close();//当前页面关闭
       }
       
-      function printdiv(printpage){
+      /* function printdiv(printpage){
 		var headstr = "<html><head><title></title></head><body>";
 		var footstr = "</body>";
 		var newstr = document.all.item(printpage).innerHTML;
@@ -55,12 +55,20 @@
 		window.print(); 
 		document.body.innerHTML = oldstr;
 		return false;
-	  }
+	  } */
+
+	  function printResult(projectId,packageId,flag){
+	        	   window.location.href="${pageContext.request.contextPath}/packageExpert/expertConsultWord.html?projectId="+projectId+"&packageId="+packageId+"&flag="+flag;
+
+	        }
+	  
   </script>
   <body>
   	<div class="container">
     	<div class="mt5 mb5 fr">
-		    <button class="btn" onclick="printdiv('div_print');" type="button">打印</button>
+		    <!-- <button class="btn" onclick="printdiv('div_print');" type="button">打印</button> -->
+	   	    <button class="btn" onclick="printResult('${project.id}','${pack.id}','${flag}');" type="button">打印</button>
+	   	    
 	   	</div>
 	   	<div class="headline-v2">
 	   		<h2>专家咨询委员会</h2>
