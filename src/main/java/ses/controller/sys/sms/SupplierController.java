@@ -1288,11 +1288,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_armName", "不能为空!");
 			count++;
 		}
-		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax()) || supplier.getArmyBusinessFax() != null) {
+		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax())) {
 			model.addAttribute("err_armFax", "传真不能为空或者格式不正确!");
 			count++;
 		}
-		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile()) || supplier.getArmyBuinessMobile() != null) {
+		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile())) {
 			model.addAttribute("err_armMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
@@ -1320,7 +1320,7 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("err_legalCard", "身份证号码已存在");
 		//			count++;
 		//		}
-		if(supplier.getLegalMobile() == null || "".equals(supplier.getLegalMobile()) || supplier.getLegalMobile() != null) {
+		if(supplier.getLegalMobile() == null || "".equals(supplier.getLegalMobile())) {
 			model.addAttribute("err_legalMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
@@ -1344,17 +1344,13 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 
-		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax()) || supplier.getContactFax() != null) {
+		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax())) {
 			model.addAttribute("err_fax", "传真不能为空或者格式不正确!");
 			count++;
 		}
 
 		if(supplier.getContactMobile() == null || "".equals(supplier.getContactMobile())) {
 			model.addAttribute("err_catMobile", "填写固定电话!");
-			count++;
-		}
-		if(supplier.getContactMobile() != null) {
-			model.addAttribute("err_catMobile", "固定电话格式不正确!");
 			count++;
 		}
 		//		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")||supplier.getContactTelephone().length()>12){
