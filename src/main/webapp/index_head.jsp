@@ -7,10 +7,18 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
+
 <head>
 <!--导航js-->
 
 <%@ include file="/WEB-INF/view/portal.jsp" %>
+<script type="text/javascript"> 
+  		$(function(){
+		   $("#close").click(function(){
+		   		$(".prompt_tips").hide();
+		   });
+		});
+</script>
 <script type="text/javascript">
 var user = "${sessionScope.loginUser.relName}";
 $(function(){

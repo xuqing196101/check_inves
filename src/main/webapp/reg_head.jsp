@@ -45,7 +45,13 @@
     <!--导航js-->
 
     <%@ include file="/WEB-INF/view/portal.jsp" %>
-
+<script type="text/javascript"> 
+  		$(function(){
+		   $("#close").click(function(){
+		   		$(".prompt_tips").hide();
+		   });
+		});
+</script>
     <script type="text/javascript">
       var user = "${sessionScope.loginUser.relName}";
       $(function() {

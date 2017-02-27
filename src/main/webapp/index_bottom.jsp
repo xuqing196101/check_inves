@@ -25,7 +25,7 @@
 <!--/footer--> 
     </div>
 
-        <div class="prompt_tips" id="img">
+    <div class="prompt_tips">
      <div class="prompt_top">
                    提示信息
        <span class="close_icon" id="close"></span>
