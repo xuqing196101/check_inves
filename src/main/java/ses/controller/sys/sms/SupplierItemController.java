@@ -633,12 +633,12 @@ public class SupplierItemController extends BaseController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("PRODUCT")) {
-					categoryId = DictionaryDataUtil.getId("GOODS");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
-                    /*Map<String, Object> searchMap = new HashMap<String, Object>();
+					/*categoryId = DictionaryDataUtil.getId("GOODS");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+                    Map<String, Object> searchMap = new HashMap<String, Object>();
                     searchMap.put("supplierId", supplierId);
                     searchMap.put("type", s);
-				    List < SupplierItem > category = supplierItemService.findByMap(searchMap);*/
+				    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
 						Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
 						if (cate == null) {
@@ -666,12 +666,12 @@ public class SupplierItemController extends BaseController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("SALES")) {
-					categoryId = DictionaryDataUtil.getId("GOODS");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
-				    /*Map<String, Object> searchMap = new HashMap<String, Object>();
+					/*categoryId = DictionaryDataUtil.getId("GOODS");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+				    Map<String, Object> searchMap = new HashMap<String, Object>();
                     searchMap.put("supplierId", supplierId);
                     searchMap.put("type", s);
-                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);*/
+                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
 					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
                         if (cate == null) {
@@ -716,12 +716,12 @@ public class SupplierItemController extends BaseController {
 			String categoryId = "";
 			if(s != null) {
 				if(s.equals("SERVICE")) {
-					categoryId = DictionaryDataUtil.getId("SERVICE");
-					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);
-				    /*Map<String, Object> searchMap = new HashMap<String, Object>();
+					/*categoryId = DictionaryDataUtil.getId("SERVICE");
+					List < SupplierItem > category = supplierItemService.getCategory(supplierId, categoryId, s);*/
+				    Map<String, Object> searchMap = new HashMap<String, Object>();
                     searchMap.put("supplierId", supplierId);
                     searchMap.put("type", s);
-                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);*/
+                    List < SupplierItem > category = supplierItemService.findByMap(searchMap);
 					for(SupplierItem c: category) {
 					    Category cate = categoryService.selectByPrimaryKey(c.getCategoryId());
                         if (cate == null) {
