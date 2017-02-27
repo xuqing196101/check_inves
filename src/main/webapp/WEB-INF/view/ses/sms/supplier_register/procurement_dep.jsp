@@ -33,7 +33,7 @@
 			$("#procurement_dep_form_id").submit();
 		}else{
 			if (!size) {
-				layer.msg("请选择一个初审采购机构", {
+				layer.msg("请选择一个审核采购机构", {
 					offset : '300px',
 				});
 				return;

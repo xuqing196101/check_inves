@@ -1270,11 +1270,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_armName", "不能为空!");
 			count++;
 		}
-		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax()) || (supplier.getArmyBusinessFax() != null && !supplier.getArmyBusinessFax().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax()) || supplier.getArmyBusinessFax() != null) {
 			model.addAttribute("err_armFax", "传真不能为空或者格式不正确!");
 			count++;
 		}
-		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile()) || (supplier.getArmyBuinessMobile() != null && !supplier.getArmyBuinessMobile().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile()) || supplier.getArmyBuinessMobile() != null) {
 			model.addAttribute("err_armMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
@@ -1302,7 +1302,7 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("err_legalCard", "身份证号码已存在");
 		//			count++;
 		//		}
-		if(supplier.getLegalMobile() == null || "".equals(supplier.getLegalMobile()) || (supplier.getLegalMobile() != null && !supplier.getLegalMobile().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getLegalMobile() == null || "".equals(supplier.getLegalMobile()) || supplier.getLegalMobile() != null) {
 			model.addAttribute("err_legalMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
@@ -1326,7 +1326,7 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 
-		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax()) || (supplier.getContactFax() != null && !supplier.getContactFax().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax()) || supplier.getContactFax() != null) {
 			model.addAttribute("err_fax", "传真不能为空或者格式不正确!");
 			count++;
 		}
@@ -1335,7 +1335,7 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_catMobile", "填写固定电话!");
 			count++;
 		}
-		if(supplier.getContactMobile() != null && !supplier.getContactMobile().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$")) {
+		if(supplier.getContactMobile() != null) {
 			model.addAttribute("err_catMobile", "固定电话格式不正确!");
 			count++;
 		}
