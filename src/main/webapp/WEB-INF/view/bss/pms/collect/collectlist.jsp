@@ -539,12 +539,12 @@
                         <input class="title col-md-12" name="fileName"   type="text">
                    </div>
                  </li>
-                 <li class="col-md-12 col-sm-12 col-xs-12">
+         <!--         <li class="col-md-12 col-sm-12 col-xs-12">
                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">计划文号</span>
-                  <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0">
-                        <input class="col-xs-12 h80 mt6" name="planNo" id="cno"  maxlength="300" type="text">
-                    </div>
-                 </li>
+                  <div class="col-md-12 col-xs-12 col-sm-12 input-append input_group p0"> -->
+                        <input class="col-xs-12 h80 mt6" name="planNo" id="cno"  maxlength="300" type="hidden">
+                 <!--    </div>
+                 </li> -->
                  <!-- <li class="col-sm-6 col-md-6 p0 col-lg-6 col-xs-6">
                   <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">密码</label>
                     <span class="col-md-12 col-xs-12">

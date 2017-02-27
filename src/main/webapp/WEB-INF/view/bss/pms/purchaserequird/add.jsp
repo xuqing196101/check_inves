@@ -208,6 +208,7 @@
 				var mobile = $("#mobile").val();
 				var type = $("#wtype").val();
 			 	var refNo = $("#referenceNo").val();
+			 	var fileId = $("#mfiledId").val();
 				var bool= details();
 				
 			      var dy=dyly();  
@@ -239,18 +240,66 @@
 					$("#detailType").val(type);
 					$("#detailMobile").val(mobile);
 					$("#detailRefNo").val(refNo);
-			  	$.ajax({
+			  	/* $.ajax({
 						url: "${pageContext.request.contextPath}/purchaser/queryNo.html",
 						data:{no:no},
 						type: "post",
 						success: function(data) {
-							if(data!='1'){  
-							  $("#add_form").submit();
-		 			}else{
+							if(data!='1'){  */ 
+								var jsonStr = [];
+								var allTable = document.getElementsByTagName("table");
+								 $("#table tr").each(function(i){ //遍历Table的所有Row
+										 if(i>0 ){
+											
+									
+									    var id =$(this).find("td:eq(1)").children(":first").val();
+									    var seq = $(this).find("td:eq(1)").children(":first").next().val();
+									    var department = $(this).find("td:eq(2)").children(":first").val();
+										var goodsName =$(this).find("td:eq(3)").children(":first").val();
+										var stand = $(this).find("td:eq(4)").children(":first").val();
+										var qualitStand = $(this).find("td:eq(5)").children(":first").val();
+										var item = $(this).find("td:eq(6)").children(":first").val();
+										var purchaseCount =$(this).find("td:eq(7)").children(":first").next().val();
+										var price = $(this).find("td:eq(8)").children(":first").next().val();
+										var budget = $(this).find("td:eq(9)").children(":first").next().val();
+									  	var deliverDate = $(this).find("td:eq(10)").children(":first").val();
+										var purchaseTypes = $(this).find("td:eq(11)").children(":first").val();
+										var supplier = $(this).find("td:eq(12)").children(":first").val();
+										var isFreeTax = $(this).find("td:eq(13)").children(":first").val();
+										var goodsUse = $(this).find("td:eq(14)").children(":first").val();
+										var useUnit =$(this).find("td:eq(15)").children(":first").val();
+										var memo = $(this).find("td:eq(16)").children(":first").val(); 
+									 
+									  	var json = {"seq":seq,"id":id,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
+											"item":item, "purchaseCount":purchaseCount, "price":price, "budget":budget, 
+											"deliverDate":deliverDate,"purchaseType":purchaseTypes,"supplier":supplier,
+											"isFreeTax":isFreeTax,"goodsUse":goodsUse,"useUnit":useUnit,"memo":memo};
+										jsonStr.push(json);  
+									 	}
+									});
+									
+							//	var forms=$("#add_form").serializeArray();
+								  $.ajax({
+						  		        type: "POST",
+						  		        url: "${pageContext.request.contextPath}/purchaser/adddetail.do",
+						  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
+						  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
+						  		        	"referenceNo":refNo,"fileId":fileId},
+						  		        dataType: "json",
+						  		        success: function (message) {
+						  		        },
+						  		        error: function (message) {
+						  		        }
+						  		    });
+								  
+								  
+								
+							  
+		 			/* }else{
 								layer.tips("计划编号已存在", "#jhbh");
 							}
 						}
-					});  
+					});  */ 
 					
 				}
 				
@@ -1402,7 +1451,7 @@
 							<input type="hidden" name="recorderMobile" id="detailMobile">
 							<input type="hidden" name="planDepName" id="detailXqbm"/>
 						    <input type="hidden" name="referenceNo" id="detailRefNo"/>
-						    <input type="hidden" name="fileId" value="${fileId }" />
+						    <input type="hidden" name="fileId" id="mfiledId"value="${fileId }" />
 						</form>
 					</div>
 				</div>

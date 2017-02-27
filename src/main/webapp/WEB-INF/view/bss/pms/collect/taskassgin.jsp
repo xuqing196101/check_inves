@@ -72,8 +72,8 @@
  
 	var index;
 	function audit(){
-		var no=generateMixed();
-	 $("#aduit_No").val(no);
+	/* 	var no=generateMixed();
+	 $("#aduit_No").val(no); */
 		var id=[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
@@ -113,13 +113,28 @@
 	
 
 	function closeLayer(){
+		var no=$("#aduit_No").val(); 
+		var name=$("#aduit_Name").val();
 	     var id =[]; 
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val()); 
 		}); 
-	  	$("#cid").val(id);
-	    $("#collect_form").submit();
-		  layer.close(index);	
+		if($.trim(name)==""){
+			layer.alert("请填写采购任务名称！", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		} else if($.trim(no)==""){
+			layer.alert("请填写采购任务文号！", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}else{
+		  	$("#cid").val(id);
+		    $("#collect_form").submit();
+			  layer.close(index);  	
+		}
+	  
 	}
 	function resetQuery(){
 		$("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -287,15 +302,15 @@
 	<form id="collect_form" action="${pageContext.request.contextPath }/taskassgin/add.html" method="post" style="margin-top: 20px;">
 	
 	  	   <div class="col-md-6 col-sm-6 col-xs-6">
-	  	   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购任务名称:</span>
+	  	   		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购任务名称:</span>
 	  	   		<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
-	  	   			<input  type="text" id="aduit_Name"  name="name" value="">
+	  	   			<input  type="text" id="aduit_Name"    name="name" value="">
 	  	   		</div>
 	  	   </div>
 	       <div class="col-md-6 col-sm-6 col-xs-6">
-	       		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购任务编号:</span>
+	       		<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购任务文号:</span>
 	       		<div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
-	       			<input id="aduit_No"  type="text" name="documentNumber" value="">
+	       			<input id="aduit_No"   type="text" name="documentNumber" value="">
 	       		</div>
 	       </div>
 	       
@@ -306,8 +321,8 @@
 		 
 		 <input type="hidden" name="cid" id="cid" value="">
 		<div class="col-md-12 col-xs-12 col-sm-12 tc mt10">
-	     	<button class="btn" onclick="closeLayer()" >确认</button>
-	     	<input type="button"  class="btn" onclick="cancel()" value="取消">
+	     	<input type="button" class="btn" onclick="closeLayer()" value="确认" />
+	     	<input type="button"  class="btn" onclick="cancel()" value="取消"/>
 	    </div>
 	 </form>   
  </div>

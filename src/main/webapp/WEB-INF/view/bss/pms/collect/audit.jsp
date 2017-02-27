@@ -17,9 +17,9 @@
 
 
 
-			function view(no) {
+			function view(obj) {
 
-				window.location.href = "${pageContext.request.contextPath}/purchaser/queryByNo.html?planNo=" + no;
+			   window.location.href="${pageContext.request.contextPath}/look/views.html?id="+obj;
 			}
 
 			function aadd() {
@@ -256,19 +256,19 @@
 			  		   if(status=='3'){
 			  			   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 				  			var curval=tdVal1+"由"+defVal+"变成"+val;
-				  			var newVal=inpval+curval;
+				  			var newVal=inpval+curval+";";
 			  			 $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal); 
 			  		   }
 			  		 if(status=='5'){
 			  		   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 			  			var curval=tdVal1+"由"+defVal+"变成"+val;
-			  			var newVal=inpval+curval;
+			  			var newVal=inpval+curval+";";
 				  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 				  	   }
 				  	 if(status=='7'){
 				  	   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 			  			var curval=tdVal1+"由"+defVal+"变成"+val;
-			  			var newVal=inpval+curval;
+			  			var newVal=inpval+curval+";";
 				  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 				  	   }  
 					} 
@@ -356,19 +356,19 @@
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval;
+											  			var newVal=inpval+curval+";";
 												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
 												  if(status=='5'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval;
+											  			var newVal=inpval+curval+";";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 												  	   }
 												 if(status=='7'){
 													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval;
+											  			var newVal=inpval+curval+";";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 												  	 }
 												 
@@ -472,19 +472,19 @@
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval;
+											  			var newVal=inpval+curval+";";
 												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
 												  if(status=='5'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval;
+											  			var newVal=inpval+curval+";";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 												  	   }
 												 if(status=='7'){
 													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval;
+											  			var newVal=inpval+curval+";";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 												  	 }
 												 

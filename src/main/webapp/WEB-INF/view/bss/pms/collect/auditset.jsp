@@ -286,11 +286,10 @@
         if(tp != 1 ){
     	 layer.open({
    		  type: 2, //page层
-   		  area: ['900px', '500px'],
+   		  area: ['80%', '80%'],
    		  title: '用户库',
    		  closeBtn: 1,
    		  shade:0.01, //遮罩透明度
-   		  moveType: 1, //拖拽风格，0是默认，1是传统拖动
    		  shift: 1, //0-6的动画形式，-1不开启
    		  offset: ['200px', '500px'],
    		  content:  "${pageContext.request.contextPath}/set/user.html?type="+type,
