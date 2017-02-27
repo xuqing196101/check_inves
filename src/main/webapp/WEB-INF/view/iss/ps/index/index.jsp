@@ -38,8 +38,6 @@
           });
         }
 
-      })
-
       function kaptcha() {
         $("#kaptchaImage").hide().attr('src', 'Kaptcha.jpg?' + Math.floor(Math.random() * 100)).fadeIn();
       }
