@@ -179,9 +179,8 @@
 		<input type="hidden" name="fileName" />
 	</form>
 	
-	<!-- footer -->
-	<c:if test="${currSupplier.status != 7}">
-		<jsp:include page="/index_bottom.jsp" />
-	</c:if>
+	<div class="footer_margin">
+   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+    </div>
 </body>
 </html>

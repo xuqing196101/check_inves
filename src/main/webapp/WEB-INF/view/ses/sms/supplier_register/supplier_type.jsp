@@ -2031,6 +2031,10 @@
 				onclick="next(1)" />
 		</div>
 	</div>
+<div class="footer_margin">
+   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+ </div>
 </body>
 <script type="text/javascript" src="${pageContext.request.contextPath}/js/sms/commons.js"></script>
+
 </html>

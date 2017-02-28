@@ -139,8 +139,9 @@
         <select class="w178" id="status" name="confirmFile" >
           <option value="">请选择</option>
 					<option value="1">待审核</option>
-					<option value="3">审核通过</option>
 					<option value="2">审核未通过</option>
+					<option value="3">审核通过</option>
+					<option value="4">修改报备</option>
 				</select>
         </span>
       </li>
@@ -191,6 +192,7 @@
 			   <c:if test="${obj.confirmFile == 1 }">待审核</c:if>
 			   <c:if test="${obj.confirmFile == 3 }">审核通过</c:if>
 			   <c:if test="${obj.confirmFile == 2 }">审核未通过</c:if>
+			   <c:if test="${obj.confirmFile == 4 }">修改报备</c:if>
 			   </td>
 			</tr>
 		  </c:forEach>

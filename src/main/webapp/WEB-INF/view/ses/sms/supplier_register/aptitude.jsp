@@ -382,11 +382,15 @@
 				<button type="button" class="btn padding-left-20 padding-right-20 margin-5" onclick="next()">下一步</button>
 			</div>
 		</div>
+		
 		<form id="items_info_form_id" action="${pageContext.request.contextPath}/supplier/contract.html" method="post">
 			<input name="supplierId" id="supplierId" value="${currSupplier.id}" type="hidden" />
 			<input name="categoryId" value="" id="categoryId" type="hidden" />
 			<input name="flag" value="" id="flag" type="hidden" />
 			<input name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }" type="hidden" />
 		</form>
+		<div class="footer_margin">
+   			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+  		</div>
 	</body>
 </html>

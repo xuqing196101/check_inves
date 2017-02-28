@@ -201,5 +201,8 @@
 		<input name="supplierTypeIds"  value="${supplierTypeIds}"    type="hidden" /> 
 		<input name="flag" value="1" id="flag" type="hidden" /> 
 	</form>
+	<div class="footer_margin">
+   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+   </div>
 </body>
 </html>

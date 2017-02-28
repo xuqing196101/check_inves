@@ -73,7 +73,8 @@ public interface SupplierExtUserServicel {
      * @param projectId
      * @return
      * @throws Exception
+     * @param type:区分类型 0 只是生成 总模板 1 生成分包模板
      */
-    String downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception;
+    String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type) throws Exception;
     
 }
