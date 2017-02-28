@@ -66,13 +66,14 @@ public class SynchExportController {
     @RequestMapping("/initExport")
     public String initExport(Model model, HttpServletRequest request){
        model.addAttribute("operType", Constant.OPER_TYPE_EXPORT);
-       List<DictionaryData> list = DictionaryDataUtil.find(DATA_TYPE_KIND);
+       List<DictionaryData> templist = DictionaryDataUtil.find(DATA_TYPE_KIND);
+       List<DictionaryData> list = new ArrayList<DictionaryData>();
        
        //过滤附件类型
-       for (int i = 0; i < list.size(); i++){
-           DictionaryData dd = list.get(i);
-           if (dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
-               list.remove(i);
+       for (int i = 0; i < templist.size(); i++){
+           DictionaryData dd = templist.get(i);
+           if (!dd.getCode().equals(Constant.DATA_TYPE_ATTACH_CODE)){
+               list.add(dd);
            }
        }
        
