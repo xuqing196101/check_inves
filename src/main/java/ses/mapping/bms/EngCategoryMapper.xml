@@ -20,6 +20,7 @@
 		<result column="PARAM_PUBLISH_RANGE" property="paramPublishRange" />
 		<result column="AUDIT_DATE" property="auditDate" jdbcType="TIMESTAMP"/>
 		<result column="AUDIT_ADVISE" property="auditAdvise" />
+		<result column="EXPERT_TYPE" property="expertType" />
 
 		<!-- <association property="categoryAptitude" column="APTITUDE_ID" select="ses.dao.bms.CategoryAptitudeMapper.selectByPrimaryKey"/> -->
 		<association property="categoryAttchment" column="ATTCHMENT_ID"
@@ -40,7 +41,7 @@
 		ID, NAME, STATUS, PARENT_ID, CREATED_AT, UPDATED_AT,
 		DESCRIPTION, CLASSIFY_STATUS,CODE,POSITION,IS_DELETED,
 		IS_PUBLISH,KIND,PARAM_STATUS,ACCEPT_RANGE,PARAM_PUBLISH_RANGE,
-		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE
+		ATTCHMENT_ID,ORGNIZATION_ID,AUDIT_DATE,AUDIT_ADVISE,EXPERT_TYPE
 	</sql>
 
 	<!-- 根据id查询 -->
@@ -155,6 +156,9 @@
 			<if test="id != null">
 				ID,
 			</if>
+			<if test="expertType != null">
+				EXPERT_TYPE,
+			</if>
 			<if test="name != null">
 				NAME,
 			</if>
@@ -210,6 +214,9 @@
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				#{id},
+			</if>
+			<if test="expertType != null">
+				#{expertType},
 			</if>
 			<if test="name != null">
 				#{name},
@@ -271,6 +278,9 @@
 		<set>
 			<if test="name != null">
 				NAME = #{name},
+			</if>
+			<if test="expertType != null">
+				EXPERT_TYPE = #{expertType},
 			</if>
 			<if test="status != null">
 				STATUS = #{status},
