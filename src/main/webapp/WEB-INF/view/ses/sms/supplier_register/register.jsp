@@ -123,7 +123,9 @@
 			
 		</div>
 	</div>
-	<jsp:include page="/index_bottom.jsp"></jsp:include>
+	<div class="footer_margin">
+   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+   </div>
 </body>
 </html>
 
