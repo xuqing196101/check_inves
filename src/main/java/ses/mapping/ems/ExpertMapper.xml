@@ -1,1185 +1,1262 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="ses.dao.ems.ExpertMapper">
-	<resultMap id="BaseResultMap" type="ses.model.ems.Expert">
-		<id column="ID" jdbcType="VARCHAR" property="id" />
-		<result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
-		<result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
-		<result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
-		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
-		<result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
-		<result column="GENDER" jdbcType="CHAR" property="gender" />
-		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
-		<result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
-		<result column="ID_CARD_NUMBER" jdbcType="VARCHAR" property="idCardNumber" />
-		<result column="COVER_NOTE" jdbcType="VARCHAR" property="coverNote" />
-		<result column="PRODUCT_CATEGORIES" jdbcType="VARCHAR"
-			property="productCategories" />
-		<result column="ACADEMIC_ACHIEVEMENT" jdbcType="VARCHAR"
-			property="academicAchievement" />
-		<result column="REVIEW_SITUATION" jdbcType="VARCHAR" property="reviewSituation" />
-		<result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR"
-			property="avoidanceSituation" />
-		<result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
-		<result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
-		<result column="EMAIL" jdbcType="VARCHAR" property="email" />
-		<result column="JOB_EXPERIENCES" jdbcType="VARCHAR" property="jobExperiences" />
-		<result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
-		<result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
-		<result column="POLITICS_STATUS" jdbcType="VARCHAR" property="politicsStatus" />
-		<result column="NATION" jdbcType="VARCHAR" property="nation" />
-		<result column="GRADUATE_SCHOOL" jdbcType="VARCHAR" property="graduateSchool" />
-		<result column="LAST_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
-		<result column="MAJOR" jdbcType="VARCHAR" property="major" />
-		<result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
-		<result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
-		<result column="FAX" jdbcType="VARCHAR" property="fax" />
-		<result column="MAKE_TECH_DATE" jdbcType="TIMESTAMP" property="makeTechDate" />
-		<result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
-		<result column="ADDRESS" jdbcType="VARCHAR" property="address" />
-		<result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR"
-			property="professTechTitles" />
-		<result column="TIME_TO_WORK" jdbcType="TIMESTAMP" property="timeToWork" />
-		<result column="TIME_START_WORK" jdbcType="TIMESTAMP" property="timeStartWork" />
-		<result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
-		<result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
-		<result column="DEGREE" jdbcType="VARCHAR" property="degree" />
-		<result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
-		<result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
-		<result column="PURCHASE_DEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
-		<result column="STATUS" jdbcType="CHAR" property="status" />
-		<result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
-		<result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
-		<result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
-		<result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
-		<result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
-		<result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
-		<result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
-		<result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
-        <result column="IS_REFERENCE_LETTER" jdbcType="VARCHAR" property="isReferenceLftter" />
+    <resultMap id="BaseResultMap" type="ses.model.ems.Expert">
+        <id column="ID" jdbcType="VARCHAR" property="id" />
+        <result column="IS_SUBMIT" jdbcType="VARCHAR" property="isSubmit" />
+        <result column="IS_DO" jdbcType="VARCHAR" property="isDo" />
+        <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+        <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+        <result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
+        <result column="GENDER" jdbcType="CHAR" property="gender" />
+        <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+        <result column="MOBILE" jdbcType="VARCHAR" property="mobile" />
+        <result column="ID_CARD_NUMBER" jdbcType="VARCHAR" property="idCardNumber" />
+        <result column="COVER_NOTE" jdbcType="VARCHAR" property="coverNote" />
+        <result column="PRODUCT_CATEGORIES" jdbcType="VARCHAR"
+                property="productCategories" />
+        <result column="ACADEMIC_ACHIEVEMENT" jdbcType="VARCHAR"
+                property="academicAchievement" />
+        <result column="REVIEW_SITUATION" jdbcType="VARCHAR" property="reviewSituation" />
+        <result column="AVOIDANCE_SITUATION" jdbcType="VARCHAR"
+                property="avoidanceSituation" />
+        <result column="BIRTHDAY" jdbcType="TIMESTAMP" property="birthday" />
+        <result column="ID_NUMBER" jdbcType="VARCHAR" property="idNumber" />
+        <result column="EMAIL" jdbcType="VARCHAR" property="email" />
+        <result column="JOB_EXPERIENCES" jdbcType="VARCHAR" property="jobExperiences" />
+        <result column="ID_TYPE" jdbcType="VARCHAR" property="idType" />
+        <result column="EXPERTS_FROM" jdbcType="VARCHAR" property="expertsFrom" />
+        <result column="POLITICS_STATUS" jdbcType="VARCHAR" property="politicsStatus" />
+        <result column="NATION" jdbcType="VARCHAR" property="nation" />
+        <result column="GRADUATE_SCHOOL" jdbcType="VARCHAR" property="graduateSchool" />
+        <result column="LAST_EDUCATION" jdbcType="VARCHAR" property="hightEducation" />
+        <result column="MAJOR" jdbcType="VARCHAR" property="major" />
+        <result column="WORK_UNIT" jdbcType="VARCHAR" property="workUnit" />
+        <result column="TELEPHONE" jdbcType="VARCHAR" property="telephone" />
+        <result column="FAX" jdbcType="VARCHAR" property="fax" />
+        <result column="MAKE_TECH_DATE" jdbcType="TIMESTAMP" property="makeTechDate" />
+        <result column="HEALTH_STATE" jdbcType="VARCHAR" property="healthState" />
+        <result column="ADDRESS" jdbcType="VARCHAR" property="address" />
+        <result column="PROFESS_TECH_TITLES" jdbcType="VARCHAR"
+                property="professTechTitles" />
+        <result column="TIME_TO_WORK" jdbcType="TIMESTAMP" property="timeToWork" />
+        <result column="TIME_START_WORK" jdbcType="TIMESTAMP" property="timeStartWork" />
+        <result column="UNIT_ADDRESS" jdbcType="VARCHAR" property="unitAddress" />
+        <result column="POST_CODE" jdbcType="VARCHAR" property="postCode" />
+        <result column="DEGREE" jdbcType="VARCHAR" property="degree" />
+        <result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
+        <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
+        <result column="PURCHASE_DEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
+        <result column="STATUS" jdbcType="CHAR" property="status" />
+        <result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
+        <result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
+        <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
+        <result column="IS_PASS" jdbcType="DECIMAL" property="isPass" />
+        <result column="IS_PROVISIONAL" jdbcType="DECIMAL" property="isProvisional" />
+        <result column="REMARKS" jdbcType="VARCHAR" property="remarks" />
+        <result column="STEP_NUMBER" jdbcType="VARCHAR" property="stepNumber" />
+        <result column="AUDIT_AT" jdbcType="TIMESTAMP" property="auditAt" />
+        <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
+        <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
+        <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
+        <result column="RANGE" jdbcType="VARCHAR"  property="range" />
+
+    </resultMap>
+    <sql id="Base_Column_List">
+        ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
+        GENDER,
+        UPDATED_AT, MOBILE,
+        BIRTHDAY,
+        ID_NUMBER, ID_TYPE, EXPERTS_FROM,
+        POLITICS_STATUS, NATION, GRADUATE_SCHOOL,
+        LAST_EDUCATION,
+        MAJOR,
+        WORK_UNIT, TELEPHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS,
+        PROFESS_TECH_TITLES,
+        TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS,
+        POST_CODE, DEGREE, AT_DUTY,
+        EXPERTS_TYPE_ID,
+        PURCHASE_DEP_ID, STATUS,
+        IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL,
+        REMARKS,
+        STEP_NUMBER, EMAIL, JOB_EXPERIENCES, ID_CARD_NUMBER,
+        COVER_NOTE,
+        PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
+        REVIEW_SITUATION,
+        AVOIDANCE_SITUATION,
+        AUDIT_AT,
+        IS_REFERENCE_LETTER,
+        PROFESSIONAL,
+        TIME_PROFESSIONAL,
+        RANGE
+    </sql>
+    <sql id="Column_List">
+        e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
+        e.GENDER,
+        e.UPDATED_AT, e.MOBILE,
+        e.BIRTHDAY,
+        e.ID_NUMBER, e.ID_TYPE,
+        e.EXPERTS_FROM,
+        e.POLITICS_STATUS, e.NATION, e.GRADUATE_SCHOOL,
+        e.LAST_EDUCATION,
+        e.MAJOR,
+        e.WORK_UNIT, e.TELEPHONE, e.FAX,
+        e.MAKE_TECH_DATE, e.HEALTH_STATE, e.ADDRESS,
+        e.PROFESS_TECH_TITLES,
+        e.TIME_TO_WORK, e.TIME_START_WORK, e.UNIT_ADDRESS,
+        e.POST_CODE,
+        e.DEGREE, e.AT_DUTY,
+        e.EXPERTS_TYPE_ID,
+        e.PURCHASE_DEP_ID, e.STATUS,
+        e.IS_BLACK, e.HONESTY_SCORE, e.REAL_NAME, e.IS_PASS, e.IS_PROVISIONAL,
+        e.REMARKS,
+        e.STEP_NUMBER, e.EMAIL, e.JOB_EXPERIENCES, e.ID_CARD_NUMBER,
+        e.COVER_NOTE,
+        e.PRODUCT_CATEGORIES, e.ACADEMIC_ACHIEVEMENT,
+        e.REVIEW_SITUATION,
+        e.AVOIDANCE_SITUATION,
+        e.AUDIT_AT,
+        e.IS_REFERENCE_LETTER,
+        e.PROFESSIONAL,
+        e.TIME_PROFESSIONAL,
+        e.RANGE
+    </sql>
+    <!-- 获取所有专家,仅用作定时删除无效专家 -->
+    <select id="getAllExpert" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_SES_EMS_EXPERT
+        where IS_DELETE = 0
+    </select>
+    <!-- 查询用户名是否存在 -->
+    <!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap"
+        > select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit} </select> -->
+    <!-- 查询所有专家 可条件查询 -->
+    <select id="selectAllExpert" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_SES_EMS_EXPERT
+        where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME like '%${relName}%'
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+            AND EXPERTS_FROM = '${expertsFrom}'
+        </if>
+        <if test="status != null and status !=''">
+            AND STATUS = '${status}'
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+            AND instr( EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
+        </if>
+        ORDER BY STATUS ASC, CREATED_AT DESC
+    </select>
+    <!-- 查询复审列表的专家 -->
+    <select id="selectSecondAuditExpert" resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_SES_EMS_EXPERT
+        where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
+        and (STATUS = '1' or STATUS = '4' or STATUS = '5')
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME like '%${relName}%'
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+            AND EXPERTS_FROM = '${expertsFrom}'
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+            AND EXPERTS_TYPE_ID = #{expertsTypeId}
+        </if>
+        ORDER BY CREATED_AT DESC
+    </select>
+    <!-- 查找待办数量 -->
+    <select id="getCount" parameterType="ses.model.ems.Expert"
+            resultType="java.lang.Integer">
+        <!-- @mbggenerated -->
+        select
+        count(*)
+        from T_SES_EMS_EXPERT
+        where 1=1 and IS_SUBMIT != '0' and
+        IS_DELETE != 1
+        <if test="relName!=null">
+            and REAL_NAME= #{relName,jdbcType=VARCHAR}
+        </if>
+        <if test="expertsTypeId!=null">
+            and EXPERTS_TYPE_ID= #{expertsTypeId,jdbcType=VARCHAR}
+        </if>
+        <if test="status!=null">
+            and STATUS = #{status,jdbcType=DECIMAL}
+        </if>
+    </select>
+
+    <select id="selectByPrimaryKey" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_SES_EMS_EXPERT
+        where ID = #{id,jdbcType=VARCHAR}
+    </select>
+    <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+        delete from
+        T_SES_EMS_EXPERT
+        where ID = #{id,jdbcType=VARCHAR}
+    </delete>
+    <insert id="insert" parameterType="ses.model.ems.Expert">
+        insert into T_SES_EMS_EXPERT
+        (ID, IS_SUBMIT, IS_DO,
+        IS_DELETE, CREATED_AT, GENDER,
+        UPDATED_AT,
+        MOBILE, BIRTHDAY,
+        ID_NUMBER, ID_TYPE, EXPERTS_FROM,
+        POLITICS_STATUS,
+        NATION, GRADUATE_SCHOOL,
+        LAST_EDUCATION, MAJOR, WORK_UNIT,
+        TELEPHONE,
+        FAX, MAKE_TECH_DATE,
+        HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
+        TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS,
+        POST_CODE, DEGREE,
+        AT_DUTY,
+        EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS,
+        IS_BLACK,
+        HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS, AUDIT_AT, IS_REFERENCE_LETTER,
+        PROFESSIONAL,
+        TIME_PROFESSIONAL,
+        RANGE
+        )
+        values
+        (#{id,jdbcType=VARCHAR},
+        #{isSubmit,jdbcType=VARCHAR},
+        #{isDo,jdbcType=VARCHAR},
+        #{isDelete,jdbcType=DECIMAL},
+        #{createdAt,jdbcType=TIMESTAMP},
+        #{gender,jdbcType=CHAR},
+        #{updatedAt,jdbcType=TIMESTAMP},
+        #{mobile,jdbcType=VARCHAR},
+        #{birthday,jdbcType=TIMESTAMP},
+        #{idNumber,jdbcType=VARCHAR},
+        #{idType,jdbcType=VARCHAR},
+        #{expertsFrom,jdbcType=VARCHAR},
+        #{politicsStatus,jdbcType=VARCHAR},
+        #{NATION,jdbcType=VARCHAR},
+        #{graduateSchool,jdbcType=VARCHAR},
+        #{hightEducation,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
+        #{workUnit,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR},
+        #{fax,jdbcType=VARCHAR}, #{makeTechDate,jdbcType=TIMESTAMP},
+        #{healthState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
+        #{professTechTitles,jdbcType=VARCHAR},
+        #{timeToWork,jdbcType=TIMESTAMP},
+        #{timeStartWork,jdbcType=TIMESTAMP},
+        #{unitAddress,jdbcType=VARCHAR},
+        #{postCode,jdbcType=VARCHAR},
+        #{degree,jdbcType=VARCHAR},
+        #{atDuty,jdbcType=VARCHAR},
+        #{expertsTypeId,jdbcType=VARCHAR},
+        #{purchaseDepId,jdbcType=DECIMAL},
+        #{status,jdbcType=CHAR},
+        #{isBlack,jdbcType=CHAR},
+        #{honestyScore,jdbcType=DECIMAL},
+        #{relName,jdbcType=VARCHAR},
+        #{isPass,jdbcType=DECIMAL},
+        #{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR},
+        #{auditAt,jdbcType=TIMESTAMP},
+        #{professional,jdbcType=VARCHAR},
+        #{timeProfessional,jdbcType=TIMESTAMP},
+        #{range,jdbcType=VARCHAR}
+
+        )
+    </insert>
+    <insert id="insertSelective" parameterType="ses.model.ems.Expert">
+        insert into T_SES_EMS_EXPERT
+        <trim prefix="(" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                ID,
+            </if>
+            <if test="jobExperiences != null">
+                JOB_EXPERIENCES,
+            </if>
+            <if test="isSubmit != null">
+                IS_SUBMIT,
+            </if>
+            <if test="submitAt != null">
+                SUBMIT_AT,
+            </if>
+            <if test="productCategories != null">
+                PRODUCT_CATEGORIES,
+            </if>
+            <if test="academicAchievement != null">
+                ACADEMIC_ACHIEVEMENT,
+            </if>
+            <if test="reviewSituation != null">
+                REVIEW_SITUATION,
+            </if>
+            <if test="avoidanceSituation != null">
+                AVOIDANCE_SITUATION,
+            </if>
+            <if test="coverNote != null">
+                COVER_NOTE,
+            </if>
+            <if test="idCardNumber != null">
+                ID_CARD_NUMBER,
+            </if>
+            <if test="email != null">
+                EMAIL,
+            </if>
+
+            <if test="isDo != null">
+                IS_DO,
+            </if>
+            <if test="isDelete != null">
+                IS_DELETE,
+            </if>
+            <if test="isPass != null">
+                IS_PASS,
+            </if>
+            <if test="isProvisional != null">
+                IS_PROVISIONAL,
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT,
+            </if>
+            <if test="gender != null">
+                GENDER,
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT,
+            </if>
+            <if test="mobile != null">
+                MOBILE,
+            </if>
+            <if test="birthday != null">
+                BIRTHDAY,
+            </if>
+            <if test="idNumber != null">
+                ID_NUMBER,
+            </if>
+            <if test="idType != null">
+                ID_TYPE,
+            </if>
+            <if test="expertsFrom != null">
+                EXPERTS_FROM,
+            </if>
+            <if test="politicsStatus != null">
+                POLITICS_STATUS,
+            </if>
+            <if test="nation != null">
+                NATION,
+            </if>
+            <if test="graduateSchool != null">
+                GRADUATE_SCHOOL,
+            </if>
+            <if test="hightEducation != null">
+                LAST_EDUCATION,
+            </if>
+            <if test="major != null">
+                MAJOR,
+            </if>
+            <if test="workUnit != null">
+                WORK_UNIT,
+            </if>
+            <if test="telephone != null">
+                TELEPHONE,
+            </if>
+            <if test="fax != null">
+                FAX,
+            </if>
+            <if test="makeTechDate != null">
+                MAKE_TECH_DATE,
+            </if>
+            <if test="healthState != null">
+                HEALTH_STATE,
+            </if>
+            <if test="address != null">
+                ADDRESS,
+            </if>
+            <if test="professTechTitles != null">
+                PROFESS_TECH_TITLES,
+            </if>
+            <if test="timeToWork != null">
+                TIME_TO_WORK,
+            </if>
+            <if test="timeStartWork != null">
+                TIME_START_WORK,
+            </if>
+            <if test="unitAddress != null">
+                UNIT_ADDRESS,
+            </if>
+            <if test="postCode != null">
+                POST_CODE,
+            </if>
+            <if test="degree != null">
+                DEGREE,
+            </if>
+            <if test="atDuty != null">
+                AT_DUTY,
+            </if>
+            <if test="expertsTypeId != null">
+                EXPERTS_TYPE_ID,
+            </if>
+            <if test="purchaseDepId != null">
+                PURCHASE_DEP_ID,
+            </if>
+            <if test="status != null">
+                STATUS,
+            </if>
+            <if test="isBlack != null">
+                IS_BLACK,
+            </if>
+            <if test="honestyScore != null">
+                HONESTY_SCORE,
+            </if>
+            <if test="relName != null">
+                REAL_NAME,
+            </if>
+            <if test="remarks != null">
+                REMARKS,
+            </if>
+            <if test="stepNumber != null">
+                STEP_NUMBER,
+            </if>
+            <if test="auditAt != null">
+                AUDIT_AT,
+            </if>
+            <if test="isReferenceLftter != null">
+                IS_REFERENCE_LETTER,
+            </if>
+            <if test="professional != null">
+                PROFESSIONAL,
+            </if>
+            <if test="timeProfessional != null">
+                TIME_PROFESSIONAL,
+            </if>
+            <if test="range != null">
+                RANGE,
+            </if>
+
+        </trim>
+        <trim prefix="values (" suffix=")" suffixOverrides=",">
+            <if test="id != null">
+                #{id,jdbcType=VARCHAR},
+            </if>
+            <if test="isSubmit != null">
+                #{isSubmit,jdbcType=VARCHAR},
+            </if>
+            <if test="jobExperiences != null">
+                #{jobExperiences,jdbcType=VARCHAR},
+            </if>
+            <if test="submitAt != null">
+                #{submitAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productCategories != null">
+                #{productCategories,jdbcType=VARCHAR},
+            </if>
+            <if test="academicAchievement != null">
+                #{academicAchievement,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewSituation != null">
+                #{reviewSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="avoidanceSituation != null">
+                #{avoidanceSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="idCardNumber != null">
+                #{idCardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="jobExperiences != null">
+                #{jobExperiences,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="isDo != null">
+                #{isDo,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                #{isDelete,jdbcType=DECIMAL},
+            </if>
+            <if test="isPass != null">
+                #{isPass,jdbcType=DECIMAL},
+            </if>
+            <if test="isProvisional != null">
+                #{isProvisional,jdbcType=DECIMAL},
+            </if>
+            <if test="createdAt != null">
+                #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gender != null">
+                #{gender,jdbcType=CHAR},
+            </if>
+            <if test="updatedAt != null">
+                #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mobile != null">
+                #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="idNumber != null">
+                #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null">
+                #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="expertsFrom != null">
+                #{expertsFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="politicsStatus != null">
+                #{politicsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="graduateSchool != null">
+                #{graduateSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="hightEducation != null">
+                #{hightEducation,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="workUnit != null">
+                #{workUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="fax != null">
+                #{fax,jdbcType=VARCHAR},
+            </if>
+            <if test="makeTechDate != null">
+                #{makeTechDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="healthState != null">
+                #{healthState,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="professTechTitles != null">
+                #{professTechTitles,jdbcType=VARCHAR},
+            </if>
+            <if test="timeToWork != null">
+                #{timeToWork,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeStartWork != null">
+                #{timeStartWork,jdbcType=TIMESTAMP},
+            </if>
+            <if test="unitAddress != null">
+                #{unitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode != null">
+                #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="degree != null">
+                #{degree,jdbcType=VARCHAR},
+            </if>
+            <if test="atDuty != null">
+                #{atDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="expertsTypeId != null">
+                #{expertsTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseDepId != null">
+                #{purchaseDepId,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                #{status,jdbcType=CHAR},
+            </if>
+            <if test="isBlack != null">
+                #{isBlack,jdbcType=CHAR},
+            </if>
+            <if test="honestyScore != null">
+                #{honestyScore,jdbcType=DECIMAL},
+            </if>
+            <if test="relName != null">
+                #{relName,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="stepNumber != null">
+                #{stepNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="auditAt != null">
+                #{auditAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isReferenceLftter != null">
+                #{isReferenceLftter,jdbcType=CHAR},
+            </if>
+            <if test="professional != null">
+                #{PROFESSIONAL,jdbcType=VARCHAR},
+            </if>
+            <if test="timeProfessional != null">
+                #{TIME_PROFESSIONAL,jdbcType=TIMESTAMP},
+            </if>
+            <if test="range != null">
+                #{RANGE,jdbcType=VARCHAR},
+            </if>
+
+        </trim>
+    </insert>
+    <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.Expert">
+        update T_SES_EMS_EXPERT
+        <set>
+            <if test="isSubmit != null">
+                IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
+            </if>
+            <if test="jobExperiences != null">
+                JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
+            </if>
+            <if test="submitAt != null">
+                SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productCategories != null">
+                PRODUCT_CATEGORIES =
+                #{productCategories,jdbcType=VARCHAR},
+            </if>
+            <if test="academicAchievement != null">
+                ACADEMIC_ACHIEVEMENT =
+                #{academicAchievement,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewSituation != null">
+                REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="avoidanceSituation != null">
+                AVOIDANCE_SITUATION =
+                #{avoidanceSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="idCardNumber != null">
+                ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="coverNote != null">
+                COVER_NOTE = #{coverNote,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="isDo != null">
+                IS_DO = #{isDo,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null">
+                IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+            </if>
+            <if test="isPass != null">
+                IS_PASS = #{isPass,jdbcType=DECIMAL},
+            </if>
+            <if test="isProvisional != null">
+                IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+            </if>
+            <if test="createdAt != null">
+                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gender != null">
+                GENDER = #{gender,jdbcType=CHAR},
+            </if>
+            <if test="updatedAt != null">
+                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mobile != null">
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null">
+                BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="idNumber != null">
+                ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null">
+                ID_TYPE = #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="expertsFrom != null">
+                EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="politicsStatus != null">
+                POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null">
+                NATION = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="graduateSchool != null">
+                GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="hightEducation != null">
+                LAST_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null">
+                MAJOR = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="workUnit != null">
+                WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null">
+                TELEPHONE = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="fax != null">
+                FAX = #{fax,jdbcType=VARCHAR},
+            </if>
+            <if test="makeTechDate != null">
+                MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="healthState != null">
+                HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="professTechTitles != null">
+                PROFESS_TECH_TITLES =
+                #{professTechTitles,jdbcType=VARCHAR},
+            </if>
+            <if test="timeToWork != null">
+                TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeStartWork != null">
+                TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
+            </if>
+            <if test="unitAddress != null">
+                UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode != null">
+                POST_CODE = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="degree != null">
+                DEGREE = #{degree,jdbcType=VARCHAR},
+            </if>
+            <if test="atDuty != null">
+                AT_DUTY = #{atDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="expertsTypeId != null">
+                EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseDepId != null">
+                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null">
+                STATUS = #{status,jdbcType=CHAR},
+            </if>
+            <if test="isBlack != null">
+                IS_BLACK = #{isBlack,jdbcType=CHAR},
+            </if>
+            <if test="honestyScore != null">
+                HONESTY_SCORE = #{honestyScore,jdbcType=DECIMAL},
+            </if>
+            <if test="relName != null">
+                REAL_NAME = #{relName,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="auditAt != null">
+                AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isReferenceLftter != null">
+                IS_REFERENCE_LETTER = #{isReferenceLftter,jdbcType=CHAR},
+            </if>
+
+            <if test="professional != null">
+                PROFESSIONAL = #{professional,jdbcType=VARCHAR},
+            </if>
+            <if test="timeProfessional != null">
+                TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
+            </if>
+            <if test="range != null">
+                RANGE = #{range,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where ID = #{id,jdbcType=VARCHAR}
+    </update>
+    <update id="updateByPrimaryKey" parameterType="ses.model.ems.Expert">
+        update
+        T_SES_EMS_EXPERT
+        <set>
+            <if test="isSubmit != null and isSubmit != '0'">
+                IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
+            </if>
+            <if test="jobExperiences != null and jobExperiences != ''">
+                JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
+            </if>
+            <if test="submitAt != null and submitAt != ''">
+                SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="productCategories != null and productCategories != ''">
+                PRODUCT_CATEGORIES =
+                #{productCategories,jdbcType=VARCHAR},
+            </if>
+            <if test="academicAchievement != null and academicAchievement != ''">
+                ACADEMIC_ACHIEVEMENT =
+                #{academicAchievement,jdbcType=VARCHAR},
+            </if>
+            <if test="reviewSituation != null and reviewSituation != ''">
+                REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="avoidanceSituation != null and avoidanceSituation != ''">
+                AVOIDANCE_SITUATION =
+                #{avoidanceSituation,jdbcType=VARCHAR},
+            </if>
+            <if test="idCardNumber != null and idCardNumber != ''">
+                ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="coverNote != null and coverNote != ''">
+                COVER_NOTE = #{coverNote,jdbcType=VARCHAR},
+            </if>
+            <if test="email != null and email != ''">
+                EMAIL = #{email,jdbcType=VARCHAR},
+            </if>
+            <if test="isDo != null and isDo != '0'">
+                IS_DO = #{isDo,jdbcType=VARCHAR},
+            </if>
+            <if test="isDelete != null and isDelete != '0'">
+                IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+            </if>
+            <if test="isPass != null and isPass != ''">
+                IS_PASS = #{isPass,jdbcType=DECIMAL},
+            </if>
+            <if test="isProvisional != null and isProvisional != ''">
+                IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
+            </if>
+            <if test="createdAt != null and createdAt != ''">
+                CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="gender != null and gender != ''">
+                GENDER = #{gender,jdbcType=CHAR},
+            </if>
+            <if test="updatedAt != null and updatedAt != ''">
+                UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="mobile != null and mobile != ''">
+                MOBILE = #{mobile,jdbcType=VARCHAR},
+            </if>
+            <if test="birthday != null and birthday != ''">
+                BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
+            </if>
+            <if test="idNumber != null and idNumber != ''">
+                ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
+            </if>
+            <if test="idType != null and idType != ''">
+                ID_TYPE = #{idType,jdbcType=VARCHAR},
+            </if>
+            <if test="expertsFrom != null and expertsFrom != ''">
+                EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
+            </if>
+            <if test="politicsStatus != null and politicsStatus != ''">
+                POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
+            </if>
+            <if test="nation != null and nation != ''">
+                NATION = #{nation,jdbcType=VARCHAR},
+            </if>
+            <if test="graduateSchool != null and graduateSchool != ''">
+                GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
+            </if>
+            <if test="hightEducation != null and hightEducation != ''">
+                LAST_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
+            </if>
+            <if test="major != null and major != ''">
+                MAJOR = #{major,jdbcType=VARCHAR},
+            </if>
+            <if test="workUnit != null and workUnit != ''">
+                WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
+            </if>
+            <if test="telephone != null and telephone != ''">
+                TELEPHONE = #{telephone,jdbcType=VARCHAR},
+            </if>
+            <if test="fax != null and fax != ''">
+                FAX = #{fax,jdbcType=VARCHAR},
+            </if>
+            <if test="makeTechDate != null and makeTechDate != ''">
+                MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
+            </if>
+            <if test="healthState != null and healthState != ''">
+                HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
+            </if>
+            <if test="address != null and address != ''">
+                ADDRESS = #{address,jdbcType=VARCHAR},
+            </if>
+            <if test="professTechTitles != null and professTechTitles != ''">
+                PROFESS_TECH_TITLES =
+                #{professTechTitles,jdbcType=VARCHAR},
+            </if>
+            <if test="timeToWork != null and timeToWork != ''">
+                TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
+            </if>
+            <if test="timeStartWork != null and timeStartWork != ''">
+                TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
+            </if>
+            <if test="unitAddress != null and unitAddress != ''">
+                UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
+            </if>
+            <if test="postCode != null and postCode != ''">
+                POST_CODE = #{postCode,jdbcType=VARCHAR},
+            </if>
+            <if test="degree != null and degree != ''">
+                DEGREE = #{degree,jdbcType=VARCHAR},
+            </if>
+            <if test="atDuty != null and atDuty != ''">
+                AT_DUTY = #{atDuty,jdbcType=VARCHAR},
+            </if>
+            <if test="expertsTypeId != null and expertsTypeId != ''">
+                EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
+            </if>
+            <if test="purchaseDepId != null and purchaseDepId != ''">
+                PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
+            </if>
+            <if test="status != null and status != '0'">
+                STATUS = #{status,jdbcType=CHAR},
+            </if>
+            <if test="isBlack != null and isBlack != '0'">
+                IS_BLACK = #{isBlack,jdbcType=CHAR},
+            </if>
+            <if test="honestyScore != null and honestyScore != ''">
+                HONESTY_SCORE = #{honestyScore,jdbcType=DECIMAL},
+            </if>
+            <if test="relName != null and relName != ''">
+                REAL_NAME = #{relName,jdbcType=VARCHAR},
+            </if>
+            <if test="remarks != null and remarks != ''">
+                REMARKS = #{remarks,jdbcType=VARCHAR},
+            </if>
+            <if test="auditAt != null and createdAt != ''">
+                AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
+            </if>
+            <if test="isReferenceLftter != null and isReferenceLftter != ''">
+                IS_REFERENCE_LETTER = #{isReferenceLftter,jdbcType=CHAR},
+            </if>
+            <if test="professional != null and professional != ''">
+                PROFESSIONAL = #{professional,jdbcType=VARCHAR},
+            </if>
+            <if test="timeProfessional != null and timeProfessional != ''">
+                TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
+            </if>
+            <if test="range != null and range != ''">
+                RANGE = #{range,jdbcType=VARCHAR},
+            </if>
+
+        </set>
+        where
+        ID = #{id,jdbcType=VARCHAR}
+
+    </update>
+
+    <select id="findExpertList" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        select * from T_SES_EMS_EXPERT
+    </select>
+
+    <!-- 查询专家 可条件查询 -->
+    <select id="findExpertAll" resultMap="BaseResultMap"
+            parameterType="ses.model.ems.Expert">
+        select
+        *
+        from
+        T_SES_EMS_EXPERT
+        where 1=1
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME like '%${relName}%'
+        </if>
+        <if test="ids != null">
+            <foreach collection="ids" item="id" open="and ID not in ("
+                     close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        ORDER BY CREATED_AT DESC
+    </select>
 
 
-	</resultMap>
-	<sql id="Base_Column_List">
-		ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
-		GENDER,
-		UPDATED_AT, MOBILE,
-		BIRTHDAY,
-		ID_NUMBER, ID_TYPE, EXPERTS_FROM,
-		POLITICS_STATUS, NATION, GRADUATE_SCHOOL,
-		LAST_EDUCATION,
-		MAJOR,
-		WORK_UNIT, TELEPHONE, FAX, MAKE_TECH_DATE, HEALTH_STATE, ADDRESS,
-		PROFESS_TECH_TITLES,
-		TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS,
-		POST_CODE, DEGREE, AT_DUTY,
-		EXPERTS_TYPE_ID,
-		PURCHASE_DEP_ID, STATUS,
-		IS_BLACK, HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL,
-		REMARKS,
-		STEP_NUMBER, EMAIL, JOB_EXPERIENCES, ID_CARD_NUMBER,
-		COVER_NOTE,
-		PRODUCT_CATEGORIES, ACADEMIC_ACHIEVEMENT,
-		REVIEW_SITUATION,
-		AVOIDANCE_SITUATION,
-		AUDIT_AT,
-		IS_REFERENCE_LETTER
-	</sql>
-	<sql id="Column_List">
-		e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
-		e.GENDER,
-		e.UPDATED_AT, e.MOBILE,
-		e.BIRTHDAY,
-		e.ID_NUMBER, e.ID_TYPE,
-		e.EXPERTS_FROM,
-		e.POLITICS_STATUS, e.NATION, e.GRADUATE_SCHOOL,
-		e.LAST_EDUCATION,
-		e.MAJOR,
-		e.WORK_UNIT, e.TELEPHONE, e.FAX,
-		e.MAKE_TECH_DATE, e.HEALTH_STATE, e.ADDRESS,
-		e.PROFESS_TECH_TITLES,
-		e.TIME_TO_WORK, e.TIME_START_WORK, e.UNIT_ADDRESS,
-		e.POST_CODE,
-		e.DEGREE, e.AT_DUTY,
-		e.EXPERTS_TYPE_ID,
-		e.PURCHASE_DEP_ID, e.STATUS,
-		e.IS_BLACK, e.HONESTY_SCORE, e.REAL_NAME, e.IS_PASS, e.IS_PROVISIONAL,
-		e.REMARKS,
-		e.STEP_NUMBER, e.EMAIL, e.JOB_EXPERIENCES, e.ID_CARD_NUMBER,
-		e.COVER_NOTE,
-		e.PRODUCT_CATEGORIES, e.ACADEMIC_ACHIEVEMENT,
-		e.REVIEW_SITUATION,
-		e.AVOIDANCE_SITUATION,
-		e.AUDIT_AT
-	</sql>
-	<!-- 获取所有专家,仅用作定时删除无效专家 -->
-	<select id="getAllExpert" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_EMS_EXPERT
-		where IS_DELETE = 0
-	</select>
-	<!-- 查询用户名是否存在 -->
-	<!-- <select id="selectisSubmitList" parameterType="java.lang.String" resultMap="BaseResultMap" 
-		> select IS_SUBMIT from T_SES_EMS_EXPERT where IS_SUBMIT = #{isSubmit} </select> -->
-	<!-- 查询所有专家 可条件查询 -->
-	<select id="selectAllExpert" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_EMS_EXPERT
-		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
-		<if test="relName != null and relName !=''">
-			AND REAL_NAME like '%${relName}%'
-		</if>
-		<if test="expertsFrom != null and expertsFrom !=''">
-			AND EXPERTS_FROM = '${expertsFrom}'
-		</if>
-		<if test="status != null and status !=''">
-			AND STATUS = '${status}'
-		</if>
-		<if test="expertsTypeId != null and expertsTypeId !=''">
-			AND instr( EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
-		</if>
-		ORDER BY STATUS ASC, CREATED_AT DESC
-	</select>
-	<!-- 查询复审列表的专家 -->
-	<select id="selectSecondAuditExpert" resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_EMS_EXPERT
-		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
-		and (STATUS = '1' or STATUS = '4' or STATUS = '5')
-		<if test="relName != null and relName !=''">
-			AND REAL_NAME like '%${relName}%'
-		</if>
-		<if test="expertsFrom != null and expertsFrom !=''">
-			AND EXPERTS_FROM = '${expertsFrom}'
-		</if>
-		<if test="expertsTypeId != null and expertsTypeId !=''">
-			AND EXPERTS_TYPE_ID = #{expertsTypeId}
-		</if>
-		ORDER BY CREATED_AT DESC
-	</select>
-	<!-- 查找待办数量 -->
-	<select id="getCount" parameterType="ses.model.ems.Expert"
-		resultType="java.lang.Integer">
-		<!-- @mbggenerated -->
-		select
-		count(*)
-		from T_SES_EMS_EXPERT
-		where 1=1 and IS_SUBMIT != '0' and
-		IS_DELETE != 1
-		<if test="relName!=null">
-			and REAL_NAME= #{relName,jdbcType=VARCHAR}
-		</if>
-		<if test="expertsTypeId!=null">
-			and EXPERTS_TYPE_ID= #{expertsTypeId,jdbcType=VARCHAR}
-		</if>
-		<if test="status!=null">
-			and STATUS = #{status,jdbcType=DECIMAL}
-		</if>
-	</select>
+    <!-- 专家抽取集合 -->
 
-	<select id="selectByPrimaryKey" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_EMS_EXPERT
-		where ID = #{id,jdbcType=VARCHAR}
-	</select>
-	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-		delete from
-		T_SES_EMS_EXPERT
-		where ID = #{id,jdbcType=VARCHAR}
-	</delete>
-	<insert id="insert" parameterType="ses.model.ems.Expert">
-		insert into T_SES_EMS_EXPERT
-		(ID, IS_SUBMIT, IS_DO,
-		IS_DELETE, CREATED_AT, GENDER,
-		UPDATED_AT,
-		MOBILE, BIRTHDAY,
-		ID_NUMBER, ID_TYPE, EXPERTS_FROM,
-		POLITICS_STATUS,
-		NATION, GRADUATE_SCHOOL,
-		LAST_EDUCATION, MAJOR, WORK_UNIT,
-		TELEPHONE,
-		FAX, MAKE_TECH_DATE,
-		HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
-		TIME_TO_WORK, TIME_START_WORK, UNIT_ADDRESS,
-		POST_CODE, DEGREE,
-		AT_DUTY,
-		EXPERTS_TYPE_ID, PURCHASE_DEP_ID, STATUS,
-		IS_BLACK,
-		HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS, AUDIT_AT
-		)
-		values
-		(#{id,jdbcType=VARCHAR},
-		#{isSubmit,jdbcType=VARCHAR},
-		#{isDo,jdbcType=VARCHAR},
-		#{isDelete,jdbcType=DECIMAL},
-		#{createdAt,jdbcType=TIMESTAMP},
-		#{gender,jdbcType=CHAR},
-		#{updatedAt,jdbcType=TIMESTAMP},
-		#{mobile,jdbcType=VARCHAR},
-		#{birthday,jdbcType=TIMESTAMP},
-		#{idNumber,jdbcType=VARCHAR},
-		#{idType,jdbcType=VARCHAR},
-		#{expertsFrom,jdbcType=VARCHAR},
-		#{politicsStatus,jdbcType=VARCHAR},
-		#{NATION,jdbcType=VARCHAR},
-		#{graduateSchool,jdbcType=VARCHAR},
-		#{hightEducation,jdbcType=VARCHAR}, #{major,jdbcType=VARCHAR},
-		#{workUnit,jdbcType=VARCHAR},
-		#{telephone,jdbcType=VARCHAR},
-		#{fax,jdbcType=VARCHAR}, #{makeTechDate,jdbcType=TIMESTAMP},
-		#{healthState,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR},
-		#{professTechTitles,jdbcType=VARCHAR},
-		#{timeToWork,jdbcType=TIMESTAMP},
-		#{timeStartWork,jdbcType=TIMESTAMP},
-		#{unitAddress,jdbcType=VARCHAR},
-		#{postCode,jdbcType=VARCHAR},
-		#{degree,jdbcType=VARCHAR},
-		#{atDuty,jdbcType=VARCHAR},
-		#{expertsTypeId,jdbcType=VARCHAR},
-		#{purchaseDepId,jdbcType=DECIMAL},
-		#{status,jdbcType=CHAR},
-		#{isBlack,jdbcType=CHAR},
-		#{honestyScore,jdbcType=DECIMAL},
-		#{relName,jdbcType=VARCHAR},
-		#{isPass,jdbcType=DECIMAL},
-		#{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR},
-		#{auditAt,jdbcType=TIMESTAMP}
-		)
-	</insert>
-	<insert id="insertSelective" parameterType="ses.model.ems.Expert">
-		insert into T_SES_EMS_EXPERT
-		<trim prefix="(" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				ID,
-			</if>
-			<if test="jobExperiences != null">
-				JOB_EXPERIENCES,
-			</if>
-			 <if test="isSubmit != null">
-        IS_SUBMIT,
-      </if>
-			<if test="submitAt != null">
-				SUBMIT_AT,
-			</if>
-			<if test="productCategories != null">
-				PRODUCT_CATEGORIES,
-			</if>
-			<if test="academicAchievement != null">
-				ACADEMIC_ACHIEVEMENT,
-			</if>
-			<if test="reviewSituation != null">
-				REVIEW_SITUATION,
-			</if>
-			<if test="avoidanceSituation != null">
-				AVOIDANCE_SITUATION,
-			</if>
-			<if test="coverNote != null">
-				COVER_NOTE,
-			</if>
-			<if test="idCardNumber != null">
-				ID_CARD_NUMBER,
-			</if>
-			<if test="email != null">
-				EMAIL,
-			</if>
-		
-			<if test="isDo != null">
-				IS_DO,
-			</if>
-			<if test="isDelete != null">
-				IS_DELETE,
-			</if>
-			<if test="isPass != null">
-				IS_PASS,
-			</if>
-			<if test="isProvisional != null">
-				IS_PROVISIONAL,
-			</if>
-			<if test="createdAt != null">
-				CREATED_AT,
-			</if>
-			<if test="gender != null">
-				GENDER,
-			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT,
-			</if>
-			<if test="mobile != null">
-				MOBILE,
-			</if>
-			<if test="birthday != null">
-				BIRTHDAY,
-			</if>
-			<if test="idNumber != null">
-				ID_NUMBER,
-			</if>
-			<if test="idType != null">
-				ID_TYPE,
-			</if>
-			<if test="expertsFrom != null">
-				EXPERTS_FROM,
-			</if>
-			<if test="politicsStatus != null">
-				POLITICS_STATUS,
-			</if>
-			<if test="nation != null">
-				NATION,
-			</if>
-			<if test="graduateSchool != null">
-				GRADUATE_SCHOOL,
-			</if>
-			<if test="hightEducation != null">
-				LAST_EDUCATION,
-			</if>
-			<if test="major != null">
-				MAJOR,
-			</if>
-			<if test="workUnit != null">
-				WORK_UNIT,
-			</if>
-			<if test="telephone != null">
-				TELEPHONE,
-			</if>
-			<if test="fax != null">
-				FAX,
-			</if>
-			<if test="makeTechDate != null">
-				MAKE_TECH_DATE,
-			</if>
-			<if test="healthState != null">
-				HEALTH_STATE,
-			</if>
-			<if test="address != null">
-				ADDRESS,
-			</if>
-			<if test="professTechTitles != null">
-				PROFESS_TECH_TITLES,
-			</if>
-			<if test="timeToWork != null">
-				TIME_TO_WORK,
-			</if>
-			<if test="timeStartWork != null">
-				TIME_START_WORK,
-			</if>
-			<if test="unitAddress != null">
-				UNIT_ADDRESS,
-			</if>
-			<if test="postCode != null">
-				POST_CODE,
-			</if>
-			<if test="degree != null">
-				DEGREE,
-			</if>
-			<if test="atDuty != null">
-				AT_DUTY,
-			</if>
-			<if test="expertsTypeId != null">
-				EXPERTS_TYPE_ID,
-			</if>
-			<if test="purchaseDepId != null">
-				PURCHASE_DEP_ID,
-			</if>
-			<if test="status != null">
-				STATUS,
-			</if>
-			<if test="isBlack != null">
-				IS_BLACK,
-			</if>
-			<if test="honestyScore != null">
-				HONESTY_SCORE,
-			</if>
-			<if test="relName != null">
-				REAL_NAME,
-			</if>
-			<if test="remarks != null">
-				REMARKS,
-			</if>
-			<if test="stepNumber != null">
-				STEP_NUMBER,
-			</if>
-			<if test="auditAt != null">
-				AUDIT_AT,
-			</if>
-		</trim>
-		<trim prefix="values (" suffix=")" suffixOverrides=",">
-			<if test="id != null">
-				#{id,jdbcType=VARCHAR},
-			</if>
-			<if test="isSubmit != null">
-				#{isSubmit,jdbcType=VARCHAR},
-			</if>
-			<if test="jobExperiences != null">
-				#{jobExperiences,jdbcType=VARCHAR},
-			</if>
-			<if test="submitAt != null">
-				#{submitAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="productCategories != null">
-				#{productCategories,jdbcType=VARCHAR},
-			</if>
-			<if test="academicAchievement != null">
-				#{academicAchievement,jdbcType=VARCHAR},
-			</if>
-			<if test="reviewSituation != null">
-				#{reviewSituation,jdbcType=VARCHAR},
-			</if>
-			<if test="avoidanceSituation != null">
-				#{avoidanceSituation,jdbcType=VARCHAR},
-			</if>
-			<if test="idCardNumber != null">
-				#{idCardNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="jobExperiences != null">
-				#{jobExperiences,jdbcType=VARCHAR},
-			</if>
-			<if test="email != null">
-				#{email,jdbcType=VARCHAR},
-			</if>
-			<if test="isDo != null">
-				#{isDo,jdbcType=VARCHAR},
-			</if>
-			<if test="isDelete != null">
-				#{isDelete,jdbcType=DECIMAL},
-			</if>
-			<if test="isPass != null">
-				#{isPass,jdbcType=DECIMAL},
-			</if>
-			<if test="isProvisional != null">
-				#{isProvisional,jdbcType=DECIMAL},
-			</if>
-			<if test="createdAt != null">
-				#{createdAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="gender != null">
-				#{gender,jdbcType=CHAR},
-			</if>
-			<if test="updatedAt != null">
-				#{updatedAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="mobile != null">
-				#{mobile,jdbcType=VARCHAR},
-			</if>
-			<if test="birthday != null">
-				#{birthday,jdbcType=TIMESTAMP},
-			</if>
-			<if test="idNumber != null">
-				#{idNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="idType != null">
-				#{idType,jdbcType=VARCHAR},
-			</if>
-			<if test="expertsFrom != null">
-				#{expertsFrom,jdbcType=VARCHAR},
-			</if>
-			<if test="politicsStatus != null">
-				#{politicsStatus,jdbcType=VARCHAR},
-			</if>
-			<if test="nation != null">
-				#{nation,jdbcType=VARCHAR},
-			</if>
-			<if test="graduateSchool != null">
-				#{graduateSchool,jdbcType=VARCHAR},
-			</if>
-			<if test="hightEducation != null">
-				#{hightEducation,jdbcType=VARCHAR},
-			</if>
-			<if test="major != null">
-				#{major,jdbcType=VARCHAR},
-			</if>
-			<if test="workUnit != null">
-				#{workUnit,jdbcType=VARCHAR},
-			</if>
-			<if test="telephone != null">
-				#{telephone,jdbcType=VARCHAR},
-			</if>
-			<if test="fax != null">
-				#{fax,jdbcType=VARCHAR},
-			</if>
-			<if test="makeTechDate != null">
-				#{makeTechDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="healthState != null">
-				#{healthState,jdbcType=VARCHAR},
-			</if>
-			<if test="address != null">
-				#{address,jdbcType=VARCHAR},
-			</if>
-			<if test="professTechTitles != null">
-				#{professTechTitles,jdbcType=VARCHAR},
-			</if>
-			<if test="timeToWork != null">
-				#{timeToWork,jdbcType=TIMESTAMP},
-			</if>
-			<if test="timeStartWork != null">
-				#{timeStartWork,jdbcType=TIMESTAMP},
-			</if>
-			<if test="unitAddress != null">
-				#{unitAddress,jdbcType=VARCHAR},
-			</if>
-			<if test="postCode != null">
-				#{postCode,jdbcType=VARCHAR},
-			</if>
-			<if test="degree != null">
-				#{degree,jdbcType=VARCHAR},
-			</if>
-			<if test="atDuty != null">
-				#{atDuty,jdbcType=VARCHAR},
-			</if>
-			<if test="expertsTypeId != null">
-				#{expertsTypeId,jdbcType=VARCHAR},
-			</if>
-			<if test="purchaseDepId != null">
-				#{purchaseDepId,jdbcType=DECIMAL},
-			</if>
-			<if test="status != null">
-				#{status,jdbcType=CHAR},
-			</if>
-			<if test="isBlack != null">
-				#{isBlack,jdbcType=CHAR},
-			</if>
-			<if test="honestyScore != null">
-				#{honestyScore,jdbcType=DECIMAL},
-			</if>
-			<if test="relName != null">
-				#{relName,jdbcType=VARCHAR},
-			</if>
-			<if test="remarks != null">
-				#{remarks,jdbcType=VARCHAR},
-			</if>
-			<if test="stepNumber != null">
-				#{stepNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="auditAt != null">
-				#{auditAt,jdbcType=TIMESTAMP},
-			</if>
-		</trim>
-	</insert>
-	<update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.Expert">
-		update T_SES_EMS_EXPERT
-		<set>
-			<if test="isSubmit != null">
-				IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
-			</if>
-			<if test="jobExperiences != null">
-				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
-			</if>
-			<if test="submitAt != null">
-				SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="productCategories != null">
-				PRODUCT_CATEGORIES =
-				#{productCategories,jdbcType=VARCHAR},
-			</if>
-			<if test="academicAchievement != null">
-				ACADEMIC_ACHIEVEMENT =
-				#{academicAchievement,jdbcType=VARCHAR},
-			</if>
-			<if test="reviewSituation != null">
-				REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
-			</if>
-			<if test="avoidanceSituation != null">
-				AVOIDANCE_SITUATION =
-				#{avoidanceSituation,jdbcType=VARCHAR},
-			</if>
-			<if test="idCardNumber != null">
-				ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="coverNote != null">
-				COVER_NOTE = #{coverNote,jdbcType=VARCHAR},
-			</if>
-			<if test="email != null">
-				EMAIL = #{email,jdbcType=VARCHAR},
-			</if>
-			<if test="isDo != null">
-				IS_DO = #{isDo,jdbcType=VARCHAR},
-			</if>
-			<if test="isDelete != null">
-				IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-			</if>
-			<if test="isPass != null">
-				IS_PASS = #{isPass,jdbcType=DECIMAL},
-			</if>
-			<if test="isProvisional != null">
-				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
-			</if>
-			<if test="createdAt != null">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="gender != null">
-				GENDER = #{gender,jdbcType=CHAR},
-			</if>
-			<if test="updatedAt != null">
-				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="mobile != null">
-				MOBILE = #{mobile,jdbcType=VARCHAR},
-			</if>
-			<if test="birthday != null">
-				BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
-			</if>
-			<if test="idNumber != null">
-				ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="idType != null">
-				ID_TYPE = #{idType,jdbcType=VARCHAR},
-			</if>
-			<if test="expertsFrom != null">
-				EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
-			</if>
-			<if test="politicsStatus != null">
-				POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
-			</if>
-			<if test="nation != null">
-				NATION = #{nation,jdbcType=VARCHAR},
-			</if>
-			<if test="graduateSchool != null">
-				GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
-			</if>
-			<if test="hightEducation != null">
-				LAST_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
-			</if>
-			<if test="major != null">
-				MAJOR = #{major,jdbcType=VARCHAR},
-			</if>
-			<if test="workUnit != null">
-				WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
-			</if>
-			<if test="telephone != null">
-				TELEPHONE = #{telephone,jdbcType=VARCHAR},
-			</if>
-			<if test="fax != null">
-				FAX = #{fax,jdbcType=VARCHAR},
-			</if>
-			<if test="makeTechDate != null">
-				MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="healthState != null">
-				HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
-			</if>
-			<if test="address != null">
-				ADDRESS = #{address,jdbcType=VARCHAR},
-			</if>
-			<if test="professTechTitles != null">
-				PROFESS_TECH_TITLES =
-				#{professTechTitles,jdbcType=VARCHAR},
-			</if>
-			<if test="timeToWork != null">
-				TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
-			</if>
-			<if test="timeStartWork != null">
-				TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
-			</if>
-			<if test="unitAddress != null">
-				UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
-			</if>
-			<if test="postCode != null">
-				POST_CODE = #{postCode,jdbcType=VARCHAR},
-			</if>
-			<if test="degree != null">
-				DEGREE = #{degree,jdbcType=VARCHAR},
-			</if>
-			<if test="atDuty != null">
-				AT_DUTY = #{atDuty,jdbcType=VARCHAR},
-			</if>
-			<if test="expertsTypeId != null">
-				EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
-			</if>
-			<if test="purchaseDepId != null">
-				PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
-			</if>
-			<if test="status != null">
-				STATUS = #{status,jdbcType=CHAR},
-			</if>
-			<if test="isBlack != null">
-				IS_BLACK = #{isBlack,jdbcType=CHAR},
-			</if>
-			<if test="honestyScore != null">
-				HONESTY_SCORE = #{honestyScore,jdbcType=DECIMAL},
-			</if>
-			<if test="relName != null">
-				REAL_NAME = #{relName,jdbcType=VARCHAR},
-			</if>
-			<if test="remarks != null">
-				REMARKS = #{remarks,jdbcType=VARCHAR},
-			</if>
-			<if test="auditAt != null">
-				AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
-			</if>
-		</set>
-		where ID = #{id,jdbcType=VARCHAR}
-	</update>
-	<update id="updateByPrimaryKey" parameterType="ses.model.ems.Expert">
-		update
-		T_SES_EMS_EXPERT
-		<set>
-			<if test="isSubmit != null and isSubmit != '0'">
-				IS_SUBMIT = #{isSubmit,jdbcType=VARCHAR},
-			</if>
-			<if test="jobExperiences != null and jobExperiences != ''">
-				JOB_EXPERIENCES = #{jobExperiences,jdbcType=VARCHAR},
-			</if>
-			<if test="submitAt != null and submitAt != ''">
-				SUBMIT_AT = #{submitAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="productCategories != null and productCategories != ''">
-				PRODUCT_CATEGORIES =
-				#{productCategories,jdbcType=VARCHAR},
-			</if>
-			<if test="academicAchievement != null and academicAchievement != ''">
-				ACADEMIC_ACHIEVEMENT =
-				#{academicAchievement,jdbcType=VARCHAR},
-			</if>
-			<if test="reviewSituation != null and reviewSituation != ''">
-				REVIEW_SITUATION = #{reviewSituation,jdbcType=VARCHAR},
-			</if>
-			<if test="avoidanceSituation != null and avoidanceSituation != ''">
-				AVOIDANCE_SITUATION =
-				#{avoidanceSituation,jdbcType=VARCHAR},
-			</if>
-			<if test="idCardNumber != null and idCardNumber != ''">
-				ID_CARD_NUMBER = #{idCardNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="coverNote != null and coverNote != ''">
-				COVER_NOTE = #{coverNote,jdbcType=VARCHAR},
-			</if>
-			<if test="email != null and email != ''">
-				EMAIL = #{email,jdbcType=VARCHAR},
-			</if>
-			<if test="isDo != null and isDo != '0'">
-				IS_DO = #{isDo,jdbcType=VARCHAR},
-			</if>
-			<if test="isDelete != null and isDelete != '0'">
-				IS_DELETE = #{isDelete,jdbcType=DECIMAL},
-			</if>
-			<if test="isPass != null and isPass != ''">
-				IS_PASS = #{isPass,jdbcType=DECIMAL},
-			</if>
-			<if test="isProvisional != null and isProvisional != ''">
-				IS_PROVISIONAL = #{isProvisional,jdbcType=DECIMAL},
-			</if>
-			<if test="createdAt != null and createdAt != ''">
-				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="gender != null and gender != ''">
-				GENDER = #{gender,jdbcType=CHAR},
-			</if>
-			<if test="updatedAt != null and updatedAt != ''">
-				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-			</if>
-			<if test="mobile != null and mobile != ''">
-				MOBILE = #{mobile,jdbcType=VARCHAR},
-			</if>
-			<if test="birthday != null and birthday != ''">
-				BIRTHDAY = #{birthday,jdbcType=TIMESTAMP},
-			</if>
-			<if test="idNumber != null and idNumber != ''">
-				ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
-			</if>
-			<if test="idType != null and idType != ''">
-				ID_TYPE = #{idType,jdbcType=VARCHAR},
-			</if>
-			<if test="expertsFrom != null and expertsFrom != ''">
-				EXPERTS_FROM = #{expertsFrom,jdbcType=VARCHAR},
-			</if>
-			<if test="politicsStatus != null and politicsStatus != ''">
-				POLITICS_STATUS = #{politicsStatus,jdbcType=VARCHAR},
-			</if>
-			<if test="nation != null and nation != ''">
-				NATION = #{nation,jdbcType=VARCHAR},
-			</if>
-			<if test="graduateSchool != null and graduateSchool != ''">
-				GRADUATE_SCHOOL = #{graduateSchool,jdbcType=VARCHAR},
-			</if>
-			<if test="hightEducation != null and hightEducation != ''">
-				LAST_EDUCATION = #{hightEducation,jdbcType=VARCHAR},
-			</if>
-			<if test="major != null and major != ''">
-				MAJOR = #{major,jdbcType=VARCHAR},
-			</if>
-			<if test="workUnit != null and workUnit != ''">
-				WORK_UNIT = #{workUnit,jdbcType=VARCHAR},
-			</if>
-			<if test="telephone != null and telephone != ''">
-				TELEPHONE = #{telephone,jdbcType=VARCHAR},
-			</if>
-			<if test="fax != null and fax != ''">
-				FAX = #{fax,jdbcType=VARCHAR},
-			</if>
-			<if test="makeTechDate != null and makeTechDate != ''">
-				MAKE_TECH_DATE = #{makeTechDate,jdbcType=TIMESTAMP},
-			</if>
-			<if test="healthState != null and healthState != ''">
-				HEALTH_STATE = #{healthState,jdbcType=VARCHAR},
-			</if>
-			<if test="address != null and address != ''">
-				ADDRESS = #{address,jdbcType=VARCHAR},
-			</if>
-			<if test="professTechTitles != null and professTechTitles != ''">
-				PROFESS_TECH_TITLES =
-				#{professTechTitles,jdbcType=VARCHAR},
-			</if>
-			<if test="timeToWork != null and timeToWork != ''">
-				TIME_TO_WORK = #{timeToWork,jdbcType=TIMESTAMP},
-			</if>
-			<if test="timeStartWork != null and timeStartWork != ''">
-				TIME_START_WORK = #{timeStartWork,jdbcType=TIMESTAMP},
-			</if>
-			<if test="unitAddress != null and unitAddress != ''">
-				UNIT_ADDRESS = #{unitAddress,jdbcType=VARCHAR},
-			</if>
-			<if test="postCode != null and postCode != ''">
-				POST_CODE = #{postCode,jdbcType=VARCHAR},
-			</if>
-			<if test="degree != null and degree != ''">
-				DEGREE = #{degree,jdbcType=VARCHAR},
-			</if>
-			<if test="atDuty != null and atDuty != ''">
-				AT_DUTY = #{atDuty,jdbcType=VARCHAR},
-			</if>
-			<if test="expertsTypeId != null and expertsTypeId != ''">
-				EXPERTS_TYPE_ID = #{expertsTypeId,jdbcType=VARCHAR},
-			</if>
-			<if test="purchaseDepId != null and purchaseDepId != ''">
-				PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
-			</if>
-			<if test="status != null and status != '0'">
-				STATUS = #{status,jdbcType=CHAR},
-			</if>
-			<if test="isBlack != null and isBlack != '0'">
-				IS_BLACK = #{isBlack,jdbcType=CHAR},
-			</if>
-			<if test="honestyScore != null and honestyScore != ''">
-				HONESTY_SCORE = #{honestyScore,jdbcType=DECIMAL},
-			</if>
-			<if test="relName != null and relName != ''">
-				REAL_NAME = #{relName,jdbcType=VARCHAR},
-			</if>
-			<if test="remarks != null and remarks != ''">
-				REMARKS = #{remarks,jdbcType=VARCHAR},
-			</if>
-			<if test="auditAt != null and createdAt != ''">
-				AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
-			</if>
-		</set>
-		where
-		ID = #{id,jdbcType=VARCHAR}
+    <select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
+            resultMap="BaseResultMap">
+        SELECT * FROM T_SES_EMS_EXPERT t1 WHERE T1.id IN (
+        SELECT
+        EE."ID"
+        FROM
+        T_SES_EMS_EXPERT ee
+        LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
+        ON ee."ID" =
+        EC.EXPERT_ID
+        WHERE 1=1 AND
+        ee.IS_DELETE = 0
+        AND (ee.STATUS = 1 OR
+        ee.STATUS = 5)
+        AND
+        ee.IS_BLACK = 0
+        AND ee.IS_SUBMIT = 1
+        AND NVL(IS_PROVISIONAL,0) = 0
 
-	</update>
+        <if test="expertsFromSplit != null and expertsFromSplit != ''">
+            AND
+            <foreach collection="expertsFromSplit" item="fromsplit"
+                     close=")" open="(" separator="OR">
+                EE.EXPERTS_FROM = #{fromsplit}
+            </foreach>
+        </if>
+        <if test="addressId != null and addressId != '' ">
+            AND ee.ADDRESS = #{addressId}
+        </if>
+        <if
+                test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">
+            AND
+            <foreach collection="addressSplit" item="split" open="("
+                     close=")" separator="OR">
+                ee.ADDRESS = #{split}
+            </foreach>
+        </if>
+        <if
+                test="ageMax != null and  ageMax != '' and ageMin != null and ageMin != '' ">
+            AND (
+            (
+            TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMin}
+            AND TO_CHAR
+            (EE.BIRTHDAY, 'yyyy') &lt;= #{ageMax}
+            )
+            OR (
+            TO_CHAR (EE.BIRTHDAY,
+            'yyyy') &lt;= #{ageMin}
+            AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;=
+            #{ageMax}
+            )
+            )
+        </if>
+        <foreach item="item" collection="conTypes">
+            <if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
+                AND (
+                <foreach collection="item.expertsTypeSplit" item="typeId"
+                         open="(" close=")" separator="OR">
+                    "INSTR"(EE.EXPERTS_TYPE_ID,#{typeId})>0
+                </foreach>
+            </if>
+            <if
+                    test="item.expertsQualification != null and  item.expertsQualification != '' ">
+                AND PROFESS_TECH_TITLES = #{item.expertsQualification}
+            </if>
+            <if
+                    test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
+                <if test="item.isMulticondition==2">
+                    AND
+                    <foreach item="ids" collection="item.categorySplit"
+                             separator="AND" open="(" close=")">
+                        EC.CATEGORY_ID = #{ids}
+                    </foreach>
+                </if>
+                <if test="item.isMulticondition==1">
+                    AND
+                    <foreach item="ids" collection="item.categorySplit" open="("
+                             close=")" separator="OR">
+                        EC.CATEGORY_ID=#{ids}
+                    </foreach>
+                </if>
+            </if>
+            <if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
+                )
+            </if>
+        </foreach>
 
-	<select id="findExpertList" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		select * from T_SES_EMS_EXPERT
-	</select>
-
-	<!-- 查询专家 可条件查询 -->
-	<select id="findExpertAll" resultMap="BaseResultMap"
-		parameterType="ses.model.ems.Expert">
-		select
-		*
-		from
-		T_SES_EMS_EXPERT
-		where 1=1
-		<if test="relName != null and relName !=''">
-			AND REAL_NAME like '%${relName}%'
-		</if>
-		<if test="ids != null">
-			<foreach collection="ids" item="id" open="and ID not in ("
-				close=")" separator=",">
-				#{id}
-			</foreach>
-		</if>
-		ORDER BY CREATED_AT DESC
-	</select>
+        GROUP BY EE."ID"
+        )
+    </select>
 
 
-	<!-- 专家抽取集合 -->
-
-	<select id="listExtractionExpert" parameterType="ses.model.ems.ExpExtCondition"
-		resultMap="BaseResultMap">
-		SELECT * FROM T_SES_EMS_EXPERT t1 WHERE T1.id IN (
-		SELECT
-		EE."ID"
-		FROM
-		T_SES_EMS_EXPERT ee
-		LEFT JOIN T_SES_EMS_EXPERT_CATEGORY ec
-		ON ee."ID" =
-		EC.EXPERT_ID
-		WHERE 1=1 AND
-		ee.IS_DELETE = 0
-		AND (ee.STATUS = 1 OR
-		ee.STATUS = 5)
-		AND
-		ee.IS_BLACK = 0
-		AND ee.IS_SUBMIT = 1
-	  AND NVL(IS_PROVISIONAL,0) = 0
-
-		<if test="expertsFromSplit != null and expertsFromSplit != ''">
-			AND
-			<foreach collection="expertsFromSplit" item="fromsplit"
-				close=")" open="(" separator="OR">
-				EE.EXPERTS_FROM = #{fromsplit}
-			</foreach>
-		</if>
-		<if test="addressId != null and addressId != '' ">
-			AND ee.ADDRESS = #{addressId}
-		</if>
-		<if
-			test="address == null and  address != '' and addressSplit != null and addressSplit != '' ">
-			AND
-			<foreach collection="addressSplit" item="split" open="("
-				close=")" separator="OR">
-				ee.ADDRESS = #{split}
-			</foreach>
-		</if>
-		<if
-			test="ageMax != null and  ageMax != '' and ageMin != null and ageMin != '' ">
-			AND (
-			(
-			TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;= #{ageMin}
-			AND TO_CHAR
-			(EE.BIRTHDAY, 'yyyy') &lt;= #{ageMax}
-			)
-			OR (
-			TO_CHAR (EE.BIRTHDAY,
-			'yyyy') &lt;= #{ageMin}
-			AND TO_CHAR (EE.BIRTHDAY, 'yyyy') &gt;=
-			#{ageMax}
-			)
-			)
-		</if>
-		<foreach item="item" collection="conTypes">
-			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
-				AND (
-				<foreach collection="item.expertsTypeSplit" item="typeId"
-					open="(" close=")" separator="OR">
-					"INSTR"(EE.EXPERTS_TYPE_ID,#{typeId})>0
-				</foreach>
-			</if>
-			<if
-				test="item.expertsQualification != null and  item.expertsQualification != '' ">
-				AND PROFESS_TECH_TITLES = #{item.expertsQualification}
-			</if>
-			<if
-				test="item.isMulticondition != null and item.isMulticondition != 0 and item.categorySplit != null">
-				<if test="item.isMulticondition==2">
-					AND
-					<foreach item="ids" collection="item.categorySplit"
-						separator="AND" open="(" close=")">
-						EC.CATEGORY_ID = #{ids}
-					</foreach>
-				</if>
-				<if test="item.isMulticondition==1">
-					AND
-					<foreach item="ids" collection="item.categorySplit" open="("
-						close=")" separator="OR">
-						EC.CATEGORY_ID=#{ids}
-					</foreach>
-				</if>
-			</if>
-			<if test="item.expertsTypeSplit != null and item.expertsTypeSplit != ''">
-				)
-			</if>
-		</foreach>
-
-		GROUP BY EE."ID"
-		)
-	</select>
+    <!-- 查询所有专家 可条件查询 -->
+    <select id="findAllExpert" parameterType="java.util.Map"
+            resultMap="BaseResultMap">
+        select
+        <include refid="Base_Column_List" />
+        from T_SES_EMS_EXPERT
+        where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME LIKE #{relName}
+        </if>
+        <if test="expertsFrom != null and expertsFrom !=''">
+            AND EXPERTS_FROM = #{expertsFrom}
+        </if>
+        <if test="status != null and status !=''">
+            AND STATUS = #{status}
+        </if>
+        <if test="expertsTypeId != null and expertsTypeId !=''">
+            AND EXPERTS_TYPE_ID = #{expertsTypeId}
+        </if>
+        <if test="idNumber != null and idNumber !=''">
+            AND ID_NUMBER LIKE #{idNumber}
+        </if>
+        <if test="id != null and id !=''">
+            AND ID = #{id}
+        </if>
+        ORDER BY CREATED_AT DESC
+    </select>
 
 
-	<!-- 查询所有专家 可条件查询 -->
-	<select id="findAllExpert" parameterType="java.util.Map"
-		resultMap="BaseResultMap">
-		select
-		<include refid="Base_Column_List" />
-		from T_SES_EMS_EXPERT
-		where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
-		<if test="relName != null and relName !=''">
-			AND REAL_NAME LIKE #{relName}
-		</if>
-		<if test="expertsFrom != null and expertsFrom !=''">
-			AND EXPERTS_FROM = #{expertsFrom}
-		</if>
-		<if test="status != null and status !=''">
-			AND STATUS = #{status}
-		</if>
-		<if test="expertsTypeId != null and expertsTypeId !=''">
-			AND EXPERTS_TYPE_ID = #{expertsTypeId}
-		</if>
-		<if test="idNumber != null and idNumber !=''">
-			AND ID_NUMBER LIKE #{idNumber}
-		</if>
-		<if test="id != null and id !=''">
-			AND ID = #{id}
-		</if>
-		ORDER BY CREATED_AT DESC
-	</select>
+    <!-- 关联 -->
+    <select id="getByExpertProjectId" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN
+        T_SES_EMS_EXPERT ee
+        ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0
+        AND PE.OPERATING_TYPE=1 AND PE.IS_PROVISIONAL=0 AND PE.PROJECT_ID
+        =#{projectId}
+    </select>
+
+    <select id="getByAllExpertProjectId" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN
+        T_SES_EMS_EXPERT ee
+        ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0
+        AND
+        PE.OPERATING_TYPE=1 AND PE.PROJECT_ID =#{projectId}
+    </select>
 
 
-	<!-- 关联 -->
-	<select id="getByExpertProjectId" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN
-		T_SES_EMS_EXPERT ee
-		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0
-		AND PE.OPERATING_TYPE=1 AND PE.IS_PROVISIONAL=0 AND PE.PROJECT_ID
-		=#{projectId}
-	</select>
+    <!-- 手机号唯一性验证 -->
+    <select id="validatePhone" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT ID FROM T_SES_EMS_EXPERT
+        WHERE MOBILE = #{_parameter}
+    </select>
+    <!-- 身份证号唯一性验证 -->
+    <select id="validateIdCardNumber" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT ID FROM T_SES_EMS_EXPERT
+        WHERE ID_CARD_NUMBER =
+        #{param1}
+        <if test="param2 != null and param2 != '' ">
+            AND ID != #{param2}
+        </if>
+    </select>
+    <!-- 证件号码唯一性验证 -->
+    <select id="validateIdNumber" parameterType="java.lang.String"
+            resultMap="BaseResultMap">
+        SELECT ID FROM T_SES_EMS_EXPERT
+        WHERE ID_NUMBER = #{param1}
+        <if test="param2 != null and param2 != '' ">
+            AND ID != #{param2}
+        </if>
+    </select>
+    <!-- 注册时点击下一步,将表中的STRP_NUMBER进行同步 -->
+    <update id="updateStepNumber">
+        update T_SES_EMS_EXPERT
+        set STEP_NUMBER = #{param2}
+        where id = #{param1}
+    </update>
 
-	<select id="getByAllExpertProjectId" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT ee.* FROM T_SES_EMS_PROJECT_EXTRACT pe INNER JOIN
-		T_SES_EMS_EXPERT ee
-		ON PE.EXPERT_ID =ee."ID" WHERE PE.STATUS_COUNT=0
-		AND
-		PE.OPERATING_TYPE=1 AND PE.PROJECT_ID =#{projectId}
-	</select>
+    <!-- 专家审核列表 可条件查询 -->
+    <select id="findExpertAuditList" resultMap="BaseResultMap"
+            parameterType="ses.model.ems.Expert">
+        SELECT t1.*,
+        t2.NAME as sex from
+        T_SES_EMS_EXPERT t1
+        LEFT JOIN
+        T_SES_BMS_DICTIONARY_DATA t2
+        ON t1.GENDER = t2.ID
+        WHERE
+        (<if test="sign == 1">
+        (IS_SUBMIT = 1
+        AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
+        OR (IS_SUBMIT = 0 AND status = '3')
+    </if>
+        <if test="sign == 2">
+            (IS_SUBMIT = 1
+            AND (STATUS = '4' OR STATUS = '5' OR STATUS = '6'))
+        </if>
+        <if test="sign == 3">
+            (IS_SUBMIT = 1
+            AND (STATUS = '5' OR STATUS = '7' OR STATUS = '8'))
+        </if>
+        )
+        <if test="relName != null and relName !=''">
+            AND REAL_NAME LIKE #{relName}
+        </if>
+        <if test="status != null and status !=''">
+            AND STATUS = #{status}
+        </if>
+        <if test="purchaseDepId !=null">
+            AND PURCHASE_DEP_ID = #{purchaseDepId}
+        </if>
+        ORDER BY t1.AUDIT_AT DESC NULLS LAST
+    </select>
 
+    <insert id="insertExpertHistory" parameterType="ses.model.ems.ExpertHistory">
+        insert into
+        T_SES_EMS_EXPERT_History
+        (ID, GENDER,
+        MOBILE, BIRTHDAY,
+        ID_NUMBER,
+        ID_TYPE, EXPERTS_FROM,
+        POLITICS_STATUS,
+        NATION, GRADUATE_SCHOOL,
+        LAST_EDUCATION, MAJOR, WORK_UNIT,
+        TELEPHONE,
+        FAX, MAKE_TECH_DATE,
+        HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
+        TIME_TO_WORK,
+        TIME_START_WORK, UNIT_ADDRESS,
+        POST_CODE, DEGREE,
+        AT_DUTY,
+        EXPERTS_TYPE_ID, PURCHASE_DEP_ID,
+        REAL_NAME, IS_PROVISIONAL, EMAIL,
+        JOB_EXPERIENCES, ID_CARD_NUMBER,
+        COVER_NOTE, PRODUCT_CATEGORIES,
+        ACADEMIC_ACHIEVEMENT, REVIEW_SITUATION,
+        AVOIDANCE_SITUATION,
+        IS_REFERENCE_LETTER,
+        PROFESSIONAL,
+        TIME_PROFESSIONAL,
+        RANGE
+        )
+        values
+        (#{id,jdbcType=VARCHAR},
+        #{gender,jdbcType=CHAR},
+        #{mobile,jdbcType=VARCHAR},
+        #{birthday,jdbcType=TIMESTAMP},
+        #{idNumber,jdbcType=VARCHAR},
+        #{idType,jdbcType=VARCHAR},
+        #{expertsFrom,jdbcType=VARCHAR},
+        #{politicsStatus,jdbcType=VARCHAR},
+        #{nation,jdbcType=VARCHAR},
+        #{graduateSchool,jdbcType=VARCHAR},
+        #{hightEducation,jdbcType=VARCHAR},
+        #{major,jdbcType=VARCHAR},
+        #{workUnit,jdbcType=VARCHAR},
+        #{telephone,jdbcType=VARCHAR},
+        #{fax,jdbcType=VARCHAR},
+        #{makeTechDate,jdbcType=TIMESTAMP},
+        #{healthState,jdbcType=VARCHAR},
+        #{address,jdbcType=VARCHAR},
+        #{professTechTitles,jdbcType=VARCHAR},
+        #{timeToWork,jdbcType=TIMESTAMP},
+        #{timeStartWork,jdbcType=TIMESTAMP},
+        #{unitAddress,jdbcType=VARCHAR},
+        #{postCode,jdbcType=VARCHAR},
+        #{degree,jdbcType=VARCHAR},
+        #{atDuty,jdbcType=VARCHAR},
+        #{expertsTypeId,jdbcType=VARCHAR},
+        #{purchaseDepId,jdbcType=DECIMAL},
+        #{relName,jdbcType=VARCHAR},
+        #{isProvisional,jdbcType=DECIMAL},
+        #{email,jdbcType=VARCHAR},
+        #{jobExperiences,jdbcType=VARCHAR},
+        #{idCardNumber,jdbcType=VARCHAR},
+        #{coverNote,jdbcType=VARCHAR},
+        #{productCategories,jdbcType=VARCHAR},
+        #{academicAchievement,jdbcType=VARCHAR},
+        #{reviewSituation,jdbcType=VARCHAR},
+        #{avoidanceSituation,jdbcType=VARCHAR},
+        #{isReferenceLftter,jdbcType=INT},
+        #{professional,jdbcType=VARCHAR},
+        #{timeProfessional,jdbcType=TIMESTAMP},
+        #{range,jdbcType=VARCHAR}
+        )
+    </insert>
 
-	<!-- 手机号唯一性验证 -->
-	<select id="validatePhone" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT ID FROM T_SES_EMS_EXPERT
-		WHERE MOBILE = #{_parameter}
-	</select>
-	<!-- 身份证号唯一性验证 -->
-	<select id="validateIdCardNumber" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT ID FROM T_SES_EMS_EXPERT
-		WHERE ID_CARD_NUMBER =
-		#{param1}
-	<if test="param2 != null and param2 != '' ">
-		AND ID != #{param2}
-	</if>
-	</select>
-	<!-- 证件号码唯一性验证 -->
-	<select id="validateIdNumber" parameterType="java.lang.String"
-		resultMap="BaseResultMap">
-		SELECT ID FROM T_SES_EMS_EXPERT
-		WHERE ID_NUMBER = #{param1}
-		<if test="param2 != null and param2 != '' ">
-			AND ID != #{param2}
-		</if>
-	</select>
-	<!-- 注册时点击下一步,将表中的STRP_NUMBER进行同步 -->
-	<update id="updateStepNumber">
-		update T_SES_EMS_EXPERT
-		set STEP_NUMBER = #{param2}
-		where id = #{param1}
-	</update>
+    <delete id="deleteExpertHistory">
+        delete from T_SES_EMS_EXPERT_History
+        where ID =
+        #{_parameter}
+    </delete>
 
-	<!-- 专家审核列表 可条件查询 -->
-	<select id="findExpertAuditList" resultMap="BaseResultMap"
-		parameterType="ses.model.ems.Expert">
-		SELECT t1.*,
-		t2.NAME as sex from
-		T_SES_EMS_EXPERT t1
-		LEFT JOIN
-		T_SES_BMS_DICTIONARY_DATA t2
-		ON t1.GENDER = t2.ID
-		WHERE
-		(<if test="sign == 1">
-			(IS_SUBMIT = 1
-			AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
-			OR (IS_SUBMIT = 0 AND status = '3')
-		</if>
-		<if test="sign == 2">
-			(IS_SUBMIT = 1
-			AND (STATUS = '4' OR STATUS = '5' OR STATUS = '6'))
-		</if>
-		<if test="sign == 3">
-			(IS_SUBMIT = 1
-			AND (STATUS = '5' OR STATUS = '7' OR STATUS = '8'))
-		</if>
-		)
-		<if test="relName != null and relName !=''">
-			AND REAL_NAME LIKE #{relName}
-		</if>
-		<if test="status != null and status !=''">
-			AND STATUS = #{status}
-		</if>
-		<if test="purchaseDepId !=null">
-			AND PURCHASE_DEP_ID = #{purchaseDepId}
-		</if>
-		ORDER BY t1.AUDIT_AT DESC NULLS LAST
-	</select>
-
-	<insert id="insertExpertHistory" parameterType="ses.model.ems.ExpertHistory">
-		insert into
-		T_SES_EMS_EXPERT_History
-		(ID, GENDER,
-		MOBILE, BIRTHDAY,
-		ID_NUMBER,
-		ID_TYPE, EXPERTS_FROM,
-		POLITICS_STATUS,
-		NATION, GRADUATE_SCHOOL,
-		LAST_EDUCATION, MAJOR, WORK_UNIT,
-		TELEPHONE,
-		FAX, MAKE_TECH_DATE,
-		HEALTH_STATE, ADDRESS, PROFESS_TECH_TITLES,
-		TIME_TO_WORK,
-		TIME_START_WORK, UNIT_ADDRESS,
-		POST_CODE, DEGREE,
-		AT_DUTY,
-		EXPERTS_TYPE_ID, PURCHASE_DEP_ID,
-		REAL_NAME, IS_PROVISIONAL, EMAIL,
-		JOB_EXPERIENCES, ID_CARD_NUMBER,
-		COVER_NOTE, PRODUCT_CATEGORIES,
-		ACADEMIC_ACHIEVEMENT, REVIEW_SITUATION,
-		AVOIDANCE_SITUATION
-		)
-		values
-		(#{id,jdbcType=VARCHAR},
-		#{gender,jdbcType=CHAR},
-		#{mobile,jdbcType=VARCHAR},
-		#{birthday,jdbcType=TIMESTAMP},
-		#{idNumber,jdbcType=VARCHAR},
-		#{idType,jdbcType=VARCHAR},
-		#{expertsFrom,jdbcType=VARCHAR},
-		#{politicsStatus,jdbcType=VARCHAR},
-		#{nation,jdbcType=VARCHAR},
-		#{graduateSchool,jdbcType=VARCHAR},
-		#{hightEducation,jdbcType=VARCHAR},
-		#{major,jdbcType=VARCHAR},
-		#{workUnit,jdbcType=VARCHAR},
-		#{telephone,jdbcType=VARCHAR},
-		#{fax,jdbcType=VARCHAR},
-		#{makeTechDate,jdbcType=TIMESTAMP},
-		#{healthState,jdbcType=VARCHAR},
-		#{address,jdbcType=VARCHAR},
-		#{professTechTitles,jdbcType=VARCHAR},
-		#{timeToWork,jdbcType=TIMESTAMP},
-		#{timeStartWork,jdbcType=TIMESTAMP},
-		#{unitAddress,jdbcType=VARCHAR},
-		#{postCode,jdbcType=VARCHAR},
-		#{degree,jdbcType=VARCHAR},
-		#{atDuty,jdbcType=VARCHAR},
-		#{expertsTypeId,jdbcType=VARCHAR},
-		#{purchaseDepId,jdbcType=DECIMAL},
-		#{relName,jdbcType=VARCHAR},
-		#{isProvisional,jdbcType=DECIMAL},
-		#{email,jdbcType=VARCHAR},
-		#{jobExperiences,jdbcType=VARCHAR},
-		#{idCardNumber,jdbcType=VARCHAR},
-		#{coverNote,jdbcType=VARCHAR},
-		#{productCategories,jdbcType=VARCHAR},
-		#{academicAchievement,jdbcType=VARCHAR},
-		#{reviewSituation,jdbcType=VARCHAR},
-		#{avoidanceSituation,jdbcType=VARCHAR}
-		)
-	</insert>
-
-	<delete id="deleteExpertHistory">
-		delete from T_SES_EMS_EXPERT_History
-		where ID =
-		#{_parameter}
-	</delete>
-
-	<select id="selectOldExpertById" resultType="ses.model.ems.ExpertHistory">
+    <select id="selectOldExpertById" resultType="ses.model.ems.ExpertHistory">
 		select
 		ID id, GENDER
 		gender,
@@ -1216,33 +1293,37 @@
 		ACADEMIC_ACHIEVEMENT academicAchievement,
 		REVIEW_SITUATION
 		reviewSituation,
-		AVOIDANCE_SITUATION avoidanceSituation
+		AVOIDANCE_SITUATION avoidanceSituation,
+        IS_REFERENCE_LETTER isReferenceLftter,
+         PROFESSIONAL professional,
+        TIME_PROFESSIONAL timeProfessional,
+       RANGE  range
 		from T_SES_EMS_EXPERT_History
 		where ID = #{_parameter}
 	</select>
 
-	<!-- 根据创建时间获取已提交的专家 -->
-	<select id="getCommitExpertByDate" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Base_Column_List" />
-		FROM T_SES_EMS_EXPERT
-		WHERE TO_CHAR(SUBMIT_AT,'yyyy-mm-dd') =
-		#{_parameter}
-		AND IS_SUBMIT = '1'
-		AND STATUS = '0'
-	</select>
+    <!-- 根据创建时间获取已提交的专家 -->
+    <select id="getCommitExpertByDate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List" />
+        FROM T_SES_EMS_EXPERT
+        WHERE TO_CHAR(SUBMIT_AT,'yyyy-mm-dd') =
+        #{_parameter}
+        AND IS_SUBMIT = '1'
+        AND STATUS = '0'
+    </select>
 
-	<!-- 根据修改时间获取修改了的专家信息 -->
-	<select id="getModifyExpertByDate" resultMap="BaseResultMap">
-		SELECT
-		<include refid="Column_List" />
-		FROM T_SES_EMS_EXPERT e
-		INNER JOIN T_SES_EMS_EXPERT_HISTORY eh
-		ON e.ID =
-		eh.ID
-		WHERE TO_CHAR(e.SUBMIT_AT,'yyyy-mm-dd') = #{_parameter}
-		AND
-		e.IS_SUBMIT = '1'
-		AND e.STATUS = '0'
-	</select>
+    <!-- 根据修改时间获取修改了的专家信息 -->
+    <select id="getModifyExpertByDate" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Column_List" />
+        FROM T_SES_EMS_EXPERT e
+        INNER JOIN T_SES_EMS_EXPERT_HISTORY eh
+        ON e.ID =
+        eh.ID
+        WHERE TO_CHAR(e.SUBMIT_AT,'yyyy-mm-dd') = #{_parameter}
+        AND
+        e.IS_SUBMIT = '1'
+        AND e.STATUS = '0'
+    </select>
 </mapper>

@@ -93,6 +93,50 @@ public class ExpertHistory implements Serializable{
     private String purchaseDepId;
     /**真实姓名*/
     private String relName;
+    /*是否推荐信*/
+    private int isReferenceLftter;
+    /**执业时间*/
+    @DateTimeFormat(pattern="yyyy-MM")
+    private Date timeProfessional;
+    /**执业资格*/
+    private String professional;
+    /*省+地区*/
+    private String range;
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
+    public String getProfessional() {
+        return professional;
+    }
+
+    public void setProfessional(String professional) {
+        this.professional = professional;
+    }
+
+    public Date getTimeProfessional() {
+
+        return timeProfessional;
+    }
+
+    public void setTimeProfessional(Date timeProfessional) {
+        this.timeProfessional = timeProfessional;
+    }
+
+    public int getIsReferenceLftter() {
+
+        return isReferenceLftter;
+    }
+
+    public void setIsReferenceLftter(int isReferenceLftter) {
+        this.isReferenceLftter = isReferenceLftter;
+    }
+
     public String getId() {
         return id;
     }

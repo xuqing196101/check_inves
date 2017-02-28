@@ -707,4 +707,22 @@
 		
 		</div>
 	</body>
+<script>
+   window.onload=function(){
+       /*
+       * $('#sourceDiv').scroll( function() {
+        $('#targetDiv').scrollTop($(this).scrollTop());
+        $('#targetDiv').scrollLeft($(this).scrollLeft());
+        });
+        $('#targetDiv').scroll( function() {
+        $('#sourceDiv').scrollTop($(this).scrollTop());
+        $('#sourceDiv').scrollLeft($(this).scrollLeft());
+        });
+       * */
+
+
+  console.info($("#table").get(0))
+       console.info($("#audit_table").get(0))
+   }
+</script>
 </html>

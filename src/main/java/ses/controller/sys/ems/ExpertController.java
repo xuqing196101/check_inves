@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import model.ems.ExpertPictureType;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -99,7 +100,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 import common.constant.StaticVariables;
-
+import common.service.UploadService;
+import common.model.UploadFile;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -151,6 +153,8 @@ public class ExpertController extends BaseController {
 	private SupplierService supplierService; //供应商
 	@Autowired
 	private BidMethodService bidMethodService;
+    @Autowired
+    private UploadService uploadService;
 
 	/**
 	 * 
@@ -1830,7 +1834,6 @@ public class ExpertController extends BaseController {
 	@RequestMapping(value = "findAttachment", produces = "application/json;charset=UTF-8")
 	@ResponseBody
 	public String findAttachment(String sysId) {
-
 			Map < String, Object > map = new HashMap < > ();
 			map.put("businessId", sysId);
 			map.put("isDeleted", "0");
@@ -3366,7 +3369,7 @@ public class ExpertController extends BaseController {
              builder.append("</HEAD>");
              builder.append("<script type=\"text/javascript\">"); 
              builder.append("$(function() {");
-             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+             builder.append("layer.confirm('不是当前操作人，请登录修改！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");
              builder.append("window.top.location.href='"); 
              builder.append(basePath+"index/sign.html");  
              builder.append("';"); 
@@ -3382,6 +3385,68 @@ public class ExpertController extends BaseController {
     	
     	return "redirect:toAddBasicInfo.html";
     }
-    
+
+
+
+    @RequestMapping(value = "findAttachment2", produces = "application/json;charset=UTF-8")
+    @ResponseBody
+    public String findAttachment2(@RequestParam("sysId") String sysId,@RequestParam("from") String from, @RequestParam("isReferenceLftter") int isReferenceLftter ) {
+        List<UploadFile> SOCIAL_SECURITY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.SOCIAL_SECURITY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> IDENTITY_CARD_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.IDENTITY_CARD_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> TECHNOLOGY_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.TECHNOLOGY_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> GRADUATE_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.GRADUATE_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> QUALIFICATIONS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.QUALIFICATIONS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> RECOMMENDATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.RECOMMENDATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> APPLICATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.APPLICATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> COMMITMENT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.COMMITMENT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        String imgInfo="cg";
+        if(IDENTITY_CARD_PROOF.size()<1 && IDENTITY_CARD_PROOF!=null){
+            imgInfo="身份证复印件未上传";
+            return JSON.toJSONString(imgInfo);
+        }
+        if(from.equals("LOCAL")){
+            if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){
+                imgInfo="缴纳社保或退休证明未上传";
+                return JSON.toJSONString(imgInfo);
+            }
+            if(GRADUATE_PROOF.size()<1 && GRADUATE_PROOF !=null ){
+                imgInfo="毕业证书未上传";
+                return JSON.toJSONString(imgInfo);
+            }
+            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
+                imgInfo="学位证书未上传";
+                return JSON.toJSONString(imgInfo);
+            }
+
+        }else if(from.equals("ARMY")){
+            if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){
+                imgInfo="军队人员的身份证件未上传";
+                return JSON.toJSONString(imgInfo);
+            }
+        }
+
+        if(PRACTICING_REQUIREMENTS_PROOF.size()<1 && PRACTICING_REQUIREMENTS_PROOF!=null){
+            imgInfo="执业资格未上传";
+            return JSON.toJSONString(imgInfo);
+        }
+        if(isReferenceLftter==1 && RECOMMENDATION_PROOF.size()<1 && RECOMMENDATION_PROOF!=null){
+            imgInfo="推荐信未上传";
+            return JSON.toJSONString(imgInfo);
+        }
+        if(isReferenceLftter==3 && TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
+            imgInfo="专家技术证书未上传";
+            return JSON.toJSONString(imgInfo);
+        }
+        if( APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){
+            imgInfo="专家申请未上传";
+            return JSON.toJSONString(imgInfo);
+        }
+        if( COMMITMENT_PROOF.size()<1 && isReferenceLftter==5    &&  COMMITMENT_PROOF!=null){
+            imgInfo="专家承诺未上传";
+            return JSON.toJSONString(imgInfo);
+        }
+        return imgInfo;
+    }
     
 }

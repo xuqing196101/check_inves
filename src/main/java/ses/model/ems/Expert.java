@@ -143,7 +143,17 @@ public class Expert extends ExpertHistory implements Serializable {
     private String postCode;
     //是否推荐信
     private int isReferenceLftter;
-    
+    /*省+地区*/
+    private String range;
+
+    public String getRange() {
+        return range;
+    }
+
+    public void setRange(String range) {
+        this.range = range;
+    }
+
     public int getIsReferenceLftter() {
 		return isReferenceLftter;
 	}
@@ -194,7 +204,7 @@ public class Expert extends ExpertHistory implements Serializable {
     private Date submitAt;
     
     private Date auditAt;  //审核时间
-    
+
     public String getStepNumber() {
         return stepNumber;
     }
