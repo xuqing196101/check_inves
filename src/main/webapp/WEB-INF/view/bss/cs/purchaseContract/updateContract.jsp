@@ -584,6 +584,13 @@
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目编号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text">
+			        	<div class="cue">${ERR_proCode}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" name="money_string" value="${purCon.money_string}" type="text">

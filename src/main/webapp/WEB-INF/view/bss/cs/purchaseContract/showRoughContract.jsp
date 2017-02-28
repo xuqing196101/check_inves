@@ -50,6 +50,8 @@
 	            <td width="37%">${draftCon.demandSector}</td>
 	            --%><td class="bggrey" width="13%">采购机构资质证号：</td>
 	            <td width="37%">${draftCon.quaCode}</td>
+	            <td class="bggrey" width="13%">项目编号：</td>
+	            <td width="37%">${draftCon.projectCode}</td>
 	        </tr>
 	        <tr>
 	            <td class="bggrey" width="13%">项目预算科目：</td>

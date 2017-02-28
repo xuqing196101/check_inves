@@ -259,6 +259,12 @@
 			layer.alert("请选择要修改的信息",{offset: ['222px', '390px'], shade:0.01});
 		}
   	}
+  	
+  	function manualCreateContract(){
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/manualCreateContract.html";
+  	}
+  
+  	
   </script>
   </head>
   
@@ -302,6 +308,7 @@
     <div class="col-md-12 pl20 mt10">
 		<button class="btn" onclick="createContract()">生成</button>
 		<button class="btn" onclick="someCreateContract()">合并生成</button>
+		<button class="btn" onclick="manualCreateContract()">新增合同</button>
 		<button class="btn" onclick="updateZanCun()">修改暂存</button>
 	</div>
    <div class="content table_box">
@@ -342,7 +349,7 @@
 				<c:set value="${pack.project.projectNumber}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>10}">
-					<td class=" tl pl20 pointer" title="${code}">${fn:substring(code,0,10)}...</td>
+					<td class=" tl pl20 pointer" title="${code}" >${fn:substring(code,0,10)}...</td>
 				</c:if>
 				<c:if test="${length<=10}">
 					<td class=" tl pl20 pointer" title="${code}">${code}</td>

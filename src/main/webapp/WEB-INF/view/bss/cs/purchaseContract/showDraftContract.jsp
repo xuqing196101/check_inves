@@ -51,18 +51,22 @@
 	            <td width="37%">${draftCon.budgetSubjectItem}</td>
 	        </tr>
 	        <tr>
+	            <td class="bggrey" width="13%">项目编号：</td>
+	            <td width="37%">${draftCon.projectCode}</td>
 	            <td class="bggrey" width="13%">合同金额：</td>
 	            <td width="37%">${draftCon.money}</td>
+	            
+	        </tr>
+	        <tr>
 	            <td class="bggrey" width="13%">计划任务文号：</td>
 	            <td width="37%">${draftCon.documentNumber}</td>
-	        </tr>
-	        <tr>
 	            <td class="bggrey" width="13%">草案上报时间：</td>
 	            <td width="37%"><fmt:formatDate value="${draftCon.draftGitAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	            <td class="bggrey" width="13%">草案报批时间：</td>
-	            <td width="37%"><fmt:formatDate value="${draftCon.draftReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	            
 	        </tr>
 	        <tr>
+	            <td class="bggrey" width="13%">草案报批时间：</td>
+	            <td width="37%"><fmt:formatDate value="${draftCon.draftReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	            <td class="bggrey" width="13%">合同预算：</td>
 	            <td width="37%">${draftCon.budget}</td>
 	        </tr>

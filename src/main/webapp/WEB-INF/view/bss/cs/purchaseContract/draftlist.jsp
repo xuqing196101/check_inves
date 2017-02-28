@@ -305,6 +305,7 @@
 		});
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
 	}
+	
   </script>
   </head>
   
@@ -352,6 +353,7 @@
     	  </div>
       </form>
          <div class="col-md-12 col-xs-12 col-sm-12 pl20 mt10 p0">
+          
    	  	  <button class="btn btn-windows edit" onclick="updateDraft()">修改</button>
    	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
    	  	  <button class="btn" onclick="printContract()">打印</button>

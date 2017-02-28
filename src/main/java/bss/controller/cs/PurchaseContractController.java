@@ -639,6 +639,46 @@ public class PurchaseContractController extends BaseSupplierController{
 	 * 
 	* 〈简述〉 〈详细描述〉
 	* 
+	* @author liwanlin 
+	* @date 2016-11-11 下午2:54:10  
+	* @Description: 手动创建合同基本信息页面 
+	* @param @param request
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+
+	@RequestMapping("/manualCreateContract")
+	public String manualCreateContract(HttpServletRequest request,Model model) throws Exception{
+		
+		DictionaryData dd=new DictionaryData();
+		dd.setCode("DRAFT_REVIEWED");
+		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
+		request.getSession().setAttribute("attachsysKey", Constant.TENDER_SYS_KEY);
+		if(datas.size()>0){
+			model.addAttribute("attachtypeId", datas.get(0).getId());
+		}
+		/*授权书*/
+		DictionaryData ddbook=new DictionaryData();
+		ddbook.setCode("CONTRACT_WARRANT");
+		List<DictionaryData> bookdata = dictionaryDataServiceI.find(ddbook);
+		request.getSession().setAttribute("bookattachsysKey", Constant.TENDER_SYS_KEY);
+		if(bookdata.size()>0){
+			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
+		}
+		
+		String contractuuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("id", contractuuid);
+		model.addAttribute("attachuuid", contractuuid);
+		model.addAttribute("kinds", DictionaryDataUtil.find(5));
+		return "bss/cs/purchaseContract/manualNewContract";
+	}
+	
+	/**
+	 * 
+	* 〈简述〉 〈详细描述〉
+	* 
 	* @author QuJie 
 	* @date 2016-11-11 下午2:55:57  
 	* @Description: 创建合同明细信息 
@@ -736,6 +776,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		String ids = request.getParameter("ids");
 		String dga = request.getParameter("dga");
 		String dra = request.getParameter("dra");
+		String manual = request.getParameter("manual");
 		String supcheckid = request.getParameter("supcheckid");
 		String[] supcheckids = supcheckid.split(",");
 		Date draftGitAt = null;
@@ -776,6 +817,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			model.addAttribute("requList", requList);
 			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("id", ids);
+			model.addAttribute("manual", manual);
 			url = "bss/cs/purchaseContract/errContract";
 		}else{
 			if(draftGitAt!=null){
@@ -832,7 +874,12 @@ public class PurchaseContractController extends BaseSupplierController{
 					supplierCheckPassService.update(sup);
 				}
 			}
-			url = "redirect:selectAllPuCon.html";
+			
+			if(manual!=null){
+				url = "redirect:selectDraftContract.html";
+			}else{
+				url = "redirect:selectAllPuCon.html";
+			}
 		}
 		return url;
 	}
@@ -1268,6 +1315,14 @@ public class PurchaseContractController extends BaseSupplierController{
 		if(ValidateUtils.isNull(purCon.getPurchaseType())){
 			flag = false;
 			model.addAttribute("ERR_purchaseType", "采购方式不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getProjectCode())){
+			flag = false;
+			model.addAttribute("ERR_proCode", "项目编号不能为空");
+		}
+		if(ValidateUtils.isNull(purCon.getProjectName())){
+			flag = false;
+			model.addAttribute("ERR_projectName", "项目名称不能为空");
 		}
 //		if(ValidateUtils.isNull(purCon.getDemandSector())){
 //			flag = false;
@@ -2701,5 +2756,18 @@ public class PurchaseContractController extends BaseSupplierController{
     @RequestMapping("/loadFile")
     public void loadFile(HttpServletRequest request,HttpServletResponse response,String filePath){
     	downloadService.downLoadFile(request, response, filePath);
+    }
+    @RequestMapping("/getProjectName")
+    @ResponseBody
+    public Project  getProjectName(HttpServletRequest request,HttpServletResponse response,String code,String name){
+    	HashMap<String, Object> map=new HashMap<String, Object>();
+    	map.put("projectNumber", code);
+    	map.put("name", name);
+    	List<Project> projects = projectService.selectProjectByCode(map);
+    	Project project=new Project();
+    	if(projects!=null&&projects.size()>0){
+    		project.setName(projects.get(0).getName());
+    	}
+    	return project;
     }
 }

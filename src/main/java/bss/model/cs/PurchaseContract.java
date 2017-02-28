@@ -99,6 +99,8 @@ public class PurchaseContract {
 
 	private String projectName;//项目名称
 
+	private String projectCode;//项目编号
+	
 	private Integer isAppeal;//是否审价
 
 	private String approvePic;//文件电子扫描件
@@ -668,4 +670,14 @@ public class PurchaseContract {
 	public void setBingUnitpostCode(String bingUnitpostCode) {
 		this.bingUnitpostCode = bingUnitpostCode;
 	}
+
+	public String getProjectCode() {
+		return projectCode;
+	}
+
+	public void setProjectCode(String projectCode) {
+		this.projectCode = projectCode;
+	}
+	
+	
 }

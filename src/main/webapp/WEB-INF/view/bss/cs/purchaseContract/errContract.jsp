@@ -585,6 +585,7 @@
 	   		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
 	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
+	   		<input type="hidden" name="manual" value="${manual}"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
@@ -604,6 +605,22 @@
 			        	<div class="cue">${ERR_code}</div>
 	       			</div>
 				 </li>
+				  <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目编号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text">
+			        	<div class="cue">${ERR_proCode}</div>
+	       			</div>
+				 </li>
+				 <c:if test="${manual!=null}">
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="projectName" value="${purCon.projectName}" type="text">
+			        	<div class="cue">${ERR_projectName}</div>
+	       			</div>
+				 </li>
+				 </c:if>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">

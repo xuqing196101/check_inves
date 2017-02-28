@@ -565,13 +565,26 @@
 	function abandoned(){
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html";
 	}
+	function getProjectName(id){
+		$.ajax({
+			url:"${pageContext.request.contextPath}/purchaseContract/getProjectName.do",
+			type:"post",
+			dataType:"json",
+			data:{"code":$("#projectCode").val()},
+			success:function(data){
+				if(data!=null){
+					$("#projectName").val(data.name);
+				}
+			}
+		});
+	}
 </script>
 <body>
 <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同文本修改</a></li>
+		   <li><a href="#"> 首页</a></li><li><a href="#">保障作业</a></li><li><a href="#">采购合同管理</a></li><li class="active"><a href="#">合同文本</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -596,6 +609,7 @@
 	   		<input type="hidden" name="projectId" value="${project.id}"/>
 	   		<input type="hidden" name="isImport" value="${project.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
+	   		<input type="hidden" name="manual" value="manual"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
@@ -615,11 +629,19 @@
 			        	<div class="cue">${ERR_code}</div>
 	       			</div>
 				 </li>
+				 
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<input class=" contract_name" name="projectCode" value="${project.projectNumber}" type="text">
+			        	<input class=" contract_name" id="projectCode" name="projectCode" value="${project.projectNumber}" onblur="getProjectName('projectCode');" type="text">
 			        	<div class="cue">${ERR_proCode}</div>
+	       			</div>
+				 </li>
+				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" id="projectName" name="projectName" value="" type="text">
+			        	<div class="cue">${ERR_projectName}</div>
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">

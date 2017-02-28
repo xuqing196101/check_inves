@@ -55,24 +55,31 @@
 	        <tr>
 	            <td class="bggrey" width="13%">项目预算科目：</td>
 	            <td width="37%">${draftCon.budgetSubjectItem}</td>
-	            <td class="bggrey" width="13%">计划任务文号：</td>
-	            <td width="37%">${draftCon.documentNumber}</td>
+	            <td class="bggrey" width="13%">项目编号：</td>
+	            <td width="37%">${draftCon.projectCode}</td>
 	        </tr>
 	        <tr>
+	             <td class="bggrey" width="13%">计划任务文号：</td>
+	            <td width="37%">${draftCon.documentNumber}</td>
 	            <td class="bggrey" width="13%">合同金额：</td>
 	            <td width="37%">${draftCon.money}</td>
+	            
+	        </tr>
+	        <tr>
 	            <td class="bggrey" width="13%">合同预算：</td>
 	            <td width="37%">${draftCon.budget}</td>
-	        </tr>
-	        <tr>
 	            <td class="bggrey" width="13%">正式合同提报时间：</td>
 	            <td width="37%"><fmt:formatDate value="${draftCon.formalGitAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-	            <td class="bggrey" width="13%">正式合同报批时间：</td>
-	            <td width="37%"><fmt:formatDate value="${draftCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+	            
 	        </tr>
 	        <tr>
+	            <td class="bggrey" width="13%">正式合同报批时间：</td>
+	            <td width="37%"><fmt:formatDate value="${draftCon.formalReviewedAt}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	        	<td class="bggrey" width="13%">合同批准文号：</td>
 	            <td width="37%">${draftCon.approvalNumber}</td>
+	            
+	        </tr>
+	         <tr>
 	            <td class="bggrey" width="13%">合同编号：</td>
 	            <td width="37%">${draftCon.code}</td>
 	        </tr>
