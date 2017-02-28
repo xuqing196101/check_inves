@@ -26,6 +26,12 @@ public class Category {
      */
 
     private String name;
+    
+    /**
+     * @Fields EXPERT_TYPE : 专家类型 0工程经济  1工程技术 
+     */
+    
+    private String expertType;
 
     /**
      * @Fields status : 状态（激活/休眠）
@@ -409,6 +415,14 @@ public class Category {
 
     public void setEngLevel(String engLevel) {
         this.engLevel = engLevel;
+    }
+
+    public String getExpertType() {
+        return expertType;
+    }
+
+    public void setExpertType(String expertType) {
+        this.expertType = expertType;
     }
 
 }
