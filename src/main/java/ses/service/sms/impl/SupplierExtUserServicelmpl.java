@@ -159,7 +159,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
    */
   @Override
-  public String downLoadBiddingDoc(HttpServletRequest request,String projectId) throws Exception {
+  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type) throws Exception {
     Map<String, Object> datamap = new HashMap<>();
     //经济评审
     List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();
@@ -275,7 +275,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     datamap.put("host",host);
 
 
-    return productionDoc(request, datamap,ftlName(project.getDictionary().getCode()));
+    return productionDoc(request, datamap,ftlName(project.getDictionary().getCode(),type));
 
   }
 
@@ -327,30 +327,52 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    *〈详细描述〉
    * @author Wang Wenshuai
    * @return ftl path
+   * @param type :1( 拆包部分模板)  type:0(总模板)
    */
-  private String ftlName(String ftl){
-    String str = "";
-    switch (ftl) {
-      case "GKZB":
-        str = "biddingdocument.ftl";
-        break;
-      case "XJCG":
-        str = "InquiryDocument.ftl";
-        break;
-      case "JZXTP":
-        str = "jzxtp.ftl";
-        break;
-      case "DYLY":
-        str = "";
-        break;
-      case "YQZB":
-        str = "Invitebidding.ftl";
-        break;
+  private String ftlName(String ftl,int type){
+	   // 根据拆包需求   修改返回值 书写分包对应模板名
+	    String str = "";
+	    switch (ftl) {
+	    /***
+	     * GkZB: 公开招标文件
+	     * 对应模板说明：总模板，包1（资格性和符合性审查），包2（经济和技术评审细则）
+	     */
+	      case "GKZB":
+	    	  if(type==0){
+	    		 str="biddingdocument.ftl"; 
+	    	  }else{
+	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
+	    	  }
+	        break;
+	      case "XJCG":// 询价文件
+	        if(type==0){
+	    		 str="InquiryDocument.ftl"; 
+	    	  }else{
+	    		  str = "InquiryDocument_package1.ftl,InquiryDocument_package2.ftl";
+	    	  }
+	        break;
+	      case "JZXTP":// 谈判文件
+	        if(type==0){
+	    		 str="jzxtp.ftl"; 
+	    	  }else{
+	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
+	    	  }
+	        break;
+	      case "DYLY":// 单一来源
+	        str = "";
+	        break;
+	      case "YQZB":// 邀请招标
+	        if(type==0){
+	    		 str="Invitebidding.ftl"; 
+	    	  }else{
+	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
+	    	  }
+	        break;
 
-      default:
-        break;
-    }
-    return str;
+	      default:
+	        break;
+	    }
+	    return str;
   }
 
   /**
@@ -363,28 +385,46 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    */
   private String productionDoc(HttpServletRequest request, Map<String,Object> dataMap,String ftlString){
     Configuration configuration = new Configuration();
-    configuration.setDefaultEncoding("GBK");
+    // 修改编码格式 
+    configuration.setDefaultEncoding("UTF-8");
     configuration.setServletContextForTemplateLoading(request.getSession().getServletContext(), "/template");
     String filePath = "";
+    String ftlPaths[]=null;
     try {
-      Template t = configuration.getTemplate(ftlString);
-      String basePath = PropUtil.getProperty("file.base.path");
-      String temp = PropUtil.getProperty("file.temp.path");
-      String path = basePath + File.separator + temp;
-      String fileName = System.currentTimeMillis()+ ".doc";
-      File file = new File(path);
-      if (!file.exists()){
-        file.mkdirs();
-      }
-      File rootFile = new File(path,fileName);
-      if(!rootFile.exists()){
-        rootFile.createNewFile();
-      }
-      Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(rootFile),"GBK"));
-      t.process(dataMap, out);
-      out.flush();
-      out.close();
-      filePath = rootFile.getPath().replaceAll("\\\\","/");
+    	long times=System.currentTimeMillis();
+    	ftlPaths=ftlString.split(",");
+    	int ftlLength=ftlPaths.length;
+    	for(int i=0;ftlLength>i;i++){
+				Template t = configuration.getTemplate(ftlPaths[i]);
+				String basePath = PropUtil.getProperty("file.base.path");
+				String temp = PropUtil.getProperty("file.temp.path");
+				String path = basePath + File.separator + temp;
+				String fileName="";
+				if(ftlLength==1){
+					fileName = times+"_0.doc";
+				}else{
+					fileName = times+"_"+(i+1) + ".doc";
+				}
+				File file = new File(path);
+				if (!file.exists()) {
+					file.mkdirs();
+				}
+				File rootFile = new File(path, fileName);
+				if (!rootFile.exists()) {
+					rootFile.createNewFile();
+				}
+				// 重新制定模板 编码 将GBK修改 编码为UTF-8
+				Writer out = new BufferedWriter(new OutputStreamWriter(
+						new FileOutputStream(rootFile), "UTF-8"));
+				t.process(dataMap, out);
+				out.flush();
+				out.close();
+				if(ftlLength==1){
+					filePath = rootFile.getPath().replaceAll("\\\\","/");
+				}else{
+					filePath = rootFile.getPath().replaceAll("\\\\","/")+","+filePath;
+				}
+    	}
     } catch (IOException | TemplateException e) {
       e.printStackTrace();
     }

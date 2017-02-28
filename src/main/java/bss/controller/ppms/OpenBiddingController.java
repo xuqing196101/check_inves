@@ -322,17 +322,43 @@ public class OpenBiddingController {
     //判断是否上传招标文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");
     List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
-    if (files != null && files.size() > 0){
+    /**
+     * 1.如果上传过 跳过生成模板
+     * 2.如果 上传过 判断 file.getIsDelete标识 是否删除 如果删除只是生成 拆分部分模板
+     * 3.如果没有上传 那么生成新模板
+     */
+    if (files != null && files.size() > 0 && project != null){
+    		//调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
+    	       String filePath = extUserServicel.downLoadBiddingDoc(request,id,1);
+    	       if (StringUtils.isNotBlank(filePath)){
+    	         model.addAttribute("filePath", filePath);
+    	       }
+    	 //调用数据存储模板
+    	 model.addAttribute("fileId", files.get(0).getId());
+     }else{
+    	//重新生成模板
+         model.addAttribute("fileId", "0");
+       //调用生成word模板 传入标识1 只是生成 总模板
+         String filePath = extUserServicel.downLoadBiddingDoc(request,id,0);
+         if (StringUtils.isNotBlank(filePath)){
+           model.addAttribute("filePath", filePath);
+         }
+     }
+   	  
+    
+   /*// 注释 为分包之前的 业务逻辑
+     if (files != null && files.size() > 0){
       model.addAttribute("fileId", files.get(0).getId());
     } else {
       if (project != null){
+    	  //调用生成word模板
         String filePath = extUserServicel.downLoadBiddingDoc(request,id);
         if (StringUtils.isNotBlank(filePath)){
           model.addAttribute("filePath", filePath);
         }
       }
       model.addAttribute("fileId", "0");
-    }
+    }*/
     //当前登录用户是否为项目负责人
     if (user.getId().equals(project.getPrincipal())) {
       model.addAttribute("isAdmin", 1);
@@ -906,6 +932,7 @@ public class OpenBiddingController {
         Project project = projectService.selectById(projectId);
         project.setConfirmFile(1);
         project.setAuditReason(null);
+        project.setApprovalTime(new Date());
         //修改项目状态
         project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
         projectService.update(project);
@@ -926,6 +953,7 @@ public class OpenBiddingController {
         Project project = projectService.selectById(projectId);
         project.setConfirmFile(1);
         project.setAuditReason(null);
+        project.setApprovalTime(new Date());
         //修改项目状态
         project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
         projectService.update(project);
