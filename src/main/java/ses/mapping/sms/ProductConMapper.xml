@@ -1,0 +1,195 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.ProductConMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.ProductCon">
+		<id column="ID" property="id" />
+		<result column="PRODUCT_TYPE" property="productType" />
+		<result column="PRODUCT_TRADEMARK" property="productTredemark" />
+		<result column="PRODUCT_NAME" property="productName" />
+		<result column="PRODUCT_PRICE" property="productPrice" />
+		<result column="PRODUCT_MODEL" property="productModel"/>
+		<result column="PRODUCT_NEGO_PRICE" property="productNegoPrice"/>
+		<result column="PRODUCT_INVENTORY" property="productInventory" />
+		<result column="PRODUCT_SKU" property="productSKU" />
+		<result column="PRODUCT_PARAMETER" property="productParameter" />
+		<result column="PRODUCT_REPERTOIRE" property="productRepertoire" />
+		<result column="AFTERSALES" property="afterSales" />
+		<result column="PRODUCT_PRESENTATION" property="productPresentation" />
+		<result column="PRODUCT_STATUS" property="productStatus" />
+	</resultMap>
+	<sql id="Base_Column_List">
+		ID,PRODUCT_TYPE,PRODUCT_TRADEMARK,PRODUCT_NAME,PRODUCT_PRICE,PRODUCT_MODEL,PRODUCT_NEGO_PRICE,PRODUCT_INVENTORY,
+		PRODUCT_SKU,PRODUCT_PARAMETER,PRODUCT_REPERTOIRE,AFTERSALES,PRODUCT_PRESENTATION,PRODUCT_STATUS
+	</sql>
+	 <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_SMS_PRODUCT
+		where ID = #{id}
+	</select>
+	<delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+		delete from T_SES_SMS_PRODUCT
+		where ID = #{id}
+	</delete>
+	<insert id="insert" parameterType="ses.model.sms.ProductParam">
+		insert into T_SES_SMS_PRODUCT_PARAM (ID,PRODUCT_TYPE,PRODUCT_TRADEMARK,PRODUCT_NAME,
+		PRODUCT_PRICE,PRODUCT_MODEL,PRODUCT_NEGO_PRICE,PRODUCT_INVENTORY,
+		PRODUCT_SKU,PRODUCT_PARAMETER,PRODUCT_REPERTOIRE,AFTERSALES,PRODUCT_PRESENTATION,PRODUCT_STATUS)
+		values (#{id},#{productToye},#{productTrademark},#{productName},#{productPrice},
+		#{productModel},#{productNegoPrice},#{productInventory},#{productSKU},#{productParameter},
+		#{productRepertoire},#{afterSales},#{productPresentation},
+		#{productStatus})
+	</insert>
+	 <insert id="insertSelective" parameterType="ses.model.sms.ProductCon">
+		insert into T_SES_SMS_PRODUCT
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="productToye != null">
+				PRODUCT_TYPE,
+			</if>
+			<if test="productTrademark != null">
+				PRODUCT_TRADEMARK,
+			</if>
+			<if test="productName != null">
+				PRODUCT_NAME,
+			</if>
+			<if test="productPrice != null">
+				PRODUCT_PRICE,
+			</if>
+			<if test="productModel != null">
+				PRODUCT_MODEL,
+			</if>
+			<if test="productNegoPrice != null">
+				PRODUCT_NEGO_PRICE,
+			</if>
+			<if test="productInventory != null">
+				PRODUCT_INVENTORY,
+			</if>
+			<if test="productSKU != null">
+				PRODUCT_SKU,
+			</if>
+			<if test="productParameter != null">
+				PRODUCT_PARAMETER,
+			</if>
+			<if test="productRepertoire != null">
+				PRODUCT_REPERTOIRE,
+			</if>
+			<if test="afterSales != null">
+				AFTERSALES,
+			</if>
+			<if test="productPresentation != null">
+				PRODUCT_PRESENTATION,
+			</if>
+			<if test="productStatus != null">
+				PRODUCT_STATUS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="productToye != null">
+				#{productToye},
+			</if>
+			<if test="productTrademark != null">
+				#{productTrademark},
+			</if>
+			<if test="productName != null">
+				#{productName},
+			</if>
+			<if test="productPrice != null">
+				#{productPrice},
+			</if>
+			<if test="productModel != null">
+				#{productModel},
+			</if>
+			<if test="productNegoPrice != null">
+				#{productNegoPrice},
+			</if>
+			<if test="productInventory != null">
+				#{productInventory},
+			</if>
+			<if test="productParameter != null">
+				#{productParameter},
+			</if>
+			<if test="productRepertoire != null">
+				#{productRepertoire},
+			</if>
+			<if test="afterSales != null">
+				#{afterSales},
+			</if>
+			<if test="productPresentation != null">
+				#{productPresentation},
+			</if>
+			<if test="productStatus != null">
+				#{productStatus},
+			</if>
+		</trim>
+	</insert>
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.ProductCon">
+		update T_SES_SMS_PRODUCT
+		<set>
+			<if test="productToye != null">
+				PRODUCT_TYPE = #{productToye},
+			</if>
+			<if test="productTrademark != null">
+				PRODUCT_TRADEMARK = #{productTrademark},
+			</if>
+			<if test="productName != null">
+				PRODUCT_NAME = #{productName},
+			</if>
+			<if test="productPrice != null">
+				PRODUCT_PRICE = #{productPrice},
+			</if>
+			<if test="productModel != null">
+				PRODUCT_MODEL = #{productModel},
+			</if>
+			<if test="productNegoPrice != null">
+				PRODUCT_NEGO_PRICE = #{productNegoPrice},
+			</if>
+			<if test="productInventory != null">
+				PRODUCT_INVENTORY = #{productInventory},
+			</if>
+			<if test="productSKU != null">
+				PRODUCT_SKU = #{productSKU},
+			</if>
+			<if test="productParameter != null">
+				PRODUCT_PARAMETER = #{productParameter},
+			</if>
+			<if test="productRepertoire != null">
+				PRODUCT_REPERTOIRE = #{productRepertoire},
+			</if>
+			<if test="afterSales != null">
+				AFTERSALES = #{afterSales},
+			</if>
+			<if test="productPresentation != null">
+				PRODUCT_PRESENTATION = #{productPresentation},
+			</if>
+			<if test="productStatus != null">
+				PRODUCT_STATUS = #{productStatus},
+			</if>
+			
+		</set>
+		where ID = #{id}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="ses.model.sms.ProductCon">
+		update T_SES_SMS_PRODUCT
+		set PRODUCT_TYPE = #{productToye},
+		PRODUCT_TRADEMARK = #{productTrademark},
+		PRODUCT_NAME = #{productName},
+		PRODUCT_PRICE = #{productPrice},
+		PRODUCT_MODEL = #{productModel},
+		PRODUCT_NEGO_PRICE = #{productNegoPrice},
+		PRODUCT_INVENTORY = #{productInventory},
+		PRODUCT_SKU = #{productSKU},
+		PRODUCT_PARAMETER = #{productParameter},
+		PRODUCT_REPERTOIRE = #{productRepertoire},
+		AFTERSALES = #{afterSales},
+		PRODUCT_PRESENTATION = #{productPresentation},
+		PRODUCT_STATUS = #{productStatus},
+		where ID = #{id}
+	</update> 
+	
+</mapper>
