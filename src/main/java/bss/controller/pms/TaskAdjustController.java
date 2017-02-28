@@ -3,9 +3,11 @@ package bss.controller.pms;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -61,6 +63,7 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
+import common.service.UpdateHistoryService;
 
 import com.ctc.wstx.util.StringUtil;
 import com.github.pagehelper.PageInfo;
@@ -125,6 +128,9 @@ public class TaskAdjustController extends BaseController{
 	
 	@Autowired 
 	private ProjectDetailService projectDetailService;
+	
+	@Autowired
+	private UpdateHistoryService updateHistoryService;
 	
 	
 	/**
@@ -374,7 +380,7 @@ public class TaskAdjustController extends BaseController{
   
 	
   @RequestMapping("/updatePlan")
-  public String updatePlan(PurchaseRequiredFormBean list){
+  public String updatePlan(PurchaseRequiredFormBean list,String history){
 		if(list!=null){
 			if(list.getListDetail()!=null&&list.getListDetail().size()>0){
 				for( PurchaseDetail pd:list.getListDetail()){
@@ -383,6 +389,18 @@ public class TaskAdjustController extends BaseController{
 					}
 				}
 			}
+		}
+		//记录修改历史版本
+		String[] ids = history.split(",");
+		Set<String> set=new HashSet<String>();
+		for(String i:ids){
+			if(i.trim().length()!=0){
+				set.add(i);
+			}
+		}
+		for(String str:set){
+			PurchaseRequired obj = purchaseRequiredService.queryById(str);
+			updateHistoryService.add(str, obj);//记录历史消息
 		}
 	  return "redirect:edit.html";
   }
@@ -455,13 +473,23 @@ public class TaskAdjustController extends BaseController{
 		String[] ids = details.split(",");
 		HashMap<String,Object> maps=new HashMap<String,Object>();
 		
+		Set<String> set=new HashSet<String>();
+		for(String i:ids){
+			if(i.trim().length()!=0){
+				set.add(i);
+			}
+		}
+		
+		
 		Project project=new Project();
-		for(String did:ids){
+		for(String did:set){
 			if(did.trim().length()!=0){
 				maps.put("requiredId", did);
 				List<ProjectDetail> selectById = projectDetailService.selectById(maps);
 				project.setId(selectById.get(0).getProject().getId());
 				project.setStatus(DictionaryDataUtil.getId("YQX"));
+				PurchaseDetail pd = purchaseDetailService.queryById(did);
+				updateHistoryService.add(did, pd);
 				projectService.update(project);
 			}
 		

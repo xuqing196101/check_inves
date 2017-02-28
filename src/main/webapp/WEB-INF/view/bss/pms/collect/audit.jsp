@@ -145,7 +145,8 @@
 			
 				//单价
 	 
-				  	 function sum2(obj){  //数量
+		  function sum2(obj){  //数量
+			  change(obj);
 	        var purchaseCount = $(obj).val()-0;//数量
 	        var price2 = $(obj).parent().next().children(":last").prev();//价钱
 	        var price = $(price2).val()-0;
@@ -157,6 +158,7 @@
 	    } 
 	    
 	       function sum1(obj){
+	    	   change(obj);
 	        var purchaseCount = $(obj).val()-0; //价钱
 	         var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
 	      	 var sum = purchaseCount*price2/10000;
@@ -250,29 +252,63 @@
 					var index=tr.rowIndex; //获取第几行，然后给赋值
 					var td=obj.parentNode;
 					var tdIndex=td.cellIndex;
-					var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+					var tdVal1= $("#table tr").find("th:eq("+tdIndex+")").text()+"：";
 			  	   if(val!=defVal){
 			  		
 			  		   if(status=='3'){
 			  			   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 				  			var curval=tdVal1+"由"+defVal+"变成"+val;
-				  			var newVal=inpval+curval+";";
+				  			var newVal=inpval+curval+"；";
 			  			 $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal); 
 			  		   }
 			  		 if(status=='5'){
 			  		   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 			  			var curval=tdVal1+"由"+defVal+"变成"+val;
-			  			var newVal=inpval+curval+";";
+			  			var newVal=inpval+curval+"；";
 				  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 				  	   }
 				  	 if(status=='7'){
 				  	   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 			  			var curval=tdVal1+"由"+defVal+"变成"+val;
-			  			var newVal=inpval+curval+";";
+			  			var newVal=inpval+curval+"；";
 				  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 				  	   }  
 					} 
-				  	  
+				  
+			  	 var tdVal2= $("#table tr").find("th:eq("+tdIndex+")").text();
+			  	tdVal2=$.trim(tdVal2);
+			  	  if(tdVal2=="采购数量"){
+			  		var histVal = $(obj).val();
+		            var  hisId=$(obj).prev().val();
+		    		var hisVal = obj.defaultValue;
+		    		if(histVal != hisVal) {
+		    			var hisTd= $(obj).parent().parent().children(":last");
+		    			$(hisTd).prev().children(":last").prev().val(hisId);
+		    		}else{
+		    			 $(obj).parent().parent().children(":last").prev().children(":last").prev().val("");
+		    		} 
+			  	 }else if(tdVal2=="单价（元）"){
+				  		var histVal = $(obj).val();
+			            var  hisId=$(obj).prev().val();
+			    		var hisVal = obj.defaultValue;
+			    		if(histVal != hisVal) {
+			    			 $(obj).parent().parent().children(":last").prev().children(":last").val(hisId);
+			    		}else{
+			    			 $(obj).parent().parent().children(":last").prev().children(":last").val("");
+			    		} 
+				  	 }
+			  	  
+			  	 else 	if(tdVal2!="采购数量"&&tdVal2!="单价（元）"){
+			  		var histVal = $(obj).val();
+		            var  hisId=$(obj).prev().val();
+		    		var hisVal = obj.defaultValue;
+		    		if(histVal != hisVal) {
+		    			$(obj).next().val(hisId);
+		    		}else{
+		    			$(obj).next().val("");
+		    		} 
+			  	 } 
+		    		
 				}
 				
 				function typeChange(obj){
@@ -347,8 +383,11 @@
 												var index=tr.rowIndex; //获取第几行，然后给赋值
 												var td=o.parentNode.parentNode;
 												var tdIndex=td.cellIndex;
-												var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+												var tdVal1= $("#table tr").find("th:eq("+tdIndex+")").text()+"：";
 							      	  		 if(org!=defValue){
+							      	  			 
+							      	  		 var pid=$(this).parent().prev().val();
+					      	  	     		 $(this).parent().next().val(pid);
 							      	  		   if($.trim(defVal)==""||defVal=="undefined"){
 						      	  	     		   defVal="空值";
 						      	  	     		 }  
@@ -356,22 +395,24 @@
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+";";
+											  			var newVal=inpval+curval+"；";
 												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
 												  if(status=='5'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+";";
+											  			var newVal=inpval+curval+"；";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 												  	   }
 												 if(status=='7'){
 													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+";";
+											  			var newVal=inpval+curval+"；";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 												  	 }
 												 
+											}else{
+												$(this).parent().next().val("");
 											} 
 							      	  			  //  $(this).attr("selected", "selected");  
 							      	  		   }else{
@@ -463,35 +504,38 @@
 													var index=tr.rowIndex; //获取第几行，然后给赋值
 													var td=o.parentNode.parentNode;
 													var tdIndex=td.cellIndex;
-													var tdVal1= $("#dep_table tr:eq(1)").find("th:eq("+tdIndex+")").text();
+													var tdVal1= $("#table tr").find("th:eq("+tdIndex+")").text()+"：";
 						
 							      	  	     	 if(org!=defValue){
+							      	  	     		 var pid=$(this).parent().prev().val();
+							      	  	     		 $(this).parent().next().val(pid);
 							      	  	     	   if($.trim(defVal)==""||defVal=="undefined"){
 							      	  	     		   defVal="空值";
 							      	  	     		 }  
 												  if(status=='3'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+";";
+											  			var newVal=inpval+curval+"；";
 												       $("#audit_table tr:eq("+index+")").find("td:eq(0)").children(":first").val(newVal);
 												  }
 												  if(status=='5'){
 													  var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+";";
+											  			var newVal=inpval+curval+"；";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(1)").children(":first").val(newVal);
 												  	   }
 												 if(status=='7'){
 													   var inpval=$("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(); 
 											  			var curval=tdVal1+"由"+defVal+"变成"+val;
-											  			var newVal=inpval+curval+";";
+											  			var newVal=inpval+curval+"；";
 												  		 $("#audit_table tr:eq("+index+")").find("td:eq(2)").children(":first").val(newVal);
 												  	 }
 												 
+											}else{
+												$(this).parent().next().val("");
 											} 
-							      	  			   
-							      	  			   
 							      	  		   }else{
+							      	  			
 							      	  			$(this).removeAttr("selected");
 							      	  		   }
 								      	  	   });
@@ -613,10 +657,26 @@
 													</c:if>
 												</c:forEach> --%>
 											</td>
-											<td><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }" class="goodsname"></td>
-											<td><input onblur="change(this)"   type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }" class="stand"></td>
-											<td><input onblur="change(this)"   type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }" class="qualitstand"></td>
-											<td><input onblur="change(this)"   type="text" name="listDetail[${vs.index }].item" value="${obj.item }" class="item"></td>
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsName" value="${obj.goodsName }" class="goodsname">
+											<input type="hidden"    name="history" value=""/>
+											</td>
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"   type="text" name="listDetail[${vs.index }].stand" value="${obj.stand }" class="stand">
+											<input type="hidden"    name="history" value=""/>
+											</td>
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"   type="text" name="listDetail[${vs.index }].qualitStand" value="${obj.qualitStand }" class="qualitstand">
+											<input type="hidden"    name="history" value=""/>
+											</td>
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"   type="text" name="listDetail[${vs.index }].item" value="${obj.item }" class="item">
+											<input type="hidden"    name="history" value=""/>
+											</td>
 											<td>
 												<c:if test="${obj.purchaseCount!=null }">
 								  				<input type="hidden" name="ss" value="${obj.id }">
@@ -654,6 +714,7 @@
 														<option value="${mt.id }" <c:if test="${mt.id==obj.purchaseType }"> selected="selected"</c:if> >${mt.name}</option>
 													</c:forEach>
 												</select>
+											 <input type="hidden"    name="history" value=""/>
 												
 											<%-- </c:if>	 --%>
 											</td>
@@ -666,13 +727,28 @@
 														<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 													</c:forEach>
 												</select>
+											 <input type="hidden"    name="history" value=""/>
+												
 										<%--     </c:if> --%>
 											</td>
-											<td><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }" class="purchasename"></td>
-											<td><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }" class="freetax"></td>
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"  type="text" name="listDetail[${vs.index }].supplier" value="${obj.supplier }" class="purchasename">
+											 <input type="hidden"    name="history" value=""/>
+											</td>
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"  type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }" class="freetax">
+											 <input type="hidden"    name="history" value=""/>
+											</td>
 	<%-- 										<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
 											<td class="tl pl20"><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
-											<td><input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }" class="memo">
+											<td>
+											<input type="hidden" name="ss" value="${obj.id }">
+											<input onblur="change(this)"  type="text" name="listDetail[${vs.index }].memo" value="${obj.memo }" class="memo">
+											 <input type="hidden"    name="history" value=""/>
+											 <input type="hidden" class="count"   name="history" value=""/>
+											 <input type="hidden" class="price"   name="history" value=""/>
 											<td>
 												<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>
 												<input type="hidden" class="org" name="org" value="${obj.organization}"/>

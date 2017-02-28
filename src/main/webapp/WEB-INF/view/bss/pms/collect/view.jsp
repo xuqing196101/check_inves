@@ -130,6 +130,7 @@
  
  
 		 function org(obj){
+			 var defValue;
 			 var org=$(obj).val();
 			 var price=$(obj).parent().prev().prev().prev().prev().val();
 			 if(price==""){
@@ -156,10 +157,20 @@
 			      	 			 var td=$(this).find("td:eq(11)");
 			      	 			var options= $(td).find("option");
 				      	 		  $(options).each(function(){
+						      	 	 defValue=$(this).parent().parent().parent().children(":last").children(":last").val();
+
+						      	 		
 				      	  		   var opt=$(this).val();
 				      	  		   if(org==opt){
 				      	  			$(this).prop("selected",true);
-				      	  			  // $(this).attr("selected", "selected");  
+				      	  			  // $(this).attr("selected", "selected"); 
+				      	  			  
+						      	  		if(defValue==org){
+					      	  			    $(this).parent().next().val("");	
+					      	  			}else{
+					      	  			    var prevId=$(this).parent().prev().val();
+					      	  			    $(this).parent().next().val(prevId);	
+					      	  			}
 				      	  		   }else{
 				      	  			$(this).prop("selected",false);
 				      	  			//$(this).removeAttr("selected");
@@ -397,7 +408,7 @@
 			                           <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
 			                        </c:forEach>
 			                </select>
-			                <input type="hidden"  name="ss" value="${obj.parentId}">
+			              
 			              <%--   </c:if> --%>
 							</td>
 							<td class="tc p0">
@@ -409,7 +420,7 @@
 									<option value="${ss.orgId }" <c:if test="${ss.orgId==obj.organization }">selected="selected" </c:if> >${ss.name}</option>
 								</c:forEach>
 							</select>
-							<input type="hidden"  name="ss" value="${obj.parentId}">
+						 <input type="hidden"  name="history" value="">  
 						<%-- 	</c:if> --%>
 							</td>
 							
@@ -430,6 +441,8 @@
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
 											   </div> --%>	
+								<input type="hidden" name="s" value="${obj.organization}"/>
+											   
 							</td>
 							
 							

@@ -15,6 +15,16 @@
 	}
 	
 	function sum2(obj){  //数量
+		var val = $(obj).val();
+		var  pid=$(obj).prev().val();
+		var defVal = obj.defaultValue;
+		if(val != defVal) {
+			var td=$(obj).parent().parent().children(":last");
+			$(td).children(":last").prev().prev().prev().val(pid);
+		}else{
+			$(obj).parent().parent().children(":last").children(":last").prev().prev().prev().val("");
+		}
+		
         var purchaseCount = $(obj).val()-0;//数量
         var price2 = $(obj).parent().next().children(":last").prev();//价钱
         var price = $(price2).val()-0;
@@ -26,6 +36,17 @@
     } 
     
        function sum1(obj){
+    	   var val = $(obj).val();
+      		var  pid=$(obj).prev().val();
+      		var defVal = obj.defaultValue;
+      		if(val != defVal) {
+      			var td=$(obj).parent().parent().children(":last");
+      			$(td).children(":last").prev().prev().val(pid);
+      		}else{
+      			$(obj).parent().parent().children(":last").children(":last").prev().prev().val("");
+      		} 
+      		
+      		
         var purchaseCount = $(obj).val()-0; //价钱
          var price2 = $(obj).parent().prev().children(":last").prev().val()-0;//数量
       	 var sum = purchaseCount*price2/10000;
@@ -93,6 +114,7 @@
 	    			   $(this).attr("selected", "selected");  
 	    		   }
 	    	   }); */
+	    	   var defVal;
 	    		 var org=$(obj).val();
 	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
 	    		 if(price==""){
@@ -111,10 +133,22 @@
 	    		      	 			 var td=$(this).find("td:eq(10)");
 	    		      	 			var options= $(td).find("option");
 	    			      	 		  $(options).each(function(){
+	    			      	 			  
+	    			      	 			if (options[i].defaultSelected) {
+											defVal = options[i].value;
+										}
+	    			      	 			
+	    			      	 			
 	    			      	  		   var opt=$(this).val();
 	    			      	  		   if(org==opt){
 	    			      	  			$(this).prop("selected",true);
-	    			      	  			   
+	    			      	  		   if(defVal!=org){
+					      	  			    var eid=$(this).parent().prev().val();
+					      	  		        $(this).parent().parent().parent().children(":last").children(":last").prev().val(eid);
+							       		}else{
+							       			$(this).parent().parent().parent().children(":last").children(":last").prev().val("");
+							       		}
+	    			      	  		
 	    			      	  		   }else{
 	    			      	  			$(this).prop("selected",false);
 	    			      	  			  // $(this).removeAttr("selected");
@@ -150,6 +184,7 @@
 	    			   $(this).attr("selected", "selected");  
 	    		   }
 	    	   }); */
+	    	   var defVal;
 	    		 var org=$(obj).val();
 				 var price=$(obj).parent().prev().prev().prev().prev().val();
 				 if(price==""){
@@ -175,10 +210,22 @@
 				      	 		   if(v1==opt){
 				      	 			 var td=$(this).find("td:eq(11)");
 				      	 			var options= $(td).find("option");
-					      	 		  $(options).each(function(){
+					      	 		  $(options).each(function(i){
+					      	 			if (options[i].defaultSelected) {
+											defVal = options[i].value;
+										}
+					      	 			
 					      	  		   var opt=$(this).val();
 					      	  		   if(org==opt){
 					      	  			$(this).prop("selected",true);
+							      	  		if(defVal!=org){
+							      	  			var eid=$(this).parent().prev().val();
+							      	  		   $(this).parent().parent().parent().children(":last").children(":last").val(eid);
+								       		}else{
+								       			$(this).parent().parent().parent().children(":last").children(":last").val("");
+								       		}
+					      	  		
+					      	  		
 					      	  			  // $(this).attr("selected", "selected");  
 					      	  		   }else{
 					      	  			$(this).prop("selected",false);
@@ -195,6 +242,17 @@
 				 }
 	       }  
 	    
+	       function historys(obj){
+	        	var val = $(obj).val();
+	            var  id=$(obj).prev().val();
+	    		var defVal = obj.defaultValue;
+	    		if(val != defVal) {
+	    			$(obj).next().val(id);
+	    		}else{
+	    			$(obj).next().val("");
+	    		} 
+	        }
+	       
 	       
 /* 	       function FixTable(TableID, FixColumnNumber, width, height) {
 	    	    if ($("#" + TableID + "_tableLayout").length != 0) {
@@ -397,23 +455,29 @@
 							   <input type="hidden" name="listDetail[${vs.index }].id" value="${obj.id }">
 							 </td>
 							<td>
-							   <textarea readonly="readonly" class="department">${obj.department}</textarea>
-						<%-- 	    <c:forEach items="${requires }" var="re" >
-										  <c:if test="${obj.department==re.id }">  --%>
-<%-- 										    <input style="border: 0px;" readonly="readonly" type="text" name="list[${vs.index }].department" onblur="checks(this)" value="${re.name }">
- --%>					<%-- 					  </c:if>
-								  	</c:forEach> --%>
+							    ${obj.department} 
+					 
 							</td>
 							<td>
-							  <textarea name="listDetail[${vs.index }].goodsName" class="goodsname">${obj.goodsName }</textarea>
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							  <textarea name="listDetail[${vs.index }].goodsName" onblur="historys(this)" class="goodsname">${obj.goodsName }</textarea>
+							 <input type="hidden"  name="history" value="">
 							</td>
 							<td>
-							  <textarea readonly="readonly" name="listDetail[${vs.index }].stand" class="stand">${obj.stand }</textarea>
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							  <textarea readonly="readonly" name="listDetail[${vs.index }].stand" onblur="historys(this)" class="stand">${obj.stand }</textarea>
+						    <input type="hidden"  name="history" value="">
 							</td>
 							<td>
-							  <textarea name="listDetail[${vs.index }].qualitStand" class="qualitstand">${obj.qualitStand }</textarea>
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							  <textarea name="listDetail[${vs.index }].qualitStand" onblur="historys(this)" class="qualitstand">${obj.qualitStand }</textarea>
+							 <input type="hidden"  name="history" value="">
 							</td>
-							<td><input  type="text" class="item" name="listDetail[${vs.index }].item" value="${obj.item }"></td>
+							<td>
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							<input  type="text" class="item" name="listDetail[${vs.index }].item" onblur="historys(this)" value="${obj.item }">
+							 <input type="hidden"  name="history" value="">
+							</td>
 							<td>
 							  <c:if test="${obj.price!=null}">
 								<input   type="hidden" name="ss"   value="${obj.id }">
@@ -441,6 +505,7 @@
 								<input type="hidden" name="ss"  value="${obj.parentId }">
 							</td>
 							<td>
+							<input   type="hidden" name="ss"   value="${obj.id }">
 							    <textarea onblur="checks(this)" class="deliverdate" name="listDetail[${vs.index }].deliverDate">${obj.deliverDate }</textarea>
                             </td>
 							<td>
@@ -468,30 +533,26 @@
 								</select>
 							</td>
 							<td>
-							   <textarea class="purchasename" readonly="readonly" name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							   <textarea class="purchasename" onblur="historys(this)"  name="listDetail[${vs.index }].supplier">${obj.supplier }</textarea>
+							<input type="hidden"  name="history" value="">
 							</td>
 							<td class="">
-							  <input class="freetax" readonly="readonly" type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
+							<input   type="hidden" name="ss"   value="${obj.id }">
+							  <input class="freetax"  onblur="historys(this)"  type="text" name="listDetail[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
+							<input type="hidden"  name="history" value="">
 							</td>
 		<%-- 					<td class="tl"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].goodsUse" value="${obj.goodsUse }"></td>
 							<td class="tl"><input style="border: 0px;" readonly="readonly" type="text" name="listDetail[${vs.index }].useUnit" value="${obj.useUnit }"></td> --%>
 							<td>
+							<input   type="hidden" name="ss"   value="${obj.id }">
 							    <textarea class="memo" readonly="readonly" name="listDetail[${vs.index }].memo">${obj.memo }</textarea>
-					<%-- 			<input type="hidden" name="listDetail[${vs.index }].planName" value="${obj.planName }">
-								<input type="hidden" name="listDetail[${vs.index }].planNo" value="${obj.planNo }">
-								<input type="hidden" name="listDetail[${vs.index }].planType" value="${obj.planType }">
-								<input type="hidden" name="listDetail[${vs.index }].parentId" value="${obj.parentId }">
-								<input type="hidden" name="listDetail[${vs.index }].historyStatus" value="${obj.historyStatus }">
-								<input type="hidden" name="listDetail[${vs.index }].goodsType" value="${obj.goodsType }">
-								<input type="hidden" name="listDetail[${vs.index }].auditDate" value="${obj.auditDate }">
-								<input type="hidden" name="listDetail[${vs.index }].isMaster" value="${obj.isMaster }">
-								<input type="hidden" name="listDetail[${vs.index }].isDelete" value="${obj.isDelete }">
-								<input type="hidden" name="listDetail[${vs.index }].status" value="${obj.status }">
-								<input type="hidden" name="listDetail[${vs.index }].threePurchaseType" value="${obj.threePurchaseType }">
-								<input type="hidden" name="listDetail[${vs.index }].threeOrganiza" value="${obj.threeOrganiza }">
-								<input type="hidden" name="listDetail[${vs.index }].threeAdvice" value="${obj.threeAdvice }">
-								<input type="hidden" name="listDetail[${vs.index }].createAt" value="${obj.createdAt }">
-								<input type="hidden" name="listDetail[${vs.index }].isCollect" value="${obj.isCollect }"> --%>
+					 	     <input type="hidden"  name="history" value="">
+					 	     <input type="hidden"    name="history" value=""/>
+							<input type="hidden" class="count"   name="history" value=""/>
+							<input type="hidden" class="price"   name="history" value=""/>
+							<input type="hidden" class="purchaseType"   name="history" value=""/>
+							<input type="hidden" class="org"   name="history" value=""/>
 							</td>
 						</tr>
 						</c:forEach>

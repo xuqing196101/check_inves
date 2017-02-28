@@ -9,13 +9,13 @@
  
 	function sum2(obj){  //数量
 		var val = $(obj).val();
-		var  id=$(obj).prev().val();
+		var  pid=$(obj).prev().val();
 		var defVal = obj.defaultValue;
 		if(val != defVal) {
 			var td=$(obj).parent().parent().children(":last");
-			$(td).children(":last").prev().prev().val(id);
+			$(td).children(":last").prev().prev().prev().val(pid);
 		}else{
-			$(obj).parent().parent().children(":last").children(":last").prev().prev().val("");
+			$(obj).parent().parent().children(":last").children(":last").prev().prev().prev().val("");
 		} 
         var purchaseCount = $(obj).val()-0;//数量
         var price2 = $(obj).parent().next().children(":last").prev();//价钱
@@ -29,13 +29,13 @@
     
        function sum1(obj){
     	var val = $(obj).val();
-   		var  id=$(obj).prev().val();
+   		var  pid=$(obj).prev().val();
    		var defVal = obj.defaultValue;
    		if(val != defVal) {
    			var td=$(obj).parent().parent().children(":last");
-   			$(td).children(":last").prev().val(id);
+   			$(td).children(":last").prev().prev().val(pid);
    		}else{
-   			$(obj).parent().parent().children(":last").children(":last").prev().val("");
+   			$(obj).parent().parent().children(":last").children(":last").prev().prev().val("");
    		} 
    		
    		

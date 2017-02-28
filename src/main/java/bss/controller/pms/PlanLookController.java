@@ -36,6 +36,7 @@ import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -344,13 +345,23 @@ public class PlanLookController extends BaseController {
 	* @throws
 	 */
 	@RequestMapping("/auditlook")
-	public String auditlook(String id,Model model,HttpServletRequest request){
+	public String auditlook(@CurrentUser User users,String id,Model model,HttpServletRequest request){
 		List<DictionaryData> dic = dictionaryDataServiceI.findByKind("4");
 		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
 		  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
+			List<PurchaseOrg> manages = purchaseOrgnizationServiceI.get(users.getOrg().getId());
+			  List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
+			for(PurchaseOrg m:manages){
+				for(PurchaseDep pd:org){
+					if(m.getPurchaseDepId().equals(pd.getOrgId())){
+						orgs.add(pd);
+					}
+				}
+			}
+			
 //		List<String> no = collectPurchaseService.getNo(id);
 		
 //		List<String> depList = collectPurchaseService.queryDepartMent(no);
@@ -378,7 +389,7 @@ public class PlanLookController extends BaseController {
 		List<PurchaseDetail> list = purchaseDetailService.getUnique(id);
 		
 		model.addAttribute("list", list);
-		model.addAttribute("org",org);
+		model.addAttribute("org",orgs);
 		model.addAttribute("id", id);
 		
 		List<DictionaryData> mType = dictionaryDataServiceI.findByKind("5");

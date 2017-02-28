@@ -5,8 +5,10 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.ServletOutputStream;
@@ -43,8 +45,6 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
-import bss.model.pms.CollectPlan;
-import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseDetailService;
@@ -53,8 +53,8 @@ import bss.service.pms.PurchaseRequiredService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
+import common.service.UpdateHistoryService;
 
 /**
  * 
@@ -91,6 +91,12 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
 	private PurchaseManagementService purchaseManagementService;
+	
+	@Autowired
+	private PurchaseOrgnizationServiceI purchserOrgnaztionService;
+	
+	@Autowired
+	private UpdateHistoryService updateHistoryService;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -208,7 +214,7 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/update")
-    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status){
+    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history){
     	
     	String id="";
     	User user = (User) request.getSession().getAttribute("loginUser");
@@ -231,6 +237,20 @@ public class PurchaseAcceptController extends BaseController{
     			
     		}
     	}
+    	
+    	String[] ids = history.split(",");
+		Set<String> set=new HashSet<String>();
+		for(String i:ids){
+			if(i.trim().length()!=0){
+				set.add(i);
+			}
+		}
+		for(String str:set){
+			PurchaseRequired obj = purchaseRequiredService.queryById(str);
+			updateHistoryService.add(str, obj);//记录历史消息
+		}
+		
+		
     	//推送消息
     	if(reason!=null){
     		User  maker = userServiceI.getUserById(id);

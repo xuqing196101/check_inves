@@ -5,6 +5,17 @@
 	<head>
 <%@ include file="/WEB-INF/view/common.jsp" %>
 <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+
+   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/handsontable.min.js"></script>
+   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/moment.js"></script>
+   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/numbro.js"></script>
+   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/pikaday.js"></script>
+   <script type="text/javascript" src="${pageContext.request.contextPath}/public/lock_table/ZeroClipboard.js"></script>
+   
+   <link href="${pageContext.request.contextPath}/public/lock_table/handsontable.min.css" media="screen" rel="stylesheet" type="text/css">
+   <link href="${pageContext.request.contextPath}/public/lock_table/pikaday.css" media="screen" rel="stylesheet" type="text/css">
+
+
    <script type="text/javascript">
 	/** 全选全不选 */
 	function selectAll(){
@@ -174,6 +185,7 @@
 		        $(this).attr("selected", "selected");
 		      }
 		    }); */
+		    	var defValue;
 	    		 var org=$(obj).val();
 	    		 var price=$(obj).parent().prev().prev().prev().prev().val();
 	    		 if(price==""){
@@ -192,10 +204,19 @@
 	    		      	 			 var td=$(this).find("td:eq(10)");
 	    		      	 			var options= $(td).find("option");
 	    			      	 		  $(options).each(function(){
+						      	 		defValue=$(this).parent().parent().parent().children(":last").children(":last").val();
+					      	 		 
 	    			      	  		   var opt=$(this).val();
 	    			      	  		   if(org==opt){
 	    			      	  			$(this).prop("selected",true);
-	    			      	  			//   $(this).attr("selected", "selected");  
+	    			      	  			
+	    			      	  			if(defValue==org){
+	    			      	  			    $(this).parent().next().val("");	
+	    			      	  			}else{
+	    			      	  			    var prevId=$(this).parent().prev().val();
+	    			      	  			    $(this).parent().next().val(prevId);	
+	    			      	  			}
+	    			      	  		 
 	    			      	  		   }else{
 	    			      	  			  $(this).removeAttr("selected");
 	    			      	  		   }
@@ -420,7 +441,8 @@
                         <c:forEach items="${kind}" var="kind" >
                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
                         </c:forEach>
-                      </select> 
+                      </select>
+                      <input type="hidden"    name="history" value=""/> 
                   <%--    </c:if> --%>
                   </td>
                   <td>
@@ -436,42 +458,17 @@
                     <textarea name="list[${vs.index }].memo"  onblur="historys(this)" class="target purchasename">${obj.memo}</textarea>
                     <input type="hidden"    name="history" value=""/>
                   </div>
+                  </td>
                   <td>
                  <%--  ${obj.id} --%>
 							  <%--  <div class="extrafile">
 									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-							  </div>	 --%>										
+							  </div>	 --%>	
+						<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>									
 					 </td>
-                  <%--
-                     <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq }">
-                     <input type="hidden" name="list[${vs.index }].department" value="${obj.department }">
-                     <input type="hidden" name="list[${vs.index }].goodsName" value="${obj.goodsName }">
-                    <input type="hidden" name="list[${vs.index }].stand" value="${obj.stand }">
-                     <input type="hidden" name="list[${vs.index }].qualitStand" value="${obj.qualitStand }">
-                   <input type="hidden" name="list[${vs.index }].item" value="${obj.item }"> 
-                     <input type="hidden" name="list[${vs.index }].deliverDate" value="${obj.deliverDate }"> 
-                     <input type="hidden" name="list[${vs.index }].supplier" value="${obj.supplier }"> 
-                     <input type="hidden" name="list[${vs.index }].isFreeTax" value="${obj.isFreeTax }">
-                     <input type="hidden" name="list[${vs.index }].goodsUse" value="${obj.goodsUse }">
-                     <input type="hidden" name="list[${vs.index }].useUnit" value="${obj.useUnit }">
-                     <input type="hidden" name="list[${vs.index }].memo" value="${obj.memo }">--%>
-          <%--            <input type="hidden" name="list[${vs.index }].planName" value="${obj.planName }">
-                     <input type="hidden" name="list[${vs.index }].planNo" value="${obj.planNo }">
-                     <input type="hidden" name="list[${vs.index }].planType" value="${obj.planType }">
-                     <input type="hidden" name="list[${vs.index }].parentId" value="${obj.parentId }">
-                     <input type="hidden" name="list[${vs.index }].historyStatus" value="${obj.historyStatus }">
-                     <input type="hidden" name="list[${vs.index }].goodsType" value="${obj.goodsType }">
-                     <input type="hidden" name="list[${vs.index }].organization" value="${obj.organization }">
-                     <input type="hidden" name="list[${vs.index }].auditDate" value="${obj.auditDate }">
-                     <input type="hidden" name="list[${vs.index }].isMaster" value="${obj.isMaster }">
-                     <input type="hidden" name="list[${vs.index }].isDelete" value="${obj.isDelete }">
-                     <input type="hidden" name="list[${vs.index }].status" value="${obj.status }">
-                     <input type="hidden" name="list[${vs.index }].seq" value="${obj.seq}">
-                     <input type="hidden" name="list[${vs.index }].userId" value="${obj.userId}">
-                     <input type="hidden" name="list[${vs.index }].createdAt" value="${obj.createdAt}">
-                     <input type="hidden" name="list[${vs.index }].department" value="${obj.department}">  --%>
-                   </td>
+                 
+ 
              <!--       <td class="tc w100"><input type="text" value="暂存" readonly="readonly"></td> -->
                  </tr>
 
@@ -495,5 +492,125 @@
 		</div>
     </div>
 
+
 </body>
+<script type="text/javascript">
+/* 	window.onload = function () {
+    $.ajax({
+        url: "${pageContext.request.contextPath}/purchaser/getInfoByNo.html",
+        type: "post",
+        data: {
+            planNo: "${argument}",
+            type: "${org_advice}"
+        },
+        dataType: "json",
+        success: function (data) {
+            var kind = [], sources = [], kinds = data.kind;
+            kinds.forEach(function (item) {
+                kind.push(item.name);
+            });
+            var check = function (_kind, _purchaseType) {
+                var type = "";
+                _kind.forEach(function (item) {
+                    if (item.id == _purchaseType) {
+                        type = item.name;
+                        return;
+                    }
+                });
+                return type;
+            }
+            data.list.forEach(function (item) {
+                var source = {
+                    id:item.id,
+                    department: item.department,
+                    goodsName: item.goodsName,
+                    stand: item.stand,
+                    qualitstand: item.qualitStand,
+                    item: item.item,
+                    purchaseCount: item.purchaseCount,
+                    price: item.price,
+                    budget: item.budget,
+                    deliverDate: item.deliverDate,
+                    purchaseType: check(kinds, item.purchaseType),
+                    purchasename: item.supplier,
+                    isFreeTax: item.isFreeTax,
+                    memo: item.memo,
+                    extrafile: "<a href='http://www.amazon.com/Professional-JavaScript-Developers-Nicholas-Zakas/dp/1118026691'>点击查看附件</a>"
+                }
+                sources.push(source)
+            });
+            var args = {
+                id: "container",
+                data: sources,
+                colHeaders: ["需求部门", "物资类别及名称", "规格型号", "质量技术标准(技术参数)", "计量单位", "采购数量", "单价(元)", "预算金额(万元)", "交货日期", "采购方式", "供应商名称", "是否申请办理免税", "备注", "附件"],
+                columns: {
+                    source: kind
+                }
+            };
+            var table = showData(args);
+
+        },
+        error: function (data) {
+        }
+    });
+}
+var showData = function (options) {
+    options.config = {
+        data: options.data,
+        rowHeaders: true,
+        colHeaders: options.colHeaders,
+        colWidths: 120,
+        manualColumnMove: false,
+        manualRowMove: true,
+        minSpareRows: 1,
+        persistentState: true,
+        manualColumnResize: true,
+        manualRowResize: true,
+        fixedColumnsLeft: 1,
+        autoColumnSize: true,
+        contextMenu: false,
+        search: true,
+        columns: [
+            {data: 'department', type: "text"},
+            {data: 'goodsname', type: "text"},
+            {data: 'stand', type: "text"},
+            {data: 'qualitstand', type: "text"},
+            {data: 'item', type: "text"},
+            {data: 'purchasecount', type: "numeric", format: "0"},
+            {data: 'price', type: "numeric", format: "0.00"},
+            {data: 'budget', type: "numeric", format: "0,000.00"},
+            {data: 'deliverdate', type: "date", dateFormat: "YYYY-DD-MM", correctFormat: true},
+            {data: 'purchasetype', type: 'dropdown', source: options.columns.source},
+            {data: 'purchasename', type: "text"},
+            {data: 'freetax', type: "dropdown", source: ["是", "否"]},
+            {data: 'memo', type: "text"},
+            {data: 'extrafile', renderer: "html"}
+        ],
+        cells: function (row, col, prop) {
+            var cellProperties = {};
+            if (col === 0) {
+                cellProperties.readOnly = true;
+            }
+            return cellProperties;
+        },
+        afterChange: function (change, source) {
+            if (source === 'loadData') {
+                return;
+            }
+            options.data.forEach(function (item, index, array) {
+                if (index === change[0][0]) {
+                    item[change[0][1]] = change[0][3];
+                    array[index] = item;
+                    options.updata = array;  //TODO  更新数据
+                    return;
+                }
+            });
+
+        }
+    };
+    options.container = document.getElementById(options.id);
+    options.handsonTable = new Handsontable(options.container, options.config);
+    return options;
+} */
+</script>
 </html>
