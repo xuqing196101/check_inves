@@ -2,6 +2,7 @@ package bss.controller.ppms;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -86,7 +87,7 @@ public class AuditBiddingController extends BaseController {
   public String list(@CurrentUser User user,Integer page,Model model,Project project){
     //采购机构信息
     PurchaseDep purchaseDep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
-    project.setStatusArray(new String[]{DictionaryDataUtil.getId("ZBWJYTJ"),DictionaryDataUtil.getId("NZPFBZ"),DictionaryDataUtil.getId("ZBWJYTG")});
+    project.setStatusArray(new String[]{DictionaryDataUtil.getId("ZBWJYTJ"),DictionaryDataUtil.getId("NZPFBZ"),DictionaryDataUtil.getId("ZBWJYTG"),DictionaryDataUtil.getId("ZBWJXGBB")});
     //拿到当前的采购机构获取到组织机构
     List<PurchaseOrg> listOrg = purchaseOrgnizationService.getOrg(purchaseDep.getOrgId());
     String org = "";
@@ -139,10 +140,27 @@ public class AuditBiddingController extends BaseController {
     Project selectById = projectService.selectById(projectId);
     //修改代办为已办
     todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
+    
+  //修改报备 状态
+    if("4".equals(status)){
+    	project.setStatus(DictionaryDataUtil.getId("ZBWJXGBB"));
+    	project.setConfirmFile(4);
+    	project.setReplyTime(new Date());
+    	 //推送待办
+        Todos todos = new Todos();
+        todos.setName(selectById.getName() + "招标文件修改报备");
+        todos.setSenderId(user.getId());
+        todos.setReceiverId(selectById.getPrincipal());
+        todos.setUndoType((short)3);
+        todos.setPowerId(PropUtil.getProperty("zbwjsh"));
+        todos.setUrl("open_bidding/bidFile.html?id=" + projectId + "&process=1");
+        todosService.insert(todos);
+    }
     //通过 修改状态为一下状态
     if ("3".equals(status)) {
       project.setStatus(DictionaryDataUtil.getId("ZBWJYTG"));
       project.setConfirmFile(3);
+      project.setReplyTime(new Date());
       //推送待办
       Todos todos = new Todos();
       todos.setName(selectById.getName() + "招标文件审核通过");
@@ -158,6 +176,7 @@ public class AuditBiddingController extends BaseController {
     if ("2".equals(status)) {
       project.setStatus(DictionaryDataUtil.getId("NZPFBZ"));
       project.setConfirmFile(2);
+      project.setReplyTime(new Date());
       //推送待办
       Todos todos = new Todos();
       todos.setName(selectById.getName() + "招标文件审核退回");
