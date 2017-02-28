@@ -6,9 +6,12 @@
 <head>
     <%@ include file="/reg_head.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
     <title>评审专家注册</title>
+    <!-- 
     <script src="${pageContext.request.contextPath}/js/ems/expert/validate_expert_basic_info.js"></script>
     <script src="${pageContext.request.contextPath}/js/ems/expert/validate_regester.js"></script>
+     -->
     <%
         //表单标示
         String tokenValue= new Date().getTime()+UUID.randomUUID().toString()+"";
@@ -16,6 +19,10 @@
 
     %>
     <script type="text/javascript">
+	    $().ready(function() {
+			$("#formExpert").validForm();
+		});
+    
         function func123() {
             var parentId = $("#addr").val();
             $.ajax({
@@ -959,11 +966,15 @@
                         <span class="input-tip">手机号码暂不支持修改</span>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 固定电话</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 固定电话11</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="15" value="${expert.telephone}" name="telephone" id="telephone" type="text" <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('固定电话')"</c:if>/>
+                        <input maxlength="15" value="${expert.telephone}" name="telephone" required isTel="true" id="telephone" type="text" <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('固定电话')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">如: XXX - XXXXXXX</span>
+                        <div class="cue"> ${err_catMobile } </div>
+						<div class="cue">
+							<sf:errors path="contactMobile" />
+						</div>
                     </div>
                 </li>
 
