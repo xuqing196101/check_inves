@@ -98,10 +98,12 @@
 		if(!checkboxStatus) {
 			layer.alert("请选择要添加对应的明细");
 		} else if(checkboxStatus) {
-			appendObj
-				.parent()
-				.parent()
-				.after('<tr><td><input type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount" type="text"></td><td><input name="unitPrice" type="text"></td></tr>');
+			if(appendObj.parent().parent().parent().find("tr").size() <= 2) {
+				appendObj.parent().parent().after('<tr class="tc"><td><input style="display:none;" type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount" type="text"></td><td><input name="unitPrice" type="text"></td></tr>');
+			} else {
+				layer.alert("只能新增一条");
+			}
+			
 		}
 	}
 
@@ -189,6 +191,30 @@
 						value="${detail.item}"></td>
 					<td><input type="text" name="price" value="${detail.price }"></td>
 				</tr>
+				
+				<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
+					<tr class="tc ">
+						<td>${s.index + 1 }
+						</td>
+						<td title="${subject.goodsName }">
+						<input type="text" value="${subject.goodsName }"/>
+						</td>
+						<td>${subject.stand }
+						</td>
+						<td>${subject.qualitStand }
+						</td>
+						<td>${subject.item }
+						</td>
+						<td>${subject.purchaseCount }
+						</td>
+						<td>${subject.unitPrice }
+						</td>
+						<!-- 
+						<td>${subject.goodsName }
+						</td>
+						 -->
+					</tr>
+				</c:forEach>
 			</c:forEach>
 		</table>
 	</div>

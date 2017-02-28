@@ -341,7 +341,7 @@ public class AuditSetController {
 //			 num = auditPersonService.findUserByCondition(map);
 //		 }
 		 if(num==1){
-			 return "1";
+			 return "error";
 		}else{
 			auditPerson.setName(expert.getRelName());
 			auditPerson.setMobile(expert.getMobile());

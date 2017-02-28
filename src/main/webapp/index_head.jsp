@@ -29,10 +29,10 @@ $(function(){
 			    dataType: "json",
 			    success: function(data) {
 			    	if(data!=null&&data.status==200){
-			    	   $("#welcome").html(data.msg+"你好，欢迎来到军队采购网！");
+			    	   $("#welcome_words").html(data.msg+"你好，欢迎来到军队采购网！");
 			    	   $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>|<a id=\"my\" onclick=\"myInfo()\">我的信息</a><a href=\"${pageContext.request.contextPath}/login/loginOut.html\" id=\"exit\">&nbsp;|&nbsp;退出</a>")
 			    	}else{
-			    	    $("#welcome").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
+			    	    $("#welcome_words").html("你好，欢迎来到军队采购网！<a href=\"${pageContext.request.contextPath}/index/sign.html\" class=\"red\" id=\"red\">【请登录】</a>");
 			    	    $("#properties").html("<a class=\"web_number\">网站编号：${properties['website.no']} &nbsp;</a>");
 			    	}
 			    }
@@ -41,7 +41,7 @@ $(function(){
 	
 	
 	if(user!=null && user!=''){
-		$("#welcome").html(user+"你好，欢迎来到军队采购网！");
+		$("#welcome_words").html(user+"你好，欢迎来到军队采购网！");
 	}else {
 	    $("#exit").remove();
 	    
@@ -79,8 +79,11 @@ function importAdd(){
    <div class="container p0">
    
     <div class="row">
-    <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">你好，欢迎来到军队采购网！
-      <a href="${pageContext.request.contextPath}/index/sign.html" class="red" id="red">【请登录】</a>
+    <div class="col-md-5 col-sm-5 pl5 pr5 fl" id="welcome">
+    	<span id="welcome_words">
+    	      你好，欢迎来到军队采购网!
+	      <a href="${pageContext.request.contextPath}/index/sign.html" class="red" id="red">【请登录】</a>
+    	</span>
        <% if (environment != null && environment.equals("1")){ %>
          <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
            <a href="http://21.100.16.14" class="red">【旧系统登录】</a> 

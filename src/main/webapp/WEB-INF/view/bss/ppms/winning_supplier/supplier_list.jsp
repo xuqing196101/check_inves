@@ -178,9 +178,7 @@
 			} else {
 				$("#" + checklist[j].value).find("#singQuote").text("");
 				$("#" + checklist[j].value).find("#singQuotehhide").val("");
-
 			}
-
 		}
 
 		var lengths = $("input[name='chkItem']:checked").length;
@@ -206,62 +204,49 @@
 			//第一名的报价金额
 			var onePrice = [];
 			//算出实际成交金额
-			$('input[name="chkItem"]:checked').each(
-					function() {
-						$("#" + $(this).val()).find("#priceRatio").text(ratio[i]);
-						//                var totalprice = $("#"+id[0]).find("#totalPrice").text();
-						var price = 0;
+			$('input[name="chkItem"]:checked').each(function() {
+				$("#" + $(this).val()).find("#priceRatio").text(ratio[i]);
+				//                var totalprice = $("#"+id[0]).find("#totalPrice").text();
+				var price = 0;
 
-						var id = $(this).val();
-						var j = 0;
-						$('input[name="associate' + id + '"]:checked').each(
-								function() {
-									//报价id
-									var quote = $("#" + id + $(this).val())
-											.find("#Quotedamount").text();
-									var count = $("#" + id + $(this).val())
-											.find("#purchaseCount").text();
+				var id = $(this).val();
+				var j = 0;
+				$('input[name="associate' + id + '"]:checked').each(
+						function() {
+							//报价id
+							var quote = $("#" + id + $(this).val()).find("#Quotedamount").text();
+							var count = $("#" + id + $(this).val()).find("#purchaseCount").text();
+							//第一名赋值报价
+							if (onePrice[j] == null
+									|| onePrice[j] == '') {
+								onePrice[j] = quote;
+								//                   alert(onePrice[i]);
+							} else {
 
-									//                  alert(onePrice[length-1]);
-									//                  alert(quote);
-									//                  alert(onePrice);
-									//第一名赋值报价
-									if (onePrice[j] == null
-											|| onePrice[j] == '') {
-										onePrice[j] = quote;
-										//                   alert(onePrice[i]);
-									} else {
+								if (quote >= onePrice[j]) {
+									quote = onePrice[j];
+								}
 
-										if (quote >= onePrice[j]) {
-											quote = onePrice[j];
-										}
+							}
+							price = parseFloat(price)
+									+ toDecimal((ratio[i] / 100)
+											* count * quote);
+							j++;
 
-									}
-									price = parseFloat(price)
-											+ toDecimal((ratio[i] / 100)
-													* count * quote);
+						});
+				if (price == 0) {
+					price = "";
+				}
+				var quote = "${quote}";
+				if (quote == 0) {
+					$("#" + $(this).val()).find("#singQuote").val(price);
+				} else {
+					$("#" + $(this).val()).find("#singQuote").text(price);
+					$("#" + $(this).val()).find("#singQuotehhide").val(price);
+				}
 
-									//                  alert(quote);     
-									//                  alert(count);
-									j++;
-
-								});
-						if (price == 0) {
-							price = "";
-						}
-						var quote = "${quote}";
-						if (quote == 0) {
-							$("#" + $(this).val()).find("#singQuote")
-									.val(price);
-						} else {
-							$("#" + $(this).val()).find("#singQuote").text(
-									price);
-							$("#" + $(this).val()).find("#singQuotehhide").val(
-									price);
-						}
-
-						i++;
-					});
+				i++;
+			});
 
 		}
 	}
@@ -474,14 +459,14 @@
 		var isContinue = 1;
 		var tempNum = 1 + parseInt(changeStatusNum);
 		
-		$(".forChangeRatio").each(function(index) {
+		$("input[class^='forChangeRatio']").each(function(index) {
 			var tempStr = "changed" + tempNum;
 			if($(this).attr("title") == tempStr) {
 				isContinue = 0;
 			}
 			
 		});
-		if($(".forChangeRatio").size() == (tempNum - 1)) {
+		if($("input[class^='forChangeRatio']").size() == (tempNum - 1)) {
 			isContinue = 0;
 		}
 		if(isContinue == 0) {
@@ -500,10 +485,51 @@
 			}
 		}
 	}
-	
+	var tempTextValue = 0;
 	//占比改变调用
 	function priceRatioConfirm(obj) {
-		alert("值改了");
+		var $obj = $(obj);
+		var objVal = $obj.val();
+		var objTitleValue = $obj.attr("title");
+		var currentStatus = 0;
+		for(var i = 0;i < objTitleValue.length;i++) {
+			if(objTitleValue.charAt(i) > 0 && objTitleValue.charAt(i) < 10) {
+				currentStatus = parseInt(objTitleValue.substr(i,objTitleValue.length));
+				//changeStatusJudge = changeStatus.substr(0,i);
+				break;
+			}
+		}
+		
+		if(objVal > 0 && objVal <= tempTextValue) {
+			var diffCount = parseInt(tempTextValue) - parseInt(objVal);
+			$("input[class^='forChangeRatio']").each(function() {
+				var tempStr = $(this).attr("title");
+				var tempStatus = 0;
+				for(var i = 0;i < tempStr.length;i++) {
+					if(tempStr.charAt(i) > 0 && tempStr.charAt(i) < 10) {
+						tempStatus = parseInt(tempStr.substr(i,tempStr.length));
+						//changeStatusJudge = changeStatus.substr(0,i);
+						break;
+					}
+				}
+				if(currentStatus == 1) {
+					if(tempStatus == (currentStatus + 1)) {
+						$(this).val(parseInt($(this).val()) + diffCount);
+					}
+				} else if(currentStatus > 1) {
+					if(tempStatus == (currentStatus - 1)) {
+						$(this).val(parseInt($(this).val()) + diffCount);
+					}
+				}
+			});
+		} else {
+			layer.alert("请输入小于当前数的值");
+			$obj.val(tempTextValue);
+		}
+	}
+	
+	function priceRatioFocus(obj) {
+		tempTextValue = $(obj).val();
 	}
 
 	//录入表的
@@ -588,6 +614,61 @@
 			}
 		});
 	}
+	
+	//去掉str前后空格、空白
+	function trim(str){  
+		return str.replace(/^(\s|\u00A0)+/,'').replace(/(\s|\u00A0)+$/,'');  
+	}
+
+	function ratioPrice() {
+		//单价unitPrice
+		$("[class^='forChangeRatio']").each(function() {
+			var unitPrice = 0;//单价
+			var purchaseCount = 0;//采购数量
+			var ratioVal = trim($(this).val());//占比
+			
+			var unitPriceStrClass = $(this).attr("class");
+			var calculateStatus = 0;
+			for(var i = 0;i < unitPriceStrClass.length;i++) {
+				if(unitPriceStrClass.charAt(i) > 0 && unitPriceStrClass.charAt(i) < 10) {
+					calculateStatus = parseInt(unitPriceStrClass.substr(i,unitPriceStrClass.length));
+					break;
+				}
+			}
+			
+			$("[class^='unitPrice']").each(function() {
+				var currentStatus = 0;
+				var currentStr = $(this).attr("class");
+				for(var i = 0;i < currentStr.length;i++) {
+					if(currentStr.charAt(i) > 0 && currentStr.charAt(i) < 10) {
+						currentStatus = parseInt(currentStr.substr(i,currentStr.length));
+						break;
+					}
+				}
+				if(currentStatus == calculateStatus) {
+					unitPrice = trim($(this).text());
+				}
+			});
+			
+			$("[class^='purchaseCount']").each(function() {
+				var currentStatus = 0;
+				var currentStr = $(this).attr("class");
+				for(var i = 0;i < currentStr.length;i++) {
+					if(currentStr.charAt(i) > 0 && currentStr.charAt(i) < 10) {
+						currentStatus = parseInt(currentStr.substr(i,currentStr.length));
+						break;
+					}
+				}
+				if(currentStatus == calculateStatus) {
+					purchaseCount = trim($(this).text());
+				}
+			});
+			var calResult = parseInt(purchaseCount) * parseInt(unitPrice) * (parseInt(ratioVal)/100);
+			
+			$(this).parent().next().text(calResult);
+		});
+		
+	}
 </script>
 
 <body>
@@ -662,20 +743,20 @@
 							<td class="tc opinter">已中标</td>
 						</c:if>
 					</c:if>
-					<td class="tc opinter" title="laskdf" id="priceRatio" ondblclick="changePriceRatio(this)">
-						<input type="text" class="forChangeRatio" onchange="priceRatioConfirm(this)" title="unchanged${(vs.index+1) }" style="width: 32px;height: 26px;text-align: center;border: none;margin-top: 8px;" readonly="readonly" value="${checkpass.priceRatio}"/>
+					<td class="tc opinter" title="双击单元格 修改占比" id="priceRatio" ondblclick="changePriceRatio(this)">
+						<input type="text" class="forChangeRatio${(vs.index+1)}" onfocus="priceRatioFocus(this)" onchange="priceRatioConfirm(this)" title="unchanged${(vs.index+1) }" style="width: 32px;height: 26px;text-align: center;border: none;margin-top: 8px;" readonly="readonly" value="${checkpass.priceRatio}"/>
 					</td>
 					<c:if test="${quote==0 }">
 						<td class="tc opinter"><input type="text" name="singQuote"
-							id="singQuote" value="${checkpass.wonPrice }" /></td>
+							id="singQuote" class="singQuote${(vs.index+1)}" value="${checkpass.wonPrice }" /></td>
 					</c:if>
 					<c:if test="${quote==1 }">
 						<td class="tc opinter" id="singQuote">${checkpass.wonPrice }
-							<input type="hidden" name="singQuote" id="singQuotehhide">
+							<input type="hidden" class="singQuote${(vs.index+1)}" name="singQuote" id="singQuotehhide">
 						</td>
 					</c:if>
 
-					<td class="tc opinter"><button class="btn btn-windows back"
+					<td class="tc opinter"><button class="btn btn-windows add"
 							onclick="InputBD();" type="button">录入标的</button></td>
 				</tr>
 				<tr class="tc hide">
@@ -697,6 +778,7 @@
 								</c:if> -->
 							</tr>
 							<c:forEach items="${detailList }" var="detail" varStatus="p">
+								<!--
 								<tr name="detail${checkpass.id}"
 									id="${checkpass.id}${detail.id}" class="tc hide">
 									<td class="hide"><input type="checkbox"
@@ -734,7 +816,7 @@
 									<%-- 	                    </c:if> --%>
 									<td id="purchaseCount">${detail.purchaseCount}</td>
 									<td>${detail.price }</td>
-									<!-- 
+									 
 									<c:if test="${quote == 1 }">
 										<td id="Quotedamount"><c:forEach var="listQuote"
 												items="${checkpass.supplier.listQuote }">
@@ -742,11 +824,11 @@
 	                         ${listQuote.quotePrice} 
 	                       </c:if>
 											</c:forEach></td>
-									</c:if> -->
-								</tr>
+									</c:if> 
+								</tr>-->
 								<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
 								<tr class="tc ">
-									<td>${detail.serialNumber}-${s.index + 1 }
+									<td>${s.index + 1 }
 									</td>
 									<td>${subject.goodsName }
 									</td>
@@ -756,9 +838,9 @@
 									</td>
 									<td>${subject.item }
 									</td>
-									<td>${subject.purchaseCount }
+									<td class="purchaseCount${(vs.index+1)}">${subject.purchaseCount }
 									</td>
-									<td>${subject.unitPrice }
+									<td class="unitPrice${(vs.index+1)}">${subject.unitPrice }
 									</td>
 									<!-- 
 									<td>${subject.goodsName }
@@ -775,6 +857,9 @@
 
 		</table>
 		<div class="col-md-12 tc">
+			<button class="btn btn-windows add" onclick="ratioPrice()"
+				type="button">生成总价</button>
+			
 			<button class="btn btn-windows back" onclick="history.go(-1)"
 				type="button">返回</button>
 		</div>

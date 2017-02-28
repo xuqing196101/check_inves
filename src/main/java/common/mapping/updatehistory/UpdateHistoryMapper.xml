@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="common.dao.UpdateHistoryMapper">
+  <resultMap id="BaseResultMap" type="common.model.UpdateHistory">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="UPDATE_ID" jdbcType="VARCHAR" property="updateId" />
+    <result column="CREATE_AT" jdbcType="DATE" property="createAt" />
+    <result column="TIMES" jdbcType="DECIMAL" property="times" />
+    <result column="OBJECT" jdbcType="CLOB" property="object" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, UPDATE_ID, CREATE_AT, TIMES,OBJECT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    
+    <include refid="Base_Column_List" />
+    from T_UPDATE_HISTORY_LOG
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_UPDATE_HISTORY_LOG
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="common.model.UpdateHistory">
+    insert into T_UPDATE_HISTORY_LOG (ID, UPDATE_ID, CREATE_AT, 
+      TIMES, OBJECT)
+    values (#{id,jdbcType=VARCHAR}, #{updateId,jdbcType=VARCHAR}, #{createAt,jdbcType=DATE}, 
+      #{times,jdbcType=DECIMAL}, #{object,jdbcType=CLOB})
+  </insert>
+  <insert id="insertSelective" parameterType="common.model.UpdateHistory">
+    insert into T_UPDATE_HISTORY_LOG
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="updateId != null">
+        UPDATE_ID,
+      </if>
+      <if test="createAt != null">
+        CREATE_AT,
+      </if>
+      <if test="times != null">
+        TIMES,
+      </if>
+      <if test="object != null">
+        OBJECT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="updateId != null">
+        #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        #{createAt,jdbcType=DATE},
+      </if>
+      <if test="times != null">
+        #{times,jdbcType=DECIMAL},
+      </if>
+      <if test="object != null">
+        #{object,jdbcType=CLOB},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="common.model.UpdateHistory">
+    update T_UPDATE_HISTORY_LOG
+    <set>
+      <if test="updateId != null">
+        UPDATE_ID = #{updateId,jdbcType=VARCHAR},
+      </if>
+      <if test="createAt != null">
+        CREATE_AT = #{createAt,jdbcType=DATE},
+      </if>
+      <if test="times != null">
+        TIMES = #{times,jdbcType=DECIMAL},
+      </if>
+      <if test="object != null">
+        OBJECT = #{object,jdbcType=CLOB},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="common.model.UpdateHistory">
+    update T_UPDATE_HISTORY_LOG
+    set UPDATE_ID = #{updateId,jdbcType=VARCHAR},
+      CREATE_AT = #{createAt,jdbcType=DATE},
+      TIMES = #{times,jdbcType=DECIMAL},
+      OBJECT = #{object,jdbcType=CLOB}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+   
+   
+  <select id="queryByUpdateId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+      <include refid="Base_Column_List" />
+	    from T_UPDATE_HISTORY_LOG
+	    where UPDATE_ID = #{updateId}
+  </select>
+  
+  
+   <select id="getLast" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+      <include refid="Base_Column_List" />
+	    from T_UPDATE_HISTORY_LOG
+	    where UPDATE_ID = #{updateId} and  
+			TIMES= (select MAX (TIMES) FROM
+				T_UPDATE_HISTORY_LOG
+			WHERE 	UPDATE_ID = #{updateId})
+  </select>
+  
+   <select id="getMax" parameterType="java.lang.String" resultType="int">
+    select 
+      max(TIMES)
+	    from T_UPDATE_HISTORY_LOG
+	    where UPDATE_ID = #{updateId} 
+  </select>
+  
+</mapper>

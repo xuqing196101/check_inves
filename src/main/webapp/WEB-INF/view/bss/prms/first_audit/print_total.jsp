@@ -18,11 +18,15 @@
 
   </head>
   <script type="text/javascript">
+  function printResult(projectId,packageId){
+  	   window.location.href="${pageContext.request.contextPath}/packageExpert/printTotalWord.html?projectId="+projectId+"&packageId="+packageId;
+
+  }
   </script>
   <body>
   	<div class="container">
     	<div class="mt5 mb5 fr">
-		    <button class="btn" onclick="window.print();" type="button">打印汇总表</button>
+		    <button class="btn" onclick="printResult('${project.id}','${pack.id}');" type="button">打印汇总表</button>
 	   	</div>
 	   	<div class="headline-v2">
 	   		<h2>资格性符合性检查汇总数据</h2>

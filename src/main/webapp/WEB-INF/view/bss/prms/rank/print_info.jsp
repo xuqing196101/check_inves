@@ -14,6 +14,10 @@
 <jsp:include page="../../../ses/bms/page_style/backend_common.jsp"></jsp:include>
 <jsp:include page="../../../common.jsp"></jsp:include>
   <script type="text/javascript">
+  function printResult(packages){
+ 	   window.location.href="${pageContext.request.contextPath}/packageExpert/printRankWord.html?packages="+packages;
+
+ }
   </script>
 </head>
   <body>
@@ -22,7 +26,7 @@
     <h2>${pack.name}</h2>
   </div>
   <div align="right">
-	<button class="btn" onclick="window.print();" type="button">打印</button>
+	<button class="btn" onclick="printResult('${packages}');" type="button">打印</button>
   </div>
   <!-- 表格开始-->
   <div class="mt10">

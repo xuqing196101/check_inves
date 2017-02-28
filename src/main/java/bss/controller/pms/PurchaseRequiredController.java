@@ -2,15 +2,17 @@ package bss.controller.pms;
 
 import java.io.File;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -19,8 +21,18 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONArray;
+
 import org.apache.commons.io.FileUtils;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFCellStyle;
+import org.apache.poi.hssf.usermodel.HSSFDataFormat;
+import org.apache.poi.hssf.usermodel.HSSFFont;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
 import org.springframework.context.annotation.Scope;
@@ -46,7 +58,6 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
 import ses.model.oms.util.CommonConstant;
-import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -55,21 +66,20 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
 import bss.controller.base.BaseController;
-import bss.formbean.PlanFormBean;
 import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
-import bss.util.Excel;
 import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
+import common.annotation.SystemControllerLog;
 import common.constant.StaticVariables;
+import common.service.UpdateHistoryService;
 /**
  * 
  * @Title: PurcharseRequiredController
@@ -109,6 +119,9 @@ public class PurchaseRequiredController extends BaseController{
 	
 	@Autowired
 	private PurchaseManagementService purchaseManagementService;
+	
+	@Autowired
+	private UpdateHistoryService updateHistoryService;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -124,7 +137,8 @@ public class PurchaseRequiredController extends BaseController{
 		purchaseRequired.setIsMaster(1);
 		
 		if(purchaseRequired.getStatus()==null){
-			purchaseRequired.setStatus("1");
+//			purchaseRequired.setStatus("1");
+			purchaseRequired.setStatus("total");
 		}
 		
 		else if(purchaseRequired.getStatus().equals("5")){
@@ -191,7 +205,7 @@ public class PurchaseRequiredController extends BaseController{
 		model.addAttribute("fileId", fileId);
 		
 		model.addAttribute("org_advice", type);
-		if(type.equals("1")){
+		if(type.equals("1")||type.equals("2")){
 			return "bss/pms/purchaserequird/view";
 		}else{
 			return "bss/pms/purchaserequird/edit";
@@ -209,9 +223,9 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/update")
-	public String updateById(PurchaseRequiredFormBean list,String planName,String planNo,String referenceNo,String planType,String mobile){
+	public String updateById(PurchaseRequiredFormBean list,String planName,String planNo,String referenceNo,String planType,String mobile,String history){
 //		Map<String,Object> map=new HashMap<String,Object>();
-		if(list!=null){
+		if(list!=null){ 
 			if(list.getList()!=null&&list.getList().size()>0){
 				for( PurchaseRequired p:list.getList()){
 					if( p.getId()!=null){
@@ -238,6 +252,18 @@ public class PurchaseRequiredController extends BaseController{
 					
 				}
 			}
+		}
+		
+		String[] ids = history.split(",");
+		Set<String> set=new HashSet<String>();
+		for(String i:ids){
+			if(i.trim().length()!=0){
+				set.add(i);
+			}
+		}
+		for(String str:set){
+			PurchaseRequired obj = purchaseRequiredService.queryById(str);
+			updateHistoryService.add(str, obj);
 		}
 //		purchaseRequiredService.update(purchaseRequired);
 		return "redirect:list.html";
@@ -450,10 +476,14 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
-	public String addReq(PurchaseRequiredFormBean list,PlanFormBean planFormBean,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId) throws IOException{
+	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId,String prList) throws IOException{
+		
+		List<PurchaseRequired> plist = get(prList);
+		 
+		 
+		
 		User user = (User) request.getSession().getAttribute("loginUser");
-		List<PurchaseRequired> plist = list.getList();
-		// List<String> parentId = new ArrayList<>();
+//		List<PurchaseRequired> plist = list.getList();
 		
 		String id = UUID.randomUUID().toString().replaceAll("-", "");
         String pid = UUID.randomUUID().toString().replaceAll("-", "");
@@ -572,6 +602,7 @@ public class PurchaseRequiredController extends BaseController{
 	
 	
 	/**
+	 * @throws Exception 
 	 * 
 	* @Title: excel
 	* @Description: 根据计划编号导出excel表格 
@@ -583,45 +614,178 @@ public class PurchaseRequiredController extends BaseController{
 	 */
 	@RequestMapping("/exports")
 	@ResponseBody
-	public String excel(HttpServletResponse resp,String planNo){
+	public String excel(HttpServletResponse response,String planNo) throws Exception{
 		
-		String headers[]={"序号","需求部门","物资类别及品种名称","规格型号","质量技术标准（技术参数）", "计量单位","采购数量","单位（元）","预算金额（万元）","交货期限","采购方式建议","供应商名称","是否申请办理免税","物资用途（进口）","使用单位（进口）","备注"};
-		String attrs[]={"seq","department","goodsName","stand","qualitStand","item","purchaseCount","price","budget","deliverDate","purchaseType","supplier","isFreeTax","goodsUse","useUnit","memo"};
-	
-		String filedisplay = "明细.xls";
-		
-		try {
-			resp.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
-		} catch (UnsupportedEncodingException e1) {
+		 List<PurchaseRequired> list = purchaseRequiredService.getUnique(planNo);
 		 
-		}
-		PurchaseRequired p=new PurchaseRequired();
-		p.setUniqueId(planNo.trim());
-		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
-		for(PurchaseRequired pr:list){
-			if(pr.getPurchaseType()!=null){
-				DictionaryData data = DictionaryDataUtil.findById(pr.getPurchaseType());
-				pr.setPurchaseType(data.getName());	
-			}
 			
-		}
-		
-		HSSFWorkbook workbook = new HSSFWorkbook();
-		Excel<PurchaseRequired> sheet = new Excel<PurchaseRequired>();
-		ServletOutputStream fileOut=null;
-		try{
-			filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
-			sheet.creatAuditSheet(workbook, "ErrInfoChannel sheet", list, headers, attrs);
-			fileOut=resp.getOutputStream();
-	        workbook.write(fileOut);
-		}catch(Exception e){	
-		}
-        try {
-			fileOut.close();
-		} catch (IOException e) {e.printStackTrace();
-		}
+			String filedisplay = "明细.xls";
+			response.addHeader("Content-Disposition", "attachment;filename="  + new String(filedisplay.getBytes("gb2312"), "iso8859-1"));
+			HSSFWorkbook workbook = new HSSFWorkbook();
+		     HSSFSheet sheet = workbook.createSheet("1"); 
+		     HSSFCellStyle style = workbook.createCellStyle();
+			 style.setBorderBottom(HSSFCellStyle.BORDER_HAIR);
+			 style.setBorderLeft(HSSFCellStyle.BORDER_HAIR);
+			 style.setBorderTop(HSSFCellStyle.BORDER_HAIR);
+			 style.setBorderRight(HSSFCellStyle.BORDER_HAIR);
+			 style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		     style.setDataFormat(HSSFDataFormat.getBuiltinFormat("0.00"));
+		   
+		     
+		     
+		     sheet.setColumnWidth(0, 2000); 
+		     sheet.setColumnWidth(1, 3000); 
+		     sheet.setColumnWidth(2, 3000);
+		     sheet.setColumnWidth(3, 3000);
+		     sheet.setColumnWidth(4, 3200);
+		     sheet.setColumnWidth(5, 1200);
+		     sheet.setColumnWidth(6, 2300);
+		     sheet.setColumnWidth(7, 2300);
+		     sheet.setColumnWidth(8, 2300);
+		     sheet.setColumnWidth(9, 2300);
+		     sheet.setColumnWidth(10, 2500);
+		     sheet.setColumnWidth(11, 3000);
+		     sheet.setColumnWidth(12, 3000);
+		    
+		     //表头第一行
+		     HSSFRow row = sheet.createRow(0);  
+				//
+		     HSSFCell  cell = row.createCell(0);
+		     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		     String planName = list.get(0).getPlanName();
+		     generateName(workbook,sheet,planName);
+	 
+		     generateHeader(workbook,sheet);
+	 
+		        int count=2;
+				for(PurchaseRequired p:list){
+		        	row = sheet.createRow(count);
+		   	        cell = row.createCell(0);
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			        cell.setCellStyle(style);
+		   			cell.setCellValue(p.getSeq()); 
+		   	        cell = row.createCell(1);  
+			        style.setWrapText(true);
+		   	        style.setAlignment(CellStyle.ALIGN_LEFT);
+			        cell.setCellStyle(style);
+			        if(p.getPurchaseCount()==null){
+			        	cell.setCellValue(p.getDepartment());
+			        }
+		   	        		
+		   	      
+		   	        cell = row.createCell(2); 
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getGoodsName());
+		   	        cell = row.createCell(3); 
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getStand());
+		   	        cell = row.createCell(4);
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getQualitStand());
+		   	        cell = row.createCell(5);
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getItem()); 
+		   	        cell = row.createCell(6); 
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+			        cell.setCellStyle(style);
+		   	        if(p.getPurchaseCount()!=null){
+		   	        	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+		   	           
+		   	         cell.setCellValue(d);  
+		   	        }
+		   	       
+		   	        
+		   	        cell = row.createCell(7);
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+			        cell.setCellStyle(style);
+		   	        if(p.getPrice()!=null){
+			   	        double price = p.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			   	        cell.setCellValue(price);
+		   	        }
+		   	     
+		   	          
+		   	        
+		   	        cell = row.createCell(8); 
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_RIGHT);
+			        cell.setCellStyle(style);
+		   	        if(p.getBudget()!=null){
+		   	         double budget = p.getBudget().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
+			   	      
+			   	        cell.setCellValue(budget); 
+		   	        }
+		   	      
+		   	        
+		   	        cell = row.createCell(9);
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getDeliverDate());  
+		   	        
+		   	        cell = row.createCell(10);  
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        if(p.getPurchaseCount()!=null){
+		   	        	DictionaryData dicType = DictionaryDataUtil.findById(p.getPurchaseType());
+		   	        	if(dicType!=null){
+		   	        		cell.setCellValue(dicType.getName()); 
+		   	        	}
+		   	        }
+		   	        
+//		   	        
+//		   	        cell = row.createCell(11);
+//		   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+//			        style.setWrapText(true);
+//			        cell.setCellStyle(style);
+//		   	         if(p.getPurchaseCount()!=null){
+//		   	        	 if(p.getOrganization()!=null){
+//		   	        		 Orgnization orgnization = purchaseRequiredService.queryPur(p.getOrganization());
+//		 		   	        if(orgnization!=null){
+//		 	   	        		cell.setCellValue(orgnization.getName());
+//		 	   	        	}
+//		   	        	 }
+//			   	       
+//		   	         
+//		   	        }
+		   	         
+		   	        
+//		   	        
+		   	        cell = row.createCell(11); 
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_LEFT);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getSupplier());  
+		   	        
+		   	        
+		   	        cell = row.createCell(12); 
+		   	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+			        style.setWrapText(true);
+			        cell.setCellStyle(style);
+		   	        cell.setCellValue(p.getMemo());  
+		    
+	 
+		   	        
+		   	     count++;
+		        }
+		        
+		        
+		     ServletOutputStream fileOut=null;
+			 try{
+				filedisplay = URLEncoder.encode(filedisplay, "UTF-8");
+				fileOut=response.getOutputStream();
+			    workbook.write(fileOut);
+			    fileOut.close();  
+				}catch(Exception e){	
         
-		
+				}
 		return "下载成功";
 	}
 	/**
@@ -746,6 +910,7 @@ public class PurchaseRequiredController extends BaseController{
 	    	return id;
 	    }
 	    @RequestMapping("/submanage")
+	    @SystemControllerLog(description="提交管理部门",operType=3)
 	    public String submanage(String uniqueId,String managementId){
 	    	String id = UUID.randomUUID().toString().replaceAll("-", "");
 	    	PurchaseManagement pm=new PurchaseManagement();
@@ -929,5 +1094,158 @@ public class PurchaseRequiredController extends BaseController{
 	        // 设置List的最大长度  
 	        binder.setAutoGrowCollectionLimit(30000); 
 	        binder.registerCustomEditor(String.class, new StringTrimmerEditor(true));
-	    } 
+	    }
+	    
+	    
+	    
+	    
+	    public List<PurchaseRequired> get(String json){
+	    	
+	    	JSONArray json1 = JSONArray.fromObject(json);
+	    	  List<PurchaseRequired> list = (List<PurchaseRequired>)JSONArray.toCollection(json1, PurchaseRequired.class);
+//	    	  
+//	    	  
+//	    	Map<String,Object> map=new HashMap<String,Object>();
+//	    	
+//	    	 JSONArray array=JSONArray.fromObject(json);
+//	    
+//	    	  JSONObject obj = new JSONObject();
+//	    	  PurchaseRequired pr=new PurchaseRequired();
+//	    	  List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
+//	    	  String planName="";
+//	    	   for (int i = 0; i < array.size(); i++) {
+//	    		  pr.setId((String)obj.get("id"));
+//	    		  list.add(pr);
+//	    		  planName=(String)obj.get("planName");
+//	    	   }
+//	    	 map.put("", list);
+//	         map.put("", planName);
+	    	return list;
+	    }
+	    
+	    
+	    
+	    
+	    
+		 public  void generateHeader(HSSFWorkbook workbook,HSSFSheet sheet){
+
+		        HSSFRow row = sheet.createRow(1);
+	           HSSFCell cell = row.createCell(0);
+	           sheet.setColumnWidth(0, 2000); 
+		   	    sheet.setColumnWidth(1, 3000); 
+		   	    sheet.setColumnWidth(2, 3000);
+		   	    sheet.setColumnWidth(3, 3000);
+		   	    sheet.setColumnWidth(4, 3200);
+		   	     sheet.setColumnWidth(5, 1200);
+		   	     sheet.setColumnWidth(6, 2300);
+		   	     sheet.setColumnWidth(7, 2300);
+		   	     sheet.setColumnWidth(8, 2300);
+		   	     sheet.setColumnWidth(9, 2300);
+		   	     sheet.setColumnWidth(10, 2500);
+		   	     sheet.setColumnWidth(11, 3000);
+		   	     sheet.setColumnWidth(12, 3000);
+		   	     
+		   	    HSSFCellStyle style = workbook.createCellStyle();
+		   	    HSSFFont font = workbook.createFont();  
+		   	 
+		     	style.setBorderBottom(HSSFCellStyle.BORDER_HAIR);
+			    style.setBorderLeft(HSSFCellStyle.BORDER_HAIR);
+			    style.setBorderTop(HSSFCellStyle.BORDER_HAIR);
+			    style.setBorderRight(HSSFCellStyle.BORDER_HAIR);
+			    style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+			    font.setFontHeightInPoints((short) 9);
+			    font.setBoldweight(HSSFFont.BOLDWEIGHT_BOLD);
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setFont(font);
+		        cell.setCellStyle(style);
+				cell.setCellValue("序号");
+		        cell = row.createCell(1); 
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("需求部门");
+		        cell = row.createCell(2);
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("物资类别及名称");
+		        cell = row.createCell(3); 
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("规格型号");
+		        cell = row.createCell(4); 
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("质量技术标准");
+		        cell = row.createCell(5);  
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("计量单位"); 
+		        cell = row.createCell(6);
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("采购数量");  
+		        
+		        cell = row.createCell(7); 
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("单价（元）");  
+		        
+		        cell = row.createCell(8); 
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("预算金额（万元）");  
+		        
+		        cell = row.createCell(9); 
+		        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		        style.setWrapText(true);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("交货期限");  
+		        
+		        cell = row.createCell(10);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("采购方式");  
+		        
+//		        cell = row.createCell(11);
+//		        cell.setCellStyle(style);
+//		        cell.setCellValue("采购机构"); 
+		        
+		        cell = row.createCell(11);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("供应商名称");  
+		        
+		        
+		        cell = row.createCell(12);
+		        cell.setCellStyle(style);
+		        cell.setCellValue("备注");
+			 }   
+		 
+		 
+		 
+		 
+		 public  void generateName(HSSFWorkbook workbook,HSSFSheet sheet,String planName){
+			//表头第一行
+		     HSSFRow row = sheet.createRow(0);  
+				//
+		     HSSFCell  cell = row.createCell(0);
+		     HSSFCellStyle style = workbook.createCellStyle();
+		   	 HSSFFont font = workbook.createFont(); 
+		   	 font.setFontHeightInPoints((short) 22);
+		   	 style.setVerticalAlignment(HSSFCellStyle.VERTICAL_CENTER);
+		     style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+		     style.setFont(font);
+		     cell.setCellStyle(style);
+		     row.setHeight((short) 800);
+		     cell.setCellValue(planName);
+		     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)12));
+		     
+		 }
 }

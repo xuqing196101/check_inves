@@ -94,7 +94,10 @@ $(document).ready(function () {
 		var boxwidth = $("#content").width();
             FixTable("table", 3, boxwidth, 460);
         });
-        
+function printResult(expertId,projectId,packageId){
+	   window.location.href="${pageContext.request.contextPath}/packageExpert/showViewByExpertIdWord.html?expertId="+expertId+"&projectId="+projectId+"&packageId="+packageId;
+
+} 
 </script>
 </head>
 <body>
@@ -103,7 +106,7 @@ $(document).ready(function () {
     <h2>${expert.relName }</h2>
   </div>
   <div align="right">
-	<button class="btn" onclick="window.print();" type="button">打印</button>
+	<button class="btn" onclick="printResult('${expertId}','${projectId}','${packageId}');" type="button">打印</button>
   </div>
   <!-- 表格开始-->
   <div>

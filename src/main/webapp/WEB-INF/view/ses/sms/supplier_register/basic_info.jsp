@@ -174,12 +174,7 @@
 					}
 				});
 				// 事务所联系方式格式校验
-				var regTelephone = /^(\d{3,4}-{0,1})?\d{7,8}$/;
 				$("#financeInfo").find("input[name$='telephone']").each(function(index, element) {
-					if(!regTelephone.test(element.value)) {
-						msg = "会计事务所联系电话格式有误!";
-						flag = false;
-					}
 					if(element.value == "") {
 						msg = "近三年财务信息不能为空!";
 						flag = false;
@@ -512,7 +507,7 @@
 					}
 				});
 				$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产经营地址邮编</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
 					"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 					"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
 					"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / onblur='tempSave()'>" +
@@ -521,7 +516,7 @@
 					"</div>" +
 					"</li> " +
 					"<li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产经营地址（填写所有地址）</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营地址（填写所有地址）</span>" +
 					"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
 					"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
 					" <option value=''>请选择</option>" +
@@ -540,7 +535,7 @@
 					" </li> " +
 
 					" <li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产经营详细地址</span>" +
+					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
 					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
 					"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' onblur='tempSave()'>" +
 					"<span class='add-on cur_point'>i</span>" +
@@ -564,7 +559,7 @@
 					btmCount++;
 				});
 				if(btmCount == 2) {
-					layer.msg("生产经营地址必须至少保留一个!", {
+					layer.msg("生产或经营地址必须至少保留一个!", {
 						offset: '300px'
 					});
 				} else {
@@ -713,7 +708,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 供应商名称</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input id="supplierName_input_id" type="text" name="supplierName" required="required" onkeyup="value=value.replace(/[^\u4e00-\u9fa5\w]/g,'')" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
+										<input id="supplierName_input_id" type="text" name="supplierName" required="required" onkeyup="value=value.replace(/[^\u4e00-\u9fa5（）()\w]/g,'')" manlength="50" value="${currSupplier.supplierName}" <c:if test="${fn:contains(audit,'supplierName')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierName')"</c:if> />
 										<span class="add-on">i</span>
 										<span class="input-tip">不能为空</span>
 										<div class="cue"> ${err_msg_supplierName } </div>
@@ -877,7 +872,7 @@
 								<div id="address_list_body">
 									<c:forEach items="${currSupplier.addressList}" var="addr" varStatus="vs">
 										<li class="col-md-3 col-sm-6 col-xs-12 pl10">
-											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产经营地址邮编</span>
+											<span class="col-md-12 col-xs-12 col-sm-12  padding-left-5"><i class="red">*</i> 生产或经营地址邮编</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input type="text" required isZipCode="true" name="addressList[${vs.index }].code" value="${addr.code}" <c:if test="${fn:contains(audit,'code_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('code_${addr.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
@@ -889,7 +884,7 @@
 										</li>
 
 										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营地址（填写所有地址）</span>
+											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营地址（填写所有地址）</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
 												<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
 													<select id="root_area_select_id" onchange="loadChildren(this)" name="addressList[${vs.index }].provinceId" <c:if test="${fn:contains(audit,'address_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('address_${addr.id }')"</c:if>>
@@ -922,7 +917,7 @@
 										</li>
 
 										<li class="col-md-3 col-sm-6 col-xs-12">
-											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产经营详细地址</span>
+											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 生产或经营详细地址</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 												<input type="text" name="addressList[${vs.index }].detailAddress" required="required" maxlength="50" value="${addr.detailAddress }" <c:if test="${fn:contains(audit,'detailAddress_'.concat(addr.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('detailAddress_${addr.id }')"</c:if>>
 												<span class="add-on cur_point">i</span>
@@ -1048,7 +1043,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="legalMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
+										<input type="text" name="legalMobile" required isTel="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.legalMobile}" <c:if test="${fn:contains(audit,'legalMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_legalMobile } </div>
@@ -1093,7 +1088,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 传真</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="contactFax" required isFax="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
+										<input type="text" name="contactFax" required isFax="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.contactFax}" <c:if test="${fn:contains(audit,'contactFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactFax')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_fax } </div>
@@ -1106,7 +1101,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="contactMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
+										<input type="text" name="contactMobile" required isTel="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.contactMobile}" <c:if test="${fn:contains(audit,'contactMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_catMobile } </div>
@@ -1210,7 +1205,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 传真</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="armyBusinessFax" required isFax="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
+										<input type="text" name="armyBusinessFax" required isFax="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.armyBusinessFax}" <c:if test="${fn:contains(audit,'armyBusinessFax')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBusinessFax')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_armFax } </div>
@@ -1223,7 +1218,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 固定电话</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="armyBuinessMobile" required isTel="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
+										<input type="text" name="armyBuinessMobile" required isTel="true" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${currSupplier.armyBuinessMobile}" <c:if test="${fn:contains(audit,'armyBuinessMobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessMobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如: 0101234567</span>
 										<div class="cue"> ${err_armMobile } </div>
@@ -1510,7 +1505,7 @@
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].name" value="${finance.name}">
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
-															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" onkeyup="value=value.replace(/[^\d]/g,'')" value="${finance.telephone}">
+															<input type="text" required="required" class="w100 border0" name="listSupplierFinances[${vs.index }].telephone" onkeyup="value=value.replace(/[^\d-]/g,'')" value="${finance.telephone}">
 														</td>
 														<td class="tc" <c:if test="${fn:contains(audit,infoId)}">style="border: 1px solid #ef0000;"</c:if>>
 															<input type="text" required="required" class="w200 border0" name="listSupplierFinances[${vs.index }].auditors" value="${finance.auditors}">
@@ -1668,7 +1663,7 @@
 													</td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].address' value='${afterSaleDep.address}'> </td>
 													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].leadName' value='${afterSaleDep.leadName}'> </td>
-													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].mobile' onkeyup="value=value.replace(/[^\d]/g,'')" value='${afterSaleDep.mobile}'></td>
+													<td class="tc" <c:if test="${fn:contains(audit,afterSaleDep.id)}">style="border: 1px solid #ef0000;" </c:if>> <input type='text' style='border:0px;' name='listSupplierAfterSaleDep[${dep.index }].mobile' onkeyup="value=value.replace(/[^\d-]/g,'')" value='${afterSaleDep.mobile}'></td>
 												</tr>
 											</c:forEach>
 										</tbody>

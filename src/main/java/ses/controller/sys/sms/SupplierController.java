@@ -493,6 +493,7 @@ public class SupplierController extends BaseSupplierController {
 		HashMap < String, Object > map1 = new HashMap < String, Object > ();
 		map1.put("typeName", "1");
 		List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
+		List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
 		for(PurchaseDep purchaseDep: list) {
 			for(Orgnization org: listOrgnizations1) {
 				if(purchaseDep.getOrgnization().getId().equals(org.getId())) {
@@ -500,7 +501,12 @@ public class SupplierController extends BaseSupplierController {
 				}
 			}
 		}
-		model.addAttribute("allPurList", list);
+		for(PurchaseDep purchaseDep: list) {
+		    if (purchaseDep.getIsAuditSupplier() == 1) {
+		        purList.add(purchaseDep);
+		    }
+		}
+		model.addAttribute("allPurList", purList);
 		return "ses/sms/supplier_register/procurement_dep";
 	}
 
@@ -907,18 +913,6 @@ public class SupplierController extends BaseSupplierController {
 			supplier = supplierService.get(supplier.getId());
 			model.addAttribute("currSupplier", supplier);
 			model.addAttribute("supplierTypeIds", supplierTypeIds);
-			
-			// 所有的不通过字段的名字
-			SupplierAudit s = new SupplierAudit();
-			s.setSupplierId(supplier.getId());;
-			s.setAuditType("download_page");
-			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
-			StringBuffer errorField = new StringBuffer();
-			for(SupplierAudit audit: auditLists) {
-				errorField.append(audit.getAuditField() + ",");
-			}
-			model.addAttribute("audit", errorField);
-			
 			return "ses/sms/supplier_register/template_download";
 		} else if(flag.equals("store")) {
 			supplierService.updateSupplierProcurementDep(supplier);
@@ -928,12 +922,18 @@ public class SupplierController extends BaseSupplierController {
 			HashMap < String, Object > map1 = new HashMap < String, Object > ();
 			map1.put("typeName", "1");
 			List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
+	        List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
 			for(PurchaseDep purchaseDep: list) {
 				if(purchaseDep.equals(orgId)) {
 					list.remove(purchaseDep);
 				}
 			}
-			model.addAttribute("allPurList", list);
+			for(PurchaseDep purchaseDep: list) {
+			    if (purchaseDep.getIsAuditSupplier() == 1) {
+			        purList.add(purchaseDep);
+			    }
+			}
+			model.addAttribute("allPurList", purList);
 			return "ses/sms/supplier_register/procurement_dep";
 		} else {
 			supplier = supplierService.get(supplier.getId());
@@ -967,7 +967,16 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("currSupplier", supplier);
 
 			model.addAttribute("supplierTypeIds", supplierTypeIds);
-
+			// 所有的不通过字段的名字
+			SupplierAudit s = new SupplierAudit();
+			s.setSupplierId(supplier.getId());;
+			s.setAuditType("download_page");
+			List < SupplierAudit > auditLists = supplierAuditService.selectByPrimaryKey(s);
+			StringBuffer errorField = new StringBuffer();
+			for(SupplierAudit audit: auditLists) {
+				errorField.append(audit.getAuditField() + ",");
+			}
+			model.addAttribute("audit", errorField);
 			return "ses/sms/supplier_register/template_upload";
 		} else {
 			supplier = supplierService.get(supplierId);
@@ -998,6 +1007,7 @@ public class SupplierController extends BaseSupplierController {
 			map1.put("typeName", "1");
 
 			List < PurchaseDep > list = purchaseOrgnizationService.findPurchaseDepList(map1);
+            List < PurchaseDep > purList = new ArrayList < PurchaseDep > ();
 			if(depList != null && depList.size() != 0) {
 				for(PurchaseDep purchaseDep: list) {
 					for(Orgnization org: depList) {
@@ -1009,7 +1019,12 @@ public class SupplierController extends BaseSupplierController {
 					}
 				}
 			}
-			model.addAttribute("allPurList", list);
+			for(PurchaseDep purchaseDep: list) {
+			    if (purchaseDep.getIsAuditSupplier() == 1) {
+			        purList.add(purchaseDep);
+			    }
+			}
+			model.addAttribute("allPurList", purList);
 			return "ses/sms/supplier_register/procurement_dep";
 		}
 	}
@@ -1270,11 +1285,11 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_armName", "不能为空!");
 			count++;
 		}
-		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax()) || (supplier.getArmyBusinessFax() != null && !supplier.getArmyBusinessFax().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getArmyBusinessFax() == null || "".equals(supplier.getArmyBusinessFax())) {
 			model.addAttribute("err_armFax", "传真不能为空或者格式不正确!");
 			count++;
 		}
-		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile()) || (supplier.getArmyBuinessMobile() != null && !supplier.getArmyBuinessMobile().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getArmyBuinessMobile() == null || "".equals(supplier.getArmyBuinessMobile())) {
 			model.addAttribute("err_armMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
@@ -1302,7 +1317,7 @@ public class SupplierController extends BaseSupplierController {
 		//			model.addAttribute("err_legalCard", "身份证号码已存在");
 		//			count++;
 		//		}
-		if(supplier.getLegalMobile() == null || "".equals(supplier.getLegalMobile()) || (supplier.getLegalMobile() != null && !supplier.getLegalMobile().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getLegalMobile() == null || "".equals(supplier.getLegalMobile())) {
 			model.addAttribute("err_legalMobile", "固定电话不能为空或者格式不正确!");
 			count++;
 		}
@@ -1326,17 +1341,13 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 		}
 
-		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax()) || (supplier.getContactFax() != null && !supplier.getContactFax().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$"))) {
+		if(supplier.getContactFax() == null || "".equals(supplier.getContactFax())) {
 			model.addAttribute("err_fax", "传真不能为空或者格式不正确!");
 			count++;
 		}
 
 		if(supplier.getContactMobile() == null || "".equals(supplier.getContactMobile())) {
 			model.addAttribute("err_catMobile", "填写固定电话!");
-			count++;
-		}
-		if(supplier.getContactMobile() != null && !supplier.getContactMobile().matches("^(\\d{3,4}-{0,1})?\\d{7,8}$")) {
-			model.addAttribute("err_catMobile", "固定电话格式不正确!");
 			count++;
 		}
 		//		if(supplier.getContactTelephone()==null||!supplier.getContactTelephone().matches("^1[0-9]{10}$")||supplier.getContactTelephone().length()>12){

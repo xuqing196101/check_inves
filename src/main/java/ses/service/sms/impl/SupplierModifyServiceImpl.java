@@ -302,7 +302,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					//出资人性质
 					if (history.getBeforeField().equals("nature") && !history.getBeforeContent().equals(stockholder.getNature())) {
 						supplierModify.setBeforeField("nature");
-						supplierModify.setBeforeContent(history.getBeforeContent());
+						if(history.getBeforeContent().equals("1")){
+							supplierModify.setBeforeContent("法人");
+						}else{
+							supplierModify.setBeforeContent("自然人");
+						}
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					
@@ -809,7 +813,11 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					// 类别
 					if (history.getBeforeField().equals("type") && !history.getBeforeContent().equals(afterSaleDep.getType().toString())) {
 						supplierModify.setBeforeField("type");
-						supplierModify.setBeforeContent(history.getBeforeContent());
+						if(history.getBeforeField().equals("1")){
+							supplierModify.setBeforeContent("自营");
+						}else{
+							supplierModify.setBeforeContent("合作");
+						}
 						supplierModifyMapper.insertSelective(supplierModify);
 					}
 					

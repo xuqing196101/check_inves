@@ -49,13 +49,20 @@
 	    });
 	   
    }
+  	
+ 
+   function printResult(projectId,packageId,auditType){
+   	   window.location.href="${pageContext.request.contextPath}/packageExpert/openAllPrintWord.html?projectId="+projectId+"&packageId="+packageId+"&auditType="+auditType;
+
+   }
+   
   </script>
   <body>
     <div class="container">
 		 
 		<div class="container clear" id="package">
 			<div class="mt5 mb5 fr">
-			    <button class="btn" onclick="window.print();" type="button">打印检查数据</button>
+			    <button class="btn" onclick="printResult('${project.id}','${pack.id}','${auditType}');" type="button">打印检查数据</button>
 		   	</div>
 		    <div class="headline-v2">
 		   		<h2>资格性符合性检查数据</h2>

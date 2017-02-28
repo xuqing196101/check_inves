@@ -5,7 +5,6 @@ import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -37,7 +36,6 @@ import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseOrg;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -93,9 +91,6 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
 	private PurchaseManagementService purchaseManagementService;
-	
-	@Autowired
-	private PurchaseOrgnizationServiceI purchserOrgnaztionService;
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -176,7 +171,7 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/submit")
-    public String submit(@CurrentUser User user,String planNo,Model model){
+    public String submit(String planNo,Model model){
     	PurchaseRequired p=new PurchaseRequired();
 		p.setUniqueId(planNo);
 		List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
@@ -186,7 +181,7 @@ public class PurchaseAcceptController extends BaseController{
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
 	    List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-//		model.addAttribute("org", org);
+		model.addAttribute("org", org);
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		
 		Map<String,Object> maps=new HashMap<String,Object>();
@@ -199,16 +194,7 @@ public class PurchaseAcceptController extends BaseController{
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
 		
-		List<PurchaseOrg> manages = purchserOrgnaztionService.get(user.getOrg().getId());
-		  List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
-		for(PurchaseOrg m:manages){
-			for(PurchaseDep pd:org){
-				if(m.getPurchaseDepId().equals(pd.getOrgId())){
-					orgs.add(pd);
-				}
-			}
-		}
-		model.addAttribute("org", orgs);
+		
     	return "bss/pms/collect/view";
     }
 	

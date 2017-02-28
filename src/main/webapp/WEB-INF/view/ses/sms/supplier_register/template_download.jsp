@@ -62,26 +62,6 @@
 			function downloadNotice() {
 				window.location.href = "${pageContext.request.contextPath}/expert/downloadSupplierNotice.html";
 			}
-
-			//退回信息
-			function errorMsg(auditField) {
-				var supplierId = "${currSupplier.id}";
-				$.ajax({
-					url: "${pageContext.request.contextPath}/supplier/audit.html",
-					data: {
-						"supplierId": supplierId,
-						"auditField": auditField,
-						"auditType": "download_page"
-					},
-					dataType: "json",
-					success: function(data) {
-						/* alert(data.suggest); */
-						layer.msg("不通过理由：" + data.suggest, {
-							offset: '300px'
-						});
-					}
-				});
-			}
 			sessionStorage.locationG = true;
 			sessionStorage.index = 7;
 		</script>
@@ -124,13 +104,13 @@
 
 											<ul class="list-unstyled f14">
 												<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
-													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierRegList')"</c:if>>下载《军队供应商承诺书》</span>
+													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5">下载《军队供应商承诺书》</span>
 													<a class="mt3 color7171C6" href="javascript:downloadNotice()"><i class="download mr5"></i></a>
 												</li>
 											</ul>
 											<ul class="list-unstyled f14">
 												<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
-													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5" <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('supplierPledge')"</c:if>>下载 《军队供应商入库申请表》</span>
+													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5">下载 《军队供应商库入库申请表》</span>
 													<a class="mt3 color7171C6" href="javascript:downloadTable()"><i class="download mr5"></i></a>
 												</li>
 											</ul>
