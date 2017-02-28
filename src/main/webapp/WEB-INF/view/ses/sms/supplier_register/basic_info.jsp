@@ -1711,5 +1711,8 @@
 				<button type="button" class="btn" onclick="saveBasicInfo('1')">下一步</button>
 			</div>
 		</div>
+		<div class="footer_margin">
+   			<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+   		</div>
 	</body>
 </html>

@@ -489,7 +489,8 @@
 		<input name="supplierTypeIds" type="hidden" value="${currSupplier.supplierTypeIds }" /> 
 		<input name="supplierTypeRelateId"  id="supplierTypeRelateId" type="hidden" value="" /> 
 	</form>
-	<!-- footer -->
-	<!-- <c:if test="${currSupplier.status != 7}"><jsp:include page="../../../../../index_bottom.jsp"></jsp:include></c:if> -->
+   <div class="footer_margin">
+   		<jsp:include page="../../../../../index_bottom.jsp"></jsp:include>
+   </div>
 </body>
 </html>
