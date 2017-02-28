@@ -13,16 +13,17 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.github.pagehelper.PageInfo;
-
-import common.bean.ResponseBean;
 import ses.model.bms.DictionaryData;
 import ses.util.DictionaryDataUtil;
 import synchro.inner.back.service.infos.InnerInfoExportService;
 import synchro.model.SynchRecord;
+import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.service.SynchService;
 import synchro.util.Constant;
+
+import com.github.pagehelper.PageInfo;
+import common.bean.ResponseBean;
 
 /**
  * 
@@ -45,6 +46,10 @@ public class SynchExportController {
     /** 同步信息数据service **/
     @Autowired
     private InnerInfoExportService infoService;
+    
+    /** 同步供应商数据service **/
+    @Autowired
+    private OuterSupplierService outerSupplierService;
     
     /** 记录service  **/
     @Autowired
@@ -135,6 +140,9 @@ public class SynchExportController {
         }
         if (synchType.equals(Constant.DATA_TYPE_INFOS_CODE)){
             infoService.backUpInfos(startTime, endTime, new Date());
+            bean.setSuccess(true);
+        } else if (synchType.equals(Constant.DATA_TYPE_SUPPLIER_CODE)) {
+            outerSupplierService.exportCommitSupplier(startTime, endTime, new Date());
             bean.setSuccess(true);
         }
         return bean;
