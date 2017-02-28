@@ -13,6 +13,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 <head>
 	<%@include file="common/meta.jsp" %>
 	<%@include file="common/head.jsp" %>
+	
 </head>
 <body>
     <%@include file="common/nav.jsp" %>

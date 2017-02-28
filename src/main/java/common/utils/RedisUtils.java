@@ -1,7 +1,11 @@
 package common.utils;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
+import redis.clients.jedis.exceptions.JedisException;
 
 /**
  * 
@@ -13,6 +17,8 @@ import redis.clients.jedis.JedisPool;
  * @version 2017年2月23日
  */
 public class RedisUtils {
+
+	private static Logger log = LoggerFactory.getLogger(RedisUtils.class);
 
 	/**
 	 * 
@@ -45,12 +51,99 @@ public class RedisUtils {
 	 * @throws
 	 * @version 2017年2月23日
 	 */
-	@SuppressWarnings("deprecation")
-	public void del(String key, Jedis jedis, JedisPool jedisPool) {
-		try {
+	public static void del(String key, Jedis jedis) throws Exception {
+		if (jedis != null) {
 			jedis.del(key);
-		} finally {
-			jedisPool.returnResource(jedis);
 		}
+	}
+
+	/**
+	 * 
+	 * @Title: get
+	 * @Description: 通过key获取
+	 * @author SongDong
+	 * @date 2017年2月27日 下午2:27:17
+	 * @param @param key
+	 * @param @param jedis
+	 * @param @return
+	 * @return String
+	 * @throws
+	 * @version 2017年2月27日
+	 */
+	public static String get(String key, Jedis jedis) {
+		String value = null;
+		// 获取值
+		value = jedis.get(key);
+		return value;
+	}
+
+	/**
+	 * 
+	 * @Title: getResource
+	 * @Description: 获取连接对象
+	 * @author SongDong
+	 * @date 2017年2月27日 下午6:03:31
+	 * @param @param jedisPool
+	 * @param @return
+	 * @return Jedis
+	 * @throws
+	 * @version 2017年2月27日
+	 */
+	public static Jedis getResource(JedisPool jedisPool) {
+		Jedis jedis = null;
+		try {
+			jedis = jedisPool.getResource();
+		} catch (JedisException e) {
+			log.info("redis连接异常...");
+			jedisPool.returnBrokenResource(jedis);
+			;
+		}
+		return jedis;
+	}
+
+	/**
+	 * 
+	 * @Title: isExist
+	 * @Description: 判断key是否存在
+	 * @author SongDong
+	 * @date 2017年2月28日 上午9:57:06
+	 * @param @param jedis
+	 * @param @param key
+	 * @param @return
+	 * @return boolean
+	 * @throws
+	 * @version 2017年2月28日
+	 */
+	public static boolean isExist(Jedis jedis, String key) {
+		try {
+			return jedis.exists(key);
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+			return false;
+		}
+	}
+
+	
+	/**
+	 * 
+	* @Title: flushAll 
+	* @Description: 清空所有的key
+	* @author SongDong   
+	* @date 2017年2月28日 下午1:13:28 
+	* @param @param jedis
+	* @param @return
+	* @return String
+	* @throws 
+	* @version 2017年2月28日
+	 */
+	public static String flushAll(Jedis jedis) {
+		String stata = null;
+		try {
+			stata = jedis.flushAll();
+			return stata;
+		} catch (Exception e) {
+			log.info("redis连接异常...");
+		}
+		return stata;
 	}
 }

@@ -66,6 +66,7 @@
 			<mvc:exclude-mapping path="/browser/download.*" />
 			<mvc:exclude-mapping path="/browser/ntkoDownload.*" />
 			<mvc:exclude-mapping path="/park/getIndex.*" />
+			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />	
 
 <!-- 			首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			
@@ -135,7 +136,6 @@
 			<mvc:exclude-mapping path="/supplier/isCommit.*" />
 			<mvc:exclude-mapping path="/supplier/getUUID.*" />
 			<mvc:exclude-mapping path="/supplier/validateCreditCode.*" />
-			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />
 			
 <!-- 			地区管理 -->
 			<mvc:exclude-mapping path="/area/find_root_area.*" />
@@ -146,6 +146,9 @@
 <!-- 			文件上传和下载 -->
 			<mvc:exclude-mapping path="/file/*.*" />
 			<mvc:exclude-mapping path="/browser/*.*" />
+			
+			<!-- 缓存管理 -->
+			<mvc:exclude-mapping path="/cacheManage/clearStringCache.*" />	
 			
 <!-- 			后期删除此项 -->
 			<mvc:exclude-mapping path="/my_test/*.*" />
