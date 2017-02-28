@@ -1,6 +1,7 @@
 <%@ page language="java" import="java.util.*,java.net.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
+
 <%@page contentType="application/vnd.ms-word;charset=GBK"%>
 
 <%
@@ -39,7 +40,7 @@ String basePath = request.getScheme()+"://"+request.getServerName()+":"+request.
 
 <%
 
-String fileName = "汇总结果.doc"; 
+String fileName = "评审结果.doc"; 
 
 //对中文文件名编码 
 
@@ -54,7 +55,6 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 %>
 
 </head>
-
 <body>
 
 <div style="width:85%;margin:auto;">
@@ -85,7 +85,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
    		  <c:forEach items="${expertList}" var="expert">
                 <c:if test="${expert.packageId eq pack.id}">
                   <tr>
-                  	<td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" rowspan="${expert.count}" <c:if test="${expert.count eq '0' or expert.count == 0}">style="display: none"</c:if> >${expert.reviewTypeId}</td>
+                  
+                     <c:if test="${expert.count ==0}">
+                     </c:if>
+                  	<c:if test="${expert.count != 0}">
+                     <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;" rowspan="${expert.count}"  >${expert.reviewTypeId}</td>
+                     </c:if>
                     <td width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">${expert.expert.relName}</td>
                     <c:forEach items="${extensions.supplierList}" var="supplier">
                   	  <c:if test="${supplier.packages eq pack.id}">
