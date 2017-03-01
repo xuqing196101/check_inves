@@ -39,4 +39,10 @@ public class ProductConServiceImp implements ProductConService{
 		return null;
 	}
 
+	@Override
+	public List<ProductCon> getAll(Integer pageNum) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
 }
