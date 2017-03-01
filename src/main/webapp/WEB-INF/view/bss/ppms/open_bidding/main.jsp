@@ -265,7 +265,7 @@
      
    }
    
-    function normalImg(x){
+   function normalImg(x){
      $(x).removeClass("btmfix");
      $(x).addClass("btmfixs");
    }
@@ -275,36 +275,37 @@
       var projectId = "${project.id}";
 	  var currFlowDefineId = $("#currHuanjieId").val();
 	  var currUpdateUserId = $("#currPrincipal").val();
-	  alert(projectId);
-      //校验当前环节是否完成
-  	  $.ajax({
-          url : "${pageContext.request.contextPath}/open_bidding/isSubmit.html",
-          data :{"currFlowDefineId":currFlowDefineId , "projectId":projectId},
-          type : "post",
-          dateType : "json",
-          success : function(data) {
-            if(data.success) {
-              //提交当前环节
-              $.ajax({
-		          url : "${pageContext.request.contextPath}/open_bidding/submitHuanjie.html",
-		          data :{"currFlowDefineId":currFlowDefineId, "projectId":projectId},
-		          type : "post",
-		          dateType : "json",
-		          success : function(data) {
-		            if(data.success) {
-		              layer.msg("提交成功",{offset: '100px'});
-		            }
-		          },
-		          error : function() {
-		            layer.msg("提交失败",{offset: '100px'});
-		          }
-              });
-            }
-          },
-          error : function() {
-            layer.msg("提交失败",{offset: '100px'});
-          }
-      })
+	  layer.confirm('您确定已经完成当前环节并进行提交吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+	      //校验当前环节是否完成
+	  	  $.ajax({
+	          url : "${pageContext.request.contextPath}/open_bidding/isSubmit.html",
+	          data :{"currFlowDefineId":currFlowDefineId , "projectId":projectId},
+	          type : "post",
+	          dataType: "json", //返回格式为json
+	          success : function(data) {
+	            if(data.success) {
+	              //提交当前环节
+	              $.ajax({
+			          url : "${pageContext.request.contextPath}/open_bidding/submitHuanjie.html",
+			          data :{"currFlowDefineId":currFlowDefineId, "projectId":projectId},
+			          type : "post",
+			          dataType : "json",
+			          success : function(data2) {
+			            if(data2.success) {
+			              layer.msg("提交成功",{offset: '100px'});
+			            }
+			          },
+			          error : function() {
+			            layer.msg("提交失败",{offset: '100px'});
+			          }
+	              });
+	            }
+	          },
+	          error : function() {
+	            layer.msg("提交失败",{offset: '100px'});
+	          }
+	      })
+	  });
    }
 </script>
 </head>
