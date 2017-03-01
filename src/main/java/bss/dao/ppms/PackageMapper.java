@@ -152,6 +152,8 @@ public interface PackageMapper {
      */
     List<Packages> listSupplierCheckPass(String projectId);
     
+    List<Packages> supplierCheckPa(String projectId);
+    
     /**
      *〈简述〉根据条件查询
      *〈详细描述〉

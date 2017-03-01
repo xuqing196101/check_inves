@@ -8,38 +8,6 @@
   	<%@ include file="/WEB-INF/view/common.jsp"%>
   	<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <script type="text/javascript">
-      /*分页  */
- /*      $(function() {
-        laypage({
-          cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-          pages: "${list.pages}", //总页数
-          skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-          skip: true, //是否开启跳页
-          total: "${list.total}",
-          startRow: "${list.startRow}",
-					endRow: "${list.endRow}",
-					groups: "${list.pages}" >= 5 ? 5 : "${list.pages}", //连续显示分页数
-          curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-        	  var page = location.search.match(/page=(\d+)/);
-        	  if(page==null){
-    	    		page = {};
-    	    		page[0]="${list.pageNum}";
-    	    		page[1]="${list.pageNum}";
-    	    	}
-    				return page ? page[1] : 1;
-          },
-          jump: function(e, first) { //触发分页后的回调
-            if(!first) { //一定要加此判断，否则初始时会无限刷新
-              location.href = "${pageContext.request.contextPath}/project/add.do?page=" + e.curr;
-            }
-          }
-        });
-        
-        
-      }); */
-      
-      
-      
         $(function() {
 			    laypage({
 			      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
@@ -228,7 +196,6 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input type="hidden" id="id" class="input_group" name="id" value="${id}" />
                 <input type="text" id="name" class="input_group" name="name" value="${name}" />
                 <input type="hidden" id="orgId" class="input_group" name="orgId" value="${orgId}" />
                 <span class="add-on">i</span>
@@ -255,6 +222,7 @@
 					    	<label class="fl">采购任务名称：</label>
 					    	<input type="hidden" name="page" id="page">
 								<span><input type="text" name="planName" id="planName" value="${planName}" /></span>
+								<input type="hidden" id="id" class="input_group" name="id" value="${id}" />
 					  	</li>
 			        <li>
 			          <label class="fl">采购管理部门：</label>
@@ -399,7 +367,7 @@
           </div>
         </div>
         <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-          <button class="btn" onclick="nextStep()" type="button">下一步</button>
+          <button class="btn" onclick="nextStep()" type="button">确定</button>
           <button class="btn btn-windows back" onclick="back()" type="button">返回</button>
         </div>
     </div>

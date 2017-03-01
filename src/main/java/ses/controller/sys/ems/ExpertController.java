@@ -20,7 +20,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import model.ems.ExpertPictureType;
+import ses.model.ems.ExpertPictureType;
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
@@ -662,7 +662,28 @@ public class ExpertController extends BaseController {
                 ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, "ENG_INFO"));
                 allCategories.add(ct);
             } else {
-                List < Category > childNodes = engCategoryService.findPublishTree(id, null);
+                List < Category > tempNodes = engCategoryService.findPublishTree(id, null);
+                List < Category > childNodes = new ArrayList<Category>();
+                String typeIds = expert.getExpertsTypeId();
+                if (typeIds != null && !typeIds.equals("")) {
+                    String[] ids = typeIds.split(",");
+                    for (String typeId : ids) {
+                        DictionaryData type = DictionaryDataUtil.findById(typeId);
+                        if (type.getCode().equals("GOODS_PROJECT")) {
+                            for (Category cate : tempNodes) {
+                                if (cate.getExpertType() != null && cate.getExpertType().equals("0")) {
+                                    childNodes.add(cate);
+                                }
+                            }
+                        } else if (type.getCode().equals("PROJECT")) {
+                            for (Category cate : tempNodes) {
+                                if (cate.getExpertType() != null && cate.getExpertType().equals("1")) {
+                                    childNodes.add(cate);
+                                }
+                            }
+                        }
+                    }
+                }
                 if(childNodes != null && childNodes.size() > 0) {
                     for(Category category: childNodes) {
                         CategoryTree ct = new CategoryTree();

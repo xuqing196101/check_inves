@@ -379,7 +379,7 @@ public class AdvancedProjectController extends BaseController {
         if(projectIds != null){
             AdvancedProject project = advancedProjectService.selectById(projectIds);
             project.setCreateAt(new Date());
-            project.setStatus(DictionaryDataUtil.getId("YLX_DFB"));
+            project.setStatus(DictionaryDataUtil.getId("YJLX"));
             project.setName(advancedProject.getName());
             project.setProjectNumber(advancedProject.getProjectNumber());
             if(list.getList().get(0).getOrganization() != null){
@@ -1005,7 +1005,7 @@ public class AdvancedProjectController extends BaseController {
      */
     @RequestMapping("/subPackage")
     public String subPackage(HttpServletRequest request,Model model){
-        String id = request.getParameter("id");
+        String id = request.getParameter("projectId");
         HashMap<String,Object> map = new HashMap<>();
         map.put("advancedProject", id);
         //拿到一个项目所有的明细
@@ -1094,12 +1094,6 @@ public class AdvancedProjectController extends BaseController {
                             BigDecimal money = new BigDecimal(budget);
                             showDetails.get(j).setBudget(money);
                         }
-//                        if(showDetails.get(j).getDepartment()!=null){
-//                          Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(showDetails.get(j).getDepartment());
-//                            if(orgnization!=null){
-//                              showDetails.get(j).setOrgName(orgnization.getName());
-//                            }
-//                        }
                     }
                     model.addAttribute("list", showDetails);
                 }
@@ -1260,12 +1254,6 @@ public class AdvancedProjectController extends BaseController {
                             serialSix ++;
                         }
                     }
-//                    if(newDetails.get(i).getDepartment()!=null){
-//                      Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(newDetails.get(i).getDepartment());
-//                      if(orgnization!=null){
-//                          newDetails.get(i).setOrgName(orgnization.getName());
-//                      }
-//                    }
                     
                 }
                 ps.setAdvancedDetails(newDetails);
@@ -1504,7 +1492,11 @@ public class AdvancedProjectController extends BaseController {
             }
         }
         model.addAttribute("kind", DictionaryDataUtil.find(5));
-        model.addAttribute("packageList", list);
+        if(list != null && list.size() > 0){
+            model.addAttribute("packageList", list);
+        }else{
+            model.addAttribute("lists", details);
+        }
         model.addAttribute("user", user);
         model.addAttribute("project", project);
         model.addAttribute("orgnization", orgnization);

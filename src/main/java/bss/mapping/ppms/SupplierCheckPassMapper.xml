@@ -373,6 +373,17 @@
 		WHERE   cp.PACKAGE_ID =#{packageId}
 		and cp.IS_WON_BID =1
 	</select>
+	
+	
+	<!-- 单一来源关联包 -->
+  <select id="getByCheck" parameterType="java.lang.String"
+    resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+    WHERE   cp.PACKAGE_ID =#{packageId}
+  </select>
 
 	<!-- 查询每包是否都选择了中标供应商 -->
 	<select id="selectWonBid" parameterType="java.lang.String"

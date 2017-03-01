@@ -1490,36 +1490,6 @@ public class OpenBiddingController {
       quoteLists.add(quote);
     }
     supplierQuoteService.insert(quoteLists);  
-
-    Project project = projectService.selectById(jsonQuote.getString("projectId"));
-    if(project != null){
-      DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
-      if("DYLY".equals(findById.getCode())){
-        SupplierCheckPass pass = new SupplierCheckPass();
-        pass.setPackageId(jsonQuote.getString("packageId"));
-        List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
-        if(listCheckPass != null && listCheckPass.size() > 0){
-          for (SupplierCheckPass supplierCheckPass : listCheckPass) {
-            if(supplierCheckPass != null){
-              supplierCheckPassService.delete(supplierCheckPass.getId());
-            }
-          }
-
-        }
-
-        SupplierCheckPass record = new SupplierCheckPass();
-        record.setId(WfUtil.createUUID());
-        record.setPackageId(jsonQuote.getString("packageId"));
-        record.setProjectId(jsonQuote.getString("projectId"));
-        record.setSupplierId(jsonQuote.getString("supplierId"));
-        record.setTotalPrice(new BigDecimal(jsonQuote.getString("total")));
-        record.setRanking(1);
-        record.setIsWonBid((short)0);
-        SupplierCheckPass checkPass = new SupplierCheckPass();
-        checkPass.setPackageId(jsonQuote.getString("packageId"));
-        supplierCheckPassService.insert(record);
-      }
-    }
     return "true";
   }
 
@@ -1920,11 +1890,11 @@ public class OpenBiddingController {
     return suList2;
   }
 
-  //给最新的报价赋值
+//给最新的报价赋值
   public void setNewQuote(List<Quote> listQuote, List<Quote> listQuotebyPackage) {
     for (Quote q : listQuote) {
       for (Quote qp : listQuotebyPackage) {
-        if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId())) {
+        if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId()) && qp.getProductId().equals(q.getProductId())) {
           q.setTotal(qp.getTotal());
           q.setQuotePrice(qp.getQuotePrice());
           q.setRemark(qp.getRemark());
@@ -2017,7 +1987,44 @@ public class OpenBiddingController {
         quoteInsert.setDeliveryTime(jsonQuote.getString("deliveryTime"));
         listQuote.add(quoteInsert);
       }
+      int bud = 0;
+      //List<Quote> list = (List) JSONArray.toCollection(json, Quote.class); 
+      for (Quote quote2 : listQuote) {
+          bud += quote2.getTotal().intValue();
+      }
+      
+      
+      Project project = projectService.selectById(quote.getProjectId());
+      if(project != null){
+        DictionaryData findById = DictionaryDataUtil.findById(project.getPurchaseType());
+        if("DYLY".equals(findById.getCode())){
+          SupplierCheckPass pass = new SupplierCheckPass();
+          pass.setPackageId(pk.getId());
+          List<SupplierCheckPass> listCheckPass = supplierCheckPassService.listCheckPass(pass);
+          if(listCheckPass != null && listCheckPass.size() > 0){
+            for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+              if(supplierCheckPass != null){
+                supplierCheckPassService.delete(supplierCheckPass.getId());
+              }
+            }
+
+          }
+
+          SupplierCheckPass record = new SupplierCheckPass();
+          record.setId(WfUtil.createUUID());
+          record.setPackageId(pk.getId());
+          record.setProjectId(quote.getProjectId());
+          record.setSupplierId(jsonQuote.getString("supplierId"));
+          record.setTotalPrice(new BigDecimal(bud));
+          record.setRanking(1);
+          record.setIsWonBid((short)0);
+          SupplierCheckPass checkPass = new SupplierCheckPass();
+          checkPass.setPackageId(pk.getId());
+          supplierCheckPassService.insert(record);
+        }
+      }
     }
+    
     try {
       supplierQuoteService.insert(listQuote);
       //修改状态
@@ -2252,7 +2259,7 @@ public class OpenBiddingController {
     String downFileName = null;
     // 文件存储地址
     String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
-    String fileName = createWordMethods(project, reviewTime, reviewSite, finalOffer, talks, supperName, expertSigneds, request);
+    String fileName = createWordMethods(project, reviewTime, reviewSite, supperName, finalOffer, talks, expertSigneds, request);
     downFileName = new String("谈判报告表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
     return projectService.downloadFile(fileName, filePath, downFileName);
   }

@@ -1,4 +1,4 @@
-package model.ems;
+package ses.model.ems;
 
 /**
  * Created by yggc on 2017/2/24.

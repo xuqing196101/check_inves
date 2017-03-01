@@ -172,7 +172,7 @@
               layer.msg('删除成功', {
                 offset: ['45%', '50%']
               });
-              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
+              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?projectId=" + projectId;
             }
           });
         });
@@ -226,7 +226,7 @@
                 layer.msg('添加成功', {
                   offset: ['40%', '45%']
                 });
-                window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId + "&num=" + num;
+                window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?projectId=" + projectId + "&num=" + num;
               }
             }
           });
@@ -401,7 +401,7 @@
               layer.msg('添加成功', {
                 offset: ['40%', '45%']
               });
-              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?id=" + projectId;
+              window.location.href = "${pageContext.request.contextPath }/project/subPackage.do?projectId=" + projectId;
             }
           });
         }
@@ -470,7 +470,7 @@
 
   <body>
     <!--面包屑导航开始-->
-    <div class="margin-top-10 breadcrumbs ">
+<!--     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
           <li>
@@ -485,15 +485,15 @@
         </ul>
         <div class="clear"></div>
       </div>
-    </div>
+    </div> -->
 
     <div class="container">
       <h2 class="tc dangan_file">项目名称：${project.name}</h2>
       <input type="hidden" id="projectId" value="${project.id }" />
-      <div class="headline-v2">
+      <!-- <div class="headline-v2">
         <h2>明细列表</h2>
       </div>
-
+ -->
       <!-- 按钮开始-->
       <div class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
         <button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
@@ -697,7 +697,7 @@
     </div>
 
     <!-- 按钮 -->
-    <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
+   <%--  <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
       <input type="hidden" id="num" value="${num}" />
       <c:if test="${num eq 1}">
         <button class="btn" type="button" onclick="JavaScript:history.go(-1)">上一步</button>
@@ -705,10 +705,10 @@
       <c:if test="${num eq 0}">
         <button class="btn" type="button" onclick="backs('${project.id}')">上一步</button>
       </c:if>
-      <%--  --%>
+      
 
       <button class="btn" type="button" onclick="next();">下一步</button>
-    </div>
+    </div> --%>
 
     <c:if test="${!empty list}">
       <div class="content over_scroll dnone" id="oddDetail">

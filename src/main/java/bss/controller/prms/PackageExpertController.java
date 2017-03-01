@@ -511,7 +511,7 @@ public class PackageExpertController {
     public void setNewQuote(List<Quote> listQuote, List<Quote> listQuotebyPackage) {
         for (Quote q : listQuote) {
             for (Quote qp : listQuotebyPackage) {
-                if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId())) {
+                if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId()) && qp.getProductId().equals(q.getProductId())) {
                     q.setTotal(qp.getTotal());
                     q.setQuotePrice(qp.getQuotePrice());
                     q.setRemark(qp.getRemark());
