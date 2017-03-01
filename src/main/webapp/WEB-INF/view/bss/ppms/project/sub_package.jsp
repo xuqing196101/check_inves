@@ -488,7 +488,7 @@
     </div> -->
 
     <div class="container">
-      <h2 class="tc dangan_file">项目名称：${project.name}</h2>
+      <%-- <h2 class="tc dangan_file">项目名称：${project.name}</h2> --%>
       <input type="hidden" id="projectId" value="${project.id }" />
       <!-- <div class="headline-v2">
         <h2>明细列表</h2>
@@ -497,8 +497,8 @@
       <!-- 按钮开始-->
       <div class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
         <button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
-        <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-        <span class="fr mt10">项目编号：${project.projectNumber}</span>
+       <%--  <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
+        <span class="fr mt10">项目编号：${project.projectNumber}</span> --%>
       </div>
 
       <c:if test="${!empty list}">

@@ -17,4 +17,6 @@ public interface FlowExecuteMapper {
     List<FlowExecute> findList(FlowExecute fe);
 
     List<FlowExecute> findExecuted(FlowExecute temp);
+    
+    List<FlowExecute> findLists(FlowExecute fe);
 }

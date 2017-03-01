@@ -259,7 +259,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_PROJECTS
-    where ID = #{id,jdbcType=VARCHAR} 
+    where ID = #{id,jdbcType=VARCHAR}
   </select>
   
   <select id="selectByList" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
@@ -1278,7 +1278,7 @@
     </trim>
   </insert>
     
-  <select id="selectProjectsByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
+   <select id="selectProjectsByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       <include refid="Base_Column_List" />
       FROM
@@ -1302,8 +1302,43 @@
       </if>
       
       ORDER BY CREATED_AT DESC
-  </select>
-    
+  </select> 
+  
+  
+  <select id="selectByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
+      SELECT
+      p.*
+      FROM
+        T_BSS_PPMS_PROJECTS p 
+      WHERE 
+      p.ID IN (SELECT
+	    e.PROJECT_ID
+	    FROM
+	    T_BSS_PPMS_FLOW_EXECUTE e
+	    WHERE
+	    <if test="userId != null and userId != ''">
+         e.OPERATOR_ID = #{userId}
+      </if>
+      AND e.IS_DELETED = 0 AND e.STATUS = 0)
+      AND IS_REHEARSE = 0
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+        AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
+      </if>
+      <!-- <if test="principal != null and principal != ''">
+        and (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
+      </if> -->
+      <if test="name != null and name != ''">
+       AND p.NAME like '%${name}%'
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+       AND p.PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null and status != ''">
+       AND p.STATUS = #{status}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+  </select> 
+  
     <update id="updatePurchaseDep" parameterType="bss.model.ppms.Project">
     	update T_BSS_PPMS_PROJECTS
     	<set>

@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 
 import ses.model.bms.User;
 
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Project;
 
 /**
@@ -132,4 +133,9 @@ public interface ProjectService {
      * @param code
      */
     void updateStatus(Project project, String code);
+    
+    List<FlowExecute> selectFlow(User user);
+    
+    List<Project> selectByConition(HashMap<String,Object> map);
+    
 }

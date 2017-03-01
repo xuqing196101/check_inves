@@ -256,7 +256,7 @@
     <!-- 录入采购计划开始-->
     <div class="container">
       <div class="headline-v2">
-        <h2>立项列表</h2>
+        <h2>实施列表</h2>
       </div>
       <!-- 项目戳开始 -->
       <h2 class="search_detail">

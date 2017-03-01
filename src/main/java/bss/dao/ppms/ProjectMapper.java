@@ -37,5 +37,7 @@ public interface ProjectMapper {
     
     List<Project> selectProjectsByConition(HashMap<String,Object> map);
     
+    List<Project> selectByConition(HashMap<String,Object> map);
+    
     int updatePurchaseDep(Project project);
 }

@@ -23,6 +23,7 @@ import ses.dao.oms.PurchaseInfoMapper;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import bss.dao.ppms.FlowDefineMapper;
@@ -58,6 +59,7 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Autowired
   private PurchaseInfoMapper purchaseInfoMapper;
+	
 	
 	
 	@Override
@@ -314,5 +316,41 @@ public class ProjectServiceImpl implements ProjectService {
           projectMapper.updateByPrimaryKeySelective(project);
       }
   }
-	
-}
+
+    @Override
+    public List<FlowExecute> selectFlow(User user) {
+        FlowExecute flowExecute = new FlowExecute();
+        flowExecute.setOperatorId(user.getId());
+        List<FlowExecute> flowExecutes = flowExecuteMapper.findLists(flowExecute);
+        removeFlowExecute(flowExecutes);
+        /*List<Project> list = new ArrayList<Project>();
+        if(flowExecutes != null && flowExecutes.size() > 0){
+            for (FlowExecute flowExecute2 : flowExecutes) {
+              map.put("id", flowExecute2.getProjectId());
+              List<Project> selectProjectsByConition = projectMapper.selectProjectsByConition(map);
+              if(selectProjectsByConition != null){
+                  list.addAll(selectProjectsByConition);
+              }
+          }
+        }*/
+        return flowExecutes;
+    }
+    
+    public void removeFlowExecute(List<FlowExecute> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getProjectId().equals(list.get(i).getProjectId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+
+    @Override
+    public List<Project> selectByConition(HashMap<String, Object> map) {
+        
+        return projectMapper.selectByConition(map);
+    }
+      
+
+  }

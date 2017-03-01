@@ -206,6 +206,8 @@ public class ProjectController extends BaseController {
             if(page==null){
                 page = 1;
             }
+            
+            
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             //判断如果是管理部门
             if("2".equals(orgnization.getTypeName())){
@@ -239,10 +241,13 @@ public class ProjectController extends BaseController {
                 model.addAttribute("info", new PageInfo<Project>(list2));
             }
             
-            //判断如果是采购机构
+            
+          //判断如果是采购机构
             if("1".equals(orgnization.getTypeName())){
                 map.put("purchaseDepId", user.getOrg().getId());
-                List<Project> list = projectService.selectProjectsByConition(map);
+                map.put("userId", user.getId());
+                List<Project> list = projectService.selectByConition(map);
+                removeProject(list);
                 for (int i = 0; i < list.size(); i++ ) {
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
@@ -260,7 +265,6 @@ public class ProjectController extends BaseController {
                 List<Project> newPro = new ArrayList<Project>();
                 mop.put("id", user.getId());
                 List<ProjectDetail> lists = detailService.selectByDemand(mop);
-                removeDetail(lists);
                 for (ProjectDetail projectDetail : lists) {
                     Project project2 = projectService.selectById(projectDetail.getProject().getId());
                     newPro.add(project2);
@@ -943,6 +947,16 @@ public class ProjectController extends BaseController {
         for (int i = 0; i < list.size() - 1; i++) {
             for (int j = list.size() - 1; j > i; j--) {
                 if (list.get(j).getId().equals(list.get(i).getId())) {
+                    list.remove(j);
+                }
+            }
+        }
+    }
+    
+    public void removeFlowExecute(List<FlowExecute> list) {
+        for (int i = 0; i < list.size() - 1; i++) {
+            for (int j = list.size() - 1; j > i; j--) {
+                if (list.get(j).getProjectId().equals(list.get(i).getProjectId())) {
                     list.remove(j);
                 }
             }
