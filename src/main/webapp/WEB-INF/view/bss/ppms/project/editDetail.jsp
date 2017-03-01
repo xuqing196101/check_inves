@@ -305,7 +305,7 @@
           </div>
         </div>
         <div class="col-md-12 tc col-sm-12 col-xs-12 mt20">
-          <button class="btn" type="button" onclick="subPackage()">分包</button>
+          <!-- <button class="btn" type="button" onclick="subPackage()">分包</button> -->
           <button class="btn btn-windows git" type="button" onclick="edit()">修改</button>
           <button class="btn btn-windows back" type="button" onclick="goBack();">返回</button>
         </div>

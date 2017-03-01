@@ -82,6 +82,13 @@
 		<collection property="listCheckPasses" column="ID"
 			select="bss.dao.ppms.SupplierCheckPassMapper.getByCheckPass" ofType="bss.model.ppms.SupplierCheckPass" />
 	</resultMap>
+	
+	<!-- 未中标供应商 -->
+	<resultMap type="bss.model.ppms.Packages" extends="BaseResultMap"
+    id="SupplierCheckPa">
+    <collection property="listCheckPasses" column="ID"
+      select="bss.dao.ppms.SupplierCheckPassMapper.getByCheck" ofType="bss.model.ppms.SupplierCheckPass" />
+  </resultMap>
 
 
 	<sql id="Base_Column_List">
@@ -392,6 +399,17 @@
 		PROJECT_ID=#{projectId}
     ORDER BY CREATED_AT ASC
 	</select>
+	
+	
+	<select id="supplierCheckPa" parameterType="java.lang.String"
+    resultMap="SupplierCheckPa">
+    SELECT
+  <include refid="Base_Column_List" />
+    FROM
+    T_BSS_PPMS_PACKAGE WHERE IS_DELETED=0 AND
+    PROJECT_ID=#{projectId}
+    ORDER BY CREATED_AT ASC
+  </select>
 
 	<!-- 返回所有专家 -->
 	<select id="listResultAllExpert" parameterType="java.lang.String"

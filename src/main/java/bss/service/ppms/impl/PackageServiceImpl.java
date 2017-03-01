@@ -184,5 +184,11 @@ public class PackageServiceImpl implements PackageService{
     return packageMapper.listSupplierExtract(projectId);
   }
 
+@Override
+public List<Packages> supplierCheckPa(String projectId) {
+    
+    return packageMapper.supplierCheckPa(projectId);
+}
+
 }
 

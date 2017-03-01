@@ -429,6 +429,42 @@
           </div>
           <div class="tab-pane fade " id="tab-2">
             <table  class="table table-bordered table-condensed mt5">
+              <c:if test="${lists != null}">
+              <table id="tables" class="table table-bordered table-condensed table-hover table-striped left_table">
+                  <thead>
+                    <tr>
+                      <th class="info w50">序号</th>
+                      <th class="info" width="15%">物资名称</th>
+                      <th class="info" width="10%">规格型号</th>
+                      <th class="info" width="10%">质量技术标准</th>
+                      <th class="info" width="">计量<br>单位</th>
+                      <th class="info" width="">采购<br>数量</th>
+                      <th class="info" width="8%">交货期限</th>
+                      <th class="info" width="15%">供应商名称</th>
+                      <th class="info">是否申请<br>办理免税</th>
+                      <th class="info" width="8%" >物资用途<br>（进口）</th>
+                      <th class="info" width="8%" >使用单位<br>（进口）</th>
+                      <th class="info" width="10%">备注</th>
+                    </tr>
+                  </thead>
+                  <c:forEach items="${lists}" var="obj" varStatus="vs">
+                    <tr>
+                      <td class="tc w50">${vs.index+1}</td>
+                      <td class="tl"  width="15%"><a href="javascript:void(0)" onclick="view('${obj.requiredId}');">${obj.goodsName}</a></td>
+                      <td class="tl"  width="10%">${obj.stand}</td>
+                      <td class="tl"  width="10%">${obj.qualitStand}</td>
+                      <td class="tc">${obj.item}</td>
+                      <td class="tc">${obj.purchaseCount}</td>
+                      <td class="tl" width="8%">${obj.deliverDate}</td>
+                      <td class="tl" width="15%">${obj.supplier}</td>
+                      <td class="tc">${obj.isFreeTax}</td>
+                      <td class="tl"  width="8%">${obj.goodsUse}</td>
+                      <td class="tl"  width="8%">${obj.useUnit}</td>
+                      <td class="tl"  width="10%">${obj.memo}</td>
+                    </tr>
+                  </c:forEach>
+              </table>
+            </c:if>
               <c:forEach items="${packageList }" var="pack" varStatus="p">
                 <div class="col-md-6 col-sm-6 col-xs-12 p0">
                   <span class="f16 b">包名:</span>

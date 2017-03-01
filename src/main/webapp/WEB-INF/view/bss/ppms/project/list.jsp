@@ -81,8 +81,8 @@
         status = $.trim(status);
         var currPage = ${info.pageNum};
         if(id.length == 1) {
-          if(status == "YLX_DFB" || status == "YFB_DSS") {
-            $.ajax({
+          /* if(status == "YLX_DFB") {
+             $.ajax({
               url: "${pageContext.request.contextPath}/project/viewPackages.html",
               data: "id=" + id,
               type: "post",
@@ -106,7 +106,20 @@
                   $(".layui-layer-shade").remove();
                 }
               }
-            });
+            }); 
+          }
+           */
+          if(status == "YJLX") {
+             layer.open({
+                    type: 2, //page层
+                    area: ['800px', '500px'],
+                    title: '请上传项目批文',
+                    shade: 0.01, //遮罩透明度
+                    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                    shift: 1, //0-6的动画形式，-1不开启
+                    shadeClose: true,
+                    content: '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
+                  });
           }else if(status == "YJFB") {
             layer.alert("项目已废标", {
               offset: ['30%', '40%'],
@@ -188,14 +201,15 @@
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
         status = $.trim(status);
         if(id.length == 1) {
-          if(status == "YLX_DFB" || status == "YFB_DSS") {
-            window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
+          window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
+          /* if(status == "YLX_DFB" || status == "YFB_DSS") {
+            
           }else{
             layer.alert("实施中的项目不能修改", {
               offset: ['222px', '730px'],
               shade: 0.01,
             });
-          }
+          } */
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
             offset: ['222px', '730px'],

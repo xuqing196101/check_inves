@@ -272,7 +272,7 @@ public class TackController extends BaseController{
 	                 List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
 	                 if(projectTask != null && projectTask.size()>0){
 	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
-	                     project.setStatus(DictionaryDataUtil.getId("YLX_DFB"));
+	                     project.setStatus(DictionaryDataUtil.getId("YJXL"));
 	                     advancedProjectService.update(project);
 	                 }
 	             }
@@ -500,6 +500,15 @@ public class TackController extends BaseController{
                     }
                 }
             
+            }
+            HashMap<String, Object> newMap = new HashMap<>();
+            for (int j = 0; j < list5.size(); j++ ) {
+                newMap.put("id", list5.get(j).getId());
+                List<PurchaseDetail> selectByParentId = purchaseDetailService.selectByParentId(newMap);
+                if(selectByParentId.size() > 1){
+                    list5.get(j).setPurchaseType(null);
+                    list5.get(j).setProjectStatus(null);
+                }
             }
             model.addAttribute("lists", list5);
         }else{

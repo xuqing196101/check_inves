@@ -131,6 +131,8 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("kind", findById.getCode());
     String id = DictionaryDataUtil.getId("DYLY");
     if(project.getPurchaseType().equals(id)){
+        List<Packages> pack = packageService.supplierCheckPa(projectId);
+        model.addAttribute("packLi", pack);
         return "bss/ppms/winning_supplier/lists";
     }else{
         return "bss/ppms/winning_supplier/list";
@@ -402,9 +404,13 @@ public class WinningSupplierController extends BaseController {
   public String comparisons(@CurrentUser User user,String id){
       String[] ids= id.split(",");
       for (int i = 0; i < ids.length; i++ ) {
-          SupplierCheckPass checkPass = checkPassService.findByPrimaryKey(ids[i]);
-          checkPass.setIsWonBid((short)1);
-          checkPassService.update(checkPass);
+          SupplierCheckPass checkPass = new SupplierCheckPass();
+          checkPass.setPackageId(ids[i]);
+          List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(checkPass);
+          for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+              supplierCheckPass.setIsWonBid((short)1);
+              checkPassService.update(supplierCheckPass);
+          }
     }
       return JSON.toJSONString(SUCCESS);
   } 

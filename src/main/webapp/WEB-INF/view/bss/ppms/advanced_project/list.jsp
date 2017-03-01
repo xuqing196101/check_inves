@@ -79,7 +79,7 @@
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
         status = $.trim(status);
         if(id.length == 1) {
-          if(status == "YLX_DFB" || status == "YFB_DSS") {
+          /* if(status == "YLX_DFB" || status == "YFB_DSS") {
             $.ajax({
               url: "${pageContext.request.contextPath}/advancedProject/viewPackages.html",
               data: "id=" + id,
@@ -105,17 +105,27 @@
                 }
               }
             });
+          } */
+          if(status == "YJLX"){
+            layer.open({
+                    type: 2, //page层
+                    area: ['800px', '500px'],
+                    title: '请上传项目批文',
+                    shade: 0.01, //遮罩透明度
+                    moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                    shift: 1, //0-6的动画形式，-1不开启
+                    shadeClose: true,
+                    content: '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
+                  });
           }else{
             window.location.href = "${pageContext.request.contextPath}/advancedProject/excute.html?id=" + id;
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
-            offset: ['222px', '390px'],
             shade: 0.01,
           });
         } else {
           layer.alert("请选择需要启动的项目", {
-            offset: ['222px', '390px'],
             shade: 0.01,
           });
         }
