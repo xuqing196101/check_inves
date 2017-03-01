@@ -478,9 +478,9 @@
                 layer.msg("请填写从事专业起始年月!");
                 return false;
             }
-            var professional = $("#professional").val();
-            if (!professional) {
-                layer.msg("请填写执业资格职称!");
+            var professTechTitles = $("#professTechTitles").val();
+            if (!professTechTitles) {
+                layer.msg("请填写专家技术职称!");
                 return false;
             }
 
@@ -1006,12 +1006,12 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 手机</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="15" value="${user.mobile}" readonly="readonly" name="mobile" id="mobile"
+                        <input maxlength="15" value="${user.mobile}"  name="mobile" id="mobile"
                                type="text"
                                <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('手机')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">手机号码暂不支持修改</span>
+                        <span class="input-tip">11位数字</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1085,7 +1085,7 @@
                         class="red">*</i> 单位地址</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
-                               type="text" placeholder="xx市xx区xx街道xx号"
+                               type="text" placeholder="xx街道xx号"
                                <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位地址')"</c:if>/>
                         <span class="add-on">i</span>
@@ -1136,42 +1136,52 @@
                         <span class="input-tip">如：XXXX-XX</span>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>执业资格职称</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i>专家技术职称</span> <!--/执业资格  -->
+                    <div
+                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'执业资格职称')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('执业资格职称')"</c:if> maxlength="20"
-                                value="${expert.professional}" name="professional" id="professional"
-                                type="text"/>
-                        <span class="add-on">i</span>
-                        <span class="input-tip">不能为空</span>
+                                <c:if test="${fn:contains(errorField,'专家技术职称')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('专家技术职称')"</c:if>
+                                maxlength="20" value="${expert.professTechTitles}"
+                                name="professTechTitles" id="professTechTitles" type="text"/>
+                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12">
-                    <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 执业资格</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                         <c:if test="${fn:contains(errorField,'执业资格')}">style="border: 1px solid #ef0000;"
-                         onmouseover="errorMsg('执业资格')"</c:if>>
-                        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                  exts="${properties['file.picture.type']}" id="expert9"
-                                  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-                                  multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1"
-                                  typeId="9" auto="true"/>
-                        <u:show showId="show9" groups="show1,show2,show3,show4,show5,show6,show7,show8"
-                                businessId="${sysId}" sysKey="${expertKey}" typeId="9"/>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red"></i> 专家技术职称证书</span>
+                    <div
+                            class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                            <c:if test="${fn:contains(errorField,'专家技术职称证书')}">style="border: 1px solid #ef0000;"
+                            onmouseover="errorMsg('专家技术职称证书')"</c:if>>
+                        <u:upload
+                                singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                                exts="${properties['file.picture.type']}" id="expert4" maxcount="1"
+                                groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                                multiple="true" businessId="${sysId}" sysKey="${expertKey}"
+                                typeId="4" auto="true"/>
+                        <u:show showId="show4"
+                                groups="show9,show2,show3,show4,show5,show6,show7,show8"
+                                businessId="${sysId}" sysKey="${expertKey}"
+                                typeId="4"/>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 取得技术职称时间</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i>证书获取时间</span>
+                    <!--/职业资格时间  -->
+                    <div
+                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'取得执业资格的时间')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('取得执业资格的时间')"</c:if>
-                                value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeProfessional" id="timeProfessional" type="text"
-                                onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
-                        <span class="add-on">i</span>
-                        <span class="input-tip">如：XXXX-XX</span>
+                                <c:if test="${fn:contains(errorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('证书获取时间')"</c:if>
+                                value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="timeToWork" id="timeToWork"
+                                type="text"
+                                onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
+                            class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
                     </div>
                 </li>
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
@@ -1286,7 +1296,10 @@
                         <span class="input-tip">如：XXXX-XX</span>
                     </div>
                 </li>
+                 </ul>
 
+            <h2 class="count_flow"><i>3</i>推荐信</h2>
+            <ul class="ul_list">
 
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red"></i>相关机关事业部门推荐信</span>
@@ -1330,7 +1343,7 @@
                 </li>
             </ul>
 
-            <h2 class="count_flow"><i>3</i><font color=red>*</font> 主要工作经历</h2>
+            <h2 class="count_flow"><i>4</i><font color=red>*</font> 主要工作经历</h2>
             <ul class="ul_list">
                 <div class="padding-top-10 clear">
                     <%-- <h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>--%>
@@ -1347,7 +1360,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>4</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
+            <h2 class="count_flow"><i>6 </i><font color=red>* </font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
             <ul class="ul_list">
                 <!-- 专业学术成果 -->
                 <div class="padding-top-10 clear">
@@ -1367,7 +1380,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>5</i>专业学术成果</h2>
+            <h2 class="count_flow"><i>6</i><font color=red>* </font>专业学术成果</h2>
             <ul class="ul_list">
                 <!-- 专业学术成果 -->
                 <div class="padding-top-10 clear">
@@ -1385,7 +1398,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>6</i>参加军队地方采购评审情况</h2>
+            <h2 class="count_flow"><i>7</i><font color=red>* </font>参加军队地方采购评审情况</h2>
             <ul class="ul_list">
                 <div class="padding-top-10 clear">
                     <%-- <h2 class="count_flow"><i>4</i><font color=red></font> 参加军队地方采购评审情况</h2>--%>
@@ -1402,7 +1415,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>7</i>需要申请回避的情况</h2>
+            <h2 class="count_flow"><i>8</i><font color=red>* </font>需要申请回避的情况</h2>
             <ul class="ul_list">
                 <div class="padding-top-10 clear">
                     <%-- <h2 class="count_flow"><i>5</i><font color=red></font> 需要申请回避的情况</h2>--%>
