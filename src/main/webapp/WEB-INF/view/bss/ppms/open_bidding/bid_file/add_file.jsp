@@ -85,6 +85,8 @@ $(function (){
 			alert("招标文件已暂存");
 		}
 	}
+	function save(){}
+	
 	
 	function closeFile(){
 		var obj = document.getElementById("TANGER_OCX");
@@ -171,14 +173,7 @@ $(function (){
     /**生成正式的采购文件*/
     function oncreate(){
     	  var projectId = $("#projectId").val();
-    	 $.ajax({
-             url:"${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId,
-             dataType: 'json',  
-                 success:function(result){
-                        
-                     },
-                     
-               });
+        window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId;
     }
 </script>
 <!-- 打开文档后调用  -->
@@ -392,7 +387,7 @@ function getTaskTime(strDate) {
 	   		<input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
 	    </div>
 	 </c:if>
-	  <c:if test="${project.confirmFile == 3 && pStatus == 'ZBWJYTG' &&  isAdmin == 1 }">
+	  <c:if test="${(project.confirmFile == 3 || project.confirmFile == 4) && (pStatus == 'ZBWJYTG' || pStatus=='ZBWJXGBB') &&  isAdmin == 1 }">
        <div class="mt5 mb5 fr" id="handle">
           <input type="button" class="btn btn-windows save" onclick="oncreate();" value="生成正式采购文件">
       </div>
@@ -428,7 +423,7 @@ function getTaskTime(strDate) {
 <!--      confirmFile 未提交(0) 并且 没有原因 就不展示框 or 项目状态==ZBWJYTJ并且是监管部门才展示 
 
 -->
-         <c:if test="${(project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 && ope =='add' && project.auditReason != null && project.auditReason != '') || (pStatus == 'ZBWJYTJ' && exist == true)  }">
+         <c:if test="${(project.confirmFile != 0 && project.confirmFile != 1 )  || ( exist == true )  }">
                <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
             <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="pcReason" maxlength="100" name="pcReason" title="不超过100个字">${reasons.pcReason}</textarea>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
