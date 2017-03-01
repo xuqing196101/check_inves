@@ -1,5 +1,6 @@
 package bss.service.ppms;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -118,12 +119,13 @@ public interface ProjectService {
      *〈简述〉变更当前环节经办人
      *〈详细描述〉
      * @author Ye MaoLin
+     * @param currLoginUser 
      * @param currFlowDefineId
      * @param currUpdateUserId
      * @param currUpdateUserId2 
      * @return
      */
-    JSONObject updateCurrOperator(String currFlowDefineId, String currUpdateUserId, String currUpdateUserId2);
+    JSONObject updateCurrOperator(User currLoginUser, String currFlowDefineId, String currUpdateUserId, String currUpdateUserId2);
     
     /**
      *〈简述〉更新项目状态
@@ -137,5 +139,28 @@ public interface ProjectService {
     List<FlowExecute> selectFlow(User user);
     
     List<Project> selectByConition(HashMap<String,Object> map);
+    
+    /**
+     *〈简述〉校验是否可提交
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param response
+     * @param currFlowDefineId
+     * @throws IOException 
+     */
+    JSONObject isSubmit(String projectId, String currFlowDefineId);
+    
+    /**
+     *〈简述〉提交环节
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param currLoginUser 
+     * @param request
+     * @param response
+     * @param currFlowDefineId
+     * @throws IOException 
+     */
+    JSONObject submitHuanjie(User currLoginUser, String projectId, String currFlowDefineId);
     
 }

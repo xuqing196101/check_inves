@@ -387,4 +387,21 @@ public PurchaseDep queryByName(String name) {
 	// TODO Auto-generated method stub
 	return purchaseDepMapper.queryByName(name);
 }
+
+/**
+ * 
+ * @Title: get
+ * @Description: 根据管理部门得到所有的需求部门
+ * author: YangHongliang 
+ * @param @param id
+ * @param @return     
+ * @return List<PurchaseOrg>     
+ * @throws
+ */
+public List<PurchaseOrg> getByPurchaseDepId(String purchaseDepId){
+  HashMap<String,Object> map=new HashMap<String,Object>();
+ map.put("purchaseDepId",purchaseDepId);
+  List<PurchaseOrg> list = purchaseOrgMapper.selectById(map);
+  return list;
+}
 }

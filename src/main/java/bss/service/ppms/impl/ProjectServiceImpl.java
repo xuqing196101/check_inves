@@ -10,6 +10,7 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.zookeeper.server.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -265,23 +266,23 @@ public class ProjectServiceImpl implements ProjectService {
               jsonObj.put("operatorId", flowExecute2.getOperatorId());
               jsonObj.put("flowDefineId", fDefine.getId());
               jsonObj.put("flowDefineName", fDefine.getName());
-              List<PurchaseInfo> purchaseInfo = new ArrayList<>();
-              if(user != null && user.getOrg() != null){
-                 //获取当前用户所属机构人员
-                 purchaseInfo = purchaseInfoMapper.findPurchaseUserList(user.getOrg().getId());
-              }
-              jsonObj.put("users", purchaseInfo);
           }
       } else {
           //当前环节是最后一个环节
           jsonObj.put("success", true);
           jsonObj.put("isEnd", true);
       }
+      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
+      if(user != null && user.getOrg() != null){
+         //获取当前用户所属机构人员
+         purchaseInfo = purchaseInfoMapper.findPurchaseUserList(user.getOrg().getId());
+      }
+      jsonObj.put("users", purchaseInfo);
       return jsonObj;
   }
 
   @Override
-  public JSONObject updateCurrOperator(String projectId, String currFlowDefineId, String currUpdateUserId) {
+  public JSONObject updateCurrOperator(User currLoginUser, String projectId, String currFlowDefineId, String currUpdateUserId) {
       JSONObject jsonObj = new JSONObject();
       FlowExecute flowExecute = new FlowExecute();
       flowExecute.setFlowDefineId(currFlowDefineId);
@@ -301,7 +302,9 @@ public class ProjectServiceImpl implements ProjectService {
           FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
           if (flowDefine != null) {
               jsonObj.put("url", flowDefine.getUrl());
+              jsonObj.put("flowDefineName", flowDefine.getName());
           }
+          jsonObj.put("currLoginUser", currLoginUser);
           jsonObj.put("success", true);
       } else {
           jsonObj.put("success", false);
@@ -351,6 +354,54 @@ public class ProjectServiceImpl implements ProjectService {
         
         return projectMapper.selectByConition(map);
     }
-      
+
+    @Override
+    public JSONObject isSubmit(String projectId, String currFlowDefineId) {
+        JSONObject jsonObj = new JSONObject();
+        
+        jsonObj.put("success", true);
+        return jsonObj;
+    }
+
+    @Override
+    public JSONObject submitHuanjie(User currLoginUser, String projectId, String currFlowDefineId) {
+        JSONObject jsonObj = new JSONObject();
+        FlowExecute temp = new FlowExecute();
+        temp.setFlowDefineId(currFlowDefineId);
+        temp.setProjectId(projectId);
+        List<FlowExecute> flowExecutes = flowExecuteMapper.findExecuted(temp);
+        //如果该项目该环节流程已经执行过
+        if (flowExecutes != null && flowExecutes.size() > 0) {
+            //执行记录设置为假删除状态
+            FlowExecute oldFlowExecute = flowExecutes.get(0); 
+            oldFlowExecute.setIsDeleted(1);
+            oldFlowExecute.setUpdatedAt(new Date());
+            flowExecuteMapper.update(oldFlowExecute);
+            //新增一条相同环节记录
+            oldFlowExecute.setCreatedAt(new Date());
+            oldFlowExecute.setStatus(3);
+            oldFlowExecute.setId(WfUtil.createUUID());
+            oldFlowExecute.setIsDeleted(0);
+            oldFlowExecute.setOperatorId(currLoginUser.getId());
+            oldFlowExecute.setOperatorName(currLoginUser.getRelName());
+            flowExecuteMapper.insert(oldFlowExecute);
+        } else {
+            //如果该项目该环节流程没有执行过
+            FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+            FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setCreatedAt(new Date());
+            flowExecute.setFlowDefineId(currFlowDefineId);
+            flowExecute.setIsDeleted(0);
+            flowExecute.setOperatorId(currLoginUser.getId());
+            flowExecute.setOperatorName(currLoginUser.getRelName());
+            flowExecute.setProjectId(projectId);
+            flowExecute.setStatus(3);
+            flowExecute.setId(WfUtil.createUUID());
+            flowExecute.setStep(flowDefine.getStep());
+            flowExecuteMapper.insert(flowExecute);
+        }
+        jsonObj.put("success", true);
+        return jsonObj;
+    }
 
   }

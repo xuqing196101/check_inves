@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -17,6 +18,10 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.DownloadService;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseDep;
@@ -57,6 +62,11 @@ public class AuditBiddingController extends BaseController {
   @Autowired
   ProjectService projectService;
 
+  @Autowired
+  private FileUploadMapper fileDao;
+  
+  @Autowired
+  private DownloadService downloadService;
   /**
    * 流程
    */
@@ -201,12 +211,17 @@ public class AuditBiddingController extends BaseController {
    * @return
    * @throws UnsupportedEncodingException 
    */
-  @ResponseBody
-  @RequestMapping(value = "/purchaseFile",produces = "text/html;charset=UTF-8")
-  public String purchaseFile(String projectId){
+  @RequestMapping("/purchaseFile")
+  public void purchaseFile(HttpServletRequest request,  HttpServletResponse response, String projectId){
     //修改代办为已办
     todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
-    return SUCCESS;
+    Integer systemKey = Integer.parseInt(Constant.TENDER_SYS_KEY+"");
+    String tableName = Constant.fileSystem.get(systemKey);
+    List<UploadFile> file = fileDao.findBybusinessId(projectId, tableName);
+    if(file !=null && file.size()>0){
+    //下载文件
+    downloadService.downLoadFile(request, response, file.get(0).getPath());
+    }
     
   }
 

@@ -400,7 +400,8 @@ public class OpenBiddingController {
    */
   private boolean isExist(String orgId,String userOrgId){
     //拿到当前的采购机构获取到组织机构
-    List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(orgId);
+    //添加 purchaseOrgnizationServiceI.getByPurchaseDepId 方法
+    List<PurchaseOrg> list = purchaseOrgnizationServiceI.getByPurchaseDepId(orgId);
     for (PurchaseOrg purchaseOrg : list) {
       if(userOrgId.equals(purchaseOrg.getOrgId())){
         return true;
@@ -2891,9 +2892,9 @@ public class OpenBiddingController {
    */
   @RequestMapping("/updateCurrOperator")
   @ResponseBody
-  public void updateCurrOperator (HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String currUpdateUserId, String projectId) throws IOException{
+  public void updateCurrOperator (@CurrentUser User currLoginUser, HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String currUpdateUserId, String projectId) throws IOException{
       try {
-          JSONObject jsonObj = projectService.updateCurrOperator(projectId, currFlowDefineId, currUpdateUserId);
+          JSONObject jsonObj = projectService.updateCurrOperator(currLoginUser, projectId, currFlowDefineId, currUpdateUserId);
           response.getWriter().print(jsonObj.toString());
           response.getWriter().flush();
       } catch (Exception e) {
@@ -2902,4 +2903,52 @@ public class OpenBiddingController {
           response.getWriter().close();
       }
   }
+  
+  /**
+   *〈简述〉校验是否可提交
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param request
+   * @param response
+   * @param currFlowDefineId
+   * @throws IOException 
+   */
+  @RequestMapping("/isSubmit")
+  @ResponseBody
+  public void isSubmit(HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String projectId) throws IOException{
+      try {
+          JSONObject jsonObj = projectService.isSubmit(projectId, currFlowDefineId);
+          response.getWriter().print(jsonObj.toString());
+          response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
+  }
+  
+  /**
+   *〈简述〉提交环节
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param request
+   * @param response
+   * @param currFlowDefineId
+   * @throws IOException 
+   */
+  @RequestMapping("/submitHuanjie")
+  @ResponseBody
+  public void submitHuanjie(@CurrentUser User currLoginUser, HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String projectId) throws IOException{
+      try {
+          JSONObject jsonObj = projectService.submitHuanjie(currLoginUser, projectId, currFlowDefineId);
+          response.getWriter().print(jsonObj.toString());
+          response.getWriter().flush();
+      } catch (Exception e) {
+          e.printStackTrace();
+      } finally{
+          response.getWriter().close();
+      }
+  }
+  
+  
 }

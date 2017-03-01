@@ -38,6 +38,16 @@
 					$("#currPrincipal").select2();
 					$("#currPrincipal").select2("val", data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
+					//禁止变更经办人操作
+					if (data.isOperate == 0) { 
+						$("#submitdiv").attr("disabled", true);
+						$("#principal").attr("disabled", true);
+						$("#currPrincipal").attr("disabled", true);
+					} else {
+						$("#submitdiv").attr("disabled", false);
+						$("#principal").attr("disabled", false);
+						$("#currPrincipal").attr("disabled", false);
+					}
 					if (!data.isEnd) {
 						$("#nextHaunjie").show();
 						$("#updateOperateId").show();
@@ -83,6 +93,16 @@
 					$("#currPrincipal").select2();
 					$("#currPrincipal").select2("val", data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
+					//禁止变更经办人操作
+					if (data.isOperate == 0) { 
+						$("#submitdiv").attr("disabled", true);
+						$("#principal").attr("disabled", true);
+						$("#currPrincipal").attr("disabled", true);
+					} else {
+						$("#submitdiv").attr("disabled", false);
+						$("#principal").attr("disabled", false);
+						$("#currPrincipal").attr("disabled", false);
+					}
 					if (!data.isEnd) {
 						$("#nextHaunjie").show();
 						$("#updateOperateId").show();
@@ -99,7 +119,7 @@
 						$("#nextHaunjie").hide();
 						$("#updateOperateId").hide();
 					}
-				} 
+				}
 			}
 		});
 		var urls="${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
@@ -140,7 +160,6 @@
                 success: function(data) {
                     if(data.success){
                     	layer.msg("变更当前环节经办人成功",{offset: '100px'});
-                    	
                     	jumpLoad(data.url, projectId, currFlowDefineId);
                     }
                 },
@@ -164,6 +183,27 @@
 		if(step != 1){
 			layer.msg("请先执行前面步骤",{offset: ['220px']});
 		}
+	}
+	
+	//变更下一环节经办人
+	function submitCurrOperator(){
+		var projectId = "${project.id}";
+		var nextFlowDefineId = $("#huanjieId").val();
+		var nextUpdateUserId = $("#principal").val();
+		$.ajax({
+                type: "POST",
+                url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
+				dataType: "json", //返回格式为json
+                data:{"currFlowDefineId":nextFlowDefineId ,"currUpdateUserId":nextUpdateUserId, "projectId":projectId},
+                success: function(data) {
+                    if(data.success){
+                    	layer.msg(data.flowDefineName+ "经办人设置成功",{offset: '100px'});
+                    }
+                },
+                error: function(data){
+                    layer.msg("请稍后再试",{offset: '100px'});
+                }
+            });
 	}
 	
 /* 	function abandoned(id){
@@ -228,6 +268,43 @@
     function normalImg(x){
      $(x).removeClass("btmfix");
      $(x).addClass("btmfixs");
+   }
+   
+   //提交当前环节
+   function submitcurr(){
+      var projectId = "${project.id}";
+	  var currFlowDefineId = $("#currHuanjieId").val();
+	  var currUpdateUserId = $("#currPrincipal").val();
+	  alert(projectId);
+      //校验当前环节是否完成
+  	  $.ajax({
+          url : "${pageContext.request.contextPath}/open_bidding/isSubmit.html",
+          data :{"currFlowDefineId":currFlowDefineId , "projectId":projectId},
+          type : "post",
+          dateType : "json",
+          success : function(data) {
+            if(data.success) {
+              //提交当前环节
+              $.ajax({
+		          url : "${pageContext.request.contextPath}/open_bidding/submitHuanjie.html",
+		          data :{"currFlowDefineId":currFlowDefineId, "projectId":projectId},
+		          type : "post",
+		          dateType : "json",
+		          success : function(data) {
+		            if(data.success) {
+		              layer.msg("提交成功",{offset: '100px'});
+		            }
+		          },
+		          error : function() {
+		            layer.msg("提交失败",{offset: '100px'});
+		          }
+              });
+            }
+          },
+          error : function() {
+            layer.msg("提交失败",{offset: '100px'});
+          }
+      })
    }
 </script>
 </head>
@@ -301,11 +378,8 @@
 					      	 <input type="hidden" id="projectId" name="projectId" value="${project.id}">
 					      	 <div class="fr" id="updateOperateId">
 					      		<span class="fl h30 lh30">经办人：</span>
-					      		<div class="w200 fl">
-					      			<select id="principal" name="principal"></select>
-					      		</div>
-					      		<div class="fl ml5">
-					      			<input type="button" class="btn btn-windows git" onclick="updateOperator();" value="提交"></input>
+					      		<div class="w120 fl">
+					      			<select id="principal" name="principal" onchange="submitCurrOperator()"></select>
 					      		</div>
 					      	</div>
 					      	<div class="fr mr10" id="nextHaunjie">
@@ -316,9 +390,12 @@
 					        </div>
 					        <div class="fl mr10">
 					      		<span class="fl h30 lh30">变更经办人：</span>
-					      		<div  class="w150 fl">
+					      		<div  class="w120 fl">
 					      			<input type="hidden" id="currHuanjieId">
 					      		    <select id="currPrincipal" name="currPrincipal" onchange="updateCurrOperator()"></select>
+					      		</div>
+					      		<div class="fl ml5" >
+					      			<input id="submitdiv" type="button" class="btn btn-windows git" onclick="submitcurr();" value="提交" />
 					      		</div>
 					        </div>
                       	  </form>
