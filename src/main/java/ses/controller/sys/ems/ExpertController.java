@@ -277,7 +277,7 @@ public class ExpertController extends BaseController {
 			session.removeAttribute("tokenSession");
 			// 判断用户名密码是否合法
 			String loginName = user.getLoginName();
-            session.setAttribute("loginName",loginName);
+
 			String password = user.getPassword();
 			String regex = "[`~!@#$%^&*()+=|{}':;',\\[\\].<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？]";
 			Pattern p = Pattern.compile(regex);
@@ -335,6 +335,7 @@ public class ExpertController extends BaseController {
 			}
 
 			attr.addAttribute("userId", user.getId());
+            session.setAttribute("loginName",user.getId());
 			return "redirect:toAddBasicInfo.html";
 		}
 		// 重复提交
