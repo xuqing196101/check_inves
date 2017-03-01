@@ -99,6 +99,7 @@
     /**新增 */
     function add(){
     	hideQua();
+    	
 		if (treeid==null) {
 			layer.msg("请选择一个节点");
 			return;		
@@ -111,9 +112,13 @@
 			if (level == 2){
 				showQua(null, nodes.classify);
 			}
+			if(level==3){
+				$("#expertTypes").show();
+			}
 			if (node) {
 				$("#typeId").empty();
 				$("#openId").empty();
+				
 				$.ajax({
 					url:"${pageContext.request.contextPath}/engCategory/add.do",
 					type:"POST",
@@ -159,12 +164,19 @@
 		}else{
 		$("#typeId").empty();
 		$("#openId").empty();
+		
 		var node = getCurrentRoot(nodes);
+		
+		
+			
+			
+		
 		  $.ajax({
 			url:"${pageContext.request.contextPath}/engCategory/update.do?id="+treeid,
 			dataType:"json",
 			type:"POST",
 			success:function(cate){
+				
 					$("#uploadId_businessId").val(cate.id);
 					$("#fileId_downBsId").val(cate.id);
 					$("#pid").val(cate.parentId);
@@ -172,16 +184,30 @@
 					$("#cateId").val(cate.name);
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
+					var expertTypes=document.getElementsByName("expertType");
+					for(var i=0;i<expertTypes.length;i++){
+						if(expertTypes[i].value==cate.expertType){
+							expertTypes[i].checked=true;
+						}
+					}
+					
 					showInit();
 					if (level == 3){
 						showQua(cate, node.classify);
 					}
+					if(level==4){
+						$("#expertTypes").show();
+					}
 					if (node.classify && node.classify == "GOODS"){
 						$("#typeTrId").show();
 						loadcheckbox(cate.classify);
+						
+						
 					} else {
 						$("#typeTrId").hide();
+						
 					}
+					
 					loadRadioHtml(cate.isPublish);
 		      }
             });
@@ -390,6 +416,7 @@
 	 $("#generaQuaTr").hide();
 	 $("#profileQuaTr").hide();
 	 $("#profileQuaTr_sales").hide();
+	 $("#expertTypes").hide();
  }
  
  //初始化类型
@@ -598,6 +625,17 @@
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
        				  <input  id="posId" type="text" name='code'/>
        				  <span class="add-on">i</span>
+       				</div>
+       				  <span id="posTipsId" class="red clear span_style" />
+       		      </td>
+           	    </tr>
+           	    <tr id="expertTypes" style="display: none;">
+       			  <td class='info'>类别<span class="red">*</span></td>
+       			  <td id="expertType">
+       				<div class="col-md-8 col-sm-8 col-xs-7" id ="expertType">
+                      <input type="radio" name="expertType" value="1"/>工程技术
+                      <input type="radio" name="expertType" value="0"/>工程经济
+       				  
        				</div>
        				  <span id="posTipsId" class="red clear span_style" />
        		      </td>
