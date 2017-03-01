@@ -132,6 +132,24 @@ public class BrowserController {
 	     downloadFile(request, response, filePath, fileName);
 	  }
 	  
+	  /**
+	   * 
+	   *〈简述〉军队物资工程服务供应商入库操作手册文件下载
+	   *〈详细描述〉
+	   * @author tian zhiqiang
+	   * @param request {@link HttpServletRequest}
+	   * @param response {@link HttpServletResponse}
+	   */
+	  @RequestMapping("/downOpManuals")
+	  public void downOpManuals(HttpServletRequest request, HttpServletResponse response){
+	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
+	     UploadUtil.createDir(path);
+	     String fileName = PropUtil.getProperty("fileOpManuals.doc");
+	     String filePath = path + File.separator + fileName;
+	     downloadFile(request, response, filePath, fileName);
+	  }
+	  
+	  
 	/**
 	 * 
 	 *〈简述〉 根据游览器版本返回文件名称

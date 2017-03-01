@@ -23,6 +23,10 @@
 	function downCategory(){
 		window.location.href="${pageContext.request.contextPath}/expert/downCategory.html";
 	}
+	function downOpManuals(){
+		window.location.href="${pageContext.request.contextPath}/expert/downOpManuals.html";
+	}
+	
 </script>
 
 </head>
@@ -38,9 +42,15 @@
 						<div class="fl">
 							文件下载：<span class="ml10">《军队物资工程服务供应商入库须知》</span><a href="${pageContext.request.contextPath}/browser/supplierDownload.html" class="download"></a>
 						</div>
+						
 						<div class="fl ml20">
 							《军队物资工程服务采购产品分类目录》<a href="${pageContext.request.contextPath}/browser/categoryDownload.html" class="download"></a>
 						</div>
+						
+						<div class="fl ml20">
+							《军队物资工程服务供应商入库操作手册》<a href="${pageContext.request.contextPath}/browser/downOpManuals.html" class="download"></a>
+						</div>
+						
 						<div class="clear"></div>
 					</div>
 					<div class="mt40">
