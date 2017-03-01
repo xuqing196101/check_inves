@@ -207,7 +207,7 @@
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
 							</c:if>
 							<c:if test="${sign == 2 and expert.status eq '4' }">
-								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
+								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
 							</c:if>
 							<c:if test="${sign == 2 and expert.status eq '5' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查通过</span></td>

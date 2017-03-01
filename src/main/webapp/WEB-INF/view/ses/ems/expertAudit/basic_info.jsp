@@ -290,16 +290,21 @@
 								<input value="${expert.coverNote}" <c:if test="${fn:contains(editFields,'getCoverNote')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('coverNote','getCoverNote','0');"</c:if> id="coverNote" type="text" onclick="reason(this);"/>
 							</div>
 						</li> --%>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">省：</span>
+						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">地址：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="parentName" value="${parentName }" type="text" onclick="reason(this);"/>
+								<input id="range" value="${parentName }${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(editFields,'getRange')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('range','getRange','0');"</c:if>/>
+							</div>
+						</li>
+						<%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">省：</span>
+							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+								<input id="parentName" value="${parentName }" type="text" onclick="reason(this);" />
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">市：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input id="sonName" value="${sonName }" type="text" onclick="reason(this);" <c:if test="${fn:contains(editFields,'getAddress')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('address','getAddress','1');"</c:if>/>
 							</div>
-						</li>
+						</li> --%>
 						<%--如果是民--%>
 						<c:if test="${froms eq 'LOCAL'}">
             	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">缴纳社会保险证明：</span>
@@ -324,7 +329,7 @@
 						<c:if test="${froms eq 'ARMY'}">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 hand">军队人员身份证件类型：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input id="idType" <c:if test="${fn:contains(editFields,'getIdType')}">onmouseover="isCompare('idType','getIdType','1');"</c:if> value="${idType }" type="text" onclick="reason(this);"/>
+									<input id="idType" <c:if test="${fn:contains(editFields,'getIdType')}">style="border: 1px solid #FF8C00;"  onmouseover="isCompare('idType','getIdType','1');"</c:if> value="${idType }" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证件号码：</span>
@@ -460,13 +465,17 @@
 							</li>
 						  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">相关机关事业部门推荐信：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input value="${expert.email}" <c:if test="${fn:contains(editFields,'getEmail')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('email','getEmail','0');"</c:if> id="email" type="text" onclick="reason(this);"/>
+							 	<c:if test="${expert.isReferenceLftter eq '2'}">
+									<input value="${expert.isReferenceLftter}" <c:if test="${fn:contains(editFields,'getIsReferenceLftter')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('isReferenceLftter','getIsReferenceLftter','0');"</c:if> id="email" type="text" onclick="reason(this);"/>
+							 	</c:if>
+								<c:if test="${expert.isReferenceLftter eq '1'}">
+									<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">推荐信：</span>
+			              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
+			              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+			            </li>
+								</c:if>
 							</div>
 						</li>
-						<%--<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">推荐信：</span>
-              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
-              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
-            </li> --%>
 						</ul>
 					</div>
 					<div class="padding-top-10 clear">
