@@ -673,19 +673,22 @@ public class ExpertController extends BaseController {
                 allCategories.add(ct);
             } else {
                 List < Category > tempNodes = engCategoryService.findPublishTree(id, null);
-                List < Category > childNodes = new ArrayList<Category>();
                 String typeIds = expert.getExpertsTypeId();
+                int count = 0;
+                List < Category > childNodes = new ArrayList<Category>();
                 if (typeIds != null && !typeIds.equals("")) {
                     String[] ids = typeIds.split(",");
                     for (String typeId : ids) {
                         DictionaryData type = DictionaryDataUtil.findById(typeId);
                         if (type.getCode().equals("GOODS_PROJECT")) {
+                            count++;
                             for (Category cate : tempNodes) {
                                 if (cate.getExpertType() != null && cate.getExpertType().equals("0")) {
                                     childNodes.add(cate);
                                 }
                             }
                         } else if (type.getCode().equals("PROJECT")) {
+                            count++;
                             for (Category cate : tempNodes) {
                                 if (cate.getExpertType() != null && cate.getExpertType().equals("1")) {
                                     childNodes.add(cate);
@@ -693,6 +696,9 @@ public class ExpertController extends BaseController {
                             }
                         }
                     }
+                }
+                if (count == 2) {
+                    childNodes = tempNodes;
                 }
                 if(childNodes != null && childNodes.size() > 0) {
                     for(Category category: childNodes) {

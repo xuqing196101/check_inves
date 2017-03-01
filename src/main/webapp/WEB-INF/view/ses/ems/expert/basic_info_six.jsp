@@ -77,8 +77,8 @@
 					callback: {
 						onCheck: saveCategory,
 						onAsyncSuccess: zTreeOnAsyncSuccess,
-						onExpand: zTreeOnExpand
-						// beforeCheck: zTreeBeforeCheck
+						onExpand: zTreeOnExpand,
+						beforeCheck: zTreeBeforeCheck,
 					},
 					view: {
 						fontCss: setFontCss,
@@ -150,18 +150,12 @@
 			}
 
 			function zTreeBeforeCheck(treeId, treeNode) {
-				if(!treeNode.checked) {
-					if(treeNode.isParent) {
-						layer.msg("请选择最末级节点进行保存!", {
-							offset: ['300px', '750px']
-						});
-						return false;
-					} else {
-						return true;
-					}
-				} else {
-					return true;
-				}
+				if (treeNode.isParent == true) {
+			    	layer.msg("请在末节点上进行操作！");
+			    	return false;
+			    } else {
+					return true;	    	
+			    }
 			}
 
 			function zc() {
@@ -309,7 +303,7 @@
 				$("#" + cateId).val("");
 			}
 
-			function searchCate(cateId, treeId) {
+			function searchCate(cateId, treeId, codeId) {
 				var zTreeObj;
 				var setting = {
 					check: {
@@ -330,8 +324,8 @@
 					callback: {
 						onCheck: saveCategory,
 						onAsyncSuccess: zTreeOnAsyncSuccess,
-						onExpand: zTreeOnExpand
-						// beforeCheck: zTreeBeforeCheck
+						onExpand: zTreeOnExpand,
+						beforeCheck: zTreeBeforeCheck,
 					},
 					view: {
 						fontCss: setFontCss,
@@ -342,7 +336,8 @@
 					shade: [0.1, '#fff'] //0.1透明度的白色背景
 				});
 				var cateName = $("#" + cateId).val();
-				if(cateName == "") {
+				var codeName = $("#" + codeId).val();
+				if(cateName == "" && codeName == "") {
 					showTree(treeId);
 				} else {
 					var expertId = "${expert.id}";
@@ -352,7 +347,8 @@
 						data: {
 							"typeId": id,
 							"cateName": cateName,
-							"expertId": expertId
+							"expertId": expertId,
+							"codeName": codeName,
 						},
 						async: false,
 						dataType: "json",
@@ -420,24 +416,24 @@
 								<c:if test="${cate.code eq 'GOODS'}">
 									<c:set value="${liCount+1}" var="liCount" />
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资技术专家参评产品目录</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
 									</li>
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专家参评产品目录</a>
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程采购专家参评产品目录</a>
+										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务技术专家参评产品目录</a>
+										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
@@ -449,8 +445,9 @@
 								<c:if test="${cate.code eq 'GOODS'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
-										产品名称:<input type="text" id="cate-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')" />
+										产品类别:<input type="text" id="cate-${vs.index + 1}">
+								                   目录编码:<input type="text" id="code-${vs.index + 1}">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
@@ -459,8 +456,9 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
-										产品名称:<input type="text" id="cate-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')" />
+										产品类别:<input type="text" id="cate-${vs.index + 1}">
+								                   目录编码:<input type="text" id="code-${vs.index + 1}">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
@@ -469,8 +467,9 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-4" class="mb10">
-										产品名称:<input type="text" id="cate-4">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4')" />
+										产品类别:<input type="text" id="cate-4">
+								                   目录编码:<input type="text" id="code-4">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4','code-4')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-4" class="ztree_supplier mt30"></ul>
@@ -479,8 +478,9 @@
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
-										产品名称:<input type="text" id="cate-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}')" />
+										产品类别:<input type="text" id="cate-${vs.index + 1}">
+								                   目录编码:<input type="text" id="code-${vs.index + 1}">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
