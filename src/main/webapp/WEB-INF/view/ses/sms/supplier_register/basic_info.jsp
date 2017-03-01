@@ -1114,7 +1114,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 手机</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="mobile" required readonly="readonly" isPhone="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.mobile}" <c:if test="${fn:contains(audit,'mobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('mobile')"</c:if>/>
+										<input type="text" name="mobile" required isPhone="true" onkeyup="value=value.replace(/[^\d]/g,'')" value="${currSupplier.mobile}" <c:if test="${fn:contains(audit,'mobile')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('mobile')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空,11位手机号码</span>
 										<div class="cue"> ${err_catTelphone } </div>
