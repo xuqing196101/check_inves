@@ -1779,7 +1779,7 @@ public class SupplierController extends BaseSupplierController {
                 }
 		        if (!flag) {
 		            bool = false;
-                    model.addAttribute("eng_aptitutes", "证书编号、名称与资质（认证）证书不匹配！");
+                    model.addAttribute("eng_aptitutes", "证书编号与资质（认证）证书不匹配！");
                     break outer;
 		        }
 		    }
