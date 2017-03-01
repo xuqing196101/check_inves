@@ -59,7 +59,6 @@
         <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
         <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
-        <result column="RANGE" jdbcType="VARCHAR"  property="range" />
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -87,8 +86,7 @@
         AUDIT_AT,
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
-        TIME_PROFESSIONAL,
-        RANGE
+        TIME_PROFESSIONAL
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -118,8 +116,7 @@
         e.AUDIT_AT,
         e.IS_REFERENCE_LETTER,
         e.PROFESSIONAL,
-        e.TIME_PROFESSIONAL,
-        e.RANGE
+        e.TIME_PROFESSIONAL
     </sql>
     <!-- 获取所有专家,仅用作定时删除无效专家 -->
     <select id="getAllExpert" resultMap="BaseResultMap">
@@ -221,8 +218,7 @@
         IS_BLACK,
         HONESTY_SCORE, REAL_NAME, IS_PASS, IS_PROVISIONAL, REMARKS, AUDIT_AT, IS_REFERENCE_LETTER,
         PROFESSIONAL,
-        TIME_PROFESSIONAL,
-        RANGE
+        TIME_PROFESSIONAL
         )
         values
         (#{id,jdbcType=VARCHAR},
@@ -262,8 +258,7 @@
         #{isProvisional,jdbcType=DECIMAL},#{remarks,jdbcType=VARCHAR},
         #{auditAt,jdbcType=TIMESTAMP},
         #{professional,jdbcType=VARCHAR},
-        #{timeProfessional,jdbcType=TIMESTAMP},
-        #{range,jdbcType=VARCHAR}
+        #{timeProfessional,jdbcType=TIMESTAMP}
 
         )
     </insert>
@@ -430,9 +425,6 @@
             <if test="timeProfessional != null">
                 TIME_PROFESSIONAL,
             </if>
-            <if test="range != null">
-                RANGE,
-            </if>
 
         </trim>
         <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -594,9 +586,6 @@
             </if>
             <if test="timeProfessional != null">
                 #{TIME_PROFESSIONAL,jdbcType=TIMESTAMP},
-            </if>
-            <if test="range != null">
-                #{RANGE,jdbcType=VARCHAR},
             </if>
 
         </trim>
@@ -762,9 +751,6 @@
             <if test="timeProfessional != null">
                 TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
             </if>
-            <if test="range != null">
-                RANGE = #{range,jdbcType=VARCHAR},
-            </if>
 
         </set>
         where ID = #{id,jdbcType=VARCHAR}
@@ -929,9 +915,6 @@
             </if>
             <if test="timeProfessional != null and timeProfessional != ''">
                 TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
-            </if>
-            <if test="range != null and range != ''">
-                RANGE = #{range,jdbcType=VARCHAR},
             </if>
 
         </set>
@@ -1202,8 +1185,7 @@
         AVOIDANCE_SITUATION,
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
-        TIME_PROFESSIONAL,
-        RANGE
+        TIME_PROFESSIONAL
         )
         values
         (#{id,jdbcType=VARCHAR},
@@ -1245,8 +1227,7 @@
         #{avoidanceSituation,jdbcType=VARCHAR},
         #{isReferenceLftter,jdbcType=CHAR},
         #{professional,jdbcType=VARCHAR},
-        #{timeProfessional,jdbcType=TIMESTAMP},
-        #{range,jdbcType=VARCHAR}
+        #{timeProfessional,jdbcType=TIMESTAMP}
         )
     </insert>
 
@@ -1296,8 +1277,7 @@
 		AVOIDANCE_SITUATION avoidanceSituation,
         IS_REFERENCE_LETTER isReferenceLftter,
          PROFESSIONAL professional,
-        TIME_PROFESSIONAL timeProfessional,
-       RANGE  range
+        TIME_PROFESSIONAL timeProfessional
 		from T_SES_EMS_EXPERT_History
 		where ID = #{_parameter}
 	</select>
