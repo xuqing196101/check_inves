@@ -2771,8 +2771,11 @@ public class ExpertController extends BaseController {
         StringBuffer categories = new StringBuffer();
         List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
         for (ExpertCategory expertCategory : allList) {
-            categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
-            categories.append("、");
+            Category category= categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
+               if (category!=null){
+                   categories.append( category.getName());
+                   categories.append("、");
+                }
         }
         String productCategories = categories.substring(0, categories.length() - 1);
         dataMap.put("productCategories", productCategories);
