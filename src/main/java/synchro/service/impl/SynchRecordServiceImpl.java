@@ -38,9 +38,15 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      */
     @Override
     public void commitSupplierRecord(String content, Date synchDate) {
-        SynchRecord sr  = packSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG +"", Constant.OPER_TYPE_EXPORT, 
+        /*SynchRecord sr  = packSynchRecord(Constant.DATA_TYPE_SUPPLIER_REG +"", Constant.OPER_TYPE_EXPORT, 
                         Constant.NEW_COMMIT_SUPPLIER + content, synchDate);
+        mapper.save(sr);*/
+      DictionaryData dd = DictionaryDataUtil.get(Constant.DATA_TYPE_SUPPLIER_CODE);
+      if (dd != null && StringUtils.isNotBlank(dd.getId())){
+        SynchRecord sr  = packSynchRecord(dd.getId() +"", Constant.OPER_TYPE_EXPORT, 
+            Constant.NEW_COMMIT_SUPPLIER + content, synchDate);
         mapper.save(sr);
+      }
     }
     
     /**
