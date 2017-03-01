@@ -1243,7 +1243,7 @@
         #{academicAchievement,jdbcType=VARCHAR},
         #{reviewSituation,jdbcType=VARCHAR},
         #{avoidanceSituation,jdbcType=VARCHAR},
-        #{isReferenceLftter,jdbcType=INT},
+        #{isReferenceLftter,jdbcType=CHAR},
         #{professional,jdbcType=VARCHAR},
         #{timeProfessional,jdbcType=TIMESTAMP},
         #{range,jdbcType=VARCHAR}
