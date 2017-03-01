@@ -2704,88 +2704,87 @@ public class ExpertController extends BaseController {
 	 * @return: String
 	 * @throws Exception
 	 */
-	private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
-		/** 用于组装word页面需要的数据 */
-		Map < String, Object > dataMap = new HashMap < String, Object > ();
-		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
-		String sex = expert.getGender();
-		DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
-		dataMap.put("gender", gender == null ? "" : gender.getName());
-		dataMap.put("birthday",
-			expert.getBirthday() == null ? "" : new SimpleDateFormat(
-				"yyyy-MM-dd").format(expert.getBirthday()));
-		String faceId = expert.getPoliticsStatus();
-		DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
-		dataMap.put("politicsStatus", politicsStatus == null ? "" : politicsStatus.getName());
-		dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
-		dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
-		dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-		dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote());
-		dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
-		dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
-		dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
-		dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
-		DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
-		if(idType != null) {
-			dataMap.put("idType", idType.getName() == null ? "" : idType.getName());
-		} else {
-			dataMap.put("idType", "");
-		}
-		dataMap.put("idNumber", expert.getIdNumber() == null ? "" : expert.getIdNumber());
-		dataMap.put("major", expert.getMajor() == null ? "" : expert.getMajor());
-		dataMap.put("timeStartWork", expert.getTimeStartWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeStartWork()));
-		DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
-		if(expertsForm != null) {
-			dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
-		} else {
-			dataMap.put("expertsFrom", "");
-		}
-		dataMap.put(
-			"professTechTitles",
-			expert.getProfessTechTitles() == null ? "" : expert
-			.getProfessTechTitles());
-		dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
-		StringBuffer expertType = new StringBuffer();
-		for(String typeId: expert.getExpertsTypeId().split(",")) {
-			expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
-		}
-		String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-		dataMap.put("expertsTypeId", expertsType);
-		dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
-		String hightEducationId = expert.getHightEducation();
-		DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
-		dataMap.put("hightEducation", hightEducation == null ? "" : hightEducation.getName());
-		DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
-		if(degree != null) {
-			dataMap.put("degree", degree.getName() == null ? "" : degree.getName());
-		} else {
-			dataMap.put("degree", "");
-		}
-		dataMap.put("mobile", expert.getMobile() == null ? "" : expert.getMobile());
-		dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
-		dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
-		dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
-		StringBuffer categories = new StringBuffer();
-		List < ExpertCategory > allList = expertCategoryService.getListByExpertId(expert.getId(), null);
-		for(ExpertCategory expertCategory: allList) {
-			categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
-			categories.append("、");
-		}
-		String productCategories = categories.substring(0, categories.length() - 1);
-		dataMap.put("productCategories", productCategories);
-		dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "" : expert.getJobExperiences());
-		dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "" : expert.getAcademicAchievement());
-		dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "" : expert.getReviewSituation());
-		dataMap.put("avoidanceSituation", expert.getAvoidanceSituation() == null ? "" : expert.getAvoidanceSituation());
-		// 文件名称
-		String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
-			"UTF-8");
-		/** 生成word 返回文件名 */
-		String newFileName = WordUtil.createWord(dataMap, "expert.ftl",
-			fileName, request);
-		return newFileName;
-	}
-
+    private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
+        /** 用于组装word页面需要的数据 */
+        Map<String, Object> dataMap = new HashMap<String, Object>();
+        dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
+        String sex = expert.getGender();
+        DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
+        dataMap.put("gender", gender == null ? "" : gender.getName());
+        dataMap.put("birthday",
+                expert.getBirthday() == null ? "" : new SimpleDateFormat(
+                        "yyyy-MM-dd").format(expert.getBirthday()));
+        String faceId = expert.getPoliticsStatus();
+        DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
+        dataMap.put("politicsStatus", politicsStatus == null ? "" : politicsStatus.getName());
+        dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
+        dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
+        dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote().equals("1") ? "是" : "否");
+        dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getRange() + "," + expert.getUnitAddress());
+        dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
+        dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
+        dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
+        DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
+        if (idType != null) {
+            dataMap.put("idType", idType.getName() == null ? "" : idType.getName());
+        } else {
+            dataMap.put("idType", "");
+        }
+        dataMap.put("idNumber", expert.getIdNumber() == null ? "" : expert.getIdNumber());
+        dataMap.put("major", expert.getMajor() == null ? "" : expert.getMajor());
+        dataMap.put("timeStartWork", expert.getTimeStartWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeStartWork()));
+        DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
+        if (expertsForm != null) {
+            dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
+        } else {
+            dataMap.put("expertsFrom", "");
+        }
+        dataMap.put(
+                "professTechTitles",
+                expert.getProfessTechTitles() == null ? "" : expert
+                        .getProfessTechTitles());
+        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+        StringBuffer expertType = new StringBuffer();
+        for (String typeId : expert.getExpertsTypeId().split(",")) {
+            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+        }
+        String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+        dataMap.put("expertsTypeId", expertsType);
+        dataMap.put("graduateSchool", expert.getGraduateSchool() == null ? "" : expert.getGraduateSchool());
+        String hightEducationId = expert.getHightEducation();
+        DictionaryData hightEducation = dictionaryDataServiceI.getDictionaryData(hightEducationId);
+        dataMap.put("hightEducation", hightEducation == null ? "" : hightEducation.getName());
+        DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+        if (degree != null) {
+            dataMap.put("degree", degree.getName() == null ? "" : degree.getName());
+        } else {
+            dataMap.put("degree", "");
+        }
+        dataMap.put("mobile", expert.getMobile() == null ? "" : expert.getMobile());
+        dataMap.put("telephone", expert.getTelephone() == null ? "" : expert.getTelephone());
+        dataMap.put("fax", expert.getFax() == null ? "" : expert.getFax());
+        dataMap.put("email", expert.getEmail() == null ? "" : expert.getEmail());
+        StringBuffer categories = new StringBuffer();
+        List<ExpertCategory> allList = expertCategoryService.getListByExpertId(expert.getId(), null);
+        for (ExpertCategory expertCategory : allList) {
+            categories.append(categoryService.selectByPrimaryKey(expertCategory.getCategoryId()).getName());
+            categories.append("、");
+        }
+        String productCategories = categories.substring(0, categories.length() - 1);
+        dataMap.put("productCategories", productCategories);
+        dataMap.put("jobExperiences", expert.getJobExperiences() == null ? "" : expert.getJobExperiences());
+        dataMap.put("academicAchievement", expert.getAcademicAchievement() == null ? "" : expert.getAcademicAchievement());
+        dataMap.put("reviewSituation", expert.getReviewSituation() == null ? "" : expert.getReviewSituation());
+        dataMap.put("avoidanceSituation", expert.getAvoidanceSituation() == null ? "" : expert.getAvoidanceSituation());
+        // 文件名称
+        String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
+                "UTF-8");
+        /** 生成word 返回文件名 */
+        String newFileName = WordUtil.createWord(dataMap, "expert.ftl",
+                fileName, request);
+        return newFileName;
+    }
 	/**
 	 *〈简述〉
 	 * 根据机构编号查询所在的省市
