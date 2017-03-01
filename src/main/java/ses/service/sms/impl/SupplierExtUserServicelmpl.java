@@ -255,9 +255,9 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
 
     datamap.put("project", project);
+    /*selectById.remove(0);
     selectById.remove(0);
-    selectById.remove(0);
-    selectById.remove(0);
+    selectById.remove(0);*/
     //明细
     datamap.put("projectDetail", selectById);
     //资格性符合性
