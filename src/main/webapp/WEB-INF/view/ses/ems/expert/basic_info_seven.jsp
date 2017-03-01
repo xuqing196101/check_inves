@@ -220,18 +220,23 @@
             });
             if (isIs) {
                 init_web_upload();
-                $("#zyzg").show();
+                //$("#zyzg").show();
+                $("#tab_div").attr("class", "container");
+                
             } else {
-                $("#zyzg").hide();
+              $("#tab_div").attr("class", "container opacity_0");
+                //$("#zyzg").hide();
             }
             $(checklist1[1]).change(function () {
                 if ($(this).prop("checked")) {
                     isIs = true;
                     init_web_upload();
-                    $("#zyzg").show();
+                      $("#tab_div").attr("class", "container");
+                    //$("#zyzg").show();
                 } else {
                     isIs = false;
-                    $("#zyzg").hide();
+                    // $("#zyzg").hide();
+                       $("#tab_div").attr("class", "container opacity_0");
                 }
             })
         });
@@ -313,8 +318,11 @@
                 </li>
             </ul>
 
-            <ul style="display:none" id="zyzg">
-                <li class="col-md-3 col-sm-6 col-xs-12"><span
+
+	<div class="container opacity_0" id="tab_div">
+		<div class="tab-pane fades active in" id="production_div">
+		
+		<li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i>专家技术资格</span> <!--/执业资格  -->
                     <div
@@ -362,6 +370,57 @@
                             class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
                     </div>
                 </li>
+		</div>
+	</div>
+            <ul style="display:none" id="zyzg">
+                <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i>专家技术资格</span> <!--/执业资格  -->
+                    <div
+                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input
+                                <c:if test="${fn:contains(errorField,'专家技术资格')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('专家技术资格')"</c:if>
+                                maxlength="20" value="${expert.professTechTitles}"
+                                name="professTechTitles" id="professTechTitles" type="text"/>
+                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red"></i> 专家技术资格证书</span>
+                    <div
+                            class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                            <c:if test="${fn:contains(errorField,'专家技术资格证书')}">style="border: 1px solid #ef0000;"
+                            onmouseover="errorMsg('专家技术资格证书')"</c:if>>
+                        <u:upload
+                                singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+                                exts="${properties['file.picture.type']}" id="expert4" maxcount="1"
+                                groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
+                                multiple="true" businessId="${sysId}" sysKey="${expertKey}"
+                                typeId="4" auto="true"/>
+                        <u:show showId="show4"
+                                groups="show9,show2,show3,show4,show5,show6,show7,show8"
+                                businessId="${sysId}" sysKey="${expertKey}"
+                                typeId="4"/>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i>证书获取时间</span>
+                    <!--/职业资格时间  -->
+                    <div
+                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input
+                                <c:if test="${fn:contains(errorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('证书获取时间')"</c:if>
+                                value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="timeToWork" id="timeToWork"
+                                type="text"
+                                onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
+                            class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
+                    </div>
+                </li> --%>
 
 
             </ul>
