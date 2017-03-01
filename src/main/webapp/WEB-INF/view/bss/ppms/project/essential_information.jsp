@@ -321,6 +321,22 @@
 						$("#principal").select2("val", "${project.principal}");
 					}
 				});
+				
+				var isOperate = $('#isOperate', window.parent.document).val();
+        if(isOperate == 0) {
+          $(":button").each(function(){ 
+            $(this).hide();
+                }); 
+        }
+				
+				var num = "${number}";
+				if(num){
+				  $("#saveCheck").hide();
+				  $("input:text").each(function(){ 
+            $(this).attr("disabled","disabled");
+          }); 
+          $("select").attr("disabled","disabled");
+				}
       });
       
       function change(id) {
@@ -525,7 +541,7 @@
                   </tbody>
                 </table>
                 <div class="col-md-12 tc mt20">
-                  <button class="btn btn-windows git" type="button" onclick="checkDate();">保存</button>
+                  <button class="btn btn-windows git" type="button" id="saveCheck" onclick="checkDate();">保存</button>
                 </div>
               </div>
             </form>

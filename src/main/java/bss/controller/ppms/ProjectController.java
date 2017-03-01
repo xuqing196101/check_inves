@@ -1794,6 +1794,10 @@ public class ProjectController extends BaseController {
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         Project project = projectService.selectById(projectId);
+        DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+        if("GYSQD".equals(findById.getCode())){
+            model.addAttribute("number", "1");
+        }
         User user = null;
         if(project.getPrincipal()!=null){
             try {

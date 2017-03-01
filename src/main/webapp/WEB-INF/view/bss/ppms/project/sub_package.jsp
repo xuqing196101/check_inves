@@ -24,7 +24,15 @@
             //如果状态不是1  则添加状态 1
             //setTimeout("addPack()", 300);
           }
-        })
+        });
+        
+        //获取查看或操作权限
+        var isOperate = $('#isOperate', window.parent.document).val();
+        if(isOperate == 0) {
+		      $(":button").each(function(){ 
+		        $(this).hide();
+		            }); 
+		    }
       });
 
       //全选方法
@@ -487,7 +495,6 @@
       </div>
     </div> -->
 
-    <div class="container">
       <%-- <h2 class="tc dangan_file">项目名称：${project.name}</h2> --%>
       <input type="hidden" id="projectId" value="${project.id }" />
       <!-- <div class="headline-v2">
@@ -694,7 +701,6 @@
           </table>
         </div>
       </c:forEach>
-    </div>
 
     <!-- 按钮 -->
    <%--  <div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">

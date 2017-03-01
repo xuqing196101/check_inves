@@ -1320,13 +1320,14 @@
          e.OPERATOR_ID = #{userId}
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
+      OR p.PRINCIPAL  IS NULL
       AND IS_REHEARSE = 0
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
-      <!-- <if test="principal != null and principal != ''">
+      <if test="principal != null and principal != ''">
         and (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
-      </if> -->
+      </if>
       <if test="name != null and name != ''">
        AND p.NAME like '%${name}%'
       </if>
