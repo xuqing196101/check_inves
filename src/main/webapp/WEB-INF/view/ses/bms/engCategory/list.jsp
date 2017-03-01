@@ -69,6 +69,7 @@
     function zTreeOnClick(event,treeId,treeNode){
     	treeid = treeNode.id;
     	var node = treeNode.getParentNode();
+    	
     	if (node && node != null ) {
     		level = node.level + 2;
     		resetTips();
@@ -108,13 +109,21 @@
 			nodes = zTree.getSelectedNodes();
 			var node = nodes[0];
 			var nodes = getCurrentRoot(node);
+			var nodeChildren = node.children;
+			if(nodeChildren){
+				if(nodeChildren[0].isParent==false){
+					$("#expertTypes").show();
+				}
+			}
+			if(node.isParent==false){
+				$("#expertTypes").show();
+			}
+			
 			$("#operaFlag").val('add');
 			if (level == 2){
 				showQua(null, nodes.classify);
 			}
-			if(level==3){
-				$("#expertTypes").show();
-			}
+			
 			if (node) {
 				$("#typeId").empty();
 				$("#openId").empty();
@@ -165,11 +174,10 @@
 		$("#typeId").empty();
 		$("#openId").empty();
 		
+		if(nodes.isParent==false){
+			$("#expertTypes").show();
+		}
 		var node = getCurrentRoot(nodes);
-		
-		
-			
-			
 		
 		  $.ajax({
 			url:"${pageContext.request.contextPath}/engCategory/update.do?id="+treeid,
@@ -195,9 +203,7 @@
 					if (level == 3){
 						showQua(cate, node.classify);
 					}
-					if(level==4){
-						$("#expertTypes").show();
-					}
+					
 					if (node.classify && node.classify == "GOODS"){
 						$("#typeTrId").show();
 						loadcheckbox(cate.classify);
