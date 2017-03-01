@@ -433,8 +433,6 @@
                                             <c:if test="${cate.code eq 'GOODS_PROJECT' }">
                                                 工程经济专家参评产品目录
                                             </c:if>
-
-
                                         </a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
@@ -442,15 +440,12 @@
 								<c:if test="${cate.code eq 'PROJECT'|| cate.code eq'GOODS_PROJECT' }">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">
-
                                             <c:if test="${cate.code eq 'PROJECT' }">
                                                 工程采购专家参评产品目录
                                             </c:if>
                                             <c:if test="${cate.code eq 'GOODS_PROJECT' }">
                                                 经济采购专家参评产品目录
                                             </c:if>
-
-
                                         </a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
