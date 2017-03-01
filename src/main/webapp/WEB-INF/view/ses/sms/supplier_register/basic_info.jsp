@@ -1641,7 +1641,7 @@
 												</th>
 												<th class="info">分支（或服务）机构名称</th>
 												<th class="info">类别</th>
-												<th class="info">所在省县市</th>
+												<th class="info">所在省市县</th>
 												<th class="info">负责人</th>
 												<th class="info">联系电话</th>
 											</tr>
