@@ -580,16 +580,12 @@ public class ExpertController extends BaseController {
 			Expert expert = new Expert();
 			expert.setId(expertId);
 			// 递归获取当前节点的所有子节点
-			List < Category > list = getChildrenNodes(categoryId, flag);
+			List < Category > list = getAllParentNode(categoryId, flag);
 			if (flag == null) {
 			    list.add(categoryService.selectByPrimaryKey(categoryId));
 			} else {
 			    list.add(engCategoryService.selectByPrimaryKey(categoryId));
 			}
-			// 去重
-			removeSame(list);
-			// 去除父节点,只保存子节点
-			removeParentNodes(list, flag);
 			for(Category cate: list) {
 				ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, cate.getId());
 				if(expertCategory == null) {
@@ -605,6 +601,30 @@ public class ExpertController extends BaseController {
 				// 代表是子节点,只需要在中间表中删除自身即可
 				map.put("categoryId", categoryId);
 				expertCategoryService.deleteByMap(map);
+				boolean isDel = false;
+                a: while(true) {
+                    Category cate1 = null;
+                    if (flag == null) {
+                        cate1 = categoryService.selectByPrimaryKey(categoryId);
+                    } else {
+                        cate1 = engCategoryService.selectByPrimaryKey(categoryId);
+                    }
+                    if(cate1 != null) {
+                        if(cate1.getParentId().equals(categoryId)) {
+                            isDel = true;
+                            break a;
+                        } else {
+                            categoryId = cate1.getParentId();
+                        }
+                    } else {
+                        isDel = true;
+                        break a;
+                    }
+                }
+                if(isDel) {
+                    map.put("categoryId", categoryId);
+                    expertCategoryService.deleteByMap(map);
+                }
 			} else {
 				// 需要删除所有的子节点
 				List < ExpertCategory > allList = expertCategoryService.getListByExpertId(expertId, null);
@@ -798,37 +818,12 @@ public class ExpertController extends BaseController {
 	 */
 	public boolean isExpertChecked(String categoryId, String expertId, String typeId, String flag) {
 		List < ExpertCategory > allCategoryList = expertCategoryService.getListByExpertId(expertId, typeId);
-		boolean isChecked = false;
-		for(ExpertCategory expertCategory: allCategoryList) {
-			String id = expertCategory.getCategoryId();
-			if(categoryId.equals(id)) {
-				isChecked = true;
-				break;
-			} else {
-				while(true) {
-				    Category cate = null;
-				    if (flag == null) {
-				        cate = categoryService.selectByPrimaryKey(id);
-				    } else {
-				        cate = engCategoryService.selectByPrimaryKey(id);
-				    }
-					if(cate != null) {
-						if(cate.getParentId().equals(categoryId)) {
-							isChecked = true;
-							break;
-						} else {
-							id = cate.getParentId();
-						}
-					} else {
-						if(id.equals(categoryId)) {
-							isChecked = true;
-						}
-						break;
-					}
-				}
-			}
-		}
-		return isChecked;
+		for (ExpertCategory expertCategory : allCategoryList) {
+            if (expertCategory.getCategoryId().equals(categoryId)) {
+                return true;
+            }
+        }
+		return false;
 	}
 	/**
 	 *〈简述〉
@@ -3221,7 +3216,25 @@ public class ExpertController extends BaseController {
 	        flag = "ENG_INFO";
 	    }
 	    // 查询已选中的节点信息
-	    List<ExpertCategory> expertItems = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+	    List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+	    List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+	    for (ExpertCategory expertCategory : items) {
+            List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+            if (findPublishTree.size() == 0) {
+                expertItems.add(expertCategory);
+            } else {
+                boolean isFourNode = true;
+                for (Category category : findPublishTree) {
+                    List<Category> childNodes = categoryService.findPublishTree(category.getId(), null);
+                    if (childNodes.size() > 0) {
+                        isFourNode = false;
+                    }
+                }
+                if (isFourNode) {
+                    expertItems.add(expertCategory);
+                }
+            }
+        }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
             String categoryId = item.getCategoryId();
