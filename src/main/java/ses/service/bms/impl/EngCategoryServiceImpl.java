@@ -74,6 +74,9 @@ public class EngCategoryServiceImpl implements EngCategoryService {
     private static final String CATEGORY_CODE_ISNUOTNUll = "编码不能为空";
     /** 最大输入值 **/
     private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
+    
+    /** 最大输入值 **/
+    private static final String CATEGORY__EXPERT_TYPE = "类别不能为空";
 
    
     
@@ -210,6 +213,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
         String profileSalesIds = request.getParameter("profileSalesIds");
         String isPublish = request.getParameter("isPublish");
         String classify = request.getParameter("classify");
+        String expertType = request.getParameter("expertType");
         
         Integer isPublished = null;
         Integer classified = null;
@@ -233,7 +237,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
            return  res;
         }
         
-        
+       
         if (!StringUtil.validateStrByLength(desc,400)) {
             res.setSuccess(false);
             res.setLenTxt(CATEGORY_MAX_VALUE);
@@ -262,6 +266,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
             category.setDescription(desc);
             category.setCreatedAt(new Date());
             category.setIsDeleted(0);
+            category.setExpertType(expertType);
             category.setParamStatus(StaticVariables.CATEGORY_NEW_STATUS);
             if (classified != null){
                 category.setClassify(classified);
@@ -286,6 +291,7 @@ public class EngCategoryServiceImpl implements EngCategoryService {
                 category.setDescription(desc);
                 category.setName(name);
                 category.setUpdatedAt(new Date());
+                category.setExpertType(expertType);
                 if (classified != null){
                     category.setClassify(classified);
                 }
