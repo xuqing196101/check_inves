@@ -43,7 +43,7 @@
                             dateType: "json",
                             success: function(relut) {
                               if(relut == "1"){
-                                layer.alert("只能选一个");
+                                layer.msg("只能选一个");
                               
                               }else{
                                 var path = "${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?projectId=" + projectId + "&packId=" + packId+"&ix="+index;
@@ -127,8 +127,14 @@
       
      function provisional(packId,index) {
     	   var projectId = $("#projectId").val();
-    	  var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
-    	  $("#tab-1").load(path);
+    	   var ide = $("input[name = 'chkItem']").val();
+    	   ide = $.trim(ide);
+    	   if(ide){
+    	     layer.msg("只能添加一个");
+    	   }else{
+    	     var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
+           $("#tab-1").load(path);
+    	   }
      }
      
      /**删除供应商*/
@@ -237,9 +243,7 @@
           </h2>
           <div class="fl mt20 ml10">
              <button class="btn btn-windows add" onclick="add('${pack.id }',${index})" type="button">登记</button>
-             <c:if test="${status != 'DYLY'}">
              <button class="btn btn-windows add" onclick="provisional('${pack.id}',${index});" type="button">添加临时供应商</button>
-             </c:if>
              <button class="btn btn-windows delete" onclick="del('${pack.id}');" type="button">移除供应商</button>
            </div>
              

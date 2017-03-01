@@ -80,6 +80,7 @@
                       <th class="info goodsuse">物资用途<br>（进口）</th>
                       <th class="info useunit">使用单位<br>（进口）</th>
                       <th class="info memo">备注</th>
+                      <th class="info purchasetype">明细状态</th>
                     </tr>
                   </thead>
                   <c:if test="${lists != null}">
@@ -107,8 +108,8 @@
                           <div class="purchasecount">${obj.purchaseCount}</div>
                         </td>
                         <td>
-                          <div class="deliverdate">${obj.deliverDate}</div》
-					    </td>
+                          <div class="deliverdate">${obj.deliverDate}</div>
+					              </td>
                         <td>
                           <div class="purchasetype">
                             <c:forEach items="${kind}" var="kind">
@@ -137,6 +138,16 @@
                         </td>
                         <td>
                            <div class="memo">${obj.memo}</div>
+                        </td>
+                        <td>
+                           <div class="purchasetype">
+                             <c:if test="${'0' eq obj.projectStatus}">
+                                                                                                 未立项
+                             </c:if>
+                             <c:if test="${'1' eq obj.projectStatus}">
+                                                                                                 已立项
+                             </c:if>
+                           </div>
                         </td>
                       </tr>
                     </c:forEach>

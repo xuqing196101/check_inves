@@ -55,6 +55,9 @@
 						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/expert/toExpert.html'" value="开始注册">
 					    <input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location.href='javascript:history.go(-1);'" value="取消">
 					</div>
+					<div class="mt40 tc" style="color: red;font-size: 16px;font-weight: bolder;">
+						推荐使用Firefox、Chrome、IE9以上浏览器
+					</div>
 				</div>
 			</div>
 		</div>

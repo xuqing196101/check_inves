@@ -136,6 +136,8 @@ public interface PackageService {
      * @return
      */
     List<Packages> listSupplierCheckPass(String projectId);
+    
+    List<Packages> supplierCheckPa(String projectId);
 
     /**
      *〈简述〉分页查询包

@@ -300,28 +300,28 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="name" type="text" required value="${purchaseDep.name }"> <span class="add-on">i</span>
+                      <input class="input_group" name="name" type="text" required maxlength="100" value="${purchaseDep.name }"> <span class="add-on">i</span>
                      <div class="cue">${ERR_name}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构简称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="shortName" required type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
+                      <input class="input_group" name="shortName" required maxlength="100" type="text" value="${purchaseDep.shortName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_shortName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人姓名</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactName" required type="text" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactName" required type="text" maxlength="20" value="${purchaseDep.contactName }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactMobile" required type="text" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
+                      <input class="input_group" name="contactMobile" required type="text" maxlength="30" value="${purchaseDep.contactMobile }"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contactMobile}</div>
                     </div>
                   </li>
@@ -338,7 +338,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>行政隶属单位</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="subordinateOrgName" required value="${purchaseDep.subordinateOrgName }" type="text">
+                      <input class="input_group" name="subordinateOrgName" required maxlength="250" value="${purchaseDep.subordinateOrgName }" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_subordinateOrgName}</div>
                     </div>
@@ -363,7 +363,7 @@
                   
                    <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="address" required type="text" value="${purchaseDep.address }"> <span class="add-on">i</span>
+                      <input class="input_group" name="address" required type="text" maxlength="250" value="${purchaseDep.address}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_address}</div>
                     </div>
                   </li>
@@ -377,7 +377,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>传真号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="fax"  type="text" required value="${purchaseDep.fax}"> <span class="add-on">i</span>
+                      <input class="input_group" name="fax"  type="text" required maxlength="20" value="${purchaseDep.fax}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_fax}</div>
                     </div>
                   </li>
@@ -386,7 +386,7 @@
 
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>值班室电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="dutyRoomPhone"  required  type="text"  value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="dutyRoomPhone"  required  type="text" maxlength="20"  value="${purchaseDep.dutyRoomPhone}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_dutyRoomPhone}</div>
                     </div>
                   </li>
@@ -404,19 +404,19 @@
                   
                   <li id="contact" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierContact" type="text" required  value="${purchaseDep.supplierContact}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierContact" type="text" maxlength="50"  required  value="${purchaseDep.supplierContact}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
                   <li id="phone" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系人电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierPhone" type="text" required  value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierPhone" type="text" required maxlength="20"  value="${purchaseDep.supplierPhone}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
                   <li id="address" class="col-md-3 col-sm-6 col-xs-12 dnone"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>供应商注册联系地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="supplierAddress" type="text" required  value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
+                      <input class="input_group" name="supplierAddress" type="text" required maxlength="300" value="${purchaseDep.supplierAddress}"> <span class="add-on">i</span>
                     </div>
                   </li>
                   
@@ -428,7 +428,7 @@
                   
                   <li class="col-md-12 col-sm-12 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购业务范围</span>
                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea class="col-md-12 col-sm-12 col-xs-12" name="businessRange" style="height:130px" title="不超过800个字">${purchaseDep.businessRange }</textarea>
+                      <textarea class="col-md-12 col-sm-12 col-xs-12" name="businessRange" style="height:130px" maxlength="800" title="不超过800个字">${purchaseDep.businessRange }</textarea>
                        <div class="cue">${ERR_businessRange}</div>
                     </div>
                   </li>

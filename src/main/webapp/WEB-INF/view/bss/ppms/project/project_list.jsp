@@ -81,15 +81,16 @@
 	        var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
 	        status = $.trim(status);
 	        if(id.length == 1) {
-	          if(status == "YLX_DFB" || status == "YFB_DSS") {
-	            window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
-	          }else{
-	            layer.alert("实施中的项目不能修改", {
-	              offset: ['222px', '730px'],
-	              shade: 0.01,
-	            });
-	          }
-	        } else if(id.length > 1) {
+          window.location.href = '${pageContext.request.contextPath}/project/edit.html?id=' + id;
+          /* if(status == "YLX_DFB" || status == "YFB_DSS") {
+            
+          }else{
+            layer.alert("实施中的项目不能修改", {
+              offset: ['222px', '730px'],
+              shade: 0.01,
+            });
+          } */
+          } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
 	            offset: ['222px', '730px'],
 	            shade: 0.01,

@@ -50,6 +50,9 @@
 						<input id="register_input_id" type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/supplier/register_page.html'" value="开始注册">
 						<input type="button" class="btn padding-left-20 padding-right-20 btn_back" onclick="location='${pageContext.request.contextPath}/first.jsp'" value="返回">
 					</div>
+					<div class="mt40 tc" style="color: red;font-size: 16px;font-weight: bolder;">
+						推荐使用Firefox、Chrome、IE9以上浏览器
+					</div>
 				</div>
 			</div>
 		</div>

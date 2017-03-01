@@ -975,8 +975,8 @@
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<select name="isIllegal" id="isIllegal" class="fl mr10 w120" <c:if test="${fn:contains(audit,'isIllegal')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('isIllegal')"</c:if>>
 											<option value='' disabled selected style="display: none;">请选择</option>
-											<option value="0" <c:if test="${currSupplier.isIllegal eq '0'}">selected</c:if>>无违法</option>
-											<option value="1" <c:if test="${currSupplier.isIllegal eq '1'}">selected</c:if>>有违法</option>
+											<option value="0" <c:if test="${currSupplier.isIllegal eq '0'}">selected</c:if>>无</option>
+											<option value="1" <c:if test="${currSupplier.isIllegal eq '1'}">selected</c:if>>有</option>
 										</select>
 										<div class="cue"> ${err_isIllegal } </div>
 									</div>
