@@ -253,6 +253,7 @@
 											
 									
 									    var id =$(this).find("td:eq(1)").children(":first").val();
+									    var parentId =$(this).find("td:eq(1)").children(":last").val();
 									    var seq = $(this).find("td:eq(1)").children(":first").next().val();
 									    var department = $(this).find("td:eq(2)").children(":first").val();
 										var goodsName =$(this).find("td:eq(3)").children(":first").val();
@@ -270,7 +271,7 @@
 										var useUnit =$(this).find("td:eq(15)").children(":first").val();
 										var memo = $(this).find("td:eq(16)").children(":first").val(); 
 									 
-									  	var json = {"seq":seq,"id":id,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
+									  	var json = {"seq":seq,"id":id,"parentId":parentId,"department":department, "goodsName":goodsName, "stand":stand,"qualitStand":qualitStand,
 											"item":item, "purchaseCount":purchaseCount, "price":price, "budget":budget, 
 											"deliverDate":deliverDate,"purchaseType":purchaseTypes,"supplier":supplier,
 											"isFreeTax":isFreeTax,"goodsUse":goodsUse,"useUnit":useUnit,"memo":memo};
@@ -285,8 +286,8 @@
 						  		        data: {"prList":JSON.stringify(jsonStr),"planType":type,
 						  		        	"planNo":no,"planName":name,"recorderMobile":mobile,
 						  		        	"referenceNo":refNo,"fileId":fileId},
-						  		        dataType: "json",
 						  		        success: function (message) {
+						  		        	 window.location.href = "${pageContext.request.contextPath}/purchaser/list.do";
 						  		        },
 						  		        error: function (message) {
 						  		        }
@@ -650,18 +651,28 @@
 							              $("#jhmc").val(data[0].planName);
 							              $("#detailZeroRow").empty();
 							              var count=1;
-							/*               $.ajax({
+							                $.ajax({
 							  		        type: "POST",
-							  		        url: "${pageContext.request.contextPath}/purchaser/add.html",
+							  		        url: "${pageContext.request.contextPath}/templet/uploaddetail.html",
 							  		        data: {prList:JSON.stringify(data)},
-							  		        dataType: "json",
-							  		        success: function (message) {
+							  		        success: function (result) {
+							  		        	$("#detailZeroRow").append(result);
+												init_web_upload();
+												  var bool=$("input[name='import']").is(':checked');
+												if(bool==true){
+													$("td[name='userNone']").attr("style","");
+													$("th[name='userNone']").attr("style","");
+												}else{
+													$("td[name='userNone']").attr("style","display:none");
+													$("th[name='userNone']").attr("style","display:none");
+												}  
+												
 							  		        },
 							  		        error: function (message) {
 							  		        }
-							  		    }); */
+							  		    });  
 							              
-							              	var html="";
+							             /*  	var html="";
 									           for(var i = 0 ;i<data.length;i++ ){
 										            html +="<tr name='detailRow'> <td class='tc'>"+count+"</td> "
 													               +"  <td>"
@@ -751,7 +762,7 @@
 												}else{
 													$("td[name='userNone']").attr("style","display:none");
 													$("th[name='userNone']").attr("style","display:none");
-												}
+												} */
 												
 												
 							           layer.close(index);

@@ -108,7 +108,7 @@
 			}
 
 			function saveCategory(event, treeId, treeNode) {
-			
+
 				var clickFlag;
 				if(treeNode.checked) {
 					clickFlag = "1";
@@ -424,13 +424,13 @@
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资技术专家参评产品目录</a>
 									</li>
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT' }">
+								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专家参评产品目录</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT' }">
+								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程采购专家参评产品目录</a>
 									</li>

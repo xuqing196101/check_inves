@@ -6,6 +6,11 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+<script type="text/javascript">
+	function indexTip(id){
+  		window.location.href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id="+id;
+  	}
+</script>
 <body>
 <!--底部代码开始-->
 <div class="footer-v2" id="footer-v2">

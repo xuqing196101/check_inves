@@ -62,9 +62,6 @@
 	  	layer.alert("服务热线：66946342(吕工)");
 	  }
 	  
-	  function indexTip(id){
-	  	window.location.href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id="+id;
-	  }
     </script>
   </head>
 
