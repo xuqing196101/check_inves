@@ -473,6 +473,13 @@ public class ExpertController extends BaseController {
 			map1.put("typeName", "1");
 			List < PurchaseDep > list = purchaseOrgnizationService
 				.findPurchaseDepList(map1);
+			for (PurchaseDep org : list) {
+			    Area pro = areaServiceI.listById(org.getProvinceId());
+                Area city = areaServiceI.listById(org.getCityId());
+                if(pro != null && city != null) {
+                    org.setAddress(pro.getName() + city.getName());
+                }
+            }
 			model.addAttribute("allPurList", list);
 		}
 		model.addAttribute("engId", DictionaryDataUtil.getId("ENG_INFO_ID"));
