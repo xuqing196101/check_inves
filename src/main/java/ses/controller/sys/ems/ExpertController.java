@@ -492,10 +492,10 @@ public class ExpertController extends BaseController {
 		}
 		a: for(int i = 0; i < allTypeId.size(); i++) {
 			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-			if(dictionaryData != null && dictionaryData.getKind() == 19) {
+			/*if(dictionaryData != null && dictionaryData.getKind() == 19) {
 				allTypeId.remove(i);
 				continue a;
-			};
+			};*/
 			allCategoryList.add(dictionaryData);
 		}
 		model.addAttribute("allCategoryList", allCategoryList);
@@ -927,10 +927,10 @@ public class ExpertController extends BaseController {
 		}
 		a: for(int i = 0; i < allTypeId.size(); i++) {
 			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-			if(dictionaryData.getName().contains("经济")) {
+			/*if(dictionaryData.getName().contains("经济")) {
 				allTypeId.remove(i);
 				continue a;
-			};
+			};*/
 			allCategoryList.add(dictionaryData);
 		}
 		return JSON.toJSONString(allCategoryList);
