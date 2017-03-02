@@ -1360,7 +1360,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>6 </i><font color=red>* </font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
+            <h2 class="count_flow"><i>5 </i><font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
             <ul class="ul_list">
                 <!-- 专业学术成果 -->
                 <div class="padding-top-10 clear">
@@ -1380,7 +1380,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>6</i><font color=red>* </font>专业学术成果</h2>
+            <h2 class="count_flow"><i>6</i><font color=red></font>专业学术成果</h2>
             <ul class="ul_list">
                 <!-- 专业学术成果 -->
                 <div class="padding-top-10 clear">
@@ -1398,7 +1398,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>7</i><font color=red>* </font>参加军队地方采购评审情况</h2>
+            <h2 class="count_flow"><i>7</i><font color=red></font>参加军队地方采购评审情况</h2>
             <ul class="ul_list">
                 <div class="padding-top-10 clear">
                     <%-- <h2 class="count_flow"><i>4</i><font color=red></font> 参加军队地方采购评审情况</h2>--%>
@@ -1415,7 +1415,7 @@
                 </div>
             </ul>
 
-            <h2 class="count_flow"><i>8</i><font color=red>* </font>需要申请回避的情况</h2>
+            <h2 class="count_flow"><i>8</i><font color=red></font>需要申请回避的情况</h2>
             <ul class="ul_list">
                 <div class="padding-top-10 clear">
                     <%-- <h2 class="count_flow"><i>5</i><font color=red></font> 需要申请回避的情况</h2>--%>

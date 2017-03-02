@@ -1001,12 +1001,12 @@ public class ExpertController extends BaseController {
 		List < PurchaseDep > depList = purchaseOrgnizationService.findPurchaseDepList(map);
 		if(depList != null && depList.size() > 0) {
 			PurchaseDep purchaseDep = depList.get(0);
-			allInfo.put("contact", purchaseDep.getContact() == null ? "暂无" : purchaseDep.getContact());
-			allInfo.put("contactTelephone", purchaseDep.getContactTelephone() == null ? "暂无" : purchaseDep.getContactTelephone());
-			allInfo.put("contactAddress", purchaseDep.getContactAddress() == null ? "暂无" : purchaseDep.getContactAddress());
-			allInfo.put("contactAddress", purchaseDep.getContactAddress() == null ? "暂无" : purchaseDep.getContactAddress());
-			allInfo.put("businessRange", purchaseDep.getBusinessRange() == null ? "暂无" : purchaseDep.getBusinessRange());
-			
+			Area pro = areaServiceI.listById(purchaseDep.getProvinceId());
+            Area city = areaServiceI.listById(purchaseDep.getCityId());
+            if(pro != null && city != null) {
+                purchaseDep.setAddress(pro.getName() + city.getName());
+            }
+			allInfo.put("purchaseDep", purchaseDep);
 		}
 		return JSON.toJSONString(allInfo);
 	}

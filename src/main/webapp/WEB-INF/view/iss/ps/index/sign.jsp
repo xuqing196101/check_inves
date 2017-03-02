@@ -117,25 +117,13 @@
     							success: function(response){
     							
     							console.info(response)
-    								if (response.isok == "1") {
-    									// 没有超过45天
-    									//询问框   原著:您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!
-    		    						layer.confirm(" 您已经提交了审核  机构: "+response.businessRange+" 联系人: "+response.contact+" 电话:  "+response.contactTelephone+" 地址:  "+response.contactAddress, {
-    		    							btn : [ '确定' ]
-    		    						//按钮
-    		    						}, function() {
-    		    							window.location.href = "${pageContext.request.contextPath}/";
-    		    						});
-    								} else {
-    									// 超过45天
-    									//询问框
-    		    						layer.confirm("您的信息提交审核已经超过45天,请耐心等待或联系相关初审机构(" + response.contact + ":" + response.contactTelephone + ")!", {
-    		    							btn : [ '确定' ]
-    		    						//按钮
-    		    						}, function() {
-    		    							window.location.href = "${pageContext.request.contextPath}/";
-    		    						});
-    								}
+   									//询问框
+   		    						layer.confirm("您选择的是" + response.purchaseDep.name + "，联系人：" + response.purchaseDep.supplierContact + ",电话：" + response.purchaseDep.supplierPhone + "，地址：" + response.purchaseDep.address + "。", {
+   		    							btn : [ '确定' ]
+   		    						//按钮
+   		    						}, function() {
+   		    							window.location.href = "${pageContext.request.contextPath}/";
+   		    						});
     							}
     						});
     					}else if(flag[0]=="unperfect"){
