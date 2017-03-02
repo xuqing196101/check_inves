@@ -573,6 +573,9 @@ public class ExpertController extends BaseController {
 	public void saveCategory(String expertId, String categoryId, String type, String typeId, boolean isParent) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
 		String flag = null;
+		if (code != null && code.equals("GOODS_PROJECT")) {
+            code = "PROJECT";
+        }
 		if (code.equals("ENG_INFO_ID")) {
 		    flag = "ENG_INFO";
 		}
@@ -679,6 +682,10 @@ public class ExpertController extends BaseController {
 	@RequestMapping(value = "/getCategory", produces = "application/json;charset=UTF-8")
 	public String getCategory(String expertId, String id, String categoryId) {
 	    String code = DictionaryDataUtil.findById(categoryId).getCode();
+	    if (code != null && code.equals("GOODS_PROJECT")) {
+	        code = "PROJECT";
+	        categoryId = DictionaryDataUtil.getId("PROJECT");
+	    }
 		if (code != null && code.equals("ENG_INFO_ID")) {
 		    List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
             Expert expert = service.selectByPrimaryKey(expertId);
@@ -3222,6 +3229,10 @@ public class ExpertController extends BaseController {
 	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
 	    String code = DictionaryDataUtil.findById(typeId).getCode();
 	    String flag = null;
+	    if (code != null && code.equals("GOODS_PROJECT")) {
+            code = "PROJECT";
+            typeId = DictionaryDataUtil.getId("PROJECT");
+        }
 	    if (code.equals("ENG_INFO_ID")) {
 	        flag = "ENG_INFO";
 	    }
