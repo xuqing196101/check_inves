@@ -419,13 +419,13 @@
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
 									</li>
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT'}">
+								<c:if test="${cate.code eq 'PROJECT' ||cate.code eq 'GOODS_PROJECT' }">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT'}">
+								<c:if test="${cate.code eq 'PROJECT' ||cate.code eq 'GOODS_PROJECT' }">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 									</li>
@@ -453,7 +453,7 @@
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT'}">
+								<c:if test="${cate.code eq 'PROJECT'||cate.code eq 'GOODS_PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
 										产品类别:<input type="text" id="cate-${vs.index + 1}">
@@ -464,7 +464,7 @@
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT'}">
+								<c:if test="${cate.code eq 'PROJECT' ||cate.code eq 'GOODS_PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-4" class="mb10">
 										产品类别:<input type="text" id="cate-4">
