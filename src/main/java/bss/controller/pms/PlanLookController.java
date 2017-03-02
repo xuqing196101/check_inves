@@ -50,12 +50,14 @@ import bss.formbean.PurchaseRequiredFormBean;
 import bss.model.pms.AuditParam;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.AuditParameService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.CollectPurchaseService;
 import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 
 import com.alibaba.fastjson.JSON;
@@ -126,6 +128,8 @@ public class PlanLookController extends BaseController {
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
 	
+	@Autowired
+	private PurchaseManagementService purchaseManagementService;
 	
 	/**
 	 * 
@@ -352,8 +356,18 @@ public class PlanLookController extends BaseController {
 		map.put("typeName", 1);
 		  List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
 		
-			List<PurchaseOrg> manages = purchaseOrgnizationServiceI.get(users.getOrg().getId());
-			  List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
+		  List<PurchaseDetail> listO = purchaseDetailService.getUnique(id);
+		  PurchaseRequired required = purchaseRequiredService.queryById(listO.get(0).getId());
+
+		   List<PurchaseManagement> pm = purchaseManagementService.queryByPid(required.getUniqueId());
+		   String mid="";
+			if(pm!=null&&pm.size()>0){
+				mid=pm.get(0).getManagementId();
+			}
+			List<PurchaseOrg> manages = purchaseOrgnizationServiceI.get(mid);
+			
+			
+		   List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
 			for(PurchaseOrg m:manages){
 				for(PurchaseDep pd:org){
 					if(m.getPurchaseDepId().equals(pd.getOrgId())){

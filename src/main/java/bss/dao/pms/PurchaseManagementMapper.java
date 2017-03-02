@@ -30,4 +30,17 @@ public interface PurchaseManagementMapper {
     * @throws
      */
     List<PurchaseManagement> queryByMid(@Param("mid") String id);
+    
+    
+    /**
+     * 
+    * @Title: queryByPid
+    * @Description: 根据计划编号查询对应的管理部门 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return List<PurchaseManagement>     
+    * @throws
+     */
+    public List<PurchaseManagement> queryByPid(@Param("pid")String id);
 }

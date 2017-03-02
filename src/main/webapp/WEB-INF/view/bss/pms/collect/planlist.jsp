@@ -365,7 +365,7 @@
 				    	    </span>
 				      </li>
 				      <li>
-				            <label class="fl">计划类型：</label>
+				            <label class="fl">状态：</label>
 				            <span>
 				    	      <select name="status">
 				  	            <option value="0" >全部</option>

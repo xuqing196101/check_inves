@@ -368,7 +368,7 @@
 						      	 			 var td=$(this).find("td:eq(10)");
 						      	 			var options= $(td).find("option");
 							      	 		  $(options).each(function(i){
-							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().val();
+							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().prev().val();
 							      	 			var dValue=$(this).val();
 							      	 			if (defValue==dValue) {
 													defVal = options[i].text;
@@ -488,7 +488,7 @@
 						      	 			 var td=$(this).find("td:eq(11)");
 						      	 			var options= $(td).find("option");
 							      	 		  $(options).each(function(i){
-							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").val();
+							      	 			defValue=$(this).parent().parent().parent().children(":last").children(":last").prev().val();
 							      	 			var dValue=$(this).val();
 							      	 			if (defValue==dValue) {
 													defVal = options[i].text;
@@ -554,6 +554,23 @@
 				function eavlChildren(obj){
 					
 				}
+				
+				function downFiles(id){
+					$.ajax({
+						url: "${pageContext.request.contextPath}/purchaser/getfile.html",
+						type: "post",
+						data:{"id":id},
+						success: function(data) {
+						
+						 	if($.trim(data)!=""){
+						 		download(data,2,null,null);	
+						 	}else{
+						 		layer.alert("文件未上传",{offset: ['222px', '390px'], shade:0.01});
+						 	}
+						}	
+					});
+				}
+				
 		</script>
 	</head>
 
@@ -601,7 +618,7 @@
 			<form id="audit_form" action="${pageContext.request.contextPath}/look/audit.html" method="post">
 				<div class="tab-content over_hideen">
 					<div class="tab-pane fade active in" id="tab-1">
-						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll h365">
+						<div class="col-md-8 col-sm-8 col-xs-12 over_scroll h365" id="table_div">
 							<table id="table" class="table table-bordered table-condensed mt5 lockout">
 								<thead>
 									<tr class="space_nowrap">
@@ -752,6 +769,11 @@
 											<td>
 												<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>
 												<input type="hidden" class="org" name="org" value="${obj.organization}"/>
+												
+												<c:if test="${obj.purchaseCount!=null }">
+												  <a class="mt3 color7171C6" href='javascript:downFiles("${obj.id }");' > 下载</a>
+												</c:if>												
+							
 												<%-- <div class="w160">
 														<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 														<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
@@ -777,8 +799,8 @@
 						</div>
 			
 					<c:if test="${audit!=null ||audit!=0 }">
-						<div class="col-md-4 col-sm-4 col-xs-12 over_scroll h365">
-							<table id="audit_table" class="table table-bordered table-condensed mt5 table_input">
+						<div class="col-md-4 col-sm-4 col-xs-12 over_scroll h365" id="audit_table_div">
+							<table id="audit_table" class="table table-bordered table-condensed mt5 lockout">
 								<thead>
 									<tr class="space_nowrap">
 										<c:if test="${status==3 || status==5 || status==7 }">
@@ -826,7 +848,7 @@
 									</select>
 								</td>
 								<td class="tc"> --%>
-									<input type="text"  <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>   style="width:330px;"  name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
+									<input type="text" class="seq" <c:if test="${status==5 || status==7 }"> readonly="readonly" </c:if>   style="width:330px;"  name="listDetail[${vs.index }].oneAdvice"  value="${objs.oneAdvice }" >
 								</td>
 								</c:if>
 								
@@ -938,4 +960,20 @@
 		
 		</div>
 	</body>
+	<script>
+	  (function($,w){
+            w.onload=function(){
+              $('#table_div').scroll( function() {
+                    $('#audit_table_div').scrollTop($(this).scrollTop());
+                    $('#audit_table_div').scrollLeft($(this).scrollLeft());
+                });
+                $('#audit_table_div').scroll( function() {
+                    $('#table_div').scrollTop($(this).scrollTop());
+                    $('#table_div').scrollLeft($(this).scrollLeft());
+                });
+            }
+        })(jQuery,window);
+    </script>
+	
+	
 </html>

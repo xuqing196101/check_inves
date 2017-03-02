@@ -6,6 +6,7 @@ import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -38,6 +39,7 @@ import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -53,6 +55,7 @@ import bss.service.pms.PurchaseRequiredService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.service.UpdateHistoryService;
 
@@ -184,10 +187,26 @@ public class PurchaseAcceptController extends BaseController{
 		model.addAttribute("planNo", list.get(0).getUniqueId());
 		model.addAttribute("list", list);
 		
+		List<PurchaseManagement> pm = purchaseManagementService.queryByPid(planNo);
+		String mid="";
+		if(pm!=null&&pm.size()>0){
+			mid=pm.get(0).getManagementId();
+		}
+		List<PurchaseOrg> manages = purchaseOrgnizationServiceI.get(mid);
+		
 		HashMap<String,Object> map=new HashMap<String,Object>();
 		map.put("typeName", 1);
 	    List<PurchaseDep> org = purchaseOrgnizationServiceI.findPurchaseDepList(map);
-		model.addAttribute("org", org);
+	    List<PurchaseDep> orgs=new LinkedList<PurchaseDep>();
+	    for(PurchaseOrg m:manages){
+			for(PurchaseDep pd:org){
+				if(m.getPurchaseDepId().equals(pd.getOrgId())){
+					orgs.add(pd);
+				}
+			}
+		}
+	    
+		model.addAttribute("org", orgs);
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		
 		Map<String,Object> maps=new HashMap<String,Object>();

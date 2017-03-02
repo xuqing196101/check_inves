@@ -76,10 +76,13 @@ import bss.util.ExcelUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.annotation.SystemControllerLog;
 import common.constant.StaticVariables;
+import common.model.UploadFile;
 import common.service.UpdateHistoryService;
+import common.service.UploadService;
 /**
  * 
  * @Title: PurcharseRequiredController
@@ -122,6 +125,10 @@ public class PurchaseRequiredController extends BaseController{
 	
 	@Autowired
 	private UpdateHistoryService updateHistoryService;
+	
+	
+	@Autowired
+	private UploadService uploadService;
 	/**
 	 * 
 	* @Title: queryPlan
@@ -203,7 +210,8 @@ public class PurchaseRequiredController extends BaseController{
 		String typeId = DictionaryDataUtil.getId("PURCHASE_FILE");
 		model.addAttribute("typeId", typeId);
 		model.addAttribute("fileId", fileId);
-		
+		model.addAttribute("planNo", planNo);
+		model.addAttribute("detailId", DictionaryDataUtil.getId("PURCHASE_DETAIL"));
 		model.addAttribute("org_advice", type);
 		if(type.equals("1")||type.equals("2")){
 			return "bss/pms/purchaserequird/view";
@@ -476,6 +484,7 @@ public class PurchaseRequiredController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/adddetail")
+	@ResponseBody
 	public String addReq(PurchaseRequiredFormBean list,String planType,String planNo,String planName,String recorderMobile,HttpServletRequest request,String referenceNo,String fileId,String prList) throws IOException{
 		
 		List<PurchaseRequired> plist = get(prList);
@@ -597,7 +606,8 @@ public class PurchaseRequiredController extends BaseController{
 	}
 
 		purchaseRequiredService.batchAdd(plist);
-		return "redirect:list.html";
+//		return "redirect:list.html";
+		return "";
 	}
 	
 	
@@ -1247,5 +1257,15 @@ public class PurchaseRequiredController extends BaseController{
 		     cell.setCellValue(planName);
 		     sheet.addMergedRegion(new CellRangeAddress(0,(short)0,0,(short)12));
 		     
+		 }
+		 @RequestMapping("/getfile")
+		 @ResponseBody
+		 public String fileIds(String id){
+			 String ids="";
+			 List<UploadFile> list = uploadService.findBybusinessId(id, 2);
+			for(UploadFile up:list){
+				ids+=up.getId()+",";
+			}
+			 return ids;
 		 }
 }

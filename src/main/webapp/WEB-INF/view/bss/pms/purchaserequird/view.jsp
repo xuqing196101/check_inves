@@ -118,6 +118,22 @@
 		window.location.href="${pageContext.request.contextPath}/purchaser/add.html?type=" + val;
 		layer.close(index);
 	}
+	
+	function downFiles(id){
+		$.ajax({
+			url: "${pageContext.request.contextPath}/purchaser/getfile.html",
+			type: "post",
+			data:{"id":id},
+			success: function(data) {
+			
+			 	if($.trim(data)!=""){
+			 		download(data,2,null,null);	
+			 	}else{
+			 		layer.alert("文件未上传",{offset: ['222px', '390px'], shade:0.01});
+			 	}
+			}	
+		});
+	}
 </script>
 </head>
 
@@ -144,13 +160,13 @@
 							<span class="add-on">i</span>
 						</div>
 					</li>
-					<li class="col-md-3 col-sm-6 col-xs-12">
+					<%-- <li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划编号</span>
 						<div class="input-append input_group col-sm-12 col-xs-12 p0">
 							<input type="text" class="input_group" name="no" value="${list[0].planNo}" disabled="true" >
 							<span class="add-on">i</span>
 						</div>
-					</li>
+					</li> --%>
 					
 					<li class="col-md-3 col-sm-6 col-xs-12">
 						<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">计划文号</span>
@@ -323,10 +339,13 @@
 							</td > 
 							
 							<td>
+							<c:if test="${obj.purchaseCount!=null }">
+							  <a class="mt3 color7171C6" href='javascript:downFiles("${obj.id }");' > 下载</a>
+							</c:if>
 						<%-- 	<div class="extrafile">
 													<u:upload id="pUp${vs.index}" businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
 													<u:show showId="pShow${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-											   </div> --%>	
+											   </div>	 --%>
 							</td>
 							
 							

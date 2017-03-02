@@ -460,11 +460,13 @@
                   </div>
                   </td>
                   <td>
-                 <%--  ${obj.id} --%>
-							  <%--  <div class="extrafile">
-									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${typeId}" auto="true" />
-									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${typeId}" />
-							  </div>	 --%>	
+                <%--   <c:if test="${obj.purchaseCount!=null}">
+							   <div class="extrafile">
+									 <u:upload id="up_${vs.index}"  multiple="true"  businessId="${obj.id}" buttonName="上传文件" sysKey="2" typeId="${detailId}" auto="true" />
+									 <u:show showId="show_${vs.index}"  businessId="${obj.id}" sysKey="2" typeId="${detailId}" />
+							  </div>
+				</c:if>	 --%>		  
+							  	
 						<input type="hidden" class="ptype" name="ptype" value="${obj.purchaseType}"/>									
 					 </td>
                  
@@ -495,12 +497,12 @@
 
 </body>
 <script type="text/javascript">
-/* 	window.onload = function () {
+/*  	window.onload = function () {
     $.ajax({
         url: "${pageContext.request.contextPath}/purchaser/getInfoByNo.html",
         type: "post",
         data: {
-            planNo: "${argument}",
+            planNo: "${planNo}",
             type: "${org_advice}"
         },
         dataType: "json",
@@ -537,7 +539,7 @@
                     memo: item.memo,
                     extrafile: "<a href='http://www.amazon.com/Professional-JavaScript-Developers-Nicholas-Zakas/dp/1118026691'>点击查看附件</a>"
                 }
-                sources.push(source)
+                sources.push(source);
             });
             var args = {
                 id: "container",
@@ -611,6 +613,6 @@ var showData = function (options) {
     options.container = document.getElementById(options.id);
     options.handsonTable = new Handsontable(options.container, options.config);
     return options;
-} */
+}  */
 </script>
 </html>

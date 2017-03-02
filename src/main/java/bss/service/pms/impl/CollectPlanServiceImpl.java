@@ -347,7 +347,7 @@ public class CollectPlanServiceImpl implements CollectPlanService{
 		List<Orgnization> detailList=new ArrayList<Orgnization>();
 		for(String u:uniqueId){
 			   p.setUniqueId(u);
-		       p.setIsMaster(1);
+//		       p.setIsMaster(1);
 			   List<PurchaseRequired> one = purchaseRequiredService.queryUnique(p);
 			   String department = one.get(0).getDepartment();
 			   Orgnization orgnization = purchaseRequiredService.queryByName(department);

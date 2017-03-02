@@ -306,4 +306,10 @@ public class PurchaseRequiredServiceImpl implements PurchaseRequiredService{
 		 List<PurchaseRequired> list = purchaseRequiredMapper.getByDep(map);
 			return list;
 		}
+
+	@Override
+	public String getAttachementId(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

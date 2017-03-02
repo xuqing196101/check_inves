@@ -13,11 +13,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import common.annotation.CurrentUser;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 
@@ -31,6 +35,10 @@ public class DetailTemplet {
 	
 	@Autowired
 	private PurchaseRequiredService purchaseRequiredService;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationServiceI;
+
 	/**
 	 * 
 	* @Title: template
@@ -71,7 +79,7 @@ public class DetailTemplet {
 	
 	@RequestMapping("/uploaddetail")
 	@ResponseBody
-	public ModelAndView upload(Integer index, Model model,String prList){
+	public ModelAndView upload(@CurrentUser User user, Integer index, Model model,String prList){
 		JSONArray json1 = JSONArray.fromObject(prList);
   	   List<PurchaseRequired> lists = (List<PurchaseRequired>)JSONArray.toCollection(json1, PurchaseRequired.class);
   	   
@@ -84,18 +92,13 @@ public class DetailTemplet {
 		 String attId = DictionaryDataUtil.getId("PURCHASE_DETAIL");
 		 moeldeAndView.addObject("attId", attId);
 		 
-		 //采购机构
-		 HashMap<String,Object> map=new HashMap<String,Object>();
-		 map.put("typeName", "1");
-		 List<PurchaseDep> list2 = purchserOrgnaztionService.findPurchaseDepList(map);
-//		 model.addAttribute("requires", list2);
-		 //采购方式
 		 List<DictionaryData> list = DictionaryDataUtil.find(5);
 		 model.addAttribute("list2", list);
 		 model.addAttribute("lists", lists);
-//		 
-//		 List<Supplier> suppliers = purchaseRequiredService.queryAllSupplier();
-//		 model.addAttribute("suppliers", suppliers);
+		 
+		 Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(user.getOrg().getId());
+			 model.addAttribute("shortName", org.getShortName()); 
+		
 		 return moeldeAndView;
 	}
 	

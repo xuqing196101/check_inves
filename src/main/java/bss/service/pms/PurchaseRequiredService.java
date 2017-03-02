@@ -330,4 +330,7 @@ public interface PurchaseRequiredService {
     * @throws
      */
     List<PurchaseRequired> queryListUniqueId(Map<String,Object> map);
+    
+    
+    public String getAttachementId(String id);
 }

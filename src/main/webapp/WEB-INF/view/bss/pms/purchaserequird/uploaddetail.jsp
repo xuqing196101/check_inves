@@ -15,7 +15,7 @@
 										
 									<%-- 	<input type="text" name="list[${vs.index }].department"   value="${obj.department}"> --%>
 										<%-- 	<input type="hidden" name="list[${vs.index }].department" value="${orgId }" > --%>
-								  			<input type="text"  name="list[${vs.index }].department" readonly="readonly" value="${obj.department}"  class="m0 border0 w80" >
+								  			<input type="text"  name="list[${vs.index }].department" readonly="readonly" value="${shortName}"  class="m0 border0 w80" >
 											
 										
 										</td>
@@ -48,7 +48,7 @@
 											<select name="list[${vs.index }].purchaseType" class="purchasetype" onchange="changeType(this)" >
 												<option value="">请选择</option>
 												<c:forEach items="${list2 }" var="objd">
-														<option value="${objd.name }"> ${objd.name }</option>
+														<option value="${objd.name}" <c:if test="${objd.name==obj.purchaseType}"> selected='selected'</c:if> > ${objd.name }</option>
 													 
 												</c:forEach>
 											</select>
@@ -70,10 +70,10 @@
 										 <td name='userNone' ><input type="text" name="list[${vs.index }].useUnit" class="useunit"></td>
 									     <td><input type="text" name="list[${vs.index }].memo"  class="memo" value="${obj.memo}" ></td>
 									     <td>
-											   <div class="extrafile">
+											   <%-- <div class="extrafile">
 													<u:upload id="pUp${vs.index }" multiple="true" buttonName="上传文件"  businessId="${obj.id}" sysKey="2" typeId="${attId}" auto="true" />
 													<u:show showId="pShow${vs.index }" businessId="${obj.id}" sysKey="2" typeId="${attId}" />
-											   </div>											
+											   </div>	 --%>										
 										 </td>
 										
 										

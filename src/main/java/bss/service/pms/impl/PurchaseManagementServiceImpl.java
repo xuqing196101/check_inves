@@ -31,4 +31,12 @@ public class PurchaseManagementServiceImpl  implements PurchaseManagementService
 		return list;
 	}
 
+	@Override
+	public List<PurchaseManagement> queryByPid(String pid) {
+		// TODO Auto-generated method stub
+		return purchaseManagementMapper.queryByPid(pid);
+	}
+	
+	
+
 }
