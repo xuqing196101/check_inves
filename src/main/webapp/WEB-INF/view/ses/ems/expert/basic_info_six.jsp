@@ -443,9 +443,9 @@
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
 						 
-								 <c:if test="${liCount == 	1}">
+								 <c:if test="${liCount ==1}">
 										<c:if test="${cate.code eq 'GOODS_PROJECT'}">
-											<li id="li_id_4" class='<c:if test="${liCount == 1}">active</c:if>' onclick="showDivTree(this);">
+											<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 												<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 											</li>
 											<c:set value="${liCount+1}" var="liCount" />
@@ -500,6 +500,20 @@
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 								</c:if>
+								
+								  <c:if test="${cate.code eq 'GOODS_PROJECT'}">
+									<c:set var="count" value="${count + 1}"></c:set>
+									<div id="div-4" class="mb10">
+										产品类别:<input type="text" id="cate-4">
+								                   目录编码:<input type="text" id="code-4">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4','code-4')" />
+										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+									</div>
+									<ul id="tab-4" class="ztree_supplier mt30"></ul>
+									<input id="tab-4-value" value="${engId}" type="hidden">
+							   </c:if>
+							
+							
 								</c:if>
 								 
 						    
@@ -516,7 +530,7 @@
 								</c:if>
 							  
 							  <c:if test="${count ==0}">
-							  <c:if test="${cate.code eq 'GOODS_PROJECT'}">
+							<%--   <c:if test="${cate.code eq 'GOODS_PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-4" class="mb10">
 										产品类别:<input type="text" id="cate-4">
@@ -526,7 +540,7 @@
 									</div>
 									<ul id="tab-4" class="ztree_supplier mt30"></ul>
 									<input id="tab-4-value" value="${engId}" type="hidden">
-							</c:if>
+							</c:if> --%>
 							</c:if>
 								
 								<c:if test="${cate.code eq 'SERVICE'}">
