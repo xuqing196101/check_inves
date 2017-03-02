@@ -3241,13 +3241,19 @@ public class ExpertController extends BaseController {
 	    List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
 	    for (ExpertCategory expertCategory : items) {
 	        if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+	            Category data = categoryService.findById(expertCategory.getCategoryId());
 	            List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
 	            if (findPublishTree.size() == 0) {
 	                expertItems.add(expertCategory);
+	            } else if (data != null && data.getCode().length() == 7) {
+	                expertItems.add(expertCategory);
 	            }
 	        } else {
+                Category data = engCategoryService.findById(expertCategory.getCategoryId());
 	            List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
                 if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
                     expertItems.add(expertCategory);
                 }
 	        }
