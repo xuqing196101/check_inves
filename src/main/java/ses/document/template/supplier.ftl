@@ -676,6 +676,7 @@
 					</td>
 				</tr>
 				<#list addressList! as addr>
+				<#if addr.id?exists>
 				<tr style="height:19.8500pt;">
 					<td width=348 valign=center colspan=9 style="width:261.1000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:none;;mso-border-left-alt:none;;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
 						<p class=MsoNormal align=center style="text-align:center;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">${addr.address!}</span><span style="font-family:宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -684,6 +685,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">${addr.code!}</span><span style="font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 				<tr style="height:19.8500pt;">
 					<td width=125 valign=center colspan=2 rowspan=${branchList?size+1!} style="width:93.9000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid windowtext;mso-border-left-alt:0.5000pt solid windowtext;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:none;;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
@@ -707,6 +709,7 @@
 					</td>
 				</tr>
 				<#list branchList! as branch>
+				<#if branch.id?exists>
 				<tr style="height:19.8500pt;">
 					<td width=87 valign=center colspan=2 style="width:65.2500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:none;;mso-border-left-alt:none;;border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid windowtext;border-bottom:1.0000pt solid windowtext;mso-border-bottom-alt:0.5000pt solid windowtext;">
 						<p class=MsoNormal align=center style="text-align:center;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">${branch.country!}</span><span style="font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -721,6 +724,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">${branch.businessSope!}</span><span style="font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 				<#if (isEng?exists)>
 				<tr style="height:19.8500pt;">
@@ -890,6 +894,7 @@
 				</tr>
 				<#if (isEngOther?exists)>
 				<#list supplierMatPro.listSupplierCertPros! as pro>
+				<#if pro.id?exists>
 				<tr style="height:27.0000pt;">
 					<td width=43 valign=top style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${pro_index + 1!}</span><span style="font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -913,6 +918,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${pro.mot!}</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 				</#if>
 			</table>
@@ -950,6 +956,7 @@
 				</tr>
 				<#if (isEng?exists)>
 				<#list supplierMatEng.listSupplierCertEngs! as eng>
+				<#if eng.id?exists>
 				<tr style="height:24.4500pt;">
 					<td width=43 valign=center style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${eng_index + 1!}</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -973,6 +980,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${eng.certStatus!}</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 				</#if>
 				<tr style="height:27.0000pt;">
@@ -1005,6 +1013,7 @@
 				</tr>
 				<#if (isEng?exists)>
 				<#list supplierMatEng.listSupplierAptitutes! as aptitutes>
+				<#if aptitutes.id?exists>
 				<tr style="height:26.7500pt;">
 					<td width=43 valign=center style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${aptitutes_index + 1!}</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1028,6 +1037,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><#if (aptitutes.isMajorFund == 1)>是<#else>否</#if></span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 				</#if>
 			</table>
@@ -1056,6 +1066,7 @@
 					</td>
 				</tr>
 				<#list listSupplierStockholders! as stockholders>
+				<#if stockholders.id?exists>
 				<tr style="height:26.8000pt;">
 					<td width=52 valign=top style="width:39.2500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.7500pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.7500pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.7500pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.7500pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">${stockholders_index + 1!}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1076,6 +1087,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">&nbsp;</span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">${stockholders.proportion!}%</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 			</table>
 			<p class=MsoNormal style="margin-top:14.4500pt;mso-para-margin-top:0.5000gd;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >说明：</font>1.<font face="宋体" >出资人（股东）多于</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">10</span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >人的，列出出资金额前</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">10</span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >位的信息，但出资比例应高于</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:宋体;mso-hansi-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">50%</span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >；</font></span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1106,6 +1118,7 @@
 					</td>
 				</tr>
 				<#list allTreeList! as tree>
+				<#if tree.id?exists>
 				<tr style="height:23.1500pt;">
 					<td width=43 valign=top style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${tree_index + 1}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1126,6 +1139,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${tree.fourthNode!}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 			</table>
 			<p class=MsoNormal style="margin-top:14.4500pt;mso-para-margin-top:0.5000gd;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
@@ -1210,6 +1224,7 @@
 					</td>
 				</tr>
 				<#list listSupplierAfterSaleDep! as afterSale>
+				<#if afterSale.id?exists>
 				<tr style="height:24.0000pt;">
 					<td width=43 valign=top style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.7500pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.7500pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.7500pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.7500pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${afterSale_index + 1}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1230,6 +1245,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${afterSale.mobile!}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
+				</#if>
 				</#list>
 			</table>
 			<p class=MsoNormal align=justify style="text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
