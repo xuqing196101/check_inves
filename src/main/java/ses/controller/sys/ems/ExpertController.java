@@ -3232,17 +3232,6 @@ public class ExpertController extends BaseController {
             List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
             if (findPublishTree.size() == 0) {
                 expertItems.add(expertCategory);
-            } else {
-                boolean isFourNode = true;
-                for (Category category : findPublishTree) {
-                    List<Category> childNodes = categoryService.findPublishTree(category.getId(), null);
-                    if (childNodes.size() > 0) {
-                        isFourNode = false;
-                    }
-                }
-                if (isFourNode) {
-                    expertItems.add(expertCategory);
-                }
             }
         }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
