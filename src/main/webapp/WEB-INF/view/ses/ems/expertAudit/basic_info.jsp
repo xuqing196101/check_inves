@@ -286,7 +286,7 @@
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="idCardNumberFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  onclick="reasonFile(this);">身份证复印件（正反面）：</span>
-            	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID}"/>
+            	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
            		<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             <li>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" >居民身份证号码：</span>
@@ -325,7 +325,7 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">缴纳社保证明：</span>
               	<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
-              		<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_PHOTO_TYPEID}"/>
+              		<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
            				<a style="visibility:hidden" id="photoFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             		</div>
             	</li>
@@ -344,7 +344,7 @@
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
-              	<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_IDNUMBER_TYPEID}"/>
+              	<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
            				<a style="visibility:hidden" id="idNumberFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             	<li>
             </c:if>
@@ -413,13 +413,13 @@
 									<input maxlength="20" <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获得时间：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input <c:if test="${fn:contains(editFields,'getMakeTechDate')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
+									<input <c:if test="${fn:contains(editFields,'getTimeToWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeToWork','getTimeToWork','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专家技术职称证书：</span>
-	              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
+	              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
 	              <a style="visibility:hidden" id="titleFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
             	</li>
             	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
@@ -434,7 +434,7 @@
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="academic" onclick="reasonFile(this);">毕业证书：</span>
-	              <up:show showId="show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_ACADEMIC_TYPEID}"/>
+	              <up:show showId="show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="5"/>
 	              <a style="visibility:hidden" id="academic1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位：</span>
@@ -443,7 +443,7 @@
 								</div>
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">学位证书：</span>
-	              <up:show showId="show6" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
+	              <up:show showId="show6" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="6"/>
 	              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间：</span>
@@ -462,7 +462,7 @@
 							</c:if>
 							<c:if test="${expert.isReferenceLftter eq '1'}">
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">推荐信：</span>
-		              <up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="typeMap.EXPERT_TITLE_TYPEID"/>
+		              <up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
 		              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 		            </li>
 							</c:if>
@@ -470,7 +470,7 @@
 						<h2 class="count_flow"><i>4</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
 						<ul class="ul_list">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格证书：</span>
-	             	<up:show showId="show9" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}"/>
+	             	<up:show showId="show9" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
 	          			<a style="visibility:hidden" id="degreeTypeid1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 	           	<li>
 						</ul>

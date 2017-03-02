@@ -94,6 +94,35 @@
 					layer.close(index);
 				});
 			}
+			
+			
+			function reasonProject(auditField, auditFieldName, auditContent) {
+				var supplierId = $("#supplierId").val();
+				var index = layer.prompt({
+					title: '请填写不通过的理由：',
+					formType: 2,
+					offset: '100px'
+				}, function(text) {
+					$.ajax({
+						url: "${pageContext.request.contextPath}/supplierAudit/auditReasons.html",
+						type: "post",
+						data: "&auditFieldName=" + auditFieldName + "&suggest=" + text + "&supplierId=" + supplierId + "&auditType=aptitude_page" + "&auditContent=" + auditContent + "&auditField=" + auditField,
+						dataType: "json",
+						success: function(result) {
+							result = eval("(" + result + ")");
+							if(result.msg == "fail") {
+								layer.msg('该条信息已审核过！', {
+									shift: 6, //动画类型
+									offset: '100px'
+								});
+							}
+						}
+					});
+					$("#" + auditField + "_show").show();
+						$("#" + auditField + "_hidden").hide();
+					layer.close(index);
+				});
+			}
 		</script>
 		<script type="text/javascript">
 			function jump(str) {
@@ -363,9 +392,9 @@
 								      	<td>${cate.level.name}</td>
 								      	<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false"/></td>
 								      	<td class="tc w50">
-													<a onclick="reason('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><img src='/zhbj/public/backend/images/light_icon.png'></a>
-													<p ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
-											 </td>
+													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+											 	</td>
 								      </tr>
 								    </c:forEach>
 								  </table>

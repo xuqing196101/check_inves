@@ -253,16 +253,16 @@
 								<c:if test="${isProject eq 'project'}">
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
 										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input <c:if test="${fn:contains(editFields,'getProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professional','getProfessional','0');"</c:if> value="${expert.professional}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this);"/>
+											<input <c:if test="${fn:contains(editFields,'getProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professional','getProfessional','0');"</c:if> value="${expert.professTechTitles}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this);"/>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格：</span>
-			             	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
+			             	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="9"/>
 			          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 			           	<li>
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获取时间：</span>
 										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input <c:if test="${fn:contains(editFields,'getTimeProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeProfessional','getTimeProfessional','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this);"/>
+											<input <c:if test="${fn:contains(editFields,'getTimeProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeProfessional','getTimeProfessional','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this);"/>
 										</div>
 									</li>
 								</c:if>
