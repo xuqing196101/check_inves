@@ -8,7 +8,9 @@ import org.springframework.stereotype.Service;
 
 import ses.dao.sms.SupplierHistoryMapper;
 import ses.dao.sms.SupplierModifyMapper;
+import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
@@ -23,10 +25,12 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
+import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.util.DictionaryDataUtil;
 
 @Service(value = "supplierModifyService")
 public class SupplierModifyServiceImpl implements SupplierModifyService{
@@ -45,6 +49,9 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 	
 	@Autowired
 	private SupplierTypeRelateService supplierTypeRelateService;
+	
+	@Autowired
+	private  SupplierTypeRelateMapper supplierTypeRelateMapper;
 	
 	/**
 	 * @Title: selectField
@@ -94,6 +101,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		 */
 		supplierHistory.setSupplierId(supplierId);
 		supplierHistory.setmodifyType("supplier_type");
+		supplierHistory.setListType(12);
 		List<SupplierHistory> historyList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
 		
 		String findBySupplier = supplierTypeRelateService.findBySupplier(supplierId);
@@ -105,6 +113,59 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 				supplierModifyMapper.insertSelective(supplierModify);
 			}
 		}
+		
+		 
+        /*//修改后的类型、
+		 StringBuffer editAudit = new StringBuffer();
+		
+         //全部类型
+         StringBuffer typeAll = new StringBuffer();
+         List < DictionaryData > wuzi = DictionaryDataUtil.find(6);
+		 List < DictionaryData > wlist = DictionaryDataUtil.find(8);
+		 for(DictionaryData d : wuzi){
+			typeAll.append(d.getCode()+",");
+		 }
+		 for(DictionaryData d : wlist){
+			typeAll.append(d.getCode()+",");
+		 }
+        
+		 
+         //现在勾选的类型
+		 StringBuffer type = new StringBuffer();
+		 List<SupplierTypeRelate> supplierType = supplierTypeRelateMapper.findSupplierTypeIdBySupplierId(supplierId);
+		 for(SupplierTypeRelate r : supplierType){
+			 type.append(r.getSupplierTypeId() + ",");
+		 }
+        
+		 //历史
+		 StringBuffer historyType = new StringBuffer();
+		 for(SupplierHistory h: historyList){
+			 historyType.append(h.getBeforeField() + ",");
+		 }
+		 
+        
+		 for(SupplierHistory h : historyList){
+				if(!findBySupplier.contains(h.getBeforeField())){
+					editAudit.append(h.getBeforeField() + ",");
+				}
+			}
+		 
+		 String[] splitType = type.toString().split(",");
+		 for(String t: splitType){
+			 if(typeAll.toString().contains(t) && !historyType.toString().contains(t)){
+				 editAudit.append(t + ",");
+			 }
+		 }*/
+        
+        
+        
+        
+		
+		
+		
+		
+		
+		
 		
 		/**
 		 * 地址信息

@@ -12,6 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 import ses.dao.sms.SupplierHistoryMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
+import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -33,6 +34,7 @@ import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 
 @Service(value = "supplierHistoryService")
 public class SupplierHistoryServiceImpl implements SupplierHistoryService{
@@ -114,7 +116,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         SupplierHistory historyInfo = null;
         SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
         
-        // 获取供应商信息R
+        // 获取供应商信息
         Supplier supplier = supplierService.get(supplierId);
         
         //供应商类型
@@ -123,6 +125,7 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
         	 historyInfo = new SupplierHistory();
              historyInfo.setSupplierId(supplierId);
              historyInfo.setmodifyType("supplier_type");
+             historyInfo.setListType(12);
              historyInfo.setCreatedAt(date);
 
              // 名称

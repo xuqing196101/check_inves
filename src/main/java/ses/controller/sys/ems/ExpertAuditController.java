@@ -937,39 +937,47 @@ public class ExpertAuditController {
 			}
 		}
 		
-		// 判断有没有进行修改
+		//修改前的类型
 		if(expert.getStatus() != null && expert.getStatus().equals("0")) {
+			StringBuffer editFields = new StringBuffer();
+			
+			//历史表里记录的类型（修改前的类型）
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-			if(oldExpert != null) {
-				Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
-				// 如果isEdit==1代表没有进行任何修改就进行了二次提交
-				if(compareMap.isEmpty()) {
-					// 没有修改
-					model.addAttribute("isEdit", "0");
-				} else {
-					// 有修改
-					model.addAttribute("isEdit", "1");
+			String oldType = oldExpert.getExpertsTypeId();
+			String[] historyType = oldExpert.getExpertsTypeId().split(",");
+			for(String h : historyType){
+				if(!type.contains(h)){
+					editFields.append(h);
 				}
-				Set < String > keySet = compareMap.keySet();
-				List < String > editFields = new ArrayList < String > ();
-				for(String method: keySet) {
-					if("getExpertsTypeId".equals(method)) {
-						editFields.add(compareMap.get("getExpertsTypeId").toString());
+			}
+			
+			//全部类型
+			StringBuffer typeAll = new StringBuffer();
+			for(DictionaryData d : spList){
+				typeAll.append(d.getId() + ",");
+			}
+			for(DictionaryData d : jjTypeList){
+				typeAll.append(d.getId());
+			}
+			
+			//现在勾选的类型
+			String[] split = type.split(",");
+			for(String s : split){
+				if(typeAll.toString().contains(s) && !oldType.contains(s)){
+					editFields.append(s + ",");
 					}
 				}
-				model.addAttribute("editFields", editFields);
-			}
+	
+			model.addAttribute("editFields", editFields);
 		}
-		
+
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
+		model.addAttribute("expertKey", expertKey);
+		// 获取各个附件类型id集合
 		Map < String, Object > typeMap = getTypeId();
 		// typrId集合
 		model.addAttribute("typeMap", typeMap);
-		// 业务id就是专家id
-		model.addAttribute("sysId", expertId);
-		// Constant.EXPERT_SYS_VALUE;
-		model.addAttribute("expertKey", expertKey);
 		
 		return "ses/ems/expertAudit/expertType";
 	}

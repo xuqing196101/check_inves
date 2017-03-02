@@ -462,7 +462,7 @@
 							</c:if>
 							<c:if test="${expert.isReferenceLftter eq '1'}">
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">推荐信：</span>
-		              <up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
+		              <up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
 		              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 		            </li>
 							</c:if>
@@ -470,7 +470,7 @@
 						<h2 class="count_flow"><i>4</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
 						<ul class="ul_list">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格证书：</span>
-	             	<up:show showId="show9" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
+	             	<up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
 	          			<a style="visibility:hidden" id="degreeTypeid1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 	           	<li>
 						</ul>
