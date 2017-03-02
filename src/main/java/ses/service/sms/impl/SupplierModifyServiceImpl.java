@@ -23,7 +23,6 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
-import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
@@ -180,31 +179,33 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 					supplierModify.setRelationId(supplierBranch.getId());
 					
 					// 机构名称
-					if (history.getBeforeField().equals("organizationName") && !history.getBeforeContent().equals(supplierBranch.getOrganizationName())) {
-						supplierModify.setBeforeField("organizationName");
-						supplierModify.setBeforeContent(history.getBeforeContent());
-						supplierModifyMapper.insertSelective(supplierModify);
-					}
-					
-					// 所在国家（地区）
-					if (history.getBeforeField().equals("countryName") && !history.getBeforeContent().equals(supplierBranch.getCountryName())) {
-						supplierModify.setBeforeField("countryName");
-						supplierModify.setBeforeContent(history.getBeforeContent());
-						supplierModifyMapper.insertSelective(supplierModify);
-					}
-					
-					// 详细地址
-					if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(supplierBranch.getDetailAddress())) {
-						supplierModify.setBeforeField("detailAddress");
-						supplierModify.setBeforeContent(history.getBeforeContent());
-						supplierModifyMapper.insertSelective(supplierModify);
-					}
-					
-					// 生产经营范围
-					if (history.getBeforeField().equals("businessSope") && !history.getBeforeContent().equals(supplierBranch.getBusinessSope())) {
-						supplierModify.setBeforeField("businessSope");
-						supplierModify.setBeforeContent(history.getBeforeContent());
-						supplierModifyMapper.insertSelective(supplierModify);
+					if(history.getBeforeField() != null && history.getBeforeContent() !=null){
+						if (history.getBeforeField().equals("organizationName") && !history.getBeforeContent().equals(supplierBranch.getOrganizationName())) {
+							supplierModify.setBeforeField("organizationName");
+							supplierModify.setBeforeContent(history.getBeforeContent());
+							supplierModifyMapper.insertSelective(supplierModify);
+						}
+						
+						// 所在国家（地区）
+						if (history.getBeforeField().equals("countryName") && !history.getBeforeContent().equals(supplierBranch.getCountryName())) {
+							supplierModify.setBeforeField("countryName");
+							supplierModify.setBeforeContent(history.getBeforeContent());
+							supplierModifyMapper.insertSelective(supplierModify);
+						}
+						
+						// 详细地址
+						if (history.getBeforeField().equals("detailAddress") && !history.getBeforeContent().equals(supplierBranch.getDetailAddress())) {
+							supplierModify.setBeforeField("detailAddress");
+							supplierModify.setBeforeContent(history.getBeforeContent());
+							supplierModifyMapper.insertSelective(supplierModify);
+						}
+						
+						// 生产经营范围
+						if (history.getBeforeField().equals("businessSope") && !history.getBeforeContent().equals(supplierBranch.getBusinessSope())) {
+							supplierModify.setBeforeField("businessSope");
+							supplierModify.setBeforeContent(history.getBeforeContent());
+							supplierModifyMapper.insertSelective(supplierModify);
+						}
 					}
 				}
 			}

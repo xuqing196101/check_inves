@@ -32,6 +32,7 @@
 				}
 			});
 			
+			//类型审核
 			function reason(auditField,auditContent){
 			  var expertId = $("#expertId").val();		
 			  var appear = auditField + "_show";
@@ -60,6 +61,79 @@
 		      layer.close(index);
 			    });
 		  	}
+		  	
+		  	//执业资格审核
+				function reasonInput(obj,str){
+				  var expertId = $("#expertId").val();
+				  var auditField;
+				  var auditContent;
+				  var html = "<div class='abolish'><img src='/zhbj/public/backend/images/sc.png'></div>";
+			    $("#"+obj.id+"").each(function() {
+			      auditField = $(this).parents("li").find("span").text().replace("：","").trim();
+	          auditContent = $(this).parents("li").find("input").val();
+	    		});
+						var index = layer.prompt({
+					    title : '请填写不通过的理由：', 
+					    formType : 2, 
+					    offset : '100px',
+					}, 
+			    function(text){
+					    $.ajax({
+					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+					      type:"post",
+					      dataType:"json",
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+						    success:function(result){
+					        result = eval("(" + result + ")");
+					        if(result.msg == "fail"){
+					           layer.msg('该条信息已审核过！', {	            
+					             shift: 6, //动画类型
+					             offset:'100px'
+					          });
+					        }
+					      }
+					    });
+					   $("#"+obj.id+"").css('border-color','#FF0000');
+							$(obj).after(html);
+			      	layer.close(index);
+				    });
+			  	}
+			  	
+		  	//审核附件
+		  	function reasonFile(obj,str){
+				  var expertId = $("#expertId").val();
+				  var showId =  obj.id + "1";
+				  
+			    $("#"+obj.id+"").each(function() {
+			      auditField = $(this).parents("li").find("span").text().replace("：","");
+	    		});
+	    		var auditContent = auditField + "附件信息";
+					var index = layer.prompt({
+				    title : '请填写不通过的理由：', 
+				    formType : 2, 
+				    offset : '100px',
+					}, 
+			    function(text){
+					    $.ajax({
+					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
+					      type:"post",
+					      dataType:"json",
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+					      success:function(result){
+					        result = eval("(" + result + ")");
+					        if(result.msg == "fail"){
+					           layer.msg('该条信息已审核过！', {	            
+					             shift: 6, //动画类型
+					             offset:'100px'
+					          });
+					        }
+					      }
+					    });
+						 $("#"+showId+"").css('visibility', 'visible');
+			       layer.close(index);
+				  });
+		  	}
+		  	
 		  	
 		  	
 		  	// 提示之前的信息
@@ -175,6 +249,23 @@
 									<span <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" onclick="reason('${jj.id}','${jj.name}');"><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 									<a class="b f18 ml10 red" id="${jj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
 								</c:forEach>
+								
+								<c:if test="${isProject eq 'project'}">
+									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
+										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+											<input <c:if test="${fn:contains(editFields,'getProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professional','getProfessional','0');"</c:if> value="${expert.professional}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this);"/>
+										</div>
+									</li>
+									<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格：</span>
+			             	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_TITLE_TYPEID}"/>
+			          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+			           	<li>
+									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获取时间：</span>
+										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+											<input <c:if test="${fn:contains(editFields,'getTimeProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeProfessional','getTimeProfessional','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this);"/>
+										</div>
+									</li>
+								</c:if>
 							</div>
 						</li>
 					</ul>

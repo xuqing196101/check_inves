@@ -361,7 +361,7 @@
 										    </td>
 								      	<td>${cate.certCode}</td>
 								      	<td>${cate.level.name}</td>
-								      	<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/></td>
+								      	<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false"/></td>
 								      	<td class="tc w50">
 													<a onclick="reason('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 													<p ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>

@@ -925,7 +925,18 @@ public class ExpertAuditController {
 
 		Expert expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
+		
+		String type = expert.getExpertsTypeId();
 
+		//工程下的执业资格
+		for(DictionaryData d : spList){
+			if(d.getCode().equals("PROJECT")){
+				if(type.contains(d.getId())){
+					model.addAttribute("isProject", "project");
+				}
+			}
+		}
+		
 		// 判断有没有进行修改
 		if(expert.getStatus() != null && expert.getStatus().equals("0")) {
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);

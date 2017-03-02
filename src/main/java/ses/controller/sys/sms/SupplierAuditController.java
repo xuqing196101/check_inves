@@ -1579,6 +1579,31 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 		}
+		// 工程类等级
+		if(item != null) {
+			// 等级
+			if(item != null && item.getLevel() != null) {
+				cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
+			}
+			// 证书编号
+			if(item != null && item.getCertCode() != null) {
+				cateTree.setCertCode(item.getCertCode());
+			}
+			// 资质等级
+			if(item != null && item.getQualificationType() != null) {
+				cateTree.setQualificationType(item.getQualificationType());
+			}
+			// 所有等级List
+			List < Category > cateList = new ArrayList < Category > ();
+			cateList.add(categoryService.selectByPrimaryKey(categoryId));
+			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+				typeList = type.get(0).getList();
+			}
+			cateTree.setTypeList(typeList);
+		}
+		
 		return cateTree;
 	}
 	
@@ -2018,39 +2043,39 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		
-		// 工程
-        String[] typeIds = supplierTypeIds.split(",");
+		//工程
+		String[] typeIds = supplierTypeIds.split(",");
 		boolean isEng = false;
-        for (String type : typeIds) {
-            if (type.equals("PROJECT")) {
-                isEng = true;
-                break;
-            }
-        }
-        if (isEng) {
-            List<SupplierItem> listSupplierItems = getProject(supplierId, "PROJECT");
-            List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
-            for(SupplierItem item: listSupplierItems) {
-                String categoryId = item.getCategoryId();
-                SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
-                if(cateTree != null && cateTree.getRootNode() != null) {
-                    cateTree.setItemsId(item.getId());
-                    cateTree.setDiyLevel(item.getDiyLevel());
-                    if (cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-                        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
-                        if (certEng != null && certEng.size() > 0) {
-                            String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
-                            if (level != null) {
-                                cateTree.setFileId(certEng.get(0).getId());
-                            }
-                        }
-                    }
-                    allTreeList.add(cateTree);
-                }
-            }
-            model.addAttribute("allTreeList", allTreeList);
-            model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
-        }
+		for(String type: typeIds) {
+			if(type.equals("PROJECT")) {
+				isEng = true;
+				break;
+			}
+		}
+		if(isEng) {
+			List < SupplierItem > listSupplierItems = getProject(supplierId, "PROJECT");
+			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+			for(SupplierItem item: listSupplierItems) {
+				String categoryId = item.getCategoryId();
+				SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
+				if(cateTree != null && cateTree.getRootNode() != null) {
+					cateTree.setItemsId(item.getId());
+					cateTree.setDiyLevel(item.getDiyLevel());
+					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
+						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
+						if(certEng != null && certEng.size() > 0) {
+							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
+							if(level != null) {
+								cateTree.setFileId(certEng.get(0).getId());
+							}
+						}
+					}
+					allTreeList.add(cateTree);
+				}
+			}
+			model.addAttribute("allTreeList", allTreeList);
+			model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+		}
 
 		model.addAttribute("saleShow", sbShow);
 		model.addAttribute("cateList", list3);
