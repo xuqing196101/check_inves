@@ -39,12 +39,12 @@
 				${doc}
 					<div class="mt40">
 						<div class="fl">
-							文件下载：<span class="ml10">评审专家须知</span><a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
+							文件下载：<span class="ml10">《军队评审专家入库须知》</span><a onclick='downNotice()' href="javascript:void(0)" class="download"></a>
 						</div>
 					</div>
 					<div class="mt40">
 						<div class="fl">
-							产品目录<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
+							《军队物资工程服务采购产品分类目录》<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
 						</div>
 						<div class="clear"></div>
 					</div>
