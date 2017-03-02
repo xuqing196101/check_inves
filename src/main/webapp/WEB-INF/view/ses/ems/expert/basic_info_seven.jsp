@@ -329,8 +329,8 @@
                         <input
                                 <c:if test="${fn:contains(errorField,'执业资格职称')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('执业资格职称')"</c:if>
-                                maxlength="20" value="${expert.professTechTitles}"
-                                name="professTechTitles" id="professTechTitles" type="text"/>
+                                maxlength="20" value="${expert.professional}"
+                                name="professional" id="professional" type="text"/>
                         <span class="add-on">i</span> <span class="input-tip">不能为空</span>
                     </div>
                 </li>
@@ -360,8 +360,8 @@
                         <input
                                 <c:if test="${fn:contains(errorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('证书获取时间')"</c:if>
-                                value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeToWork" id="timeToWork"
+                                value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="timeProfessional" id="timeProfessional"
                                 type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
                             class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
