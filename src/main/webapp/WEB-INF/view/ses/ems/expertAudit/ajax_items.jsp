@@ -4,8 +4,6 @@
 <!DOCTYPE HTML >
 <html>
 <head>
-<%@ include file="/WEB-INF/view/common.jsp" %>
-<link href="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/skin/laypage.css" rel="stylesheet" type="text/css">
 <script type="text/javascript">
 	$(function() {
 		//默认不显示叉
