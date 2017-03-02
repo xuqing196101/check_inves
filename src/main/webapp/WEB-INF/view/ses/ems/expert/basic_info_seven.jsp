@@ -97,11 +97,11 @@
                 var asx = mmm();
 
                 if (!$("#professTechTitles").val()) {
-                    layer.msg("请填写专家技术资格 !");
+                    layer.msg("请填写执业资格职称 !");
                     return false;
                 }
                 if (!$("#timeToWork").val()) {
-                    layer.msg("请填写获取资格证书的时间 !");
+                    layer.msg("请填写获取专家证书的时间 !");
                     return false;
                 }
                 if ((typeof asx) == "undefined") {
@@ -324,12 +324,12 @@
 		
 		<li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>专家技术资格</span> <!--/执业资格  -->
+                        class="red">*</i>执业资格职称</span> <!--/执业资格  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'专家技术资格')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('专家技术资格')"</c:if>
+                                <c:if test="${fn:contains(errorField,'执业资格职称')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('执业资格职称')"</c:if>
                                 maxlength="20" value="${expert.professTechTitles}"
                                 name="professTechTitles" id="professTechTitles" type="text"/>
                         <span class="add-on">i</span> <span class="input-tip">不能为空</span>
@@ -337,21 +337,21 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red"></i> 专家技术资格证书</span>
+                        class="red"></i> 执业资格</span>
                     <div
                             class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                            <c:if test="${fn:contains(errorField,'专家技术资格证书')}">style="border: 1px solid #ef0000;"
-                            onmouseover="errorMsg('专家技术资格证书')"</c:if>>
+                            <c:if test="${fn:contains(errorField,'执业资格')}">style="border: 1px solid #ef0000;"
+                            onmouseover="errorMsg('执业资格')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="expert4" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="expert9" maxcount="1"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
                                 multiple="true" businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="4" auto="true"/>
-                        <u:show showId="show4"
+                                typeId="9" auto="true"/>
+                        <u:show showId="show9"
                                 groups="show9,show2,show3,show4,show5,show6,show7,show8"
                                 businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="4"/>
+                                typeId="9"/>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
