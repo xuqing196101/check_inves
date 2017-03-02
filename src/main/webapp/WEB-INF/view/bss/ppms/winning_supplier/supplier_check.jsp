@@ -303,27 +303,29 @@
 		});
 
 		if (id.length >= 1) {
+			layer.confirm(
+				'确定后将跳转到录入标的,是否确定',
+				{
+					title : '提示',
+					offset : [ '100px', '300px' ],
+					shade : 0.01
+				},
+				function(index) {
+					//var json = '${supplierCheckPassJosn}';
+					var json = '';
+					layer.close(index);
+					window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
+				}
+			);
+			/*
 			if (isNull == 1) {
 				layer.alert("请选择填写实际成交金额", {
 					offset : [ '100px', '390px' ],
 					shade : 0.01
 				});
 			} else {
-				layer.confirm(
-					'确定后将跳转到录入标的,是否确定',
-					{
-						title : '提示',
-						offset : [ '100px', '300px' ],
-						shade : 0.01
-					},
-					function(index) {
-						//var json = '${supplierCheckPassJosn}';
-						var json = '';
-						layer.close(index);
-						window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
-					}
-				);
-			}
+				
+			}*/
 		} else {
 			layer.alert("请选择供应商", {
 				offset : [ '100px', '390px' ],
