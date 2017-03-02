@@ -40,6 +40,16 @@ public interface PackageMapper {
      */
     List<Packages> selectPackageById(HashMap<String,Object> map);
 
+    
+    /**
+     *〈简述〉根据条件查询
+     *〈详细描述〉
+     * @author YangHongliang
+     * @param map
+     * @return
+     */
+    List<Packages> findByID(Map<String,Object> map);
+    
     /**
      * 
      * @Title: updateByPrimaryKeySelective

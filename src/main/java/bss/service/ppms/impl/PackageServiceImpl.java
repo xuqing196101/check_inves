@@ -145,7 +145,14 @@ public class PackageServiceImpl implements PackageService{
   public List<Packages> find(Packages packages) {
     return packageMapper.find(packages);
   }
-
+  /**
+   * 根据 参数 返回 数据
+   */
+  @Override
+  public List<Packages> findByID(Map<String, Object> map) {
+		    // TODO Auto-generated method stub
+	 return packageMapper.findByID(map);
+   }
 
   @Override
   public int insertPackage(Packages pack) {

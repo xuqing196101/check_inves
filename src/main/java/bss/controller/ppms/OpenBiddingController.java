@@ -329,7 +329,7 @@ public class OpenBiddingController {
      */
     if (files != null && files.size() > 0 && project != null){
     		//调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
-    	       String filePath = extUserServicel.downLoadBiddingDoc(request,id,1);
+    	       String filePath = extUserServicel.downLoadBiddingDoc(request,id,1,null);
     	       if (StringUtils.isNotBlank(filePath)){
     	         model.addAttribute("filePath", filePath);
     	       }
@@ -339,7 +339,7 @@ public class OpenBiddingController {
     	//重新生成模板
          model.addAttribute("fileId", "0");
        //调用生成word模板 传入标识1 只是生成 总模板
-         String filePath = extUserServicel.downLoadBiddingDoc(request,id,0);
+         String filePath = extUserServicel.downLoadBiddingDoc(request,id,0,null);
          if (StringUtils.isNotBlank(filePath)){
            model.addAttribute("filePath", filePath);
          }
@@ -438,6 +438,7 @@ public class OpenBiddingController {
     downloadService.downLoadFile(request, response, filePath);
   }
 
+  
   /**
    *〈简述〉跳转到招标公告(采购公告)页面
    *〈详细描述〉
@@ -916,10 +917,18 @@ public class OpenBiddingController {
    * @throws IOException
    */
   @RequestMapping("/saveBidFile")
-  public void saveBidFile(@CurrentUser User user,HttpServletRequest req, String projectId, Model model, String flowDefineId, String flag) throws IOException{
+  public void saveBidFile(@CurrentUser User user,HttpServletResponse response,HttpServletRequest req, String projectId, Model model, String flowDefineId, String flag) throws IOException{
+	 try{
+	  String result = "保存失败";
+	  if("2".equals(flag)){
+		  //保存参与包的文件上传  并返回路径
+		  result = uploadService.uploadNTKO(req);
+		  response.setContentType("text/html;charset=utf-8");
+	      response.getWriter().print(result);
+	      response.getWriter().flush();
+	  }else{
     //修改代办为已办
     todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
-    String result = "保存失败";
     //判断该项目是否上传过招标文件
     String typeId = DictionaryDataUtil.getId("PROJECT_BID");
     List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
@@ -927,6 +936,7 @@ public class OpenBiddingController {
       //删除 ,表中数据假删除
       uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
       result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+   
       //flag：1，招标文件为提交状态
       if ("1".equals(flag)) {
         //
@@ -969,8 +979,16 @@ public class OpenBiddingController {
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
       }
     }
-    System.out.println(result);
+	  }
+	  System.out.println(result);
+	 }catch (Exception e) {
+		// TODO: handle exception
+		 e.printStackTrace();
+	}finally{
+		response.getWriter().close();
+	}
   }
+
 
   /**
    * 

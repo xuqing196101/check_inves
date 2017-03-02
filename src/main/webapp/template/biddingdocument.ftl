@@ -7,7 +7,7 @@
 <meta name=ProgId content=Word.Document>
 <meta name=Generator content="Microsoft Word 14">
 <meta name=Originator content="Microsoft Word 14">
-<title>招标文件</title>
+<title>招 标 文 件</title>
 <!--[if gte mso 9]>
             <xml>
                 <w:WordDocument>
@@ -7452,9 +7452,9 @@ div.Section9 {
 						style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;text-decoration:underline;text-underline:single;font-size:18.0000pt;mso-font-kerning:0.0000pt;">
 							&nbsp; </span> </u> <u> 
 							
-							<span
-						style="mso-spacerun:'yes';font-family:宋体;text-decoration:underline;text-underline:single;font-size:18.0000pt;mso-font-kerning:0.0000pt;">
-						<a name="SYS_1">&nbsp;</a>${project.name!}<a name="SYS_1_1">&nbsp;</a></span></u> <u> 
+							<span style="mso-spacerun:'yes';font-family:宋体;text-decoration:underline;text-underline:single;font-size:18.0000pt;mso-font-kerning:0.0000pt;">
+						<a name="SYS_1">&nbsp;</a>${project.name!}<a name="SYS_1_1">&nbsp;</a>
+						</span></u> <u> 
 						 </u> 
 						 <span
 						style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:18.0000pt;mso-font-kerning:0.0000pt;">
@@ -7471,7 +7471,8 @@ div.Section9 {
 							&nbsp; </span> </u> <u> 
 							<span
 						style="mso-spacerun:'yes';font-family:宋体;text-decoration:underline;text-underline:single;font-size:18.0000pt;mso-font-kerning:0.0000pt;">
-							<a name="SYS_2">&nbsp;</a>${project.projectNumber!}<a name="SYS_2_2">&nbsp;</a> </span> </u> <u> <span
+							<font face="宋体"> <a name="SYS_2">&nbsp;</a>${project.projectNumber!}<a name="SYS_2_2">&nbsp;</a> </font>
+							</span> </u> <u> <span
 						style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;text-decoration:underline;text-underline:single;font-size:18.0000pt;mso-font-kerning:0.0000pt;">
 							&nbsp;&nbsp;&#9; </span> </u> <span
 						style="mso-spacerun:'yes';font-family:'Times New Roman';mso-fareast-font-family:宋体;font-size:18.0000pt;mso-font-kerning:0.0000pt;">

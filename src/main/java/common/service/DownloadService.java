@@ -35,6 +35,8 @@ public interface DownloadService {
      */
     public void downloadOther(HttpServletRequest request, HttpServletResponse response, String fileId, String sysKey);
     
+    
+    
     /**
      * 
      *〈简述〉下载文件

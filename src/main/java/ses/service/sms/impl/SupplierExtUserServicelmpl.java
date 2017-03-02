@@ -31,6 +31,7 @@ import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.prms.FirstAudit;
 import bss.service.ppms.BidMethodService;
@@ -38,6 +39,7 @@ import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.ScoreModelService;
 import bss.service.prms.FirstAuditService;
 import ses.dao.oms.PurchaseDepMapper;
@@ -47,6 +49,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierExtUser;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
@@ -88,6 +91,9 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
   @Autowired
   PackageService packageService;
 
+  @Autowired
+  SaleTenderService saleTenderService; //关联表
+  
   @Autowired
   UserServiceI userServiceI;
 
@@ -159,7 +165,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    * @see ses.service.sms.SupplierExtUserServicel#downLoadBiddingDoc()
    */
   @Override
-  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type) throws Exception {
+  public String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception {
     Map<String, Object> datamap = new HashMap<>();
     //经济评审
     List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();
@@ -181,9 +187,30 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     //模型数据获取
     //显示经济技术 和子节点  子节点的子节点就是模型
     List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-    Packages packages = new Packages();
-    packages.setProjectId(projectId);
-    List<Packages> find = packageService.find(packages);
+    List<Packages> find=null;
+    
+  //判断 是否有传入供应商的id 根据传参判断获取的参与包
+    if(suppliersID !=null && suppliersID!=""){
+    	Supplier supplier=new Supplier();
+    	supplier.setId(suppliersID);
+    	SaleTender saleTender = new SaleTender();
+    	saleTender.setSuppliers(supplier);
+    	saleTender.setProject(project);
+        //该供应商参与的包
+        List<SaleTender> ls = saleTenderService.findByCon(saleTender);
+        List<String> listPackagesID=new ArrayList<>();
+        for(SaleTender st:ls){
+        	listPackagesID.add(st.getPackages());
+        }
+        Map<String, Object> params = new HashMap<String, Object>(2);
+        params.put("projectId", projectId);
+        params.put("listPackagesID", listPackagesID);
+    	find= packageService.findByID(params);
+    }else{
+    	Packages packages = new Packages();
+    	packages.setProjectId(projectId);
+    	find= packageService.find(packages);
+    }
     //资格性和符合性审查表
     for (Packages pack : find) {
       //资格符合性

@@ -25,7 +25,7 @@ import bss.model.prms.FirstAudit;
  */
 public class Packages {
 
-
+  
   private List<Expert> listExperts;
 
   private List<Supplier> listSupplier;
@@ -126,6 +126,9 @@ public class Packages {
   
   /**每个包下面的供应商*/
   private List<Supplier> suList;
+  
+  
+
 
 public List<Supplier> getSuList() {
       return suList;
@@ -580,8 +583,5 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
   public void setListMinimumTechnology(List<FirstAudit> listMinimumTechnology) {
     this.listMinimumTechnology = listMinimumTechnology;
   }
-
-
-
 
 }

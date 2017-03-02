@@ -140,7 +140,7 @@ if (browser=="IE"){
 	//alert(window.navigator.platform);
 	//alert(navigator.userAgent);
 	if(window.navigator.platform=="Win32"){
-		//alert(32)
+//		alert(32);
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 		document.write('<object id="TANGER_OCX" classid="clsid:'+classid+'"');
@@ -172,7 +172,7 @@ document.write('<param name="ProductKey" value="AB579623F5B4E11E5F61C06579A21F84
 		document.write('</object>');	
 	}
 	if(window.navigator.platform=="Win64"){
-		//alter(64)
+//		alter(64);
 		document.write('<!-- 用来产生编辑状态的ActiveX控件的JS脚本-->   ');
 		document.write('<!-- 因为微软的ActiveX新机制，需要一个外部引入的js-->   ');
 		document.write('<object id="TANGER_OCX" classid="clsid:'+classidx64+'"');

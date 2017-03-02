@@ -29,6 +29,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierExtRelateService;
+import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -71,6 +72,9 @@ public class SaleTenderController {
   @Autowired
   private SupplierService supplierService;//查询全部的供应商
 
+  @Autowired
+  private SupplierExtUserServicel extUserServicel; //模板引入
+  
   @Autowired
   private DictionaryDataServiceI dictionaryDataServiceI;//TypeId
   @Autowired
@@ -578,7 +582,41 @@ public void downloads(HttpServletRequest request, HttpServletResponse response, 
   //saleTenderService.download(projectId,id);
   //return "redirect:view.html?projectId="+projectId;
 }
+/**
+*〈简述〉 根据供应商参与包 处理相关文件
+*〈详细描述〉
+* @author YangHongLiang
+* @param request
+* @param id 项目id
+* @param model
+* @param response
+* @return
+ * @throws Exception 
+* @throws IOException 
+*/
+@RequestMapping("/processingDocuments")
+public String processingDocuments(Model model,HttpServletRequest request, HttpServletResponse response,String projectId,String suppliersID) throws Exception{
+	//判断是否上传招标文件
+    String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+    Project project = projectService.selectById(projectId);
+	List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+	if (files != null && files.size() > 0 ){
+	//调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
+    String filePath = extUserServicel.downLoadBiddingDoc(request,projectId,1,suppliersID);
+    System.out.println(filePath+"  filePath");
+    if (StringUtils.isNotBlank(filePath)){
+       model.addAttribute("filePath", filePath);
+    	}
+    System.out.println(files.get(0).getId()+"  files.get(0).getId()");
+      model.addAttribute("fileId", files.get(0).getId());
+      model.addAttribute("project", project);
+      return  "bss/ppms/sall_tender/before_download";
+	}else{
+		//model.addAttribute("filePath", "0");
+	      return "error不能下载";
 
+	}
+}
 
 @RequestMapping("/downList")
 public String downList(Model model, String projectId, String flowDefineId){

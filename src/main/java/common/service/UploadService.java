@@ -62,6 +62,17 @@ public interface UploadService {
      */
     public String upload(HttpServletRequest request);
     
+    
+    /**
+     * 
+     *〈简述〉ntko文件上传
+     *〈详细描述〉
+     * @author YangHongliang
+     * @param request  {@link HttpServletRequest}
+     * @return 成功返回文件路径,失败返回空字符串
+     */
+    public String uploadNTKO(HttpServletRequest request);
+    
     /**
      * 
      *〈简述〉文件删除

@@ -55,7 +55,6 @@ public class MultipartFileUploadUtil {
             upload.setHeaderEncoding("UTF-8");
             @SuppressWarnings("unchecked")
             List<FileItem> list = upload.parseRequest(request);
-            
             for (FileItem item : list){
                 switch(item.getFieldName()) {
                     case "id" :

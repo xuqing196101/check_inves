@@ -159,6 +159,14 @@ public interface PackageService {
      */
     List<Packages> find(Packages packages);
     
+    
+    /**
+     * 〈简述〉根据map 项目id查询包
+     *  @author YangHongliang
+     * @param map
+     * @return
+     */
+     List<Packages> findByID(Map<String,Object> map);
     /**
      * 
     * @Title: insertPackage

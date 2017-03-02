@@ -85,9 +85,6 @@ $(function (){
 			alert("招标文件已暂存");
 		}
 	}
-	function save(){}
-	
-	
 	function closeFile(){
 		var obj = document.getElementById("TANGER_OCX");
 		obj.close();

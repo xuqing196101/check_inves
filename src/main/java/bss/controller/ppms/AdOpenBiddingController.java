@@ -241,7 +241,7 @@ public class AdOpenBiddingController {
           model.addAttribute("fileId", files.get(0).getId());
         } else {
           if (project != null){
-            String filePath = extUserServicel.downLoadBiddingDoc(request, id,0);
+            String filePath = extUserServicel.downLoadBiddingDoc(request, id,0,null);
             if (StringUtils.isNotBlank(filePath)){
               model.addAttribute("filePath", filePath);
             }

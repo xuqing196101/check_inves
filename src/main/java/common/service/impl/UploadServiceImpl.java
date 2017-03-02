@@ -78,6 +78,56 @@ public class UploadServiceImpl implements UploadService {
             return path;
         }
         return "";
+    	
+    	
+    }
+    /**
+     * @see common.service.UploadService#uploadNTKO(javax.servlet.http.HttpServletRequest)
+     */
+    @Override
+    public String uploadNTKO(HttpServletRequest request) {
+        String  path = "";
+        try {
+             MultipartFileBean param = MultipartFileUploadUtil.parse(request);
+             if (param == null || !StringUtils.isNotBlank(param.getFileName())){
+                  return "";
+             }
+             String fileName = param.getFileName();
+             String finalPath = PropUtil.getProperty("file.base.path");
+             String fileSysPath = getFileDir(5);
+             if (StringUtils.isNotBlank(fileSysPath)){
+            	 //组合路径
+                 finalPath = finalPath + fileSysPath + File.separator ;
+                 UploadUtil.createDir(finalPath);
+                 String targetFileName = System.currentTimeMillis()+ "." + fileName.substring(fileName.lastIndexOf(".")+1) ;
+                 File file = UploadUtil.getFile(finalPath, targetFileName);
+                 RandomAccessFile accessFile = new RandomAccessFile(file, "rw");
+                 long length = file.length();
+                 accessFile.seek(length);
+                 accessFile.write(param.getFileItem().get());
+                 accessFile.close();
+                 
+                if(file!=null){
+                  	path=file.getPath();
+                 }
+               }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        
+        
+        if (StringUtils.isNotBlank(path)){
+            return path;
+        }
+        return "";
+    	
+    	
     }
 
     /**
@@ -299,6 +349,7 @@ public class UploadServiceImpl implements UploadService {
         log.info(prefix + "start...");
         try {
             MultipartFileBean param = MultipartFileUploadUtil.parse(request);
+            long parampath=param.getSize();
             log.info(prefix + "chunks= " + param.getChunks());
             log.info(prefix + "chunk= " + param.getChunk());
 
@@ -421,6 +472,7 @@ public class UploadServiceImpl implements UploadService {
             case 2 : path = PropUtil.getProperty("file.tender.system.path"); break;
             case 3 : path = PropUtil.getProperty("file.expert.system.path"); break;
             case 4 : path = PropUtil.getProperty("file.forum.system.path"); break;
+            case 5 : path = PropUtil.getProperty("file.temp.path"); break;
         }
         return path;
     }
