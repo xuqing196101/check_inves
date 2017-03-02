@@ -96,14 +96,14 @@
             if (isIs) {
                 var asx = mmm();
 
-                if (!$("#professTechTitles").val()) {
+                /*if (!$("#professTechTitles").val()) {
                     layer.msg("请填写执业资格职称 !");
                     return false;
                 }
                 if (!$("#timeToWork").val()) {
                     layer.msg("请填写获取专家证书的时间 !");
                     return false;
-                }
+                }*/
                 if ((typeof asx) == "undefined") {
                     asx = true;
                 }

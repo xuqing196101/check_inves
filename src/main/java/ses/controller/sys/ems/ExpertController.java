@@ -3501,10 +3501,10 @@ public class ExpertController extends BaseController {
             }
         }
 
-        if(PRACTICING_REQUIREMENTS_PROOF.size()<1 && PRACTICING_REQUIREMENTS_PROOF!=null && isReferenceLftter == 3){
+        /*if(PRACTICING_REQUIREMENTS_PROOF.size()<1 && PRACTICING_REQUIREMENTS_PROOF!=null && isReferenceLftter == 3){
             imgInfo="执业资格未上传";
             return JSON.toJSONString(imgInfo);
-        }
+        }*/
         if(isReferenceLftter==1 && RECOMMENDATION_PROOF.size()<1 && RECOMMENDATION_PROOF!=null){
             imgInfo="推荐信未上传";
             return JSON.toJSONString(imgInfo);
