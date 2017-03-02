@@ -412,25 +412,46 @@
 					<div class="padding-top-10">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
 							<c:set value="0" var="liCount" />
+							<c:set value="1" var="jjCount" />
 							<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 								<c:if test="${cate.code eq 'GOODS'}">
 									<c:set value="${liCount+1}" var="liCount" />
+									<c:set value="${jjCount+1}" var="jjCount" />
 									<li id="li_id_${vs.index + 1}" class="active" onclick="showDivTree(this);">
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">物资产品类别信息</a>
 									</li>
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT' ||cate.code eq 'GOODS_PROJECT' }">
-									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
-										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
-									</li>
-									<c:set value="${liCount+1}" var="liCount" />
+								
+								<c:if test="${cate.code eq 'PROJECT' }">
+										<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
+											<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+										</li>
+										<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT' ||cate.code eq 'GOODS_PROJECT' }">
+						    <c:if test="${liCount == 0}">
+							       <c:if test="${cate.code eq 'GOODS_PROJECT' }">
+											<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
+												<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+											</li>
+											<c:set value="${liCount+1}" var="liCount" />
+									</c:if>
+							</c:if>
+								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
+						 
+								 <c:if test="${liCount == 	1}">
+										<c:if test="${cate.code eq 'GOODS_PROJECT'}">
+											<li id="li_id_4" class='<c:if test="${liCount == 1}">active</c:if>' onclick="showDivTree(this);">
+												<a id="li_4" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
+											</li>
+											<c:set value="${liCount+1}" var="liCount" />
+										</c:if>
+									</c:if>
+								
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree(this);">
 										<a id="li_${vs.index + 1}" aria-expanded="false" data-toggle="tab" class="f18">服务产品类别信息</a>
@@ -444,6 +465,7 @@
 							<c:forEach items="${allCategoryList}" var="cate" varStatus="vs">
 								<c:if test="${cate.code eq 'GOODS'}">
 									<c:set var="count" value="${count + 1}"></c:set>
+									<c:set var="gcount" value="${gcount + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
 										产品类别:<input type="text" id="cate-${vs.index + 1}">
 								                   目录编码:<input type="text" id="code-${vs.index + 1}">
@@ -453,7 +475,9 @@
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT'||cate.code eq 'GOODS_PROJECT'}">
+							 
+								
+								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
 										产品类别:<input type="text" id="cate-${vs.index + 1}">
@@ -464,7 +488,22 @@
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
 									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
 								</c:if>
-								<c:if test="${cate.code eq 'PROJECT' ||cate.code eq 'GOODS_PROJECT'}">
+								<c:if test="${count ==0}">
+								<c:if test="${cate.code eq 'GOODS_PROJECT'}">
+									<c:set var="count" value="${count + 1}"></c:set>
+									<div id="div-${vs.index + 1}" class="mb10">
+										产品类别:<input type="text" id="cate-${vs.index + 1}">
+								                   目录编码:<input type="text" id="code-${vs.index + 1}">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
+										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+									</div>
+									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
+									<input id="tab-${vs.index + 1}-value" value="${cate.id}" type="hidden">
+								</c:if>
+								</c:if>
+								 
+						    
+								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-4" class="mb10">
 										产品类别:<input type="text" id="cate-4">
@@ -475,6 +514,21 @@
 									<ul id="tab-4" class="ztree_supplier mt30"></ul>
 									<input id="tab-4-value" value="${engId}" type="hidden">
 								</c:if>
+							  
+							  <c:if test="${count ==0}">
+							  <c:if test="${cate.code eq 'GOODS_PROJECT'}">
+									<c:set var="count" value="${count + 1}"></c:set>
+									<div id="div-4" class="mb10">
+										产品类别:<input type="text" id="cate-4">
+								                   目录编码:<input type="text" id="code-4">
+										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4','code-4')" />
+										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
+									</div>
+									<ul id="tab-4" class="ztree_supplier mt30"></ul>
+									<input id="tab-4-value" value="${engId}" type="hidden">
+							</c:if>
+							</c:if>
+								
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
