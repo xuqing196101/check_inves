@@ -142,7 +142,7 @@ public class Expert extends ExpertHistory implements Serializable {
     /**邮编*/
     private String postCode;
     //是否推荐信
-    private int isReferenceLftter;
+    private Integer isReferenceLftter;
     /*省+地区*/
     private String range;
 
@@ -153,14 +153,6 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setRange(String range) {
         this.range = range;
     }
-
-    public int getIsReferenceLftter() {
-		return isReferenceLftter;
-	}
-
-	public void setIsReferenceLftter(int isReferenceLftter) {
-		this.isReferenceLftter = isReferenceLftter;
-	}
 
 	/**学位*/
     private String degree;
@@ -644,6 +636,14 @@ public class Expert extends ExpertHistory implements Serializable {
 	public void setAuditAt(Date auditAt) {
 		this.auditAt = auditAt;
 	}
+
+    public Integer getIsReferenceLftter() {
+        return isReferenceLftter;
+    }
+
+    public void setIsReferenceLftter(Integer isReferenceLftter) {
+        this.isReferenceLftter = isReferenceLftter;
+    }
 
     
 }

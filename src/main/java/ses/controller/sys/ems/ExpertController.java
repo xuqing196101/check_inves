@@ -2715,10 +2715,13 @@ public class ExpertController extends BaseController {
 	 * @return: String
 	 * @throws Exception
 	 */
-    private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
+	private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
+        String purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId()).getName();
+        dataMap.put("purchaseDep", purchaseDep);
+        dataMap.put("reportTime", new Date());
         String sex = expert.getGender();
         DictionaryData gender = dictionaryDataServiceI.getDictionaryData(sex);
         dataMap.put("gender", gender == null ? "" : gender.getName());
@@ -2731,8 +2734,16 @@ public class ExpertController extends BaseController {
         dataMap.put("nation", expert.getNation() == null ? "" : expert.getNation());
         dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
         dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
-        dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote().equals("1") ? "是" : "否");
-        dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getRange() + "," + expert.getUnitAddress());
+        dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote().equals("1") ? "有" : "无");
+        dataMap.put("isReferenceLftter", expert.getIsReferenceLftter() == null ? "无" : expert.getIsReferenceLftter().equals("1") ? "有" : "无");
+        String address = expert.getAddress();
+        Area area = areaServiceI.listById(address);
+        if(area != null) {
+            String province = areaServiceI.listById(area.getParentId()).getName();
+            String city = area.getName();
+            expert.setUnitAddress(province + city + expert.getUnitAddress());
+        }
+        dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
         dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
         dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
@@ -2751,11 +2762,10 @@ public class ExpertController extends BaseController {
         } else {
             dataMap.put("expertsFrom", "");
         }
-        dataMap.put(
-                "professTechTitles",
-                expert.getProfessTechTitles() == null ? "" : expert
-                        .getProfessTechTitles());
+        dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
         dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+        dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional());
+        dataMap.put("timeProfessional", expert.getTimeProfessional() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeProfessional()));
         StringBuffer expertType = new StringBuffer();
         for (String typeId : expert.getExpertsTypeId().split(",")) {
             expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");

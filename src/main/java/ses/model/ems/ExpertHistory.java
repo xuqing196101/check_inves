@@ -94,7 +94,7 @@ public class ExpertHistory implements Serializable{
     /**真实姓名*/
     private String relName;
     /*是否推荐信*/
-    private int isReferenceLftter;
+    private Integer isReferenceLftter;
     /**执业时间*/
     @DateTimeFormat(pattern="yyyy-MM")
     private Date timeProfessional;
@@ -128,12 +128,11 @@ public class ExpertHistory implements Serializable{
         this.timeProfessional = timeProfessional;
     }
 
-    public int getIsReferenceLftter() {
-
+    public Integer getIsReferenceLftter() {
         return isReferenceLftter;
     }
 
-    public void setIsReferenceLftter(int isReferenceLftter) {
+    public void setIsReferenceLftter(Integer isReferenceLftter) {
         this.isReferenceLftter = isReferenceLftter;
     }
 
