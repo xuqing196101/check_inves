@@ -27,7 +27,7 @@
 	    		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
             </div>
                 <!-- Begin Content -->
-                     <div class="col-md-3 md-margin-bottom-40 mt10">
+                     <div class="col-md-3 col-sm-4 col-xs-12 md-margin-bottom-40 mt10">
 	                   <div class="tag-box tag-box-v3">	
 					   <div class="light_main">
 					    <div class="light_list">

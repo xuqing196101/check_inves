@@ -37,21 +37,21 @@
    <ul class="ul_list">
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购单位</span>
-	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
      <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">发票抬头</span>
-	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
      <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购单位联系人</span>
-	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="appendedInput" type="text">
         <span class="add-on">i</span>
        </div>
@@ -278,7 +278,7 @@
    </ul>
   </div>
   
-  <div  class="col-md-12 p0">
+  <div  class="col-md-12 col-sm-12 col-xs-12 p0">
    <div class="fl">
     <button class="btn btn-windows add" type="submit">新增</button>
 	<button class="btn btn-windows delete" type="submit">删除</button>
@@ -291,12 +291,12 @@
 	</div>
   </div>
   </form>
-  <div class="col-md-12 clear mt5 p0">
+  <div class="col-md-12 col-sm-12 col-xs-12 clear mt5 p0">
    <ul class="list-unstyled bgdd">
 	<li> 
-    <div class="col-md-4 padding-10 fl">
-	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
-	 <div class="col-md-9 padding-0 fl">
+    <div class="col-md-4 col-sm-6 col-xs-12 padding-10 fl">
+	 <div class="col-md-3 col-sm-3 col-xs-2 tc h60 fl"><input type="checkbox"/></div>
+	 <div class="col-md-9 col-sm-9 col-xs-10 padding-0 fl">
 	   <div class="fl suolue"> 
         <a href="#" class="thumbnail mb0 suolue">
          <img src="${pageContext.request.contextPath}/public/backend/images/suolue.jpg" class="suolue"/>
@@ -304,16 +304,16 @@
 	   </div>
 	 </div>
 	</div>
-	<div class="col-md-8 padding-10 h60 fl">
-	 <div class="col-md-9 fl">1oa－1000乘370.jpg</div>
-	 <div class="col-md-3 fl">614.82KB</div>
+	<div class="col-md-8 col-sm-6 col-xs-12 padding-10 h60 fl">
+	 <div class="col-md-9 col-sm-6 col-xs-12 fl">1oa－1000乘370.jpg</div>
+	 <div class="col-md-3 col-sm-6 col-xs-12 fl">614.82KB</div>
 	</div>
 	<div class="clear"></div>
   </li>
   <li> 
-    <div class="col-md-4 padding-10 fl">
-	 <div class="col-md-3 tc h60 fl"><input type="checkbox"/></div>
-	 <div class="col-md-9 padding-0 fl">
+    <div class="col-md-4 col-sm-6 col-xs-12 padding-10 fl">
+	 <div class="col-md-3 col-sm-3 col-xs-2 tc h60 fl"><input type="checkbox"/></div>
+	 <div class="col-md-9 col-sm-9 col-xs-10 padding-0 fl">
 	   <div class="fl suolue"> 
         <a href="#" class="thumbnail mb0 suolue">
          <img src="${pageContext.request.contextPath}/public/backend/images/suolue.jpg" class="suolue"/>
@@ -321,9 +321,9 @@
 	   </div>
 	 </div>
 	</div>
-	<div class="col-md-8 padding-10 h60 fl">
-	 <div class="col-md-9 fl">1oa－1000乘370.jpg</div>
-	 <div class="col-md-3 fl">614.82KB</div>
+	<div class="col-md-8 col-sm-6 col-xs-12 padding-10 h60 fl">
+	 <div class="col-md-9 col-sm-6 col-xs-12 fl">1oa－1000乘370.jpg</div>
+	 <div class="col-md-3 col-sm-6 col-xs-12 fl">614.82KB</div>
 	</div>
 	<div class="clear"></div>
   </li>

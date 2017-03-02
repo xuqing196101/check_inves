@@ -36,8 +36,8 @@
         </div>
             <div class="row mt10">
                 <!-- Begin Content -->
-                <div class="col-md-12" style="min-height:400px;">
-                     <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+                <div class="col-md-12 col-sm-12 col-xs-12" style="min-height:400px;">
+                     <div class="col-md-3 col-sm-12 col-xs-12 md-margin-bottom-40" id="show_tree_div">
 	  <div class="tag-box tag-box-v3">
 		<ul id="ztree_show" class="ztree">
 		  <li id="ztree_show_1" class="level0" tabindex="0" hidefocus="true" treenode="">
@@ -58,7 +58,7 @@
         </button>
 	</div>
 </div>
-<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
+<div class="tag-box tag-box-v4 col-md-9 col-sm-12 col-xs-12" id="show_content_div">
 	<div aria-hidden="true" aria-labelledby="opt_dialog_Label" role="dialog" tabindex="-1" id="opt_dialog" class="modal fade" style="display: none;">
 	  <div class="modal-dialog">
 		<div class="modal-content">

@@ -38,8 +38,8 @@
         		  </div>
             <div class="row mt5">
                 <!-- Begin Content -->
-                  <div class="col-md-12" style="min-height:400px;">
-                      <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
+                  <div class="col-md-12 col-sm-12 col-xs-12" style="min-height:400px;">
+                      <div class="col-md-3 col-sm-12 col-xs-12 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list">
 						   <li class="active">项目信息</li>
 						   <li>拟制招标文件</li>
@@ -54,8 +54,8 @@
 						   <li>确认中标供应商</li>
 						 </ul>
 					  </div>
-                      <div class="tag-box tag-box-v4 col-md-9">
-	                     <div class="col-md-12 p0">
+                      <div class="tag-box tag-box-v4 col-md-9 col-sm-12 col-xs-12">
+	                     <div class="col-md-12 col-sm-12 col-xs-12 p0">
 						   <ul class="flow_step">
 						     <li class="active">
 							   <a aria-expanded="true" href="#tab-1" data-toggle="tab">符合性</a>
@@ -84,7 +84,7 @@
 							<button class="btn btn-windows add">新增</button>
 							
 						  </div>
-						  <div class="col-md-12">
+						  <div class="col-md-12 col-sm-12 col-xs-12">
 						    <table class="table table-striped table-bordered table-hover ">
 							  <thead>
 							    <tr>
@@ -111,7 +111,7 @@
 							<button class="btn btn-windows edit">修改</button>
 							<button class="btn btn-windows delete">删除</button>
 						  </div>
-						  <div class="col-md-12">
+						  <div class="col-md-12 col-sm-12 col-xs-12">
 						    <table class="table table-striped table-bordered table-hover ">
 							  <thead>
 							    <tr>
@@ -132,9 +132,9 @@
 							</table>
 						  </div>
 						 </div>
-						 <div class="col-md-12 tab-pane" id="tab-2">222</div>				 
-						 <div class="col-md-12 tab-pane" id="tab-3">333</div>	
-						 <div class="col-md-12 tab-pane" id="tab-4">444</div>
+						 <div class="col-md-12 col-sm-12 col-xs-12 tab-pane" id="tab-2">222</div>				 
+						 <div class="col-md-12 col-sm-12 col-xs-12 tab-pane" id="tab-3">333</div>	
+						 <div class="col-md-12 col-sm-12 col-xs-12 tab-pane" id="tab-4">444</div>
                       </div>
                    </div>
 				  </div>

@@ -47,59 +47,71 @@
  	  <div id="openDiv" class="dnone layui-layer-wrap" >
 		  <div class="drop_window">
 			  <ul class="list-unstyled">
-			    <li class="mt10 col-md-12 p0">
-	    	      <label class="col-md-12 pl20">物资名称</label>
-				  <span class="col-md-12">
-				   <input id="citySel4" readonly="" name="categoryName" value="" class="title col-md-12" type="text">
+			    <li class="mt10 col-md-12 col-sm-12 col-xs-12 pl15">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">物资名称</label>
+				  <span class="col-md-12 col-sm-12 col-xs-12 input-append input_group">
+				   <input id="citySel4" readonly="" name="categoryName" value="" class="title" type="text">
 				  </span>
 	            </li>
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">编号</label>
-	    	      <span>
-                   <input maxlength="11" id="planNo" name="planNo" type="text" class="col-md-12 p0">
+			    <li class="col-md-6 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">编号</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="planNo" name="planNo" type="text">
 				  </span>
 	            </li>
 			    
-				<li class="col-md-6">
+				<li class="col-md-6 col-sm-6 col-xs-12">
 	    	      <label class="col-md-12 padding-left-5">交付时间</label>
-	    	      <span class="col-md-12 p0">
-                   <input maxlength="11" id="givetime" name="givetime" value="" type="text" class="col-md-12 p0">
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="givetime" name="givetime" value="" type="text">
                   </span>
 	            </li>
-			    <li class="col-md-6">
+			    <li class="col-md-6 col-sm-6 col-xs-12">
 	    	      <label class="col-md-12 padding-left-5">品牌商标</label>
-	    	      <span class="col-md-12 p0">
-                   <input maxlength="11" id="bra" name="bra" value="" type="text" class="col-md-12 p0">
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="bra" name="bra" value="" type="text">
                   </span>
 	            </li>
-			    <li class="col-md-6">
-	    	      <label class="col-md-12 padding-left-5">规格型号</label>
-                   <input maxlength="11" id="model" name="model" value="" type="text" class="col-md-12 p0">
+			    <li class="col-md-6 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">规格型号</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="model" name="model" value="" type="text">
+                  </span>
 	            </li> 
-			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">计量单位</label>
-                   <input maxlength="11" id="unit" name="unit" value="" type="text" class="col-md-12 p0">
+			    <li class="col-md-3 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">计量单位</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="unit" name="unit" value="" type="text">
+                  </span>
 	            </li>
-				<li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">数量</label>
-                   <input maxlength="11" id="purNum" name="purNum"  type="text"class="col-md-12 p0">
+				<li class="col-md-3 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">数量</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="purNum" name="purNum"  type="text">
+                  </span>
 	            </li>
-			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">单价</label>
-                   <input maxlength="11" id="univalent" name="univalent" value="" type="text" class="col-md-12 p0">
+			    <li class="col-md-3 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单价</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="univalent" name="univalent" value="" type="text">
+                  </span>
 	            </li>
-			    <li class="col-md-3">
-	    	      <label class="col-md-12 padding-left-5">合计</label>
-                   <input maxlength="11" id="purBudgetSum" name="purBudgetSum" value="" readonly="readonly" type="text" class="col-md-12 p0">
+			    <li class="col-md-3 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合计</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
+                   <input maxlength="11" id="purBudgetSum" name="purBudgetSum" value="" readonly="readonly" type="text">
+                  </span>
 	            </li> 
-			    <li class="col-md-12">
-	    	      <label class="col-md-12 padding-left-5">备注</label>
-                  <textarea id="remarks" name="remarks" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
+			    <li class="col-md-12 col-sm-6 col-xs-12">
+	    	      <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注</label>
+	    	      <span class="col-md-12 col-sm-12 col-xs-12 p0">
+                  	<textarea id="remarks" name="remarks" class="w100p h80 p0" rows="3" cols="1"></textarea>
+                  </span>
 	            </li>
 			    
 	            <div class="clear"></div>
 			  </ul>
-              <div class="tc mt10 col-md-12">
+              <div class="tc mt10 col-md-12 col-sm-12 col-xs-12">
                 <input class="btn" id="inputb" name="addr" onclick="alert('自己实现')" value="确定" type="button"> 
 				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
               </div>
