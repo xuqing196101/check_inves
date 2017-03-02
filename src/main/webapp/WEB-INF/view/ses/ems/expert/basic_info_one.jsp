@@ -1049,7 +1049,7 @@
                 </li>
             </ul>
 
-            <h2 class="count_flow"><i>2</i>专业信息</h2>
+            <h2 class="count_flow"><i>2</i>专业信息（包括学历和专业）</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 所在单位</span>
@@ -1138,12 +1138,12 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>专家技术职称</span> <!--/执业资格  -->
+                        class="red">*</i>专业技术职称</span> <!--/执业资格  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'专家技术职称')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('专家技术职称')"</c:if>
+                                <c:if test="${fn:contains(errorField,'专业技术职称')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('专业技术职称')"</c:if>
                                 maxlength="20" value="${expert.professTechTitles}"
                                 name="professTechTitles" id="professTechTitles" type="text"/>
                         <span class="add-on">i</span> <span class="input-tip">不能为空</span>
@@ -1151,11 +1151,11 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red"></i> 专家技术职称证书</span>
+                        class="red"></i> 专业技术职称证书</span>
                     <div
                             class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                            <c:if test="${fn:contains(errorField,'专家技术职称证书')}">style="border: 1px solid #ef0000;"
-                            onmouseover="errorMsg('专家技术职称证书')"</c:if>>
+                            <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;"
+                            onmouseover="errorMsg('专业技术职称证书')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                 exts="${properties['file.picture.type']}" id="expert4" maxcount="1"
@@ -1170,13 +1170,13 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>证书获取时间</span>
+                        class="red">*</i>证书获得时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('证书获取时间')"</c:if>
+                                <c:if test="${fn:contains(errorField,'证书获得时间')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('证书获得时间')"</c:if>
                                 value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="timeToWork" id="timeToWork"
                                 type="text"
