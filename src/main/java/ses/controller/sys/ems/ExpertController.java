@@ -3229,10 +3229,17 @@ public class ExpertController extends BaseController {
 	    List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
 	    List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
 	    for (ExpertCategory expertCategory : items) {
-            List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-            if (findPublishTree.size() == 0) {
-                expertItems.add(expertCategory);
-            }
+	        if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+	            List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+	            if (findPublishTree.size() == 0) {
+	                expertItems.add(expertCategory);
+	            }
+	        } else {
+	            List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                }
+	        }
         }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
