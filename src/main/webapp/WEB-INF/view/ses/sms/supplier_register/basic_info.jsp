@@ -628,7 +628,7 @@
 					"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 					" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-					"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='300' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+					"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup='if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
 					" </div>" +
 					" </li>");
 				inde++;
@@ -1367,7 +1367,7 @@
 								<li class="col-md-12 col-xs-12 col-sm-12 mb25">
 									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i class="red">* </i>经营范围（按照营业执照填写）</span>
 									<div class="col-md-12 col-xs-12 col-sm-12 p0">
-										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="300" required="required" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
+										<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" required="required" name="businessScope" <c:if test="${fn:contains(audit,'businessScope')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessScope')"</c:if>>${currSupplier.businessScope}</textarea>
 										<div class="cue">
 											<sf:errors path="businessScope" />
 										</div>
@@ -1460,7 +1460,7 @@
 										<li name="branch" style="display: none;" class="col-md-12 col-xs-12 col-sm-12 mb25">
 											<span class="col-md-12 c ol-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>生产经营范围</span>
 											<div class="col-md-12 col-xs-12 col-sm-12 p0">
-												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="300" id="branchbusinessSope" required name="branchList[${vs.index }].businessSope" <c:if test="${fn:contains(audit,'businessSope_'.concat(bran.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessSope_${bran.id }')"</c:if>>${bran.businessSope}</textarea>
+												<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" id="branchbusinessSope" required name="branchList[${vs.index }].businessSope" <c:if test="${fn:contains(audit,'businessSope_'.concat(bran.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessSope_${bran.id }')"</c:if>>${bran.businessSope}</textarea>
 												<div class="cue">
 													<sf:errors path="branchList[${vs.index }].businessSope" />
 												</div>
@@ -1679,7 +1679,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb20">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="500" name="purchaseExperience" <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="purchaseExperience" <c:if test="${fn:contains(audit,'purchaseExperience')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('purchaseExperience')"</c:if>>${currSupplier.purchaseExperience}</textarea>
 								</div>
 							</div>
 						</div>
@@ -1689,7 +1689,7 @@
 						<div class="col-md-12 col-sm-12 col-xs-12 p0 ul_list mb50">
 							<div class="col-md-12 col-sm-12 col-xs-12 p15 mt20">
 								<div class="col-md-12 col-sm-12 col-xs-12 p0 mb20">
-									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="500" placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在500字以内。" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
+									<textarea class="col-md-12 col-xs-12 col-sm-12 h80" required="required" maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" placeholder="包括供应商的基本情况、组织机构设置、人员情况以及产品信息等内容，字数请控制在500字以内。" name="description" <c:if test="${fn:contains(audit,'description')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('description')"</c:if>>${currSupplier.description}</textarea>
 									<div class="cue">
 										<sf:errors path="description" />
 									</div>

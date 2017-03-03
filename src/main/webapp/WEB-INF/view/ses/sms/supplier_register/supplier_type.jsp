@@ -1241,7 +1241,7 @@
 														承担国家军队科研项目：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000" name="supplierMatPro.countryPro"
+															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryPro"
 															<c:if test="${fn:contains(proPageField,'countryPro')}">style="border: 1px solid red;" onmouseover="errorMsg('countryPro','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryPro}</textarea>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryPro" />
@@ -1252,7 +1252,7 @@
 														获得国家军队科技奖项：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000" name="supplierMatPro.countryReward"
+															maxlength="1000"  onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" name="supplierMatPro.countryReward"
 															<c:if test="${fn:contains(proPageField,'countryReward')}">style="border: 1px solid red;" onmouseover="errorMsg('countryReward','mat_pro_page')"</c:if>>${currSupplier.supplierMatPro.countryReward}</textarea>
 														<div class="cue">
 															<sf:errors path="supplierMatPro.countryReward" />
@@ -1555,7 +1555,7 @@
 														<i class="red">* </i>国家或军队保密工程业绩：</span>
 													<div class="col-md-12 col-xs-12 col-sm-12 p0">
 														<textarea class="col-md-12 col-xs-12 col-sm-12 h80"
-															maxlength="1000" id="conAchi"
+															maxlength="1000" onkeyup="if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}" id="conAchi"
 															<c:if test="${currSupplier.supplierMatEng.isHavingConAchi == '1'}">required="required"</c:if>
 															name="supplierMatEng.confidentialAchievement"
 															<c:if test="${fn:contains(engPageField,'confidentialAchievement')}">style="border: 1px solid red;" onmouseover="errorMsg('confidentialAchievement','mat_eng_page')"</c:if>>${currSupplier.supplierMatEng.confidentialAchievement}</textarea>
