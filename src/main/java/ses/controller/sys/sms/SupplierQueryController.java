@@ -27,6 +27,7 @@ import ses.model.bms.Qualification;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
@@ -358,6 +359,17 @@ public class SupplierQueryController extends BaseSupplierController {
         getSupplierType(supplier);
         request.getSession().setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+        
+        //在数据字典里查询企业性质
+        List < DictionaryData > list = DictionaryDataUtil.find(17);
+		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
+		for(int i = 0; i < businessList.size(); i++) {
+			if(supplier.getBusinessNature().equals(businessList.get(i).getId())) {
+				String businessNature = list.get(i).getName();
+				supplier.setBusinessNature(businessNature);
+			}
+		}
+
         model.addAttribute("suppliers", supplier);
         
         //境外分支
@@ -397,6 +409,10 @@ public class SupplierQueryController extends BaseSupplierController {
             model.addAttribute("category", 1);
         }
         model.addAttribute("person", person);
+        
+        //售后服务机构一览表
+  		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplierService.get(supplierId).getListSupplierAfterSaleDep();
+  		request.setAttribute("listSupplierAfterSaleDep",listSupplierAfterSaleDep);
         
         return "ses/sms/supplier_query/supplierInfo/essential";
     }
