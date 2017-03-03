@@ -472,4 +472,24 @@
 			AND CODE = #{param2}
 		</if> 
 	</select>
+	
+	<select id="findCategoryByStatusAll"  resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE IS_DELETED=0 
+		AND PARAM_STATUS >= #{status}
+		ORDER BY POSITION
+	</select>
+	
+	<select id="findCategoryByParentNode" parameterType="Map" resultMap="CateMap">
+		 SELECT <include refid="Base_Column_List" /> 
+		 FROM T_SES_BMS_CATEGORY  START WITH 
+         ID=#{id} CONNECT BY PRIOR PARENT_ID=ID 
+	</select>
+	<select id="findCategoryByChildren" parameterType="Map" resultMap="CateMap">
+		 SELECT <include refid="Base_Column_List" /> 
+		 FROM T_SES_BMS_CATEGORY WHERE PARAM_STATUS IS NOT NULL  START WITH 
+         PARENT_ID=#{id} CONNECT BY PRIOR ID=PARENT_ID 
+	</select>
 </mapper>

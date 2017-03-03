@@ -31,16 +31,22 @@
     <div class="tag-box tag-box-v4 col-md-9 col-xs-12 col-sm-9" >
 	  <div class="col-md-12 col-sm-12 col-xs-12 clear" id="baseParamId">
 	    <h2 class="count_flow"><i>1</i>产品参数</h2>
-	    <ul id="uListId" class="list-unstyled ul_table" >
-	    </ul>
+	    <!-- <ul id="uListId" class="list-unstyled ul_table" >
+	    </ul> -->
+	    <table class="table table-bordered mt10" id="uListId">
+	  
+	  </table>
 	  </div>
 	  <div class="col-md-12 col-sm-12 col-xs-12  padding-top-10 clear" id="auditParamId">
 	    <h2 class="count_flow"><i>2</i>审核信息</h2>
-	    <ul class="ul_list">
+	    <table class="table table-bordered mt10" id="tableId">
+	  
+	     </table>
+	    <ul class="ul_list" id="urlId">
 	      <li class="col-md-6">
 	        <label class="col-md-12 padding-left-5">审核<span class="red">*</span></label>
 	          <span>
-	    		<select name="auditStatus" onchange="loadAuditText(this)">
+	    		<select style="width: 150px;" name="auditStatus" onchange="loadAuditText(this)">
 	    			<option value="3">通过</option>
 	    			<option value="1">不通过</option>
 	    		</select>

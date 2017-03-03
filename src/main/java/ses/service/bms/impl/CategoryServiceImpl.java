@@ -744,4 +744,23 @@ public class CategoryServiceImpl implements CategoryService {
 		return list;
 	}
 
+
+	@Override
+	public List<Category> findCategoryByStatusAll(Integer status) {
+		return categoryMapper.findCategoryByStatusAll(status);
+	}
+
+	@Override
+	public List<Category> findCategoryByParentNode(HashMap<String, Object> map) {
+		return categoryMapper.findCategoryByParentNode(map);
+	}
+
+	@Override
+	public List<Category> findCategoryByChildren(HashMap<String, Object> map) {
+		
+		return categoryMapper.findCategoryByChildren(map);
+	}
+
+	
+
 }

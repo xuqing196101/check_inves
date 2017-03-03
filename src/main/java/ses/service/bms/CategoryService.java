@@ -1,6 +1,7 @@
 package ses.service.bms;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -308,4 +309,9 @@ import ses.model.sms.SupplierTypeTree;
      * @return Category
      */
     public Category getCategoryQuaById(String id);
+    
+    public List<Category> findCategoryByStatusAll(Integer status);
+    public List<Category> findCategoryByParentNode(HashMap<String, Object> map);
+    public List<Category> findCategoryByChildren(HashMap<String, Object> map);
+    
 }
