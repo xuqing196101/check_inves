@@ -943,13 +943,16 @@ public class ExpertAuditController {
 			
 			//历史表里记录的类型（修改前的类型）
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
-			String oldType = oldExpert.getExpertsTypeId();
-			String[] historyType = oldExpert.getExpertsTypeId().split(",");
-			for(String h : historyType){
-				if(!type.contains(h)){
-					editFields.append(h);
+			if(oldExpert !=null){
+				String oldType = oldExpert.getExpertsTypeId();
+				String[] historyType = oldExpert.getExpertsTypeId().split(",");
+				for(String h : historyType){
+					if(!type.contains(h)){
+						editFields.append(h);
+					}
 				}
-			}
+			
+			
 			
 			//全部类型
 			StringBuffer typeAll = new StringBuffer();
@@ -969,8 +972,8 @@ public class ExpertAuditController {
 				}
 	
 			model.addAttribute("editFields", editFields);
-		}
-
+			}
+		}	
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
