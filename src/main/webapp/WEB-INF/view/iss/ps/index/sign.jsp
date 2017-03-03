@@ -210,11 +210,11 @@
     	function getIdentityCode(sign) {
     		var random = Math.random();
     		$("#identity_code_img_id_" + sign).hide().attr("src", "${pageContext.request.contextPath}/supplier/get_identity.html?random" + random).fadeIn("fast", function() {
-    			getCode();
+//     			getCode();
     		});
     	}
     	
-    	function getCode() {
+    /* 	function getCode() {
     		$.ajax({
     			url : "${pageContext.request.contextPath}/my_test/auto_write.do",
     			type : "post",
@@ -223,7 +223,7 @@
     				$("#inputCode").val(result);
     			}
     		});
-    	}
+    	} */
     	/*window.onload = function() {
     		getCode();
     	};
