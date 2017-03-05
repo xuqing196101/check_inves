@@ -19,6 +19,11 @@
 			});
 
 			$(function() {
+				
+				var term="${currSupplier.branchName}";
+				if(term=="1"){
+					$("#expireDate").attr("disabled","disabled");
+				}
 				var notPass = "${notPass}";
 				if (notPass == "notPass") {
 					layer.msg("近3年加权平均净资产不满足注册要求！");
@@ -590,50 +595,60 @@
 			}
 
 			function addBranch(obj) {
-				var li = $(obj).parent().parent().next();
-				var inde = $("#branchIndex").val();
-				$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>" +
-					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
-					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-					" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
-					"   <span class='add-on cur_point'>i</span>" +
-					"   </div>" +
-					"  </li>" +
-					"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
-					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>" +
-					"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-					"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
-					"<c:forEach items='${foregin }' var='fr'>" +
-					"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> onchange='tempSave()' selected='selected' </c:if> >${fr.name }</option>" +
-					" </c:forEach> 	</select>" +
-					" </div>" +
-					" </li>" +
+				var branId="";
+				$.ajax({
+					url:"${pageContext.request.contextPath}/purchaser/getId.do",
+					type:"post",
+					success:function(data){
+						branId=data;
+						var li = $(obj).parent().parent().next();
+						var inde = $("#branchIndex").val();
+						$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>" +
+							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
+							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+							" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
+							" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value=''   onblur='tempSave()'>" +
+							"   <span class='add-on cur_point'>i</span>" +
+							"   </div>" +
+							"  </li>" +
+							"<li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
+							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>所在国家（地区）</span>" +
+							"  <div class='select_common col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+							"<select name='branchList[" + inde + "].country'  id='overseas_branch_select_id'>" +
+							"<c:forEach items='${foregin }' var='fr'>" +
+							"<option value='${fr.id }' <c:if test='${bran.country==fr.id}'> onchange='tempSave()' selected='selected' </c:if> >${fr.name }</option>" +
+							" </c:forEach> 	</select>" +
+							" </div>" +
+							" </li>" +
 
-					"  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
-					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>" +
-					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-					" <input type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / onblur='tempSave()'>" +
-					"  <span class='add-on cur_point'>i</span>" +
-					" </div>" +
-					" </li>" +
+							"  <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
+							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>详细地址</span>" +
+							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+							" <input type='text' name='branchList[" + inde + "].detailAddress'  id='sup_branchAddress' value='' / onblur='tempSave()'>" +
+							"  <span class='add-on cur_point'>i</span>" +
+							" </div>" +
+							" </li>" +
 
-					" <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
-					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>" +
-					" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
-					" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>" +
-					" <input type='button' onclick='delBranch(this)'class='btn list_btn' value='一'/>" +
-					" </div>" +
-					" </li>" +
+							" <li name='branch'  class='col-md-3 col-sm-6 col-xs-12'>" +
+							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>" +
+							" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
+							" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>" +
+							" <input type='button' onclick='delBranch(this)'class='btn list_btn' value='一'/>" +
+							" <input type='hidden'  value='"+branId+"'/>" +
+							" </div>" +
+							" </li>" +
 
-					"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
-					" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
-					" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-					"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup='if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
-					" </div>" +
-					" </li>");
-				inde++;
-				$("#branchIndex").val(inde);
-
+							"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
+							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
+							" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
+							"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='300' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+							" </div>" +
+							" </li>");
+						inde++;
+						$("#branchIndex").val(inde);
+					}
+				});
+				
 			}
 
 			function delBranch(obj) {
@@ -654,6 +669,15 @@
 					$(pre).remove();
 					$(obj).parent().parent().remove();
 				}
+				var id=$(obj).next().val();
+				$.ajax({
+					url:"${pageContext.request.contextPath}/supplier/deleteBranch.do",
+					type:"post",
+					data:{"id":id},
+					success:function(data){
+						
+					}
+				});
 			}
 
 			function errorMsg(auditField) {
@@ -676,6 +700,15 @@
 			}
 			sessionStorage.locationA=true;
 			sessionStorage.index=1;
+			
+			function check(obj){
+				var ch=$(obj).is(":checked");
+				if(ch){
+					$("#expireDate").attr("disabled","disabled");
+				}else{
+					$("#expireDate").removeAttr("disabled","disabled");
+				}
+			}
 		</script>
 	</head>
 
@@ -1346,10 +1379,10 @@
 								</li>
 
 								<li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 有效期   <input type="checkbox" name="branchName" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
+									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 有效期   <input type="checkbox" name="branchName" onclick="check(this);" <c:if test="${currSupplier.branchName=='1'}"> checked='true'</c:if>   value="1"> 长期</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<fmt:formatDate value="${currSupplier.businessStartDate}" pattern="yyyy-MM-dd" var="businessStartDate" />
-										<input type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
+										<input id="expireDate" type="text" readonly="readonly" onClick="WdatePicker()" name="businessStartDate" value="${businessStartDate}" <c:if test="${fn:contains(audit,'businessStartDate')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('businessStartDate')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">如果勾选长期,可不填写有效期</span>
 										<div class="cue"> ${err_sDate } </div>
@@ -1414,6 +1447,10 @@
 										<li name="branch" style="display: none;" class="col-md-3 col-sm-6 col-xs-12 pl10">
 											<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">* </i>机构名称</span>
 											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+												
+												
+											 	<input type="hidden" name="branchList[${vs.index }].id"  required  value="${bran.id}"/>  
+											
 												<input type="text" name="branchList[${vs.index }].organizationName" id="sup_branchName" required maxlength="50" value="${bran.organizationName}" <c:if test="${fn:contains(audit,'organizationName_'.concat(bran.id))}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('organizationName_${bran.id }')"</c:if>/>
 												<span class="add-on cur_point">i</span>
 												<span class="input-tip">不能为空</span>
@@ -1454,6 +1491,7 @@
 											<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
 												<input type="button" onclick="addBranch(this)" class="btn list_btn" value="十" />
 												<input type="button" onclick="delBranch(this)" class="btn list_btn" value="一" />
+												 <input type="hidden"   name=""    value="${bran.id}" />
 											</div>
 										</li>
 

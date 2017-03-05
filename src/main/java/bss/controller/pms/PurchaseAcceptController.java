@@ -248,6 +248,7 @@ public class PurchaseAcceptController extends BaseController{
         				purchaseRequiredService.updateByPrimaryKeySelective(p);	
         			}
     			}else{
+    				purchaseManagementService.updateStatus(plist.get(0).getUniqueId());
     				for(PurchaseRequired p:plist){
     					p.setStatus(status);
          				purchaseRequiredService.updateByPrimaryKeySelective(p);	

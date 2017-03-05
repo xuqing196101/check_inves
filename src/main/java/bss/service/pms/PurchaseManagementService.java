@@ -41,4 +41,15 @@ public interface PurchaseManagementService {
 	* @throws
 	 */
 	List<PurchaseManagement> queryByPid(String pid);
+	
+	/**
+	 * 
+	* @Title: updateStatus
+	* @Description: 根据需求计划的见修改状态
+	* author: Li Xiaoxiao 
+	* @param @param uniqueId     
+	* @return void     
+	* @throws
+	 */
+	void updateStatus(String uniqueId);
 }

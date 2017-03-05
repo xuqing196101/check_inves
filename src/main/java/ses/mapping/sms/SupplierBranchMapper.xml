@@ -123,6 +123,10 @@
 	  where  SUPPLIER_ID = #{supplierId}
   </delete>
   
-  
-  
+  <select id="queryById" parameterType="String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List"/>
+    from T_SES_SMS_SUPPLIER_BRANCH
+	  where   ID = #{id}
+  </select>
 </mapper>

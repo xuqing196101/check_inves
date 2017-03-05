@@ -91,6 +91,7 @@ import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierModifyService;
 import ses.service.sms.SupplierService;
+import ses.service.sms.SupplierStockholderService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
@@ -103,6 +104,7 @@ import ses.util.WfUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.model.UploadFile;
@@ -208,6 +210,7 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierCertEngService supplierCertEngService;
+	
 
 	/**
 	 * @Title: getIdentity
@@ -2716,5 +2719,43 @@ public class SupplierController extends BaseSupplierController {
             return "redirect:perfect_upload.html";
         }
         return null;
+    }
+    
+    /**
+     * 
+    * @Title: delteBranch
+    * @Description: 删除境外分支
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return String     
+    * @throws
+     */
+    @RequestMapping("/deleteBranch")
+    @ResponseBody
+    public String delteBranch(String id){
+    	supplierBranchService.delete(id);
+    	
+    	return "";
+    }
+    /**
+     * 
+    * @Title: delete
+    * @Description: 注销供应商账户
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @return     
+    * @return String     
+    * @throws
+     */
+    @RequestMapping("")
+    public String delete(String supplierId){
+    	
+    	
+    	supplierService.deleteSupplier(supplierId);
+    	
+    	
+    	
+    	
+    	return "";
     }
 }

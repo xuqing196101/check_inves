@@ -112,4 +112,11 @@
 		FROM T_SES_SMS_SUPPLIER_AFTER_SALE 
 		WHERE SUPPLIER_ID = #{supplierId}
 	</select>
+	
+	<!--根据供应商ID删除对应的信息  -->
+	<delete id="deleteBySupplierId" parameterType="String">
+    	DELETE FROM T_SES_SMS_SUPPLIER_AFTER_SALE
+		WHERE SUPPLIER_ID = #{supplierId}
+		 
+	</delete>
 </mapper>

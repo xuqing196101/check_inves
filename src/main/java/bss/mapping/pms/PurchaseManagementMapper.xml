@@ -6,9 +6,10 @@
     <result column="PURCHASE_ID" jdbcType="VARCHAR" property="purchaseId" />
     <result column="MANAGEMENT_ID" jdbcType="VARCHAR" property="managementId" />
     <result column="CREATE_AT" jdbcType="TIMESTAMP" property="createAt" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, PURCHASE_ID, MANAGEMENT_ID
+    ID, PURCHASE_ID, MANAGEMENT_ID,STATUS
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -21,9 +22,9 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="bss.model.pms.PurchaseManagement">
-    insert into T_BSS_PMS_PURCHASE_MANAGEMENT (ID, PURCHASE_ID, MANAGEMENT_ID,CREATE_AT
+    insert into T_BSS_PMS_PURCHASE_MANAGEMENT (ID, PURCHASE_ID, MANAGEMENT_ID,CREATE_AT,STATUS
       )
-    values (#{id,jdbcType=VARCHAR}, #{purchaseId,jdbcType=VARCHAR}, #{managementId,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP}
+    values (#{id,jdbcType=VARCHAR}, #{purchaseId,jdbcType=VARCHAR}, #{managementId,jdbcType=VARCHAR}, #{createAt,jdbcType=TIMESTAMP},#{status,jdbcType=DECIMAL}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.pms.PurchaseManagement">
@@ -41,6 +42,9 @@
       <if test="createAt != null">
         CREATE_AT,
       </if>
+      <if test="status != null">
+        STATUS,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -55,6 +59,10 @@
       <if test="createAt != null">
         #{createAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.pms.PurchaseManagement">
@@ -66,6 +74,10 @@
       <if test="managementId != null">
         MANAGEMENT_ID = #{managementId,jdbcType=VARCHAR},
       </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -73,7 +85,8 @@
     update T_BSS_PMS_PURCHASE_MANAGEMENT
     set PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR},
       MANAGEMENT_ID = #{managementId,jdbcType=VARCHAR}
-    where ID = #{id,jdbcType=VARCHAR}
+        STATUS = #{status,jdbcType=VARCHAR},
+    where ID = #{id,jdbcType=DECIMAL}
   </update>
   
   
@@ -81,7 +94,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_PURCHASE_MANAGEMENT
-    where MANAGEMENT_ID = #{mid} order By CREATE_AT
+    where MANAGEMENT_ID = #{mid} and STATUS=1 order By CREATE_AT
   </select>
   
   <select id="queryByPid" parameterType="String" resultMap="BaseResultMap">
@@ -90,5 +103,11 @@
     from T_BSS_PMS_PURCHASE_MANAGEMENT
     where PURCHASE_ID = #{pid} order By CREATE_AT
   </select>
+  
+  <update id="updateStaus" parameterType="String">
+   update T_BSS_PMS_PURCHASE_MANAGEMENT
+    set  STATUS =2
+   where  PURCHASE_ID = #{purchaseId}
+  </update>
   
 </mapper>
