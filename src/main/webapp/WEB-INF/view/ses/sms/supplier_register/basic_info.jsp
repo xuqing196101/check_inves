@@ -606,8 +606,7 @@
 						$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-							" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
-							" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value=''   onblur='tempSave()'>" +
+							" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
 							"   <span class='add-on cur_point'>i</span>" +
 							"   </div>" +
 							"  </li>" +
@@ -634,14 +633,13 @@
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
 							" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>" +
 							" <input type='button' onclick='delBranch(this)'class='btn list_btn' value='一'/>" +
-							" <input type='hidden'  value='"+branId+"'/>" +
 							" </div>" +
 							" </li>" +
 
 							"  <li name='branch'  class='col-md-12 col-xs-12 col-sm-12 mb25'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>生产经营范围</span>" +
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0'>" +
-							"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='300' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
+							"  <textarea class='col-md-12 col-xs-12 col-sm-12 h80' maxlength='1000' onkeyup='if(value.length==1000){layer.msg('字数过多，不可超过1000字！')}' id='sup_businessScope' onblur='tempSave()' name='branchList[" + inde + "].businessSope'></textarea>" +
 							" </div>" +
 							" </li>");
 						inde++;
