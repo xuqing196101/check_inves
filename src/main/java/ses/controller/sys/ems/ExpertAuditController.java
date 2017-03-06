@@ -303,6 +303,16 @@ public class ExpertAuditController {
 				model.addAttribute("editFields", editFields);
 			}
 		}
+		ExpertAudit expertAudit = new ExpertAudit();
+		expertAudit.setExpertId(expertId);
+		expertAudit.setSuggestType("one");
+		
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
+		StringBuffer conditionStr = new StringBuffer();
+		for (ExpertAudit expertAudit2 : reasonsList) {
+			conditionStr.append(expertAudit2.getAuditField() + ",");
+		}
+		model.addAttribute("conditionStr", conditionStr);
 
 		return "ses/ems/expertAudit/basic_info";
 	}
@@ -416,7 +426,7 @@ public class ExpertAuditController {
 
 		//唯一验证
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertAudit.getExpertId());
-		boolean same = true;
+		boolean same = true;	
 		for(int i = 0; i < reasonsList.size(); i++) {
 			if(reasonsList.get(i).getAuditField().equals(expertAudit.getAuditField()) && reasonsList.get(i).getAuditContent().equals(expertAudit.getAuditContent()) && reasonsList.get(i).getSuggestType().equals(expertAudit.getSuggestType())) {
 				same = false;
@@ -564,6 +574,18 @@ public class ExpertAuditController {
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (expertItems));
         model.addAttribute("itemsList", allTreeList);
+        
+        ExpertAudit expertAuditFor = new ExpertAudit();
+		expertAuditFor.setExpertId(expertId);
+		expertAuditFor.setSuggestType("six");
+		
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+		StringBuffer conditionStr = new StringBuffer();
+		for (ExpertAudit expertAudit2 : reasonsList) {
+			conditionStr.append(expertAudit2.getAuditField() + ",");
+		}
+		model.addAttribute("conditionStr", conditionStr);
+        
         return "ses/ems/expertAudit/ajax_items";
 	}
 	
@@ -828,6 +850,17 @@ public class ExpertAuditController {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
+		
+		ExpertAudit expertAuditFor = new ExpertAudit();
+		expertAuditFor.setExpertId(expertId);
+		expertAuditFor.setSuggestType("five");
+		
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+		StringBuffer conditionStr = new StringBuffer();
+		for (ExpertAudit expertAudit2 : reasonsList) {
+			conditionStr.append(expertAudit2.getAuditField() + ",");
+		}
+		model.addAttribute("conditionStr", conditionStr);
 
 		return "ses/ems/expertAudit/expertFile";
 	}
@@ -981,6 +1014,18 @@ public class ExpertAuditController {
 		Map < String, Object > typeMap = getTypeId();
 		// typrId集合
 		model.addAttribute("typeMap", typeMap);
+		
+		ExpertAudit expertAuditFor = new ExpertAudit();
+		expertAuditFor.setExpertId(expertId);
+		expertAuditFor.setSuggestType("seven");
+		
+		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+		StringBuffer conditionStr = new StringBuffer();
+		for (ExpertAudit expertAudit2 : reasonsList) {
+			conditionStr.append(expertAudit2.getAuditField() + ",");
+		}
+		model.addAttribute("conditionStr", conditionStr);
+		
 		
 		return "ses/ems/expertAudit/expertType";
 	}

@@ -239,4 +239,16 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 	public void deleteByExpertId(String expertId) {
 		mapper.deleteByExpertId(expertId);
 	}
+	
+	/**
+     * @author Ma Mingwei
+     * @param expertAudit
+     * @return 返回ExpertAudit列表
+     * @Description:根据expertAudit封装的条件查询列表
+     */
+	@Override
+	public List<ExpertAudit> getListByExpert(ExpertAudit expertAudit) {
+		// TODO Auto-generated method stub
+		return mapper.findConditionPassExpert(expertAudit);
+	}
 }

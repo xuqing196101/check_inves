@@ -1087,19 +1087,19 @@ public class ExpertController extends BaseController {
 		Map < String, Object > typeMap = new HashMap < > ();
 		for(int i = 0; i < 8; i++) {
 			if(i == 0) {
-				// 军官证件
+				// 专家身份证
 				dd.setCode("EXPERT_IDNUMBER");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_IDNUMBER_TYPEID", find.get(0).getId());
 			}
 			if(i == 1) {
-				// 职称证书
+				// 职称证书附件
 				dd.setCode("EXPERT_TITLE");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_TITLE_TYPEID", find.get(0).getId());
 			}
 			if(i == 2) {
-				// 申请表
+				// 专家申请表附件
 				dd.setCode("EXPERT_APPLICATION");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_APPLICATION_TYPEID", find.get(0).getId());
@@ -1111,25 +1111,25 @@ public class ExpertController extends BaseController {
 				typeMap.put("EXPERT_ACADEMIC_TYPEID", find.get(0).getId());
 			}
 			if(i == 4) {
-				// 学位证书
+				// 专家学位证书附件
 				dd.setCode("EXPERT_DEGREE");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_DEGREE_TYPEID", find.get(0).getId());
 			}
 			if(i == 5) {
-				// 个人照片
+				// 专家个人照片附件
 				dd.setCode("EXPERT_PHOTO");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_PHOTO_TYPEID", find.get(0).getId());
 			}
 			if(i == 6) {
-				// 合同书
+				// 专家合同书附件
 				dd.setCode("EXPERT_CONTRACT");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_CONTRACT_TYPEID", find.get(0).getId());
 			}
 			if(i == 7) {
-				// 军官证件
+				// 专家身份证附件
 				dd.setCode("EXPERT_IDCARDNUMBER");
 				List < DictionaryData > find = dictionaryDataServiceI.find(dd);
 				typeMap.put("EXPERT_IDCARDNUMBER_TYPEID", find.get(0).getId());
@@ -3523,5 +3523,4 @@ public class ExpertController extends BaseController {
         }
         return imgInfo;
     }
-    
 }

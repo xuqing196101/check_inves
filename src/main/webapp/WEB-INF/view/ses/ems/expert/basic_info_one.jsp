@@ -323,7 +323,6 @@
             supplierRegist5();
             editTable();
         }
-
         //校验基本信息 不能为空的字段
         function validateformExpert() {
             var from = "${expert.expertsFrom}";
@@ -884,10 +883,10 @@
                                   exts="${properties['file.picture.type']}" id="expert3"
                                   groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8"
                                   multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1"
-                                  typeId="3" auto="true"/>
+                                  typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }" auto="true"/>
                         <u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8"
                                 businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="3"/>
+                                typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
                     </div>
                 </li>
                 <%--如果是民--%>
@@ -969,12 +968,12 @@
                                       id="expert12"
                                       businessId="${sysId}"
                                       sysKey="${expertKey}"
-                                      typeId="1"
+                                      typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID }"
                                       maxcount="1"
                                       auto="true"/>
                             <u:show showId="show12"
                                     businessId="${sysId}" sysKey="${expertKey}"
-                                    typeId="1"/>
+                                    typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID }"/>
                         </div>
 
 

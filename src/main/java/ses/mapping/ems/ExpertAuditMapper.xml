@@ -48,6 +48,19 @@
     where AUDIT_RESULT = '1'
     and nvl(IS_DELETE,0) = 0
   </select>
+  
+  <!-- 查找所有符合条件的专家 -->
+  <select id="findConditionPassExpert" parameterType="ses.model.ems.ExpertAudit" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_AUDIT
+    where 
+    	EXPERT_ID = #{expertId}
+    <if test="suggestType != '' and suggestType != null">
+    	and SUGGEST_TYPE = #{suggestType}
+    </if>
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
     delete from T_SES_EMS_EXPERT_AUDIT
     where ID = #{id}

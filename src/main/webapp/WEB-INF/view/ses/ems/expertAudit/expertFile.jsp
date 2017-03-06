@@ -126,12 +126,12 @@
 					
 					<ul class="ul_list hand count_flow">
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
+							<span class="col-md-5 padding-left-5" <c:if test="${fn:contains(conditionStr,'专家申请表')}"> style="border: 1px solid red;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="application" onclick="reason(this);">专家申请表：</span>
 								<up:show showId="10" delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="14" />
 								<a style="visibility:hidden" id="application1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 						</li>
 						<li class="col-md-6 p0 mt10 mb25">
-							<span class="col-md-5 padding-left-5" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
+							<span class="col-md-5 padding-left-5" <c:if test="${fn:contains(conditionStr,'专家承诺书')}"> style="border: 1px solid red;"</c:if> onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="contract" onclick="reason(this);">专家承诺书：</span>
 								<up:show showId="11"  delete="false" businessId="${expertId}" sysKey="${expertKey}" typeId="13" />
 								<a style="visibility:hidden" id="contract1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
 						</li>

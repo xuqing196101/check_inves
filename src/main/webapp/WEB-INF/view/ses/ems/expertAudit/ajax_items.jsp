@@ -59,7 +59,7 @@
 		    <td class="tl pl20">${item.thirdNode}</td>
 		    <td class="tl pl20">${item.fourthNode}</td>
 		    <td class="tc w50 hand">
-					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+					<a <c:if test="${fn:contains(conditionStr,item.itemsId)}"> style="border: 1px solid red;"</c:if> onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
 					<p id="${item.itemsId}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
 				</td>
       </tr>

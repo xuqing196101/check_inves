@@ -127,4 +127,12 @@ public interface ExpertAuditMapper {
      * @return void
      */
     void deleteByExpertId (String expertId);
+    
+    /**
+     * @author Ma Mingwei
+     * @param expertAudit
+     * @return 返回ExpertAudit列表
+     * @Description:根据expertAudit封装的条件查询列表
+     */
+	List<ExpertAudit> findConditionPassExpert(ExpertAudit expertAudit);
 }
