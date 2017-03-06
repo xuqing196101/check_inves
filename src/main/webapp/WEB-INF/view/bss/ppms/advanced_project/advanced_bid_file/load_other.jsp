@@ -9,28 +9,26 @@
   </head>
   <script type="text/javascript">
     $(function(){
-	  laypage({
-		  cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-		    pages: "${list.pages}", //总页数
-		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-		    skip: true, //是否开启跳页
-		    total: "${list.total}",
-		    startRow: "${list.startRow}",
-		    endRow: "${list.endRow}",
-		    groups: "${list.pages}">=5?5:"${list.pages}",
-		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-//	 			        var page = location.search.match(/page=(\d+)/);
-//	 			        return page ? page[1] : 1;
-			return "${list.pageNum}";
-			}(), 
-		    jump: function(e, first){ //触发分页后的回调
-		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	$("#page").val(e.curr);
-		        	$("#form1").submit();
-		        }
-		    }
-		});
-	});
+    laypage({
+      cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+        pages: "${list.pages}", //总页数
+        skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+        skip: true, //是否开启跳页
+        total: "${list.total}",
+        startRow: "${list.startRow}",
+        endRow: "${list.endRow}",
+        groups: "${list.pages}">=5?5:"${list.pages}",
+        curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+      return "${list.pageNum}";
+      }(), 
+        jump: function(e, first){ //触发分页后的回调
+            if(!first){ //一定要加此判断，否则初始时会无限刷新
+              $("#page").val(e.curr);
+              $("#form1").submit();
+            }
+        }
+    });
+  });
    
     function cancel(){
 	    var index=parent.layer.getFrameIndex(window.name);
@@ -93,27 +91,27 @@
      <div class="content table_box">
         
         <table class="table table-bordered table-condensed table-hover table-striped">
-	        <thead>
-	        <tr>
-	          <th class="w50 info">序号</th>
-	          <th class="info">项目名称</th>
-	          <th class="info">包名</th>
-	          <th class="info">操作</th>
-	        </tr>
-	        </thead>
-	        <c:forEach items="${list.list}" var="pa" varStatus="vs">
-	            <tr>
-	                <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-	                <td>${pa.project.name}</td>
-	                <td class="tc">${pa.name}</td>
-	                <td class="tc">
-	                    <button class="btn" type="button" onclick="view('${pa.id}','${pa.project.id}');">包信息</button>
-	                    <button class="btn" type="button" onclick="loadPackage('${pa.id}');">引入</button>
-	                </td>
-	            </tr>
-	        </c:forEach>
+          <thead>
+          <tr>
+            <th class="w50 info">序号</th>
+            <th class="info">项目名称</th>
+            <th class="info">包名</th>
+            <th class="info">操作</th>
+          </tr>
+          </thead>
+          <c:forEach items="${list.list}" var="pa" varStatus="vs">
+              <tr>
+                  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+                  <td>${pa.project.name}</td>
+                  <td class="tc">${pa.name}</td>
+                  <td class="tc">
+                      <button class="btn" type="button" onclick="view('${pa.id}','${pa.project.id}');">包信息</button>
+                      <button class="btn" type="button" onclick="loadPackage('${pa.id}');">引入</button>
+                  </td>
+              </tr>
+          </c:forEach>
         </table>
-    </div> 
+    </div>
    	<div id="pagediv" align="right"></div>
    </div>
   </body>

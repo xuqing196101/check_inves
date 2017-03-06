@@ -404,4 +404,16 @@ public class ProjectServiceImpl implements ProjectService {
         return jsonObj;
     }
 
+    @Override
+    public List<Project> selectByOrg(HashMap<String, Object> map) {
+
+        return projectMapper.selectByOrg(map);
+    }
+
+    @Override
+    public List<Project> selectByDemand(HashMap<String, Object> map) {
+        
+        return projectMapper.selectByDemand(map);
+    }
+
   }

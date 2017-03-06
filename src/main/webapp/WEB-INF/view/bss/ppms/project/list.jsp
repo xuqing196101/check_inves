@@ -109,7 +109,7 @@
             }); 
           }
            */
-          if(status == "YJLX") {
+          /* if(status == "YJLX") {
              layer.open({
                     type: 2, //page层
                     area: ['800px', '500px'],
@@ -118,9 +118,10 @@
                     moveType: 1, //拖拽风格，0是默认，1是传统拖动
                     shift: 1, //0-6的动画形式，-1不开启
                     shadeClose: true,
-                    content: '${pageContext.request.contextPath}/project/startProject.html?id=' + id,
+                    content: '${pageContext.request.contextPath}/project/start.html?id=' + id,
                   });
-          }else if(status == "YJFB") {
+          }else */ 
+          if(status == "YJFB") {
             layer.alert("项目已废标", {
               offset: ['30%', '40%'],
             });

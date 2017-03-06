@@ -31,17 +31,23 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.alibaba.fastjson.JSON;
+
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.model.oms.util.AjaxJsonData;
 import ses.model.sms.Quote;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.TempletService;
+import ses.service.bms.TodosService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierExtUserServicel;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
@@ -51,6 +57,8 @@ import ses.util.WfUtil;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
+import bss.model.ppms.Reason;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplierCheckPass;
@@ -59,6 +67,7 @@ import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
@@ -68,6 +77,8 @@ import bss.service.ppms.ScoreModelService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageFirstAuditService;
+import bss.util.PropUtil;
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
@@ -152,6 +163,15 @@ public class AdOpenBiddingController {
     @Autowired
     private TempletService templetService;
     
+    @Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationService;
+    
+    /**
+     * 推送待办
+     */
+    @Autowired
+    private TodosService todosService;
+    
     /**
      * 符合性审查服务接口
      */
@@ -178,6 +198,10 @@ public class AdOpenBiddingController {
     
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    
+    
+    @Autowired
+    private BidMethodService bidMethodService;
     /**
      * @Fields jsonData : ajax返回数据封装类
      */
@@ -210,48 +234,101 @@ public class AdOpenBiddingController {
      * @throws Exception 
      */
     @RequestMapping("/bidFile")
-    public String bidFile(HttpServletRequest request, String id, Model model, HttpServletResponse response) throws Exception{
+    public String bidFile(@CurrentUser User user,HttpServletRequest request, String id, Model model, HttpServletResponse response, Integer process) throws Exception{
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", id);
         List<AdvancedPackages> packages = packageService.selectByAll(map);
         String msg = "";
         for (AdvancedPackages p : packages) {
           //判断各包符合性审查项是否编辑完成
-          FirstAudit firstAudit = new FirstAudit();
-          firstAudit.setPackageId(p.getId());
-          List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
-          if (fas == null || fas.size() <= 0) {
-            msg = "noFirst";
-            return "redirect:/adFirstAudit/toAdd.html?projectId="+id+"&msg="+msg;
-          }
-          //获取资格性审查项内容
-          ScoreModel smMap = new ScoreModel();
-          smMap.setPackageId(p.getId());
-          List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
-          if (sms == null || sms.size() <= 0) {
-            msg = "noSecond";
-            return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&msg="+msg;
-          }
+            FirstAudit firstAudit = new FirstAudit();
+            firstAudit.setPackageId(p.getId());
+            List<FirstAudit> fas = firstAuditService.findBykind(firstAudit);
+            if (fas == null || fas.size() <= 0) {
+              msg = "noFirst";
+              return "redirect:/adFirstAudit/toAdd.html?projectId="+id+"&msg="+msg;
+            }
+            //获取资格性审查项内容
+            //获取评分办法数据字典编码     
+            String methodCode = bidMethodService.getMethod(id, p.getId());
+            if (methodCode != null && !"".equals(methodCode)) {
+              if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+                FirstAudit firstAudit2 = new FirstAudit();
+                firstAudit2.setPackageId(p.getId());
+                firstAudit2.setIsConfirm((short)1);
+                List<FirstAudit> fas2 = firstAuditService.findBykind(firstAudit2);
+                if (fas2 == null || fas2.size() <= 0) {
+                  msg = "noSecond";
+                  return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&msg="+msg;
+                }
+              }
+              if ("OPEN_ZHPFF".equals(methodCode)) {
+                ScoreModel smMap = new ScoreModel();
+                smMap.setPackageId(p.getId());
+                List<ScoreModel> sms = scoreModelService.findListByScoreModel(smMap);
+                if (sms == null || sms.size() <= 0) {
+                  msg = "noSecond";
+                  return "redirect:/adIntelligentScore/packageList.html?projectId="+id+"&msg="+msg;
+                }
+              }
+            }
         }
         AdvancedProject project = projectService.selectById(id);
+        boolean exist = isExist(project.getPurchaseDepId(),user.getOrg().getId());
+        model.addAttribute("exist", exist);
         //判断是否上传招标文件
         String typeId = DictionaryDataUtil.getId("PROJECT_BID");
         List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
-        if (files != null && files.size() > 0){
-          model.addAttribute("fileId", files.get(0).getId());
-        } else {
-          if (project != null){
-            String filePath = extUserServicel.downLoadBiddingDoc(request, id,0,null);
-            if (StringUtils.isNotBlank(filePath)){
-              model.addAttribute("filePath", filePath);
-            }
+        /**
+         * 1.如果上传过 跳过生成模板
+         * 2.如果 上传过 判断 file.getIsDelete标识 是否删除 如果删除只是生成 拆分部分模板
+         * 3.如果没有上传 那么生成新模板
+         */
+        if (files != null && files.size() > 0 && project != null){
+                //调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
+                   String filePath = extUserServicel.downLoadBiddingDoc(request,id,1,null);
+                   if (StringUtils.isNotBlank(filePath)){
+                     model.addAttribute("filePath", filePath);
+                   }
+             //调用数据存储模板
+             model.addAttribute("fileId", files.get(0).getId());
+         }else{
+            //重新生成模板
+             model.addAttribute("fileId", "0");
+           //调用生成word模板 传入标识1 只是生成 总模板
+             String filePath = extUserServicel.downLoadBiddingDoc(request,id,0,null);
+             if (StringUtils.isNotBlank(filePath)){
+               model.addAttribute("filePath", filePath);
+             }
+         }
+        
+        if (user.getId().equals(project.getPrincipal())) {
+            model.addAttribute("isAdmin", 1);
+          }else{
+            model.addAttribute("isAdmin", 2);
           }
-          model.addAttribute("fileId", "0");
-        }
-        model.addAttribute("project", project);
-        model.addAttribute("ope", "add");
+          model.addAttribute("project", project);
+          model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
+          model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
+          model.addAttribute("ope", "add");
+          model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+          model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+        
         return "bss/ppms/advanced_project/advanced_bid_file/add_file";
     }
+    
+    private boolean isExist(String orgId,String userOrgId){
+        //拿到当前的采购机构获取到组织机构
+        //添加 purchaseOrgnizationServiceI.getByPurchaseDepId 方法
+        List<PurchaseOrg> list = purchaseOrgnizationService.getByPurchaseDepId(orgId);
+        for (PurchaseOrg purchaseOrg : list) {
+          if(userOrgId.equals(purchaseOrg.getOrgId())){
+            return true;
+          }
+        }
+        return false;
+
+      }
     
     @RequestMapping("/bidFileView")
     public String bidFileView(HttpServletRequest request, String id, Model model, HttpServletResponse response){
@@ -549,46 +626,79 @@ public class AdOpenBiddingController {
      * @throws IOException
      */
     @RequestMapping("/saveBidFile")
-    public void saveBidFile(HttpServletRequest req, String projectId, Model model, String flag) throws IOException{
-        String result = "保存失败";
-        //判断该项目是否上传过招标文件
-        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-        List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
-        if (files != null && files.size() > 0){
-            //删除 ,表中数据假删除
-            uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
-            result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            //flag：1，招标文件为提交状态
-            if ("1".equals(flag)) {
-              AdvancedProject project = projectService.selectById(projectId);
-              project.setConfirmFile(1);
-              projectService.update(project);
-              //该环节设置为执行完状态
-              //flowMangeService.flowExe(req, flowDefineId, projectId, 1);
+    public void saveBidFile(@CurrentUser User user,HttpServletResponse response,HttpServletRequest req, String projectId, Model model, String flag) throws IOException{
+        try {
+            String result = "保存失败";
+            if("2".equals(flag)){
+                //保存参与包的文件上传  并返回路径
+                result = uploadService.uploadNTKO(req);
+                response.setContentType("text/html;charset=utf-8");
+                response.getWriter().print(result);
+                response.getWriter().flush();
+            }else{
+              //修改代办为已办
+                todosService.updateIsFinish("open_bidding/bidFile.html?id=" + projectId + "&process=1");
+                //判断该项目是否上传过招标文件
+                String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                List<UploadFile> files = uploadService.getFilesOther(projectId, typeId, Constant.TENDER_SYS_KEY+"");
+                if (files != null && files.size() > 0){
+                    //删除 ,表中数据假删除
+                    uploadService.updateFileOther(files.get(0).getId(), Constant.TENDER_SYS_KEY+"");
+                    result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+                    //flag：1，招标文件为提交状态
+                    if ("1".equals(flag)) {
+                        AdvancedProject project = projectService.selectById(projectId);
+                        project.setConfirmFile(1);
+                        project.setAuditReason(null);
+                        project.setApprovalTime(new Date());
+                        //修改项目状态
+                        project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                        projectService.update(project);
+                       //推送待办
+                        push(user,project.getId());
+                    }
+                }else{
+                    result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
+                    if ("1".equals(flag)) {
+                        AdvancedProject project = projectService.selectById(projectId);
+                        project.setConfirmFile(1);
+                        project.setAuditReason(null);
+                        project.setApprovalTime(new Date());
+                        //修改项目状态
+                        project.setStatus(DictionaryDataUtil.getId("ZBWJYTJ"));
+                        projectService.update(project);
+                        //推待办
+                        push(user,project.getId());
+                        //该环节设置为执行完状态
+                      }
+                }
+                  
             }
-            //flag：0，招标文件为暂存状态
-            if ("0".equals(flag)) {
-              //该环节设置为执行中状态
-              //flowMangeService.flowExe(req, flowDefineId, projectId, 2);
-            }
-        } else {
-            result = uploadService.saveOnlineFile(req, projectId, typeId, Constant.TENDER_SYS_KEY+"");
-            //flag：1，招标文件为提交状态
-            if ("1".equals(flag)) {
-              AdvancedProject project = projectService.selectById(projectId);
-              project.setConfirmFile(1);
-              projectService.update(project);
-              //该环节设置为执行完状态
-              //flowMangeService.flowExe(req, flowDefineId, projectId, 1);
-            }
-            //flag：0，招标文件为暂存状态
-            if ("0".equals(flag)) {
-              //该环节设置为执行中状态
-             // flowMangeService.flowExe(req, flowDefineId, projectId, 2);
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }finally{
+            response.getWriter().close();
         }
-        System.out.println(result);
     }
+    
+    private void push(User user,String projectId) {
+        AdvancedProject selectById = projectService.selectById(projectId);
+        if (selectById != null) {
+          List<PurchaseOrg> list = purchaseOrgnizationService.get(selectById.getPurchaseDepId());
+          for (PurchaseOrg purchaseOrg : list) {
+            //推送待办
+            Todos todos = new Todos();
+            todos.setName(selectById.getName()+"招标文件审核");
+            todos.setOrgId(purchaseOrg.getOrgId());
+            todos.setSenderId(user.getId());
+            todos.setUndoType((short)3);
+            todos.setPowerId(PropUtil.getProperty("zbwjsh"));
+            todos.setUrl("Adopen_bidding/bidFile.html?id=" + projectId + "&process=1");
+            todosService.insert(todos);
+          }
+        }
+
+      }
     
     /**
      *〈简述〉进入确认中标公告页面

@@ -37,9 +37,11 @@ import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
+import bss.model.ppms.Packages;
 import bss.model.ppms.ParamInterval;
 import bss.model.ppms.ScoreModel;
 import bss.model.ppms.SupplyMark;
+import bss.model.prms.FirstAudit;
 import bss.model.prms.FirstAuditTemplat;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
@@ -47,6 +49,7 @@ import bss.service.ppms.BidMethodService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.ParamIntervalService;
 import bss.service.ppms.ScoreModelService;
+import bss.service.prms.FirstAuditService;
 import bss.service.prms.FirstAuditTemplatService;
 
 import com.github.pagehelper.PageHelper;
@@ -83,6 +86,9 @@ public class AdIntelligentScoringController extends BaseController{
 	private AdvancedProjectService projectService;
 	@Autowired
 	private FirstAuditTemplatService firstAuditTemplatService;
+	
+	@Autowired
+	private FirstAuditService auditService;
 	
     @RequestMapping(value = "checkScore")
     @ResponseBody
@@ -441,35 +447,78 @@ public class AdIntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping("/editPackageScore")
-	public String editPackageScore(String packageId, Model model, String projectId){    
-	  //显示经济技术 和子节点  子节点的子节点就是模型
-        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
-        String str ="";
-        for (DictionaryData dictionaryData : ddList) {
-            str += getTable(dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
-        }
-        //页面需要显示包
-        HashMap<String, Object> condition = new HashMap<String, Object>();
-        condition.put("id", packageId);
-        List<AdvancedPackages> packages = packageService.selectByAll(condition);
-        if (packages != null && packages.size() > 0) {
-            model.addAttribute("packages", packages.get(0));
-        }
-        //获取经济技术审查模版
-        HashMap<String, Object> map2 = new HashMap<String, Object>();
-        map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
-        //获取资格性和符合性审查模版
-        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
-        model.addAttribute("packageId", packageId);
-        model.addAttribute("projectId", projectId);
-        model.addAttribute("ddList", ddList);
-        model.addAttribute("str", str);
-	    return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc1";
+	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId){
+	    //获取评分办法数据字典编码
+        String methodCode = bidMethodService.getMethod(projectId, packageId);
+        if (methodCode != null && !"".equals(methodCode)) {
+            if ("PBFF_JZJF".equals(methodCode) || "PBFF_ZDJF".equals(methodCode)) {
+                List<DictionaryData> dds = DictionaryDataUtil.find(23);
+                //经济审查项
+                FirstAudit firstAudit1 = new FirstAudit();
+                firstAudit1.setKind(DictionaryDataUtil.getId("ECONOMY"));
+                firstAudit1.setPackageId(packageId);
+                firstAudit1.setIsConfirm((short)1);
+                List<FirstAudit> items1 = auditService.findBykind(firstAudit1);
+                //技术审查项
+                FirstAudit firstAudit2 = new FirstAudit();
+                firstAudit2.setKind(DictionaryDataUtil.getId("TECHNOLOGY"));
+                firstAudit2.setPackageId(packageId);
+                firstAudit2.setIsConfirm((short)1);
+                List<FirstAudit> items2 = auditService.findBykind(firstAudit2);
+                HashMap<String, Object> map = new HashMap<String, Object>();
+                map.put("id", packageId);
+                List<AdvancedPackages> packages = packageService.selectByAll(map);
+                if (packages != null) {
+                    model.addAttribute("packages", packages.get(0));
+                }
+                HashMap<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("kind", DictionaryDataUtil.getId("REVIEW_CHECK_ET"));
+                //获取经济技术评审模版
+                List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+                model.addAttribute("dds", dds);
+                model.addAttribute("items1", items1);
+                model.addAttribute("items2", items2);
+                model.addAttribute("packageId", packageId);
+                model.addAttribute("projectId", projectId);
+                model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+                AdvancedProject project = projectService.selectById(projectId);
+                model.addAttribute("flag", project.getConfirmFile());
+                return "bss/prms/advanced_project/advanced_bid_file/edit_package_check";
+            }
+            
+            
+            if ("OPEN_ZHPFF".equals(methodCode)) {
+                //显示经济技术 和子节点  子节点的子节点就是模型
+                List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+                String str ="";
+                for (DictionaryData dictionaryData : ddList) {
+                  str += getTable(request, dictionaryData.getId(), dictionaryData.getName(), projectId, packageId);
+                }
+                //页面需要显示包
+                HashMap<String, Object> condition = new HashMap<String, Object>();
+                condition.put("id", packageId);
+                List<AdvancedPackages> packages = packageService.selectByAll(condition);
+                if (packages != null && packages.size() > 0) {
+                  model.addAttribute("packages", packages.get(0));
+                }
+                //获取经济技术审查模版
+                HashMap<String, Object> map2 = new HashMap<String, Object>();
+                map2.put("kind", DictionaryDataUtil.getId("REVIEW_ET"));
+                //获取资格性和符合性审查模版
+                List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+                model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+                model.addAttribute("packageId", packageId);
+                model.addAttribute("projectId", projectId);
+                model.addAttribute("ddList", ddList);
+                model.addAttribute("str", str);
+                return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc1";
+          }
+        }          
+        return null;
 	}
 	
-	public String getTable(String id, String name ,String projectId, String packageId) {
-	    TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
+	public String getTable(HttpServletRequest request, String id, String name ,String projectId, String packageId) {
+        TreeMap<MarkTerm, List<MarkTerm>> map = new TreeMap<MarkTerm, List<MarkTerm>>();
         MarkTerm mt = new MarkTerm();
         mt.setTypeName(id);
         mt.setProjectId(projectId);
@@ -487,6 +536,7 @@ public class AdIntelligentScoringController extends BaseController{
             if (mtValue != null && mtValue.size() == 0){
                 count3 += 1;
             } else {
+               //Collections.reverse(mtValue);
                 count3 += mtValue.size();
             }
             mtKey.setJudge(mtKey.getPosition());
@@ -504,8 +554,8 @@ public class AdIntelligentScoringController extends BaseController{
                                 sb.append("<tr><td class='w100' rowspan=" + count3 +"><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
                                 sb.append("<td class='w150' rowspan="+map.get(markKey).size()+">");
                                 sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
-                                sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                                sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "'); class='item_size editItem'></a>");
+                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2) class='item_size deleteItem'></a></div></td>");
                                 String typeName = getTypeName(markValue.getSmtypename());
                                 sb.append("<td class='tc w80'>" + markValue.getSmname() + "</td>");
                                 sb.append("<td class='tc'>" + typeName + "</td>");
@@ -514,8 +564,8 @@ public class AdIntelligentScoringController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2); class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1) class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
                                 sb.append("<tr><td class='tc w80'>" + markValue.getSmname() + "</td><td class='tc'><span>" + typeName + "</span></td>");
@@ -524,16 +574,16 @@ public class AdIntelligentScoringController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2); class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1) class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                             }
                             count1++;
                         }
                     } else {
                         sb.append("<tr><td rowspan=" + count3 +"><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
-                        sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
-                        sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                        sb.append("<td class='w150'><span class='fl'>" + markKey.getName() + "</span><div class='fr'><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a></div>");
+                        sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "'); class='item_size editItem'></a>");
+                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2) class='item_size deleteItem'></a></div></td>");
                         sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 } else {
@@ -544,19 +594,19 @@ public class AdIntelligentScoringController extends BaseController{
                                 //sb.append("<tr><td rowspan=" + map.get(markKey).size() + ">"+markKey.getName()+"</td>");
                                 sb.append("<tr><td rowspan="+map.get(markKey).size()+">");
                                 sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markValue.getName() + "','" + markKey.getId() + "',1); ></a>");
-                                sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                                sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "'); class='item_size editItem'></a>");
+                                sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2) class='item_size deleteItem'></a></div></td>");
                                 
                                 //sb.append("<td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                                 String typeName = getTypeName(markValue.getSmtypename());
-                                sb.append("<td class='tc'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
+                                sb.append("<td class='tc w80'>" + markValue.getSmname() + "</td><td class='tc'>" + typeName + "</td>");
                                 Double sscore = markValue.getScscore();
                                 if (sscore == null){
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2); class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1) class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                                 
                             } else {
                                 String typeName = getTypeName(markValue.getSmtypename());
@@ -566,29 +616,30 @@ public class AdIntelligentScoringController extends BaseController{
                                     sscore = 0.0;
                                 }
                                 sb.append("<td>"+ markValue.getName());
-                                sb.append("<a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2);><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1)><img src='/zhbj/public/backend/images/sc.png'></a></td><td>"+sscore+"</td></tr>");
+                                sb.append("<div class='fr'><a href='javascript:void(0);' title='编辑' onclick=addModel('" + markValue.getName() + "','" + markValue.getId() + "',2); class='item_size editItem'></a>");
+                                sb.append("<a href='javascript:void(0);' title='删除' onclick=delItem('" + markValue.getId() + "',1) class='item_size deleteItem'></a></div></td><td>"+sscore+"</td></tr>");
                                 //sb.append("<tr><td>" + markValue.getName() + "</td><td></td><td></td></tr>");
                             }
                             count2++;
                         }
                     } else {
+                        //sb.append("<tr><td>" + markKey.getName() + "</td><td></td><td></td><td></td></tr>");
                         sb.append("<tr><td>");
                         sb.append("<span class='fl'>" + markKey.getName() + "</span><a class='addItem item_size' onclick=addModel('" + markKey.getName() + "','" + markKey.getId() + "',1); ></a>");
-                        sb.append("<a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "');><img src='/zhbj/public/backend/images/light_icon.png'></a>");
-                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2)><img src='/zhbj/public/backend/images/sc.png'></a></td>");
+                        sb.append("<div class='fr'><a title='编辑' href='javascript:void(0);' onclick=editItem('" + markKey.getId() + "'); class='item_size editItem'></a>");
+                        sb.append("<a title='删除' href='javascript:void(0);' onclick=delItem('" + markKey.getId() + "',2) class='item_size deleteItem'></a></div></td>");
                         sb.append("<td></td><td></td><td></td><td></td></tr>");
                     }
                 }
                 count++;
             }
         } else {
-            sb.append("<tr><td><span class='fl'>"+ name +"</span><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></td>");
+            sb.append("<tr><td><span class='fl'>"+ name +"</span><div class='fr'><a class='addItem item_size' onclick=addItem(this,'"+ id +"',1); ></a></div></td>");
             sb.append("<td></td><td></td><td></td><td></td><td></td></tr>");
         }
         String str = sb.toString();
         return str;
-	}
+    }
 	
 	public String getTypeName(Integer typename) {
 	    String typeName = "";
