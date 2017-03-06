@@ -1,0 +1,306 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bss.dao.ob.OBRuleMapper" >
+  <resultMap id="BaseResultMap" type="bss.model.ob.OBRule" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="INTERVAL_WORKDAY" property="intervalWorkday" jdbcType="DECIMAL" />
+    <result column="DEFINITE_TIME" property="definiteTime" jdbcType="TIMESTAMP" />
+    <result column="QUOTE_TIME" property="quoteTime" jdbcType="DECIMAL" />
+    <result column="CONFIRM_TIME" property="confirmTime" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="BIDING_COUNT" property="bidingCount" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, INTERVAL_WORKDAY, DEFINITE_TIME, QUOTE_TIME, CONFIRM_TIME, STATUS, CREATER_ID, 
+    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBRuleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_RULE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_RULE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BSS_OB_RULE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="bss.model.ob.OBRuleExample" >
+    delete from T_BSS_OB_RULE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="bss.model.ob.OBRule" >
+    insert into T_BSS_OB_RULE (ID, INTERVAL_WORKDAY, DEFINITE_TIME, 
+      QUOTE_TIME, CONFIRM_TIME, STATUS, 
+      CREATER_ID, REMARK, BIDING_COUNT, 
+      CREATED_AT, UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{intervalWorkday,jdbcType=DECIMAL}, #{definiteTime,jdbcType=TIMESTAMP}, 
+      #{quoteTime,jdbcType=DECIMAL}, #{confirmTime,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{bidingCount,jdbcType=DECIMAL}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ob.OBRule" >
+    insert into T_BSS_OB_RULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="intervalWorkday != null" >
+        INTERVAL_WORKDAY,
+      </if>
+      <if test="definiteTime != null" >
+        DEFINITE_TIME,
+      </if>
+      <if test="quoteTime != null" >
+        QUOTE_TIME,
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="bidingCount != null" >
+        BIDING_COUNT,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="intervalWorkday != null" >
+        #{intervalWorkday,jdbcType=DECIMAL},
+      </if>
+      <if test="definiteTime != null" >
+        #{definiteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quoteTime != null" >
+        #{quoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTime != null" >
+        #{confirmTime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="bidingCount != null" >
+        #{bidingCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="bss.model.ob.OBRuleExample" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_RULE
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_BSS_OB_RULE
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.intervalWorkday != null" >
+        INTERVAL_WORKDAY = #{record.intervalWorkday,jdbcType=DECIMAL},
+      </if>
+      <if test="record.definiteTime != null" >
+        DEFINITE_TIME = #{record.definiteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.quoteTime != null" >
+        QUOTE_TIME = #{record.quoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.confirmTime != null" >
+        CONFIRM_TIME = #{record.confirmTime,jdbcType=DECIMAL},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createrId != null" >
+        CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.bidingCount != null" >
+        BIDING_COUNT = #{record.bidingCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createdAt != null" >
+        CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null" >
+        UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_BSS_OB_RULE
+    set ID = #{record.id,jdbcType=VARCHAR},
+      INTERVAL_WORKDAY = #{record.intervalWorkday,jdbcType=DECIMAL},
+      DEFINITE_TIME = #{record.definiteTime,jdbcType=TIMESTAMP},
+      QUOTE_TIME = #{record.quoteTime,jdbcType=DECIMAL},
+      CONFIRM_TIME = #{record.confirmTime,jdbcType=DECIMAL},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      BIDING_COUNT = #{record.bidingCount,jdbcType=DECIMAL},
+      CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBRule" >
+    update T_BSS_OB_RULE
+    <set >
+      <if test="intervalWorkday != null" >
+        INTERVAL_WORKDAY = #{intervalWorkday,jdbcType=DECIMAL},
+      </if>
+      <if test="definiteTime != null" >
+        DEFINITE_TIME = #{definiteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quoteTime != null" >
+        QUOTE_TIME = #{quoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME = #{confirmTime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="bidingCount != null" >
+        BIDING_COUNT = #{bidingCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBRule" >
+    update T_BSS_OB_RULE
+    set INTERVAL_WORKDAY = #{intervalWorkday,jdbcType=DECIMAL},
+      DEFINITE_TIME = #{definiteTime,jdbcType=TIMESTAMP},
+      QUOTE_TIME = #{quoteTime,jdbcType=DECIMAL},
+      CONFIRM_TIME = #{confirmTime,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      BIDING_COUNT = #{bidingCount,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

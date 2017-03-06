@@ -6,6 +6,44 @@
    <%@ include file="/WEB-INF/view/common.jsp" %>
 <title>发布定型产品页面</title>
 <script type="text/javascript">
+$(document).ready(function(){
+	var datas;
+	var setting={
+			   async:{
+						autoParam:["id"],
+						enable:true,
+						url:"${pageContext.request.contextPath}/category/createtree.do",
+						otherParam:{"otherParam":"zTreeAsyncTest"},  
+						dataType:"json",
+						type:"get",
+					},
+					callback:{
+				    	onClick:zTreeOnClick,//点击节点触发的事件
+	       			    
+				    }, 
+					data:{
+						keep:{
+							parent:true
+						},
+						key:{
+							title:"title"
+						},
+						simpleData:{
+							enable:true,
+							idKey:"id",
+							pIdKey:"pId",
+							rootPId:"0",
+						}
+				    },
+				   view:{
+				        selectedMulti: false,
+				        showTitle: false,
+				   },
+	         };
+    $.fn.zTree.init($("#treeDemo"),setting,datas);
+
+}); 
+
 	function openDiv(){
 		layer.open({
 			type: 1,
@@ -25,7 +63,7 @@
 		var item = document.getElementsByName("chkItem");
 		var n = new Array();
  		var j = 0;
- 		for (var i = 1; i < item.length; i++) {
+ 		for (var i = 0; i < item.length; i++) {
  			if(item[i].checked){
  				n[j] = item[i].value;
  				j ++;
@@ -38,7 +76,43 @@
 			layer.closeAll();
  		}
 	}
+	 /** 判断是否为根节点 */
+    function isRoot(node){
+    	if (node.pId == 0){
+    		return true;
+    	} 
+    	return false;
+    }
+ 
+ /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (isRoot(treeNode)){
+  		  layer.msg("不可选择根节点");
+  		  return;
+  	  }
+	  if (treeNode) {
+        $("#citySel4").val(treeNode.name);
+        $("#categorieId4").val(treeNode.id);
+        hideMenu();
+	  }
+    }
+ 
+    function showMenu() {
+		var cityObj = $("#citySel4");
+		var cityOffset = $("#citySel4").offset();
+		$("#menuContent").css({left: "445px", top: "205px"}).slideDown("fast");
 
+		$("body").bind("mousedown", onBodyDown);
+	}
+    function hideMenu() {
+		$("#menuContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+	function onBodyDown(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+			hideMenu();
+		}
+	}
 </script>
 </head>
 <body>
@@ -82,7 +156,8 @@
 				   <tr>
 				    <td class="info">选择目录</td>
 				    <td colspan="3">
-				    	<button class="btn">选择目录</button>
+				    	<button class="btn" onclick=" showMenu(); return false;">选择目录</button>
+				    	<input id="citySel4" name="procurement" value="" type="text" class="w230 mb0 border0"  onclick="" readonly>
 				    </td>
 				  </tr>
 				  <tr>
@@ -111,6 +186,11 @@
 	</div>
   </div>
   
+  <!-- 目录框 -->
+  
+ 		<div id="menuContent" class="menuContent dw188 tree_drop">
+			<ul id="treeDemo" class="ztree slect_option"></ul>
+		</div>
   <!-- 选择框弹出 -->
   <div id="openDiv" class="dnone layui-layer-wrap" >
 		  <div class="drop_window">

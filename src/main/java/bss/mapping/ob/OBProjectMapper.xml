@@ -1,0 +1,433 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bss.dao.ob.OBProjectMapper" >
+  <resultMap id="BaseResultMap" type="bss.model.ob.OBProject" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="DELIVERY_DEADLINE" property="deliveryDeadline" jdbcType="TIMESTAMP" />
+    <result column="DELIVERY_ADDRESS" property="deliveryAddress" jdbcType="VARCHAR" />
+    <result column="TRADED_SUPPLIER_COUNT" property="tradedSupplierCount" jdbcType="DECIMAL" />
+    <result column="TRANSPORT_FEES" property="transportFees" jdbcType="DECIMAL" />
+    <result column="DEMAND_UNIT" property="demandUnit" jdbcType="VARCHAR" />
+    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+    <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
+    <result column="END_TIME" property="endTime" jdbcType="TIMESTAMP" />
+    <result column="CONTENT	" property="content	" jdbcType="VARCHAR" />
+    <result column="ATTACHMENT_ID" property="attachmentId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="FORM_ID" property="formId" jdbcType="VARCHAR" />
+    <result column="TURNOVER_RATION" property="turnoverRation" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
+    DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
+    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BSS_OB_PROJECT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="bss.model.ob.OBProjectExample" >
+    delete from T_BSS_OB_PROJECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="bss.model.ob.OBProject" >
+    insert into T_BSS_OB_PROJECT (ID, NAME, DELIVERY_DEADLINE, 
+      DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
+      DEMAND_UNIT, CONTACT_NAME, START_TIME, 
+      END_TIME, CONTENT	, ATTACHMENT_ID, 
+      REMARK, STATUS, CREATER_ID, 
+      FORM_ID, TURNOVER_RATION, CREATED_AT, 
+      UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{deliveryDeadline,jdbcType=TIMESTAMP}, 
+      #{deliveryAddress,jdbcType=VARCHAR}, #{tradedSupplierCount,jdbcType=DECIMAL}, #{transportFees,jdbcType=DECIMAL}, 
+      #{demandUnit,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
+      #{endTime,jdbcType=TIMESTAMP}, #{content	,jdbcType=VARCHAR}, #{attachmentId,jdbcType=VARCHAR}, 
+      #{remark,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, 
+      #{formId,jdbcType=VARCHAR}, #{turnoverRation,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ob.OBProject" >
+    insert into T_BSS_OB_PROJECT
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="deliveryDeadline != null" >
+        DELIVERY_DEADLINE,
+      </if>
+      <if test="deliveryAddress != null" >
+        DELIVERY_ADDRESS,
+      </if>
+      <if test="tradedSupplierCount != null" >
+        TRADED_SUPPLIER_COUNT,
+      </if>
+      <if test="transportFees != null" >
+        TRANSPORT_FEES,
+      </if>
+      <if test="demandUnit != null" >
+        DEMAND_UNIT,
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME,
+      </if>
+      <if test="startTime != null" >
+        START_TIME,
+      </if>
+      <if test="endTime != null" >
+        END_TIME,
+      </if>
+      <if test="content	 != null" >
+        CONTENT	,
+      </if>
+      <if test="attachmentId != null" >
+        ATTACHMENT_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID,
+      </if>
+      <if test="formId != null" >
+        FORM_ID,
+      </if>
+      <if test="turnoverRation != null" >
+        TURNOVER_RATION,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDeadline != null" >
+        #{deliveryDeadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryAddress != null" >
+        #{deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tradedSupplierCount != null" >
+        #{tradedSupplierCount,jdbcType=DECIMAL},
+      </if>
+      <if test="transportFees != null" >
+        #{transportFees,jdbcType=DECIMAL},
+      </if>
+      <if test="demandUnit != null" >
+        #{demandUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content	 != null" >
+        #{content	,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId != null" >
+        #{attachmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="formId != null" >
+        #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="turnoverRation != null" >
+        #{turnoverRation,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="bss.model.ob.OBProjectExample" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_PROJECT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update T_BSS_OB_PROJECT
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=VARCHAR},
+      </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.deliveryDeadline != null" >
+        DELIVERY_DEADLINE = #{record.deliveryDeadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.deliveryAddress != null" >
+        DELIVERY_ADDRESS = #{record.deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tradedSupplierCount != null" >
+        TRADED_SUPPLIER_COUNT = #{record.tradedSupplierCount,jdbcType=DECIMAL},
+      </if>
+      <if test="record.transportFees != null" >
+        TRANSPORT_FEES = #{record.transportFees,jdbcType=DECIMAL},
+      </if>
+      <if test="record.demandUnit != null" >
+        DEMAND_UNIT = #{record.demandUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="record.contactName != null" >
+        CONTACT_NAME = #{record.contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="record.startTime != null" >
+        START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.endTime != null" >
+        END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content	 != null" >
+        CONTENT	 = #{record.content	,jdbcType=VARCHAR},
+      </if>
+      <if test="record.attachmentId != null" >
+        ATTACHMENT_ID = #{record.attachmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.remark != null" >
+        REMARK = #{record.remark,jdbcType=VARCHAR},
+      </if>
+      <if test="record.status != null" >
+        STATUS = #{record.status,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createrId != null" >
+        CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.formId != null" >
+        FORM_ID = #{record.formId,jdbcType=VARCHAR},
+      </if>
+      <if test="record.turnoverRation != null" >
+        TURNOVER_RATION = #{record.turnoverRation,jdbcType=DECIMAL},
+      </if>
+      <if test="record.createdAt != null" >
+        CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updatedAt != null" >
+        UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update T_BSS_OB_PROJECT
+    set ID = #{record.id,jdbcType=VARCHAR},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      DELIVERY_DEADLINE = #{record.deliveryDeadline,jdbcType=TIMESTAMP},
+      DELIVERY_ADDRESS = #{record.deliveryAddress,jdbcType=VARCHAR},
+      TRADED_SUPPLIER_COUNT = #{record.tradedSupplierCount,jdbcType=DECIMAL},
+      TRANSPORT_FEES = #{record.transportFees,jdbcType=DECIMAL},
+      DEMAND_UNIT = #{record.demandUnit,jdbcType=VARCHAR},
+      CONTACT_NAME = #{record.contactName,jdbcType=VARCHAR},
+      START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{record.endTime,jdbcType=TIMESTAMP},
+      CONTENT	 = #{record.content	,jdbcType=VARCHAR},
+      ATTACHMENT_ID = #{record.attachmentId,jdbcType=VARCHAR},
+      REMARK = #{record.remark,jdbcType=VARCHAR},
+      STATUS = #{record.status,jdbcType=DECIMAL},
+      CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
+      FORM_ID = #{record.formId,jdbcType=VARCHAR},
+      TURNOVER_RATION = #{record.turnoverRation,jdbcType=DECIMAL},
+      CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBProject" >
+    update T_BSS_OB_PROJECT
+    <set >
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="deliveryDeadline != null" >
+        DELIVERY_DEADLINE = #{deliveryDeadline,jdbcType=TIMESTAMP},
+      </if>
+      <if test="deliveryAddress != null" >
+        DELIVERY_ADDRESS = #{deliveryAddress,jdbcType=VARCHAR},
+      </if>
+      <if test="tradedSupplierCount != null" >
+        TRADED_SUPPLIER_COUNT = #{tradedSupplierCount,jdbcType=DECIMAL},
+      </if>
+      <if test="transportFees != null" >
+        TRANSPORT_FEES = #{transportFees,jdbcType=DECIMAL},
+      </if>
+      <if test="demandUnit != null" >
+        DEMAND_UNIT = #{demandUnit,jdbcType=VARCHAR},
+      </if>
+      <if test="contactName != null" >
+        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      </if>
+      <if test="startTime != null" >
+        START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="endTime != null" >
+        END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content	 != null" >
+        CONTENT	 = #{content	,jdbcType=VARCHAR},
+      </if>
+      <if test="attachmentId != null" >
+        ATTACHMENT_ID = #{attachmentId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="formId != null" >
+        FORM_ID = #{formId,jdbcType=VARCHAR},
+      </if>
+      <if test="turnoverRation != null" >
+        TURNOVER_RATION = #{turnoverRation,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBProject" >
+    update T_BSS_OB_PROJECT
+    set NAME = #{name,jdbcType=VARCHAR},
+      DELIVERY_DEADLINE = #{deliveryDeadline,jdbcType=TIMESTAMP},
+      DELIVERY_ADDRESS = #{deliveryAddress,jdbcType=VARCHAR},
+      TRADED_SUPPLIER_COUNT = #{tradedSupplierCount,jdbcType=DECIMAL},
+      TRANSPORT_FEES = #{transportFees,jdbcType=DECIMAL},
+      DEMAND_UNIT = #{demandUnit,jdbcType=VARCHAR},
+      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+      START_TIME = #{startTime,jdbcType=TIMESTAMP},
+      END_TIME = #{endTime,jdbcType=TIMESTAMP},
+      CONTENT	 = #{content	,jdbcType=VARCHAR},
+      ATTACHMENT_ID = #{attachmentId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      FORM_ID = #{formId,jdbcType=VARCHAR},
+      TURNOVER_RATION = #{turnoverRation,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
