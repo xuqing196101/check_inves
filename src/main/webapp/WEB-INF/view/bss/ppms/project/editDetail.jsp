@@ -198,7 +198,7 @@
           </ul>
         </div>
         <div>
-          <h2 class="count_flow"><i>2</i>修改项目明细</h2>
+          <h2 class="count_flow"><i>2</i>查看项目明细</h2>
           <div class="ul_list">
             <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
               <table id="table" class="table table-bordered table-condensed lockout">

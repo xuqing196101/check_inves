@@ -472,4 +472,47 @@
 			AND CODE = #{param2}
 		</if> 
 	</select>
+	
+	<select id="findCategoryByStatusAll"  resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE IS_DELETED=0 
+		AND PARAM_STATUS >= #{status}
+		ORDER BY POSITION
+	</select>
+	
+	<select id="findCategoryByParentNode" parameterType="Map" resultMap="CateMap">
+		 SELECT <include refid="Base_Column_List" /> 
+		 FROM T_SES_BMS_CATEGORY WHERE  IS_DELETED = 0 START WITH 
+         ID=#{id} CONNECT BY PRIOR PARENT_ID=ID 
+	</select>
+	<select id="findCategoryByChildren" parameterType="Map" resultMap="CateMap">
+		 SELECT <include refid="Base_Column_List" /> 
+		 FROM T_SES_BMS_CATEGORY WHERE PARAM_STATUS IS NOT NULL AND  IS_DELETED = 0 START WITH 
+         PARENT_ID=#{id} CONNECT BY PRIOR ID=PARENT_ID 
+	</select>
+	<select id="findCategoryByName" parameterType="java.util.Map" resultMap="CateMap">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM T_SES_BMS_CATEGORY 
+  	WHERE IS_DELETED = 0 and IS_PUBLISH=0
+  	<if test="name != null and name !=''">
+	      AND NAME LIKE '%'||#{name}||'%'
+	  </if>
+	  ORDER BY CODE
+  </select>
+	<select id="findCategoryByNameOrClassify" parameterType="java.util.Map" resultMap="CateMap">
+  	SELECT T_SES_BMS_CATEGORY_PARAMETER.PARAM_NAME AS DESCRIPTION  ,
+  	T_SES_BMS_CATEGORY.NAME AS NAME,T_SES_BMS_DICTIONARY_DATA.NAME AS CODE,
+  	T_SES_BMS_CATEGORY.CLASSIFY_STATUS
+	FROM T_SES_BMS_CATEGORY_PARAMETER LEFT JOIN T_SES_BMS_CATEGORY  
+	ON T_SES_BMS_CATEGORY_PARAMETER.CATEGORY_ID=T_SES_BMS_CATEGORY.ID
+	INNER JOIN T_SES_BMS_DICTIONARY_DATA  ON T_SES_BMS_CATEGORY_PARAMETER.PARAM_TYPE_ID=T_SES_BMS_DICTIONARY_DATA.ID
+	AND T_SES_BMS_CATEGORY.PARAM_STATUS=4 AND T_SES_BMS_CATEGORY_PARAMETER.IS_DELETED=0
+	<if test="name != null and name !=''">
+	      AND T_SES_BMS_CATEGORY.NAME LIKE '%'||#{name}||'%'
+	  </if> 
+	ORDER BY T_SES_BMS_CATEGORY.CODE
+  </select>
 </mapper>

@@ -2,6 +2,7 @@ package ses.service.bms.impl;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +17,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import common.constant.StaticVariables;
-
 import ses.dao.bms.CategoryParameterMapper;
 import ses.formbean.ResponseBean;
 import ses.model.bms.Category;
@@ -323,32 +323,38 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
         
         //提交
         if (StringUtils.isNotBlank(cateId)){
-            Category category = categoryService.selectByPrimaryKey(cateId);
-            if (category != null){
-                
-                Integer status = category.getParamStatus();
-                
-                if (status == StaticVariables.CATEGORY_SUBMIT_STATUS){
-                    msg = category.getName() + StaticVariables.CATEGORY_SUBMITED_MSG;
-                    return msg;
-                }
-                
-                if (status == StaticVariables.CATEGORY_AUDIT_STATUS){
-                    msg = StaticVariables.CATEGORY_AUDIT_MSG + StaticVariables.OPERA_SUBMIT_MSG;
-                    return msg;
-                }
-                
-                if (classified != null){
-                    category.setClassify(classified);
-                }
-                if (StringUtils.isNotBlank(open)){
-                	category.setIsPublish(Integer.parseInt(open));
-                }
-                
-                category.setParamStatus(StaticVariables.CATEGORY_SUBMIT_STATUS);
+        	HashMap<String, Object> maps=new HashMap<String, Object>();
+            maps.put("id", cateId);
+            List<Category> Categorys = categoryService.findCategoryByParentNode(maps);
+           for(int i=0;i<Categorys.size();i++){
+            Category category =Categorys.get(i);
+            List<Category> cList = categoryService.findTreeByPid(category.getId());
+            if (cList != null && cList.size() > 0){
+            	category.setParamStatus(StaticVariables.CATEGORY_SUBMIT_STATUS);
                 category.setUpdatedAt(new Date());
                 categoryService.updateByPrimaryKeySelective(category);
+            } else {
+                    Integer status = category.getParamStatus();
+                    if (status == StaticVariables.CATEGORY_SUBMIT_STATUS){
+                        msg = category.getName() + StaticVariables.CATEGORY_SUBMITED_MSG;
+                        return msg;
+                    }
+                    if (status == StaticVariables.CATEGORY_AUDIT_STATUS){
+                        msg = StaticVariables.CATEGORY_AUDIT_MSG + StaticVariables.OPERA_SUBMIT_MSG;
+                        return msg;
+                    }
+                    if (classified != null){
+                        category.setClassify(classified);
+                    }
+                    if (StringUtils.isNotBlank(open)){
+                    	category.setIsPublish(Integer.parseInt(open));
+                    }
+                    category.setParamStatus(StaticVariables.CATEGORY_SUBMIT_STATUS);
+                    category.setUpdatedAt(new Date());
+                    categoryService.updateByPrimaryKeySelective(category);
             }
+            
+           }
         }
         return msg;
     }

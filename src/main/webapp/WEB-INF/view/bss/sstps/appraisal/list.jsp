@@ -28,9 +28,7 @@
         });
       });
 
-      function add() {
-        window.location.href = "${pageContext.request.contextPath}/appraisalContract/add.html";
-      }
+      
 
       function resetQuery() {
         $("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -69,32 +67,21 @@
       }
 
       function appraisal() {
-        var appraisal = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
-
+        var appraisal = $("input[name='chkItem']:checked").parents("tr").find("td").eq(7).find("span").text();
         var id = [];
         $('input[name="chkItem"]:checked').each(function() {
           id.push($(this).val());
         });
-
         if(id.length == 1) {
-          if($.trim(appraisal) == "待审价") {
+          if($.trim(appraisal) == "待申请") {
             window.location.href = "${pageContext.request.contextPath}/appraisalContract/selectContractInfo.html?id=" + id;
           } else {
-            layer.alert("请选择待审价的合同", {
-              offset: ['180px', '200px'],
-              shade: 0.01,
-            });
+            layer.alert("请选择待申请的合同");
           }
         } else if(id.length > 1) {
-          layer.alert("请选择一个待审价的合同", {
-            offset: ['180px', '200px'],
-            shade: 0.01
-          });
+          layer.alert("请选择一个待申请的合同");
         } else {
-          layer.alert("请选择待审价的合同", {
-            offset: ['180px', '200px'],
-            shade: 0.01
-          });
+          layer.alert("请选择待申请的合同");
         }
 
       }
@@ -102,14 +89,17 @@
       function shenqing(){
     	  var appraisal = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).text();
     	  appraisal = $.trim(appraisal);
-    	  alert(appraisal);
       }
       
       function transformational(){
     	  window.location.href="${pageContext.request.contextPath}/purchaseContract/createStraightContract.html";
       }
-    </script>
-
+    
+    
+    function add() {
+        window.location.href = "${pageContext.request.contextPath}/appraisalContract/add.html";
+      }
+</script>
   </head>
 
   <body>
@@ -158,7 +148,7 @@
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows add" type="button" onclick="appraisal()">申请审价</button>
         <button class="btn btn-windows add" type="button" onclick="add()">添加合同</button>
-        <button class="btn" type="button" onclick="transformational()">生成合同</button>
+        <!-- <button class="btn" type="button" onclick="transformational()">生成合同</button> -->
       </div>
 
       <div class="content table_box">
@@ -171,6 +161,7 @@
               <th class="info">合同编号</th>
               <th class="info">合同金额(万元)</th>
               <th class="info">供应商名称</th>
+              <th class="info">合同状态</th>
               <th class="info">操作</th>
             </tr>
           </thead>
@@ -178,19 +169,20 @@
             <tr>
               <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
               <td class="tc"><input type="hidden" value="${contract.id }" />${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc">${contract.name }</td>
-              <td class="tc">${contract.code }</td>
-              <td class="tc">${contract.money }</td>
-              <td class="tc">${contract.supplierName }</td>
+              <td class="tl">${contract.name }</td>
+              <td class="tl">${contract.code }</td>
+              <td class="tr">${contract.money }</td>
+              <td class="tl">${contract.supplierName }</td>
+              <td class="tc">正式合同</td>
               <td class="tc">
                 <c:if test="${contract.appraisal=='0' }">
-                  待审价
+                  <span class="label rounded-2x label-dark">待申请</span>
                 </c:if>
                 <c:if test="${contract.appraisal=='1' || contract.appraisal=='3' }">
-                  审价中
+                  <span class="label rounded-2x label-u">审价中</span>
                 </c:if>
                 <c:if test="${contract.appraisal=='2' }">
-                  已审价
+                  <span class="label rounded-2x label-u">已审价</span>
                 </c:if>
               </td>
             </tr>

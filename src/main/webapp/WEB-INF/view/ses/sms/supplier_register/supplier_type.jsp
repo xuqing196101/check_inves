@@ -319,7 +319,25 @@
 					}
 				});
 		if (flag == true) {
-			$("#save_pro_form_id").submit();
+			
+			var index = layer.load(1);
+			var supplierId = "${currSupplier.id}";
+			$.ajax({
+				url: "${pageContext.request.contextPath}/supplier/isPass.do",
+				data: {
+					"supplierId": supplierId
+				},
+				type: "post",
+				success: function(data) {
+					if (data == "1") {
+						$("#save_pro_form_id").submit();
+					} else {
+						layer.msg("近3年加权平均净资产不满足物资销售型供应商的要求！");
+						layer.close(index);
+					}
+				}
+			});
+			
 		}
 
 	}
@@ -1068,6 +1086,30 @@
 	}
 	sessionStorage.locationB=true;
 	sessionStorage.index=2;
+	
+	
+	//
+	function downloadTable() {
+		var index = layer.load(1);
+		var supplierId = "${currSupplier.id}";
+		$.ajax({
+			url: "${pageContext.request.contextPath}/supplier/isPass.do",
+			data: {
+				"supplierId": supplierId
+			},
+			type: "post",
+			success: function(data) {
+				if (data == "1") {
+					
+				} else {
+					layer.msg("近3年加权平均净资产不满足物资销售型供应商的要求！");
+					layer.close(index);
+				}
+			}
+		});
+	}
+	
+	
 </script>
 
 </head>

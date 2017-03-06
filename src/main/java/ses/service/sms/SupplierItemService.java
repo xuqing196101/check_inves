@@ -98,4 +98,14 @@ public interface SupplierItemService {
 	 * @param itemList
 	 */
 	public void updateByPrimaryKeySelective(List<SupplierItem> itemList);
+	/**
+	 * 
+	* @Title: deleteBySupplierId
+	* @Description: 根据供应商ID删除
+	* author: Li Xiaoxiao 
+	* @param @param supplierId     
+	* @return void     
+	* @throws
+	 */
+	public void deleteBySupplierId(String supplierId);
 }

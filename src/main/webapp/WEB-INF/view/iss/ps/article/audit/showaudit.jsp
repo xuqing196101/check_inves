@@ -438,6 +438,7 @@
             <li class="col-md-12 col-sm-12 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0 ">
+              	<input type="hidden" id="articleContent" value='${article.content}'>
                 <script id="editor" type="text/plain" class="col-md-12 p0"></script>
               </div>
             </li>
@@ -487,9 +488,10 @@
       //实例化编辑器
       //建议使用工厂方法getEditor创建和引用编辑器实例，如果在某个闭包下引用该编辑器，直接调用UE.getEditor('editor')就能拿到相关的实例
       var option = {
+      	initialFrameHeight:550,
         toolbars: [
           [
-            'undo', 'redo', '|',
+            'fullscreen', 'source', '|','undo', 'redo', '|',
             'bold', 'italic', 'underline', 'formatmatch', 'autotypeset', '|', 'forecolor', 'backcolor',
             'fontfamily', 'fontsize', '|',
             'indent', '|',
@@ -498,7 +500,7 @@
         ]
       }
       var ue = UE.getEditor('editor', option);
-      var content = '${article.content}';
+      var content = $("#articleContent").val();
       ue.ready(function() {
         ue.setContent(content);
         ue.setDisabled([]);

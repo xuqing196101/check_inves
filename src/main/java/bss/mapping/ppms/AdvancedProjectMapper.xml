@@ -53,6 +53,7 @@
     <result column="IS_PROVISIONAL" property="isProvisional"/>
     <result column="PLAN_TYPE" property="planType"/>
     <result column="CONFIRM_FILE" property="confirmFile"/>
+    <result column="AUDIT_REASON" property="auditReason"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.selectPurchaseById"/>
   </resultMap>
@@ -110,6 +111,7 @@
     <result column="PLAN_TYPE" property="planType"/>
     <result column="CONFIRM_FILE" property="confirmFile"/>
     <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
+    <result column="AUDIT_REASON" property="auditReason"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
   </resultMap>
   
@@ -121,7 +123,7 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE
+    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -258,27 +260,36 @@
   
   <select id="selectByList" parameterType="java.util.Map"  resultMap="BaseResultMap">
      SELECT
-      <include refid="Base_Column_List" />
+      p.*
       FROM
-        T_BSS_PPMS_ADVANCED_PROJECTS
-      WHERE 1=1 and STATUS != '0'
-      
-      <if test="purchaseDepId != null and purchaseDepId != ''">
-        and  PURCHASE_DEP_ID = #{purchaseDepId}
+        T_BSS_PPMS_ADVANCED_PROJECTS p 
+      WHERE 
+      p.ID IN (SELECT
+      e.PROJECT_ID
+      FROM
+      T_BSS_PPMS_FLOW_EXECUTE e
+      WHERE
+      <if test="userId != null and userId != ''">
+         e.OPERATOR_ID = #{userId}
       </if>
+      AND e.IS_DELETED = 0 AND e.STATUS = 0)
       <if test="principal != null and principal != ''">
-        and (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
+        OR (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
+      </if>
+      AND p.STATUS != '0'
+      <if test="purchaseDepId != null and purchaseDepId != ''">
+        AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
       <if test="name != null and name != ''">
-       and NAME like '%${name}%'
+       AND p.NAME like '%${name}%'
       </if>
-     <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
+      <if test="projectNumber != null and projectNumber != ''">
+       AND p.PROJECT_NUMBER like '%${projectNumber}%'
       </if>
       <if test="status != null and status != ''">
-       and STATUS = #{status}
+       AND p.STATUS = #{status}
       </if>
-      ORDER BY CREATED_AT DESC
+      ORDER BY p.CREATED_AT DESC
   </select>
 
   
@@ -453,6 +464,9 @@
       <if test="confirmFile != null">
         CONFIRM_FILE,
       </if>
+      <if test="auditReason != null">
+        AUDIT_REASON,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -613,6 +627,9 @@
       </if>
       <if test="confirmFile != null">
         #{confirmFile},
+      </if>
+      <if test="auditReason != null">
+        #{auditReason},
       </if>
     </trim>
   </insert>
@@ -777,7 +794,108 @@
       <if test="confirmFile != null">
         CONFIRM_FILE = #{confirmFile},
       </if>
+      <if test="auditReason != null">
+        AUDIT_REASON = #{auditReason},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+   <!-- 需求部门登录 -->
+   <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT p.* FROM (
+				    SELECT
+				    d.AD_PROJECT_ID
+				    FROM
+				    T_BSS_PPMS_ADVANCED_DETAIL d
+				    WHERE d.DEPARTMENT IN (
+				      SELECT
+				      o. NAME
+				      FROM
+				      T_SES_OMS_ORG o
+				      LEFT JOIN T_SES_BMS_USER u ON o. ID = u .ORG_ID
+				      WHERE
+				      <if test="userId != null and userId != ''">
+				         u.ID = #{userId}
+				      </if>
+				      ) GROUP BY d.AD_PROJECT_ID
+				) p LEFT JOIN T_BSS_PPMS_ADVANCED_PROJECTS ps ON p.AD_PROJECT_ID = ps.ID
+			<if test="name != null and name != ''">
+       AND p.NAME like '%${name}%'
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+       AND p.PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null and status != ''">
+       AND p.STATUS = #{status}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+				   
+   </select>
+   
+   
+   <select id="selectByOrg" parameterType="java.util.Map" resultMap="BaseResultMap">
+      SELECT
+      p.*
+      FROM
+        T_BSS_PPMS_ADVANCED_PROJECTS p
+      WHERE 
+      p.ID IN 
+      (SELECT pt.PROJECT_ID FROM T_BSS_PPMS_PROJECT_TASK pt
+        WHERE
+        pt.TASK_ID IN (
+          SELECT
+            t . ID
+          FROM
+            T_BSS_PPMS_TASK t
+          WHERE
+          <if test="orgId != null and orgId != ''">
+             t.ORG_ID = #{orgId}
+          </if>
+        )
+      )
+      <if test="name != null and name != ''">
+       and p.NAME like '%${name}%'
+      </if>
+     <if test="projectNumber != null and projectNumber != ''">
+       and p.PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null and status != ''">
+       and p.STATUS = #{status}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+  </select> 
+  
+  <select id="selectProjectByAll" parameterType="bss.model.ppms.AdvancedProject" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_ADVANCED_PROJECTS
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+     <if test="name != null and name != ''">
+       and NAME like '%${name}%'
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null">
+       and STATUS like '%${status}%'
+      </if>
+      <if test="purchaseDep != null">
+       and PURCHASE_DEP_ID = #{purchaseDep.id}
+      </if>
+      <if test=" (purchaseDepId != null and purchaseDepId != '' ) or ( principal != null and principal != '')">
+       and ( PURCHASE_DEP_ID in (${purchaseDepId}) or principal = #{principal}) 
+       and (
+       <foreach collection="statusArray" item="ay" separator="or" >
+          STATUS like '%${ay}%'
+       </foreach> 
+       )
+      </if>
+      <if test="confirmFile != null and confirmFile != ''">
+         and CONFIRM_FILE = #{confirmFile}
+      </if>
+      ORDER BY CREATED_AT DESC
+  </select>
+  
 </mapper>

@@ -32,12 +32,19 @@
 	                if(!result.success){
 	                    layer.msg(result.msg,{offset: ['150px']});
 	                }else{
-	                	 var packageId = $("#packageId").val();
-	                     var projectId = $("#projectId").val();
-	                    parent.window.setTimeout(function(){
-                            parent.window.location.href = '${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+	                   
+                     var packageId = $("#packageId").val();
+                       var projectId = $("#projectId").val();
+                      parent.window.setTimeout(function(){
+                        var flag = $("#isConfirm").val();
+                        if (flag == 1) {
+                        parent.window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+                        } else {
+                          parent.window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+                        }
                         }, 1000);
-	                    layer.msg(result.msg,{offset: ['150px']});
+                      layer.msg(result.msg,{offset: ['150px']});
+	                 
 	                }
 	            },
 	            error: function(result){
@@ -59,6 +66,7 @@
               <input type="hidden" name="projectId" id="projectId" value="${item.projectId}">
               <input type="hidden" name="kind" id="itemKind" value="${item.kind}"> 
               <input type="hidden" name="id" value="${item.id}"> 
+              <input type="hidden" id="isConfirm" name="isConfirm" value="${isConfirm}">
               <ul class="list-unstyled">
                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
                     <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>评审名称</label>

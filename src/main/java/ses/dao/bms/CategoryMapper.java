@@ -2,6 +2,7 @@ package ses.dao.bms;
 
 import java.io.File;
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -249,4 +250,9 @@ public interface CategoryMapper {
      * @return Category 集合
      */
     public List<Category> searchByName(String cateName, String codeName);
+    public List<Category> findCategoryByStatusAll(Integer status);
+    public List<Category> findCategoryByParentNode(HashMap<String, Object> map);
+    public List<Category> findCategoryByChildren(HashMap<String, Object> map);
+    public List<Category> findCategoryByName(HashMap<String, Object> map);
+    public List<Category> findCategoryByNameOrClassify(HashMap<String, Object> map);
 }

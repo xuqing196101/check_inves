@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.AdvancedProject;
-import bss.model.ppms.Project;
 
 public interface AdvancedProjectMapper {
     /**
@@ -49,7 +48,7 @@ public interface AdvancedProjectMapper {
 
     /**
      * 
-     *〈集合〉
+     *〈采购部门登录〉
      *〈详细描述〉
      * @author Administrator
      * @param advancedProject
@@ -57,5 +56,27 @@ public interface AdvancedProjectMapper {
      */
     List<AdvancedProject> selectByList(HashMap<String, Object> map);
     
+    /**
+     * 
+     *〈需求部门登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
+    List<AdvancedProject> selectByDemand(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈管理部门登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
+    List<AdvancedProject> selectByOrg(HashMap<String, Object> map);
+    
     List<AdvancedProject> verifyByProject(AdvancedProject advancedProject);
+    
+    List<AdvancedProject> selectProjectByAll(AdvancedProject project);
 }

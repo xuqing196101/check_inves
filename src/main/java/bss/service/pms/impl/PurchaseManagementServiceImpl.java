@@ -36,7 +36,14 @@ public class PurchaseManagementServiceImpl  implements PurchaseManagementService
 		// TODO Auto-generated method stub
 		return purchaseManagementMapper.queryByPid(pid);
 	}
+
+	@Override
+	public void updateStatus(String uniqueId) {
+		purchaseManagementMapper.updateStaus(uniqueId);
+		
+	}
 	
+ 
 	
 
 }

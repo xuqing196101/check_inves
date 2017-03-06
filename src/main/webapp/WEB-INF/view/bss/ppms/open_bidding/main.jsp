@@ -275,7 +275,7 @@
       var projectId = "${project.id}";
 	  var currFlowDefineId = $("#currHuanjieId").val();
 	  var currUpdateUserId = $("#currPrincipal").val();
-	  layer.confirm('您确定已经完成当前环节并进行提交吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
+	  layer.confirm('您确定已经完成当前环节操作吗?', {title:'提示',offset: '222px',shade:0.01}, function(index){
 	      //校验当前环节是否完成
 	  	  $.ajax({
 	          url : "${pageContext.request.contextPath}/open_bidding/isSubmit.html",
@@ -396,7 +396,7 @@
 					      		    <select id="currPrincipal" name="currPrincipal" onchange="updateCurrOperator()"></select>
 					      		</div>
 					      		<div class="fl ml5" >
-					      			<input id="submitdiv" type="button" class="btn btn-windows git" onclick="submitcurr();" value="提交" />
+					      			<input id="submitdiv" type="button" class="btn btn-windows git" onclick="submitcurr();" value="环节结束" />
 					      		</div>
 					        </div>
                       	  </form>

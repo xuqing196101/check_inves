@@ -184,4 +184,9 @@
   	</set>
   	WHERE ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <delete id="deleteByBusinessId" >
+    delecte from T_SES_SMS_SUPPLIER_ATTACHMENT where   BUSINESS_ID = #{businessId}
+  </delete>
+  
 </mapper>

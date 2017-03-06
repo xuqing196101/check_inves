@@ -19,7 +19,6 @@ public class AdvancedProject {
 
     private String status; //状态
     
-    @NotBlank(message="不能为空")
     private String principal; //项目负责人
 
     private String ipone; // 项目负责人联系电话
@@ -123,6 +122,10 @@ public class AdvancedProject {
     private List<AdvancedPackages> packagesList;
     
     private String projectContractor;//项目承办人
+    
+    private String auditReason;//招标文件审核原因
+    
+    private String[] statusArray;//状态集合
     
     
     public AdvancedProject(String id) {
@@ -582,6 +585,21 @@ public class AdvancedProject {
     public void setProjectContractor(String projectContractor) {
         this.projectContractor = projectContractor;
     }
-    
+
+    public String getAuditReason() {
+        return auditReason;
+    }
+
+    public void setAuditReason(String auditReason) {
+        this.auditReason = auditReason;
+    }
+
+    public String[] getStatusArray() {
+        return statusArray;
+    }
+
+    public void setStatusArray(String[] statusArray) {
+        this.statusArray = statusArray;
+    }
     
 }

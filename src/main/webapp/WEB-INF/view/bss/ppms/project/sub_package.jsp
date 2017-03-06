@@ -50,21 +50,6 @@
         }
       }
 
-      //包下面全选明细功能
-      function selectAllDetail(number) {
-        var info = document.getElementsByName("info" + number);
-        var selectAll = document.getElementById("selectAll" + number);
-        if(selectAll.checked) {
-          for(var i = 0; i < info.length; i++) {
-            info[i].checked = true;
-          }
-        } else {
-          for(var i = 0; i < info.length; i++) {
-            info[i].checked = false;
-          }
-        }
-      }
-
       //勾选明细
       function selectedBox(ele) {
         var projectId = $("#projectId").val();
@@ -504,13 +489,11 @@
       <!-- 按钮开始-->
       <div class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
         <button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
-       <%--  <input class="btn btn-windows back" value="返回" type="button" onclick="back()">
-        <span class="fr mt10">项目编号：${project.projectNumber}</span> --%>
       </div>
 
       <c:if test="${!empty list}">
         <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
-          <table id="table" class="table table-bordered table-condensed"  style="width: 1600px; color: #000000; font-size: medium;">
+          <table class="table table-bordered table-condensed">
             <thead>
               <tr class="space_nowrap">
                 <th class="choose"><input type="checkbox" id="selectAll" onclick="selectAll()"></th>
@@ -535,7 +518,7 @@
             </thead>
             <c:forEach items="${list}" var="obj">
               <tr style="cursor: pointer;">
-                <td><div class="choose"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></div></td>
+                <td><div class="choose tc"><input type="checkbox" value="${obj.id }" name="info" onclick="selectedBox(this)"></div></td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
                   <div class="department">${obj.department }</div>
@@ -623,9 +606,6 @@
                 <th class="qualitstand">质量技术<br>标准</th>
                 <th class="item">计量<br>单位</th>
                 <th class="purchasecounts">采购<br>数量</th>
-                <%--<th class="price">单价（元）</th>
-                <th class="budget">预算金额（万元）</th>
-                --%>
                 <th class="deliverdate">交货<br>期限</th>
                 <th class="purchasetype">采购方式<br>建议</th>
                 <th class="purchasename">供应商名称</th>
@@ -641,9 +621,6 @@
                 <td><div class="choose"><input type="checkbox" name="info${p.index }" value="${obj.id }" onclick="selectedPackage(this,${p.index})" /></div></td>
                 <td><div class="seq">${obj.serialNumber }</div></td>
                 <td>
-                  <%--<c:if test="${orgnization.id == obj.department}"> 
-                           ${orgnization.name}
-                       </c:if>--%>
                   <div class="department">${obj.department }</div>
                 </td>
                 <td>
@@ -661,11 +638,6 @@
                 <td>
                   <div class="purchasecount">${obj.purchaseCount}</div>
                 </td>
-                <%--<td>
-                  <div class="price">${obj.price}</div>
-                 </td>
-                <td><div class="budget">${obj.budget}</div></td>
-                --%>
                 <td>
                   <div class="deliverdate">${obj.deliverDate}</div>
                 </td>
@@ -763,12 +735,6 @@
               <td>
                 <div class="purchasecount">${obj.purchaseCount}</div>
               </td>
-              <%-- <td>
-                <div class="price">${obj.price}</div>
-              </td>
-              <td>
-                <div class="budget">${obj.budget}</div>
-              </td> --%>
               <td>
                 <div class="deliverdate">${obj.deliverDate}</div>
               </td>

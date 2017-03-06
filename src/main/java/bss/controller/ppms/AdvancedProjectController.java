@@ -62,6 +62,7 @@ import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
@@ -133,6 +134,8 @@ public class AdvancedProjectController extends BaseController {
     public String list(@CurrentUser User user, Model model, AdvancedProject advancedProject, @ModelAttribute PageInfo<AdvancedProject> page){
         if(user != null && user.getOrg().getId() != null){
             HashMap<String,Object> map = new HashMap<String,Object>();
+            //根据id查询部门
+            Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
             if(advancedProject.getName() !=null && !advancedProject.getName().equals("")){
                 map.put("name", advancedProject.getName());
             }
@@ -142,19 +145,55 @@ public class AdvancedProjectController extends BaseController {
             if(advancedProject.getStatus() != null && !advancedProject.getStatus().equals("")){
                 map.put("status", advancedProject.getStatus());
             }
-            map.put("purchaseDepId", user.getOrg().getId());
-            map.put("principal", user.getId());
+            map.put("userId", user.getId());
             PageHelper.startPage(page.getPageNum(),CommonConstant.PAGE_SIZE);
-            List<AdvancedProject> list = advancedProjectService.selectByList(map);
-            for(int i=0;i<list.size();i++){
-                try {
-                    User contractor = userService.getUserById(list.get(i).getPrincipal());
-                    list.get(i).setProjectContractor(contractor.getRelName());
-                } catch (Exception e) {
-                    list.get(i).setProjectContractor("");
+            
+            //判断如果是需求部门登录
+            if("0".equals(orgnization.getTypeName())){
+                List<AdvancedProject> list = advancedProjectService.selectByDemand(map);
+                for(int i=0;i<list.size();i++){
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
                 }
+                model.addAttribute("info", new PageInfo<AdvancedProject>(list));
             }
-            model.addAttribute("info", new PageInfo<AdvancedProject>(list));
+            
+            //判断如果是采购机构登录
+            if("1".equals(orgnization.getTypeName())){
+                map.put("purchaseDepId", user.getOrg().getId());
+                map.put("principal", user.getId());
+                List<AdvancedProject> list = advancedProjectService.selectByList(map);
+                for(int i=0;i<list.size();i++){
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
+                }
+                model.addAttribute("info", new PageInfo<AdvancedProject>(list));
+            }
+            
+            //如果是管理部门登录
+            if("2".equals(orgnization.getTypeName())){
+                map.put("orgId", user.getOrg().getId());
+                List<AdvancedProject> list = advancedProjectService.selectByList(map);
+                for (int i = 0; i < list.size(); i++ ) {
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
+                }
+                model.addAttribute("info", new PageInfo<AdvancedProject>(list));
+            }
+            
+            
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
             model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
             model.addAttribute("project", advancedProject);
@@ -212,6 +251,25 @@ public class AdvancedProjectController extends BaseController {
         return "bss/ppms/advanced_project/attachment";
     }
     
+    /**
+     * 
+     *〈下达〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param user
+     * @param model
+     * @param organization
+     * @param ids
+     * @param projectNumber
+     * @param proName
+     * @param name
+     * @param documentNumber
+     * @param id
+     * @param department
+     * @param purchaseType
+     * @param request
+     * @return
+     */
     @RequestMapping("/transmit")
     public String transmit(@CurrentUser User user, Model model, String organization, String ids, String projectNumber, String proName, String name, String documentNumber,String id, String department, String purchaseType, HttpServletRequest request){
         //立项 
@@ -442,10 +500,15 @@ public class AdvancedProjectController extends BaseController {
     @ResponseBody
     @RequestMapping("/verify")
     public String verify(String projectNumber, Model model){
-        AdvancedProject project = new AdvancedProject();
-        project.setProjectNumber(projectNumber);
-        Boolean flag = advancedProjectService.SameNameCheck(project);
-        return JSON.toJSONString(flag);
+        if(StringUtils.isNotBlank(projectNumber)){
+            AdvancedProject project = new AdvancedProject();
+            project.setProjectNumber(projectNumber);
+            Boolean flag = advancedProjectService.SameNameCheck(project);
+            return JSON.toJSONString(flag);
+        }else{
+            return null;
+        }
+        
     }
     
     @ResponseBody
@@ -488,18 +551,7 @@ public class AdvancedProjectController extends BaseController {
         }
         //保存项目信息
         if(project != null){
-            project.setPurchaseType(detail.getDetail().get(0).getPurchaseType());
             advancedProjectService.update(project);
-        }
-        //修改预研明细
-        if(detail != null){
-            if(detail.getDetail()!=null&&detail.getDetail().size()>0){
-                for( AdvancedDetail aa:detail.getDetail()){
-                    if( aa.getId()!=null){
-                        detailService.update(aa);
-                    }
-                }
-            }
         }
         return "redirect:list.html";
     }
@@ -993,6 +1045,108 @@ public class AdvancedProjectController extends BaseController {
     }
     
     
+    public List<AdvancedDetail> sort(List<AdvancedDetail> newDetails, String id){
+        HashMap<String, Object> map = new HashMap<>();
+        int serialoneOne = 1;
+        int serialtwoTwo = 1;
+        int serialthreeThree = 1;
+        int serialfourFour = 1;
+        int serialfiveFive = 0;
+        int serialOne = 1;
+        int serialTwo = 1;
+        int serialThree = 1;
+        int serialFour = 1;
+        int serialSix = 0;
+        int serialFive = 0;
+        List<String> newParentId = new ArrayList<>();
+        List<String> oneParentId = new ArrayList<>();
+        List<String> twoParentId = new ArrayList<>();
+        List<String> threeParentId = new ArrayList<>();
+        List<String> fourParentId = new ArrayList<>();
+        List<String> fiveParentId = new ArrayList<>();
+        for(int i=0;i<newDetails.size();i++){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",newDetails.get(i).getRequiredId());
+            detailMap.put("projectId", id);
+            List<AdvancedDetail> dlist = detailService.selectByParentId(detailMap);
+            List<AdvancedDetail> plist = detailService.selectByParent(detailMap);
+            if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                if(!oneParentId.contains(newDetails.get(i).getParentId())){
+                    oneParentId.add(newDetails.get(i).getParentId());
+                    serialoneOne = 1;
+                }
+                newDetails.get(i).setSerialNumber(test(serialoneOne));
+                serialoneOne ++;
+            }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                if(!twoParentId.contains(newDetails.get(i).getParentId())){
+                    twoParentId.add(newDetails.get(i).getParentId());
+                    serialtwoTwo = 1;
+                }
+                newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
+                serialtwoTwo ++;
+            }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                if(!threeParentId.contains(newDetails.get(i).getParentId())){
+                    threeParentId.add(newDetails.get(i).getParentId());
+                    serialthreeThree = 1;
+                }
+                newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
+                serialthreeThree ++;
+            }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                if(!fourParentId.contains(newDetails.get(i).getParentId())){
+                    fourParentId.add(newDetails.get(i).getParentId());
+                    serialfourFour = 1;
+                }
+                newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
+                serialfourFour ++;
+            }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                if(!fiveParentId.contains(newDetails.get(i).getParentId())){
+                    fiveParentId.add(newDetails.get(i).getParentId());
+                    serialfiveFive = 0;
+                }
+                char serialNum = (char) (97 + serialfiveFive);
+                newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                serialfiveFive++;
+            }
+            if(dlist.size()==1){
+                map.put("projectId", id);
+                map.put("id", newDetails.get(i).getRequiredId());
+                List<AdvancedDetail> list = detailService.selectByParent(map);
+                if(!newParentId.contains(newDetails.get(i).getParentId())){
+                    serialOne = 1;
+                    serialTwo = 1;
+                    serialThree = 1;
+                    serialFour = 1;
+                    serialFive = 0;
+                    serialSix = 0;
+                    newParentId.add(newDetails.get(i).getParentId());
+                }
+                if(list.size()==1){
+                    newDetails.get(i).setSerialNumber(test(serialOne));
+                    serialOne ++;
+                }else if(list.size()==2){
+                    newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
+                    serialTwo ++;
+                }else if(list.size()==3){
+                    newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
+                    serialThree ++;
+                }else if(list.size()==4){
+                    newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
+                    serialFour ++;
+                }else if(list.size()==5){
+                    char serialNum = (char) (97 + serialFive);
+                    newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                    serialFive ++;
+                }else if(list.size()==6){
+                    char serialNum = (char) (97 + serialSix);
+                    newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                    serialSix ++;
+                }
+            }
+        }
+        return newDetails;
+    }
+    
+    
     
     /**
      * 
@@ -1048,14 +1202,6 @@ public class AdvancedProjectController extends BaseController {
                        showDetails.add(dlist.get(j));
                     }
                 }else{
-                    //if(showDetails.size()!=0){
-//                      for(int j=0;j<showDetails.size();j++){
-//                          if(showDetails.get(j).getParentId().equals(bottomDetails.get(i).getParentId())){
-//                              showDetails.add(bottomDetails.get(i));
-//                              break;
-//                          }
-//                      }
-                    //}
                     HashMap<String,Object> map2 = new HashMap<>();
                     map2.put("projectId", id);
                     map2.put("id", bottomDetails.get(i).getRequiredId());
@@ -1073,7 +1219,14 @@ public class AdvancedProjectController extends BaseController {
             }
             if(i==bottomDetails.size()-1){
                 if(str.equals("")){
-                    model.addAttribute("list", null);
+                    AdvancedProject project = advancedProjectService.selectById(id);
+                    if(DictionaryDataUtil.getId("YJLX").equals(project.getStatus()) || DictionaryDataUtil.getId("XMXXWHZ").equals(project.getStatus()) || DictionaryDataUtil.getId("SSZ_WWSXX").equals(project.getStatus())){
+                        project.setStatus(DictionaryDataUtil.getId("FBWC"));
+                        advancedProjectService.update(project);
+                        model.addAttribute("list", null);
+                    }else{
+                        model.addAttribute("list", null);
+                    }
                 }else{
                     ComparatorDetails comparator = new ComparatorDetails();
                     Collections.sort(showDetails, comparator);
@@ -1095,6 +1248,7 @@ public class AdvancedProjectController extends BaseController {
                             showDetails.get(j).setBudget(money);
                         }
                     }
+                    sort(showDetails,id);
                     model.addAttribute("list", showDetails);
                 }
             }

@@ -1305,6 +1305,43 @@
   </select> 
   
   
+  <select id="selectByOrg" parameterType="java.util.Map" resultMap="BaseResultMap">
+      SELECT
+      p.*
+      FROM
+        T_BSS_PPMS_PROJECTS p
+      WHERE 
+      p.ID IN 
+      (SELECT pt.PROJECT_ID FROM T_BSS_PPMS_PROJECT_TASK pt
+        WHERE
+	      pt.TASK_ID IN (
+	        SELECT
+	          t . ID
+	        FROM
+	          T_BSS_PPMS_TASK t
+	        WHERE
+	        <if test="orgId != null and orgId != ''">
+		         t.ORG_ID = #{orgId}
+		      </if>
+	      )
+      )
+       and IS_REHEARSE = 0
+      <!-- <if test="principal != null and principal != ''">
+        and (p.PRINCIPAL = #{principal} OR p.PRINCIPAL IS NULL) 
+      </if>  -->
+      <if test="name != null and name != ''">
+       and p.NAME like '%${name}%'
+      </if>
+     <if test="projectNumber != null and projectNumber != ''">
+       and p.PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null and status != ''">
+       and p.STATUS = #{status}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+  </select> 
+  
+  
   <select id="selectByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*
@@ -1320,13 +1357,12 @@
          e.OPERATOR_ID = #{userId}
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
-      OR p.PRINCIPAL  IS NULL
-      AND IS_REHEARSE = 0
+      <if test="principal != null and principal != ''">
+        OR (p.PRINCIPAL = #{principal}) 
+      </if>
+      AND p.IS_REHEARSE = 0
       <if test="purchaseDepId != null and purchaseDepId != ''">
         AND  p.PURCHASE_DEP_ID = #{purchaseDepId}
-      </if>
-      <if test="principal != null and principal != ''">
-        and (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
       </if>
       <if test="name != null and name != ''">
        AND p.NAME like '%${name}%'
@@ -1339,6 +1375,38 @@
       </if>
       ORDER BY p.CREATED_AT DESC
   </select> 
+  
+  <!-- 需求部门登录 -->
+   <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">
+        SELECT p.* FROM (
+				    SELECT
+				  d.PROJECT_ID
+				FROM
+				  T_BSS_PPMS_PROJECTS_DETAIL d
+				WHERE d.DEPARTMENT IN (
+				  SELECT
+				    o. NAME
+				  FROM
+				    T_SES_OMS_ORG o
+				  LEFT JOIN T_SES_BMS_USER u ON o. ID = u .ORG_ID
+				  WHERE
+				    <if test="userId != null and userId != ''">
+               u.ID = #{userId}
+            </if>
+				) GROUP BY d.PROJECT_ID
+				) p LEFT JOIN T_BSS_PPMS_PROJECTS ps ON p.PROJECT_ID = ps.ID
+      <if test="name != null and name != ''">
+       AND p.NAME like '%${name}%'
+      </if>
+      <if test="projectNumber != null and projectNumber != ''">
+       AND p.PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null and status != ''">
+       AND p.STATUS = #{status}
+      </if>
+      ORDER BY p.CREATED_AT DESC
+           
+   </select>
   
     <update id="updatePurchaseDep" parameterType="bss.model.ppms.Project">
     	update T_BSS_PPMS_PROJECTS

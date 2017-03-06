@@ -37,8 +37,11 @@
 	    </div>
    	  </div>
 	  <div class="col-md-12 col-sm-12 col-xs-12 mt20 clear">
-	    <ul id="uListId" class="list-unstyled ul_table" >
-	    </ul>
+	  <table class="table table-bordered mt10" id="uListId">
+	  
+	  </table>
+	    <!-- <ul id="uListId" class="list-unstyled ul_table" >
+	    </ul> -->
 	  </div>
 	 </div>
     </div>

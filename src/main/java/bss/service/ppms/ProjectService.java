@@ -138,7 +138,35 @@ public interface ProjectService {
     
     List<FlowExecute> selectFlow(User user);
     
+    /**
+     * 
+     *〈采购机构登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
     List<Project> selectByConition(HashMap<String,Object> map);
+    
+    /**
+     * 
+     *〈管理机构登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
+    List<Project> selectByOrg(HashMap<String,Object> map);
+    
+    /**
+     * 
+     *〈需求机构登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
+    List<Project> selectByDemand(HashMap<String,Object> map);
     
     /**
      *〈简述〉校验是否可提交

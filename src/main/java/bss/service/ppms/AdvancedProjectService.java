@@ -57,7 +57,7 @@ public interface AdvancedProjectService {
 
     /**
      * 
-     *〈集合〉
+     *〈采购机构登录〉
      *〈详细描述〉
      * @author Administrator
      * @param advancedProject
@@ -65,5 +65,42 @@ public interface AdvancedProjectService {
      */
     List<AdvancedProject> selectByList(HashMap<String, Object> map);
     
+    /**
+     * 
+     *〈需求部门登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
+    List<AdvancedProject> selectByDemand(HashMap<String, Object> map);
+    
+    /**
+     * 
+     *〈管理部门登录〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param map
+     * @return
+     */
+    List<AdvancedProject> selectByOrg(HashMap<String, Object> map);
+    /**
+     * 
+     *〈是否重复〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param advancedProject
+     * @return
+     */
     boolean SameNameCheck(AdvancedProject advancedProject);
+    
+    /**
+     * 
+     *〈集合〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param project
+     * @return
+     */
+    List<AdvancedProject> selectProjectByAll(Integer page,AdvancedProject project);
 }

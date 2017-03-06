@@ -175,112 +175,119 @@ public class ProjectServiceImpl implements ProjectService {
 		return projectMapper.updatePurchaseDep(project);
 	}
 
-  @Override
-  public JSONObject getNextFlow(User user, String projectId, String flowDefineId) {
-      JSONObject jsonObj = new JSONObject();
-      Project project = projectMapper.selectProjectByPrimaryKey(projectId);
-      //查询当前项目有没有经办人
-      FlowExecute execute0 = new FlowExecute();
-      execute0.setProjectId(projectId);
-      execute0.setStatus(0);
-      execute0.setIsDeleted(0);
-      List<FlowExecute> execute0s = flowExecuteMapper.findList(execute0);
-      //如果当前项目没有初始化各环节经办人
-      if (execute0s == null || execute0s.size() <= 0) {
-          //设置各环节经办人默认为项目负责人
-          FlowExecute flowExecute = new FlowExecute();
-          flowExecute.setProjectId(projectId);
-          flowExecute.setStatus(0);
-          flowExecute.setCreatedAt(new Date());
-          flowExecute.setUpdatedAt(new Date());
-          flowExecute.setOperatorId(user.getId());
-          flowExecute.setOperatorName(user.getRelName());
-          flowExecute.setIsDeleted(0);
-          FlowDefine flowDefine = new FlowDefine();
-          flowDefine.setPurchaseTypeId(project.getPurchaseType());
-          flowDefine.setIsDeleted(0);
-          List<FlowDefine> flowDefines = flowDefineMapper.findList(flowDefine);
-          for (FlowDefine fd : flowDefines) {
-              flowExecute.setId(WfUtil.createUUID());
-              flowExecute.setFlowDefineId(fd.getId());
-              flowExecute.setStep(fd.getStep());
-              flowExecuteMapper.insert(flowExecute);
-          }
-      }
-      
-      //当前点击环节
-      FlowDefine flowDefine = new FlowDefine();
-      if ("0".equals(flowDefineId)) {
-          //默认进来第一环节
-          FlowDefine define = new FlowDefine();
-          define.setIsDeleted(0);
-          define.setPurchaseTypeId(project.getPurchaseType());
-          define.setStep(1);
-          List<FlowDefine> defines = flowDefineMapper.findList(define);
-          if (defines != null && defines.size() > 0) {
-              flowDefine = defines.get(0);
-          }
-      } else {
-          flowDefine = flowDefineMapper.get(flowDefineId);
-      }
-      jsonObj.put("currFlowDefineId", flowDefine.getId());
-      //当前登录人对当前环节的操作权限
-      FlowExecute execute = new FlowExecute();
-      execute.setFlowDefineId(flowDefine.getId());
-      execute.setIsDeleted(0);
-      execute.setProjectId(projectId);
-      execute.setStatus(0);
-      List<FlowExecute> executes = flowExecuteMapper.findList(execute);
-      if (executes != null && executes.size() > 0) {
-          List<User> users = userMapper.selectByPrimaryKey(executes.get(0).getOperatorId());
-          if (users != null && users.size() > 0) {
-              jsonObj.put("operateName", users.get(0).getRelName());
-              jsonObj.put("currOperatorId", users.get(0).getId());
-          }
-          if (executes.get(0).getOperatorId().equals(user.getId())) {
-              //具有操作权限
-              jsonObj.put("isOperate", 1);
-          } else {
-              //具有查看权限
-              jsonObj.put("isOperate", 0);
-          }
-      }
-      
-      FlowDefine fd = new FlowDefine();
-      fd.setPurchaseTypeId(flowDefine.getPurchaseTypeId());
-      fd.setStep(flowDefine.getStep() + 1);
-      List<FlowDefine> nextFlowDefine = flowDefineMapper.findList(fd);
-      if (nextFlowDefine != null && nextFlowDefine.size() > 0) {
-          //下一环节
-          FlowDefine fDefine = nextFlowDefine.get(0);
-          FlowExecute flowExecute = new FlowExecute();
-          flowExecute.setFlowDefineId(fDefine.getId());
-          flowExecute.setIsDeleted(0);
-          flowExecute.setProjectId(projectId);
-          flowExecute.setStatus(0);
-          List<FlowExecute> flowExecutes = flowExecuteMapper.findList(flowExecute);
-          if (flowExecutes != null && flowExecutes.size() > 0) {
-              FlowExecute flowExecute2 = flowExecutes.get(0);
-              jsonObj.put("success", true);
-              jsonObj.put("isEnd", false);
-              jsonObj.put("operatorId", flowExecute2.getOperatorId());
-              jsonObj.put("flowDefineId", fDefine.getId());
-              jsonObj.put("flowDefineName", fDefine.getName());
-          }
-      } else {
-          //当前环节是最后一个环节
-          jsonObj.put("success", true);
-          jsonObj.put("isEnd", true);
-      }
-      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
-      if(user != null && user.getOrg() != null){
-         //获取当前用户所属机构人员
-         purchaseInfo = purchaseInfoMapper.findPurchaseUserList(user.getOrg().getId());
-      }
-      jsonObj.put("users", purchaseInfo);
-      return jsonObj;
-  }
-
+	 @Override
+	  public JSONObject getNextFlow(User user, String projectId, String flowDefineId) {
+	      JSONObject jsonObj = new JSONObject();
+	      Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+	      //查询当前项目有没有经办人
+	      FlowExecute execute0 = new FlowExecute();
+	      execute0.setProjectId(projectId);
+	      execute0.setStatus(0);
+	      execute0.setIsDeleted(0);
+	      List<FlowExecute> execute0s = flowExecuteMapper.findList(execute0);
+	      FlowDefine fd0 = new FlowDefine();
+	      fd0.setIsDeleted(0);
+	      fd0.setPurchaseTypeId(project.getPurchaseType());
+	      List<FlowDefine> fds = flowDefineMapper.findList(fd0);
+	      //如果当前项目没有初始化各环节经办人,或者初始化的环节不够
+	      if (execute0s == null || execute0s.size() < fds.size()) {
+	          //设置各环节经办人默认为项目负责人
+	          FlowExecute flowExecute = new FlowExecute();
+	          flowExecute.setProjectId(projectId);
+	          flowExecute.setStatus(0);
+	          flowExecute.setCreatedAt(new Date());
+	          flowExecute.setUpdatedAt(new Date());
+	          List<User> operator = userMapper.selectByPrimaryKey(project.getPrincipal());
+	          if (operator != null && operator.size() > 0) {
+	              flowExecute.setOperatorId(operator.get(0).getId());
+	              flowExecute.setOperatorName(operator.get(0).getRelName());
+	          }
+	          flowExecute.setIsDeleted(0);
+	          FlowDefine flowDefine = new FlowDefine();
+	          flowDefine.setPurchaseTypeId(project.getPurchaseType());
+	          flowDefine.setIsDeleted(0);
+	          List<FlowDefine> flowDefines = flowDefineMapper.findList(flowDefine);
+	          for (FlowDefine fd : flowDefines) {
+	              flowExecute.setId(WfUtil.createUUID());
+	              flowExecute.setFlowDefineId(fd.getId());
+	              flowExecute.setStep(fd.getStep());
+	              flowExecuteMapper.insert(flowExecute);
+	          }
+	      }
+	      
+	      //当前点击环节
+	      FlowDefine flowDefine = new FlowDefine();
+	      if ("0".equals(flowDefineId)) {
+	          //默认进来第一环节
+	          FlowDefine define = new FlowDefine();
+	          define.setIsDeleted(0);
+	          define.setPurchaseTypeId(project.getPurchaseType());
+	          define.setStep(1);
+	          List<FlowDefine> defines = flowDefineMapper.findList(define);
+	          if (defines != null && defines.size() > 0) {
+	              flowDefine = defines.get(0);
+	          }
+	      } else {
+	          flowDefine = flowDefineMapper.get(flowDefineId);
+	      }
+	      jsonObj.put("currFlowDefineId", flowDefine.getId());
+	      //当前登录人对当前环节的操作权限
+	      FlowExecute execute = new FlowExecute();
+	      execute.setFlowDefineId(flowDefine.getId());
+	      execute.setIsDeleted(0);
+	      execute.setProjectId(projectId);
+	      execute.setStatus(0);
+	      List<FlowExecute> executes = flowExecuteMapper.findList(execute);
+	      if (executes != null && executes.size() > 0) {
+	          List<User> users = userMapper.selectByPrimaryKey(executes.get(0).getOperatorId());
+	          if (users != null && users.size() > 0) {
+	              jsonObj.put("operateName", users.get(0).getRelName());
+	              jsonObj.put("currOperatorId", users.get(0).getId());
+	          }
+	          if (executes.get(0).getOperatorId().equals(user.getId())) {
+	              //具有操作权限
+	              jsonObj.put("isOperate", 1);
+	          } else {
+	              //具有查看权限
+	              jsonObj.put("isOperate", 0);
+	          }
+	      }
+	      
+	      FlowDefine fd = new FlowDefine();
+	      fd.setPurchaseTypeId(flowDefine.getPurchaseTypeId());
+	      fd.setStep(flowDefine.getStep() + 1);
+	      List<FlowDefine> nextFlowDefine = flowDefineMapper.findList(fd);
+	      if (nextFlowDefine != null && nextFlowDefine.size() > 0) {
+	          //下一环节
+	          FlowDefine fDefine = nextFlowDefine.get(0);
+	          FlowExecute flowExecute = new FlowExecute();
+	          flowExecute.setFlowDefineId(fDefine.getId());
+	          flowExecute.setIsDeleted(0);
+	          flowExecute.setProjectId(projectId);
+	          flowExecute.setStatus(0);
+	          List<FlowExecute> flowExecutes = flowExecuteMapper.findList(flowExecute);
+	          if (flowExecutes != null && flowExecutes.size() > 0) {
+	              FlowExecute flowExecute2 = flowExecutes.get(0);
+	              jsonObj.put("success", true);
+	              jsonObj.put("isEnd", false);
+	              jsonObj.put("operatorId", flowExecute2.getOperatorId());
+	              jsonObj.put("flowDefineId", fDefine.getId());
+	              jsonObj.put("flowDefineName", fDefine.getName());
+	          }
+	      } else {
+	          //当前环节是最后一个环节
+	          jsonObj.put("success", true);
+	          jsonObj.put("isEnd", true);
+	      }
+	      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
+	      if(user != null && user.getOrg() != null){
+	         //获取当前用户所属机构人员
+	         purchaseInfo = purchaseInfoMapper.findPurchaseUserList(user.getOrg().getId());
+	      }
+	      jsonObj.put("users", purchaseInfo);
+	      return jsonObj;
+	  }
+	
   @Override
   public JSONObject updateCurrOperator(User currLoginUser, String projectId, String currFlowDefineId, String currUpdateUserId) {
       JSONObject jsonObj = new JSONObject();
@@ -402,6 +409,18 @@ public class ProjectServiceImpl implements ProjectService {
         }
         jsonObj.put("success", true);
         return jsonObj;
+    }
+
+    @Override
+    public List<Project> selectByOrg(HashMap<String, Object> map) {
+
+        return projectMapper.selectByOrg(map);
+    }
+
+    @Override
+    public List<Project> selectByDemand(HashMap<String, Object> map) {
+        
+        return projectMapper.selectByDemand(map);
     }
 
   }

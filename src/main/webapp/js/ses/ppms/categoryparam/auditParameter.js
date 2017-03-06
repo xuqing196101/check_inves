@@ -9,6 +9,7 @@ $(function(){
 					url: globalPath + "/auditParams/initTree.do",
 					dataType:"json",
 					type:"post",
+					
 				},
 				callback:{
 			    	onClick:zTreeOnClick,
@@ -41,6 +42,7 @@ $(function(){
 	    //控制按钮
 	    hiddenParams();
 });
+
 
 /**
  * 点击tree
@@ -137,10 +139,16 @@ function calledback(data){
  * @param paramTypeName 参数类型
  */
 function loadHtml(paramName, paramTypeName){
-	var html ="<li>"
+	/*var html ="<li>"
              + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
              + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
-             +"</li>"
+             +"</li>"*/
+	var html="<tr>" +
+			"<td width=\"23%\" class=\"info\">参数名称：</td>" +
+			"<td width=\"23%\">"+paramName+"</td>" +
+			"<td width=\"23%\" class=\"info\">参数类型：</td>" +
+			"<td width=\"23%\" >"+paramTypeName+"</td>" +
+			"</tr>";
     $("#uListId").append(html);
 }
 
@@ -156,11 +164,16 @@ function loadRadioHtml(checked){
 	if (checked == 1){
 		no_checked = true;
 	}
-	var html = "<li> "
+	/*var html = "<li> "
 		     + " <div class='col-md-4 col-sm-4 col-xs-6 tr'> "
 		     + "    <span class='red'>*</span>是否公开: "
 		     + " </div> "
-		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";
+		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
+	var html="<tr>" +
+			"<td width=\"23%\" class=\"info\">" +
+			"<span class='red'>*</span>是否公开：" +
+			"</td>" +
+			"<td  colspan=\"3\">";
 	if (yes_checked){
 		html += "  <input type='radio' disabled='disabled' checked='checked'   name='isOPen'  >是    " 
 		html += "  <input type='radio' disabled='disabled'    name='isOPen'  /> 否    "
@@ -170,8 +183,9 @@ function loadRadioHtml(checked){
 		html += "  <input type='radio' disabled='disabled'  checked='checked'  name='isOPen'  /> 否    "
 	}
 		
-	html+=  "</div> "
-	html+= "</li>";
+/*	html+=  "</div> "
+	html+= "</li>";*/
+	html+= " </td></tr>";
 	$("#uListId").append(html);
 }
 
@@ -181,11 +195,16 @@ function loadRadioHtml(checked){
  */
 function loadcheckbox(checkedVal){
 	
-	var html = "<li  id='typeId'>"
+	/*var html = "<li  id='typeId'>"
              + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
      	     + "  <span class='red'>*</span>类型: "
      	     + " </div>"
-		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";
+		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
+	var html="<tr>" +
+			"<td width=\"23%\" class=\"info\">" +
+			"<span class='red'>*</span>类型：" +
+			"</td>" +
+			"<td  colspan=\"3\">";
 	for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
 			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
@@ -198,7 +217,8 @@ function loadcheckbox(checkedVal){
 		 }
 		
 	}
-   html+= "</div></li>";
+   /*html+= "</div></li>";*/
+	html+= " </td></tr>";
   $("#uListId").append(html);
 }
 
@@ -285,6 +305,9 @@ function updateTreeNode(obj){
 			if (obj.paramStatus == 1){
 				refreshParentNode();
 				hiddenParams();
+			}else{
+				
+				loadAuditValue(obj);
 			}
 		}
 	}
@@ -298,7 +321,8 @@ function refreshParentNode() {
 	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
 	   type = "refresh", 
 	   silent = false,  
-	   nodes = zTree.getSelectedNodes();  
+	   nodes = zTree.getSelectedNodes();
+	   //var nodexs=nodes[0].getParentNode().getParentNode().getParentNode().getParentNode();
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
 	   zTree.reAsyncChildNodes(parentNode, type, silent);  
 }
@@ -308,7 +332,25 @@ function refreshParentNode() {
  * @param treeNode
  */
 function loadAuditValue (treeNode){
-	if (treeNode.status == 1 || treeNode.status == 3){
+	if(treeNode.status == 3||treeNode.paramStatus==3){
+		$("#urlId").hide();
+		var auditAdvise="";
+		if (treeNode.auditAdvise !=null && treeNode.auditAdvise != ""){
+			auditAdvise=treeNode.auditAdvise;
+		}
+	   var htmls="<tr>" +
+	   		"<td width=\"23%\" class=\"info\">审核状态：</td>" +
+	   		"<td width=\"23%\" >已审核</td>" +
+	   		"<td width=\"23%\" class=\"info\">审核意见：</td>" +
+	   		"<td width=\"23%\" >"+auditAdvise+"</td>" +
+	   		"</tr>";
+	   $("#tableId").html(htmls);
+	   $("#tableId").show();
+	}else{
+		$("#tableId").hide();
+		$("#urlId").show();
+	}
+	/*if (treeNode.status == 1 || treeNode.status == 3){
 		$("select[name='auditStatus']").val(treeNode.status);
 	} else {
 		$("select[name='auditStatus'] option:first").prop("selected","selected");
@@ -318,7 +360,7 @@ function loadAuditValue (treeNode){
 		$("#textId").val(treeNode.auditAdvise);
 	} else {
 		$("#textId").val("");
-	}
+	}*/
 }
 
 /**

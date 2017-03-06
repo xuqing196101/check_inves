@@ -44,4 +44,15 @@ public interface SupplierMatProMapper {
     int updateByPrimaryKey(SupplierMatPro record);
     
     SupplierMatPro getMatProBySupplierId(String supplierId);
+    
+    /**
+     * 
+    * @Title: deleteBySupplierId
+    * @Description: 根据供应商ID删除对应的信息
+    * author: Li Xiaoxiao 
+    * @param @param supplierId     
+    * @return void     
+    * @throws
+     */
+    void deleteBySupplierId(String supplierId);
 }

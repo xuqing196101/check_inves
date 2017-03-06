@@ -11,7 +11,18 @@ public class PurchaseManagement {
 
     private Date createAt;
     
-    public String getId() {
+    private Integer status;
+    
+    
+    public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getId() {
         return id;
     }
 

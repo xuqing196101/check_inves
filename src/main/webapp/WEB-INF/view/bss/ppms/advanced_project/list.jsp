@@ -140,7 +140,7 @@
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
         status = $.trim(status);
         if(id.length == 1) {
-          if(status == "YLX_DFB" || status == "YFB_DSS") {
+          if(status == "YJLX") {
             window.location.href = '${pageContext.request.contextPath}/advancedProject/edit.html?id=' + id;
           }else if(status == "YYYBYY"){
             layer.alert("已被引用的项目不能维护", {
@@ -148,18 +148,15 @@
             });
           }else{
             layer.alert("实施中的项目不能维护", {
-              offset: ['222px', '730px'],
               shade: 0.01,
             });
           }
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
-            offset: ['222px', '730px'],
             shade: 0.01,
           });
         } else {
-          layer.alert("请选择需要修改的任务", {
-            offset: ['222px', '730px'],
+          layer.alert("请选择需要修改的项目", {
             shade: 0.01,
           });
         }

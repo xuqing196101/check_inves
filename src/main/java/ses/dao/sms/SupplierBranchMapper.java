@@ -31,4 +31,15 @@ public interface SupplierBranchMapper {
     
     
     List<SupplierBranch> queryBySupplierId(@Param("supplierId")String supplierId);
+    /**
+     * 
+    * @Title: queryById
+    * @Description:根据id查询对应的分支机构 
+    * author: Li Xiaoxiao 
+    * @param @param id
+    * @param @return     
+    * @return SupplierBranch     
+    * @throws
+     */
+    SupplierBranch queryById(@Param("id")String id);
 }

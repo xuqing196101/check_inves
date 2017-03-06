@@ -369,14 +369,20 @@ function openDiv(){
  * 组装html
  */
 function loadHtml(id,paramName, paramTypeName){
-	
-	var html ="<li>"
+	var html="<tr>" +
+	        "<td width=\"5%\"><input name='chkItem' value='"+id+"' type=\"checkbox\" class=\"mt10\"/></td>"+
+			"<td width=\"23%\" class=\"info\">参数名称：</td>" +
+			"<td width=\"23%\">"+paramName+"</td>" +
+			"<td width=\"23%\" class=\"info\">参数类型：</td>" +
+			"<td width=\"23%\" >"+paramTypeName+"</td>" +
+			"</tr>";
+	/*var html ="<li>"
 	        + "  <div class=\"col-md-1 col-xs-6 col-sm-4 tc\">"
 	        + "    <input name='chkItem' value='"+id+"' type=\"checkbox\" class=\"mt10\"/>"
 	        + "  </div>"
 	        + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
 	        + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
-	        +"</li>"
+	        +"</li>"*/
 	$("#uListId").append(html);
 }
 
@@ -419,23 +425,29 @@ function selectedClass(treeNode){
  */
 function loadRadioHtml(redioChecked){
 	
-	var html = "<li> "
+	/*var html = "<li> "
 		     + "  <div class='col-md-4 col-sm-4 col-xs-6 tr'>"
 		     + "    <span class='red'>*</span>是否公开:"
 		     + " </div>"
-		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";
+		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
+	var html="<tr>" +
+			"<td colspan=\"2\" width=\"28%\" class=\"info\">" +
+			"<span class='red'>*</span>是否公开：" +
+			"</td>" +
+			"<td  colspan=\"3\">";
 	if (redioChecked == 0){
 		html +=  " <input type='radio' checked='checked' name='isOPen'  value='0'/>是     ";
-		html +=  " <input type='radio'  name='isOPen'  value='1'/>否";
+		html +=  " 　　<input type='radio'  name='isOPen'  value='1'/>否";
 	} else if (redioChecked == 1){
 		html +=  " <input type='radio'  name='isOPen'  value='0'/>是     ";
-		html +=  " <input type='radio' checked='checked' name='isOPen'  value='1'/>否";
+		html +=  " 　　<input type='radio' checked='checked' name='isOPen'  value='1'/>否";
 	} else {
 		html +=  " <input type='radio'  name='isOPen'  value='0'/>是     ";
-		html +=  " <input type='radio'  name='isOPen'  value='1'/>否";
-	}
+		html +=  " 　　<input type='radio'  name='isOPen'  value='1'/>否";
+	}/*
 		html+= " </div>"
-		html+= " </li>";
+		html+= " </li>";*/
+		html+= " </td></tr>";
 	$("#uListId").append(html);
 }
 
@@ -444,11 +456,16 @@ function loadRadioHtml(redioChecked){
  * @param checkedVal type值
  */
 function loadCheckbox(checkedVal){
-	var html = "<li  id='typeId'>"
+	/*var html = "<li  id='typeId'>"
 	         + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
 	      	 + "  <span class='red'>*</span>类型: "
 	      	 + " </div>"
-	 		 + " <div class='col-md-8 col-sm-8 col-xs-7'>";
+	 		 + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
+	var html="<tr>" +
+			"<td  colspan=\"2\" width=\"28%\" class=\"info\">" +
+			"<span class='red'>*</span>类型：" +
+			"</td>" +
+			"<td  colspan=\"3\">";
 	 for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
 			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
@@ -461,7 +478,8 @@ function loadCheckbox(checkedVal){
 		 }
 		
 	 }
-	    html+= "</div></li>";
+	   /* html+= "</div></li>";*/
+	 html+= " </td></tr>";
 	  $("#uListId").append(html);
 }
 
@@ -480,21 +498,34 @@ function loadAuditHtml(auditStatus,auditAdvise){
 	}
 	
 	if (statusText !=""){
-		var html = "<li id='auditId'>"
+		/*var html = "<li id='auditId'>"
 			  + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
 			  + "  审核状态: " 
 			  + " </div>"
 			  + " <div class='col-md-8 col-sm-8 col-xs-7'>"
 	          + statusText ;
 			  + " </div>"
-			  + "</li>";
-		 if (auditAdvise !=null && auditAdvise != ""){
-			 html += "<li id='adviseId'>";
+			  + "</li>";*/
+		var html="<tr>" +
+					"<td width=\"28%\" colspan=\"2\" class=\"info\">" +
+					"审核状态：" +
+					"</td>" +
+					"<td width=\"23%\">"+statusText+"</td>";
+		html+="<td width=\"23%\" class=\"info\">" +
+ 		"审核意见：" +
+ 		"</td>"; 
+		if (auditAdvise !=null && auditAdvise != ""){
+			/* html += "<li id='adviseId'>";
 			   html += "<div class='col-md-12 col-sm-4 col-xs-5 tr'>";
 			   html	+= "  审核意见: "  + auditAdvise ;
 			   html += "</div>"
-		     html += "</li>"
+		     html += "</li>"*/
+			 
+			 html+="<td width=\"23%\" >" +auditAdvise+"</td>";
+		 }else{
+			 html+="<td width=\"23%\" ></td>";
 		 }
+		html+="</tr>";
 		$("#uListId").append(html);
 	}
 }

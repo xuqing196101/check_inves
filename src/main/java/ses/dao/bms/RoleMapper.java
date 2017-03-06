@@ -165,4 +165,13 @@ public interface RoleMapper {
    */
   List<Role> findByPosition(HashMap<String, Object> map1);
 
+  /**
+   *〈简述〉查询拥有该菜单权限的角色
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param id
+   * @return
+   */
+  List<String> getByMid(String id);
+
 }

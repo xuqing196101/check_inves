@@ -25,14 +25,27 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 	
 	@Override
 	public void addBatch(List<SupplierBranch> list,String supplierId) {
-		supplierBranchMapper.deleteBySupplierId(supplierId);
+//		supplierBranchMapper.deleteBySupplierId(supplierId);
 		 for(SupplierBranch s:list){
-			 String id = WfUtil.createUUID();
-			 s.setId(id);
-			 s.setSupplierId(supplierId);
-			 supplierBranchMapper.insertSelective(s); 
+			 if(s.getId()!=null){
+			 SupplierBranch branch = supplierBranchMapper.queryById(s.getId());
+			 if(branch!=null){
+				 supplierBranchMapper.updateByPrimaryKeySelective(s);
+			 }else if(s.getOrganizationName()!=null){
+				 String id = WfUtil.createUUID();
+				 s.setId(id);
+				 s.setSupplierId(supplierId);
+				 supplierBranchMapper.insertSelective(s);  
+			 }
 		 }
-		
+		 }
+	}
+
+
+	@Override
+	public void delete(String id) {
+		// TODO Auto-generated method stub
+		supplierBranchMapper.deleteByPrimaryKey(id);
 	}
 
 }
