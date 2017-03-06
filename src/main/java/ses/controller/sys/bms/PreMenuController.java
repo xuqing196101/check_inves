@@ -313,6 +313,7 @@ public class PreMenuController {
 	public void get(HttpServletResponse response, String id) throws IOException{
 		try {
 			PreMenu preMenu = preMenuService.get(id);
+			List<User> users = preMenuService.getUserByMid(id);
 			net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 			JsonConfig jsonConfig = new JsonConfig();
 	        jsonConfig.registerJsonValueProcessor(Date.class,

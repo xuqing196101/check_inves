@@ -39,5 +39,9 @@ public interface ProjectMapper {
     
     List<Project> selectByConition(HashMap<String,Object> map);
     
+    List<Project> selectByOrg(HashMap<String,Object> map);
+    
+    List<Project> selectByDemand(HashMap<String,Object> map);
+    
     int updatePurchaseDep(Project project);
 }

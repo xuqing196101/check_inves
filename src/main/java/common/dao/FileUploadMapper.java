@@ -152,4 +152,15 @@ public interface FileUploadMapper {
      * @param file
      */
     void updateFileById(UploadFile file);
+    
+    /**
+     * 
+    * @Title: deleteByBusinessId
+    * @Description: 删除对应的附件信息 
+    * author: Li Xiaoxiao 
+    * @param @param businessId     
+    * @return void     
+    * @throws
+     */
+    void deleteByBusinessId(@Param("businessId")String businessId);
 }

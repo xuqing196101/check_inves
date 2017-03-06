@@ -238,13 +238,13 @@
 						<tr>
 							<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${finance.id}" /></td>
 							<td class="tc">${finance.year}</td>
-							<td class="tc"><a onclick="show('${finance.id}')" class="hand">${finance.name}</a></td>
+							<td class="tl"><a onclick="show('${finance.id}')" class="hand">${finance.name}</a></td>
 							<td class="tc">${finance.telephone}</td>
 							<td class="tc">${finance.auditors}</td>
-							<td class="tc">${finance.totalAssets}</td>
-							<td class="tc">${finance.totalLiabilities}</td>
-							<td class="tc">${finance.totalNetAssets}</td>
-							<td class="tc">${finance.taking}</td>
+							<td class="tr">${finance.totalAssets}</td>
+							<td class="tr">${finance.totalLiabilities}</td>
+							<td class="tr">${finance.totalNetAssets}</td>
+							<td class="tr">${finance.taking}</td>
 							<td class="tc">
 								<c:if test="${finance.status==1 }"><span class="label rounded-2x label-u">暂存</span></c:if>
 								<c:if test="${finance.status==2 }"><span class="label rounded-2x label-u">未审核</span></c:if>

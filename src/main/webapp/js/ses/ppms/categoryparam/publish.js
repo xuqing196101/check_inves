@@ -171,10 +171,16 @@ function calledback(data){
  * @param paramTypeName 参数类型
  */
 function loadHtml(paramName, paramTypeName){
-	var html ="<li>"
+	/*var html ="<li>"
              + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
              + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
-             +"</li>"
+             +"</li>"*/
+	var html="<tr>" +
+	"<td width=\"23%\" class=\"info\">参数名称：</td>" +
+	"<td width=\"23%\">"+paramName+"</td>" +
+	"<td width=\"23%\" class=\"info\">参数类型：</td>" +
+	"<td width=\"23%\" >"+paramTypeName+"</td>" +
+	"</tr>";
     $("#uListId").append(html);
 }
 
@@ -190,11 +196,17 @@ function loadRadioHtml(checked){
 	if (checked == 1){
 		no_checked = true;
 	}
-	var html = "<li> "
+	/*var html = "<li> "
 	     + " <div class='col-md-4 col-sm-4 col-xs-6 tr'> "
 	     + "    <span class='red'>*</span>是否公开: "
 	     + " </div> "
-	     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";
+	     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
+	var html="<tr>" +
+	"<td  width=\"28%\" class=\"info\">" +
+	"<span class='red'>*</span>是否公开：" +
+	"</td>" +
+	"</td>" +
+	"<td >";
 		if (yes_checked){
 			html += "  <input type='radio' disabled='disabled' checked='checked'   name='isOPen'  >是    " 
 			html += "  <input type='radio' disabled='disabled'    name='isOPen'  /> 否    "
@@ -203,7 +215,10 @@ function loadRadioHtml(checked){
 			html += "  <input type='radio' disabled='disabled'    name='isOPen'  >是    " 
 			html += "  <input type='radio' disabled='disabled'  checked='checked'  name='isOPen'  /> 否    "
 		}
-	
+		html+="</td><td  width=\"28%\" >" +
+		"</td>" +
+		"<td  width=\"28%\"></td>"; 
+		html+= " </tr>";
 	$("#uListId").append(html);
 }
 
@@ -213,11 +228,16 @@ function loadRadioHtml(checked){
  */
 function loadcheckbox(checkedVal){
 	
-	var html = "<li  id='typeId'>"
+/*	var html = "<li  id='typeId'>"
              + " <div class='col-md-4 col-sm-4 col-xs-5 tr'>"
      	     + "  <span class='red'>*</span>类型: "
      	     + " </div>"
-		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";
+		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
+	var html="<tr>" +
+	"<td   width=\"28%\" class=\"info\">" +
+	"<span class='red'>*</span>类型：" +
+	"</td>" +
+	"<td  >";
 	for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
 			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
@@ -230,7 +250,10 @@ function loadcheckbox(checkedVal){
 		 }
 		
 	}
-   html+= "</div></li>";
+   /*html+= "</div></li>";*/
+	html+="</td><td  width=\"28%\" >" +
+	"</td>" +
+	"<td  width=\"28%\" ></td></tr>"; 
   $("#uListId").append(html);
 }
 
@@ -261,13 +284,18 @@ function loadPublishHtml(auditStatus){
 		statusText = "已发布";
 	}
 	
-	var html = "<li>"
+	/*var html = "<li>"
 		     + " <div class='col-md-2 col-sm-4 col-xs-5 tr'>"
 		     + "  发布状态: " 
 		     + " </div>"
 		     + " <div class='col-md-10 col-sm-8 col-xs-7'>"
 		     + statusText ;
 		  	 + " </div>"
-		  	 + "</li>";
+		  	 + "</li>";*/
+	var html="<tr>" +
+	"<td   width=\"28%\" class=\"info\">" +
+	"发布状态: " +
+	"</td>" +
+	"<td>"+statusText +"</td><td   width=\"28%\" ><td></td>";
 	$("#uListId").append(html);  
 }

@@ -93,4 +93,13 @@ public interface PreMenuServiceI {
    */
   List<PreMenu> getMenu(User u);
 
+  /**
+   *〈简述〉查询拥有该菜单的用户
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param id
+   * @return
+   */
+  List<User> getUserByMid(String id);
+
 }

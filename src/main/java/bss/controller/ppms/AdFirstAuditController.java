@@ -70,22 +70,36 @@ public class AdFirstAuditController {
 		  AdvancedProject project = projectService.selectById(projectId);
 		  HashMap<String, Object> map = new HashMap<String, Object>();
 		  map.put("projectId", projectId);
-      List<AdvancedPackages> packages = packageService.selectByAll(map);
-      //查询项目下所有的符合性审查项
-      List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
-      model.addAttribute("packages", packages);
-      List<DictionaryData> dds = DictionaryDataUtil.find(22);
-      //符合性资格性审查项类型
-      model.addAttribute("dds", dds);
-      List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
-      model.addAttribute("purchaseTypes", purchaseTypes);
-      model.addAttribute("firstAudits", firstAudits);
-			model.addAttribute("projectId", projectId);
-			model.addAttribute("project", project);
-			model.addAttribute("msg", msg);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+          List<AdvancedPackages> packages = packageService.selectByAll(map);
+          for (AdvancedPackages advancedPackages : packages) {
+              FirstAudit firstAudit = new FirstAudit();
+              firstAudit.setPackageId(advancedPackages.getId());
+              firstAudit.setIsConfirm((short)0);
+              List<FirstAudit> fas = service.findBykind(firstAudit);
+              //是否维护符合性审查项
+              if (fas == null || fas.size() <= 0) {
+                  advancedPackages.setIsEditFirst(0);
+              } else {
+                  advancedPackages.setIsEditFirst(1);
+              }
+          }
+      
+          //查询项目下所有的符合性审查项
+          List<FirstAudit> firstAudits = service.getListByProjectId(projectId);
+          model.addAttribute("packages", packages);
+          List<DictionaryData> dds = DictionaryDataUtil.find(22);
+          //符合性资格性审查项类型
+          model.addAttribute("dds", dds);
+          List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
+          model.addAttribute("purchaseTypes", purchaseTypes);
+          model.addAttribute("firstAudits", firstAudits);
+          model.addAttribute("projectId", projectId);
+          model.addAttribute("project", project);
+          model.addAttribute("msg", msg);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+      
 		return "bss/ppms/advanced_project/advanced_bid_file/bid_file";
 	}
 	
@@ -252,34 +266,36 @@ public class AdFirstAuditController {
 	 */
 	@RequestMapping("/editPackageFirstAudit")
 	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag){	  
-	  List<DictionaryData> dds = DictionaryDataUtil.find(22);
-    //符合性审查项
-	  FirstAudit firstAudit1 = new FirstAudit();
-	  firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
-	  firstAudit1.setPackageId(packageId);
-	  List<FirstAudit> items1 = service.findBykind(firstAudit1);
-    //资格性审查项
-	  FirstAudit firstAudit2 = new FirstAudit();
-    firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
-    firstAudit2.setPackageId(packageId);
-    List<FirstAudit> items2 = service.findBykind(firstAudit2);
-    HashMap<String, Object> map = new HashMap<String, Object>();
-    map.put("id", packageId);
-    List<AdvancedPackages> packages = packageService.selectByAll(map);
-    if (packages != null) {
-      model.addAttribute("packages", packages.get(0));
-    }
-    HashMap<String, Object> map2 = new HashMap<String, Object>();
-    map2.put("kind", DictionaryDataUtil.getId("REVIEW_QC"));
-    //获取资格性和符合性审查模版
-    List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
-    model.addAttribute("dds", dds);
-    model.addAttribute("items1", items1);
-    model.addAttribute("items2", items2);
-    model.addAttribute("packageId", packageId);
-    model.addAttribute("projectId", projectId);
-    model.addAttribute("firstAuditTemplats", firstAuditTemplats);
-    model.addAttribute("flag", flag);
+	    List<DictionaryData> dds = DictionaryDataUtil.find(22);
+	    //符合性审查项
+	    FirstAudit firstAudit1 = new FirstAudit();
+	      firstAudit1.setKind(DictionaryDataUtil.getId("COMPLIANCE"));
+	      firstAudit1.setPackageId(packageId);
+	      firstAudit1.setIsConfirm((short)0);
+	      List<FirstAudit> items1 = service.findBykind(firstAudit1);
+	    //资格性审查项
+	    FirstAudit firstAudit2 = new FirstAudit();
+	    firstAudit2.setKind(DictionaryDataUtil.getId("QUALIFICATION"));
+	    firstAudit2.setPackageId(packageId);
+	    firstAudit2.setIsConfirm((short)0);
+	    List<FirstAudit> items2 = service.findBykind(firstAudit2);
+	    HashMap<String, Object> map = new HashMap<String, Object>();
+	    map.put("id", packageId);
+        List<AdvancedPackages> packages = packageService.selectByAll(map);
+        if (packages != null) {
+          model.addAttribute("packages", packages.get(0));
+        }
+        HashMap<String, Object> map2 = new HashMap<String, Object>();
+        map2.put("kind", DictionaryDataUtil.getId("REVIEW_QC"));
+        //获取资格性和符合性审查模版
+        List<FirstAuditTemplat> firstAuditTemplats = firstAuditTemplatService.find(map2);
+        model.addAttribute("dds", dds);
+        model.addAttribute("items1", items1);
+        model.addAttribute("items2", items2);
+        model.addAttribute("packageId", packageId);
+        model.addAttribute("projectId", projectId);
+        model.addAttribute("firstAuditTemplats", firstAuditTemplats);
+        model.addAttribute("flag", flag);
 	  return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc";
 	}
 	
@@ -344,9 +360,10 @@ public class AdFirstAuditController {
    * @return
    */
   @RequestMapping("/editItem")
-  public String editItem(String id, Model model){
-    FirstAudit firstAudit = service.get(id);
-    model.addAttribute("item", firstAudit);
+  public String editItem(String id, Model model, Short isConfirm){
+      FirstAudit firstAudit = service.get(id);
+      model.addAttribute("item", firstAudit);
+      model.addAttribute("isConfirm", isConfirm);
     return "bss/ppms/advanced_project/advanced_bid_file/qc_edit_item";
   }
   
@@ -439,11 +456,12 @@ public class AdFirstAuditController {
    * @throws IOException 
    */
   @RequestMapping("/loadTemplat")
-  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
+  public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId, Short isConfirm) throws IOException{
     try{
       FirstAudit record = new FirstAudit();
       record.setPackageId(packageId);
       record.setProjectId(projectId);
+      record.setIsConfirm(isConfirm);
       List<FirstAudit> firstAudits = service.findBykind(record);
       //先删除数据
       for (FirstAudit firstAudit : firstAudits) {
@@ -458,6 +476,7 @@ public class AdFirstAuditController {
         firstAudit.setPackageId(packageId);
         firstAudit.setPosition(firstAuditTemitem.getPosition());
         firstAudit.setProjectId(projectId);
+        firstAudit.setIsConfirm(isConfirm);
         //保存导入模板数据
         service.add(firstAudit);
       }
@@ -499,6 +518,7 @@ public class AdFirstAuditController {
       FirstAudit record = new FirstAudit();
       record.setPackageId(packageId);
       record.setProjectId(projectId);
+      record.setIsConfirm((short)0);
       List<FirstAudit> firstAudits = service.findBykind(record);
       //先删除数据
       for (FirstAudit firstAudit : firstAudits) {
@@ -506,6 +526,7 @@ public class AdFirstAuditController {
       }
       FirstAudit record2 = new FirstAudit();
       record2.setPackageId(id);
+      record2.setIsConfirm((short)0);
       //获取引入数据评审项
       List<FirstAudit> firstAudits2 = service.findBykind(record2);
       for (FirstAudit fa : firstAudits2) {
@@ -516,6 +537,7 @@ public class AdFirstAuditController {
         firstAudit.setPackageId(packageId);
         firstAudit.setPosition(fa.getPosition());
         firstAudit.setProjectId(projectId);
+        firstAudit.setIsConfirm((short)0);
         //保存导入模板数据
         service.add(firstAudit);
       }
@@ -531,4 +553,5 @@ public class AdFirstAuditController {
     }
     
   }
+
 }

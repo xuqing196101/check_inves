@@ -43,4 +43,9 @@ public interface PurchaseManagementMapper {
     * @throws
      */
     public List<PurchaseManagement> queryByPid(@Param("pid")String id);
+    
+    
+    public void updateStaus(@Param("purchaseId")String uniqueId);
+    
+    
 }

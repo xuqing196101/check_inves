@@ -324,8 +324,8 @@ public class FirstAuditController {
 	 * @throws IOException
 	 */
 	@RequestMapping("/savePackageFirstAudit")
-	public void savePackageFirstAudit(HttpServletResponse response, FirstAudit firstAudit) throws IOException{
-	  try {
+    public void savePackageFirstAudit(HttpServletResponse response, FirstAudit firstAudit) throws IOException{
+      try {
       int count = 0;
       String msg = "";
       if (firstAudit.getName() == null || "".equals(firstAudit.getName())) {
@@ -366,8 +366,8 @@ public class FirstAuditController {
     } finally{
         response.getWriter().close();
     }
-	  
-	}
+      
+    }
 	
 	/**
    *〈简述〉弹出编辑符合性评审项页面

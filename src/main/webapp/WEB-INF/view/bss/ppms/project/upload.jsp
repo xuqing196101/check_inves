@@ -13,7 +13,6 @@
 <script type="text/javascript">
   function start(){
     layer.confirm('您确认要启动项目吗?',{
-      offset: ['50px','90px'],
       shade:0.01,
       btn:['是','否'],
       },function(){
@@ -67,7 +66,7 @@
 
 <body>
 <div class="container">
-  <form id="att" action="${pageContext.request.contextPath}/project/start.html"  method="post" name="form1" class="simple" target="_parent">
+  <form id="att" action="${pageContext.request.contextPath}/project/savePrincipal.html"  method="post" name="form1" class="simple" target="_parent">
     <input type="hidden" name="id" value="${project.id}"/>
     <input type="hidden" id="userId" name="userId"/>
     <div id="openDiv" class="layui-layer-wrap" >

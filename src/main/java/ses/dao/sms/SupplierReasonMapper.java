@@ -18,4 +18,5 @@ public interface SupplierReasonMapper {
     int updateByPrimaryKey(SupplierReason record);
     
     List<SupplierReason> getReason(SupplierReason sr);
+
 }

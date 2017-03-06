@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.github.pagehelper.PageHelper;
 
 import bss.util.WordUtil;
-
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierProductsMapper;
@@ -29,7 +28,6 @@ import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierItemService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-
 import common.constant.StaticVariables;
 
 @Service(value = "supplierItemService")
@@ -339,6 +337,13 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         for (SupplierItem item : itemList) {
             supplierItemMapper.updateByPrimaryKeySelective(item);
         }
-    }		 
+    }
+
+	@Override
+	public void deleteBySupplierId(String supplierId) {
+	 Map<String,String> map=new HashMap<String,String>();
+	 map.put("supplierId", supplierId);
+	 supplierItemMapper.deleteByMap(map);
+	}		 
 	
 }

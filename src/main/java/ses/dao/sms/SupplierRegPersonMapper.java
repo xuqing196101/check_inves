@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierRegPerson;
 
 public interface SupplierRegPersonMapper {
@@ -48,4 +50,15 @@ public interface SupplierRegPersonMapper {
     List<SupplierRegPerson> findRegPersonByMatEngId(String supplierMatEngId);
     
     void deleteById(String id);
+    
+    /**
+     * 
+    * @Title: deleteByMatEngId
+    * @Description: 根据工程信息ID删除
+    * author: Li Xiaoxiao 
+    * @param @param engId     
+    * @return void     
+    * @throws
+     */
+    void deleteByMatEngId(@Param("engId")String engId);
 }

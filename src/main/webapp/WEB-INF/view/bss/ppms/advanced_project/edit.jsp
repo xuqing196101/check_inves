@@ -6,8 +6,8 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
-    <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js"></script> --%>
     <script type="text/javascript">
       function sum2(obj) { //数量
         var id = $(obj).next().val();
@@ -81,6 +81,7 @@
 
       function verify() {
         var projectNumber = $("input[name='projectNumber']").val();
+        projectNumber = $.trim(projectNumber);
         $.ajax({
           url: "${pageContext.request.contextPath}/advancedProject/verify.html",
           type: "post",
@@ -102,13 +103,6 @@
 
       //修改
       function edit() {
-        var name = $("input[name='name']").val();
-        var projectNumber = $("input[name='projectNumber']").val();
-        if(name == "") {
-          layer.tips("项目名称不能为空", "#jname");
-        } else if(projectNumber == "") {
-          layer.tips("项目编号不能为空", "#projectNumber");
-        } else {
           layer.confirm('您确定要修改吗?', {
               offset: ['300px', '800px'],
               shade: 0.01,
@@ -117,24 +111,14 @@
             function() {
               if(flag == true) {
                 $("#form1").submit();
+                $("#form1").validForm();
               }
             },
             function() {
               parent.layer.close();
             });
-        }
       }
 
-      //重置
-      function sel(obj) {
-        var val = $(obj).val();
-        $("select option").each(function() {
-          var opt = $(this).val();
-          if(val == opt) {
-            $(this).attr("selected", "selected");
-          }
-        });
-      }
 
       //分包
       function subPackage() {
@@ -180,7 +164,7 @@
               <input type="hidden" id="id" name="id" value="${project.id}" />
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目名称</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input type="text" id="jname" name="name" class="input_group" value="${project.name}" />
+                <input type="text" id="jname"  name="name" class="input_group" value="${project.name}" />
                 <span class="add-on">i</span>
                 <div class="cue">${ERR_name}</div>
               </div>
@@ -188,7 +172,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><i class="star_red">*</i>项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify();" class="input_group" value="${project.projectNumber}" />
+                <input type="text" id="projectNumber"  maxlength="20" name="projectNumber" onblur="verify();" class="input_group" value="${project.projectNumber}" />
                 <span class="add-on">i</span>
                 <div class="cue" id="sps">${ERR_projectNumber}</div>
               </div>
@@ -196,7 +180,7 @@
           </ul>
         </div>
         <div>
-          <h2 class="count_flow"><i>2</i>修改项目明细</h2>
+          <h2 class="count_flow"><i>2</i>查看项目明细</h2>
           <div class="ul_list">
             <div class="col-md-12 col-sm-12 col-xs-12 p0 over_scroll" id="content">
               <table id="table" class="table table-bordered table-condensed lockout">
@@ -273,11 +257,9 @@
                     <td class="advice">
                      <div class="purchasetype">
                       <c:if test="${null!=obj.purchaseType && obj.purchaseType != ''}">
-                        <select name="detail[${vs.index }].purchaseType" onchange="sel(this);" class="border0" id="select">
                           <c:forEach items="${kind}" var="kind">
-                            <option value="${kind.id}" <c:if test="${kind.id == obj.purchaseType}">selected="selected" </c:if>> ${kind.name}</option>
+                            <c:if test="${kind.id == obj.purchaseType}"> ${kind.name}</c:if>
                       </c:forEach>
-                      </select>
                       </c:if>
                       <input type="hidden" id="idss" name="detail[${vs.index }].id" value="${obj.id }">
                      </div>

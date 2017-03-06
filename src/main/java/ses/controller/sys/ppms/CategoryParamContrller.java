@@ -48,6 +48,7 @@ import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.ppms.CategoryParamService;
 import ses.util.DictionaryDataUtil;
+import ses.util.EncodingTool;
 
 import com.github.pagehelper.PageInfo;
 import com.google.gson.Gson;
@@ -863,7 +864,7 @@ public class CategoryParamContrller extends BaseSupplierController {
         
         String orgIds = request.getParameter("orgId");
         String cateIds = request.getParameter("cateId");
-        String cateNames = request.getParameter("cateName");
+        String cateNames = EncodingTool.encodeStr(request.getParameter("cateName"));
       
         return cateAssignService.assigned(orgIds, cateIds, cateNames);
         

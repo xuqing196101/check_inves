@@ -41,4 +41,6 @@ public interface CategoryAuditService {
      * @return ResponseBean 对象
      */
     public ResponseBean audit(String id, String status, String advise);
+    
+    public List<CategoryTree> initTreeStatus(String treeId);
 }

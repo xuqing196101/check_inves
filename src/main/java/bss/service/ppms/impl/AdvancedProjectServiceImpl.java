@@ -6,6 +6,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 import bss.dao.ppms.AdvancedProjectMapper;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
@@ -54,6 +58,25 @@ public class AdvancedProjectServiceImpl implements AdvancedProjectService {
             flag = false;
         }
         return flag;
+    }
+
+    @Override
+    public List<AdvancedProject> selectByDemand(HashMap<String, Object> map) {
+        
+        return advancedProjectMapper.selectByDemand(map);
+    }
+
+    @Override
+    public List<AdvancedProject> selectByOrg(HashMap<String, Object> map) {
+        
+        return advancedProjectMapper.selectByOrg(map);
+    }
+
+    @Override
+    public List<AdvancedProject> selectProjectByAll(Integer page,AdvancedProject project) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        return advancedProjectMapper.selectProjectByAll(project);
     }
     
    

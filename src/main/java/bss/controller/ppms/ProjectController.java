@@ -206,39 +206,20 @@ public class ProjectController extends BaseController {
             if(page==null){
                 page = 1;
             }
-            
-            
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             //判断如果是管理部门
             if("2".equals(orgnization.getTypeName())){
-                HashMap<String,Object> maps = new HashMap<String,Object>();
-                List<Project> list = projectService.selectProjectsByConition(map);
-                List<Project> list2 = new ArrayList<Project>();
-                for(int i=0;i<list.size();i++){
+                map.put("orgId", user.getOrg().getId());
+                List<Project> list = projectService.selectByOrg(map);
+                for (int i = 0; i < list.size(); i++ ) {
                     try {
                         User contractor = userService.getUserById(list.get(i).getPrincipal());
                         list.get(i).setProjectContractor(contractor.getRelName());
                     } catch (Exception e) {
                         list.get(i).setProjectContractor("");
-                    } finally {
-                        maps.put("projectId", list.get(i).getId());
-                        List<ProjectTask> projectTask = projectTaskService.queryByNo(maps);
-                        for (ProjectTask projectTask2 : projectTask) {
-                            Task task = taskservice.selectById(projectTask2.getTaskId());
-                            if(task != null){
-                                if(user.getOrg().getId().equals(task.getOrgId())){
-                                    maps.put("taskId", task.getId());
-                                    List<ProjectTask> projectTasks = projectTaskService.queryByNo(maps);
-                                    Project project2 = projectService.selectById(projectTasks.get(0).getProjectId());
-                                    list2.add(project2);
-                                }
-                            }
-                        }
                     }
                 }
-                //项目去重
-                removeProject(list2);
-                model.addAttribute("info", new PageInfo<Project>(list2));
+                model.addAttribute("info", new PageInfo<Project>(list));
             }
             
             
@@ -261,15 +242,17 @@ public class ProjectController extends BaseController {
             
             //判断如果是需求部门
             if("0".equals(orgnization.getTypeName())){
-                HashMap<String, Object> mop = new HashMap<>();
-                List<Project> newPro = new ArrayList<Project>();
-                mop.put("id", user.getId());
-                List<ProjectDetail> lists = detailService.selectByDemand(mop);
-                for (ProjectDetail projectDetail : lists) {
-                    Project project2 = projectService.selectById(projectDetail.getProject().getId());
-                    newPro.add(project2);
+                map.put("userId", user.getId());
+                List<Project> list = projectService.selectByDemand(map);
+                for (int i = 0; i < list.size(); i++ ) {
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
                 }
-                model.addAttribute("info", new PageInfo<Project>(newPro));
+                model.addAttribute("info", new PageInfo<Project>(list));
             }
                 
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -315,36 +298,14 @@ public class ProjectController extends BaseController {
                 page = 1;
             }
             PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            //判断如果是管理部门
+          //判断如果是管理部门
             if("2".equals(orgnization.getTypeName())){
-                HashMap<String,Object> maps = new HashMap<String,Object>();
-                List<Project> list = projectService.selectProjectsByConition(map);
-                List<Project> list2 = new ArrayList<Project>();
-                for(int i=0;i<list.size();i++){
-                    try {
-                        User contractor = userService.getUserById(list.get(i).getPrincipal());
-                        list.get(i).setProjectContractor(contractor.getRelName());
-                    } catch (Exception e) {
-                        list.get(i).setProjectContractor("");
-                    } finally {
-                        maps.put("projectId", list.get(i).getId());
-                        List<ProjectTask> projectTask = projectTaskService.queryByNo(maps);
-                        for (ProjectTask projectTask2 : projectTask) {
-                            Task task = taskservice.selectById(projectTask2.getTaskId());
-                            if(task != null){
-                                if(user.getOrg().getId().equals(task.getOrgId())){
-                                    maps.put("taskId", task.getId());
-                                    List<ProjectTask> projectTasks = projectTaskService.queryByNo(maps);
-                                    Project project2 = projectService.selectById(projectTasks.get(0).getProjectId());
-                                    list2.add(project2);
-                                }
-                            }
-                        }
-                    }
+                map.put("orgId", user.getOrg().getId());
+                List<Project> list = projectService.selectByOrg(map);
+                for (int i = 0; i < list.size(); i++ ) {
+                    list.get(i).setProjectContractor(list.get(i).getPrincipal());
                 }
-                //项目去重
-                removeProject(list2);
-                model.addAttribute("info", new PageInfo<Project>(list2));
+                model.addAttribute("info", new PageInfo<Project>(list));
             }
             
             //判断如果是采购机构
@@ -719,8 +680,8 @@ public class ProjectController extends BaseController {
      */
      @RequestMapping(value="/nextStep",produces = "text/html;charset=UTF-8")
      public String nextStep(Project project,Model model, String num, String checkId){
-         String status = DictionaryDataUtil.getId("YJLX");
-         project.setStatus(status);
+         /*String status = DictionaryDataUtil.getId("YJLX");
+         project.setStatus(status);*/
          project.setIsRehearse(0);
          project.setIsProvisional(0);
          String[] id = checkId.split(",");
@@ -732,6 +693,9 @@ public class ProjectController extends BaseController {
             }
          }
          projectService.update(project);
+         
+         
+         
          
         /* HashMap<String,Object> projectMap = new HashMap<String,Object>();
          projectMap.put("projectNumber", project.getProjectNumber());
@@ -746,7 +710,7 @@ public class ProjectController extends BaseController {
          model.addAttribute("project", newProject);
          model.addAttribute("num", num);*/
          //return "bss/ppms/project/sub_package";
-         return "redirect:list.html";
+         return "redirect:startProject.html?id="+project.getId();
      }
      
     
@@ -1741,6 +1705,23 @@ public class ProjectController extends BaseController {
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/project/upload";
     }
+    
+    @RequestMapping("/savePrincipal")
+    public String savePrincipal(String id, String principal){
+        String status = DictionaryDataUtil.getId("YJLX");
+        User user = userService.getUserById(principal);
+        if(StringUtils.isNotBlank(id)){
+            Project project = projectService.selectById(id);
+            if(project != null){
+                project.setPrincipal(principal);
+                project.setIpone(user.getMobile());
+                project.setStatus(status);
+                project.setStartTime(new Date());
+                projectService.update(project);
+            }
+        }
+        return "redirect:listProject.html";
+    }
 
     /**
      * 
@@ -1755,14 +1736,8 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping("/start")
     public String start(@CurrentUser User users, String id, String principal,HttpServletRequest request) {
-        String status = DictionaryDataUtil.getId("SSZ_WWSXX");
         Project project = projectService.selectById(id);
-        User user = userService.getUserById(principal);
-        project.setPrincipal(principal);
-        project.setIpone(user.getMobile());
-        project.setStatus(status);
-        project.setStartTime(new Date());
-        projectService.update(project);
+        User user = userService.getUserById(project.getPrincipal());
         //设置各环节经办人默认为承办人
         FlowExecute flowExecute = new FlowExecute();
         flowExecute.setProjectId(id);
@@ -1975,17 +1950,6 @@ public class ProjectController extends BaseController {
             return "bss/ppms/project/editDetail";
         }
         projectService.update(project);
-        //修改项目明细
-        if(lists!=null){
-            /*if(lists.getLists()!=null&&lists.getLists().size()>0){
-                for( ProjectDetail details:lists.getLists()){
-                    if( details.getId()!=null){
-                        detailService.update(details);
-                    }
-                }
-                
-            }*/
-        }
         return "redirect:listProject.html";
     }
     
@@ -2777,6 +2741,11 @@ public class ProjectController extends BaseController {
     @RequestMapping("/excute")
     public String execute(String id, Model model, Integer page) {
         Project project = projectService.selectById(id);
+        String id2 = DictionaryDataUtil.getId("JYLX");
+        if(id2.equals(project.getStatus())){
+            project.setStatus(DictionaryDataUtil.getId("SSZ_WWSXX"));
+            projectService.update(project);
+        }
         model.addAttribute("project", project);
         model.addAttribute("page", page);
         HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), id);
@@ -3082,12 +3051,6 @@ public class ProjectController extends BaseController {
          if("15".equals(type)){
              downFileName = new String("劳务发放登记表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
          }
-         /*if("16".equals(type)){
-             downFileName = new String("中标供应商审批书.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }
-         if("17".equals(type)){
-             downFileName = new String("采购合同审批表.doc".getBytes("UTF-8"), "iso-8859-1");// 为了解决中文名称乱码问题
-         }*/
         return projectService.downloadFile(fileName, filePath, downFileName);
      }
      
@@ -3190,16 +3153,6 @@ public class ProjectController extends BaseController {
              /** 生成word 返回文件名 */
              newFileName = WordUtil.createWord(dataMap, "issueRegistration.ftl", fileName, request);
          }
-         /*if("16".equals(type)){
-             String fileName = new String(("中标供应商审批书.doc").getBytes("UTF-8"), "UTF-8");
-             *//** 生成word 返回文件名 *//*
-             newFileName = WordUtil.createWord(dataMap, "winningSupplier.ftl", fileName, request);
-         }
-         if("17".equals(type)){
-             String fileName = new String(("采购合同审批表.doc").getBytes("UTF-8"), "UTF-8");
-             *//** 生成word 返回文件名 *//*
-             newFileName = WordUtil.createWord(dataMap, "procurement.ftl", fileName, request);
-         }*/
          return newFileName;
      }
      
@@ -3229,7 +3182,6 @@ public class ProjectController extends BaseController {
         String num = "1";
         String number = "2";
         String[] ids = id.split(",");
-        //List<PurchaseRequired> requireds = new ArrayList<PurchaseRequired>();
         List<String> id2 = getIds(ids);
         Set<String> set = new HashSet<String>();
         for (String string : id2) {
@@ -3284,51 +3236,6 @@ public class ProjectController extends BaseController {
         return "redirect:listProject.html";
     }
     
-    /**
-     * 
-     *〈废标〉
-     *〈详细描述〉
-     * @author FengTian
-     * @param id
-     * @return
-     */
-    /*@RequestMapping("/abandoned")
-    @ResponseBody
-    public String abandoned(String id){
-        if(StringUtils.isNotBlank(id)){
-            //修改项目状态为已废标
-            Project project = projectService.selectById(id);
-            if(project != null){
-                project.setStatus(DictionaryDataUtil.getId("YJFB"));
-                projectService.update(project);
-            }
-            //将明细变成可立项状态
-            HashMap<String, Object> map = new HashMap<>();
-            map.put("id", id);
-            List<ProjectDetail> list = detailService.selectById(map);
-            if(list != null && list.size() > 0){
-                for (ProjectDetail projectDetail : list) {
-                    PurchaseDetail detail = purchaseDetailService.queryById(projectDetail.getRequiredId());
-                    detail.setProjectStatus(0);
-                    purchaseDetailService.updateByPrimaryKeySelective(detail);
-                }
-            }
-            //将任务状态变成已受领
-            HashMap<String, Object> map1 = new HashMap<>();
-            map1.put("projectId", id);
-            List<ProjectTask> projectTasks = projectTaskService.queryByNo(map1);
-            if(projectTasks != null && projectTasks.size() > 0){
-                for (ProjectTask projectTask : projectTasks) {
-                    Task task = taskservice.selectById(projectTask.getTaskId());
-                    if("1".equals(task.getNotDetail())){
-                        task.setNotDetail(0);
-                        taskservice.update(task);
-                    }
-                }
-            }
-        }
-        return JSON.toJSONString(SUCCESS);
-    }*/
     
     
     @RequestMapping("/feibiao")

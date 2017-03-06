@@ -2,6 +2,7 @@ package bss.controller.sstps;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.User;
+import ses.model.sms.Supplier;
 import ses.service.bms.UserServiceI;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
@@ -34,6 +37,7 @@ import bss.service.sstps.ContractProductService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+import common.annotation.CurrentUser;
 
 /**
  * 
@@ -52,6 +56,9 @@ public class AppraisalContractController extends BaseSupplierController{
 	
 	@Autowired
 	private UserServiceI userService;
+	
+	@Autowired
+	private SupplierService supplierService;
 	
 	@Autowired
 	private ContractProductService contractProductService;
@@ -105,11 +112,29 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/select")
-	public String select(Model model,Integer page){
-		List<AppraisalContract> list = appraisalContractService.select(null, page==null?1:page);
-		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
-		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-		return "bss/sstps/appraisal/list";
+	public String select(Model model,Integer page, HttpServletRequest req) {
+	    AppraisalContract sib = new AppraisalContract();
+        User judge = (User)req.getSession().getAttribute("loginUser");
+        List<AppraisalContract> list = new ArrayList<AppraisalContract>();
+        if ("1".equals(judge.getOrg().getTypeName())) {
+            list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
+            for (AppraisalContract ac : list) {
+                Supplier supplier = supplierService.get(ac.getSupplierName());
+                ac.setSupplierName(supplier.getSupplierName());
+            }
+            model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+            logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
+            return "bss/sstps/appraisal/list";
+        } else {
+            sib.setAppraisal(1);
+            list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
+            for (AppraisalContract ac : list) {
+                Supplier supplier = supplierService.get(ac.getSupplierName());
+                ac.setSupplierName(supplier.getSupplierName());
+            }
+            model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+            return "bss/sstps/distribution/list";
+        }
 	}
 	
 	/**
@@ -239,6 +264,10 @@ public class AppraisalContractController extends BaseSupplierController{
 	@RequestMapping("/selectDistribution")
 	public String selectDistribution(Model model,Integer page){
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
+		for (AppraisalContract ac : list) {
+            Supplier supplier = supplierService.get(ac.getSupplierName());
+            ac.setSupplierName(supplier.getSupplierName());
+        }
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "bss/sstps/distribution/list";
@@ -320,7 +349,7 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/serch")
-	public String serch(AppraisalContract appraisalContract,Integer like,Model model,Integer page){
+	public String serch(AppraisalContract appraisalContract,Model model,Integer page, HttpServletRequest req){
 		AppraisalContract sib = new AppraisalContract();
 		String name = appraisalContract.getName();
 		String code = appraisalContract.getCode();
@@ -334,25 +363,34 @@ public class AppraisalContractController extends BaseSupplierController{
 		if(supplierName!=null){
 			sib.setSupplierName("%"+supplierName+"%");
 		}
-		if(like==0){
-			List<AppraisalContract> list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
-			model.addAttribute("list", new PageInfo<AppraisalContract>(list));
-			model.addAttribute("name",name);
-			model.addAttribute("code",code);
-			model.addAttribute("supplierName",supplierName);
-			logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
-			return "bss/sstps/appraisal/list";
-		}if(like==1){
-			sib.setAppraisal(like);
-			List<AppraisalContract> list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
-			model.addAttribute("list", new PageInfo<AppraisalContract>(list));
-			model.addAttribute("name",name);
-			model.addAttribute("code",code);
-			model.addAttribute("supplierName",supplierName);
-			return "bss/sstps/distribution/list";
-		}
-		return "";
+		
+		User judge = (User)req.getSession().getAttribute("loginUser");
+        List<AppraisalContract> list = new ArrayList<AppraisalContract>();
+        if ("1".equals(judge.getOrg().getTypeName())) {
+            list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
+            for (AppraisalContract ac : list) {
+                Supplier supplier = supplierService.get(ac.getSupplierName());
+                ac.setSupplierName(supplier.getSupplierName());
+            }
+            model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+            model.addAttribute("name",name);
+            model.addAttribute("code",code);
+            model.addAttribute("supplierName",supplierName);
+            logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
+            return "bss/sstps/appraisal/list";
+        } else {
+            sib.setAppraisal(1);
+            list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
+            for (AppraisalContract ac : list) {
+                Supplier supplier = supplierService.get(ac.getSupplierName());
+                ac.setSupplierName(supplier.getSupplierName());
+            }
+            model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+            model.addAttribute("name",name);
+            model.addAttribute("code",code);
+            model.addAttribute("supplierName",supplierName);
+            return "bss/sstps/distribution/list";
+        }
 	}
-	
 
 }

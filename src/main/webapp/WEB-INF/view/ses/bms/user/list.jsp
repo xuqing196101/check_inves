@@ -303,7 +303,7 @@
 					  <th class="info">单位</th>
 					  <th class="info">联系电话</th>
 					  <th class="info">角色</th>
-					  <th class="info">权限</th>
+					  <th class="info w80">权限</th>
 					</tr>
 		      </thead>
 		      <tbody>
@@ -332,7 +332,7 @@
 			        	</c:forEach>
 			        		<input type="hidden" id="role_code" value="${roleCode}">
 					  </td>
-					  <td>
+					  <td class="tc">
 					  	<a href="#" onclick="viewPermission('${user.id}');">查看</a>
 					  </td>
 					</tr>

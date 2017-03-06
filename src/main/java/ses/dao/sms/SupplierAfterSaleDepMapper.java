@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAfterSaleDep;
 
 /**
@@ -61,4 +63,14 @@ public interface SupplierAfterSaleDepMapper {
      * @return
      */
     public List < SupplierAfterSaleDep > findAfterSaleDepBySupplierId(String supplierId);
+    /**
+     * 
+    * @Title: deleteBySupplierId
+    * @Description: 根据供应商I的删除所有的信息
+    * author: Li Xiaoxiao 
+    * @param @param supplierId     
+    * @return void     
+    * @throws
+     */
+    public void deleteBySupplierId(@Param("supplierId")String supplierId);
 }

@@ -118,10 +118,10 @@
               <%--<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${contract.id }" /></td>
             --%>
               <td class="tc"><input type="hidden" value="${contract.id }" />${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tc">${contract.name }</td>
-              <td class="tc">${contract.code }</td>
-              <td class="tc">${contract.money }</td>
-              <td class="tc">${contract.supplierName }</td>
+              <td class="tl">${contract.name }</td>
+              <td class="tl">${contract.code }</td>
+              <td class="tr">${contract.money }</td>
+              <td class="tl">${contract.supplierName }</td>
               <td class="tc">
                 <c:if test="${contract.appraisal=='1' }">
                   审价中

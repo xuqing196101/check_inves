@@ -43,7 +43,7 @@ public class AuditParameterController {
     @RequestMapping(value = "/initTree",produces= "application/json;charset=UTF-8")
     public List<CategoryTree> list(String id){
         
-        return auditService.initTree(id);
+        return auditService.initTreeStatus(id);
     }
     
     /**

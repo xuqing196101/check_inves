@@ -24,12 +24,26 @@ import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
 import ses.dao.bms.QualificationMapper;
+import ses.dao.bms.RoleMapper;
 import ses.dao.bms.TodosMapper;
 import ses.dao.bms.UserMapper;
+import ses.dao.sms.SupplierAddressMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
+import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierAuditMapper;
+import ses.dao.sms.SupplierBranchMapper;
+import ses.dao.sms.SupplierCertEngMapper;
+import ses.dao.sms.SupplierCertProMapper;
+import ses.dao.sms.SupplierCertSellMapper;
+import ses.dao.sms.SupplierCertServeMapper;
 import ses.dao.sms.SupplierFinanceMapper;
+import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierMapper;
+import ses.dao.sms.SupplierMatEngMapper;
+import ses.dao.sms.SupplierMatProMapper;
+import ses.dao.sms.SupplierMatSellMapper;
+import ses.dao.sms.SupplierMatServeMapper;
+import ses.dao.sms.SupplierRegPersonMapper;
 import ses.dao.sms.SupplierStockholderMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.formbean.ContractBean;
@@ -51,6 +65,10 @@ import ses.model.sms.SupplierBranch;
 import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
+import ses.model.sms.SupplierMatPro;
+import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
@@ -66,8 +84,8 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
-import ses.util.SupplierLevelUtil;
-
+import ses.util.WfUtil;
+import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 
 
@@ -146,6 +164,53 @@ public class SupplierServiceImpl implements SupplierService {
     @Autowired
     private  AreaMapper areaMapper;
     
+    @Autowired
+    private SupplierBranchMapper supplierBranchMapper;
+    
+    @Autowired 
+    private SupplierAddressMapper supplierAddressMapper; 
+    
+    @Autowired
+    private SupplierMatProMapper supplierMatProMapper;
+    
+    
+    @Autowired
+    private SupplierCertProMapper supplierCertProMapper;
+    
+    @Autowired
+    private SupplierMatSellMapper supplierMatSellMapper;
+
+    @Autowired
+    private SupplierCertSellMapper supplierCertSellMapper;
+    
+    @Autowired
+    private SupplierMatEngMapper supplierMatEngMapper;
+    
+    @Autowired
+    private SupplierCertEngMapper supplierCertEngMapper;
+    
+    @Autowired
+    private SupplierRegPersonMapper  supplierRegPersonMapper;
+    
+    @Autowired
+    private SupplierAptituteMapper supplierAptituteMapper;
+    
+    
+    @Autowired
+    private SupplierMatServeMapper supplierMatServeMapper;
+    
+    @Autowired
+    private SupplierCertServeMapper supplierCertServeMapper;
+    
+    @Autowired
+    private SupplierItemMapper supplierItemMapper;
+    
+    @Autowired
+    private RoleMapper roleMapper;
+     
+    @Autowired
+    private FileUploadMapper fileUploadMapper;
+    
     @Override
     public Supplier get(String id) {
         Supplier supplier = supplierMapper.getSupplier(id);
@@ -199,6 +264,8 @@ public class SupplierServiceImpl implements SupplierService {
         	supplier.setBranchList(list);
         }else{
             SupplierBranch branch=new SupplierBranch();
+            String bid = WfUtil.createUUID();
+            branch.setId(bid);
             list.add(branch);
             supplier.setBranchList(list);
         }
@@ -830,7 +897,48 @@ public class SupplierServiceImpl implements SupplierService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void deleteSupplier(String supplierId) {
+    	
+    	User user = userMapper.findUserByTypeId(supplierId);
+    	Userrole userRole=new Userrole();
+    	userRole.setUserId(user);
+    	roleMapper.deleteRoelUser(userRole);
+    	userMapper.deleteByPrimaryKey(user.getId());
         supplierMapper.deleteSupplier(supplierId);
+        supplierStockholderMapper.deleteStockholderBySupplierId(supplierId);
+        supplierFinanceMapper.deleteFinanceBySupplierId(supplierId);
+        supplierBranchMapper.deleteBySupplierId(supplierId);
+        supplierAddressMapper.deleteBySupplierId(supplierId);
+        supplierAfterSaleDepMapper.deleteBySupplierId(supplierId);
+       
+        SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
+        supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+        supplierMatProMapper.deleteBySupplierId(supplierId);
+        
+        SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
+        supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+        supplierMatSellMapper.deleteByPrimaryKey(supplierId);
+        
+        SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
+        supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+        supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
+        supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+        supplierMatEngMapper.deleteByPrimaryKey(supplierId);
+        
+        SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
+        supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
+        supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+
+        supplierTypeRelateMapper.deleteBySupplierId(supplierId);
+        List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
+        
+        for(SupplierItem s:items){
+        	fileUploadMapper.deleteByBusinessId(s.getId());
+        }
+        supplierItemMapper.deleteBySupplierId(supplierId);
+        
+        
+        
+        
     }
     
 }
