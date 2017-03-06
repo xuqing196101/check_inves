@@ -430,6 +430,7 @@
 								<label class="fl">供应商状态：</label>
 								<select id="status" name="status" class="w220">
 									<option selected="selected" value=''>-请选择-</option>
+									<option value="-1">暂存</option>
 									<option value="0">待审核</option>
 									<option value="1">审核通过</option>
 									<option value="2">审核退回修改</option>

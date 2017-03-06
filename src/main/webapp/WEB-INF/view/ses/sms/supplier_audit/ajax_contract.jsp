@@ -113,8 +113,11 @@
 							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 						</td>
 						<td class="tc w50">
-							<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+							<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,obj.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,obj.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 							<p id="${obj.id}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+							<c:if test="${fn:contains(passedField,obj.id)}">
+								<img src='/zhbj/public/backend/images/sc.png'>
+							</c:if>
 						</td>
 					</tr>
 				</c:forEach>

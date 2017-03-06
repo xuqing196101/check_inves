@@ -282,7 +282,11 @@
 		              <td class="tc" id="proportion_${s.id }" <c:if test="${fn:contains(field,s.id.concat('_proportion'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('proportion','${s.id}');"</c:if>>${s.proportion}</td>
 		              <td class="tc w50" >
 		                <a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
-		                <p onclick="reason('${s.id}','${s.name}');" id="${s.id}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+		                <p onclick="reason('${s.id}','${s.name}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+		              	
+		              	<c:if test="${fn:contains(passedField,s.id)}">
+		              		<img src='/zhbj/public/backend/images/sc.png'>
+		              	</c:if>
 		              </td>
 	              </tr>
 	            </c:forEach>

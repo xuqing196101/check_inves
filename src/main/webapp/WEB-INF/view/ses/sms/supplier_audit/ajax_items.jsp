@@ -60,8 +60,12 @@
 		    <td class="tl pl20">${item.thirdNode}</td>
 		    <td class="tl pl20">${item.fourthNode}</td>
 		    <td class="tc w50 hand">
-					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><img src='/zhbj/public/backend/images/light_icon.png'></a>
+					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,item.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,item.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 					<p id="${item.itemsId}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+					
+					<c:if test="${fn:contains(passedField,item.itemsId)}">
+						<img src='/zhbj/public/backend/images/sc.png'>
+					</c:if>
 				</td>
 				<%-- <td >
 					<u:upload id="up${vs.index + 1 }" businessId="${item.itemsId}" buttonName="上传考察报告" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPresentation}" auto="true" /> 

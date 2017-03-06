@@ -412,6 +412,17 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("fieldBranch", fieldBranch);
 		}
+		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("basic_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedField", passedField);
 		return "ses/sms/supplier_audit/essential";
 	}
 
@@ -455,6 +466,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			request.setAttribute("field", field);
 		}
 		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("basic_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedField", passedField);
 		
 		return "ses/sms/supplier_audit/financial";
 	}
@@ -507,6 +528,18 @@ public class SupplierAuditController extends BaseSupplierController {
 			url = request.getContextPath() + "/supplierAudit/items.html";
 		}
 		request.setAttribute("url", url);
+		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("basic_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedField", passedField);
+				
 		return "ses/sms/supplier_audit/shareholder";
 	}
 
@@ -835,6 +868,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 		request.setAttribute("materialProduction", materialProduction);
 		request.setAttribute("supplierMatPros", supplierMatPro);
+		
+		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("mat_pro_page");
+		List < SupplierAudit > reasonsProList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedProField = new StringBuffer();
+		for(SupplierAudit a : reasonsProList){
+			passedProField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedProField", passedProField);
 
 		/**
 		 * 销售
@@ -869,6 +914,15 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("fieldSell", fieldSell);
 		}
+		
+		//回显未通过字段
+		supplierAudit.setAuditType("mat_sell_page");
+		List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedSellField = new StringBuffer();
+		for(SupplierAudit a : reasonsSellList){
+			passedSellField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedSellField", passedSellField);
 		
 		/**
 		 * 工程
@@ -977,6 +1031,15 @@ public class SupplierAuditController extends BaseSupplierController {
 			request.setAttribute("fieldAptitutes", fieldAptitutes);
 		}
 		
+		//回显未通过字段
+		supplierAudit.setAuditType("mat_eng_page");
+		List < SupplierAudit > reasonsEngList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedEngField = new StringBuffer();
+		for(SupplierAudit a : reasonsEngList){
+			passedEngField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedEngField", passedEngField);
+		
 		
 		/**
 		 * 服务
@@ -1010,7 +1073,22 @@ public class SupplierAuditController extends BaseSupplierController {
 			request.setAttribute("fieldServe", fieldServe);
 		}
 		
-
+		//回显未通过字段
+		supplierAudit.setAuditType("mat_serve_page");
+		List < SupplierAudit > reasonsServeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedServeField = new StringBuffer();
+		for(SupplierAudit a : reasonsServeList){
+			passedServeField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedServeField", passedServeField);
+		
+		supplierAudit.setAuditType("supplierType_page");
+		List < SupplierAudit > reasonstTypeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedTypeField = new StringBuffer();
+		for(SupplierAudit a : reasonstTypeList){
+			passedTypeField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedTypeField", passedTypeField);
 		return "ses/sms/supplier_audit/supplierType";
 	}
 
@@ -1422,6 +1500,16 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		request.setAttribute("supplierStatus", supplierStatus);
+		
+		//回显未通过字段
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("download_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		request.setAttribute("passedField", passedField);
 		return "ses/sms/supplier_audit/application_form";
 	}
 
@@ -1509,6 +1597,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
+		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierItem.getSupplierId());
+		supplierAudit.setAuditType("items_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		model.addAttribute("passedField", passedField);
 		return "ses/sms/supplier_audit/ajax_items";
 	}
 	
@@ -2085,6 +2184,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("aptitude_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		model.addAttribute("passedField", passedField);
+		
 		return "ses/sms/supplier_audit/aptitude";
 	}
 
@@ -2480,7 +2591,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("supplierId", supplierId);
 		// 供应商附件sysKey参数
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-
+		
+		
+		//回显未通过字段
+		SupplierAudit supplierAudit = new SupplierAudit();
+		supplierAudit.setSupplierId(supplierId);
+		supplierAudit.setAuditType("contract_page");
+		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+		StringBuffer passedField = new StringBuffer();
+		for(SupplierAudit a : reasonsList){
+			passedField.append(a.getAuditField() + ",");
+		}
+		model.addAttribute("passedField", passedField);
 		return "ses/sms/supplier_audit/ajax_contract";
 	}
 
