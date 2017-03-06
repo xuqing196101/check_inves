@@ -209,4 +209,14 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
         }
     }
 
+    @Override
+    public List<User> getUserByMid(String id) {
+        //查询拥有该菜单权限的角色
+        List<String> roleIds = roleMapper.getByMid(id);
+        //查询拥有该角色的用户
+        System.out.println(roleIds);
+        //剔除个性化去掉改菜单的用户 
+        return null;
+    }
+
 }

@@ -181,8 +181,13 @@
 	            <label class="fl margin-bottom-0"><input type="radio" name="ranges" value="0">内网</label>
 	            <label class="ml30 fl"><input type="radio" name="ranges" value="2" >内外网</label>
 	         </div><br>
-	         
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
+			 <c:if test='${article.name == null || article.name == ""}'>
+	             <input type="hidden" id="articleContent" value='${article1.content}'>
+			 </c:if>
+			 <c:if test='${article.name != null && article.name != ""}'>
+	             <input type="hidden" id="articleContent" value='${article.content}'>
+			 </c:if>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
 
                           <%-- 上传附件： 
@@ -248,19 +253,13 @@
         ]	
     }
     var ue = UE.getEditor('editor', option);
-    var content = ""; 
-    var atrName = '${article.name}';
-    if (atrName == null || atrName == "") {
-    	content = '${article1.content}';
-	} else {
-		content = '${article.content}';
-	}
-	    ue.ready(function(){
-	        //需要ready后执行，否则可能报错
-	       // ue.setContent("<h1>欢迎使用UEditor！</h1>");
-	        ue.setContent(content);
-	        ue.setHeight(500);
-	    });
+    var content = $("#articleContent").val(); 
+    ue.ready(function(){
+        //需要ready后执行，否则可能报错
+       // ue.setContent("<h1>欢迎使用UEditor！</h1>");
+        ue.setContent(content);
+        ue.setHeight(305);
+    });
     </script>
 </body>
 </html>

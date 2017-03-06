@@ -418,4 +418,14 @@
     AND	POSITION &lt; #{oldPosition}
     </if>
   </select>
+  
+  <!--16 查询拥有该菜单权限的角色 -->
+  <select id="getByMid" resultType="java.lang.String"  parameterType="Object">
+    select
+    ROLE_ID
+    from T_SES_BMS_ROLE_PERMISSION  
+    WHERE
+    PERMENU_ID = #{mid}
+  </select>
+  
 </mapper>

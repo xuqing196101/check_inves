@@ -6,6 +6,7 @@
 <head>
 	<meta http-equiv="content-type" content="text/html; charset=UTF-8">
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript">
        	$(function() {
 	  		//获取查看或操作权限
@@ -69,19 +70,19 @@
 	            <label class="ml30 fl"><input type="radio" disabled="disabled" name="ranges" value="1" >内外网</label>
 	         </div><br>
         	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
+             <input type="hidden" id="articleContent" value='${article.content}'>
              <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >公告附件：</span>
-             		 <u:show  showId="b" groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId}"/>
-              </li>
-              <%-- <li class="col-md-3 col-sm-6 col-xs-12">
-	              <span class="" >审批附件: </span>
-                  <u:show  showId="d"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId_examine}"/>
-              </li> --%>
-              <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	              <span class="" >保密委员会表: </span>
-                  <u:show  showId="f"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${security}"/>
-              </li>
+             <ul class="clear p0 col-md-12 col-xs-12 col-sm-12 ">
+                <li class="col-md-3 col-sm-6 col-xs-12 mt10">
+                  <span class="fl">公告附件：</span>
+                  <u:show  showId="b" groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${typeId}"/>
+                </li>
+                
+                <li class="col-md-3 col-sm-6 col-xs-12 mt10">
+                  <span class="fl">单位及保密委员会审核表：</span>
+                  <u:show  showId="fl"  groups="b,d,f,g" delete="false" businessId="${article.id}" sysKey="${sysKey}" typeId="${security}"/>
+                </li>
+             </ul>
         </div>
       </form>
 	  <div class="dnone" id="preview">
@@ -108,13 +109,13 @@
 		</div>		     
     <script type="text/javascript">
     var ue = UE.getEditor('editor'); 
-    var content='${article.content}';
+    var content = $("#articleContent").val(); 
     ue.ready(function(){
         //需要ready后执行，否则可能报错
        // ue.setContent("<h1>欢迎使用UEditor！</h1>");
         ue.setContent(content); 
         ue.setDisabled(true);
-        ue.setHeight(500);
+        ue.setHeight(270);
     })
     </script>
 </body>
