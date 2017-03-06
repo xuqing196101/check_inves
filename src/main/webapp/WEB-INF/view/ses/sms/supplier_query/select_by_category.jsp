@@ -252,7 +252,7 @@
 				<div class="col-md-12" style="min-height:400px;">
 					<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
-							<input type="text" id="key"  value="" class="empty w220" /><br/>
+							<!-- <input type="text" id="key"  value="" class="empty w220" /><br/> -->
 							<ul id="treeDemo" class="ztree" />
 						</div>
 					</div>
@@ -291,24 +291,17 @@
 											<td class="tc">${list.contactName}</td>
 											<td class="tl pl20">${list.supplierType }</td>
 											<td class="tc">
-												<c:if test="${list.status==-1 }">
-													暂存、未提交
-												</c:if>
-												<c:if test="${list.status==0 }">
-													待初审
-												</c:if>
-												<c:if test="${list.status==1 }">
-													待复审
-												</c:if>
-												<c:if test="${list.status==2 }">
-													初审不通过
-												</c:if>
-												<c:if test="${list.status==3 }">
-													复审通过
-												</c:if>
-												<c:if test="${list.status==4 }">
-													复审不通过
-												</c:if>
+												<c:if test="${list.status==-1 }">暂存</c:if>
+												<c:if test="${list.status==0 }">待审核</c:if>
+												<c:if test="${list.status==1 }">审核通过</c:if>
+												<c:if test="${list.status==2 }">审核退回修改</c:if>
+												<c:if test="${list.status==3 }">审核未通过</c:if>
+												<c:if test="${list.status==4 }">待复核</c:if>
+												<c:if test="${list.status==5 }">复核通过</c:if>
+												<c:if test="${list.status==6 }">复核未通过</c:if>
+												<c:if test="${list.status==7 }">待考察</c:if>
+												<c:if test="${list.status==8 }">考察合格</c:if>
+												<c:if test="${list.status==9 }">考察不合格</c:if>
 											</td>
 											<td class="tc">${list.contactTelephone}</td>
 											<td class="tc">${list.level}</td>

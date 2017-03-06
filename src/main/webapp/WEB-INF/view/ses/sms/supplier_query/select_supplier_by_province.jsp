@@ -331,65 +331,68 @@
 				<h2>供应商信息</h2>
 			</div>
 			<h2 class="search_detail">
-            <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?count=0" method="post" class="mb0">
-               <input type="hidden" name="address" value="${address }">
-               <input type="hidden" name="page" id="page">
-               <ul class="demand_list">
-                  <li>
-                    <label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
-                  </li>
-                  <li>
-                    <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w230" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
-                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-                        <span class="f14">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w230" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-                        </span>
-                  </li>
-                  <li>
-                    <label class="fl">联系人：</label><span><input id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
-                  </li> 
-                  <li>
-                    <label class="fl">供应商类型：</label><span><input id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-                              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
-                  </li>
-                  <li>
-                    <label class="fl">供应商状态:</label>
-                    <span>
-                      <select id="status" name="status">
-                                    <option  selected="selected" value=''>-请选择-</option>
-                                    <option  value="-1">暂存、未提交</option>
-                                    <option  value="0">待初审</option>
-                                    <option  value="1">待复审</option>
-                                    <option  value="2">初审不通过</option>
-                                    <option  value="3">复审通过</option>
-                                    <option  value="4">复审不通过</option>
-                       </select>
-                    </span>
-                  </li>
-                  <li>
-                    <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
-                           <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
-                  </li>
-                  <li>
-		            <label class="fl">供应商级别:</label>
-		            <span>
-		              <select id="score" name="score">
-                                    <option  selected="selected" value=''>-请选择-</option>
-                                    <option  value="1">一级</option>
-                                    <option  value="2">二级</option>
-                                    <option  value="3">三级</option>
-                                    <option  value="4">四级</option>
-                                    <option  value="5">五级</option>
-                       </select>
-		            </span>
-		          </li>
-                </ul>
-                <div class="col-md-12 clear tc mt10">
-                    <button type="button" onclick="submit()" class="btn">查询</button>
-                    <button type="reset" onclick="chongzhi()" class="btn">重置</button> 
-                </div>
-                <div class="clear"></div>
-             </form>
+	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?count=0" method="post" class="mb0">
+	      	<input type="hidden" name="address" value="${address }">
+	        <input type="hidden" name="page" id="page">
+	        <ul class="demand_list">
+	        	<li>
+	          	<label class="fl">供应商名称：</label><span><input class="w220" id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
+	          </li>
+	          <li>
+	            <label class="fl">联系人：</label><span><input class="w220" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
+	          </li>
+	          <li>
+              <label class="fl">供应商状态:</label>
+              <span>
+                <select id="status" name="status" class="w220">
+	                <option  selected="selected" value=''>-请选择-</option>
+	                <option value="0">待审核</option>
+									<option value="1">审核通过</option>
+									<option value="2">审核退回修改</option>
+									<option value="3">审核未通过</option>
+									<option value="4">待复核</option>
+									<option value="5">复核通过</option>
+									<option value="6">复核未通过</option>
+									<option value="7">待考察</option>
+									<option value="8">考察合格</option>
+									<option value="9">考察不合格</option>
+                </select>
+              </span>
+            </li>
+	          <li>
+              <label class="fl">供应商类型：</label><span><input  class="w220" id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
+              <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
+            </li>
+            <li>
+              <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
+              <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }" /></span>
+            </li>
+	          <li>
+			        <label class="fl">供应商级别:</label>
+			        	<span>
+			          	<select id="score" name="score" class="w220">
+	                  <option  selected="selected" value=''>-请选择-</option>
+	                  <option  value="1">一级</option>
+	                  <option  value="2">二级</option>
+	                  <option  value="3">三级</option>
+	                  <option  value="4">四级</option>
+	                  <option  value="5">五级</option>
+			            </select>
+			       	 </span>
+	      		</li>
+	      		<li>
+	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
+	            <span class="f14">至</span>
+	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
+	            </span>
+	          </li>
+	        </ul>
+	          <div class="col-md-12 clear tc mt10">
+	              <button type="button" onclick="submit()" class="btn">查询</button>
+	              <button type="reset" onclick="chongzhi()" class="btn">重置</button> 
+	          </div>
+	          <div class="clear"></div>
+	       </form>
      </h2>
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
@@ -403,11 +406,9 @@
 							<th class="info">联系人</th>
 							<th class="info">供应商级别</th>
 							<th class="info">创建日期</th>
-
 							<th class="info">供应商类型</th>
 							<th class="info">供应商状态</th>
-
-							<th class="info">经济性质</th>
+							<th class="info">营业执照登记类型</th>
 						</tr>
 					</thead>
 					<tbody>

@@ -366,34 +366,34 @@
 		</script>
 	</head>
 	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li>
-					<a href="#"> 首页</a>
-				</li>
-				<li>
-					<a href="#">支撑系统</a>
-				</li>
-				<li>
-					<a href="#">供应商管理</a>
-				</li>
-				<li class="active">
-					<a href="#">供应商查询</a>
-				</li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div>
-	<div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-		<input type="text" id="key" value="" class="empty" /><br/>
-		<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
-	</div>
-	<div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-		<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
-	</div>
-
 	<body>
+		<div class="margin-top-10 breadcrumbs ">
+			<div class="container">
+				<ul class="breadcrumb margin-left-0">
+					<li>
+						<a href="#"> 首页</a>
+					</li>
+					<li>
+						<a href="#">支撑系统</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
+					</li>
+					<li class="active">
+						<a href="#">供应商查询</a>
+					</li>
+				</ul>
+				<div class="clear"></div>
+			</div>
+		</div>
+		<div id="roleContent" class="roleContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<input type="text" id="key" value="" class="empty" /><br/>
+			<ul id="treeRole" class="ztree" style="margin-top:0;"></ul>
+		</div>
+		<div id="supplierTypeContent" class="supplierTypeContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeSupplierType" class="ztree" style="margin-top:0;"></ul>
+		</div>
+		
 		<div class="container">
 			<div class="headline-v2">
 				<h2>供应商数量统计</h2>
@@ -402,66 +402,65 @@
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/highmaps.html" method="post" class="mb0">
 		       <input type="hidden" name="page" id="page">
 		       <ul class="demand_list">
-		          <li>
-		            <label class="fl">供应商名称：</label>
-		            <input id="supplierName" class="w220" name="supplierName" value="${supplier.supplierName }" type="text">
-		          </li>
-		          <li>
-                         <label class="fl">供应商类型：</label>
-						 <input id="supplierType" class="span2" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
-                         <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" />
-                  </li>
-		          <li>
-		            <label class="fl">联系人：</label>
-					<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
-		          </li> 
-                   <li>
-		            <label class="fl">供应商级别：</label>
-		              <select id="score" name="score" class="w220">
-                                    <option  selected="selected" value=''>-请选择-</option>
-                                    <option  value="1">一级</option>
-                                    <option  value="2">二级</option>
-                                    <option  value="3">三级</option>
-                                    <option  value="4">四级</option>
-                                    <option  value="5">五级</option>
-                       </select>
-		          </li>
-		          <li>
-		            <label class="fl">注册时间：</label>
-						<input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>'
-                        onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
-                        <span class="f13">至</span>
-                        <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
-		          </li>
-		          <li>
-                    <label class="fl pr5">品目：</label>
-					<input id="category" type="text" class="w220" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
-                    <input type="hidden" name="categoryIds" class="w220" id="categoryIds" value="${categoryIds }"   />
-                  </li>
-                  <li>
-		            <label class="fl">供应商状态：</label>
-		              <select id="status" name="status">
-                                    <option  selected="selected" value=''>-请选择-</option>
-                                    <option  value="0">待审核</option>
-                                    <option  value="1">审核通过</option>
-                                    <option  value="2">审核退回修改</option>
-                                    <option  value="3">审核未通过</option>
-                                    <option  value="4">待复核</option>
-                                    <option  value="5">复核通过</option>
-                                    <option  value="6">复核未通过</option>
-                                    <option  value="7">待考察</option>
-                                    <option  value="8">考察合格</option>
-                                    <option  value="9">考察不合格</option>
-                       </select>
-		          </li>
-		        </ul>
+							<li>
+								<label class="fl">供应商名称：</label>
+								<input id="supplierName" class="w220" name="supplierName" value="${supplier.supplierName }" type="text">
+							</li>
+							<li>
+								<label class="fl">供应商类型：</label>
+								<input id="supplierType" class="span2" type="text" name="supplierType" readonly value="${supplierType }" onclick="showSupplierType();" />
+								<input type="hidden" name="supplierTypeIds" id="supplierTypeIds" value="${supplierTypeIds }" />
+							</li>
+							<li>
+								<label class="fl">联系人：</label>
+								<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
+							</li>
+							<li>
+								<label class="fl">供应商级别：</label>
+								<select id="score" name="score" class="w220">
+									<option selected="selected" value=''>-请选择-</option>
+									<option value="1">一级</option>
+									<option value="2">二级</option>
+									<option value="3">三级</option>
+									<option value="4">四级</option>
+									<option value="5">五级</option>
+								</select>
+							</li>
+							<li>
+								<label class="fl">供应商状态：</label>
+								<select id="status" name="status" class="w220">
+									<option selected="selected" value=''>-请选择-</option>
+									<option value="0">待审核</option>
+									<option value="1">审核通过</option>
+									<option value="2">审核退回修改</option>
+									<option value="3">审核未通过</option>
+									<option value="4">待复核</option>
+									<option value="5">复核通过</option>
+									<option value="6">复核未通过</option>
+									<option value="7">待考察</option>
+									<option value="8">考察合格</option>
+									<option value="9">考察不合格</option>
+								</select>
+							</li>
+							<li>
+								<label class="fl pr5">品目：</label>
+								<input id="category" type="text" class="w220" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" />
+								<input type="hidden" name="categoryIds" class="w220" id="categoryIds" value="${categoryIds }" />
+							</li>
+							<li>
+								<label class="fl">注册时间：</label>
+								<input id="startDate" name="startDate" class="Wdate w110 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
+								<span class="f13">至</span>
+								<input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})" />
+							</li>
+						</ul>
 		        <div class="col-md-12 clear tc mt10">
-		            <button type="button" onclick="submit()" class="btn">查询</button>
-		            <button type="button" onclick="chongzhi()" class="btn">重置</button> 
-	            </div>
-	            <div class="clear"></div>
+	            <button type="button" onclick="submit()" class="btn">查询</button>
+	            <button type="button" onclick="chongzhi()" class="btn">重置</button> 
+            </div>
+            <div class="clear"></div>
 		     </form>
-     </div>
+     	</div>
 			<div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
 		</div>
 	</body>
