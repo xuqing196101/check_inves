@@ -971,3 +971,7 @@ a.redhover:hover{
     padding: 0;
 }
 
+.clearli li{
+	clear:none;
+}
+
