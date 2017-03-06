@@ -253,4 +253,6 @@ public interface CategoryMapper {
     public List<Category> findCategoryByStatusAll(Integer status);
     public List<Category> findCategoryByParentNode(HashMap<String, Object> map);
     public List<Category> findCategoryByChildren(HashMap<String, Object> map);
+    public List<Category> findCategoryByName(HashMap<String, Object> map);
+    public List<Category> findCategoryByNameOrClassify(HashMap<String, Object> map);
 }

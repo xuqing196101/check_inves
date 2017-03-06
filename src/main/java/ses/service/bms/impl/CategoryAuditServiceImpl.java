@@ -116,7 +116,6 @@ public class CategoryAuditServiceImpl implements CategoryAuditService {
 			rb.setErrorMsg("审核意见不能超过200个字");
 			return rb;
 		}
-
 		if (StringUtils.isNotBlank(id)) {
 			Category category = categoryService.selectByPrimaryKey(id);
 			HashMap<String, Object> map=new HashMap<String, Object>();
@@ -154,36 +153,6 @@ public class CategoryAuditServiceImpl implements CategoryAuditService {
 						}
 					}
 				}
-				
-					/*
-				for (int i = 0; i < treeList.size(); i++) {
-					Category categorys = treeList.get(i);
-					HashMap<String, Object> mapId=new HashMap<String, Object>();
-					mapId.put("id", categorys.getParentId());
-					List<Category> categoryChildren = categoryService.findCategoryByChildren(mapId);
-					for(int j=0;j<categoryChildren.size();j++){
-						Category categoryChil = categoryChildren.get(j);
-						List<Category> cList = categoryService.findTreeByPid(categoryChil.getId());
-                        if (cList != null &&cList.size()!=0) {
-						}else{
-							if(!category.getId().equals(categoryChil.getId())){
-								categoryChil.setParamStatus(auditStatus);
-								categoryService.updateByPrimaryKeySelective(categorys);
-							}
-							
-						} 
-					}
-					if (!categorys.getId().equals(category.getId())) {
-						List<Category> cList = categoryService.findTreeByPid(categorys.getId());
-						if (cList != null &&cList.size()!=0) {
-							
-						}else{
-							categorys.setParamStatus(auditStatus);
-							categoryService.updateByPrimaryKeySelective(categorys);
-						} 
-					}
-				}*/
-				
 			} else {
 				if (category.getParamStatus() >= StaticVariables.CATEGORY_AUDIT_STATUS) {
 					rb.setResult(false);

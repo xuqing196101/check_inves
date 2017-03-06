@@ -684,13 +684,13 @@ function importAdd(){
 	<div class="col-md-12 col-xs-12 col-sm-12 drop_hover">
 	 <div class="drop_main supp_service">
 	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
-	  <a href="">
+	  <a href="${pageContext.request.contextPath}/catalog/catalogList.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/cpml.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">产品目录</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
-	  <a href="">
+	  <a href="${pageContext.request.contextPath}/catalog/parameterList.html">
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/jscsk.jpg" width="80%" height="80%;"/></div>
 		<div class="tc f18 mt20 pt10 clear">技术参数库</div>
 	  </a>

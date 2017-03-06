@@ -761,6 +761,36 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.findCategoryByChildren(map);
 	}
 
+	@Override
+	public List<Category> findCategoryByName(HashMap<String, Object> map) {
+		List<Category> Category = categoryMapper.findCategoryByName(map);
+		
+		for(Category cate:Category){
+			List<CategoryQua> list = categoryQuaMapper.findList(cate.getId());
+			String generalQuaNames="";
+			if(list!=null&&list.size()>0){
+				for (CategoryQua cq : list){
+					 Qualification  qua = quaMapper.getQualification(cq.getQuaId());
+					 if (qua != null){
+						 generalQuaNames+=qua.getName()+",";
+					 }
+				}
+				cate.setGeneralQuaNames(generalQuaNames);
+			}
+			
+		}
+			 
+		
+		 
+		return Category;
+	}
+
+	@Override
+	public List<Category> findCategoryByNameOrClassify(
+			HashMap<String, Object> map) {
+		return categoryMapper.findCategoryByNameOrClassify(map);
+	}
+
 	
 
 }
