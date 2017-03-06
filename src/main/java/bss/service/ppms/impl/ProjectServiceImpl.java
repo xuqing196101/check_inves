@@ -191,6 +191,9 @@ public class ProjectServiceImpl implements ProjectService {
 	      List<FlowDefine> fds = flowDefineMapper.findList(fd0);
 	      //如果当前项目没有初始化各环节经办人,或者初始化的环节不够
 	      if (execute0s == null || execute0s.size() < fds.size()) {
+  	        for (FlowExecute flowExecute : execute0s) {
+  	            flowExecuteMapper.delete(flowExecute.getId());
+  	        }
 	          //设置各环节经办人默认为项目负责人
 	          FlowExecute flowExecute = new FlowExecute();
 	          flowExecute.setProjectId(projectId);

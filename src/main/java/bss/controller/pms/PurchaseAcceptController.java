@@ -233,7 +233,7 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/update")
-    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history){
+    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history,String planNo){
     	
     	String id="";
     	User user = (User) request.getSession().getAttribute("loginUser");
@@ -248,7 +248,7 @@ public class PurchaseAcceptController extends BaseController{
         				purchaseRequiredService.updateByPrimaryKeySelective(p);	
         			}
     			}else{
-    				purchaseManagementService.updateStatus(plist.get(0).getUniqueId());
+    				purchaseManagementService.updateStatus(planNo);
     				for(PurchaseRequired p:plist){
     					p.setStatus(status);
          				purchaseRequiredService.updateByPrimaryKeySelective(p);	

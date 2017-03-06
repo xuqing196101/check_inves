@@ -830,6 +830,9 @@ public class IndexNewsController extends BaseSupplierController{
 		request.getSession().setAttribute("key", Constant.TENDER_SYS_KEY);
 		model.addAttribute("indexMapper", indexMapper);
 //		model.addAttribute("isIndex", "true");
+		
+		//设置是否弹窗
+		model.addAttribute("isPopup", true);
 		return "iss/ps/index/index";
 	};
 	
