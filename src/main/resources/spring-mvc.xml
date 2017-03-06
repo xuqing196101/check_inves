@@ -152,6 +152,9 @@
 			
 <!-- 			后期删除此项 -->
 			<mvc:exclude-mapping path="/my_test/*.*" />
+			<!-- 获取id -->
+			<mvc:exclude-mapping path="/purchaser/getId.*" /> 
+			
 			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
