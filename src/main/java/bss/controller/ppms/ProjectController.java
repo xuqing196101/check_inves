@@ -303,7 +303,12 @@ public class ProjectController extends BaseController {
                 map.put("orgId", user.getOrg().getId());
                 List<Project> list = projectService.selectByOrg(map);
                 for (int i = 0; i < list.size(); i++ ) {
-                    list.get(i).setProjectContractor(list.get(i).getPrincipal());
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
                 }
                 model.addAttribute("info", new PageInfo<Project>(list));
             }
@@ -311,6 +316,7 @@ public class ProjectController extends BaseController {
             //判断如果是采购机构
             if("1".equals(orgnization.getTypeName())){
                 map.put("purchaseDepId", user.getOrg().getId());
+                map.put("appointMan", user.getId());
                 List<Project> list = projectService.selectProjectsByConition(map);
                 for (int i = 0; i < list.size(); i++ ) {
                     try {
@@ -326,15 +332,23 @@ public class ProjectController extends BaseController {
             //判断如果是需求部门
             if("0".equals(orgnization.getTypeName())){
                 HashMap<String, Object> mop = new HashMap<>();
-                List<Project> newPro = new ArrayList<Project>();
+                List<Project> list = new ArrayList<Project>();
                 mop.put("id", user.getId());
                 List<ProjectDetail> lists = detailService.selectByDemand(mop);
                 removeDetail(lists);
                 for (ProjectDetail projectDetail : lists) {
                     Project project2 = projectService.selectById(projectDetail.getProject().getId());
-                    newPro.add(project2);
+                    list.add(project2);
                 }
-                model.addAttribute("info", new PageInfo<Project>(newPro));
+                for (int i = 0; i < list.size(); i++ ) {
+                    try {
+                        User contractor = userService.getUserById(list.get(i).getPrincipal());
+                        list.get(i).setProjectContractor(contractor.getRelName());
+                    } catch (Exception e) {
+                        list.get(i).setProjectContractor("");
+                    }
+                }
+                model.addAttribute("info", new PageInfo<Project>(list));
             }
                 
             model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -679,11 +693,12 @@ public class ProjectController extends BaseController {
      * @return
      */
      @RequestMapping(value="/nextStep",produces = "text/html;charset=UTF-8")
-     public String nextStep(Project project,Model model, String num, String checkId){
+     public String nextStep(@CurrentUser User user, Project project,Model model, String num, String checkId){
          /*String status = DictionaryDataUtil.getId("YJLX");
          project.setStatus(status);*/
          project.setIsRehearse(0);
          project.setIsProvisional(0);
+         project.setAppointMan(user.getId());
          String[] id = checkId.split(",");
          List<String> list = getIds(id);
          for (int i = 0; i < list.size(); i++ ) {

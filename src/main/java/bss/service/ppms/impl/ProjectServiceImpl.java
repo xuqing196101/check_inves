@@ -368,7 +368,31 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public JSONObject isSubmit(String projectId, String currFlowDefineId) {
         JSONObject jsonObj = new JSONObject();
-        
+        //转竞争性谈判先不做！
+        /*FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        Project project = projectMapper.selectProjectByPrimaryKey(projectId);
+        if(project != null){
+            if(DictionaryDataUtil.getId("GKZB").equals(project.getStatus())){
+                if("发售标书".equals(flowDefine.getName())){
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("projectId",projectId);
+                    List<Packages> list = packageMapper.findPackageById(map);
+                    if(list != null && list.size() > 0){
+                        for (int i = 0; i < list.size(); i++ ) {
+                            SaleTender saleTender = new SaleTender();
+                            Packages packages = list.get(i);
+                            saleTender.setProject(new Project(projectId));
+                            saleTender.setPackages(packages.getId());
+                            List<SaleTender> saleTenderList = saleTenderMapper.getPackegeSupplier(saleTender);
+                            if(saleTenderList.size() < 3){
+                                jsonObj.put("erro", false);
+                            }
+                            
+                        }
+                    }
+                }
+            }
+        }*/
         jsonObj.put("success", true);
         return jsonObj;
     }

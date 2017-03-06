@@ -55,6 +55,7 @@
     <result column="CONFIRM_FILE" property="confirmFile"/>
     <result column="AUDIT_REASON" property="auditReason"/>
     <result column="PURCHASE_DEP_ID" property="purchaseDepId"/>
+    <result column="APPOINT_MAN" property="appointMan"/>
     <association property="dealSupplier" column="DEAL_SUPPLIER" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
     <association property="purchaseDep" column="PURCHASE_DEP_ID" select="ses.dao.oms.PurchaseDepMapper.findByOrgId"/>
     <association property="dictionary" column="PURCHASE_TYPE" select="ses.dao.bms.DictionaryDataMapper.selectByPrimaryKey"/>
@@ -128,7 +129,7 @@
     AMOUNT,DEAL_SUPPLIER,PURCHASE_DEP_NAME,EXECUTE_STATUS,IS_ENTRANCE,APPROVAL_TIME,REPLY_TIME,
     DEMAND_FROM_TIME,IS_REHEARSE,CREATED_AT,START_TIME,NOTICE_NEWS_TIME,APP_TIME,SIGN_UP_TIME,
     APPLY_DEADLINE,NOTICE_TIME,END_TIME,SIGNING_TIME,ACCEPTANCE_TIME,MAINTENANCE_TIME,IS_IMPORT,
-    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON
+    IS_PROVISIONAL,PLAN_TYPE,CONFIRM_FILE,AUDIT_REASON,APPOINT_MAN
   </sql>
   
   <sql id="Example_Where_Clause">
@@ -535,8 +536,11 @@
       <if test="confirmFile != null">
         CONFIRM_FILE,
       </if>
-        <if test="auditReason != null">
+      <if test="auditReason != null">
         AUDIT_REASON,
+      </if>
+      <if test="appointMan != null">
+        APPOINT_MAN,
       </if>
       
     </trim>
@@ -700,8 +704,11 @@
       <if test="confirmFile != null">
         #{confirmFile},
       </if>
-        <if test="auditReason != null">
+      <if test="auditReason != null">
         #{auditReason},
+      </if>
+      <if test="appointMan != null">
+        #{appointMan},
       </if>
     </trim>
   </insert>
@@ -864,10 +871,12 @@
       <if test="confirmFile != null">
         CONFIRM_FILE = #{confirmFile},
       </if>
-       <if test="auditReason != null">
+      <if test="auditReason != null">
         AUDIT_REASON = #{auditReason},
       </if>
-      
+      <if test="appointMan != null">
+        APPOINT_MAN = #{appointMan},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -1106,10 +1115,12 @@
       <if test="confirmFile != null">
         CONFIRM_FILE,
       </if>
-       <if test="auditReason != null">
+      <if test="auditReason != null">
         AUDIT_REASON,
       </if>
-      
+      <if test="appointMan != null">
+        APPOINT_MAN,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -1274,7 +1285,9 @@
       <if test="auditReason != null">
         #{auditReason},
       </if>
-      
+      <if test="appointMan != null">
+        #{appointMan},
+      </if>
     </trim>
   </insert>
     
@@ -1288,9 +1301,9 @@
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
-      <!-- <if test="principal != null and principal != ''">
-        and (PRINCIPAL = #{principal} OR PRINCIPAL IS NULL) 
-      </if> -->
+       <if test="appointMan != null and appointMan != ''">
+        and APPOINT_MAN = #{appointMan}
+      </if> 
       <if test="name != null and name != ''">
        and NAME like '%${name}%'
       </if>
@@ -1304,7 +1317,7 @@
       ORDER BY CREATED_AT DESC
   </select> 
   
-  
+  <!-- 管理部门登录 -->
   <select id="selectByOrg" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*
@@ -1341,7 +1354,7 @@
       ORDER BY p.CREATED_AT DESC
   </select> 
   
-  
+  <!-- 采购机构登录 -->
   <select id="selectByConition" parameterType="java.util.Map" resultMap="BaseResultMap">
       SELECT
       p.*

@@ -92,6 +92,12 @@ public class PurchaseController extends BaseController{
 		PageHelper.startPage(page == null ? 1 : page,CommonConstant.PAGE_SIZE);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		
+		if(StringUtils.isNotBlank(purchaseInfo.getRelName())){
+		    map.put("relName", purchaseInfo.getRelName());
+		}
+		if(StringUtils.isNotBlank(purchaseInfo.getPurchaseDepName())){
+		    map.put("purchaseDepName", purchaseInfo.getPurchaseDepName());
+		}
 		List<PurchaseInfo> purchaseList = purchaseServiceI.findPurchaseList(map);
 		model.addAttribute("purchaseList",purchaseList);
 		

@@ -132,6 +132,8 @@ public class Project {
     
     private String[] statusArray;//状态集合
     
+    private String appointMan; // 立项人
+    
     /**
      * @return Returns the auditReason.
      */
@@ -642,19 +644,20 @@ public class Project {
 		this.projectContractor = projectContractor;
 	}
 
-  /**
-   * @return Returns the statusArray.
-   */
-  public String[] getStatusArray() {
-    return statusArray;
-  }
+    public String[] getStatusArray() {
+        return statusArray;
+    }
 
-  /**
-   * @param statusArray The statusArray to set.
-   */
-  public void setStatusArray(String[] statusArray) {
-    this.statusArray = statusArray;
-  }
-    
-    
+    public void setStatusArray(String[] statusArray) {
+        this.statusArray = statusArray;
+    }
+
+    public String getAppointMan() {
+        return appointMan;
+    }
+
+    public void setAppointMan(String appointMan) {
+        this.appointMan = appointMan;
+    }
+
 }
