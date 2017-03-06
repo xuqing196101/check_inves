@@ -2,10 +2,12 @@ package bss.controller.sstps;
 
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -19,9 +21,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.bms.UserServiceI;
+import ses.service.oms.OrgLocaleService;
+import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.impl.OrgnizationServiceImpl;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
@@ -69,6 +76,9 @@ public class AppraisalContractController extends BaseSupplierController{
 	@Autowired
 	private ContractRequiredService contractRequiredService;
 	
+    @Autowired
+    private OrgnizationServiceI oService;
+    
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	
 	
@@ -111,16 +121,22 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/select")
-	public String select(Model model,Integer page, HttpServletRequest req) {
-	    AppraisalContract sib = new AppraisalContract();
+    @RequestMapping("/select")
+    public String select(Model model,Integer page, HttpServletRequest req) {
+        AppraisalContract sib = new AppraisalContract();
         User judge = (User)req.getSession().getAttribute("loginUser");
         List<AppraisalContract> list = new ArrayList<AppraisalContract>();
         if ("1".equals(judge.getOrg().getTypeName())) {
             list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
             for (AppraisalContract ac : list) {
-                Supplier supplier = supplierService.get(ac.getSupplierName());
-                ac.setSupplierName(supplier.getSupplierName());
+                //这个supplierName里面存的是id
+                Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+                if (supplier != null) {
+                    ac.setSupplierName(supplier.getSupplierName());
+                } else {
+                    ac.setSupplierName("");
+                }
+                ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
             }
             model.addAttribute("list", new PageInfo<AppraisalContract>(list));
             logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
@@ -129,13 +145,20 @@ public class AppraisalContractController extends BaseSupplierController{
             sib.setAppraisal(1);
             list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
             for (AppraisalContract ac : list) {
-                Supplier supplier = supplierService.get(ac.getSupplierName());
-                ac.setSupplierName(supplier.getSupplierName());
+                Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+                if (supplier != null) {
+                    ac.setSupplierName(supplier.getSupplierName());
+                } else {
+                    ac.setSupplierName("");
+                }
+                ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
             }
             model.addAttribute("list", new PageInfo<AppraisalContract>(list));
             return "bss/sstps/distribution/list";
         }
-	}
+    }
+  
+    
 	
 	/**
 	* @Title: add
@@ -148,16 +171,77 @@ public class AppraisalContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/add")
-	public String add(Model model,Integer page){
-//		List<Contracts> list = AppraisalContractService.selectContract(null, page==null?1:page);
-//		model.addAttribute("list", new PageInfo<Contracts>(list));
-		return "bss/sstps/appraisal/add";
-	}
+    public String add(Model model,Integer page){
+        Map<String, Object> map = new HashMap<String, Object>();
+        map.put("status", 2);
+        map.put("page", 1);
+        List<PurchaseContract> pcList = purchaseContractService.selectAllContractByStatus(map);
+        for (PurchaseContract contracts : pcList) {
+            if (contracts != null && contracts.getSupplierDepName() != null && !"".equals(contracts.getSupplierDepName())) {
+                Supplier supplier = supplierService.selectOne(contracts.getSupplierDepName());
+                if (supplier != null) {
+                    contracts.setSupplierDepName(supplier.getSupplierName());
+                } else {
+                    contracts.setSupplierDepName("");
+                }
+            }
+            if (contracts != null && contracts.getPurchaseDepName() != null && !"".equals(contracts.getPurchaseDepName())) {
+                Orgnization org = oService.findByCategoryId(contracts.getPurchaseDepName());
+                if (org != null) {
+                    contracts.setPurchaseDepName(org.getName());
+                } else {
+                    contracts.setPurchaseDepName("");
+                }
+            }
+            
+            if (contracts != null && contracts.getPurchaseType() != null && !"".equals(contracts.getPurchaseType())){
+                DictionaryData dictionaryData = DictionaryDataUtil.findById(contracts.getPurchaseType());
+                if (dictionaryData != null) {
+                    contracts.setPurchaseType(dictionaryData.getName());
+                } else {
+                    contracts.setPurchaseType("");
+                }
+            }
+            if (contracts.getMoney() != null && !"".equals(contracts.getMoney())) {
+                contracts.setMoney(contracts.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
+            }
+        }
+        model.addAttribute("pcList", pcList);
+        return "bss/sstps/appraisal/add";
+    }
 	
 	//模拟合同信息
-	@RequestMapping("/selectContractInfo")
-	public String selectContractInfo(Model model,String id){
-		AppraisalContract contracts = appraisalContractService.selectContractInfo(id);
+    @RequestMapping("/selectContractInfo")
+    public String selectContractInfo(Model model,String id){
+        AppraisalContract contracts = appraisalContractService.selectContractInfo(id);
+        if (contracts != null && contracts.getSupplierName() != null && !"".equals(contracts.getSupplierName())) {
+            Supplier supplier = supplierService.selectOne(contracts.getSupplierName());
+            if (supplier != null) {
+                contracts.setSupplierName(supplier.getSupplierName());
+            } else {
+                contracts.setSupplierName("");
+            }
+        }
+        if (contracts != null && contracts.getPurchaseDepName() != null && !"".equals(contracts.getPurchaseDepName())) {
+            Orgnization org = oService.findByCategoryId(contracts.getPurchaseDepName());
+            if (org != null) {
+                contracts.setPurchaseDepName(org.getName());
+            } else {
+                contracts.setPurchaseDepName("");
+            }
+        }
+        
+        if (contracts != null && contracts.getPurchaseType() != null && !"".equals(contracts.getPurchaseType())){
+            DictionaryData dictionaryData = DictionaryDataUtil.findById(contracts.getPurchaseType());
+            if (dictionaryData != null) {
+                contracts.setPurchaseType(dictionaryData.getName());
+            } else {
+                contracts.setPurchaseType("");
+            }
+        }
+        if (contracts.getMoney() != null && !"".equals(contracts.getMoney())) {
+            contracts.setMoney(contracts.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
+        }
 		model.addAttribute("contracts",contracts);
 		return "bss/sstps/appraisal/contract";
 	}
@@ -166,74 +250,115 @@ public class AppraisalContractController extends BaseSupplierController{
 	
 	/**
 	* @Title: save
-	* @author Shen Zhenfei 
+	* @author Song BiaoWei
 	* @date 2016-9-19 上午9:36:38  
 	* @Description: 保存新增合同
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/save")
-	public String save(AppraisalContract appraisalContract,String contractId,Model model){
-		
-			appraisalContract.setCreatedAt(new Date());
-			appraisalContract.setUpdatedAt(new Date());
-			appraisalContract.setAppraisal(0);
-			appraisalContract.setDistribution(0);
-		
-			PurchaseContract purchaseContract = new PurchaseContract();
-			purchaseContract.setId(contractId);
-			appraisalContract.setPurchaseContract(purchaseContract);
-			
-			boolean flag = true;
-			String url = "";
-			
-			if(ValidateUtils.isNull(appraisalContract.getName())){
-				flag = false;
-				model.addAttribute("ERR_name", "合同名称不能为空");
-			}
-			if(ValidateUtils.isNull(appraisalContract.getPurchaseType())){
-				flag = false;
-				model.addAttribute("ERR_purchaseType", "合同类型不能为空");
-			}
-			if(ValidateUtils.isNull(contractId)){
-				flag = false;
-				model.addAttribute("ERR_contractId", "合同名称不能为空");
-			}
-			if(flag==false){
-				model.addAttribute("appraisalContract", appraisalContract);
-				url = "bss/sstps/appraisal/add";
-			}else{
-				
-				appraisalContractService.insert(appraisalContract);
-				appraisalContractService.updateAppeal(contractId);
-				
-				//审价产品
-				ContractProduct contractProduct = new ContractProduct();
-				//根据合同编号，获取审价ID
-				AppraisalContract app = new AppraisalContract();
-				app.setId(contractId);
-				app.setPurchaseContract(purchaseContract);
-				AppraisalContract appc = appraisalContractService.selectContractId(app);
-				
-				//ContractRequired contractRequired = new ContractRequired();
-				List<ContractRequired> list = contractRequiredService.selectConRequeByContractId(contractId);
-				for(int i=0;i<list.size();i++){
-				//	ContractProduct.setId(app.getId());
-					//关联审价编号
-					contractProduct.setAppraisalContract(appc);
-					//获取合同产品
-					contractProduct.setName(list.get(i).getGoodsName());
-					contractProduct.setCreatedAt(new Date());
-					contractProduct.setUpdatedAt(new Date());
-					contractProduct.setOffer(0);
-					contractProduct.setAuditOffer(0);
-					contractProductService.insert(contractProduct);
-				}
-				url = "redirect:select.html";
-			}
-			
-		return url;
-	}
+    @RequestMapping("/save")
+    public String save(AppraisalContract appraisalContract,String contractId,Model model){
+        String url = "";
+        if (contractId == null || "".equals(contractId)) {
+            Map<String, Object> map = new HashMap<String, Object>();
+            map.put("status", 2);
+            map.put("page", 1);
+            List<PurchaseContract> pcList = purchaseContractService.selectAllContractByStatus(map);
+            writeName(pcList);
+            model.addAttribute("pcList", pcList);
+            model.addAttribute("ERR_name", "合同名称不能为空");
+            model.addAttribute("appraisalContract", appraisalContract);
+            url = "bss/sstps/appraisal/add";
+        } else {
+            AppraisalContract ac = new AppraisalContract();
+            PurchaseContract pcCondition = new PurchaseContract();
+            pcCondition.setId(contractId);
+            ac.setPurchaseContract(pcCondition);
+            AppraisalContract appraisal = appraisalContractService.selectContractId(ac);
+            if (appraisal != null) {
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("status", 2);
+                map.put("page", 1);
+                List<PurchaseContract> pcList = purchaseContractService.selectAllContractByStatus(map);
+                writeName(pcList);
+                model.addAttribute("pcList", pcList);
+                model.addAttribute("ERR_name", "此合同已经存在于审价列表");
+                model.addAttribute("appraisalContract", appraisalContract);
+                url = "bss/sstps/appraisal/add";
+            } else {
+                PurchaseContract pc = purchaseContractService.selectById(contractId);
+                appraisalContract.setAppraisal(0);
+                appraisalContract.setDistribution(0);
+                PurchaseContract purchaseContract = new PurchaseContract();
+                purchaseContract.setId(contractId);
+                appraisalContract.setPurchaseContract(purchaseContract);
+                appraisalContract.setName(pc.getName());
+                appraisalContract.setCode(pc.getCode());
+                appraisalContract.setMoney(pc.getMoney());
+                appraisalContract.setSupplierName(pc.getSupplierDepName());
+                appraisalContract.setCreatedAt(new Date());
+                appraisalContract.setUpdatedAt(new Date());
+                appraisalContract.setPurchaseDepName(pc.getPurchaseDepName());
+                appraisalContract.setPurchaseType(pc.getPurchaseType());
+                appraisalContractService.insert(appraisalContract);
+                url = "redirect:select.html";
+            }
+            /*
+            //审价产品
+            ContractProduct contractProduct = new ContractProduct();
+            //根据合同编号，获取审价ID
+            AppraisalContract app = new AppraisalContract();
+            app.setId(contractId);
+            app.setPurchaseContract(purchaseContract);
+            AppraisalContract appc = appraisalContractService.selectContractId(app);
+            List<ContractRequired> list = contractRequiredService.selectConRequeByContractId(contractId);
+            for (int i=0; i < list.size(); i++) {
+                //关联审价编号
+                contractProduct.setAppraisalContract(appc);
+                //获取合同产品
+                contractProduct.setName(list.get(i).getGoodsName());
+                contractProduct.setCreatedAt(new Date());
+                contractProduct.setUpdatedAt(new Date());
+                contractProduct.setOffer(0);
+                contractProduct.setAuditOffer(0);
+                contractProductService.insert(contractProduct);
+            }*/
+        }
+        return url;
+    }
+    
+    public void writeName(List<PurchaseContract> pcList) {
+        for (PurchaseContract contracts : pcList) {
+            if (contracts != null && contracts.getSupplierDepName() != null && !"".equals(contracts.getSupplierDepName())) {
+                Supplier supplier = supplierService.selectOne(contracts.getSupplierDepName());
+                if (supplier != null) {
+                    contracts.setSupplierDepName(supplier.getSupplierName());
+                } else {
+                    contracts.setSupplierDepName("");
+                }
+            }
+            if (contracts != null && contracts.getPurchaseDepName() != null && !"".equals(contracts.getPurchaseDepName())) {
+                Orgnization org = oService.findByCategoryId(contracts.getPurchaseDepName());
+                if (org != null) {
+                    contracts.setPurchaseDepName(org.getName());
+                } else {
+                    contracts.setPurchaseDepName("");
+                }
+            }
+            
+            if (contracts != null && contracts.getPurchaseType() != null && !"".equals(contracts.getPurchaseType())){
+                DictionaryData dictionaryData = DictionaryDataUtil.findById(contracts.getPurchaseType());
+                if (dictionaryData != null) {
+                    contracts.setPurchaseType(dictionaryData.getName());
+                } else {
+                    contracts.setPurchaseType("");
+                }
+            }
+            if (contracts.getMoney() != null && !"".equals(contracts.getMoney())) {
+                contracts.setMoney(contracts.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
+            }
+        }
+    }
 	
 	/**
 	* @Title: update
@@ -265,8 +390,12 @@ public class AppraisalContractController extends BaseSupplierController{
 	public String selectDistribution(Model model,Integer page){
 		List<AppraisalContract> list = appraisalContractService.selectDistribution(null,page==null?1:page);
 		for (AppraisalContract ac : list) {
-            Supplier supplier = supplierService.get(ac.getSupplierName());
-            ac.setSupplierName(supplier.getSupplierName());
+            Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+            if (supplier != null) {
+                ac.setSupplierName(supplier.getSupplierName());
+            } else {
+                ac.setSupplierName("");
+            }
         }
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
@@ -369,8 +498,13 @@ public class AppraisalContractController extends BaseSupplierController{
         if ("1".equals(judge.getOrg().getTypeName())) {
             list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
             for (AppraisalContract ac : list) {
-                Supplier supplier = supplierService.get(ac.getSupplierName());
-                ac.setSupplierName(supplier.getSupplierName());
+                Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+                if (supplier != null) {
+                    ac.setSupplierName(supplier.getSupplierName());
+                } else {
+                    ac.setSupplierName("");
+                }
+                ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
             }
             model.addAttribute("list", new PageInfo<AppraisalContract>(list));
             model.addAttribute("name",name);
@@ -382,8 +516,13 @@ public class AppraisalContractController extends BaseSupplierController{
             sib.setAppraisal(1);
             list = appraisalContractService.selectByObjectLike(sib, page==null?1:page);
             for (AppraisalContract ac : list) {
-                Supplier supplier = supplierService.get(ac.getSupplierName());
-                ac.setSupplierName(supplier.getSupplierName());
+                Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+                if (supplier != null) {
+                    ac.setSupplierName(supplier.getSupplierName());
+                } else {
+                    ac.setSupplierName("");
+                }
+                ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
             }
             model.addAttribute("list", new PageInfo<AppraisalContract>(list));
             model.addAttribute("name",name);

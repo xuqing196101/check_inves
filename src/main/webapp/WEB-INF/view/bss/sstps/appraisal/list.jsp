@@ -98,7 +98,7 @@
     
     function add() {
         window.location.href = "${pageContext.request.contextPath}/appraisalContract/add.html";
-      }
+    }
 </script>
   </head>
 

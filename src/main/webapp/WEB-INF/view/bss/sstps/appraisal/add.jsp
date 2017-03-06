@@ -65,6 +65,18 @@
       function goBack() {
         window.location.href = "${pageContext.request.contextPath}/appraisalContract/select.html";
       }
+      
+    function writeInfo(value) {
+        //console.dir(value);
+        var infoArr = new Array();
+        infoArr = value.split("-");
+        $("#code").val(infoArr[1]);
+        $("#supplierName").val(infoArr[0]);
+        $("#money").val(infoArr[3]);
+        $("#purchaserType").text(infoArr[4]);
+        $("#purchaseDepName").val(infoArr[2]);
+        $("#contractId").val(infoArr[5]);
+    }
     </script>
 
   </head>
@@ -87,7 +99,6 @@
     </div>
 
     <form action="${pageContext.request.contextPath}/appraisalContract/save.html" method="post">
-
       <div class="container">
         <div class="headline-v2">
           <h2>添加审价合同</h2>
@@ -98,46 +109,39 @@
             <table class="table table-bordered">
               <tobody>
                 <tr>
-                  <td width="25%" class="bggrey tr">
-                    <div class="star_red">*</div>合同类型：</td>
-                  <td width="25%">
-                    <select class="w230" id="purchaseType" name=purchaseType onchange="contractType(this.options[this.selectedIndex].value)">
-                      <option value=""></option>
-                      <%--<option value="单一来源">单一来源</option> --%>
-                      <option value="询价">询价</option>
-                      <%--<option value="邀请招标">邀请招标</option>
-                <option value="公开招标">公开招标</option> --%>
-                      <option value="竞价性谈判">竞价性谈判</option>
-                    </select>
-                    <div class="red f12 clear">${ERR_purchaseType}</div>
-                  </td>
+                  <td width="25%" class="bggrey tr">合同类型：</td>
+                  <td id="purchaserType" width="25%"></td>
                   <td width="25%" class="bggrey tr">
                     <div class="star_red">*</div>合同名称：</td>
                   <td width="25%">
-                    <select class="w230" id="contract" name="contractId" onchange="contractInfo()">
+                    <select class="w230" onchange="writeInfo(this.value)">
+                        <option value = ""></option>
+                        <c:forEach items="${pcList }" var="list">
+                            <option value = "${list.supplierDepName }-${list.code }-${list.purchaseDepName }-${list.money }-${list.purchaseType }-${list.id }">${list.name }</option>
+                        </c:forEach>
                     </select>
-                    <input type="hidden" id="contractName" name="name" value="${appraisalContract.name }">
-                    <div class="red f12 clear">${ERR_contractId}</div>
+                     <div class="red f12 clear">${ERR_name}</div>
                   </td>
                 </tr>
                 <tr>
                   <td width="25%" class="bggrey tr">供应商名称：</td>
                   <td width="25%">
-                    <input id="supplierName" name="supplierName" value="${appraisalContract.supplierName }" type="text" class="w230 mb0 border0" readonly>
+                    <input id="supplierName"  type="text" class="w230 mb0 border0" readonly>
                   </td>
                   <td width="25%" class="bggrey tr">合同编号：</td>
                   <td width="25%">
-                    <input id="contractCode" name="code" value="${appraisalContract.code }" type="text" class="w230 mb0 border0" readonly>
+                    <input id="code" type="text" class="w230 mb0 border0" readonly>
+                    <input id = "contractId" name = "contractId" type="hidden" readonly>
                   </td>
                 </tr>
                 <tr>
                   <td width="25%" class="bggrey tr">采购机构：</td>
                   <td width="25%">
-                    <input id="purchaseDepName" name="purchaseDepName" value="${appraisalContract.purchaseDepName }" type="text" class="w230 mb0 border0" readonly>
+                    <input id="purchaseDepName"   type="text" class="w230 mb0 border0" readonly>
                   </td>
                   <td width="25%" class="bggrey tr">合同金额(万元)：</td>
                   <td width="25%">
-                    <input id="money" name="money" type="text" value="${appraisalContract.money }" class="w230 mb0 border0" readonly>
+                    <input id="money"  type="text"  class="w230 mb0 border0" readonly>
                   </td>
                 </tr>
               </tobody>
@@ -147,7 +151,7 @@
 
         <div class="col-md-12">
           <div class="mt40 tc mb50">
-            <button class="btn btn-windows add" type="submit" id="submit" name="submit">确定</button>
+            <button class="btn btn-windows save" type="submit" id="submit" name="submit">确定</button>
             <button class="btn btn-windows cancel" type="button" onclick="goBack()">取消</button>
           </div>
         </div>
