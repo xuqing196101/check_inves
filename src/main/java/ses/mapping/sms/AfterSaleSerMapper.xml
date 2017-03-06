@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.AfterSaleSerMapper">
+	<resultMap id="BaseResultMap" type="ses.model.sms.AfterSaleSer">
+    	<id column="ID" property="id"/>
+	    <result column="ADDRESS" property="address"/>
+	    <result column="CONTACT_NAME" property="contactName"/>
+	    <result column="MOBILE" property="mobile"/>
+	    <result column="IS_AFTER_SUPPORT" property="isAfterSupport"/>
+	    <result column="CREATED_AT" property="createdAt"/>
+	    <result column="UPDATED_AT" property="updatedAt"/>
+	    <result column="IS_DELETED" property="isDeleted"/>
+	    <result column="REQUIRED_ID" property="requiredId"/>
+	    <result column="PROPOSER" property="proposer"/>
+	    <result column="PRO_MOBILE" property="proMobile"/>
+	    <result column="SUPPLIER_NAME" property="supplierName"/>
+	    <result column="QUESTION" property="question"/>
+  	</resultMap>
+  	<sql id="Base_Column_List">
+    	ID,CONTACT_NAME,ADDRESS,MOBILE,IS_AFTER_SUPPORT,CREATED_AT,UPDATED_AT,IS_DELETED,REQUIRED_ID,
+    	PROPOSER,PRO_MOBILE,SUPPLIER_NAME,QUESTION
+  	</sql>
+  	<!-- 根据主键查询 -->
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM T_SES_SMS_AFTER_SALE_SERVICE
+		WHERE ID = #{id}
+  	</select>
+  	<!-- 根据主键修改 -->
+	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.AfterSaleSer">
+		UPDATE T_SES_SMS_AFTER_SALE_SERVICE
+		<set>
+			<if test="address != null">
+				ADDRESS = #{address},
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME = #{contactName},
+			</if>
+			<if test="mobile != null">
+				MOBILE = #{mobile},
+			</if>
+		</set>
+		WHERE ID = #{id}
+	</update>
+	
+	<!-- 新增一条记录 -->
+  	<insert id="insertSelective" parameterType="ses.model.sms.AfterSaleSer">
+		INSERT INTO T_SES_SMS_AFTER_SALE_SERVICE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="address != null">
+				ADDRESS,
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME,
+			</if>
+			<if test="mobile != null">
+				MOBILE,
+			</if>
+			<if test="isAfterSupport != null">
+				IS_AFTER_SUPPORT,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="requiredId != null">
+				REQUIRED_ID,
+			</if>
+			<if test="proposer != null">
+				PROPOSER,
+			</if>
+			<if test="proMobile != null">
+				PRO_MOBILE,
+			</if>
+			<if test="supplierName != null">
+				SUPPLIER_NAME,
+			</if>
+			<if test="question != null">
+				QUESTION,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="address != null">
+				#{address},
+			</if>
+			<if test="contactName != null">
+				#{contactName},
+			</if>
+			<if test="mobile != null">
+				#{mobile},
+			</if>
+			<if test="isAfterSupport != null">
+				#{isAfterSupport},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted},
+			</if>
+			<if test="requiredId != null">
+				#{requiredId},
+			</if>
+			<if test="proposer != null">
+				#{proposer},
+			</if>
+			<if test="proMobile != null">
+				#{proMobile},
+			</if>
+			<if test="supplierName != null">
+				#{supplierName},
+			</if>
+			<if test="question != null">
+				#{question},
+			</if>
+		</trim>
+  	</insert>
+</mapper>
