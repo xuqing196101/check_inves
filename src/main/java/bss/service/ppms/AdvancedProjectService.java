@@ -4,6 +4,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import net.sf.json.JSONObject;
+import ses.model.bms.User;
+
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Project;
 
@@ -103,4 +106,22 @@ public interface AdvancedProjectService {
      * @return
      */
     List<AdvancedProject> selectProjectByAll(Integer page,AdvancedProject project);
+    
+    /**
+     * 
+     *〈获取下一流程〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param user
+     * @param projectId
+     * @param flowDefineId
+     * @return
+     */
+    JSONObject getNextFlow(User user, String projectId, String flowDefineId);
+    
+    JSONObject updateCurrOperator(User currLoginUser, String projectId, String currFlowDefineId, String currUpdateUserId);
+    
+    JSONObject isSubmit(String projectId, String currFlowDefineId);
+    
+    JSONObject submitHuanjie(User currLoginUser, String projectId, String currFlowDefineId);
 }

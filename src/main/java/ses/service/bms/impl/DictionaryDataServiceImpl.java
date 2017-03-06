@@ -48,6 +48,12 @@ public class DictionaryDataServiceImpl implements DictionaryDataServiceI {
         List<DictionaryData> dds = dictionaryDataMapper.findList(dd);
         return dds;
     }
+    
+    @Override
+    public List<DictionaryData> list(DictionaryData dd) {
+        
+        return dictionaryDataMapper.findList(dd);
+    }
 
     @Override
     public List<DictionaryData> findRepeat(DictionaryData dd) {

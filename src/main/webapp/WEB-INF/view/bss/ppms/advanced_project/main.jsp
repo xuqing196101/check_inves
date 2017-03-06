@@ -7,6 +7,7 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
     <script type="text/javascript">
       $(function() {
         $("#menu a").click(function() {
@@ -22,8 +23,8 @@
           });
         });
         var projectId = "${project.id}";
-        /* $.ajax({
-          url: "${pageContext.request.contextPath }/open_bidding/getNextFd.do?flowDefineId=0&projectId=" + projectId,
+        $.ajax({
+          url: "${pageContext.request.contextPath }/Adopen_bidding/getNextFd.do?flowDefineId=0&projectId=" + projectId,
           contentType: "application/json;charset=UTF-8",
           dataType: "json", //返回格式为json
           type: "POST", //请求方式           
@@ -68,7 +69,7 @@
               }
             }
           }
-        }); */
+        });
         $("#onmouse").addClass("btmfixs");
       });
 
@@ -76,52 +77,68 @@
         location.href = '${pageContext.request.contextPath}/advancedProject/list.html';
       }
 
-      function jumpLoad(url, projectId) {
-        var urls = "${pageContext.request.contextPath}/" + url + "?projectId=" + projectId;
+      function jumpLoad(url, projectId, flowDefineId) {
+        $.ajax({
+          url: "${pageContext.request.contextPath }/Adopen_bidding/getNextFd.do?flowDefineId=" + flowDefineId + "&projectId=" + projectId,
+          contentType: "application/json;charset=UTF-8",
+          dataType: "json", //返回格式为json
+          type: "POST", //请求方式           
+          success: function(data) {
+            if(data.success) {
+              //当前环节经办人
+              $("#currHuanjieId").val(data.currFlowDefineId);
+              $("#currPrincipal").empty();
+              $.each(data.users, function(i, user) {
+                $("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+              });
+              $("#currPrincipal").select2();
+              $("#currPrincipal").select2("val", data.currOperatorId);
+              $("#isOperate").val(data.isOperate);
+              //禁止变更经办人操作
+              if(data.isOperate == 0) {
+                $("#submitdiv").attr("disabled", true);
+                $("#principal").attr("disabled", true);
+                $("#currPrincipal").attr("disabled", true);
+              } else {
+                $("#submitdiv").attr("disabled", false);
+                $("#principal").attr("disabled", false);
+                $("#currPrincipal").attr("disabled", false);
+              }
+              if(!data.isEnd) {
+                $("#nextHaunjie").show();
+                $("#updateOperateId").show();
+                $("#huanjie").html(data.flowDefineName);
+                $("#huanjieId").val(data.flowDefineId);
+                $("#principal").empty();
+                $.each(data.users, function(i, user) {
+                  $("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+                });
+                $("#principal").select2();
+                $("#principal").select2("val", data.operatorId);
+              }
+              if(data.isEnd) {
+                $("#nextHaunjie").hide();
+                $("#updateOperateId").hide();
+              }
+            }
+          }
+        }); 
+        var urls = "${pageContext.request.contextPath}/" + url + "?projectId=" + projectId + "&flowDefineId=" + flowDefineId;
         $("#as").attr("href", urls);
         var el = document.getElementById('as');
         el.click(); //触发打开事件
-        // $("#open_bidding_main").load(urls);
       }
 
-      function jumpChild(url) {
-        $("#open_bidding_main").load(url + "#TANGER_OCX");
-      }
-
-      //页面初始加载将要执行的页面
-      function initLoad() {
-        var url = $("#initurl").val();
-        $("#open_bidding_main").load("${pageContext.request.contextPath}/" + url);
-      }
-
-      function bigImg(x) {
-        $(x).removeClass("btmfixs");
-        $(x).addClass("btmfix");
-
-      }
-
-      function normalImg(x) {
-        $(x).removeClass("btmfix");
-        $(x).addClass("btmfixs");
-      }
-
-      //变更下一环节经办人
-      function submitCurrOperator() {
-        var projectId = "${project.id}";
-        var nextFlowDefineId = $("#huanjieId").val();
-        var nextUpdateUserId = $("#principal").val();
+      //提交下一环节经办人
+      function updateOperator() {
         $.ajax({
           type: "POST",
-          url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
+          url: "${pageContext.request.contextPath}/open_bidding/updateOperator.html",
           dataType: "json", //返回格式为json
-          data: {
-            "currFlowDefineId": nextFlowDefineId,
-            "currUpdateUserId": nextUpdateUserId,
-            "projectId": projectId
-          },
+          data: $('#updateLinkId').serialize(),
           success: function(data) {
             if(data.success) {
-              layer.msg(data.flowDefineName + "经办人设置成功", {
+              layer.msg("提交下一环节经办人成功", {
                 offset: '100px'
               });
             }
@@ -141,7 +158,7 @@
         var currUpdateUserId = $("#currPrincipal").val();
         $.ajax({
           type: "POST",
-          url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
+          url: "${pageContext.request.contextPath}/Adopen_bidding/updateCurrOperator.html",
           dataType: "json", //返回格式为json
           data: {
             "currFlowDefineId": currFlowDefineId,
@@ -164,19 +181,74 @@
         });
       }
 
+      //页面初始加载将要执行的页面
+      function initLoad() {
+        var url = $("#initurl").val();
+        $("#open_bidding_main").load("${pageContext.request.contextPath}/" + url);
+      }
+
+      function tips(step) {
+        if(step != 1) {
+          layer.msg("请先执行前面步骤", {
+            offset: ['220px']
+          });
+        }
+      }
+
+      //变更下一环节经办人
+      function submitCurrOperator() {
+        var projectId = "${project.id}";
+        var nextFlowDefineId = $("#huanjieId").val();
+        var nextUpdateUserId = $("#principal").val();
+        $.ajax({
+          type: "POST",
+          url: "${pageContext.request.contextPath}/Adopen_bidding/updateCurrOperator.html",
+          dataType: "json", //返回格式为json
+          data: {
+            "currFlowDefineId": nextFlowDefineId,
+            "currUpdateUserId": nextUpdateUserId,
+            "projectId": projectId
+          },
+          success: function(data) {
+            if(data.success) {
+              layer.msg(data.flowDefineName + "经办人设置成功", {
+                offset: '100px'
+              });
+            }
+          },
+          error: function(data) {
+            layer.msg("请稍后再试", {
+              offset: '100px'
+            });
+          }
+        });
+      }
+
+
+      function bigImg(x) {
+        $(x).removeClass("btmfixs");
+        $(x).addClass("btmfix");
+
+      }
+
+      function normalImg(x) {
+        $(x).removeClass("btmfix");
+        $(x).addClass("btmfixs");
+      }
+
       //提交当前环节
       function submitcurr() {
         var projectId = "${project.id}";
         var currFlowDefineId = $("#currHuanjieId").val();
         var currUpdateUserId = $("#currPrincipal").val();
-        layer.confirm('您确定已经完成当前环节并进行提交吗?', {
+        layer.confirm('您确定已经完成当前环节操作吗?', {
           title: '提示',
           offset: '222px',
           shade: 0.01
         }, function(index) {
           //校验当前环节是否完成
           $.ajax({
-            url: "${pageContext.request.contextPath}/open_bidding/isSubmit.html",
+            url: "${pageContext.request.contextPath}/Adopen_bidding/isSubmit.html",
             data: {
               "currFlowDefineId": currFlowDefineId,
               "projectId": projectId
@@ -187,7 +259,7 @@
               if(data.success) {
                 //提交当前环节
                 $.ajax({
-                  url: "${pageContext.request.contextPath}/open_bidding/submitHuanjie.html",
+                  url: "${pageContext.request.contextPath}/Adopen_bidding/submitHuanjie.html",
                   data: {
                     "currFlowDefineId": currFlowDefineId,
                     "projectId": projectId
@@ -214,7 +286,7 @@
                 offset: '100px'
               });
             }
-          })
+          });
         });
       }
     </script>
@@ -233,36 +305,32 @@
             <a href="">保障作业</a>
           </li>
           <li>
-            <a href="">预研项目管理</a>
+            <a href="">采购项目管理</a>
           </li>
           <li>
-            <a href="">预研项目实施</a>
+            <a href="">采购项目实施</a>
           </li>
         </ul>
       </div>
     </div>
+    <!--=== End Breadcrumbs ===-->
+
+    <!--=== Content Part ===-->
     <div class="container content height-350">
       <div class="row">
         <!-- Begin Content -->
         <div class="col-md-12" style="min-height:400px;">
           <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
             <ul class="btn_list" id="menu">
-              <li onclick="jumpLoad('advancedProject/mplement.html','${project.id }')" class="active">
-                <a class="son-menu">项目信息</a>
-              </li>
-              <li onclick="jumpLoad('advancedProject/subPackage.html','${project.id }')">
-                <a class="son-menu">项目分包</a>
-              </li>
-              <li onclick="jumpLoad('advancedProject/toAdd.html','${project.id}')">
-                <a class="son-menu">拟制招标文件</a>
-              </li>
+              <c:forEach items="${list}" var="fd">
+                    <li onclick="jumpLoad('${fd.description}','${project.id }','${fd.id}')" <c:if test="${fd.position == 1}">class="active"</c:if>>
+                      <a class="son-menu">${fd.name }</a>
+                    </li>
+              </c:forEach>
             </ul>
           </div>
           <!-- 右侧内容开始-->
           <input type="hidden" id="initurl" value="${url}">
-          <!-- <div class="tag-box tag-box-v4 col-md-9 "  id="open_bidding_main">
-                
-            </div> -->
           <script type="text/javascript" language="javascript">
             function getContentSize() {
               var he = document.documentElement.clientHeight;
@@ -277,7 +345,6 @@
           <!-- 右侧内容开始-->
           <div class="tag-box tag-box-v4 col-md-9 pt10">
             <input type="hidden" id="isOperate">
-
             <form id="updateLinkId" action="" method="post" class="w100p fl mb10 border1 padding-10 bg11">
               <input type="hidden" id="projectId" name="projectId" value="${project.id}">
               <div class="fr" id="updateOperateId">
@@ -299,7 +366,7 @@
                   <select id="currPrincipal" name="currPrincipal" onchange="updateCurrOperator()"></select>
                 </div>
                 <div class="fl ml5">
-                  <input id="submitdiv" type="button" class="btn btn-windows git" onclick="submitcurr();" value="提交" />
+                  <input id="submitdiv" type="button" class="btn btn-windows git" onclick="submitcurr();" value="环节结束" />
                 </div>
               </div>
             </form>

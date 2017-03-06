@@ -23,6 +23,8 @@ import java.util.TreeMap;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import net.sf.json.JSONObject;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -358,6 +360,107 @@ public class AdOpenBiddingController {
     public void loadFile(HttpServletRequest request, String fileId, HttpServletResponse response){
         downloadService.downloadOther(request, response, fileId, Constant.TENDER_SYS_KEY+"");
     }
+    
+    
+    
+    /**
+     *〈简述〉获取下一流程环节
+     *〈详细描述〉
+     * @author FengTian
+     * @param response
+     * @param request
+     * @param art
+     * @param flowDefineId
+     * @throws Exception
+     */
+    @RequestMapping("/getNextFd")
+    @ResponseBody
+    public void getNextFd(@CurrentUser User user, HttpServletResponse response, HttpServletRequest request, String projectId, String flowDefineId) throws Exception{
+        try {
+            JSONObject jsonObj = projectService.getNextFlow(user, projectId, flowDefineId);
+            response.getWriter().print(jsonObj.toString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+    }
+    
+    
+    
+    /**
+     *〈简述〉变更当前环节经办人
+     *〈详细描述〉
+     * @author FengTian
+     * @param request
+     * @param response
+     * @param currFlowDefineId
+     * @param currUpdateUserId
+     * @throws IOException 
+     */
+    @RequestMapping("/updateCurrOperator")
+    @ResponseBody
+    public void updateCurrOperator (@CurrentUser User currLoginUser, HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String currUpdateUserId, String projectId) throws IOException{
+        try {
+            JSONObject jsonObj = projectService.updateCurrOperator(currLoginUser, projectId, currFlowDefineId, currUpdateUserId);
+            response.getWriter().print(jsonObj.toString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+    }
+    
+    
+    /**
+     *〈简述〉校验是否可提交
+     *〈详细描述〉
+     * @author FengTian
+     * @param request
+     * @param response
+     * @param currFlowDefineId
+     * @throws IOException 
+     */
+    @RequestMapping("/isSubmit")
+    @ResponseBody
+    public void isSubmit(HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String projectId) throws IOException{
+        try {
+            JSONObject jsonObj = projectService.isSubmit(projectId, currFlowDefineId);
+            response.getWriter().print(jsonObj.toString());
+            response.getWriter().flush();
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally{
+            response.getWriter().close();
+        }
+    }
+    
+    
+    
+    /**
+    *〈简述〉提交环节
+    *〈详细描述〉
+    * @author FengTian
+    * @param request
+    * @param response
+    * @param currFlowDefineId
+    * @throws IOException 
+    */
+   @RequestMapping("/submitHuanjie")
+   @ResponseBody
+   public void submitHuanjie(@CurrentUser User currLoginUser, HttpServletRequest request, HttpServletResponse response, String currFlowDefineId, String projectId) throws IOException{
+       try {
+           JSONObject jsonObj = projectService.submitHuanjie(currLoginUser, projectId, currFlowDefineId);
+           response.getWriter().print(jsonObj.toString());
+           response.getWriter().flush();
+       } catch (Exception e) {
+           e.printStackTrace();
+       } finally{
+           response.getWriter().close();
+       }
+   }
     
     /**
      * 

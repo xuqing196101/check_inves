@@ -52,4 +52,6 @@ public interface DictionaryDataServiceI {
      * @return
      */
     public List<DictionaryData> findByKind(String kind);
+    
+    public List<DictionaryData> list(DictionaryData dd);
 }

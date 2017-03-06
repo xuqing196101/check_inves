@@ -181,7 +181,7 @@
 
       //编辑符合性审查内容
       function editPackageFirstAudit(packageId, projectId) {
-        window.location.href = "${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId=" + packageId + "&projectId=" + projectId;
+        window.location.href = "${pageContext.request.contextPath}/adFirstAudit/editPackageFirstAudit.html?packageId=" + packageId + "&projectId=" + projectId + "&flowDefineId=${flowDefineId}";
       }
 
       //查看符合性审查内容

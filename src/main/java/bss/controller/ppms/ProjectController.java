@@ -2184,7 +2184,7 @@ public class ProjectController extends BaseController {
     * @return String
      */
     @RequestMapping("/subPackage")
-    public String subPackage(HttpServletRequest request,Model model){
+    public String subPackage(HttpServletRequest request, String flowDefineId, Model model){
         String id = request.getParameter("projectId");
         HashMap<String,Object> map = new HashMap<>();
         map.put("id", id);
@@ -2442,6 +2442,7 @@ public class ProjectController extends BaseController {
         }
         String num = request.getParameter("num");
         model.addAttribute("packageList", packages);
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("num", num);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
         Project project = projectService.selectById(id);

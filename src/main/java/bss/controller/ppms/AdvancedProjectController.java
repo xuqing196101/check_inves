@@ -41,6 +41,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseInfo;
 import ses.model.oms.util.CommonConstant;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
@@ -118,6 +119,9 @@ public class AdvancedProjectController extends BaseController {
     
     @Autowired
     private UploadService uploadService;
+    
+    @Autowired
+    private DictionaryDataServiceI dataService;
     
     /**
      * 
@@ -1158,7 +1162,7 @@ public class AdvancedProjectController extends BaseController {
      * @return
      */
     @RequestMapping("/subPackage")
-    public String subPackage(HttpServletRequest request,Model model){
+    public String subPackage(HttpServletRequest request, String flowDefineId, Model model){
         String id = request.getParameter("projectId");
         HashMap<String,Object> map = new HashMap<>();
         map.put("advancedProject", id);
@@ -1417,6 +1421,7 @@ public class AdvancedProjectController extends BaseController {
         model.addAttribute("packageList", packages);
         model.addAttribute("num", num);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
+        model.addAttribute("flowDefineId", flowDefineId);
         AdvancedProject project = advancedProjectService.selectById(id);
         model.addAttribute("project", project);
         return "bss/ppms/advanced_project/package";
@@ -1612,13 +1617,32 @@ public class AdvancedProjectController extends BaseController {
     @RequestMapping("/excute")
     public String execute(String id, Model model) {
         AdvancedProject project = advancedProjectService.selectById(id);
-        model.addAttribute("project", project);
-        model.addAttribute("url", "advancedProject/mplement.html?projectId="+id);
+        if(project != null){
+            String id2 = DictionaryDataUtil.getId("JYLX");
+            if(id2.equals(project.getStatus())){
+                project.setStatus(DictionaryDataUtil.getId("SSZ_WWSXX"));
+                advancedProjectService.update(project);
+            }
+            model.addAttribute("project", project);
+            HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), project.getId());
+            model.addAttribute("list", map.get("list"));
+            model.addAttribute("url", map.get("url"));
+        }
         return "bss/ppms/advanced_project/main";
     }
     
+    public Map<String, Object> getFlowDefine(String code, String projectId){
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        DictionaryData dd = new DictionaryData();
+        dd.setCode(code);
+        List<DictionaryData> list = dataService.list(dd);
+        map.put("url", list.get(0).getDescription()+"?projectId="+projectId+"&flowDefineId="+list.get(0).getCode());
+        map.put("list", list);
+        return map;
+    }
+    
     @RequestMapping("/mplement")
-    public String starts(String projectId, Model model) {
+    public String starts(String projectId, String flowDefineId, Model model) {
         String number = "";
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
@@ -1655,6 +1679,7 @@ public class AdvancedProjectController extends BaseController {
         model.addAttribute("project", project);
         model.addAttribute("orgnization", orgnization);
         model.addAttribute("budgetAmount", details.get(0).getBudget());
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("dataId", DictionaryDataUtil.getId("PROJECT_IMPLEMENT"));
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/advanced_project/essential_information";
@@ -1779,7 +1804,7 @@ public class AdvancedProjectController extends BaseController {
     
     
     @RequestMapping("/toAdd")
-    public String toAdd(String projectId, Model model, String msg){
+    public String toAdd(String projectId, Model model, String flowDefineId, String msg){
         try {
           AdvancedProject project = advancedProjectService.selectById(projectId);
           HashMap<String, Object> map = new HashMap<String, Object>();
@@ -1794,9 +1819,10 @@ public class AdvancedProjectController extends BaseController {
           List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
           model.addAttribute("purchaseTypes", purchaseTypes);
           model.addAttribute("firstAudits", firstAudits);
-            model.addAttribute("projectId", projectId);
-            model.addAttribute("project", project);
-            model.addAttribute("msg", msg);
+          model.addAttribute("projectId", projectId);
+          model.addAttribute("project", project);
+          model.addAttribute("flowDefineId", flowDefineId);
+          model.addAttribute("msg", msg);
         } catch (Exception e) {
             e.printStackTrace();
         }

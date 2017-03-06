@@ -481,7 +481,8 @@
     </div> -->
 
       <%-- <h2 class="tc dangan_file">项目名称：${project.name}</h2> --%>
-      <input type="hidden" id="projectId" value="${project.id }" />
+      <input type="hidden" id="projectId" value="${project.id}" />
+      <input type="hidden" id="flowDefineId" value="${flowDefineId}"/>
       <!-- <div class="headline-v2">
         <h2>明细列表</h2>
       </div>

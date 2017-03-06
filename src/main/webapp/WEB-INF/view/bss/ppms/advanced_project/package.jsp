@@ -436,6 +436,7 @@
 			<div class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
         <button class="btn btn-windows add" type="button" onclick="addPack()" id="addPack">添加分包</button>
         <input type="hidden" id="projectId" value="${project.id }" />
+        <input type="hidden" id="flowDefineId" value="${flowDefineId}"/>
       </div>
 
       <c:if test="${!empty list}">
