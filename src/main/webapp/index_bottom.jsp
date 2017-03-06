@@ -10,6 +10,33 @@
 	function indexTip(id){
   		window.location.href="${pageContext.request.contextPath}/index/selectArticleNewsById.html?id="+id;
   	}
+	
+	//实现显示隐藏底部弹窗功能
+	$(document).ready(function(){ 
+		var currUrl=window.location.href;
+		//定义数组
+		var urlArr=new Array();
+		//供应商注冊頁面
+		urlArr[0]="supplier/";
+		//登錄頁面
+		urlArr[1]="index/sign";
+		//专家注册
+		urlArr[2]="expert/";
+		
+		for(var i=0;i<urlArr.length;i++){
+			//如果在url列表中找到就 隐藏，找不到就显示
+			if(currUrl.indexOf(urlArr[i]) > 0)
+			{
+				$("#popupDiv").hide();
+				return;
+			}
+			else{
+				$("#popupDiv").show();
+			}
+		}
+		
+		}); 
+	
 </script>
 <body>
 <!--底部代码开始-->
@@ -29,8 +56,8 @@
      
 <!--/footer--> 
     </div>
-
-    <div class="prompt_tips">
+ 
+    <div class="prompt_tips" id="popupDiv">
      <div class="prompt_top">
                    提示信息
        <span class="close_icon" id="close"></span>
