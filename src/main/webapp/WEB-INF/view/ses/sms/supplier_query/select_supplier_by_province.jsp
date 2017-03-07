@@ -414,7 +414,7 @@
 					<tbody>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
-								<td class="tc">${vs.index+1 }</td>
+								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=0&supplierId=${list.id}">${list.supplierName }</a>
 								</td>
