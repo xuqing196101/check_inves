@@ -98,8 +98,9 @@ public interface PreMenuServiceI {
    *〈详细描述〉
    * @author Ye MaoLin
    * @param id
+   * @param page 
    * @return
    */
-  List<User> getUserByMid(String id);
+  List<User> getUserByMid(String id, Integer page);
 
 }
