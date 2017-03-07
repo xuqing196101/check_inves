@@ -314,7 +314,7 @@
 														<p id="${quaPro.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 														
 														<c:if test="${fn:contains(passedField,quaPro.flag)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</c:forEach>
@@ -353,7 +353,7 @@
 														<p id="${saua.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													
 														<c:if test="${fn:contains(passedField,saua.flag)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</c:forEach>
@@ -404,7 +404,7 @@
 													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
 													
 													<c:if test="${fn:contains(passedField,cate.itemsId)}">
-														<img src='/zhbj/public/backend/images/sc.png'>
+														<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
 													</c:if>
 											 	</td>
 								      </tr>
@@ -459,7 +459,7 @@
 															<p id="${ser.flag}"><img src='/zhbj/public/backend/images/sc.png'></p>
 															
 															<c:if test="${fn:contains(passedField,ser.flag)}">
-																<img src='/zhbj/public/backend/images/sc.png'>
+																<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
 															</c:if>
 														</td>
 													</c:forEach>

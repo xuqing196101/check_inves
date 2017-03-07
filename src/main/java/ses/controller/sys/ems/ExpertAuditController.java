@@ -283,7 +283,7 @@ public class ExpertAuditController {
 		model.addAttribute("expertId", expertId);
 		//  判断当前状态如果为退回修改则比较两次的信息
 		// 判断有没有进行修改
-		if(expert.getStatus() != null && expert.getStatus().equals("0")) {
+		if(expert.getStatus() != null || expert.getStatus().equals("0")) {
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
 			if(oldExpert != null) {
 				Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
@@ -303,16 +303,22 @@ public class ExpertAuditController {
 				model.addAttribute("editFields", editFields);
 			}
 		}
-		ExpertAudit expertAudit = new ExpertAudit();
-		expertAudit.setExpertId(expertId);
-		expertAudit.setSuggestType("one");
 		
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
-		StringBuffer conditionStr = new StringBuffer();
-		for (ExpertAudit expertAudit2 : reasonsList) {
-			conditionStr.append(expertAudit2.getAuditField() + ",");
+		//回显未通过的字段
+		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("4") ||  expert.getStatus().equals("5")){
+			ExpertAudit expertAudit = new ExpertAudit();
+			expertAudit.setExpertId(expertId);
+			expertAudit.setSuggestType("one");
+			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAudit);
+			StringBuffer conditionStr = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for (ExpertAudit expertAudit2 : reasonsList) {
+					conditionStr.append(expertAudit2.getAuditField() + ",");
+				}
+			}
+			model.addAttribute("conditionStr", conditionStr);
 		}
-		model.addAttribute("conditionStr", conditionStr);
+		
 
 		return "ses/ems/expertAudit/basic_info";
 	}
@@ -850,18 +856,21 @@ public class ExpertAuditController {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
-		
-		ExpertAudit expertAuditFor = new ExpertAudit();
-		expertAuditFor.setExpertId(expertId);
-		expertAuditFor.setSuggestType("five");
-		
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
-		StringBuffer conditionStr = new StringBuffer();
-		for (ExpertAudit expertAudit2 : reasonsList) {
-			conditionStr.append(expertAudit2.getAuditField() + ",");
+		//回显不通过的字段
+		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("4") ||  expert.getStatus().equals("5")){
+			ExpertAudit expertAuditFor = new ExpertAudit();
+			expertAuditFor.setExpertId(expertId);
+			expertAuditFor.setSuggestType("five");
+			
+			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+			StringBuffer conditionStr = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for (ExpertAudit expertAudit2 : reasonsList) {
+					conditionStr.append(expertAudit2.getAuditField() + ",");
+				}
+			}
+			model.addAttribute("conditionStr", conditionStr);
 		}
-		model.addAttribute("conditionStr", conditionStr);
-
 		return "ses/ems/expertAudit/expertFile";
 	}
 
@@ -1015,17 +1024,21 @@ public class ExpertAuditController {
 		// typrId集合
 		model.addAttribute("typeMap", typeMap);
 		
-		ExpertAudit expertAuditFor = new ExpertAudit();
-		expertAuditFor.setExpertId(expertId);
-		expertAuditFor.setSuggestType("seven");
-		
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
-		StringBuffer conditionStr = new StringBuffer();
-		for (ExpertAudit expertAudit2 : reasonsList) {
-			conditionStr.append(expertAudit2.getAuditField() + ",");
+		//回显不通过的字段
+		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("4") ||  expert.getStatus().equals("5")){
+			ExpertAudit expertAuditFor = new ExpertAudit();
+			expertAuditFor.setExpertId(expertId);
+			expertAuditFor.setSuggestType("seven");
+			
+			List < ExpertAudit > reasonsList = expertAuditService.getListByExpert(expertAuditFor);
+			StringBuffer conditionStr = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for (ExpertAudit expertAudit2 : reasonsList) {
+					conditionStr.append(expertAudit2.getAuditField() + ",");
+				}
+				model.addAttribute("conditionStr", conditionStr);
+			}
 		}
-		model.addAttribute("conditionStr", conditionStr);
-		
 		
 		return "ses/ems/expertAudit/expertType";
 	}

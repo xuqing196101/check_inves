@@ -241,12 +241,14 @@
 						<li>
 							<div>
 								<c:forEach items="${spList}" var="sp">
-									<span <c:if test="${fn:contains(conditionStr,sp.id)}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,sp.id)}">style="color:#FF8C00"</c:if>   class="margin-left-30 hand" onclick="reason('${sp.id}','${sp.name}技术');"><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
+									<span <c:if test="${fn:contains(editFields,sp.id)}">style="color:#FF8C00"</c:if>   class="margin-left-30 hand" onclick="reason('${sp.id}','${sp.name}技术');"><input type="checkbox"  disabled="disabled"  name="chkItem_1" value="${sp.id}" />${sp.name}技术 </span>
 									<a class="b f18 ml10 red" id="${sp.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+									<c:if test="${fn:contains(conditionStr,sp.id)}"><img src='/zhbj/public/backend/images/sc.png'></c:if> 
 								</c:forEach>
 								<c:forEach items="${jjList}" var="jj">
-									<span <c:if test="${fn:contains(conditionStr,jj.id)}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" onclick="reason('${jj.id}','${jj.name}');"><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
+									<span  <c:if test="${fn:contains(editFields,jj.id)}">style="color:#FF8C00" </c:if>  class="margin-left-30 hand" onclick="reason('${jj.id}','${jj.name}');"><input type="checkbox"  disabled="disabled" name="chkItem_2"  value="${jj.id}" />${jj.name} </span>
 									<a class="b f18 ml10 red" id="${jj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+									<c:if test="${fn:contains(conditionStr,jj.id)}"> <img src='/zhbj/public/backend/images/sc.png'></c:if>
 								</c:forEach>
 								
 								<c:if test="${isProject eq 'project'}">
@@ -258,6 +260,7 @@
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格：</span>
 			             	<up:show showId="show9" delete="false" businessId="${expert.id}" sysKey="${expertKey}" typeId="9"/>
 			          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></a>
+			          			<c:if test="${fn:contains(conditionStr,'执业资格')}"><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></c:if>
 			           	<li>
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获取时间：</span>
 										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
