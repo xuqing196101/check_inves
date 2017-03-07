@@ -5,9 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.tomcat.jni.File;
-
-import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 
 public class SupplierItem implements Serializable {
