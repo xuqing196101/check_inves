@@ -780,5 +780,42 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		
 		
 	}
+
+    @Override
+    public Boolean verify(Orgnization orgnization) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", orgnization.getName());
+        map.put("parentId", orgnization.getParentId());
+        boolean flag= true;
+        if(StringUtils.isNotBlank(orgnization.getId())){
+            Orgnization org = orgniztionMapper.findOrgByPrimaryKey(orgnization.getId());
+            if(org != null){
+                if(org.getName().equals(orgnization.getName())){
+                    flag= true;
+                }else{
+                    List<Orgnization> list = orgniztionMapper.verify(map);
+                    for (int i = 0; i < list.size(); i++ ) {
+                        if(list.get(i).getId().equals(orgnization.getId())){
+                            list.remove(i);
+                        }
+                    }
+                    if(list != null && list.size() > 0){
+                        flag = false;
+                    }
+                }
+            }else{
+                List<Orgnization> list = orgniztionMapper.verify(map);
+                if(list != null && list.size() > 0){
+                    flag = false;
+                }
+            }
+        }else{
+            List<Orgnization> list = orgniztionMapper.verify(map);
+            if(list != null && list.size() > 0){
+                flag = false;
+            }
+        }
+        return flag;
+    }
     
 }

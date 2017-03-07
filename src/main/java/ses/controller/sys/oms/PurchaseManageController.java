@@ -29,6 +29,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -266,6 +267,7 @@ public class PurchaseManageController {
 			}
 		}
 		model.addAttribute("orgnization", org);
+		model.addAttribute("parentId", parentId);
 		return "ses/oms/require_dep/add";
 	}
 	
@@ -1206,5 +1208,13 @@ public class PurchaseManageController {
 		data.setMessage("222");
 		return data;
 	}
+	
+	@RequestMapping("/verify")
+	@ResponseBody
+	public String verify(Orgnization orgnization){
+	    Boolean flag = orgnizationServiceI.verify(orgnization);
+	    return JSON.toJSONString(flag);
+	}
+	
 	
 }

@@ -31,6 +31,8 @@ public interface OrgnizationMapper {
 	
 	Orgnization selectByName(String name);
 	
+	List<Orgnization> verify(HashMap<String, Object> map);
+	
 	/**
 	 * 
 	 *〈简述〉

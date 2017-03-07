@@ -227,15 +227,45 @@
 				$(this).parents('tr').find('td').eq(1).text(count);
 			});
 	  }
+	  
+	  
+	    var flag;
+      //验证重复
+      function verify(ele){
+        var name = $(ele).val();
+        var id = $("#orgId").val();
+        $.ajax({
+              url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name + "&id=" +id,
+              type: "post",
+              dataType: "json",
+              success: function(data) {
+                var datas = eval("(" + data + ")");
+                if(datas == false) {
+                  $("#sps").html("机构已存在").css('color', 'red');
+                  flag = false;
+                } else {
+                  $("#sps").html("");
+                  flag = true;
+                }
+              },
+            });
+      }
+      
      /** 保存 **/
     function save(){
-       var id = [];
-       $("input[name='selectedItem']").each(function(){ 
-             id.push($(this).val());
-        }); 
-        $("#ids").val(id);
-        $("#formID").validForm();
-        $("#formID").submit();
+        if(flag == true){
+          var id = [];
+          $("input[name='selectedItem']").each(function(){ 
+              id.push($(this).val());
+          }); 
+          $("#ids").val(id);
+          
+          $("#formID").validForm();
+          
+          $("#formID").submit();
+        }else{
+          $("input[name='name']").focus();
+        }
      }
      
      function isAudit(){
@@ -300,8 +330,8 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>采购机构名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="name" type="text" required maxlength="100" value="${purchaseDep.name }"> <span class="add-on">i</span>
-                     <div class="cue">${ERR_name}</div>
+                      <input class="input_group" name="name" type="text" required maxlength="100" onblur="verify(this);" value="${purchaseDep.name }"> <span class="add-on">i</span>
+                     <div class="cue" id="sps">${ERR_name}</div>
                     </div>
                   </li>
                   
@@ -486,7 +516,7 @@
                                     
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购资质编号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="quaCode" type="text" value="${purchaseDep.quaCode}"> <span class="add-on">i</span>
+                      <input class="input_group" name="quaCode" maxlength="50" type="text" value="${purchaseDep.quaCode}"> <span class="add-on">i</span>
                        <div class="cue">${ERR_quaCode}</div>
                     </div>
                   </li>
@@ -505,7 +535,7 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位主要领导姓名及电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="leaderTelephone" value="${purchaseDep.leaderTelephone}" type="text">
+                      <input class="input_group" name="leaderTelephone" maxlength="30" value="${purchaseDep.leaderTelephone}" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_leaderTelephone}</div>
                     </div>
@@ -588,35 +618,35 @@
                 <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">单位名称</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="depName" value="${purchaseDep.depName}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="depName" maxlength="250" value="${purchaseDep.depName}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_depName}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">法定代表人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="legal" maxlength="10" value="${purchaseDep.legal}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="legal" maxlength="40" value="${purchaseDep.legal}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_legal}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">委托代理人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="agent" value="${purchaseDep.agent}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="agent" value="${purchaseDep.agent}" maxlength="40" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_agent}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系人</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contact" value="${purchaseDep.contact}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="contact" maxlength="40" value="${purchaseDep.contact}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_contact}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactTelephone" value="${purchaseDep.contactTelephone}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
+                      <input class="input_group" name="contactTelephone" maxlength="40" value="${purchaseDep.contactTelephone}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_contactTelephone}</div>
                     </div>
@@ -624,7 +654,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">通讯地址</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="contactAddress" value="${purchaseDep.contactAddress}" type="text">
+                      <input class="input_group" name="contactAddress" maxlength="250" value="${purchaseDep.contactAddress}" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_contactAddress}</div>
                     </div>
@@ -640,21 +670,21 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">付款单位</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="payDep" value="${purchaseDep.payDep}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="payDep" maxlength="250" value="${purchaseDep.payDep}" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_payDep}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">开户银行</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="bank" value="${purchaseDep.bank}" type="text"> <span class="add-on">i</span>
+                      <input class="input_group" name="bank" value="${purchaseDep.bank}" maxlength="40" type="text"> <span class="add-on">i</span>
                       <div class="cue">${ERR_bank}</div>
                     </div>
                   </li>
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">银行账号</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="bankAccount" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.bankAccount}" type="text">
+                      <input class="input_group" name="bankAccount" maxlength="30" onkeyup="this.value=this.value.replace(/\D/g,'')" value="${purchaseDep.bankAccount}" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_bankAccount}</div>
                     </div>
@@ -689,8 +719,8 @@
                           <tr style="cursor: pointer;">
                              <td class="tc w50"><input type="checkbox" value="${obj.id}" name="checkboxs"></td>
                               <td class="tc w50">${(vs.index+1)}</td>
-                              <td class="tc"><input type="text" name="purchaseUnitName" value="${obj.purchaseUnitName}"/></td>
-                              <td class="tc"><input type="text" name="purchaseUnitDuty" value="${obj.purchaseUnitDuty}"/></td>
+                              <td class="tc"><input type="text" name="purchaseUnitName" maxlength="40" value="${obj.purchaseUnitName}"/></td>
+                              <td class="tc"><input type="text" name="purchaseUnitDuty" maxlength="40" value="${obj.purchaseUnitDuty}"/></td>
                              </tr>
                         </c:forEach>
                     </tbody>
@@ -704,7 +734,7 @@
                <ul class="ul_list">
                   <li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">办公场地总面积(平方米)</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="officeArea" type="text" value="${purchaseDep.officeArea}"> <span class="add-on">i</span>
+                      <input class="input_group" name="officeArea" type="text" maxlength="40" value="${purchaseDep.officeArea}"> <span class="add-on">i</span>
                       <div class="cue">${ERR_officeArea}</div>
                     </div>
                   </li>
@@ -735,7 +765,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">评标室数量</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="bidRoomCount" value="${purchaseDep.bidRoomCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
+                      <input class="input_group" name="bidRoomCount" maxlength="40" value="${purchaseDep.bidRoomCount}" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_bidRoomCount}</div>
                     </div>
@@ -750,7 +780,7 @@
                   
                   <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">接入方式</span>
                     <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                      <input class="input_group" name="accessWay" value="${purchaseDep.accessWay}"  type="text">
+                      <input class="input_group" name="accessWay" maxlength="40" value="${purchaseDep.accessWay}"  type="text">
                       <span class="add-on">i</span>
                       <div class="cue">${ERR_accessWay}</div>
                     </div>
@@ -796,10 +826,10 @@
                                    <option  value='4' <c:if test="${'4' eq obj.siteType}">selected="selected"</c:if>>评标室</option>
                                 </select>
                              </td>
-                              <td class="tc"><input type="text" name="siteNumber" value="${obj.siteNumber}"/></td>
-                              <td class="tc"><input type="text" name="location" value="${obj.location}"/></td>
-                              <td class="tc"><input type="text" name="area" value="${obj.area}"/></td>
-                              <td class="tc"><input type="text" name="crewSize" value="${obj.crewSize}"/></td>
+                              <td class="tc"><input type="text" name="siteNumber" maxlength="40" value="${obj.siteNumber}"/></td>
+                              <td class="tc"><input type="text" name="location" maxlength="100" value="${obj.location}"/></td>
+                              <td class="tc"><input type="text" name="area" maxlength="40" value="${obj.area}"/></td>
+                              <td class="tc"><input type="text" name="crewSize" maxlength="40" value="${obj.crewSize}"/></td>
                              </tr>
                           </c:forEach>
                       </tbody>
