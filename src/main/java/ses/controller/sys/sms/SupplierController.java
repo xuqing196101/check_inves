@@ -13,9 +13,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -567,6 +569,17 @@ public class SupplierController extends BaseSupplierController {
 				Supplier before = supplierService.get(supplier.getId());
 				if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
+				}
+				
+				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
+					List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+					if(tempList!=null&&tempList.size()>0){
+						 return "repeat";
+					}
+					
+				}
+				if(supplier.getCreditCode()==null){
+					supplier.setCreditCode("");
 				}
 				supplierService.perfectBasic(supplier);
 				
@@ -1378,24 +1391,25 @@ public class SupplierController extends BaseSupplierController {
   			count++;
   		}*/
 
+		if(supplier.getCreditCode()!=null){
 		List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
-		if(supplier.getCreditCode() == null || supplier.getCreditCode().length() > 36) {
-			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
-			count++;
-		}
-		if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
-			model.addAttribute("err_creditCide", "格式错误!");
-		}
-		if(tempList != null && tempList.size() > 0) {
-			for(Supplier supp: tempList) {
-				if(!supplier.getId().equals(supp.getId())) {
-					model.addAttribute("err_creditCide", "社会统一信用代码已被占用!");
-					count++;
-					break;
+//		if(supplier.getCreditCode() == null || supplier.getCreditCode().length() > 36) {
+//			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
+//			count++;
+//		}
+			if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
+				model.addAttribute("err_creditCide", "格式错误!");
+			}
+			if(tempList != null && tempList.size() > 0) {
+				for(Supplier supp: tempList) {
+					if(!supplier.getId().equals(supp.getId())) {
+						model.addAttribute("err_creditCide", "社会统一信用代码已被占用!");
+						count++;
+						break;
+					}
 				}
 			}
 		}
-
 		if(supplier.getRegistAuthority() == null || supplier.getRegistAuthority().length() > 20) {
 			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;
@@ -1513,9 +1527,13 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 			model.addAttribute("stock", "请添加股东信息!");
 		}
+		int cardId=0;
+		Set<String> set=new HashSet<String>();
 		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
 			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
 			for(SupplierStockholder stocksHolder: stockList) {
+				set.add(stocksHolder.getIdentity());
+				cardId++;
 				if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
 					count++;
 					model.addAttribute("stock", "出资人名称或姓名不能为空！");
@@ -1523,6 +1541,7 @@ public class SupplierController extends BaseSupplierController {
 				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
 					count++;
 					model.addAttribute("stock", "统一社会信用代码或身份证号码为空或者格式不正确!");
+					
 				}
 				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
 					count++;
@@ -1533,6 +1552,10 @@ public class SupplierController extends BaseSupplierController {
 					model.addAttribute("stock", "比例不能为空！");
 				}
 			}
+		}
+		if(set.size()!=cardId){
+			count++;
+			model.addAttribute("error_card", "身份证号码重复！");
 		}
 		// 售后服务机构
         if(supplier.getListSupplierAfterSaleDep() == null || supplier.getListSupplierAfterSaleDep().size() < 1) {
