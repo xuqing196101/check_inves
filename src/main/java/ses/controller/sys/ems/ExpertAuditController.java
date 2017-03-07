@@ -554,11 +554,35 @@ public class ExpertAuditController {
 	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
 	    String flag = null;
+	    if (code != null && code.equals("GOODS_PROJECT")) {
+            code = "PROJECT";
+            typeId = DictionaryDataUtil.getId("PROJECT");
+        }
 	    if (code.equals("ENG_INFO_ID")) {
 	        flag = "ENG_INFO";
 	    }
 	    // 查询已选中的节点信息
-	    List<ExpertCategory> expertItems = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+	    List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+	    List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+	    for (ExpertCategory expertCategory : items) {
+	        if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+	            Category data = categoryService.findById(expertCategory.getCategoryId());
+	            List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+	            if (findPublishTree.size() == 0) {
+	                expertItems.add(expertCategory);
+	            } else if (data != null && data.getCode().length() == 7) {
+	                expertItems.add(expertCategory);
+	            }
+	        } else {
+                Category data = engCategoryService.findById(expertCategory.getCategoryId());
+	            List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
+                    expertItems.add(expertCategory);
+                }
+	        }
+        }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
             String categoryId = item.getCategoryId();

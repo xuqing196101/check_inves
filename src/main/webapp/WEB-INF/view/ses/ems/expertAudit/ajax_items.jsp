@@ -43,11 +43,11 @@
   <table class="table table-bordered table-hover">
     <tr>
       <td class="info tc w50">序号</td>
-      <td class="info tc w100">品目类别</td>
-      <td class="info tc">大类名称</td>
-      <td class="info tc">中类名称</td>
-      <td class="info tc">小类名称</td>
-      <td class="info tc">品种名称</td>
+      <td class="info tc w100">类别</td>
+      <td class="info tc">大类</td>
+      <td class="info tc">中类</td>
+      <td class="info tc">小类</td>
+      <!-- <td class="info tc">品种名称</td> -->
       <td class="info tc">操作</td>
     </tr>
     <c:forEach items="${itemsList}" var="item" varStatus="vs">
@@ -57,7 +57,7 @@
 		    <td class="tl pl20">${item.firstNode}</td>
 		    <td class="tl pl20">${item.secondNode}</td>
 		    <td class="tl pl20">${item.thirdNode}</td>
-		    <td class="tl pl20">${item.fourthNode}</td>
+		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
 		    <td class="tc w50 hand">
 					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 					<p id="${item.itemsId}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
