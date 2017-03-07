@@ -9,6 +9,9 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
@@ -145,6 +148,8 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Autowired
     private SupplierCertServeMapper supplierCertServeMapper;
     
+    @Autowired
+    private FileUploadMapper fileUploadMapper;
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -217,6 +222,8 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setListSupplierItems(getSupplierItems(supplier.getId()));
         //供应商售后服务机构
         supplier.setListSupplierAfterSaleDep(getSupplierAfterDep(supplier.getId()));
+        List<UploadFile> attchs = fileUploadMapper.findBybusinessId(supplier.getId(), Constant.SUPPLIER_SYS_VALUE);
+        supplier.setAttchList(attchs);
     }
     
     /**
@@ -308,6 +315,10 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     private SupplierMatPro getMatPro(String supplierId){
     	SupplierMatPro pro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);
     	List<SupplierCertPro> list = supplierCertProMapper.findCertProByProId(pro.getId());
+    	for(SupplierCertPro sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
     	pro.setListSupplierCertPros(list);
        return  pro;
     }
@@ -324,6 +335,11 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     	
     	SupplierMatSell sell = supplierMatSellService.getMatSell(supplierId);
     	List<SupplierCertSell> list = supplierCertSellMapper.findCertSellByMatSellId(sell.getId());
+    	for(SupplierCertSell sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	
     	sell.setListSupplierCertSells(list);
         return sell;
     }
@@ -341,6 +357,10 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     	List<SupplierAptitute> list = supplierAptituteMapper.findAptituteByMatEngId(eng.getId());
     	eng.setListSupplierAptitutes(list);
     	List<SupplierCertEng> engList = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
+    	for(SupplierCertEng sc:engList){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
     	eng.setListSupplierCertEngs(engList);
     	List<SupplierRegPerson> persons = supplierRegPersonMapper.findRegPersonByMatEngId(eng.getId());
     	eng.setListSupplierRegPersons(persons);
@@ -358,6 +378,10 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     private SupplierMatServe getMatServer(String supplierId){
     	SupplierMatServe serve = supplierMatSeService.getMatserver(supplierId);
     	List<SupplierCertServe> list = supplierCertServeMapper.findCertSeBySupplierMatSeId(serve.getId());
+    	for(SupplierCertServe sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
     	serve.setListSupplierCertSes(list);
         return  supplierMatSeService.getMatserver(supplierId);
     }
@@ -371,7 +395,13 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private List<SupplierItem> getSupplierItems(String supplierId){
-        return supplierItemService.getSupplierId(supplierId);
+    	List<SupplierItem> list = supplierItemService.getSupplierId(supplierId);
+    	for(SupplierItem sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getCategoryId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	
+        return list;
     }
     
     public List<SupplierAfterSaleDep> getSupplierAfterDep(String supplierId){

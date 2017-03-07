@@ -30,6 +30,8 @@ o<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
     			if (res.success){
     				layer.msg("导入成功");
     				list(1);
+    			}else{
+    				layer.msg("导入失败");
     			}
     		}
     	});

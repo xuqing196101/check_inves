@@ -5,6 +5,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import org.apache.tomcat.jni.File;
+
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+
 public class SupplierItem implements Serializable {
 	private static final long serialVersionUID = -6757464247201483546L;
 
@@ -100,6 +105,16 @@ public class SupplierItem implements Serializable {
 	
 	/**证书编号**/
 	private String certCode;
+
+	private List<UploadFile> fileList=new ArrayList<UploadFile>();
+	
+	public List<UploadFile> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(List<UploadFile> fileList) {
+		this.fileList = fileList;
+	}
 
 	public String getLevel() {
         return level;

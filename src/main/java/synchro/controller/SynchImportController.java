@@ -161,6 +161,10 @@ public class SynchImportController {
         }else  if(synchType.equals(Constant.DATA_TYPE_SUPPLIER_CODE)){
         	if (file != null && file.exists()){
                 File [] files = file.listFiles();
+                if(files.length<1){
+                	bean.setSuccess(false);
+                    return bean;
+                }
                 for (File f : files){
                     if (f.getName().contains(FileUtils.C_SUPPLIER_FILENAME)){
                      
@@ -183,10 +187,7 @@ public class SynchImportController {
                         }
                     }
                 }
-            }else{
-            	 bean.setSuccess(false);
-                 return bean;
-            }
+            } 
         }
        
         bean.setSuccess(true);

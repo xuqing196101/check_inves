@@ -8,6 +8,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierBranchMapper;
@@ -128,6 +131,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private SupplierItemMapper supplierItemMapper;
     
+    
+    @Autowired
+    private FileUploadMapper fileUploadMapper;
+    
+    
     /**
      * 
      * @see synchro.inner.read.supplier.InnerSupplierService#importSupplierInfo(java.io.File)
@@ -138,7 +146,14 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
        for (Supplier supplier : list){
     	   if(supplier.getListSupplierFinances().size()>0){
     		   for(SupplierFinance sf:supplier.getListSupplierFinances()){
+    			   if(sf.getListUploadFiles().size()>0){
+    				   for(UploadFile uf:sf.getListUploadFiles()){
+    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+    	    			   fileUploadMapper.insertFile(uf);
+    	    		   }
+    			   }
     			   supplierFinanceMapper.insertSelective(sf);
+    			   
     		   }
     	   }
     	   if(supplier.getAddressList().size()>0){
@@ -168,6 +183,12 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   		supplierMatProMapper.insertSelective(supplier.getSupplierMatPro());
     		   		if(supplier.getSupplierMatPro().getListSupplierCertPros().size()>0){
     		   			for(SupplierCertPro sc:supplier.getSupplierMatPro().getListSupplierCertPros()){
+    		   				if(sc.getFileList().size()>0){
+    		   				 for(UploadFile uf:sc.getFileList()){
+    	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+    	    	    			   fileUploadMapper.insertFile(uf);
+    	    	    		   }
+    		   				}
     		   				supplierCertProMapper.insertSelective(sc);
     		   			}
     		   		}
@@ -178,6 +199,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   supplierMatSellMapper.insertSelective(supplier.getSupplierMatSell());
     		   if(supplier.getSupplierMatSell().getListSupplierCertSells().size()>0){
     			   for(SupplierCertSell sc:supplier.getSupplierMatSell().getListSupplierCertSells()){
+    				   if(sc.getFileList().size()>0){
+  		   				 for(UploadFile uf:sc.getFileList()){
+  	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+  	    	    			   fileUploadMapper.insertFile(uf);
+  	    	    		   }
+  		   				}
+    				   
 		   				supplierCertSellMapper.insertSelective(sc);
 		   			}
     		   }
@@ -191,6 +219,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     		   if(supplier.getSupplierMatEng().getListSupplierCertEngs().size()>0){
     			   for(SupplierCertEng sce:supplier.getSupplierMatEng().getListSupplierCertEngs()){
+    				   if(sce.getFileList().size()>0){
+  		   				 for(UploadFile uf:sce.getFileList()){
+  	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+  	    	    			   fileUploadMapper.insertFile(uf);
+  	    	    		   }
+  		   				}
+    				   
     				   supplierCertEngMapper.insertSelective(sce);
     			   }
     		   }
@@ -204,19 +239,35 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
 			   if(supplier.getSupplierMatSe().getListSupplierCertSes().size()>0){
 				  for(SupplierCertServe sc:supplier.getSupplierMatSe().getListSupplierCertSes()){
+					  if(sc.getFileList().size()>0){
+ 		   				 for(UploadFile uf:sc.getFileList()){
+ 	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+ 	    	    			   fileUploadMapper.insertFile(uf);
+ 	    	    		   }
+ 		   				}
+					  
 					  supplierCertServeMapper.insertSelective(sc);
 				  } 
 			   }
 		   }
     	   if(supplier.getListSupplierItems()!=null&&supplier.getListSupplierItems().size()>0){
     		   for(SupplierItem st:supplier.getListSupplierItems()){
+    			   if(st.getFileList().size()>0){
+		   				 for(UploadFile uf:st.getFileList()){
+	    	    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+	    	    			   fileUploadMapper.insertFile(uf);
+	    	    		   }
+		   				}
     			   supplierItemMapper.insertSelective(st);
     		   }
     	   }
     	   
-//    	   if(supplier.getSupp){
-//    		   
-//    	   }
+    	   if(supplier.getAttchList().size()>0){
+    		   for(UploadFile uf:supplier.getAttchList()){
+    			   uf.setTableName("T_SES_SMS_SUPPLIER_ATTACHMENT");
+    			   fileUploadMapper.insertFile(uf);
+    		   }
+    	   }
     	   
     	   
            saveUser(supplier.getUser());
