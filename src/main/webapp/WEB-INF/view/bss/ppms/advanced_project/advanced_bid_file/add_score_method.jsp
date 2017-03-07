@@ -126,8 +126,6 @@
         <div class="container container_box">
           <h2 class="list_title">新增评标方法</h2>
           <ul class="list-unstyled ul_list" style="margin-left: 0px;">
-              <input type="hidden" name="projectId" value="${projectId}" />
-              <input type="hidden" name="packageId" value="${packageId}" />
               <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">评分方法:</span> 
                   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
@@ -177,6 +175,9 @@
             </ul>
         </div>
 				<div class="ml200">
+				  <input type="hidden" name="projectId" value="${projectId}" />
+          <input type="hidden" name="packageId" value="${packageId}" />
+          <input type="hidden" name="flowDefineId" value="${flowDefineId}"/>
 					<input class="btn btn-windows save w80" readonly onclick="save(this)" value="保存" />
 					<button class="btn btn-windows back w80" onclick="history.go(-1)" type="button">返回</button>
 				</div>

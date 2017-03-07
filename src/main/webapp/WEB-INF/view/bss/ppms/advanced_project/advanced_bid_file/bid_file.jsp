@@ -205,15 +205,15 @@
     <div class="col-md-12 p0">
       <ul class="flow_step">
         <li class="active">
-          <a href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}">01、资格性和符合性审查</a>
+          <a href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}">01、资格性和符合性审查</a>
           <i></i>
         </li>
         <li>
-          <a href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}">02、经济和技术评审细则</a>
+          <a href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
           <i></i>
         </li>
         <li>
-          <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}">
+          <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}">
             03、招标文件
           </a>
         </li>

@@ -225,7 +225,7 @@
     </div>
     <div class="mt40 tc mb50">
       <c:if test="${project.confirmFile != 1 }">
-          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}'">返回</button>
+          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
           </c:if>
       </div>
     <div id="openDiv" class="dnone layui-layer-wrap">

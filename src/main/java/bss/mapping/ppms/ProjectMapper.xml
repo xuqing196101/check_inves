@@ -1302,7 +1302,7 @@
         and  PURCHASE_DEP_ID = #{purchaseDepId}
       </if>
        <if test="appointMan != null and appointMan != ''">
-        and APPOINT_MAN = #{appointMan}
+        and (APPOINT_MAN = #{appointMan} OR APPOINT_MAN IS NULL)
       </if> 
       <if test="name != null and name != ''">
        and NAME like '%${name}%'

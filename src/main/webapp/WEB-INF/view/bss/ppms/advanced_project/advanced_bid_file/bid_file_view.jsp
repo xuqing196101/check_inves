@@ -8,11 +8,11 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
         
-      function confirmOk(obj, id){
+      function confirmOk(obj, id, flowDefineId){
       	   layer.confirm('您已经确认了吗?', {title:'提示',offset: ['100px'],shade:0.01}, function(index){
 	 			layer.close(index);
 	 			$.ajax({
-	 				url:"${pageContext.request.contextPath}/Adopen_bidding/confirmOk.html?projectId="+id,
+	 				url:"${pageContext.request.contextPath}/Adopen_bidding/confirmOk.html?projectId="+id+"&flowDefineId="+flowDefineId,
 	 				dataType: 'json',  
 	 	       		success:function(result){
 	                   	layer.msg(result.msg,{offset: '222px'});
@@ -35,7 +35,7 @@
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
 	     <li class="active">
-		   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}" >01、资格性和符合性审查</a>
+		   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
          <i></i>
        </li>
        
@@ -44,11 +44,11 @@
          <i></i>                
        </li> --%>
          <li>
-         <a  href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}">02、经济和技术评审细则</a>
+         <a  href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
          <i></i>
        </li>
        <li class="active">
-         <a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}" >
+         <a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
            03、招标文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 			     03、招标文件
