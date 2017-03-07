@@ -501,7 +501,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("shareholder", list);
 		
 		//查出财务修改前的信息
-		if(supplierStatus != null && supplierStatus == 0) {
+		if(supplierStatus != null || supplierStatus == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setmodifyType("shareholder_page");
@@ -530,16 +530,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("url", url);
 		
 		//回显未通过字段
-		SupplierAudit supplierAudit = new SupplierAudit();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("basic_page");
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedField = new StringBuffer();
-		for(SupplierAudit a : reasonsList){
-			passedField.append(a.getAuditField() + ",");
+		if(supplierStatus != null || supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("basic_page");
+			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedField = new StringBuffer();
+			for(SupplierAudit a : reasonsList){
+				passedField.append(a.getAuditField() + ",");
+			}
+			request.setAttribute("passedField", passedField);
 		}
-		request.setAttribute("passedField", passedField);
-				
 		return "ses/sms/supplier_audit/shareholder";
 	}
 

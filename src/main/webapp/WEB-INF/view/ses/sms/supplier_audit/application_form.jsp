@@ -243,7 +243,7 @@
 	                <p><img style="padding-left: 80px;" src='/zhbj/public/backend/images/sc.png'></p>
 	                
 	                <c:if test="${fn:contains(passedField,'supplierPledge')}">
-										<img src='/zhbj/public/backend/images/sc.png'>
+										<img style="padding-left: 80px;" src='/zhbj/public/backend/images/sc.png'>
 									</c:if>
               </li>
 	             <li class="col-md-6 p0 mt10 mb25">
@@ -251,7 +251,7 @@
                 <u:show showId="regList_show" delete="false" groups="lvel_show,pledge_show,regList_show,inspectList_show,reviewList_show,changeList_show,exitList_show" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}"/>
                 <p><img style="padding-left: 80px;" src='/zhbj/public/backend/images/sc.png'></p>
                 <c:if test="${fn:contains(passedField,'supplierRegList')}">
-									<img src='/zhbj/public/backend/images/sc.png'>
+									<img style="padding-left: 80px;" src='/zhbj/public/backend/images/sc.png'>
 								</c:if>
 	            </li>
 	            <%-- <li class="col-md-3 margin-0 padding-0 ">
