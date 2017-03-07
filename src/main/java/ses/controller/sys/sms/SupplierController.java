@@ -575,8 +575,9 @@ public class SupplierController extends BaseSupplierController {
 
 				//判断注册资金是否足够
 			    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
-				if (score.compareTo(BigDecimal.valueOf(100)) != 1) {
-					return "notPass";	            
+				if (score.compareTo(BigDecimal.valueOf(100)) ==-1) {
+					res="notPass";
+				//	return "notPass";	            
 				 } 
 				}
 			
@@ -645,7 +646,7 @@ public class SupplierController extends BaseSupplierController {
 		    Supplier before = supplierService.get(supplier.getId());
 		    // 判断是否满足条件
 		    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
-		    if (score.compareTo(BigDecimal.valueOf(100)) != 1) {
+		    if (score.compareTo(BigDecimal.valueOf(100)) ==-1) {
 	            initCompanyType(model, before);
 	            request.setAttribute("notPass", "notPass");
 	            return "ses/sms/supplier_register/basic_info";
@@ -2643,7 +2644,7 @@ public class SupplierController extends BaseSupplierController {
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
         for (SupplierTypeRelate type : relate) {
             if (type.getSupplierTypeId().equals("SALES")) {
-                if (score.compareTo(BigDecimal.valueOf(3000)) != 1) {
+                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
                     return "0";
                 }
             }

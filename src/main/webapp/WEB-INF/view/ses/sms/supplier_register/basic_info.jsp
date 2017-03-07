@@ -204,12 +204,6 @@
 					data: $("#basic_info_form_id").serializeArray(),
 					contextType: "application/x-www-form-urlencoded",
 					success: function(msg) {
-						if(msg=="notPass"){
-							layer.msg('近3年加权平均净资产不满足注册要求！', {
-								offset: '300px'
-							});
-						}
-						
 						if(msg == 'ok') {
 							layer.msg('暂存成功', {
 								offset: '300px'
@@ -237,6 +231,13 @@
 					async: false,
 					data: $("#basic_info_form_id").serializeArray(),
 					contextType: "application/x-www-form-urlencoded",
+					success: function(msg) {
+						if(msg=="notPass"){
+							layer.msg('近3年加权平均净资产不满足注册要求！', {
+								offset: '300px'
+							});
+						}
+					}
 				});
 			}
 			//listSupplierStockholders
