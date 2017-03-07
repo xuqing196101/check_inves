@@ -568,6 +568,8 @@ public class SupplierController extends BaseSupplierController {
 				if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 				}
+				supplierService.perfectBasic(supplier);
+				
 				List<SupplierFinance> finances = supplier.getListSupplierFinances();
 				if(finances.get(0).getTotalNetAssets()!=null&&finances.get(1).getTotalNetAssets()!=null&&finances.get(2).getTotalNetAssets()!=null){
 
@@ -575,10 +577,9 @@ public class SupplierController extends BaseSupplierController {
 			    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
 				if (score.compareTo(BigDecimal.valueOf(100)) != 1) {
 					return "notPass";	            
-				}else{
-					supplierService.perfectBasic(supplier);
-				   }
+				 } 
 				}
+			
 			} catch(Exception e) {
 				res = StaticVariables.FAILED;
 				e.printStackTrace();
