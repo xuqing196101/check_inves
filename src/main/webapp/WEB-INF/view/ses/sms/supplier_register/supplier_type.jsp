@@ -715,6 +715,7 @@
 			var arrays = checkeds.split(",");
 			var checkedArray = [];
 			var checkBoxAll = $("input[name='chkItem']");
+			var supplierId = "${currSupplier.id}";
 			$.ajax({
 				url: "${pageContext.request.contextPath}/supplier/isPass.do",
 				data: {
