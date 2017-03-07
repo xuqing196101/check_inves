@@ -68,9 +68,9 @@
 		hideTabTitle();
 		$("input[name='chkItem']:checked").each(function() {
 			var value = $(this).val();
-			if (value == 'SALES') {
+			 if (value == 'SALES') {
 				downloadTable();
-			}
+			} 
 			$("#tab_div").addClass("opacity_1");
 			selectedArray.push(value);
 			product(value);
