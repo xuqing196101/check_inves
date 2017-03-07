@@ -1892,7 +1892,7 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select${certAptNumber}" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
 																	<c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if>
@@ -1909,6 +1909,10 @@
 																				getAptLevel($obj);
 																			},
 																		});
+																	});
+																	$("select[title='cnjewfnGrade']").each(function() {
+																		var $obj = $(this);
+																		$obj.combobox({});
 																	});
 																</script>
 															</td>
