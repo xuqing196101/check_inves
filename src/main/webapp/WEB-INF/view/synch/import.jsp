@@ -1,4 +1,4 @@
-<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
+o<%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
 
 <!DOCTYPE HTML>
@@ -6,6 +6,36 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript" src="${pageContext.request.contextPath}/js/synch/import.js"></script>
+    
+    <script type="text/javascript">
+    function synchImport(){
+    	var startTime = $("#startTime").val();
+    	var endTime = $("#endTime").val();
+    	var dataType = [];
+    	$("input[name='dataType']:checked").each(function(){
+    		dataType.push($(this).val());
+    	});
+    	if (dataType.length == 0){
+    		layer.msg("请选择同步类型");
+    		return ;
+    	}
+    	
+    	
+  	$.ajax({
+    		url: globalPath + "/synchImport/dataImport.do",
+    		type:"post",
+    		data:{'startTime' : startTime,'endTime': endTime,'synchType': dataType.toString()},
+    		dataType:"json",
+    		success:function(res){
+    			if (res.success){
+    				layer.msg("导入成功");
+    				list(1);
+    			}
+    		}
+    	});
+    }
+    
+    </script>
   </head>
   <body>
    <!--面包屑导航开始-->
@@ -24,7 +54,38 @@
   <div class="container">
     <input type="hidden" id="operType" name="operType" value="${operType}"/>
 	<div class="mt10 pl20">
-	  <button class="btn" onclick="synchImport();">导入</button>
+	
+	<h2 class="count_flow"><i>1</i>导入设置</h2>
+      <ul class="ul_list">
+      <%--   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>开始时间</span>
+		  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			<input class="input_group Wdate mb0 w220" id="startTime" name="startTime" type="text" value="${startTime}" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
+		  </div>
+		</li>
+		
+		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>结束时间</span>
+		  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			<input class="input_group Wdate mb0 w220" id="endTime" name="endTime" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"> 
+		  </div>
+		</li> --%>
+		
+		<li class="col-md-12 col-sm-12 col-xs-12 pl15">
+		  <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>同步类型</span>
+		  <div>
+			<c:forEach  items="${dataTypeList}" var="type">
+			  <input type="checkbox" name="dataType" value="${type.code}"/> ${type.name}
+			</c:forEach> 
+		  </div>
+		</li>
+		
+		 <div class="clear mt10 tc">
+		  <button class="btn" onclick="synchImport();">导入</button>
+	    </div>
+      </ul>
+      
+	
     </div>
     
     <div class="padding-top-10 clear" id="relaDeptId">

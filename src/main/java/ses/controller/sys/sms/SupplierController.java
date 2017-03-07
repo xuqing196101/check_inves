@@ -568,7 +568,17 @@ public class SupplierController extends BaseSupplierController {
 				if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 				}
-				supplierService.perfectBasic(supplier);
+				List<SupplierFinance> finances = supplier.getListSupplierFinances();
+				if(finances.get(0).getTotalNetAssets()!=null&&finances.get(1).getTotalNetAssets()!=null&&finances.get(2).getTotalNetAssets()!=null){
+
+				//判断注册资金是否足够
+			    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+				if (score.compareTo(BigDecimal.valueOf(100)) != 1) {
+					return "notPass";	            
+				}else{
+					supplierService.perfectBasic(supplier);
+				   }
+				}
 			} catch(Exception e) {
 				res = StaticVariables.FAILED;
 				e.printStackTrace();
@@ -2758,4 +2768,22 @@ public class SupplierController extends BaseSupplierController {
     	
     	return "";
     }
+    
+    /**
+     * 
+    * @Title: getRandomId
+    * @Description:获取随机生成的ID
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return String     
+    * @throws
+     */
+    @RequestMapping("/getId")
+    @ResponseBody
+    public String getRandomId(){
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+    	return id;
+    }
+    
+    
 }

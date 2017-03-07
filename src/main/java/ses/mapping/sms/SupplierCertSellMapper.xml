@@ -155,7 +155,7 @@
 	</update>
 	
 	
-	<select id="findCertSellBySuppliermatSellId" parameterType="java.lang.String" resultMap="BaseResultMap">
+	<select id="findCertSellBySuppliermatSellId" resultMap="BaseResultMap">
 		select * from T_SES_SMS_SUPPLIER_CERT_SELL where MAT_SELL_ID = #{supplierMatSellId}
 	</select>
 	
@@ -186,4 +186,9 @@
 	</delete>
 	
 	
+	<select id="findCertSellByMatSellId"  resultMap="BaseResultMap">
+	 select 
+	 <include refid="Base_Column_List" /> 
+	 from T_SES_SMS_SUPPLIER_CERT_SELL where MAT_SELL_ID=#{matSellId}
+	</select>
 </mapper>

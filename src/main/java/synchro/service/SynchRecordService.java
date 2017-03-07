@@ -40,7 +40,7 @@ public interface SynchRecordService {
      * @author myc
      * @param content
      */
-    public void importModifySupplierRecord(String content);
+    public void importModifySupplierRecord(String content,Date synchDate);
     
     /**
      * 

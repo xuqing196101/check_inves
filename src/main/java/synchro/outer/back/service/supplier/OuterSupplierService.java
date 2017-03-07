@@ -25,4 +25,17 @@ public interface OuterSupplierService {
      */
     public void exportCommitSupplier(String startTime, String endTime, Date synchDate);
     
+    /**
+     * 
+    * @Title: modify
+    * @Description: 备份修退回修改的供应商
+    * author: Li Xiaoxiao 
+    * @param @param startTime
+    * @param @param endTime
+    * @param @param synchDate     
+    * @return void     
+    * @throws
+     */
+    public void modify(String startTime, String endTime, Date synchDate);
+    
 }

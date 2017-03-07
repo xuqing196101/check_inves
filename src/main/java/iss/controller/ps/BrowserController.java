@@ -113,7 +113,16 @@ public class BrowserController {
 	     downloadFile(request, response, filePath, fileName);
 	  }
 	
-	  
+	  /**
+	   * 
+	  * @Title: categoryDownload
+	  * @Description:供应商产品目录下载
+	  * author: Li Xiaoxiao 
+	  * @param @param request
+	  * @param @param response     
+	  * @return void     
+	  * @throws
+	   */
 	  @RequestMapping("/categoryDownload")
 	  public void categoryDownload(HttpServletRequest request, HttpServletResponse response){
 	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
@@ -122,12 +131,39 @@ public class BrowserController {
 	     String filePath = path + File.separator + fileName;
 	     downloadFile(request, response, filePath, fileName);
 	  }
-	  
+	  /**
+	   * 
+	  * @Title: supplier
+	  * @Description: 供应商入库须知下载
+	  * author: Li Xiaoxiao 
+	  * @param @param request
+	  * @param @param response     
+	  * @return void     
+	  * @throws
+	   */
 	  @RequestMapping("/supplierDownload")
 	  public void supplier(HttpServletRequest request, HttpServletResponse response){
 	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
 	     UploadUtil.createDir(path);
 	     String fileName = PropUtil.getProperty("file.doc");
+	     String filePath = path + File.separator + fileName;
+	     downloadFile(request, response, filePath, fileName);
+	  }
+	  /**
+	   * 
+	  * @Title: supplierA
+	  * @Description: 供应承诺书下载
+	  * author: Li Xiaoxiao 
+	  * @param @param request
+	  * @param @param response     
+	  * @return void     
+	  * @throws
+	   */
+	  @RequestMapping("/supplierPromise")
+	  public void supplierProise(HttpServletRequest request, HttpServletResponse response){
+	     String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.browser.path");
+	     UploadUtil.createDir(path);
+	     String fileName = PropUtil.getProperty("file.promise.doc");
 	     String filePath = path + File.separator + fileName;
 	     downloadFile(request, response, filePath, fileName);
 	  }
