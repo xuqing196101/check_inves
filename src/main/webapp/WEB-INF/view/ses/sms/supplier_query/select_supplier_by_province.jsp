@@ -34,6 +34,7 @@
 
 			function chongzhi() {
 				$("#supplierName").val('');
+				$("#loginName").val('');
 				$("#startDate").val('');
 				$("#endDate").val('');
 				$("#contactName").val('');
@@ -337,6 +338,9 @@
 	        <ul class="demand_list">
 	        	<li>
 	          	<label class="fl">供应商名称：</label><span><input class="w220" id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
+	          </li>
+	          <li>
+	          	<label class="fl">用户名：</label><span><input class="w220" id="loginName" name="loginName" value="${supplier.loginName }" type="text"></span>
 	          </li>
 	          <li>
 	            <label class="fl">联系人：</label><span><input class="w220" id="contactName" name="contactName" value="${supplier.contactName }" type="text"></span>
