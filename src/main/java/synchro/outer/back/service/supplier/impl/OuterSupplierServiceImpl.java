@@ -18,6 +18,8 @@ import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierCertProMapper;
 import ses.dao.sms.SupplierCertSellMapper;
 import ses.dao.sms.SupplierCertServeMapper;
+import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
@@ -30,11 +32,13 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
@@ -150,6 +154,12 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     
     @Autowired
     private FileUploadMapper fileUploadMapper;
+    
+    @Autowired
+    private SupplierHistoryMapper supplierHistoryMapper;
+    
+    @Autowired
+    private SupplierModifyMapper supplierModifyMapper;
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -224,6 +234,14 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setListSupplierAfterSaleDep(getSupplierAfterDep(supplier.getId()));
         List<UploadFile> attchs = fileUploadMapper.findBybusinessId(supplier.getId(), Constant.SUPPLIER_SYS_VALUE);
         supplier.setAttchList(attchs);
+        SupplierHistory sh=new SupplierHistory();
+        sh.setSupplierId(supplier.getId());
+        supplierHistoryMapper.selectAllBySupplierId(sh);
+        SupplierModify supplierModify=new SupplierModify();
+        supplierModify.setSupplierId(supplier.getId());
+        supplierModifyMapper.selectBySupplierId(supplierModify);
+        
+        
     }
     
     /**
