@@ -233,7 +233,7 @@
 					contextType: "application/x-www-form-urlencoded",
 					success: function(msg) {
 						if(msg=="notPass"){
-							layer.msg('近3年加权平均净资产不满足注册要求！', {
+							layer.msg('近3年加权平均净资产不足100万元，不满足注册要求！', {
 								offset: '300px'
 							});
 						}
