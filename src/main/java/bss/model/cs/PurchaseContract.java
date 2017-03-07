@@ -130,6 +130,8 @@ public class PurchaseContract {
 	private String purchaseType;//采购类型
 
 	private String projectId;//项目id
+	
+	private Integer manualType;//合同类别:1新增，0生成
 
 	private BigDecimal finallyClosed;//最终结算金额
 	
@@ -140,6 +142,8 @@ public class PurchaseContract {
 	private String showSupplierDepName;
 	
 	private String supplierCheckIds;
+	
+	private String supplierId;//供应商Id
 	
 	private Supplier supplier;
 	
@@ -677,6 +681,22 @@ public class PurchaseContract {
 
 	public void setProjectCode(String projectCode) {
 		this.projectCode = projectCode;
+	}
+
+	public Integer getManualType() {
+		return manualType;
+	}
+
+	public void setManualType(Integer manualType) {
+		this.manualType = manualType;
+	}
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
 	}
 	
 	

@@ -146,4 +146,19 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
         return projectDetailMapper.selectByDemand(map);
     }
 
+	@Override
+	public List<ProjectDetail> selectTheSubjectBySupplierId(
+			HashMap<String, Object> map, String supplierId) {
+		List<ProjectDetail> projectDetailList = projectDetailMapper.selectById(map);
+		for (ProjectDetail projectDetail : projectDetailList) {
+			//定义一个list集合查询符合map条件的标的信息
+			map.put("forSubjectDetailId", projectDetail.getId());
+			map.put("supplierId", supplierId);
+			List<theSubject> subjectList = theSubjectMapper.selectBySupplierId(map);
+			projectDetail.setSubjectList(subjectList);
+		}
+		
+		return projectDetailList;
+	}
+
 }

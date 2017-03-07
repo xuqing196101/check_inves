@@ -596,6 +596,7 @@
 	   		<input type="hidden" name="projectId" value="${project.id}"/>
 	   		<input type="hidden" name="isImport" value="${project.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
+	   		<input type="hidden" name="manualType" value="0"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
@@ -901,29 +902,46 @@
             --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
-				<div class="col-md-12 col-xs-12 col-sm-12 p0">
+				<!-- <div class="col-md-12 col-xs-12 col-sm-12 p0">
 					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
-				</div>
+				</div> -->
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			    	<table id="detailtable" name="proList" class="table table_input table-bordered table-condensed left_table mb0 mt10 ">
 					 <thead>
 						<tr>
-							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+							
 							<th class="info w50">序号</th>
 							<th class="info">编号</th>
-							<th class="info">物资名称</th>
-							<th class="info">品牌商标</th>
-							<th class="info">规格型号</th>
-							<th class="info">计量单位</th>
+							<th class="info">名称</th>
+							<th class="info">型号</th>
+							<th class="info">质量技术标准</th>
 							<th class="info">数量</th>
-							<th class="info">单价(万元)</th>
+							<th class="info">计量单位</th>
+							<th class="info">单价</th>
 							<th class="info">合计金额(万元)</th>
 							<th class="info">交付时间</th>
 							<th class="info">备注</th>
 						</tr>
 					</thead>
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
+					    <c:forEach items="${reque.subjectList}" var="subject" varStatus="vss">
+						<tr>
+							<td class="tc w50">${(vss.index+1)}</td>
+							<td class="tc ">${reque.serialNumber}<input type="hidden" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" /></td>
+							<td class="tc ">${subject.goodsName}<input type="hidden" name="proList[${(vs.index)}].goodsName" value="${subject.goodsName}" /></td>
+							<td class="tc">${subject.stand}<input type="hidden" name="proList[${(vs.index)}].stand" value="${subject.stand}" /></td>
+							<td class="tc">${subject.qualitStand}<input type="hidden" name="proList[${(vs.index)}].brand" value="${reque.brand}" /></td>
+							<td class="tc">${subject.purchaseCount}<input type="hidden" name="proList[${(vs.index)}].purchaseCount" value="${subject.purchaseCount}" /></td>
+							<td class="tc">${subject.item}<input type="hidden" name="proList[${(vs.index)}].item" value="${subject.item}" /></td>
+							<td class="tc">${subject.unitPrice}<input type="hidden" name="proList[${(vs.index)}].price" value="${subject.unitPrice}" /></td>
+							<td class="tc"></td>
+							<td class="tc">${reque.deliverDate}<input type="hidden" name="proList[${(vs.index)}].deliverDate" value="${reque.deliverDate}" /></td>
+							<td class="tc">${reque.memo}<input type="hidden" name="proList[${(vs.index)}].memo" value="${reque.memo}" /></td>
+						</tr>
+						</c:forEach>
+			   		</c:forEach>
+					<%-- <c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
 							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 							<td class="tc w50">${(vs.index+1)}</td>
@@ -938,7 +956,7 @@
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].deliverDate" readonly="readonly" value="${reque.deliverDate}" class="w100 tl pl20"/></td>
 							<td class="tc"><input type="text" name="proList[${(vs.index)}].memo" readonly="readonly" value="${reque.memo}" class="tl pl20"/></td>
 						</tr>
-			   		</c:forEach>
+			   		</c:forEach> --%>
 				</table>
 				</form>
 				<div id="openDiv" class="dnone layui-layer-wrap">

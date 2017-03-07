@@ -51,5 +51,7 @@ public interface ProjectDetailService {
 	
 	List<ProjectDetail> selectByDemand(HashMap<String,Object> map);
 	
+	List<ProjectDetail> selectTheSubjectBySupplierId(HashMap<String,Object> map,String supplierId);
+	
 	
 }

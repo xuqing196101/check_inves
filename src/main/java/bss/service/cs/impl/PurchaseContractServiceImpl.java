@@ -42,8 +42,8 @@ import bss.model.cs.PurchaseContract;
 import bss.service.cs.PurchaseContractService;
 
 import com.github.pagehelper.PageHelper;
-import common.utils.UploadUtil;
 
+import common.utils.UploadUtil;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
@@ -544,5 +544,14 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return purchaseContractMapper.selectAllContractByCode(map);
+	}
+
+	@Override
+	public List<PurchaseContract> selectAllContractBySupplierId(
+			Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return purchaseContractMapper.selectAllContractBySupplierId(map);
+		
 	}
 }
