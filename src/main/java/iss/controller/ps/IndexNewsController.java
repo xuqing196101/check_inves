@@ -33,6 +33,8 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
+import java.net.URLDecoder;
+import java.net.URLEncoder;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -61,7 +63,6 @@ import common.service.DownloadService;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
 import common.utils.UploadUtil;
-
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
@@ -972,6 +973,18 @@ public class IndexNewsController extends BaseSupplierController{
 		String id = request.getParameter("id");
 		String twoid = request.getParameter("twoid");
 		String title = request.getParameter("title");
+		//解决中文乱码
+		if(title!=null)
+		{
+		   title=new String(title.getBytes("ISO-8859-1"),"UTF-8");
+		}
+		
+		String productType=request.getParameter("productType");
+		//解决中文乱码
+		if(productType!=null)
+		{
+			productType=new String(productType.getBytes("ISO-8859-1"),"UTF-8");
+		}
 		if(page==null){
 			page=1;
 		}
@@ -979,6 +992,7 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("twoid", twoid);
 		map.put("page", page);
 		map.put("title", title);
+		map.put("productType", productType);
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 		List<Article> articleList = null;
 		List<Article> twoArticleList = articleService.selectsumBynews(map);
@@ -993,6 +1007,7 @@ public class IndexNewsController extends BaseSupplierController{
 		model.addAttribute("indexList", articleList);
 		model.addAttribute("indexMapper", indexMapper);
 		model.addAttribute("title", title);
+		model.addAttribute("productType", productType);
 		return "iss/ps/index/sumBynews_two";
 	}
 	

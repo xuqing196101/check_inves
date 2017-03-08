@@ -1,5 +1,6 @@
 package ses.controller.sys.ems;
 
+import java.io.File;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
@@ -21,13 +22,18 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import ses.model.ems.ExpertPictureType;
+
 import org.apache.commons.beanutils.PropertyUtils;
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -79,6 +85,7 @@ import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierQuoteService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelUtil;
 import ses.util.WfUtil;
@@ -98,6 +105,7 @@ import bss.service.prms.ReviewProgressService;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 import common.service.UploadService;
@@ -2660,7 +2668,7 @@ public class ExpertController extends BaseController {
 	 *〈简述〉
 	 * 下载专家注册须知
 	 *〈详细描述〉
-	 * @author WangHuijie
+	 * @author WangHuijie 修改 zhiqiang tian
 	 * @param id
 	 * @param request
 	 * @return
@@ -2669,19 +2677,28 @@ public class ExpertController extends BaseController {
 	@RequestMapping("/downNotice")
 	public ResponseEntity < byte[] > downNotice(String id,
 		HttpServletRequest request, HttpServletResponse response) throws Exception {
-		// 文件存储地址
-		String filePath = request.getSession().getServletContext()
-			.getRealPath("/WEB-INF/upload_file/");
-		// 文件名称
-		String name = new String(("评审专家申请人注册须知.doc").getBytes("UTF-8"),
-			"UTF-8");
-		/** 生成word 返回文件名 */
-		String fileName = WordUtil.createWord(null, "expertNotice.ftl",
-			name, request);
-		// 下载后的文件名
-		String downFileName = new String("评审专家申请人注册须知.doc".getBytes("UTF-8"),
-			"iso-8859-1"); // 为了解决中文名称乱码问题
-		return service.downloadFile(fileName, filePath, downFileName);
+//		// 文件存储地址
+//		String filePath = request.getSession().getServletContext()
+//			.getRealPath("/WEB-INF/upload_file/");
+//		// 文件名称
+//		String name = new String(("军队物资工程服务采购评审专家入库须知.doc").getBytes("UTF-8"),
+//			"UTF-8");
+//		/** 生成word 返回文件名 */
+//		String fileName = WordUtil.createWord(null, "expertNotice.ftl",
+//			name, request);
+//		// 下载后的文件名
+//		String downFileName = new String("军队物资工程服务采购评审专家入库须知.doc".getBytes("UTF-8"),
+//			"iso-8859-1"); // 为了解决中文名称乱码问题
+//		return service.downloadFile(fileName, filePath, downFileName);
+		String path = PathUtil.getWebRoot() + "excel/军队物资工程服务采购评审专家入库须知.doc";;
+		File file = new File(path);
+
+		HttpHeaders headers = new HttpHeaders();
+		String fileName = new String("军队物资工程服务采购评审专家入库须知.doc".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+		headers.setContentDispositionFormData("attachment", fileName);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
+			headers, HttpStatus.CREATED);
 	}
 
 	/**

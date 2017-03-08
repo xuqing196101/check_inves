@@ -32,7 +32,10 @@ $(function(){
 
 function query(){
 	var title = $("#title").val();
-	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title;
+	var productType=$("#productType").val();
+	//title = decodeURI(title);
+	//alert(title);
+	window.location.href="${pageContext.request.contextPath}/index/selectsumBynews.html?id="+id+"&twoid="+twoid+"&title="+title+"&productType="+productType;
 }
 </script>
 </head>
@@ -49,7 +52,8 @@ function query(){
    </div>
   <div class="container job-content ">
   <div class="search_box col-md-12 col-sm-12 col-xs-12">
-         	<input name="title" type="text" id="title" value="${title }"/>
+         	标题：<input name="title" type="text" id="title" value="${title }"/>
+         	产品类别：<input name="productType" type="text" id="productType" value="${productType }"/>
         	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
@@ -67,13 +71,13 @@ function query(){
 					<c:set value="${fn:length(name)}" var="length"></c:set>
 					<c:if test="${length>50}">
 						<li>
-						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${fn:substring(name,0,50)}...</a>
+						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${fn:substring(name,0,50)}...</a>
 	                    <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                    </li>
 					</c:if>
 					<c:if test="${length<=50}">
 					   <li>
-					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${i.name }</a>
+					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.articleType.name }${i.name }</a>
 	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                   </li>
 					</c:if>
