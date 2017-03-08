@@ -1675,8 +1675,11 @@ public class AdvancedProjectController extends BaseController {
         }else{
             model.addAttribute("lists", details);
         }
+        String id2 = DictionaryDataUtil.getId("PROJECT_IMPLEMENT");
+        List<UploadFile> files = uploadService.getFilesOther(project.getId(), id2, "2");
         model.addAttribute("user", user);
         model.addAttribute("project", project);
+        model.addAttribute("files", files);
         model.addAttribute("orgnization", orgnization);
         model.addAttribute("budgetAmount", details.get(0).getBudget());
         model.addAttribute("flowDefineId", flowDefineId);

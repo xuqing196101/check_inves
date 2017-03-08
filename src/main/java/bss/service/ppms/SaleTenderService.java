@@ -199,4 +199,6 @@ public interface SaleTenderService   {
      * @param void
      */
     public void batchUpdate(List<SaleTender> stList);
+    
+    List<SaleTender> finds(SaleTender saleTender);
 }

@@ -126,27 +126,32 @@
     
     //引入模板内容
     function loadTemplat(projectId, packageId){
+        
     	var fatId = $("#fatId").val();
-    	$.ajax({   
-            type: "POST",  
-            url: "${pageContext.request.contextPath}/intelligentScore/loadTemplat.html",   
-            data:{"id":fatId,"projectId":projectId,"packageId":packageId},
-            dataType:'json',
-            success:function(result){
-                if(!result.success){
-                    layer.msg(result.msg,{offset: ['150px']});
-                }else{
-                    var packageId = $("#packageId").val();
-                    var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
-                    layer.closeAll();
-                    layer.msg(result.msg,{offset: ['150px']});
-                }
-            },
-            error: function(result){
-                layer.msg("添加失败",{offset: ['150px']});
-            }
-       }); 
+    	if (fatId != null && fatId != "") {
+    	    $('#loadTemp').attr("disabled",true); 
+	    	$.ajax({   
+	            type: "POST",  
+	            url: "${pageContext.request.contextPath}/intelligentScore/loadTemplat.html",   
+	            data:{"id":fatId,"projectId":projectId,"packageId":packageId},
+	            dataType:'json',
+	            success:function(result){
+	                if(!result.success){
+	                    layer.msg(result.msg,{offset: ['150px']});
+	                }else{
+	                    $('#loadTemp').removeAttr("disabled");
+	                    var packageId = $("#packageId").val();
+	                    var projectId = $("#projectId").val();
+	                    window.location.href = '${pageContext.request.contextPath}/intelligentScore/editPackageScore.html?packageId='+packageId+'&projectId='+projectId;
+	                    layer.closeAll();
+	                    layer.msg(result.msg,{offset: ['150px']});
+	                }
+	            },
+	            error: function(result){
+	                layer.msg("添加失败",{offset: ['150px']});
+	            }
+	       });
+       } 
     }
     
     //引入其他项目包的评审项
@@ -195,7 +200,7 @@
 	                </c:forEach>
 	              </select>
 	           </li>
-	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" class="btn">确定</button>
+	           <button type="button" onclick="loadTemplat('${projectId}','${packageId}')" id="loadTemp" class="btn">确定</button>
 	          <%--  <div class="pull-right">
 	              <button type="button" onclick="loadOtherPackage('${packageId}','${projectId}')" class="btn">引入模板</button>
 	           </div> --%>

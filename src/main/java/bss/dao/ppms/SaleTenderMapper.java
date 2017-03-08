@@ -119,6 +119,8 @@ public interface SaleTenderMapper {
      */
     List<SaleTender> find(SaleTender record);
     
+    List<SaleTender> finds(SaleTender record);
+    
     void updateResult(HashMap<String, Object> stMap);
     
     /**
