@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -2756,5 +2757,30 @@ public class SupplierAuditController extends BaseSupplierController {
 			return supplierAuditNot.getReason();
 		}
 		return "noMessage";
+	}
+	
+	/**
+	 * @Title: publish
+	 * @author XuQing 
+	 * @date 2017-3-8 下午4:06:06  
+	 * @Description:发布到门户名录上
+	 * @param @param supplierId      
+	 * @return void
+	 */
+	@RequestMapping(value = "/publish", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String publish(String supplierId){
+		Supplier supplier = new Supplier();
+		supplier = supplierAuditService.supplierById(supplierId);
+		String msg = "";
+		if(supplier.getIsPublish() != 1){
+			supplier.setId(supplierId);
+			supplier.setIsPublish(1);
+			supplierAuditService.updateStatus(supplier);
+			msg = "yes";
+		}else{
+			msg = "no";
+		}
+		return JSON.toJSONString(msg);
 	}
 }

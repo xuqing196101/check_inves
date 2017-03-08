@@ -85,6 +85,7 @@
 		<result column="ARMY_BUSINESS_PROVINCE" property="armyBuinessProvince" />
 		<result column="ARMY_BUSINESS_CITY" property="armyBuinessCity" />
 		<result column="IS_PROVISIONAL" property="isProvisional" />
+		<result column="IS_PUBLISH" property="isPublish" />
 
         <association property="area" column="ADDRESS" select="ses.dao.bms.AreaMapper.selectById"/>
 	</resultMap>
@@ -117,7 +118,7 @@
 		BUSINESS_CERT,DETAIL_ADDRESS,ARMY_BUSINESS_NAME,ARMY_BUSINESS_FAX,ARMY_BUSINESS_MOBILE,
 		ARMY_BUSINESS_TELEPHONE,ARMY_BUSINESS_EMAIL,AUDIT_DATE,ARMY_BUSINESS_ADDRESS,CONCAT_PROVINCE,CONCAT_CITY,ARMY_BUSINESS_PROVINCE,
 		ARMY_BUSINESS_CITY,IS_PROVISIONAL,DESCRIPTION,LEVEL_SCORE_PRODUCT,LEVEL_SCORE_SALES,LEVEL_SCORE_SERVICE,IS_ILLEGAL,PURCHASE_EXPERIENCE,
-		IS_HAVING_CON_CERT, BUSINESS_NATURE
+		IS_HAVING_CON_CERT, BUSINESS_NATURE, IS_PUBLISH
 	</sql>
 	<!--查询每个供应商所对应的所有类型 作者SBW -->
 	<select id="selectSupplierTypes" parameterType="ses.model.sms.Supplier"
@@ -1341,6 +1342,9 @@
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT=#{updatedAt},
+			</if>
+			<if test="isPublish != null">
+				IS_PUBLISH=#{isPublish},
 			</if>
 		</set>
 		where ID = #{id}
