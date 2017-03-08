@@ -174,7 +174,7 @@
 		<c:forEach items="${info.list }" var="obspecialdate" varStatus="vs">
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${ obspecialdate.id }" /></td>
-			  <td class="tc w50">${vs.index+1 }</td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tc"><fmt:formatDate value="${ obspecialdate.specialDate }" pattern="yyyy-MM-dd"/></td>
 			  <td class="tc">${ obspecialdate.createrName }</td>
 			  <td class="tc"><fmt:formatDate value="${ obspecialdate.createdAt }" pattern="yyyy-MM-dd HH:ss:mm"/></td>

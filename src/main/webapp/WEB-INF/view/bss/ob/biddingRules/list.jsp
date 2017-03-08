@@ -232,7 +232,7 @@
 		<c:forEach items="${ info.list }" var="obRule" varStatus="vs">
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obRule.id }" /></td>
-			  <td class="tc w50">${vs.index+1}</td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tc">${obRule.name}</td>
 			  <td class="tc">${obRule.intervalWorkday}</td>
 			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:ss:mm"/></td>
