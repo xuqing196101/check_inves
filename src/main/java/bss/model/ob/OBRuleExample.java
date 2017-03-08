@@ -794,6 +794,136 @@ public class OBRuleExample {
             addCriterion("UPDATED_AT not between", value1, value2, "updatedAt");
             return (Criteria) this;
         }
+
+        public Criteria andNameIsNull() {
+            addCriterion("NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIsNotNull() {
+            addCriterion("NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameEqualTo(String value) {
+            addCriterion("NAME =", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotEqualTo(String value) {
+            addCriterion("NAME <>", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThan(String value) {
+            addCriterion("NAME >", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameGreaterThanOrEqualTo(String value) {
+            addCriterion("NAME >=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThan(String value) {
+            addCriterion("NAME <", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLessThanOrEqualTo(String value) {
+            addCriterion("NAME <=", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameLike(String value) {
+            addCriterion("NAME like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotLike(String value) {
+            addCriterion("NAME not like", value, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameIn(List<String> values) {
+            addCriterion("NAME in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotIn(List<String> values) {
+            addCriterion("NAME not in", values, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameBetween(String value1, String value2) {
+            addCriterion("NAME between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andNameNotBetween(String value1, String value2) {
+            addCriterion("NAME not between", value1, value2, "name");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondIsNull() {
+            addCriterion("CONFIRM_TIME_SECOND is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondIsNotNull() {
+            addCriterion("CONFIRM_TIME_SECOND is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondEqualTo(Integer value) {
+            addCriterion("CONFIRM_TIME_SECOND =", value, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondNotEqualTo(Integer value) {
+            addCriterion("CONFIRM_TIME_SECOND <>", value, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondGreaterThan(Integer value) {
+            addCriterion("CONFIRM_TIME_SECOND >", value, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondGreaterThanOrEqualTo(Integer value) {
+            addCriterion("CONFIRM_TIME_SECOND >=", value, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondLessThan(Integer value) {
+            addCriterion("CONFIRM_TIME_SECOND <", value, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondLessThanOrEqualTo(Integer value) {
+            addCriterion("CONFIRM_TIME_SECOND <=", value, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondIn(List<Integer> values) {
+            addCriterion("CONFIRM_TIME_SECOND in", values, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondNotIn(List<Integer> values) {
+            addCriterion("CONFIRM_TIME_SECOND not in", values, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondBetween(Integer value1, Integer value2) {
+            addCriterion("CONFIRM_TIME_SECOND between", value1, value2, "confirmTimeSecond");
+            return (Criteria) this;
+        }
+
+        public Criteria andConfirmTimeSecondNotBetween(Integer value1, Integer value2) {
+            addCriterion("CONFIRM_TIME_SECOND not between", value1, value2, "confirmTimeSecond");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

@@ -1,14 +1,19 @@
 package bss.model.ob;
 
+import java.io.Serializable;
 import java.util.Date;
 
-public class OBSpecialDate {
+import org.springframework.format.annotation.DateTimeFormat;
+
+public class OBSpecialDate implements Serializable{
     private String id;
 
     private String createrId;
-
-    private String specialDate;
-
+    
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private Date specialDate;
+    
+    /**1：上班  0：放假**/
     private String dateType;
 
     private Date createdAt;
@@ -16,6 +21,8 @@ public class OBSpecialDate {
     private String remark;
 
     private Date updatedAt;
+
+    private String createrName;
 
     public String getId() {
         return id;
@@ -33,12 +40,12 @@ public class OBSpecialDate {
         this.createrId = createrId == null ? null : createrId.trim();
     }
 
-    public String getSpecialDate() {
+    public Date getSpecialDate() {
         return specialDate;
     }
 
-    public void setSpecialDate(String specialDate) {
-        this.specialDate = specialDate == null ? null : specialDate.trim();
+    public void setSpecialDate(Date specialDate) {
+        this.specialDate = specialDate;
     }
 
     public String getDateType() {
@@ -71,5 +78,13 @@ public class OBSpecialDate {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getCreaterName() {
+        return createrName;
+    }
+
+    public void setCreaterName(String createrName) {
+        this.createrName = createrName == null ? null : createrName.trim();
     }
 }

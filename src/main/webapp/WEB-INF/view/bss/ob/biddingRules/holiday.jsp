@@ -6,7 +6,26 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>节假日管理列表页面</title>
 <script type="text/javascript">
-	
+		$(function() {
+		    laypage({
+		      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		      pages : "${info.pages}", //总页数
+		      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		      skip : true, //是否开启跳页
+		      total : "${info.total}",
+		      startRow : "${info.startRow}",
+		      endRow : "${info.endRow}",
+		      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+		      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+		        return "${info.pageNum}";
+		      }(),
+		      jump : function(e, first) { //触发分页后的回调
+		    	if(!first){ //一定要加此判断，否则初始时会无限刷新
+		      		location.href = "${pageContext.request.contextPath }/obrule/holidayList.do?page=" + e.curr;
+		        }
+		      }
+		    });
+		  });
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -42,6 +61,59 @@
 				 }
 		   }
 	}
+	
+	/* 删除 */
+	function del(){
+		var id = [];
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		var ids = id.toString();
+		if(id.length > 0) {
+			layer.confirm('您确定要删除吗?', {
+				title: '提示',
+				offset: ['222px', '360px'],
+				shade: 0.01
+			}, function(index) {
+				layer.close(index);
+				$.ajax({
+					url: "${pageContext.request.contextPath }/obrule/deleteSpecialDate.do",
+					type: "POST",
+					data: {
+						id: ids
+					},
+					success: function(data) {
+						layer.confirm(data.data,{
+							btn:['确定']
+						},function(){
+								$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/holidayList.html");
+								$("#queryForm").submit();
+							}
+						)
+					},
+					error: function() {
+
+					}
+				});
+			});
+		} else {
+			layer.alert("请选择要删除的版块", {
+				offset: ['222px', '360px'],
+				shade: 0.01
+			});
+		}
+	}
+	
+	// 创建特殊日期
+	function createSpecialdate(){
+		window.location.href="${pageContext.request.contextPath}/obrule/createSpecialdateUI.html";
+	}
+	
+	<!--搜索-->
+	function query(){
+		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/holidayList.html");
+		$("#queryForm").submit();
+	}
 </script>
 </head>
 <body>
@@ -60,18 +132,18 @@
 <!-- 竞价规格列表页面开始 -->
 	<div class="container">
     <div class="search_detail">
-       <form action="" method="post" class="mb0">
+       <form id="queryForm" action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">设置日期：</label>
-			<input type="text" id="topic" class=""/>
+			<input name="specialDate" value="${ specialDateStr }" class="Wdate" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
 	      </li>
     	  <li>
 	    	<label class="fl">类型：</label>
-	    	  <select class="w178">
-	    	    <option></option>
-	    	    <option>上班</option>
-	    	    <option>放假</option>
+	    	  <select name="dateType" class="w178">
+	    	    <option value="">--请选择--</option>
+	    	    <option value="1" <c:if test="${'1' eq dateType}">selected</c:if>>上班</option>
+	    	    <option value="0" <c:if test="${'0' eq dateType}">selected</c:if>>放假</option>
 	    	  </select>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn">查询</button>
@@ -83,8 +155,8 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows add" type="submit">创建特殊日期</button>
-		<button class="btn btn-windows delete" type="submit">删除</button>
+		<button class="btn btn-windows add" onclick="createSpecialdate()">创建特殊日期</button>
+		<button class="btn btn-windows delete" onclick="del()">删除</button>
 		系统默认周末为放假，如有特殊情况请手动标记为上班，特殊法定节假日请手动管理！
 	</div>   
 	<div class="content table_box">
@@ -99,38 +171,23 @@
 		  <th class="info">类型</th>
 		</tr>
 		</thead>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">2016-1-1</td>
-		  <td class="tc">管理员</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">上班</td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">2016-1-1</td>
-		  <td class="tc">管理员</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">上班</td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">2016-1-1</td>
-		  <td class="tc">管理员</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">放假</td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">2016-1-1</td>
-		  <td class="tc">管理员</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">放假</td>
-		</tr>
+		<c:forEach items="${info.list }" var="obspecialdate" varStatus="vs">
+			<tr>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${ obspecialdate.id }" /></td>
+			  <td class="tc w50">${vs.index+1 }</td>
+			  <td class="tc"><fmt:formatDate value="${ obspecialdate.specialDate }" pattern="yyyy-MM-dd"/></td>
+			  <td class="tc">${ obspecialdate.createrName }</td>
+			  <td class="tc"><fmt:formatDate value="${ obspecialdate.createdAt }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc">
+				<c:if test="${ obspecialdate.dateType=='1' }">
+					上班
+				</c:if>
+				<c:if test="${ obspecialdate.dateType=='0' }">
+					放假
+				</c:if>
+			  </td>
+			</tr>
+		</c:forEach>
 	</table>
    </div>
       <div id="pagediv" align="right"></div>
