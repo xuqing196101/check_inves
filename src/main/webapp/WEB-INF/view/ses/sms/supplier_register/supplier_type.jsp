@@ -1374,25 +1374,34 @@
 																			path="supplierMatPro.listSupplierCertPros[${certProNumber}].id" />
 																	</div></td>
 																<td class="tc"
-																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input
+																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
+																	 <div class="w200 fl"><input
 																	required="required" type="text"
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].name"
-																	value="${certPro.name}" class="border0" /></td>
+																	value="${certPro.name}" class="border0" />
+																	</div>
+																</td>
 																<td class="tc"
-																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input
+																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
+																	<div class="w150 fl"><input
 																	required="required" type="text"
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].code"
-																	value="${certPro.code}" class="border0" /></td>
+																	value="${certPro.code}" class="border0" />
+																	</div>
+																</td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input
 																	required="required" type="text"
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].levelCert"
 																	value="${certPro.levelCert}" class="border0" /></td>
 																<td class="tc"
-																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>><input
+																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
+																	  <div class="w200 fl">
+																	  <input
 																	required="required" type="text"
 																	name="supplierMatPro.listSupplierCertPros[${certProNumber}].licenceAuthorith"
 																	value="${certPro.licenceAuthorith}" class="border0" />
+																	 </div>
 																</td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
@@ -1415,6 +1424,7 @@
 																	value="${certPro.mot}" class="border0" /></td>
 																<td class="tc"
 																	<c:if test="${fn:contains(proPageField,certPro.id)}">style="border: 1px solid red;" </c:if>>
+																	<div class="fl w200">
 																	<u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																		exts="${properties['file.picture.type']}"
@@ -1425,7 +1435,9 @@
 																		showId="pro_show_${certProNumber}"
 																		businessId="${certPro.id}"
 																		typeId="${supplierDictionaryData.supplierProCert}"
-																		sysKey="${sysKey}" /></td>
+																		sysKey="${sysKey}" />
+																	</div>
+																</td>
 															</tr>
 															<c:set var="certProNumber" value="${certProNumber + 1}" />
 														</c:forEach>
@@ -1487,16 +1499,22 @@
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].id"
 																value="${certSell.id}" class="border0"></td>
 															<td class="tc"
-																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w200 fl">
+																    <input
 																required="required" type="text"
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].name"
 																value="${certSell.name}" class="border0" />
+															     </div>
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w150 fl">
+																   <input
 																required="required" type="text"
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].code"
 																value="${certSell.code}" class="border0" />
+																  </div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
@@ -1505,10 +1523,13 @@
 																value="${certSell.levelCert}" class="border0" />
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
+																  <div class="w200 fl">
+																  <input
 																required="required" type="text"
 																name="supplierMatSell.listSupplierCertSells[${certSaleNumber}].licenceAuthorith"
 																value="${certSell.licenceAuthorith}" class="border0" />
+																  </div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(sellPageField,certSell.id)}">style="border: 1px solid red;" </c:if>>
@@ -1759,16 +1780,22 @@
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].id"
 																value="${certEng.id}"></td>
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="w200">
+																	<input
 																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certType"
 																value="${certEng.certType}" />
+																</div>
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="w150">
+																	<input
 																class="w120 border0" required="required" type="text"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certCode"
 																value="${certEng.certCode}" />
+																</div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
@@ -1777,10 +1804,13 @@
 																value="${certEng.certMaxLevel}" />
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w200">
+																 	<input
 																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].licenceAuthorith"
 																value="${certEng.licenceAuthorith}" />
+															     </div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>><input
@@ -1864,16 +1894,21 @@
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].id"
 																value="${aptitute.id}"></td>
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w200">
+																 	<input
 																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certName"
 																value="${aptitute.certName}" />
+																  </div>
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
+																  <div class="w150"><input
 																type="text" required="required" class="border0"
 																name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].certCode"
 																value="${aptitute.certCode}" />
+																</div>
 															</td>
 															<td class="tc" <c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																 <!-- 
@@ -2009,16 +2044,22 @@
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].id"
 																value="${certSe.id}"></td>
 															<td class="tc"
-																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w200">
+																 	<input
 																type="text" required="required" class="border0"
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].name"
 																value="${certSe.name}" />
+																 </div>
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w150">
+																 	<input
 																type="text" required="required" class="border0"
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].code"
 																value="${certSe.code}" />
+																 </div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
@@ -2027,10 +2068,13 @@
 																value="${certSe.levelCert}" />
 															</td>
 															<td class="tc"
-																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
+																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
+																 <div class="w200">
+																    <input
 																type="text" required="required" class="border0"
 																name="supplierMatSe.listSupplierCertSes[${certSeNumber}].licenceAuthorith"
 																value="${certSe.licenceAuthorith}" />
+																 </div>
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>><input
@@ -2054,6 +2098,7 @@
 															</td>
 															<td class="tc"
 																<c:if test="${fn:contains(servePageField,certSe.id)}">style="border: 1px solid red;" </c:if>>
+																<div class="fl w200">
 																<u:upload
 																	singleFileSize="${properties['file.picture.upload.singleFileSize']}"
 																	exts="${properties['file.picture.type']}"
@@ -2064,7 +2109,9 @@
 																	showId="se_show_${certSeNumber}"
 																	businessId="${certSe.id}"
 																	typeId="${supplierDictionaryData.supplierServeCert}"
-																	sysKey="${sysKey}" /></td>
+																	sysKey="${sysKey}" />
+																</div>
+															</td>
 														</tr>
 														<c:set var="certSeNumber" value="${certSeNumber + 1}"></c:set>
 													</c:forEach>

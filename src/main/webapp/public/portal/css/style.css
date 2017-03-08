@@ -2407,22 +2407,20 @@ a.yjfk{
 /* supp_login */
 
 .drop_hover .supp_login{
-  padding-right:30px!important;
   background:url(../images/gys_bg.jpg) 0px;
   height:248px; 
   position:relative;
   vertical-align:middle;
 }
 .supp_login a {
-  width:47px;
+  width:25px;
   line-height:30px;
   text-align:center;
   font-size:24px;
   display:block;
   padding-top:45px;
-  margin-left:10%;
-  padding-left:30px;
 }
+@media (min-width:600px){
 .supp_login a i{
   background:url(../images/gys_right.png) no-repeat center;
   display:block;
@@ -2432,6 +2430,9 @@ a.yjfk{
   width:25px;
   height:43px;
 }
+	
+}
+
 .zhuanjia_list a{
   width:20%;
   line-height:30px;
