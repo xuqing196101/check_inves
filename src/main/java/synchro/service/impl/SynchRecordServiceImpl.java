@@ -87,7 +87,7 @@ public class SynchRecordServiceImpl implements SynchRecordService {
      * @see synchro.service.SynchRecordService#importModifySupplierRecord(java.lang.String)
      */
     @Override
-    public void importModifySupplierRecord(String content) {
+    public void importModifySupplierRecord(String content,Date sychDate) {
         SynchRecord sr  = getSynchRecord(Constant.DATA_TYPE_SUPPLIER_MODIFY +"", Constant.OPER_TYPE_IMPORT, 
                 Constant.NEW_COMMIT_SUPPLIER + content);
         mapper.save(sr);

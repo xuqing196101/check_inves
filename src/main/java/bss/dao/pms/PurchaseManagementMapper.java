@@ -29,7 +29,7 @@ public interface PurchaseManagementMapper {
     * @return List<PurchaseManagement>     
     * @throws
      */
-    List<PurchaseManagement> queryByMid(@Param("mid") String id);
+    List<PurchaseManagement> queryByMid(@Param("mid") String id,@Param("status") Integer status);
     
     
     /**

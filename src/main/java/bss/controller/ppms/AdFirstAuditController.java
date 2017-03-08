@@ -55,21 +55,23 @@ public class AdFirstAuditController {
     private FirstAuditTemplatService firstAuditTemplatService;//符合性审查模板
     @Autowired
     private FirstAuditTemitemService firstAuditTemitemService;//符合性审查模板评审项
-	/**
-	 * 
-	  * @Title: toAdd
-	  * @author ShaoYangYang
-	  * @date 2016年10月9日 上午11:10:20  
-	  * @Description: TODO 跳转到初审项定义页面
-	  * @param @return      
-	  * @return String
-	 */
-	@RequestMapping("/toAdd")
-	public String toAdd(String projectId, Model model, String msg){
-		try {
-		  AdvancedProject project = projectService.selectById(projectId);
-		  HashMap<String, Object> map = new HashMap<String, Object>();
-		  map.put("projectId", projectId);
+
+	
+    /**
+     * 
+      * @Title: toAdd
+      * @author ShaoYangYang
+      * @date 2016年10月9日 上午11:10:20  
+      * @Description: TODO 跳转到初审项定义页面
+      * @param @return      
+      * @return String
+     */
+    @RequestMapping("/toAdd")
+    public String toAdd(String projectId, Model model, String flowDefineId, String msg){
+        try {
+          AdvancedProject project = projectService.selectById(projectId);
+          HashMap<String, Object> map = new HashMap<String, Object>();
+          map.put("projectId", projectId);
           List<AdvancedPackages> packages = packageService.selectByAll(map);
           for (AdvancedPackages advancedPackages : packages) {
               FirstAudit firstAudit = new FirstAudit();
@@ -94,15 +96,17 @@ public class AdFirstAuditController {
           model.addAttribute("purchaseTypes", purchaseTypes);
           model.addAttribute("firstAudits", firstAudits);
           model.addAttribute("projectId", projectId);
+          model.addAttribute("flowDefineId", flowDefineId);
           model.addAttribute("project", project);
           model.addAttribute("msg", msg);
         } catch (Exception e) {
             e.printStackTrace();
         }
       
-		return "bss/ppms/advanced_project/advanced_bid_file/bid_file";
-	}
-	
+        return "bss/ppms/advanced_project/advanced_bid_file/bid_file";
+    }
+    
+    
 	/**
 	 * 
 	  * @Title: toPackageFirstAudit
@@ -115,7 +119,7 @@ public class AdFirstAuditController {
 	  * @return String
 	 */
 	@RequestMapping("/toPackageFirstAudit")
-	public String toPackageFirstAudit(String projectId, String flag, Model model){
+	public String toPackageFirstAudit(String projectId, String flag,  String flowDefineId, Model model){
 		try {
 			//项目分包信息
 			HashMap<String,Object> pack = new HashMap<String,Object>();
@@ -145,6 +149,7 @@ public class AdFirstAuditController {
 			List<FirstAudit> list2 = service.getListByProjectId(projectId);
 			model.addAttribute("list", list2);
 			model.addAttribute("projectId", projectId);
+			model.addAttribute("flowDefineId", flowDefineId);
 			model.addAttribute("flag", flag);
 		} catch (Exception e) {
 			e.printStackTrace();
@@ -265,7 +270,7 @@ public class AdFirstAuditController {
 	 * @return
 	 */
 	@RequestMapping("/editPackageFirstAudit")
-	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag){	  
+	public String editPackageFirstAudit(String packageId, Model model, String projectId, String flag, String flowDefineId){	  
 	    List<DictionaryData> dds = DictionaryDataUtil.find(22);
 	    //符合性审查项
 	    FirstAudit firstAudit1 = new FirstAudit();
@@ -294,6 +299,7 @@ public class AdFirstAuditController {
         model.addAttribute("items2", items2);
         model.addAttribute("packageId", packageId);
         model.addAttribute("projectId", projectId);
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("firstAuditTemplats", firstAuditTemplats);
         model.addAttribute("flag", flag);
 	  return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc";

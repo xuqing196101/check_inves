@@ -1263,6 +1263,9 @@
 		<if test="address != null and address !=''">
 			and NAME like '%${address}%'
 		</if>
+		<if test="loginName != null and loginName !=''">
+			and LOGIN_NAME like '%${loginName}%'
+		</if>
 		<!-- <if test="address != null and address !=''"> and ADDRESS like '%${address}%' 
 			</if> -->
 
@@ -1554,8 +1557,15 @@
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
 		WHERE SUPPLIER_STATUS = 0
+	<!-- 	AND
+		TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate} -->
+		AND UPDATED_AT &gt;=
+		to_date(#{startTime,jdbcType=TIMESTAMP},'yyyy-MM-dd hh24:mi:ss')
 		AND
-		TO_CHAR(UPDATED_AT, 'yyyy-MM-dd') = #{modifyDate}
+		UPDATED_AT &lt;= to_date(#{endTime,jdbcType=TIMESTAMP},'yyyy-MM-dd
+		hh24:mi:ss')
+		
+		
 	</select>
 
 	<!-- 社会统一信用代码唯一校验 -->

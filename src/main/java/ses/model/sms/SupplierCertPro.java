@@ -1,7 +1,11 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
+
+import common.model.UploadFile;
 
 public class SupplierCertPro implements Serializable {
 	private static final long serialVersionUID = 7944588278221788114L;
@@ -92,6 +96,16 @@ public class SupplierCertPro implements Serializable {
 	private String attachId;
 
 	private Integer sign;
+	
+	private List<UploadFile> fileList=new ArrayList<UploadFile>();
+	
+	public List<UploadFile> getFileList() {
+		return fileList;
+	}
+
+	public void setFileList(List<UploadFile> fileList) {
+		this.fileList = fileList;
+	}
 	
 	public String getId() {
 		return id;

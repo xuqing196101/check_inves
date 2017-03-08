@@ -90,11 +90,11 @@
   </update>
   
   
-  <select id="queryByMid" parameterType="String" resultMap="BaseResultMap">
+  <select id="queryByMid"   resultMap="BaseResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_PURCHASE_MANAGEMENT
-    where MANAGEMENT_ID = #{mid} and STATUS=1 order By CREATE_AT
+    where MANAGEMENT_ID = #{mid} and STATUS=#{status} order By CREATE_AT
   </select>
   
   <select id="queryByPid" parameterType="String" resultMap="BaseResultMap">

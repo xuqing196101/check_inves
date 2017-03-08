@@ -138,6 +138,11 @@ public class User implements Serializable{
      */
     private String officerCertNo;
     
+    /**
+     * @Fields netType : 1:外网 0：内网
+     */
+    private Integer netType;
+    
     public List<String> getRoleIdList() {
         return roleIdList;
     }
@@ -382,6 +387,14 @@ public class User implements Serializable{
 
   public void setOfficerCertNo(String officerCertNo) {
     this.officerCertNo = officerCertNo;
+  }
+
+  public Integer getNetType() {
+    return netType;
+  }
+
+  public void setNetType(Integer netType) {
+    this.netType = netType;
   }
 
 }

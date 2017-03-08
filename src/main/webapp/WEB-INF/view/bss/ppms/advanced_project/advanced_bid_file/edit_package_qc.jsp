@@ -279,7 +279,7 @@
     </div>
     <c:if test="${flag != '1' }">
       <div class="mt40 tc mb50">
-          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}'">返回</button>
+          <button class="btn btn-windows back" onclick="window.location.href='${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}'">返回</button>
       </div>
     </c:if>
     <div id="openDiv" class="dnone layui-layer-wrap" >

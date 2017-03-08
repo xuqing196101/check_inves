@@ -30,7 +30,10 @@ public class SupplierBranchServiceImpl implements SupplierBranchService{
 			 if(s.getId()!=null){
 			 SupplierBranch branch = supplierBranchMapper.queryById(s.getId());
 			 if(branch!=null){
-				 supplierBranchMapper.updateByPrimaryKeySelective(s);
+				if(branch.getOrganizationName()==null){
+					 branch.setOrganizationName("");
+				}
+				 supplierBranchMapper.updateByPrimaryKeySelective(branch);
 			 }else if(s.getOrganizationName()!=null){
 				 String id = WfUtil.createUUID();
 				 s.setId(id);

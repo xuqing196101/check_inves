@@ -154,10 +154,11 @@ public class AdIntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping(value = "addScoreMethod")
-    public String addScoreMethod(Model model, String packageId, String projectId) {
+    public String addScoreMethod(Model model, String packageId, String projectId, String flowDefineId) {
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(27);
         model.addAttribute("projectId", projectId);
         model.addAttribute("packageId", packageId);
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("ddList", ddList);
         return "bss/ppms/advanced_project/advanced_bid_file/add_score_method";
     }
@@ -175,11 +176,11 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	
 	@RequestMapping(value = "saveScoreMethod")
-	public String saveScoreMethod(BidMethod bm, String packageId, String projectId) {
+	public String saveScoreMethod(BidMethod bm, String packageId, String projectId, String flowDefineId) {
 	    bm.setProjectId(projectId);
 	    bm.setPackageId(packageId);
 	    bidMethodService.save(bm);
-	    return "redirect:packageList.html?projectId=" + projectId;
+	    return "redirect:packageList.html?projectId=" + projectId+"&flowDefineId=" + flowDefineId;
 	}
 	
 	
@@ -447,7 +448,7 @@ public class AdIntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping("/editPackageScore")
-	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId){
+	public String editPackageScore(HttpServletRequest request, String packageId, Model model, String projectId, String flowDefineId){
 	    //获取评分办法数据字典编码
         String methodCode = bidMethodService.getMethod(projectId, packageId);
         if (methodCode != null && !"".equals(methodCode)) {
@@ -480,6 +481,7 @@ public class AdIntelligentScoringController extends BaseController{
                 model.addAttribute("items2", items2);
                 model.addAttribute("packageId", packageId);
                 model.addAttribute("projectId", projectId);
+                model.addAttribute("flowDefineId", flowDefineId);
                 model.addAttribute("firstAuditTemplats", firstAuditTemplats);
                 AdvancedProject project = projectService.selectById(projectId);
                 model.addAttribute("flag", project.getConfirmFile());
@@ -509,6 +511,7 @@ public class AdIntelligentScoringController extends BaseController{
                 model.addAttribute("firstAuditTemplats", firstAuditTemplats);
                 model.addAttribute("packageId", packageId);
                 model.addAttribute("projectId", projectId);
+                model.addAttribute("flowDefineId", flowDefineId);
                 model.addAttribute("ddList", ddList);
                 model.addAttribute("str", str);
                 return "bss/ppms/advanced_project/advanced_bid_file/edit_package_qc1";
@@ -674,7 +677,7 @@ public class AdIntelligentScoringController extends BaseController{
 	
 	
 	@RequestMapping("packageList")
-	public String packageList(@ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request, String msg){
+	public String packageList(@ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request, String flowDefineId, String msg){
 	    HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("projectId", packages.getProjectId());
         AdvancedProject project = projectService.selectById(packages.getProjectId());
@@ -710,6 +713,7 @@ public class AdIntelligentScoringController extends BaseController{
         //
         model.addAttribute("packagesList", packagesList);
         model.addAttribute("projectId", packages.getProjectId());
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("msg", msg);
 		return "bss/ppms/advanced_project/advanced_bid_file/scoring_rubric";
 	}
@@ -725,13 +729,14 @@ public class AdIntelligentScoringController extends BaseController{
 	 * @return
 	 */
 	@RequestMapping("packageListView")
-    public String packageListView(@ModelAttribute AdvancedPackages packages,Model model,HttpServletRequest request){
+    public String packageListView(@ModelAttribute AdvancedPackages packages,String flowDefineId,Model model,HttpServletRequest request){
 	    HashMap<String,Object> map = new HashMap<String,Object>();
         map.put("projectId", packages.getProjectId());
         AdvancedProject project = projectService.selectById(packages.getProjectId());
         model.addAttribute("project", project);
         List<AdvancedPackages> packagesList = packageService.findPackageAndBidMethodById(map);
         model.addAttribute("packagesList", packagesList);
+        model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("projectId", packages.getProjectId());
         model.addAttribute("ope", "view");
         return "bss/ppms/advanced_project/advanced_bid_file/scoring_rubric";

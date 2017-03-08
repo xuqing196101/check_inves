@@ -105,7 +105,7 @@
 											<ul class="list-unstyled f14">
 												<li class="col-md-6 col-sm-12 col-xs-12 mb25 pl10">
 													<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5">下载《军队供应商承诺书》</span>
-													<a class="mt3 color7171C6" href="javascript:downloadNotice()"><i class="download mr5"></i></a>
+													<a class="mt3 color7171C6" href="${pageContext.request.contextPath}/browser/supplierPromise.html"><i class="download mr5"></i></a>
 												</li>
 											</ul>
 											<ul class="list-unstyled f14">

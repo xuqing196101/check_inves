@@ -9,16 +9,37 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import ses.dao.sms.SupplierAfterSaleDepMapper;
+import ses.dao.sms.SupplierAptituteMapper;
+import ses.dao.sms.SupplierCertEngMapper;
+import ses.dao.sms.SupplierCertProMapper;
+import ses.dao.sms.SupplierCertSellMapper;
+import ses.dao.sms.SupplierCertServeMapper;
+import ses.dao.sms.SupplierHistoryMapper;
+import ses.dao.sms.SupplierModifyMapper;
+import ses.dao.sms.SupplierRegPersonMapper;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
+import ses.model.sms.SupplierAfterSaleDep;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCertEng;
+import ses.model.sms.SupplierCertPro;
+import ses.model.sms.SupplierCertSell;
+import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierFinance;
+import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
+import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.UserServiceI;
@@ -106,6 +127,39 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Autowired
     private SupplierItemService supplierItemService;
     
+    
+    @Autowired
+    private SupplierAfterSaleDepMapper supplierAfterSaleDepMapper;
+    
+    
+    @Autowired
+    private SupplierCertProMapper supplierCertProMapper;
+    
+    
+    @Autowired
+    private SupplierCertSellMapper supplierCertSellMapper;
+    
+    
+    @Autowired
+    private SupplierAptituteMapper  supplierAptituteMapper;
+    
+    @Autowired
+    private SupplierCertEngMapper supplierCertEngMapper;
+    
+    @Autowired
+    private SupplierRegPersonMapper supplierRegPersonMapper;
+    
+    @Autowired
+    private SupplierCertServeMapper supplierCertServeMapper;
+    
+    @Autowired
+    private FileUploadMapper fileUploadMapper;
+    
+    @Autowired
+    private SupplierHistoryMapper supplierHistoryMapper;
+    
+    @Autowired
+    private SupplierModifyMapper supplierModifyMapper;
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -176,6 +230,18 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         supplier.setSupplierMatSe(getMatServer(supplier.getId()));
         //关联品目信息
         supplier.setListSupplierItems(getSupplierItems(supplier.getId()));
+        //供应商售后服务机构
+        supplier.setListSupplierAfterSaleDep(getSupplierAfterDep(supplier.getId()));
+        List<UploadFile> attchs = fileUploadMapper.findBybusinessId(supplier.getId(), Constant.SUPPLIER_SYS_VALUE);
+        supplier.setAttchList(attchs);
+        SupplierHistory sh=new SupplierHistory();
+        sh.setSupplierId(supplier.getId());
+        supplierHistoryMapper.selectAllBySupplierId(sh);
+        SupplierModify supplierModify=new SupplierModify();
+        supplierModify.setSupplierId(supplier.getId());
+        supplierModifyMapper.selectBySupplierId(supplierModify);
+        
+        
     }
     
     /**
@@ -265,7 +331,14 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private SupplierMatPro getMatPro(String supplierId){
-       return  supplierAuditService.findSupplierMatProBysupplierId(supplierId);
+    	SupplierMatPro pro = supplierAuditService.findSupplierMatProBysupplierId(supplierId);
+    	List<SupplierCertPro> list = supplierCertProMapper.findCertProByProId(pro.getId());
+    	for(SupplierCertPro sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	pro.setListSupplierCertPros(list);
+       return  pro;
     }
     
     /**
@@ -277,7 +350,16 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private SupplierMatSell getMatSell(String supplierId){
-        return supplierMatSellService.getMatSell(supplierId);
+    	
+    	SupplierMatSell sell = supplierMatSellService.getMatSell(supplierId);
+    	List<SupplierCertSell> list = supplierCertSellMapper.findCertSellByMatSellId(sell.getId());
+    	for(SupplierCertSell sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	
+    	sell.setListSupplierCertSells(list);
+        return sell;
     }
     
     /**
@@ -289,18 +371,36 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private SupplierMatEng getMatEng(String supplierId){
+    	SupplierMatEng eng = supplierMatEngService.getMatEng(supplierId);
+    	List<SupplierAptitute> list = supplierAptituteMapper.findAptituteByMatEngId(eng.getId());
+    	eng.setListSupplierAptitutes(list);
+    	List<SupplierCertEng> engList = supplierCertEngMapper.findCertEngByMatEngId(eng.getId());
+    	for(SupplierCertEng sc:engList){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	eng.setListSupplierCertEngs(engList);
+    	List<SupplierRegPerson> persons = supplierRegPersonMapper.findRegPersonByMatEngId(eng.getId());
+    	eng.setListSupplierRegPersons(persons);
         return supplierMatEngService.getMatEng(supplierId);
     }
     
     /**
      * 
      *〈简述〉获取供应商专业信息表(服务型)
-     *〈详细描述〉
+     *〈详细描述〉 附件表倒过来
      * @author myc
      * @param supplierId 供应商Id
      * @return
      */
     private SupplierMatServe getMatServer(String supplierId){
+    	SupplierMatServe serve = supplierMatSeService.getMatserver(supplierId);
+    	List<SupplierCertServe> list = supplierCertServeMapper.findCertSeBySupplierMatSeId(serve.getId());
+    	for(SupplierCertServe sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	serve.setListSupplierCertSes(list);
         return  supplierMatSeService.getMatserver(supplierId);
     }
     
@@ -313,7 +413,32 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
      * @return
      */
     private List<SupplierItem> getSupplierItems(String supplierId){
-        return supplierItemService.getSupplierId(supplierId);
+    	List<SupplierItem> list = supplierItemService.getSupplierId(supplierId);
+    	for(SupplierItem sc:list){
+    		List<UploadFile> files = fileUploadMapper.findBybusinessId(sc.getCategoryId(), "T_SES_SMS_SUPPLIER_ATTACHMENT");
+    		sc.setFileList(files);
+    	}
+    	
+        return list;
     }
+    
+    public List<SupplierAfterSaleDep> getSupplierAfterDep(String supplierId){
+    	
+    	return supplierAfterSaleDepMapper.findAfterSaleDepBySupplierId(supplierId);
+    }
+	@Override
+	public void modify(String startTime, String endTime, Date synchDate) {
+		//获取供应商修改的时间
+	    List<Supplier> supplierList = supplierService.getModifySupplierByDate(startTime, endTime);
+		
+	    List<Supplier> list = getSupplierList(supplierList);
+        if (list != null && list.size() > 0){
+            FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));
+        }
+     //  recordService.commitSupplierRecord(new Integer(list.size()).toString(), synchDate );
+		
+		
+		recordService.importModifySupplierRecord(new Integer(list.size()).toString(), synchDate);
+	}
     
 }

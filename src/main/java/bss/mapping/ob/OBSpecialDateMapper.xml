@@ -4,11 +4,12 @@
   <resultMap id="BaseResultMap" type="bss.model.ob.OBSpecialDate" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
     <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
-    <result column="SPECIAL_DATE" property="specialDate" jdbcType="VARCHAR" />
+    <result column="SPECIAL_DATE" property="specialDate" jdbcType="TIMESTAMP" />
     <result column="DATE_TYPE" property="dateType" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="CREATER_NAME" property="createrName" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -69,7 +70,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CREATER_ID, SPECIAL_DATE, DATE_TYPE, CREATED_AT, REMARK, UPDATED_AT
+    ID, CREATER_ID, SPECIAL_DATE, DATE_TYPE, CREATED_AT, REMARK, UPDATED_AT, CREATER_NAME
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBSpecialDateExample" >
     select
@@ -102,12 +103,15 @@
     </if>
   </delete>
   <insert id="insert" parameterType="bss.model.ob.OBSpecialDate" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_OB_SPECIAL_DATE (ID, CREATER_ID, SPECIAL_DATE, 
       DATE_TYPE, CREATED_AT, REMARK, 
-      UPDATED_AT)
-    values (#{id,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{specialDate,jdbcType=VARCHAR}, 
+      UPDATED_AT, CREATER_NAME)
+    values (#{id,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{specialDate,jdbcType=TIMESTAMP}, 
       #{dateType,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{remark,jdbcType=VARCHAR}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
+      #{updatedAt,jdbcType=TIMESTAMP}, #{createrName,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBSpecialDate" >
     insert into T_BSS_OB_SPECIAL_DATE
@@ -133,6 +137,9 @@
       <if test="updatedAt != null" >
         UPDATED_AT,
       </if>
+      <if test="createrName != null" >
+        CREATER_NAME,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -142,7 +149,7 @@
         #{createrId,jdbcType=VARCHAR},
       </if>
       <if test="specialDate != null" >
-        #{specialDate,jdbcType=VARCHAR},
+        #{specialDate,jdbcType=TIMESTAMP},
       </if>
       <if test="dateType != null" >
         #{dateType,jdbcType=VARCHAR},
@@ -155,6 +162,9 @@
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="createrName != null" >
+        #{createrName,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -174,7 +184,7 @@
         CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
       </if>
       <if test="record.specialDate != null" >
-        SPECIAL_DATE = #{record.specialDate,jdbcType=VARCHAR},
+        SPECIAL_DATE = #{record.specialDate,jdbcType=TIMESTAMP},
       </if>
       <if test="record.dateType != null" >
         DATE_TYPE = #{record.dateType,jdbcType=VARCHAR},
@@ -188,6 +198,9 @@
       <if test="record.updatedAt != null" >
         UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.createrName != null" >
+        CREATER_NAME = #{record.createrName,jdbcType=VARCHAR},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -197,11 +210,12 @@
     update T_BSS_OB_SPECIAL_DATE
     set ID = #{record.id,jdbcType=VARCHAR},
       CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
-      SPECIAL_DATE = #{record.specialDate,jdbcType=VARCHAR},
+      SPECIAL_DATE = #{record.specialDate,jdbcType=TIMESTAMP},
       DATE_TYPE = #{record.dateType,jdbcType=VARCHAR},
       CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
       REMARK = #{record.remark,jdbcType=VARCHAR},
-      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP}
+      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
+      CREATER_NAME = #{record.createrName,jdbcType=VARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,7 +227,7 @@
         CREATER_ID = #{createrId,jdbcType=VARCHAR},
       </if>
       <if test="specialDate != null" >
-        SPECIAL_DATE = #{specialDate,jdbcType=VARCHAR},
+        SPECIAL_DATE = #{specialDate,jdbcType=TIMESTAMP},
       </if>
       <if test="dateType != null" >
         DATE_TYPE = #{dateType,jdbcType=VARCHAR},
@@ -227,17 +241,36 @@
       <if test="updatedAt != null" >
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="createrName != null" >
+        CREATER_NAME = #{createrName,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBSpecialDate" >
     update T_BSS_OB_SPECIAL_DATE
     set CREATER_ID = #{createrId,jdbcType=VARCHAR},
-      SPECIAL_DATE = #{specialDate,jdbcType=VARCHAR},
+      SPECIAL_DATE = #{specialDate,jdbcType=TIMESTAMP},
       DATE_TYPE = #{dateType,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       REMARK = #{remark,jdbcType=VARCHAR},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      CREATER_NAME = #{createrName,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectAllOBSpecialDate" parameterType="Map" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_SPECIAL_DATE where 1=1
+    <if test="specialDate != null and specialDate !=''" >
+      AND SPECIAL_DATE =#{specialDate}
+    </if>
+	<if test="dateType != null and dateType !=''">
+	  AND DATE_TYPE = #{dateType}
+	</if>
+	ORDER BY
+	UPDATED_AT DESC
+  </select>
+  
 </mapper>

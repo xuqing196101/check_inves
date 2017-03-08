@@ -768,8 +768,8 @@ public class SupplierServiceImpl implements SupplierService {
      * @see ses.service.sms.SupplierService#getModifySupplierByDate(java.lang.String)
      */
     @Override
-    public List<Supplier> getModifySupplierByDate(String modifyDate) {
-        return supplierMapper.getModifySupplierByDate(modifyDate);
+    public List<Supplier> getModifySupplierByDate(String startTime, String endTime) {
+        return supplierMapper.getModifySupplierByDate(startTime,endTime);
     }
 
     //根据品目id查询多个品目资质文件

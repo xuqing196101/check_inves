@@ -585,6 +585,12 @@
 	   		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
 	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
+	   		<c:if test="${manual!=null}">
+	   		<input type="hidden" name="manualType" value="1"/>
+	   		</c:if>
+	   		<c:if test="${manual==null}">
+	   		<input type="hidden" name="manualType" value="0"/>
+	   		</c:if>
 	   		<input type="hidden" name="manual" value="${manual}"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
@@ -891,15 +897,17 @@
             --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
+				<c:if test="${manual!=null}">
 				<div class="col-md-12 col-xs-12 col-sm-12 p0">
 					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 				</div>
+				</c:if>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed table_input left_table mb0 mt10">
 					 <thead>
 						<tr>
-							<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+							<!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 							<th class="info w50">序号</th>
 							<th class="info">编号</th>
 							<th class="info">物资名称</th>
@@ -915,7 +923,7 @@
 					</thead>
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
-							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+							<!-- <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td> -->
 				<td class="tc w50">${(vs.index+1)}</td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.planNo}" class="w50 tc"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName} " class="tl pl20"/></td>

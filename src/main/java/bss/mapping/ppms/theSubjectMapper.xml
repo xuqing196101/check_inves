@@ -15,12 +15,13 @@
 		<result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
 		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
+		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, DETAIL_ID, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT,
 		UNIT_PRICE,
-		CREATED_AT, UPDATED_AT, PACKAGE_ID, PROJECT_ID
+		CREATED_AT, UPDATED_AT, PACKAGE_ID, PROJECT_ID,SUPPLIER_ID
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -89,6 +90,9 @@
 			<if test="projectId != null">
 				PROJECT_ID,
 			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -126,6 +130,9 @@
 			</if>
 			<if test="projectId != null">
 				#{projectId,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -166,6 +173,9 @@
 			<if test="projectId != null">
 				PROJECT_ID = #{projectId,jdbcType=VARCHAR},
 			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -176,14 +186,27 @@
 		<include refid="Base_Column_List" />
 		from T_BSS_PPMS_THE_SUBJECT
 	</select>
-
+	<select id="selectBySupplierId" parameterType="java.util.Map" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PPMS_THE_SUBJECT
+		where 1=1
+		<if test="packageId != null and packageId !=''">
+			AND DETAIL_ID = #{forSubjectDetailId}
+		</if>
+		<if test="supplierId != null and supplierId !=''">
+			AND SUPPLIER_ID = #{supplierId}
+		</if>
+	</select>
+	
+     
 	<!-- 批量插入 -->
 	<insert id="insertList" parameterType="java.util.List">
 
 		INSERT INTO T_BSS_PPMS_THE_SUBJECT
 		(DETAIL_ID, GOODS_NAME, STAND,
 		QUALIT_STAND, ITEM, PURCHASE_COUNT, UNIT_PRICE,
-		PACKAGE_ID, PROJECT_ID)
+		PACKAGE_ID, PROJECT_ID,SUPPLIER_ID)
 		<foreach collection="list" item="item" index="index"
 			separator="union" close=")" open="(">
 			select
@@ -195,7 +218,8 @@
 			#{item.purchaseCount,jdbcType=VARCHAR},
 			#{item.unitPrice,jdbcType=DECIMAL},
 			#{item.packageId,jdbcType=VARCHAR},
-			#{item.projectId,jdbcType=VARCHAR}
+			#{item.projectId,jdbcType=VARCHAR},
+			#{item.supplierId,jdbcType=VARCHAR}
 			from dual
 		</foreach>
 	</insert>

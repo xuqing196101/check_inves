@@ -93,8 +93,8 @@
 
       
       var flag = true;
-      function verify() {
-        var projectNumber = $("input[name='projectNumber']").val();
+      function verify(ele) {
+        var projectNumber = $(ele).val();
         $.ajax({
           url: "${pageContext.request.contextPath}/project/verify.html",
           type: "post",
@@ -124,7 +124,8 @@
         });
         chkItems = $.trim(chkItems);
         if(flag == false){
-          $("#sps").html("项目编号已存在").css('color', 'red');
+          //$("#sps").html("项目编号已存在").css('color', 'red');
+          $("#projectNumber").focus();
         }else if(name == "") {
           layer.tips("项目名称不允许为空", "#name");
         } else if(projectNumber == "") {
@@ -214,7 +215,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12 pl15">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="star_red">*</div>项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input id="projectNumber" type="text" class="input_group" name="projectNumber" onblur="verify();" value="${projectNumber}" />
+                <input id="projectNumber" type="text" class="input_group" name="projectNumber" onblur="verify(this);" value="${projectNumber}" />
                 <span class="add-on">i</span>
                 <div class="cue" id="sps">${ERR_projectNumber}</div>
               </div>

@@ -2333,7 +2333,7 @@ public class ExpertController extends BaseController {
 	    supplier.setReportTime(new Date());
 	    
 	    // 机构
-	    supplier.setProcurementDepId(purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId()).getName());
+	    supplier.setProcurementDepId(purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId()).getShortName());
 	    
 		// 地址
 		Area area = areaServiceI.listById(supplier.getAddress());
@@ -2407,10 +2407,16 @@ public class ExpertController extends BaseController {
 		// 物资类,服务类资质证书
 		List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
 		if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null) {
-		    listSupplierCertPros = supplier.getSupplierMatPro().getListSupplierCertPros();
-		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
+			List < SupplierCertPro >  certPros = supplier.getSupplierMatPro().getListSupplierCertPros();
+		    for(SupplierCertPro cert:certPros){
+		    	if(cert.getCode()!=null){
+		    		listSupplierCertPros.add(cert);
+		    	}
+		    }
+		    
+//		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
 		    if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null) {
-		        listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
+		        List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
 		        for(SupplierCertServe server: listSupplierCertSes) {
 		            SupplierCertPro pro = new SupplierCertPro();
 		            pro.setName(server.getName());
@@ -2423,9 +2429,9 @@ public class ExpertController extends BaseController {
 		            listSupplierCertPros.add(pro);
 		        }
 		    }
-		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
+//		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
 		    if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null) {
-		        listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
+		    	 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
                 for(SupplierCertSell sell: listSupplierCertSells) {
                     SupplierCertPro pro = new SupplierCertPro();
                     pro.setName(sell.getName());

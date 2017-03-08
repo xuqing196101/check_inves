@@ -31,6 +31,8 @@ public interface OrgnizationMapper {
 	
 	Orgnization selectByName(String name);
 	
+	List<Orgnization> verify(HashMap<String, Object> map);
+	
 	/**
 	 * 
 	 *〈简述〉
@@ -210,5 +212,9 @@ public interface OrgnizationMapper {
     
     List<Orgnization>  getPrev(@Param("parentId")String id,@Param("position")Integer position,@Param("last")Integer last);
 
-    
+    /**
+     * 获取全部可用的采购机构信息
+     * @author YangHongLiang
+     */
+    List<Orgnization> getAllList();
 }

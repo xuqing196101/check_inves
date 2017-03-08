@@ -293,4 +293,6 @@ public interface PurchaseContractService {
     * @return int
      */
     List<PurchaseContract> selectAllContractByCode(Map<String, Object> map);
+    
+    List<PurchaseContract> selectAllContractBySupplierId(Map<String, Object> map);
 }

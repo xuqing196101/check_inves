@@ -206,7 +206,7 @@ public interface SupplierService {
     * @param modifyDate 修改日期
     * @return
     */
-   List<Supplier> getModifySupplierByDate(String modifyDate);
+   List<Supplier> getModifySupplierByDate(String startTime, String endTime);
    
    
    

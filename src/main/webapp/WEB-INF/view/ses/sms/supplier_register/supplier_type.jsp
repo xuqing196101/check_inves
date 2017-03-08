@@ -68,6 +68,9 @@
 		hideTabTitle();
 		$("input[name='chkItem']:checked").each(function() {
 			var value = $(this).val();
+			 if (value == 'SALES') {
+				downloadTable();
+			} 
 			$("#tab_div").addClass("opacity_1");
 			selectedArray.push(value);
 			product(value);
@@ -332,7 +335,7 @@
 					if (data == "1") {
 						$("#save_pro_form_id").submit();
 					} else {
-						layer.msg("近3年加权平均净资产不满足物资销售型供应商的要求！");
+						layer.msg("近3年加权平均净资产不足3000万元，不符合物资销售型供应商注册要求！");
 						layer.close(index);
 					}
 				}
@@ -712,6 +715,27 @@
 			var arrays = checkeds.split(",");
 			var checkedArray = [];
 			var checkBoxAll = $("input[name='chkItem']");
+			var supplierId = "${currSupplier.id}";
+			$.ajax({
+				url: "${pageContext.request.contextPath}/supplier/isPass.do",
+				data: {
+					"supplierId": supplierId
+				},
+				type: "post",
+				success: function(data) {
+					if (data == "1") {
+					} else {
+						$.each(checkBoxAll,function(j, checkbox) {
+							var checkValue = $(checkbox).val();
+							if(checkValue=="SALES"){
+								$(checkbox).attr("disabled","disabled");
+							}
+						});
+					}
+				}
+			});
+			
+			
 			if (arrays.length > 0) {
 				initTabTitleCss();
 				for ( var i = 0; i < arrays.length; i++) {
@@ -1889,7 +1913,7 @@
 																<!-- 
 																<select name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()"></select>
 																 -->
-																<select id="certGrade_select${certAptNumber}" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
+																<select id="certGrade_select${certAptNumber}" title="cnjewfnGrade" name="supplierMatEng.listSupplierAptitutes[${certAptNumber}].aptituteLevel" class="w100p border0" onchange="tempSave()" style="width:200px;border: none;">
 																	<c:if test="${tempForShowOption eq 'go' }">
 																		<option selected="selected">${aptitute.aptituteLevel}</option>
 																	</c:if>
@@ -1906,6 +1930,10 @@
 																				getAptLevel($obj);
 																			},
 																		});
+																	});
+																	$("select[title='cnjewfnGrade']").each(function() {
+																		var $obj = $(this);
+																		$obj.combobox({});
 																	});
 																</script>
 															</td>

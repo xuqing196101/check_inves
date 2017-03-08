@@ -137,6 +137,37 @@
 	    $("#formID").validForm();
 	});
 	
+	var flag;
+	//验证重复
+	function verify(ele){
+	  var name = $(ele).val();
+	  var parentId = $("#parentId").val();
+	  $.ajax({
+          url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name + "&parentId=" + parentId,
+          type: "post",
+          dataType: "json",
+          success: function(data) {
+            var datas = eval("(" + data + ")");
+            if(datas == false) {
+              $("#sps").html("机构已存在").css('color', 'red');
+              flag = false;
+            } else {
+              $("#sps").html("");
+              flag = true;
+            }
+          },
+        });
+	}
+	
+	
+	function save(){
+	   if(flag == true){
+	     $("#formID").submit();
+	   }else{
+	     $("input[name='name']").focus();
+	   }
+	}
+	
 </script>
 </head>
 <body>
@@ -163,7 +194,8 @@
   <!-- 修改订列表开始-->
   <div class="container container_box">
     <sf:form action="${pageContext.request.contextPath}/purchaseManage/create.html" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
-	  <input type="hidden"  name="typeName" id="typeName" value="${orgnization.typeName}" />
+	  <input type="hidden"  name="typeName" id="typeName" value="${orgnization.typeName}"/>
+	  <input type="hidden"  name="parentId" id="parentId" value="${parentId}"/>
 	  <div>
 	    <c:if test="${orgnization.typeName == '0'}">
 	      <h2 class="count_flow "><i>1</i>基本信息</h2>
@@ -177,16 +209,16 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" type="text" required="required" maxlength="250"> 
+			  <input class="input_group" name="name" type="text" onblur="verify(this);" required  maxlength="250"> 
 			  <span class="add-on">i</span>
-			  <div class="cue"><sf:errors path="name"/></div>
+			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" required="required" type="text" > 
+			  <input class="input_group" name="shortName" required  type="text" > 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
@@ -305,7 +337,7 @@
 	  
 	  <div class="col-md-12">
 		<div class="mt40 tc mb50">
-		  <button type="submit" class="btn btn-windows save">保存</button>
+		  <button type="button" class="btn btn-windows save" onclick="save()">保存</button>
 		  <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回"/>
 		</div>
 	  </div>

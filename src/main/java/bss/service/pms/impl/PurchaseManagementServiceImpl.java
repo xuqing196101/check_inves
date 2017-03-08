@@ -24,10 +24,10 @@ public class PurchaseManagementServiceImpl  implements PurchaseManagementService
 	}
 
 	@Override
-	public List<PurchaseManagement> queryByMid(String mid,Integer page) {
+	public List<PurchaseManagement> queryByMid(String mid,Integer page,Integer status) {
 		// TODO Auto-generated method stub
 		 PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("page.size.thirty")));
-		 List<PurchaseManagement> list = purchaseManagementMapper.queryByMid(mid);
+		 List<PurchaseManagement> list = purchaseManagementMapper.queryByMid(mid,status);
 		return list;
 	}
 

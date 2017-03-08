@@ -170,7 +170,7 @@ public class LoginController {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-                } else if (srs != null && srs.size() > 0) { 
+                } else if (srs != null  && srs.size() > 0) { 
                     Map<String, Object> map = supplierService.checkLogin(u);
                     String msg = (String) map.get("status");
                     String date = (String) map.get("date");
