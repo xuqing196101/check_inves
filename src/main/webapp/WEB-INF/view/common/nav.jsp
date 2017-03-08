@@ -78,8 +78,6 @@
 					                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
 					                   					<c:if test="${res.id == r.parentId.id}">
 								                   			<li><a href="${pageContext.request.contextPath}/${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
-								                   			<li><a href="${pageContext.request.contextPath}/obrule/ruleList.html" target="home" class="son-menu son-three"><span class="mr5">◇</span>竞价规则列表</a></li>
-								                   			<li><a href="${pageContext.request.contextPath}/obrule/holidayList.html" target="home" class="son-menu son-three"><span class="mr5">◇</span>节假日管理</a></li>
 					                   					</c:if>
 					                   				</c:forEach>
 				                   				</ul>
