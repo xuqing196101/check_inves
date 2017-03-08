@@ -1032,6 +1032,12 @@ li.dropdown ul.dropdown-menu > li > .dropdown-menuson{
 .wdxx:hover .wdxx_icon{
 	background:url(../images/wdxx.png) no-repeat center;
 }
+.cpgl .top_icon {
+    background: url(../images/cpgl.png) no-repeat center;
+}
+.cpgl:hover .cpgl_icon{
+    background: url(../images/cpgl_02.png) no-repeat center;
+}
 .ywjc .top_icon{
 	background:url(../images/top_02.png) no-repeat center;
 }

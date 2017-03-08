@@ -27,6 +27,18 @@
 		FROM T_SES_SMS_AFTER_SALE_SERVICE
 		WHERE ID = #{id}
   	</select>
+  	
+  	<!-- 
+  	根据明细ID查询-->
+	<select id="findAfterSaleSerByrequiredId" resultMap="BaseResultMap">
+		SELECT 
+		<include refid="Base_Column_List"/>
+		FROM T_BSS_CS_CONTRACT_REQUIRED 
+		WHERE ID = #{id}
+	</select>
+	 
+	
+	
   	<!-- 根据主键修改 -->
 	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.AfterSaleSer">
 		UPDATE T_SES_SMS_AFTER_SALE_SERVICE
@@ -130,4 +142,5 @@
 			</if>
 		</trim>
   	</insert>
+  	
 </mapper>

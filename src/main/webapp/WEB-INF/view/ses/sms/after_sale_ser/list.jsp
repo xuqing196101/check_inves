@@ -21,7 +21,7 @@
 					}(),
 					jump: function(e, first) { //触发分页后的回调
 						if(!first) { //一定要加此判断，否则初始时会无限刷新
-							location.href = '${pageContext.request.contextPath}/importSupplier/list.do?page=' + e.curr;
+							location.href = '${pageContext.request.contextPath}/after_sale_ser/list.do?page=' + e.curr;
 						}
 					}
 				});
@@ -60,11 +60,11 @@
 			}
 
 			function show(id) {
-				window.location.href = "${pageContext.request.contextPath}/importSupplier/show.html?id=" + id;
+				window.location.href = "${pageContext.request.contextPath}/after_sale_ser/show.html?id=" + id;
 			}
 
 			function add() {
-				window.location.href = "${pageContext.request.contextPath}/importSupplier/register.html";
+				window.location.href = "${pageContext.request.contextPath}/after_sale_ser/register.html";
 			}
 
 			function edit() {
@@ -73,7 +73,7 @@
 					id.push($(this).val());
 				});
 				if(id.length == 1) {
-					window.location.href = "${pageContext.request.contextPath}/importSupplier/edit.html?id=" + id;
+					window.location.href = "${pageContext.request.contextPath}/after_sale_ser/edit.html?id=" + id;
 				} else if(id.length > 1) {
 					layer.alert("只能选择一个", {
 						offset: ['222px', '390px'],
@@ -99,7 +99,7 @@
 						shade: 0.01
 					}, function(index) {
 						layer.close(index);
-						window.location.href = "${pageContext.request.contextPath}/importSupplier/delete.html?ids=" + ids;
+						window.location.href = "${pageContext.request.contextPath}/after_sale_ser/delete.html?ids=" + ids;
 					});
 				} else {
 					layer.alert("请选择要删除的用户", {
@@ -139,19 +139,19 @@
 				<h2>售后服务登记列表</h2>
 			</div>
 			<h2 class="search_detail ">
-      <form id="form1" action="${pageContext.request.contextPath}/importSupplier/list.html" method="post" class="mb0" > 
+      <form id="form1" action="${pageContext.request.contextPath}/after_sales/list.html" method="post" class="mb0" > 
     	<ul class="demand_list">
     	  <li class="fl">
-	    	<label class="fl">产品名称：</label><span><input class="span2" id="supName" name="supName" value="${name }" type="text"></span>
+	    	<label class="fl">产品名称：</label><span><input class="span2"   type="text"></span>
 	      </li>
     	  <li class="fl">
-	    	<label class="fl">合同名称：</label><span><input class="span2" id="supType" name="supType"  value="${supplierType }" type="text"></span>
+	    	<label class="fl">合同名称：</label><span><input class="span2"    type="text"></span>
 	      </li>
 	      <li class="fl">
-	    	<label class="fl">合同编号：</label><span><input class="span2" id="supType" name="supType"  value="${supplierType }" type="text"></span>
+	    	<label class="fl">合同编号：</label><span><input class="span2"   type="text"></span>
 	      </li>
 	      <li class="fl">
-	    	<label class="fl">是否提供售后服务信息：</label><span><input class="span2" id="supType" name="supType"  value="${supplierType }" type="text"></span>
+	    	<label class="fl">是否提供售后服务信息：</label><span><input class="span2"    type="text"></span>
 	      </li>
 	    	<button type="button" onclick="submit()" class="btn">查询</button>
 	    	<button type="button" onclick="chongzhi()" class="btn">重置</button>  	
@@ -159,11 +159,6 @@
     	  <div class="clear"></div>
        </form>
      </h2>
-			<!-- <div class="col-md-12 pl20 mt10">
-				<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
-				<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-				<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
-			</div> -->
 			<div class="content table_box">
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
@@ -182,17 +177,17 @@
 						<c:forEach items="${isList.list }" var="list" varStatus="vs">
 							<tr>
 								<td class="tc">${(vs.index+1)+(isList.pageNum-1)*(isList.pageSize)}</td>
-								<td class="tc">${list.supplierType }</td>
-								<td class="tc">${list.supplierType }</td>
-								<td class="tc">${list.supplierType }</td>
-								<td class="tc">${list.legalName }</td>
+								<td class="tc"></td>
+								<td class="tc"></td>
+								<td class="tc"></td>
+								<td class="tc"></td>
 								<td class="tc">
-									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">否</span></c:if>
-									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">是</span></c:if>
+									<%-- <c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">否</span></c:if>
+									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">是</span></c:if> --%>
 								</td>
 								<td class="tc">
-									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">添加</span></c:if>
-									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">修改</span></c:if>
+									<%-- <c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">添加</span></c:if>
+									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">修改</span></c:if> --%>
 								</td>
 							</tr>
 						</c:forEach>
