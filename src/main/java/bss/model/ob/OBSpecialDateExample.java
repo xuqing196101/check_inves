@@ -255,62 +255,52 @@ public class OBSpecialDateExample {
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateEqualTo(String value) {
+        public Criteria andSpecialDateEqualTo(Date value) {
             addCriterion("SPECIAL_DATE =", value, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateNotEqualTo(String value) {
+        public Criteria andSpecialDateNotEqualTo(Date value) {
             addCriterion("SPECIAL_DATE <>", value, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateGreaterThan(String value) {
+        public Criteria andSpecialDateGreaterThan(Date value) {
             addCriterion("SPECIAL_DATE >", value, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateGreaterThanOrEqualTo(String value) {
+        public Criteria andSpecialDateGreaterThanOrEqualTo(Date value) {
             addCriterion("SPECIAL_DATE >=", value, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateLessThan(String value) {
+        public Criteria andSpecialDateLessThan(Date value) {
             addCriterion("SPECIAL_DATE <", value, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateLessThanOrEqualTo(String value) {
+        public Criteria andSpecialDateLessThanOrEqualTo(Date value) {
             addCriterion("SPECIAL_DATE <=", value, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateLike(String value) {
-            addCriterion("SPECIAL_DATE like", value, "specialDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialDateNotLike(String value) {
-            addCriterion("SPECIAL_DATE not like", value, "specialDate");
-            return (Criteria) this;
-        }
-
-        public Criteria andSpecialDateIn(List<String> values) {
+        public Criteria andSpecialDateIn(List<Date> values) {
             addCriterion("SPECIAL_DATE in", values, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateNotIn(List<String> values) {
+        public Criteria andSpecialDateNotIn(List<Date> values) {
             addCriterion("SPECIAL_DATE not in", values, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateBetween(String value1, String value2) {
+        public Criteria andSpecialDateBetween(Date value1, Date value2) {
             addCriterion("SPECIAL_DATE between", value1, value2, "specialDate");
             return (Criteria) this;
         }
 
-        public Criteria andSpecialDateNotBetween(String value1, String value2) {
+        public Criteria andSpecialDateNotBetween(Date value1, Date value2) {
             addCriterion("SPECIAL_DATE not between", value1, value2, "specialDate");
             return (Criteria) this;
         }
@@ -572,6 +562,76 @@ public class OBSpecialDateExample {
 
         public Criteria andUpdatedAtNotBetween(Date value1, Date value2) {
             addCriterion("UPDATED_AT not between", value1, value2, "updatedAt");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameIsNull() {
+            addCriterion("CREATER_NAME is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameIsNotNull() {
+            addCriterion("CREATER_NAME is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameEqualTo(String value) {
+            addCriterion("CREATER_NAME =", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameNotEqualTo(String value) {
+            addCriterion("CREATER_NAME <>", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameGreaterThan(String value) {
+            addCriterion("CREATER_NAME >", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameGreaterThanOrEqualTo(String value) {
+            addCriterion("CREATER_NAME >=", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameLessThan(String value) {
+            addCriterion("CREATER_NAME <", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameLessThanOrEqualTo(String value) {
+            addCriterion("CREATER_NAME <=", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameLike(String value) {
+            addCriterion("CREATER_NAME like", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameNotLike(String value) {
+            addCriterion("CREATER_NAME not like", value, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameIn(List<String> values) {
+            addCriterion("CREATER_NAME in", values, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameNotIn(List<String> values) {
+            addCriterion("CREATER_NAME not in", values, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameBetween(String value1, String value2) {
+            addCriterion("CREATER_NAME between", value1, value2, "createrName");
+            return (Criteria) this;
+        }
+
+        public Criteria andCreaterNameNotBetween(String value1, String value2) {
+            addCriterion("CREATER_NAME not between", value1, value2, "createrName");
             return (Criteria) this;
         }
     }

@@ -60,7 +60,6 @@
           status=$(this).parent().next().text();
         });
         if(id.length == 1) {
-        	<!-- 清除首页缓存 -->
    			layer.confirm('确认要清空首页缓存吗？', {
    				btn : [ '是', '否' ]
    			//按钮

@@ -2,7 +2,10 @@ package bss.dao.ob;
 
 import bss.model.ob.OBRule;
 import bss.model.ob.OBRuleExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBRuleMapper {
@@ -27,4 +30,6 @@ public interface OBRuleMapper {
     int updateByPrimaryKeySelective(OBRule record);
 
     int updateByPrimaryKey(OBRule record);
+
+	List<OBRule> selectAllOBRules(Map<String, Object> map);
 }

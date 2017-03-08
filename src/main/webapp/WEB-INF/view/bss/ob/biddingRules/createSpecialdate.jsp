@@ -5,6 +5,25 @@
   <head>
    <%@ include file="/WEB-INF/view/common.jsp" %>
 <title>创建特殊日期</title>
+
+<script type="text/javascript">
+	function submitForm(){
+		$.post("${pageContext.request.contextPath}/obrule/addSpecialdate.do", $("#specialDataForm").serialize(), function(data) {
+			if (data.status == 200) {
+				layer.confirm(data.data,{
+					btn:['确定']
+				},function(){
+						window.location.href="${pageContext.request.contextPath}/obrule/holidayList.html";
+					}
+				) 
+			}
+			if(data.status == 500){
+				layer.alert(data.msg);
+			}
+		});
+	}
+</script>
+
 </head>
 <body>
 <!--面包屑导航开始-->
@@ -24,32 +43,33 @@
      	<h2>添加特殊日期</h2>
 	</div> 
   <div class="mt10">
-   </div> 
-  <table class="table table-bordered mt10">
-			    <tbody>
-				  <tr>
-				    <td class="bggrey tr">设置日期：</td>
-				    <td >
-				    	<input id="" name="" value="" type="text" class="w230 mb0 border0">
-				    </td>
-				  </tr>
-				  <tr>
-				    <td class="bggrey tr">类型：</td>
-				    <td >
-				    	<select class="w230" id="purchaseType" name=purchaseType onchange="contractType(this.options[this.selectedIndex].value)">
-                      		<option value="">-请选择-</option>
-                      		<option value="">上班</option>
-                     		<option value="">放假</option>
-                    	</select>
-				    </td>
-				  </tr>
-				 </tbody>
-			 </table>
-			 
-			 <div class="col-md-12 clear tc mt10">
-	    		<button class="btn btn-windows save" type="submit">保存</button>
-	    		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-			 </div>
+   </div>
+   <form action="" id="specialDataForm" name="specialDataForm" method="post">
+	  <table class="table table-bordered mt10">
+	    <tbody>
+		  <tr>
+		    <td class="bggrey tr">设置日期：</td>
+		    <td >
+		    	<input name="specialDate" class="Wdate" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+		    </td>
+		  </tr>
+		  <tr>
+		    <td class="bggrey tr">类型：</td>
+		    <td>
+		    	<select class="w230" id="dateType" name="dateType">
+               		<option value="">--请选择--</option>
+               		<option value="1">上班</option>
+              		<option value="0">放假</option>
+	            </select>
+		    </td>
+		  </tr>
+		 </tbody>
+	  </table>
+	</form>	 
+ 	<div class="col-md-12 clear tc mt10">
+  		<button class="btn btn-windows save" onclick="submitForm()">保存</button>
+  		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+ 	</div>
 	</div>
   </div>
 </body>

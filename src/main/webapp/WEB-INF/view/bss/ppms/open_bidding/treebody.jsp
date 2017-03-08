@@ -1290,7 +1290,7 @@ function judge(index) {
 						<option value="1" <c:if test="${scoreModel.addSubtractTypeName == 1}">selected="selected"</c:if> >减分</option>
 					</select>
 				</td>
-				<td><span class="blue">以最高值为基准值排序递减,是加分还是减分</span></td>
+				<td><span class="blue">以最低值为基准值排序递增,是加分还是减分</span></td>
 			</tr>
 			 <tr>
 		    	<td class="w180 tc"><span class="star_red">*</span>是否有基准数额</td>

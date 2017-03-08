@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.google.gson.Gson;
 
 import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
@@ -817,5 +818,20 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         }
         return flag;
     }
-    
+    /**
+     *  获取全部可用的采购机构信息 实现服务接口
+     *  @author YangHongLiang
+     *  @return JSON
+     */
+	@Override
+	public String getMechanism() {
+		// TODO Auto-generated method stub
+		List<Orgnization> list=orgniztionMapper.getAllList();
+		  Gson gson=new Gson();
+		  String getJson="";
+		  if(list!=null){
+			  getJson=  gson.toJson(list);
+		  }
+		return getJson;
+	}
 }

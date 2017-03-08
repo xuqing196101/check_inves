@@ -131,6 +131,19 @@
       #{formId,jdbcType=VARCHAR}, #{turnoverRation,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
+  <!-- 根据条件获取 数据 -->
+  <select id="selectPageList" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProject" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT
+    where 1=1
+     <if test="id!= null and id !=''">
+      and name= ${name}
+     </if>
+     order by  CREATED_AT DESC
+  </select>
+  
+  
   <insert id="insertSelective" parameterType="bss.model.ob.OBProject" >
     insert into T_BSS_OB_PROJECT
     <trim prefix="(" suffix=")" suffixOverrides="," >

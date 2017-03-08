@@ -27,4 +27,6 @@ public interface OBProductMapper {
     int updateByPrimaryKeySelective(OBProduct record);
 
     int updateByPrimaryKey(OBProduct record);
+    
+    
 }

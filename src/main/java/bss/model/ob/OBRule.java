@@ -2,15 +2,20 @@ package bss.model.ob;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class OBRule {
     private String id;
-
+    /**间隔工作日**/
     private Integer intervalWorkday;
+    /**具体时间点**/
 
+    @DateTimeFormat(pattern="HH:mm:ss")
     private Date definiteTime;
-
+    
+    /**报价时间**/
     private Integer quoteTime;
-
+    /**确认时间（第一轮）**/
     private Integer confirmTime;
 
     private Integer status;
@@ -18,12 +23,18 @@ public class OBRule {
     private String createrId;
 
     private String remark;
-
+    /**项目数量**/
     private Integer bidingCount;
 
     private Date createdAt;
 
     private Date updatedAt;
+    
+    /**竞价规则名称**/
+    private String name;
+
+    /**确认时间（第二轮）**/
+    private Integer confirmTimeSecond;
 
     public String getId() {
         return id;
@@ -111,5 +122,21 @@ public class OBRule {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name == null ? null : name.trim();
+    }
+
+    public Integer getConfirmTimeSecond() {
+        return confirmTimeSecond;
+    }
+
+    public void setConfirmTimeSecond(Integer confirmTimeSecond) {
+        this.confirmTimeSecond = confirmTimeSecond;
     }
 }
