@@ -17,6 +17,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.formbean.ContractBean;
 import ses.formbean.QualificationBean;
@@ -1327,4 +1328,19 @@ public class SupplierQueryController extends BaseSupplierController {
 
            return "ses/sms/supplier_query/supplierInfo/supplierType";
        }
+       
+      /**
+       * @Title: cancellation
+       * @author XuQing 
+       * @date 2017-3-8 下午1:33:37  
+       * @Description:供应商注销
+       * @param @param supplierIds      
+       * @return void
+       */
+       @RequestMapping(value = "/cancellation")
+       @ResponseBody
+       public void cancellation(String supplierId){
+    	   supplierService.deleteSupplier(supplierId);
+       }
+       
 }

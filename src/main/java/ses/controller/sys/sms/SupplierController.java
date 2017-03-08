@@ -2788,27 +2788,6 @@ public class SupplierController extends BaseSupplierController {
     	
     	return "";
     }
-    /**
-     * 
-    * @Title: delete
-    * @Description: 注销供应商账户
-    * author: Li Xiaoxiao 
-    * @param @param supplierId
-    * @param @return     
-    * @return String     
-    * @throws
-     */
-    @RequestMapping("")
-    public String delete(String supplierId){
-    	
-    	
-    	supplierService.deleteSupplier(supplierId);
-    	
-    	
-    	
-    	
-    	return "";
-    }
     
     /**
      * 

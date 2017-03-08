@@ -296,6 +296,45 @@
 					hideSupplierType();
 				}
 			}
+			
+
+			
+			
+			
+		//撤销
+   	function cancellation(){
+   		var id;
+			$('input[name="chkItem"]:checked').each(function(){ 
+				id = $(this).val();
+			});
+			var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+			if(state == "待审核" || state== "审核退回修改"){
+   			if(id.length>0){
+   			layer.confirm('您确定要注销吗?', {title:'提示！',offset: ['200px']}, function(index){
+   	 			layer.close(index);
+   	 			$.ajax({
+   	 				url:"${pageContext.request.contextPath}/supplierQuery/cancellation.html",
+   	 				data:"supplierId=" +id,
+   	 				type:"post",
+   	 	      	success:function(){
+   	 	       		layer.msg("注销成功!",{offset : '100px'});
+   	 		      	window.setTimeout(function(){
+   	 		      		$("#form1").submit();
+   	 		       		}, 1000);
+   	 	       		},
+   	 	       		error: function(){
+   	 							layer.msg("注销失败！",{offset : '100px'});
+   	 					}
+   	 	     });
+   	 		});
+   		}else{
+   			layer.alert("请选择供应商！",{offset : '100px'});
+      	}
+   		}else{
+   			layer.alert("只有【待审核】或【审核退回修改】的供应商才能注销！",{offset : '100px'});
+   		}
+   		
+   	}
 		</script>
 	</head>
 	<!--面包屑导航开始-->
@@ -392,19 +431,21 @@
 	          </li>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
-	              <button type="button" onclick="submit()" class="btn">查询</button>
-	              <button type="reset" onclick="chongzhi()" class="btn">重置</button> 
+            	<button type="button" onclick="submit()" class="btn">查询</button>
+              <button type="reset" onclick="chongzhi()" class="btn">重置</button> 
 	          </div>
 	          <div class="clear"></div>
 	       </form>
      </h2>
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows back" type="button" onclick="location.href='${pageContext.request.contextPath}/supplierQuery/highmaps.html'">返回</button>
+				<button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button>
 			</div>
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
+							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">联系人</th>
@@ -418,6 +459,7 @@
 					<tbody>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
+								<td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=0&supplierId=${list.id}">${list.supplierName }</a>
