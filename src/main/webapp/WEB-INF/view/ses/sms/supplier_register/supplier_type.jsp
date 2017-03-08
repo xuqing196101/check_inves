@@ -69,7 +69,7 @@
 		$("input[name='chkItem']:checked").each(function() {
 			var value = $(this).val();
 			 if (value == 'SALES') {
-				downloadTable();
+				downloadTable(value);
 			} 
 			$("#tab_div").addClass("opacity_1");
 			selectedArray.push(value);
@@ -719,7 +719,8 @@
 			$.ajax({
 				url: "${pageContext.request.contextPath}/supplier/isPass.do",
 				data: {
-					"supplierId": supplierId
+					"supplierId": supplierId,
+					 "stype":"SALES"
 				},
 				type: "post",
 				success: function(data) {
@@ -1113,13 +1114,13 @@
 	
 	
 	//
-	function downloadTable() {
-		var index = layer.load(1);
+	function downloadTable(val) {
 		var supplierId = "${currSupplier.id}";
 		$.ajax({
 			url: "${pageContext.request.contextPath}/supplier/isPass.do",
 			data: {
-				"supplierId": supplierId
+				"supplierId": supplierId,
+				 "type":val
 			},
 			type: "post",
 			success: function(data) {

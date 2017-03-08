@@ -2678,9 +2678,15 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping("/isPass")
-    public String isPass(String supplierId) {
+    public String isPass(String supplierId,String stype) {
         BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        if(stype!=null&&stype.trim().length()!=0){
+			 if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                return "0";
+	            }	
+	   	}
+        
         for (SupplierTypeRelate type : relate) {
             if (type.getSupplierTypeId().equals("SALES")) {
                 if (score.compareTo(BigDecimal.valueOf(3000))==-1) {

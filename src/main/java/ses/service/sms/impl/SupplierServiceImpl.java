@@ -329,6 +329,15 @@ public class SupplierServiceImpl implements SupplierService {
         user.setCreatedAt(new Date());
         user.setTypeId(supplier.getId());
         user.setMobile(supplier.getMobile());
+    	String ipAddressType = PropUtil.getProperty("ipAddressType"); 
+		if ("0".equals(ipAddressType)) {
+		    //内网用户
+           user.setNetType(0);
+	    }
+	    if ("1".equals(ipAddressType)) {
+	        //外网用户
+	        user.setNetType(1);
+	    }
         userMapper.insertSelective(user);
 
 
@@ -911,40 +920,34 @@ public class SupplierServiceImpl implements SupplierService {
         supplierAfterSaleDepMapper.deleteBySupplierId(supplierId);
        
         SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
-        if(supplierMatPro != null){
-        	supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
-        }
+        supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
         supplierMatProMapper.deleteBySupplierId(supplierId);
         
         SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
-        if(matSell != null){
-        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
-        }
+        supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
         supplierMatSellMapper.deleteByPrimaryKey(supplierId);
         
         SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
-        if(matEng != null){
-        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
-            supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
-            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
-        }
+        supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+        supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
+        supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
         supplierMatEngMapper.deleteByPrimaryKey(supplierId);
         
         SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
-        if(matServe != null){
-	        supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
-	        supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
-        }
+        supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
+        supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+
         supplierTypeRelateMapper.deleteBySupplierId(supplierId);
         List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
-        if(!items.isEmpty()){
-	        for(SupplierItem s:items){
-	        	if(s.getId() != null){
-	        		fileUploadMapper.deleteByBusinessId(s.getId());
-	        	}
-	        }
+        
+        for(SupplierItem s:items){
+        	fileUploadMapper.deleteByBusinessId(s.getId());
         }
-        supplierItemMapper.deleteBySupplierId(supplierId);  
+        supplierItemMapper.deleteBySupplierId(supplierId);
+        
+        
+        
+        
     }
     
 }
