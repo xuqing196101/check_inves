@@ -18,6 +18,7 @@ public class OBRule {
     /**确认时间（第一轮）**/
     private Integer confirmTime;
 
+    /**1:默认  0:否**/
     private Integer status;
 
     private String createrId;
