@@ -465,13 +465,15 @@ public class AdFirstAuditController {
   public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId, Short isConfirm) throws IOException{
     try{
       FirstAudit record = new FirstAudit();
-      record.setPackageId(packageId);
-      record.setProjectId(projectId);
-      record.setIsConfirm(isConfirm);
-      List<FirstAudit> firstAudits = service.findBykind(record);
-      //先删除数据
-      for (FirstAudit firstAudit : firstAudits) {
-        service.delete(firstAudit.getId());
+      if (packageId != null && !"".equals(packageId)) {
+          record.setPackageId(packageId);
+          record.setProjectId(projectId);
+          record.setIsConfirm(isConfirm);
+          List<FirstAudit> firstAudits = service.findBykind(record);
+          //先删除数据
+          for (FirstAudit firstAudit : firstAudits) {
+            service.delete(firstAudit.getId());
+          }
       }
       List<FirstAuditTemitem> items = firstAuditTemitemService.selectByTemplatId(id);
       for (FirstAuditTemitem firstAuditTemitem : items) {

@@ -191,7 +191,7 @@ public class IntelligentScoringController extends BaseController{
 	@RequestMapping("/loadTemplat")
 	public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
 	    try{
-	        if (id != null && !"".equals(id)) {
+	        if (id != null && !"".equals(id) && packageId != null && !"".equals(packageId)) {
     	        //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
     	        HashMap<String, Object> condition = new HashMap<String, Object>();
     	        condition.put("projectId", projectId);
