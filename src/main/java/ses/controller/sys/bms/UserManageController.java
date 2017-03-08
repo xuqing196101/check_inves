@@ -101,19 +101,19 @@ public class UserManageController extends BaseController{
 	    if (user.getRoleId() != null && !"".equals(user.getRoleId())) {
 	        user.setRoleIdList(Arrays.asList(user.getRoleId().split(",")));
 	    }
-		List<User> users = userService.findUserRole(user, page == null ? 1 : page);
-//    List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
-//    model.addAttribute("typeNames", typeNames);
-	  Role role = new Role();
-    List<Role> roles = roleService.find(role);
-    for (User u : users) {
-      List<Role> roles2 = roleService.selectByUserId(u.getId());
-      u.setRoles(roles2);
-    }
-    model.addAttribute("roles", roles);
-    model.addAttribute("list", new PageInfo<User>(users));
-    model.addAttribute("user", user);
-		return "ses/bms/user/list";
+  		List<User> users = userService.findUserRole(user, page == null ? 1 : page);
+  		//List<DictionaryData> typeNames = DictionaryDataUtil.find(7);
+      //model.addAttribute("typeNames", typeNames);
+  	  Role role = new Role();
+      List<Role> roles = roleService.find(role);
+      for (User u : users) {
+        List<Role> roles2 = roleService.selectByUserId(u.getId());
+        u.setRoles(roles2);
+      }
+      model.addAttribute("roles", roles);
+      model.addAttribute("list", new PageInfo<User>(users));
+      model.addAttribute("user", user);
+  		return "ses/bms/user/list";
 	}
 
 	/**

@@ -111,7 +111,7 @@
     	var fatId = $("#fatId").val();
     	$.ajax({   
             type: "POST",  
-            url: "${pageContext.request.contextPath}/adFirstAudit/loadTemplat.html",   
+            url: "${pageContext.request.contextPath}/adFirstAudit/loadTemplat.html?isConfirm=0",   
             data:{"id":fatId,"projectId":projectId,"packageId":packageId},
             dataType:'json',
             success:function(result){

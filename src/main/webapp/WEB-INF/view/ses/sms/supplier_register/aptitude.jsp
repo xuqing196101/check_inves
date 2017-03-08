@@ -266,7 +266,7 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
-									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if>fade height-300" id="tab-2">
+									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if>fade height-300" id="tab-2">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传物资-销售型资质文件
 										</h2>
@@ -292,7 +292,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
-									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-3">
+									<div class="tab-pane <c:if test="${divCount==0 }">active in</c:if> fade height-300" id="tab-3">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传工程资质文件
 										</h2>
@@ -342,7 +342,7 @@
 									</div>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
-									<div class="tab-pane <c:if test=" ${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
+									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传服务资质文件
 										</h2>

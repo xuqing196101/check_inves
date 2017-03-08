@@ -27,4 +27,10 @@ public interface OBProductMapper {
     int updateByPrimaryKeySelective(OBProduct record);
 
     int updateByPrimaryKey(OBProduct record);
+    /**
+     * 获取全部 可以用的产品相关信息
+     * @author YangHongLiang
+     * */
+    List<OBProduct> selectList();
+    
 }

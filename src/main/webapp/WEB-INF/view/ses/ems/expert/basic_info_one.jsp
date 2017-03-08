@@ -633,6 +633,7 @@
                 cache: false,
                 async: false,
                 success: function (data) {
+                	alert(data);
                     if (data) {
                         layer.msg(data);
                         flag = false;
@@ -969,12 +970,12 @@
                                       id="expert12"
                                       businessId="${sysId}"
                                       sysKey="${expertKey}"
-                                      typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID }"
+                                      typeId="1"
                                       maxcount="1"
                                       auto="true"/>
                             <u:show showId="show12"
                                     businessId="${sysId}" sysKey="${expertKey}"
-                                    typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID }"/>
+                                    typeId="1"/>
                         </div>
 
 

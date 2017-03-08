@@ -7,6 +7,29 @@
 	<title>竞价规则列表页面</title>
 <script type="text/javascript">
 	
+	$(function() {
+	    laypage({
+	      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+	      pages : "${info.pages}", //总页数
+	      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	      skip : true, //是否开启跳页
+	      total : "${info.total}",
+	      startRow : "${info.startRow}",
+	      endRow : "${info.endRow}",
+	      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+	      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+	        return "${info.pageNum}";
+	      }(),
+	      jump : function(e, first) { //触发分页后的回调
+	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
+	      		location.href = "${pageContext.request.contextPath }/obrule/ruleList.do?page=" + e.curr;
+	        }
+	      }
+	    });
+	    
+	  });
+
+	
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -42,6 +65,105 @@
 				 }
 		   }
 	}
+	
+	/* 删除 */
+	function del(){
+		var id = [];
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		var ids = id.toString();
+		if(id.length > 0) {
+			layer.confirm('您确定要删除吗?', {
+				title: '提示',
+				offset: ['222px', '360px'],
+				shade: 0.01
+			}, function(index) {
+				layer.close(index);
+				$.ajax({
+					url: "${pageContext.request.contextPath }/obrule/delete.do",
+					type: "POST",
+					data: {
+						id: ids
+					},
+					success: function(data) {
+						layer.confirm(data.data,{
+							btn:['确定']
+						},function(){
+								$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/ruleList.html");
+								$("#queryForm").submit();
+							}
+						)
+					},
+					error: function() {
+
+					}
+				});
+			});
+		} else {
+			layer.alert("请选择要删除的版块", {
+				offset: ['222px', '360px'],
+				shade: 0.01
+			});
+		}
+	}
+	/* 设为默认 */
+	 function setDefault() {
+        var id = [];
+        var status = "";
+        var data = "";
+        $('input[name="chkItem"]:checked').each(function() {
+          id.push($(this).val());
+          status=$(this).parent().next().text();
+        });
+        if(id.length == 1) {
+   			layer.confirm('要您将该项设置成默认吗？', {
+   				btn : [ '是', '否' ]
+   			//按钮
+   			}, function() {
+   				$.ajax({
+   				    url: "${pageContext.request.contextPath }/obrule/setDefaultRule.do",
+   				    type: "POST",
+   				    dataType: "json",
+   				 	data: {
+						id: id[0]
+					},
+   				    success: function(data) {
+   				    	// 成功后提示
+   				    	layer.confirm(data.data,{
+							btn:['确定']
+						},function(){
+							location.reload();
+							}
+						)
+   				    }
+   				});
+   			}, function() {
+   				layer.close();
+   			});
+        } else if(id.length > 1) {
+          layer.alert("只能选择一个", {
+            offset: ['222px', '390px'],
+            shade: 0.01
+          });
+        } else {
+          layer.alert("请选择要设置的默认项", {
+            offset: ['222px', '390px'],
+            shade: 0.01
+          });
+        }
+      }
+	
+	
+	<!--搜索-->
+	function query(){
+		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/ruleList.html");
+		$("#queryForm").submit();
+	}
+	
+	function createOBRules(){
+		window.location.href="${pageContext.request.contextPath}/obrule/addRuleUI.html";
+	}
 </script>
 </head>
 <body>
@@ -60,24 +182,24 @@
 <!-- 竞价规格列表页面开始 -->
 	<div class="container">
     <div class="search_detail">
-       <form action="" method="post" class="mb0">
+       <form action="" method="post" id="queryForm" class="mb0">
     	<ul class="demand_list">
     	  <li>
-	    	<label class="fl">间隔工作日：</label>
-			<input type="text" id="topic" class=""/>
+	    	<label class="fl">竞价规则名称：</label>
+			<input name="name" type="text" value="${name}"/>
 	      </li>
     	  <li>
 	    	<label class="fl">报价时间（分钟）：</label>
-	    	  <select class="w178">
-	    	    <option></option>
-	    	    <option>选项一</option>
-	    	    <option>选项二</option>
-	    	    <option>选项三</option>
+	    	  <select id="quoteTime" name="quoteTime" class="w178">
+	    	    <option value="">--请选择--</option>
+	    	    <option value="10" <c:if test="${10 eq quoteTime}">selected</c:if>>10分钟</option>
+	    	    <option value="20" <c:if test="${20 eq quoteTime}">selected</c:if>>20分钟</option>
+	    	    <option value="30" <c:if test="${30 eq quoteTime}">selected</c:if>>30分钟</option>
 	    	  </select>
 	      </li>
     	  <li>
-	    	<label class="fl">确认时间（分钟）：</label>
-			<input type="text" id="topic" class=""/>
+	    	<label class="fl">间隔工作日（天）：</label>
+			<input name="intervalWorkday" type="text" value="${ intervalWorkday }"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
@@ -88,9 +210,9 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows add" type="submit">创建竞价规则</button>
-		<button class="btn" type="submit">设为默认</button>
-		<button class="btn btn-windows delete" type="submit">删除</button>
+		<button class="btn btn-windows add" onclick="createOBRules()">创建竞价规则</button>
+		<button class="btn" onclick="setDefault()">设为默认</button>
+		<button class="btn btn-windows delete" onclick="del()">删除</button>
 	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -98,59 +220,34 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
+		  <th class="info">竞价规则名称</th>
 		  <th class="info">间隔工作日（天）</th>
 		  <th class="info">具体时间点</th>
 		  <th class="info">报价时间（分钟）</th>
-		  <th class="info">二次报价时间（分钟）</th>
-		  <th class="info">确认时间（分钟）</th>
+		  <th class="info">确认时间（第一轮）（分钟）</th>
+		  <th class="info">确认时间（第二轮）（分钟）</th>
 		  <th class="info">项目数量</th>
 		  <th class="info">是否为默认</th>
 		</tr>
+		<c:forEach items="${ info.list }" var="obRule" varStatus="vs">
+			<tr>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obRule.id }" /></td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+			  <td class="tc">${obRule.name}</td>
+			  <td class="tc">${obRule.intervalWorkday}</td>
+			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:ss:mm"/></td>
+			  <td class="tc">${obRule.quoteTime}</td>
+			  <td class="tc">${obRule.confirmTime}</td>
+			  <td class="tc">${obRule.confirmTimeSecond}</td>
+			  <td class="tc">${obRule.bidingCount}</td>
+			  <td class="tc">
+				<c:if test="${ obRule.status == 1 }">
+					默认
+				</c:if>
+			  </td>
+			</tr>		
+		</c:forEach>
 		</thead>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">1</td>
-		  <td class="tc">09:00</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">22</td>
-		  <td class="tc">默认</td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">1</td>
-		  <td class="tc">09:00</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">22</td>
-		  <td class="tc">默认</td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">1</td>
-		  <td class="tc">09:00</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">22</td>
-		  <td class="tc">默认</td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td class="tc">1</td>
-		  <td class="tc">09:00</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">20</td>
-		  <td class="tc">22</td>
-		  <td class="tc">默认</td>
-		</tr>
 	</table>
    </div>
       <div id="pagediv" align="right"></div>

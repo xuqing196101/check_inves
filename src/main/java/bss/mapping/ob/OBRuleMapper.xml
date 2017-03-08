@@ -13,6 +13,8 @@
     <result column="BIDING_COUNT" property="bidingCount" jdbcType="DECIMAL" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TIME_SECOND" property="confirmTimeSecond" jdbcType="DECIMAL" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, INTERVAL_WORKDAY, DEFINITE_TIME, QUOTE_TIME, CONFIRM_TIME, STATUS, CREATER_ID, 
-    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT
+    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT, NAME, CONFIRM_TIME_SECOND
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBRuleExample" >
     select
@@ -107,14 +109,19 @@
     </if>
   </delete>
   <insert id="insert" parameterType="bss.model.ob.OBRule" >
+    <selectKey keyProperty="id" resultType="String" order="BEFORE">
+        select sys_guid() from dual
+    </selectKey>
     insert into T_BSS_OB_RULE (ID, INTERVAL_WORKDAY, DEFINITE_TIME, 
       QUOTE_TIME, CONFIRM_TIME, STATUS, 
       CREATER_ID, REMARK, BIDING_COUNT, 
-      CREATED_AT, UPDATED_AT)
+      CREATED_AT, UPDATED_AT, NAME, 
+      CONFIRM_TIME_SECOND)
     values (#{id,jdbcType=VARCHAR}, #{intervalWorkday,jdbcType=DECIMAL}, #{definiteTime,jdbcType=TIMESTAMP}, 
       #{quoteTime,jdbcType=DECIMAL}, #{confirmTime,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
       #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{bidingCount,jdbcType=DECIMAL}, 
-      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
+      #{confirmTimeSecond,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBRule" >
     insert into T_BSS_OB_RULE
@@ -152,6 +159,12 @@
       <if test="updatedAt != null" >
         UPDATED_AT,
       </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="confirmTimeSecond != null" >
+        CONFIRM_TIME_SECOND,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -186,6 +199,12 @@
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTimeSecond != null" >
+        #{confirmTimeSecond,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -231,6 +250,12 @@
       <if test="record.updatedAt != null" >
         UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.name != null" >
+        NAME = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.confirmTimeSecond != null" >
+        CONFIRM_TIME_SECOND = #{record.confirmTimeSecond,jdbcType=DECIMAL},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -248,7 +273,9 @@
       REMARK = #{record.remark,jdbcType=VARCHAR},
       BIDING_COUNT = #{record.bidingCount,jdbcType=DECIMAL},
       CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP}
+      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
+      NAME = #{record.name,jdbcType=VARCHAR},
+      CONFIRM_TIME_SECOND = #{record.confirmTimeSecond,jdbcType=DECIMAL}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -286,6 +313,12 @@
       <if test="updatedAt != null" >
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTimeSecond != null" >
+        CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -300,7 +333,28 @@
       REMARK = #{remark,jdbcType=VARCHAR},
       BIDING_COUNT = #{bidingCount,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      NAME = #{name,jdbcType=VARCHAR},
+      CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectAllOBRules" parameterType="Map" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_RULE where 1=1
+    <if test="name != null and name !=''" >
+      AND name like '%${name}%'
+    </if>
+    <if test="quoteTime != null and quoteTime !=''">
+	  AND QUOTE_TIME = #{quoteTime}
+	</if>
+	<if test="intervalWorkday != null and intervalWorkday !=''">
+	  AND INTERVAL_WORKDAY = #{intervalWorkday}
+	</if>
+	ORDER BY
+	UPDATED_AT DESC
+  </select>
+  
+  
 </mapper>

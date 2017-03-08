@@ -659,6 +659,8 @@
 		   AND B.IS_DELETED = 0
 	</select>
 	
+	
+	
 	<!-- 根据PID和类型查询 -->
 	<select id="getListByPidAndType"  resultMap="baseOrgnization">
 	  SELECT 
@@ -884,5 +886,10 @@
         where  PARENT_ID=#{parentId} and POSITION>=#{position} and POSITION&lt;#{last} order by POSITION desc
 	</select>
 	
-	
+	<!-- 获取 全部 可用的 采购机构 -->
+	<select id="getAllList" resultMap="baseOrgnization">
+	 select ID,NAME,CONTACT_MOBILE,CONTACT_NAME  from T_SES_OMS_ORG 
+ 	 where TYPE_NAME=1 and IS_DELETED=0 and PARENT_ID is null
+ 	 ORDER BY CREATED_AT ASC,UPDATED_AT DESC
+	</select>
 </mapper>

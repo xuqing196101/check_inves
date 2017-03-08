@@ -161,6 +161,8 @@ public class AdOpenBiddingController {
      */
     @RequestMapping("/bidFile")
     public String bidFile(@CurrentUser User user,HttpServletRequest request, String id, Model model, HttpServletResponse response, String flowDefineId, Integer process) throws Exception{
+        //类别是否是在流程中展示 process 1不在流程中  2在流程中  
+        model.addAttribute("process", process);
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", id);
         List<AdvancedPackages> packages = packageService.selectByAll(map);
@@ -212,7 +214,7 @@ public class AdOpenBiddingController {
          */
         if (files != null && files.size() > 0 && project != null){
                 //调用生成word模板传人 标识0 表示 只是生成 拆包部分模板
-                   String filePath = extUserServicel.downLoadBiddingDoc(request,id,1,null);
+                   String filePath = extUserServicel.downLoadBiddingDocs(request,id,1,null);
                    if (StringUtils.isNotBlank(filePath)){
                      model.addAttribute("filePath", filePath);
                    }
@@ -222,7 +224,7 @@ public class AdOpenBiddingController {
             //重新生成模板
              model.addAttribute("fileId", "0");
            //调用生成word模板 传入标识1 只是生成 总模板
-             String filePath = extUserServicel.downLoadBiddingDoc(request,id,0,null);
+             String filePath = extUserServicel.downLoadBiddingDocs(request,id,0,null);
              if (StringUtils.isNotBlank(filePath)){
                model.addAttribute("filePath", filePath);
              }

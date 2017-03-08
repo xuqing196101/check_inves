@@ -17,6 +17,8 @@ public interface OBProjectMapper {
     int insertSelective(OBProject record);
 
     List<OBProject> selectByExample(OBProjectExample example);
+    
+    List<OBProject> selectPageList(OBProject project);
 
     OBProject selectByPrimaryKey(String id);
 
@@ -27,4 +29,6 @@ public interface OBProjectMapper {
     int updateByPrimaryKeySelective(OBProject record);
 
     int updateByPrimaryKey(OBProject record);
+  
+    
 }

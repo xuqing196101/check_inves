@@ -574,10 +574,28 @@ public class SupplierController extends BaseSupplierController {
 				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
 					List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
 					if(tempList!=null&&tempList.size()>0){
-						 return "repeat";
+						for(Supplier supp: tempList) {
+							if(!supplier.getId().equals(supp.getId())) {
+								 return "repeat";
+							}
+						}
 					}
-					
 				}
+			
+				List<SupplierStockholder> stockholders = supplier.getListSupplierStockholders();
+				int count=0;
+				Set<String> set=new HashSet<String>();
+				if(stockholders!=null&&stockholders.size()>1){
+					for(SupplierStockholder s:stockholders){
+						set.add(s.getIdentity());
+						count++;
+					}
+					if(count!=set.size()){
+						return "errIdentity";
+					}
+				}
+				
+				
 				if(supplier.getCreditCode()==null){
 					supplier.setCreditCode("");
 				}
@@ -1391,15 +1409,14 @@ public class SupplierController extends BaseSupplierController {
   			count++;
   		}*/
 
-		if(supplier.getCreditCode()!=null){
 		List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
-//		if(supplier.getCreditCode() == null || supplier.getCreditCode().length() > 36) {
-//			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
-//			count++;
-//		}
-			if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
-				model.addAttribute("err_creditCide", "格式错误!");
-			}
+		if(supplier.getCreditCode() == null || supplier.getCreditCode().length() > 36) {
+			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
+			count++;
+		}
+//			if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
+//				model.addAttribute("err_creditCide", "格式错误!");
+//			}
 			if(tempList != null && tempList.size() > 0) {
 				for(Supplier supp: tempList) {
 					if(!supplier.getId().equals(supp.getId())) {
@@ -1409,7 +1426,6 @@ public class SupplierController extends BaseSupplierController {
 					}
 				}
 			}
-		}
 		if(supplier.getRegistAuthority() == null || supplier.getRegistAuthority().length() > 20) {
 			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;
@@ -2662,9 +2678,15 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping("/isPass")
-    public String isPass(String supplierId) {
+    public String isPass(String supplierId,String stype) {
         BigDecimal score = supplierService.getScoreBySupplierId(supplierId);
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
+        if(stype!=null&&stype.trim().length()!=0){
+			 if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
+                return "0";
+	            }	
+	   	}
+        
         for (SupplierTypeRelate type : relate) {
             if (type.getSupplierTypeId().equals("SALES")) {
                 if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
@@ -2769,27 +2791,6 @@ public class SupplierController extends BaseSupplierController {
     @ResponseBody
     public String delteBranch(String id){
     	supplierBranchService.delete(id);
-    	
-    	return "";
-    }
-    /**
-     * 
-    * @Title: delete
-    * @Description: 注销供应商账户
-    * author: Li Xiaoxiao 
-    * @param @param supplierId
-    * @param @return     
-    * @return String     
-    * @throws
-     */
-    @RequestMapping("")
-    public String delete(String supplierId){
-    	
-    	
-    	supplierService.deleteSupplier(supplierId);
-    	
-    	
-    	
     	
     	return "";
     }

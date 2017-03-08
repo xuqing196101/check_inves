@@ -485,7 +485,7 @@ public class AdIntelligentScoringController extends BaseController{
                 model.addAttribute("firstAuditTemplats", firstAuditTemplats);
                 AdvancedProject project = projectService.selectById(projectId);
                 model.addAttribute("flag", project.getConfirmFile());
-                return "bss/prms/advanced_project/advanced_bid_file/edit_package_check";
+                return "bss/ppms/advanced_project/advanced_bid_file/edit_package_check";
             }
             
             

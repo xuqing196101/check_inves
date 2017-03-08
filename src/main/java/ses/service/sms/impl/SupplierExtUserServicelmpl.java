@@ -26,6 +26,12 @@ import com.alibaba.fastjson.JSON;
 import freemarker.template.Configuration;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
+import bss.dao.ppms.AdvancedDetailMapper;
+import bss.dao.ppms.AdvancedPackageMapper;
+import bss.dao.ppms.AdvancedProjectMapper;
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedPackages;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
@@ -105,6 +111,15 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 
   @Autowired
   PurchaseDepMapper  purchaseDepMapper;
+  
+  @Autowired
+  private AdvancedProjectMapper advancedProjectMapper;
+  
+  @Autowired
+  private AdvancedDetailMapper advancedDetailMapper;
+  
+  @Autowired
+  private AdvancedPackageMapper advancedPackageMapper;
 
   /**
    * @Description:集合
@@ -457,5 +472,149 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     }
     return filePath;
   }
+
+    @Override
+    public String downLoadBiddingDocs(HttpServletRequest request, String projectId, int type, String suppliersID)
+        throws Exception {
+
+        Map<String, Object> datamap = new HashMap<>();
+        //经济评审
+        List<MarkTerm> listScoreEconomy = new ArrayList<MarkTerm>();
+
+        //技术技术评审
+        List<MarkTerm> listScoreTechnology = new ArrayList<MarkTerm>();
+        
+        //基准价法和最低价法
+        
+
+        //获取项目信息
+        AdvancedProject project = advancedProjectMapper.selectAdvancedProjectByPrimaryKey(projectId);
+        DictionaryData findById2 = DictionaryDataUtil.findById(project.getPurchaseType());
+
+        //获取项目下的明细
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        map.put("advancedProject", projectId);
+        List<AdvancedDetail> selectById = advancedDetailMapper.selectByAll(map);
+
+        //模型数据获取
+        //显示经济技术 和子节点  子节点的子节点就是模型
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        List<AdvancedPackages> find = null;
+        
+      //判断 是否有传入供应商的id 根据传参判断获取的参与包
+        if(suppliersID !=null && suppliersID!=""){
+            Supplier supplier=new Supplier();
+            supplier.setId(suppliersID);
+            SaleTender saleTender = new SaleTender();
+            saleTender.setSuppliers(supplier);
+            saleTender.setProjectId(project.getId());
+            //该供应商参与的包
+            List<SaleTender> ls = saleTenderService.finds(saleTender);
+            List<String> listPackagesID=new ArrayList<>();
+            for(SaleTender st:ls){
+                listPackagesID.add(st.getPackages());
+            }
+            Map<String, Object> params = new HashMap<String, Object>(2);
+            params.put("projectId", projectId);
+            params.put("listPackagesID", listPackagesID);
+            find = advancedPackageMapper.findByID(params);
+        }else{
+            AdvancedPackages packages = new AdvancedPackages();
+            packages.setProjectId(projectId);
+            find= advancedPackageMapper.find(packages);
+        }
+        //资格性和符合性审查表
+        for (AdvancedPackages pack : find) {
+          //资格符合性
+          FirstAudit audit = new FirstAudit();
+          audit.setPackageId(pack.getId());
+          audit.setIsConfirm((short)0);
+          List<FirstAudit> listByProjectId = firstAuditService.findBykind(audit);
+          pack.setListFirstAudit(listByProjectId);
+            
+          //基准最低
+          audit.setIsConfirm((short)1);
+          listByProjectId = firstAuditService.findBykind(audit);
+          if (listByProjectId != null && listByProjectId.size() != 0) {
+            for (FirstAudit firstAudit : listByProjectId) {
+              DictionaryData findById = DictionaryDataUtil.findById(firstAudit.getKind());
+              //循环出经济技术型
+              if ("ECONOMY".equals(findById.getCode())) {
+                pack.setListMinimumEconomy(listByProjectId);
+              } else if ("TECHNOLOGY".equals(findById.getCode())){
+                pack.setListMinimumTechnology(listByProjectId);
+              }
+            }
+            
+          }
+
+          //循环出评审类型
+          for (DictionaryData dictionaryData : ddList) {
+            List<MarkTerm> list = model(dictionaryData.getId(), projectId,pack.getId());
+            if(list != null){
+              if ("ECONOMY".equals(dictionaryData.getCode())) {
+                listScoreEconomy.addAll(list);
+              } else if ("TECHNOLOGY".equals(dictionaryData.getCode())) {
+                listScoreTechnology.addAll(list);
+              }  
+            }
+          }
+          //放入package中  
+          pack.setListScoreEconomy(listScoreEconomy);
+          pack.setListScoreTechnology(listScoreTechnology);
+          //清空集合
+          listScoreEconomy = new ArrayList<MarkTerm>();
+          listScoreTechnology = new ArrayList<MarkTerm>();
+          //查询出项目明细
+          HashMap<String, Object> strMap = new HashMap<String, Object>();
+          strMap.put("packageId", pack.getId());
+          List<AdvancedDetail> listProjectDetail = advancedDetailMapper.selectByAll(strMap);
+          pack.setAdvancedDetails(listProjectDetail);
+
+
+        }
+
+        //采购机构信息
+        PurchaseDep findByOrgId = purchaseDepMapper.findByOrgId(project.getPurchaseDepId());
+        datamap.put("org",findByOrgId);
+
+
+        //获取项目承办人id
+        User user = new User();
+        user.setId(project.getPrincipal());
+        List<User> find2 = userServiceI.find(user);
+        HashMap<String,Object> findMap = new HashMap<String, Object>();
+        findMap.put("userId", find2.get(0).getId());
+        List<PurchaseInfo> findPurchaseList = infoMapper.findPurchaseList(findMap);
+
+
+
+
+
+
+        datamap.put("project", project);
+        /*selectById.remove(0);
+        selectById.remove(0);
+        selectById.remove(0);*/
+        //明细
+        datamap.put("projectDetail", selectById);
+        //资格性符合性
+        datamap.put("packagesList",find);
+
+        //负责人
+        if (findPurchaseList != null && findPurchaseList.size() != 0) {
+          datamap.put("user",findPurchaseList.get(0));
+        }
+
+
+        // 图片前缀路径
+        String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
+          + "/" + request.getContextPath() + File.separator.replace("\\", "/");
+        datamap.put("host",host);
+
+
+        return productionDoc(request, datamap,ftlName(findById2.getCode(),type));
+      
+    }
 
 }

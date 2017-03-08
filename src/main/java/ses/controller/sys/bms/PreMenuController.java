@@ -2,6 +2,7 @@ package ses.controller.sys.bms;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -34,6 +35,8 @@ import ses.util.JsonDateValueProcessor;
 
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 
 /**
@@ -313,7 +316,6 @@ public class PreMenuController {
 	public void get(HttpServletResponse response, String id) throws IOException{
 		try {
 			PreMenu preMenu = preMenuService.get(id);
-			List<User> users = preMenuService.getUserByMid(id);
 			net.sf.json.JSONArray json = new net.sf.json.JSONArray();
 			JsonConfig jsonConfig = new JsonConfig();
 	        jsonConfig.registerJsonValueProcessor(Date.class,
@@ -327,6 +329,15 @@ public class PreMenuController {
 		} finally{
 			response.getWriter().close();
 		}
+	}
+	
+	@RequestMapping("getUserByMid")
+	public String getUserByMid(Model model, Integer page, String mid){
+	    List<User> users = preMenuService.getUserByMid(mid, page == null ? 1 : page);
+	    model.addAttribute("users", users);
+	    model.addAttribute("list", new PageInfo<User>(users));
+	    return "ses/bms/menu/user_list";
+	  
 	}
 	
 	/**

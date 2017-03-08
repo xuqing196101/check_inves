@@ -111,65 +111,6 @@
       }
 
       /** 受领任务 */
-      /*   function start() {
-          var ids = [];
-          $('input[name="chkItem"]:checked').each(function() {
-            ids.push($(this).val());
-          });
-          var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(5).text();
-          status = $.trim(status);
-          if (ids.length == 1) {
-           if (status == "未受领") {
-              layer.confirm('您确定要受领吗?',{
-              title : '提示',
-              offset: ['30%', '40%'],
-              shade : 0.01
-            },
-          function(index) {
-            layer.close(index);
-                $.ajax({
-            url : "${pageContext.request.contextPath}/task/startTask.do",
-            data : "ids=" + ids,
-            type : "post",
-            dateType : "json",
-            success : function() {
-              layer.msg("受领成功", {
-                offset: ['30%', '40%'],
-              });
-              window.setTimeout(function() {
-              location.reload();
-              }, 1000);
-            },
-            error : function() {
-              layer.msg("受领失败", {
-                offset: ['30%', '40%'],
-              });
-            }
-            });
-          });
-          } else if(status=="已受领"){
-            layer.alert("任务已经受领", {
-              offset: ['30%', '40%'],
-              shade : 0.01
-            });
-          }else if(status=="已取消"){
-            layer.alert("已取消的任务不能受领，请重新选择", {
-              offset: ['30%', '40%'],
-              shade : 0.01
-            });
-          }
-        }else if(ids.length>1){
-          layer.alert("只能选择一项任务", {
-            offset: ['30%', '40%'],
-            shade : 0.01
-          });
-        }else {
-          layer.alert("请选择要受领的任务", {
-            offset: ['30%', '40%'],
-            shade : 0.01
-          });
-        }
-        } */
 
       function start() {
         var id = [];

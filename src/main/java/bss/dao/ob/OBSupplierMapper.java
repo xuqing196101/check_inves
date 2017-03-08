@@ -17,7 +17,13 @@ public interface OBSupplierMapper {
     int insertSelective(OBSupplier record);
 
     List<OBSupplier> selectByExample(OBSupplierExample example);
-
+    /***
+     * 根据产品id 获取供应商信息
+     * @param id
+     * @return
+     */
+    List<OBSupplier> selectByProductID(String id);
+    
     OBSupplier selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") OBSupplier record, @Param("example") OBSupplierExample example);

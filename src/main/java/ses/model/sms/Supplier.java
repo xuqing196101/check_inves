@@ -734,7 +734,10 @@ public class Supplier implements Serializable {
     
     /**是否是除了工程之外的类**/
     private String isEngOther;
-
+    
+    //是否发布 0 未公开 1 已公开
+    private Integer isPublish = 0;
+    
     public List<ProjectDetail> getPdList() {
         return pdList;
     }
@@ -1824,6 +1827,14 @@ public class Supplier implements Serializable {
     public void setIsEngOther(String isEngOther) {
         this.isEngOther = isEngOther;
     }
+
+	public Integer getIsPublish() {
+		return isPublish;
+	}
+
+	public void setIsPublish(Integer isPublish) {
+		this.isPublish = isPublish;
+	}
 	
 	
 	

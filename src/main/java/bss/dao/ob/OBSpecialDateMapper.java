@@ -2,7 +2,10 @@ package bss.dao.ob;
 
 import bss.model.ob.OBSpecialDate;
 import bss.model.ob.OBSpecialDateExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBSpecialDateMapper {
@@ -27,4 +30,7 @@ public interface OBSpecialDateMapper {
     int updateByPrimaryKeySelective(OBSpecialDate record);
 
     int updateByPrimaryKey(OBSpecialDate record);
+    
+    List<OBSpecialDate> selectAllOBSpecialDate(Map<String, Object> map);
+    
 }

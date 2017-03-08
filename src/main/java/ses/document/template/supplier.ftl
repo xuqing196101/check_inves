@@ -863,11 +863,13 @@
 					</td>
 				</tr>
 			</table>
+			<#if (isEngOther?exists)>
 			<p class=MsoNormal style="margin-top:14.4500pt;margin-left:31.5000pt;mso-para-margin-top:0.5000gd;text-indent:-31.5000pt;mso-char-indent-count:-3.0000;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><font face="宋体" >说明：供应商应当上传最近三年财务审计报告的审计意见、资产负债表、利润表、现金流量表和所有者权益变动表。</font></span><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal style="margin-top:14.4500pt;margin-left:31.5000pt;mso-para-margin-top:0.5000gd;text-indent:-31.5000pt;mso-char-indent-count:-3.0000;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal style="margin-top:14.4500pt;mso-para-margin-top:0.5000gd;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-indent:32.0000pt;mso-char-indent-count:2.0000;text-align:right;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">3</span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">-1</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >物资类、服务类供应商资质证书登记表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:方正小标宋简体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
+			
 			<table class=MsoNormalTable align=center style="border-collapse:collapse;width:505.9500pt;mso-table-layout-alt:fixed;mso-padding-alt:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;">
 				<tr style="height:20.0000pt;">
 					<td width=43 valign=center style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:1.0000pt solid rgb(0,0,0);mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
@@ -892,9 +894,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:16.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;">证书状态</span><span style="font-family:宋体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				<#if (isEngOther?exists)>
 				<#list supplierMatPro.listSupplierCertPros! as pro>
-				<#if pro.id?exists>
 				<tr style="height:27.0000pt;">
 					<td width=43 valign=top style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${pro_index + 1!}</span><span style="font-family:宋体;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -918,10 +918,10 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${pro.mot!}</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				</#if>
 				</#list>
-				</#if>
 			</table>
+			</#if>
+			<#if (isEng?exists)>
 			<p class=MsoNormal align=right style="text-align:right;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-align:right;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">3</span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">-2</span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >工程类供应商资质</font></span><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >（认证）证书信息登记表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:方正小标宋简体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -954,7 +954,7 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">证书状态</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				<#if (isEng?exists)>
+				
 				<#list supplierMatEng.listSupplierCertEngs! as eng>
 				<#if eng.id?exists>
 				<tr style="height:24.4500pt;">
@@ -982,7 +982,7 @@
 				</tr>
 				</#if>
 				</#list>
-				</#if>
+			
 				<tr style="height:27.0000pt;">
 					<td width=668 valign=center colspan=12 style="width:501.5500pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid rgb(0,0,0);mso-border-right-alt:0.5000pt solid rgb(0,0,0);border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:12.0000pt;mso-line-height-rule:exactly;"><b><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:10.5000pt;mso-font-kerning:1.0000pt;" >资质</span></b><b><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:10.5000pt;mso-font-kerning:1.0000pt;" >证书详细信息</span></b><b><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-hansi-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-weight:bold;font-size:10.5000pt;mso-font-kerning:1.0000pt;" ><o:p></o:p></span></b></p>
@@ -1011,7 +1011,6 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">是否主项资质</span><span style="font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				<#if (isEng?exists)>
 				<#list supplierMatEng.listSupplierAptitutes! as aptitutes>
 				<#if aptitutes.id?exists>
 				<tr style="height:26.7500pt;">
@@ -1039,8 +1038,8 @@
 				</tr>
 				</#if>
 				</#list>
-				</#if>
 			</table>
+		  </#if>
 			<p class=MsoNormal style="margin-top:14.4500pt;mso-para-margin-top:0.5000gd;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;mso-ascii-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-indent:32.0000pt;mso-char-indent-count:2.0000;text-align:right;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">4</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >出资人（股东）信息登记表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:方正小标宋简体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1118,7 +1117,6 @@
 					</td>
 				</tr>
 				<#list allTreeList! as tree>
-				<#if tree.id?exists>
 				<tr style="height:23.1500pt;">
 					<td width=43 valign=top style="width:32.4000pt;padding:0.0000pt 5.4000pt 0.0000pt 5.4000pt ;border-left:1.0000pt solid rgb(0,0,0);mso-border-left-alt:0.5000pt solid rgb(0,0,0);border-right:1.0000pt solid windowtext;mso-border-right-alt:0.5000pt solid windowtext;border-top:none;;mso-border-top-alt:0.5000pt solid rgb(0,0,0);border-bottom:1.0000pt solid rgb(0,0,0);mso-border-bottom-alt:0.5000pt solid rgb(0,0,0);">
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${tree_index + 1}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1139,9 +1137,9 @@
 						<p class=MsoNormal align=center style="text-align:center;line-height:18.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:宋体;font-weight:normal;font-size:10.5000pt;mso-font-kerning:1.0000pt;">${tree.fourthNode!}</span><span style="font-family:Calibri;mso-fareast-font-family:宋体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 					</td>
 				</tr>
-				</#if>
 				</#list>
 			</table>
+			<#if supplierTypeIds?contains("PRODUCT")>
 			<p class=MsoNormal style="margin-top:14.4500pt;mso-para-margin-top:0.5000gd;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-indent:32.0000pt;mso-char-indent-count:2.0000;text-align:right;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">6</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >物资类生产型供应商产品研发能力登记表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:方正小标宋简体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1199,6 +1197,7 @@
 					</td>
 				</tr>
 			</table>
+			</#if>
 			<p class=MsoNormal align=justify style="margin-top:14.4500pt;margin-right:2.2500pt;mso-para-margin-top:0.5000gd;text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="margin-top:14.4500pt;margin-right:2.2500pt;mso-para-margin-top:0.5000gd;text-align:right;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">7</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >售后服务机构一览表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:方正小标宋简体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1248,6 +1247,8 @@
 				</#if>
 				</#list>
 			</table>
+		
+			<#if purchaseExperience??>
 			<p class=MsoNormal align=justify style="text-align:justify;text-justify:inter-ideograph;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-align:right;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">8</span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >参加政府或军队采购经历登记表</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
@@ -1258,6 +1259,7 @@
 					</td>
 				</tr>
 			</table>
+			</#if>
 			<p class=MsoNormal align=right style="text-align:right;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-align:right;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-align:right;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">9</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>

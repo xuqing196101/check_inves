@@ -423,7 +423,7 @@ function importAdd(){
       <div class="col-md-12 col-sm-12 col-xs-12 drop_hover">
 	   <div class="drop_main ">
 	    <div class="col-md-4 col-sm-6 col-xs-12 mt25" id="drop-1">
-		  <div class="ywbl_01">
+		  <div class="ywbl_01 col-sm-6 col-xs-6">
 		   <% if (environment != null && environment.equals("1")){ %>
              <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
                <a href="http://21.100.16.6" class="wssc">
@@ -438,17 +438,17 @@ function importAdd(){
             <span>网上商城</span> 
 		   </a>
 	      </div>
-		  <div class="ywbl_01">
+		  <div class="ywbl_01 col-sm-6 col-xs-6">
 	       <a href="#" class="dxcpjj">
             <span>定型产品竞价</span> 
 		   </a>
 	     </div>
-		 <div class="ywbl_01">
+		 <div class="ywbl_01 col-sm-6 col-xs-6">
 	      <a href="#" class="ypcg">
            <span>药品采购</span> 
 		  </a>
 	     </div>
-		 <div class="ywbl_01">
+		 <div class="ywbl_01 col-sm-6 col-xs-6">
 	      <a href="#" class="fwcg">
            <span>服务采购</span> 
 		  </a>
@@ -528,14 +528,14 @@ function importAdd(){
 	     <div class="row magazine-page clear">
 	     <div class="col-md-12 col-sm-12 col-xs-12 drop_hover" >
 	      <div class="drop_main">
-	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login">
+	       <div class="col-md-2 col-sm-2 col-xs-2 mt20 supp_login ">
 	          <%-- <a href="${pageContext.request.contextPath}/supplier/registration_page.html" > --%>
 	        
 	        <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
-	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" >
+	             <a href="${pageContext.request.contextPath}/supplier/registration_page.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0" >
 	        <% } %>
 	        <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	              <a onclick="supplierRegisterTip();" >
+	              <a onclick="supplierRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
 	        <% } %>
 		     	供应商注册
 		     <i></i>
@@ -617,10 +617,10 @@ function importAdd(){
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
 	     <% if (environment != null && environment.equals("0")){ %>
-	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html">
+	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
 	     <% } %>
 	     <% if (environment != null && environment.equals("1")){ %>
-	        <a onclick="expertRegisterTip();">
+	        <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
 	     <% } %>
 		   评审专家注册
 		 <i></i>

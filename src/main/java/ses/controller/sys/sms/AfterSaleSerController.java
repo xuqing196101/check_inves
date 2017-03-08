@@ -3,6 +3,8 @@ package ses.controller.sys.sms;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -10,6 +12,9 @@ import ses.dao.sms.AfterSaleSerMapper;
 import ses.model.sms.AfterSaleSer;
 import ses.service.sms.AfterSaleSerService;
 
+@Controller
+@Scope("prototype")
+@RequestMapping(value ="/after_sale_ser")
 public class AfterSaleSerController {
 	
 	@Autowired
@@ -20,7 +25,7 @@ public class AfterSaleSerController {
 	
 	@RequestMapping(value = "list")
 	public String list(Model model) {
-		List<AfterSaleSer> list = AfterSaleSerService.findAfterSaleSer();
+		/*List<AfterSaleSer> list = AfterSaleSerService.findAfterSaleSer();
 		String str = "";
 		for (int i = 0; i < list.size(); i++) {
 			if (i > 0) {
@@ -32,8 +37,9 @@ public class AfterSaleSerController {
 			model.addAttribute("status", "fail");
 		}
 		
-		model.addAttribute("list", list);
-		return "ses/sms/after_sales/list";
+		model.addAttribute("list", list);*/
+		return "ses/sms/after_sale_ser/list";
+		
 	}
 	
 	@RequestMapping(value = "add")
