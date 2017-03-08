@@ -21,6 +21,10 @@
     <result column="TURNOVER_RATION" property="turnoverRation" jdbcType="DECIMAL" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+    <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
+    <result column="ORG_CONTACT_NAME" property="orgContactName" jdbcType="VARCHAR" />
+    <result column="ORG_CONTACT_TEL" property="orgContactTel" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

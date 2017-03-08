@@ -3,6 +3,8 @@ package bss.model.ob;
 import java.util.Date;
 
 public class OBSupplier {
+	
+	
     private String id;
 
     private String supplierId;
