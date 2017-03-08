@@ -27,7 +27,7 @@ public interface PurchaseManagementService {
 	* @return List<PurchaseManagement>     
 	* @throws
 	 */
-	List<PurchaseManagement> queryByMid(String mid,Integer page);
+	List<PurchaseManagement> queryByMid(String mid,Integer page,Integer status);
 	
 	
 	/**
