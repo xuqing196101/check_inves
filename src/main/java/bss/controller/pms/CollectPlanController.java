@@ -125,7 +125,7 @@ public class CollectPlanController extends BaseController {
     }
 //    map.put("status", 1);
     map.put("isMaster", "1");
-	List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,1);
+	List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,2);
 
 //	List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 	List<String> listDep=new ArrayList<String>();

@@ -133,7 +133,7 @@ public class PurchaseAcceptController extends BaseController{
 //		purchaseRequired.setIsMaster(1);
 		//所有的需求部门
 		
-		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,2);
+		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,1);
 //		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
 		List<String> listDep=new ArrayList<String>();
 		if(list2!=null&&list2.size()>0){
