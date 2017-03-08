@@ -5,6 +5,7 @@
 <!--<![endif]-->
 <head>
 <%@ include file="/WEB-INF/view/common.jsp"%>
+<%@ include file="/WEB-INF/view/common/validate.jsp"%>
 <link href="${pageContext.request.contextPath}/public/ztree/css/ztree-extend.css" type="text/css" rel="stylesheet" >
 <script src="${pageContext.request.contextPath}/js/oms/purchase/jquery.metadata.js"></script>
 <script src="${pageContext.request.contextPath}/js/oms/purchase/layer-extend.js"></script>
@@ -127,6 +128,39 @@
             });  
         }   
 	}
+	
+	
+	var flag;
+  //验证重复
+  function verify(ele){
+    var name = $(ele).val();
+    var parentId = $("#treeId").val();
+    var id = $("input[name='id']").val();
+    $.ajax({
+          url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name + "&parentId=" + parentId + "&id=" + id,
+          type: "post",
+          dataType: "json",
+          success: function(data) {
+            var datas = eval("(" + data + ")");
+            if(datas == false) {
+              $("#sps").html("机构已存在").css('color', 'red');
+              flag = false;
+            } else {
+              $("#sps").html("");
+              flag = true;
+            }
+          },
+        });
+  }
+  
+  
+  function save(){
+     if(flag == true){
+       $("#formID").submit();
+     }else{
+       $("input[name='name']").focus();
+     }
+  }
 </script>
 </head>
 <body>
@@ -166,16 +200,16 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>名称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="name" type="text" value="${orgnization.name}"> 
+			  <input class="input_group" name="name" type="text" required  onblur="verify(this);" value="${orgnization.name}"> 
 			  <span class="add-on">i</span>
-			  <div class="cue"><sf:errors path="name"/></div>
+			  <div class="cue" id="sps"><sf:errors path="name"/></div>
 			</div>
 		  </li>
 		  
 		  <li class="col-md-3 col-sm-6 col-xs-12">
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>简称</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="shortName" type="text" value="${orgnization.shortName}"> 
+			  <input class="input_group" name="shortName" type="text" required  value="${orgnization.shortName}"> 
 			  <span class="add-on">i</span>
 			  <div class="cue"><sf:errors path="shortName"/></div>
 			</div>
@@ -310,7 +344,7 @@
       </div>
 	  <div class="col-md-12">
 		<div class="mt40 tc mb50">
-		  <button type="submit" class="btn btn-windows save">保存</button>
+		  <button type="button" class="btn btn-windows save" onclick="save()">保存</button>
 		  <input type="button" class="btn btn-windows back" onclick="history.go(-1)" value="返回"/>
 		</div>
 	  </div>

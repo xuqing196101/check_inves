@@ -302,7 +302,7 @@ public interface SupplierMapper {
      * @param modifyDate 修改日期
      * @return
      */
-    List<Supplier> getModifySupplierByDate(@Param("modifyDate")String modifyDate);
+    List<Supplier> getModifySupplierByDate(@Param("startTime")String startTime, @Param("endTime")String endTime);
     
     /**
      *〈简述〉社会统一信用代码唯一校验

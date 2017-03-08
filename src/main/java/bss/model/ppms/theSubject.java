@@ -10,6 +10,14 @@ public class theSubject {
      * </pre>
      */
     private String id;
+    
+    /**
+     * <pre>
+     * 供应商id
+     * 表字段 : T_BSS_PPMS_THE_SUBJECT.SUPPLIER_ID
+     * </pre>
+     */
+    private String supplierId;
 
     /**
      * <pre>
@@ -398,4 +406,13 @@ public class theSubject {
     public void setProjectId(String projectId) {
         this.projectId = projectId == null ? null : projectId.trim();
     }
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+    
 }

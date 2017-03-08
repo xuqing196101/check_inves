@@ -106,4 +106,15 @@ public interface FlowMangeService {
      * @param status 执行状态 1已执行完成  2执行中
      */
     void flowExe(HttpServletRequest request, String flowDefineId, String projectId, Integer status);
+    
+    /**
+     *〈简述〉预研添加一条流程执行记录
+     *〈详细描述〉
+     * @author FengTian
+     * @param request
+     * @param flowDefineId 流程环节定义
+     * @param projectId 项目id
+     * @param status 执行状态 1已执行完成  2执行中
+     */
+    void flowExes(HttpServletRequest request, String flowDefineId, String projectId, Integer status);
 }

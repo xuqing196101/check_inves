@@ -60,6 +60,15 @@ public class UserServiceImpl implements UserServiceI {
         String pwd = md5.encodePassword(user.getPassword(), randomCode);
 		user.setPassword(pwd);
 		user.setRandomCode(randomCode);
+		String ipAddressType = PropUtil.getProperty("ipAddressType"); 
+		if ("0".equals(ipAddressType)) {
+		    //内网用户
+        user.setNetType(0);
+    }
+    if ("1".equals(ipAddressType)) {
+        //外网用户
+        user.setNetType(1);
+    }
 		userMapper.insertSelective(user);
 	}
 	

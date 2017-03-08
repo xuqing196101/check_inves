@@ -47,17 +47,19 @@ public class PurchaseDep extends Orgnization{
 
     private Integer quaRange;//采购资质范围,1：综合2：物资3：工程 4：服务 
     
-    
+    @Length(min=0,max=100,message="长度不可超过100")
     private String supplierContact;//供应商注册联系人
     
     private String supplierPhone;//供应商注册联系人电话
     
+    @Length(min=0,max=300,message="长度不可超过300")
     private String supplierAddress;//供应商注册地址
     
     private String supplierPostcode;//邮编
 
     private String quaCert;
     
+    @Length(min=0,max=30,message="长度不可超过30")
     private String leaderTelephone;//单位主要领导姓名及电话
 
     private Integer officerCountnum;//军官编制人数

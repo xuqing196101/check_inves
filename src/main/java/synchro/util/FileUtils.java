@@ -265,7 +265,7 @@ public class FileUtils {
         LineIterator it  = null;
         final StringBuffer sb = new StringBuffer();
         try {
-            it = org.apache.commons.io.FileUtils.lineIterator(file,"UTF-8");
+            it = org.apache.commons.io.FileUtils.lineIterator(file,"GBK");
             while (it.hasNext()) {
                 sb.append(it.nextLine());
             }

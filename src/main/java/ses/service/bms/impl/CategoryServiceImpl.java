@@ -72,6 +72,8 @@ public class CategoryServiceImpl implements CategoryService {
     private static final String CATEGORY_EXIST = "品目编码已经存在";
     /** 序号不能为空 **/
     private static final String CATEGORY_CODE_ISNUOTNUll = "编码不能为空";
+    /** 编码已存在 **/
+    private static final String CATEGORY_CODE_CODE = "编码已存在";
     /** 最大输入值 **/
     private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
 
@@ -199,6 +201,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public ResBean saveCategory(HttpServletRequest request) {
         
+    	String parentName = request.getParameter("parentNameId");
         String name = request.getParameter("name");
         String level = request.getParameter("level");
         String engLevel = request.getParameter("engLevel");
@@ -217,6 +220,10 @@ public class CategoryServiceImpl implements CategoryService {
         Integer isPublished = null;
         Integer classified = null;
         Integer isProjected = null;
+        
+        Category categoryCode=new Category();
+        categoryCode.setCode(code);
+    	List<Category> readExcel = categoryMapper.readExcel(categoryCode);
         if (StringUtils.isNotBlank(isPublish)){
             isPublished = Integer.parseInt(isPublish);
         }
@@ -240,7 +247,7 @@ public class CategoryServiceImpl implements CategoryService {
            return  res;
         }
         
-        
+       
         if (!StringUtil.validateStrByLength(desc,400)) {
             res.setSuccess(false);
             res.setLenTxt(CATEGORY_MAX_VALUE);
@@ -251,7 +258,13 @@ public class CategoryServiceImpl implements CategoryService {
          * 新增
          */
         if (operaType.equals(OPERA_ADD)) {
+            	if(readExcel!=null&&readExcel.size()>0){
+            		res.setSuccess(false);
+                    res.setError(CATEGORY_CODE_CODE);
+                   return  res;
+            	}
             
+        	
             Integer count = findByCode(code);
             
             if (count != null && count > 0) {
@@ -289,8 +302,26 @@ public class CategoryServiceImpl implements CategoryService {
          * 编辑
          */
         if (operaType.equals(OPERA_EDIT)) {
-            Category category = selectByPrimaryKey(id);
+        	Category category = selectByPrimaryKey(id);
+        	
+        	//当前节点的父节点名称修改
+        	
+        	if(!category.getCode().equals(code)){
+        		Category categoryCodeUpdate=new Category();
+    			categoryCodeUpdate.setCode(code);
+    	    	List<Category> CodeUpdate = categoryMapper.readExcel(categoryCodeUpdate);
+    	    	if(CodeUpdate!=null&&CodeUpdate.size()>0){
+    		    	res.setSuccess(false);
+                    res.setError(CATEGORY_CODE_CODE);
+                   return  res;
+    		    }
+        	}
+        	
+        	
+            
             if (category != null) {
+            	Category ParentCategory = selectByPrimaryKey(category.getParentId());
+            	ParentCategory.setName(parentName);
                 category.setCode(code);
                 category.setDescription(desc);
                 category.setName(name);
@@ -303,6 +334,7 @@ public class CategoryServiceImpl implements CategoryService {
                 if (isPublished != null){
                     category.setIsPublish(isPublished);;
                 }
+                updateByPrimaryKeySelective(ParentCategory);
                 updateByPrimaryKeySelective(category);
                 delCategoryQua(id);
                 saveGeneral(id, generalIds);

@@ -1803,32 +1803,6 @@ public class AdvancedProjectController extends BaseController {
     }
     
     
-    @RequestMapping("/toAdd")
-    public String toAdd(String projectId, Model model, String flowDefineId, String msg){
-        try {
-          AdvancedProject project = advancedProjectService.selectById(projectId);
-          HashMap<String, Object> map = new HashMap<String, Object>();
-          map.put("projectId", projectId);
-          List<AdvancedPackages> packages = packageService.selectByAll(map);
-          //查询项目下所有的符合性审查项
-          List<FirstAudit> firstAudits = firstAuditService.getListByProjectId(projectId);
-          model.addAttribute("packages", packages);
-          List<DictionaryData> dds = DictionaryDataUtil.find(22);
-          //符合性资格性审查项类型
-          model.addAttribute("dds", dds);
-          List<DictionaryData> purchaseTypes = DictionaryDataUtil.find(5);
-          model.addAttribute("purchaseTypes", purchaseTypes);
-          model.addAttribute("firstAudits", firstAudits);
-          model.addAttribute("projectId", projectId);
-          model.addAttribute("project", project);
-          model.addAttribute("flowDefineId", flowDefineId);
-          model.addAttribute("msg", msg);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return "bss/ppms/advanced_project/advanced_bid_file/bid_file";
-    }
-    
     
     /**
      * 

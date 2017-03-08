@@ -633,6 +633,7 @@
                 cache: false,
                 async: false,
                 success: function (data) {
+                	alert(data);
                     if (data) {
                         layer.msg(data);
                         flag = false;
@@ -754,6 +755,7 @@
     <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
     <input type="hidden" name="id" id="id" value="${expert.id}"/>
     <input type="hidden" name="zancun" id="zancun" value=""/>
+    <input type="hidden" name="sysId" id="sysId" value="${sysId}"/>
     <input type="hidden" name="sysId" id="sysId" value="${sysId}"/>
     <input type="hidden" value="${errorMap.realName}" id="error1">
     <input type="hidden" value="${errorMap.nation}" id="error2">
@@ -883,10 +885,10 @@
                                   exts="${properties['file.picture.type']}" id="expert3"
                                   groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8"
                                   multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1"
-                                  typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }" auto="true"/>
+                                  typeId="3" auto="true"/>
                         <u:show showId="show3" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8"
                                 businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }"/>
+                                typeId="3"/><!--typeId="${typeMap.EXPERT_IDNUMBER_TYPEID }" -->
                     </div>
                 </li>
                 <%--如果是民--%>
@@ -968,12 +970,12 @@
                                       id="expert12"
                                       businessId="${sysId}"
                                       sysKey="${expertKey}"
-                                      typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID }"
+                                      typeId="1"
                                       maxcount="1"
                                       auto="true"/>
                             <u:show showId="show12"
                                     businessId="${sysId}" sysKey="${expertKey}"
-                                    typeId="${typeMap.EXPERT_IDCARDNUMBER_TYPEID }"/>
+                                    typeId="1"/>
                         </div>
 
 

@@ -13,9 +13,11 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -568,7 +570,48 @@ public class SupplierController extends BaseSupplierController {
 				if(before.getStatus().equals(2)) {
 					record("", before, supplier, supplier.getId()); //记录供应商退回修改的内容
 				}
+				
+				if(supplier.getCreditCode()!=null&&supplier.getCreditCode().trim().length()!=0){
+					List < Supplier > tempList = supplierService.validateCreditCode(supplier.getCreditCode());
+					if(tempList!=null&&tempList.size()>0){
+						for(Supplier supp: tempList) {
+							if(!supplier.getId().equals(supp.getId())) {
+								 return "repeat";
+							}
+						}
+					}
+				}
+			
+				List<SupplierStockholder> stockholders = supplier.getListSupplierStockholders();
+				int count=0;
+				Set<String> set=new HashSet<String>();
+				if(stockholders!=null&&stockholders.size()>1){
+					for(SupplierStockholder s:stockholders){
+						set.add(s.getIdentity());
+						count++;
+					}
+					if(count!=set.size()){
+						return "errIdentity";
+					}
+				}
+				
+				
+				if(supplier.getCreditCode()==null){
+					supplier.setCreditCode("");
+				}
 				supplierService.perfectBasic(supplier);
+				
+				List<SupplierFinance> finances = supplier.getListSupplierFinances();
+				if(finances.get(0).getTotalNetAssets()!=null&&finances.get(1).getTotalNetAssets()!=null&&finances.get(2).getTotalNetAssets()!=null){
+
+				//判断注册资金是否足够
+			    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
+				if (score.compareTo(BigDecimal.valueOf(100)) ==-1) {
+					res="notPass";
+				//	return "notPass";	            
+				 } 
+				}
+			
 			} catch(Exception e) {
 				res = StaticVariables.FAILED;
 				e.printStackTrace();
@@ -634,7 +677,7 @@ public class SupplierController extends BaseSupplierController {
 		    Supplier before = supplierService.get(supplier.getId());
 		    // 判断是否满足条件
 		    BigDecimal score = supplierService.getScoreBySupplierId(supplier.getId());
-		    if (score.compareTo(BigDecimal.valueOf(100)) != 1) {
+		    if (score.compareTo(BigDecimal.valueOf(100)) ==-1) {
 	            initCompanyType(model, before);
 	            request.setAttribute("notPass", "notPass");
 	            return "ses/sms/supplier_register/basic_info";
@@ -1371,19 +1414,18 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("err_creditCide", "不能为空或是字符过长!");
 			count++;
 		}
-		if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
-			model.addAttribute("err_creditCide", "格式错误!");
-		}
-		if(tempList != null && tempList.size() > 0) {
-			for(Supplier supp: tempList) {
-				if(!supplier.getId().equals(supp.getId())) {
-					model.addAttribute("err_creditCide", "社会统一信用代码已被占用!");
-					count++;
-					break;
+//			if(supplier.getCreditCode() != null && supplier.getCreditCode().length() != 18) {
+//				model.addAttribute("err_creditCide", "格式错误!");
+//			}
+			if(tempList != null && tempList.size() > 0) {
+				for(Supplier supp: tempList) {
+					if(!supplier.getId().equals(supp.getId())) {
+						model.addAttribute("err_creditCide", "社会统一信用代码已被占用!");
+						count++;
+						break;
+					}
 				}
 			}
-		}
-
 		if(supplier.getRegistAuthority() == null || supplier.getRegistAuthority().length() > 20) {
 			model.addAttribute("err_reAuthoy", "不能为空 或是编码过长!");
 			count++;
@@ -1501,9 +1543,13 @@ public class SupplierController extends BaseSupplierController {
 			count++;
 			model.addAttribute("stock", "请添加股东信息!");
 		}
+		int cardId=0;
+		Set<String> set=new HashSet<String>();
 		if(supplier.getListSupplierStockholders() != null && supplier.getListSupplierStockholders().size() > 0) {
 			List < SupplierStockholder > stockList = supplier.getListSupplierStockholders();
 			for(SupplierStockholder stocksHolder: stockList) {
+				set.add(stocksHolder.getIdentity());
+				cardId++;
 				if(stocksHolder.getName() == null || stocksHolder.getName() == "") {
 					count++;
 					model.addAttribute("stock", "出资人名称或姓名不能为空！");
@@ -1511,6 +1557,7 @@ public class SupplierController extends BaseSupplierController {
 				if(stocksHolder.getIdentity() == null || stocksHolder.getIdentity() == "" || stocksHolder.getIdentity().length() != 18) {
 					count++;
 					model.addAttribute("stock", "统一社会信用代码或身份证号码为空或者格式不正确!");
+					
 				}
 				if(stocksHolder.getShares() == null || stocksHolder.getShares() == "") {
 					count++;
@@ -1521,6 +1568,10 @@ public class SupplierController extends BaseSupplierController {
 					model.addAttribute("stock", "比例不能为空！");
 				}
 			}
+		}
+		if(set.size()!=cardId){
+			count++;
+			model.addAttribute("error_card", "身份证号码重复！");
 		}
 		// 售后服务机构
         if(supplier.getListSupplierAfterSaleDep() == null || supplier.getListSupplierAfterSaleDep().size() < 1) {
@@ -2632,7 +2683,7 @@ public class SupplierController extends BaseSupplierController {
         List <SupplierTypeRelate> relate = supplierTypeRelateService.queryBySupplier(supplierId);
         for (SupplierTypeRelate type : relate) {
             if (type.getSupplierTypeId().equals("SALES")) {
-                if (score.compareTo(BigDecimal.valueOf(3000)) != 1) {
+                if (score.compareTo(BigDecimal.valueOf(3000))==-1) {
                     return "0";
                 }
             }
@@ -2758,4 +2809,22 @@ public class SupplierController extends BaseSupplierController {
     	
     	return "";
     }
+    
+    /**
+     * 
+    * @Title: getRandomId
+    * @Description:获取随机生成的ID
+    * author: Li Xiaoxiao 
+    * @param @return     
+    * @return String     
+    * @throws
+     */
+    @RequestMapping("/getId")
+    @ResponseBody
+    public String getRandomId(){
+    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+    	return id;
+    }
+    
+    
 }

@@ -853,10 +853,13 @@
             --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
-				<div class="col-md-12 col-xs-12 col-sm-12 p0">
+              <c:if test="${purCon.manualType==1}">
+              <div class="col-md-12 col-xs-12 col-sm-12 p0">
 					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 				</div>
+              </c:if>
+				
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			    	<table id="detailtable" name="proList" class="table table_input table-bordered table-condensed left_table mb0 mt10">
 					 <thead>

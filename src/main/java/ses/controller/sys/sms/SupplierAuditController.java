@@ -414,15 +414,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		SupplierAudit supplierAudit = new SupplierAudit();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("basic_page");
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedField = new StringBuffer();
-		for(SupplierAudit a : reasonsList){
-			passedField.append(a.getAuditField() + ",");
+		if(supplier.getStatus() == 0 || supplier.getStatus() == 4 || supplier.getStatus() == 7){
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("basic_page");
+			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for(SupplierAudit a : reasonsList){
+					passedField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedField", passedField);
 		}
-		request.setAttribute("passedField", passedField);
 		return "ses/sms/supplier_audit/essential";
 	}
 
@@ -467,16 +471,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		SupplierAudit supplierAudit = new SupplierAudit();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("basic_page");
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedField = new StringBuffer();
-		for(SupplierAudit a : reasonsList){
-			passedField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("basic_page");
+			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for(SupplierAudit a : reasonsList){
+					passedField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedField", passedField);
 		}
-		request.setAttribute("passedField", passedField);
-		
 		return "ses/sms/supplier_audit/financial";
 	}
 
@@ -501,7 +508,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("shareholder", list);
 		
 		//查出财务修改前的信息
-		if(supplierStatus != null && supplierStatus == 0) {
+		if(supplierStatus != null || supplierStatus == 0) {
 			SupplierModify supplierModify = new SupplierModify();
 			supplierModify.setSupplierId(supplierId);
 			supplierModify.setmodifyType("shareholder_page");
@@ -530,16 +537,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("url", url);
 		
 		//回显未通过字段
-		SupplierAudit supplierAudit = new SupplierAudit();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("basic_page");
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedField = new StringBuffer();
-		for(SupplierAudit a : reasonsList){
-			passedField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("basic_page");
+			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for(SupplierAudit a : reasonsList){
+					passedField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedField", passedField);
 		}
-		request.setAttribute("passedField", passedField);
-				
 		return "ses/sms/supplier_audit/shareholder";
 	}
 
@@ -872,14 +882,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//回显未通过字段
 		SupplierAudit supplierAudit = new SupplierAudit();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("mat_pro_page");
-		List < SupplierAudit > reasonsProList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedProField = new StringBuffer();
-		for(SupplierAudit a : reasonsProList){
-			passedProField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("mat_pro_page");
+			List < SupplierAudit > reasonsProList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedProField = new StringBuffer();
+			if(!reasonsProList.isEmpty()){
+				for(SupplierAudit a : reasonsProList){
+					passedProField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedProField", passedProField);
 		}
-		request.setAttribute("passedProField", passedProField);
+		
 
 		/**
 		 * 销售
@@ -916,14 +931,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		supplierAudit.setAuditType("mat_sell_page");
-		List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedSellField = new StringBuffer();
-		for(SupplierAudit a : reasonsSellList){
-			passedSellField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			supplierAudit.setAuditType("mat_sell_page");
+			List < SupplierAudit > reasonsSellList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedSellField = new StringBuffer();
+			if(!reasonsSellList.isEmpty()){
+				for(SupplierAudit a : reasonsSellList){
+					passedSellField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedSellField", passedSellField);
 		}
-		request.setAttribute("passedSellField", passedSellField);
-		
 		/**
 		 * 工程
 		 */
@@ -1032,14 +1050,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		supplierAudit.setAuditType("mat_eng_page");
-		List < SupplierAudit > reasonsEngList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedEngField = new StringBuffer();
-		for(SupplierAudit a : reasonsEngList){
-			passedEngField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			supplierAudit.setAuditType("mat_eng_page");
+			List < SupplierAudit > reasonsEngList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedEngField = new StringBuffer();
+			if(!reasonsEngList.isEmpty()){
+				for(SupplierAudit a : reasonsEngList){
+					passedEngField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedEngField", passedEngField);
 		}
-		request.setAttribute("passedEngField", passedEngField);
-		
 		
 		/**
 		 * 服务
@@ -1074,14 +1095,17 @@ public class SupplierAuditController extends BaseSupplierController {
 		}
 		
 		//回显未通过字段
-		supplierAudit.setAuditType("mat_serve_page");
-		List < SupplierAudit > reasonsServeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedServeField = new StringBuffer();
-		for(SupplierAudit a : reasonsServeList){
-			passedServeField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			supplierAudit.setAuditType("mat_serve_page");
+			List < SupplierAudit > reasonsServeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedServeField = new StringBuffer();
+			if(!reasonsServeList.isEmpty()){
+				for(SupplierAudit a : reasonsServeList){
+					passedServeField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedServeField", passedServeField);
 		}
-		request.setAttribute("passedServeField", passedServeField);
-		
 		supplierAudit.setAuditType("supplierType_page");
 		List < SupplierAudit > reasonstTypeList = supplierAuditService.selectByPrimaryKey(supplierAudit);
 		StringBuffer passedTypeField = new StringBuffer();
@@ -1502,14 +1526,18 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("supplierStatus", supplierStatus);
 		
 		//回显未通过字段
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("download_page");
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedField = new StringBuffer();
-		for(SupplierAudit a : reasonsList){
-			passedField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("download_page");
+			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for(SupplierAudit a : reasonsList){
+					passedField.append(a.getAuditField() + ",");
+				}
+			}
+			request.setAttribute("passedField", passedField);
 		}
-		request.setAttribute("passedField", passedField);
 		return "ses/sms/supplier_audit/application_form";
 	}
 
@@ -2186,16 +2214,19 @@ public class SupplierAuditController extends BaseSupplierController {
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		
 		//回显未通过字段
-		SupplierAudit supplierAudit = new SupplierAudit();
-		supplierAudit.setSupplierId(supplierId);
-		supplierAudit.setAuditType("aptitude_page");
-		List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
-		StringBuffer passedField = new StringBuffer();
-		for(SupplierAudit a : reasonsList){
-			passedField.append(a.getAuditField() + ",");
+		if(supplierStatus == 0 || supplierStatus == 4 || supplierStatus == 7){
+			SupplierAudit supplierAudit = new SupplierAudit();
+			supplierAudit.setSupplierId(supplierId);
+			supplierAudit.setAuditType("aptitude_page");
+			List < SupplierAudit > reasonsList = supplierAuditService.selectByPrimaryKey(supplierAudit);
+			StringBuffer passedField = new StringBuffer();
+			if(!reasonsList.isEmpty()){
+				for(SupplierAudit a : reasonsList){
+					passedField.append(a.getAuditField() + ",");
+				}
+			}
+			model.addAttribute("passedField", passedField);
 		}
-		model.addAttribute("passedField", passedField);
-		
 		return "ses/sms/supplier_audit/aptitude";
 	}
 

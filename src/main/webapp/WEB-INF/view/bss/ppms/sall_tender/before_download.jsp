@@ -44,10 +44,10 @@
 </script>
 <!-- 打开文档后调用  -->
 <script type="text/javascript"  for="TANGER_OCX" event="OnDocumentOpened(a,b)">
-        //声明控件
-		var obj = document.getElementById("TANGER_OCX");
-// 转换日期格式  如果是CST 日期  转换 GMT 日期
-function getTaskTime(strDate) { 
+    //声明控件
+    var obj = document.getElementById("TANGER_OCX");
+   // 转换日期格式  如果是CST 日期  转换 GMT 日期
+   function getTaskTime(strDate) { 
     if(null==strDate || ""==strDate){  
         return "";  
     }
@@ -68,7 +68,7 @@ function getTaskTime(strDate) {
     var second = date.getSeconds();  
     second = second < 10 ? ('0' + second) : second;  
     return y+"年"+m+"月"+d+"日"+h+"时"+minute+"分";  
-};  
+    };  
        //通用方法 判断是否存在 存在则行
 	function replaceContent(begin,end,date) {
 	   if(obj.ActiveDocument.Bookmarks.Exists(begin) && obj.ActiveDocument.Bookmarks.Exists(end)){

@@ -29,7 +29,7 @@
 			if(st == 'view'){
 				obj.SetReadOnly(true);
 		 }
-			
+		/* 	
           $.fn.zTree.init($("#treeDemo"),setting,datas);
 	      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
@@ -38,7 +38,7 @@
 				 check==true;
 		      }
 	       }
-	      
+	       */
 	      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	          // 获取已激活的标签页的名称
 	          var activeTab = $(e.target).text(); 
@@ -116,7 +116,7 @@
 	          }
 	    });*/
 	 }); 
-	 var setting={
+	/*  var setting={
 		   async:{
 					autoParam:["id"],
 					enable:true,
@@ -148,16 +148,16 @@
 			        selectedMulti: false,
 			        showTitle: false,
 			   },
-         };
+         }; */
 	
 	 
-	 function filter(treeId,parentNode,childNode){
+	/*  function filter(treeId,parentNode,childNode){
 		 if (!childNodes) return null;
 			for(var i = 0; i<childNodes.length;i++){
 				childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
 			}
 		return childNodes;
-	 }
+	 } */
 	 
 	 function OpenFile(filePath) {
 			var obj = document.getElementById("TANGER_OCX");
@@ -274,15 +274,15 @@
 	 }
 	 
 	 /** 判断是否为根节点 */
-	    function isRoot(node){
+	    /* function isRoot(node){
 	    	if (node.pId == 0){
 	    		return true;
 	    	} 
 	    	return false;
-	    }
+	    } */
 	 
 	 /*点击事件*/
-	    function zTreeOnClick(event,treeId,treeNode){
+	    /* function zTreeOnClick(event,treeId,treeNode){
 	  	  if (isRoot(treeNode)){
 	  		  layer.msg("不可选择根节点");
 	  		  return;
@@ -293,7 +293,7 @@
             hideMenu();
     	  }
 	    }
-   	 
+   	  */
    	function next(){
    		var ids = "${ids}";
    		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?ids="+ids;
@@ -444,9 +444,9 @@
 	    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
 	    shade:0.01, //遮罩透明度
 		type : 1,
-		area : [ '50%', '400px' ], //宽高
+		area : [ '55%', '400px' ], //宽高
 		content : $('#openDiv'),
-		offset: ['10%', '10%']
+		offset: ['5%', '20%']
 	  });
     }
 	
@@ -609,6 +609,7 @@
 	   		<input type="hidden" name="projectId" value="${project.id}"/>
 	   		<input type="hidden" name="isImport" value="${project.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
+	   		<input type="hidden" name="manualType" value="1"/>
 	   		<input type="hidden" name="manual" value="manual"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
@@ -964,9 +965,9 @@
 				</table>
 				</form>
 				<div id="openDiv" class="dnone layui-layer-wrap">
-		 		<div id="menuContent" class="menuContent dw188 tree_drop">
+		 		<!-- <div id="menuContent" class="menuContent dw188 tree_drop">
 					<ul id="treeDemo" class="ztree slect_option"></ul>
-				</div>
+				</div> -->
 				<div class="drop_window">
 				<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 				  <ul class="list-unstyled">
@@ -975,7 +976,8 @@
 		    	      <span class="col-md-12">
 		    	      <div class="input-long">
 	                   <input type="hidden" id="categorieId4" name="categoryId" value="">
-					   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
+	                   <!-- onclick=" showMenu(); return false;" -->
+					   <input id="citySel4" type="text"  name="goodsName"  value=""  class="title col-md-12" />
 					   <div class="cue" id="wzmc"></div>
 					   </div>
 					  </span>

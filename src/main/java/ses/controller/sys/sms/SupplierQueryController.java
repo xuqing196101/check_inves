@@ -35,7 +35,6 @@ import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
-import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
 import ses.model.sms.SupplierHistory;
@@ -47,7 +46,6 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
-import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -68,7 +66,6 @@ import bss.formbean.Maps;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
-import common.model.UploadFile;
 /**
  * 版权：(C) 版权所有 
  * <简述>
@@ -86,15 +83,15 @@ public class SupplierQueryController extends BaseSupplierController {
     /**
      * 定义常量2
      */
-    private static final int NUMBER_TWO = 2;
+    private static final Integer NUMBER_TWO = 2;
     /**
      * 定义常量3
      */
-    private static final int NUMBER_THREE = 3;
+    private static final Integer NUMBER_THREE = 3;
     /**
      * 定义常量5
      */
-    private static final int NUMBER_FIVE = 5;
+    private static final Integer NUMBER_FIVE = 5;
     /**
      * 供应商审核服务层
      */
@@ -363,13 +360,16 @@ public class SupplierQueryController extends BaseSupplierController {
         //在数据字典里查询企业性质
         List < DictionaryData > list = DictionaryDataUtil.find(17);
 		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
-		for(int i = 0; i < businessList.size(); i++) {
-			if(supplier.getBusinessNature().equals(businessList.get(i).getId())) {
-				String businessNature = list.get(i).getName();
-				supplier.setBusinessNature(businessNature);
+		String businessNature = supplier.getBusinessNature();
+		if(businessNature !=null){
+			for(int i = 0; i < businessList.size(); i++) {
+				if(businessNature.equals(businessList.get(i).getId())) {
+					businessNature = list.get(i).getName();
+					supplier.setBusinessNature(businessNature);
+				}
 			}
 		}
-
+		
         model.addAttribute("suppliers", supplier);
         
         //境外分支

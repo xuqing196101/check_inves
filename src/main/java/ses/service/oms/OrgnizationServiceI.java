@@ -26,6 +26,14 @@ public interface OrgnizationServiceI {
     public List<Ztree> findOrgByPidAndType(String pid, String type);
 	
     /**
+     * 〈简述〉 获取全部可用的采购机构信息  服务接口
+     *〈详细描述〉
+     * @author YangHongLiang
+     * @return JSON
+     */
+    public String getMechanism();
+    
+    /**
      * 
      *〈简述〉保存
      *〈详细描述〉
@@ -156,5 +164,7 @@ public interface OrgnizationServiceI {
     public void orderPosition(String id, Integer position,String targetId,Integer position2);
     
     public void sameDep(String id, Integer position,String targetId,Integer position2,String type);
+    
+    Boolean verify(Orgnization orgnization);
 
 }

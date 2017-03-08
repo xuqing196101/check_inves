@@ -10,6 +10,7 @@ import java.util.Map;
 import net.sf.json.JSONObject;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.zookeeper.server.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -104,9 +105,33 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public boolean SameNameCheck(Project project) {
         boolean flag= true;
-        List<Project> list = projectMapper.verifyByProject(project);
-        if(list != null && list.size()>0){
-            flag = false;
+        if(StringUtils.isNotBlank(project.getId())){
+            Project project2 = projectMapper.selectProjectByPrimaryKey(project.getId());
+            if(project2 != null){
+                if(project2.getProjectNumber().equals(project.getProjectNumber())){
+                    flag= true;
+                }else{
+                    List<Project> list = projectMapper.verifyByProject(project);
+                    for (int i = 0; i < list.size(); i++ ) {
+                        if(list.get(i).getId().equals(project.getId())){
+                            list.remove(i);
+                        }
+                    }
+                    if(list != null && list.size()>0){
+                        flag = false;
+                    }
+                }
+            }else{
+                List<Project> list = projectMapper.verifyByProject(project);
+                if(list != null && list.size()>0){
+                    flag = false;
+                }
+            }
+        }else{
+            List<Project> list = projectMapper.verifyByProject(project);
+            if(list != null && list.size()>0){
+                flag = false;
+            }
         }
         return flag;
     }

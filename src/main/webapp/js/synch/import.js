@@ -87,10 +87,25 @@ function loadData(data,index,pageNum,pageSize){
  * 同步
  * @returns
  */
-function synchImport(){
+/*function synchImport(){
+	alert("cs");
+	var startTime = $("#startTime").val();
+	var endTime = $("#endTime").val();
+	var dataType = [];
+	$("input[name='dataType']:checked").each(function(){
+		dataType.push($(this).val());
+	});
+	alert(dataType);
+	if (dataType.length == 0){
+		layer.msg("请选择同步类型");
+		return ;
+	}
+	
+	
 	$.ajax({
 		url: globalPath + "/synchImport/dataImport.do",
 		type:"post",
+		data:{'startTime' : startTime,'endTime': endTime,'synchType': dataType.toString()},
 		dataType:"json",
 		success:function(res){
 			if (res.success){
@@ -99,7 +114,7 @@ function synchImport(){
 			}
 		}
 	});
-}
+}*/
 
 /**
  * 查询

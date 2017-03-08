@@ -585,10 +585,11 @@ public class PurchaseContractController extends BaseSupplierController{
 		for(int i=0;i<ids.length;i++){
 			HashMap<String, Object> requMap = new HashMap<String, Object>();
 			requMap.put("packageId",ids[i]);
-			List<ProjectDetail> requList = projectDetailService.selectById(requMap);
+			//List<ProjectDetail> requList = projectDetailService.selectById(requMap);
+			List<ProjectDetail> requList = projectDetailService.selectTheSubjectBySupplierId(requMap,supids[0]);
 			allList.addAll(requList);
 		}
-		model.addAttribute("requList", allList);
+		model.addAttribute("requList", allList); 
 		Supplier supplier = supplierService.selectById(supids[0]);
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("id", ids[0]);

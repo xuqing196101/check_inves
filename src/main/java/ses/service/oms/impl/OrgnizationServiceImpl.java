@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
+import com.google.gson.Gson;
 
 import common.annotation.SystemServiceLog;
 import common.constant.StaticVariables;
@@ -780,5 +781,57 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		
 		
 	}
-    
+
+    @Override
+    public Boolean verify(Orgnization orgnization) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("name", orgnization.getName());
+        map.put("parentId", orgnization.getParentId());
+        boolean flag= true;
+        if(StringUtils.isNotBlank(orgnization.getId())){
+            Orgnization org = orgniztionMapper.findOrgByPrimaryKey(orgnization.getId());
+            if(org != null){
+                if(org.getName().equals(orgnization.getName())){
+                    flag= true;
+                }else{
+                    List<Orgnization> list = orgniztionMapper.verify(map);
+                    for (int i = 0; i < list.size(); i++ ) {
+                        if(list.get(i).getId().equals(orgnization.getId())){
+                            list.remove(i);
+                        }
+                    }
+                    if(list != null && list.size() > 0){
+                        flag = false;
+                    }
+                }
+            }else{
+                List<Orgnization> list = orgniztionMapper.verify(map);
+                if(list != null && list.size() > 0){
+                    flag = false;
+                }
+            }
+        }else{
+            List<Orgnization> list = orgniztionMapper.verify(map);
+            if(list != null && list.size() > 0){
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    /**
+     *  获取全部可用的采购机构信息 实现服务接口
+     *  @author YangHongLiang
+     *  @return JSON
+     */
+	@Override
+	public String getMechanism() {
+		// TODO Auto-generated method stub
+		List<Orgnization> list=orgniztionMapper.getAllList();
+		  Gson gson=new Gson();
+		  String getJson="";
+		  if(list!=null){
+			  getJson=  gson.toJson(list);
+		  }
+		return getJson;
+	}
 }

@@ -81,12 +81,12 @@
 
       var flag = true;
 
-      function verify() {
-        var projectNumber = $("input[name='projectNumber']").val();
+      function verify(ele) {
+        var projectNumber = $(ele).val();
+        var id = $("#id").val();
         $.ajax({
-          url: "${pageContext.request.contextPath}/project/verify.html",
+          url: "${pageContext.request.contextPath}/project/verify.html?id=" + id + "&projectNumber=" + projectNumber,
           type: "post",
-          data: "projectNumber=" + projectNumber,
           dataType: "json",
           success: function(data) {
             var datas = eval("(" + data + ")");
@@ -106,7 +106,9 @@
       function edit() {
         var name = $("input[name='name']").val();
         var projectNumber = $("input[name='projectNumber']").val();
-        if(name == "") {
+        if(flag == false){
+          $("#projectNumber").focus();
+        }else if(name == "") {
           layer.tips("项目名称不能为空", "#jname");
         } else if(projectNumber == "") {
           layer.tips("项目编号不能为空", "#projectNumber");
@@ -117,9 +119,7 @@
               btn: ['是', '否'],
             },
             function() {
-              if(flag == true) {
-                $("#form1").submit();
-              }
+              $("#form1").submit();
             },
             function() {
               parent.layer.close();
@@ -190,7 +190,7 @@
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">项目编号</span>
               <div class="input-append input_group col-sm-12 col-xs-12 p0">
-                <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify();" class="input_group" value="${project.projectNumber}" />
+                <input type="text" id="projectNumber" maxlength="20" name="projectNumber" onblur="verify(this);" class="input_group" value="${project.projectNumber}" />
                 <span class="add-on">i</span>
                 <div class="cue" id="sps">${ERR_projectNumber}</div>
               </div>

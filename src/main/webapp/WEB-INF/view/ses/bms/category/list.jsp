@@ -168,7 +168,7 @@
 					}
 				});
 				$("#pid").val(node.id);
-				$("#parentNameId").text(node.name);
+				$("#parentNameId").val(node.name);
 				$("#uploadBtnId").removeClass("dis_none");
 				$("#btnIds").show();
 				$("#operaId").val('add');
@@ -205,7 +205,7 @@
 					$("#uploadId_businessId").val(cate.id);
 					$("#fileId_downBsId").val(cate.id);
 					$("#pid").val(cate.parentId);
-					$("#parentNameId").text(nodeName);
+					$("#parentNameId").val(nodeName);
 					$("#cateId").val(cate.name);
 					/* $("#levelId").val(cate.level); */
 					/* if (cate.getEngLevel != null && cate.getEngLevel != "undefined") {
@@ -294,7 +294,7 @@
     	/* $("#levelTipsId").text(""); */
     	/* $("#engLevelTipsId").text(""); */
     }
-    
+   
     /** 保存后的提示 */
     function result(msg,operaValue){
     	resetTips();
@@ -307,6 +307,7 @@
 				refreshParentNode();
 			}
 			layer.msg('保存成功');
+			
     	} else {
     		if (msg.msg != null && msg.msg != ""){
     			$("#cateTipsId").text(msg.msg);
@@ -333,15 +334,18 @@
    }
     
     /** 刷新父级节点 */
-   function refreshParentNode() {  
+   function refreshParentNode() {
 	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
 	   type = "refresh", 
 	   silent = false,  
 	   nodes = zTree.getSelectedNodes();  
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
-	   zTree.reAsyncChildNodes(parentNode, type, silent); 
-	   zTree.selectNode(nodes[0],true);
-	   zTree.expandNode(parentNode, true, false);
+	   zTree.reAsyncChildNodes(zTree.getNodeByTId(parentNode.parentTId), type, silent); 
+	   /* zTree.selectNode(nodes[0],true);
+	   zTree.expandNode(parentNode, true, false); */
+		  
+	   
+	   
    }
     
     /** 刷新根节点 */
@@ -675,7 +679,13 @@
            	  <tbody>
            	 	<tr>
        			  <td class='info'>上级目录</td>
-       			  <td id="parentNameId"></td>
+       			  <td id="parentNId">
+       			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
+       		    	  <input  id="parentNameId" type="text" name="parentNameId"/>
+       		    	  <span class="add-on">i</span>
+       		    	</div>
+       		    	  <span id="parentNameId" class="red clear span_style" />
+       			  </td>
            		</tr>
            		<tr>
            		  <td class='info'>品目名称<span class="red">*</span></td>

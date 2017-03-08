@@ -463,6 +463,7 @@ public class ScoreModelUtil {
                         double s = 0 ;
                         if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
                             supplyMarkList.get(i).setScore(0);
+                            num ++;
                         } else if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
                             s = supplyMarkList.get(i - 1).getScore();
                             num ++;
@@ -486,6 +487,7 @@ public class ScoreModelUtil {
                         double s = 0;
                         if (new Double(supplyMarkList.get(i).getPrarm()) == 0 ){
                             supplyMarkList.get(i).setScore(0);
+                            num++;
                         } else if (i > 0 && supplyMarkList.get(i - 1).getPrarm() == supplyMarkList.get(i).getPrarm()) {
                             s = supplyMarkList.get(i - 1).getScore();
                             num ++;
@@ -633,6 +635,9 @@ public class ScoreModelUtil {
                                 sc = FloatUtil.mul(i, score);
                                 sc = getDeadlineScore(sc, minScore, 1);
                                 sc = FloatUtil.sub(maxScore, sc);
+                                if (sc < 0) {
+                                    sc = 0;
+                                }
                                 break;
                             }
                         }

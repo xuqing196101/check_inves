@@ -46,5 +46,11 @@ public interface theSubjectMapper {
      *〈简述〉批量插入
      */
      void insertList(List<theSubject> list);
+     /**
+      * 根据供应商id和明细id查询标的
+      * @param map
+      * @return
+      */
+     List<theSubject> selectBySupplierId(HashMap<String,Object> map);
 
 }

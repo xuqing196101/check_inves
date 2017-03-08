@@ -1970,9 +1970,7 @@ public class ProjectController extends BaseController {
     
     @ResponseBody
     @RequestMapping("/verify")
-    public String verify(String projectNumber, Model model){
-        Project project = new Project();
-        project.setProjectNumber(projectNumber);
+    public String verify(Project project, Model model){
         Boolean flag = projectService.SameNameCheck(project);
         return JSON.toJSONString(flag);
     }

@@ -9,6 +9,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.controller.sys.bms.UserManageController;
 import ses.dao.bms.PreMenuMapper;
 import ses.dao.bms.RoleMapper;
@@ -18,6 +20,7 @@ import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.bms.UserPreMenu;
 import ses.service.bms.PreMenuServiceI;
+import ses.util.PropUtil;
 
 /**
  * Description: 权限菜单业务实现类
@@ -210,13 +213,23 @@ public class PreMenuServiceImpl implements PreMenuServiceI {
     }
 
     @Override
-    public List<User> getUserByMid(String id) {
+    public List<User> getUserByMid(String id, Integer pageNum) {
+        
         //查询拥有该菜单权限的角色
         List<String> roleIds = roleMapper.getByMid(id);
+        PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
         //查询拥有该角色的用户
-        System.out.println(roleIds);
+        List<User> users = new ArrayList<User>();
+        for (String rId : roleIds) {
+            User user = new User();
+            user.setRoleId(rId);
+            List<String> rIds = new ArrayList<String>();
+            rIds.add(rId);
+            user.setRoleIdList(rIds);
+            users = userMapper.findUserRole(user);
+        }
         //剔除个性化去掉改菜单的用户 
-        return null;
+        return users;
     }
 
 }

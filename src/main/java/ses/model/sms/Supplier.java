@@ -10,8 +10,9 @@ import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
 import ses.model.bms.User;
 import ses.util.MyAnnotation;
-import ses.util.SupplierLevelUtil;
 import bss.model.ppms.ProjectDetail;
+
+import common.model.UploadFile;
 
 /**
  * @Title: Supplier
@@ -667,7 +668,38 @@ public class Supplier implements Serializable {
     /**参加政府或军队采购经历登记表**/
     private String purchaseExperience;
     
-    public BigDecimal getLevelScoreProduct() {
+    /**供应商附件表**/
+    private List<UploadFile> attchList=new ArrayList<UploadFile>();
+    
+    private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
+    
+    private List<SupplierModify> modifys=new ArrayList<SupplierModify>();
+    
+    public List<SupplierModify> getModifys() {
+		return modifys;
+	}
+
+	public void setModifys(List<SupplierModify> modifys) {
+		this.modifys = modifys;
+	}
+
+	public List<SupplierHistory> getHistorys() {
+		return historys;
+	}
+
+	public void setHistorys(List<SupplierHistory> historys) {
+		this.historys = historys;
+	}
+
+	public List<UploadFile> getAttchList() {
+		return attchList;
+	}
+
+	public void setAttchList(List<UploadFile> attchList) {
+		this.attchList = attchList;
+	}
+
+	public BigDecimal getLevelScoreProduct() {
         return levelScoreProduct;
     }
 

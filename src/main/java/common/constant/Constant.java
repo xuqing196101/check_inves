@@ -34,6 +34,10 @@ public final class Constant {
     public static final Integer FORUM_SYS_KEY = 4;
     /** 论坛系统value */
     public static final String FORUM_SYS_VALUE = "T_ISS_FS_POST_ATTACHMENT";
+    /** 网上竞价key */
+    public static final Integer PROJECT_SYS_KEY = 5;
+    /** 网上竞价value */
+    public static final String PROJECT_SYS_VALUE = "T_BSS_OB_ATTACHMENT";
     
     /**
      * 
@@ -46,5 +50,6 @@ public final class Constant {
         fileSystem.put(TENDER_SYS_KEY, TENDER_SYS_VALUE);
         fileSystem.put(EXPERT_SYS_KEY, EXPERT_SYS_VALUE);
         fileSystem.put(FORUM_SYS_KEY, FORUM_SYS_VALUE);
+        fileSystem.put(PROJECT_SYS_KEY, PROJECT_SYS_VALUE);
     }
 }
