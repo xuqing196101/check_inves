@@ -29,4 +29,6 @@ public interface OBProjectMapper {
     int updateByPrimaryKeySelective(OBProject record);
 
     int updateByPrimaryKey(OBProject record);
+  
+    
 }
