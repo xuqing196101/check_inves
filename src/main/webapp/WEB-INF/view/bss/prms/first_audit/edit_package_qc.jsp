@@ -119,26 +119,28 @@
     //引入模板内容
     function loadTemplat(projectId, packageId){
     	var fatId = $("#fatId").val();
-    	$.ajax({   
-            type: "POST",  
-            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=0",   
-            data:{"id":fatId,"projectId":projectId,"packageId":packageId},
-            dataType:'json',
-            success:function(result){
-                if(!result.success){
-                    layer.msg(result.msg,{offset: ['150px']});
-                }else{
-                    var packageId = $("#packageId").val();
-                    var projectId = $("#projectId").val();
-                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
-                    layer.closeAll();
-                    layer.msg(result.msg,{offset: ['150px']});
-                }
-            },
-            error: function(result){
-                layer.msg("添加失败",{offset: ['150px']});
-            }
-       }); 
+    	if (fatId != null && fatId != '') {
+	    	$.ajax({   
+	            type: "POST",  
+	            url: "${pageContext.request.contextPath}/firstAudit/loadTemplat.html?isConfirm=0",   
+	            data:{"id":fatId,"projectId":projectId,"packageId":packageId},
+	            dataType:'json',
+	            success:function(result){
+	                if(!result.success){
+	                    layer.msg(result.msg,{offset: ['150px']});
+	                }else{
+	                    var packageId = $("#packageId").val();
+	                    var projectId = $("#projectId").val();
+	                    window.location.href = '${pageContext.request.contextPath}/firstAudit/editPackageFirstAudit.html?packageId='+packageId+'&projectId='+projectId;
+	                    layer.closeAll();
+	                    layer.msg(result.msg,{offset: ['150px']});
+	                }
+	            },
+	            error: function(result){
+	                layer.msg("添加失败",{offset: ['150px']});
+	            }
+	       }); 
+       }
     }
     
     //引入其他项目包的评审项
