@@ -191,155 +191,156 @@ public class IntelligentScoringController extends BaseController{
 	@RequestMapping("/loadTemplat")
 	public void loadTemplat(HttpServletResponse response, String id, String projectId, String packageId) throws IOException{
 	    try{
-	        //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
-	        HashMap<String, Object> condition = new HashMap<String, Object>();
-	        condition.put("projectId", projectId);
-	        condition.put("packageId", packageId);
-	        bidMethodService.delBidMethodByMap(condition);
-	        markTermService.delMarkTermByMap(condition);
-	        scoreModelService.delScoreModelByMap(condition);
-	        paramIntervalService.delParamIntervalByMap(condition);
-	        //然后再来修改模板数据的projectid和packageid
-	        BidMethod bmCondition = new BidMethod();
-	        bmCondition.setProjectId(id);
-	        List<BidMethod> bmList = bidMethodService.findListByBidMethod(bmCondition);
-	        //模板中的数据
-	        MarkTerm mtCondition = new MarkTerm();
-            mtCondition.setProjectId(id);
-            List<MarkTerm> mtList = markTermService.findListByMarkTerm(mtCondition);
-            //模板中数据
-            ScoreModel smCondition = new ScoreModel();
-            smCondition.setProjectId(id);
-            List<ScoreModel> smList = scoreModelService.findListByScoreModel(smCondition);
-            //模型七八的差额区间数据
-            List<ParamInterval> piList = new ArrayList<ParamInterval>();
-            //模型七八对应的差额区间查询条件
-            ParamInterval paramInterval = new ParamInterval();
-            long nowDate = new Date().getTime();
-            long addTime = 1000l;//一秒
-	        for (BidMethod bidMethod : bmList) {
-	            //修改之前新增一条
-	            BidMethod bm = new BidMethod();
-	            bm.setId(null);
-	            bm.setName(bidMethod.getName());
-	            bm.setProjectId(id);
-	            bm.setIsDeleted("0");
-	            bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
-	            bm.setRemainScore(bidMethod.getRemainScore());
-	            bm.setRemark(bidMethod.getRemark());
-	            //bm.setPackageId(packageId);
-	            bidMethodService.save(bm);
-	           
-	            for (MarkTerm markTerm : mtList) {
-	                if (markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod.getId())) {
-	                    MarkTerm mt = new MarkTerm();
-	                    mt.setId(null);
-	                    mt.setPid("0");
-	                    mt.setName(markTerm.getName());
-	                    mt.setIsDeleted(0);
-	                    mt.setCreatedAt(new Date());
-	                    mt.setMaxScore(markTerm.getMaxScore());
-	                    mt.setProjectId(id);
-	                    mt.setRemainScore(markTerm.getRemainScore());
-	                    mt.setTypeName(markTerm.getTypeName());
-	                    mt.setBidMethodId(bm.getId());
-	                    markTermService.save(mt);
-	                    
-	                    for (MarkTerm markTerm2 : mtList) {
-                            if (markTerm.getId().equals(markTerm2.getPid())) {
-                                
-                                MarkTerm mtChildren = new MarkTerm();
-                                mtChildren.setId(null);
-                                mtChildren.setPid(mt.getId());
-                                mtChildren.setName(markTerm2.getName());
-                                mtChildren.setIsDeleted(0);
-                                //每条增加的时间都不一样
-                                addTime = addTime + 1000l;
-                                nowDate = nowDate + addTime;
-                                mtChildren.setCreatedAt(new Date(nowDate));
-                                mtChildren.setMaxScore(markTerm2.getMaxScore());
-                                mtChildren.setProjectId(id);
-                                mtChildren.setChecked(markTerm2.isChecked());
-                                mtChildren.setRemainScore(markTerm2.getRemainScore());
-                                mtChildren.setTypeName(markTerm2.getTypeName());
-                                markTermService.saveMarkTerm(mtChildren);
-                                
-                                for (ScoreModel scoreModel : smList) {
-                                    if (scoreModel.getMarkTermId().equals(markTerm2.getId())) {
-                                        ScoreModel sm = new ScoreModel();
-                                        sm.setId(null);
-                                        sm.setProjectId(id);
-                                        sm.setName(scoreModel.getName());
-                                        sm.setTypeName(scoreModel.getTypeName());
-                                        sm.setEasyUnderstandContent(scoreModel.getEasyUnderstandContent());
-                                        sm.setStandardScore(scoreModel.getStandardScore());
-                                        sm.setStandExplain(scoreModel.getStandExplain());
-                                        sm.setJudgeContent(scoreModel.getJudgeContent());
-                                        sm.setReviewParam(scoreModel.getReviewParam());
-                                        sm.setMarkTermId(mtChildren.getId());
-                                        sm.setUnitScore(scoreModel.getUnitScore());
-                                        sm.setMinScore(scoreModel.getMinScore());
-                                        sm.setMaxScore(scoreModel.getMaxScore());
-                                        sm.setReviewContent(scoreModel.getReviewContent());
-                                        sm.setScore(scoreModel.getScore());
-                                        sm.setUnit(scoreModel.getUnit());
-                                        sm.setDeadlineNumber(scoreModel.getDeadlineNumber());
-                                        sm.setReviewStandScore(scoreModel.getReviewStandScore());
-                                        sm.setIntervalNumber(scoreModel.getIntervalNumber());
-                                        sm.setIntervalTypeName(scoreModel.getIntervalTypeName());
-                                        sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
-                                        sm.setIsHave(scoreModel.getIsHave());
-                                        sm.setStandScores(scoreModel.getStandScores());
-                                        sm.setRelation(scoreModel.getRelation());
-                                        sm.setRelationScore(scoreModel.getRelationScore());
-                                        scoreModelService.saveScoreModel(sm);
-                                        paramInterval.setScoreModelId(scoreModel.getId());
-                                        piList = paramIntervalService.findListByParamInterval(paramInterval);
-                                        if (piList != null && piList.size() > 0) {
-                                            for(int i = 0; i < piList.size(); i++){
-                                                ParamInterval p = new ParamInterval();
-                                                p.setScoreModelId(sm.getId());
-                                                p.setStartParam(piList.get(i).getStartParam());
-                                                p.setStartRelation(piList.get(i).getStartRelation());
-                                                p.setEndParam(piList.get(i).getEndParam());
-                                                p.setEndRelation(piList.get(i).getEndRelation());
-                                                p.setScore(piList.get(i).getScore());
-                                                p.setExplain(piList.get(i).getExplain());
-                                                p.setProjectId(scoreModel.getProjectId());
-                                                //模版里面不需要包id
-                                                paramIntervalService.saveParamInterval(p);
-                                            }
-                                            if (piList != null) {
-                                                for (ParamInterval pi : piList) {
-                                                    pi.setProjectId(projectId);
-                                                    pi.setPackageId(packageId);
-                                                    paramIntervalService.updateParamInterval(pi);
+	        if (id != null && !"".equals(id)) {
+    	        //模板导入前首先给现有的东西删除掉所有的项目id都一样。所以按照项目id删除
+    	        HashMap<String, Object> condition = new HashMap<String, Object>();
+    	        condition.put("projectId", projectId);
+    	        condition.put("packageId", packageId);
+    	        bidMethodService.delBidMethodByMap(condition);
+    	        markTermService.delMarkTermByMap(condition);
+    	        scoreModelService.delScoreModelByMap(condition);
+    	        paramIntervalService.delParamIntervalByMap(condition);
+    	        //然后再来修改模板数据的projectid和packageid
+    	        BidMethod bmCondition = new BidMethod();
+    	        bmCondition.setProjectId(id);
+    	        List<BidMethod> bmList = bidMethodService.findListByBidMethod(bmCondition);
+    	        //模板中的数据
+    	        MarkTerm mtCondition = new MarkTerm();
+                mtCondition.setProjectId(id);
+                List<MarkTerm> mtList = markTermService.findListByMarkTerm(mtCondition);
+                //模板中数据
+                ScoreModel smCondition = new ScoreModel();
+                smCondition.setProjectId(id);
+                List<ScoreModel> smList = scoreModelService.findListByScoreModel(smCondition);
+                //模型七八的差额区间数据
+                List<ParamInterval> piList = new ArrayList<ParamInterval>();
+                //模型七八对应的差额区间查询条件
+                ParamInterval paramInterval = new ParamInterval();
+                long nowDate = new Date().getTime();
+                long addTime = 1000l;//一秒
+    	        for (BidMethod bidMethod : bmList) {
+    	            //修改之前新增一条
+    	            BidMethod bm = new BidMethod();
+    	            bm.setId(null);
+    	            bm.setName(bidMethod.getName());
+    	            bm.setProjectId(id);
+    	            bm.setIsDeleted("0");
+    	            bm.setCreatedAt(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+    	            bm.setRemainScore(bidMethod.getRemainScore());
+    	            bm.setRemark(bidMethod.getRemark());
+    	            //bm.setPackageId(packageId);
+    	            bidMethodService.save(bm);
+    	           
+    	            for (MarkTerm markTerm : mtList) {
+    	                if (markTerm.getBidMethodId() != null && markTerm.getBidMethodId().equals(bidMethod.getId())) {
+    	                    MarkTerm mt = new MarkTerm();
+    	                    mt.setId(null);
+    	                    mt.setPid("0");
+    	                    mt.setName(markTerm.getName());
+    	                    mt.setIsDeleted(0);
+    	                    mt.setCreatedAt(new Date());
+    	                    mt.setMaxScore(markTerm.getMaxScore());
+    	                    mt.setProjectId(id);
+    	                    mt.setRemainScore(markTerm.getRemainScore());
+    	                    mt.setTypeName(markTerm.getTypeName());
+    	                    mt.setBidMethodId(bm.getId());
+    	                    markTermService.save(mt);
+    	                    
+    	                    for (MarkTerm markTerm2 : mtList) {
+                                if (markTerm.getId().equals(markTerm2.getPid())) {
+                                    
+                                    MarkTerm mtChildren = new MarkTerm();
+                                    mtChildren.setId(null);
+                                    mtChildren.setPid(mt.getId());
+                                    mtChildren.setName(markTerm2.getName());
+                                    mtChildren.setIsDeleted(0);
+                                    //每条增加的时间都不一样
+                                    addTime = addTime + 1000l;
+                                    nowDate = nowDate + addTime;
+                                    mtChildren.setCreatedAt(new Date(nowDate));
+                                    mtChildren.setMaxScore(markTerm2.getMaxScore());
+                                    mtChildren.setProjectId(id);
+                                    mtChildren.setChecked(markTerm2.isChecked());
+                                    mtChildren.setRemainScore(markTerm2.getRemainScore());
+                                    mtChildren.setTypeName(markTerm2.getTypeName());
+                                    markTermService.saveMarkTerm(mtChildren);
+                                    
+                                    for (ScoreModel scoreModel : smList) {
+                                        if (scoreModel.getMarkTermId().equals(markTerm2.getId())) {
+                                            ScoreModel sm = new ScoreModel();
+                                            sm.setId(null);
+                                            sm.setProjectId(id);
+                                            sm.setName(scoreModel.getName());
+                                            sm.setTypeName(scoreModel.getTypeName());
+                                            sm.setEasyUnderstandContent(scoreModel.getEasyUnderstandContent());
+                                            sm.setStandardScore(scoreModel.getStandardScore());
+                                            sm.setStandExplain(scoreModel.getStandExplain());
+                                            sm.setJudgeContent(scoreModel.getJudgeContent());
+                                            sm.setReviewParam(scoreModel.getReviewParam());
+                                            sm.setMarkTermId(mtChildren.getId());
+                                            sm.setUnitScore(scoreModel.getUnitScore());
+                                            sm.setMinScore(scoreModel.getMinScore());
+                                            sm.setMaxScore(scoreModel.getMaxScore());
+                                            sm.setReviewContent(scoreModel.getReviewContent());
+                                            sm.setScore(scoreModel.getScore());
+                                            sm.setUnit(scoreModel.getUnit());
+                                            sm.setDeadlineNumber(scoreModel.getDeadlineNumber());
+                                            sm.setReviewStandScore(scoreModel.getReviewStandScore());
+                                            sm.setIntervalNumber(scoreModel.getIntervalNumber());
+                                            sm.setIntervalTypeName(scoreModel.getIntervalTypeName());
+                                            sm.setAddSubtractTypeName(scoreModel.getAddSubtractTypeName());
+                                            sm.setIsHave(scoreModel.getIsHave());
+                                            sm.setStandScores(scoreModel.getStandScores());
+                                            sm.setRelation(scoreModel.getRelation());
+                                            sm.setRelationScore(scoreModel.getRelationScore());
+                                            scoreModelService.saveScoreModel(sm);
+                                            paramInterval.setScoreModelId(scoreModel.getId());
+                                            piList = paramIntervalService.findListByParamInterval(paramInterval);
+                                            if (piList != null && piList.size() > 0) {
+                                                for(int i = 0; i < piList.size(); i++){
+                                                    ParamInterval p = new ParamInterval();
+                                                    p.setScoreModelId(sm.getId());
+                                                    p.setStartParam(piList.get(i).getStartParam());
+                                                    p.setStartRelation(piList.get(i).getStartRelation());
+                                                    p.setEndParam(piList.get(i).getEndParam());
+                                                    p.setEndRelation(piList.get(i).getEndRelation());
+                                                    p.setScore(piList.get(i).getScore());
+                                                    p.setExplain(piList.get(i).getExplain());
+                                                    p.setProjectId(scoreModel.getProjectId());
+                                                    //模版里面不需要包id
+                                                    paramIntervalService.saveParamInterval(p);
+                                                }
+                                                if (piList != null) {
+                                                    for (ParamInterval pi : piList) {
+                                                        pi.setProjectId(projectId);
+                                                        pi.setPackageId(packageId);
+                                                        paramIntervalService.updateParamInterval(pi);
+                                                    }
                                                 }
                                             }
                                         }
                                     }
                                 }
                             }
-                        }
-	                }
-	            }
-	            bidMethod.setProjectId(projectId);
-                bidMethod.setPackageId(packageId);
-                bidMethodService.updateBidMethod(bidMethod);
-            }
-	        
-            for (MarkTerm markTerm : mtList) {
-                markTerm.setProjectId(projectId);
-                markTerm.setPackageId(packageId);
-                markTermService.updateMarkTerm(markTerm);
-            }
-	        
-	        for (ScoreModel scoreModel : smList) {
-	            scoreModel.setProjectId(projectId);
-	            scoreModel.setPackageId(packageId);
-	            scoreModelService.updateScoreModel(scoreModel);
+    	                }
+    	            }
+    	            bidMethod.setProjectId(projectId);
+                    bidMethod.setPackageId(packageId);
+                    bidMethodService.updateBidMethod(bidMethod);
+                }
+    	        
+                for (MarkTerm markTerm : mtList) {
+                    markTerm.setProjectId(projectId);
+                    markTerm.setPackageId(packageId);
+                    markTermService.updateMarkTerm(markTerm);
+                }
+    	        
+    	        for (ScoreModel scoreModel : smList) {
+    	            scoreModel.setProjectId(projectId);
+    	            scoreModel.setPackageId(packageId);
+    	            scoreModelService.updateScoreModel(scoreModel);
+    	        }
 	        }
-	        
 	      String msg = "引入成功";
 	      response.setContentType("text/html;charset=utf-8");
 	      response.getWriter().print("{\"success\": " + true + ", \"msg\": \"" + msg+ "\"}");
