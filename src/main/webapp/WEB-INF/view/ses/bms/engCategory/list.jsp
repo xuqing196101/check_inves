@@ -69,7 +69,7 @@
     function zTreeOnClick(event,treeId,treeNode){
     	treeid = treeNode.id;
     	var node = treeNode.getParentNode();
-    	
+  
     	if (node && node != null ) {
     		level = node.level + 2;
     		resetTips();
@@ -193,11 +193,17 @@
 					$("#posId").val(cate.code);
 					$("#descId").val(cate.description);
 					var expertTypes=document.getElementsByName("expertType");
-					for(var i=0;i<expertTypes.length;i++){
-						if(expertTypes[i].value==cate.expertType){
-							expertTypes[i].checked=true;
+					if(cate.expertType==null){
+						expertTypes[0].checked=true;
+					}else{
+						for(var i=0;i<expertTypes.length;i++){
+							if(expertTypes[i].value==cate.expertType){
+								expertTypes[i].checked=true;
+							}
 						}
 					}
+					
+					
 					
 					showInit();
 					if (level == 3){
@@ -639,7 +645,7 @@
        			  <td class='info'>类别<span class="red">*</span></td>
        			  <td id="expertType">
        				<div class="col-md-8 col-sm-8 col-xs-7" id ="expertType">
-                      <input type="radio" name="expertType" value="1"/>工程技术
+                      <input type="radio" name="expertType"  value="1"/>工程技术
                       <input type="radio" name="expertType" value="0"/>工程经济
        				  
        				</div>
