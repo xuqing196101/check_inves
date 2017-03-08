@@ -316,7 +316,7 @@ public class ProjectController extends BaseController {
             //判断如果是采购机构
             if("1".equals(orgnization.getTypeName())){
                 map.put("purchaseDepId", user.getOrg().getId());
-                map.put("appointMan", user.getId());
+                //map.put("appointMan", user.getId());
                 List<Project> list = projectService.selectProjectsByConition(map);
                 for (int i = 0; i < list.size(); i++ ) {
                     try {

@@ -33,7 +33,8 @@
 					$(this).hide();
 	            }); 
 			}
-	    })
+	    });
+	    
       //表单验证
       var controldate;
       var deadline;

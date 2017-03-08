@@ -191,48 +191,46 @@
             <span id="projectCode">项目编号:${project.projectNumber }</span></h2>
       </div>
       <table class="table table-bordered table-condensed mt5">
-        <thead>
-          <tr>
-            <th>序号</th>
-            <th>包名</th>
-            <th>评分办法</th>
-            <th>状态</th>
-            <th>操作</th>
-          </tr>
-        </thead>
-        <c:forEach items="${packagesList }" var="p" varStatus="vs">
           <thead>
             <tr>
-              <td class="tc w50">${vs.index+1 }</td>
-              <td class="tc">${p.name}</td>
-              <td class="tc">
-                <c:forEach items="${ddList}" var="list" varStatus="vs">
-                  <c:if test="${vs.index == p.bidMethodTypeName }">
-                    <a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a>
-                  </c:if>
-                </c:forEach>
-              </td>
-              <td class="tc">
-                <c:if test="${p.isEditSecond == 0 and project.confirmFile != 1}">请选择评分办法</c:if>
-                <c:if test="${p.isEditSecond == 1 and project.confirmFile != 1}">维护评分细则</c:if>
-                <c:if test="${p.isEditSecond == 2}">已完成</c:if>
-              </td>
-              <td class="tc">
-                <c:if test="${p.isHaveScoreMethod == 1}">
-                  <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
-                </c:if>
-                <c:if test="${p.isHaveScoreMethod == 2}">
-                  <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分方法</button>
-                </c:if>
-
-                <c:if test="${project.confirmFile == 1}">
-                  <button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
-                </c:if>
-              </td>
+              <th>序号</th>
+              <th>包名</th>
+              <th>状态</th>
+              <th>评分办法</th>
+              <th>操作</th>
             </tr>
           </thead>
-        </c:forEach>
-      </table>
+          <c:forEach items="${packagesList }" var="p" varStatus="vs">
+            <thead>
+              <tr >
+                <td class="tc w50">${vs.index+1 }</td>
+                <td class="tc">${p.name}</td>
+                <td class="tc">
+                <c:if test="${p.isEditSecond == 0 and project.confirmFile != 1}">请选择评分办法</c:if>
+                <c:if test="${p.isEditSecond == 1 and project.confirmFile != 1}">已维护</c:if>
+                <c:if test="${p.isEditSecond == 2}">已维护</c:if>
+                </td>
+                <td class="tc">
+                  <c:forEach items="${ddList}" var="list" varStatus="vs">
+                    <c:if test="${vs.index == p.bidMethodTypeName }"><a onclick="show('${p.id}','${p.projectId }')" class="pointer">${list.name }</a></c:if>
+                    
+                  </c:forEach>
+                </td>
+                 <td class="tc">
+                   <c:if test="${p.isHaveScoreMethod == 1 and project.confirmFile != 1}">
+                               <button class="btn" type="button" onclick="editPackageFirstAudit('${p.id}','${projectId}')">编辑</button>
+                   </c:if>
+                   <c:if test="${p.isHaveScoreMethod == 2 and project.confirmFile != 1}">
+                               <button class="btn" type="button" onclick="addScoreMethod('${p.id}','${projectId}')">选择评分办法</button>
+                   </c:if>
+                   <c:if test="${project.confirmFile == 1}">
+                               <button class="btn" type="button" onclick="view('${p.id}','${projectId}')">查看</button>
+                   </c:if>
+                        </td>
+              </tr>
+            </thead>
+          </c:forEach>
+        </table>
     </div>
     <div class="container clear margin-top-30" id="package"></div>
   </body>

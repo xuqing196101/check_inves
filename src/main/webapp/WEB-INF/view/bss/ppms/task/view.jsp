@@ -6,6 +6,7 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" src="http://code.jquery.com/jquery-1.6.1.min.js"></script>
     <%-- <script src="${pageContext.request.contextPath}/public/backend/js/lock_table_head.js"></script> --%>
 
@@ -80,7 +81,9 @@
                       <th class="info goodsuse">物资用途<br>（进口）</th>
                       <th class="info useunit">使用单位<br>（进口）</th>
                       <th class="info memo">备注</th>
-                      <th class="info purchasetype">明细状态</th>
+                      <c:if test="${lists != null}">
+                        <th class="info purchasetype">明细状态</th>
+                      </c:if>
                     </tr>
                   </thead>
                   <c:if test="${lists != null}">
@@ -162,7 +165,7 @@
                         <td><div class="qualitstand">${obj.qualitStand}</div></td>
                         <td><div class="item">${obj.item}</div></td>
                         <td><div class="purchasecount">${obj.purchaseCount}</div></td>
-                        <td><div class="deliverdate">${obj.deliverDate},/</td>
+                        <td><div class="deliverdate">${obj.deliverDate}</div></td>
                         <td>
                               <c:forEach items="${kind}" var="kind">
                                 <c:if test="${kind.id == obj.purchaseType}">

@@ -77,4 +77,18 @@ public interface SupplierExtUserServicel {
      */
     String downLoadBiddingDoc(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception;
     
+    /**
+     * 
+     *〈预研生成模板〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param request
+     * @param projectId
+     * @param type
+     * @param suppliersID
+     * @return
+     * @throws Exception
+     */
+    String downLoadBiddingDocs(HttpServletRequest request,String projectId,int type,String suppliersID) throws Exception;
+    
 }

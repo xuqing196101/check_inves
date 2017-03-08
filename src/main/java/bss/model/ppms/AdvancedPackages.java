@@ -6,6 +6,8 @@ package bss.model.ppms;
 import java.util.Date;
 import java.util.List;
 
+import bss.model.prms.FirstAudit;
+
 
 
 
@@ -48,6 +50,20 @@ public class AdvancedPackages {
     private String bidMethodName;//评分办法名称
     private String bidMethodTypeName;//评标方法
     private String bidMethodMaxScore ;//
+    
+    private List<FirstAudit> listFirstAudit;
+    
+    //经济基准价法+最低价法评审
+    private List<FirstAudit> listMinimumEconomy;
+    
+    //技术Technology
+    private List<FirstAudit> listMinimumTechnology;
+    
+    //经济评审
+    private List<MarkTerm> listScoreEconomy;
+    
+    //技术技术评审
+    private List<MarkTerm> listScoreTechnology;
     
     /**
      * 是否维护符合性审查项 0 未维护 1:维护中 2：已维护
@@ -209,6 +225,46 @@ public class AdvancedPackages {
 
     public void setIsEditSecond(Integer isEditSecond) {
         this.isEditSecond = isEditSecond;
+    }
+
+    public List<FirstAudit> getListFirstAudit() {
+        return listFirstAudit;
+    }
+
+    public void setListFirstAudit(List<FirstAudit> listFirstAudit) {
+        this.listFirstAudit = listFirstAudit;
+    }
+
+    public List<FirstAudit> getListMinimumEconomy() {
+        return listMinimumEconomy;
+    }
+
+    public void setListMinimumEconomy(List<FirstAudit> listMinimumEconomy) {
+        this.listMinimumEconomy = listMinimumEconomy;
+    }
+
+    public List<FirstAudit> getListMinimumTechnology() {
+        return listMinimumTechnology;
+    }
+
+    public void setListMinimumTechnology(List<FirstAudit> listMinimumTechnology) {
+        this.listMinimumTechnology = listMinimumTechnology;
+    }
+
+    public List<MarkTerm> getListScoreEconomy() {
+        return listScoreEconomy;
+    }
+
+    public void setListScoreEconomy(List<MarkTerm> listScoreEconomy) {
+        this.listScoreEconomy = listScoreEconomy;
+    }
+
+    public List<MarkTerm> getListScoreTechnology() {
+        return listScoreTechnology;
+    }
+
+    public void setListScoreTechnology(List<MarkTerm> listScoreTechnology) {
+        this.listScoreTechnology = listScoreTechnology;
     }
     
     

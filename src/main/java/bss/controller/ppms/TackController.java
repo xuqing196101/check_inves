@@ -272,7 +272,7 @@ public class TackController extends BaseController{
 	                 List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
 	                 if(projectTask != null && projectTask.size()>0){
 	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
-	                     project.setStatus(DictionaryDataUtil.getId("YJXL"));
+	                     project.setStatus(DictionaryDataUtil.getId("YJLX"));
 	                     advancedProjectService.update(project);
 	                 }
 	             }
@@ -518,7 +518,8 @@ public class TackController extends BaseController{
             if(projectTask != null && projectTask.size()>0){
                 map1.put("advancedProject", projectTask.get(0).getProjectId());
                 List<AdvancedDetail> details = detailService.selectByAll(map1);
-                model.addAttribute("advancedAdvice", DictionaryDataUtil.getId("ADVANCED_ADVICE"));
+                String id2 = DictionaryDataUtil.getId("ADVANCED_ADVICE");
+                model.addAttribute("advancedAdvice", id2);
                 model.addAttribute("projectId", projectTask.get(0).getProjectId());
                 model.addAttribute("list", details);
             }

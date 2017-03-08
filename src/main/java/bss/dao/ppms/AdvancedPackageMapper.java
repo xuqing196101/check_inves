@@ -2,6 +2,7 @@ package bss.dao.ppms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
@@ -62,4 +63,6 @@ public interface AdvancedPackageMapper {
     List<AdvancedPackages> find(AdvancedPackages packages);
     
     List<AdvancedPackages> findPackageAndBidMethodById(HashMap<String,Object> map);
+    
+    List<AdvancedPackages> findByID(Map<String,Object> map);
 }
