@@ -524,7 +524,7 @@ function judge(index) {
 			if (relation == "0") {
 				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，大于等于"+ standScores + unit + "得最高分" + maxScore +"分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
 			} else {
-				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + minScore + "分";
+				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，小于等于"+ standScores + unit + "得最低分" + minScore +"分,其余从最高分依次递减" + unitScore + "分,最高分为" + maxScore + "分";
 			}
 			$("#easyUnderstandContent3").text(str);
 		}
@@ -543,11 +543,11 @@ function judge(index) {
 		var addSubtractTypeName = $("#addSubtractTypeName").val();
 		if (isHave == "1") {
 			if(addSubtractTypeName=="0"){
-				var str = "加分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ minScore + "分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
+				var str = "加分实例:以"+reviewParam+"以最低值为基准值排序递增，第一名得"+ minScore + "分,其余依次递增" + unitScore + "分,最高分为" + maxScore + "分";
 				$("#easyUnderstandContent4").text(str);
 				return;
 			} else {
-				var str = "减分实例:以"+reviewParam+"最高值为基准排序递减，第一名得"+ maxScore + "分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
+				var str = "减分实例:以"+reviewParam+"以最低值为基准值排序递增，第一名得"+ maxScore + "分,其余依次递减" + unitScore + "分,最低分为" + minScore + "分";
 				$("#easyUnderstandContent4").text(str);
 				return;
 			}
@@ -1253,7 +1253,7 @@ function judge(index) {
 			</tr>
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>分差</td>
-				<td><input name="unitScore" onkeyup="gernerator();" id="score" value="${scoreModel.unitScore }"></td>
+				<td><input name="unitScore" onkeyup="gernerator();" id="unitScore" value="${scoreModel.unitScore }"></td>
 				<td><span class="blue">依次排序递减/递增分值</span></td>
 			</tr>
 			<tr>
@@ -1340,7 +1340,7 @@ function judge(index) {
 			</tr>
 			<tr>
 				<td class="w180 tc"><span class="star_red">*</span>分差</td>
-				<td><input name="unitScore" id="score" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
+				<td><input name="unitScore" id="unitScore" onkeyup="gernerator();" value="${scoreModel.unitScore }"></td>
 				<td><span class="blue">依次排序递减/递增分值</span></td>
 			</tr>
 			<tr>
