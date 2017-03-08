@@ -1078,7 +1078,7 @@
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
 										<input type="text" name="legalIdCard" required value="${currSupplier.legalIdCard}" <c:if test="${fn:contains(audit,'legalIdCard')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('legalIdCard')"</c:if>/>
 										<span class="add-on cur_point">i</span>
-										<span class="input-tip">不能为空，长度为15位或者18位</span>
+										<span class="input-tip">不能为空，长度为18位</span>
 										<div class="cue"> ${err_legalCard } </div>
 										<div class="cue">
 											<sf:errors path="legalIdCard" />
