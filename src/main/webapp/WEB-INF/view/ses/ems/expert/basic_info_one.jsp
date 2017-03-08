@@ -1018,11 +1018,11 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 固定电话</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="15" value="${expert.telephone}" name="telephone" id="telephone" type="text"
+                        <input maxlength="50" value="${expert.telephone}" name="telephone" id="telephone" type="text"
                                <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('固定电话')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">如: XXX - XXXXXXX</span>
+                        <span class="input-tip">如: 010 - 1234567</span>
                     </div>
                 </li>
 
@@ -1030,11 +1030,11 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 传真电话</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input value="${expert.fax}" name="fax" id="fax" type="text"
+                        <input value="${expert.fax}" name="fax" id="fax" type="text" maxlength="50"
                                <c:if test="${fn:contains(errorField,'传真电话')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('传真电话')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">如: XXX - XXXXXXX</span>
+                        <span class="input-tip">如: 010 - 1234567</span>
                     </div>
                 </li>
 
@@ -1045,7 +1045,7 @@
                                <c:if test="${fn:contains(errorField,'个人邮箱')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('个人邮箱')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">不能为空，如：XXXX@XX.com</span>
+                        <span class="input-tip">不能为空，如：123@163.com</span>
                     </div>
                 </li>
             </ul>
@@ -1086,7 +1086,7 @@
                         class="red">*</i> 单位地址</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
-                               type="text" placeholder="xx街道xx号"
+                               type="text" placeholder="长春街道1号"
                                <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位地址')"</c:if>/>
                         <span class="add-on">i</span>
@@ -1134,7 +1134,7 @@
                                 readonly="readonly" name="timeStartWork" id="timeStartWork" type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">如：XXXX-XX</span>
+                        <span class="input-tip">如：2017-03</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -1152,7 +1152,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red"></i> 专业技术职称证书</span>
+                        class="red">*</i> 专业技术职称证书</span>
                     <div
                             class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                             <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;"
@@ -1182,7 +1182,7 @@
                                 readonly="readonly" name="timeToWork" id="timeToWork"
                                 type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
-                            class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
+                            class="add-on">i</span> <span class="input-tip">如：2017-03</span>
                     </div>
                 </li>
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
@@ -1199,7 +1199,7 @@
                                <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('毕业院校及专业')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">不能为空，如：XXX大学XXX专业</span>
+                        <span class="input-tip">不能为空，如：北京大学计算机专业</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1294,7 +1294,7 @@
                                 value="<fmt:formatDate value='${expert.timeToWork}' pattern='yyyy-MM' />"
                                 name="timeToWork" type="text" onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">如：XXXX-XX</span>
+                        <span class="input-tip">如：2017-03</span>
                     </div>
                 </li>
                  </ul>
@@ -1366,7 +1366,7 @@
                 <!-- 专业学术成果 -->
                 <div class="padding-top-10 clear">
                     <%-- <h2 class="count_flow"><i>3</i><font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>--%>
-
+                    
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('获奖证书')"</c:if>>
@@ -1388,7 +1388,7 @@
                     <%--<h2 class="count_flow"><i>2</i><font color=red></font> 专业学术成果</h2>--%>
 
                     <li>
-                        <textarea
+                        <textarea 
                                 <c:if test="${fn:contains(errorField,'专业学术成果')}">onmouseover="errorMsg('专业学术成果')"</c:if>
                                 rows="10" name="academicAchievement" id="academicAchievement"
                                 style='height: 150px; width: 100%; resize: none; <c:if

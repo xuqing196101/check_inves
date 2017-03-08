@@ -146,11 +146,14 @@
         //获取选中子节点id
         function getChildren() {
             var ids = new Array();
+            var isType1 = 0;
+            var isType2 = 0;
+            $("#isType").val("");  
             var checklist1 = document.getElementsByName("chkItem_1");
             for (var i = 0; i < checklist1.length; i++) {
                 var vals = checklist1[i].value;
                 if (checklist1[i].checked) {
-
+                	isType1 = 1;
                     ids.push(vals);
                 }
             }
@@ -158,9 +161,15 @@
             for (var i = 0; i < checklist2.length; i++) {
                 var vals = checklist2[i].value;
                 if (checklist2[i].checked) {
+                	 isType2 = 1;
                     ids.push(vals);
                 }
             }
+            
+            if(isType1 == 1 && isType2 == 1){
+            	$("#isType").val(1);	
+            }
+            
             $("#expertsTypeId").val(ids);
         }
 
@@ -177,10 +186,15 @@
         function validateType() {
             getChildren();
             var categoryId = $("#expertsTypeId").val();
+            var isType = $("#isType").val();
             if (categoryId == "") {
                 layer.msg("请选择专家类别 !");
                 return false;
+            }else if (isType != null && isType == 1) {
+            	  layer.msg("不能同时选择经济和技术类型! ");
+                return false;
             }
+            
             return true;
         }
         $(function () {
@@ -284,6 +298,8 @@
     <input type="hidden" value="${errorMap.idNumber2}" id="error16">
     <input type="hidden" id="categoryId" name="categoryId" value=""/>
     <input type="hidden" id="expertsTypeId" name="expertsTypeId" value=""/>
+      <!--   是否只选择了一种类型 -->
+    <input type="hidden" id="isType" name="isType" value=""/>
     <input type="hidden" name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
         <h2 class="padding-20 mt40">
