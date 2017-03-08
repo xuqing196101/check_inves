@@ -2406,7 +2406,7 @@ public class ExpertController extends BaseController {
 
 		// 物资类,服务类资质证书
 		List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
-		if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null) {
+		if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().equals("PRODUCT")) {
 			List < SupplierCertPro >  certPros = supplier.getSupplierMatPro().getListSupplierCertPros();
 		    for(SupplierCertPro cert:certPros){
 		    	if(cert.getCode()!=null){
@@ -2415,7 +2415,7 @@ public class ExpertController extends BaseController {
 		    }
 		    
 //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
-		    if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null) {
+		    if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().equals("SERVICE")) {
 		        List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
 		        for(SupplierCertServe server: listSupplierCertSes) {
 		            SupplierCertPro pro = new SupplierCertPro();
@@ -2430,7 +2430,7 @@ public class ExpertController extends BaseController {
 		        }
 		    }
 //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
-		    if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null) {
+		    if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().equals("SALES")) {
 		    	 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
                 for(SupplierCertSell sell: listSupplierCertSells) {
                     SupplierCertPro pro = new SupplierCertPro();
@@ -2451,9 +2451,11 @@ public class ExpertController extends BaseController {
 		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplier.getId(), null, null);
 		for(SupplierItem supplierItem: itemsList) {
-			SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
-			if(cateTree != null && cateTree.getRootNode() != null) {
-				allTreeList.add(cateTree);
+			if(supplier.getSupplierTypeIds().contains(supplierItem.getSupplierTypeRelateId())){
+				SupplierCateTree cateTree = getTreeListByCategoryId(supplierItem);
+				if(cateTree != null && cateTree.getRootNode() != null) {
+					allTreeList.add(cateTree);
+				}
 			}
 		}
 		

@@ -1139,7 +1139,7 @@
 				</tr>
 				</#list>
 			</table>
-			<#if supplierMatPro.scaleTech??>
+			<#if supplierTypeIds?contains("PRODUCT")>
 			<p class=MsoNormal style="margin-top:14.4500pt;mso-para-margin-top:0.5000gd;line-height:12.0000pt;mso-line-height-rule:exactly;"><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:仿宋_GB2312;mso-bidi-font-family:'Times New Roman';font-size:10.5000pt;mso-font-kerning:1.0000pt;"><o:p>&nbsp;</o:p></span></p>
 			<p class=MsoNormal align=right style="text-indent:32.0000pt;mso-char-indent-count:2.0000;text-align:right;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="黑体" >表</font></span><span style="mso-spacerun:'yes';font-family:黑体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;">6</span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:黑体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
 			<p class=MsoNormal align=center style="text-align:center;mso-line-height-alt:12pt;"><span style="mso-spacerun:'yes';font-family:方正小标宋简体;mso-ascii-font-family:Calibri;mso-hansi-font-family:Calibri;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><font face="方正小标宋简体" >物资类生产型供应商产品研发能力登记表</font></span><span style="mso-spacerun:'yes';font-family:Calibri;mso-fareast-font-family:方正小标宋简体;mso-bidi-font-family:'Times New Roman';font-size:16.0000pt;mso-font-kerning:1.0000pt;"><o:p></o:p></span></p>
