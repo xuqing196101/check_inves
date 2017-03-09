@@ -326,23 +326,23 @@
         //校验基本信息 不能为空的字段
         function validateformExpert() {
             var from = "${expert.expertsFrom}";
-            var relName = $("#relName").val();
+            var relName = $("#relName").val().trim();
             if (!relName) {
                 layer.msg("请输入姓名 !");
                 return false;
             }
-            var gender = $("#gender").val();
+            var gender = $("#gender").val().trim();
             if (!gender) {
                 layer.msg("请选择性别 !");
                 return false;
             }
 
-            var politicsStatus = $("#politicsStatus").val();
+            var politicsStatus = $("#politicsStatus").val().trim();
             if (!politicsStatus) {
                 layer.msg("请填写政治面貌 !");
                 return false;
             }
-            var birthday = $("#birthday").val();
+            var birthday = $("#birthday").val().trim();
             if (!birthday) {
                 layer.msg("请填写出生日期 !");
                 return false;
@@ -368,29 +368,29 @@
             if (isAge == false) {
                 return false;
             }
-            var nation = $("#nation").val();
+            var nation = $("#nation").val().trim();
             if (!nation) {
                 layer.msg("请填写民族 !");
                 return false;
             }
-            var healthState = $("#healthState").val();
+            var healthState = $("#healthState").val().trim();
             if (!healthState) {
                 layer.msg("请填写健康状态!");
                 return false;
             }
-            var idCardNumber = $("#idCardNumber").val();
+            var idCardNumber = $("#idCardNumber").val().trim();
             if (!idCardNumber) {
                 layer.msg("请填写居民身份证号码 !");
                 return false;
             }
 
             if (from == "ARMY") {
-                var idType = $("#idType").val();
+                var idType = $("#idType").val().trim();
                 if (!idType) {
                     layer.msg("请选择军队人员身份证件类型 !");
                     return false;
                 }
-                var idNumber = $("#idNumber").val();
+                var idNumber = $("#idNumber").val().trim();
                 if (!idNumber) {
                     layer.msg("请填写证件号码 !");
                     return false;
@@ -419,19 +419,19 @@
                 }
             }
 
-            var mobile = $("#mobile").val();
+            var mobile = $("#mobile").val().trim();
             if (!mobile) {
                 layer.msg("请填写手机号!");
                 return false;
             }
 
-            var telephone = $("#telephone").val();
+            var telephone = $("#telephone").val().trim();
             if (!telephone) {
                 layer.msg("请填写固定电话!");
                 return false;
             }
 
-            var email = $("#email").val();
+            var email = $("#email").val().trim();
             if (!email) {
                 layer.msg("请填写个人邮箱!");
                 return false;
@@ -441,43 +441,43 @@
                 layer.msg("个人邮箱格式有误 !");
                 return false;
             }
-            var workUnit = $("#workUnit").val();
+            var workUnit = $("#workUnit").val().trim();
             if (!workUnit) {
                 layer.msg("请填写所在单位 !");
                 return false;
             }
 
-            var id_areaSelect = $("#add").val();
+            var id_areaSelect = $("#add").val().trim();
             if (!id_areaSelect) {
                 layer.msg("请选择区域 !");
                 return false;
             }
 
 
-            var unitAddress = $("#unitAddress").val();
+            var unitAddress = $("#unitAddress").val().trim();
             if (!unitAddress) {
                 layer.msg("请填写单位地址!");
                 return false;
             }
-            var postCode = $("#postCode").val();
+            var postCode = $("#postCode").val().trim();
             if (!postCode) {
                 layer.msg("请填写单位邮编!");
                 return false;
             }
 
 
-            var major = $("#major").val();
+            var major = $("#major").val().trim();
             if (!major) {
                 layer.msg("请填写从事专业!");
                 return false;
             }
 
-            var timeStartWork = $("#timeStartWork").val();
+            var timeStartWork = $("#timeStartWork").val().trim();
             if (!timeStartWork) {
                 layer.msg("请填写从事专业起始年月!");
                 return false;
             }
-            var professTechTitles = $("#professTechTitles").val();
+            var professTechTitles = $("#professTechTitles").val().trim();
             if (!professTechTitles) {
                 layer.msg("请填写专家技术职称!");
                 return false;
@@ -485,7 +485,7 @@
 
 
 
-            var hightEducation = $("#hightEducation").val();
+            var hightEducation = $("#hightEducation").val().trim();
             if (!hightEducation) {
                 layer.msg("请选择最高学历!");
                 return false;
@@ -493,7 +493,7 @@
             //如果是地方则为必填
 
 
-            var jobExperiences = $("#jobExperiences").val();
+            var jobExperiences = $("#jobExperiences").val().trim();
             if (!jobExperiences) {
                 layer.msg("请填写主要工作经历!");
                 return false;
@@ -501,7 +501,7 @@
 
 
             if (from == "LOCAL") {
-                var degree = $("#degree").val();
+                var degree = $("#degree").val().trim();
                 if (!degree) {
                     layer.msg("请选择最高学位!");
                     return false;
@@ -509,7 +509,7 @@
 
                 //毕业证书  学位证书
 
-                var graduateSchool = $("#graduateSchool").val();
+                var graduateSchool = $("#graduateSchool").val().trim();
                 if (!graduateSchool) {
                     layer.msg("请填写毕业院校及专业 !");
                     return false;
@@ -526,13 +526,13 @@
              return false;
              }
              }*/
-            var fax = $("#fax").val();
+            var fax = $("#fax").val().trim();
             var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/
             /* if (fax != "" && !faxReg.test(fax)) {
              layer.msg("传真电话格式有误 !");
              return false;
              }*/
-            var postCode = $("#postCode").val();
+            var postCode = $("#postCode").val().trim();
             if (idNumber != "" && isNaN(postCode)) {
                 layer.msg("邮编格式只能输入数字 !");
                 return false;

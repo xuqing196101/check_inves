@@ -712,6 +712,9 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping(value = "/getCategory", produces = "application/json;charset=UTF-8")
     public String getCategory(String expertId, String id, String categoryId) {
+        if(categoryId == null || "".equals(categoryId)) {
+            return "";
+        }
         String code = DictionaryDataUtil.findById(categoryId).getCode();
         if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
