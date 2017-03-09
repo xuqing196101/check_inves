@@ -15,7 +15,7 @@ public interface OBProjectServer {
      * 分页显示竞价信息
      */
 	List<OBProject> list(OBProject op);
-<<<<<<< HEAD
+
 	
 	
 	/**---------------竞价看板模块----------------**/
@@ -32,10 +32,10 @@ public interface OBProjectServer {
 	List<OBProject> selectAllOBproject(Map<String, Object> map);
 	
 	
-=======
+
 	/**
 	 * 获取定型产品相关信息 并返回 json
 	 * */
 	String  getProduct();
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
+
 }

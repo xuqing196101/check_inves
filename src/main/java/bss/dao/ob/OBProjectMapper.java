@@ -32,11 +32,11 @@ public interface OBProjectMapper {
     int updateByPrimaryKeySelective(OBProject record);
 
     int updateByPrimaryKey(OBProject record);
-<<<<<<< HEAD
+
 
 	List<OBProject> selectAllOBproject(Map<String, Object> map);
-=======
+
   
     
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
+
 }

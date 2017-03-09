@@ -2,30 +2,26 @@ package bss.controller.ob;
 
 import java.io.File;
 import java.io.IOException;
-<<<<<<< HEAD
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-=======
+
 import java.util.ArrayList;
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
+
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-<<<<<<< HEAD
-=======
+
+
 import java.util.UUID;
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-<<<<<<< HEAD
 import org.apache.commons.lang3.StringUtils;
-=======
 import org.apache.commons.io.FileUtils;
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
@@ -39,7 +35,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -53,13 +48,9 @@ import common.annotation.CurrentUser;
 import common.constant.Constant;
 import bss.model.ob.OBProject;
 import bss.model.pms.PurchaseRequired;
-import bss.model.ppms.Project;
 import bss.service.ob.OBProjectServer;
-<<<<<<< HEAD
 
-=======
 import bss.util.ExcelUtil;
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
 /**
  * 竞价信息管理控制
  * 
@@ -108,7 +99,6 @@ public class OBProjectController {
 	 * @param request
 	 * @return
 	 */
-<<<<<<< HEAD
 	@RequestMapping("/add")
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
@@ -119,27 +109,6 @@ public class OBProjectController {
 		return "bss/ob/biddingInformation/publish";
 	}
 
-	/**
-	 * 获取可用的采购机构 信息 并返回页面
-	 * 
-	 * @author YangHongLiang
-	 * @throws IOException
-	 */
-	@RequestMapping("mechanism")
-	public void getMechanism(Model model, HttpServletRequest request,
-			HttpServletResponse response) throws IOException {
-		try {
-			String json = orgnizationService.getMechanism();
-			response.getWriter().print(json.toString());
-=======
-    @RequestMapping("/add")
-    public String addBidding(@CurrentUser User user,Model model, HttpServletRequest request){
-    	
-    	model.addAttribute("userId",user.getId());
-    	 model.addAttribute("sysKey", Constant.PROJECT_SYS_KEY);
-    	 model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
-    	return "bss/ob/biddingInformation/publish";
-    }
     /**
      * 获取可用的采购机构 信息 并返回页面
      * @author YangHongLiang
@@ -150,13 +119,11 @@ public class OBProjectController {
     	try {
     	    String json= orgnizationService.getMechanism();
     	    response.getWriter().print(json.toString());
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
 			response.getWriter().flush();
 		} catch (IOException e) {
 			e.printStackTrace();
 		} finally {
 			response.getWriter().close();
-<<<<<<< HEAD
 		}
 	}
 
@@ -235,9 +202,6 @@ public class OBProjectController {
 		return "bss/ob/biddingSpectacular/result";
 	}
 
-=======
-	      }
-    }
     
     /**
      * 获取可用的产品相关信息 并返回页面
@@ -348,5 +312,4 @@ public class OBProjectController {
 		String jsonString = JSON.toJSONString(list);
 		return jsonString;
 	}
->>>>>>> 18a44dd09bf467e44e66a47d6bfe4e7d6335f0c9
 }
