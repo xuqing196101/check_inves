@@ -158,6 +158,8 @@
 <!-- 			后期删除此项 -->
 			<mvc:exclude-mapping path="/my_test/*.*" />
 			
+			<!-- 定型产品 -->
+			<mvc:exclude-mapping path="/product/selPurchaseDepbyId.*" /> 
 			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>
