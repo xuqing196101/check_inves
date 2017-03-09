@@ -199,6 +199,9 @@ public class OBProjectController {
 		// 获取竞价标题的id
 		String id = request.getParameter("id");
 		// TODO
+		
+		// 将竞价标题id封装到model中，打印使用
+		model.addAttribute("id", id);
 		return "bss/ob/biddingSpectacular/result";
 	}
 
@@ -311,5 +314,23 @@ public class OBProjectController {
 		
 		String jsonString = JSON.toJSONString(list);
 		return jsonString;
+	}
+	
+	
+	/**
+	 * 
+	* @Title: printResult 
+	* @Description: 打印竞价结果
+	* @author Easong
+	* @param @param model
+	* @param @param request
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/printResult")
+	public String printResult(Model model,HttpServletRequest request){
+		
+		return "bss/ob/biddingSpectacular/print";
 	}
 }

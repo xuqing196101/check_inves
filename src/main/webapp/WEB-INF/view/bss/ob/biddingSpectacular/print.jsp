@@ -5,6 +5,12 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>打印结果展示页面</title>
+<style type="text/css">
+	.table th, .table td { 
+	text-align: center;
+	vertical-align: middle!important;
+	}
+</style>
 </head>
 <body>
 <div class="container">

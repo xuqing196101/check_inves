@@ -140,8 +140,8 @@
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td>${ obProject.name }</td>
-			  <td class="tc">${ obProject.startTime }</td>
-			  <td class="tc">${ obProject.endTime }</td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 			  <td class="tc">${ obProject.tradedSupplierCount }</td>
 			  <td class="tc"></td>
 			  <td class="tc">

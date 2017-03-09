@@ -5,6 +5,12 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>竞价结果查询页面</title>
+	
+	<script type="text/javascript">
+		function printResult(){
+			window.location.href="${pageContext.request.contextPath}/ob_project/printResult.html?id="+'${id}';
+		}
+	</script>
 </head>
 <body>
 <!--面包屑导航开始-->
@@ -23,9 +29,10 @@
 	<div class="headline-v2">
      	<h2>竞价标题：测试-263842312346</h2>
 	</div> 
-<!-- 表格开始 -->
+	<!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn" type="submit">打印结果</button>
+		<span><font size="3">供应商确认中标数量总量为450，预定采购数量为500，剩余采购数量为50.</font></span>
+		<button class="btn" onclick="printResult()">打印结果</button>
 	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -42,7 +49,7 @@
 		</thead>
 		<tr>
 		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXXXXXXX</a></td>
+		  <td class="tc">4000</td>
 		  <td class="tc">4000</td>
 		  <td class="tc">4000</td>
 		  <td class="tc">200</td>
@@ -51,7 +58,7 @@
 		</tr>
 		<tr>
 		  <td class="tc w50">2</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXXXXXXX</a></td>
+		  <td class="tc">4000</td>
 		  <td class="tc">4000</td>
 		  <td class="tc">4100</td>
 		  <td class="tc">150</td>
@@ -60,7 +67,7 @@
 		</tr>
 		<tr>
 		  <td class="tc w50">3</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXXXXXXX</a></td>
+		  <td class="tc">4200</td>
 		  <td class="tc">4200</td>
 		  <td class="tc">4000</td>
 		  <td class="tc">100</td>

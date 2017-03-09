@@ -65,7 +65,7 @@
 		  </tr>
 		 </tbody>
 	  </table>
-	</form>	 
+	</form>
  	<div class="col-md-12 clear tc mt10">
   		<button class="btn btn-windows save" onclick="submitForm()">保存</button>
   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
