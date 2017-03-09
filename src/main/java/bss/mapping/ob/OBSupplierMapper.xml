@@ -1,379 +1,483 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
-<mapper namespace="bss.dao.ob.OBSupplierMapper" >
-  <resultMap id="BaseResultMap" type="bss.model.ob.OBSupplier" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
-    <result column="QUALIFICATION_CERT" property="qualificationCert" jdbcType="VARCHAR" />
-    <result column="CERT_VALID_PERIOD" property="certValidPeriod" jdbcType="TIMESTAMP" />
-    <result column="QUALITY_INSPECTION_DEP" property="qualityInspectionDep" jdbcType="VARCHAR" />
-    <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
-    <result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
-    <result column="CERT_CODE" property="certCode" jdbcType="VARCHAR" />
-    <result column="USCC" property="uscc" jdbcType="VARCHAR" />
-    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
-    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
-    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
-    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
-    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <sql id="Example_Where_Clause" >
-    <where >
-      <foreach collection="oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Update_By_Example_Where_Clause" >
-    <where >
-      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
-        <if test="criteria.valid" >
-          <trim prefix="(" suffix=")" prefixOverrides="and" >
-            <foreach collection="criteria.criteria" item="criterion" >
-              <choose >
-                <when test="criterion.noValue" >
-                  and ${criterion.condition}
-                </when>
-                <when test="criterion.singleValue" >
-                  and ${criterion.condition} #{criterion.value}
-                </when>
-                <when test="criterion.betweenValue" >
-                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
-                </when>
-                <when test="criterion.listValue" >
-                  and ${criterion.condition}
-                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
-                    #{listItem}
-                  </foreach>
-                </when>
-              </choose>
-            </foreach>
-          </trim>
-        </if>
-      </foreach>
-    </where>
-  </sql>
-  <sql id="Base_Column_List" >
-    ID, SUPPLIER_ID, QUALIFICATION_CERT, CERT_VALID_PERIOD, QUALITY_INSPECTION_DEP, CONTACT_NAME, 
-    CONTACT_TEL, CERT_CODE, USCC, CREATER_ID, IS_DELETED, PRODUCT_ID, REMARK, CREATED_AT, 
-    UPDATED_AT
-  </sql>
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBSupplierExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    from T_BSS_OB_SUPPLIER
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_OB_SUPPLIER
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  
-    <select id="selectByProductID" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_OB_SUPPLIER
-    where PRODUCT_ID = #{id,jdbcType=VARCHAR}
-  </select>
-  
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from T_BSS_OB_SUPPLIER
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="bss.model.ob.OBSupplierExample" >
-    delete from T_BSS_OB_SUPPLIER
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <insert id="insert" parameterType="bss.model.ob.OBSupplier" >
-    insert into T_BSS_OB_SUPPLIER (ID, SUPPLIER_ID, QUALIFICATION_CERT, 
-      CERT_VALID_PERIOD, QUALITY_INSPECTION_DEP, 
-      CONTACT_NAME, CONTACT_TEL, CERT_CODE, 
-      USCC, CREATER_ID, IS_DELETED, 
-      PRODUCT_ID, REMARK, CREATED_AT, 
-      UPDATED_AT)
-    values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, #{qualificationCert,jdbcType=VARCHAR}, 
-      #{certValidPeriod,jdbcType=TIMESTAMP}, #{qualityInspectionDep,jdbcType=VARCHAR}, 
-      #{contactName,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR}, #{certCode,jdbcType=VARCHAR}, 
-      #{uscc,jdbcType=VARCHAR}, #{createrId,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, 
-      #{productId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
-  </insert>
-  <insert id="insertSelective" parameterType="bss.model.ob.OBSupplier" >
-    insert into T_BSS_OB_SUPPLIER
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        ID,
-      </if>
-      <if test="supplierId != null" >
-        SUPPLIER_ID,
-      </if>
-      <if test="qualificationCert != null" >
-        QUALIFICATION_CERT,
-      </if>
-      <if test="certValidPeriod != null" >
-        CERT_VALID_PERIOD,
-      </if>
-      <if test="qualityInspectionDep != null" >
-        QUALITY_INSPECTION_DEP,
-      </if>
-      <if test="contactName != null" >
-        CONTACT_NAME,
-      </if>
-      <if test="contactTel != null" >
-        CONTACT_TEL,
-      </if>
-      <if test="certCode != null" >
-        CERT_CODE,
-      </if>
-      <if test="uscc != null" >
-        USCC,
-      </if>
-      <if test="createrId != null" >
-        CREATER_ID,
-      </if>
-      <if test="isDeleted != null" >
-        IS_DELETED,
-      </if>
-      <if test="productId != null" >
-        PRODUCT_ID,
-      </if>
-      <if test="remark != null" >
-        REMARK,
-      </if>
-      <if test="createdAt != null" >
-        CREATED_AT,
-      </if>
-      <if test="updatedAt != null" >
-        UPDATED_AT,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=VARCHAR},
-      </if>
-      <if test="supplierId != null" >
-        #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="qualificationCert != null" >
-        #{qualificationCert,jdbcType=VARCHAR},
-      </if>
-      <if test="certValidPeriod != null" >
-        #{certValidPeriod,jdbcType=TIMESTAMP},
-      </if>
-      <if test="qualityInspectionDep != null" >
-        #{qualityInspectionDep,jdbcType=VARCHAR},
-      </if>
-      <if test="contactName != null" >
-        #{contactName,jdbcType=VARCHAR},
-      </if>
-      <if test="contactTel != null" >
-        #{contactTel,jdbcType=VARCHAR},
-      </if>
-      <if test="certCode != null" >
-        #{certCode,jdbcType=VARCHAR},
-      </if>
-      <if test="uscc != null" >
-        #{uscc,jdbcType=VARCHAR},
-      </if>
-      <if test="createrId != null" >
-        #{createrId,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null" >
-        #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="productId != null" >
-        #{productId,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null" >
-        #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null" >
-        #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <select id="countByExample" parameterType="bss.model.ob.OBSupplierExample" resultType="java.lang.Integer" >
-    select count(*) from T_BSS_OB_SUPPLIER
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </select>
-  <update id="updateByExampleSelective" parameterType="map" >
-    update T_BSS_OB_SUPPLIER
-    <set >
-      <if test="record.id != null" >
-        ID = #{record.id,jdbcType=VARCHAR},
-      </if>
-      <if test="record.supplierId != null" >
-        SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.qualificationCert != null" >
-        QUALIFICATION_CERT = #{record.qualificationCert,jdbcType=VARCHAR},
-      </if>
-      <if test="record.certValidPeriod != null" >
-        CERT_VALID_PERIOD = #{record.certValidPeriod,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.qualityInspectionDep != null" >
-        QUALITY_INSPECTION_DEP = #{record.qualityInspectionDep,jdbcType=VARCHAR},
-      </if>
-      <if test="record.contactName != null" >
-        CONTACT_NAME = #{record.contactName,jdbcType=VARCHAR},
-      </if>
-      <if test="record.contactTel != null" >
-        CONTACT_TEL = #{record.contactTel,jdbcType=VARCHAR},
-      </if>
-      <if test="record.certCode != null" >
-        CERT_CODE = #{record.certCode,jdbcType=VARCHAR},
-      </if>
-      <if test="record.uscc != null" >
-        USCC = #{record.uscc,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createrId != null" >
-        CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.isDeleted != null" >
-        IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="record.productId != null" >
-        PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
-      </if>
-      <if test="record.remark != null" >
-        REMARK = #{record.remark,jdbcType=VARCHAR},
-      </if>
-      <if test="record.createdAt != null" >
-        CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="record.updatedAt != null" >
-        UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExample" parameterType="map" >
-    update T_BSS_OB_SUPPLIER
-    set ID = #{record.id,jdbcType=VARCHAR},
-      SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
-      QUALIFICATION_CERT = #{record.qualificationCert,jdbcType=VARCHAR},
-      CERT_VALID_PERIOD = #{record.certValidPeriod,jdbcType=TIMESTAMP},
-      QUALITY_INSPECTION_DEP = #{record.qualityInspectionDep,jdbcType=VARCHAR},
-      CONTACT_NAME = #{record.contactName,jdbcType=VARCHAR},
-      CONTACT_TEL = #{record.contactTel,jdbcType=VARCHAR},
-      CERT_CODE = #{record.certCode,jdbcType=VARCHAR},
-      USCC = #{record.uscc,jdbcType=VARCHAR},
-      CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
-      IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
-      PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
-      REMARK = #{record.remark,jdbcType=VARCHAR},
-      CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP}
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBSupplier" >
-    update T_BSS_OB_SUPPLIER
-    <set >
-      <if test="supplierId != null" >
-        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      </if>
-      <if test="qualificationCert != null" >
-        QUALIFICATION_CERT = #{qualificationCert,jdbcType=VARCHAR},
-      </if>
-      <if test="certValidPeriod != null" >
-        CERT_VALID_PERIOD = #{certValidPeriod,jdbcType=TIMESTAMP},
-      </if>
-      <if test="qualityInspectionDep != null" >
-        QUALITY_INSPECTION_DEP = #{qualityInspectionDep,jdbcType=VARCHAR},
-      </if>
-      <if test="contactName != null" >
-        CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
-      </if>
-      <if test="contactTel != null" >
-        CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
-      </if>
-      <if test="certCode != null" >
-        CERT_CODE = #{certCode,jdbcType=VARCHAR},
-      </if>
-      <if test="uscc != null" >
-        USCC = #{uscc,jdbcType=VARCHAR},
-      </if>
-      <if test="createrId != null" >
-        CREATER_ID = #{createrId,jdbcType=VARCHAR},
-      </if>
-      <if test="isDeleted != null" >
-        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      </if>
-      <if test="productId != null" >
-        PRODUCT_ID = #{productId,jdbcType=VARCHAR},
-      </if>
-      <if test="remark != null" >
-        REMARK = #{remark,jdbcType=VARCHAR},
-      </if>
-      <if test="createdAt != null" >
-        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updatedAt != null" >
-        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBSupplier" >
-    update T_BSS_OB_SUPPLIER
-    set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      QUALIFICATION_CERT = #{qualificationCert,jdbcType=VARCHAR},
-      CERT_VALID_PERIOD = #{certValidPeriod,jdbcType=TIMESTAMP},
-      QUALITY_INSPECTION_DEP = #{qualityInspectionDep,jdbcType=VARCHAR},
-      CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
-      CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
-      CERT_CODE = #{certCode,jdbcType=VARCHAR},
-      USCC = #{uscc,jdbcType=VARCHAR},
-      CREATER_ID = #{createrId,jdbcType=VARCHAR},
-      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
-      PRODUCT_ID = #{productId,jdbcType=VARCHAR},
-      REMARK = #{remark,jdbcType=VARCHAR},
-      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
-    where ID = #{id,jdbcType=VARCHAR}
-  </update>
+<mapper namespace="bss.dao.ob.OBSupplierMapper">
+	<resultMap id="BaseResultMap" type="bss.model.ob.OBSupplier">
+		<id column="ID" property="id" jdbcType="VARCHAR" />
+		<result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+		<result column="QUALIFICATION_CERT" property="qualificationCert"
+			jdbcType="VARCHAR" />
+		<result column="CERT_VALID_PERIOD" property="certValidPeriod"
+			jdbcType="TIMESTAMP" />
+		<result column="QUALITY_INSPECTION_DEP" property="qualityInspectionDep"
+			jdbcType="VARCHAR" />
+		<result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
+		<result column="CONTACT_TEL" property="contactTel" jdbcType="VARCHAR" />
+		<result column="CERT_CODE" property="certCode" jdbcType="VARCHAR" />
+		<result column="USCC" property="uscc" jdbcType="VARCHAR" />
+		<result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+		<result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
+		<result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+		<result column="REMARK" property="remark" jdbcType="VARCHAR" />
+		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+		<result column="NN" property="nCount" jdbcType="INTEGER" />
+		<association property="supplier" column="SUPPLIER_ID"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+	</resultMap>
+	<sql id="Example_Where_Clause">
+		<where>
+			<foreach collection="oredCriteria" item="criteria" separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Update_By_Example_Where_Clause">
+		<where>
+			<foreach collection="example.oredCriteria" item="criteria"
+				separator="or">
+				<if test="criteria.valid">
+					<trim prefix="(" suffix=")" prefixOverrides="and">
+						<foreach collection="criteria.criteria" item="criterion">
+							<choose>
+								<when test="criterion.noValue">
+									and ${criterion.condition}
+								</when>
+								<when test="criterion.singleValue">
+									and ${criterion.condition} #{criterion.value}
+								</when>
+								<when test="criterion.betweenValue">
+									and ${criterion.condition} #{criterion.value}
+									and
+									#{criterion.secondValue}
+								</when>
+								<when test="criterion.listValue">
+									and ${criterion.condition}
+									<foreach collection="criterion.value" item="listItem"
+										open="(" close=")" separator=",">
+										#{listItem}
+									</foreach>
+								</when>
+							</choose>
+						</foreach>
+					</trim>
+				</if>
+			</foreach>
+		</where>
+	</sql>
+	<sql id="Base_Column_List">
+		ID, SUPPLIER_ID, QUALIFICATION_CERT, CERT_VALID_PERIOD,
+		QUALITY_INSPECTION_DEP, CONTACT_NAME,
+		CONTACT_TEL, CERT_CODE, USCC,
+		CREATER_ID, IS_DELETED, PRODUCT_ID, REMARK,
+		CREATED_AT,
+		UPDATED_AT
+	</sql>
+
+	<!-- 查询产品对应的供应商数量 -->
+	<select id="selectSupplierNum" resultMap="BaseResultMap">
+		SELECT
+		T1.ID
+		PRODUCT_ID,T2.NN NN
+		FROM
+		T_BSS_OB_PRODUCT T1
+		LEFT JOIN
+		(select
+		PRODUCT_ID,count(ID) NN from T_BSS_OB_SUPPLIER WHERE IS_DELETED = 0
+		GROUP BY PRODUCT_ID ) T2
+		ON
+		T1.ID = T2.PRODUCT_ID
+	</select>
+
+	<!-- 根据产品id查询供应商列表 所有 -->
+	<select id="selectByProductId" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_OB_SUPPLIER
+		where IS_DELETED = 0
+		<if test="productId != null">
+			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 根据id查询供应商列表 过期 -->
+	<select id="selectByProductId1" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_OB_SUPPLIER
+		WHERE
+		CERT_VALID_PERIOD &lt; SYSDATE
+		AND
+		IS_DELETED = 0
+		<if test="productId != null">
+			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+	</select>
+
+	<!-- 根据id查询供应商列表 未过期 -->
+	<select id="selectByProductId2" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_BSS_OB_SUPPLIER
+		WHERE
+		CERT_VALID_PERIOD &gt; SYSDATE
+		AND
+		IS_DELETED = 0
+		<if test="productId != null">
+			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+	</select>
+	<select id="selectByExample" resultMap="BaseResultMap"
+		parameterType="bss.model.ob.OBSupplierExample">
+		select
+		<if test="distinct">
+			distinct
+		</if>
+		<include refid="Base_Column_List" />
+		from T_BSS_OB_SUPPLIER
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+		<if test="orderByClause != null">
+			order by ${orderByClause}
+		</if>
+	</select>
+	<!-- 根据id查询 -->
+	<select id="selectByPrimaryKey" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_OB_SUPPLIER
+		where ID = #{id,jdbcType=VARCHAR}
+	</select>
+
+	<select id="selectByProductID" resultMap="BaseResultMap"
+		parameterType="java.lang.String">
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_OB_SUPPLIER
+		where PRODUCT_ID = #{id,jdbcType=VARCHAR}
+	</select>
+	<!-- 删除 修改删除状态 -->
+	<update id="deleteByPrimaryKey" parameterType="String">
+		update
+		T_BSS_OB_SUPPLIER set IS_DELETED = 1 where ID =
+		#{id,jdbcType=VARCHAR}
+	</update>
+
+	<insert id="insert" parameterType="bss.model.ob.OBSupplier">
+		insert into T_BSS_OB_SUPPLIER
+		(ID, SUPPLIER_ID, QUALIFICATION_CERT,
+		CERT_VALID_PERIOD,
+		QUALITY_INSPECTION_DEP,
+		CONTACT_NAME, CONTACT_TEL, CERT_CODE,
+		USCC,
+		CREATER_ID, IS_DELETED,
+		PRODUCT_ID, REMARK, CREATED_AT,
+		UPDATED_AT)
+		values (#{id,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR},
+		#{qualificationCert,jdbcType=VARCHAR},
+		#{certValidPeriod,jdbcType=TIMESTAMP},
+		#{qualityInspectionDep,jdbcType=VARCHAR},
+		#{contactName,jdbcType=VARCHAR}, #{contactTel,jdbcType=VARCHAR},
+		#{certCode,jdbcType=VARCHAR},
+		#{uscc,jdbcType=VARCHAR},
+		#{createrId,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL},
+		#{productId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR},
+		#{createdAt,jdbcType=TIMESTAMP},
+		#{updatedAt,jdbcType=TIMESTAMP})
+	</insert>
+	<!-- 插入非空数据 -->
+	<insert id="insertSelective" parameterType="bss.model.ob.OBSupplier">
+		insert into T_BSS_OB_SUPPLIER
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="supplierId != null">
+				SUPPLIER_ID,
+			</if>
+			<if test="qualificationCert != null">
+				QUALIFICATION_CERT,
+			</if>
+			<if test="certValidPeriod != null">
+				CERT_VALID_PERIOD,
+			</if>
+			<if test="qualityInspectionDep != null">
+				QUALITY_INSPECTION_DEP,
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME,
+			</if>
+			<if test="contactTel != null">
+				CONTACT_TEL,
+			</if>
+			<if test="certCode != null">
+				CERT_CODE,
+			</if>
+			<if test="uscc != null">
+				USCC,
+			</if>
+			<if test="createrId != null">
+				CREATER_ID,
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED,
+			</if>
+			<if test="productId != null">
+				PRODUCT_ID,
+			</if>
+			<if test="remark != null">
+				REMARK,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id,jdbcType=VARCHAR},
+			</if>
+			<if test="supplierId != null">
+				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="qualificationCert != null">
+				#{qualificationCert,jdbcType=VARCHAR},
+			</if>
+			<if test="certValidPeriod != null">
+				#{certValidPeriod,jdbcType=TIMESTAMP},
+			</if>
+			<if test="qualityInspectionDep != null">
+				#{qualityInspectionDep,jdbcType=VARCHAR},
+			</if>
+			<if test="contactName != null">
+				#{contactName,jdbcType=VARCHAR},
+			</if>
+			<if test="contactTel != null">
+				#{contactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="certCode != null">
+				#{certCode,jdbcType=VARCHAR},
+			</if>
+			<if test="uscc != null">
+				#{uscc,jdbcType=VARCHAR},
+			</if>
+			<if test="createrId != null">
+				#{createrId,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				#{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				#{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				#{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+		</trim>
+	</insert>
+	<select id="countByExample" parameterType="bss.model.ob.OBSupplierExample"
+		resultType="java.lang.Integer">
+		select count(*) from T_BSS_OB_SUPPLIER
+		<if test="_parameter != null">
+			<include refid="Example_Where_Clause" />
+		</if>
+	</select>
+	<update id="updateByExampleSelective" parameterType="map">
+		update T_BSS_OB_SUPPLIER
+		<set>
+			<if test="record.id != null">
+				ID = #{record.id,jdbcType=VARCHAR},
+			</if>
+			<if test="record.supplierId != null">
+				SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.qualificationCert != null">
+				QUALIFICATION_CERT =
+				#{record.qualificationCert,jdbcType=VARCHAR},
+			</if>
+			<if test="record.certValidPeriod != null">
+				CERT_VALID_PERIOD =
+				#{record.certValidPeriod,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.qualityInspectionDep != null">
+				QUALITY_INSPECTION_DEP =
+				#{record.qualityInspectionDep,jdbcType=VARCHAR},
+			</if>
+			<if test="record.contactName != null">
+				CONTACT_NAME = #{record.contactName,jdbcType=VARCHAR},
+			</if>
+			<if test="record.contactTel != null">
+				CONTACT_TEL = #{record.contactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="record.certCode != null">
+				CERT_CODE = #{record.certCode,jdbcType=VARCHAR},
+			</if>
+			<if test="record.uscc != null">
+				USCC = #{record.uscc,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createrId != null">
+				CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.isDeleted != null">
+				IS_DELETED = #{record.isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="record.productId != null">
+				PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
+			</if>
+			<if test="record.remark != null">
+				REMARK = #{record.remark,jdbcType=VARCHAR},
+			</if>
+			<if test="record.createdAt != null">
+				CREATED_AT = #{record.createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="record.updatedAt != null">
+				UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<update id="updateByExample" parameterType="map">
+		update T_BSS_OB_SUPPLIER
+		set ID = #{record.id,jdbcType=VARCHAR},
+		SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
+		QUALIFICATION_CERT = #{record.qualificationCert,jdbcType=VARCHAR},
+		CERT_VALID_PERIOD = #{record.certValidPeriod,jdbcType=TIMESTAMP},
+		QUALITY_INSPECTION_DEP =
+		#{record.qualityInspectionDep,jdbcType=VARCHAR},
+		CONTACT_NAME =
+		#{record.contactName,jdbcType=VARCHAR},
+		CONTACT_TEL =
+		#{record.contactTel,jdbcType=VARCHAR},
+		CERT_CODE =
+		#{record.certCode,jdbcType=VARCHAR},
+		USCC =
+		#{record.uscc,jdbcType=VARCHAR},
+		CREATER_ID =
+		#{record.createrId,jdbcType=VARCHAR},
+		IS_DELETED =
+		#{record.isDeleted,jdbcType=DECIMAL},
+		PRODUCT_ID =
+		#{record.productId,jdbcType=VARCHAR},
+		REMARK =
+		#{record.remark,jdbcType=VARCHAR},
+		CREATED_AT =
+		#{record.createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT =
+		#{record.updatedAt,jdbcType=TIMESTAMP}
+		<if test="_parameter != null">
+			<include refid="Update_By_Example_Where_Clause" />
+		</if>
+	</update>
+	<!-- 修改 -->
+	<update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBSupplier">
+		update T_BSS_OB_SUPPLIER
+		<set>
+			<if test="supplierId != null">
+				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="qualificationCert != null">
+				QUALIFICATION_CERT = #{qualificationCert,jdbcType=VARCHAR},
+			</if>
+			<if test="certValidPeriod != null">
+				CERT_VALID_PERIOD = #{certValidPeriod,jdbcType=TIMESTAMP},
+			</if>
+			<if test="qualityInspectionDep != null">
+				QUALITY_INSPECTION_DEP = #{qualityInspectionDep,jdbcType=VARCHAR},
+			</if>
+			<if test="contactName != null">
+				CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+			</if>
+			<if test="contactTel != null">
+				CONTACT_TEL = #{contactTel,jdbcType=VARCHAR},
+			</if>
+			<if test="certCode != null">
+				CERT_CODE = #{certCode,jdbcType=VARCHAR},
+			</if>
+			<if test="uscc != null">
+				USCC = #{uscc,jdbcType=VARCHAR},
+			</if>
+			<if test="createrId != null">
+				CREATER_ID = #{createrId,jdbcType=VARCHAR},
+			</if>
+			<if test="isDeleted != null">
+				IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+			</if>
+			<if test="productId != null">
+				PRODUCT_ID = #{productId,jdbcType=VARCHAR},
+			</if>
+			<if test="remark != null">
+				REMARK = #{remark,jdbcType=VARCHAR},
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+		</set>
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
+	<update id="updateByPrimaryKey" parameterType="bss.model.ob.OBSupplier">
+		update
+		T_BSS_OB_SUPPLIER
+		set SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+		QUALIFICATION_CERT = #{qualificationCert,jdbcType=VARCHAR},
+		CERT_VALID_PERIOD = #{certValidPeriod,jdbcType=TIMESTAMP},
+		QUALITY_INSPECTION_DEP = #{qualityInspectionDep,jdbcType=VARCHAR},
+		CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
+		CONTACT_TEL =
+		#{contactTel,jdbcType=VARCHAR},
+		CERT_CODE =
+		#{certCode,jdbcType=VARCHAR},
+		USCC = #{uscc,jdbcType=VARCHAR},
+		CREATER_ID = #{createrId,jdbcType=VARCHAR},
+		IS_DELETED =
+		#{isDeleted,jdbcType=DECIMAL},
+		PRODUCT_ID =
+		#{productId,jdbcType=VARCHAR},
+		REMARK = #{remark,jdbcType=VARCHAR},
+		CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+		UPDATED_AT =
+		#{updatedAt,jdbcType=TIMESTAMP}
+		where ID = #{id,jdbcType=VARCHAR}
+	</update>
 </mapper>

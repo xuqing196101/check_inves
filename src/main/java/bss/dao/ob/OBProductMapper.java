@@ -8,15 +8,13 @@ import org.apache.ibatis.annotations.Param;
 public interface OBProductMapper {
     int countByExample(OBProductExample example);
 
-    int deleteByExample(OBProductExample example);
-
-    int deleteByPrimaryKey(String id);
+    void deleteByPrimaryKey(@Param("id")String id);
 
     int insert(OBProduct record);
 
     int insertSelective(OBProduct record);
 
-    List<OBProduct> selectByExample(OBProductExample example);
+    List<OBProduct> selectByExample(OBProduct example);
 
     OBProduct selectByPrimaryKey(String id);
 

@@ -1,0 +1,50 @@
+package bss.service.ob.impl;
+
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
+import bss.dao.ob.OBProductMapper;
+import bss.model.ob.OBProduct;
+import bss.service.ob.OBProductService;
+
+@Service("oBProductService")
+public class OBProductServiceImpl implements OBProductService {
+
+	@Autowired
+	private OBProductMapper oBProductMapper;
+
+	@Override
+	public List<OBProduct> selectByExample(OBProduct example,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<OBProduct> list = oBProductMapper.selectByExample(example);
+		return list;
+	}
+
+	@Override
+	public void deleteByPrimaryKey(String id) {
+		oBProductMapper.deleteByPrimaryKey(id);
+	}
+
+	@Override
+	public OBProduct selectByPrimaryKey(String id) {
+		return oBProductMapper.selectByPrimaryKey(id);
+	}
+
+	@Override
+	public int insertSelective(OBProduct record) {
+		return oBProductMapper.insertSelective(record);
+	}
+
+	@Override
+	public int updateByPrimaryKeySelective(OBProduct record) {
+		return oBProductMapper.updateByPrimaryKeySelective(record);
+	}
+
+}

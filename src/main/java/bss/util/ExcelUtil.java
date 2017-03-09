@@ -811,8 +811,9 @@ public class ExcelUtil {
 			        					for(OBProduct ob:lists){
 			        						if(ob.getName().equals(product)){
 			        							boo=true;
-			        							listsize=ob.getObSupplierList().size();
-			        							id=ob.getId();
+			        							/* 错误  注释
+			        							 * listsize=ob.getObSupplierList().size();
+			        							id=ob.getId();*/
 			        							break;
 			        						}
 			        					}
