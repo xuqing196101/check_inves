@@ -303,10 +303,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//在数据字典里查询企业性质
 		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
-		for(int i = 0; i < businessList.size(); i++) {
-			if(supplier.getBusinessNature().equals(businessList.get(i).getId())) {
-				String businessNature = list.get(i).getName();
-				supplier.setBusinessNature(businessNature);
+		String businessNature = supplier.getBusinessNature();
+		if(businessNature !=null){
+			for(int i = 0; i < businessList.size(); i++) {
+				if(businessNature.equals(businessList.get(i).getId())) {
+					String business = list.get(i).getName();
+					supplier.setBusinessNature(business);
+				}
 			}
 		}
 		request.setAttribute("suppliers", supplier);
