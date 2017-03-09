@@ -42,6 +42,33 @@
 				 }
 		   }
 	}
+	
+	$(function() {
+		laypage({
+          cont: $("#pagediv"), 
+          pages: "${listInfo.pages}", 
+          skin: '#2c9fA6',
+          skip: true, 
+          total: "${listInfo.total}",
+          startRow: "${listInfo.startRow}",
+          endRow: "${listInfo.endRow}",
+          groups: "${listInfo.pages}" >= 5 ? 5 : "${listInfo.pages}", 
+          curr: function() { 
+            var page = location.search.match(/page=(\d+)/);
+            return page ? page[1] : 1;
+          }(),
+          jump: function(e, first) {
+            if(!first) {
+              var articleTypeId = "${article.articleType.id}";
+              var range = $("#range").val();
+              var status = $("#status").val();
+              var name = "${articleName}";
+              window.location.href = "${pageContext.request.contextPath }/article/serch.html?page=" + e.curr + "&articleTypeId=" + articleTypeId + "&range=" + range + "&status=" + status + "&name=" + name;
+            }
+          }
+        });
+	});
+	
 </script>
 </head>
 <body>
@@ -93,60 +120,17 @@
 		  <th class="info">恢复操作</th>
 		</tr>
 		</thead>
+		<c:forEach  items="${listInfo.list}" var="quote" varStatus="vs">
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">确认结果</a></td>
+		  <td class="tc w50">${vs.index + 1 }</td>
+		  <td><a href="javascript:void(0)">${quote.name }</a></td>
+		  <td class="tc">${quote.startTime }</td>
+		  <td class="tc">${quote.endTime }</td>
+		  <td class="tc">${quote.status }</td>
+		  <td class="tc"><a href="javascript:void(0)">${quote.name }</a></td>
 		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">已确定</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">已确定</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">结束</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">报价</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">报价时间结束</a></td>
-		</tr>
+		</c:forEach>
 	</table>
    </div>
       <div id="pagediv" align="right"></div>
