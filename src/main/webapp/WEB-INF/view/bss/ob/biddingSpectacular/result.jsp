@@ -70,6 +70,9 @@
 		</table>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
+    <div align="right">
+  		<button class="btn btn-windows back" type="button"  onclick="history.go(-1)">返回</button>
+ 	</div>
    </div>
 </body>
 </html>

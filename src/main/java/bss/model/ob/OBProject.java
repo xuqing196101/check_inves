@@ -77,6 +77,8 @@ public class OBProject {
     /**
      * @Fields status : 发布状态
      */
+
+    /**竞价状态  1：发布中   2：待确认 3：竞价结束 **/
     private Integer status;
     /**
      * @Fields createrId : 创建人ID
@@ -89,6 +91,8 @@ public class OBProject {
     /**
      * @Fields turnoverRation : 成交比例
      */
+    
+    /**成交比例**/
     private Integer turnoverRation;
     /**
      * @Fields createdAt : 创建时间

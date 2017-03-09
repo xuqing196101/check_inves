@@ -196,7 +196,10 @@ public class Expert extends ExpertHistory implements Serializable {
     private Date submitAt;
     
     private Date auditAt;  //审核时间
-
+    
+    //是否发布 0 未公开 1 已公开
+    private Integer isPublish = 0;
+    
     public String getStepNumber() {
         return stepNumber;
     }
@@ -644,6 +647,14 @@ public class Expert extends ExpertHistory implements Serializable {
     public void setIsReferenceLftter(Integer isReferenceLftter) {
         this.isReferenceLftter = isReferenceLftter;
     }
+
+	public Integer getIsPublish() {
+		return isPublish;
+	}
+
+	public void setIsPublish(Integer isPublish) {
+		this.isPublish = isPublish;
+	}
 
     
 }

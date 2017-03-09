@@ -26,7 +26,7 @@
 				}
 				var card="${notPass}";
 				if(card=="error_card"){
-					layer.msg("身份证号码重复！");
+					layer.msg("身份证号已存在！");
 				}
 				var notPass = "${notPass}";
 				if (notPass == "notPass") {

@@ -6,6 +6,26 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>竞价信息列表页面</title>
 <script type="text/javascript">
+	$(function() {
+	    laypage({
+	      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+	      pages : "${info.pages}", //总页数
+	      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	      skip : true, //是否开启跳页
+	      total : "${info.total}",
+	      startRow : "${info.startRow}",
+	      endRow : "${info.endRow}",
+	      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+	      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+	        return "${info.pageNum}";
+	      }(),
+	      jump : function(e, first) { //触发分页后的回调
+	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
+	      		location.href = "${pageContext.request.contextPath }/ob_project/biddingInfoList.do?page=" + e.curr;
+	        }
+	      }
+	    });
+	  });
 	
 	/** 全选全不选 */
 	function selectAll(){
@@ -42,6 +62,23 @@
 				 }
 		   }
 	}
+	
+	<!--搜索-->
+	function query(){
+		$("#queryForm").attr("action","${pageContext.request.contextPath}/ob_project/biddingInfoList.html");
+		$("#queryForm").submit();
+	}
+	
+	
+	// 查看结果
+	function findResult(id){
+		window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingResult.html?id="+id;
+	}
+	// 查看发布中信息
+	function findIssueInfo(id){
+		window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?id="+id;
+	}
+	
 </script>
 </head>
 <body>
@@ -59,23 +96,19 @@
 <!-- 竞价信息列表页面开始 -->
 	<div class="container">
     <div class="search_detail">
-       <form action="" method="post" class="mb0">
+       <form id="queryForm" action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价标题：</label>
-			<input type="text" id="topic" class=""/>
+			<input name="name" value="${ name }" type="text" id="topic" class=""/>
 	      </li>
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
-	    	  <select class="w178">
-	    	    <option>选项一</option>
-	    	    <option>选项二</option>
-	    	    <option>选项三</option>
-	    	  </select>
+	    	 <input name="startTime" value="${ startTime }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li>
     	  <li>
 	    	<label class="fl">竞价结束时间：</label>
-			<input type="text" id="topic" class=""/>
+			<input name="endTime" value="${ endTime }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
@@ -102,51 +135,37 @@
 		  <th class="info">操作</th>
 		</tr>
 		</thead>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td>XXXXXXXX</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">3</td>
-		  <td class="tc">34</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">查看结果</a></td>
-		</tr> 
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">2</td>
-		  <td>XXXXXXXX</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">3</td>
-		  <td class="tc">34</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">查看结果</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">3</td>
-		  <td>XXXXXXXX</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">3</td>
-		  <td class="tc">34</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">查看结果</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">4</td>
-		  <td>XXXXXXXX</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">3</td>
-		  <td class="tc">34</td>
-		  <td class="tc">发布中</td>
-		  <td class="tc"><a href="javascript:void(0)">查看</a></td>
-		</tr> 
-		</table>
+		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
+			<tr>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+			  <td>${ obProject.name }</td>
+			  <td class="tc">${ obProject.startTime }</td>
+			  <td class="tc">${ obProject.endTime }</td>
+			  <td class="tc">${ obProject.tradedSupplierCount }</td>
+			  <td class="tc"></td>
+			  <td class="tc">
+			  	<c:if test="${ obProject.status == 1 }">
+			  		发布中
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 2 }">
+			  		待确认
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 3 }">
+			  		竞价结束
+			  	</c:if>
+			  </td>
+			  <td class="tc">
+			  	<c:if test="${ obProject.status == 3 }">
+				  	<a href="javascript:void(0)" onclick="findResult('${obProject.id}')">查看结果</a>
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 1 }">
+				  	<a href="javascript:void(0)" onclick="findIssueInfo('${obProject.id}')">查看</a>
+			  	</c:if>
+			  </td>
+			</tr> 
+		</c:forEach>
+	</table>
    </div>
       <div id="pagediv" align="right"></div>
    </div>  

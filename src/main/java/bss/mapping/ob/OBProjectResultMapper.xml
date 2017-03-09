@@ -350,4 +350,7 @@
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  
+  
 </mapper>

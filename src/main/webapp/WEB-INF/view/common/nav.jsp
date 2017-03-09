@@ -78,6 +78,7 @@
 					                   				<c:forEach items="${sessionScope.resource}" var="r" varStatus="vs">
 					                   					<c:if test="${res.id == r.parentId.id}">
 								                   			<li><a href="${pageContext.request.contextPath}/${r.url}" target="home" class="son-menu son-three"><span class="mr5">◇</span>${r.name }</a></li>
+								                   			<li><a href="${pageContext.request.contextPath}/ob_project/biddingInfoList.html" target="home" class="son-menu son-three"><span class="mr5">◇</span>竞价信息列表</a></li>
 					                   					</c:if>
 					                   				</c:forEach>
 				                   				</ul>
