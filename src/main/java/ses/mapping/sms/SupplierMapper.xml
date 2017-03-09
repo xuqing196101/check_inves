@@ -1285,7 +1285,12 @@
 		<if test="scoreEnd != null and scoreEnd != ''">
 			and SCORE &lt; #{scoreEnd}
 		</if>
-		ORDER BY FOUND_DATE DESC
+		<if test="judge == null and judge != 5">
+			ORDER BY CREATED_AT DESC NULLS LAST
+		</if>
+		<if test="judge != null and judge == 5">
+			ORDER BY AUDIT_DATE DESC NULLS LAST
+		</if>
 	</select>
 
 

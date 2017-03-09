@@ -389,6 +389,7 @@
               <span>
                 <select id="status" name="status" class="w220">
 	                <option  selected="selected" value=''>-请选择-</option>
+	                <option value="-1">暂存</option>
 	                <option value="0">待审核</option>
 									<option value="1">审核通过</option>
 									<option value="2">审核退回修改</option>
@@ -467,7 +468,7 @@
 								<td class="tc">${list.contactName }</td>
 								<td class="tc">${list.level }</td>
 								<td class="tc">
-									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" />
+									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="tc">${list.supplierType }</td>
 								<td class="tc">

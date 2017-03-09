@@ -126,7 +126,7 @@
 			  			layer.alert("请选择【复审通过】的专家！",{offset : '100px'});
 			     	}
 			  		}else{
-			  			layer.alert("请选择专家！",{offset : '100px'});
+			  			layer.msg("请选择专家 !", {offset: '100px',});
 			  		}
 			  		
 			  	}
@@ -214,7 +214,8 @@
 							<th class="info">毕业院校及专业</th>
 							<th class="info">工作单位</th>
 							<!-- <th class="info">创建时间</th> -->
-							<th class="info">诚信积分</th>
+							<!-- <th class="info">诚信积分</th> -->
+							<th class="info">发布</th>
 							<th class="info">审核状态</th>
 						</tr>
 					</thead>
@@ -230,7 +231,11 @@
 							<%-- <td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td> --%>
-							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td>
+							<%-- <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td> --%>
+							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
+								<c:if test="${expert.isPublish == 1 }">已发布</c:if>
+								<c:if test="${expert.isPublish == 0 }">未发布</c:if>
+							</td>
 							<c:if test="${(sign == 1 and expert.status eq '0')}">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
 							</c:if>
