@@ -75,4 +75,17 @@ public class OBSupplierQuoteController {
 		// 
 		return "bss/ob/supplier/supplierOffer";
 	}
+	
+	
+	
+	/**
+	 * @author Ma Mingwei
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/confirmResult")
+	public String quoteConfirmResult(Model model){
+		// 
+		return "bss/ob/supplier/confirmResult";
+	}
 }
