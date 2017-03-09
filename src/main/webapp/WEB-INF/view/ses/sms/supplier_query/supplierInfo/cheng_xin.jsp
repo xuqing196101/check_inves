@@ -18,7 +18,6 @@
 				if(str == "shareholder") {
 					action = "${pageContext.request.contextPath}/supplierQuery/shareholder.html";
 				}
-				
 				if(str == "chengxin") {
 					action = "${pageContext.request.contextPath}/supplierQuery/list.html";
 				}
@@ -57,13 +56,15 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑系统</a>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
 					</li>
 					<li>
 						<a href="#">供应商查看</a>
 					</li>
 				</ul>
-				<div class="clear"></div>
 			</div>
 		</div>
 		<!-- 项目戳开始 -->
@@ -90,13 +91,13 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('supplierType');">供应商类型</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('item');">品目信息</a>
+							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('item');">产品类别</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
 						<li class="active">
 							<a aria-expanded="false" href="#tab-2" class="f18" data-toggle="tab" onclick="tijiao('chengxin');">诚信记录</a>
