@@ -165,12 +165,12 @@ public class SupplierQueryController extends BaseSupplierController {
     @RequestMapping("/highmaps")
     public String highmaps(Supplier sup, Model model, Integer status, Integer judge, String supplierTypeIds
                            , String supplierType, String categoryNames, String categoryIds){
-        if (judge != null){
+        /*if (judge != null){
             status = judge;
         }
         if (status != null){
             sup.setStatus(status);
-        }
+        }*/
         if (categoryIds != null && !"".equals(categoryIds)){
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
@@ -237,9 +237,9 @@ public class SupplierQueryController extends BaseSupplierController {
     @RequestMapping("/findSupplierByPriovince")
     public String findSupplierByPriovince(Integer judge, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType
                                           , String categoryNames, String categoryIds) throws UnsupportedEncodingException{
-        if (judge != null) {
+        /*if (judge != null) {
             sup.setStatus(judge);
-        }
+        }*/
         model.addAttribute("address", sup.getAddress());
         String address = supplierEditService.getProvince(sup.getAddress());
         if ("".equals(address)) {
@@ -270,7 +270,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierType", supplierType);
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
-        //等于3说明是入库供应商
+        //等于5说明是入库供应商
         if (judge != null && judge == NUMBER_FIVE) {
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {

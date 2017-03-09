@@ -22,7 +22,7 @@
 					}(),
 					jump: function(e, first) { //触发分页后的回调
 						if(!first) { //一定要加此判断，否则初始时会无限刷新
-							location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&address" + encodeURI(encodeURI('${address}'));
+							location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&judge=5" + "&address="  + encodeURI(encodeURI('${address}'));
 						}
 					}
 				});
@@ -403,14 +403,14 @@
 								</td>
 								<td class="tc">${list.supplierType }</td>
 								<td class="tc">
-									<%-- <c:if test="${list.status==-1 }">待审核</c:if>
-									<c:if test="${list.status==0 }">待审核</c:if>
+									<%-- <c:if test="${list.status==-1 }">暂存</c:if>
+									<c:if test="${list.status==0 }">待审核</c:if> --%>
 									<c:if test="${list.status==1 }">审核通过</c:if>
-									<c:if test="${list.status==2 }">审核退回修改</c:if>
-									<c:if test="${list.status==3 }">审核未通过</c:if>
-									<c:if test="${list.status==4 }">待复核</c:if> --%>
+									<%-- <c:if test="${list.status==2 }">审核退回修改</c:if>
+									<c:if test="${list.status==3 }">审核未通过</c:if> --%>
+									<c:if test="${list.status==4 }">待复核</c:if>
 									<c:if test="${list.status==5 }">复核通过</c:if>
-									<%-- <c:if test="${list.status==6 }">复核未通过</c:if> --%>
+									<c:if test="${list.status==6 }">复核未通过</c:if>
 									<c:if test="${list.status==7 }">待考察</c:if>
 									<c:if test="${list.status==8 }">考察合格</c:if>
 									<c:if test="${list.status==9 }">考察不合格</c:if>

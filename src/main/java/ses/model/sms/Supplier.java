@@ -738,6 +738,7 @@ public class Supplier implements Serializable {
     //是否发布 0 未公开 1 已公开
     private Integer isPublish = 0;
     
+    private Integer judge;
     public List<ProjectDetail> getPdList() {
         return pdList;
     }
@@ -1834,6 +1835,14 @@ public class Supplier implements Serializable {
 
 	public void setIsPublish(Integer isPublish) {
 		this.isPublish = isPublish;
+	}
+
+	public Integer getJudge() {
+		return judge;
+	}
+
+	public void setJudge(Integer judge) {
+		this.judge = judge;
 	}
 	
 	
