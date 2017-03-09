@@ -138,7 +138,7 @@ public class DictionaryDataController extends BaseSupplierController{
     @RequestMapping("/showList")
     public void showList(HttpServletResponse response,DictionaryData dd,Integer page) throws Exception{
     	List<DictionaryData> ls = dictionaryDataService.listByPage(dd, page == null ? 1 : page);
-    	Map map = new HashMap<>();
+    	HashMap<String, Object> map = new HashMap<>();
     	map.put("pageInfo", new PageInfo<DictionaryData>(ls));
     	map.put("list", ls);
     	map.put("kind", dd.getKind());

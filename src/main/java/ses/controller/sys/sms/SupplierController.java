@@ -2610,11 +2610,10 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("/download_category")
 	public ResponseEntity < byte[] > download(HttpServletRequest request, String filename) throws IOException {
 		//	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
-		String path = PathUtil.getWebRoot() + "excel/产品目录.xls";;
+		String path = PathUtil.getWebRoot() + "excel/物资工程服务专家参评产品分类目录.xlsx";;
 		File file = new File(path);
-
 		HttpHeaders headers = new HttpHeaders();
-		String fileName = new String("产品目录.xls".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+		String fileName = new String("物资工程服务专家参评产品分类目录.xlsx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
 		headers.setContentDispositionFormData("attachment", fileName);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),

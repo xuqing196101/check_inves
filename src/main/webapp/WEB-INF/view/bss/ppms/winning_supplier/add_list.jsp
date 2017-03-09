@@ -98,10 +98,16 @@
 		if(!checkboxStatus) {
 			layer.alert("请选择要添加对应的明细");
 		} else if(checkboxStatus) {
-			if(appendObj.parent().parent().parent().find("tr").size() <= 2) {
-				appendObj.parent().parent().after('<tr class="tc"><td><input style="display:none;" type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount" type="text"></td><td><input name="unitPrice" type="text"></td></tr>');
+			var tempFlag = 0;
+			$(".ck").each(function() {
+				if($(this).is(":checked")) {
+					tempFlag += 1;
+				}
+			});
+			if(tempFlag > 1) {
+				layer.alert("只能选择一条");
 			} else {
-				layer.alert("只能新增一条");
+				appendObj.parent().parent().after('<tr class="tc"><td><input style="display:none;" type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount" type="text"></td><td><input name="unitPrice" type="text"></td></tr>');
 			}
 			
 		}
@@ -149,7 +155,7 @@
 	<h2 class="list_title mb0 clear">标的录入</h2>
 	<div style="margin-top: 10px;">
 		<button class="btn btn-windows add "
-			onclick="add(this);" type="button">新增</button>
+			onclick="add(this);" type="button">请选择一条明细</button>
 	</div>
 	<div class="content table_box pl0">
 		<table class="table table-bordered table-condensed table_input left_table table_input">
@@ -221,6 +227,8 @@
 	<div style="text-align: center;">
 		<button class="btn btn-windows add "
 			onclick="saveOrUpdate(this);" type="button">保存</button>
+		<button class="btn btn-windows back" onclick="history.go(-1)"
+				type="button">返回</button>
 	</div>
 </body>
 

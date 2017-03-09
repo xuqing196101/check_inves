@@ -141,9 +141,9 @@
             </span>
       </li>
     </ul>
-    <div class="col-md-12 clear tc mt10">
-        <button class="btn fl mt1" type="submit">查询</button>
-        <button type="reset" class="btn fl mt1" onclick="clearSearch();">重置</button>
+    <div class="col-md-12 col-xs-12 col-sm-12 clear tc mt10">
+        <button class="btn mt1" type="submit">查询</button>
+        <button type="reset" class="btn mt1" onclick="clearSearch();">重置</button>
     </div>
     <div class="clear"></div>
     </form>

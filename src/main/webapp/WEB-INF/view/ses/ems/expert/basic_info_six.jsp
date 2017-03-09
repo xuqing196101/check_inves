@@ -466,10 +466,14 @@
 								<c:if test="${cate.code eq 'GOODS'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<c:set var="gcount" value="${gcount + 1}"></c:set>
-									<div id="div-${vs.index + 1}" class="mb10">
-										产品类别:<input type="text" id="cate-${vs.index + 1}">
-								                   目录编码:<input type="text" id="code-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
+									<div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
+									  <div class="fl mr5">
+										产品类别：<input type="text" id="cate-${vs.index + 1}">
+									  </div>
+									  <div class="fl mr5">
+								                        目录编码：<input type="text" id="code-${vs.index + 1}">
+								      </div>
+										<input class="btn mt1 fl" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
@@ -479,10 +483,14 @@
 								
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
-									<div id="div-${vs.index + 1}" class="mb10">
-										产品类别:<input type="text" id="cate-${vs.index + 1}">
-								                   目录编码:<input type="text" id="code-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
+									<div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
+									  <div class="fl mr5">
+										产品类别：<input type="text" id="cate-${vs.index + 1}">
+									  </div>
+									  <div class="fl mr5">
+								                        目录编码：<input type="text" id="code-${vs.index + 1}">
+								      </div>
+										<input class="btn fl mt1" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
@@ -491,10 +499,14 @@
 								<c:if test="${count ==0}">
 								<c:if test="${cate.code eq 'GOODS_PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
-									<div id="div-${vs.index + 1}" class="mb10">
-										产品类别:<input type="text" id="cate-${vs.index + 1}">
-								                   目录编码:<input type="text" id="code-${vs.index + 1}">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
+									<div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="fl mr5">
+											产品类别：<input type="text" id="cate-${vs.index + 1}">
+										</div>
+										<div class="fl mr5">
+								                                   目录编码：<input type="text" id="code-${vs.index + 1}">
+								        </div>        
+										<input class="btn fl mt1" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-${vs.index + 1}" class="ztree_supplier mt30"></ul>
@@ -503,10 +515,14 @@
 								
 								  <c:if test="${cate.code eq 'GOODS_PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
-									<div id="div-4" class="mb10">
-										产品类别:<input type="text" id="cate-4">
-								                   目录编码:<input type="text" id="code-4">
-										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4','code-4')" />
+									<div id="div-4" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
+										<div class="fl mr5">
+										        产品类别：<input type="text" id="cate-4">
+										</div>
+										<div class="fl mr5">
+								                                  目录编码：<input type="text" id="code-4">
+								        </div>
+										<input class="btn fl mt1" type="button" value="搜索" onclick="searchCate('cate-4','tab-4','code-4')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
 									<ul id="tab-4" class="ztree_supplier mt30"></ul>
@@ -520,8 +536,12 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-4" class="mb10">
-										产品类别:<input type="text" id="cate-4">
-								                   目录编码:<input type="text" id="code-4">
+									  <div class="fl mr5">
+										产品类别：<input type="text" id="cate-4">
+								      </div>
+								      <div class="fl mr5">
+								                        目录编码：<input type="text" id="code-4">
+								      </div>
 										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tab-4','code-4')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
@@ -546,8 +566,12 @@
 								<c:if test="${cate.code eq 'SERVICE'}">
 									<c:set var="count" value="${count + 1}"></c:set>
 									<div id="div-${vs.index + 1}" class="mb10">
-										产品类别:<input type="text" id="cate-${vs.index + 1}">
-								                   目录编码:<input type="text" id="code-${vs.index + 1}">
+									  <div class="fl mr5">
+										产品类别：<input type="text" id="cate-${vs.index + 1}">
+									  </div>
+									  <div class="fl mr5">
+								                       目录编码：<input type="text" id="code-${vs.index + 1}">
+								      </div>
 										<input class="btn" type="button" value="搜索" onclick="searchCate('cate-${vs.index + 1}','tab-${vs.index + 1}','code-${vs.index + 1}')" />
 										<!-- <input class="btn" type="button" onclick="cateReset('cate-${vs.index + 1}')" value="重置"/> -->
 									</div>
@@ -570,6 +594,7 @@
 			</div>
 			<div></div>
 		</form>
+		<jsp:include page="/index_bottom.jsp"></jsp:include>
 	</body>
 
 </html>

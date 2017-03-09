@@ -87,7 +87,8 @@
   <sql id="Base_Column_List" >
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
-    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT
+    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,
+     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
     select
@@ -126,14 +127,15 @@
       END_TIME, CONTENT	, ATTACHMENT_ID, 
       REMARK, STATUS, CREATER_ID, 
       FORM_ID, TURNOVER_RATION, CREATED_AT, 
-      UPDATED_AT)
+      UPDATED_AT,ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{deliveryDeadline,jdbcType=TIMESTAMP}, 
       #{deliveryAddress,jdbcType=VARCHAR}, #{tradedSupplierCount,jdbcType=DECIMAL}, #{transportFees,jdbcType=DECIMAL}, 
       #{demandUnit,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{content	,jdbcType=VARCHAR}, #{attachmentId,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, 
       #{formId,jdbcType=VARCHAR}, #{turnoverRation,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
+      #{updatedAt,jdbcType=TIMESTAMP},#{orgId,jdbcType=VARCHAR},#{orgContactTel,jdbcType=VARCHAR},
+      #{orgContactName,jdbcType=VARCHAR},#{contactTel,jdbcType=VARCHAR})
   </insert>
   <!-- 根据条件获取 数据 -->
   <select id="selectPageList" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProject" >
