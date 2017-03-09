@@ -616,12 +616,13 @@ function importAdd(){
 	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
 	 <div class="drop_main">
 	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	     <% if (environment != null && environment.equals("0")){ %>
+	     <%-- <% if (environment != null && environment.equals("0")){ %>
 	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
 	     <% } %>
 	     <% if (environment != null && environment.equals("1")){ %>
 	        <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	     <% } %>
+	     <% } %> --%>
+	     <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
 		   评审专家注册
 		 <i></i>
 		</a>	  
