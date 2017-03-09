@@ -337,7 +337,7 @@
 	<div class="container opacity_0" id="tab_div">
 		<div class="tab-pane fades active in" id="production_div">
 		
-		<li class="col-md-3 col-sm-6 col-xs-12">
+		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -436,7 +436,7 @@
 
 
             </ul>
-
+			
             <div class="btmfix">
                 <div style="margin-top: 15px;text-align: center;">
                     <button class="btn" id="nextBind_" type="button" onclick='pre()'>上一步</button>
@@ -447,6 +447,7 @@
         </div>
     </div>
 </form>
+<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 
 </html>

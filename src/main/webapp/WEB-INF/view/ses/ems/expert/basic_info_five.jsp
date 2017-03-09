@@ -181,7 +181,7 @@
             <span id="sc5" class="new_step current fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
-        <div class="tab-content padding-top-20">
+        <div class="tab-content padding-top-20 col-md-12 col-sm-12 col-xs-12 over_auto">
             <div class="headline-v2">
                 <h2>上传专家申请表、承诺书(将第五步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传。)</h2>
             </div>
@@ -189,13 +189,17 @@
                 <tr>
                 	<td class="bggrey" width="15%"><i class="red">*</i>军队评审专家承诺书：</td>
                     <td <c:if test="${fn:contains(errorField,'专家承诺书')}">style="border: 1px solid red;" onmouseover="errorMsg('专家承诺书')"</c:if>>
+                      <div class="w200 fl">
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert14" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="14" maxcount="1"   auto="true" />
                         <u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="14" />
+                      </div>
                     </td>
                     <td class="bggrey" width="17%"><i class="red">*</i>军队评审专家入库申请表：</td>
                     <td <c:if test="${fn:contains(errorField,'专家申请表')}">style="border: 1px solid red;" onmouseover="errorMsg('专家申请表')"</c:if>>
+                       <div class="w200 fl">
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="13" maxcount="1"  auto="true" />
                         <u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="13"  />
+                       </div>
                     </td>
                 </tr>
             </table>
@@ -208,6 +212,7 @@
         </div>
     </div>
 </form>
+<jsp:include page="/index_bottom.jsp"></jsp:include>
 </body>
 
 </html>
