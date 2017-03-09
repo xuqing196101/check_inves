@@ -405,12 +405,16 @@
 									<h2 class="f16 ">
 											<font color="red">*</font> 勾选物资生产型产品类别信息
 									</h2>
-									<div id="div-1" class="mb10">
-								  	产品类别:<input type="text" id="cate-1">
-								          目录编码:<input type="text" id="code-1">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1,'code-1')"/>
+									<div id="div-1" class="mb10 col-md-12 col-xs-12 col-sm-12 p0">
+										<div class="fl mr5">
+								  			产品类别：<input type="text" id="cate-1">
+								  		</div>
+								  		<div class="fl mr5">
+								                                      目录编码：<input type="text" id="code-1">
+								        </div> 
+								  	<input class="btn mt1 fl" type="button" value="搜索" onclick="searchCate('cate-1','tree_ul_id_1','PRODUCT',1,'code-1')"/>
 								  	</div>
-									<div class="lr0_tbauto">
+									<div class="lr0_tbauto col-md-12 col-sm-12 col-xs-12 p0">
 										<ul id="tree_ul_id_1" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
@@ -421,12 +425,16 @@
 									<h2 class="f16 ">
 											<font color="red">*</font> 勾选物资销售型产品类别信息
 									</h2>
-									<div id="div-2" class="mb10">
-								  	产品类别:<input type="text" id="cate-2">
-								          目录编码:<input type="text" id="code-2">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2,'code-2')"/>
+									<div id="div-2" class="mb10 col-md-12 col-xs-12 col-sm-12 p0">
+										<div class="fl mr5">
+								  	                     产品类别：<input type="text" id="cate-2">
+								  	    </div>
+								  	    <div class="fl mr5">
+								                                 目录编码：<input type="text" id="code-2">
+								        </div>
+								  	<input class="btn mt1 fl" type="button" value="搜索" onclick="searchCate('cate-2','tree_ul_id_2','SALES',2,'code-2')"/>
 								  	</div>
-									<div class="lr0_tbauto">
+									<div class="lr0_tbauto col-md-12 col-sm-12 col-xs-12 p0">
 										<ul id="tree_ul_id_2" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
@@ -437,12 +445,16 @@
 									<h2 class="f16  ">
 									      	<font color="red">*</font> 勾选工程产品类别信息
 									</h2>
-									<div id="div-3" class="mb10">
-								  	产品类别:<input type="text" id="cate-3">
-								          目录编码:<input type="text" id="code-3">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null,'code-3')"/>
+									<div id="div-3" class="mb10 col-md-12 col-xs-12 col-sm-12 p0">
+									    <div class="fl mr5">
+								  			产品类别：<input type="text" id="cate-3">
+								  		</div>
+								  		<div class="fl mr5">
+								          	目录编码：<input type="text" id="code-3">
+								        </div>
+								  	<input class="btn mt1 fl" type="button" value="搜索" onclick="searchCate('cate-3','tree_ul_id_3','PROJECT',null,'code-3')"/>
 								  	</div>
-									<div class="lr0_tbauto">
+									<div class="lr0_tbauto col-md-12 col-xs-12 col-sm-12 p0">
 										<ul id="tree_ul_id_3" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
@@ -453,12 +465,16 @@
 									<h2 class="f16">
 										 <font color="red">*</font> 勾选服务产品类别信息
 									</h2>
-									<div id="div-4" class="mb10">
-								  	产品类别:<input type="text" id="cate-4">
-								          目录编码:<input type="text" id="code-4">
-								  	<input class="btn" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null,'code-4')"/>
+									<div id="div-4" class="mb10 col-md-12 col-xs-12 col-sm-12 p0">
+										<div class="fl mr5">
+								  			产品类别：<input type="text" id="cate-4">
+								  		</div>
+								  		<div class="fl mr5">
+								        	  目录编码：<input type="text" id="code-4">
+								        </div>
+								  	<input class="btn mt1 fl" type="button" value="搜索" onclick="searchCate('cate-4','tree_ul_id_4','SERVICE',null,'code-4')"/>
 								  	</div>
-									<div class="lr0_tbauto">
+									<div class="lr0_tbauto col-md-12 col-sm-12 col-xs-12 p0">
 										<ul id="tree_ul_id_4" class="ztree_supplier mt30"></ul>
 									</div>
 								</div>
