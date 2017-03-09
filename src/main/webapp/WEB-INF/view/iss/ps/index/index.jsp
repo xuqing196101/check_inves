@@ -1079,12 +1079,13 @@
               </a>
             </div>
             <div class="ywbl_01 col-xs-4 col-sm-4">
-            <% if (environment != null && environment.equals("0")){ %>
+            <%-- <% if (environment != null && environment.equals("0")){ %>
 	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
 	        <% } %>
 	        <% if (environment != null && environment.equals("1")){ %>
 	             <a onclick="expertRegisterTip();" class="zjzc">
-	        <% } %>
+	        <% } %> --%>
+	        	<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="zjzc">
                 <span>评审专家注册</span>
               </a>
             </div>

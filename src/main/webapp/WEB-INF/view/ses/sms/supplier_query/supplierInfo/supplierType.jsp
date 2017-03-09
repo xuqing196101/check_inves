@@ -417,7 +417,6 @@
 
 										<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 											<div class="tab-pane <c:if test=" ${liCount==1 } ">active in</c:if> fade height-200" id="tab-4">
-												<h2 class="count_flow"><i>1</i>供应商服务资质证书</h2>
 												<ul class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>

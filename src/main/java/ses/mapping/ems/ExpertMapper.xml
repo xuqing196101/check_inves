@@ -970,7 +970,7 @@
         ee.STATUS = 5)
         AND
         ee.IS_BLACK = 0
-        AND ee.IS_SUBMIT = 1
+        AND ee.IS_SUBMIT = '1'
         AND NVL(IS_PROVISIONAL,0) = 0
 
         <if test="expertsFromSplit != null and expertsFromSplit != ''">

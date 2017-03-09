@@ -2,7 +2,7 @@ package bss.service.ob.impl;
 
 import java.util.List;
 import java.util.Map;
-
+import bss.dao.ob.OBProductInfoMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +18,7 @@ import bss.dao.ob.OBProductMapper;
 
 import bss.dao.ob.OBProjectMapper;
 import bss.model.ob.OBProduct;
+import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.service.ob.OBProjectServer;
 /**
@@ -33,6 +34,8 @@ public class OBProjectServerImpl implements OBProjectServer {
     @Autowired
     private OBProductMapper OBProductMapper;
     
+    @Autowired
+    private OBProductInfoMapper OBProductInfoMapper;
 	@Override
 	public List<OBProject> list(OBProject op) {
 		// TODO Auto-generated method stub
@@ -65,5 +68,20 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 		return json;
 
+	}
+	@Override
+	public List<OBProduct> productList() {
+		// TODO Auto-generated method stub
+		return OBProductMapper.selectList();
+	}
+	@Override
+	public void saveProject(OBProject project, List<OBProductInfo> pinfo) {
+		// TODO Auto-generated method stub
+		int i=OBprojectMapper.insert(project);
+		if(i>0){
+		for(OBProductInfo b:pinfo){
+			OBProductInfoMapper.insert(b);
+		 }
+		}
 	}
 }

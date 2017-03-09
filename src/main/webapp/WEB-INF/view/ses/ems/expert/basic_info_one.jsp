@@ -877,7 +877,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 身份证复印件（正反面）</span>
+                        class="red">*</i> 身份证复印件（正反面在一张上）</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('居民身份证')"</c:if>>
@@ -1086,11 +1086,11 @@
                         class="red">*</i> 单位地址</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
-                               type="text" placeholder="长春街道1号"
+                               type="text" placeholder="例如街道名称，门牌号码，楼层和房间号等"
                                <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位地址')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">不能为空</span>
+                        <span class="input-tip">请如实填写单位地址</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span

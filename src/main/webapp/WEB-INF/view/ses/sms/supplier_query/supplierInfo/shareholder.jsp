@@ -53,13 +53,15 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑系统</a>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
 					</li>
 					<li>
 						<a href="#">供应商查看</a>
 					</li>
 				</ul>
-				<div class="clear"></div>
 			</div>
 		</div>
 		<!-- 项目戳开始 -->

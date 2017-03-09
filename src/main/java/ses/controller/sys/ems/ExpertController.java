@@ -66,7 +66,6 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierItem;
-import ses.model.sms.SupplierMatPro;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -2289,22 +2288,35 @@ public class ExpertController extends BaseController {
    * @throws Exception
    */
   @RequestMapping("downloadBook")
-  public ResponseEntity < byte[] > downloadBook(String id,
-    HttpServletRequest request, HttpServletResponse response) throws Exception {
-    // 文件存储地址
-    String filePath = request.getSession().getServletContext()
-      .getRealPath("/WEB-INF/upload_file/");
-    // 文件名称
-    String name = new String(("军队评标专家承诺书.doc").getBytes("UTF-8"),
-      "UTF-8");
-    /** 生成word 返回文件名 */
-    String fileName = WordUtil.createWord(null, "expertBook.ftl",
-      name, request);
-    // 下载后的文件名
-    String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
-      "iso-8859-1"); // 为了解决中文名称乱码问题
-    return service.downloadFile(fileName, filePath, downFileName);
-  }
+  public ResponseEntity<byte[]> download(HttpServletRequest request,String filename) throws IOException {
+//	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
+	String path = PathUtil.getWebRoot() + "excel/军队评标专家承诺书.pdf";;  
+    File file=new File(path);
+    
+    HttpHeaders headers = new HttpHeaders();    
+    String fileName=new String("军队评标专家承诺书.pdf".getBytes("UTF-8"),"iso-8859-1");//为了解决中文名称乱码问题  
+    headers.setContentDispositionFormData("attachment", fileName);   
+    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+    return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
+                                      headers, HttpStatus.OK);    
+}
+
+//  public ResponseEntity < byte[] > downloadBook(String id,
+//    HttpServletRequest request, HttpServletResponse response) throws Exception {
+//    // 文件存储地址
+//    String filePath = request.getSession().getServletContext()
+//      .getRealPath("/WEB-INF/upload_file/");
+//    // 文件名称
+//    String name = new String(("军队评标专家承诺书.doc").getBytes("UTF-8"),
+//      "UTF-8");
+//    /** 生成word 返回文件名 */
+//    String fileName = WordUtil.createWord(null, "expertBook.ftl",
+//      name, request);
+//    // 下载后的文件名
+//    String downFileName = new String("军队评标专家承诺书.doc".getBytes("UTF-8"),
+//      "iso-8859-1"); // 为了解决中文名称乱码问题
+//    return service.downloadFile(fileName, filePath, downFileName);
+//  }
 
   /**
    *〈简述〉
@@ -2428,25 +2440,18 @@ public class ExpertController extends BaseController {
       }
     }
 
-   
     // 物资类,服务类资质证书
     List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
-    if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().contains("PRODUCT")) {
+    if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().equals("PRODUCT")) {
       List < SupplierCertPro >  certPros = supplier.getSupplierMatPro().getListSupplierCertPros();
       for(SupplierCertPro cert:certPros){
         if(cert.getCode()!=null){
           listSupplierCertPros.add(cert);
         }
       }
-    }
-      if(!supplier.getSupplierTypeIds().contains("PRODUCT")){
-      	SupplierMatPro pro=new SupplierMatPro();
-      	supplier.setSupplierMatPro(pro);
-      }
-      
-      
+
       //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
-      if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
+      if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().equals("SERVICE")) {
         List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
         for(SupplierCertServe server: listSupplierCertSes) {
           SupplierCertPro pro = new SupplierCertPro();
@@ -2461,7 +2466,7 @@ public class ExpertController extends BaseController {
         }
       }
       //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
-      if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
+      if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().equals("SALES")) {
         List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
         for(SupplierCertSell sell: listSupplierCertSells) {
           SupplierCertPro pro = new SupplierCertPro();
@@ -2474,9 +2479,9 @@ public class ExpertController extends BaseController {
           pro.setMot(sell.getMot());
           listSupplierCertPros.add(pro);
         }
-      
+        supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
       }
-      supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+    }
 
     // 品目信息
     List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
