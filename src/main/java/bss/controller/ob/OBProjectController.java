@@ -198,7 +198,7 @@ public class OBProjectController {
 			Integer page) {
 		// 获取竞价标题的id
 		String id = request.getParameter("id");
-		
+		// TODO
 		return "bss/ob/biddingSpectacular/result";
 	}
 

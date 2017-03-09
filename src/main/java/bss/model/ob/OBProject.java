@@ -35,7 +35,7 @@ public class OBProject {
 
     private String remark;
 
-    /**竞价状态  1：发布中   2：待确认 3：竞价结束 **/
+    /**竞价状态 0：暂存  1：发布中   2：待确认 3：竞价结束 **/
     private Integer status;
 
     private String createrId;
