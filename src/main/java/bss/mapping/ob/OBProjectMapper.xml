@@ -461,6 +461,9 @@
     <if test="endTime != null and endTime !=''">
     	<![CDATA[AND END_TIME <= #{endTime}]]> 
     </if>
+    <if test="createTime != null and createTime !=''">
+    	<![CDATA[AND CREATED_AT = #{createTime}]]> 
+    </if>
 	ORDER BY
 	UPDATED_AT DESC
   </select>

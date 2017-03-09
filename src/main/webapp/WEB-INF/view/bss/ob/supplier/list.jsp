@@ -6,7 +6,26 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>供应商报价列表页面</title>
 <script type="text/javascript">
-	
+	$(function() {
+	    laypage({
+	      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+	      pages : "${info.pages}", //总页数
+	      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	      skip : true, //是否开启跳页
+	      total : "${info.total}",
+	      startRow : "${info.startRow}",
+	      endRow : "${info.endRow}",
+	      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+	      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+	        return "${info.pageNum}";
+	      }(),
+	      jump : function(e, first) { //触发分页后的回调
+	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
+	      		location.href = "${pageContext.request.contextPath }/supplierQuote/list.do?page=" + e.curr;
+	        }
+	      }
+	    });
+	  });
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
@@ -42,6 +61,17 @@
 				 }
 		   }
 	}
+	
+	<!--搜索-->
+	function query(){
+		$("#queryForm").attr("action","${pageContext.request.contextPath}/supplierQuote/list.html");
+		$("#queryForm").submit();
+	}
+	
+	// 开始报价
+	function beginQuote(titleId){
+		window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+titleId;
+	}
 </script>
 </head>
 <body>
@@ -59,16 +89,16 @@
 <!-- 竞价信息列表页面开始 -->
 	<div class="container">
     <div class="search_detail">
-       <form action="" method="post" class="mb0">
+       <form id="queryForm" action="" method="post" class="mb0">
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价标题：</label>
-			<input type="text" id="topic" class=""/>
+			<input name="name" value="${ name }" type="text" id="topic" class=""/>
 	      </li>
 	      </li>
     	  <li>
 	    	<label class="fl">发布时间：</label>
-			<input type="text" id="topic" class=""/>
+			<input name="startTime" value="${ createTime }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
@@ -93,60 +123,34 @@
 		  <th class="info">恢复操作</th>
 		</tr>
 		</thead>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">确认结果</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">已确定</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">已确定</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">结束</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">报价</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">报价时间结束</a></td>
-		</tr>
+		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
+			<tr>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+			  <td>${ obProject.name }</td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc">
+			  	<c:if test="${ obProject.status == 1 }">
+			  		发布中
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 2 }">
+			  		待确认
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 3 }">
+			  		竞价结束
+			  	</c:if>
+			  </td>
+			  <td class="tc">
+			  	<c:if test="${ obProject.status == 1 }">
+				  	<a href="javascript:void(0)" onclick="beginQuote('${obProject.id}')">报价</a>
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 3 }">
+				  	<a href="javascript:void(0)" onclick="findResult('${obProject.id}')">已确定</a>
+			  	</c:if>
+			  </td>
+			</tr>
+		</c:forEach>
 	</table>
    </div>
       <div id="pagediv" align="right"></div>
