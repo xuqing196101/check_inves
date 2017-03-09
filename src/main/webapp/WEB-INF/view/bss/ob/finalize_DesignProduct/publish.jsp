@@ -50,7 +50,7 @@ $(document).ready(function(){
 			title: '采购机构列表',
 			skin: 'layui-layer-rim',
 			shadeClose: true,
-			area: ['580px','300px'],
+			area: ['650px','400px'],
 			content: $("#openDiv")
 		});
 	}
@@ -59,6 +59,7 @@ $(document).ready(function(){
 		layer.closeAll();
 	}
 	
+	/* 选择机构确定 */
 	function ok(){
 		var item = document.getElementsByName("chkItem");
 		var n = new Array();
@@ -72,7 +73,18 @@ $(document).ready(function(){
  		if(n.length > 1){
  			alert("只能选择一家采购机构");
  		}else{
-			$("#procurement").val(n[0]);
+ 			jgid = n[0];
+ 			$("#pro").val(jgid);
+			$.ajax({
+				url: "${pageContext.request.contextPath }/product/selPurchaseDepbyId.do",
+				type: "post",
+				data: {
+					id: jgid
+				},
+				success: function(data) {
+					$("#procurementId").val(data.data);
+				}
+			});
 			layer.closeAll();
  		}
 	}
@@ -91,9 +103,15 @@ $(document).ready(function(){
   		  return;
   	  }
 	  if (treeNode) {
-        $("#citySel4").val(treeNode.name);
-        $("#categorieId4").val(treeNode.id);
-        hideMenu();
+		  if(treeNode.level > 4 || treeNode.level == 4){
+			  $("#citySel4").val(treeNode.name);
+	          $("#categorieId4").val(treeNode.id);
+	          hideMenu();
+		  }else{
+			  layer.msg("不能选择该目录");
+		  }
+       
+        
 	  }
     }
  
@@ -112,6 +130,39 @@ $(document).ready(function(){
 		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
 			hideMenu();
 		}
+	}
+	
+	/* 发布 */
+	function sub(i){
+		var code = $("#code").val();
+		var name = $("#name").val();
+		var procurementId = $("#pro").val();
+		var category = $("#categorieId4").val();
+		var standardModel = $("#standardModel").val();
+		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
+		if(code == null || code == ""){
+			$("#pcode").html("产品代码不能为空");
+		}
+		if(name == null || name == ""){
+			$("#pname").html("产品名称不能为空");
+		}
+		if(procurementId == null || procurementId == ""){
+			$("#ppro").html("采购机构不能为空");
+		}
+		if(code != null && name != null && procurementId != null && code != "" && name != "" && procurementId != ""){
+		window.location.href = "${pageContext.request.contextPath}/product/add.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
+				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i;
+		}
+	}
+	
+	function codeover(){
+		$("#pcode").html("");
+	}
+	function nameover(){
+		$("#pname").html("");
+	}
+	function pover(){
+		$("#ppro").html("");
 	}
 </script>
 </head>
@@ -139,17 +190,21 @@ $(document).ready(function(){
 				  <tr>
 				    <td class="info"><div class="star_red">*</div>产品代码</td>
 				    <td>
-				    	<input id="" name="" value="" type="text" class="w230 mb0 border0">
+				    	<input id="code" name="" value="" type="text" class="w230 mb0 border0" onmousedown="codeover()">
+				    	<div class="star_red" id = "pcode"></div>
 				    </td>
 				    <td class="info"><div class="star_red">*</div>产品名称</td>
 				    <td>
-				    	<input id="" name="" value="" type="text" class="w230 mb0 border0">
+				    	<input id="name" name="" value="" type="text" class="w230 mb0 border0" onmousedown="nameover()">
+				    	<div class="star_red" id = "pname"></div>
 				    </td>
 				  </tr>
 				  <tr>
 				    <td class="info"><div class="star_red">*</div>采购机构</td>
 				    <td>
-				    	<input id="procurement" name="procurement" value="" type="text" class="w230 mb0 border0"  onclick="openDiv()" readonly>
+				    	<input id="procurementId" name="" value="" type="text" class="w230 mb0 border0"  onclick="openDiv()" onmousedown="pover()" readonly>
+						<input id = "pro" style="display:none;" value="">
+						<div class="star_red" id = "ppro"></div>
 					</td>
 					<td colspan="2"></td>
 				  </tr>
@@ -157,14 +212,15 @@ $(document).ready(function(){
 				    <td class="info">选择目录</td>
 				    <td colspan="3">
 				    	<button class="btn" onclick=" showMenu(); return false;">选择目录</button>
-				    	<input id="citySel4" name="procurement" value="" type="text" class="w230 mb0 border0"  onclick="" readonly>
+				    	<input id="citySel4" name="" value="" type="text" class="w230 mb0 border0"  onclick="" readonly>
+				    	<input id="categorieId4" name="categoryId" value="" type="hidden" class="w230 mb0 border0" >
 				    </td>
 				  </tr>
 				  <tr>
 				    <td class="info">规格型号</td>
 				    <td colspan="3">
 				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
-        					<textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px"></textarea>
+        					<textarea id = "standardModel" name="" class="col-md-12 col-sm-12 col-xs-12" style="height:130px"></textarea>
        					</div>
 				   	</td>
 				  </tr>
@@ -172,7 +228,7 @@ $(document).ready(function(){
 				    <td class="info">质量技术标准</td>
 				    <td colspan="3">
 				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
-        					<textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px"></textarea>
+        					<textarea id = "qualityTechnicalStandard" name="" class="col-md-12 col-sm-12 col-xs-12" style="height:130px"></textarea>
        					</div>
 				   	</td>
 				  </tr>
@@ -180,8 +236,9 @@ $(document).ready(function(){
 			 </table>
 			 
 			 <div class="col-md-12 clear tc mt10">
-	    		<button class="btn btn-windows save" type="submit">保存</button>
-	    		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+	    		<button class="btn btn-windows save" type="button" onclick = "sub(1)">暂存</button>
+	    		<button class="btn btn-windows apply" type="button" onclick = "sub(2)">发布</button>
+	    		<button class="btn btn-windows back" type="button" onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
 			 </div>
 	</div>
   </div>
@@ -200,34 +257,18 @@ $(document).ready(function(){
 		<tr>
 		  <th class="w30 info">选择</th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">产品代码</th>
-		  <th class="info">产品名称</th>
+		  <th class="info">单位名称</th>
+		  <th class="info">采购机构级别</th>
 		</tr>
 		</thead>
+		<c:forEach items="${purchaseDepList }" var="purchase" varStatus="vs">
 		<tr>
-		  <td class="tc w30"><input type="checkbox" name="chkItem" value="111" /></td>
-		  <td class="tc w50">1</td>
-		  <td>1111111</td>
-		  <td><a href="javascript:void(0)">啦啦啦啦啦</a></td>
+		  <td class="tc w30"><input type="checkbox" name="chkItem" value="${purchase.id}" /></td>
+		  <td class="tc w50">${vs.index+1}</td>
+		  <td>${purchase.depName}</td>
+		  <td>${purchase.levelDep}</td>
 		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" name="chkItem" value="222" /></td>
-		  <td class="tc w50">2</td>
-		  <td>2222222</td>
-		  <td><a href="javascript:void(0)">啦啦啦啦啦</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" name="chkItem" value="333" /></td>
-		  <td class="tc w50">3</td>
-		  <td>3333333</td>
-		  <td><a href="javascript:void(0)">啦啦啦啦啦</a></td>
-		</tr>
-		<tr>
-		  <td class="tc w30"><input type="checkbox" name="chkItem" value="444" /></td>
-		  <td class="tc w50">4</td>
-		  <td>4444444</td>
-		  <td><a href="javascript:void(0)">啦啦啦啦啦</a></td>
-		</tr>
+		</c:forEach>
 	</table>
 			  
               <div class="tc mt10 col-md-12">
