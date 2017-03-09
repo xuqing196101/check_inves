@@ -2,6 +2,7 @@ package bss.model.ob;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 /**
 
 * @Title:BidAnnouncementAttach 
@@ -102,10 +103,56 @@ public class OBProject {
      * @Fields updatedAt : 修改时间
      */
     private Date updatedAt;
+    /**
+     * 页面产品 
+     */
+    private List<String> productName;
+    /**
+     * 页面 限价
+     */
+    private List<String> productMoney;
+    /**
+     * 页面备注
+     */
+    private List<String> productRemark;
+    /**
+     * 页面数量
+     */
+    private List<String> productCount;
 
-    
-    
-    public String getOrgId() {
+    public List<String> getProductName() {
+		return productName;
+	}
+
+	public void setProductName(List<String> productName) {
+		this.productName = productName;
+	}
+
+	public List<String> getProductMoney() {
+		return productMoney;
+	}
+
+	public void setProductMoney(List<String> productMoney) {
+		this.productMoney = productMoney;
+	}
+
+	public List<String> getProductRemark() {
+		return productRemark;
+	}
+
+	public void setProductRemark(List<String> productRemark) {
+		this.productRemark = productRemark;
+	}
+
+	public List<String> getProductCount() {
+		return productCount;
+	}
+
+	public void setProductCount(List<String> productCount) {
+		this.productCount = productCount;
+	}
+
+	public String getOrgId() {
 		return orgId;
 	}
 

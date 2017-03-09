@@ -3,6 +3,8 @@ package bss.service.ob;
 import java.util.List;
 import java.util.Map;
 
+import bss.model.ob.OBProduct;
+import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 
 /***
@@ -31,7 +33,15 @@ public interface OBProjectServer {
 	 */
 	List<OBProject> selectAllOBproject(Map<String, Object> map);
 	
+	/**获取 产品**/
+	List<OBProduct> productList();
 	
+	/**保存竞价信息
+	 * @param OBProject
+	 * @param List<OBProductInfo>
+	 * 
+	 * **/
+	void saveProject(OBProject project,List<OBProductInfo> pinfo);
 
 	/**
 	 * 获取定型产品相关信息 并返回 json

@@ -2,6 +2,7 @@ package bss.controller.ob;
 
 import java.io.File;
 import java.io.IOException;
+import java.math.BigDecimal;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -46,6 +47,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProjectServer;
@@ -102,10 +104,15 @@ public class OBProjectController {
 	@RequestMapping("/add")
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
-
+		// 生成ID
+		String uuid = UUID.randomUUID().toString().toUpperCase()
+				.replace("-", "");
+		model.addAttribute("fileid", uuid);
 		model.addAttribute("userId", user.getId());
-		model.addAttribute("sysKey", Constant.PROJECT_SYS_KEY);
-		model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		// 标识 竞价附件
+		model.addAttribute("typeId",
+				DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		return "bss/ob/biddingInformation/publish";
 	}
 
@@ -244,8 +251,7 @@ public class OBProjectController {
 	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
 	                                          headers, HttpStatus.OK);    
 	}
-	/**
-	* @Description: 竞价管理暂存
+	/* @Description: 竞价管理保存
 	* author: YangHongLiang
 	* @param 接收页面返回数据
 	* @return     
@@ -254,33 +260,38 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping("addProject")
-	public String addProject(@CurrentUser User user,OBProject obProject, HttpServletRequest request){
-		/*System.out.println(name+" name");
-		System.out.println(delivery_time+" delivery_time");
-		System.out.println(address+"  address");
-		System.out.println(supplier+"  supplier");
-		System.out.println(fees+" fees");
-		System.out.println(unit+"  unit");
-		System.out.println(contact+"  contact");
-		System.out.println(tel+" tel");
-		System.out.println(principal+" principal");
-		System.out.println(contact_tel+"  contact_tel");
-		System.out.println(contact_name+" contact_name");
-		System.out.println(start+"start" );
-		System.out.println(end+"  end");
-		System.out.println(context+" context");
-		System.out.println(product_id+"  product_id");
-		System.out.println(product_name+" product_name");
-		System.out.println(product_money+" product_money");
-		System.out.println(product_count+"  product_count");
-		System.out.println(product_remark+"  product_remark");
-		System.out.println(b_downBsId+"  b_downBsId");
-		String name,Date delivery_time,String address,Integer supplier 
-			,Integer fees,String unit,String contact,String tel,String principal,String contact_tel,String contact_name,
-			Date start,Date end,String context,String product_id,String product_name,String product_money,String product_count,
-			String product_remark,String b_downBsId
-		*/
-		return "";
+	public String addProject(@CurrentUser User user,OBProject obProject, HttpServletRequest request,
+			String fileid){
+		if(user !=null){
+			//生成ID
+	     String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		System.out.println(" getgetget "+obProject.toString());
+		obProject.setId(fileid);
+		obProject.setCreatedAt(new Date());
+	    obProject.setCreaterId(user.getId());
+		obProject.setStatus(0);//暂存
+		obProject.setAttachmentId(fileid);
+		OBProductInfo product=null;
+		List<OBProductInfo> list=new ArrayList<OBProductInfo>();
+		//拆分数组
+			List<String> productName = obProject.getProductName();
+			for (int i = 0; i < productName.size(); i++) {
+				String uid=UUID.randomUUID().toString().toUpperCase().replace("-", "");
+				product = new OBProductInfo();
+				product.setId(uid);
+				product.setProductId(productName.get(i));
+				product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
+						.getProductMoney().get(i))));
+				product.setRemark(obProject.getProductRemark().get(i));
+				product.setPurchaseCount(Integer.valueOf(obProject
+						.getProductCount().get(i)));
+				product.setProjectId(uuid);
+				product.setCreatedAt(new Date());
+				list.add(product);
+			}
+			OBProjectServer.saveProject(obProject,list);
+		}
+		return "redirect:list.html";
 		
 	}
 	/**
