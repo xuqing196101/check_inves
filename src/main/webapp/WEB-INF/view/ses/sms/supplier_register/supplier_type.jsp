@@ -335,10 +335,28 @@
 					if (data == "1") {
 						$("#save_pro_form_id").submit();
 					} else {
-						layer.msg("近3年加权平均净资产不足3000万元，不符合物资销售型供应商注册要求！");
-						layer.close(index);
+						 layer.confirm( "由于您近3年加权平均净资产不足3000万元，不符合物资销售型供应商注册要求，将会清除物资销售型专业数据，是否确认操作？",
+											{
+												offset : '200px',
+												scrollbar : false,
+											},
+											function(index) {
+												$("input[name='old']").val("old");
+												$("#save_pro_form_id").submit();
+												/* $.ajax({
+													url: "${pageContext.request.contextPath}/supplier/deleteOld.do",
+													data: { "supplierId": supplierId },
+													dataType: "json",
+													success: function(data) {
+														 alert(data);
+													}
+												}); */
+											});
+								} 
+						
+						/* layer.msg("近3年加权平均净资产不足3000万元，不符合物资销售型供应商注册要求！");
+						layer.close(index); */
 					}
-				}
 			});
 			
 		}
@@ -1206,6 +1224,7 @@
 							<input type="hidden" name="id" id="sid"
 								value="${currSupplier.id}" /> <input type="hidden" name="flag" />
 							<input type="hidden" name="defaultPage" value="${defaultPage}" />
+							<input type="hidden" name="old" value="">
 							<div id="tab_content_div_id"
 								class="tab-content p0 bgwhite border0 tab_repair">
 								<!-- 物资生产型专业信息 -->

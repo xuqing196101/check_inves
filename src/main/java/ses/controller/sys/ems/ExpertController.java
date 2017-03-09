@@ -66,6 +66,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatPro;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -2449,7 +2450,11 @@ public class ExpertController extends BaseController {
                     listSupplierCertPros.add(cert);
                 }
             }
-
+        }
+        if(!supplier.getSupplierTypeIds().contains("PRODUCT")){
+        	SupplierMatPro pro=new SupplierMatPro();
+        	supplier.setSupplierMatPro(pro);
+        }
             //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
             if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().equals("SERVICE")) {
                 List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
@@ -2479,9 +2484,9 @@ public class ExpertController extends BaseController {
                     pro.setMot(sell.getMot());
                     listSupplierCertPros.add(pro);
                 }
-                supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
+               
             }
-        }
+            supplier.getSupplierMatPro().setListSupplierCertPros(listSupplierCertPros);
 
         // 品目信息
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
