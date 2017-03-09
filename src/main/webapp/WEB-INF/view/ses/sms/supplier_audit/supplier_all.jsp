@@ -151,23 +151,6 @@
 				}
 				
 				//发布
-/* 				function publish(){
-					var id = $(":radio:checked").val();
-					alert(id);
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/publish.do",
-						data: {"supplierId" : id},
-						type: post,
-						success: function(){
-							layer.msg("发布成功!",{offset : '100px'});
-						},
-						error:function(){
-							layer.msg("发布失败!",{offset : '100px'});
-						}
-					});
-				} */
-				
-				
 				function publish(){
 			  	var id = $(":radio:checked").val();
 					var state = $("#" + id + "").parents("tr").find("td").eq(5).text().trim();
@@ -304,7 +287,7 @@
 				<div class="col-md-12 pl20 mt10">
 						<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
 						<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
-						<button class="btn btn-windows check" type="button" onclick="publish();">发布</button>
+						<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">

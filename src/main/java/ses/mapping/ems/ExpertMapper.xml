@@ -59,7 +59,7 @@
         <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
         <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
-
+        <result column="IS_PUBLISH" property="isPublish" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -86,7 +86,8 @@
         AUDIT_AT,
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
-        TIME_PROFESSIONAL
+        TIME_PROFESSIONAL,
+        IS_PUBLISH
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -751,7 +752,9 @@
             <if test="timeProfessional != null">
                 TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
             </if>
-
+            <if test="isPublish != null">
+                IS_PUBLISH = #{isPublish},
+            </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
