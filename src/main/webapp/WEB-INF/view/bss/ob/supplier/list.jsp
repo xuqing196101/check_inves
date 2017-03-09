@@ -70,6 +70,7 @@
 	
 	// 开始报价
 	function beginQuote(titleId){
+		alert(titleId);
 		window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+titleId;
 	}
 </script>
