@@ -2,101 +2,49 @@ package bss.model.ob;
 
 import java.math.BigDecimal;
 import java.util.Date;
-/**
 
-* @Title:BidAnnouncementAttach 
-* @Description: 存储竞价信息的内容
-* @author 注释--Ma Mingwei
- */
 public class OBProject {
     private String id;
-    /**
-     * @Fields name : 竞价名称
-     */
+
     private String name;
-    /**
-     * @Fields deliveryDeadline : 交货截止时间
-     */
+
     private Date deliveryDeadline;
-    /**
-     * @Fields deliveryAddress : 交货地点
-     */
+
     private String deliveryAddress;
-    /**
-     * @Fields tradedSupplierCount : 成交供应商数
-     */
+
     private Integer tradedSupplierCount;
-    /**
-     * @Fields transportFees : 运杂费
-     */
+
     private BigDecimal transportFees;
-    /**
-     * @Fields demandUnit : 需求单位
-     */
+
     private String demandUnit;
-    /**
-     * @Fields contactName : 联系人
-     */
+
     private String contactName;
-    /**
-     * @Fields contactTel : 联系电话
-     */
+    
     private String contactTel;
-    /**
-     * @Fields orgId : 采购机构
-     */
+
     private String orgId;
-    /**
-     * @Fields orgContactName : 采购联系人
-     */
     private String orgContactName;
-    /**
-     * @Fields orgContactTel : 采购联系电话
-     */
     private String orgContactTel;
-    /**
-     * @Fields startTime : 竞价开始时间
-     */
     private Date startTime;
-    /**
-     * @Fields endTime : 竞价结束时间
-     */
+
     private Date endTime;
-    /**
-     * @Fields content : 竞价内容
-     */
+
     private String content	;
-    /**
-     * @Fields attachmentId : 附件
-     */
+
     private String attachmentId;
-    /**
-     * @Fields remark : 备注
-     */
+
     private String remark;
-    /**
-     * @Fields status : 发布状态
-     */
+
     private Integer status;
-    /**
-     * @Fields createrId : 创建人ID
-     */
+
     private String createrId;
-    /**
-     * @Fields formId : 来源竞价ID
-     */
+
     private String formId;
-    /**
-     * @Fields turnoverRation : 成交比例
-     */
+
     private Integer turnoverRation;
-    /**
-     * @Fields createdAt : 创建时间
-     */
+
     private Date createdAt;
-    /**
-     * @Fields updatedAt : 修改时间
-     */
+
     private Date updatedAt;
 
     
