@@ -76,7 +76,7 @@
 				var id = $(":radio:checked").val();
 				var state = $("#" + id + "").parent("tr").find("td").eq(7).text().trim();
 				if(state == "待初审" || state == "待复审" || state == "待复查" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
-					layer.msg("请选择未通过的专家 !", {
+					layer.msg("请选择审核未通过的专家 !", {
 						offset: '100px',
 					});
 					return;
@@ -94,6 +94,42 @@
 				//还原select下拉列表只需要这一句
 				$("#status option:selected").removeAttr("selected");
 			}
+			
+			
+				//发布
+				function publish(){
+			  	var id = $(":radio:checked").val();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+					if(id != null){
+			  			if(state == "复审通过"){
+			  	 			$.ajax({
+			  	 				url:"${pageContext.request.contextPath}/expertAudit/publish.html",
+			  	 				data:"expertId=" +id,
+			  	 				type:"post",
+			  	 				datatype:"json",
+			  	 	      	success:function(result){
+			  	 	      		result = eval("(" + result + ")");
+			  	 	      		if(result == "yes"){
+			  	 	      			layer.msg("发布成功!",{offset : '100px'});
+			  	 	      		}else{
+			  	 	      			layer.msg('该专家已发布过！', {	            
+							             shift: 6,
+							             offset:'100px'
+							          });
+			  	 	      		}
+			  	 	       	},
+			  	 	       		error: function(){
+			  	 							layer.msg("发布失败！",{offset : '100px'});
+			  	 					}
+			  	 	     });
+			  		}else{
+			  			layer.alert("请选择【复审通过】的专家！",{offset : '100px'});
+			     	}
+			  		}else{
+			  			layer.msg("请选择专家 !", {offset: '100px',});
+			  		}
+			  		
+			  	}
 		</script>
 
 	</head>
@@ -162,6 +198,7 @@
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
+				<a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
 				<a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
 			</div>
 
@@ -177,7 +214,8 @@
 							<th class="info">毕业院校及专业</th>
 							<th class="info">工作单位</th>
 							<!-- <th class="info">创建时间</th> -->
-							<th class="info">诚信积分</th>
+							<!-- <th class="info">诚信积分</th> -->
+							<th class="info">发布</th>
 							<th class="info">审核状态</th>
 						</tr>
 					</thead>
@@ -193,7 +231,11 @@
 							<%-- <td class="tc" onclick="shenhe('${expert.id}');">
 								<fmt:formatDate type='date' value='${expert.createdAt }' dateStyle="default" pattern="yyyy-MM-dd" />
 							</td> --%>
-							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td>
+							<%-- <td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">${expert.honestyScore }</td> --%>
+							<td class="tc" id="${expert.id}" onclick="shenhe('${expert.id}');">
+								<c:if test="${expert.isPublish == 1 }">已发布</c:if>
+								<c:if test="${expert.isPublish == 0 }">未发布</c:if>
+							</td>
 							<c:if test="${(sign == 1 and expert.status eq '0')}">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待初审</span></td>
 							</c:if>

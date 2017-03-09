@@ -10,6 +10,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import bss.dao.ob.OBProductMapper;
+import bss.model.ob.OBProduct;
+
 import com.github.pagehelper.PageHelper;
 import com.google.gson.Gson;
 
@@ -57,6 +60,8 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
     /** 用户service **/
     @Autowired
 	private UserServiceI userService;
+    /** 竞价产品**/
+    private OBProductMapper obProductMapper;
     
     /**
      * 

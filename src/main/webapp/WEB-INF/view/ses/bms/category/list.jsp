@@ -72,6 +72,9 @@
     	if (node && node != null ) {
     		level = node.level + 2;
     		resetTips();
+    		$("#generalIQuaName").attr("disabled", "true");
+    		$("#profileIQuaName").attr("disabled", "true");
+    		$("#profileSalesName").attr("disabled", "true");
     		$("#tableDivId").removeClass("dis_none");
     		$("#uploadBtnId").addClass("dis_none");
 			$("#btnIds").hide();
@@ -139,6 +142,9 @@
 					type:"POST",
 					success:function(data){
 						reset();
+						$("#generalIQuaName").removeAttr("disabled");
+			    		$("#profileIQuaName").removeAttr("disabled");
+			    		$("#profileSalesName").removeAttr("disabled");
 						$("#tableDivId").removeClass("dis_none");
 						$("#uploadBtnId").show();
 						$("#mainId").val(data);
@@ -374,7 +380,9 @@
 			  return false;
 		  }
 	  }
-	  
+	  $("#generalIQuaName").removeAttr("disabled");
+      $("#profileIQuaName").removeAttr("disabled");
+	  $("#profileSalesName").removeAttr("disabled");
 	  $("#operaId").val('edit');
 	  $("#mainId").val(treeid);
 	  $("#fileId_showdel").val("true");

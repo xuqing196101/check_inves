@@ -303,7 +303,7 @@
 												<c:if test="${list.status==8 }">考察合格</c:if>
 												<c:if test="${list.status==9 }">考察不合格</c:if>
 											</td>
-											<td class="tc">${list.contactTelephone}</td>
+											<td class="tc">${list.contactMobile}</td>
 											<td class="tc">${list.level}</td>
 										</tr>
 									</c:forEach>

@@ -1,8 +1,12 @@
 package bss.model.ob;
 
 import java.util.Date;
+import java.util.List;
 
 public class OBProduct {
+	
+	private List<OBSupplier> obSupplierList;//产品对应的供应商
+	
     private String id;
 
     private String code;
@@ -28,8 +32,18 @@ public class OBProduct {
     private Date createdAt;
 
     private Date updatedAt;
+    
+    
 
-    public String getId() {
+    public List<OBSupplier> getObSupplierList() {
+		return obSupplierList;
+	}
+
+	public void setObSupplierList(List<OBSupplier> obSupplierList) {
+		this.obSupplierList = obSupplierList;
+	}
+
+	public String getId() {
         return id;
     }
 

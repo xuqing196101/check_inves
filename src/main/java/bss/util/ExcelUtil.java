@@ -15,6 +15,7 @@ import javax.annotation.PostConstruct;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
+import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,6 +27,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.oms.Orgnization;
+import bss.model.ob.OBProduct;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.CollectPlanService;
@@ -108,7 +110,6 @@ public class ExcelUtil {
 	        		
 	        	 
 	        		for (Cell cell : row) {
-	        		
 	        			 if(cell.getColumnIndex()==0){
 			        			if(cell.getCellType()==1){
  			        				if(cell.getStringCellValue().contains("(")||cell.getStringCellValue().contains(")")){
@@ -742,6 +743,102 @@ public class ExcelUtil {
 		
 		return map;
 		
+	}
+	
+	
+	
+	/**
+	 * @throws FileNotFoundException 
+	 *
+	* @Title: readExcel
+	* @Description: 读取 excel竞价定型产品表格内容
+	* author: YangHongLiang
+	* @param @param path
+	* @param @return     
+	* @return List<PurchaseRequired>     
+	 */
+	public static Map<String,Object> readOBExcel(MultipartFile file) throws Exception{
+		List<OBProduct> list=new LinkedList<OBProduct>();
+		Map<String,Object> map=new HashMap<String,Object>();
+	        Workbook workbook = WorkbookFactory.create(file.getInputStream());
+	        Sheet sheet = workbook.getSheetAt(0);
+	        String planName="";
+	        String errMsg=null;
+	        boolean bool=true;
+	        for(Row row:sheet){
+	        	OBProduct obp=new OBProduct();
+	        	for(Cell cell : row){
+	        		if(cell.getColumnIndex()==0){
+        				planName=cell.getStringCellValue();
+        			}
+	        	}
+	        	if(row.getRowNum()>1){
+	        		Cell cel = row.getCell(0);
+	        		if(cel==null){
+   					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+   					 map.put("errMsg", errMsg);
+   					 bool=false;
+       				 break;
+   				}
+	        		for (Cell cell : row) {
+	        			 if(cell.getColumnIndex()==0){
+			        			if(cell.getCellType()==1){
+			        				if(cell.getStringCellValue().trim().length()<1){
+			        					errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+			        					 map.put("errMsg", errMsg);
+			        					 bool=false;
+				        				 break;
+			        				}
+			        				obp.setCode(cell.getRichStringCellValue().toString());//产品名称
+			        				 continue;
+			        			} 
+	        			 }
+	        			 if(cell.getColumnIndex()==1){
+	        				 if(cell.getCellType()==0){
+	        					 obp.setStandardModel(String.valueOf(cell.getNumericCellValue()));//金额
+		        				 continue;
+		        			}else{
+		        				if(cell.getCellType()!=3){
+		        					 errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误,请输入数字类型！";
+			        				 map.put("errMsg", errMsg );
+			        				 bool=false;
+			        				 break;
+		        				}
+	        				 }
+	        			 }
+	        			 if(cell.getColumnIndex()==2){
+	        				 if(cell.getCellType()==0){
+	        					 obp.setIsDeleted((int)cell.getNumericCellValue());//数量
+			        			 continue;
+	        				 }if(cell.getCellType()!=3){
+	        					 errMsg=String.valueOf(row.getRowNum()+1)+"行，C列错误,请输入数字类型";
+		        				 map.put("errMsg", errMsg);
+		        				 bool=false;
+		        				 break;
+		        			}
+	        			 }
+	        			 if(cell.getColumnIndex()==3){
+	        				 if(cell.getCellType()==1){
+	        					 obp.setRemark(cell.getStringCellValue());//备注
+		        				 continue;
+		        			}if(cell.getCellType()==3){
+		        				 errMsg=String.valueOf(row.getRowNum()+1)+"行，D列错误不能为空";
+		        				 map.put("errMsg", errMsg);
+		        				 bool=false;
+		        				 break;
+		        			}
+	        			 }        		
+	        			}
+	        		if(bool==false)break;
+	        		list.add(obp);
+	        		}
+	        	}
+	        	for(OBProduct b:list){
+	        		System.out.println(b.getCode()+" id "+
+	        	b.getIsDeleted()+"  d "+b.getStandardModel()+" d "+ b.getRemark());
+	        }
+	        map.put("list", list);
+		return map;
 	}
 	
 	public static void readPlanExcel(MultipartFile file) throws Exception{

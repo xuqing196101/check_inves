@@ -19,7 +19,12 @@ public class OBProject {
     private String demandUnit;
 
     private String contactName;
+    
+    private String contactTel;
 
+    private String orgId;
+    private String orgContactName;
+    private String orgContactTel;
     private Date startTime;
 
     private Date endTime;
@@ -45,7 +50,41 @@ public class OBProject {
 
     private Date updatedAt;
 
-    public String getId() {
+    
+    
+    public String getOrgId() {
+		return orgId;
+	}
+
+	public void setOrgId(String orgId) {
+		this.orgId = orgId;
+	}
+
+	public String getOrgContactName() {
+		return orgContactName;
+	}
+
+	public void setOrgContactName(String orgContactName) {
+		this.orgContactName = orgContactName;
+	}
+
+	public String getOrgContactTel() {
+		return orgContactTel;
+	}
+
+	public void setOrgContactTel(String orgContactTel) {
+		this.orgContactTel = orgContactTel;
+	}
+
+	public String getContactTel() {
+		return contactTel;
+	}
+
+	public void setContactTel(String contactTel) {
+		this.contactTel = contactTel;
+	}
+
+	public String getId() {
         return id;
     }
 

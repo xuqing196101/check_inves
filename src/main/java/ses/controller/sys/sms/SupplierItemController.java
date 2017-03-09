@@ -363,9 +363,9 @@ public class SupplierItemController extends BaseController {
 			// 总数量
 			List < SupplierItem > itemsList = new ArrayList < SupplierItem > ();
 			for(String type: typeIds) {
-				if(!type.equals("PROJECT")) {
+//				if(type.equals("PROJECT")) {
 					itemsList.addAll(supplierItemService.findCategoryList(supplierId, type, null));
-				}
+//				}
 			}
 			// 实际上传数量
 			List < UploadFile > filesList;

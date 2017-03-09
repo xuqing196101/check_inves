@@ -35,6 +35,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -1335,5 +1336,30 @@ public class ExpertAuditController {
 		/** 生成word 返回文件名 */
 		String newFileName = WordUtil.createWord(dataMap, "expertAudit.ftl", fileName, request);
 		return newFileName;
+	}
+	
+	/**
+	 * @Title: publish
+	 * @author XuQing 
+	 * @date 2017-3-9 下午4:06:06  
+	 * @Description:发布到门户名录上
+	 * @param @param supplierId      
+	 * @return String
+	 */
+	@RequestMapping(value = "/publish", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String publish(String expertId){
+		Expert expert = new Expert();
+		expert = expertService.selectByPrimaryKey(expertId);
+		String msg = "";
+		if(expert.getIsPublish() != 1){
+			expert.setId(expertId);
+			expert.setIsPublish(1);
+			expertService.updateByPrimaryKeySelective(expert);
+			msg = "yes";
+		}else{
+			msg = "no";
+		}
+		return JSON.toJSONString(msg);
 	}
 }

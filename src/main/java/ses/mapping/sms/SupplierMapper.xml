@@ -1261,6 +1261,9 @@
 		<if test="status != null">
 			and SUPPLIER_STATUS = #{status}
 		</if>
+		<if test="judge == 5">
+			and (SUPPLIER_STATUS = 1 or SUPPLIER_STATUS = 4 or SUPPLIER_STATUS = 5 or SUPPLIER_STATUS = 6 or SUPPLIER_STATUS =7 or SUPPLIER_STATUS = 8 or SUPPLIER_STATUS =9)
+		</if>
 		<if test="address != null and address !=''">
 			and NAME like '%${address}%'
 		</if>
@@ -1282,7 +1285,12 @@
 		<if test="scoreEnd != null and scoreEnd != ''">
 			and SCORE &lt; #{scoreEnd}
 		</if>
-		ORDER BY FOUND_DATE DESC
+		<if test="judge == null and judge != 5">
+			ORDER BY CREATED_AT DESC NULLS LAST
+		</if>
+		<if test="judge != null and judge == 5">
+			ORDER BY AUDIT_DATE DESC NULLS LAST
+		</if>
 	</select>
 
 

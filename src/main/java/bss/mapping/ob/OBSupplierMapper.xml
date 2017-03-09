@@ -101,6 +101,14 @@
     from T_BSS_OB_SUPPLIER
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+    <select id="selectByProductID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_SUPPLIER
+    where PRODUCT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_SUPPLIER
     where ID = #{id,jdbcType=VARCHAR}

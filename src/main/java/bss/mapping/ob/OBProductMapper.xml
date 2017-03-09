@@ -15,6 +15,8 @@
     <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    
+   <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -75,9 +77,10 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, CODE, NAME, PROCUREMENT_ID, CATEGORY_PARENT_ID, CATEGORY_ID, STANDARD_MODEL, 
+    ID, CODE, NAME,PROCUREMENT_ID, CATEGORY_PARENT_ID, CATEGORY_ID, STANDARD_MODEL, 
     QUALITY_TECHNICAL_STANDARD, REMARK, IS_DELETED, CREATER_ID, CREATED_AT, UPDATED_AT
   </sql>
+  
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProductExample" >
     select
     <if test="distinct" >
@@ -98,6 +101,17 @@
     from T_BSS_OB_PRODUCT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  
+  <select id="selectList" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT
+    where IS_DELETED = 0
+    order by CREATED_AT DESC
+  </select>
+  
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_PRODUCT
     where ID = #{id,jdbcType=VARCHAR}

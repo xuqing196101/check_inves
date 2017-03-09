@@ -2765,7 +2765,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @date 2017-3-8 下午4:06:06  
 	 * @Description:发布到门户名录上
 	 * @param @param supplierId      
-	 * @return void
+	 * @return String
 	 */
 	@RequestMapping(value = "/publish", produces = "text/html;charset=UTF-8")
 	@ResponseBody
