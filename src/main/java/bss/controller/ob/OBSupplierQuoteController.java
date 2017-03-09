@@ -6,20 +6,22 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
-import org.apache.poi.ss.usermodel.DataFormat;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.github.pagehelper.PageInfo;
-
+import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierQuoteService;
+
+import com.github.pagehelper.PageInfo;
 
 @RequestMapping("/supplierQuote")
 @Controller
@@ -27,6 +29,9 @@ public class OBSupplierQuoteController {
 
 	@Autowired
 	private OBProjectServer obProjectServer;
+
+	@Autowired
+	private OBSupplierQuoteService obSupplierQuoteService;
 
 	/**
 	 * @throws ParseException
@@ -69,10 +74,18 @@ public class OBSupplierQuoteController {
 		model.addAttribute("createTimeStr", createTimeStr);
 		return "bss/ob/supplier/list";
 	}
-	
+
 	@RequestMapping("/beginQuoteInfo")
-	public String beginQuoteInfo(Model model){
-		// 
+	public String beginQuoteInfo(Model model, HttpServletRequest request){
+		// 获取标题id
+		String titleId = request.getParameter("id");
+		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(titleId);
+		// 竞价信息
+		OBProject obProject = (OBProject) map.get("obProject");
+		// 竞价商品信息
+		OBProductInfo oBProductInfo = (OBProductInfo) map.get("oBProductInfoList");
+		model.addAttribute("obProject", obProject);
+		model.addAttribute("oBProductInfo", oBProductInfo);
 		return "bss/ob/supplier/supplierOffer";
 	}
 }

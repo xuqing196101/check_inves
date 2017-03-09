@@ -8,6 +8,8 @@ public class OBProductInfo {
 
     private String productId;
 
+    private OBProduct obProduct;
+    
     private BigDecimal limitedPrice;
 
     private Integer purchaseCount;
@@ -83,4 +85,13 @@ public class OBProductInfo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public OBProduct getObProduct() {
+		return obProduct;
+	}
+
+	public void setObProduct(OBProduct obProduct) {
+		this.obProduct = obProduct;
+	}
+    
 }
