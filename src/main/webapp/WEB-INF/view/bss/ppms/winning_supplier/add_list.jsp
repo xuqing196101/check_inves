@@ -118,10 +118,12 @@
 		var btnVal = $(btns).html();
 		
 		if(btnVal == "保存") {
+			var sid = "${supplierId}";
 			var subjectList = [];
 			$(".kkkkk").each(function(index , element) {
 				var data = {
 					detailId : $(this).attr("title"),
+					supplierId : sid,
 					goodsName : $(this).parent().parent().find(":input[name='goodsName']").val(),
 					stand : $(this).parent().parent().find(":input[name='stand']").val(),
 					qualitStand : $(this).parent().parent().find(":input[name='qualitStand']").val(),
