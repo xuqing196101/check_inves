@@ -2446,7 +2446,7 @@ public class ExpertController extends BaseController {
 
         // 物资类,服务类资质证书
         List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
-        if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().equals("PRODUCT")) {
+        if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().contains("PRODUCT")) {
             List < SupplierCertPro >  certPros = supplier.getSupplierMatPro().getListSupplierCertPros();
             for(SupplierCertPro cert:certPros){
                 if(cert.getCode()!=null){
@@ -2459,7 +2459,7 @@ public class ExpertController extends BaseController {
         	supplier.setSupplierMatPro(pro);
         }
             //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
-            if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().equals("SERVICE")) {
+            if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
                 List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
                 for(SupplierCertServe server: listSupplierCertSes) {
                     SupplierCertPro pro = new SupplierCertPro();
@@ -2474,7 +2474,7 @@ public class ExpertController extends BaseController {
                 }
             }
             //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
-            if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().equals("SALES")) {
+            if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
                 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
                 for(SupplierCertSell sell: listSupplierCertSells) {
                     SupplierCertPro pro = new SupplierCertPro();
