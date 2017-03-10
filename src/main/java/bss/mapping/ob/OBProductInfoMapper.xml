@@ -10,13 +10,10 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-<<<<<<< HEAD
     <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectSignalByPrimaryKey"></association>
-=======
     <result column="CREATER_ID" property="remark" jdbcType="VARCHAR" />
     <!-- <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"/>
     <association property="obProject" column="PROJECT_ID" select="bss.dao.ob.OBProjectMapper.selectByPrimaryKey"/> --> 
->>>>>>> ee94fc89f07c48a0fb124efd5ea26b9dbbe6b416
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
