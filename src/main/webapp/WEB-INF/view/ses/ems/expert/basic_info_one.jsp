@@ -894,7 +894,7 @@
                 <%--如果是民--%>
                 <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
-                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>缴纳社会保险证明</span>
+                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 缴纳社会保险证明</span>
                         <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                             <select name="coverNote" id="coverNote" style="width:100%;"
                                     <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
@@ -910,7 +910,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
-                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm">缴纳社保证明</span></span>
+                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm"> 缴纳社保凭证</span></span>
                         <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                              <c:if test="${fn:contains(errorField,'凭证上传')}">style="border: 1px solid #ef0000;"
                              onmouseover="errorMsg('凭证上传')"</c:if>>
@@ -1095,7 +1095,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i
-                        class="red">*</i>单位邮编</span>
+                        class="red">*</i> 单位邮编</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="6" value="${expert.postCode}" name="postCode" id="postCode" type="text"
                                <c:if test="${fn:contains(errorField,'单位邮编')}">style="border: 1px solid #ef0000;"
@@ -1139,7 +1139,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>专业技术职称</span> <!--/执业资格  -->
+                        class="red">*</i> 专业技术职称</span> <!--/执业资格  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
@@ -1171,7 +1171,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>证书获得时间</span>
+                        class="red">*</i> 证书获得时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
