@@ -71,6 +71,7 @@ function resetQuery() {
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
+	<button class="btn btn-windows back" type="button" onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
 	</div>
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
