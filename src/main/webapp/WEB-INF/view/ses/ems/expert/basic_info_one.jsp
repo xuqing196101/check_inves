@@ -325,10 +325,16 @@
         }
         //校验基本信息 不能为空的字段
         function validateformExpert() {
+        	
+	       	var zhongwen1 = /[^u4E00-u9FA5]/g
             var from = "${expert.expertsFrom}";
             var relName = $("#relName").val().trim();
             if (!relName) {
                 layer.msg("请输入姓名 !");
+                return false;
+            }
+            if (!zhongwen1.test(relName)) {
+                layer.msg("请填写中文姓名 !");
                 return false;
             }
             var gender = $("#gender").val().trim();
@@ -373,9 +379,19 @@
                 layer.msg("请填写民族 !");
                 return false;
             }
+            var zhongwen2 = /[^u4E00-u9FA5]/g
+            if (!zhongwen2.test(nation)) {
+                layer.msg("民族请填写中文 !");
+                return false;
+            }
             var healthState = $("#healthState").val().trim();
             if (!healthState) {
                 layer.msg("请填写健康状态!");
+                return false;
+            }
+            var zhongwen3 = /[^u4E00-u9FA5]/g
+            if (!zhongwen3.test(healthState)) {
+                layer.msg("健康状况请填写中文 !");
                 return false;
             }
             var idCardNumber = $("#idCardNumber").val().trim();
@@ -418,16 +434,24 @@
                     return false;
                 }
             }
-
+			var mobileType = /^1\d{10}$/
             var mobile = $("#mobile").val().trim();
             if (!mobile) {
                 layer.msg("请填写手机号!");
                 return false;
             }
-
+            if (!mobileType.test(mobile)) {
+                layer.msg("请正确填写手机号!");
+                return false;
+            }
+			var phoneType = /^(\d{3}-\d{8}$)|(\d{4}-\d{7}$)/
             var telephone = $("#telephone").val().trim();
             if (!telephone) {
                 layer.msg("请填写固定电话!");
+                return false;
+            }
+            if (!phoneType.test(telephone)) {
+                layer.msg("请正确填写固定电话!");
                 return false;
             }
 
@@ -453,7 +477,6 @@
                 return false;
             }
 
-
             var unitAddress = $("#unitAddress").val().trim();
             if (!unitAddress) {
                 layer.msg("请填写单位地址!");
@@ -477,6 +500,13 @@
                 layer.msg("请填写从事专业起始年月!");
                 return false;
             }
+            
+            var timeStartWork = $("#timeToWork").val().trim();
+            if (!timeStartWork) {
+                layer.msg("请填写获得证书时间!");
+                return false;
+            }
+            
             var professTechTitles = $("#professTechTitles").val().trim();
             if (!professTechTitles) {
                 layer.msg("请填写专家技术职称!");
@@ -543,6 +573,11 @@
                 var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/
                 if (!reg.test(idCardNumber)) {
                     layer.msg("居民身份证号码格式有误 !");
+                    return false;
+                }
+                var birthdata = birthday.replace("-", "").replace("-", "");
+                if (idCardNumber.indexOf(birthdata) < 0) {
+                    layer.msg("身份证号与出生日期不符!");
                     return false;
                 }
                 if (reg.test(idCardNumber) && idCardNumber.length == 18) {
@@ -633,7 +668,7 @@
                 cache: false,
                 async: false,
                 success: function (data) {
-                	alert(data);
+                	layer.msg(data);
                     if (data) {
                         layer.msg(data);
                         flag = false;
@@ -910,7 +945,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
-                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm"> 缴纳社保凭证</span></span>
+                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm"> 退休证书或退休证明</span></span>
                         <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                              <c:if test="${fn:contains(errorField,'凭证上传')}">style="border: 1px solid #ef0000;"
                              onmouseover="errorMsg('凭证上传')"</c:if>>
@@ -1022,7 +1057,7 @@
                                <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('固定电话')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">如: 010 - 1234567</span>
+                        <span class="input-tip">如: 010 - 12345678</span>
                     </div>
                 </li>
 
@@ -1185,6 +1220,23 @@
                             class="add-on">i</span> <span class="input-tip">如：2017-03</span>
                     </div>
                 </li>
+                
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i> 从事专业起始年月</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input
+                                <c:if test="${fn:contains(errorField,'从事专业起始年月')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('从事专业起始年月')"</c:if>
+                                value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="timeStartWork" id="timeStartWork" type="text"
+                                onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
+                        <span class="add-on">i</span>
+                        <span class="input-tip">如：2017-03</span>
+                    </div>
+                </li>
+                
+                
+                
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red"></i> 毕业院校及专业</span>
