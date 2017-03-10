@@ -4,6 +4,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.UUID;
+import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -227,6 +228,11 @@ public class OBSupplierController {
 		if(obSupplier.getContactTel() == null || obSupplier.getContactTel() == ""){
 			flag = false;
 			model.addAttribute("errorContactTel","联系人电话不能为空");
+		}else {
+			if(isMobileNO(obSupplier.getContactTel()) == false){
+				flag = false;
+				model.addAttribute("errorContactTel","请输入正确手机号码");
+			}
 		}
 		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
 			flag = false;
@@ -301,6 +307,15 @@ public class OBSupplierController {
 			flag = false;
 			model.addAttribute("errorContactTel","联系人电话不能为空");
 		}
+		if(obSupplier.getContactTel() == null || obSupplier.getContactTel() == ""){
+			flag = false;
+			model.addAttribute("errorContactTel","联系人电话不能为空");
+		}else {
+			if(isMobileNO(obSupplier.getContactTel()) == false){
+				flag = false;
+				model.addAttribute("errorContactTel","请输入正确手机号码");
+			}
+		}
 		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
 			flag = false;
 			model.addAttribute("errorCertCode","资质证书编号不能为空");
@@ -325,5 +340,21 @@ public class OBSupplierController {
 			return "bss/ob/addSupplier/editSupplier";
 		}
 		
+	}
+	
+	/**
+	 * 
+	 * Description: 手机号验证
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月10日 
+	 * @param  @param mobiles
+	 * @param  @return 
+	 * @return boolean 
+	 * @exception
+	 */
+	public static boolean isMobileNO(String mobiles) {
+		Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(14[5|7]))\\d{8}$");
+		return p.matcher(mobiles).matches();
 	}
 }
