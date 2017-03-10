@@ -3,9 +3,9 @@ package ses.util;
 import java.io.BufferedWriter;
 import java.io.File;
 import java.io.FileOutputStream;
+import java.io.FileWriter;
 import java.io.OutputStreamWriter;
 import java.io.Writer;
-import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -46,8 +46,37 @@ public class WordUtil {
 	        configuration.setTemplateLoader(templateLoader);
 	            
 	        //获取模板 
-	        Template template = configuration.getTemplate(templateName);
-	            
+	        Template template1 = configuration.getTemplate(templateName);
+	        /****************************************文件保护不可修改*********************************************************************************************/
+	        String pathLinShi = request.getSession().getServletContext().getRealPath("/WEB-INF/classes/ses/document/template/");
+	        
+	        String context = template1.toString();
+	        
+	        context = context.replace("<w:body>", "<w:body><w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
+	        
+	        
+	        String fileNam = UUID.randomUUID().toString() + ".ftl";
+	        
+	        File filPath = new File(pathLinShi + File.separator + fileNam);
+	        
+	        
+	        /* 创建写入对象 */
+	        FileWriter fileWriter = new FileWriter(filPath);
+	        /* 创建缓冲区 */
+	        BufferedWriter writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(filPath),"utf-8"));
+	        /* 写入字符串 */
+	        writer.write(context);
+	        
+	        /* 关掉对象 */
+	        writer.flush();
+	        writer.close();
+	        fileWriter.flush();
+	        fileWriter.close();
+	        
+	        Template template = configuration.getTemplate(fileNam);
+	        
+	        /*************************************************************************************************************************************/	        
+	        
 	        //封装文件名
 	        fileName = UUID.randomUUID().toString().replaceAll("-", "").toUpperCase() + "_" + fileName;
 	           
@@ -58,19 +87,23 @@ public class WordUtil {
 	        if (!outFile.getParentFile().exists()){
 	            outFile.getParentFile().mkdirs();
 	        }
-	            
+	        
 	        //将模板和数据模型合并生成文件 
 	        Writer out = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(outFile),"UTF-8"));
 	        template.process(dataMap, out);
-	            
+	        
+	        
 	        //关闭流
 	        out.flush();
 	        out.close();
+	        
+	        filPath.delete();
 	        	
 	        //FileUtils.copyFile(outFile, new File(url+"/"+fileName));
 	    } catch (Exception e) {
 	        e.printStackTrace();
 	    }
+	    
 		return fileName;
 	}
 }

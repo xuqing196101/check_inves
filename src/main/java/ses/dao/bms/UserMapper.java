@@ -245,4 +245,15 @@ public interface UserMapper {
      * @param mobile
      */
     List<User> ajaxMoblie(User user);
+    
+	/**
+	 * Description: 根据id查询(不带关联集合)
+	 * 
+	 * @author Ye MaoLin
+	 * @version 2016-9-13
+	 * @param id
+	 * @return List<User>
+	 * @exception IOException
+	 */
+	List<User> selectByArmyLocal(String id);
 }
