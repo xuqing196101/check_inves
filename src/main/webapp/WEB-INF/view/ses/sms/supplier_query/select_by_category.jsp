@@ -286,7 +286,7 @@
 										<tr>
 											<td class="tc">${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 											<td class="pl20">
-												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a>
+												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=2&supplierId=${list.id}">${list.supplierName }</a>
 											</td>
 											<td class="tc">${list.contactName}</td>
 											<td class="tl pl20">${list.supplierType }</td>

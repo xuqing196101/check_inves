@@ -133,17 +133,43 @@
 		  <th class="info">操作</th>
 		</tr>
 		</thead>
+		<c:forEach items="${ listInfo.list }" var="list" varStatus="v">
 		<tr>
-		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-		  <td class="tc w50">1</td>
-		  <td><a href="javascript:void(0)">XXXXXXXXXXXXXXXXX</a></td>
-		  <td class="tc">XXXXXXX</td>
-		  <td class="tc">2016-1-1 12：12：12</td>
-		  <td class="tc">3</td>
-		  <td class="tc">34</td>
-		  <td class="tc">竞价结束</td>
-		  <td class="tc"><a href="javascript:void(0)">查看结果</a></td>
+		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
+		  <td class="tc w50">${(v.index+1)+(listInfo.pageNum-1)*(info.pageSize)}</td>
+		  <td class="tc">${list.obProduct.name}</td>
+		  <td class="tc">${list.obProject.name}</td>
+		  <td class="tc"><fmt:formatDate value="${list.obProject.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+		  <td class="tc">${list.closingSupplier}</td>
+		  <td class="tc">${list.qualifiedSupplier}</td>
+		  <td class="tc">
+		    <c:if test="${list.obProject.status==0}">
+		              暂存
+		    </c:if>
+		     <c:if test="${list.obProject.status==1}">
+		                  已发布
+		    </c:if>
+		     <c:if test="${list.obProject.status==2}">
+		              竞价中
+		    </c:if>
+		     <c:if test="${list.obProject.status==3}">
+		              竞价结束
+		    </c:if>
+		     <c:if test="${list.obProject.status==4}">
+		              流拍
+		    </c:if>
+		  
+		  </td>
+		  <td class="tc"><a href="javascript:void(0)">
+		   <c:if test="${list.obProject.status==3}">
+		              查看结果
+		    </c:if>
+		     <c:if test="${list.obProject.status!=3}">
+		              查看供应商
+		    </c:if>
+		  </a></td>
 		</tr>
+		</c:forEach>
 		
 	</table>
    </div>

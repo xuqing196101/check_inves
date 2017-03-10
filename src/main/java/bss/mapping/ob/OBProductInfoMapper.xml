@@ -10,7 +10,13 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+<<<<<<< HEAD
     <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectSignalByPrimaryKey"></association>
+=======
+    <result column="CREATER_ID" property="remark" jdbcType="VARCHAR" />
+    <!-- <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"/>
+    <association property="obProject" column="PROJECT_ID" select="bss.dao.ob.OBProjectMapper.selectByPrimaryKey"/> --> 
+>>>>>>> ee94fc89f07c48a0fb124efd5ea26b9dbbe6b416
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +78,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, PRODUCT_ID, LIMITED_PRICE, PURCHASE_COUNT, PROJECT_ID, CREATED_AT, UPDATED_AT, 
-    REMARK
+    REMARK,CREATER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProductInfoExample" >
     select
@@ -88,6 +94,13 @@
       order by ${orderByClause}
     </if>
   </select>
+   <select id="selectByCreaterId" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT_INFO
+    where CREATER_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

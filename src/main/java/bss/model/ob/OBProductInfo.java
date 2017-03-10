@@ -22,8 +22,43 @@ public class OBProductInfo {
 
     /**备注信息**/
     private String remark;
+    
+    private String createrId;
+    
+//    private OBProject obProject;
+    
+    //成交供应商 数量
+    private Integer closingSupplier;
+    //合格供应商数量
+    private Integer qualifiedSupplier;
+    
+    
+    public Integer getClosingSupplier() {
+		return closingSupplier;
+	}
 
-    public String getId() {
+	public void setClosingSupplier(Integer closingSupplier) {
+		this.closingSupplier = closingSupplier;
+	}
+
+	public Integer getQualifiedSupplier() {
+		return qualifiedSupplier;
+	}
+
+	public void setQualifiedSupplier(Integer qualifiedSupplier) {
+		this.qualifiedSupplier = qualifiedSupplier;
+	}
+
+	
+	public String getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -94,5 +129,6 @@ public class OBProductInfo {
 	public void setObProduct(OBProduct obProduct) {
 		this.obProduct = obProduct;
 	}
+    
     
 }

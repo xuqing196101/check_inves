@@ -83,7 +83,28 @@ public class DateUtils {
         }
         return "";
     }
-    
+    /***
+     * 根据 两个 日期 比较大 小
+     * @param smdate
+     * @param bdate
+     * @return 1 DATE1 小  2 DATE1 大
+     */
+    public static int compareDate(Date dt1, Date dt2) {
+		try {
+			if (dt1.getTime() > dt2.getTime()) {
+				// "dt1 在dt2前"
+				return 1;
+			} else if (dt1.getTime() < dt2.getTime()) {
+				// "dt1在dt2后"
+				return -1;
+			} else {
+				return 0;
+			}
+		} catch (Exception exception) {
+			exception.printStackTrace();
+		}
+		return 0;
+    	}
     /**
      * 
      *〈简述〉获取当前时间

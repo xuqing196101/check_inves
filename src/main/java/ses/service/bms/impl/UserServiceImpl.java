@@ -316,7 +316,12 @@ public class UserServiceImpl implements UserServiceI {
       }
       return false;
   }
-  
+
+	@Override
+	public List<User> selectByArmyLocal(String userId) {
+		return userMapper.selectByArmyLocal(userId);
+	}
+	  
   
     
 }

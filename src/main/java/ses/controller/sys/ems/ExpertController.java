@@ -441,6 +441,15 @@ public class ExpertController extends BaseController {
         model.addAttribute("zzList", zzList);
         // 查询数据字典中的最高学历配置数据
         List < DictionaryData > xlList = DictionaryDataUtil.find(11);
+        
+
+		List<User> num = userService.selectByArmyLocal(userId);   //地方用户不显示本科以下学历
+		if (num != null && num.size() > 0) {
+			for (int j = xlList.size() - 1; j > 2; j--) {
+				xlList.remove(j);
+			}
+		}
+        
         model.addAttribute("xlList", xlList);
         // 查询数据字典中的专家来源配置数据
         List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
@@ -2446,7 +2455,7 @@ public class ExpertController extends BaseController {
 
         // 物资类,服务类资质证书
         List < SupplierCertPro > listSupplierCertPros = new ArrayList < SupplierCertPro > ();
-        if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().equals("PRODUCT")) {
+        if (supplier.getSupplierMatPro() != null && supplier.getSupplierMatPro().getListSupplierCertPros() != null&&supplier.getSupplierTypeIds().contains("PRODUCT")) {
             List < SupplierCertPro >  certPros = supplier.getSupplierMatPro().getListSupplierCertPros();
             for(SupplierCertPro cert:certPros){
                 if(cert.getCode()!=null){
@@ -2459,7 +2468,7 @@ public class ExpertController extends BaseController {
         	supplier.setSupplierMatPro(pro);
         }
             //		    List < SupplierCertServe > listSupplierCertSes = new ArrayList < SupplierCertServe > ();
-            if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().equals("SERVICE")) {
+            if (supplier.getSupplierMatSe() != null && supplier.getSupplierMatSe().getListSupplierCertSes() != null&&supplier.getSupplierTypeIds().contains("SERVICE")) {
                 List < SupplierCertServe >    listSupplierCertSes = supplier.getSupplierMatSe().getListSupplierCertSes();
                 for(SupplierCertServe server: listSupplierCertSes) {
                     SupplierCertPro pro = new SupplierCertPro();
@@ -2474,7 +2483,7 @@ public class ExpertController extends BaseController {
                 }
             }
             //		    List < SupplierCertSell > listSupplierCertSells = new ArrayList < SupplierCertSell > ();
-            if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().equals("SALES")) {
+            if (supplier.getSupplierMatSell() != null && supplier.getSupplierMatSell().getListSupplierCertSells() != null&&supplier.getSupplierTypeIds().contains("SALES")) {
                 List < SupplierCertSell >    listSupplierCertSells = supplier.getSupplierMatSell().getListSupplierCertSells();
                 for(SupplierCertSell sell: listSupplierCertSells) {
                     SupplierCertPro pro = new SupplierCertPro();

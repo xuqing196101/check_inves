@@ -334,6 +334,7 @@
 				success: function(data) {
 					if (data == "1") {
 						$("#save_pro_form_id").submit();
+						layer.close(index); 
 					} else {
 						 layer.confirm( "由于您近3年加权平均净资产不足3000万元，不符合物资销售型供应商注册要求，将会清除物资销售型专业数据，是否确认操作？",
 											{
@@ -352,11 +353,13 @@
 													}
 												}); */
 											});
+							layer.close(index); 
 								} 
 						
 						/* layer.msg("近3年加权平均净资产不足3000万元，不符合物资销售型供应商注册要求！");
 						layer.close(index); */
 					}
+				
 			});
 			
 		}

@@ -32,4 +32,9 @@ public interface OBRuleMapper {
     int updateByPrimaryKey(OBRule record);
 
 	List<OBRule> selectAllOBRules(Map<String, Object> map);
+	/**
+	 * 获取默认 规则数据
+	 * @return
+	 */
+	OBRule selectByStatus();
 }

@@ -210,6 +210,19 @@
       <if test="updatedAt != null" >
         UPDATED_AT,
       </if>
+      
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="orgContactTel != null" >
+        ORG_CONTACT_TEL,
+      </if>
+      <if test="orgContactName != null" >
+        ORG_CONTACT_NAME,
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -268,6 +281,19 @@
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      
+       <if test="orgId != null" >
+        #{orgId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgContactTel != null" >
+        #{orgContactTel,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgContactName != null" >
+        #{orgContactName,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactTel != null" >
+        #{contactTel,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>

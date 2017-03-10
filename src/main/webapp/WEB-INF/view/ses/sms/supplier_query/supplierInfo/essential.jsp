@@ -44,15 +44,15 @@
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
-			}
+			};
 
 			function fanhui() {
-				if('${category}' == 1) {
+				if('${judge}' == 2) {
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
 				} else {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&status=${status}";
-				}
-			}
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
+				};
+			};
 
 			//为只读
 			$(function() {
@@ -117,6 +117,7 @@
 
 					<form id="form_id" action="" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+						<input name="judge" value="${judge}" type="hidden">
 					</form>
 					<h2 class="count_flow"><i>1</i>供应商信息</h2>
 					<ul class="ul_list">

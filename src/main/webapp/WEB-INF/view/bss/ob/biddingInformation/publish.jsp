@@ -153,12 +153,43 @@
 	}
 	//改变供应商数量
 	function changGYSCount(){
-	      var temp=0;
-	    	$('*[id="count"]').each(function(){
-				var temp1=$(this).val();
-				temp= parseInt(temp)+parseInt(temp1);
-			  });
-			$("#gys_count").text(temp);
+	       var ds=[];
+			//获取选中全部的产品id
+			$('*[name="productName"]').each(function(){
+			  if($(this).val()){
+		      ds.push($(this).val());
+			  }
+		  });
+		  var list=[];
+		  if(ds.length>1){
+		  var temp =null;
+		  //遍历 选中产品id
+		  for(var i=0;i<ds.length;i++) { 
+		    temp=ds[i];
+		    //便利选中产品 获取选中产品集合
+		   	$.each(productList, function(i, user) {
+		   	   if(temp==user.id){
+		   	     list.push(user);
+		   	   }
+		   });
+		   }
+		   var count=0;
+		   //便利选中的集合 是否有共同的供应商
+		   for(var i=0;i<list.length;i++){
+		      var  templist=list[i];
+		      for(var j=1;j<list.length;j++){
+		        var within=list[j];
+		        if(templist.obSupplierList.id!=within.obSupplierList.id){
+		         count++;
+		         break;
+		        };
+		      };
+		   };
+		   $("#gys_count").text((list.length)-parseInt(count));
+		  }else{
+		     $("#gys_count").text(1);
+		  }
+			
 	}
 	// 弹出导入框
 	var index;
@@ -188,13 +219,13 @@
 		  "<td class=\"p0\"><div class=\"w200\"><select id=\"productName_"+number+"\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select></div>"+
 		  "<input id=\"count\" name=\"count_"+number+"\" value=\""+conut+"\" type=\"hidden\" >"+
 		  "</td>"+
-		  "<td class=\"p0\"><input id=\"productMoney\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productCount\"  name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productMoney\" onkeyup=\this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productCount\" onkeyup=\this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productRemark\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		"</tr>").clone(true);   
 			  loads(number);
 			 $("select[name=\"productName_"+number+"\"]").select2("val",productId);
-			 /* onkeyup=\this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" */
+			 /*  */
 	} 
 	//导入excl 
 	function fileUpload(){
@@ -228,8 +259,8 @@
 	         }); 
 	     }
 	     //提交
-	     function submitProject(){
-	     layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+	     function submitProject(status){
+	    
 	      $("#nameErr").html("");
 		  $("#deliveryDeadlineErr").html("");
 		  $("#deliveryAddressErr").html("");
@@ -247,118 +278,144 @@
 		  $("#endTimeErr").html("");
 		  $("#contentErr").html("");
 		  $("#buttonErr").html("");
-		   if($("#name").val()==''){
+		   if(!$("#name").val()){
 		   $("#nameErr").html("标题不能为空");
-		   
+		     show("信息不能为空");
 		   return;
 		  }
 		  
-		   if($("#deliveryDeadline").val()==''){
+		   if(!$("#deliveryDeadline").val()){
 		   $("#deliveryDeadlineErr").html("不能为空");
+		     show("信息不能为空");
 		   return;
 		  }
-		   if($("#deliveryAddress").val()==''){
+		   if(!$("#deliveryAddress").val()){
 		   $("#deliveryAddressErr").html("不能为空");
+		     show("信息不能为空");
 		   return;
 		  }
-		  var tradedSupplier=$("#tradedSupplierCount").val();
-		    if(tradedSupplier==''){
+		    if(!$("#tradedSupplierCount").val()){
 		   $("#tradedSupplierCountErr").html("不能为空");
+		     show("信息不能为空");
 		   return;
 		  }
-		  if(parseInt(tradedSupplier)>parseInt(4)){
+		  if(parseInt($("#tradedSupplierCount").val())>parseInt(4)){
 		  $("#tradedSupplierCountErr").html("不能大于4");
+		    show("成交供应商不能大于4");
 		   return;
 		  }
-		   if(parseInt(tradedSupplier)<parseInt(1)){
+		   if(parseInt($("#tradedSupplierCount").val())<parseInt(1)){
 		  $("#tradedSupplierCountErr").html("不能小于1");
+		  show("成交供应商不能小于1");
 		   return;
 		  }
 		  
-		   if($("#transportFees").val()==''){
+		   if(!$("#transportFees").val()){
 		   $("#transportFeesErr").html("不能为空");
+		    show("信息不能为空");
 		   return;
 		  }
-		   if($("#demandUnit").val()==''){
+		   if(!$("#demandUnit").val()){
 		   $("#demandUnitErr").html("不能为空");
+		   show("信息不能为空");
 		   return;
 		  }
-		   if($("#contactName").val()==''){
+		   if(!$("#contactName").val()){
 		   $("#contactNameErr").html("不能为空");
+		   show("信息不能为空");
 		   return;
-		  } if($("#contactTel").val()==''){
+		  } if(!$("#contactTel").val()){
 		   $("#contactTelErr").html("不能为空");
+		   show("信息不能为空");
 		   return;
 		  }
-		  if($("#orgId").val()==''){
+		  if(!$("#orgId").val()){
 		   $("#orgIdErr").html("不能为空");
+		   show("信息不能为空");
 		   return;
 		  }
 		  
-		   if($("#showorgContactTel").val()==''){
+		   if(!$("#showorgContactTel").val()){
 		   $("#orgContactTelErr").html("不能为空");
+		   show("信息不能为空");
 		   return;
 		  }
-		   if($("#showorgContactName").val()==''){
+		   if(!$("#showorgContactName").val()){
 		   $("#orgContactNameErr").html("不能为空");
+		     show("信息不能为空");
 		   return;
 		  }
-		   if($("#startTime").val()==''){
+		   if(!$("#startTime").val()){
 		   $("#startTimeErr").html("不能为空");
+		     show("信息不能为空");
 		   return;
 		  }
-		   if($("#endTime").val()==''){
+		   if(!$("#endTime").val()){
 		   $("#endTimeErr").html("不能为空");
+		     show("信息不能为空");
 		   return;
 		  }
-		   if($("#content").val()==''){
+		   if(!$("#content").val()){
 		   $("#contentErr").html("不能为空");
+		   show("信息不能为空");
 		   return;
 		  } 
-		  if($('select[name="productName"]').val()){
-		  }else{
+		  if(!$('select[name="productName"]').val()){
 		  $("#buttonErr").html("产品信息不能为空");
+		  show("产品信息不能为空");
 		   return;
 		   }
 		  
 		  var temp;
 		  $('*[name="productName"]').each(function(){
-		  temp=$(this).val();
-		    if(temp==null ||temp ==''){
+		    if(!$(this).val()){
 		      $("#buttonErr").html("产品信息不能为空");
+		      show("产品信息不能为空");
 		      return;
 		    }
 		  });
 		   $('*[id="producCount"]').each(function(){
-		   temp=$(this).val();
-		    if(temp==null ||temp ==''){
+		    if(!$(this).val()){
 		      $("#buttonErr").html("产品信息不能为空");
+		      show("产品信息不能为空");
 		      return;
 		    }
 		  });
 		   $('*[id="productRemark"]').each(function(){
-		      temp=$(this).val();
-		    if(temp==null ||temp ==''){
+		    if(!$(this).val()){
 		      $("#buttonErr").html("产品信息不能为空");
+		      show("产品信息不能为空");
 		      return;
 		    }
 		  });
 		   $('*[id="productMoney"]').each(function(){
-		     temp=$(this).val();
-		    if(temp==null ||temp ==''){
+		    if(!$(this).val()){
 		      $("#buttonErr").html("产品信息不能为空");
+		       show("产品信息不能为空");
 		      return;
 		    }
 		  });
+		   var index = layer.load(0,{
+    				  shade: [0.1,'#fff'],
+    				  offset:['45%','53%']
+    			}); 
+    			$("#status").val(status);
 	       $.post("${pageContext.request.contextPath}/ob_project/addProject.html", $("#myForm").serialize(), function(data) {
-				if (data.status == 200) {
-					alert("s");
-				}
-				if(data.status == 500){
-					layer.alert(data.msg);
+				if (data == "200") {
+					window.location.href ="${pageContext.request.contextPath}/ob_project/list.html";
+    			layer.close(index);
+				}else{
+				   layer.close(index);
+				   show("保存失败");
 				}
 			});
 	     } 
+	     
+	     function show(content){
+	     layer.alert(content, {
+                    offset: ['30%', '40%']
+                  });
+	     }
 </script>
 </head>
 <body>
@@ -376,7 +433,7 @@
     
     <!-- 修改订列表开始-->
    <div class="wrapper mt10">
-  <form id="myForm" action="" method="post" class="mb0">
+  <form id="myForm" action="${pageContext.request.contextPath}/ob_project/addProject.html" method="post" class="mb0">
   <div class="container">
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
@@ -483,8 +540,8 @@
   </form>
   </div>
   <div class="col-md-12 clear tc mt10">
-	<button class="btn btn-windows save mb20" type="submit" onclick="submitProject()">暂存</button>
-	<button class="btn btn-windows apply mb20" type="submit" onclick="">发布</button>
+	<button class="btn btn-windows save mb20" type="submit" onclick="submitProject(0)">暂存</button>
+	<button class="btn btn-windows apply mb20" type="submit" onclick="submitProject(1)">发布</button>
    </div>
   </div>
   

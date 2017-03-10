@@ -16,9 +16,10 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import ses.model.oms.Orgnization;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectResult;
+import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
 
@@ -33,6 +34,9 @@ public class OBSupplierQuoteController {
 
 	@Autowired
 	private OBSupplierQuoteService obSupplierQuoteService;
+	
+	@Autowired
+	private OBProjectResultService oBProjectResultService;
 
 	/**
 	 * @throws ParseException
@@ -118,8 +122,15 @@ public class OBSupplierQuoteController {
 	 * @return
 	 */
 	@RequestMapping("/confirmResult")
-	public String quoteConfirmResult(Model model) {
-		//
+	public String quoteConfirmResult(Model model, HttpServletRequest request, String supplierId){
+		if(supplierId == null || "".equals(supplierId)) {
+			//这个目前做测试用
+			supplierId = "5b214591d1ba471ebcbda346408f6545";
+		}
+		// 根据供应商查询到的竞价结果信息
+		List<OBProjectResult> oBProjectResultList = oBProjectResultService.selectBySupplierId(supplierId);
+		model.addAttribute("oBProjectResultList", oBProjectResultList);
+		
 		return "bss/ob/supplier/confirmResult";
 	}
 }

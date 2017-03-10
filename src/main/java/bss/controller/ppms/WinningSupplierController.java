@@ -156,7 +156,9 @@ public class WinningSupplierController extends BaseController {
   public String selectpackage(Model model, String pid, String packageId, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
 	  
 	  //调用service层方法把传过来的供应商id，确定为中标 @author Ma Mingwei
-	  checkPassService.changeSupplierWonTheBidding(packageId,priceRatios);
+	  if(pid != null) {
+		  checkPassService.changeSupplierWonTheBidding(packageId,priceRatios);
+	  }
 	  
     if (view != null && view == 1) {
       SupplierCheckPass scp = new SupplierCheckPass();
@@ -776,7 +778,8 @@ public class WinningSupplierController extends BaseController {
    * @return
    */
   @RequestMapping("/inputList")
-  public String inputList(Model model,String packageId,String projectId,String pid){
+  public String inputList(Model model, String supplierId, String packageId,String projectId,String pid){
+	model.addAttribute("supplierId", supplierId);
     model.addAttribute("packageId", packageId);
     model.addAttribute("projectId", projectId);
     model.addAttribute("pid", pid);
