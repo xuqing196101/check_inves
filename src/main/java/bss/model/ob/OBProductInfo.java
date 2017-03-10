@@ -20,6 +20,7 @@ public class OBProductInfo {
 
     private Date updatedAt;
 
+    /**备注信息**/
     private String remark;
 
     public String getId() {

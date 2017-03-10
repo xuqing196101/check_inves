@@ -10,7 +10,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"></association>
+    <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectSignalByPrimaryKey"></association>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
