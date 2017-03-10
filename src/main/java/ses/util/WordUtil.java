@@ -52,8 +52,11 @@ public class WordUtil {
 	        
 	        String context = template1.toString();
 	        
-	        context = context.replace("<w:body>", "<w:body><w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
-	        
+	        if (context.indexOf("<w:body>") >= 0) {
+	        	context = context.replace("<w:body>", "<w:body><w:documentProtection w:edit='readOnly' w:formatting='1' w:enforcement='1' w:cryptProviderType='rsaAES' w:cryptAlgorithmClass='hash' w:cryptAlgorithmType='typeAny' w:cryptAlgorithmSid='14' w:cryptSpinCount='100000' w:hash='gGLyhzLRCE/TOwg/5KQId6H8skrr3fZ0B07ndW890k7gMAt+SDnT+wqbA7Un2mrgGhRf1VnkTGi2eEQw8bHsuw==' w:salt='YTL2T3pOPNkRfbvKGPv71Q=='/>");
+			}else if (context.indexOf("<w:WordDocument>") >= 0) {
+				context = context.replace("<w:WordDocument>", "<w:WordDocument><w:DocumentProtection>ReadOnly</w:DocumentProtection><w:UnprotectPassword>88A0AC12</w:UnprotectPassword><w:StyleLock/><w:StyleLockEnforced/>");
+			}
 	        
 	        String fileNam = UUID.randomUUID().toString() + ".ftl";
 	        
