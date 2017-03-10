@@ -3,6 +3,8 @@ package bss.dao.ob;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProductInfoMapper {
@@ -27,4 +29,9 @@ public interface OBProductInfoMapper {
     int updateByPrimaryKeySelective(OBProductInfo record);
 
     int updateByPrimaryKey(OBProductInfo record);
+    /**
+     * 获取 产品相关数据
+     * @author YangHongLiang
+     */
+    List<OBProductInfo> selectByCreaterId(Map<String, Object> map);
 }

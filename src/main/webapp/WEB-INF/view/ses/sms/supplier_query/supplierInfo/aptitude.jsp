@@ -44,6 +44,15 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			
+			function fanhui() {
+				if('${judge}' == 2) {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
+				} else {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
+				}
+			}
 		</script>
 	</head>
 
@@ -235,6 +244,9 @@
 							</c:if>
 						</div>
 					</ul>
+					<div class="col-md-12 tc">
+			    	<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
+			   	</div>
 				</div>
 			</div>
 		</div>

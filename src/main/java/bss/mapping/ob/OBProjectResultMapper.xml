@@ -93,6 +93,8 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -225,6 +227,13 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <!-- 去重复供应商 根据参数 获取成交供应商数量  -->
+  <select id="countByStatus" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
+    select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
+    where PRODUCT_ID= #{productId,jdbcType=VARCHAR}
+        and PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS=1
+  </select>
+  
   <update id="updateByExampleSelective" parameterType="map" >
     update T_BSS_OB_PROJECT_RESULT
     <set >

@@ -36,16 +36,22 @@ public interface OBProjectServer {
 	/**获取 产品**/
 	List<OBProduct> productList();
 	
+	/**
+	 * 根据创建人 获取数据
+	 * **/
+	List<OBProductInfo> productInfoList(Map<String ,Object> map);
+	
 	/**保存竞价信息
 	 * @param OBProject
 	 * @param List<OBProductInfo>
 	 * 
 	 * **/
-	void saveProject(OBProject project,List<OBProductInfo> pinfo);
-
+	String saveProject(OBProject project,String uid,String fileid);
 	/**
 	 * 获取定型产品相关信息 并返回 json
 	 * */
 	String  getProduct();
+	
+	
 
 }

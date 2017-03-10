@@ -49,8 +49,10 @@ import common.annotation.CurrentUser;
 import common.constant.Constant;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBRule;
 import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBRuleService;
 
 import bss.util.ExcelUtil;
 /**
@@ -68,6 +70,8 @@ public class OBProjectController {
 
 	@Autowired
 	private OrgnizationServiceI orgnizationService;
+	@Autowired
+	private  OBRuleService  OBRuleService;
 
 	/***
 	 * 获取竞价信息跳转 list页
@@ -77,19 +81,19 @@ public class OBProjectController {
 	 * @param request
 	 * @return
 	 */
-	@RequestMapping("/list")
-	public String list(Model model, HttpServletRequest request, Integer page) {
-		OBProject op = new OBProject();
-		op.setName("");
-		op.setStartTime(new Date());
-		List<OBProject> list = OBProjectServer.list(op);
+	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
+	public String list(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
+		if(user !=null){
 		if (page == null) {
 			page = 1;
 		}
-		PageHelper.startPage(page,
-				Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-		model.addAttribute("listInfo", new PageInfo<OBProject>(list));
-
+		Map<String,Object> map=new HashMap<String, Object>();
+		map.put("page", page);
+		map.put("id", user.getId());
+		List<OBProductInfo> list = OBProjectServer.productInfoList(map);
+		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		model.addAttribute("listInfo", new PageInfo<OBProductInfo>(list));
+		}
 		return "bss/ob/biddingInformation/list";
 	}
 
@@ -104,10 +108,13 @@ public class OBProjectController {
 	@RequestMapping("/add")
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
+		//默认规则
+		OBRule obr=OBRuleService.selectByStatus();
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
 		model.addAttribute("fileid", uuid);
+		model.addAttribute("rule", obr);
 		model.addAttribute("userId", user.getId());
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		// 标识 竞价附件
@@ -133,9 +140,6 @@ public class OBProjectController {
 			response.getWriter().close();
 		}
 	}
-
-	/** ------------竞价看板------------- **/
-
 	/**
 	 * 
 	 * @Title: biddingInfoList
@@ -251,7 +255,7 @@ public class OBProjectController {
 	        return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
 	                                          headers, HttpStatus.OK);    
 	}
-	/* @Description: 竞价管理保存
+	/** @Description: 竞价管理保存
 	* author: YangHongLiang
 	* @param 接收页面返回数据
 	* @return     
@@ -260,38 +264,14 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping("addProject")
+	@ResponseBody
 	public String addProject(@CurrentUser User user,OBProject obProject, HttpServletRequest request,
 			String fileid){
+		String msg="";
 		if(user !=null){
-			//生成ID
-	     String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		System.out.println(" getgetget "+obProject.toString());
-		obProject.setId(fileid);
-		obProject.setCreatedAt(new Date());
-	    obProject.setCreaterId(user.getId());
-		obProject.setStatus(0);//暂存
-		obProject.setAttachmentId(fileid);
-		OBProductInfo product=null;
-		List<OBProductInfo> list=new ArrayList<OBProductInfo>();
-		//拆分数组
-			List<String> productName = obProject.getProductName();
-			for (int i = 0; i < productName.size(); i++) {
-				String uid=UUID.randomUUID().toString().toUpperCase().replace("-", "");
-				product = new OBProductInfo();
-				product.setId(uid);
-				product.setProductId(productName.get(i));
-				product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
-						.getProductMoney().get(i))));
-				product.setRemark(obProject.getProductRemark().get(i));
-				product.setPurchaseCount(Integer.valueOf(obProject
-						.getProductCount().get(i)));
-				product.setProjectId(uuid);
-				product.setCreatedAt(new Date());
-				list.add(product);
-			}
-			OBProjectServer.saveProject(obProject,list);
+			msg=OBProjectServer.saveProject(obProject,user.getId(),fileid);
 		}
-		return "redirect:list.html";
+		return msg;
 		
 	}
 	/**
@@ -322,10 +302,10 @@ public class OBProjectController {
 		          String jsonString = JSON.toJSONString(errMsg);
 			   return jsonString;
 			}
-		
 		String jsonString = JSON.toJSONString(list);
 		return jsonString;
 	}
+	
 	
 	
 	/**

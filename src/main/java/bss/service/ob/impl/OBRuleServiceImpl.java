@@ -199,4 +199,10 @@ public class OBRuleServiceImpl implements OBRuleService {
 		}
 		return JdcgResult.ok("删除成功");
 	}
+
+	@Override
+	public OBRule selectByStatus() {
+		// TODO Auto-generated method stub
+		return obRuleMapper.selectByStatus();
+	}
 }

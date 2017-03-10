@@ -96,4 +96,12 @@ public interface OBRuleService {
 	* @throws
 	 */
 	public JdcgResult deleteSpecialDate(String[] ids);
+	/**
+	* @Title: selectByStatus 
+	* @Description: 获取默认规则
+	* @param @param 
+	* @param @return    设定文件 
+	* @return OBRule    返回类型 
+	 */
+	public OBRule selectByStatus();
 }

@@ -79,7 +79,7 @@ public class OBProject {
      * @Fields status : 发布状态
      */
 
-    /**竞价状态 0：暂存  1：发布中   2：待确认 3：竞价结束  4:第二次待确认**/
+    /**竞价状态 0：暂存  1已发布 2竞价中  3：竞价结束  4.流拍**/
     private Integer status;
     /**
      * @Fields createrId : 创建人ID
@@ -119,8 +119,9 @@ public class OBProject {
      * 页面数量
      */
     private List<String> productCount;
+    
 
-    public List<String> getProductName() {
+	public List<String> getProductName() {
 		return productName;
 	}
 
