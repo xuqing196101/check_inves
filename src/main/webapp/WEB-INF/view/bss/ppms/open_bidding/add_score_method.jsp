@@ -59,8 +59,8 @@
 					layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
 					return;
 				}
-				if(reg.exec(valid) >40) {
-					layer.msg("平均值不能高于40%",{offset: ['30%', '40%']});
+				if(reg.exec(business) >30) {
+					layer.msg("不能高于30%",{offset: ['30%', '40%']});
 					return;
 				}
         	}
@@ -168,10 +168,11 @@
 							<li class="col-md-3 col-sm-6 col-xs-12 dnone clear" id="business">
 								<!-- <span class="">商务技术评分高于上午技术评分百分比:</span> --> 
 								<div id="business" class="col-md-12 col-xs- 12 col-sm-12 p0">
-								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">经济技术评分高于有效经济技术评分的百分比(%)：</span> 
+								<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 ">抛开价格因素经济技术评分不得低于有效经济技术评分的百分比(%) ：</span> 
 								<div class="input_append input_group col-md-12 col-sm-12 col-xs-12 p0">							
 								    <input name="business"  type="text" value="${bidMethod.business }">
 								     <span class="add-on">i</span>
+								     <span class="input-tip">不能高于30%</span>
 								</div>
 								<div class="cue">${busi }</div>
 								</div>
