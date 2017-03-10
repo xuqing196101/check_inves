@@ -1,6 +1,7 @@
 package bss.model.ob;
 
 import java.util.Date;
+import java.util.List;
 
 import ses.model.bms.Category;
 
@@ -15,6 +16,8 @@ import ses.model.bms.Category;
  *
  */
 public class OBProduct {
+	
+	private List<OBSupplier> obSupplierList;
 	private String id;
 
 	private String code;
@@ -46,6 +49,15 @@ public class OBProduct {
 	private Category category;
 
 	private Category categoryParent;
+	
+	
+	public List<OBSupplier> getObSupplierList() {
+		return obSupplierList;
+	}
+
+	public void setObSupplierList(List<OBSupplier> obSupplierList) {
+		this.obSupplierList = obSupplierList;
+	}
 
 	public String getId() {
 		return id;

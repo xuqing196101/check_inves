@@ -7,7 +7,12 @@ import org.apache.ibatis.annotations.Param;
 
 public interface OBProjectResultMapper {
     int countByExample(OBProjectResultExample example);
-
+    /**
+     * 根据产品 id/竞价id获取已经成交的数量
+     * @param example
+     * @return
+     */
+    int countByStatus(OBProjectResult example);
     int deleteByExample(OBProjectResultExample example);
 
     int deleteByPrimaryKey(String id);
