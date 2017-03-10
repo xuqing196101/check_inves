@@ -271,4 +271,12 @@ public interface UserServiceI {
    * @param mobile
    */
   Boolean ajaxOldPassword(User u);
+
+  /**
+   *〈简述〉判断是地方用户还是军队用户
+   *〈详细描述〉
+   * @author baixudong
+   * @param mobile
+   */
+  List<User> selectByArmyLocal(String userId);
 }
