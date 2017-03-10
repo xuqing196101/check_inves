@@ -25,7 +25,7 @@ public class OBProductInfo {
     
     private String createrId;
     
-//    private OBProject obProject;
+    private OBProject obProject;
     
     //成交供应商 数量
     private Integer closingSupplier;
@@ -33,7 +33,15 @@ public class OBProductInfo {
     private Integer qualifiedSupplier;
     
     
-    public Integer getClosingSupplier() {
+    public OBProject getObProject() {
+		return obProject;
+	}
+
+	public void setObProject(OBProject obProject) {
+		this.obProject = obProject;
+	}
+
+	public Integer getClosingSupplier() {
 		return closingSupplier;
 	}
 

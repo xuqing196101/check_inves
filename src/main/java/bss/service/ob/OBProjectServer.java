@@ -39,7 +39,7 @@ public interface OBProjectServer {
 	/**
 	 * 根据创建人 获取数据
 	 * **/
-	List<OBProductInfo> productInfoList(Map<String ,Object> map);
+	List<OBProject> List(Map<String ,Object> map);
 	
 	/**保存竞价信息
 	 * @param OBProject

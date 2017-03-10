@@ -10,15 +10,15 @@
       $(function() {
         laypage({
           cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-          pages: "${listInfo.pages}", //总页数
+          pages: "${info.pages}", //总页数
           skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
           skip: true, //是否开启跳页
-          total: "${listInfo.total}",
-          startRow: "${listInfo.startRow}",
-          endRow: "${listInfo.endRow}",
-          groups: "${listInfo.pages}" >= 3 ? 3 : "${listInfo.pages}", //连续显示分页数
+          total: "${info.total}",
+          startRow: "${info.startRow}",
+          endRow: "${info.endRow}",
+          groups: "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
           curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-            return "${listInfo.pageNum}";
+            return "${info.pageNum}";
           }(),
           jump: function(e, first) { //触发分页后的回调
             if(!first) { //一定要加此判断，否则初始时会无限刷新
@@ -92,10 +92,6 @@
          <input type="hidden" name="page" id="page">
     	<ul class="demand_list">
     	  <li>
-	    	<label class="fl">产品名称：</label>
-			<input type="text" id="topic" class=""/>
-	      </li>
-    	  <li>
 	    	<label class="fl">竞价标题：</label>
 	    	  <select class="w178">
 	    	    <option></option>
@@ -124,7 +120,6 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">产品名称</th>
 		  <th class="info">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">成交供应商</th>
@@ -133,38 +128,50 @@
 		  <th class="info">操作</th>
 		</tr>
 		</thead>
-		<c:forEach items="${ listInfo.list }" var="list" varStatus="v">
+		<c:forEach items="${info.list}" var="list" varStatus="v">
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
-		  <td class="tc w50">${(v.index+1)+(listInfo.pageNum-1)*(info.pageSize)}</td>
-		  <td class="tc">${list.obProduct.name}</td>
-		  <td class="tc">${list.obProject.name}</td>
-		  <td class="tc"><fmt:formatDate value="${list.obProject.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/></td>
-		  <td class="tc">${list.closingSupplier}</td>
-		  <td class="tc">${list.qualifiedSupplier}</td>
+		  <td class="tc w50">${(v.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+		  <td class="tc">${list.name}</td>
+		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 		  <td class="tc">
-		    <c:if test="${list.obProject.status==0}">
+		  <c:if test="${list.closingSupplier==null}">
+		   0
+		  </c:if>
+		   <c:if test="${list.closingSupplier!=null}">
+		   ${list.closingSupplier}
+		  </c:if>
+		  </td>
+		  <td class="tc">
+		   <c:if test="${list.qualifiedSupplier==null}">
+		   0
+		  </c:if>
+		   <c:if test="${list.qualifiedSupplier!=null}">
+		   ${list.closingSupplier}
+		  </c:if></td>
+		  <td class="tc">
+		    <c:if test="${list.status==0}">
 		              暂存
 		    </c:if>
-		     <c:if test="${list.obProject.status==1}">
+		     <c:if test="${list.status==1}">
 		                  已发布
 		    </c:if>
-		     <c:if test="${list.obProject.status==2}">
+		     <c:if test="${list.status==2}">
 		              竞价中
 		    </c:if>
-		     <c:if test="${list.obProject.status==3}">
+		     <c:if test="${list.status==3}">
 		              竞价结束
 		    </c:if>
-		     <c:if test="${list.obProject.status==4}">
+		     <c:if test="${list.status==4}">
 		              流拍
 		    </c:if>
 		  
 		  </td>
 		  <td class="tc"><a href="javascript:void(0)">
-		   <c:if test="${list.obProject.status==3}">
+		   <c:if test="${list.status==3}">
 		              查看结果
 		    </c:if>
-		     <c:if test="${list.obProject.status!=3}">
+		     <c:if test="${list.status!=3}">
 		              查看供应商
 		    </c:if>
 		  </a></td>

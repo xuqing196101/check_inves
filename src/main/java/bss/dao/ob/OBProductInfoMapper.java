@@ -34,4 +34,8 @@ public interface OBProductInfoMapper {
      * @author YangHongLiang
      */
     List<OBProductInfo> selectByCreaterId(Map<String, Object> map);
+    /**
+     * 根据竞价id 获取数据
+     */
+    List<OBProductInfo> selectByProjectId(String id);
 }
