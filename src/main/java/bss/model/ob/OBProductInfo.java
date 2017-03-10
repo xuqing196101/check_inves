@@ -8,7 +8,7 @@ public class OBProductInfo {
 
     private String productId;
 
-//    private OBProduct obProduct;
+    private OBProduct obProduct;
     
     private BigDecimal limitedPrice;
 
@@ -20,6 +20,7 @@ public class OBProductInfo {
 
     private Date updatedAt;
 
+    /**备注信息**/
     private String remark;
     
     private String createrId;
@@ -120,4 +121,14 @@ public class OBProductInfo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public OBProduct getObProduct() {
+		return obProduct;
+	}
+
+	public void setObProduct(OBProduct obProduct) {
+		this.obProduct = obProduct;
+	}
+    
+    
 }

@@ -18,6 +18,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectResult;
+import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
 
@@ -32,6 +34,9 @@ public class OBSupplierQuoteController {
 
 	@Autowired
 	private OBSupplierQuoteService obSupplierQuoteService;
+	
+	@Autowired
+	private OBProjectResultService oBProjectResultService;
 
 	/**
 	 * @throws ParseException
@@ -75,30 +80,57 @@ public class OBSupplierQuoteController {
 		return "bss/ob/supplier/list";
 	}
 
+	/**
+	 * 
+	 * @Title: beginQuoteInfo
+	 * @Description: 供应商开始竞价
+	 * @author Easong
+	 * @param @param model
+	 * @param @param request
+	 * @param @return 设定文件
+	 * @return String 返回类型
+	 * @throws
+	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/beginQuoteInfo")
-	public String beginQuoteInfo(Model model, HttpServletRequest request){
+	public String beginQuoteInfo(Model model, HttpServletRequest request) {
 		// 获取标题id
 		String titleId = request.getParameter("id");
 		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(titleId);
 		// 竞价信息
 		OBProject obProject = (OBProject) map.get("obProject");
 		// 竞价商品信息
-		OBProductInfo oBProductInfo = (OBProductInfo) map.get("oBProductInfoList");
+		Object object = map.get("oBProductInfoList");
+		// 获取采购机构名称
+		String orgName = (String) map.get("orgName");
+		String productIds = (String) map.get("productIds");
+		List<OBProductInfo> oBProductInfo = null;
+		if (object != null) {
+			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
+		}
+		model.addAttribute("orgName", orgName);
 		model.addAttribute("obProject", obProject);
-		model.addAttribute("oBProductInfo", oBProductInfo);
+		model.addAttribute("oBProductInfoList", oBProductInfo);
+		model.addAttribute("productIds", productIds);
+
 		return "bss/ob/supplier/supplierOffer";
 	}
-	
-	
-	
+
 	/**
 	 * @author Ma Mingwei
 	 * @param model
 	 * @return
 	 */
 	@RequestMapping("/confirmResult")
-	public String quoteConfirmResult(Model model){
-		// 
+	public String quoteConfirmResult(Model model, HttpServletRequest request, String supplierId){
+		if(supplierId == null || "".equals(supplierId)) {
+			//这个目前做测试用
+			supplierId = "5b214591d1ba471ebcbda346408f6545";
+		}
+		// 根据供应商查询到的竞价结果信息
+		List<OBProjectResult> oBProjectResultList = oBProjectResultService.selectBySupplierId(supplierId);
+		model.addAttribute("oBProjectResultList", oBProjectResultList);
+		
 		return "bss/ob/supplier/confirmResult";
 	}
 }

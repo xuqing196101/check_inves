@@ -533,8 +533,9 @@
 	}
 
 	//录入表的
-	function InputBD() {
-		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&pid=${pid}";
+	function InputBD(obj) {
+		var supplierId = $(obj).parent().parent().find(".supplierId").val();
+		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&pid=${pid}&supplierId=" + supplierId;
 	}
 	//关联选中
 	function associateSelected(id, obj, index) {
@@ -719,6 +720,7 @@
 							</c:if></td>
 					</c:if> -->
 					<td class="opinter" title="${checkpass.supplier.supplierName }">
+						<input type="hidden" class="supplierId" value="${checkpass.supplier.id }"/>
 						<span onclick="ycDiv(this,'${checkpass.id}')"
 						class="count_flow shrink hand"></span> <c:choose>
 							<c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
@@ -757,7 +759,7 @@
 					</c:if>
 
 					<td class="tc opinter"><button class="btn btn-windows add"
-							onclick="InputBD();" type="button">录入标的</button></td>
+							onclick="InputBD(this);" type="button">录入标的</button></td>
 				</tr>
 				<tr class="tc hide">
 					<td colspan="10">

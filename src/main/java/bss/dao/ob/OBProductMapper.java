@@ -17,6 +17,8 @@ public interface OBProductMapper {
     List<OBProduct> selectByExample(OBProduct example);
 
     OBProduct selectByPrimaryKey(String id);
+    
+    OBProduct selectSignalByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") OBProduct record, @Param("example") OBProductExample example);
 
