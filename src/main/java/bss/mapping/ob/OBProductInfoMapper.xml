@@ -11,8 +11,8 @@
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATER_ID" property="remark" jdbcType="VARCHAR" />
-    <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"/>
-    <association property="obProject" column="PROJECT_ID" select="bss.dao.ob.OBProjectMapper.selectByPrimaryKey"/> 
+    <!-- <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"/>
+    <association property="obProject" column="PROJECT_ID" select="bss.dao.ob.OBProjectMapper.selectByPrimaryKey"/> --> 
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >

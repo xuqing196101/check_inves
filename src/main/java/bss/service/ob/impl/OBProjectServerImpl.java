@@ -140,7 +140,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 		   PropertiesUtil config = new PropertiesUtil("config.properties");
 	  		PageHelper.startPage((Integer) (map.get("page")),
 	  		Integer.parseInt(config.getString("pageSize")));
-		List<OBProductInfo> list=OBProductInfoMapper.selectByCreaterId(map);
+	  		List<OBProductInfo> list=OBProductInfoMapper.selectByCreaterId(map);
+		/*
 		int supplieCount=0;
 		if(list!=null){
 		//便利 首先取出产品名称 产品id
@@ -173,7 +174,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			//赋值合格供应商数量
 			info.setQualifiedSupplier(getSupplies.size());
           }		
-		}
+		}*/
 		return list;
 	}
 }

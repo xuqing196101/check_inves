@@ -269,7 +269,6 @@ public class OBProjectController {
 			String fileid){
 		String msg="";
 		if(user !=null){
-		
 			msg=OBProjectServer.saveProject(obProject,user.getId(),fileid);
 		}
 		return msg;
