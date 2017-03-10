@@ -4129,7 +4129,7 @@ public class PackageExpertController {
                 return "2";
             }
         }
-        return "暂时无法查看";
+        return "未选择评分办法";
     }
     
     @RequestMapping("/checkAuditView")
