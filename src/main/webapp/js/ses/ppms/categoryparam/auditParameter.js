@@ -126,7 +126,7 @@ function initTypes(){
 function calledback(data){
 	if (data != null && data.length > 0){
 		for (var i=0;i<data.length;i++){
-			loadHtml(data[i].paramName,data[i].paramTypeName);
+			loadHtml(data[i].paramName,data[i].paramTypeName,data[i].paramRequired);
 		}
 	} else {
 		$("#uListId").hide();
@@ -138,16 +138,18 @@ function calledback(data){
  * @param paramName 参数名称
  * @param paramTypeName 参数类型
  */
-function loadHtml(paramName, paramTypeName){
+function loadHtml(paramName, paramTypeName,paramRequired){
 	/*var html ="<li>"
              + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\">" + paramName +"</div>"
              + "  <div class=\"col-md-5 col-xs-12 col-sm-4 tl\"> 参数类型: " + paramTypeName + "</div>" 
              +"</li>"*/
 	var html="<tr>" +
-			"<td width=\"23%\" class=\"info\">参数名称：</td>" +
-			"<td width=\"23%\">"+paramName+"</td>" +
-			"<td width=\"23%\" class=\"info\">参数类型：</td>" +
-			"<td width=\"23%\" >"+paramTypeName+"</td>" +
+			"<td width=\"15%\" class=\"info\">参数名称：</td>" +
+			"<td width=\"15%\">"+paramName+"</td>" +
+			"<td width=\"15%\" class=\"info\">参数类型：</td>" +
+			"<td width=\"15%\" >"+paramTypeName+"</td>" +
+			"<td width=\"15%\" class=\"info\">是否必填：</td>" +
+			"<td width=\"15%\" >"+(paramRequired==1?"是":"否")+"</td>" +
 			"</tr>";
     $("#uListId").append(html);
 }
@@ -170,10 +172,10 @@ function loadRadioHtml(checked){
 		     + " </div> "
 		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
 	var html="<tr>" +
-			"<td width=\"23%\" class=\"info\">" +
+			"<td width=\"15%\" class=\"info\">" +
 			"<span class='red'>*</span>是否公开：" +
 			"</td>" +
-			"<td  colspan=\"3\">";
+			"<td  colspan=\"5\">";
 	if (yes_checked){
 		html += "  <input type='radio' disabled='disabled' checked='checked'   name='isOPen'  >是    " 
 		html += "  <input type='radio' disabled='disabled'    name='isOPen'  /> 否    "
@@ -201,10 +203,10 @@ function loadcheckbox(checkedVal){
      	     + " </div>"
 		     + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
 	var html="<tr>" +
-			"<td width=\"23%\" class=\"info\">" +
+			"<td width=\"15%\" class=\"info\">" +
 			"<span class='red'>*</span>类型：" +
 			"</td>" +
-			"<td  colspan=\"3\">";
+			"<td  colspan=\"5\">";
 	for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
 			 html+="<input name='smallClass' type='checkbox' disabled='disabled' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;

@@ -159,13 +159,14 @@ function saveParameter(){
 	var orgId = $("#orgId").val();
 	var paramName = $('input[name="paramName"]').val();
 	var paramTypeId = $('select[name="paramTypeId"]').val();
+	var paramRequired = $('select[name="paramRequired"]').val();
 	var treeObj=$.fn.zTree.getZTreeObj("ztree");  
 	var treeNode = treeObj.getNodeByParam("id",selectedTreeId, null);
 	
 	$.ajax({
 		url: globalPath + "/cateParam/save.do" ,
 		type:"post",
-		data:{'name': paramName, 'type' : paramTypeId,'orgId':orgId, 'cateId': selectedTreeId,'id' : itemId},
+		data:{'name': paramName, 'type' : paramTypeId,'orgId':orgId, 'cateId': selectedTreeId,'id' : itemId,"paramRequired":paramRequired},
 		success:function(res){
 			if (res.result) {
 				layer.msg("保存成功");
@@ -256,6 +257,7 @@ function getCategory(id){
 		success:function(data){
 			 $('input[name="paramName"]').val(data.paramName);
 			 $('select[name="paramTypeId"]').val(data.paramTypeId);
+			 $('select[name="paramRequired"]').val(data.paramRequired);
 			 openDiv();
 		}
 	});
@@ -345,7 +347,7 @@ function calledback(data){
 	
 	if (data != null && data.length > 0){
 		for (var i=0;i<data.length;i++){
-			loadHtml(data[i].id,data[i].paramName,data[i].paramTypeName);
+			loadHtml(data[i].id,data[i].paramName,data[i].paramTypeName,data[i].paramRequired);
 		}
 	}
 }
@@ -360,7 +362,7 @@ function openDiv(){
 		  title: '新增参数',
 		  skin: 'layui-layer-rim',
 		  shadeClose: true,
-		  area: ['500px','200px'],
+		  area: ['500px','300px'],
 		  content: $("#openDiv")
 		});
 }
@@ -368,13 +370,15 @@ function openDiv(){
 /**
  * 组装html
  */
-function loadHtml(id,paramName, paramTypeName){
+function loadHtml(id,paramName, paramTypeName,paramRequired){
 	var html="<tr>" +
 	        "<td width=\"5%\"><input name='chkItem' value='"+id+"' type=\"checkbox\" class=\"mt10\"/></td>"+
-			"<td width=\"23%\" class=\"info\">参数名称：</td>" +
-			"<td width=\"23%\">"+paramName+"</td>" +
-			"<td width=\"23%\" class=\"info\">参数类型：</td>" +
-			"<td width=\"23%\" >"+paramTypeName+"</td>" +
+			"<td width=\"15%\" class=\"info\">参数名称：</td>" +
+			"<td width=\"15%\">"+paramName+"</td>" +
+			"<td width=\"15%\" class=\"info\">参数类型：</td>" +
+			"<td width=\"15%\" >"+paramTypeName+"</td>" +
+			"<td width=\"15%\" class=\"info\">是否必填：</td>" +
+			"<td width=\"15%\" >"+(paramRequired==1?"是":"否")+"</td>" +
 			"</tr>";
 	/*var html ="<li>"
 	        + "  <div class=\"col-md-1 col-xs-6 col-sm-4 tc\">"
@@ -431,10 +435,10 @@ function loadRadioHtml(redioChecked){
 		     + " </div>"
 		     + " <div class='col-md-8 col-sm-8 col-xs-6'> ";*/
 	var html="<tr>" +
-			"<td colspan=\"2\" width=\"28%\" class=\"info\">" +
+			"<td colspan=\"2\" width=\"20%\" class=\"info\">" +
 			"<span class='red'>*</span>是否公开：" +
 			"</td>" +
-			"<td  colspan=\"3\">";
+			"<td  colspan=\"5\">";
 	if (redioChecked == 0){
 		html +=  " <input type='radio' checked='checked' name='isOPen'  value='0'/>是     ";
 		html +=  " 　　<input type='radio'  name='isOPen'  value='1'/>否";
@@ -462,10 +466,10 @@ function loadCheckbox(checkedVal){
 	      	 + " </div>"
 	 		 + " <div class='col-md-8 col-sm-8 col-xs-7'>";*/
 	var html="<tr>" +
-			"<td  colspan=\"2\" width=\"28%\" class=\"info\">" +
+			"<td  colspan=\"2\" width=\"20%\" class=\"info\">" +
 			"<span class='red'>*</span>类型：" +
 			"</td>" +
-			"<td  colspan=\"3\">";
+			"<td  colspan=\"5\">";
 	 for (var i =0;i<typesObj.length;i++){
 		 if (checkedVal == 1 && typesObj[i].code == 'PRODUCT'){
 			 html+="<input name='smallClass' type='checkbox' checked='checked' value='"+typesObj[i].code+"' />" +typesObj[i].name;
@@ -507,11 +511,11 @@ function loadAuditHtml(auditStatus,auditAdvise){
 			  + " </div>"
 			  + "</li>";*/
 		var html="<tr>" +
-					"<td width=\"28%\" colspan=\"2\" class=\"info\">" +
+					"<td width=\"20%\" colspan=\"2\" class=\"info\">" +
 					"审核状态：" +
 					"</td>" +
-					"<td width=\"23%\">"+statusText+"</td>";
-		html+="<td width=\"23%\" class=\"info\">" +
+					"<td width=\"15%\">"+statusText+"</td>";
+		html+="<td width=\"15%\" class=\"info\">" +
  		"审核意见：" +
  		"</td>"; 
 		if (auditAdvise !=null && auditAdvise != ""){
@@ -521,9 +525,9 @@ function loadAuditHtml(auditStatus,auditAdvise){
 			   html += "</div>"
 		     html += "</li>"*/
 			 
-			 html+="<td width=\"23%\" >" +auditAdvise+"</td>";
+			 html+="<td  colspan=\"3\">" +auditAdvise+"</td>";
 		 }else{
-			 html+="<td width=\"23%\" ></td>";
+			 html+="<td  colspan=\"3\"></td>";
 		 }
 		html+="</tr>";
 		$("#uListId").append(html);

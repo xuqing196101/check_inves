@@ -236,7 +236,7 @@
 	        	  $("#supplierLegal").val(org.legalName);
 	        	  $("#supplierContact").val(org.contactName);
 	        	  $("#supplierContactTelephone").val(org.contactTelephone);
-	        	  $("#supplierContactAddress").val(org.address);
+	        	  $("#supplierContactAddress").val(org.area.name);
 	        	  $("#supplierUnitpostCode").val(org.postCode);
 	        	  $("#supplierBank").val(org.bankName);
 	        	  $("#supplierBankAccount_string").val(org.bankAccount);

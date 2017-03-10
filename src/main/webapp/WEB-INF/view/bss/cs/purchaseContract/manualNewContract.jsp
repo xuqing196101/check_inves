@@ -236,7 +236,7 @@
 	        	  $("#supplierLegal").val(org.legalName);
 	        	  $("#supplierContact").val(org.contactName);
 	        	  $("#supplierContactTelephone").val(org.contactTelephone);
-	        	  $("#supplierContactAddress").val(org.address);
+	        	  $("#supplierContactAddress").val(org.area.name);
 	        	  $("#supplierUnitpostCode").val(org.postCode);
 	        	  $("#supplierBank").val(org.bankName);
 	        	  $("#supplierBankAccount_string").val(org.bankAccount);
@@ -441,7 +441,7 @@
 	  index =  layer.open({
 	    shift: 1, //0-6的动画形式，-1不开启
 	    moveType: 1, //拖拽风格，0是默认，1是传统拖动
-	    title: ['新增明细','border-bottom:1px solid #e5e5e5'],
+	    title: ['新增标的','border-bottom:1px solid #e5e5e5'],
 	    shade:0.01, //遮罩透明度
 		type : 1,
 		area : [ '55%', '400px' ], //宽高

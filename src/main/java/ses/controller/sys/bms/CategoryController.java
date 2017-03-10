@@ -2,12 +2,16 @@ package ses.controller.sys.bms;
 
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -34,7 +38,9 @@ import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.CategoryAttachmentService;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertService;
 import ses.util.DictionaryDataUtil;
+import ses.util.EncodingTool;
 import ses.util.WfUtil;
 
 /**
@@ -59,7 +65,8 @@ public class CategoryController extends BaseSupplierController {
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
 
-
+    @Autowired
+	private ExpertService service;
 
     public Map<String, Object> getListCategory() {
         return listCategory;
@@ -78,45 +85,189 @@ public class CategoryController extends BaseSupplierController {
      * @return String
      */
     @ResponseBody
-    @RequestMapping("/createtree")
-    public String getAll(Category category){
-        List<CategoryTree> jList=new ArrayList<CategoryTree>();
-        //获取字典表中的根数据
-        if(category.getId()==null){
-            category.setId("0");
-            DictionaryData data=new DictionaryData();
-            data.setKind(6);
-            List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
-            for (DictionaryData dictionaryData : listByPage) {
-                CategoryTree ct=new CategoryTree();
-                ct.setId(dictionaryData.getId());
-                ct.setName(dictionaryData.getName());
-                ct.setIsParent("true");
-                ct.setClassify(dictionaryData.getCode());
-                jList.add(ct);
+    @RequestMapping(value="/createtree", produces = "application/json;charset=utf-8")
+    public String getAll(Category category,String param,Integer isCreate,String code){
+       List<CategoryTree> jList=new ArrayList<CategoryTree>();
+    	String name="";
+    	if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null&&isCreate!=0){
+			try {
+				name=java.net.URLDecoder.decode(param, "UTF-8");
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+			//查询所有匹配的数据
+			category.setId("0");
+	        DictionaryData data=new DictionaryData();
+	        data.setKind(6);
+	        List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+	        for (DictionaryData dictionaryData : listByPage) {
+	            CategoryTree ct=new CategoryTree();
+	            ct.setId(dictionaryData.getId());
+	            ct.setName(dictionaryData.getName());
+	            ct.setIsParent("true");
+	            ct.setClassify(dictionaryData.getCode());
+	            jList.add(ct);
+	        }
+			List < Category > categoryList = categoryService.searchByNameAndCode(name,code,isCreate);
+			List < Category > cateList = new ArrayList < Category > ();
+			Set<Category> set=new HashSet<Category>();
+			for(int i=0;i<categoryList.size();i++){
+				Category catego = categoryList.get(i);
+				List<Category> cList=categoryService.findTreeByPid(catego.getId());
+				if(cList==null||cList.size()<=0){
+					cateList.add(catego);
+				}
+				
+			}
+			for(int i=0;i<cateList.size();i++){
+				HashMap<String,Object> map=new HashMap<String, Object>();
+				map.put("id", cateList.get(i).getId());
+				List<Category> catego = categoryService.findCategoryByParentNode(map);
+				for(int j=0;j<catego.size();j++){
+					set.add(catego.get(j));
+				}
+			}
+			Iterator<Category> it = set.iterator();  
+			while(it.hasNext()){
+				Category cate = it.next();
+				List<Category> cList=categoryService.findTreeByPid(cate.getId());
+	            CategoryTree ct=new CategoryTree();
+	            if(!cList.isEmpty()){
+	                ct.setIsParent("true");
+	            }else{
+	                ct.setIsParent("false");
+	            }
+	            ct.setId(cate.getId());
+	            ct.setName(cate.getName());
+	            ct.setParentId(cate.getParentId());
+	            ct.setKind(cate.getKind());
+	            ct.setStatus(cate.getStatus());
+	            jList.add(ct);
+			}
+	    	/*坑人的写法
+	    	 * List < Category > categoryList = service.searchByName(name, null, null);
+	    	List < Category > cateList = new ArrayList < Category > ();
+	    	category.setId("0");
+	        DictionaryData data=new DictionaryData();
+	        data.setKind(6);
+	        List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+	        for (DictionaryData dictionaryData : listByPage) {
+	            CategoryTree ct=new CategoryTree();
+	            ct.setId(dictionaryData.getId());
+	            ct.setName(dictionaryData.getName());
+	            ct.setIsParent("true");
+	            ct.setClassify(dictionaryData.getCode());
+	            jList.add(ct);
+	            for(Category categorys: categoryList) {
+	                String parentId = getParentId(categorys.getId());
+	                if(parentId.equals(dictionaryData.getId())) {
+	                    cateList.add(categorys);
+	                }
+	            }
+	        }
+	    	
+	    	removeSame(cateList);
+	    	List < Category > allCateList = new ArrayList < Category > ();
+	        allCateList.addAll(cateList);
+	        for(Category categoryds: cateList) {
+	            List < Category > list = getParentNodeList(categoryds.getId());
+	            allCateList.addAll(list);
+	        }
+	        removeSame(allCateList);
+	        
+	        for(Category categoryds: allCateList) {
+	            CategoryTree treeNode = new CategoryTree();
+	            treeNode.setId(categoryds.getId());
+	            treeNode.setName(categoryds.getName());
+	            treeNode.setParentId(categoryds.getParentId());
+	            treeNode.setKind(categoryds.getKind());
+	            treeNode.setStatus(categoryds.getStatus());
+	            // 判断是否为父级节点
+	            List < Category > nodesList = categoryService.findPublishTree(categoryds.getId(), null);
+	            if(nodesList != null && nodesList.size() > 0) {
+	                treeNode.setIsParent("true");
+	            }
+	            jList.add(treeNode);
+	        }*/
+	    	return JSON.toJSONString(jList);
+    	}else{
+    		 //获取字典表中的根数据
+            if(category.getId()==null){
+                category.setId("0");
+                DictionaryData data=new DictionaryData();
+                data.setKind(6);
+                List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                    CategoryTree ct=new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                }
+                
+                return JSON.toJSONString(jList);
             }
-            return JSON.toJSONString(jList);
-        }
-        String list="";
-        List<Category> cateList=categoryService.findTreeByPid(category.getId());
-        for(Category cate:cateList){
-            List<Category> cList=categoryService.findTreeByPid(cate.getId());
-            CategoryTree ct=new CategoryTree();
-            if(!cList.isEmpty()){
-                ct.setIsParent("true");
-            }else{
-                ct.setIsParent("false");
-            }
-            ct.setId(cate.getId());
-            ct.setName(cate.getName());
-            ct.setpId(cate.getParentId());
-            ct.setKind(cate.getKind());
-            ct.setStatus(cate.getStatus());
-            jList.add(ct);
-        }
-        list = JSON.toJSONString(jList);
-        return list;
+            String list="";
+            List<Category> cateList=categoryService.findTreeByPid(category.getId());
+    	        for(Category cate:cateList){
+    	            List<Category> cList=categoryService.findTreeByPid(cate.getId());
+    	            CategoryTree ct=new CategoryTree();
+    	            if(!cList.isEmpty()){
+    	                ct.setIsParent("true");
+    	            }else{
+    	                ct.setIsParent("false");
+    	            }
+    	            ct.setId(cate.getId());
+    	            ct.setName(cate.getName());
+    	            ct.setpId(cate.getParentId());
+    	            ct.setKind(cate.getKind());
+    	            ct.setStatus(cate.getStatus());
+    	            jList.add(ct);
+    	        }
+
+            list = JSON.toJSONString(jList);
+            return list;
+    	}
+    	
+    	
     }
+    public List < Category > getParentNodeList(String nodeId) {
+    	 List < Category > parentNodeList = new ArrayList < Category > ();
+	        Category category = categoryService.findById(nodeId);
+	        if(category != null) {
+	            String parentId = category.getParentId();
+	            if(parentId != null && !"".equals(parentId)) {
+	                Category cate = categoryService.findById(parentId);
+	                if(cate != null) {
+	                    parentNodeList.add(cate);
+	                    List < Category > parentList = getParentNodeList(cate.getId());
+	                    parentNodeList.addAll(parentList);
+	                }
+	            }
+	        }
+	        return parentNodeList;
+	   
+	}
+
+    public void removeSame(List < Category > list) {
+		for(int i = 0; i < list.size() - 1; i++) {
+			for(int j = list.size() - 1; j > i; j--) {
+				if(list.get(j).getId().equals(list.get(i).getId())) {
+					list.remove(j);
+				}
+			}
+		}
+	}
+    public String getParentId(String cateId) {
+	  
+	        Category cate = categoryService.selectByPrimaryKey(cateId);
+	        if(cate != null) {
+	            cateId = getParentId(cate.getParentId());
+	        }
+	        return cateId;
+	    
+	}
     /**
      * @Title: get
      * @author zhangxuefeng

@@ -71,6 +71,16 @@
 		from T_SES_BMS_CATEGORY
 		where IS_DELETED=0 and PARENT_ID=#{id} order by CODE
 	</select>
+	<!-- 根据pid和名称查询生成树 -->
+	<select id="findTreeByPidAndName" parameterType="Map" resultMap="CateMap">
+		<!-- select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_CATEGORY
+		where IS_DELETED=0 and PARENT_ID=#{id} and name like '%'||#{name}||'%' order by CODE -->
+		 select <include refid="Base_Column_List" /> from 
+		 ( SELECT * from T_SES_BMS_CATEGORY  WHERE  IS_DELETED = 0 START WITH 
+         PARENT_ID=#{id} CONNECT BY PRIOR id=PARENT_ID) where name like '%'||#{name}||'%'
+	</select>
 	<!-- 根据参数状态和是否公开查询参数列表 -->
 	<select id="findByStatus" parameterType="Map" resultMap="CateMap">
 		select
@@ -92,6 +102,13 @@
 		<include refid="Base_Column_List" />
 		from T_SES_BMS_CATEGORY
 		where  IS_DELETED=0 and  CODE=#{code}
+	</select>
+	<!-- 根据name查出已插入的数据 -->
+	<select id="readNameAndPid" parameterType="Object" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_CATEGORY
+		where  IS_DELETED=0 and  NAME=#{name} and PARENT_ID=#{pId}
 	</select>
 	<!-- 根据参数状态查询 -->
 	<select id="listByParamstatus" parameterType="Map" resultMap="CateMap">
@@ -464,7 +481,7 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_BMS_CATEGORY
-		WHERE 1 = 1
+		WHERE 1 = 1 AND IS_DELETED=0
 		<if test="param1 != null">
 			AND NAME like '%${param1}%'
 		</if> 
@@ -472,7 +489,22 @@
 			AND CODE = #{param2}
 		</if> 
 	</select>
-	
+	<!-- 根据名称模糊查询 -->
+	<select id="searchByNameAndCode" resultMap="CateMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_BMS_CATEGORY
+		WHERE 1 = 1 AND IS_DELETED=0
+		<if test="param1 != null">
+			AND NAME like '%${param1}%'
+		</if> 
+		<if test="param2 != null">
+			AND CODE  like '%${param2}%'
+		</if> 
+		<if test="param3 != null">
+			AND IS_PUBLISH = #{param3}
+		</if> 
+	</select>
 	<select id="findCategoryByStatusAll"  resultMap="CateMap">
 		SELECT
 		<include refid="Base_Column_List" />

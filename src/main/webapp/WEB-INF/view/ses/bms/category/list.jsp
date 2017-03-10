@@ -5,12 +5,14 @@
 <head>  
 <%@ include file="/WEB-INF/view/common.jsp" %> 
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
  <title>产品目录管理</title>   
 <script type="text/javascript">
 	var treeid = null , nodeName=null, level = null, typesObj = null;
 	var datas;
 	 $(document).ready(function(){  
-          $.fn.zTree.init($("#ztree"),setting,datas);
+		 ztreeInit();
 	      var treeObj = $.fn.zTree.getZTreeObj("ztree");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
 	      for(var i=0 ;i<nodes.length;i++){
@@ -21,39 +23,41 @@
 	    //初始化类型
 		typesObj = initTypes();
 	 }); 
-	 var setting={
-		   async:{
-					autoParam:["id"],
-					enable:true,
-					url:"${pageContext.request.contextPath}/category/createtree.do",
-					otherParam:{"otherParam":"zTreeAsyncTest"},  
-					dataType:"json",
-					datafilter:filter,
-					type:"get",
-				},
-				callback:{
-			    	onClick: zTreeOnClick,//点击节点触发的事件
-       			    
-			    }, 
-				data:{
-					keep:{
-						parent:true
-					},
-					key:{
-						title:"title"
-					},
-					simpleData:{
-						enable:true,
-						idKey:"id",
-						pIdKey:"pId",
-						rootPId:"0",
-					}
-			    },
-			   view:{
-			        selectedMulti: false,
-			        showTitle: false,
-			   },
-         };
+	 function ztreeInit(){
+		 var setting={
+				   async:{
+							autoParam:["id"],
+							enable:true,
+							url:"${pageContext.request.contextPath}/category/createtree.do",
+							otherParam:{"otherParam":"zTreeAsyncTest"},  
+							dataType:"json",
+							datafilter:filter,
+							type:"get",
+						},
+						callback:{
+					    	onClick: zTreeOnClick,//点击节点触发的事件
+					    }, 
+						data:{
+							keep:{
+								parent:true
+							},
+							key:{
+								title:"title"
+							},
+							simpleData:{
+								enable:true,
+								idKey:"id",
+								pIdKey:"pId",
+								rootPId:"0",
+							}
+					    },
+					   view:{
+					        selectedMulti: false,
+					        showTitle: false,
+					   },
+		         };
+		 $.fn.zTree.init($("#ztree"),setting,datas);
+	 }
 	
 	 
 	 function filter(treeId,parentNode,childNode){
@@ -116,6 +120,7 @@
     /**新增 */
     function add(){
     	hideQua();
+    	$("#parentNameId").attr("readonly","readonly");
 		if (treeid==null) {
 			layer.msg("请选择一个节点");
 			return;		
@@ -197,6 +202,7 @@
 	/**修改节点信息*/
     function update(nodes){
     	hideQua();
+    	$("#parentNameId").attr("readonly","");
  	    if (treeid==null){
  			layer.msg("请选择一个节点");
 		}else{
@@ -297,10 +303,11 @@
     	$("#cateTipsId").text("");
     	$("#posTipsId").text("");
     	$("#descTipsId").text("");
+    	$("#parentNIds").text("");
     	/* $("#levelTipsId").text(""); */
     	/* $("#engLevelTipsId").text(""); */
     }
-   
+ 
     /** 保存后的提示 */
     function result(msg,operaValue){
     	resetTips();
@@ -324,6 +331,9 @@
     		if (msg.lenTxt != null && msg.lenTxt !=""){
     			$("#descTipsId").text(msg.lenTxt);
     		}
+    		if(msg.filePath != null && msg.filePath !=""){
+    			$("#parentNIds").text(msg.filePath);
+    		}
     	}
    }
    
@@ -338,7 +348,7 @@
 	   zTree.reAsyncChildNodes(nodes[0], type, silent); 
 	   zTree.expandNode(nodes[0], true, false);
    }
-    
+   
     /** 刷新父级节点 */
    function refreshParentNode() {
 	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
@@ -346,9 +356,10 @@
 	   silent = false,  
 	   nodes = zTree.getSelectedNodes();  
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
-	   zTree.reAsyncChildNodes(zTree.getNodeByTId(parentNode.parentTId), type, silent); 
-	   /* zTree.selectNode(nodes[0],true);
-	   zTree.expandNode(parentNode, true, false); */
+	   alert(parentNode.isParent)
+	   zTree.reAsyncChildNodes(parentNode, type,silent); 
+	   zTree.selectNode(nodes[0],true);
+	   zTree.expandNode(parentNode, true, false);
 		  
 	   
 	   
@@ -647,6 +658,73 @@
 	  tips: 3
 	});
  }
+ function searchM() {
+	 var param = $("#param").val();
+	 var isCreate=$("#isCreate").val();
+	 var code=$("#code").val();
+	 if(param!=null&&param!=""){
+		 var zNodes;
+			var zTreeObj;
+			var setting = {
+					async:{
+						autoParam:["id"],
+						enable:true,
+						url: "${pageContext.request.contextPath}/category/createtree.do"
+					},
+				data : {
+					simpleData : {
+						enable : true,
+						idKey: "id",
+						pIdKey: "parentId",
+					}
+				},
+				callback: {
+					onClick: zTreeOnClick
+				},view: {
+					showLine: true
+				}
+			};
+			// 加载中的菊花图标
+			loading = layer.load(1);
+			
+				$.ajax({
+					url: "${pageContext.request.contextPath}/category/createtree.do",
+					data: { "param" : encodeURI(param),"code":code,"isCreate":isCreate},
+					async: false,
+					dataType: "json",
+					success: function(data){
+						if (data.length == 1) {
+							layer.msg("没有符合查询条件的产品类别信息！");
+						} else {
+							zNodes = data;
+							zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+							zTreeObj.expandAll(true);//全部展开
+						}
+						// 关闭加载中的菊花图标
+						layer.close(loading);
+					}
+				});
+	 }else{
+		 ztreeInit();
+		
+	 }
+	 
+		
+
+	 
+	 
+	}
+
+ /* function zTreeOnNodeCreated(event, treeId, treeNode) {
+	   var param = $.trim($("input[name='param']").val());
+	   var treeObj = $.fn.zTree.getZTreeObj("ztree");
+	   var node = treeNode.getSelectedNodes();
+	   //只有搜索参数不为空且该节点为父节点时才进行异步加载
+	   if(param != "" && treeNode.isParent){
+	     treeObj.reAsyncChildNodes(node, "refresh");
+	   } 
+	 }; */
+  
 </script>
 
 </head>
@@ -671,9 +749,28 @@
 	   </div>
      </div>
      <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
+      <form action="">
+     <ul class="demand_list">
+          <li class="fl pl5"><label class="fl">目录名称：</label><span><input type="text" id="param" name="param"/></span></li>
+	      <li class="fl pl5"><label class="fl">目录编号：</label><span><input type="text" id="code" name="code"/></span></li>
+	      <li class="fl pl5"><label class="fl">是否公开：</label><span>
+	      	<select id="isCreate" name="isCreate" class="mb0 mt5 w170">
+	      		<option value="">--请选择--</option>
+	      		<option value="0">公开</option>
+	      		<option value="1">不公开</option>
+	      	</select>
+	      </span></li>	
+    	</ul>
+	      <div class="col-md-12 col-sm-12 col-xs-15 tc mt5">
+	    	<button type="button" onclick="searchM();" class="btn">查询</button>
+	    	<button type="reset" onclick="reset()" class="btn">重置</button>
+	      </div>  
+    	  <div class="clear"></div>
+    	  </form>
    	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
    	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
    	   <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+   	   
        <div id="tableDivId"   class="content dis_none" >   
          <input id="operaFlag" type="hidden" name="operaName"  />
          <form id="fm">
@@ -686,13 +783,13 @@
             <table id="result"  class="table table-bordered table-condensedb" >
            	  <tbody>
            	 	<tr>
-       			  <td class='info'>上级目录</td>
+       			  <td class='info'>上级目录<span class="red">*</span></td>
        			  <td id="parentNId">
        			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
        		    	  <input  id="parentNameId" type="text" name="parentNameId"/>
        		    	  <span class="add-on">i</span>
        		    	</div>
-       		    	  <span id="parentNameId" class="red clear span_style" />
+       		    	  <span id="parentNIds" class="red clear span_style" />
        			  </td>
            		</tr>
            		<tr>

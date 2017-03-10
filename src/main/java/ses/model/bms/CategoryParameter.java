@@ -30,6 +30,10 @@ public class CategoryParameter {
     private String orgId;
     /** 是否删除,1:删除,0:未删除 */
     private Integer isDeleted;
+    /**
+     * 是否必填，1填写，0可以不填
+     */
+    private Integer paramRequired;
     
     /** 参数类型名称 */
     private transient String paramTypeName;
@@ -105,6 +109,14 @@ public class CategoryParameter {
     public void setParamTypeName(String paramTypeName) {
         this.paramTypeName = paramTypeName;
     }
+
+	public Integer getParamRequired() {
+		return paramRequired;
+	}
+
+	public void setParamRequired(Integer paramRequired) {
+		this.paramRequired = paramRequired;
+	}
     
     
     
