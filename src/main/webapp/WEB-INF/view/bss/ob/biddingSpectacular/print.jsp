@@ -5,53 +5,47 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>打印结果展示页面</title>
-<style type="text/css">
-	.table th, .table td { 
-	text-align: center;
-	vertical-align: middle!important;
-	}
-</style>
 </head>
 <body>
 <div class="container">
 <table  class="table table-bordered">
 		<tbody>
 			<tr>
-				<td colspan="6" align="center"><br/>测试-674982364218<br/>竞价结果信息表<br/><br/></td>
+				<td class="tc" colspan="6" align="center"><br/>测试-674982364218<br/>竞价结果信息表<br/><br/></td>
 			</tr> 
 			<tr>
-				<td class="info">项目名称</td>
+				<td class="tc" class="info">项目名称</td>
 				<td colspan="5">测试-674982364218</td>
 			</tr> 
 			<tr>
-			  <td class="info">产品名称</td>
+			  <td class="tc" class="info">产品名称</td>
 			  <td>摩托车</td>
-			  <td class="info">数量</td>
+			  <td class="tc" class="info">数量</td>
 			  <td>500</td>
-			  <td class="info">预算</td>
+			  <td class="tc" class="info">预算</td>
 			  <td>5000</td>
 			</tr> 
 			<tr>
-				<td class="info">产品规格</td>
-				<td colspan="5">XXXX</td>
+				<td class="tc" class="info">产品规格</td>
+				<td class="tc" colspan="5">XXXX</td>
 			</tr>
 			<tr>
-				<td class="info">需求部门</td>
-				<td colspan="5">XXXXXXXXXXXX</td>
+				<td class="tc" class="info">需求部门</td>
+				<td class="tc" colspan="5">XXXXXXXXXXXX</td>
 			</tr>
 			<tr>
-				<td class="info">技术参数</td>
-				<td colspan="5">XXXXXXXXXXXXXXXX</td>
+				<td class="tc" class="info">技术参数</td>
+				<td class="tc" colspan="5">XXXXXXXXXXXXXXXX</td>
 			</tr>
 			<tr>
-				<td class="info">运杂费</td>
-				<td colspan="5">XXXXXXXXXXXXXXXX</td>
+				<td class="tc" class="info">运杂费</td>
+				<td class="tc" colspan="5">XXXXXXXXXXXXXXXX</td>
 			</tr> 
 			<tr>
-				<td class="info">交货地点</td>
-				<td colspan="2">北京</td>
-				<td class="info">交货时间</td>
-				<td colspan="2">20160928</td>
+				<td class="tc" class="info">交货地点</td>
+				<td class="tc" colspan="2">北京</td>
+				<td class="tc" class="info">交货时间</td>
+				<td class="tc" colspan="2">20160928</td>
 			</tr> 
 			<tr>
 				<td colspan="6" style="border: none;" >
@@ -67,8 +61,8 @@
 								<td class="tc">操作状态</td>
 							</tr>
 							<tr>
-								<td class="tc w50">1</td>
-								<td>XXXXXXXXXXXXXXX</td>
+								<td class="tc" class="tc w50">1</td>
+								<td class="tc">XXXXXXXXXXXXXXX</td>
 								<td class="tc">4000</td>
 								<td class="tc">4000</td>
 								<td class="tc">200</td>
@@ -76,8 +70,8 @@
 								<td class="tc">已确认</td>
 							</tr>
 							<tr>
-								<td class="tc w50">2</td>
-								<td>XXXXXXXXXXXXXXX</td>
+								<td class="tc" class="tc w50">2</td>
+								<td class="tc">XXXXXXXXXXXXXXX</td>
 								<td class="tc">4000</td>
 								<td class="tc">4100</td>
 								<td class="tc">150</td>
@@ -85,8 +79,8 @@
 								<td class="tc">已确认</td>
 							</tr>
 							<tr>
-								<td class="tc w50">3</td>
-								<td>XXXXXXXXXXXXXXX</td>
+								<td class="tc" class="tc w50">3</td>
+								<td class="tc">XXXXXXXXXXXXXXX</td>
 								<td class="tc">4200</td>
 								<td class="tc">4000</td>
 								<td class="tc">100</td>
