@@ -41,6 +41,7 @@ import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -350,7 +351,31 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("typeList", qualificationService.findList(null, null, 4));
 			return "ses/sms/supplier_register/supplier_type";
 		}
-
+		if(supplier.getSupplierTypeIds().trim().length()!=0){
+			String[] types = supplier.getSupplierTypeIds().split(",");
+			for(String s:types){
+				List<SupplierItem> items = supplierItemService.queryBySupplierAndType( supplierItem.getSupplierId(), s);
+				if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
+					model.addAttribute("productError", "productError");
+					return "ses/sms/supplier_register/items";
+				}
+				if(items!=null&&items.size()<1&&s.equals("PROJECT")){
+					model.addAttribute("projectError", "projectError");
+					return "ses/sms/supplier_register/items";
+					}
+				if(items!=null&&items.size()<1&&s.equals("SALES")){
+					model.addAttribute("sellError", "sellError");
+					 return "ses/sms/supplier_register/items";
+				}
+				if(items!=null&&items.size()<1&&s.equals("SERVICE")){
+					model.addAttribute("serverError", "serverError");
+					 return "ses/sms/supplier_register/items";
+				}
+			}
+		}
+		
+			
+		
 		if(flag.equals("2")) {
 			return "ses/sms/supplier_register/items";
 		}

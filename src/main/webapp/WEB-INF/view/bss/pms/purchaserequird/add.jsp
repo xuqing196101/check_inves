@@ -1288,7 +1288,7 @@
 
 			</div>
 			<div class="padding-top-10 clear">
-				<h2 class="count_flow"><i>2</i>计划明细</h2>
+				<h2 class="count_flow"><i>2</i>计划明细 </h2> <span class="red"> 注：请选择无标签的水印文件</span>
 				<div class="ul_list">
 					<div class="col-md-12 p115 mt10">
 						<button class="btn btn-windows add" onclick="aadd()">添加</button>

@@ -344,6 +344,14 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 	 Map<String,String> map=new HashMap<String,String>();
 	 map.put("supplierId", supplierId);
 	 supplierItemMapper.deleteByMap(map);
-	}		 
+	}	
+	
+	public List<SupplierItem> queryBySupplierAndType(String supplierId,String type){
+		List<SupplierItem> items = supplierItemMapper.queryBySupplierIdAndType(supplierId, type);
+	
+		return items;
+	}
+	
+	
 	
 }
