@@ -82,17 +82,19 @@ public class OBProjectController {
 	 * @return
 	 */
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
-	public String list(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
+	public String list(@CurrentUser User user,Model model, HttpServletRequest request, Integer page,Date startTime,String name) {
 		if(user !=null){
 		if (page == null) {
 			page = 1;
 		}
 		Map<String,Object> map=new HashMap<String, Object>();
 		map.put("page", page);
-		map.put("id", user.getId());
-		List<OBProductInfo> list = OBProjectServer.productInfoList(map);
-		PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-		model.addAttribute("listInfo", new PageInfo<OBProductInfo>(list));
+		map.put("uid", user.getId());
+		map.put("startTime", startTime);
+		map.put("name", name);
+		List<OBProject> list = OBProjectServer.List(map);
+		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
+		model.addAttribute("info", info);
 		}
 		return "bss/ob/biddingInformation/list";
 	}
@@ -269,6 +271,7 @@ public class OBProjectController {
 			String fileid){
 		String msg="";
 		if(user !=null){
+			
 			msg=OBProjectServer.saveProject(obProject,user.getId(),fileid);
 		}
 		return msg;

@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
@@ -48,6 +49,7 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -62,6 +64,7 @@ import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -163,6 +166,9 @@ public class SupplierQueryController extends BaseSupplierController {
 	 */
 	@Autowired
 	private QualificationService qualificationService; 
+	
+	@Autowired
+	private SupplierTypeService supplierTypeService;// 供应商类型
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -1768,4 +1774,26 @@ public class SupplierQueryController extends BaseSupplierController {
     	   supplierService.deleteSupplier(supplierId);
        }
        
+     /**
+      * @Title: findSupplierType
+      * @author XuQing 
+      * @date 2017-3-10 下午2:10:36  
+      * @Description:供应商类型
+      * @param @param response
+      * @param @param supplierId
+      * @param @throws IOException      
+      * @return void
+      */
+    @RequestMapping(value = "find_supplier_type")
+   	public void findSupplierType(HttpServletResponse response, String supplierId) throws IOException {
+   		List<SupplierTypeTree> listSupplierTypeTrees = supplierTypeService.findSupplierType(supplierId);
+   		for(SupplierTypeTree t : listSupplierTypeTrees){
+   			if("物资".equals(t.getName())){
+   				listSupplierTypeTrees.remove(t);
+   				break;
+   			}
+   		}
+   		
+   		super.writeJson(response, listSupplierTypeTrees);
+   	}
 }

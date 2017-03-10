@@ -3,10 +3,18 @@ package bss.dao.ob;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProjectResultMapper {
     int countByExample(OBProjectResultExample example);
+    /**
+     *  成交供应商 数量
+     * @param map
+     * @return
+     */
+    Integer countByStatus(Map<String,Object> map);
     /**
      * 根据产品 id/竞价id获取已经成交的数量
      * @param example

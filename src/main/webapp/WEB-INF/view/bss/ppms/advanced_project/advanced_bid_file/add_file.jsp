@@ -162,65 +162,138 @@
   </head>
 
   <body onload="OpenFile('${fileId}')">
-    <div class="col-md-12 p0">
-      <ul class="flow_step">
-        <c:if test="${ope == 'add' }">
-          <li>
-            <a href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}">01、资格性和符合性审查</a>
-            <i></i>
-          </li>
-
-          <li>
-            <a href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
-            <i></i>
-          </li>
-          <li class="active">
-            <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
-              03、招标文件
-            </a>
-          </li>
-        </c:if>
-        <c:if test="${ope == 'view' }">
-          <li>
-            <a href="${pageContext.request.contextPath}/Adopen_bidding/firstAduitView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">01、资格性和符合性审查</a>
-            <i></i>
-          </li>
-          <li>
-            <a href="${pageContext.request.contextPath}/adIntelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
-            <i></i>
-          </li>
-          <li class="active">
-            <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId}">
-              03、招标文件
-            </a>
-            <i></i>
-          </li>
-          <li>
-            <c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
-              <a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>
-            </c:if>
-            <c:if test="${project.confirmFile == 1 }">
-              <a>05、已确认</a>
-            </c:if>
-          </li>
-        </c:if>
-      </ul>
-    </div>
-    <!-- 按钮 -->
-    <c:if test="${project.confirmFile != 1 && ope =='add'}">
-      <div class="mt5 mb5 fr" id="handle">
-        <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存"></input>
-        <input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交"></input>
+    <c:if test="${process == 1 }">
+      <!--面包屑导航开始-->
+      <div class="margin-top-10 breadcrumbs ">
+        <div class="container">
+          <ul class="breadcrumb margin-left-0">
+            <li>
+              <a href="javascript:void(0)">首页</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">保障作业系统</a>
+            </li>
+            <li>
+              <a href="javascript:void(0)">采购项目管理</a>
+            </li>
+            <li class="active">
+              <a href="javascript:void(0)">招标文件审核</a>
+            </li>
+          </ul>
+          <div class="clear"></div>
+        </div>
       </div>
     </c:if>
-    <form id="MyFile" method="post" class="h800">
-      <input type="hidden" id="ope" value="${ope }">
-      <input type="hidden" id="confirmFileId" value="${project.confirmFile}">
-      <input type="hidden" id="projectId" value="${project.id }">
-      <input type="hidden" id="projectName" value="${project.name }">
-      <input type="hidden" id="flowDefineId" value="${flowDefineId }">
-      <script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
-    </form>
+    <div class="container">
+      <c:if test="${process != 1 }">
+        <div class="col-md-12 p0">
+          <ul class="flow_step">
+            <c:if test="${ope == 'add' }">
+              <li>
+                <a href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}">01、资格性和符合性审查</a>
+                <i></i>
+              </li>
+
+              <li>
+                <a href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
+                <i></i>
+              </li>
+              <li class="active">
+                <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
+                  03、招标文件
+                </a>
+              </li>
+            </c:if>
+            <c:if test="${ope == 'view' }">
+              <li>
+                <a href="${pageContext.request.contextPath}/Adopen_bidding/firstAduitView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">01、资格性和符合性审查</a>
+                <i></i>
+              </li>
+              <li>
+                <a href="${pageContext.request.contextPath}/adIntelligentScore/packageListView.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
+                <i></i>
+              </li>
+              <li class="active">
+                <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId}">
+                  03、招标文件
+                </a>
+                <i></i>
+              </li>
+              <li>
+                <c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
+                  <a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>
+                </c:if>
+                <c:if test="${project.confirmFile == 1 }">
+                  <a>05、已确认</a>
+                </c:if>
+              </li>
+            </c:if>
+          </ul>
+        </div>
+      </c:if>
+      <!-- 按钮 -->
+      <c:if test="${project.confirmFile != 1 && project.confirmFile != 3 && project.confirmFile != 4 && ope =='add' && isAdmin == 1 }">
+        <div class="mt5 mb5 fr" id="handle">
+          <input type="button" class="btn btn-windows save" onclick="saveFile('0')" value="暂存">
+          <input type="button" class="btn btn-windows git" onclick="saveFile('1')" value="提交至采购管理部门"></input>
+        </div>
+      </c:if>
+      <c:if test="${(project.confirmFile == 3 || project.confirmFile == 4) && (pStatus == 'ZBWJYTG' || pStatus=='ZBWJXGBB') &&  isAdmin == 1 }">
+        <div class="mt5 mb5 fr" id="handle">
+          <input type="button" class="btn btn-windows save" onclick="oncreate();" value="生成正式采购文件">
+        </div>
+      </c:if>
+      <form id="MyFile" method="post" class="h800">
+        <c:if test="${ (project.confirmFile != 1)    }">
+          <div class="" id="audit_file_add">
+            <span class="fl">上传审批文件</span>
+            <div>
+              <u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp" multiple="true" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+              <u:show showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+            </div>
+          </div>
+          <div class="dnone" id="audit_file_view">
+            <span class="fl">审批文件</span>
+            <u:show showId="d" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+          </div>
+        </c:if>
+
+        <c:if test="${(project.confirmFile == 1 )   }">
+          <div class="clear">
+            <span class="fl">审批文件</span>
+            <u:show showId="c" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}" />
+          </div>
+        </c:if>
+        <input type="hidden" id="ope" value="${ope}">
+        <input type="hidden" id="confirmFileId" value="${project.confirmFile}">
+        <input type="hidden" id="flowDefineId" value="${flowDefineId }">
+        <input type="hidden" id="projectId" value="${project.id}">
+        <input type="hidden" id="projectName" value="${project.name}">
+        <script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
+        <div class="col-md-12 col-sm-12 col-xs-12 col-lg-12 p0" id="cgdiv">
+          <c:if test="${(project.confirmFile != 0 && project.confirmFile != 1 )  || ( exist == true )  }">
+            <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="pcReason" maxlength="100" name="pcReason" title="不超过100个字">${reasons.pcReason}</textarea>
+            <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="causereason" maxlength="100" name="causeReason" title="不超过100个字">${reasons.causeReason}</textarea>
+            <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="financereason" maxlength="100" name="financeReason" title="不超过100个字">${reasons.financeReason}</textarea>
+            <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
+            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80" readonly="readonly" id="finalreason" maxlength="100" name="finalReason" title="不超过100个字">${reasons.finalReason}</textarea>
+          </c:if>
+          <c:if test="${pStatus == 'ZBWJYTJ' && exist == true}">
+            <div class="tc mt50">
+              <input type="button" class="btn btn-windows git " onclick="updateAudit('3')" value="审核通过"></input>
+              <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回重报 "></input>
+              <input type="button" class="btn btn-windows git " onclick="updateAudit('4')" value="修改报备 "></input>
+              <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+            </div>
+          </c:if>
+
+        </div>
+
+      </form>
+    </div>
   </body>
 
 </html>

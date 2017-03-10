@@ -139,7 +139,23 @@
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
 		</if>
 	</select>
-
+	
+	<!-- 根据id查询供应商列表 未过期 数量-->
+	<select id="countByProductId2" resultMap="BaseResultMap"
+		parameterType="Map">
+		SELECT
+		 count(DISTINCT SUPPLIER_ID)
+		FROM T_BSS_OB_SUPPLIER
+		WHERE
+		CERT_VALID_PERIOD &gt; SYSDATE
+		AND
+		IS_DELETED = 0
+			and PRODUCT_ID in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+   			#{item}  
+ 			</foreach>
+	</select>
+	
 	<!-- 根据id查询供应商列表 未过期 -->
 	<select id="selectByProductId2" resultMap="BaseResultMap"
 		parameterType="java.lang.String">

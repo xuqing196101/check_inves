@@ -153,22 +153,22 @@
 						enable: true,
 						chkboxType: {
 							"Y": "s",
-							"N": "s"
+							"N": "s",
 						}
 					},
 					callback: {
 						beforeClick: beforeClickCategory,
-						onCheck: onCheckCategory
+						onCheck: onCheckCategory,
 					},
 					data: {
 						simpleData: {
 							enable: true,
 							idKey: "id",
-							pIdKey: "parentId"
+							pIdKey: "parentId",
 						}
 					},
 					view: {
-						fontCss: getFontCss
+						fontCss: getFontCss,
 					}
 				};
 				zTreeObj = $.fn.zTree.init($("#treeRole"), setting, zNodes);
@@ -182,7 +182,7 @@
 				var cityOffset = $("#category").offset();
 				$("#roleContent").css({
 					left: cityOffset.left + "px",
-					top: cityOffset.top + cityObj.outerHeight() + "px"
+					top: cityOffset.top + cityObj.outerHeight() + "px",
 				}).slideDown("fast");
 				$("body").bind("mousedown", onBodyDownOrg);
 			}
@@ -287,37 +287,38 @@
 						enable: true,
 						chkboxType: {
 							"Y": "",
-							"N": ""
+							"N": "",
 						}
 					},
 					view: {
-						dblClickExpand: false
+						dblClickExpand: false,
 					},
 					data: {
 						simpleData: {
 							enable: true,
 							idKey: "id",
-							pIdKey: "parentId"
+							pIdKey: "parentId",
 						}
 					},
 					callback: {
 						beforeClick: beforeClick,
-						onCheck: onCheck
+						onCheck: onCheck,
 					}
 				};
 				$.ajax({
 					type: "GET",
 					async: false,
-					url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId=''",
+					url: "${pageContext.request.contextPath}/supplierQuery/find_supplier_type.do?supplierId=''",
 					dataType: "json",
 					success: function(zNodes) {
-						for(var i = 0; i < zNodes.length; i++) {
-							if(zNodes[i].isParent) {
-
+						/* for(var i = 0; i < zNodes.length; i++) {
+							 if(zNodes[i].isParent) {
+									
 							} else {
 								//zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
-							}
-						}
+							};
+						} */
+						
 						tree = $.fn.zTree.init($("#treeSupplierType"), setting, zNodes);
 						tree.expandAll(true); //全部展开
 					}
@@ -326,7 +327,7 @@
 				var cityOffset = $("#supplierType").offset();
 				$("#supplierTypeContent").css({
 					left: cityOffset.left + "px",
-					top: cityOffset.top + cityObj.outerHeight() + "px"
+					top: cityOffset.top + cityObj.outerHeight() + "px",
 				}).slideDown("fast");
 				$("body").bind("mousedown", onBodyDownSupplierType);
 			}
@@ -419,7 +420,7 @@
 								<label class="fl">联系人：</label>
 								<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
 							</li>
-							<li>
+							<!-- <li>
 								<label class="fl">供应商级别：</label>
 								<select id="score" name="score" class="w220">
 									<option selected="selected" value=''>-请选择-</option>
@@ -429,7 +430,7 @@
 									<option value="4">四级</option>
 									<option value="5">五级</option>
 								</select>
-							</li>
+							</li> -->
 							<li>
 								<label class="fl">供应商状态：</label>
 								<select id="status" name="status" class="w220">

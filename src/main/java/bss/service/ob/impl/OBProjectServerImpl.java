@@ -18,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import ses.util.PropertiesUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 
@@ -54,6 +55,7 @@ public class OBProjectServerImpl implements OBProjectServer {
     
     @Autowired
     private OBProjectResultMapper  OBProjectResultMapper;
+    
 	@Override
 	public List<OBProject> list(OBProject op) {
 		// TODO Auto-generated method stub
@@ -79,12 +81,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	public String getProduct() {
 		// TODO Auto-generated method stub
 		List<OBProduct> list= OBProductMapper.selectList();
-		String json="";
-		Gson gons=new Gson();
-		if(list!=null){
-			json=gons.toJson(list);
-		}
-		return json;
+		return JSON.toJSONString(list);
 
 	}
 	@Override
@@ -136,45 +133,37 @@ public class OBProjectServerImpl implements OBProjectServer {
      * @param string
      */
 	@Override
-	public List<OBProductInfo> productInfoList(Map<String ,Object> map) {
+	public List<OBProject> List(Map<String ,Object> map) {
 		   PropertiesUtil config = new PropertiesUtil("config.properties");
 	  		PageHelper.startPage((Integer) (map.get("page")),
 	  		Integer.parseInt(config.getString("pageSize")));
-	  		List<OBProductInfo> list=OBProductInfoMapper.selectByCreaterId(map);
-		/*
-		int supplieCount=0;
-		if(list!=null){
-		//便利 首先取出产品名称 产品id
-          for(OBProductInfo info:list){
-        	     //获取供应商
-        	List<OBSupplier> slist= info.getObProduct().getObSupplierList();
-        	// 存储合格供应商
-        	List<OBSupplier> getSupplies=new ArrayList<OBSupplier>();
-        	 // 获取竞价数据
-        	OBProject obProject= info.getObProject();
-        	if(obProject!=null){
-        	OBProjectResult or=new OBProjectResult();
-			or.setProductId(info.getProductId());
-			or.setProjectId(obProject.getId());
-			if(obProject.getStatus()==3){
-			//获取成交供应商数量
-		     supplieCount=OBProjectResultMapper.countByStatus(or);
-			 }
-        	}
-			//赋值成交供应商数量
-			info.setClosingSupplier(supplieCount);
-			Date dt1=new Date();
-			//便利供应商数据
-			for(OBSupplier os:slist){
-				//判断合格供应商
-				if(DateUtils.compareDate(dt1, os.getCertValidPeriod())==1){
-					getSupplies.add(os);
-				}
-			}
-			//赋值合格供应商数量
-			info.setQualifiedSupplier(getSupplies.size());
-          }		
-		}*/
+	  		
+	  		List<OBProject> list=OBprojectMapper.selectData(map);
+	  		if(list!=null){
+	  		for(OBProject obp:list){
+	  		//获取产品集合
+	        	List<OBProductInfo> slist= obp.getObProductInfo();
+	        	//存储 产品id 集合
+	        	List<String> pidList=new ArrayList<String>();
+	        	if(slist!=null){
+	        	for(OBProductInfo obinfo:slist){
+	        		pidList.add(obinfo.getProductId());
+	        	 }
+	        	Map<String, Object> maps=new HashMap<String, Object>();
+	        	maps.put("list", pidList);
+	        	if(pidList!=null && pidList.size()>0){
+	        	//获取合格供应商
+	        		Integer qualifiedSupplier=OBSupplierMapper.countByProductId2(maps);
+	        	obp.setQualifiedSupplier(qualifiedSupplier);
+	        	if(obp.getStatus()==3){
+	        		//获取 成交供应商 数量
+	        		Integer closingSupplier=OBProjectResultMapper.countByStatus(maps);
+	        	 obp.setClosingSupplier(closingSupplier);
+	               }
+	        	  }
+	        	 }
+	  			}
+	  		}
 		return list;
 	}
 }

@@ -36,7 +36,5 @@ public interface OBProjectMapper {
 
 	List<OBProject> selectAllOBproject(Map<String, Object> map);
 
-  
-    
-
+	List<OBProject> selectData(Map<String, Object> map);
 }

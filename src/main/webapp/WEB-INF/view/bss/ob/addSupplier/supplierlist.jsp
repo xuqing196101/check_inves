@@ -129,7 +129,7 @@ function edit() {
 }
 function openViewDIvs(id){
 	
-	var params={"businessId":"/","typeId":46,"key":2};
+	var params={"businessId":id,"typeId":46,"key":2};
 	$.ajax({
 		url: globalPath + '/file/displayFile.do',
 		data: params,

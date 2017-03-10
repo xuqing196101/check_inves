@@ -104,6 +104,11 @@ public class OBProject {
      */
     private Date updatedAt;
     /**
+     * 竞价 相关的产品
+     */
+    private List<OBProductInfo> obProductInfo;
+    
+    /**
      * 页面产品 
      */
     private List<String> productName;
@@ -119,7 +124,35 @@ public class OBProject {
      * 页面数量
      */
     private List<String> productCount;
+    //成交供应商 数量
+    private Integer closingSupplier;
+    //合格供应商数量
+    private Integer qualifiedSupplier;
     
+    
+	public Integer getClosingSupplier() {
+		return closingSupplier;
+	}
+
+	public void setClosingSupplier(Integer closingSupplier) {
+		this.closingSupplier = closingSupplier;
+	}
+
+	public Integer getQualifiedSupplier() {
+		return qualifiedSupplier;
+	}
+
+	public void setQualifiedSupplier(Integer qualifiedSupplier) {
+		this.qualifiedSupplier = qualifiedSupplier;
+	}
+
+	public List<OBProductInfo> getObProductInfo() {
+		return obProductInfo;
+	}
+
+	public void setObProductInfo(List<OBProductInfo> obProductInfo) {
+		this.obProductInfo = obProductInfo;
+	}
 
 	public List<String> getProductName() {
 		return productName;

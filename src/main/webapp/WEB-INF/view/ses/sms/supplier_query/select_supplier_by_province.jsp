@@ -17,12 +17,15 @@
 					endRow: "${listSupplier.endRow}",
 					groups: "${listSupplier.pages}" >= 5 ? 5 : "${listSupplier.pages}", //连续显示分页数
 					curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-						var page = location.search.match(/page=(\d+)/);
-						return page ? page[1] : 1;
+						/* var page = location.search.match(/page=(\d+)/);
+						return page ? page[1] : 1; */
+						return "${listSupplier.pageNum}";
 					}(),
 					jump: function(e, first) { //触发分页后的回调
 						if(!first) { //一定要加此判断，否则初始时会无限刷新
-							location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&address=" + encodeURI(encodeURI('${address}'));
+							$("#page").val(e.curr);
+							$("#form1").submit();
+							/* location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&address=" + encodeURI(encodeURI('${address}')); */
 						}
 					}
 				});
@@ -262,7 +265,7 @@
 				$.ajax({
 					type: "GET",
 					async: false,
-					url: "${pageContext.request.contextPath}/supplier_type/find_supplier_type.do?supplierId=''",
+					url: "${pageContext.request.contextPath}/supplierQuery/find_supplier_type.do?supplierId=''",
 					dataType: "json",
 					success: function(zNodes) {
 						for(var i = 0; i < zNodes.length; i++) {
@@ -308,8 +311,8 @@
 				id = $(this).val();
 			});
 			var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
-			if(state == "待审核" || state== "审核退回修改"){
-   			if(id.length>0){
+   		if(id != null){
+   			if(state == "待审核" || state== "审核退回修改"){
    			layer.confirm('您确定要注销吗?', {title:'提示！',offset: ['200px']}, function(index){
    	 			layer.close(index);
    	 			$.ajax({
@@ -328,10 +331,10 @@
    	 	     });
    	 		});
    		}else{
-   			layer.alert("请选择供应商！",{offset : '100px'});
+   			layer.alert("只有【待审核】或【审核退回修改】的供应商才能注销！",{offset : '100px'});
       	}
    		}else{
-   			layer.alert("只有【待审核】或【审核退回修改】的供应商才能注销！",{offset : '100px'});
+   			layer.msg("请选择供应商！",{offset : '100px'});
    		}
    		
    	}
@@ -411,7 +414,7 @@
               <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
               <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }" /></span>
             </li>
-	          <li>
+	          <!-- <li>
 			        <label class="fl">供应商级别:</label>
 			        	<span>
 			          	<select id="score" name="score" class="w220">
@@ -423,7 +426,7 @@
 	                  <option  value="5">五级</option>
 			            </select>
 			       	 </span>
-	      		</li>
+	      		</li> -->
 	      		<li>
 	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 	            <span class="f14">至</span>
@@ -450,7 +453,7 @@
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">联系人</th>
-							<th class="info">供应商级别</th>
+							<!-- <th class="info">供应商级别</th> -->
 							<th class="info">创建日期</th>
 							<th class="info">供应商类型</th>
 							<th class="info">供应商状态</th>
@@ -463,14 +466,14 @@
 								<td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=0&supplierId=${list.id}">${list.supplierName }</a>
+									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a>
 								</td>
 								<td class="tc">${list.contactName }</td>
-								<td class="tc">${list.level }</td>
+								<%-- <td class="tc">${list.level }</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="tc">${list.supplierType }</td>
+								<td class="">${list.supplierType }</td>
 								<td class="tc">
 									<c:if test="${list.status==-1 }">暂存</c:if>
 									<c:if test="${list.status==0 }">待审核</c:if>

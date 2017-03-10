@@ -400,7 +400,7 @@
     				  offset:['45%','53%']
     			}); 
     			$("#status").val(status);
-	       $.post("${pageContext.request.contextPath}/ob_project/addProject.html", $("#myForm").serialize(), function(data) {
+	        $.post("${pageContext.request.contextPath}/ob_project/addProject.html", $("#myForm").serialize(), function(data) {
 				if (data == "200") {
 					window.location.href ="${pageContext.request.contextPath}/ob_project/list.html";
     			layer.close(index);
@@ -408,7 +408,7 @@
 				   layer.close(index);
 				   show("保存失败");
 				}
-			});
+			}); 
 	     } 
 	     
 	     function show(content){
@@ -439,6 +439,7 @@
      <ul class="ul_list">
   <table class="table table-bordered left_table">
 			<input id="fileid" name="fileid" value="${fileid}" type="hidden">
+			<input id="status" name="status" type="hidden">
 		<tbody>
 		  <tr>
 			<td class="bggrey tr"><span><font id="nameErr" class="red star_red"></font></span><span class="red star_red">*</span>竞价标题：</td>
