@@ -17,12 +17,15 @@
 					endRow: "${listSupplier.endRow}",
 					groups: "${listSupplier.pages}" >= 5 ? 5 : "${listSupplier.pages}", //连续显示分页数
 					curr: function() { //通过url获取当前页，也可以同上（pages）方式获取
-						var page = location.search.match(/page=(\d+)/);
-						return page ? page[1] : 1;
+						/* var page = location.search.match(/page=(\d+)/);
+						return page ? page[1] : 1; */
+						return "${listSupplier.pageNum}";
 					}(),
 					jump: function(e, first) { //触发分页后的回调
 						if(!first) { //一定要加此判断，否则初始时会无限刷新
-							location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&judge=5" + "&address="  + encodeURI(encodeURI('${address}'));
+							$("#page").val(e.curr);
+							$("#form1").submit();
+							/* location.href = '${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.do?page=' + e.curr + "&judge=5" + "&address="  + encodeURI(encodeURI('${address}')); */
 						}
 					}
 				});
@@ -345,7 +348,7 @@
               <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
               <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
             </li>
-            <li>
+            <!-- <li>
 	            <label class="fl">供应商级别:</label>
 	            <span>
 	            <select name="score" class="w220">
@@ -357,7 +360,7 @@
 	              <option  value="5">五级</option>
 	            </select>
 	            </span>
-		         </li>
+		         </li> -->
 		         <li>
             	 <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
                <span class="f14">至</span>
@@ -382,7 +385,7 @@
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">联系人</th>
-							<th class="info">供应商级别</th>
+							<!-- <th class="info">供应商级别</th> -->
 							<th class="info">入库日期</th>
 							<th class="info">供应商类型</th>
 							<th class="info">供应商状态</th>
@@ -397,11 +400,11 @@
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}">${list.supplierName }</a>
 								</td>
 								<td class="tc">${list.contactName }</td>
-								<td class="tc">${list.level }</td>
+								<%-- <td class="tc">${list.level }</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
-								<td class="tc">${list.supplierType }</td>
+								<td class="">${list.supplierType }</td>
 								<td class="tc">
 									<%-- <c:if test="${list.status==-1 }">暂存</c:if>
 									<c:if test="${list.status==0 }">待审核</c:if> --%>

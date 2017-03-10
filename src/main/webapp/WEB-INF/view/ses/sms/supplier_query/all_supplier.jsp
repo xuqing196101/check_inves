@@ -420,7 +420,7 @@
 								<label class="fl">联系人：</label>
 								<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
 							</li>
-							<li>
+							<!-- <li>
 								<label class="fl">供应商级别：</label>
 								<select id="score" name="score" class="w220">
 									<option selected="selected" value=''>-请选择-</option>
@@ -430,7 +430,7 @@
 									<option value="4">四级</option>
 									<option value="5">五级</option>
 								</select>
-							</li>
+							</li> -->
 							<li>
 								<label class="fl">供应商状态：</label>
 								<select id="status" name="status" class="w220">
