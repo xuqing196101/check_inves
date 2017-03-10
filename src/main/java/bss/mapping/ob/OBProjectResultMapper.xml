@@ -99,6 +99,13 @@
     from T_BSS_OB_PROJECT_RESULT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <!-- 根据供应商查找竞价结果信息 -->
+  <select id="selectBySupplierId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT_RESULT
+    where SUPPLIER_ID = #{id,jdbcType=VARCHAR}
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_PROJECT_RESULT
     where ID = #{id,jdbcType=VARCHAR}

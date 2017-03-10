@@ -1,12 +1,21 @@
-package bss.dao.ob;
+package bss.service.ob;
+
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
 
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
-import java.util.List;
-import org.apache.ibatis.annotations.Param;
 
-public interface OBProjectResultMapper {
-    int countByExample(OBProjectResultExample example);
+/**
+ * 
+ * @author Ma Mingwei
+ * @description 主要负责存储竞价结果信息
+ * @method 没注释的是自动工具生成copy过来
+ *
+ */
+public interface OBProjectResultService {
+	int countByExample(OBProjectResultExample example);
 
     int deleteByExample(OBProjectResultExample example);
 
