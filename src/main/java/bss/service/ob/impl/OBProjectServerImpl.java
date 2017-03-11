@@ -16,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 
+
 import ses.util.PropertiesUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -23,10 +24,9 @@ import com.github.pagehelper.PageHelper;
 
 
 import com.google.gson.Gson;
+
 import common.utils.DateUtils;
-
 import bss.dao.ob.OBProductMapper;
-
 import bss.dao.ob.OBProjectMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
@@ -165,5 +165,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 	  			}
 	  		}
 		return list;
+	}
+
+
+
+
+	@Override
+	public OBProject selectByPrimaryKey(String id) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

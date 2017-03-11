@@ -99,4 +99,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		return oBProjectResultService.selectBySupplierId(supplierId);
 	}
 
+	@Override
+	public List<OBProjectResult> selectByProjectId(String supplierId) {
+		return oBProjectResultService.selectByProjectId(supplierId);
+	}
+
 }
