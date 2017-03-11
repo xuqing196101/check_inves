@@ -57,6 +57,7 @@
 					var allCount = 0;
 					$("[title='theProductTotalPrice']").each(function(index,element) {
 						var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal).toFixed(2);
+						alert(afterCount);
 						$(this).text(afterCount * productPrices[index]);
 						allCount += afterCount * productPrices[index];
 					});

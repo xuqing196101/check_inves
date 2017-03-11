@@ -16,7 +16,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-    <result column="RESULTCOUNT" property="resultCount" jdbcType="NUMBER"/>
+    <result column="RESULT_COUNT" property="resultCount" jdbcType="NUMBER"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
