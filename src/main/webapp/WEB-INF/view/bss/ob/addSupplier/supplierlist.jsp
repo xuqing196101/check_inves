@@ -79,26 +79,41 @@ function del(){
 	});
 	var ids = id.toString();
 	if(id.length > 0) {
-		layer.confirm('您确定要删除吗?', {
-			title: '提示',
-			offset: ['222px', '360px'],
-			shade: 0.01
-		}, function(index) {
-			layer.close(index);
-			$.ajax({
-				url: "${pageContext.request.contextPath }/obSupplier/delete.html",
-				type: "post",
-				data: {
-					ids: ids
-				},
-				success: function() {
-					window.location.href = "${pageContext.request.contextPath }/obSupplier/supplier.html";
-				},
-				error: function() {
+		var pan = true;
+		for (var i=0;i<id.length;i++){
+			var status = $("#"+id[i]+"status").html();
+			var aa=status.replace(/\s+/g,"");
+			if(aa == "已过期"){
+				pan = false;
+			}
+		}
+		if(pan == true){
+			layer.confirm('您确定要删除吗?', {
+				title: '提示',
+				offset: ['222px', '360px'],
+				shade: 0.01
+			}, function(index) {
+				layer.close(index);
+				$.ajax({
+					url: "${pageContext.request.contextPath }/obSupplier/delete.html",
+					type: "post",
+					data: {
+						ids: ids
+					},
+					success: function() {
+						window.location.href = "${pageContext.request.contextPath }/obSupplier/supplier.html";
+					},
+					error: function() {
 
-				}
+					}
+				});
 			});
-		});
+		}else {
+			layer.alert("只能删除未过期的供应商", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
 	} else {
 		layer.alert("请选择要删除的版块", {
 			offset: ['222px', '390px'],
@@ -114,7 +129,16 @@ function edit() {
 		id.push($(this).val());
 	});
 	if(id.length == 1) {
-		window.location.href = "${pageContext.request.contextPath }/obSupplier/toedit.html?suppid=" + id ;
+		var status = $("#"+id+"status").html();
+		var aa=status.replace(/\s+/g,"");
+		if(aa == "已过期"){
+			window.location.href = "${pageContext.request.contextPath }/obSupplier/toedit.html?suppid=" + id ;
+		}else {
+			layer.alert("只能修改已过期的供应商", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
 	} else if(id.length > 1) {
 		layer.alert("只能选择一个", {
 			offset: ['222px', '390px'],
@@ -181,7 +205,7 @@ function openViewDIvs(id){
 			<label class="fl">供应商证书状态：</label>
 			<select class="w178" name = "status">
 				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
-	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>过期</option>
+	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
 	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
 			</select>
 		</li>
@@ -219,10 +243,10 @@ function openViewDIvs(id){
 					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>
 				<td class="tc"><button type="button" onclick="openViewDIvs('${supplier.id }');" class="btn">查看</button></td>
-				<td class="tc">
+				<td class="tc" id = "${supplier.id }status">
 				<c:set var="nowDate" value="<%=System.currentTimeMillis()%>"></c:set>
 					<c:choose>  
-         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">过期</c:when>  
+         	 			<c:when test="${nowDate-supplier.certValidPeriod.getTime() > 0}">已过期</c:when>  
           				<c:when test="${nowDate-supplier.certValidPeriod.getTime() < 0}">未过期</c:when>  
           			</c:choose> 
 				</td>
