@@ -38,4 +38,17 @@ public interface OBProductInfoMapper {
      * 根据竞价id 获取数据
      */
     List<OBProductInfo> selectByProjectId(String id);
+    
+    /**
+     * 
+     * Description: 查询产品数量总和
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月11日 
+     * @param  @param id
+     * @param  @return 
+     * @return int 
+     * @exception
+     */
+    int selectCount(String id);
 }

@@ -27,7 +27,7 @@
 		      }(),
 		      jump : function(e, first) { //触发分页后的回调
 	        	if(!first){ //一定要加此判断，否则初始时会无限刷新
-		      		location.href = "${pageContext.request.contextPath }/ob_project/findBiddingResult.html?id="+${info.list[0].projectId}+"&&page=" + e.curr;
+		      		location.href = "${pageContext.request.contextPath }/ob_project/findBiddingResult.html?id=${info.list[0].projectId}&&page=" + e.curr;
 		        }
 		      }
 		    });
@@ -54,7 +54,7 @@
 	</div> 
 	<!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<span><font size="3">供应商确认中标数量总量为450，预定采购数量为500，剩余采购数量为50.</font></span>
+		<span><font size="3">供应商确认中标数量总量为${chengjiao}，预定采购数量为${count}，剩余采购数量为${count-chengjiao}.</font></span>
 		<button class="btn" onclick="printResult()">打印结果</button>
 	</div>   
 	<div class="content table_box">
@@ -70,20 +70,26 @@
 		  <th class="info">操作状态</th>
 		</tr>
 		</thead>
-		<tr>
-		  <td class="tc w50">1</td>
-		  <td class="tc">4000</td>
-		  <td class="tc">4000</td>
-		  <td class="tc">4000</td>
-		  <td class="tc">200</td>
-		  <td class="tc">800，000.00</td>
-		  <td class="tc">已确认</td>
-		</tr>
+		<c:forEach items="${info.list }" var="result" varStatus="vs">
+			<tr>
+		  		<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+		  		<td class="tc">${result.supplier.supplier.supplierName }</td>
+		  		<td class="tc">${result.countOfferPrice}</td>
+		  		<td class="tc">${countOfferPricebyOne}</td>
+		  		<td class="tc">${result.countresultCount}</td>
+		  		<td class="tc">${result.countTotalAmount }</td>
+		  		<td class="tc">
+		  			<c:if test="${result.status == 0}">未确认</c:if>
+		  			<c:if test="${result.status == 1}">已确认</c:if>
+		  		</td>
+			</tr>
+		</c:forEach>
 		</table>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
-    <div align="left">
-  		<button class="btn btn-windows back" type="button"  onclick="history.go(-1)">返回</button>
+    <div>
+    	<div id="pagediv" align="right"></div>
+  		<button class="btn btn-windows back" type="button"  onclick="window.location.href = '${pageContext.request.contextPath }/ob_project/biddingInfoList.html'">返回</button>
  	</div>
    </div>
 </body>

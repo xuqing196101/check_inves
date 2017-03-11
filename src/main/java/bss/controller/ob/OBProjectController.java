@@ -50,6 +50,7 @@ import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBRule;
 import bss.model.pms.PurchaseRequired;
+import bss.service.ob.OBProductInfoServer;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBRuleService;
@@ -74,6 +75,9 @@ public class OBProjectController {
 	
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
+	
+	@Autowired
+	private OBProductInfoServer OBProductInfo;
 
 	/***
 	 * 获取竞价信息跳转 list页
@@ -211,13 +215,25 @@ public class OBProjectController {
 	@RequestMapping("/findBiddingResult")
 	public String findBiddingResult(Model model, HttpServletRequest request,
 			Integer page) {
+		if (page == null) {
+			page = 1;
+		}
 		// 获取竞价标题的id
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-		List<OBProjectResult> list = oBProjectResultService.selectByProjectId(id);
+		List<OBProjectResult> list = oBProjectResultService.selectByProjectId(id,page);
 		PageInfo<OBProjectResult> info = new PageInfo<>(list);
 		model.addAttribute("info",info);
 		OBProject obProject = OBProjectServer.selectByPrimaryKey(id);
+		int countOfferPricebyOne = list.get(0).getCountOfferPrice();
 		model.addAttribute("projectName", obProject.getName());
+		model.addAttribute("countOfferPricebyOne",countOfferPricebyOne);
+		int count = OBProductInfo.selectCount(id);
+		int chengjiao = 0;
+		for (OBProjectResult obProjectResult : list) {
+			chengjiao += obProjectResult.getCountresultCount();
+		}
+		model.addAttribute("count",count);
+		model.addAttribute("chengjiao",chengjiao);
 		return "bss/ob/biddingSpectacular/result";
 	}
 

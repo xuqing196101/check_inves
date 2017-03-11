@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 import bss.dao.ob.OBProjectResultMapper;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
@@ -100,8 +104,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	}
 
 	@Override
-	public List<OBProjectResult> selectByProjectId(String supplierId) {
-		return oBProjectResultMapper.selectByProjectId(supplierId);
+	public List<OBProjectResult> selectByProjectId(String supplierId,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<OBProjectResult> list = oBProjectResultMapper.selectByProjectId(supplierId);
+		return list;
 	}
 
 }

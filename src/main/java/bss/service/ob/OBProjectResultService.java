@@ -45,7 +45,7 @@ public interface OBProjectResultService {
      * @return List<OBProjectResult> 
      * @exception
      */
-    List<OBProjectResult> selectByProjectId(String supplierId);
+    List<OBProjectResult> selectByProjectId(String supplierId,Integer page);
 
     OBProjectResult selectByPrimaryKey(String id);
 
