@@ -6,7 +6,7 @@
     <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
     <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
     <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
-    <result column="RANKING" property="ranking" jdbcType="NUMBER" />
+    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
     <result column="PROPORTION" property="proportion" jdbcType="VARCHAR" />
     <result column="OFFER_PRICE" property="offerPrice" jdbcType="DECIMAL" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
@@ -16,7 +16,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-    <result column="RESULT_COUNT" property="resultCount" jdbcType="NUMBER"/>
+    <result column="RESULT_COUNT" property="resultCount" jdbcType="DECIMAL"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -136,7 +136,7 @@
       STATUS, CREATER_ID, REMARK, 
       CREATED_AT, UPDATED_AT)
     values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
-      #{supplierId,jdbcType=VARCHAR}, #{ranking,jdbcType=VARCHAR}, #{proportion,jdbcType=VARCHAR}, 
+      #{supplierId,jdbcType=VARCHAR}, #{ranking,jdbcType=DECIMAL}, #{proportion,jdbcType=VARCHAR}, 
       #{offerPrice,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
@@ -201,7 +201,7 @@
         #{supplierId,jdbcType=VARCHAR},
       </if>
       <if test="ranking != null" >
-        #{ranking,jdbcType=VARCHAR},
+        #{ranking,jdbcType=DECIMAL},
       </if>
       <if test="proportion != null" >
         #{proportion,jdbcType=VARCHAR},
@@ -261,7 +261,7 @@
         SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
       </if>
       <if test="record.ranking != null" >
-        RANKING = #{record.ranking,jdbcType=VARCHAR},
+        RANKING = #{record.ranking,jdbcType=DECIMAL},
       </if>
       <if test="record.proportion != null" >
         PROPORTION = #{record.proportion,jdbcType=VARCHAR},
@@ -301,7 +301,7 @@
       PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
       PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
-      RANKING = #{record.ranking,jdbcType=VARCHAR},
+      RANKING = #{record.ranking,jdbcType=DECIMAL},
       PROPORTION = #{record.proportion,jdbcType=VARCHAR},
       OFFER_PRICE = #{record.offerPrice,jdbcType=DECIMAL},
       TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},
@@ -328,7 +328,7 @@
         SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       </if>
       <if test="ranking != null" >
-        RANKING = #{ranking,jdbcType=VARCHAR},
+        RANKING = #{ranking,jdbcType=DECIMAL},
       </if>
       <if test="proportion != null" >
         PROPORTION = #{proportion,jdbcType=VARCHAR},
@@ -365,7 +365,7 @@
     set PRODUCT_ID = #{productId,jdbcType=VARCHAR},
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      RANKING = #{ranking,jdbcType=VARCHAR},
+      RANKING = #{ranking,jdbcType=DECIMAL},
       PROPORTION = #{proportion,jdbcType=VARCHAR},
       OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
       TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
