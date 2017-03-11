@@ -71,7 +71,22 @@
 	}
 	/**发布竞价项目**/
 	function release(){
+	
 	}
+	/**查询**/
+	function query(){
+	if(!$("#name").val().trim()){
+	   return ;
+	 }
+	if(!$("#startTime").val().trim()){
+	   return
+	 }
+	}
+	/**重置**/
+	function reset(){
+	$("#name").val("");
+	$("#startTime").val("");
+	} 
 </script>
 </head>
 <body>
@@ -90,23 +105,21 @@
 <!-- 竞价信息列表页面开始 -->
 	<div class="container">
     <div class="search_detail">
-       <form action="" method="post" id="form1" class="mb0">
+       <form action="${pageContext.request.contextPath}/ob_project/list.html" method="post" id="form1" class="mb0">
          <input type="hidden" name="page" id="page">
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价标题：</label>
-	    	  <select class="w178">
-	    	    <option></option>
-	    	    <option>选项一</option>
-	    	    <option>选项二</option>
-	    	  </select>
+	    	  <input id="name" name="name" value="" type="text" maxlength="180" class="w230 mb0">
 	      </li>
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
-			<input type="text" id="topic" class=""/>
+			<input value=""
+			 name="startTime" id="startTime" type="text"  readonly="readonly"   maxlength="7" 
+			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" />
 	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<input type="submit" onclick="return query()" class="btn" value="查询">
+	    	<input type="reset" class="btn"  value="重置">  	
     	</ul>
     	  <div class="clear"></div>
        </form>
@@ -114,8 +127,8 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows apply" type="submit" onclick="release()">选择竞价项目</button>
 		<button class="btn btn-windows apply" type="submit" onclick="create()">创建竞价项目</button>
-		<button class="btn btn-windows apply" type="submit" onclick="release()">发布竞价项目</button>
 	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
