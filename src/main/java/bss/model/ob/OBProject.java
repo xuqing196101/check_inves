@@ -79,7 +79,7 @@ public class OBProject {
      * @Fields status : 发布状态
      */
 
-    /**竞价状态 0：暂存  1已发布 2竞价中  3：竞价结束  4.流拍**/
+    /**竞价状态 0：暂存  1已发布  2竞价中  3：竞价结束  4.流拍  **/
     private Integer status;
     /**
      * @Fields createrId : 创建人ID

@@ -2,6 +2,8 @@ package bss.service.ob;
 
 import java.util.Map;
 
+import common.utils.JdcgResult;
+
 /**
  * 
 * @ClassName: OBSupplierQuoteService 
@@ -22,4 +24,19 @@ public interface OBSupplierQuoteService {
 	* @throws
 	 */
 	Map<String, Object> findQuoteInfo(String titleId);
+	
+	
+	/**
+	 * 
+	* @Title: saveQuoteInfo 
+	* @Description: 供应商报价结果保存
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	JdcgResult saveQuoteInfo(Map<String, Object> map);
+	
+	
 }
