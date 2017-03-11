@@ -10,6 +10,29 @@
 		function printResult(){
 			window.location.href="${pageContext.request.contextPath}/ob_project/printResult.html?id="+'${id}';
 		}
+		
+		/* 分页 */
+		$(function() {
+		    laypage({
+		      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		      pages : "${info.pages}", //总页数
+		      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		      skip : true, //是否开启跳页
+		      total : "${info.total}",
+		      startRow : "${info.startRow}",
+		      endRow : "${info.endRow}",
+		      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+		      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+		        return "${info.pageNum}";
+		      }(),
+		      jump : function(e, first) { //触发分页后的回调
+	        	if(!first){ //一定要加此判断，否则初始时会无限刷新
+		      		location.href = "${pageContext.request.contextPath }/ob_project/findBiddingResult.html?id="+${info.list[0].projectId}+"&&page=" + e.curr;
+		        }
+		      }
+		    });
+		  });
+		
 	</script>
 </head>
 <body>
@@ -27,7 +50,7 @@
 <!-- 添加供应商列表页面开始 -->
 <div class="container">
 	<div class="headline-v2">
-     	<h2>竞价标题：测试-263842312346</h2>
+     	<h2>竞价标题：${projectName }</h2>
 	</div> 
 	<!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
@@ -56,28 +79,10 @@
 		  <td class="tc">800，000.00</td>
 		  <td class="tc">已确认</td>
 		</tr>
-		<tr>
-		  <td class="tc w50">2</td>
-		  <td class="tc">4000</td>
-		  <td class="tc">4000</td>
-		  <td class="tc">4100</td>
-		  <td class="tc">150</td>
-		  <td class="tc">600，000.00</td>
-		  <td class="tc">已确认</td>
-		</tr>
-		<tr>
-		  <td class="tc w50">3</td>
-		  <td class="tc">4200</td>
-		  <td class="tc">4200</td>
-		  <td class="tc">4000</td>
-		  <td class="tc">100</td>
-		  <td class="tc">400，000.00</td>
-		  <td class="tc">已确认</td>
-		</tr>
 		</table>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
-    <div align="right">
+    <div align="left">
   		<button class="btn btn-windows back" type="button"  onclick="history.go(-1)">返回</button>
  	</div>
    </div>

@@ -4,143 +4,153 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OBProjectResult {
-    private String id;
+	private String id;
 
-    private String productId;
+	private String productId;
 
-    private String projectId;
+	private String projectId;
 
-    private String supplierId;
+	private String supplierId;
 
-    private String ranking;
+	private Integer ranking;
 
-    private String proportion;
+	private String proportion;
 
-    private BigDecimal offerPrice;
+	private BigDecimal offerPrice;
 
-    private BigDecimal totalAmount;
+	private BigDecimal totalAmount;
 
-    private Date createTime;
+	private Date createTime;
 
-    private Integer status;
+	private Integer status;
 
-    private String createrId;
+	private String createrId;
 
-    private String remark;
+	private String remark;
 
-    private Date createdAt;
+	private Date createdAt;
 
-    private Date updatedAt;
+	private Date updatedAt;
 
-    public String getId() {
-        return id;
-    }
+	private Integer resultCount;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	public Integer getResultCount() {
+		return resultCount;
+	}
 
-    public String getProductId() {
-        return productId;
-    }
+	public void setResultCount(Integer resultCount) {
+		this.resultCount = resultCount;
+	}
 
-    public void setProductId(String productId) {
-        this.productId = productId == null ? null : productId.trim();
-    }
+	public String getId() {
+		return id;
+	}
 
-    public String getProjectId() {
-        return projectId;
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
-    }
+	public String getProductId() {
+		return productId;
+	}
 
-    public String getSupplierId() {
-        return supplierId;
-    }
+	public void setProductId(String productId) {
+		this.productId = productId == null ? null : productId.trim();
+	}
 
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId == null ? null : supplierId.trim();
-    }
+	public String getProjectId() {
+		return projectId;
+	}
 
-    public String getRanking() {
-        return ranking;
-    }
+	public void setProjectId(String projectId) {
+		this.projectId = projectId == null ? null : projectId.trim();
+	}
 
-    public void setRanking(String ranking) {
-        this.ranking = ranking == null ? null : ranking.trim();
-    }
+	public String getSupplierId() {
+		return supplierId;
+	}
 
-    public String getProportion() {
-        return proportion;
-    }
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId == null ? null : supplierId.trim();
+	}
 
-    public void setProportion(String proportion) {
-        this.proportion = proportion == null ? null : proportion.trim();
-    }
+	public Integer getRanking() {
+		return ranking;
+	}
 
-    public BigDecimal getOfferPrice() {
-        return offerPrice;
-    }
+	public void setRanking(Integer ranking) {
+		this.ranking = ranking;
+	}
 
-    public void setOfferPrice(BigDecimal offerPrice) {
-        this.offerPrice = offerPrice;
-    }
+	public String getProportion() {
+		return proportion;
+	}
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
+	public void setProportion(String proportion) {
+		this.proportion = proportion == null ? null : proportion.trim();
+	}
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+	public BigDecimal getOfferPrice() {
+		return offerPrice;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setOfferPrice(BigDecimal offerPrice) {
+		this.offerPrice = offerPrice;
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public Date getCreateTime() {
+		return createTime;
+	}
 
-    public String getCreaterId() {
-        return createrId;
-    }
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
-    }
+	public Integer getStatus() {
+		return status;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public String getCreaterId() {
+		return createrId;
+	}
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId == null ? null : createrId.trim();
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

@@ -167,12 +167,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 		return list;
 	}
 
-
-
-
+	/**
+	 *	根据竞价信息id查询
+	 */
 	@Override
 	public OBProject selectByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return OBprojectMapper.selectByPrimaryKey(id);
 	}
 }

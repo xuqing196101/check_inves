@@ -44,6 +44,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
@@ -71,6 +72,7 @@ public class OBProjectController {
 	@Autowired
 	private  OBRuleService  OBRuleService;
 	
+	@Autowired
 	private OBProjectResultService oBProjectResultService;
 
 	/***
@@ -210,10 +212,10 @@ public class OBProjectController {
 	public String findBiddingResult(Model model, HttpServletRequest request,
 			Integer page) {
 		// 获取竞价标题的id
-		String id = request.getParameter("id");
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 		List<OBProjectResult> list = oBProjectResultService.selectByProjectId(id);
-		model.addAttribute("resultlist",list);
-		// 将竞价标题id封装到model中，打印使用
+		PageInfo<OBProjectResult> info = new PageInfo<>(list);
+		model.addAttribute("info",info);
 		OBProject obProject = OBProjectServer.selectByPrimaryKey(id);
 		model.addAttribute("projectName", obProject.getName());
 		return "bss/ob/biddingSpectacular/result";
