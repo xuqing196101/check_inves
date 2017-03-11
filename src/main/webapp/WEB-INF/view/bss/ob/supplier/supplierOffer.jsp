@@ -28,8 +28,9 @@
 					calTotalPrice();
 					return;
 				}
-				var x = parseInt(count) * unitPrice; 
-				$("#"+id).text(x);
+				var x = parseInt(count) * unitPrice;
+				var unitPriceFloat = toDecimal(x);
+				$("#"+id).text(unitPriceFloat);
 				calTotalPrice();
 				
 			}else{
@@ -40,21 +41,37 @@
 			
 		}
 		
+		function toDecimal(signalTotalPrice) { 
+	        var f = Math.round(signalTotalPrice*100)/100;
+	        var s = f.toString();
+	        var rs = s.indexOf('.');
+	        if (rs < 0) {
+	            rs = s.length;
+	            s += '.';
+	        } 
+	        while (s.length <= rs + 2) {
+	            s += '0';
+	        }
+	        return s;
+		 } 
+		
 		// 计算总价
 		function calTotalPrice(){
 			// 总价定义
 			var total = 0;
 			for(var i = 0;i < ids.length; i++) {
 				var id = ids[i];
-				var signalPrice = parseInt($("#"+id).html());
-				if(!isNaN(signalPrice)){
-					total = total + signalPrice;
+				var signalPrice = toDecimal($("#"+id).html());
+				if(total == 0){
+					total = signalPrice;
+				}else{
+					total = parseFloat(total) + parseFloat(signalPrice);
 				}
 			}
 			if(total == 0){
 				$("#totalPrice").html("");
 			}else{
-				$("#totalPrice").html(total);
+				$("#totalPrice").html(toDecimal(total));
 			}
 		}
 		
@@ -68,8 +85,19 @@
 					return;
 				}
 			}
-			$("#productForm").attr("action","${pageContext.request.contextPath}/obrule/ruleList.html");
-			$("#productForm").submit();
+			$.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
+				if (data.status == 200) {
+					layer.confirm(data.data,{
+						btn:['确定']
+					},function(){
+							window.location.href="${pageContext.request.contextPath}/supplierQuote/list.html";
+						}
+					) 
+				}
+				if(data.status == 500){
+					layer.alert(data.msg);
+				}
+			});
 		}
 	</script>
 </head>
@@ -174,13 +202,15 @@
 			  <td class="tc" id="totalPrice"></td>
 			  <td class="tc"></td>
 			</tr>
-			<c:forEach items="${ oBProductInfoList }" var="productInfo">
+			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 				<tr>
+				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].productId" value="${ productInfo.obProduct.id }">
+				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].resultsNumber" value="${ productInfo.purchaseCount }">
 				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc">${ productInfo.obProduct.name }</td>
 				  <td class="tc">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
-				  <td><input id="" data-count="${ productInfo.purchaseCount }" name="" onkeyup="totalPrice(this,'${productInfo.obProduct.id}')" type="text" class="w230 mb0 border0" /></td>
+				  <td><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}')" type="text" class="w230 mb0 border0" /></td>
 				  <td class="tc" id="${ productInfo.obProduct.id }"></td>
 				  <td class="tc">${ productInfo.obProduct.remark }</td>
 				</tr>

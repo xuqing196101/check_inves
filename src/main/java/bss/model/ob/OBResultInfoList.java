@@ -1,24 +1,26 @@
 package bss.model.ob;
 
+import java.util.List;
+
 /**
  * 接收供应商报价产品信息
-* @ClassName: OBResultInfoList 
-* @Description: 
-* @author Easong
-* @date 2017年3月10日 下午6:00:42 
-*
+ * 
+ * @ClassName: OBResultInfoList
+ * @Description:
+ * @author Easong
+ * @date 2017年3月10日 下午6:00:42
+ * 
  */
 public class OBResultInfoList {
-	
-	private OBResultsInfo obResultsInfo;
 
-	public OBResultsInfo getObResultsInfo() {
-		return obResultsInfo;
+	List<OBResultsInfoExt> obResultsInfoExt;
+
+	public List<OBResultsInfoExt> getObResultsInfoExt() {
+		return obResultsInfoExt;
 	}
 
-	public void setObResultsInfo(OBResultsInfo obResultsInfo) {
-		this.obResultsInfo = obResultsInfo;
+	public void setObResultsInfoExt(List<OBResultsInfoExt> obResultsInfoExt) {
+		this.obResultsInfoExt = obResultsInfoExt;
 	}
-	
-	
+
 }
