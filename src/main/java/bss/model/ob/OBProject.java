@@ -10,6 +10,10 @@ import java.util.List;
 * @author 注释--Ma Mingwei
  */
 public class OBProject {
+	/**
+	 * 竞价规则id
+	 */
+	private String ruleId;
     private String id;
     /**
      * @Fields name : 竞价名称
@@ -130,6 +134,14 @@ public class OBProject {
     private Integer qualifiedSupplier;
     
     
+	public String getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
+	}
+
 	public Integer getClosingSupplier() {
 		return closingSupplier;
 	}

@@ -65,11 +65,13 @@
 		   }
 	}
 	
-	//发布竞价项目
-	function release(){
+	//创建竞价项目
+	function create(){
 	 window.location.href = "${pageContext.request.contextPath}/ob_project/add.html";
 	}
-	
+	/**发布竞价项目**/
+	function release(){
+	}
 </script>
 </head>
 <body>
@@ -112,6 +114,7 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows apply" type="submit" onclick="create()">创建竞价项目</button>
 		<button class="btn btn-windows apply" type="submit" onclick="release()">发布竞价项目</button>
 	</div>   
 	<div class="content table_box">

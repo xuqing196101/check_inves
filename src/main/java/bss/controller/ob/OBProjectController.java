@@ -284,7 +284,7 @@ public class OBProjectController {
     * @throws IOException 
 	* @throws Exception
 	*/
-	@RequestMapping("addProject")
+	@RequestMapping(value="/addProject", produces="text/html;charset=UTF-8" )
 	@ResponseBody
 	public String addProject(@CurrentUser User user,OBProject obProject, HttpServletRequest request,
 			String fileid){
