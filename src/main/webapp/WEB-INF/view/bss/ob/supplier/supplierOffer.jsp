@@ -57,6 +57,20 @@
 				$("#totalPrice").html(total);
 			}
 		}
+		
+		// 产品信息表单提交
+		function confirm(){
+			for(var i = 0;i < ids.length; i++) {
+				var id = ids[i];
+				var signalPrice = parseInt($("#"+id).html());
+				if(isNaN(signalPrice)){
+					layer.msg("输入格式错误或者输入信息不全");
+					return;
+				}
+			}
+			$("#productForm").attr("action","${pageContext.request.contextPath}/obrule/ruleList.html");
+			$("#productForm").submit();
+		}
 	</script>
 </head>
 <body>
@@ -137,8 +151,8 @@
 			 </table>
   </div> 
   <div class="clear" ></div>
-  <form>
-  	<input type="hidden" name="">
+  <form id="productForm" name="" method="post">
+  	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
 	    <h2 class="count_flow"><i>2</i>产品信息</h2>
 		<div class="content table_box">
@@ -172,13 +186,13 @@
 				</tr>
 			</c:forEach>
 		</table>
-		<div class="col-md-12 clear tc mt10">
-	   		<button class="btn btn-windows save" type="submit">确认</button>
-	   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-	   	</div>
 	  </div>
 	  </div>	 
   </form>
+	<div class="col-md-12 clear tc mt10">
+   		<button class="btn btn-windows save" onclick="confirm()">提交</button>
+   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   	</div>
  </div>
 </body>
 </html>

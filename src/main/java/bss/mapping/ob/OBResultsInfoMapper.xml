@@ -11,6 +11,8 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -72,7 +74,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, PRODUCT_ID, BIDDING_ID, RESULTS_NUMBER, MY_OFFER_MONEY, DEAL_MONEY, REMARK, CREATED_AT, 
-    UPDATED_AT
+    UPDATED_AT,SUPPLIER_ID,PROJECT_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBResultsInfoExample" >
     select
@@ -107,11 +109,12 @@
   <insert id="insert" parameterType="bss.model.ob.OBResultsInfo" >
     insert into T_BSS_OB_RESULTS_INFO (ID, PRODUCT_ID, BIDDING_ID, 
       RESULTS_NUMBER, MY_OFFER_MONEY, DEAL_MONEY, 
-      REMARK, CREATED_AT, UPDATED_AT
+      REMARK, CREATED_AT, UPDATED_AT,SUPPLIER_ID,PROJECT_ID
       )
     values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{biddingId,jdbcType=VARCHAR}, 
       #{resultsNumber,jdbcType=DECIMAL}, #{myOfferMoney,jdbcType=DECIMAL}, #{dealMoney,jdbcType=DECIMAL}, 
-      #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}
+      #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP},
+      #{supplierId,jdbcType=VARCHAR},#{projectId,jdbcType=VARCHAR}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBResultsInfo" >
@@ -144,6 +147,12 @@
       <if test="updatedAt != null" >
         UPDATED_AT,
       </if>
+      <if test="supplierId != null" >
+        SUPPLIER_ID,
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -172,6 +181,12 @@
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="supplierId != null" >
+        #{updatedAt,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+        #{updatedAt,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -270,7 +285,9 @@
       DEAL_MONEY = #{dealMoney,jdbcType=DECIMAL},
       REMARK = #{remark,jdbcType=VARCHAR},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
-      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      PROJECT_ID = #{projectId,jdbcType=VARCHAR},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 </mapper>

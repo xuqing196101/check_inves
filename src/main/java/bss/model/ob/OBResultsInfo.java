@@ -22,6 +22,12 @@ public class OBResultsInfo {
 
     private Date updatedAt;
 
+    /**所属供应商**/
+    private String supplierId;
+    
+    /**竞价标题信息**/
+    private String projectId;
+    
     public String getId() {
         return id;
     }
@@ -93,4 +99,21 @@ public class OBResultsInfo {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	public String getSupplierId() {
+		return supplierId;
+	}
+
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId;
+	}
+
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+    
 }
