@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBResultInfoList;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
@@ -132,5 +133,10 @@ public class OBSupplierQuoteController {
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
 		
 		return "bss/ob/supplier/confirmResult";
+	}
+	
+	@RequestMapping("saveQuoteInfo")
+	public String saveQuoteInfo(OBResultInfoList obResultsInfo, Model model, HttpServletRequest request){
+		return "";
 	}
 }

@@ -20,7 +20,7 @@ import bss.service.ob.OBProjectResultService;
 public class OBProjectResultServiceImpl implements OBProjectResultService {
 
 	@Autowired
-	private OBProjectResultMapper oBProjectResultService;
+	private OBProjectResultMapper oBProjectResultMapper;
 	
 	@Override
 	public int countByExample(OBProjectResultExample example) {
@@ -55,7 +55,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public List<OBProjectResult> selectByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
-		return oBProjectResultService.selectByExample(example);
+		return oBProjectResultMapper.selectByExample(example);
 	}
 
 	@Override
@@ -96,7 +96,12 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public List<OBProjectResult> selectBySupplierId(String supplierId) {
 		// TODO Auto-generated method stub
-		return oBProjectResultService.selectBySupplierId(supplierId);
+		return oBProjectResultMapper.selectBySupplierId(supplierId);
+	}
+
+	@Override
+	public List<OBProjectResult> selectByProjectId(String supplierId) {
+		return oBProjectResultMapper.selectByProjectId(supplierId);
 	}
 
 }

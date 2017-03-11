@@ -32,6 +32,7 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
@@ -49,6 +50,8 @@ import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.BidMethod;
+import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -67,6 +70,7 @@ import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedPackageService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.BidMethodService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.MarkTermService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
@@ -147,6 +151,9 @@ public class TackController extends BaseController{
     private CollectPlanService collectPlanService;
     @Autowired
     private PurchaseDetailService purchaseDetailService;
+    
+    @Autowired
+    private FlowMangeService flowMangeService;    
 	/**
 	 * 
 	* @Title: listAll
@@ -1019,7 +1026,7 @@ public class TackController extends BaseController{
             if(advancedDetails != null && advancedDetails.size() > 0){
                 for (AdvancedDetail adDetail : advancedDetails) {
                     ProjectDetail projectDetail = new ProjectDetail();
-                    projectDetail.setRequiredId(adDetail.getId());
+                    projectDetail.setRequiredId(adDetail.getRequiredId());
                     projectDetail.setSerialNumber(adDetail.getSerialNumber());
                     projectDetail.setDepartment(adDetail.getDepartment());
                     projectDetail.setGoodsName(adDetail.getGoodsName());
@@ -1226,6 +1233,8 @@ public class TackController extends BaseController{
                            
                         }
                  }
+                    
+                    
             }
            
             
@@ -1241,7 +1250,29 @@ public class TackController extends BaseController{
                     uploadService.updateLoad(uploadFile);
                 }
             
-            
+                FlowExecute flowExecute = new FlowExecute();
+                flowExecute.setProjectId(advancedProject.getId());
+                List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
+                for (FlowExecute flowExecute2 : flowExecutes) {
+                    FlowExecute execute = new FlowExecute();
+                    execute.setId(WfUtil.createUUID());
+                    execute.setProjectId(id);
+                    execute.setStatus(flowExecute2.getStatus());
+                    execute.setCreatedAt(new Date());
+                    execute.setUpdatedAt(new Date());
+                    execute.setOperatorId(flowExecute2.getOperatorId());
+                    execute.setOperatorName(flowExecute2.getOperatorName());
+                    execute.setIsDeleted(flowExecute2.getIsDeleted());
+                    execute.setStep(flowExecute2.getStep());
+                    
+                    DictionaryData data = DictionaryDataUtil.findById(flowExecute2.getFlowDefineId());
+                    FlowDefine flowDefine = new FlowDefine();
+                    flowDefine.setName(data.getName());
+                    flowDefine.setPurchaseTypeId(advancedProject.getPurchaseType());
+                    List<FlowDefine> defines = flowMangeService.find(flowDefine);
+                    execute.setFlowDefineId(defines.get(0).getId());
+                    flowMangeService.saveExecute(execute);
+                }
         }
             
             

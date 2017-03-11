@@ -12,6 +12,7 @@ import ses.model.oms.Orgnization;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
+import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
@@ -42,6 +43,10 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	// 注入采购机构Mapper
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
+	
+	// 注入供应商
+	@Autowired
+	private OBSupplierMapper obSupplierMapper;
 
 	@Override
 	public Map<String, Object> findQuoteInfo(String id) {
@@ -71,8 +76,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		if (list != null && list.size() > 0) {
 			for (OBProductInfo obProductInfo : list) {
 				OBProduct product = obProductInfo.getObProduct();
+				String productId = product.getId();
 				if (product != null) {
-					sb.append(product.getId() + ",");
+					sb.append(productId + ",");
 				}
 			}
 		}

@@ -411,7 +411,7 @@
                <label class="fl">品目：</label><span> <input id="category" class="span2 mt5" type="text" readonly name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
                <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
              </li>
-             <li>
+             <!-- <li>
            	   <label class="fl">供应商级别：</label>
            		 <span>
 	             	 <select name="score" class="w220">
@@ -423,7 +423,7 @@
 	                 <option  value="5">五级</option>
 	               </select>
            		 </span>
-         		 </li>
+         		 </li> -->
              <li>
                <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 	               <span class="f14 fl">至</span>

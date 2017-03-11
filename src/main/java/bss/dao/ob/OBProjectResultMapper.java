@@ -21,6 +21,7 @@ public interface OBProjectResultMapper {
      * @return
      */
     int countByStatus(OBProjectResult example);
+    
     int deleteByExample(OBProjectResultExample example);
 
     int deleteByPrimaryKey(String id);
@@ -37,6 +38,19 @@ public interface OBProjectResultMapper {
      * @return
      */
     List<OBProjectResult> selectBySupplierId(String supplierId);
+    
+    /**
+     * 
+     * Description: 根据竞价信息查询竞价结果信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月11日 
+     * @param  @param supplierId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selectByProjectId(String supplierId);
 
     OBProjectResult selectByPrimaryKey(String id);
 

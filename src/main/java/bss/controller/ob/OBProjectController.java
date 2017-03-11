@@ -3,13 +3,10 @@ package bss.controller.ob;
 import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
-
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-
 import java.util.ArrayList;
-
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -47,13 +44,15 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBRule;
 import bss.model.pms.PurchaseRequired;
+import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBRuleService;
-
 import bss.util.ExcelUtil;
 /**
  * 竞价信息管理控制
@@ -72,6 +71,9 @@ public class OBProjectController {
 	private OrgnizationServiceI orgnizationService;
 	@Autowired
 	private  OBRuleService  OBRuleService;
+	
+	@Autowired
+	private OBProjectResultService oBProjectResultService;
 
 	/***
 	 * 获取竞价信息跳转 list页
@@ -210,11 +212,12 @@ public class OBProjectController {
 	public String findBiddingResult(Model model, HttpServletRequest request,
 			Integer page) {
 		// 获取竞价标题的id
-		String id = request.getParameter("id");
-		// TODO
-		
-		// 将竞价标题id封装到model中，打印使用
-		model.addAttribute("id", id);
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+		List<OBProjectResult> list = oBProjectResultService.selectByProjectId(id);
+		PageInfo<OBProjectResult> info = new PageInfo<>(list);
+		model.addAttribute("info",info);
+		OBProject obProject = OBProjectServer.selectByPrimaryKey(id);
+		model.addAttribute("projectName", obProject.getName());
 		return "bss/ob/biddingSpectacular/result";
 	}
 
@@ -327,4 +330,6 @@ public class OBProjectController {
 		
 		return "bss/ob/biddingSpectacular/print";
 	}
+	
+	
 }

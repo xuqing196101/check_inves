@@ -252,7 +252,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
       }
 
       //循环出评审类型
-      for (DictionaryData dictionaryData : ddList) {
+      for (DictionaryData dictionaryData : ddList) {  
         List<MarkTerm> list = model(dictionaryData.getId(), projectId,pack.getId());
         if(list != null){
           if ("ECONOMY".equals(dictionaryData.getCode())) {
@@ -315,9 +315,9 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
     String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
       + "/" + request.getContextPath() + File.separator.replace("\\", "/");
     datamap.put("host",host);
+    Integer status = 0;
 
-
-    return productionDoc(request, datamap,ftlName(project.getDictionary().getCode(),type));
+    return productionDoc(request, datamap,ftlName(project.getDictionary().getCode(),type,status));
 
   }
 
@@ -371,7 +371,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
    * @return ftl path
    * @param type :1( 拆包部分模板)  type:0(总模板)
    */
-  private String ftlName(String ftl,int type){
+  private String ftlName(String ftl,int type,int status){
 	   // 根据拆包需求   修改返回值 书写分包对应模板名
 	    String str = "";
 	    switch (ftl) {
@@ -381,21 +381,35 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 	     */
 	      case "GKZB":
 	    	  if(type==0){
-	    		 str="biddingdocument.ftl"; 
+	    	      if(status == 0){
+	    	          str="biddingdocument.ftl"; 
+	    	      }else{
+	    	          str="Adbiddingdocument.ftl";
+	    	      }
+	    		 
 	    	  }else{
 	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
 	    	  }
 	        break;
 	      case "XJCG":// 询价文件
 	        if(type==0){
-	    		 str="InquiryDocument.ftl"; 
+	            if(status == 0){
+	               str="InquiryDocument.ftl";
+	            }else{
+	               str="AdInquiryDocument.ftl";
+	            }
+	    		  
 	    	  }else{
 	    		  str = "InquiryDocument_package1.ftl,InquiryDocument_package2.ftl";
 	    	  }
 	        break;
 	      case "JZXTP":// 谈判文件
 	        if(type==0){
-	    		 str="jzxtp.ftl"; 
+	            if(status == 0){
+	                str="jzxtp.ftl";
+	            }else{
+	                str="Adjzxtp.ftl";
+	            }
 	    	  }else{
 	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
 	    	  }
@@ -405,7 +419,12 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
 	        break;
 	      case "YQZB":// 邀请招标
 	        if(type==0){
-	    		 str="Invitebidding.ftl"; 
+	            if(status == 0){
+	                str="Invitebidding.ftl";
+	            }else{
+	                str="AdInvitebidding.ftl";
+	            }
+	    		  
 	    	  }else{
 	    		  str = "biddingdocument_package1.ftl,biddingdocument_package2.ftl";
 	    	  }
@@ -551,7 +570,7 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
           //循环出评审类型
           for (DictionaryData dictionaryData : ddList) {
             List<MarkTerm> list = model(dictionaryData.getId(), projectId,pack.getId());
-            if(list != null){
+            if(list != null && list.size() > 0){
               if ("ECONOMY".equals(dictionaryData.getCode())) {
                 listScoreEconomy.addAll(list);
               } else if ("TECHNOLOGY".equals(dictionaryData.getCode())) {
@@ -611,9 +630,9 @@ public class SupplierExtUserServicelmpl implements SupplierExtUserServicel {
         String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
           + "/" + request.getContextPath() + File.separator.replace("\\", "/");
         datamap.put("host",host);
+        Integer status = 1;
 
-
-        return productionDoc(request, datamap,ftlName(findById2.getCode(),type));
+        return productionDoc(request, datamap,ftlName(findById2.getCode(),type,status));
       
     }
 

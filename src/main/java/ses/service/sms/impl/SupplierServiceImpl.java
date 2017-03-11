@@ -909,9 +909,11 @@ public class SupplierServiceImpl implements SupplierService {
     	
     	User user = userMapper.findUserByTypeId(supplierId);
     	Userrole userRole=new Userrole();
-    	userRole.setUserId(user);
-    	roleMapper.deleteRoelUser(userRole);
-    	userMapper.deleteByPrimaryKey(user.getId());
+    	if(user != null){
+    		userRole.setUserId(user);
+        	roleMapper.deleteRoelUser(userRole);
+        	userMapper.deleteByPrimaryKey(user.getId());
+    	}
         supplierMapper.deleteSupplier(supplierId);
         supplierStockholderMapper.deleteStockholderBySupplierId(supplierId);
         supplierFinanceMapper.deleteFinanceBySupplierId(supplierId);
@@ -920,29 +922,38 @@ public class SupplierServiceImpl implements SupplierService {
         supplierAfterSaleDepMapper.deleteBySupplierId(supplierId);
        
         SupplierMatPro supplierMatPro = supplierMatProMapper.getMatProBySupplierId(supplierId);
-        supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+        if(supplierMatPro != null){
+        	 supplierCertProMapper.deleteByPrimaryKey(supplierMatPro.getId());
+        }
         supplierMatProMapper.deleteBySupplierId(supplierId);
         
         SupplierMatSell matSell = supplierMatSellMapper.getMatSellBySupplierId(supplierId);
-        supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+        if(matSell !=null){
+        	supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+        }
         supplierMatSellMapper.deleteByPrimaryKey(supplierId);
         
         SupplierMatEng matEng = supplierMatEngMapper.selectByPrimaryKey(supplierId);
-        supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
-        supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
-        supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+        if(matEng !=null){
+        	supplierCertEngMapper.deleteByPrimaryKey(matEng.getId());
+        	supplierRegPersonMapper.deleteByMatEngId(matEng.getId());
+            supplierAptituteMapper.deleteByPrimaryKey(matEng.getId());
+        }
         supplierMatEngMapper.deleteByPrimaryKey(supplierId);
         
         SupplierMatServe matServe = supplierMatServeMapper.getMatSeBySupplierId(supplierId);
-        supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
-        supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
-
+        if(matServe !=null){
+        	 supplierCertServeMapper.deleteByPrimaryKey(matServe.getId());
+             supplierMatServeMapper.deleteByPrimaryKey(matServe.getId());
+        }
         supplierTypeRelateMapper.deleteBySupplierId(supplierId);
         List<SupplierItem> items= supplierItemMapper.getSupplierItem(supplierId);
-        
-        for(SupplierItem s:items){
-        	fileUploadMapper.deleteByBusinessId(s.getId());
+        if(!items.isEmpty()){
+        	for(SupplierItem s:items){
+            	fileUploadMapper.deleteByBusinessId(s.getId());
+            }
         }
+        
         supplierItemMapper.deleteBySupplierId(supplierId);
         
         

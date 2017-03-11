@@ -6,7 +6,7 @@
     <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
     <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
     <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
-    <result column="RANKING" property="ranking" jdbcType="VARCHAR" />
+    <result column="RANKING" property="ranking" jdbcType="NUMBER" />
     <result column="PROPORTION" property="proportion" jdbcType="VARCHAR" />
     <result column="OFFER_PRICE" property="offerPrice" jdbcType="DECIMAL" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
@@ -16,6 +16,7 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="RESULTCOUNT" property="resultCount" jdbcType="NUMBER"/>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -108,6 +109,16 @@
     from T_BSS_OB_PROJECT_RESULT
     where SUPPLIER_ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 根据竞价信息ID查询竞价结果信息 -->
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    SELECT 
+    <include refid="Base_Column_List" />
+    FROM T_BSS_OB_PROJECT_RESULT
+    WHERE PROJECT_ID = #{id,jdbcType=VARCHAR}
+    ORDER BY RANKING 
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_PROJECT_RESULT
     where ID = #{id,jdbcType=VARCHAR}
