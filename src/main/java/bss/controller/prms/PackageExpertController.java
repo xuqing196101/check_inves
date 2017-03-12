@@ -1150,7 +1150,7 @@ public class PackageExpertController {
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         for (int i = 0; i < allSupplierList.size(); i++) {
             SaleTender sale = allSupplierList.get(i);
-            if (sale.getPackages().contains(packageId) && sale.getIsFirstPass() == 1 && "0".equals(sale.getIsRemoved()) && sale.getIsTurnUp() == 0) {
+            if (sale.getPackages().contains(packageId) && sale.getIsFirstPass() == 1 && "0".equals(sale.getIsRemoved()) && sale.getIsTurnUp() != null && sale.getIsTurnUp() == 0) {
                 supplierList.add(sale);
             }
         }
@@ -3380,7 +3380,7 @@ public class PackageExpertController {
         supplierList.addAll(saleTenderService.find(saleTender));
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
-            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved()) && supp.getIsTurnUp() != null && supp.getIsTurnUp() == 0) {
                 suppList.add(supp);
             }
         }
@@ -3565,7 +3565,7 @@ public class PackageExpertController {
         supplierList.addAll(saleTenderService.find(saleTender));
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
-            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved()) && supp.getIsTurnUp() != null && supp.getIsTurnUp() == 0) {
                 suppList.add(supp);
             }
         }

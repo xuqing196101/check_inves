@@ -161,7 +161,7 @@
 			  <th class="info">专家/供应商</th>
 			  <c:forEach items="${supplierList}" var="supplier">
 			    <c:if test="${fn:contains(supplier.packages,packageId)}">
-			  	  <th class="info"><a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');">${supplier.suppliers.supplierName}</a></th>
+			  	  <th class="info"><%-- <a title="查看评分详情" href="javascript:showViewBySupplierId('${supplier.suppliers.id}');"> --%>${supplier.suppliers.supplierName}<!-- </a> --></th>
 			  	</c:if>
 			  </c:forEach>
 			</tr>	
