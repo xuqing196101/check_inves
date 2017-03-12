@@ -1564,7 +1564,7 @@ public class PackageExpertController {
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
                         //判断专家是否提交
-                        if (packageExpert.getIsAudit() == 1) {
+                        if (packageExpert.getIsAudit() != null && packageExpert.getIsAudit() == 1) {
                           //已提交的话显示评审结果
                           supplierExt.setSuppIsPass("0");
                         } else {
@@ -1576,7 +1576,7 @@ public class PackageExpertController {
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
                         //判断专家是否提交
-                        if (packageExpert.getIsAudit() == 1) {
+                        if (packageExpert.getIsAudit() != null && packageExpert.getIsAudit() == 1) {
                           //已提交的话显示评审结果
                           supplierExt.setSuppIsPass("1");
                         } else {
@@ -2016,6 +2016,7 @@ public class PackageExpertController {
         record.setPackages(packageId);
         record.setIsFirstPass(1);
         record.setIsRemoved("0");
+        record.setIsTurnUp(0);
         List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
         model.addAttribute("supplierList", supplierList);
         // 查询条件
