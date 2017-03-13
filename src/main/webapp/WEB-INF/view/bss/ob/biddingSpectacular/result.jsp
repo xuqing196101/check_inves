@@ -70,6 +70,7 @@
 		  <th class="info">操作状态</th>
 		</tr>
 		</thead>
+		<tbody>
 		<c:forEach items="${info.list }" var="result" varStatus="vs">
 			<tr>
 		  		<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
@@ -84,6 +85,7 @@
 		  		</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 		</table>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
