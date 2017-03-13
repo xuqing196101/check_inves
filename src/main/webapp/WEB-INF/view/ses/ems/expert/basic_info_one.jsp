@@ -1503,7 +1503,7 @@
 
         $("#coverNote").change(function () {
             if ($(this).val() == "1") {
-                $("#sbzm").text("缴纳社保凭证")
+                $("#sbzm").text("缴纳社保证明")
                 init_web_upload();
             } else {
 
