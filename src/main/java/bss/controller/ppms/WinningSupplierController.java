@@ -138,6 +138,71 @@ public class WinningSupplierController extends BaseController {
         return "bss/ppms/winning_supplier/list";
     }
   }
+  
+  /**
+   * 
+   *〈简述〉
+   *〈详细描述〉
+   * @author FengTian
+   * @param model
+   * @param id
+   * @return
+   */
+  @RequestMapping("/packageSuppliers")
+  public String packageSuppliers(Model model, String id, String flowDefineId, String projectId, HttpServletRequest sq){
+      SupplierCheckPass checkPass = new SupplierCheckPass();
+      checkPass.setPackageId(id);
+      //根据包ID获取ID
+      List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(checkPass);
+      SupplierCheckPass pass = new SupplierCheckPass();
+      pass.setId(listCheckPass.get(0).getId());
+      pass.setIsWonBid((short)1);
+      //查询已经中标的供应商
+      List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
+      for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
+        //查询报价历史记录
+        if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
+          Quote quote = new Quote();
+          quote.setPackageId(id);
+          quote.setSupplierId(supplierCheckPass.getSupplier().getId());
+          List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+          supplierCheckPass.getSupplier().setListQuote(quoteList);
+        }
+      }
+
+      model.addAttribute("supplierCheckPass", listSupplierCheckPass);
+      model.addAttribute("supplierCheckPassJosn",JSON.toJSONString(listSupplierCheckPass));
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("projectId", projectId);
+      model.addAttribute("packageId", listCheckPass.get(0).getId());
+      model.addAttribute("pid", id);
+
+      //获取已有中标供应商的包组
+      String[] packcount = checkPassService.selectWonBid(projectId);
+      List<Packages> packList = packageService.listSupplierCheckPass(projectId);
+      if (packList.size() != packcount.length){
+        model.addAttribute("error", ERROR);
+      }
+      //             //修改流程状态
+      flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
+      
+      Quote quote = new Quote();
+      quote.setPackageId(id);
+      List<Quote> quoteList = supplierQuoteService.selectQuoteHistoryList(quote);
+      if (quoteList.size()>0) {
+        if (quoteList.get(0).getQuotePrice() == null || quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+          model.addAttribute("quote", 0);//提示唱总价
+        }else if(quoteList.get(0).getQuotePrice() != null&&!quoteList.get(0).getQuotePrice().equals(new BigDecimal(0))){
+          model.addAttribute("quote", 1);//提示唱明细
+        }
+      }
+      
+      HashMap<String,Object> map = new HashMap<>();
+      map.put("packageId", id);
+      List<ProjectDetail> detailList = detailService.selectById(map);
+      model.addAttribute("detailList", detailList);
+      return "bss/ppms/winning_supplier/supplier_list";
+  }
 
 
   /**

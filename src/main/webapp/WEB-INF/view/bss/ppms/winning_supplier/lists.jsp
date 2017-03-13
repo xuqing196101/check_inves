@@ -73,10 +73,9 @@
       var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(4).find("input").val();
       status = $.trim(status);
       if(status == "0"){
-         if(id.length > 0){
-	        layer.confirm('确定之后不可修改，是否确定？', {
+         if(id.length == 1){
+	       layer.confirm('确定之后不可修改，是否确定？', {
 	        btn: ['确定', '取消'],
-	        offset: ['100px', '300px'],
 	        shade: 0.01
 	        }, function(index) {
 	          $.ajax({
@@ -85,7 +84,8 @@
 	            dataType: "json",
 	            success: function(data) {
 	              if(data == "SCCUESS") {
-	                window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}&&isFinish=1';
+	                window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSuppliers.html?projectId=${projectId}&flowDefineId=${flowDefineId}&id=" + id;
+	                //window.location.href = '${pageContext.request.contextPath}/winningSupplier/selectSupplier.html?projectId=${projectId}&&flowDefineId=${flowDefineId}&&isFinish=1';
 	              } else {
 	                layer.alert("请选择供应商", {
 	                  offset: ['100', '300px'],
@@ -97,10 +97,13 @@
 	    
 	          }, function(index) {
 	            layer.close(index);
-	          });
+	          }); 
+	      }else if(id.length > 1){
+	         layer.alert("只能选择一个!", {
+                    shade: 0.01
+                  });
 	      }else{
-	        layer.alert("请选择供应商", {
-	                  offset: ['100', '300px'],
+	        layer.alert("请选择!", {
 	                  shade: 0.01
 	                });
 	      }
@@ -111,40 +114,6 @@
       
 
     }
-
-    function abandoned(id){
-    layer.confirm('您确定要废标吗?',{
-              title : '提示',
-              offset: ['30%', '40%'],
-              shade : 0.01
-            },
-          function(index) {
-            layer.close(index);
-           $.ajax({
-            url : "${pageContext.request.contextPath}/project/abandoned.html",
-            data : "id=" + id,
-            type : "post",
-            dateType : "json",
-            success : function(data) {
-              if(data == "\"SCCUESS\"") {
-                layer.msg("废标成功", {
-                 time: 2000, 
-                });
-                window.location.href = "${pageContext.request.contextPath}/project/list.html";
-              }
-               
-              /* window.setTimeout(function() {
-              location.reload();
-              }, 1000); */
-            },
-            error : function() {
-              layer.msg("废标失败", {
-                offset: ['30%', '40%'],
-              });
-            }
-            });
-          });
-  }
 
   </script>
 
@@ -193,40 +162,6 @@
           </table>
         </div>
         
-          <%-- <div class="content table_box pl0">
-          <table class="table table-bordered table-condensed table-hover table-striped">
-            <thead>
-              <tr>
-                <th class="w30">
-                  <input type="checkbox" id="checkAll" onclick="selectAll()" />
-                </th>
-                <th class="w50 info">序号</th>
-                <th class="info">包名</th>
-                <th class="info">供应商</th>
-                <th class="info">最终报价</th>
-              </tr>
-            </thead>
-            <c:forEach items="${packList }" var="pack" varStatus="vs">
-              <tr>
-                <td class="tc w30">
-                  <input type="checkbox" value="${pack.id }" name="chkItem" onclick="check()">
-                </td>
-                <td class="tc w30">${vs.count }</td>
-                <td class="tc">${pack.name }</td>
-                <c:if test="${fn:length(pack.listCheckPasses) != 0}">
-                  <c:forEach items="${pack.listCheckPasses}" var="list">
-                    <td class="tc">
-                      ${list.supplier.supplierName}
-                    </td>
-                    <td class="tc">
-                      ${list.totalPrice}
-                    </td>
-                  </c:forEach>
-                </c:if>
-              </tr>
-            </c:forEach>
-          </table>
-        </div> --%>
   </body>
 
 </html>
