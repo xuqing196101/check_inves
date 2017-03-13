@@ -519,7 +519,8 @@ public class SupplierItemController extends BaseController {
 		model.addAttribute("serviceQua", serviceQua);
 		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 		model.addAttribute("businessId", supplier.getId());
-		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
+		 String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+		model.addAttribute("typeId", id);
 
 		// 不通过字段的名字
 		SupplierAudit s = new SupplierAudit();
@@ -673,6 +674,7 @@ public class SupplierItemController extends BaseController {
 						    cate.setParentId(data.getId());
 						    cate.setName(data.getName());
 						} else {
+							//供应商中间表的id和资质证书的id
 						    cate.setParentId(c.getId());
 						}
 						categoryList.add(cate);
@@ -765,5 +767,65 @@ public class SupplierItemController extends BaseController {
 		}
 		return categoryList;
 	}
+	
+	
+	
+    /**
+     * 
+    * @Title: validateFile
+    * @Description: 校验资质文件是否上传
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @param supplierTypeIds
+    * @param @return     
+    * @return String     
+    * @throws
+     */
+    @RequestMapping("/isaAtitude")
+    @ResponseBody
+    public String validateFile(String supplierId,String supplierTypeIds){
+		Integer count=0;
+		//查询所有的三级品目生产
+		List < Category > listPro = getSupplier(supplierId, supplierTypeIds);
+		removeSame(listPro);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > list3 = supplierService.queryCategoyrId(listPro, 2);
+
+		//查询所有的三级品目销售
+		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
+		removeSame(listSlae);
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
+
+		//查询所有的三级品目服务
+		List < Category > listService = getServer(supplierId, supplierTypeIds);
+		removeSame(listService);
+		//根据品目id查询所有的服务证书信息
+		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
+		
+		List<QualificationBean> list=new ArrayList<QualificationBean>();
+		list.addAll(list3);
+		list.addAll(saleQua);
+		list.addAll(serviceQua);
+		
+		for(QualificationBean qb:list){
+			List<Qualification> qbs = qb.getList();
+			for(Qualification q:qbs){
+				String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
+				List<UploadFile> files = uploadService.getFilesOther(q.getFlag(), id, "1");
+				if(files!=null&&files.size()>0){
+					count++;
+				}
+			}
+		
+		}
+		Integer size = list.size();
+		if(!count.equals(size)){
+			return "0";
+		}
+    	return "1";
+    }
+    
+    
 
 }
