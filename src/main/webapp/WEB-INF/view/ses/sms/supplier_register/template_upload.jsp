@@ -29,9 +29,7 @@
 								shade: false //不显示遮罩
 							//按钮
 							}, function() {
-								var index = layer.load(1);
 								$("#template_upload_form_id").submit();
-								layer.close(index); 
 							});	
 						}
 					} else {
