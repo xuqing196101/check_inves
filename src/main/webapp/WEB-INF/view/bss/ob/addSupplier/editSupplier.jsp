@@ -138,8 +138,8 @@
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>资质证书：</span>
         <div class="input-append input_group col-sm-12 col-xs-12 p0 " >
-        <u:upload id="post_attach_up" businessId="${supid }" sysKey="2" typeId="46" multiple="true" auto="true" />
-		<u:show showId="post_attach_show" businessId="${supid }" sysKey="2" typeId="46"/>
+        <u:upload id="post_attach_up" businessId="${obSupplier.id }" sysKey="2" typeId="46" multiple="true" auto="true" />
+		<u:show showId="post_attach_show" businessId="${obSupplier.id }" sysKey="2" typeId="46"/>
      	</div>
 	 </li>
 	 
