@@ -59,7 +59,8 @@
         <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
         <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
-        <result column="IS_PUBLISH" property="isPublish" />
+        <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
+
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
