@@ -713,9 +713,13 @@ function importAdd(){
 			   <c:when test="${item.status == 4}">
 			        待复审
 			    </c:when>
-			    <c:when test="${item.status == 4}">
-			        待复审
+			    <c:when test="${item.status == 5}">
+			        复审通过
 			    </c:when>
+			    <c:when test="${item.status == 6}">
+			        复审踢除
+			    </c:when>
+			    
 			    <c:otherwise>
 			   
 			    </c:otherwise>
