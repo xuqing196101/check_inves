@@ -49,10 +49,10 @@
     i.UPDATED_AT as pupdatedAt,i.REMARK as prmark, i.CREATER_ID as pcreaterId  
     from T_BSS_OB_PROJECT p LEFT JOIN T_BSS_OB_PRODUCT_INFO i on p.id=i.PROJECT_ID
       	where  p.CREATER_ID = #{uid} 
-    <if test="name != null">
+    <if test="name != null and  name !=''">
      and p.NAME like '%${name}%'
     </if>
-    <if test="startTime != null">
+    <if test="startTime != null and startTime !=''">
      and p.START_TIME= #{startTime},
     </if>
       	ORDER BY p.CREATED_AT DESC

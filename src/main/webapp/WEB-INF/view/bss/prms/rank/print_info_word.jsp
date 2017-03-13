@@ -58,12 +58,12 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 <body>
 
 <div style="width:85%;margin:auto;">
-    <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
-   		<h2>${pack.name}</h2>
+    <div align="center" style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
+   		<h2>${pack.name}供应商排名</h2>
    	</div>
    	
   	<c:forEach items="${supplierList}" var="extensions" >
-  	<table style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <th colspan="2" width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">专家/供应商</th>
@@ -71,7 +71,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
    		  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
    		          <c:if test="${supplier.packages eq pack.id}">
 	                <th width="180" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
-	   		      ${supplier.suppliers.supplierName}
+	   		      ${supplier.suppliers.supplierName}额父亲为父亲额我父亲
 	   		        </th>
                   </c:if>	   		    		    
    		  </c:forEach>

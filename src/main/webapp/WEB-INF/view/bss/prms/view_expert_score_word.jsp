@@ -59,10 +59,10 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 <body>
 <div style="width:85%;margin:auto;">
     <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
-   		 <h2>${expert.relName }</h2>
+   		 <h2>${expert.relName}评审结果</h2>
    	</div>
   	<c:forEach items="${supplierList}" var="extensions" >
-  	<table style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" >
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" >
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <th width="120" rowspan="2" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">评审项目</th>

@@ -34,6 +34,55 @@ public class OBProjectResult {
 
 	private Integer resultCount;
 
+	private OBSupplier supplier;
+
+	/**
+	 * 供应商自报单价总和
+	 */
+	private Integer countOfferPrice;
+
+	/**
+	 * 金额总计
+	 */
+	private Integer countTotalAmount;
+
+	/**
+	 * 成交数量总和
+	 */
+	private Integer countresultCount;
+
+	public Integer getCountOfferPrice() {
+		return countOfferPrice;
+	}
+
+	public void setCountOfferPrice(Integer countOfferPrice) {
+		this.countOfferPrice = countOfferPrice;
+	}
+
+	public Integer getCountTotalAmount() {
+		return countTotalAmount;
+	}
+
+	public void setCountTotalAmount(Integer countTotalAmount) {
+		this.countTotalAmount = countTotalAmount;
+	}
+
+	public Integer getCountresultCount() {
+		return countresultCount;
+	}
+
+	public void setCountresultCount(Integer countresultCount) {
+		this.countresultCount = countresultCount;
+	}
+
+	public OBSupplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(OBSupplier supplier) {
+		this.supplier = supplier;
+	}
+
 	public Integer getResultCount() {
 		return resultCount;
 	}
