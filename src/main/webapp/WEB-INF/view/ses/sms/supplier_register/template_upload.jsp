@@ -19,11 +19,12 @@
 				url: "${pageContext.request.contextPath}/supplier/isCommit.do",
 				data: {"id" : "${currSupplier.id}"},
 				async: false,
+				dataType:"json",
 				success: function(response){
 					if (response != 1) {
 						$("input[name='jsp']").val(flag);
 						if (flag == "commit") {
-							layer.confirm('您已成功提交,请等待审核结果!', {
+							layer.confirm('您已成功提交,请等待审核结果！'+"联系人姓名是："+response.supplierContact+";"+"联系人手机号是："+response.supplierPhone+"；联系人地址："+response.supplierAddress+"；联系人邮编"+response.supplierPostcode, {
 								btn : [ '确定' ],
 								shade: false //不显示遮罩
 							//按钮

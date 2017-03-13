@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
+import org.apache.maven.model.Organization;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.context.annotation.Scope;
@@ -1137,14 +1138,17 @@ public class SupplierController extends BaseSupplierController {
 	}
 
 	@ResponseBody
-	@RequestMapping("/isCommit")
+	@RequestMapping(value="/isCommit",produces = "text/html;charset=UTF-8")
 	public String isCommit(Model model, Supplier supplier) {
 		boolean bool = validateUpload(model, supplier.getId());
+		Supplier supp = supplierService.selectOne(supplier.getId());
+		  PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supp.getProcurementDepId());
+		String json = JSON.toJSONString(dep);
 		if(bool != true) {
 			// 返回
 			return "1";
 		} else {
-			return "0";
+			return json;
 		}
 	}
 

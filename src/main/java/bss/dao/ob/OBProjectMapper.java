@@ -48,4 +48,9 @@ public interface OBProjectMapper {
 	List<OBProject> selectAllOBproject(Map<String, Object> map);
 
 	List<OBProject> selectData(Map<String, Object> map);
+	/**
+	 * 获取竞价信息 不是暂存 和 结束竞价 
+	 * @author yangHongLiang
+	 */
+	List<OBProject> selectByStatus();
 }

@@ -146,7 +146,6 @@ public class Expert extends ExpertHistory implements Serializable {
     /*省+地区*/
     private String range;
     
-    
     public String getRange() {
         return range;
     }

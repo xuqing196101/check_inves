@@ -61,7 +61,6 @@
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
 
-
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,

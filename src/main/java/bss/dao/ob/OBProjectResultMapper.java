@@ -69,4 +69,15 @@ public interface OBProjectResultMapper {
      * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
      */
 	String selectSupplierStatus(OBProjectResult oBProjectResult);
+    /**
+     * 获取未确认 的供应商数据
+     * @author Yanghongliang
+     * @return list
+     */
+    List<OBProjectResult> selectNotSuppler(String projectID);
+    /**
+     * 获取是否第二轮
+     * 
+     */
+    List<OBProjectResult> selectSecondRound(String projectID);
 }

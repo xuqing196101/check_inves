@@ -61,7 +61,7 @@
 							<div class="login_item col-md-12  col-sm-12 col-xs-12">
 								<label class="col-md-3 col-sm-12 col-xs-12 p0"> <i class="red mr5">*</i>用户名：</label>
 								<div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-							       <input id="login_input_id" type="text" name="loginName" placeholder="由6-20位字母数字和下划线组成" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
+							       <input id="login_input_id" type="text" name="loginName" placeholder="由6-20位字母和数字组成" value="${supplier.loginName}"  class="col-md-12 col-sm-12 col-xs-12">
 								   <span class="cue">${err_msg_loginName }</span> 
 								</div>
 							</div>

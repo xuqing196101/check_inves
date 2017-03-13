@@ -161,7 +161,7 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("expertsFrom", null);
 			map.put("status", null);
 			map.put("expertsTypeId", null);
-			map.put("isPublish", expert.getIsPublish());
+		
 		}
 		return mapper.selectAllExpert(map);
 	}

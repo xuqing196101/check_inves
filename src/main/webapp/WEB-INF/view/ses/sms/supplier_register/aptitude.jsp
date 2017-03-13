@@ -353,7 +353,9 @@
 										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">
 										     	</td>
 										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										      	 <div class="w110 fl">
 										      	  <u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}"/>
+										         </div>
 										      	</td>
 										      </tr>
 										    </c:forEach>
