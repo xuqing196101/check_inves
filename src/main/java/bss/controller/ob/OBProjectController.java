@@ -89,7 +89,7 @@ public class OBProjectController {
     public String addBidding(@CurrentUser User user,Model model, HttpServletRequest request){
     	
     	model.addAttribute("userId",user.getId());
-    	 model.addAttribute("sysKey", Constant.PROJECT_SYS_KEY);
+    	 model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
     	 model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
     	return "bss/ob/biddingInformation/publish";
     }
