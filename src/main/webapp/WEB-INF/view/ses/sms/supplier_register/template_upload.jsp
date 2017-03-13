@@ -137,9 +137,9 @@
 							<input name="status" type="hidden" value="${currSupplier.status}" />
 							<input name="supplierTypeIds" value="${supplierTypeIds }"  type="hidden" /> 
 							
-							<div class="tab-content padding-top-20">
+							<div class="tab-content padding-top-20 w100p fl">
 								<div class="tab-pane fade active in " id="tab-1">
-									<div class="margin-bottom-0  categories">
+									<div class="margin-bottom-0  categories col-md-12 col-sm-12 col-xs-12 p0 over_auto">
 										<div class="headline-v2">
 			  								<h2>上传供应商申请表、承诺书  (将第七步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传)</h2>
 										</div>
@@ -147,13 +147,17 @@
 									   	   <tr>
 									   	     <td class="bggrey" width="15%"><i class="red">*</i>供应商申请表：</td>
 									   	     <td <c:if test="${fn:contains(audit,'supplierRegList')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierRegList')"</c:if>>
-									   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
-											   <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
+									   	     	<div class="w200 fl ">
+									   	      		 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="promise_up"  groups="promise_up,application_up" multiple="true" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" auto="true" /> 
+											   		 <u:show showId="promise_show"  groups="promise_show,application_show"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierRegList}" />
+										        </div>
 										     </td>
 									   	     <td class="bggrey" width="15%" ><i class="red">*</i>供应商承诺书：</td>
 									   	     <td <c:if test="${fn:contains(audit,'supplierPledge')}">style="border: 1px solid red;" onmouseover="errorMsg('supplierPledge')"</c:if>>
-									   	       <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
-											   <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+									   	       <div class="w200 fl">
+									   	      		 <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="application_up" groups="promise_up,application_up" multiple="true"  businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" auto="true" /> 
+											  		 <u:show showId="application_show" groups="promise_show,application_show" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierPledge}" />
+									   	       </div>
 									   	     </td>
 									   	   </tr>
 										 </table>

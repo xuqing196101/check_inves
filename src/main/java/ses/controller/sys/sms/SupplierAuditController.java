@@ -303,10 +303,13 @@ public class SupplierAuditController extends BaseSupplierController {
 		
 		//在数据字典里查询企业性质
 		List < DictionaryData > businessList = DictionaryDataUtil.find(32);
-		for(int i = 0; i < businessList.size(); i++) {
-			if(supplier.getBusinessNature().equals(businessList.get(i).getId())) {
-				String businessNature = list.get(i).getName();
-				supplier.setBusinessNature(businessNature);
+		String businessNature = supplier.getBusinessNature();
+		if(businessNature !=null){
+			for(int i = 0; i < businessList.size(); i++) {
+				if(businessNature.equals(businessList.get(i).getId())) {
+					String business = list.get(i).getName();
+					supplier.setBusinessNature(business);
+				}
 			}
 		}
 		request.setAttribute("suppliers", supplier);
@@ -2765,7 +2768,7 @@ public class SupplierAuditController extends BaseSupplierController {
 	 * @date 2017-3-8 下午4:06:06  
 	 * @Description:发布到门户名录上
 	 * @param @param supplierId      
-	 * @return void
+	 * @return String
 	 */
 	@RequestMapping(value = "/publish", produces = "text/html;charset=UTF-8")
 	@ResponseBody

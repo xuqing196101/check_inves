@@ -5,12 +5,14 @@
 <head>  
 <%@ include file="/WEB-INF/view/common.jsp" %> 
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
+<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
+<script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
  <title>产品目录管理</title>   
 <script type="text/javascript">
 	var treeid = null , nodeName=null, level = null, typesObj = null;
 	var datas;
 	 $(document).ready(function(){  
-          $.fn.zTree.init($("#ztree"),setting,datas);
+		 ztreeInit();
 	      var treeObj = $.fn.zTree.getZTreeObj("ztree");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
 	      for(var i=0 ;i<nodes.length;i++){
@@ -21,39 +23,41 @@
 	    //初始化类型
 		typesObj = initTypes();
 	 }); 
-	 var setting={
-		   async:{
-					autoParam:["id"],
-					enable:true,
-					url:"${pageContext.request.contextPath}/category/createtree.do",
-					otherParam:{"otherParam":"zTreeAsyncTest"},  
-					dataType:"json",
-					datafilter:filter,
-					type:"get",
-				},
-				callback:{
-			    	onClick: zTreeOnClick,//点击节点触发的事件
-       			    
-			    }, 
-				data:{
-					keep:{
-						parent:true
-					},
-					key:{
-						title:"title"
-					},
-					simpleData:{
-						enable:true,
-						idKey:"id",
-						pIdKey:"pId",
-						rootPId:"0",
-					}
-			    },
-			   view:{
-			        selectedMulti: false,
-			        showTitle: false,
-			   },
-         };
+	 function ztreeInit(){
+		 var setting={
+				   async:{
+							autoParam:["id"],
+							enable:true,
+							url:"${pageContext.request.contextPath}/category/createtree.do",
+							otherParam:{"otherParam":"zTreeAsyncTest"},  
+							dataType:"json",
+							datafilter:filter,
+							type:"get",
+						},
+						callback:{
+					    	onClick: zTreeOnClick,//点击节点触发的事件
+					    }, 
+						data:{
+							keep:{
+								parent:true
+							},
+							key:{
+								title:"title"
+							},
+							simpleData:{
+								enable:true,
+								idKey:"id",
+								pIdKey:"pId",
+								rootPId:"0",
+							}
+					    },
+					   view:{
+					        selectedMulti: false,
+					        showTitle: false,
+					   },
+		         };
+		 $.fn.zTree.init($("#ztree"),setting,datas);
+	 }
 	
 	 
 	 function filter(treeId,parentNode,childNode){
@@ -94,7 +98,7 @@
 				/* $("#engLevelTrId").addClass("dis_none"); */
 			}
 	    	nodeName = node.name;
-    		update(treeNode);
+	    	onClickTree(treeNode);
     		selectedNode = treeNode;
     	} else {
     		level = 1;
@@ -103,7 +107,73 @@
     	}
     }
 
-    
+    function onClickTree(nodes){
+    	$("#results").css("display","");
+    	$("#result").css("display","none");
+    	hideQua();
+ 	    if (treeid==null){
+ 			layer.msg("请选择一个节点");
+		}else{
+		var node = getCurrentRoot(nodes);
+		  $.ajax({
+			url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
+			dataType:"json",
+			type:"POST",
+			success:function(cate){
+					$("#parentNameIds").html(nodeName);
+					$("#cateNameIds").html(cate.name);
+					$("#descriptions").html(cate.description);
+					$("#codes").html(cate.code);
+					$("#fileIds_downBsId").val(cate.id);
+					showInit();
+					if (node.classify && node.classify == "PROJECT" && level == 3){
+						showQuas(cate, node.classify);
+					}
+					if (node.classify && node.classify == "GOODS"){
+						showQuas(cate, node.classify);
+					}
+					if (node.classify && node.classify == "SERVICE"){
+						showQuas(cate, node.classify);
+					}
+					if (node.classify && node.classify == "GOODS"){
+						$("#typeTrIds").show();
+						if(cate.classify=="3"){
+							$("#typeIds").html("物资生产，物资销售");
+						}else if(cate.classify=="2"){
+							$("#typeIds").html("物资销售");
+						}else if(cate.classify=="1"){
+							$("#typeIds").html("物资生产");
+						}
+					} else {
+						$("#typeTrIds").hide();
+					}
+					if(cate.isPublish=="1"){
+						$("#openIds").html("不公开");
+					}else if(cate.isPublish=="0"){
+						$("#openIds").html("公开");
+					}
+		      }
+            });
+        }
+    }
+    function showQuas(cate, type){
+   	 $("#generaQuaTrs").show();
+   	 $("#profileQuaTrs").show();
+   	 if (type == "GOODS") {
+   		 $("#profileQuaTr_saless").show();
+   		 var tdArr = $("#profileQuaTrs").children();
+   		 tdArr.eq(0).html("物资生产型专业资质要求");
+   	 } else {
+   		 $("#profileQuaTr_saless").hide();
+   	     var tdArr = $("#profileQuaTrs").children();
+   		 tdArr.eq(0).html("专业资质要求");
+   	 }
+   	 if (cate != null && cate !="" && cate !="undefined" && cate !="null"){
+   		 $("#generalIQuaNames").html(cate.generalQuaNames);
+   		 $("#profileIQuaNames").html(cate.profileQuaNames);
+   		 $("#profileSalesNames").html(cate.profileSalesQuaNames);
+   	 }
+    }
     /** 判断是否为根节点 */
     function isRoot(node){
     	if (node.pId == 0){
@@ -115,7 +185,10 @@
     
     /**新增 */
     function add(){
+    	$("#results").css("display","none");
+    	$("#result").css("display","");
     	hideQua();
+    	$("#parentNameId").attr("readonly","readonly");
 		if (treeid==null) {
 			layer.msg("请选择一个节点");
 			return;		
@@ -196,7 +269,10 @@
 
 	/**修改节点信息*/
     function update(nodes){
+    	$("#results").css("display","none");
+    	$("#result").css("display","");
     	hideQua();
+    	$("#parentNameId").attr("readonly",false);
  	    if (treeid==null){
  			layer.msg("请选择一个节点");
 		}else{
@@ -297,10 +373,11 @@
     	$("#cateTipsId").text("");
     	$("#posTipsId").text("");
     	$("#descTipsId").text("");
+    	$("#parentNIds").text("");
     	/* $("#levelTipsId").text(""); */
     	/* $("#engLevelTipsId").text(""); */
     }
-   
+ 
     /** 保存后的提示 */
     function result(msg,operaValue){
     	resetTips();
@@ -324,6 +401,9 @@
     		if (msg.lenTxt != null && msg.lenTxt !=""){
     			$("#descTipsId").text(msg.lenTxt);
     		}
+    		if(msg.filePath != null && msg.filePath !=""){
+    			$("#parentNIds").text(msg.filePath);
+    		}
     	}
    }
    
@@ -338,7 +418,7 @@
 	   zTree.reAsyncChildNodes(nodes[0], type, silent); 
 	   zTree.expandNode(nodes[0], true, false);
    }
-    
+   
     /** 刷新父级节点 */
    function refreshParentNode() {
 	   var zTree = $.fn.zTree.getZTreeObj("ztree"),
@@ -346,9 +426,10 @@
 	   silent = false,  
 	   nodes = zTree.getSelectedNodes();  
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
-	   zTree.reAsyncChildNodes(zTree.getNodeByTId(parentNode.parentTId), type, silent); 
-	   /* zTree.selectNode(nodes[0],true);
-	   zTree.expandNode(parentNode, true, false); */
+
+	   zTree.reAsyncChildNodes(parentNode, type,silent); 
+	   zTree.selectNode(nodes[0],true);
+	   zTree.expandNode(parentNode, true, false);
 		  
 	   
 	   
@@ -647,6 +728,77 @@
 	  tips: 3
 	});
  }
+ function searchM() {
+	 
+	 var param = $("#param").val();
+	 var isCreate=$("#isCreate").val();
+	 var code=$("#code").val();
+	 if((param!=null&&param!="")||(isCreate!=null&&isCreate!="")||(code!=null&&code!="")){
+		 
+		 var zNodes;
+			var zTreeObj;
+			var setting = {
+					async:{
+						autoParam:["id"],
+						enable:true,
+						url: "${pageContext.request.contextPath}/category/createtree.do"
+					},
+				data : {
+					simpleData : {
+						enable : true,
+						idKey: "id",
+						pIdKey: "parentId",
+					}
+				},
+				callback: {
+					onClick: zTreeOnClick
+				},view: {
+					showLine: true
+				}
+			};
+			// 加载中的菊花图标
+			 var loading = layer.load(1);
+			
+				$.ajax({
+					url: "${pageContext.request.contextPath}/category/createtree.do",
+					data: { "param" : encodeURI(param),"code":code,"isCreate":isCreate},
+					async: false,
+					dataType: "json",
+					success: function(data){
+						if (data.length == 1) {
+							layer.msg("没有符合查询条件的产品类别信息！");
+						} else {
+							zNodes = data;
+							zTreeObj = $.fn.zTree.init($("#ztree"), setting, zNodes);
+							zTreeObj.expandAll(true);//全部展开
+						}
+						// 关闭加载中的菊花图标
+						
+						layer.close(loading);
+						
+					}
+				});
+	 }else{
+		 ztreeInit();
+		
+	 }
+	 
+		
+
+	 
+	 
+	}
+
+ /* function zTreeOnNodeCreated(event, treeId, treeNode) {
+	   var param = $.trim($("input[name='param']").val());
+	   var treeObj = $.fn.zTree.getZTreeObj("ztree");
+	   var node = treeNode.getSelectedNodes();
+	   //只有搜索参数不为空且该节点为父节点时才进行异步加载
+	   if(param != "" && treeNode.isParent){
+	     treeObj.reAsyncChildNodes(node, "refresh");
+	   } 
+	 }; */
+  
 </script>
 
 </head>
@@ -671,9 +823,28 @@
 	   </div>
      </div>
      <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
+      <form action="">
+     <ul class="demand_list">
+          <li class="fl pl5"><label class="fl">目录名称：</label><span><input type="text" id="param" name="param"/></span></li>
+	      <li class="fl pl5"><label class="fl">目录编号：</label><span><input type="text" id="code" name="code"/></span></li>
+	      <li class="fl pl5"><label class="fl">是否公开：</label><span>
+	      	<select id="isCreate" name="isCreate" class="mb0 mt5 w170">
+	      		<option value="">--请选择--</option>
+	      		<option value="0">公开</option>
+	      		<option value="1">不公开</option>
+	      	</select>
+	      </span></li>	
+    	</ul>
+	      <div class="col-md-12 col-sm-12 col-xs-15 tc mt5">
+	    	<button type="button" onclick="searchM();" class="btn">查询</button>
+	    	<button type="reset" onclick="reset()" class="btn">重置</button>
+	      </div>  
+    	  <div class="clear"></div>
+    	  </form>
    	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
    	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
    	   <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
+   	   
        <div id="tableDivId"   class="content dis_none" >   
          <input id="operaFlag" type="hidden" name="operaName"  />
          <form id="fm">
@@ -686,13 +857,13 @@
             <table id="result"  class="table table-bordered table-condensedb" >
            	  <tbody>
            	 	<tr>
-       			  <td class='info'>上级目录</td>
+       			  <td class='info'>上级目录<span class="red">*</span></td>
        			  <td id="parentNId">
        			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
        		    	  <input  id="parentNameId" type="text" name="parentNameId"/>
        		    	  <span class="add-on">i</span>
        		    	</div>
-       		    	  <span id="parentNameId" class="red clear span_style" />
+       		    	  <span id="parentNIds" class="red clear span_style" />
        			  </td>
            		</tr>
            		<tr>
@@ -806,11 +977,120 @@
            	    </tr>
            	   </tbody>
             </table>
+            <table id="results"  class="table table-bordered table-condensedb" >
+           	  <tbody>
+           	 	<tr>
+       			  <td class='info w250'>上级目录</td>
+       			  <td id="parentNId">
+       			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="parentNameIds" >
+       		    	  
+       		    	  
+       		    	</div>
+       		    	  
+       			  </td>
+           		</tr>
+           		<tr>
+           		  <td class='info'>品目名称</td>
+           		  <td id="cateTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameIds" >
+       		    	 </div>
+           		  </td>
+           		</tr>
+           		<tr>
+       			  <td class='info'>编码</td>
+       			  <td id="posTdId">
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="codes">
+       				 </div>
+       		      </td>
+           	    </tr>
+           	    <tr id="generaQuaTrs" class="dnone">
+       			  <td class='info'>通用资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0"  id="generalIQuaNames">
+       				 
+       				</div>
+       				 
+       		      </td>
+           	    </tr>
+           	    <tr id="typeTrIds">
+       			  <td class='info'>类型</td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id="typeIds" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTrs" class="dnone">
+       			  <td class='info'>专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="profileIQuaNames">
+       				 
+       				</div>
+       				 
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTr_saless" class="dnone"> 
+       			  <td class='info'>物资销售型专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="profileSalesNames">
+       				 
+       				</div>
+       				  
+       		      </td>
+           	    </tr>
+           	    <tr>
+       			  <td class='info'>是否公开</td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id="openIds" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <!-- <tr class="dis_none" id="levelTrId">
+           		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
+           		  <td id="levelTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="level" >
+       		    	  <input id="levelId" type="text" name='level' maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+       		    	  <span class="add-on">i</span>
+       		    	</div>
+       		    	  <span id="levelTipsId" class="red clear span_style" />
+           		  </td>
+           		</tr> -->
+           	    <%-- <tr class="dis_none" id="engLevelTrId">
+           		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
+           		  <td id="engLevelTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="engLevel" >
+       		    	  <input id="engLevelId" type="hidden" name='engLevel'/>
+       		    	  <select multiple="multiple" id="engLevelSelect">
+       		    	  	<c:forEach items="${levelList}" var="level">
+       		    	  	  <option value="${level.id}">${level.name}</option>
+       		    	  	</c:forEach>
+       		    	  </select>
+       		    	</div>
+       		    	<span id="engLevelTipsId" class="red clear span_style" />
+           		  </td>
+           		</tr> --%>
+           	    <tr>
+       	    	  <td class='info'>图片</td>
+       	    	  <td>
+       	    		
+       	    		<div id="showFileIds" class="picShow">
+       	    		  <u:show showId="fileIds" businessId="${id}" delete="false" sysKey="2"/>
+       	    		</div>
+       	    	  </td>
+           	    </tr>
+           	    <tr>
+       	          <td class='info'>描述</td>
+       	          <td  id='descriptions'>
+       	        	
+       	          </td>
+           	    </tr>
+           	   </tbody>
+            </table>
             <div id="btnIds" class="dnone textc">
               <button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
             </div>
            </form> 
          </div>
+         
       </div>
 	</div>
 </body>

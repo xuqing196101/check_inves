@@ -108,4 +108,17 @@ public interface SupplierItemService {
 	* @throws
 	 */
 	public void deleteBySupplierId(String supplierId);
+	
+	/**
+	 * 
+	* @Title: queryBySupplierAndType
+	* @Description: 根据供应商ID和类型查询是否存在
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @param type
+	* @param @return     
+	* @return List<SupplierItem>     
+	* @throws
+	 */
+	public List<SupplierItem> queryBySupplierAndType(String supplierId,String type);
 }

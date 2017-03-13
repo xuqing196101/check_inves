@@ -125,7 +125,7 @@
 		resultType="java.lang.String">
 		select wm_concat(t1.name) from(
 		SELECT T2."NAME",T1.SUPPLIER_ID FROM
-		"JDCG"."T_SES_SMS_SUPPLIER_TYPE_RELATE" t1
+		"T_SES_SMS_SUPPLIER_TYPE_RELATE" t1
 		LEFT JOIN
 		T_SES_SMS_SUPPLIER_TYPE_RELATE T3 ON T1.ID = T3.SUPPLIER_ID
 		LEFT JOIN
@@ -171,7 +171,7 @@
 	<select id="selectByProjectId" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
 		SELECT T2.* FROM ( SELECT SUPPLIER_ID FROM
-		"JDCG"."T_BSS_PPMS_SALE_TENDER"
+		"T_BSS_PPMS_SALE_TENDER"
 		where PROJECT_ID =#{projectId} GROUP BY
 		SUPPLIER_ID) T1 LEFT JOIN
 		T_SES_SMS_SUPPLIER
@@ -1285,7 +1285,12 @@
 		<if test="scoreEnd != null and scoreEnd != ''">
 			and SCORE &lt; #{scoreEnd}
 		</if>
-		ORDER BY FOUND_DATE DESC
+		<if test="judge == null and judge != 5">
+			ORDER BY CREATED_AT DESC NULLS LAST
+		</if>
+		<if test="judge != null and judge == 5">
+			ORDER BY AUDIT_DATE DESC NULLS LAST
+		</if>
 	</select>
 
 
@@ -1407,12 +1412,12 @@
 		select id,wm_concat(DISTINCT(typeId)) as typeId from (
 		SELECT
 		T1.*,t2.CATEGORY_ID as categoryId ,t3.SUPPLIER_TYPE_ID as typeId FROM
-		"JDCG"."T_SES_SMS_SUPPLIER" t1
+		"T_SES_SMS_SUPPLIER" t1
 		left join T_SES_SMS_SUPPLIER_TYPE_RELATE
 		t3 on t1. ID = t3.SUPPLIER_ID
 		LEFT JOIN (
 		SELECT T1. ID, CATEGORY_ID
-		FROM "JDCG"."T_SES_SMS_SUPPLIER" t1
+		FROM "T_SES_SMS_SUPPLIER" t1
 		RIGHT JOIN T_SES_SMS_SUPPLIER_ITEM
 		t2 ON T1. ID = T2.SUPPLIER_ID
 		) t2 ON t1.id =t2.id

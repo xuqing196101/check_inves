@@ -21,6 +21,7 @@ import ses.dao.sms.SupplierReasonMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierTypeRelateService;
@@ -146,6 +147,17 @@ public class SupplierTypeRelateServiceImpl implements SupplierTypeRelateService 
 			supplierTypeIds += code + ",";
 		}
 		return supplierTypeIds;
+	}
+
+	@Override
+	public void delete(String supplierId, String supplierType) {
+		SupplierMatSell matSell = supplierMatSellMapper.selectByPrimaryKey(supplierId);
+		if(matSell!=null){
+			supplierCertSellMapper.deleteByPrimaryKey(matSell.getId());
+			supplierMatSellMapper.deleteByPrimaryKey(supplierId);
+		}
+		supplierTypeRelateMapper.deleteSupplierType(supplierId, supplierType);
+		
 	}
 
 }

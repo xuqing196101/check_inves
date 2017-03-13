@@ -311,16 +311,16 @@
 														<c:set value="${prolength+1}" var="prolength"></c:set>
 														<span class="hand" onclick="reason('${quaPro.flag}','${obj.categoryName }','生产-${quaPro.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${quaPro.name}：</span>
 													  <u:show showId="pShow${prolength}" groups="${saleShow}" delete="false" businessId="${quaPro.flag}" sysKey="${sysKey }" typeId="${typeId}" />
-														<p id="${quaPro.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+														<p id="${quaPro.flag}" ><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 														
 														<c:if test="${fn:contains(passedField,quaPro.flag)}">
-															<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
+															<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</c:forEach>
 												<%-- <td class="tc w100">
 													<a onclick="reason('物资生产品目信息','${obj.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
-													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+													<p id="${vs.index + 1}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 												</td> --%>
 											</tr>
 										</c:forEach>
@@ -350,16 +350,16 @@
 														<c:set value="${length+1}" var="length"></c:set>
 														<span class="hand" onclick="reason('${saua.flag}','${sale.categoryName }','销售-${saua.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${saua.name}：</span>
 														<u:show showId="saleShow${length}" groups="${saleShow}" delete="false" businessId="${saua.flag}" sysKey="${sysKey }" typeId="${typeId}" />							
-														<p id="${saua.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+														<p id="${saua.flag}" ><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 													
 														<c:if test="${fn:contains(passedField,saua.flag)}">
-															<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
+															<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</c:forEach>
 												<%-- <td class="tc w100">
 													<a onclick="reason('物资销售品目信息','${sale.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
-													<p id="${vs.index + 1}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+													<p id="${vs.index + 1}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 												</td> --%>
 											</tr>
 										</c:forEach>
@@ -400,11 +400,11 @@
 								      	<td>${cate.level.name}</td>
 								      	<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false"/></td>
 								      	<td class="tc w50">
-													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></a>
-													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
+													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 													
 													<c:if test="${fn:contains(passedField,cate.itemsId)}">
-														<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
+														<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 													</c:if>
 											 	</td>
 								      </tr>
@@ -424,7 +424,7 @@
 																<u:show showId="projectShow${plength}" delete="false" groups="${saleShow}" businessId="${pr.flag}" sysKey="${sysKey }" typeId="${typeId}" />
 															</a>
 															
-															<p id="${pr.flag}" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+															<p id="${pr.flag}" ><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 														</td>
 													</c:forEach>
 											</tr>
@@ -456,17 +456,17 @@
 															<c:set value="${slength+1}" var="slength"></c:set>
 															<span class="hand" onclick="reason('${ser.flag}','${server.categoryName }','服务-${ser.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">${ser.name}：</span>
 															<u:show showId="serverShow${plength}" delete="false" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey }" typeId="${typeId}" />
-															<p id="${ser.flag}"><img src='/zhbj/public/backend/images/sc.png'></p>
+															<p id="${ser.flag}"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 															
 															<c:if test="${fn:contains(passedField,ser.flag)}">
-																<img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'>
+																<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 															</c:if>
 														</td>
 													</c:forEach>
 												
 												<%-- <td class="tc w100">
 													<a onclick="reason('服务品目信息','${ser.categoryName }','${vs.index + 1}');" id="${vs.index + 1}_hidden" class="btn">审核</a>
-													<p id="${saua.id}_销售" ><img style="padding-left: 20px;" src='/zhbj/public/backend/images/sc.png'></p>
+													<p id="${saua.id}_销售" ><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 												</td> --%>
 											</tr>
 										</c:forEach>

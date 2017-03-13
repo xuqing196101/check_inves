@@ -126,15 +126,22 @@
       }
       
      function provisional(packId,index) {
+         var kindName = $("#kindName").val();
     	   var projectId = $("#projectId").val();
     	   var ide = $("input[name = 'chkItem']").val();
     	   ide = $.trim(ide);
-    	   if(ide){
-    	     layer.msg("只能添加一个");
+    	   if(kindName == "DYLY"){
+    	     if(ide){
+             layer.msg("只能添加一个");
+           }else{
+	           var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
+	           $("#tab-1").load(path);
+           }
     	   }else{
     	     var path = "${pageContext.request.contextPath }/SupplierExtracts/showTemporarySupplier.html?packageId=" + packId + "&&projectId=" + projectId + "&flowDefineId=${flowDefineId}&ix="+index;
            $("#tab-1").load(path);
     	   }
+    	   
      }
      
      /**删除供应商*/

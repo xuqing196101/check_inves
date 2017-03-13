@@ -5,7 +5,7 @@ import java.math.BigDecimal;
 public class BidMethod {
 	private String id ;//
 	private String name ;//
-	private String typeName ;//
+	private String typeName ;//0:基准价 3：最低价 2：综合评分法
 	private String maxScore ;//
 	private String remainScore ;//
 	private String floatingRatio ;//下浮比例

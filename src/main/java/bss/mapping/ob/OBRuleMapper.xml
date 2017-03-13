@@ -98,6 +98,14 @@
     from T_BSS_OB_RULE
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+  <!-- 获取 默认数据 -->
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_RULE
+    where STATUS = 1
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_RULE
     where ID = #{id,jdbcType=VARCHAR}
@@ -261,6 +269,14 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
+  
+  <!-- 根据 id 自增加1 -->
+  <update id="updateCount" parameterType="java.lang.String">
+     update T_BSS_OB_RULE
+    set BIDING_COUNT = NVL(BIDING_COUNT,0)+1
+    where ID= #{id,jdbcType=VARCHAR}
+  </update>
+  
   <update id="updateByExample" parameterType="map" >
     update T_BSS_OB_RULE
     set ID = #{record.id,jdbcType=VARCHAR},

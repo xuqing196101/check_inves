@@ -30,6 +30,7 @@ import ses.model.oms.Orgnization;
 import bss.model.ob.OBProduct;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.service.ob.OBProjectServer;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.impl.CollectPlanServiceImpl;
@@ -48,6 +49,9 @@ public class ExcelUtil {
   
   @Autowired
   private PurchaseRequiredService  purchaseRequiredService;
+  /**定型产品**/
+  @Autowired
+  private  OBProjectServer OBProjectServer;
   
   private static ExcelUtil excelUtil;
   
@@ -55,11 +59,15 @@ public class ExcelUtil {
   public void setDdService(PurchaseRequiredService purchaseRequiredService){
       this.purchaseRequiredService = purchaseRequiredService;
   }
+  public void setObProjectServer(OBProjectServer OBProjectServer){
+	  this.OBProjectServer=OBProjectServer;
+  }
   
   @PostConstruct 
   public void init(){
 	  excelUtil = this;
 	  excelUtil.purchaseRequiredService = this.purchaseRequiredService;
+	  excelUtil.OBProjectServer = this.OBProjectServer;
   }
   
   
@@ -789,8 +797,39 @@ public class ExcelUtil {
 			        					 bool=false;
 				        				 break;
 			        				}
-			        				obp.setCode(cell.getRichStringCellValue().toString());//产品名称
-			        				 continue;
+			        				List<OBProduct> lists=excelUtil.OBProjectServer.productList();
+			        				if(lists==null){
+			        					errMsg=String.valueOf(row.getRowNum()+1)+"行A列错,请维护定型产品!";
+			        					 map.put("errMsg", errMsg);
+			        					 bool=false;
+				        				 break;
+			        				}else{
+			        					String product=cell.getRichStringCellValue().toString();
+			        					boolean boo=false;
+			        					int listsize=0;
+			        					String id="";
+			        					for(OBProduct ob:lists){
+			        						if(ob.getName().equals(product)){
+			        							boo=true;
+			        							/* 错误  注释
+			        							 * listsize=ob.getObSupplierList().size();
+			        							id=ob.getId();*/
+			        							break;
+			        						}
+			        					}
+			        					if(boo==true){
+			        						obp.setId(id);//产品id
+			        						obp.setCode(product);//产品名称
+			        						obp.setName(listsize+"");//供应商数量
+					        				 continue;
+			        					}else{
+			        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错,定型产品不存在!";
+				        					 map.put("errMsg", errMsg);
+				        					 bool=false;
+					        				 break;
+			        					}
+			        					
+			        				}
 			        			} 
 	        			 }
 	        			 if(cell.getColumnIndex()==1){
@@ -833,11 +872,7 @@ public class ExcelUtil {
 	        		list.add(obp);
 	        		}
 	        	}
-	        	for(OBProduct b:list){
-	        		System.out.println(b.getCode()+" id "+
-	        	b.getIsDeleted()+"  d "+b.getStandardModel()+" d "+ b.getRemark());
-	        }
-	        map.put("list", list);
+	         map.put("list", list);
 		return map;
 	}
 	

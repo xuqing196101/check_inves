@@ -4,143 +4,202 @@ import java.math.BigDecimal;
 import java.util.Date;
 
 public class OBProjectResult {
-    private String id;
+	private String id;
 
-    private String productId;
+	private String productId;
 
-    private String projectId;
+	private String projectId;
 
-    private String supplierId;
+	private String supplierId;
 
-    private String ranking;
+	private Integer ranking;
 
-    private String proportion;
+	private String proportion;
 
-    private BigDecimal offerPrice;
+	private BigDecimal offerPrice;
 
-    private BigDecimal totalAmount;
+	private BigDecimal totalAmount;
 
-    private Date createTime;
+	private Date createTime;
 
-    private Integer status;
+	private Integer status;
 
-    private String createrId;
+	private String createrId;
 
-    private String remark;
+	private String remark;
 
-    private Date createdAt;
+	private Date createdAt;
 
-    private Date updatedAt;
+	private Date updatedAt;
 
-    public String getId() {
-        return id;
-    }
+	private Integer resultCount;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	private OBSupplier supplier;
 
-    public String getProductId() {
-        return productId;
-    }
+	/**
+	 * 供应商自报单价总和
+	 */
+	private Integer countOfferPrice;
 
-    public void setProductId(String productId) {
-        this.productId = productId == null ? null : productId.trim();
-    }
+	/**
+	 * 金额总计
+	 */
+	private Integer countTotalAmount;
 
-    public String getProjectId() {
-        return projectId;
-    }
+	/**
+	 * 成交数量总和
+	 */
+	private Integer countresultCount;
 
-    public void setProjectId(String projectId) {
-        this.projectId = projectId == null ? null : projectId.trim();
-    }
+	public Integer getCountOfferPrice() {
+		return countOfferPrice;
+	}
 
-    public String getSupplierId() {
-        return supplierId;
-    }
+	public void setCountOfferPrice(Integer countOfferPrice) {
+		this.countOfferPrice = countOfferPrice;
+	}
 
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId == null ? null : supplierId.trim();
-    }
+	public Integer getCountTotalAmount() {
+		return countTotalAmount;
+	}
 
-    public String getRanking() {
-        return ranking;
-    }
+	public void setCountTotalAmount(Integer countTotalAmount) {
+		this.countTotalAmount = countTotalAmount;
+	}
 
-    public void setRanking(String ranking) {
-        this.ranking = ranking == null ? null : ranking.trim();
-    }
+	public Integer getCountresultCount() {
+		return countresultCount;
+	}
 
-    public String getProportion() {
-        return proportion;
-    }
+	public void setCountresultCount(Integer countresultCount) {
+		this.countresultCount = countresultCount;
+	}
 
-    public void setProportion(String proportion) {
-        this.proportion = proportion == null ? null : proportion.trim();
-    }
+	public OBSupplier getSupplier() {
+		return supplier;
+	}
 
-    public BigDecimal getOfferPrice() {
-        return offerPrice;
-    }
+	public void setSupplier(OBSupplier supplier) {
+		this.supplier = supplier;
+	}
 
-    public void setOfferPrice(BigDecimal offerPrice) {
-        this.offerPrice = offerPrice;
-    }
+	public Integer getResultCount() {
+		return resultCount;
+	}
 
-    public BigDecimal getTotalAmount() {
-        return totalAmount;
-    }
+	public void setResultCount(Integer resultCount) {
+		this.resultCount = resultCount;
+	}
 
-    public void setTotalAmount(BigDecimal totalAmount) {
-        this.totalAmount = totalAmount;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public Date getCreateTime() {
-        return createTime;
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public void setCreateTime(Date createTime) {
-        this.createTime = createTime;
-    }
+	public String getProductId() {
+		return productId;
+	}
 
-    public Integer getStatus() {
-        return status;
-    }
+	public void setProductId(String productId) {
+		this.productId = productId == null ? null : productId.trim();
+	}
 
-    public void setStatus(Integer status) {
-        this.status = status;
-    }
+	public String getProjectId() {
+		return projectId;
+	}
 
-    public String getCreaterId() {
-        return createrId;
-    }
+	public void setProjectId(String projectId) {
+		this.projectId = projectId == null ? null : projectId.trim();
+	}
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
-    }
+	public String getSupplierId() {
+		return supplierId;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId == null ? null : supplierId.trim();
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public Integer getRanking() {
+		return ranking;
+	}
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public void setRanking(Integer ranking) {
+		this.ranking = ranking;
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public String getProportion() {
+		return proportion;
+	}
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public void setProportion(String proportion) {
+		this.proportion = proportion == null ? null : proportion.trim();
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public BigDecimal getOfferPrice() {
+		return offerPrice;
+	}
+
+	public void setOfferPrice(BigDecimal offerPrice) {
+		this.offerPrice = offerPrice;
+	}
+
+	public BigDecimal getTotalAmount() {
+		return totalAmount;
+	}
+
+	public void setTotalAmount(BigDecimal totalAmount) {
+		this.totalAmount = totalAmount;
+	}
+
+	public Date getCreateTime() {
+		return createTime;
+	}
+
+	public void setCreateTime(Date createTime) {
+		this.createTime = createTime;
+	}
+
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
+
+	public String getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId == null ? null : createrId.trim();
+	}
+
+	public String getRemark() {
+		return remark;
+	}
+
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
+
+	public Date getCreatedAt() {
+		return createdAt;
+	}
+
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
 }

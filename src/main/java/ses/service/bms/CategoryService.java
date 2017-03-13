@@ -317,5 +317,8 @@ import ses.model.sms.SupplierTypeTree;
     public List<Category> findCategoryByName(HashMap<String, Object> map);
     public List<Category> findCategoryByNameOrClassify(HashMap<String, Object> map);
     
+    public List<Category> findTreeByPidAndName(HashMap<String, Object> map);
+    public List<Category> readNameAndPid(HashMap<String, Object> map);
+    public List<Category> searchByNameAndCode(String name,String code,Integer ispublish);
     
 }

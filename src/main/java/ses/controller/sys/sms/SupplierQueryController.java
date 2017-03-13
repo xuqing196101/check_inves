@@ -1,5 +1,6 @@
 package ses.controller.sys.sms;
 
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLDecoder;
@@ -32,13 +33,14 @@ import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierBranch;
+import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierCertServe;
+import ses.model.sms.SupplierDictionaryData;
 import ses.model.sms.SupplierEdit;
 import ses.model.sms.SupplierFinance;
-import ses.model.sms.SupplierHistory;
 import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
@@ -47,18 +49,22 @@ import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
+import ses.model.sms.SupplierTypeTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.bms.QualificationService;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
+import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierEditService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
 import ses.service.sms.SupplierLevelService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
+import ses.service.sms.SupplierTypeService;
 import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -67,6 +73,8 @@ import bss.formbean.Maps;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 /**
  * 版权：(C) 版权所有 
  * <简述>
@@ -148,6 +156,19 @@ public class SupplierQueryController extends BaseSupplierController {
 	@Autowired
 	private SupplierHistoryService supplierHistoryService;
 	
+	@Autowired
+	private UploadService uploadService;
+	
+	@Autowired
+	private SupplierCertEngService supplierCertEngService;
+	/**
+	 * 资质类型
+	 */
+	@Autowired
+	private QualificationService qualificationService; 
+	
+	@Autowired
+	private SupplierTypeService supplierTypeService;// 供应商类型
     /**
      *〈简述〉供应商查询
      *〈详细描述〉按照各种条件来查询供应商信息
@@ -235,8 +256,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @throws UnsupportedEncodingException 异常处理
      */
     @RequestMapping("/findSupplierByPriovince")
-    public String findSupplierByPriovince(Integer judge, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType
-                                          , String categoryNames, String categoryIds) throws UnsupportedEncodingException{
+    public String findSupplierByPriovince(Integer judge, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds) throws UnsupportedEncodingException{
         /*if (judge != null) {
             sup.setStatus(judge);
         }*/
@@ -270,15 +290,12 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierType", supplierType);
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
+        model.addAttribute("judge", judge);
         //等于5说明是入库供应商
         if (judge != null && judge == NUMBER_FIVE) {
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {
-            if (sup.getStatus() != null && sup.getStatus() == NUMBER_FIVE) {// && sup.getCount() != 0
-                return "ses/sms/supplier_query/select_ruku_supplier_by_province";
-            } else {
-                return "ses/sms/supplier_query/select_supplier_by_province";
-            }
+        	return "ses/sms/supplier_query/select_supplier_by_province";
         }
     }
 
@@ -293,7 +310,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/selectByCategory")
-    public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model) {
+    public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model, Integer judge) {
         if (categoryIds != null && !"".equals(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
@@ -328,8 +345,8 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/essential")
-    public String essentialInformation(HttpServletRequest request, Integer isRuku, Supplier supplier, String supplierId, Integer person, Model model) {
-        User user = (User) request.getSession().getAttribute("loginUser");
+    public String essentialInformation(HttpServletRequest request, Integer judge, Supplier supplier, String supplierId, Integer person, Model model) {
+        /*User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
             person = ps;
@@ -337,7 +354,7 @@ public class SupplierQueryController extends BaseSupplierController {
         if (user.getTypeId() != null && person != null) {
             request.getSession().setAttribute("ps", person);
             supplierId = user.getTypeId();
-        }
+        }*/
         supplier = supplierAuditService.supplierById(supplierId);
         try {
             String provinceName = "";
@@ -392,7 +409,7 @@ public class SupplierQueryController extends BaseSupplierController {
         //将状态是否入库isRuku存入session里面
         Integer irk = (Integer) request.getSession().getAttribute("irk");
         //第一次进来的时候有值,session为null。
-        if (irk == null && isRuku != null) {
+        /*if (irk == null && isRuku != null) {
             request.getSession().setAttribute("irk", isRuku);
         } else if (irk != null && isRuku == null) {
             isRuku = (Integer) request.getSession().getAttribute("irk");
@@ -408,8 +425,10 @@ public class SupplierQueryController extends BaseSupplierController {
         }
         if (isRuku != null && isRuku == NUMBER_TWO) {
             model.addAttribute("category", 1);
-        }
-        model.addAttribute("person", person);
+        }*/
+        model.addAttribute("judge", judge);
+        
+       /* model.addAttribute("person", person);*/
         
         //售后服务机构一览表
   		List<SupplierAfterSaleDep> listSupplierAfterSaleDep = supplierService.get(supplierId).getListSupplierAfterSaleDep();
@@ -428,7 +447,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/financial")
-    public String financialInformation(HttpServletRequest request, SupplierFinance supplierFinance, Supplier supplier) {
+    public String financialInformation(HttpServletRequest request, Integer judge, SupplierFinance supplierFinance, Supplier supplier) {
         String supplierId = supplierFinance.getSupplierId();
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -444,9 +463,27 @@ public class SupplierQueryController extends BaseSupplierController {
         request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         request.setAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
         request.setAttribute("supplierId", supplierId);
-        supplier.setId(supplierId);
+        
+        supplier = supplierAuditService.supplierById(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
         getSupplierType(supplier);
         request.setAttribute("suppliers", supplier);
+        request.setAttribute("judge", judge);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
     
@@ -459,15 +496,30 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/shareholder")
-    public String shareholderInformation(HttpServletRequest request, SupplierStockholder supplierStockholder) {
+    public String shareholderInformation(HttpServletRequest request, Integer judge, SupplierStockholder supplierStockholder) {
         String supplierId = supplierStockholder.getSupplierId();
         List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
         request.setAttribute("supplierId", supplierId);
         request.setAttribute("shareholder", list);
-        Supplier supplier = new Supplier();
-        supplier.setId(supplierId);
+        Supplier supplier = supplierAuditService.supplierById(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         getSupplierType(supplier);
         request.setAttribute("suppliers", supplier);
+        request.setAttribute("judge", judge);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
 
@@ -614,14 +666,29 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "list")
-    public String list(Model model, Supplier supplier, String supplierId, Integer page) {
+    public String list(Model model, Supplier supplier, String supplierId, Integer page, Integer judge) {
         supplier.setId(supplierId);
         List<Supplier> listSuppliers = supplierLevelService.findSupplier(supplier, page == null ? 1 : page);
         model.addAttribute("listSuppliers", new PageInfo<Supplier>(listSuppliers));
         model.addAttribute("supplierName", supplier.getSupplierName());
         model.addAttribute("supplierId", supplier.getId());
-        supplier.setId(supplierId);
-        getSupplierType(supplier);
+        supplier = supplierService.get(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("judge", judge);
         model.addAttribute("suppliers", supplier);
         return "ses/sms/supplier_query/supplierInfo/cheng_xin";
     }
@@ -635,34 +702,30 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/item")
-    public String item(String supplierId, Model model, HttpServletRequest request) {
+    public String item(String supplierId, Integer judge, Model model, HttpServletRequest request) {
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
         request.setAttribute("supplierId", supplierId);
         
         Supplier supplier = supplierService.get(supplierId);
-        request.setAttribute("currSupplier", supplier);
-        
-        //上一步
-        String lastUrl = null;
-        if(supplierTypeName.contains("服务")){
-            lastUrl = request.getContextPath() + "/supplierAudit/serviceInformation.html";
-        }else if(supplierTypeName.contains("工程") && lastUrl == null){
-            lastUrl = request.getContextPath() + "/supplierAudit/engineering.html";
-        }else if(supplierTypeName.contains("销售") && lastUrl == null){
-            lastUrl = request.getContextPath() + "/supplierAudit/materialSales.html";
-        }else if(supplierTypeName.contains("生产") && lastUrl == null){
-            lastUrl = request.getContextPath() + "/supplierAudit/materialProduction.html";
-        }else{
-            lastUrl = request.getContextPath() + "/supplierAudit/shareholder.html";
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        request.setAttribute("lastUrl", lastUrl);
-        model.addAttribute("id", supplierId);
-        Supplier supplier1 = new Supplier();
-        supplier1.setId(supplierId);
-        getSupplierType(supplier1);
-        model.addAttribute("suppliers", supplier1);
+        request.setAttribute("judge", judge);
+        request.setAttribute("currSupplier", supplier);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
 
@@ -675,15 +738,30 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/showUpdateHistory")
-    public String showUpdateHistory(String supplierId, Model model) {
+    public String showUpdateHistory(String supplierId, Model model, Integer judge) {
         SupplierEdit se = new SupplierEdit();
         se.setRecordId(supplierId);
         List<SupplierEdit> listEdit = supplierEditService.getAllRecord(se);
         List<String> list = supplierEditService.getList(listEdit);
         model.addAttribute("list", list);
         Supplier supplier = new Supplier();
-        supplier.setId(supplierId);
-        getSupplierType(supplier);
+        supplier = supplierService.get(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("judge", judge);
         model.addAttribute("suppliers", supplier);
         return "ses/sms/supplier_query/supplierInfo/show_update_history";
     }
@@ -758,120 +836,292 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "aptitude")
-    public String aptitude(Model model, String supplierId) {
-        String supplierTypeIds= supplierTypeRelateService.findBySupplier(supplierId);
-        
-        //勾选的供应商类型
-        String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
-        model.addAttribute("supplierTypeNames", supplierTypeName);
+    public String aptitude(Model model, Integer judge, String supplierId, Integer supplierStatus) {
+		String supplierTypeIds = supplierTypeRelateService.findBySupplier(supplierId);
 
-        //查询所有的三级品目生产
-        List<Category> list2 = getSupplier(supplierId,supplierTypeIds);
-        removeSame(list2);
-        
-        //根据品目id查询所有的证书信息
-        List<QualificationBean> list3 = supplierService.queryCategoyrId(list2, 2);
-     
-        //查询所有的三级品目销售
-        List<Category> listSlae = getSale(supplierId,supplierTypeIds);
-        removeSame(listSlae);
-        
-        //根据品目id查询所有的证书信息
-        List<QualificationBean> saleQua= supplierService.queryCategoyrId(listSlae, 3);
-        
-        //查询所有的三级目录工程
-        List<Category> listProject = getSale(supplierId,supplierTypeIds);
-        removeSame(listProject);
-        
-        //根据品目id查询所有的工证书
-        List<QualificationBean> projectQua= supplierService.queryCategoyrId(listProject, 1);
-       
-        //查询所有的三级品目服务
-        List<Category> listService = getSale(supplierId,supplierTypeIds);
-        removeSame(listService);
-        
-        //根据品目id查询所有的服务证书信息
-        List<QualificationBean> serviceQua= supplierService.queryCategoyrId(listService, 1);
-       
-        //生产证书
-        List<Qualification> qaList=new ArrayList<Qualification>();
-        List<Qualification> saleList=new ArrayList<Qualification>();
-        List<Qualification> projectList=new ArrayList<Qualification>();
-        List<Qualification> serviceList=new ArrayList<Qualification>();
-           
-        if(list3!=null&&list3.size()>0){
-            for(QualificationBean qb:list3){
-                qaList.addAll(qb.getList());
-            }
-        }
-        
-        //销售
-        if(saleQua!=null&&saleQua.size()>0){
-            for(QualificationBean qb:saleQua){
-                saleList.addAll(qb.getList());
-            }
-        } 
-        
-        //工程
-        if(projectQua!=null&&projectQua.size()>0){
-            for(QualificationBean qb:projectQua){
-                projectList.addAll(qb.getList());
-            }
-        } 
-        
-        //服务
-        if(serviceQua!=null&&serviceQua.size()>0){
-            for(QualificationBean qb:serviceQua){
-                serviceList.addAll(qb.getList());
-            }
-        } 
-       
-        //生产
-        StringBuffer sbUp=new StringBuffer("");
-        StringBuffer sbShow=new StringBuffer("");
-        int len=qaList.size()+1;
-        for(int i=1;i<len;i++){
-            sbUp.append("pUp"+i+",");
-            sbShow.append("pShow"+i+",");
-         
-        }
-           
-        //销售
-        int slaelen=saleList.size()+1;
-        for(int i=1;i<slaelen;i++){
-            sbUp.append("saleUp"+i+",");
-            sbShow.append("saleShow"+i+",");
-        }
-        if(projectList!=null&&projectList.size()>0){
-            int projectlen=projectList.size()+1;
-            for(int i=1;i<projectlen;i++){
-                sbUp.append("projectUp"+i+",");
-                sbShow.append("projectShow"+i+",");
-            } 
-        }
-        
-       if(serviceList!=null&&serviceList.size()>0){
-           int serverlen=serviceList.size()+1;
-           for(int i=1;i<serverlen;i++){
-               sbUp.append("serverUp"+i+",");
-               sbShow.append("serverShow"+i+",");
-           } 
-       }
+		//勾选的供应商类型
+		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+		model.addAttribute("supplierTypeNames", supplierTypeName);
 
-       model.addAttribute("saleUp", sbUp);
-       model.addAttribute("saleShow", sbShow);
-       model.addAttribute("cateList",  list3);
-       model.addAttribute("saleQua", saleQua);
-       model.addAttribute("projectQua", projectQua);
-       model.addAttribute("supplierId", supplierId);
-       model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
-       model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
-       Supplier supplier = new Supplier();
-       supplier.setId(supplierId);
-       getSupplierType(supplier);
-       model.addAttribute("suppliers", supplier);
+		//查询所有的三级品目生产
+		List < Category > list2 = getSupplier(supplierId, supplierTypeIds);
+		removeSame(list2);
+
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > list3 = supplierService.queryCategoyrId(list2, 2);
+
+		//查询所有的三级品目销售
+		List < Category > listSlae = getSale(supplierId, supplierTypeIds);
+		removeSame(listSlae);
+
+		//根据品目id查询所有的证书信息
+		List < QualificationBean > saleQua = supplierService.queryCategoyrId(listSlae, 3);
+
+		//查询所有的三级目录工程
+		/*List < Category > listProject = getProject(supplierId, supplierTypeIds);
+		removeSame(listProject);*/
+
+		//根据品目id查询所有的工证书
+		/*List < QualificationBean > projectQua = supplierService.queryCategoyrId(listProject, 1);*/
+
+		//查询所有的三级品目服务
+		List < Category > listService = getServer(supplierId, supplierTypeIds);
+		removeSame(listService);
+
+		//根据品目id查询所有的服务证书信息
+		List < QualificationBean > serviceQua = supplierService.queryCategoyrId(listService, 1);
+
+		//生产证书
+		List < Qualification > qaList = new ArrayList < Qualification > ();
+		List < Qualification > saleList = new ArrayList < Qualification > ();
+		List < Qualification > projectList = new ArrayList < Qualification > ();
+		List < Qualification > serviceList = new ArrayList < Qualification > ();
+
+		//生产
+		if(list3 != null && list3.size() > 0) {
+			for(QualificationBean qb: list3) {
+				qaList.addAll(qb.getList());
+			}
+		}
+
+		//销售
+		if(saleQua != null && saleQua.size() > 0) {
+			for(QualificationBean qb: saleQua) {
+				saleList.addAll(qb.getList());
+			}
+		}
+
+		//工程
+		/*if(projectQua != null && projectQua.size() > 0) {
+			for(QualificationBean qb: projectQua) {
+				projectList.addAll(qb.getList());
+			}
+		}*/
+
+		//服务
+		if(serviceQua != null && serviceQua.size() > 0) {
+			for(QualificationBean qb: serviceQua) {
+				serviceList.addAll(qb.getList());
+			}
+		}
+
+		//生产
+		StringBuffer sbShow = new StringBuffer("");
+		int len = qaList.size() + 1;
+		for(int i = 1; i < len; i++) {
+			sbShow.append("pShow" + i + ",");
+
+		}
+
+		//销售
+		int slaelen = saleList.size() + 1;
+		for(int i = 1; i < slaelen; i++) {
+			sbShow.append("saleShow" + i + ",");
+		}
+
+		//工程
+		/*if(projectList != null && projectList.size() > 0) {
+			int projectlen = projectList.size() + 1;
+			for(int i = 1; i < projectlen; i++) {
+				sbShow.append("projectShow" + i + ",");
+			}
+		}*/
+
+		//服务
+		if(serviceList != null && serviceList.size() > 0) {
+			int serverlen = serviceList.size() + 1;
+			for(int i = 1; i < serverlen; i++) {
+				sbShow.append("serverShow" + i + ",");
+			}
+		}
+		
+		//工程
+		String[] typeIds = supplierTypeIds.split(",");
+		boolean isEng = false;
+		for(String type: typeIds) {
+			if(type.equals("PROJECT")) {
+				isEng = true;
+				break;
+			}
+		}
+		if(isEng) {
+			List < SupplierItem > listSupplierItems = getProject(supplierId, "PROJECT");
+			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+			for(SupplierItem item: listSupplierItems) {
+				String categoryId = item.getCategoryId();
+				SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, item);
+				if(cateTree != null && cateTree.getRootNode() != null) {
+					cateTree.setItemsId(item.getId());
+					cateTree.setDiyLevel(item.getDiyLevel());
+					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
+						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
+						if(certEng != null && certEng.size() > 0) {
+							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
+							if(level != null) {
+								cateTree.setFileId(certEng.get(0).getId());
+							}
+						}
+					}
+					allTreeList.add(cateTree);
+				}
+			}
+			model.addAttribute("allTreeList", allTreeList);
+			model.addAttribute("engTypeId", dictionaryDataServiceI.getSupplierDictionary().getSupplierEngCert());
+		}
+
+		model.addAttribute("saleShow", sbShow);
+		model.addAttribute("cateList", list3);
+		model.addAttribute("saleQua", saleQua);
+		/*model.addAttribute("projectQua", projectQua);*/
+		model.addAttribute("serviceQua", serviceQua);
+		model.addAttribute("supplierId", supplierId);
+		model.addAttribute("typeId", DictionaryDataUtil.getId("SUPPLIER_APTITUD"));
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		
+		Supplier supplier = supplierService.get(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("judge", judge);
+        model.addAttribute("suppliers", supplier);
+		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
     }
+    
+    /**
+	 *〈简述〉获取当前节点的所有父级节点(包括根节点)
+	 *〈详细描述〉
+	 * @author WangHuijie
+	 * @param categoryId 
+	 * @return
+	 */
+	public List < Category > getAllParentNode(String categoryId) {
+		List < Category > categoryList = new ArrayList < Category > ();
+		while(true) {
+			Category cate = categoryService.findById(categoryId);
+			if(cate == null) {
+				DictionaryData root = DictionaryDataUtil.findById(categoryId);
+				Category rootNode = new Category();
+				rootNode.setId(root.getId());
+				rootNode.setName(root.getName());
+				categoryList.add(rootNode);
+				break;
+			} else {
+				categoryList.add(cate);
+				categoryId = cate.getParentId();
+			}
+		}
+		return categoryList;
+	}
+    
+	/**
+	 * @Title: getTreeListByCategoryId
+	 * @author XuQing 
+	 * @date 2017-3-9 下午4:25:16  
+	 * @Description:
+	 * @param @param categoryId
+	 * @param @param item
+	 * @param @return      
+	 * @return SupplierCateTree
+	 */
+    public SupplierCateTree getTreeListByCategoryId(String categoryId, SupplierItem item) {
+		SupplierCateTree cateTree = new SupplierCateTree();
+		// 递归获取所有父节点
+		List < Category > parentNodeList = getAllParentNode(categoryId);
+		// 加入根节点
+		for(int i = 0; i < parentNodeList.size(); i++) {
+			DictionaryData rootNode = DictionaryDataUtil.findById(parentNodeList.get(i).getId());
+			if(rootNode != null) {
+				cateTree.setRootNode(rootNode.getName());
+			}
+		}
+		// 加入一级节点
+		if(cateTree.getRootNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					DictionaryData rootNode = DictionaryDataUtil.findById(cate.getParentId());
+					if(rootNode != null && cateTree.getRootNode().equals(rootNode.getName())) {
+						cateTree.setFirstNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入二级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = categoryService.findById(cate.getParentId());
+					if(parentNode != null && cateTree.getFirstNode().equals(parentNode.getName())) {
+						cateTree.setSecondNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入三级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = categoryService.findById(cate.getParentId());
+					if(parentNode != null && cateTree.getSecondNode().equals(parentNode.getName())) {
+						cateTree.setThirdNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 加入末级节点
+		if(cateTree.getRootNode() != null && cateTree.getFirstNode() != null && cateTree.getSecondNode() != null && cateTree.getThirdNode() != null) {
+			for(int i = 0; i < parentNodeList.size(); i++) {
+				Category cate = categoryService.findById(parentNodeList.get(i).getId());
+				if(cate != null && cate.getParentId() != null) {
+					Category parentNode = categoryService.findById(cate.getParentId());
+					if(parentNode != null && cateTree.getThirdNode().equals(parentNode.getName())) {
+						cateTree.setFourthNode(cate.getName());
+					}
+				}
+			}
+		}
+		// 工程类等级
+		if(item != null) {
+			// 等级
+			if(item != null && item.getLevel() != null) {
+				cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
+			}
+			// 证书编号
+			if(item != null && item.getCertCode() != null) {
+				cateTree.setCertCode(item.getCertCode());
+			}
+			// 资质等级
+			if(item != null && item.getQualificationType() != null) {
+				cateTree.setQualificationType(item.getQualificationType());
+			}
+			// 所有等级List
+			List < Category > cateList = new ArrayList < Category > ();
+			cateList.add(categoryService.selectByPrimaryKey(categoryId));
+			List < QualificationBean > type = supplierService.queryCategoyrId(cateList, 4);
+			List < Qualification > typeList = new ArrayList < Qualification > ();
+			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
+				typeList = type.get(0).getList();
+			}
+			cateTree.setTypeList(typeList);
+		}
+		
+		return cateTree;
+	}
     
     /**
      * @Title: contract
@@ -881,7 +1131,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @param @return      
      * @return String
      */
-    @RequestMapping(value = "contract")
+/*    @RequestMapping(value = "contract")
     public String contract(Model model, String supplierId) {
         Supplier supplier = new Supplier();
         supplier.setId(supplierId);
@@ -1135,6 +1385,104 @@ public class SupplierQueryController extends BaseSupplierController {
          model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
         return "ses/sms/supplier_query/supplierInfo/contract";
     }
+*/    
+    
+    
+	/**
+	 * @Title: contractUp
+	 * @author XuQing 
+	 * @date 2017-1-17 下午5:46:54  
+	 * @Description:加载点击标签下的合同
+	 * @param @param supplierId
+	 * @param @param model
+	 * @param @param supplierTypeId
+	 * @param @param pageNum
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "/ajaxContract")
+	public String contractUp(String supplierId, Model model, String supplierTypeId, Integer pageNum) {
+		//合同
+		String id1 = DictionaryDataUtil.getId("CATEGORY_ONE_YEAR");
+		String id2 = DictionaryDataUtil.getId("CATEGORY_TWO_YEAR");
+		String id3 = DictionaryDataUtil.getId("CATEGORY_THREE_YEAR");
+		//账单
+		String id4 = DictionaryDataUtil.getId("CTAEGORY_ONE_BIL");
+		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
+		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
+
+		List < Category > category = new ArrayList < Category > ();
+		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
+		for(SupplierItem item: itemsList) {
+			Category cate = categoryService.findById(item.getCategoryId());
+			cate.setId(item.getId());
+			category.add(cate);
+		}
+		// 查询品目合同信息
+		List < ContractBean > contract = supplierService.getContract(category);
+		for(ContractBean con: contract) {
+			con.setOneContract(id1);
+			con.setTwoContract(id2);
+			con.setThreeContract(id3);
+			con.setOneBil(id4);
+			con.setTwoBil(id5);
+			con.setThreeBil(id6);
+		}
+		// 分页,pageSize == 10
+		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
+		model.addAttribute("result", pageInfo);
+		model.addAttribute("contract", contract);
+		// 年份
+		List < Integer > years = supplierService.getThressYear();
+		model.addAttribute("years", years);
+		model.addAttribute("supplierTypeId", supplierTypeId);
+		model.addAttribute("supplierId", supplierId);
+		// 供应商附件sysKey参数
+		model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+		return "ses/sms/supplier_query/supplierInfo/ajax_contract";
+	}
+
+	/**
+	 * @Title: contractUp
+	 * @author XuQing 
+	 * @date 2017-1-17 下午5:47:19  
+	 * @Description:加载全部标签
+	 * @param @param supplierId
+	 * @param @param model
+	 * @param @return      
+	 * @return String
+	 */
+	@RequestMapping(value = "/contract")
+	public String contractUp(String supplierId, Model model, Integer judge) {
+		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
+		String supplierTypeIds = "";
+		for(SupplierTypeRelate s: typeIds) {
+			supplierTypeIds += s.getSupplierTypeId() + ",";
+		}
+		model.addAttribute("supplierTypeIds", supplierTypeIds);
+		model.addAttribute("supplierId", supplierId);
+		
+		Supplier supplier = supplierService.get(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        model.addAttribute("judge", judge);
+        model.addAttribute("suppliers", supplier);
+		return "ses/sms/supplier_query/supplierInfo/contract";
+	}
+    
     
     /**
      * @Title: removeSame
@@ -1198,30 +1546,21 @@ public class SupplierQueryController extends BaseSupplierController {
        }
        
        
-       //工程
-       public List<Category>  getProject(String supplierId,String code){
-           List<Category> categoryList=new ArrayList<Category>();
-           
-           String[] types = code.split(",");
-           for(String s:types){
-               String   categoryId="";
-                  if (s != null ) {
-                      if(s.equals("PROJECT") ){
-                          categoryId = DictionaryDataUtil.getId("PROJECT");
-                          List<SupplierItem> category = supplierItemService.getCategory(supplierId, categoryId,s);
-                         for(SupplierItem c:category){
-                            Category cate= categoryService.selectByPrimaryKey(c.getCategoryId());
-                            cate.setParentId(c.getId());
-                            categoryList.add(cate);
-                    
-                           }
-                    }
-               }
-           
-           }
-           
-           return categoryList;
-       }
+   		//工程
+ 		public List<SupplierItem> getProject(String supplierId, String code) {
+ 			String[] types = code.split(",");
+ 			for(String s: types) {
+ 				String categoryId = "";
+ 				if(s != null) {
+ 					if(s.equals("PROJECT")) {
+ 						categoryId = DictionaryDataUtil.getId("PROJECT");
+ 						return supplierItemService.getCategory(supplierId, categoryId, s);
+ 					}
+ 				}
+
+ 			}
+ 			return null;
+ 		}
        
        //服务
        public List<Category>  getServer(String supplierId,String code){
@@ -1244,90 +1583,182 @@ public class SupplierQueryController extends BaseSupplierController {
            return categoryList;
        }
        
-       @RequestMapping("supplierType")
-       public String supplierType(HttpServletRequest request, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId){
-           //勾选的供应商类-型
-           String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
-           request.setAttribute("supplierId", supplierId); 
-           /*//文件
-           request.getSession().setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);*/
-           
-           //查出全部退回修改的信息
-           Supplier supplier = supplierAuditService.supplierById(supplierId);
-           
-           if(supplier.getStatus() != null && supplier.getStatus() == 0){
-               SupplierHistory supplierHistory = new SupplierHistory();
-               supplierHistory.setSupplierId(supplierId);
-               List<SupplierHistory> editList= supplierHistoryService.selectAllBySupplierId(supplierHistory);
-                StringBuffer field = new StringBuffer();
-               for(int i=0; i<editList.size(); i++){
-                   String beforeField = editList.get(i).getBeforeField();
-                   field.append( beforeField + ",");   
-               }
-               request.setAttribute("field", field);
-           }
+    @RequestMapping("supplierType")
+   	public String supplierType(HttpServletRequest request, Integer judge, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
+   		request.setAttribute("supplierStatus", supplierStatus);
+   		
+   		//勾选的供应商类型
+   		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
+   		request.setAttribute("supplierId", supplierId);
 
-           
-                   
-           /**
-            * 生产
-            */
-           //资质资格证书信息
-           List<SupplierCertPro> materialProduction = supplierAuditService.findBySupplierId(supplierId);
-           supplierMatPro =supplierService.get(supplierId).getSupplierMatPro();
-           request.setAttribute("supplierTypeNames", supplierTypeName);
-           request.setAttribute("materialProduction",materialProduction);
-           request.setAttribute("supplierMatPros", supplierMatPro);
+   		//文件
+   		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
+   		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
+   		
+   		/**
+   		 * 供应商类型
+   		 */
+   		//供应商类code
+   		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
+   		String supplierTypeCode = "";
+   		for(SupplierTypeRelate s: typeIds) {
+   			supplierTypeCode += s.getSupplierTypeId() + ",";
+   		}
+   		request.setAttribute("supplierTypeCode", supplierTypeCode);
+   		
+   		
+   		List < DictionaryData > list = DictionaryDataUtil.find(6);
+   		for(int i = 0; i < list.size(); i++) {
+   			String code = list.get(i).getCode();
+   			if(code.equals("GOODS")) {
+   				list.remove(list.get(i));
+   			}
+   		}
+   		request.setAttribute("supplieType", list);
+   		
+   		List < DictionaryData > wlist = DictionaryDataUtil.find(8);
+   		request.setAttribute("wlist", wlist);
 
-           
-           /**
-            * 销售
-            */
-           //资质资格证书
-           List<SupplierCertSell> supplierCertSell=supplierAuditService.findCertSellBySupplierId(supplierId);
-           //供应商组织机构和人员
-           supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
-           request.setAttribute("supplierTypeNames", supplierTypeName);
-           request.setAttribute("supplierCertSell", supplierCertSell);
-           request.setAttribute("supplierMatSells", supplierMatSell);
-           request.setAttribute("supplierId", supplierId);
-           
-           /**
-            * 工程
-            */
-           if(supplierId != null){
-               //资质资格证书信息
-               List<SupplierCertEng> supplierCertEng= supplierAuditService.findCertEngBySupplierId(supplierId);
-               request.setAttribute("supplierCertEng", supplierCertEng);
-               
-               //资质资格信息
-               List<SupplierAptitute> supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
-               request.setAttribute("supplierAptitutes", supplierAptitute);
-               
-               //组织结构
-               supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
-               request.setAttribute("supplierMatEngs",supplierMatEng);
-               
-               //注册人人员
-               SupplierMatEng matEng = supplierService.get(supplierId).getSupplierMatEng();
-               if(matEng != null){
-                   List<SupplierRegPerson> listSupplierRegPersons = matEng.getListSupplierRegPersons();
-                    request.setAttribute("listRegPerson", listSupplierRegPersons);
-                   }
-               }
-           
-           /**
-            * 服务
-            */
-           //资质证书信息
-           List<SupplierCertServe> supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
-           request.setAttribute("supplierCertSes", supplierCertSe);
-           //组织结构和人员
-           supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
-           request.setAttribute("supplierMatSes", supplierMatSe);  
+   		/**
+   		 * 生产
+   		 */
+   		//资质资格证书信息
+   		List < SupplierCertPro > materialProduction = supplierAuditService.findBySupplierId(supplierId);
+   		for(int i = 0; i < materialProduction.size() - 1; i++) {
+   			for(int j = materialProduction.size() - 1; j > i; j--) {
+   				if(materialProduction.get(j).getId().equals(materialProduction.get(i).getId())) {
+   					materialProduction.remove(j);
+   				}
+   			}
+   		}
+   		supplierMatPro = supplierService.get(supplierId).getSupplierMatPro();
+   		request.setAttribute("supplierTypeNames", supplierTypeName);
+   		request.setAttribute("materialProduction", materialProduction);
+   		request.setAttribute("supplierMatPros", supplierMatPro);
+   		
+   		
 
-           return "ses/sms/supplier_query/supplierInfo/supplierType";
-       }
+   		/**
+   		 * 销售
+   		 */
+   		//资质资格证书
+   		List < SupplierCertSell > supplierCertSell = supplierAuditService.findCertSellBySupplierId(supplierId);
+   		for(int i = 0; i < supplierCertSell.size() - 1; i++) {
+   			for(int j = supplierCertSell.size() - 1; j > i; j--) {
+   				if(supplierCertSell.get(j).getId().equals(supplierCertSell.get(i).getId())) {
+   					supplierCertSell.remove(j);
+   				}
+   			}
+   		}
+   		//供应商组织机构和人员
+   		supplierMatSell = supplierService.get(supplierId).getSupplierMatSell();
+   		request.setAttribute("supplierTypeNames", supplierTypeName);
+   		request.setAttribute("supplierCertSell", supplierCertSell);
+   		request.setAttribute("supplierMatSells", supplierMatSell);
+   		request.setAttribute("supplierId", supplierId);
+   		
+   		/**
+   		 * 工程
+   		 */
+   		if(supplierId != null) {
+   			//资质资格证书信息
+   			List < SupplierCertEng > supplierCertEng = supplierAuditService.findCertEngBySupplierId(supplierId);
+   			for(int i = 0; i < supplierCertEng.size() - 1; i++) {
+   				for(int j = supplierCertEng.size() - 1; j > i; j--) {
+   					if(supplierCertEng.get(j).getId().equals(supplierCertEng.get(i).getId())) {
+   						supplierCertEng.remove(j);
+   					}
+   				}
+   			}
+   			request.setAttribute("supplierCertEng", supplierCertEng);
+
+   			//资质资格信息
+   			List < SupplierAptitute > supplierAptitute = supplierAuditService.findAptituteBySupplierId(supplierId);
+   			for(int i = 0; i < supplierAptitute.size() - 1; i++) {
+   				for(int j = supplierAptitute.size() - 1; j > i; j--) {
+   					if(supplierAptitute.get(j).getId().equals(supplierAptitute.get(i).getId())) {
+   						supplierAptitute.remove(j);
+   					}
+   				}
+   			}
+   			//资质登记
+   			List < DictionaryData > businessList = DictionaryDataUtil.find(31);
+   			for(DictionaryData data : businessList){
+   				for(SupplierAptitute a:supplierAptitute){
+   					if(data.getId().equals(a.getAptituteLevel())){
+   						a.setAptituteLevel(data.getName());
+   					}
+   				}
+   			}
+   			//资质类型
+   			request.setAttribute("typeList", qualificationService.findList(null, null, 4));
+   			request.setAttribute("supplierAptitutes", supplierAptitute);
+
+   			//组织结构
+   			supplierMatEng = supplierAuditService.findMatEngBySupplierId(supplierId);
+   			request.setAttribute("supplierMatEngs", supplierMatEng);
+
+   			//注册人人员
+   			SupplierMatEng matEng = supplierService.get(supplierId).getSupplierMatEng();
+   			if(matEng != null) {
+   				List < SupplierRegPerson > listSupplierRegPersons = matEng.getListSupplierRegPersons();
+   				request.setAttribute("listRegPerson", listSupplierRegPersons);
+   			}
+   			
+   			//承揽业务范围
+   			List<Area> listArea= areaService.findRootArea();
+   			SupplierDictionaryData dictionary = dictionaryDataServiceI.getSupplierDictionary();
+   			String typeId =  dictionary.getSupplierProContract();
+   			List<Area> existenceArea = new ArrayList<>();
+   			for(Area area : listArea){
+   				String businessId = supplierId + "_" + area.getId();
+   				List<UploadFile> listUpload = uploadService.getFilesOther(businessId, typeId, "1");
+   				if(!listUpload.isEmpty()){
+   					existenceArea.add(area);
+   				}
+   			}
+   			request.setAttribute("rootArea", existenceArea);
+   		}
+   		
+   		
+   		/**
+   		 * 服务
+   		 */
+   		//资质证书信息
+   		List < SupplierCertServe > supplierCertSe = supplierAuditService.findCertSeBySupplierId(supplierId);
+   		for(int i = 0; i < supplierCertSe.size() - 1; i++) {
+   			for(int j = supplierCertSe.size() - 1; j > i; j--) {
+   				if(supplierCertSe.get(j).getId().equals(supplierCertSe.get(i).getId())) {
+   					supplierCertSe.remove(j);
+   				}
+   			}
+   		}
+   		request.setAttribute("supplierCertSes", supplierCertSe);
+   		//组织结构和人员
+   		supplierMatSe = supplierAuditService.findMatSeBySupplierId(supplierId);
+   		request.setAttribute("supplierMatSes", supplierMatSe);
+   		
+   		Supplier supplier = supplierAuditService.supplierById(supplierId);
+        try {
+            String provinceName = "";
+            String cityName = "";
+            Area area = areaService.listById(supplier.getAddress());
+            if (area != null) {
+                cityName = area.getName();
+                Area area1 = areaService.listById(area.getParentId());
+                if (area1 != null) {
+                    provinceName = area1.getName();
+                }
+            }
+            supplier.setAddress(provinceName + cityName);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        request.setAttribute("suppliers", supplier);
+        request.setAttribute("judge", judge);
+        
+   		return "ses/sms/supplier_query/supplierInfo/supplierType";
+   	}
        
       /**
        * @Title: cancellation
@@ -1343,4 +1774,26 @@ public class SupplierQueryController extends BaseSupplierController {
     	   supplierService.deleteSupplier(supplierId);
        }
        
+     /**
+      * @Title: findSupplierType
+      * @author XuQing 
+      * @date 2017-3-10 下午2:10:36  
+      * @Description:供应商类型
+      * @param @param response
+      * @param @param supplierId
+      * @param @throws IOException      
+      * @return void
+      */
+    @RequestMapping(value = "find_supplier_type")
+   	public void findSupplierType(HttpServletResponse response, String supplierId) throws IOException {
+   		List<SupplierTypeTree> listSupplierTypeTrees = supplierTypeService.findSupplierType(supplierId);
+   		for(SupplierTypeTree t : listSupplierTypeTrees){
+   			if("物资".equals(t.getName())){
+   				listSupplierTypeTrees.remove(t);
+   				break;
+   			}
+   		}
+   		
+   		super.writeJson(response, listSupplierTypeTrees);
+   	}
 }

@@ -236,7 +236,7 @@
 	        	  $("#supplierLegal").val(org.legalName);
 	        	  $("#supplierContact").val(org.contactName);
 	        	  $("#supplierContactTelephone").val(org.contactTelephone);
-	        	  $("#supplierContactAddress").val(org.address);
+	        	  $("#supplierContactAddress").val(org.area.name);
 	        	  $("#supplierUnitpostCode").val(org.postCode);
 	        	  $("#supplierBank").val(org.bankName);
 	        	  $("#supplierBankAccount_string").val(org.bankAccount);
@@ -596,6 +596,7 @@
 	   		<input type="hidden" name="projectId" value="${project.id}"/>
 	   		<input type="hidden" name="isImport" value="${project.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
+	   		<input  type="hidden" name="demandSector" value="${department}" >
 	   		<input type="hidden" name="manualType" value="0"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
@@ -637,13 +638,13 @@
 			        	<div class="cue">${ERR_documentNumber}</div>
 	       			</div>
 				 </li>
-				 <li class="col-md-3 col-sm-6 col-xs-12">
+				 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购机构资格证号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" name="quaCode" value="${project.purchaseDep.quaCode}" type="text">
 			        	<div class="cue">${ERR_quaCode}</div>
 	       			</div>
-				 </li>
+				 </li> --%>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
@@ -658,6 +659,7 @@
 			        	<div class="cue">${ERR_budgetSubjectItem}</div>
 	       			</div>
 				 </li>
+				 
 				  <%--<li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>需求部门：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
@@ -793,7 +795,8 @@
 			        	<!-- <input class=" supplier_id" name="supplierDepName" type="text" value="${project.dealSupplier.supplierName}"> -->
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
-				 </li>
+				 </li> 
+				 
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">

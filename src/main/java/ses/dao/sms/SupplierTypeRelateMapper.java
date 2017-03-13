@@ -84,4 +84,7 @@ public interface SupplierTypeRelateMapper {
     int deleteBySupplierId(String supplierId);
     
     List<SupplierTypeRelate> findSupplierTypeBySupplierId(String supplierId);
+    
+    
+    void deleteSupplierType(@Param("supplierId")String supplierId,@Param("supplierType")String supplierType);
 }

@@ -278,7 +278,7 @@
 										<th class="info">供应商类别</th>
 										<th class="info">供应商状态</th>
 										<th class="info">电话</th>
-										<th class="info">级别</th>
+										<!-- <th class="info">级别</th> -->
 									</tr>
 								</thead>
 								<tbody>
@@ -286,7 +286,7 @@
 										<tr>
 											<td class="tc">${(vs.index+1)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 											<td class="pl20">
-												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?isRuku=2&supplierId=${list.id}">${list.supplierName }</a>
+												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=2&supplierId=${list.id}">${list.supplierName }</a>
 											</td>
 											<td class="tc">${list.contactName}</td>
 											<td class="tl pl20">${list.supplierType }</td>
@@ -303,8 +303,8 @@
 												<c:if test="${list.status==8 }">考察合格</c:if>
 												<c:if test="${list.status==9 }">考察不合格</c:if>
 											</td>
-											<td class="tc">${list.contactTelephone}</td>
-											<td class="tc">${list.level}</td>
+											<td class="tc">${list.contactMobile}</td>
+											<%-- <td class="tc">${list.level}</td> --%>
 										</tr>
 									</c:forEach>
 								</tbody>

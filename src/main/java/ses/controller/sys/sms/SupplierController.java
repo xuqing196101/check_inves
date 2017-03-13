@@ -871,7 +871,7 @@ public class SupplierController extends BaseSupplierController {
 	 * @return: String
 	 */
 	@RequestMapping(value = "perfect_professional")
-	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag, Model model) throws IOException {
+	public String perfectProfessional(HttpServletRequest request, Supplier supplier, String flag, Model model,String old) throws IOException {
 		boolean info = true;
 		boolean sale = true;
 		boolean pro = true;
@@ -911,7 +911,23 @@ public class SupplierController extends BaseSupplierController {
 		int length = split.length;
 		model.addAttribute("length", length);
 		model.addAttribute("supplierTypeIds", supplier.getSupplierTypeIds());
-		model.addAttribute("currSupplier", supplier);
+
+		if(old!=null&&old.equals("old")){
+				String[] strs = supplier.getSupplierTypeIds().split(",");
+				StringBuffer sb=new StringBuffer();
+				for(String s:strs){
+					if(!s.equals("SALES")){
+						sb.append(s).append(",");
+					}
+				}
+				supplier.setSupplierTypeIds(sb.toString());
+			}
+			model.addAttribute("currSupplier", supplier);
+			if(old!=null&&old.equals("old")){
+				supplierTypeRelateService.delete(supplier.getId(), "SALES");
+			}
+			
+			
 		if(pro == true && server == true && project == true && sale == true) {
 			return "ses/sms/supplier_register/items";
 		} else {
@@ -2610,11 +2626,10 @@ public class SupplierController extends BaseSupplierController {
 	@RequestMapping("/download_category")
 	public ResponseEntity < byte[] > download(HttpServletRequest request, String filename) throws IOException {
 		//	    	filename = new String(filename.getBytes("iso8859-1"),"UTF-8");
-		String path = PathUtil.getWebRoot() + "excel/产品目录.xls";;
+		String path = PathUtil.getWebRoot() + "excel/物资工程服务专家参评产品分类目录.xlsx";;
 		File file = new File(path);
-
 		HttpHeaders headers = new HttpHeaders();
-		String fileName = new String("产品目录.xls".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+		String fileName = new String("物资工程服务专家参评产品分类目录.xlsx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
 		headers.setContentDispositionFormData("attachment", fileName);
 		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
 		return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
@@ -2809,6 +2824,24 @@ public class SupplierController extends BaseSupplierController {
     public String getRandomId(){
     	String id = UUID.randomUUID().toString().replaceAll("-", "");
     	return id;
+    }
+    
+    
+    /**
+     * 
+    * @Title: oldData
+    * @Description: 判断以前注册的供应商是否有销售类型，如果有就清楚数据，如果没有就下一步
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @return     
+    * @return String     
+    * @throws
+     */
+    @RequestMapping("/deleteOld")
+    @ResponseBody
+    public String oldData(String supplierId){
+    	supplierTypeRelateService.delete(supplierId, "SALES");
+    	return "0";
     }
     
     

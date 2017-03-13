@@ -98,16 +98,16 @@ session.setAttribute("tokenSession", tokenValue);
 			}); 
 		}
    	}
-   function validateFrom(){
-	   var from = $("#expertsFrom").val();
-	   if (from == "" || from == null) {
-		   $("#fro").html("请选择专家来源!").css('color','red');
-		   return false;
-	   }
-   }
+//    function validateFrom(){
+// 	   var from = $("#expertsFrom").val();
+// 	   if (from == "" || from == null) {
+// 		   $("#fro").html("请选择专家来源!").css('color','red');
+// 		   return false;
+// 	   }
+//    }
    	function submitForm1(){
    		validataLoginName();
-   		validateFrom();
+//    		validateFrom();
    		validataPassword();
    		validataPwd2();
    		validatePhone();
@@ -132,10 +132,12 @@ session.setAttribute("tokenSession", tokenValue);
 			 <li class="login_item col-md-12  col-sm-12 col-xs-12 pl10">
 			  <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>专家类型：</span>
 			  <div class="col-md-7 col-xs-12 col-sm-12 p0 select_common">
-		        <select  name="expertsFrom" id="expertsFrom" onkeyup="validateFrom();">
-				  <option selected="selected" value="">-请选择-</option>
+		        <select  name="expertsFrom" id="expertsFrom"  disabled="disabled">
+<!-- 				  <option selected="selected" value="">-请选择-</option> -->
 				  <c:forEach items="${lyTypeList}" var="ly">
-				    <option value="${ly.id}">${ly.name}</option>
+				    <c:if test="${ipAddressType eq  ly.id}">
+  				    <option value="${ly.id}">${ly.name}</option>
+				    </c:if>
 				  </c:forEach>
 				</select>
 				 <div id="fro" class="cue"></div>

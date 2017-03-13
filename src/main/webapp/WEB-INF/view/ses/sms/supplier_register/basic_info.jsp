@@ -26,7 +26,7 @@
 				}
 				var card="${notPass}";
 				if(card=="error_card"){
-					layer.msg("身份证号码重复！");
+					layer.msg("身份证号已存在！");
 				}
 				var notPass = "${notPass}";
 				if (notPass == "notPass") {
@@ -533,54 +533,55 @@
 					async: false,
 					success: function(data) {
 						id = data;
+						$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>" +
+								"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
+								"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+								"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
+								"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / onblur='tempSave()'>" +
+								"<span class='add-on cur_point'>i</span>" +
+								" <div class='cue'> </div>" +
+								"</div>" +
+								"</li> " +
+								"<li class='col-md-3 col-sm-6 col-xs-12'>" +
+								"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营地址（填写所有地址）</span>" +
+								"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
+								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
+								" <option value=''>请选择</option>" +
+								" <c:forEach  items='${privnce }' var='prin'>" +
+								" <option value='${prin.id }' onchange='tempSave()' >${prin.name }</option>" +
+								" </c:forEach>" +
+								" </select></div> " +
+								"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='children_area_select_id' name='addressList[" + ind + "].address'>" +
+								" <c:forEach  items='${city }' var='city'>" +
+								"<option value='${city.id }' onchange='tempSave()' >${city.name }</option>" +
+								"</c:forEach>" +
+
+								" </select></div>" +
+								"<div class='cue'>  </div>" +
+								"</div>" +
+								" </li> " +
+
+								" <li class='col-md-3 col-sm-6 col-xs-12'>" +
+								"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
+								" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+								"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' onblur='tempSave()'>" +
+								"<span class='add-on cur_point'>i</span>" +
+								"<div class='cue'>  </div>" +
+								"</div>" +
+								"</li>" +
+								"<li class='col-md-3 col-sm-6 col-xs-12'>" +
+								"	<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>" +
+								"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
+								"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>" +
+								"	<input type='button' onclick='delAddress(this)' class='btn list_btn' value='一'/>" +
+								"	<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' />" +
+								"</div></li>"
+							);
+							ind++;
+							$("#index").val(ind);
 					}
 				});
-				$(li).after("<li class='col-md-3 col-sm-6 col-xs-12 pl10'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12  padding-left-5'><i class='red'>*</i> 生产或经营地址邮编</span>" +
-					"<div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-					"<input type='text' name='addressList[" + ind + "].code' value='' / onblur='tempSave()'>" +
-					"<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' / onblur='tempSave()'>" +
-					"<span class='add-on cur_point'>i</span>" +
-					" <div class='cue'> </div>" +
-					"</div>" +
-					"</li> " +
-					"<li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营地址（填写所有地址）</span>" +
-					"<div class='col-md-12 col-xs-12 col-sm-12 select_common p0'>" +
-					"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='root_area_select_id' onchange='loadChildren(this)'  name='addressList[" + ind + "].provinceId' >" +
-					" <option value=''>请选择</option>" +
-					" <c:forEach  items='${privnce }' var='prin'>" +
-					" <option value='${prin.id }' onchange='tempSave()' >${prin.name }</option>" +
-					" </c:forEach>" +
-					" </select></div> " +
-					"<div class='col-md-5 col-xs-5 col-sm-5 mr5 p0'><select id='children_area_select_id' name='addressList[" + ind + "].address'>" +
-					" <c:forEach  items='${city }' var='city'>" +
-					"<option value='${city.id }' onchange='tempSave()' >${city.name }</option>" +
-					"</c:forEach>" +
-
-					" </select></div>" +
-					"<div class='cue'>  </div>" +
-					"</div>" +
-					" </li> " +
-
-					" <li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>*</i> 生产或经营详细地址</span>" +
-					" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
-					"<input type='text' name='addressList[" + ind + "].detailAddress'  value='' onblur='tempSave()'>" +
-					"<span class='add-on cur_point'>i</span>" +
-					"<div class='cue'>  </div>" +
-					"</div>" +
-					"</li>" +
-					"<li class='col-md-3 col-sm-6 col-xs-12'>" +
-					"	<span class='col-md-12 col-xs-12 col-sm-12 padding-left-5 white'>操作</span>" +
-					"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
-					"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>" +
-					"	<input type='button' onclick='delAddress(this)' class='btn list_btn' value='一'/>" +
-					"	<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' />" +
-					"</div></li>"
-				);
-				ind++;
-				$("#index").val(ind);
+				
 			}
 			function delAddress(obj) {
 				var btmCount = 0;
@@ -630,6 +631,7 @@
 						$(li).after("<li name='branch' class='col-md-3 col-sm-6 col-xs-12'>" +
 							" <span class='col-md-12 col-xs-12 col-sm-12 padding-left-5'><i class='red'>* </i>机构名称</span>" +
 							" <div class='input-append col-md-12 col-sm-12 col-xs-12 input_group p0'>" +
+							" <input type='hidden' name='branchList[" + inde + "].id'   value='"+branId+"' />" +
 							" <input type='text' name='branchList[" + inde + "].organizationName' id='sup_branchName'  value='' / onblur='tempSave()'>" +
 							"   <span class='add-on cur_point'>i</span>" +
 							"   </div>" +
@@ -657,6 +659,7 @@
 							" <div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
 							" <input type='button' onclick='addBranch(this)' class='btn list_btn' value='十'/>" +
 							" <input type='button' onclick='delBranch(this)'class='btn list_btn' value='一'/>" +
+							" <input type='hidden'  class='btn list_btn' value='"+branId+"'/>" +
 							" </div>" +
 							" </li>" +
 
@@ -1182,7 +1185,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮箱</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="contactEmail" required email value="${currSupplier.contactEmail}" <c:if test="${fn:contains(audit,'contactEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactEmail')"</c:if>/>
+										<input type="email" name="contactEmail" required email value="${currSupplier.contactEmail}" <c:if test="${fn:contains(audit,'contactEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contactEmail')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如：123456@qq.com</span>
 										<div class="cue"> ${err_catEmail } </div>
@@ -1299,7 +1302,7 @@
 								<li class="col-md-3 col-sm-6 col-xs-12">
 									<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><i class="red">*</i> 邮箱</span>
 									<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-										<input type="text" name="armyBuinessEmail" required email value="${currSupplier.armyBuinessEmail}" <c:if test="${fn:contains(audit,'armyBuinessEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessEmail')"</c:if>/>
+										<input type="email" name="armyBuinessEmail" required email value="${currSupplier.armyBuinessEmail}" <c:if test="${fn:contains(audit,'armyBuinessEmail')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('armyBuinessEmail')"</c:if>/>
 										<span class="add-on cur_point">i</span>
 										<span class="input-tip">不能为空，如：123456@qq.com</span>
 										<div class="cue"> ${err_armEmail } </div>

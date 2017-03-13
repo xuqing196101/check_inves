@@ -357,11 +357,11 @@
 									<td class="tc" id="totalNetAssets_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_totalNetAssets'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('totalNetAssets','${f.id}');"</c:if>>${f.totalNetAssets}</td>
 									<td class="tc" id="taking_${f.id }" <c:if test="${fn:contains(field,f.id.concat('_taking'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('taking','${f.id}');"</c:if>>${f.taking}</td>
 									<td class="tc w50">
-										<a onclick="reason('${f.id}_info','财务信息');" id="${f.id}_info_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_info'))}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_info'))}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if></a>
-										<p id="${f.id}_info_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+										<a onclick="reason('${f.id}_info','财务信息');" id="${f.id}_info_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_info'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
+										<p id="${f.id}_info_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 										
 										<c:if test="${fn:contains(passedField,f.id.concat('_info'))}">
-											<img src='/zhbj/public/backend/images/sc.png'>
+											<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 										</c:if>
 									</td>
 								</tr>
@@ -398,11 +398,11 @@
 										<u:show showId="fina_${vs.index}_change" delete="false" groups="fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${f.id}" typeId="${supplierDictionaryData.supplierOwnerChange}" sysKey="${sysKey}" />
 								  </td>
 								  <td class="tc w50">
-											<a onclick="reason('${f.id}_file','财务附件');" id="${f.id}_file_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_file'))}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_file'))}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if></a>
-											<p id="${f.id}_file_show"><img src='/zhbj/public/backend/images/sc.png'></p>
+											<a onclick="reason('${f.id}_file','财务附件');" id="${f.id}_file_hidden" class="editItem"><c:if test="${fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if> <c:if test="${!fn:contains(passedField,f.id.concat('_file'))}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if></a>
+											<p id="${f.id}_file_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											
 											<c:if test="${fn:contains(passedField,f.id.concat('_file'))}">
-												<img src='/zhbj/public/backend/images/sc.png'>
+												<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 											</c:if>
 								  </td>
 								</tr>

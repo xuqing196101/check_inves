@@ -58,10 +58,24 @@
 			}
 
 			function next() {
-				tempSave();
-				$("input[name='flag']").val("2");
-				sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
-				$("#items_info_form_id").submit();
+				var supplierId = "${currSupplier.id}";
+				var supplierTypeIds=$("#supplierTypeIds").val();
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier_item/isaAtitude.do",
+					data: {"supplierId": supplierId, "supplierTypeIds": supplierTypeIds},
+					dataType: "json",
+					success: function(msg){
+					 	if(msg=="0"){
+					 		layer.alert("资质文件没有上传完毕，请继续上传！");
+					 	}else{
+					 		tempSave();
+							$("input[name='flag']").val("2");
+							sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
+							$("#items_info_form_id").submit();
+					 	}
+					}
+				});
+			
 			}
 
 			function prev() {
@@ -236,7 +250,7 @@
 							</ul>
 							<div class="tab-content padding-top-20 pr border0" id="tab_content_div_id">
 								<c:set value="0" var="divCount" />
-								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT') and fn:length(cateList) > 0}">
 									<!-- 物资生产型 -->
 									<c:set value="0" var="prolength" />
 									<div class="fades active" id="tab-1">
@@ -246,7 +260,7 @@
 										<table class="table table-bordered">
 											<c:forEach items="${cateList }" var="obj">
 												<tr>
-													<td class="w200">${obj.categoryName } </td>
+													<td width="18%">${obj.categoryName }</td>
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
@@ -263,7 +277,7 @@
 										<c:set value="${divCount+1}" var="divCount" />
 									</div>
 								</c:if>
-								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES') and fn:length(saleQua) > 0}">
 									<!-- 物资销售型 -->
 									<c:set value="0" var="length"> </c:set>
 									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if>fade height-300" id="tab-2">
@@ -296,7 +310,7 @@
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传工程资质文件
 										</h2>
-										<form id="item_form" method="post">
+										<form id="item_form" method="post" class="col-md-12 col-xs-12 col-sm-12 over_auto p0">
 										  <table class="table table-bordered table_input">
 											<thead>
 												<tr>
@@ -313,18 +327,25 @@
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 										      <tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
 										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										          ${vs.index + 1}
+										         ${vs.index + 1}
 										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
 										        </td>
-										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>${cate.rootNode}</td>
-										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>${cate.firstNode}</td>
-										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>${cate.secondNode}</td>
+										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										        	<div class="w80 lh30"> ${cate.rootNode}</div>
+										        </td>
+										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										            <div class="w150 lh30">${cate.firstNode}</div>
+										        </td>
+										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
+										            <div class="w250 lh30">${cate.secondNode}</div>
+										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">
 										        		<c:forEach items="${cate.typeList}" var="type">
 										        			<option value="${type.id}" <c:if test="${cate.qualificationType eq type.id}">selected</c:if>>${type.name}</option>
 										        		</c:forEach>
 										        	</select>
+										        	
 										        </td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -341,7 +362,7 @@
 										<c:set value="${divCount+1}" var="divCount" />
 									</div>
 								</c:if>
-								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
+								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE') and fn:length(serviceQua) > 0}">
 									<div class="tab-pane <c:if test="${divCount==0 } ">active in</c:if> fade height-300" id="tab-4">
 										<h2 class="f16  ">
 										      	<font color="red">*</font> 上传服务资质文件

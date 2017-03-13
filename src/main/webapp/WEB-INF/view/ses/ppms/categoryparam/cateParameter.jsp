@@ -74,6 +74,16 @@
 				  </select>
 				</div>
 			</li>
+			<li class="col-md-6 col-sm-12 col-xs-12">
+			  <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">是否必填<span class="red">*</span></label>
+			    <div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+			      
+			      <select  name="paramRequired">
+			          <option value="0">非必填</option>
+					  <option value="1">必填</option>
+				  </select>
+				</div>
+			</li>
       	</ul>
 	    <div  class="tc mt20 col-md-12 col-sm-12 col-xs-12">
           <button class="btn btn-windows save"  onclick="saveParameter();" type="button">保存</button>

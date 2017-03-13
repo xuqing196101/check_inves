@@ -31,10 +31,10 @@
 				if(str == "updateHistory") {
 					action = "${pageContext.request.contextPath}/supplierQuery/showUpdateHistory.html";
 				}
-				if (str == "zizhi") {
+				if(str == "zizhi") {
 					action = "${pageContext.request.contextPath}/supplierQuery/aptitude.html";
 				}
-				if (str == "contract") {
+				if(str == "contract") {
 					action = "${pageContext.request.contextPath}/supplierQuery/contract.html";
 				}
 				if(str == "supplierType") {
@@ -42,6 +42,108 @@
 				}
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
+			}
+			
+			function fanhui() {
+				if('${judge}' == 2) {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
+				} else {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
+				}
+			}
+		</script>
+		<script type="text/javascript">
+			$(function() {
+				var product = $("#a_id_1").text();
+				var sales = $("#a_id_2").text();
+				var project = $("#a_id_3").text();
+				var service = $("#a_id_4").text();
+				//加载默认的页签
+				if(product == "物资-生产型品目信息") {
+					loadPageOne('tab-1', 'supplierQuery/ajaxContract.html', 'PRODUCT');
+					return;
+				}
+				if(sales == "物资-销售型品目信息") {
+					loadPageTwo('tab-2', 'supplierQuery/ajaxContract.html', 'SALES');
+					return;
+				}
+				if(project == "工程品目信息") {
+					loadPageThree('tab-3', 'supplierQuery/ajaxContract.html', 'PROJECT');
+					return;
+				}
+				if(service == "服务品目信息") {
+					loadPageFour('tab-4', 'supplierQuery/ajaxContract.html', 'SERVICE');
+					return;
+				}
+			});
+
+			function reason(auditField, auditFieldName) {
+				var supplierId = $("#supplierId").val();
+				var product = $("#pro_val").val();
+				var sales = $("#sal_val").val();
+				var project = $("#eng_val").val();
+				var service = $("#ser_val").val();
+				var str = "";
+				if(product != null && str == "") {
+					str = "生产";
+				}
+				if(sales != null && str == "") {
+					str = "销售";
+				}
+				if(project != null && str == "") {
+					str = "工程";
+				}
+				if(service != null && str == "") {
+					str = "服务";
+				}
+			}
+
+			function loadPageOne(id, url, supplierTypeId) {
+				index = layer.load(1, {
+					shade: [0.1, '#fff'] //0.1透明度的白色背景
+				});
+				var supplierId = $("#supplierId").val();
+				var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+				$("#tab-4").html("");
+				$("#tab-2").html("");
+				$("#tab-3").html("");
+				$("#" + id).load(path);
+			}
+
+			function loadPageTwo(id, url, supplierTypeId) {
+				index = layer.load(1, {
+					shade: [0.1, '#fff'] //0.1透明度的白色背景
+				});
+				var supplierId = $("#supplierId").val();
+				var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+				$("#tab-1").html("");
+				$("#tab-4").html("");
+				$("#tab-3").html("");
+				$("#" + id).load(path);
+			}
+
+			function loadPageThree(id, url, supplierTypeId) {
+				index = layer.load(1, {
+					shade: [0.1, '#fff'] //0.1透明度的白色背景
+				});
+				var supplierId = $("#supplierId").val();
+				var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+				$("#tab-1").html("");
+				$("#tab-2").html("");
+				$("#tab-4").html("");
+				$("#" + id).load(path);
+			}
+
+			function loadPageFour(id, url, supplierTypeId) {
+				index = layer.load(1, {
+					shade: [0.1, '#fff'] //0.1透明度的白色背景
+				});
+				var supplierId = $("#supplierId").val();
+				var path = "${pageContext.request.contextPath}/" + url + "?supplierId=" + supplierId + "&supplierTypeId=" + supplierTypeId;
+				$("#tab-1").html("");
+				$("#tab-2").html("");
+				$("#tab-3").html("");
+				$("#" + id).load(path);
 			}
 		</script>
 	</head>
@@ -69,7 +171,7 @@
 		<div class="container container_box">
 			<div class="content">
 				<div class="col-md-12 tab-v2 job-content">
-				<ul class="nav nav-tabs bgwhite">
+					<ul class="nav nav-tabs bgwhite">
 						<li class="">
 							<a aria-expanded="true" href="#tab-1" data-toggle="tab" class="f18" onclick="tijiao('essential');">基本信息</a>
 						</li>
@@ -83,13 +185,13 @@
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('supplierType');">供应商类型</a>
 						</li>
 						<li class="">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">品目信息</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('item');">产品类别</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('zizhi');">资质文件</a>
 						</li>
 						<li class="active">
-							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">品目合同</a>
+							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
@@ -100,209 +202,60 @@
 					</ul>
 					<ul class="count_flow ul_list hand">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">
-							<c:set value="0" var="liCount"/>
-							<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-								<c:set value="${liCount+1}" var="liCount"/>
-								<li id="li_id_1" class="active">
-									<a aria-expanded="true" href="#tab-1" data-toggle="tab">物资-生产型品目信息</a>
+							<c:set value="0" var="liCount" />
+							<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
+								<c:set value="${liCount+1}" var="liCount" />
+								<li id="li_id_1" class="active" onclick="loadPageOne('tab-1','supplierQuery/ajaxContract.html','PRODUCT')">
+									<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型品目信息</a>
 								</li>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>'>
-									<a aria-expanded="false" href="#tab-2" data-toggle="tab">物资-销售型品目信息</a>
+							<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
+								<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadPageTwo('tab-2','supplierQuery/ajaxContract.html','SALES')">
+									<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_2">物资-销售型品目信息</a>
 								</li>
-								<c:set value="${liCount+1}" var="liCount"/>
+								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-								<li id="li_id_3" class="<c:if test="${liCount == 0}">active</c:if>">
-									<a aria-expanded="false" href="#tab-3" data-toggle="tab">工程品目信息</a>
+							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
+								<li id="li_id_3" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageThree('tab-3','supplierQuery/ajaxContract.html','PROJECT')">
+									<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_3">工程品目信息</a>
 								</li>
-								<c:set value="${liCount+1}" var="liCount"/>
+								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-								<li id="li_id_4" class="<c:if test="${liCount == 0}">active</c:if>">
-									<a aria-expanded="false" href="#tab-4" data-toggle="tab">服务品目信息</a>
+							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
+								<li id="li_id_4" class="<c:if test=" ${liCount==0 } ">active</c:if>" onclick="loadPageFour('tab-4','supplierQuery/ajaxContract.html','SERVICE')">
+									<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务品目信息</a>
 								</li>
-								<c:set value="${liCount+1}" var="liCount"/>
+								<c:set value="${liCount+1}" var="liCount" />
 							</c:if>
 						</ul>
 						<div class="count_flow">
 							<div class="tab-content padding-top-20" id="tab_content_div_id">
-								<c:if test="${fn:contains(supplierTypeNames, '生产')}">
-									<div class="tab-pane fade active in height-300" id="tab-1">
-										<table class="table table-bordered">
-											<tr>
-												<td class="tc info"> 品目名称</td>
-												<td colspan="3" class="tc info">合同上传</td>
-												<td colspan="3" class="tc info">收款进账单</td>
-											</tr>
-											<tr>
-												<td class="tc info"> 末级节点</td>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-											</tr>
-											<c:forEach items="${contract}" var="obj" varStatus="vs">
-												<tr>
-													<td class="">${obj.name }</td>
-													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
-													</td>
-													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
-													</td>
-													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
-													</td>
-													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
-													</td>
-													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
-													</td>
-													<td class="">
-														<u:show showId="pShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
-													</td>
-												</tr>
-											</c:forEach>
-										</table>
+								<c:if test="${fn:contains(supplierTypeIds, 'PRODUCT')}">
+									<!-- 物资生产型 -->
+									<div class="tab-pane active in fade active in height-300" id="tab-1">
 									</div>
 								</c:if>
-								<c:if test="${fn:contains(supplierTypeNames, '销售')}">
-									<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-300" id="tab-2">
-										<table class="table table-bordered">
-											<tr>
-												<td class="tc info"> 品目名称</td>
-												<td colspan="3" class="tc info">合同上传</td>
-												<td colspan="3" class="tc info">收款进账单</td>
-											</tr>
-											<tr>
-												<td class="tc info"> 末级节点</td>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-											</tr>
-											<c:forEach items="${saleBean}" var="obj" varStatus="vs">
-												<tr>
-													<td class="tc">${obj.name }</td>
-													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
-													</td>
-													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
-													</td>
-													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
-													</td>
-													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
-													</td>
-													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
-													</td>
-													<td class="">
-														<u:show showId="saleShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
-													</td>
-												</tr>
-											</c:forEach>
-										</table>
+								<c:if test="${fn:contains(supplierTypeIds, 'SALES')}">
+									<!-- 物资销售型 -->
+									<div class="tab-pane active in fade height-300 " id="tab-2">
 									</div>
 								</c:if>
-								<c:if test="${fn:contains(supplierTypeNames, '工程')}">
-									<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-3">
-										<table class="table table-bordered">
-											<tr>
-												<td class="tc info"> 品目名称</td>
-												<td colspan="3" class="tc info">合同上传</td>
-												<td colspan="3" class="tc info">收款进账单</td>
-											</tr>
-											<tr>
-												<td class="tc info"> 末级节点</td>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-											</tr>
-											<c:forEach items="${projectBean}" var="obj" varStatus="vs">
-												<tr>
-													<td class="tc">${obj.name }</td>
-													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
-													</td>
-													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
-													</td>
-													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
-													</td>
-													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
-													</td>
-													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
-													</td>
-													<td class="">
-														<u:show showId="projectShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
-													</td>
-												</tr>
-											</c:forEach>
-										</table>
+								<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
+									<!-- 工程 -->
+									<div class="tab-pane active in fade height-200 " id="tab-3">
 									</div>
 								</c:if>
-								<c:if test="${fn:contains(supplierTypeNames, '服务')}">
-									<div class="tab-pane <c:if test="${liCount == 1}">active in</c:if> fade height-200" id="tab-4">
-										<table class="table table-bordered">
-											<tr>
-												<td class="tc info "> 品目名称</td>
-												<td colspan="3" class="tc info">合同上传</td>
-												<td colspan="3" class="tc info">收款进账单</td>
-											</tr>
-											<tr>
-												<td class="tc info"> 末级节点</td>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-												<c:forEach items="${years}" var="year">
-													<td class="tc info">${year}</td>
-												</c:forEach>
-											</tr>
-											<c:forEach items="${serverBean}" var="obj" varStatus="vs">
-												<tr>
-													<td class="tc">${obj.name }</td>
-													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-1}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneContract}" />
-													</td>
-													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-2}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoContract}" />
-													</td>
-													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-3}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeContract}" />
-													</td>
-													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-4}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.oneBil}" />
-													</td>
-													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-5}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.twoBil}" />
-													</td>
-													<td class="">
-														<u:show showId="serpShow${(vs.index+1)*6-6}" delete="false" groups="${sbShow}" businessId="${obj.id}" sysKey="${sysKey }" typeId="${obj.threeBil}" />
-													</td>
-												</tr>
-											</c:forEach>
-										</table>
+								<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
+									<!-- 服务 -->
+									<div class="tab-pane active in fade height-200 " id="tab-4">
 									</div>
 								</c:if>
 							</div>
 						</div>
 					</ul>
+					<div class="col-md-12 tc">
+			    	<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
+			   	</div>
 				</div>
 			</div>
 		</div>

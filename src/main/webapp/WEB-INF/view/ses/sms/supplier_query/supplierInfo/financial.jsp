@@ -56,10 +56,10 @@
 			}
 			
 			function fanhui() {
-				if('${category}' == 1) {
+				if('${judge}' == 2) {
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
 				} else {
-					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&status=${status}";
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
 				}
 			}
 		</script>
@@ -73,13 +73,15 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑系统</a>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
 					</li>
 					<li>
 						<a href="#">供应商查看</a>
 					</li>
 				</ul>
-				<div class="clear"></div>
 			</div>
 		</div>
 		<!-- 项目戳开始 -->
@@ -186,11 +188,9 @@
 					</c:forEach>
 				</div>
 			</div>
-			<%-- <div class="col-md-12 tc">
-				<c:if test="${empty person }">
-					<button class="btn btn-windows back" onclick="fanhui()">返回</button>
-				</c:if>
-			</div> --%>
+			<div class="col-md-12 tc">
+				<button class="btn btn-windows back" onclick="fanhui()">返回</button>
+			</div>
 		</div>
 	</body>
 

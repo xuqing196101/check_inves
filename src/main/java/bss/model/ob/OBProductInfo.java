@@ -8,6 +8,8 @@ public class OBProductInfo {
 
     private String productId;
 
+    private OBProduct obProduct;
+    
     private BigDecimal limitedPrice;
 
     private Integer purchaseCount;
@@ -18,9 +20,53 @@ public class OBProductInfo {
 
     private Date updatedAt;
 
+    /**备注信息**/
     private String remark;
+    
+    private String createrId;
+    
+    private OBProject obProject;
+    
+    //成交供应商 数量
+    private Integer closingSupplier;
+    //合格供应商数量
+    private Integer qualifiedSupplier;
+    
+    
+    public OBProject getObProject() {
+		return obProject;
+	}
 
-    public String getId() {
+	public void setObProject(OBProject obProject) {
+		this.obProject = obProject;
+	}
+
+	public Integer getClosingSupplier() {
+		return closingSupplier;
+	}
+
+	public void setClosingSupplier(Integer closingSupplier) {
+		this.closingSupplier = closingSupplier;
+	}
+
+	public Integer getQualifiedSupplier() {
+		return qualifiedSupplier;
+	}
+
+	public void setQualifiedSupplier(Integer qualifiedSupplier) {
+		this.qualifiedSupplier = qualifiedSupplier;
+	}
+
+	
+	public String getCreaterId() {
+		return createrId;
+	}
+
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -83,4 +129,14 @@ public class OBProductInfo {
     public void setRemark(String remark) {
         this.remark = remark == null ? null : remark.trim();
     }
+
+	public OBProduct getObProduct() {
+		return obProduct;
+	}
+
+	public void setObProduct(OBProduct obProduct) {
+		this.obProduct = obProduct;
+	}
+    
+    
 }

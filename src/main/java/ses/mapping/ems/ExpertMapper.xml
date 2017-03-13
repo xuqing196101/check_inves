@@ -59,7 +59,11 @@
         <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
         <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
+<<<<<<< HEAD
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
+=======
+        <result column="IS_PUBLISH" property="isPublish" />
+>>>>>>> 8dd0ba795d8b10ddb38d93b6a5c11335e2188f3b
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -756,7 +760,9 @@
             <if test="timeProfessional != null">
                 TIME_PROFESSIONAL = #{timeProfessional,jdbcType=TIMESTAMP},
             </if>
-
+            <if test="isPublish != null">
+                IS_PUBLISH = #{isPublish},
+            </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}
     </update>
@@ -972,7 +978,7 @@
         ee.STATUS = 5)
         AND
         ee.IS_BLACK = 0
-        AND ee.IS_SUBMIT = 1
+        AND ee.IS_SUBMIT = '1'
         AND NVL(IS_PROVISIONAL,0) = 0
 
         <if test="expertsFromSplit != null and expertsFromSplit != ''">

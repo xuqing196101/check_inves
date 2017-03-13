@@ -35,4 +35,15 @@ public interface SupplierTypeRelateService {
 	List<SupplierTypeRelate> queryBySupplier(String id);
 	
 	String findBySupplier(String id);
+	/**
+	 * 
+	* @Title: delete
+	* @Description: 根据供应商ID和供应商类型删除 
+	* author: Li Xiaoxiao 
+	* @param @param supplierId
+	* @param @param supplierType     
+	* @return void     
+	* @throws
+	 */
+	void delete(String supplierId,String supplierType);
 }

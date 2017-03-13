@@ -2,156 +2,203 @@ package bss.model.ob;
 
 import java.util.Date;
 
+import ses.model.sms.Supplier;
+
+/**
+ * 
+ * Description： 定型产品竞价 供应商实体
+ * 
+ * @author zhang shubin
+ * @version
+ * @since JDK1.7
+ * @date 2017年3月7日 下午6:10:44
+ * 
+ */
 public class OBSupplier {
-	
-	
-    private String id;
+	private String id;
 
-    private String supplierId;
+	private String supplierId;
 
-    private String qualificationCert;
+	private String qualificationCert;
 
-    private Date certValidPeriod;
+	private Date certValidPeriod;
 
-    private String qualityInspectionDep;
+	private String qualityInspectionDep;
 
-    private String contactName;
+	private String contactName;
 
-    private String contactTel;
+	private String contactTel;
 
-    private String certCode;
+	private String certCode;
 
-    private String uscc;
+	private String uscc;
 
-    private String createrId;
+	private String createrId;
 
-    private Integer isDeleted;
+	private Integer isDeleted;
 
-    private String productId;
+	private String productId;
 
-    private String remark;
+	private String remark;
 
-    private Date createdAt;
+	private Date createdAt;
 
-    private Date updatedAt;
+	private Date updatedAt;
 
-    public String getId() {
-        return id;
-    }
+	private Supplier supplier;
 
-    public void setId(String id) {
-        this.id = id == null ? null : id.trim();
-    }
+	private Integer nCount;// 计数
 
-    public String getSupplierId() {
-        return supplierId;
-    }
+	public String getId() {
+		return id;
+	}
 
-    public void setSupplierId(String supplierId) {
-        this.supplierId = supplierId == null ? null : supplierId.trim();
-    }
+	public void setId(String id) {
+		this.id = id == null ? null : id.trim();
+	}
 
-    public String getQualificationCert() {
-        return qualificationCert;
-    }
+	public String getSupplierId() {
+		return supplierId;
+	}
 
-    public void setQualificationCert(String qualificationCert) {
-        this.qualificationCert = qualificationCert == null ? null : qualificationCert.trim();
-    }
+	public void setSupplierId(String supplierId) {
+		this.supplierId = supplierId == null ? null : supplierId.trim();
+	}
 
-    public Date getCertValidPeriod() {
-        return certValidPeriod;
-    }
+	public String getQualificationCert() {
+		return qualificationCert;
+	}
 
-    public void setCertValidPeriod(Date certValidPeriod) {
-        this.certValidPeriod = certValidPeriod;
-    }
+	public void setQualificationCert(String qualificationCert) {
+		this.qualificationCert = qualificationCert == null ? null
+				: qualificationCert.trim();
+	}
 
-    public String getQualityInspectionDep() {
-        return qualityInspectionDep;
-    }
+	public Date getCertValidPeriod() {
+		return certValidPeriod;
+	}
 
-    public void setQualityInspectionDep(String qualityInspectionDep) {
-        this.qualityInspectionDep = qualityInspectionDep == null ? null : qualityInspectionDep.trim();
-    }
+	public void setCertValidPeriod(Date certValidPeriod) {
+		this.certValidPeriod = certValidPeriod;
+	}
 
-    public String getContactName() {
-        return contactName;
-    }
+	public String getQualityInspectionDep() {
+		return qualityInspectionDep;
+	}
 
-    public void setContactName(String contactName) {
-        this.contactName = contactName == null ? null : contactName.trim();
-    }
+	public void setQualityInspectionDep(String qualityInspectionDep) {
+		this.qualityInspectionDep = qualityInspectionDep == null ? null
+				: qualityInspectionDep.trim();
+	}
 
-    public String getContactTel() {
-        return contactTel;
-    }
+	public String getContactName() {
+		return contactName;
+	}
 
-    public void setContactTel(String contactTel) {
-        this.contactTel = contactTel == null ? null : contactTel.trim();
-    }
+	public void setContactName(String contactName) {
+		this.contactName = contactName == null ? null : contactName.trim();
+	}
 
-    public String getCertCode() {
-        return certCode;
-    }
+	public String getContactTel() {
+		return contactTel;
+	}
 
-    public void setCertCode(String certCode) {
-        this.certCode = certCode == null ? null : certCode.trim();
-    }
+	public void setContactTel(String contactTel) {
+		this.contactTel = contactTel == null ? null : contactTel.trim();
+	}
 
-    public String getUscc() {
-        return uscc;
-    }
+	public String getCertCode() {
+		return certCode;
+	}
 
-    public void setUscc(String uscc) {
-        this.uscc = uscc == null ? null : uscc.trim();
-    }
+	public void setCertCode(String certCode) {
+		this.certCode = certCode == null ? null : certCode.trim();
+	}
 
-    public String getCreaterId() {
-        return createrId;
-    }
+	public String getUscc() {
+		return uscc;
+	}
 
-    public void setCreaterId(String createrId) {
-        this.createrId = createrId == null ? null : createrId.trim();
-    }
+	public void setUscc(String uscc) {
+		this.uscc = uscc == null ? null : uscc.trim();
+	}
 
-    public Integer getIsDeleted() {
-        return isDeleted;
-    }
+	public String getCreaterId() {
+		return createrId;
+	}
 
-    public void setIsDeleted(Integer isDeleted) {
-        this.isDeleted = isDeleted;
-    }
+	public void setCreaterId(String createrId) {
+		this.createrId = createrId == null ? null : createrId.trim();
+	}
 
-    public String getProductId() {
-        return productId;
-    }
+	public Integer getIsDeleted() {
+		return isDeleted;
+	}
 
-    public void setProductId(String productId) {
-        this.productId = productId == null ? null : productId.trim();
-    }
+	public void setIsDeleted(Integer isDeleted) {
+		this.isDeleted = isDeleted;
+	}
 
-    public String getRemark() {
-        return remark;
-    }
+	public String getProductId() {
+		return productId;
+	}
 
-    public void setRemark(String remark) {
-        this.remark = remark == null ? null : remark.trim();
-    }
+	public void setProductId(String productId) {
+		this.productId = productId == null ? null : productId.trim();
+	}
 
-    public Date getCreatedAt() {
-        return createdAt;
-    }
+	public String getRemark() {
+		return remark;
+	}
 
-    public void setCreatedAt(Date createdAt) {
-        this.createdAt = createdAt;
-    }
+	public void setRemark(String remark) {
+		this.remark = remark == null ? null : remark.trim();
+	}
 
-    public Date getUpdatedAt() {
-        return updatedAt;
-    }
+	public Date getCreatedAt() {
+		return createdAt;
+	}
 
-    public void setUpdatedAt(Date updatedAt) {
-        this.updatedAt = updatedAt;
-    }
+	public void setCreatedAt(Date createdAt) {
+		this.createdAt = createdAt;
+	}
+
+	public Date getUpdatedAt() {
+		return updatedAt;
+	}
+
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
+	}
+
+	public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public Integer getnCount() {
+		return nCount;
+	}
+
+	public void setnCount(Integer nCount) {
+		this.nCount = nCount;
+	}
+
+	@Override
+	public String toString() {
+		return "OBSupplier [id=" + id + ", supplierId=" + supplierId
+				+ ", qualificationCert=" + qualificationCert
+				+ ", certValidPeriod=" + certValidPeriod
+				+ ", qualityInspectionDep=" + qualityInspectionDep
+				+ ", contactName=" + contactName + ", contactTel=" + contactTel
+				+ ", certCode=" + certCode + ", uscc=" + uscc + ", createrId="
+				+ createrId + ", isDeleted=" + isDeleted + ", productId="
+				+ productId + ", remark=" + remark + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", supplier=" + supplier
+				+ ", nCount=" + nCount + "]";
+	}
+
 }

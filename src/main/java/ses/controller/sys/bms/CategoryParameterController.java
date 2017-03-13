@@ -125,9 +125,9 @@ public class CategoryParameterController {
      */
     @ResponseBody
     @RequestMapping(value = "/save" , produces = "application/json;charset=UTF-8")
-    public ResponseBean save(String name, String type, String orgId , String cateId , String id){
+    public ResponseBean save(String name, String type, String orgId , String cateId , String id,Integer paramRequired){
         
-        return paramService.saveParameter(name, type ,orgId ,cateId ,id);
+        return paramService.saveParameter(name, type ,orgId ,cateId ,id,paramRequired);
     }
     
     /**

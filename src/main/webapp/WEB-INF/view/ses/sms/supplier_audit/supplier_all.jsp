@@ -151,23 +151,6 @@
 				}
 				
 				//发布
-/* 				function publish(){
-					var id = $(":radio:checked").val();
-					alert(id);
-					$.ajax({
-						url: "${pageContext.request.contextPath}/supplierAudit/publish.do",
-						data: {"supplierId" : id},
-						type: post,
-						success: function(){
-							layer.msg("发布成功!",{offset : '100px'});
-						},
-						error:function(){
-							layer.msg("发布失败!",{offset : '100px'});
-						}
-					});
-				} */
-				
-				
 				function publish(){
 			  	var id = $(":radio:checked").val();
 					var state = $("#" + id + "").parents("tr").find("td").eq(5).text().trim();
@@ -197,7 +180,7 @@
 			  			layer.alert("只有入库供应商才能发布！",{offset : '100px'});
 			     	}
 			  		}else{
-			  			layer.alert("请选择供应商！",{offset : '100px'});
+			  			layer.msg("请选择供应商！",{offset : '100px'});
 			  		}
 			  		
 			  	}
@@ -304,7 +287,7 @@
 				<div class="col-md-12 pl20 mt10">
 						<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
 						<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
-						<button class="btn btn-windows check" type="button" onclick="publish();">发布</button>
+						<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">
@@ -315,8 +298,8 @@
 								<th class="info">供应商名称</th>
 								<th class="info">企业类型</th>
 								<th class="info">企业性质</th>
-								<th class="info w100">状态</th>
 								<th class="info w60">发布</th>
+								<th class="info w100">状态</th>
 							</tr>
 						</thead>
 						<c:forEach items="${result.list }" var="list" varStatus="page">
@@ -330,6 +313,10 @@
 								  	 <c:if test="${list.businessType == type.id}">${type.name}</c:if>
 								  </c:forEach>
 								</td>
+								<td class="tl w60" onclick="shenhe('${list.id }');">
+									<c:if test="${list.isPublish == 1 }">已发布</c:if>
+									<c:if test="${list.isPublish == 0 }">未发布</c:if>
+								</td>
 								<td class="tc w100" id="${list.id}" onclick="shenhe('${list.id }');">
 									<c:if test="${list.status == 0}"><span class="label rounded-2x label-u">待审核</span></c:if>
 									<c:if test="${list.status == 1}"><span class="label rounded-2x label-dark">审核通过</span></c:if>
@@ -341,10 +328,6 @@
 									<c:if test="${list.status == 5 and sign == 3}"><span class="label rounded-2x label-u">待考察</span></c:if>
 									<c:if test="${list.status == 7}"><span class="label rounded-2x label-dark">合格</span></c:if>
 									<c:if test="${list.status == 8}"><span class="label rounded-2x label-dark">不合格</span></c:if>
-								</td>
-								<td class="tl w60" onclick="shenhe('${list.id }');">
-									<c:if test="${list.isPublish == 1 }">已发布</c:if>
-									<c:if test="${list.isPublish == 0 }">未发布</c:if>
 								</td>
 								<%-- <td class="tc" id="${list.id }_isExtract" >${list.isExtract}</td> --%>
 							</tr>

@@ -56,7 +56,7 @@ public interface CategoryParameterService {
      * @param id 主键
      * @return
      */
-    public ResponseBean saveParameter(String name, String type, String orgId, String cateId , String id);
+    public ResponseBean saveParameter(String name, String type, String orgId, String cateId , String id,Integer paramRequired);
 
     /**
      * 

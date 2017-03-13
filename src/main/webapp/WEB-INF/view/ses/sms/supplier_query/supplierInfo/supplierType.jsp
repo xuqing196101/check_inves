@@ -68,6 +68,14 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			function fanhui() {
+				if('${judge}' == 2) {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
+				} else {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
+				}
+			}
 		</script>
 	</head>
 
@@ -417,7 +425,6 @@
 
 										<c:if test="${fn:contains(supplierTypeNames, '服务')}">
 											<div class="tab-pane <c:if test=" ${liCount==1 } ">active in</c:if> fade height-200" id="tab-4">
-												<h2 class="count_flow"><i>1</i>供应商服务资质证书</h2>
 												<ul class="ul_list count_flow">
 													<table class="table table-bordered table-condensed table-hover">
 														<thead>
@@ -454,8 +461,12 @@
 														</c:forEach>
 													</table>
 												</ul>
+												
 											</div>
-										</c:if>
+										</c:if>		
+									</div>
+									<div class="col-md-12 tc">
+										<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
 									</div>
 								</div>
 							</div>

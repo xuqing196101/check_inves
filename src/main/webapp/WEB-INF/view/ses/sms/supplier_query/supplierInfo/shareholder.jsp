@@ -42,6 +42,14 @@
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}
+			
+			function fanhui() {
+				if('${judge}' == 2) {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
+				} else {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
+				}
+			}
 		</script>
 	</head>
 
@@ -53,22 +61,18 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑系统</a>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
 					</li>
 					<li>
 						<a href="#">供应商查看</a>
 					</li>
 				</ul>
-				<div class="clear"></div>
 			</div>
 		</div>
-		<!-- 项目戳开始 -->
 
-		<!-- <div class="container">
-   <div class="col-md-12">
-    <button class="btn btn-windows back" onclick="fanhui()">返回</button> 
-    </div>
-    </div> -->
 		<!--详情开始-->
 		<div class="container container_box">
 			<div class="content height-350">
@@ -131,10 +135,13 @@
 								</tr>
 							</c:forEach>
 						</table>
+						<div class="col-md-12 tc">
+			    		<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
+			   		</div>
 					</div>
-				</div>
+				</div>  
 			</div>
-		</div>
+     </div>
 	</body>
 
 </html>

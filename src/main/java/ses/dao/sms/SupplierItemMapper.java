@@ -86,4 +86,18 @@ public interface SupplierItemMapper {
     
     List<SupplierItem>  getBySupplierIdCategoryId(@Param("supplierId")String supplierId,@Param("categoryId")String categoryId,@Param("type")String type);
     
+    /**
+     * 
+    * @Title: queryBySupplierIdAndType
+    * @Description:根据供应商ID和供应商的类型判断是否存在
+    * author: Li Xiaoxiao 
+    * @param @param supplierId
+    * @param @param type
+    * @param @return     
+    * @return List<SupplierItem>     
+    * @throws
+     */
+    List<SupplierItem> queryBySupplierIdAndType(@Param("supplierId")String supplierId,@Param("type")String type);
+    
+    
 }

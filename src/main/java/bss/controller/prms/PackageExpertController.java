@@ -1150,7 +1150,7 @@ public class PackageExpertController {
         List<SaleTender> supplierList = new ArrayList<SaleTender>();
         for (int i = 0; i < allSupplierList.size(); i++) {
             SaleTender sale = allSupplierList.get(i);
-            if (sale.getPackages().contains(packageId) && sale.getIsFirstPass() == 1 && "0".equals(sale.getIsRemoved()) && sale.getIsTurnUp() == 0) {
+            if (sale.getPackages().contains(packageId) && sale.getIsFirstPass() == 1 && "0".equals(sale.getIsRemoved()) && sale.getIsTurnUp() != null && sale.getIsTurnUp() == 0) {
                 supplierList.add(sale);
             }
         }
@@ -1564,7 +1564,7 @@ public class PackageExpertController {
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
                         //判断专家是否提交
-                        if (packageExpert.getIsAudit() == 1) {
+                        if (packageExpert.getIsAudit() != null && packageExpert.getIsAudit() == 1) {
                           //已提交的话显示评审结果
                           supplierExt.setSuppIsPass("0");
                         } else {
@@ -1576,7 +1576,7 @@ public class PackageExpertController {
                         supplierExt.setExpertId(packageExpert.getExpertId());
                         supplierExt.setPackageId(packageExpert.getPackageId());
                         //判断专家是否提交
-                        if (packageExpert.getIsAudit() == 1) {
+                        if (packageExpert.getIsAudit() != null && packageExpert.getIsAudit() == 1) {
                           //已提交的话显示评审结果
                           supplierExt.setSuppIsPass("1");
                         } else {
@@ -2016,6 +2016,7 @@ public class PackageExpertController {
         record.setPackages(packageId);
         record.setIsFirstPass(1);
         record.setIsRemoved("0");
+        record.setIsTurnUp(0);
         List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
         model.addAttribute("supplierList", supplierList);
         // 查询条件
@@ -3379,7 +3380,7 @@ public class PackageExpertController {
         supplierList.addAll(saleTenderService.find(saleTender));
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
-            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved()) && supp.getIsTurnUp() != null && supp.getIsTurnUp() == 0) {
                 suppList.add(supp);
             }
         }
@@ -3564,7 +3565,7 @@ public class PackageExpertController {
         supplierList.addAll(saleTenderService.find(saleTender));
         List<SaleTender> suppList = new ArrayList<SaleTender>();
         for (SaleTender supp : supplierList) {
-            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved())) {
+            if (supp.getIsFirstPass() != null && supp.getIsFirstPass() == 1 && !"1".equals(supp.getIsRemoved()) && supp.getIsTurnUp() != null && supp.getIsTurnUp() == 0) {
                 suppList.add(supp);
             }
         }
@@ -4129,7 +4130,7 @@ public class PackageExpertController {
                 return "2";
             }
         }
-        return "暂时无法查看";
+        return "未选择评分办法";
     }
     
     @RequestMapping("/checkAuditView")

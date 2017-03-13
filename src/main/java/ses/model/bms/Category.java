@@ -425,4 +425,212 @@ public class Category {
         this.expertType = expertType;
     }
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((acceptRange == null) ? 0 : acceptRange.hashCode());
+		result = prime * result
+				+ ((auditAdvise == null) ? 0 : auditAdvise.hashCode());
+		result = prime * result
+				+ ((auditDate == null) ? 0 : auditDate.hashCode());
+		result = prime * result
+				+ ((auditPersonId == null) ? 0 : auditPersonId.hashCode());
+		result = prime
+				* result
+				+ ((categoryAptitudes == null) ? 0 : categoryAptitudes
+						.hashCode());
+		result = prime
+				* result
+				+ ((categoryAttchment == null) ? 0 : categoryAttchment
+						.hashCode());
+		result = prime * result
+				+ ((categoryParams == null) ? 0 : categoryParams.hashCode());
+		result = prime * result
+				+ ((classify == null) ? 0 : classify.hashCode());
+		result = prime * result + ((code == null) ? 0 : code.hashCode());
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result
+				+ ((description == null) ? 0 : description.hashCode());
+		result = prime * result
+				+ ((engLevel == null) ? 0 : engLevel.hashCode());
+		result = prime * result
+				+ ((expertType == null) ? 0 : expertType.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((isDeleted == null) ? 0 : isDeleted.hashCode());
+		result = prime * result
+				+ ((isPublish == null) ? 0 : isPublish.hashCode());
+		result = prime * result + ((kind == null) ? 0 : kind.hashCode());
+		result = prime * result + ((level == null) ? 0 : level.hashCode());
+		result = prime * result + ((name == null) ? 0 : name.hashCode());
+		result = prime * result
+				+ ((orgnization == null) ? 0 : orgnization.hashCode());
+		result = prime
+				* result
+				+ ((paramPublishRange == null) ? 0 : paramPublishRange
+						.hashCode());
+		result = prime * result
+				+ ((paramStatus == null) ? 0 : paramStatus.hashCode());
+		result = prime * result
+				+ ((parentId == null) ? 0 : parentId.hashCode());
+		result = prime * result
+				+ ((position == null) ? 0 : position.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result
+				+ ((supplierTypes == null) ? 0 : supplierTypes.hashCode());
+		result = prime * result
+				+ ((updatedAt == null) ? 0 : updatedAt.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		Category other = (Category) obj;
+		if (acceptRange == null) {
+			if (other.acceptRange != null)
+				return false;
+		} else if (!acceptRange.equals(other.acceptRange))
+			return false;
+		if (auditAdvise == null) {
+			if (other.auditAdvise != null)
+				return false;
+		} else if (!auditAdvise.equals(other.auditAdvise))
+			return false;
+		if (auditDate == null) {
+			if (other.auditDate != null)
+				return false;
+		} else if (!auditDate.equals(other.auditDate))
+			return false;
+		if (auditPersonId == null) {
+			if (other.auditPersonId != null)
+				return false;
+		} else if (!auditPersonId.equals(other.auditPersonId))
+			return false;
+		if (categoryAptitudes == null) {
+			if (other.categoryAptitudes != null)
+				return false;
+		} else if (!categoryAptitudes.equals(other.categoryAptitudes))
+			return false;
+		if (categoryAttchment == null) {
+			if (other.categoryAttchment != null)
+				return false;
+		} else if (!categoryAttchment.equals(other.categoryAttchment))
+			return false;
+		if (categoryParams == null) {
+			if (other.categoryParams != null)
+				return false;
+		} else if (!categoryParams.equals(other.categoryParams))
+			return false;
+		if (classify == null) {
+			if (other.classify != null)
+				return false;
+		} else if (!classify.equals(other.classify))
+			return false;
+		if (code == null) {
+			if (other.code != null)
+				return false;
+		} else if (!code.equals(other.code))
+			return false;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
+		if (description == null) {
+			if (other.description != null)
+				return false;
+		} else if (!description.equals(other.description))
+			return false;
+		if (engLevel == null) {
+			if (other.engLevel != null)
+				return false;
+		} else if (!engLevel.equals(other.engLevel))
+			return false;
+		if (expertType == null) {
+			if (other.expertType != null)
+				return false;
+		} else if (!expertType.equals(other.expertType))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (isDeleted == null) {
+			if (other.isDeleted != null)
+				return false;
+		} else if (!isDeleted.equals(other.isDeleted))
+			return false;
+		if (isPublish == null) {
+			if (other.isPublish != null)
+				return false;
+		} else if (!isPublish.equals(other.isPublish))
+			return false;
+		if (kind == null) {
+			if (other.kind != null)
+				return false;
+		} else if (!kind.equals(other.kind))
+			return false;
+		if (level == null) {
+			if (other.level != null)
+				return false;
+		} else if (!level.equals(other.level))
+			return false;
+		if (name == null) {
+			if (other.name != null)
+				return false;
+		} else if (!name.equals(other.name))
+			return false;
+		if (orgnization == null) {
+			if (other.orgnization != null)
+				return false;
+		} else if (!orgnization.equals(other.orgnization))
+			return false;
+		if (paramPublishRange == null) {
+			if (other.paramPublishRange != null)
+				return false;
+		} else if (!paramPublishRange.equals(other.paramPublishRange))
+			return false;
+		if (paramStatus == null) {
+			if (other.paramStatus != null)
+				return false;
+		} else if (!paramStatus.equals(other.paramStatus))
+			return false;
+		if (parentId == null) {
+			if (other.parentId != null)
+				return false;
+		} else if (!parentId.equals(other.parentId))
+			return false;
+		if (position == null) {
+			if (other.position != null)
+				return false;
+		} else if (!position.equals(other.position))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (supplierTypes == null) {
+			if (other.supplierTypes != null)
+				return false;
+		} else if (!supplierTypes.equals(other.supplierTypes))
+			return false;
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
+				return false;
+		} else if (!updatedAt.equals(other.updatedAt))
+			return false;
+		return true;
+	}
+
 }

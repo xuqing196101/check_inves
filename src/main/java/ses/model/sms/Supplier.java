@@ -738,7 +738,9 @@ public class Supplier implements Serializable {
     //是否发布 0 未公开 1 已公开
     private Integer isPublish = 0;
     
+    //入库查询列表的标记（5）
     private Integer judge;
+    
     public List<ProjectDetail> getPdList() {
         return pdList;
     }

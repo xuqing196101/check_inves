@@ -48,10 +48,16 @@
 				fileName = encodeURI(fileName);
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/downLoadFile.html?fileName=" + fileName;
 			}
-
+			
+			//返回
 			function fanhui() {
-				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&status=${status}";
+				if('${judge}' == 2) {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
+				} else {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${currSupplier.address}')) + "&judge=${judge}";
+				}
 			}
+			
 			var zTreeObj;
 			var zNodes;
 			$(function() {
@@ -211,13 +217,15 @@
 						<a href="#"> 首页</a>
 					</li>
 					<li>
-						<a href="#">支撑系统</a>
+						<a href="#">支撑环境</a>
+					</li>
+					<li>
+						<a href="#">供应商管理</a>
 					</li>
 					<li>
 						<a href="#">供应商查看</a>
 					</li>
 				</ul>
-				<div class="clear"></div>
 			</div>
 		</div>
 		<div class="container container_box">
@@ -315,6 +323,9 @@
 									</div>
 								</c:if>
 							</div>
+							<div class="col-md-12 tc">
+			    			<button class="btn btn-windows back" onclick="fanhui()">返回</button> 
+			   			</div>
 						</div>
 					</div>
 				</div>

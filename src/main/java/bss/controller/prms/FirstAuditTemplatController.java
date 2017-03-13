@@ -315,6 +315,9 @@ public class FirstAuditTemplatController extends BaseController{
             if (scoreModelList.get(0).getUnitScore() != null && scoreModelList.get(0).getUnitScore().indexOf(".") != -1 && scoreModelList.get(0).getUnitScore().length() == 2) {
                 scoreModelList.get(0).setUnitScore(scoreModelList.get(0).getUnitScore().replace(".", "0."));
             }
+            if (scoreModelList.get(0).getMinScore() != null && scoreModelList.get(0).getMinScore().indexOf(".") != -1 && scoreModelList.get(0).getMinScore().length() == 2) {
+                scoreModelList.get(0).setMinScore(scoreModelList.get(0).getMinScore().replace(".", "0."));
+            }
             scoreModelList.get(0).setIscheck(scoreModelList.get(0).getMarkTerm().isChecked());
             model.addAttribute("scoreModel", scoreModelList.get(0));
         }

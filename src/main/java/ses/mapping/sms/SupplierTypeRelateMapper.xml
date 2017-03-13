@@ -123,4 +123,10 @@
 	<delete id="deleteBySupplierId" parameterType="java.lang.String">
 		delete from T_SES_SMS_SUPPLIER_TYPE_RELATE where SUPPLIER_ID = #{supplierId}
 	</delete>
+	
+	<delete id="deleteSupplierType">
+     	delete from T_SES_SMS_SUPPLIER_TYPE_RELATE where  SUPPLIER_ID = #{supplierId} and SUPPLIER_TYPE_ID = #{supplierType}  
+	</delete>
+	
+	
 </mapper>

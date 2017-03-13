@@ -21,11 +21,12 @@
 		<result column="PARAM_NAME"  property="paramName"/>
 		<result column="PARAM_TYPE_ID"  property="paramTypeId"/>
 		<result column="IS_DELETED" property="isDeleted"/>
+		<result column="PARAM_REQUIRED" property="paramRequired"/>
 	</resultMap>
 	
 	<!-- 基础sql -->
 	<sql id="parameter_sql" >
-		ID, CATEGORY_ID, PARAM_NAME,PARAM_TYPE_ID,IS_DELETED
+		ID, CATEGORY_ID, PARAM_NAME,PARAM_TYPE_ID,IS_DELETED,PARAM_REQUIRED
 	</sql>
 	
 	<!-- 查询tree -->
@@ -45,10 +46,10 @@
         	select sys_guid() from dual
     	</selectKey>
 		INSERT INTO T_SES_BMS_CATEGORY_PARAMETER (ID,CATEGORY_ID,ORG_ID,PARAM_NAME,PARAM_TYPE_ID,
-			 IS_DELETED,CREATED_AT,UPDATED_AT) values 
+			 IS_DELETED,CREATED_AT,UPDATED_AT,PARAM_REQUIRED) values 
 			(#{id}, #{cateId,jdbcType=VARCHAR},#{orgId,jdbcType=VARCHAR}, #{paramName,jdbcType=VARCHAR},
 			#{paramTypeId,jdbcType=VARCHAR},#{isDeleted,jdbcType=SMALLINT},#{createdAt,jdbcType=TIMESTAMP},
-			#{updatedAt,jdbcType=TIMESTAMP})
+			#{updatedAt,jdbcType=TIMESTAMP},#{paramRequired})
 	</insert>
 	
 	<!-- 更新 -->

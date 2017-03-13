@@ -69,11 +69,13 @@ public class CategoryServiceImpl implements CategoryService {
     /** 品目名称不能为空 **/
     private static final String CATEGORY_ISNOTNULL = "品目名称不能为空";
     /** 品目名称已经存在 **/
-    private static final String CATEGORY_EXIST = "品目编码已经存在";
+    private static final String CATEGORY_EXIST = "品目名称已经存在";
     /** 序号不能为空 **/
     private static final String CATEGORY_CODE_ISNUOTNUll = "编码不能为空";
     /** 编码已存在 **/
     private static final String CATEGORY_CODE_CODE = "编码已存在";
+    /** 上级品目不能为空 **/
+    private static final String CATEGORY_PARENT_NAME = "上级品目不能为空";
     /** 最大输入值 **/
     private static final String CATEGORY_MAX_VALUE = "最多只能输入200个汉字";
 
@@ -263,16 +265,24 @@ public class CategoryServiceImpl implements CategoryService {
                     res.setError(CATEGORY_CODE_CODE);
                    return  res;
             	}
-            
+              
         	
-            Integer count = findByCode(code);
+            /*Integer count = findByCode(code);
             
             if (count != null && count > 0) {
                 res.setSuccess(false);
                 res.setMsg(CATEGORY_EXIST);
                return  res;
+            }*/
+            HashMap<String, Object> map=new HashMap<String, Object>();
+            map.put("name", name);
+            map.put("pId", request.getParameter("parentId"));
+            List<Category> CategoryLists = categoryMapper.readNameAndPid(map);
+            if(CategoryLists!=null&&CategoryLists.size()>0){
+            	res.setSuccess(false);
+                res.setMsg(CATEGORY_EXIST);
+               return  res;
             }
-            
             Category category = new Category();
             category.setId(id);
             category.setCode(code);
@@ -303,6 +313,23 @@ public class CategoryServiceImpl implements CategoryService {
          */
         if (operaType.equals(OPERA_EDIT)) {
         	Category category = selectByPrimaryKey(id);
+        	if(StringUtils.isEmpty(parentName)){
+          	  res.setSuccess(false);
+                res.setFilePath(CATEGORY_PARENT_NAME);
+               return  res;
+            }
+        	if(!category.getName().equals(name)){
+        		HashMap<String, Object> map=new HashMap<String, Object>();
+                map.put("name", name);
+                map.put("pId", category.getParentId());
+                List<Category> CategoryLists = categoryMapper.readNameAndPid(map);
+                if(CategoryLists!=null&&CategoryLists.size()>0){
+                	res.setSuccess(false);
+                    res.setMsg(CATEGORY_EXIST);
+                   return  res;
+                }
+        	}
+        	
         	
         	//当前节点的父节点名称修改
         	
@@ -821,6 +848,25 @@ public class CategoryServiceImpl implements CategoryService {
 	public List<Category> findCategoryByNameOrClassify(
 			HashMap<String, Object> map) {
 		return categoryMapper.findCategoryByNameOrClassify(map);
+	}
+
+	@Override
+	public List<Category> findTreeByPidAndName(HashMap<String, Object> map) {
+		
+		return categoryMapper.findTreeByPidAndName(map);
+	}
+
+	@Override
+	public List<Category> readNameAndPid(HashMap<String, Object> map) {
+		
+		return categoryMapper.readNameAndPid(map);
+	}
+
+	@Override
+	public List<Category> searchByNameAndCode(String name, String code,
+			Integer ispublish) {
+		
+		return categoryMapper.searchByNameAndCode(name, code, ispublish);
 	}
 
 	

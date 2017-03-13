@@ -139,7 +139,7 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
      */
     @Override
     public ResponseBean saveParameter(String name, String type, String orgId, 
-                                        String cateId , String id) {
+                                        String cateId , String id,Integer paramRequired) {
         
         ResponseBean res = new ResponseBean();
         
@@ -168,7 +168,7 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
             
         //新增
         } else {
-            CategoryParameter cp = getCategoryParameter(cateId, orgId, name, type);
+            CategoryParameter cp = getCategoryParameter(cateId, orgId, name, type,paramRequired);
             cateParamterMapper.saveParameter(cp);
             res.setResult(true);
             res.setObj(cp);
@@ -373,7 +373,7 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
      * @return CategoryParameter
      */
     private CategoryParameter getCategoryParameter(String cateId, String orgId,
-                    String paramName, String paramTypeId){
+                    String paramName, String paramTypeId,Integer paramRequired){
         
         CategoryParameter cp = new CategoryParameter();
         cp.setCateId(cateId);
@@ -382,6 +382,7 @@ public class CategoryParameterServiceImpl implements CategoryParameterService {
         cp.setParamName(paramName);
         cp.setCreatedAt(new Date());
         cp.setParamTypeId(paramTypeId);
+        cp.setParamRequired(paramRequired);
         return cp;
     }
 
