@@ -84,6 +84,7 @@
 		});
 	});
 	
+	var tempStrForAdd = 0;
 	//新增行
 	function add(btns) {
 		var checkboxStatus = false,detailId,appendObj;
@@ -108,6 +109,7 @@
 				layer.alert("只能选择一条");
 			} else {
 				appendObj.parent().parent().after('<tr class="tc"><td><input style="display:none;" type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount" type="text"></td><td><input name="unitPrice" type="text"></td></tr>');
+				tempStrForAdd = 1;
 			}
 			
 		}
@@ -117,7 +119,7 @@
 	function saveOrUpdate(btns) {
 		var btnVal = $(btns).html();
 		
-		if(btnVal == "保存") {
+		if(btnVal == "保存" && tempStrForAdd == 1) {
 			var sid = "${supplierId}";
 			var subjectList = [];
 			$(".kkkkk").each(function(index , element) {
@@ -139,15 +141,26 @@
 				type : "post",
 				contentType:"application/json",
 				success : function(obj) {
-					layer.alert("添加success");
-					//$(btns).html("修改");
+					layer.confirm(
+						'添加成功',
+						{
+							btn:['确定']
+						},
+						function() {
+							window.history.go(-1);
+						}
+					);
+					//layer.alert("添加成功");
+					
 				},
 				error : function(obj) {
-					layer.alert(obj + "fail");
+					layer.alert("添加失败");
 				}
 			});
 		} else if(btnVal == "修改") {
 			
+		} else if(btnVal == "保存" && tempStrForAdd == 0) {
+			layer.alert("请先添加一条标的");
 		}
 		
 	}
@@ -157,7 +170,7 @@
 	<h2 class="list_title mb0 clear">标的录入</h2>
 	<div style="margin-top: 10px;">
 		<button class="btn btn-windows add "
-			onclick="add(this);" type="button">请选择一条明细</button>
+			onclick="add(this);" type="button">录入标的</button>
 	</div>
 	<div class="content table_box pl0">
 		<table class="table table-bordered table-condensed table_input left_table table_input">

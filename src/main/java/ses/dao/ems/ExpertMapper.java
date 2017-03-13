@@ -142,6 +142,16 @@ public interface ExpertMapper {
      * @param expert
      */
     void insertExpertHistory(ExpertHistory expert);
+   
+    
+    /**
+     *〈简述〉
+     * 删除用户假删改变状态
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    int deleteExpertsAccount(String expertId);
     
     /**
      *〈简述〉

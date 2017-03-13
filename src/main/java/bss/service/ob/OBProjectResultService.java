@@ -56,4 +56,12 @@ public interface OBProjectResultService {
     int updateByPrimaryKeySelective(OBProjectResult record);
 
     int updateByPrimaryKey(OBProjectResult record);
+
+    /**
+     * @author MaMingwei
+     * @param oBProjectResult
+     * @return 查找到的状态
+     * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
+     */
+	String selectSupplierStatus(OBProjectResult oBProjectResult);
 }

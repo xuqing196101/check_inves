@@ -16,6 +16,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
     <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.findById"/>
 	<association property="categoryParent" column="CATEGORY_PARENT_ID" select="ses.dao.bms.CategoryMapper.findById"/>
     <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
@@ -116,6 +117,13 @@
     order by id
   </select>
   
+  <!-- 根据供应商id找到对应的商品 -->
+  <select id="selectProductBySupplierId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT
+    where ID in(select PRODUCT_ID from T_BSS_OB_RESULTS_INFO where SUPPLIER_ID = ${supplierId,jdbcType=VARCHAR})
+  </select>
   <!-- 通过主键查询 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -139,13 +147,10 @@
     where IS_DELETED = 0
     order by CREATED_AT DESC
   </select>
-  
-  
   <!-- 删除 修改删除状态 -->
   <update id="deleteByPrimaryKey" parameterType="String" >
     update T_BSS_OB_PRODUCT set IS_DELETED = 1 where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
   
   <insert id="insert" parameterType="bss.model.ob.OBProduct" >
     insert into T_BSS_OB_PRODUCT (ID, CODE, NAME, 

@@ -864,6 +864,18 @@ public class ExpertServiceImpl implements ExpertService {
         // TODO Auto-generated method stub
         mapper.deleteExpertHistory(expertId);
     }
+    /**
+     *〈简述〉
+     * 删除专家帐号
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    @Override
+	public int deleteExpertsAccount(String expertId){
+    	mapper.deleteExpertsAccount(expertId);
+    	return 0;
+    }
 
     /**
      * @see ses.service.ems.ExpertService#getCommitExpertByDate(java.lang.String)

@@ -336,6 +336,15 @@ public interface ExpertService {
     
     /**
      *〈简述〉
+     * 删除三个月没考的专家账号
+     *〈详细描述〉
+     * @author WangHuijie
+     * @param expert
+     */
+    int deleteExpertsAccount(String expertId);
+    
+    /**
+     *〈简述〉
      * 根据id查询专家的历史信息
      *〈详细描述〉
      * @author WangHuijie

@@ -1991,7 +1991,8 @@
 																	});
 																	$("select[title='cnjewfnGrade']").each(function() {
 																		var $obj = $(this);
-																		$obj.combobox({});
+																		$obj.combobox({
+																		});
 																	});
 																</script>
 															</td>

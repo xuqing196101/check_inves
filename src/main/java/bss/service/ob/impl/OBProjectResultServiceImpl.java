@@ -111,4 +111,16 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		return list;
 	}
 
+	/**
+     * @author MaMingwei
+     * @param oBProjectResult
+     * @return 查找到的状态
+     * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
+     */
+	@Override
+	public String selectSupplierStatus(OBProjectResult oBProjectResult) {
+		
+		return oBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+	}
+
 }

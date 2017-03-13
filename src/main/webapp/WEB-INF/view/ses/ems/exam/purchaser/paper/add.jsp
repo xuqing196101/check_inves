@@ -148,7 +148,7 @@
 			<form action="${pageContext.request.contextPath }/purchaserExam/saveToExamPaper.html" method="post">
 				<h2 class="list_title">新增考卷</h2>
 				<div class="ul_list">
-					<ul class="list-unstyled p0_20">
+						<ul class="list-unstyled p0_20">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>试卷名称：</span>
 							<div class="input-append input_group col-col-md-12 col-sm-12 col-xs-12md-12 p0">
