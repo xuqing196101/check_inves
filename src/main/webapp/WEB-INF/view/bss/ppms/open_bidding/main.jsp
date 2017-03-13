@@ -32,9 +32,13 @@
 					//当前环节经办人
 					$("#currHuanjieId").val(data.currFlowDefineId);
 					$("#currPrincipal").empty();
-					$.each(data.users, function(i, user) {
-						$("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-					});
+					if (data.users != null && data.users != '') {
+						$.each(data.users, function(i, user) {
+							$("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+						});
+					} else {
+						$("#currPrincipal").append("<option  value=" + data.currOperatorId + ">" + data.operateName + "</option>");
+					}
 					$("#currPrincipal").select2();
 					$("#currPrincipal").select2("val", data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
@@ -54,11 +58,14 @@
 						$("#huanjie").html(data.flowDefineName);
 						$("#huanjieId").val(data.flowDefineId);
 						$("#principal").empty();
-						$.each(data.users, function(i, user) {
-							if(user.relName != null && user.relName != '') {
+						if (data.users != null && data.users != '') {
+							$.each(data.users, function(i, user) {
 								$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-							}
-						});
+							});
+						} else {
+							$("#principal").append("<option  value=" + data.operatorId + ">" + data.nextOperatorName + "</option>");
+						}
+						
 						$("#principal").select2();
 						$("#principal").select2("val", data.operatorId);
 					}
@@ -87,9 +94,13 @@
 					//当前环节经办人
 					$("#currHuanjieId").val(data.currFlowDefineId);
 					$("#currPrincipal").empty();
-					$.each(data.users, function(i, user) {
-						$("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-					});
+					if (data.users != null && data.users != '') {
+						$.each(data.users, function(i, user) {
+							$("#currPrincipal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+						});
+					} else {
+						$("#currPrincipal").append("<option  value=" + data.currOperatorId + ">" + data.operateName + "</option>");
+					}
 					$("#currPrincipal").select2();
 					$("#currPrincipal").select2("val", data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
@@ -109,9 +120,13 @@
 						$("#huanjie").html(data.flowDefineName);
 						$("#huanjieId").val(data.flowDefineId);
 						$("#principal").empty();
-						$.each(data.users, function(i, user) {
-							$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
-						});
+						if (data.users != null && data.users != '') {
+							$.each(data.users, function(i, user) {
+								$("#principal").append("<option  value=" + user.userId + ">" + user.relName + "</option>");
+							});
+						} else {
+							$("#principal").append("<option  value=" + data.operatorId + ">" + data.nextOperatorName + "</option>");
+						}
 						$("#principal").select2();
 						$("#principal").select2("val", data.operatorId);
 					}

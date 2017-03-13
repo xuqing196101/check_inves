@@ -298,6 +298,7 @@ public class ProjectServiceImpl implements ProjectService {
 	              FlowExecute flowExecute2 = flowExecutes.get(0);
 	              jsonObj.put("success", true);
 	              jsonObj.put("isEnd", false);
+	              jsonObj.put("nextOperatorName", flowExecute2.getOperatorName());
 	              jsonObj.put("operatorId", flowExecute2.getOperatorId());
 	              jsonObj.put("flowDefineId", fDefine.getId());
 	              jsonObj.put("flowDefineName", fDefine.getName());

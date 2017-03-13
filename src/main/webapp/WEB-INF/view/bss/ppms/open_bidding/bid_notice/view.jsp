@@ -115,7 +115,7 @@
        // ue.setContent("<h1>欢迎使用UEditor！</h1>");
         ue.setContent(content); 
         ue.setDisabled(true);
-        ue.setHeight(270);
+        ue.setHeight(220);
     })
     </script>
 </body>

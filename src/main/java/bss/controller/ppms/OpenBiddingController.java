@@ -2800,8 +2800,12 @@ public class OpenBiddingController {
         fax = pd.getFax() == null ? "" : pd.getFax();
         bank = pd.getBank();
         accountName = pd.getAccountName() == null ?"":pd.getAccountName();
-        unitPostCode = pd.getUnitPostCode().toString();
-        bankAccount = pd.getBankAccount().toString();
+        if (pd.getUnitPostCode() != null) {
+            unitPostCode = pd.getUnitPostCode().toString();
+        }
+        if (pd.getBankAccount() != null) {
+            bankAccount = pd.getBankAccount().toString();
+        }
       }
       String deadline = "";
       if(p.getDeadline() != null){
@@ -2810,17 +2814,59 @@ public class OpenBiddingController {
       content = content.replace("projectDetail", table).replace("projectName", p.getName() == null ? "" : p.getName()).replace("projectNum", p.getProjectNumber() == null ? "" : p.getProjectNumber() ).replace("purchaseType", purchaseTypeName ==  null ? "" : purchaseTypeName).replace("deadline", deadline).replace("bidAddress", p.getBidAddress() == null ? "" : p.getBidAddress());
 
       if(bidDate != null){
-        content = content.replace("bidDate", bidDate).replace("contact", contact);
+        content = content.replace("bidDate", bidDate);
       }else{
-        content = content.replace("bidDate", "").replace("contact", "");
+        content = content.replace("bidDate", "");
       }
-      if(purchaserName != null && contactTelephone != null ){
-        content = content.replace("purchaserName", purchaserName).replace("telephone", contactTelephone);
+      if (contact != null) {
+        content.replace("contact", contact);
+      } else {
+        content = content.replace("contact", "");
+      }
+      if (contactTelephone != null) {
+        content.replace("telephone", contactTelephone);
+      } else {
+        content = content.replace("telephone", "");
+      }
+      if(purchaserName != null){
+        content = content.replace("purchaserName", purchaserName);
       }else{
-        content = content.replace("purchaserName", "").replace("telephone", "");
+        content = content.replace("purchaserName", "");
       }
-      if(contactAddress != null && bankAccount != null && fax != null && bank != null && accountName != null && unitPostCode != null  && auditResult != null){
-        content = content.replace("address", contactAddress).replace("Account", bankAccount).replace("fax", fax).replace("bank", bank).replace("accountName", accountName).replace("unitPostCode", unitPostCode).replace("auditResult", auditResult.toString());
+      if(contactAddress != null){
+        content = content.replace("address", contactAddress);
+      } else {
+        content = content.replace("address", "");
+      }
+      if (bankAccount != null) {
+        content = content.replace("Account", bankAccount);
+      } else {
+        content = content.replace("Account", "");
+      }
+      if (fax != null) {
+        content = content.replace("fax", fax);
+      } else {
+        content = content.replace("fax", "");
+      }
+      if (bank != null) {
+        content = content.replace("bank", bank);
+      } else {
+        content = content.replace("bank", "");
+      }
+      if (accountName != null) {
+        content = content.replace("accountName", accountName);
+      } else {
+        content = content.replace("accountName", "");
+      }
+      if (unitPostCode != null) {
+        content = content.replace("unitPostCode", unitPostCode);
+      } else {
+        content = content.replace("unitPostCode", "");
+      }
+      if (auditResult != null) {
+        content = content.replace("auditResult", auditResult.toString());
+      } else {
+        content = content.replace("auditResult", "");
       }
       if(builder != null){
         content = content.replace("supplier", builder.toString());

@@ -12,6 +12,7 @@ import java.util.UUID;
 
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBSupplierMapper;
 
 import org.apache.commons.lang3.StringUtils;
@@ -35,6 +36,8 @@ import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBResultsInfo;
+import bss.model.ob.OBRule;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProjectServer;
 import bss.util.CheckUtil;
@@ -63,6 +66,9 @@ public class OBProjectServerImpl implements OBProjectServer {
     /** 竞价规则  **/
     @Autowired
     private OBRuleMapper OBRuleMapper;
+    
+    @Autowired
+    private OBResultsInfoMapper OBResultsInfoMapper;
 	@Override
 	public List<OBProject> list(OBProject op) {
 		// TODO Auto-generated method stub
@@ -317,5 +323,150 @@ public class OBProjectServerImpl implements OBProjectServer {
 	@Override
 	public OBProject selectByPrimaryKey(String id) {
 		return OBprojectMapper.selectByPrimaryKey(id);
+	}
+
+
+    /***
+     * 实现根据规则 更新状态
+     * @author YangHongLiang
+     * 
+     */
+
+	@Override
+	public void changeStatus() {
+		// TODO Auto-generated method stub
+		//1.获取 不是暂存 和结束 的竞价数据
+		List<OBProject> getOBProject =OBprojectMapper.selectByStatus();
+		if(getOBProject!=null){
+		//获取当前 默认规则
+		OBRule obRule=OBRuleMapper.selectByStatus();
+		for(OBProject op:getOBProject){
+			 /**竞价状态 0：暂存  1已发布  2竞价中  3：竞价结束  4.流拍  5待确认 **/
+			 switch (op.getStatus()) {
+			case 1://已发布
+				int compare=DateUtils.compareDate(new Date(), op.getStartTime());
+				//比较 竞价信息  如果等于1 那么是竞价 开始的时间
+				if(compare==1){
+					 //根据状态竞价中  
+				     OBProject upstatus=new OBProject();
+				     upstatus.setStatus(2);
+				     upstatus.setId(op.getId());
+				     upstatus.setUpdatedAt(new Date());
+				     OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+				}
+				break;
+			case 2://竞价中
+				//根据竞价id 获取 是否 在规定的时间内 参与报价
+				int compareDate=DateUtils.compareDate(new Date(), op.getEndTime());
+				//比较 竞价信息  如果等于1 那么是竞价 报价结束的时间
+				if(compareDate==1){
+				   //说明 已发布 的竞价信息 已经超过 报价 时间
+					List<OBResultsInfo> obresultsList=	OBResultsInfoMapper.selectByProjectId(op.getId());
+					//判读 是否有竞价供应商
+					if(obresultsList!=null && obresultsList.size()>0){
+				     for(int i=0;i<obresultsList.size();i++){
+				    	// 生成ID
+				 		String uuid = UUID.randomUUID().toString().toUpperCase()
+				 				.replace("-", "");
+				    	 OBProjectResult rsult=new OBProjectResult();
+				    	 rsult.setRanking(i+1);
+				    	 rsult.setSupplierId(obresultsList.get(i).getSupplierId());
+				    	 rsult.setProjectId(obresultsList.get(i).getProjectId());
+				    	 rsult.setUpdatedAt(new Date());
+				    	 rsult.setId(uuid);
+				    	 rsult.setCreatedAt(new Date());
+				    	 OBProjectResultMapper.insertSelective(rsult);
+				     }
+				     //根据状态竞价中  修改竞价结束时间
+				     OBProject upstatus=new OBProject();
+				     upstatus.setStatus(5);
+				     upstatus.setUpdatedAt(new Date());
+				     upstatus.setId(op.getId());
+				     OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+					}else{
+						 //到规定时间  如果没有竞价供应商  修改竞状态 流拍
+					     OBProject upstatus=new OBProject();
+					     upstatus.setStatus(4);
+					     upstatus.setId(op.getId());
+					     upstatus.setUpdatedAt(new Date());
+					     OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+					}
+				}
+				break;
+			case 5://待确认
+				//结束时间 加上 确定时间
+				Date date=DateUtils.getAddDate(op.getEndTime(),obRule.getConfirmTime());
+				//在加上 二轮确认时间
+				date=DateUtils.getAddDate(date,obRule.getConfirmTime());
+				//根据竞价id 获取 是否 在规定的时间内 参与报价
+				int compareDate1=DateUtils.compareDate(new Date(), date);
+				//比较 竞价信息  如果等于1 那么是竞价确认结束的时间
+				if(compareDate1==1){
+					//说明 已发布 的竞价信息 已经超过 确认 时间
+					List<OBProjectResult> prlist=	OBProjectResultMapper.selectNotSuppler(op.getId());
+					//临时存储交易比例
+					int temp=0; 
+					if(prlist!=null){
+					for(int i=0;i<prlist.size();i++){
+						temp=temp+Integer.valueOf(prlist.get(i).getProportion());
+						if(prlist.get(i).getStatus()!=0 && prlist.get(i).getStatus()!=1){
+				    	 OBProjectResult rsult=new OBProjectResult();
+				    	 rsult.setStatus(0);
+				    	 rsult.setSupplierId(prlist.get(i).getSupplierId());
+				    	 rsult.setProjectId(prlist.get(i).getProjectId());
+				    	 rsult.setId(prlist.get(i).getId());
+				    	 OBProjectResultMapper.updateByPrimaryKeySelective(rsult);
+						}
+				     }
+					}
+					//根据状态竞价中  修改竞价结束时间
+					OBProject upstatus=new OBProject();
+					// 获取是否有二轮确认
+					List<OBProjectResult> round=	OBProjectResultMapper.selectSecondRound(op.getId());
+					if(round!=null && round.size()>0){
+						if(temp<100){
+							//流拍
+					    	 upstatus.setStatus(4);
+						}
+					}else{
+				     if(temp<100){
+				    	 //竞价二轮 待确认
+				    	 upstatus.setStatus(2);
+				    	 //获取 第一轮的供应商 数据
+				    	 if(prlist!=null){
+								for(int i=0;i<prlist.size();i++){
+									// 生成ID
+							 		String uuid = UUID.randomUUID().toString().toUpperCase()
+							 				.replace("-", "");
+									OBProjectResult or=prlist.get(i);
+									//封装 对象
+							    	 OBProjectResult rsult=new OBProjectResult();
+							    	 rsult.setStatus(null);
+							    	 rsult.setSupplierId(or.getSupplierId());
+							    	 rsult.setProjectId(or.getProjectId());
+							    	 rsult.setId(uuid);
+							    	 rsult.setRanking(or.getRanking());
+							    	 rsult.setCreatedAt(new Date());
+							    	 rsult.setUpdatedAt(new Date());
+							    	 //插入第二轮 供应商 数据
+							    	 OBProjectResultMapper.insertSelective(rsult);
+							     }
+							}	
+				     }else if(temp==0){
+				    	 //流拍
+				    	 upstatus.setStatus(4);
+				     }else{
+				    	 //竞价结束
+				    	 upstatus.setStatus(3);
+				     }
+					}
+					 upstatus.setId(op.getId());
+					 upstatus.setUpdatedAt(new Date());
+				     OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+				}
+				break;
+			}
+		}
+		}
 	}
 }

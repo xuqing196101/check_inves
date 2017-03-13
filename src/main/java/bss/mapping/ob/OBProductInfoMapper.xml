@@ -10,7 +10,12 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="CREATER_ID" property="remark" jdbcType="VARCHAR" />
+    <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectSignalByPrimaryKey"></association>
+    <!-- <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectByPrimaryKey"/>
+    <association property="obProject" column="PROJECT_ID" select="bss.dao.ob.OBProjectMapper.selectByPrimaryKey"/> --> 
   </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -71,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, PRODUCT_ID, LIMITED_PRICE, PURCHASE_COUNT, PROJECT_ID, CREATED_AT, UPDATED_AT, 
-    REMARK
+    REMARK,CREATER_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProductInfoExample" >
     select
@@ -87,6 +92,24 @@
       order by ${orderByClause}
     </if>
   </select>
+  
+  <!-- 查询成交数量总和 -->
+  <select id="selectCount" resultType="Integer" parameterType="java.lang.String">
+  	SELECT 
+  		SUM(PURCHASE_COUNT) 
+  	FROM 
+  		T_BSS_OB_PRODUCT_INFO 
+  	WHERE 
+  		PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
+   <select id="selectByCreaterId" resultMap="BaseResultMap" parameterType="Map" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT_INFO
+    where CREATER_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

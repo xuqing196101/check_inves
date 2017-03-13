@@ -67,5 +67,15 @@ public interface OBProjectServer {
 	 * @exception
 	 */
 	OBProject selectByPrimaryKey(String id);
+    
+	/**
+	 * 
+	 * 根据规则 改变状态
+	 * 
+	 * @author YangHongLiang
+	 * @param @param id
+	 * @exception
+	 */
+	void changeStatus();
 
 }
