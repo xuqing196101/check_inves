@@ -3,24 +3,11 @@ package bss.dao.ob;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProjectResultMapper {
     int countByExample(OBProjectResultExample example);
-    /**
-     *  成交供应商 数量
-     * @param map
-     * @return
-     */
-    Integer countByStatus(Map<String,Object> map);
-    /**
-     * 根据产品 id/竞价id获取已经成交的数量
-     * @param example
-     * @return
-     */
-    int countByStatus(OBProjectResult example);
+
     int deleteByExample(OBProjectResultExample example);
 
     int deleteByPrimaryKey(String id);
@@ -30,13 +17,6 @@ public interface OBProjectResultMapper {
     int insertSelective(OBProjectResult record);
 
     List<OBProjectResult> selectByExample(OBProjectResultExample example);
-    
-    /**
-     * @description 根据供应商Id查询结果
-     * @param id  供应商id
-     * @return
-     */
-    List<OBProjectResult> selectBySupplierId(String supplierId);
 
     OBProjectResult selectByPrimaryKey(String id);
 

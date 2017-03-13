@@ -33,6 +33,19 @@ public interface OBProjectResultService {
      * @return
      */
     List<OBProjectResult> selectBySupplierId(String supplierId);
+    
+    /**
+     * 
+     * Description: 根据竞价信息查询竞价结果信
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月11日 
+     * @param  @param supplierId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selectByProjectId(String supplierId,Integer page);
 
     OBProjectResult selectByPrimaryKey(String id);
 

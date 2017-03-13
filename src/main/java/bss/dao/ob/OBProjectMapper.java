@@ -2,10 +2,7 @@ package bss.dao.ob;
 
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectExample;
-
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProjectMapper {
@@ -32,9 +29,6 @@ public interface OBProjectMapper {
     int updateByPrimaryKeySelective(OBProject record);
 
     int updateByPrimaryKey(OBProject record);
-
-
-	List<OBProject> selectAllOBproject(Map<String, Object> map);
-
-	List<OBProject> selectData(Map<String, Object> map);
+  
+    
 }

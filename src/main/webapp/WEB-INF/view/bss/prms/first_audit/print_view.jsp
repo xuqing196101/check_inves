@@ -64,7 +64,7 @@
 			    <button class="btn" onclick="printResult('${project.id}','${pack.id}','${expert.id}','${auditType}');" type="button">打印检查数据</button>
 		   	</div>
 		    <div class="headline-v2">
-		   		<h2>资格性符合性检查数据</h2>
+		   		<h2>检查数据</h2>
 		   	</div>
 		   	<div class="mt10 tc">
 		   		<h2>${project.name}--${pack.name}</h2>

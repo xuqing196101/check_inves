@@ -59,9 +59,9 @@
 		    <td class="tl pl20">${item.thirdNode}</td>
 		   <%--  <td class="tl pl20">${item.fourthNode}</td> --%>
 		    <td class="tc w50 hand">
-					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></a>
-					<p id="${item.itemsId}_show"><img src='/zhbj/public/backend/images/sc.png'></p>
-					<c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='/zhbj/public/backend/images/sc.png'></c:if>
+					<a onclick="reason('${item.firstNode}','${item.secondNode}','${item.thirdNode}','${item.fourthNode}','${item.itemsId}');"  id="${item.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
+					<p id="${item.itemsId}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+					<c:if test="${fn:contains(conditionStr,item.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
 				</td>
       </tr>
     </c:forEach>

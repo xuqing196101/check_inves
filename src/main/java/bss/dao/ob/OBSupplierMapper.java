@@ -3,112 +3,34 @@ package bss.dao.ob;
 import bss.model.ob.OBSupplier;
 import bss.model.ob.OBSupplierExample;
 import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.annotations.Param;
 
 public interface OBSupplierMapper {
-	int countByExample(OBSupplierExample example);
+    int countByExample(OBSupplierExample example);
 
-	/**
-	 * 
-	 * Description: 删除 改变删除状态
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年3月9日
-	 * @param @param id
-	 * @return void
-	 * @exception
-	 */
-	void deleteByPrimaryKey(@Param("id") String id);
+    int deleteByExample(OBSupplierExample example);
 
-	int insert(OBSupplier record);
+    int deleteByPrimaryKey(String id);
 
-	int insertSelective(OBSupplier record);
+    int insert(OBSupplier record);
 
-	List<OBSupplier> selectByExample(OBSupplierExample example);
+    int insertSelective(OBSupplier record);
 
-	/***
-	 * 根据产品id 获取供应商信息
-	 * 
-	 * @param id
-	 * @return
-	 */
-	List<OBSupplier> selectByProductID(String id);
+    List<OBSupplier> selectByExample(OBSupplierExample example);
+    /***
+     * 根据产品id 获取供应商信息
+     * @param id
+     * @return
+     */
+    List<OBSupplier> selectByProductID(String id);
+    
+    OBSupplier selectByPrimaryKey(String id);
 
-	/**
-	 * 
-	 * Description: 根据ID查询所有
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年3月7日
-	 * @param @param id
-	 * @param @return
-	 * @return List<OBSupplier>
-	 * @exception
-	 */
-	List<OBSupplier> selectByProductId(@Param("productId") String productId);
+    int updateByExampleSelective(@Param("record") OBSupplier record, @Param("example") OBSupplierExample example);
 
-	/**
-	 * 
-	 * Description: 根据ID查询 证书过期
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年3月7日
-	 * @param @param id
-	 * @param @return
-	 * @return List<OBSupplier>
-	 * @exception
-	 */
-	List<OBSupplier> selectByProductId1(@Param("productId") String productId);
+    int updateByExample(@Param("record") OBSupplier record, @Param("example") OBSupplierExample example);
 
-	/**
-	 * 
-	 * Description: 根据ID查询 证书未过期
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年3月8日
-	 * @param @param id
-	 * @param @return
-	 * @return List<OBSupplier>
-	 * @exception
-	 */
+    int updateByPrimaryKeySelective(OBSupplier record);
 
-	List<OBSupplier> selectByProductId2(@Param("productId") String productId);
-	/**
-	 * 
-	 * Description:  证书未过期
-	 * 
-	 * @author YangHongLoang
-	 * @version 2017年3月8日
-	 * @param @param map
-	 * @param @return
-	 * @return int
-	 * @exception
-	 */
-
-	Integer countByProductId2(Map<String,Object> map);
-	/**
-	 * 
-	 * Description: 查询产品对应的供应商数量
-	 * 
-	 * @author zhang shubin
-	 * @version 2017年3月8日
-	 * @param @return
-	 * @return List<OBSupplier>
-	 * @exception
-	 */
-	List<OBSupplier> selectSupplierNum();
-
-	OBSupplier selectByPrimaryKey(String id);
-
-	int updateByExampleSelective(@Param("record") OBSupplier record,
-			@Param("example") OBSupplierExample example);
-
-	int updateByExample(@Param("record") OBSupplier record,
-			@Param("example") OBSupplierExample example);
-
-	int updateByPrimaryKeySelective(OBSupplier record);
-
-	int updateByPrimaryKey(OBSupplier record);
+    int updateByPrimaryKey(OBSupplier record);
 }

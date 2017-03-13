@@ -6,7 +6,7 @@
     <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
     <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
     <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
-    <result column="RANKING" property="ranking" jdbcType="VARCHAR" />
+    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
     <result column="PROPORTION" property="proportion" jdbcType="VARCHAR" />
     <result column="OFFER_PRICE" property="offerPrice" jdbcType="DECIMAL" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
@@ -16,7 +16,24 @@
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="RESULT_COUNT" property="resultCount" jdbcType="DECIMAL"/>
+    <association property="supplier" column="SUPPLIER_ID"
+			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
   </resultMap>
+  
+  <resultMap id="CountMap" type="bss.model.ob.OBProjectResult" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="COUNTOFFER_PRICE" property="countOfferPrice" jdbcType="DECIMAL" />
+    <result column="COUNTTOTAL_AMOUNT" property="countTotalAmount" jdbcType="DECIMAL" />
+    <result column="COUNTRESULT_COUNT" property="countresultCount" jdbcType="DECIMAL" />
+    <association property="supplier" column="SUPPLIER_ID"
+			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
+  </resultMap>
+  
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -108,6 +125,21 @@
     from T_BSS_OB_PROJECT_RESULT
     where SUPPLIER_ID = #{id,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 根据竞价信息ID查询竞价结果信息 -->
+  <select id="selectByProjectId" resultMap="CountMap" parameterType="java.lang.String" >
+    SELECT 
+    	SUM(OFFER_PRICE) COUNTOFFER_PRICE,SUM(TOTAL_AMOUNT) COUNTTOTAL_AMOUNT,SUM(RESULT_COUNT) COUNTRESULT_COUNT,SUPPLIER_ID,RANKING,STATUS 
+    FROM 
+    	T_BSS_OB_PROJECT_RESULT 
+    WHERE 
+    	PROJECT_ID = '471076344D094916869BD60CCB9DFD42' 
+	GROUP BY 
+		SUPPLIER_ID,RANKING,STATUS 
+	ORDER BY 
+		RANKING
+  </select>
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_PROJECT_RESULT
     where ID = #{id,jdbcType=VARCHAR}
@@ -125,7 +157,7 @@
       STATUS, CREATER_ID, REMARK, 
       CREATED_AT, UPDATED_AT)
     values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
-      #{supplierId,jdbcType=VARCHAR}, #{ranking,jdbcType=VARCHAR}, #{proportion,jdbcType=VARCHAR}, 
+      #{supplierId,jdbcType=VARCHAR}, #{ranking,jdbcType=DECIMAL}, #{proportion,jdbcType=VARCHAR}, 
       #{offerPrice,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
       #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
@@ -190,7 +222,7 @@
         #{supplierId,jdbcType=VARCHAR},
       </if>
       <if test="ranking != null" >
-        #{ranking,jdbcType=VARCHAR},
+        #{ranking,jdbcType=DECIMAL},
       </if>
       <if test="proportion != null" >
         #{proportion,jdbcType=VARCHAR},
@@ -250,7 +282,7 @@
         SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
       </if>
       <if test="record.ranking != null" >
-        RANKING = #{record.ranking,jdbcType=VARCHAR},
+        RANKING = #{record.ranking,jdbcType=DECIMAL},
       </if>
       <if test="record.proportion != null" >
         PROPORTION = #{record.proportion,jdbcType=VARCHAR},
@@ -290,7 +322,7 @@
       PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
       PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
-      RANKING = #{record.ranking,jdbcType=VARCHAR},
+      RANKING = #{record.ranking,jdbcType=DECIMAL},
       PROPORTION = #{record.proportion,jdbcType=VARCHAR},
       OFFER_PRICE = #{record.offerPrice,jdbcType=DECIMAL},
       TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},
@@ -317,7 +349,7 @@
         SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       </if>
       <if test="ranking != null" >
-        RANKING = #{ranking,jdbcType=VARCHAR},
+        RANKING = #{ranking,jdbcType=DECIMAL},
       </if>
       <if test="proportion != null" >
         PROPORTION = #{proportion,jdbcType=VARCHAR},
@@ -354,7 +386,7 @@
     set PRODUCT_ID = #{productId,jdbcType=VARCHAR},
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
-      RANKING = #{ranking,jdbcType=VARCHAR},
+      RANKING = #{ranking,jdbcType=DECIMAL},
       PROPORTION = #{proportion,jdbcType=VARCHAR},
       OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
       TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},

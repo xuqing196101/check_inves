@@ -65,22 +65,20 @@
 	<input name = "id" value = "${obSupplier.id }" style="display: none;">
 	<input name = "productId" value = "${obSupplier.productId }" style="display: none;">
    <div>
-    <h2 class="count_flow">添加质检信息</h2>
+    <h2 class="list_title">添加质检信息</h2>
    <ul class="ul_list">
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>供应商名称</span>
-	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+	   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
         <!-- <input class="input_group" id="appendedInput" type="text" name = ""> -->
-        <div class="w200" id="supplierselect">
-		<select id="supplierId" name="supplierId" class="" style=" width: 243px; display: none;" onchange="change()">
+		<select id="supplierId" name="supplierId" class="hide" onchange="change()">
   			<option value=""></option>
 		</select>
-		<select  id="supp" class="" style="width: 243px;">
+		<select  id="supp" class="">
   			<option value=""></option>
 		</select>
+		<div class="cue">${errorName }</div>
 		</div>
-        <div class="cue">${errorName }</div>
-       </div>
 	 </li>
 	 
      <li class="col-md-3 col-sm-6 col-xs-12">

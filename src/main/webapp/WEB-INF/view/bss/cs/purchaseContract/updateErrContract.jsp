@@ -17,7 +17,9 @@
   
   	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-  	
+  	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
     var treeid = null , nodeName=null;
 	var datas;
@@ -224,7 +226,7 @@
 	        	  $("#supplierLegal").val(org.legalName);
 	        	  $("#supplierContact").val(org.contactName);
 	        	  $("#supplierContactTelephone").val(org.contactTelephone);
-	        	  $("#supplierContactAddress").val(org.address);
+	        	  $("#supplierContactAddress").val(org.area.name);
 	        	  $("#supplierUnitpostCode").val(org.postCode);
 	        	  $("#supplierBank").val(org.bankName);
 	        	  $("#supplierBankAccount_string").val(org.bankAccount);
@@ -554,15 +556,15 @@
             <li class=""><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="">标的信息</a><i></i></li>
 			<li class=""><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="">合同文本</a></li>
           </ul>
-          <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateContract.html" method="post">
+          <form id="contractForm" action="${pageContext.request.contextPath}/purchaseContract/updateDraftContract.html" method="post">
           <div class="tab-content padding-top-20">
             <div class="tab-pane fade active in" id="tab-1">
 	   		<input type="hidden" name="status" value="${purCon.status}" id="status"/>
 	   		<input type="hidden" name="supplierPurId" value="${purCon.supplierPurId}"/>
-	   		<input type="hidden" name="projectName" value="${purCon.projectName}"/>
 	   		<input type="hidden" name="projectId" value="${purCon.projectId}"/>
 	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
+	   		<input  type="hidden" name="demandSector" value="${purCon.demandSector}" >
 	   		<input type="hidden" name="id" value="${id}">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
 	   		<ul class="list-unstyled ul_list">
@@ -582,6 +584,30 @@
 	       			</div>
 				 </li>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目编号：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<c:if test="${purCon.manualType==1}">
+			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" onblur="getProjectName('projectCode');">
+			        	</c:if>
+			        	<c:if test="${purCon.manualType==0}">
+			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text"  >
+			        	<input type="hidden" name="projectName" value="${purCon.projectName}"/>
+			        	</c:if>
+			        	<div class="cue">${ERR_proCode}</div>
+	       			</div>
+				 </li>
+				 <!-- 合同类别:1新增，0生成 -->
+				 <c:if test="${purCon.manualType==1}">
+				     <li class="col-md-3 col-sm-6 col-xs-12">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	<input class=" contract_name" name="projectName" value="${purCon.projectName}" type="text">
+			        	<div class="cue">${ERR_projectName}</div>
+	       			</div>
+				 </li>
+				 </c:if>
+				 
+				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>合同金额(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" name="money_string" value="${purCon.money_string}" type="text">
@@ -595,13 +621,13 @@
 			        	<div class="cue">${ERR_documentNumber}</div>
 	       			</div>
 				 </li>
-				 <li class="col-md-3 col-sm-6 col-xs-12">
+				 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购机构资格证号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" name="quaCode" value="${purCon.quaCode}" type="text">
 			        	<div class="cue">${ERR_quaCode}</div>
 	       			</div>
-				 </li>
+				 </li> --%>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
@@ -727,7 +753,7 @@
 	
 	   		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
 			 <ul class="list-unstyled ul_list">
-				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				 <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<select id="supplierDeps" name="supplierDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeSupplierDep()">
@@ -735,7 +761,42 @@
 			        	<!-- <input class=" supplier_id" name="supplierDepName" type="text" value="${project.dealSupplier.supplierName}"> -->
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
-				 </li>
+				 </li> --%>
+				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>  
+			        	
+			        	<div class="cue">${ERR_supplierDepName}</div>
+	       			</div>
+				 </li> 
+				 <script>
+				 var num=0;
+				    $('#supplierList').combobox({  
+				        prompt:'',  
+				        required:false,  
+				        url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulSupplier.do",  
+				        editable:true,  
+				        hasDownArrow:true,
+				        value:"${purCon.supplierDepName}",
+				        filter: function(L, row){  
+				            var opts = $(this).combobox('options');  
+				            return row[opts.textField].indexOf(L) == 0;  
+				        },
+				        onSelect: function (org) { 
+				        	if(num!=0&&num!=1){
+				        	 $("#supplierLegal").val(org.legalName);
+				        	  $("#supplierContact").val(org.contactName);
+				        	  $("#supplierContactTelephone").val(org.contactTelephone);
+				        	  $("#supplierContactAddress").val(org.area.name);
+				        	  $("#supplierUnitpostCode").val(org.postCode);
+				        	  $("#supplierBank").val(org.bankName);
+				        	  $("#supplierBankAccount_string").val(org.bankAccount);
+				        	}
+				        	num++;
+				        }
+				    });  
+				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -801,7 +862,7 @@
 				 </li>
 				 <div class="clear"></div>
 			</ul>
-			<h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
+			<%-- <h2 class="f16 count_flow mt40"><i>04</i>丙方信息</h2>
 			 <ul class="list-unstyled ul_list">
 				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>丙方单位：</span>
@@ -840,14 +901,17 @@
 			         <div class="cue">${ERR_bingUnitpostCode}</div>
 			        </div>
 				 </li>
-			</ul>
+			</ul> --%>
             </div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
+              <c:if test="${purCon.manualType==1}">
 				<div class="col-md-12 col-xs-12 col-sm-12 p0">
 					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 				</div>
+				</c:if>
+				
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed table_input left_table mb0 mt10">
 					 <thead>

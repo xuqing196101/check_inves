@@ -5,6 +5,10 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.util.PropertiesUtil;
+
+import com.github.pagehelper.PageHelper;
+
 import bss.dao.ob.OBProjectResultMapper;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
@@ -20,7 +24,7 @@ import bss.service.ob.OBProjectResultService;
 public class OBProjectResultServiceImpl implements OBProjectResultService {
 
 	@Autowired
-	private OBProjectResultMapper oBProjectResultService;
+	private OBProjectResultMapper oBProjectResultMapper;
 	
 	@Override
 	public int countByExample(OBProjectResultExample example) {
@@ -55,7 +59,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public List<OBProjectResult> selectByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
-		return oBProjectResultService.selectByExample(example);
+		return oBProjectResultMapper.selectByExample(example);
 	}
 
 	@Override
@@ -96,7 +100,15 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public List<OBProjectResult> selectBySupplierId(String supplierId) {
 		// TODO Auto-generated method stub
-		return oBProjectResultService.selectBySupplierId(supplierId);
+		return oBProjectResultMapper.selectBySupplierId(supplierId);
+	}
+
+	@Override
+	public List<OBProjectResult> selectByProjectId(String supplierId,Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<OBProjectResult> list = oBProjectResultMapper.selectByProjectId(supplierId);
+		return list;
 	}
 
 }
