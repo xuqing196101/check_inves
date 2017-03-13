@@ -238,7 +238,7 @@ function openViewDIvs(id){
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${supplier.id }" /></td>
 				<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tc">${supplier.supplier.supplierName }</td>
+				<td class="tl">${supplier.supplier.supplierName }</td>
 				<td class="tc">
 					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>

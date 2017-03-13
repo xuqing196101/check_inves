@@ -163,35 +163,35 @@ $(document).ready(function(){
   <div class="headline-v2">
      	<h2>发布定型产品</h2>
 	</div> 
-  <div class="mt10">
-   </div> 
+  <!-- <div class="mt10">
+   </div>  -->
+   <div class="content table_box">
   <input id = "productId" value = "${obProduct.id }" style = "display: none;">
-  <table class="table table-bordered mt10">
-			    <tbody>
+  <table class="table table-bordered">
+		<tbody>
 				  <tr>
-				    <td class="info"><div class="star_red">*</div>产品代码</td>
-				    <td>
+				    <td class="info" width="18%"><div class="star_red">*</div>产品代码</td>
+				    <td width="32%">
 				    	<input id="code" name="" value="${obProduct.code }" type="text" class="w230 mb0 border0">
 				    	<div class="star_red">${errorCode }</div>
 				    </td>
-				    <td class="info"><div class="star_red">*</div>产品名称</td>
-				    <td>
+				    <td class="info" width="18%"><div class="star_red">*</div>产品名称</td>
+				    <td width="32%">
 				    	<input id="name" name="" value="${obProduct.name }" type="text" class="w230 mb0 border0">
 				    	<div class="star_red">${errorName }</div>
 				    </td>
 				  </tr>
 				  <tr>
-				    <td class="info"><div class="star_red">*</div>采购机构</td>
-				    <td>
+				    <td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
+				    <td width="32%" colspan="3">
 				    	<input id="procurementId" name="" value="${procurementName }" type="text" class="w230 mb0 border0"  onclick="openDiv()" readonly>
 						<input id = "pro" style="display:none;" value="${obProduct.procurementId}">
 						<div class="star_red">${errorProcurement }</div>
 					</td>
-					<td colspan="2"></td>
 				  </tr>
 				   <tr>
-				    <td class="info">选择目录</td>
-				    <td colspan="3">
+				    <td class="info" width="18%">选择目录</td>
+				    <td colspan="3" width="82%">
 				    	<button class="btn" onclick=" showMenu(); return false;">选择目录</button>
 				    	<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0 border0"  onclick="" readonly>
 				    	<input id="categorieId4" name="categoryId" value="${obProduct.categoryId}" type="hidden" class="w230 mb0 border0" >
@@ -215,7 +215,7 @@ $(document).ready(function(){
 				  </tr>
 				 </tbody>
 			 </table>
-			 
+		  </div>
 			 <div class="col-md-12 clear tc mt10">
 	    		<button class="btn btn-windows save" type="button" onclick = "sub(1)">暂存</button>
 	    		<button class="btn btn-windows apply" type="button" onclick = "sub(2)">发布</button>

@@ -87,10 +87,10 @@
 		</table>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
-    <div>
     	<div id="pagediv" align="right"></div>
+    <div class="col-md-12 col-sm-12 col-xs-12 tc">
   		<button class="btn btn-windows back" type="button"  onclick="window.location.href = '${pageContext.request.contextPath }/ob_project/biddingInfoList.html'">返回</button>
- 	</div>
+    </div>
    </div>
 </body>
 </html>

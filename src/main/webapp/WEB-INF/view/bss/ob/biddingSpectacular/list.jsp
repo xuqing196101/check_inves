@@ -95,6 +95,9 @@
     
 <!-- 竞价信息列表页面开始 -->
 	<div class="container">
+	 <div class="headline-v2">
+		<h2>竞价信息列表</h2>
+	 </div>
     <div class="search_detail">
        <form id="queryForm" action="" method="post" class="mb0">
     	<ul class="demand_list">
@@ -110,16 +113,14 @@
 	    	<label class="fl">竞价结束时间：</label>
 			<input name="endTime" value="${ endTime }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
+	    	<button type="reset" class="btn fl mt1 ml5">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
      </div>
          
 <!-- 表格开始 -->
-	<div class="col-md-12 pl20 mt10">
-	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>

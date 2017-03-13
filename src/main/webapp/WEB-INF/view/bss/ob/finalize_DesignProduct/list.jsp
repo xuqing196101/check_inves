@@ -137,7 +137,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li><li class="active"><a href="javascript:void(0)">定型产品列表</a></li>
+		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
 		   </ul>
         <div class="clear"></div>
       </div>
@@ -145,6 +145,9 @@
     
 <!-- 定型产品列表页面开始 -->
 	<div class="container">
+	 <div class="headline-v2">
+		<h2>定型产品列表</h2>
+	 </div>
     <div class="search_detail">
        <form action="${pageContext.request.contextPath}/product/list.html" method="post" class="mb0" id = "form1">
     	<ul class="demand_list">
@@ -184,10 +187,10 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">产品代码</th>
-		  <th class="info">产品名称</th>
-		  <th class="info">大类</th>
-		  <th class="info">小类</th>
+		  <th class="info" width="17%">产品代码</th>
+		  <th class="info" width="20%">产品名称</th>
+		  <th class="info" width="22%">大类</th>
+		  <th class="info" width="22%">小类</th>
 		  <th class="info">合格供应商数量</th>
 		</tr>
 		</thead>
@@ -197,8 +200,8 @@
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td>${product.code}</td>
 		  <td><a href="javascript:void(0)">${product.name}</a></td>
-		  <td class="tc">${product.categoryParent.name }</td>
-		  <td class="tc">${product.category.name }</td>
+		  <td class="tl">${product.categoryParent.name }</td>
+		  <td class="tl">${product.category.name }</td>
 		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?prodid=${product.id }">
 		  	<c:forEach items="${numlist }" var="num">
 		  		<c:if test="${num.productId == product.id }">${num.nCount }</c:if>
