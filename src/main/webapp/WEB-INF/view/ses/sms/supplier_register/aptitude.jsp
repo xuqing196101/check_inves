@@ -58,10 +58,24 @@
 			}
 
 			function next() {
-				tempSave();
-				$("input[name='flag']").val("2");
-				sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
-				$("#items_info_form_id").submit();
+				var supplierId = "${currSupplier.id}";
+				var supplierTypeIds=$("#supplierTypeIds").val();
+				$.ajax({
+					url: "${pageContext.request.contextPath}/supplier_item/isaAtitude.do",
+					data: {"supplierId": supplierId, "supplierTypeIds": supplierTypeIds},
+					dataType: "json",
+					success: function(msg){
+					 	if(msg=="0"){
+					 		layer.alert("资质文件没有上传完毕，请继续上传！");
+					 	}else{
+					 		tempSave();
+							$("input[name='flag']").val("2");
+							sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
+							$("#items_info_form_id").submit();
+					 	}
+					}
+				});
+			
 			}
 
 			function prev() {
@@ -246,7 +260,7 @@
 										<table class="table table-bordered">
 											<c:forEach items="${cateList }" var="obj">
 												<tr>
-													<td width="18%">${obj.categoryName } </td>
+													<td width="18%">${obj.categoryName }</td>
 													<td>
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>

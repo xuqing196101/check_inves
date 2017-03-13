@@ -216,7 +216,7 @@
 	 function addTr(productId,productName,productMoney,producCount,productRemark,conut){
 	      ++number;
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\"><div class=\"w200\"><select id=\"productName_"+number+"\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select></div>"+
+		  "<td class=\"p0\"><select id=\"productName_"+number+"\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
 		  "<input id=\"count\" name=\"count_"+number+"\" value=\""+conut+"\" type=\"hidden\" >"+
 		  "</td>"+
 		  "<td class=\"p0\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
@@ -469,10 +469,10 @@
     <!-- 修改订列表开始-->
    <div class="wrapper mt10">
   <form id="myForm" action="${pageContext.request.contextPath}/ob_project/addProject.html" method="post" class="mb0">
-  <div class="container">
+  <div class="container container_box">
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-     <ul class="ul_list">
-  <table class="table table-bordered left_table">
+     <div class="ul_list">
+  		<table class="table table-bordered left_table">
 			<input id="fileid" name="fileid" value="${fileid}" type="hidden">
 			<input id="status" name="status" type="hidden">
 			<input id="ruleId" name="ruleId" type="hidden">
@@ -529,9 +529,7 @@
 		  <tr>
 			<td class="bggrey tr"><span><font id="contentErr" class="red star_red"></font></span><span class="red star_red">*</span>竞价内容：</td>
 			<td colspan="3" class="p0">
-		   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
   					<textarea class="col-md-12 col-sm-12 col-xs-12" id="content"  maxlength="3000" name="content" style="height:130px"></textarea>
- 				</div>
 			 </td>
 		  </tr>
 		  <tr>
@@ -546,40 +544,32 @@
 		  </tr>
 		 </tbody>
 	 </table>
-	 </ul>
-	</div>
-	<div class="container">
+	 </div>
 	<h2 class="count_flow"><i>2</i>产品信息</h2>
-	 <ul class="ul_list">
-  <div class="col-md-12 pl20 mt10">
-		<input type="button" class="btn btn-windows add" onclick="addTr('productId','','','','',0)" value="添加">
-		<input type="button"  class="btn btn-windows delete" value="删除" onclick="del()">
-		<input type="button"  class="btn btn-windows output" value="下载EXCEL模板" onclick="down()">
-		<input type="button"  class="btn btn-windows input" value="导入EXCEL"  onclick="uploadExcl()">
-		<span><font id="buttonErr" class="red star_red"></font></span>
-	</div>   
-	<div class="content table_box">
-    	<table class="table table-bordered left_table" id ="table2">
-		<tr>
-		  <th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-		  <th class="info"><span class="red star_red">*</span>定型产品名称</th>
-		  <th class="info"><span class="red star_red">*</span>限价（元）</th>
-		  <th class="info"><span class="red star_red">*</span>采购数量</th>
-		  <th class="info"><span class="red star_red">*</span>备注</th>
-		</tr>
-	</table>
-   </div>
+	 <div class="ul_list">
+  		<div class="col-md-12 col-sm-12 col-xs-12 p0 mt10 mb10">
+			<input type="button" class="btn btn-windows add" onclick="addTr('productId','','','','',0)" value="添加">
+			<input type="button"  class="btn btn-windows delete" value="删除" onclick="del()">
+			<input type="button"  class="btn btn-windows output" value="下载EXCEL模板" onclick="down()">
+			<input type="button"  class="btn btn-windows input" value="导入EXCEL"  onclick="uploadExcl()">
+			<span><font id="buttonErr" class="red star_red"></font></span>
+		</div>   
+    	  <table class="table table-bordered left_table" id ="table2">
+			<tr>
+		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
+		  		<th class="info" width="30%"><span class="red star_red">*</span>定型产品名称</th>
+		  		<th class="info"><span class="red star_red">*</span>限价（元）</th>
+		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
+		  		<th class="info" width="30%"><span class="red star_red">*</span>备注</th>
+			</tr>
+		  </table>
+		</div>
    <h2 class="tc">温馨提示：能够提供当前产品的供应商数量为<span id="gys_count" >0</span>家</h2>
-	
-   </ul>
-	</div>
   </form>
-  </div>
   <div class="col-md-12 clear tc mt10">
 	<button class="btn btn-windows save mb20" type="submit" onclick="submitProject(0)">暂存</button>
 	<button class="btn btn-windows apply mb20" type="submit" onclick="submitProject(1)">发布</button>
    </div>
-  </div>
   
   <div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
    	  <div class="col-md-12 col-sm-12 col-xs-12">
@@ -589,5 +579,7 @@
     	    <input type="button" class="btn input" onclick="fileUpload()" value="导入" />
     	</div>
     </div>
+</div>
+</div>
 </body>
 </html>

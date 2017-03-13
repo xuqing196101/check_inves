@@ -104,6 +104,9 @@
     
 <!-- 竞价信息列表页面开始 -->
 	<div class="container">
+	 <div class="headline-v2">
+		<h2>竞价信息列表</h2>
+	 </div>
     <div class="search_detail">
        <form action="${pageContext.request.contextPath}/ob_project/list.html" method="post" id="form1" class="mb0">
          <input type="hidden" name="page" id="page">
@@ -118,8 +121,8 @@
 			 name="startTime" id="startTime" type="text"  readonly="readonly"   maxlength="7" 
 			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" />
 	      </li> 
-	    	<input type="submit" onclick="return query()" class="btn" value="查询">
-	    	<input type="reset" class="btn"  value="重置">  	
+	    	<input type="submit" onclick="return query()" class="btn fl mt1" value="查询">
+	    	<input type="reset" class="btn fl mt1 ml5"  value="重置">  	
     	</ul>
     	  <div class="clear"></div>
        </form>
@@ -136,7 +139,7 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">竞价标题</th>
+		  <th class="info" width="30%">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">成交供应商</th>
 		  <th class="info">合格供应商</th>
@@ -148,7 +151,7 @@
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 		  <td class="tc w50">${(v.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-		  <td class="tc">${list.name}</td>
+		  <td class="tl">${list.name}</td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 		  <td class="tc">
 		  <c:if test="${list.closingSupplier==null}">
