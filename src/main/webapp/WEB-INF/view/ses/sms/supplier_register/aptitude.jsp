@@ -209,7 +209,7 @@
 		            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 		            <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
 		            <span id="sp4" class="new_step current fl"><i class="">4</i><div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span>
-		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售（承包）合同</span> </span>
+		            <span id="sp5" class="new_step fl"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 		            <span id="sp6" class="new_step fl"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 		            <span id="sp7" class="new_step fl"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
 		            <span id="sp8" class="new_step fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>
@@ -320,14 +320,14 @@
 											      <th class="info tc">中类</th>
 											      <th class="info tc w200">资质类型</th>
 											      <th class="info tc w100">证书编号</th>
-											      <th class="info tc w100">资质等级</th>
-											      <th class="info tc w150">证书图片</th>
+											      <th class="info tc w80">资质等级</th>
+											      <th class="info tc">证书图片</th>
 										   		</tr>
 										    </thead>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 										      <tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
 										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										         ${vs.index + 1}
+										        <div class="w50"> ${vs.index + 1}</div>
 										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
 										        </td>
 										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -349,7 +349,7 @@
 										        </td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}">
+										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}" class="w80">
 										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">
 										     	</td>
 										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>

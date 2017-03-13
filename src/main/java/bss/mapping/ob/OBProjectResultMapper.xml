@@ -132,6 +132,24 @@
     GROUP BY STATUS
   </select>
   
+   <!-- 根据竞价 id查 未 确认的供应商信息结果信息 -->
+  <select id="selectNotSuppler" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT_RESULT
+    where 
+    PROJECT_ID = #{id,jdbcType=VARCHAR}
+    order by RANKING
+  </select>
+    <!-- 根据竞价 id查获取 是否有第二轮确认 -->
+  <select id="selectSecondRound" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select COUNT(RANKING)as RANKING 
+    from T_BSS_OB_PROJECT_RESULT
+    where PROJECT_ID = #{id,jdbcType=VARCHAR}
+    GROUP BY RANKING,SUPPLIER_ID,PROJECT_ID
+    HAVING COUNT(RANKING)>2
+  </select>
+  
   <!-- 根据竞价信息ID查询竞价结果信息 -->
   <select id="selectByProjectId" resultMap="CountMap" parameterType="java.lang.String" >
     SELECT 

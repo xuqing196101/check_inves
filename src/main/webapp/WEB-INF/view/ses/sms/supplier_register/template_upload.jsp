@@ -24,7 +24,7 @@
 					if (response != 1) {
 						$("input[name='jsp']").val(flag);
 						if (flag == "commit") {
-							layer.confirm('您已成功提交,请等待审核结果！'+"联系人姓名是："+response.supplierContact+";"+"联系人手机号是："+response.supplierPhone+"；联系人地址："+response.supplierAddress+"；联系人邮编"+response.supplierPostcode, {
+							layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>"+"<br/><span style='margin-left:26px;'> 您选择的采购机构是："+response.shortName+"；联系人姓名是："+response.supplierContact+"；"+"联系人手机号是："+response.supplierPhone+"；联系人地址："+response.supplierAddress+"；联系人邮编"+response.supplierPostcode, {
 								btn : [ '确定' ],
 								shade: false //不显示遮罩
 							//按钮
@@ -119,7 +119,7 @@
 	            <span id="sp2" class="new_step current fl" onclick="updateStep('2')"><i class="">2</i><div class="line"></div> <span class="step_desc_01">供应商类型</span> </span>
 	            <span id="ty3" class="new_step current fl" onclick="updateStep('3')"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
 	            <span id="sp4" class="new_step current fl" onclick="updateStep('4')"><i class="">4</i><div class="line"></div> <span class="step_desc_01">资质文件维护</span> </span>
-	            <span id="sp5" class="new_step current fl" onclick="updateStep('5')"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售（承包）合同</span> </span>
+	            <span id="sp5" class="new_step current fl" onclick="updateStep('5')"><i class="">5</i><div class="line"></div> <span class="step_desc_02">销售合同</span> </span>
 	            <span id="sp6" class="new_step current fl" onclick="updateStep('6')"><i class="">6</i><div class="line"></div> <span class="step_desc_01">采购机构</span> </span>
 	            <span id="sp7" class="new_step current fl" onclick="updateStep('7')"><i class="">7</i><div class="line"></div> <span class="step_desc_02">承诺书和申请表</span> </span>
 	            <span id="sp8" class="new_step current fl"><i class="">8</i> <span class="step_desc_01">提交审核</span> </span>

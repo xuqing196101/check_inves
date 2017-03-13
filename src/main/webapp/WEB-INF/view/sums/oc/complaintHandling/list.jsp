@@ -37,7 +37,9 @@
 
 	<!-- 投诉列表页 -->
 	<div class="container">
-		<div>
+		<div class="headline-v2">
+			<h2>投诉处理列表</h2>
+		</div>
 			<form action="" method="post" class="mb0">
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn" type="button" onclick="dealWith()">查看</button>
@@ -47,11 +49,11 @@
 					<thead>
 						<tr class="info">
 						    <th class="info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
-							<th>序号</th>
+							<th class="w50">序号</th>
 							<th>投诉人名称</th>
 							<th>投诉人类型</th>
 							<th>投诉对象</th>
-							<th>投诉事项</th>
+							<th width="35%">投诉事项</th>
 						</tr>
 					</thead>
 					
@@ -59,7 +61,6 @@
 			</div>
 		<div id="pageDiv" align="right"></div>
 		</form>
-	</div>
 	</div>
 </body>
 </html>

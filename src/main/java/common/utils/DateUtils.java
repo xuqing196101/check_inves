@@ -107,6 +107,20 @@ public class DateUtils {
     	}
     /**
      * 
+     *〈简述〉当前时间加上N分钟
+     *〈详细描述〉
+     * @author YangHongLiang
+     * @param dateString
+     * @return
+     */
+    public static Date getAddDate(Date date,int addMin){
+        long dateLong = (date.getTime() + 1000*60*addMin);
+        Date dated = new Date(dateLong);
+        return dated;
+    }
+    
+    /**
+     * 
      *〈简述〉获取当前时间
      *〈详细描述〉
      * @author myc

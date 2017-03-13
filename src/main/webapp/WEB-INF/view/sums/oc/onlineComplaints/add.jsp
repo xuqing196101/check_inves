@@ -39,18 +39,19 @@ function hid(){
 	</div>
 
 	<!-- 投诉页面 -->
-	<div class="container">
-		<div>
+	<div class="container container_box">
 			<form action="" method="post" class="mb0">
+			  <h2 class="list_title">网上投诉处理系统</h2>
 				<ul class="ul_list">
-				
-			       <h1 align="center">网上投诉处理系统</h1>
-		       
 					<li class="col-md-3 col-sm-6 col-xs-12  pl15" >
 					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉人类型</span>
 						<div class="col-md-12 mb20 col-sm-12 col-xs-12 p0">
-							<input type="radio" name="PerSonTsype" id="PerSonTsype" value="0" onchange="hid()"/>单位
-							<input type="radio" name="PerSonTsype" id="PerSonTsype" value="1" onchange="show()"/>个人
+							<div class="col-md-5 col-xs-5 col-xs-6 p0">
+								<input type="radio" name="PerSonTsype" id="PerSonTsype" value="0" onchange="hid()" class="mr5"/>单位
+						    </div>
+						    <div class="col-md-5 col-xs-5 col-xs-6 ">
+								<input type="radio" name="PerSonTsype" id="PerSonTsype" value="1" onchange="show()" class="mr5"/>个人
+						    </div>
 						</div> 
 				  </li>
 				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"   >
@@ -84,14 +85,11 @@ function hid(){
      	                 <input type="file" id="file" value="" />
                       </div>
 	             </li>
-	             
-		         <div class="clear"></div>    
-		        <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-			         <button type="submit" class="btn">确定投诉</button>
-		        </div>
-		</ul>
+		</ul>  
+		<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
+			<button type="submit" class="btn">确定投诉</button>
+		</div>
 		</form>
-	</div>
 	</div>
 </body>
 </html>

@@ -26,12 +26,14 @@
 				<li><a href="javascript:void(0)">业务监管</a></li>
 				<li><a href="javascript:void(0)">网上投诉处理</a></li>
 				<li class="active"><a href="javascript:void(0)">投诉记录查询</a></li>
-				<li class="active"><a href="javascript:void(0)">投诉记录列表</a></li>
 			</ul>
 			<div class="clear"></div>
 		</div>
 	</div> 
 	<div class="container">
+	<div class="headline-v2">
+		<h2>投诉记录列表</h2>
+	 </div>
 	<div class="search_detail">
 	<form action="" method="post" class="mb0">
 	   <ul class="demand_list">
@@ -67,7 +69,7 @@
 							<th>投诉人名称</th>
 							<th>投诉人类型</th>
 							<th>投诉对象</th>
-							<th>投诉事项</th>
+							<th width="25%">投诉事项</th>
 							<th>处理情况</th>
 						</tr>
 					</thead>
@@ -77,7 +79,7 @@
 							<td class="tc">XXXXXXXXXXXX</td>
 							<td class="tc">xhxhxhxhxhx</td>
 							<td class="tc">dddsdadad</td>
-							<td class="tc">dasdadasda</td>
+							<td class="tl">dasdadasda</td>
 							<td class="tc">adasdasdasd</td>
 						</tr>
 					</tbody>

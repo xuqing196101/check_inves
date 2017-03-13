@@ -83,7 +83,7 @@ public class OBProject {
      * @Fields status : 发布状态
      */
 
-    /**竞价状态 0：暂存  1已发布  2竞价中  3：竞价结束  4.流拍  **/
+    /**竞价状态 0：暂存  1已发布  2竞价中  3：竞价结束  4.流拍   5.待确认**/
     private Integer status;
     /**
      * @Fields createrId : 创建人ID
@@ -381,4 +381,28 @@ public class OBProject {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+
+	@Override
+	public String toString() {
+		return "OBProject [ruleId=" + ruleId + ", id=" + id + ", name=" + name
+				+ ", deliveryDeadline=" + deliveryDeadline
+				+ ", deliveryAddress=" + deliveryAddress
+				+ ", tradedSupplierCount=" + tradedSupplierCount
+				+ ", transportFees=" + transportFees + ", demandUnit="
+				+ demandUnit + ", contactName=" + contactName + ", contactTel="
+				+ contactTel + ", orgId=" + orgId + ", orgContactName="
+				+ orgContactName + ", orgContactTel=" + orgContactTel
+				+ ", startTime=" + startTime + ", endTime=" + endTime
+				+ ", content=" + content + ", attachmentId=" + attachmentId
+				+ ", remark=" + remark + ", status=" + status + ", createrId="
+				+ createrId + ", formId=" + formId + ", turnoverRation="
+				+ turnoverRation + ", createdAt=" + createdAt + ", updatedAt="
+				+ updatedAt + ", obProductInfo=" + obProductInfo
+				+ ", productName=" + productName + ", productMoney="
+				+ productMoney + ", productRemark=" + productRemark
+				+ ", productCount=" + productCount + ", closingSupplier="
+				+ closingSupplier + ", qualifiedSupplier=" + qualifiedSupplier
+				+ "]";
+	}
+    
 }

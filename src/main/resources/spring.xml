@@ -11,7 +11,7 @@
 				  http://www.springframework.org/schema/task/spring-task-3.0.xsd">
 	
 	<!-- 自动扫描(自动注入) -->
-	<context:component-scan base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task" />
+	<context:component-scan base-package="ses.service,iss.service,bss.service,bss.util,ses.util,common.service,synchro.*,ses.task,bss.task" />
 	
 	<!-- 引入属性文件 -->
 	<context:property-placeholder location="classpath:config.properties" />
@@ -24,6 +24,8 @@
 	</task:scheduled-tasks>  -->
 	
 	<task:scheduled-tasks>
+	 <!-- 定时处理竞价业务(每秒执行一次) -->
+        <!-- <task:scheduled ref="OBProjectTask"  method="handleOBProject" cron="1 * * * * ?"/> -->
         <!-- 定时删除无效专家(每天凌晨十二点执行一次) -->
         <task:scheduled ref="delExpertTask" method="delExpert" cron="0 0 0 * * ?"/>
         <!-- 内网任务 -->

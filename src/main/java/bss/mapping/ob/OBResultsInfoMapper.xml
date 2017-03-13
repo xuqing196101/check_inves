@@ -96,6 +96,13 @@
     from T_BSS_OB_RESULTS_INFO
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+    <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+	select sum(MY_OFFER_MONEY)as MY_OFFER_MONEY
+	,SUPPLIER_ID,PRODUCT_ID from T_BSS_OB_RESULTS_INFO
+	where PROJECT_ID = #{id,jdbcType=VARCHAR}
+	GROUP BY SUPPLIER_ID,PRODUCT_ID
+	ORDER BY MY_OFFER_MONEY
+  </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_RESULTS_INFO
     where ID = #{id,jdbcType=VARCHAR}

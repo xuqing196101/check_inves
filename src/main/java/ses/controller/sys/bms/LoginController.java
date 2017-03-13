@@ -26,6 +26,7 @@ import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
@@ -174,7 +175,7 @@ public class LoginController {
                     Map<String, Object> map = supplierService.checkLogin(u);
                     String msg = (String) map.get("status");
                     String date = (String) map.get("date");
-                    Orgnization orgnization = ( Orgnization ) map.get("orgnization");
+                    PurchaseDep orgnization = ( PurchaseDep ) map.get("orgnization");
                     
 //                    req.getSession().setAttribute("loginSupplier", map.get("supplier"));
 //                    req.getSession().setAttribute("loginUser", u);
@@ -188,7 +189,7 @@ public class LoginController {
                         req.getSession().setAttribute("loginUserType", "supplier");
                         out.print("scuesslogin");
                     } else  if("unperfect".equals(msg)){
-                        out.print("unperfect," + u.getLoginName());
+                        out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
                     } else  if("初审未通过".equals(msg)){
                         out.print("firstNotPass");
                     } else  if("考察不合格".equals(msg)){
