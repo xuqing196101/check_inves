@@ -15,15 +15,21 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBResultInfoList;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
 
 import com.github.pagehelper.PageInfo;
+
+import common.annotation.CurrentUser;
+import common.utils.JdcgResult;
 
 @RequestMapping("/supplierQuote")
 @Controller
@@ -34,7 +40,7 @@ public class OBSupplierQuoteController {
 
 	@Autowired
 	private OBSupplierQuoteService obSupplierQuoteService;
-	
+
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
 
@@ -118,19 +124,52 @@ public class OBSupplierQuoteController {
 
 	/**
 	 * @author Ma Mingwei
-	 * @param model
-	 * @return
+	 * @param model 
+	 * @param supplierId 供应商id
+	 * @description 点击确认结果
+	 * @return string 视图页面
 	 */
 	@RequestMapping("/confirmResult")
-	public String quoteConfirmResult(Model model, HttpServletRequest request, String supplierId){
-		if(supplierId == null || "".equals(supplierId)) {
-			//这个目前做测试用
+	public String quoteConfirmResult(Model model, HttpServletRequest request,
+			String supplierId) {
+		if (supplierId == null || "".equals(supplierId)) {
+			// 这个目前做测试用
 			supplierId = "5b214591d1ba471ebcbda346408f6545";
 		}
 		// 根据供应商查询到的竞价结果信息
-		List<OBProjectResult> oBProjectResultList = oBProjectResultService.selectBySupplierId(supplierId);
+		List<OBProjectResult> oBProjectResultList = oBProjectResultService
+				.selectBySupplierId(supplierId);
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
-		
+
 		return "bss/ob/supplier/confirmResult";
+	}
+
+	@RequestMapping("/saveQuoteInfo")
+	@ResponseBody
+	public JdcgResult saveQuoteInfo(@CurrentUser User user,
+			OBResultInfoList obResultsInfoExt, Model model,
+			HttpServletRequest request) {
+		// 获取竞价标题
+		String titleId = request.getParameter("titleId");
+		
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("titleId", titleId);
+		// 封装当前用户信息
+		map.put("user", user);
+		// 供应商报价信息
+		map.put("obResultsInfoExtList", obResultsInfoExt);
+		return obSupplierQuoteService.saveQuoteInfo(map);
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return string 视图页面
+	 */
+	@RequestMapping("saveConfirmQuoteInfo")
+	public String saveConfirmQuoteInfo(Model model, HttpServletRequest request){
+		
+		return "";
 	}
 }

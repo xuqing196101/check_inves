@@ -1780,7 +1780,6 @@ public class ProjectController extends BaseController {
     
     @RequestMapping("/mplement")
     public String starts(String projectId, String flowDefineId, Model model, Integer page) {
-        String number = "";
         HashMap<String, Object> map = new HashMap<String, Object>();
         map.put("projectId", projectId);
         Project project = projectService.selectById(projectId);
@@ -1840,7 +1839,9 @@ public class ProjectController extends BaseController {
         List<PurchaseDetail> det = new ArrayList<PurchaseDetail>();
         for (String string : ss) {
             PurchaseDetail detail = purchaseDetailService.queryById(string);
-            det.add(detail);
+            if(detail != null){
+                det.add(detail);
+            }
         }
         if(det != null && det.size() > 0){
             sortDated(det);
@@ -1856,7 +1857,6 @@ public class ProjectController extends BaseController {
             }
         }
         String id2 = DictionaryDataUtil.getId("PROJECT_IMPLEMENT");
-        User user2 = userService.getUserById(pr.getPrincipal());
         List<UploadFile> listD = uploadService.getFilesOther(pr.getId(), id2, "2");
         //查看项目明细
         HashMap<String, Object> maps = new HashMap<String, Object>();
@@ -1882,8 +1882,11 @@ public class ProjectController extends BaseController {
         }
         model.addAttribute("listd", listD);
         model.addAttribute("project", pr);
-        if(user2 != null){
-            model.addAttribute("relName", user2);
+        if(StringUtils.isNotBlank(pr.getPrincipal())){
+            User user2 = userService.getUserById(pr.getPrincipal());
+            if(user2 != null){
+                model.addAttribute("relName", user2);
+            }
         }
         model.addAttribute("orgnization", orgnization);
         model.addAttribute("flowDefineId", flowDefineId);

@@ -60,11 +60,11 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
     <div style="display: block;background: #fff;padding: 1px 10px;margin: 10px 0 10px 20px;border-left: 4px solid #2c9fa6;">
    		<h2>资格性符合性检查汇总数据</h2>
    	</div>
-   	<div style="margin-top: 10px!important;text-align: center;">
+   	<div align="center" style="margin-top: 10px!important;text-align: center;">
    		<h2>${project.name}--${pack.name}</h2>
    	</div>
   	<c:forEach items="${saleTenderList}" var="extensions" >
-  	<table style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
+  	<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
   	<thead>
    		  <tr style="box-sizing: border-box; border:1px solid #dddddd; border-radius: 0px !important;">
    		  <th width="120" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">评审内容/供应商</th>

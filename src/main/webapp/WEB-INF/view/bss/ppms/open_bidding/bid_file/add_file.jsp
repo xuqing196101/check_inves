@@ -442,6 +442,7 @@ function getTaskTime(strDate) {
        </div>
         
 	</form>
+	</div>
 </body>
-</div>
+
 </html>

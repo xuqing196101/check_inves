@@ -146,7 +146,7 @@
 				  	<a href="javascript:void(0)" onclick="beginQuote('${obProject.id}')">报价</a>
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
-				  	<a href="javascript:void(0)" onclick="findResult('${obProject.id}')">已确定</a>
+				  	已确定
 			  	</c:if>
 			  </td>
 			</tr>

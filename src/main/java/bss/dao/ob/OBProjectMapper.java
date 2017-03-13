@@ -23,6 +23,17 @@ public interface OBProjectMapper {
     
     List<OBProject> selectPageList(OBProject project);
 
+    /**
+     * 
+     * Description: 根据主键查询竞价信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月11日 
+     * @param  @param id
+     * @param  @return 
+     * @return OBProject 
+     * @exception
+     */
     OBProject selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") OBProject record, @Param("example") OBProjectExample example);
@@ -36,7 +47,5 @@ public interface OBProjectMapper {
 
 	List<OBProject> selectAllOBproject(Map<String, Object> map);
 
-  
-    
-
+	List<OBProject> selectData(Map<String, Object> map);
 }

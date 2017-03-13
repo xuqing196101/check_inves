@@ -1,23 +1,34 @@
 package bss.service.ob.impl;
 
+import java.math.BigDecimal;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
+import bss.dao.ob.OBResultsInfoMapper;
+import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBResultInfoList;
+import bss.model.ob.OBResultsInfo;
+import bss.model.ob.OBResultsInfoExt;
 import bss.service.ob.OBSupplierQuoteService;
+
+import common.utils.JdcgResult;
 
 /**
  * 
@@ -42,7 +53,15 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	// 注入采购机构Mapper
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
+	
+	// 注入供应商
+	@Autowired
+	private OBSupplierMapper obSupplierMapper;
 
+	// 注入供应商报价Mapper
+	@Autowired
+	private OBResultsInfoMapper obResultsInfoMapper;
+	
 	@Override
 	public Map<String, Object> findQuoteInfo(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -71,8 +90,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		if (list != null && list.size() > 0) {
 			for (OBProductInfo obProductInfo : list) {
 				OBProduct product = obProductInfo.getObProduct();
+				String productId = product.getId();
 				if (product != null) {
-					sb.append(product.getId() + ",");
+					sb.append(productId + ",");
 				}
 			}
 		}
@@ -83,5 +103,45 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		// 存储所有商品的id
 		map.put("productIds", productIds);
 		return map;
+	}
+
+	@Override
+	public JdcgResult saveQuoteInfo(Map<String, Object> map) {
+		String titleId = (String) map.get("titleId");
+		// 获取用户
+		User user = (User) map.get("user");
+		OBResultInfoList obResultInfoList = (OBResultInfoList) map.get("obResultsInfoExtList");
+		if(user == null){
+			return JdcgResult.ok("请先登录!");
+		}
+		if(obResultInfoList != null){
+			List<OBResultsInfoExt> obResultsInfoExtList = obResultInfoList.getObResultsInfoExt();
+			for (OBResultsInfoExt obResultsInfoExt : obResultsInfoExtList) {
+				// 设置竞价标题
+				obResultsInfoExt.setProjectId(titleId);
+				// 设置供应商id
+				obResultsInfoExt.setSupplierId(user.getId());
+				// 计算单个商品总价
+				// 单个商品的采购数量
+				Integer signalCountInt = obResultsInfoExt.getResultsNumber();
+				BigDecimal myOfferMoney = obResultsInfoExt.getMyOfferMoney();
+				BigDecimal signalCount = null;
+				if(signalCountInt != null && myOfferMoney != null){
+					// 单个商品的报价
+					signalCount = new BigDecimal(signalCountInt);
+					obResultsInfoExt.setDealMoney(myOfferMoney.multiply(signalCount));
+				}
+				// 设置创建时间
+				obResultsInfoExt.setCreatedAt(new Date());
+				// 设置修改时间
+				obResultsInfoExt.setUpdatedAt(new Date());
+				// 保存
+				OBResultsInfo obResultsInfo = new OBResultsInfo();
+				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
+				obResultsInfoMapper.insert(obResultsInfo);
+				
+			}
+		}
+		return JdcgResult.ok("操作成功，请在报价截止时间后，查看本次中标结果！");
 	}
 }

@@ -278,7 +278,7 @@
 										<th class="info">供应商类别</th>
 										<th class="info">供应商状态</th>
 										<th class="info">电话</th>
-										<th class="info">级别</th>
+										<!-- <th class="info">级别</th> -->
 									</tr>
 								</thead>
 								<tbody>
@@ -304,7 +304,7 @@
 												<c:if test="${list.status==9 }">考察不合格</c:if>
 											</td>
 											<td class="tc">${list.contactMobile}</td>
-											<td class="tc">${list.level}</td>
+											<%-- <td class="tc">${list.level}</td> --%>
 										</tr>
 									</c:forEach>
 								</tbody>

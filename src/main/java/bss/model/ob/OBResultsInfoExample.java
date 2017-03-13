@@ -685,6 +685,146 @@ public class OBResultsInfoExample {
             addCriterion("UPDATED_AT not between", value1, value2, "updatedAt");
             return (Criteria) this;
         }
+
+        public Criteria andSupplierIdIsNull() {
+            addCriterion("SUPPLIER_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdIsNotNull() {
+            addCriterion("SUPPLIER_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdEqualTo(String value) {
+            addCriterion("SUPPLIER_ID =", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdNotEqualTo(String value) {
+            addCriterion("SUPPLIER_ID <>", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdGreaterThan(String value) {
+            addCriterion("SUPPLIER_ID >", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdGreaterThanOrEqualTo(String value) {
+            addCriterion("SUPPLIER_ID >=", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdLessThan(String value) {
+            addCriterion("SUPPLIER_ID <", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdLessThanOrEqualTo(String value) {
+            addCriterion("SUPPLIER_ID <=", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdLike(String value) {
+            addCriterion("SUPPLIER_ID like", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdNotLike(String value) {
+            addCriterion("SUPPLIER_ID not like", value, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdIn(List<String> values) {
+            addCriterion("SUPPLIER_ID in", values, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdNotIn(List<String> values) {
+            addCriterion("SUPPLIER_ID not in", values, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdBetween(String value1, String value2) {
+            addCriterion("SUPPLIER_ID between", value1, value2, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSupplierIdNotBetween(String value1, String value2) {
+            addCriterion("SUPPLIER_ID not between", value1, value2, "supplierId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIsNull() {
+            addCriterion("PROJECT_ID is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIsNotNull() {
+            addCriterion("PROJECT_ID is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdEqualTo(String value) {
+            addCriterion("PROJECT_ID =", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotEqualTo(String value) {
+            addCriterion("PROJECT_ID <>", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdGreaterThan(String value) {
+            addCriterion("PROJECT_ID >", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdGreaterThanOrEqualTo(String value) {
+            addCriterion("PROJECT_ID >=", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLessThan(String value) {
+            addCriterion("PROJECT_ID <", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLessThanOrEqualTo(String value) {
+            addCriterion("PROJECT_ID <=", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdLike(String value) {
+            addCriterion("PROJECT_ID like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotLike(String value) {
+            addCriterion("PROJECT_ID not like", value, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdIn(List<String> values) {
+            addCriterion("PROJECT_ID in", values, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotIn(List<String> values) {
+            addCriterion("PROJECT_ID not in", values, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdBetween(String value1, String value2) {
+            addCriterion("PROJECT_ID between", value1, value2, "projectId");
+            return (Criteria) this;
+        }
+
+        public Criteria andProjectIdNotBetween(String value1, String value2) {
+            addCriterion("PROJECT_ID not between", value1, value2, "projectId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

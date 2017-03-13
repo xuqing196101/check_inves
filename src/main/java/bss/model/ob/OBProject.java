@@ -10,6 +10,10 @@ import java.util.List;
 * @author 注释--Ma Mingwei
  */
 public class OBProject {
+	/**
+	 * 竞价规则id
+	 */
+	private String ruleId;
     private String id;
     /**
      * @Fields name : 竞价名称
@@ -79,7 +83,7 @@ public class OBProject {
      * @Fields status : 发布状态
      */
 
-    /**竞价状态 0：暂存  1已发布 2竞价中  3：竞价结束  4.流拍**/
+    /**竞价状态 0：暂存  1已发布  2竞价中  3：竞价结束  4.流拍  **/
     private Integer status;
     /**
      * @Fields createrId : 创建人ID
@@ -104,6 +108,11 @@ public class OBProject {
      */
     private Date updatedAt;
     /**
+     * 竞价 相关的产品
+     */
+    private List<OBProductInfo> obProductInfo;
+    
+    /**
      * 页面产品 
      */
     private List<String> productName;
@@ -119,7 +128,43 @@ public class OBProject {
      * 页面数量
      */
     private List<String> productCount;
+    //成交供应商 数量
+    private Integer closingSupplier;
+    //合格供应商数量
+    private Integer qualifiedSupplier;
     
+    
+	public String getRuleId() {
+		return ruleId;
+	}
+
+	public void setRuleId(String ruleId) {
+		this.ruleId = ruleId;
+	}
+
+	public Integer getClosingSupplier() {
+		return closingSupplier;
+	}
+
+	public void setClosingSupplier(Integer closingSupplier) {
+		this.closingSupplier = closingSupplier;
+	}
+
+	public Integer getQualifiedSupplier() {
+		return qualifiedSupplier;
+	}
+
+	public void setQualifiedSupplier(Integer qualifiedSupplier) {
+		this.qualifiedSupplier = qualifiedSupplier;
+	}
+
+	public List<OBProductInfo> getObProductInfo() {
+		return obProductInfo;
+	}
+
+	public void setObProductInfo(List<OBProductInfo> obProductInfo) {
+		this.obProductInfo = obProductInfo;
+	}
 
 	public List<String> getProductName() {
 		return productName;

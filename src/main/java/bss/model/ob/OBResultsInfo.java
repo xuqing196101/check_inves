@@ -6,14 +6,25 @@ import java.util.Date;
 public class OBResultsInfo {
     private String id;
 
+    /**
+     * 定型产品ID
+     */
     private String productId;
 
     private String biddingId;
-
+    /**
+     * 单个商品采购数量
+     */
     private Integer resultsNumber;
 
+    /**
+     * 自报单价金额
+     */
     private BigDecimal myOfferMoney;
 
+    /**
+     * 单个商品总价
+     */
     private BigDecimal dealMoney;
 
     private String remark;
@@ -21,6 +32,16 @@ public class OBResultsInfo {
     private Date createdAt;
 
     private Date updatedAt;
+
+    /**
+     * 所属供应商
+     */
+    private String supplierId;
+
+    /**
+     * 竞价标题信息
+     */
+    private String projectId;
 
     public String getId() {
         return id;
@@ -92,5 +113,21 @@ public class OBResultsInfo {
 
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
+    }
+
+    public String getSupplierId() {
+        return supplierId;
+    }
+
+    public void setSupplierId(String supplierId) {
+        this.supplierId = supplierId == null ? null : supplierId.trim();
+    }
+
+    public String getProjectId() {
+        return projectId;
+    }
+
+    public void setProjectId(String projectId) {
+        this.projectId = projectId == null ? null : projectId.trim();
     }
 }

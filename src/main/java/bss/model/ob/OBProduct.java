@@ -17,6 +17,7 @@ import ses.model.bms.Category;
  */
 public class OBProduct {
 	
+	private OBProduct obProduct;
 	private List<OBSupplier> obSupplierList;
 	private String id;
 
@@ -50,7 +51,14 @@ public class OBProduct {
 
 	private Category categoryParent;
 	
-	
+	public OBProduct getObProduct() {
+		return obProduct;
+	}
+
+	public void setObProduct(OBProduct obProduct) {
+		this.obProduct = obProduct;
+	}
+
 	public List<OBSupplier> getObSupplierList() {
 		return obSupplierList;
 	}

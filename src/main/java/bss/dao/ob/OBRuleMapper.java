@@ -37,4 +37,11 @@ public interface OBRuleMapper {
 	 * @return
 	 */
 	OBRule selectByStatus();
+	  /**
+     * 发布更新 发布规则数量
+     * @yanghongliang
+     * @param id  规则id
+     * @return
+     */
+    int updateCount(String id);
 }
