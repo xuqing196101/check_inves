@@ -46,7 +46,7 @@
         and dd.POSITION = #{position} 
       </if>
     </trim>
-  </sql>
+  </sql>  
   
   <!-- 1.根据条件查询 -->
   <select id="findList" parameterType="java.lang.String" resultMap="DictionaryDataMap">

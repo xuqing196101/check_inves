@@ -5,6 +5,10 @@ package ses.service.ems;
 
 import java.util.HashMap;
 import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
+import ses.model.bms.User;
 import ses.model.ems.ExamQuestion;
 
 
@@ -169,4 +173,23 @@ public interface ExamQuestionServiceI {
     * @return List<ExamQuestion>
      */
     List<ExamQuestion> selectByTecTopic(HashMap<String,Object> map);
+    
+   /**
+    * 逻辑判断
+    * @param user
+    * @return
+    */
+    boolean CheckState(User user);
+
+    /**
+     * 
+    * @Title: selectByTecTopic
+    * @author ZhaoBo
+    * @date 2016-11-2 下午1:57:10  
+    * @Description:  
+    * @param @param map
+    * @param @return      
+    * @return List<ExamQuestion>
+     */
+	Integer delExpertById(User user);
 }

@@ -59,29 +59,31 @@ public class PurchaseArchiveController extends BaseSupplierController{
 	@Autowired
 	private PurchaseServiceI purchaseService;
 	@Autowired
-    private UploadService uploadService;
+	private UploadService uploadService;
 	@Autowired
-    private ArchiveBorrowServiceI archiveBorrowService;
+	private ArchiveBorrowServiceI archiveBorrowService;
 	@Autowired
-    private DownloadService downloadService;
+	private DownloadService downloadService;
 	@Autowired
-    private ProbationaryArchiveServiceI probationaryArchiveService;
+	private ProbationaryArchiveServiceI probationaryArchiveService;
+
 	
 	/**
 	 * 
-	* @Title: archiveList
-	* @author ZhaoBo
-	* @date 2016-10-19 下午2:42:46  
-	* @Description: 采购档案列表页面 
-	* @param @param model
-	* @param @param request
-	* @param @param page
-	* @param @return      
-	* @return String
+	 * @Title: archiveList
+	 * @author ZhaoBo
+	 * @date 2016-10-19 下午2:42:46  
+	 * @Description: 采购档案列表页面 
+	 * @param @param model
+	 * @param @param request
+	 * @param @param page
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/archiveList")
 	public String archiveList(Model model,HttpServletRequest request,Integer page){
 		HashMap<String,Object> map = new HashMap<String,Object>();
+		//request.getParameter 前端页面跳转传过来的值
 		String name = request.getParameter("name");
 		if(name!=null&&!name.equals("")){
 			map.put("name", name);
@@ -94,10 +96,10 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		if(contractCode!=null&&!contractCode.equals("")){
 			map.put("contractCode", contractCode);
 		}
-//		String planCode = request.getParameter("planCode");
-//		if(planCode!=null&&!planCode.equals("")){
-//			map.put("planCode", planCode);
-//		}
+		//		String planCode = request.getParameter("planCode");
+		//		if(planCode!=null&&!planCode.equals("")){
+		//			map.put("planCode", planCode);
+		//		}
 		String status = request.getParameter("status");
 		if(status!=null&&!status.equals("")){
 			map.put("status", status);
@@ -118,16 +120,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/list";
 	}
-	
+
 	/**
 	 * 
-	* @Title: queryArchive
-	* @author ZhaoBo
-	* @date 2016-10-19 下午2:42:49  
-	* @Description: 采购档案查询页面 
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: queryArchive
+	 * @author ZhaoBo
+	 * @date 2016-10-19 下午2:42:49  
+	 * @Description: 采购档案查询页面 
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/queryArchive")
 	public String queryArchive(Model model,HttpServletRequest request,Integer page){
@@ -152,6 +154,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		if(purchaseDep!=null&&!purchaseDep.equals("")){
 			map.put("purchaseDep",purchaseDep);
 		}
+		//根据类型查询数据字典集合
 		List<DictionaryData> data = DictionaryDataUtil.find(5);
 		String purchaseType = request.getParameter("purchaseType");
 		if(purchaseType!=null&&!purchaseType.equals("")){
@@ -189,15 +192,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/query_archive";
 	}
-	
+
 	/**
 	 * 
-	* @Title: archiveAuthorize
-	* @author ZhaoBo
-	* @date 2016-10-19 下午3:05:27  
-	* @Description: 采购档案授权 
-	* @param @return      
-	* @return String
+	 * @Title: archiveAuthorize
+	 * @author ZhaoBo
+	 * @date 2016-10-19 下午3:05:27  
+	 * @Description: 采购档案授权 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/archiveAuthorize")
 	public String archiveAuthorize(Integer page,HttpServletRequest request,Model model){
@@ -222,17 +225,17 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("purchaseList", new PageInfo<PurchaseInfo>(purList));
 		return "bss/dms/purchaseArchive/authorize";
 	}
-	
+
 	/**
 	 * 
-	* @Title: add
-	* @author ZhaoBo
-	* @date 2016-10-25 下午3:55:05  
-	* @Description: 采购档案录入 
-	* @param @param page
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: add
+	 * @author ZhaoBo
+	 * @date 2016-10-25 下午3:55:05  
+	 * @Description: 采购档案录入 
+	 * @param @param page
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/add")
 	public String add(Integer page,Model model,HttpServletRequest request){
@@ -248,16 +251,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/add";
 	}
-	
+
 	/**
 	 * 
-	* @Title: auditArchive
-	* @author ZhaoBo
-	* @date 2016-10-25 下午4:13:15  
-	* @Description: 审核档案 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: auditArchive
+	 * @author ZhaoBo
+	 * @date 2016-10-25 下午4:13:15  
+	 * @Description: 审核档案 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/auditArchive")
 	@ResponseBody
@@ -272,15 +275,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: auditGitArchive
-	* @author ZhaoBo
-	* @date 2016-10-28 下午2:14:36  
-	* @Description: 审核已提交的档案 
-	* @param @return      
-	* @return String
+	 * @Title: auditGitArchive
+	 * @author ZhaoBo
+	 * @date 2016-10-28 下午2:14:36  
+	 * @Description: 审核已提交的档案 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/auditGitArchive")
 	public String auditGitArchive(HttpServletRequest request,Model model){
@@ -289,16 +292,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("archive", archive);
 		return "bss/dms/purchaseArchive/audit";
 	}
-	
+
 	/**
 	 * 
-	* @Title: judgeArchive
-	* @author ZhaoBo
-	* @date 2016-11-7 上午10:16:50  
-	* @Description: 判断合同有没有生成采购档案 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: judgeArchive
+	 * @author ZhaoBo
+	 * @date 2016-11-7 上午10:16:50  
+	 * @Description: 判断合同有没有生成采购档案 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/judgeArchive")
 	@ResponseBody
@@ -320,16 +323,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: addArchive
-	* @author ZhaoBo
-	* @date 2016-10-26 上午10:00:15  
-	* @Description: 生成采购档案 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: addArchive
+	 * @author ZhaoBo
+	 * @date 2016-10-26 上午10:00:15  
+	 * @Description: 生成采购档案 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/addArchive")
 	@ResponseBody
@@ -385,17 +388,17 @@ public class PurchaseArchiveController extends BaseSupplierController{
 			purchaseArchiveService.insertSelective(file);
 			return "1";
 		}
-		
+
 	}
-	
+
 	/**
 	 * 
-	* @Title: placeArchiveById
-	* @author ZhaoBo
-	* @date 2016-10-26 下午2:44:10  
-	* @Description: 归档 
-	* @param @return      
-	* @return String
+	 * @Title: placeArchiveById
+	 * @author ZhaoBo
+	 * @date 2016-10-26 下午2:44:10  
+	 * @Description: 归档 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/placeArchiveById")
 	@ResponseBody
@@ -410,15 +413,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: passArchive
-	* @author ZhaoBo
-	* @date 2016-10-28 下午12:57:48  
-	* @Description: 审核通过 
-	* @param @return      
-	* @return String
+	 * @Title: passArchive
+	 * @author ZhaoBo
+	 * @date 2016-10-28 下午12:57:48  
+	 * @Description: 审核通过 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/passArchive")
 	public String passArchive(HttpServletRequest request){
@@ -429,15 +432,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		purchaseArchiveService.updateByPrimaryKeySelective(archive);
 		return "redirect:archiveList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: gitArchiveById
-	* @author ZhaoBo
-	* @date 2016-10-28 下午1:26:44  
-	* @Description: 提交档案 
-	* @param @return      
-	* @return String
+	 * @Title: gitArchiveById
+	 * @author ZhaoBo
+	 * @date 2016-10-28 下午1:26:44  
+	 * @Description: 提交档案 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/gitArchiveById")
 	@ResponseBody
@@ -459,15 +462,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: gitStatus
-	* @author ZhaoBo
-	* @date 2016-10-28 下午1:47:35  
-	* @Description: 修改为已提交状态 
-	* @param @return      
-	* @return String
+	 * @Title: gitStatus
+	 * @author ZhaoBo
+	 * @date 2016-10-28 下午1:47:35  
+	 * @Description: 修改为已提交状态 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/gitStatus")
 	public String gitStatus(HttpServletRequest request){
@@ -480,16 +483,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return "redirect:archiveList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: leadArchive
-	* @author ZhaoBo
-	* @date 2016-10-28 下午3:56:02  
-	* @Description: 归档档案 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: leadArchive
+	 * @author ZhaoBo
+	 * @date 2016-10-28 下午3:56:02  
+	 * @Description: 归档档案 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/leadArchive")
 	public void leadArchive(HttpServletRequest request,HttpServletResponse response){
@@ -514,15 +517,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 			super.writeJson(response, 1);
 		}
 	}
-	
+
 	/**
 	 * 
-	* @Title: backReason
-	* @author ZhaoBo
-	* @date 2016-10-29 下午12:55:44  
-	* @Description:  审核的时候退回
-	* @param @return      
-	* @return String
+	 * @Title: backReason
+	 * @author ZhaoBo
+	 * @date 2016-10-29 下午12:55:44  
+	 * @Description:  审核的时候退回
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/backReason")
 	public String backReason(HttpServletRequest request){
@@ -535,29 +538,29 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		purchaseArchiveService.updateByPrimaryKeySelective(archive);
 		return "redirect:archiveList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: backArchive
-	* @author ZhaoBo
-	* @date 2016-11-4 下午3:16:02  
-	* @Description: 返回采购档案列表 
-	* @param @return      
-	* @return String
+	 * @Title: backArchive
+	 * @author ZhaoBo
+	 * @date 2016-11-4 下午3:16:02  
+	 * @Description: 返回采购档案列表 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/backArchive")
 	public String backArchive(){
 		return "redirect:archiveList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: judgeFileByName
-	* @author ZhaoBo
-	* @date 2016-11-8 上午11:07:17  
-	* @Description: 判断输入的档案名称是否正确
-	* @param @return      
-	* @return String
+	 * @Title: judgeFileByName
+	 * @author ZhaoBo
+	 * @date 2016-11-8 上午11:07:17  
+	 * @Description: 判断输入的档案名称是否正确
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/judgeFileByName")
 	@ResponseBody
@@ -572,15 +575,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: authFileToPeople
-	* @author ZhaoBo
-	* @date 2016-11-10 下午1:16:57  
-	* @Description: 勾选档案进行授权 
-	* @param @return      
-	* @return String
+	 * @Title: authFileToPeople
+	 * @author ZhaoBo
+	 * @date 2016-11-10 下午1:16:57  
+	 * @Description: 勾选档案进行授权 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/authFileToPeople")
 	@ResponseBody
@@ -605,16 +608,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return uploadFiles;
 	}
-	
+
 	/**
 	 * 
-	* @Title: saveFile
-	* @author ZhaoBo
-	* @date 2016-11-21 上午8:58:41  
-	* @Description: 保存设置 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: saveFile
+	 * @author ZhaoBo
+	 * @date 2016-11-21 上午8:58:41  
+	 * @Description: 保存设置 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/saveFile")
 	@ResponseBody
@@ -635,7 +638,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		String[] fileId = request.getParameter("fileId").split(",");
 		if(fileId==null || (fileId!=null&&fileId.length==0) || (fileId.length==1&&fileId[0]=="")) { 
-			
+
 		}else{
 			for(int i=0;i<fileId.length;i++){
 				UploadFile uploadFile = uploadService.findById(fileId[i],Constant.TENDER_SYS_KEY);
@@ -651,17 +654,17 @@ public class PurchaseArchiveController extends BaseSupplierController{
 			}
 		}
 		return "1";
-				
+
 	}
-	
+
 	/**
 	 * 
-	* @Title: viewArchive
-	* @author ZhaoBo
-	* @date 2016-11-10 下午3:48:45  
-	* @Description:  
-	* @param @return      
-	* @return String
+	 * @Title: viewArchive
+	 * @author ZhaoBo
+	 * @date 2016-11-10 下午3:48:45  
+	 * @Description:  
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/viewArchive")
 	public String viewArchive(HttpServletRequest request,Model model,Integer page){
@@ -683,15 +686,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("userId", id);
 		return "bss/dms/purchaseArchive/view";
 	}
-	
+
 	/**
 	 * 
-	* @Title: borrowArchive
-	* @author ZhaoBo
-	* @date 2016-11-11 下午2:19:06  
-	* @Description: 采购人借阅档案 
-	* @param @return
-	* @return String
+	 * @Title: borrowArchive
+	 * @author ZhaoBo
+	 * @date 2016-11-11 下午2:19:06  
+	 * @Description: 采购人借阅档案 
+	 * @param @return
+	 * @return String
 	 */
 	@RequestMapping("/borrowArchive")
 	public String borrowArchive(HttpServletRequest request,Model model,HttpServletResponse response){
@@ -717,15 +720,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("user", user);
 		return "bss/dms/purchaseArchive/borrow";
 	}
-	
+
 	/**
 	 * 
-	* @Title: judgeBorrow
-	* @author ZhaoBo
-	* @date 2016-11-14 下午12:32:46  
-	* @Description:  
-	* @param @return      
-	* @return String
+	 * @Title: judgeBorrow
+	 * @author ZhaoBo
+	 * @date 2016-11-14 下午12:32:46  
+	 * @Description:  
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/judgeBorrow")
 	@ResponseBody
@@ -744,15 +747,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: jumpToAuthorize
-	* @author ZhaoBo
-	* @date 2016-11-11 下午3:47:12  
-	* @Description: 
-	* @param @return      
-	* @return String
+	 * @Title: jumpToAuthorize
+	 * @author ZhaoBo
+	 * @date 2016-11-11 下午3:47:12  
+	 * @Description: 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/jumpToAuthorize")
 	public String jumpToAuthorize(HttpServletRequest request,Model model,Integer page){
@@ -779,16 +782,16 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		model.addAttribute("id", id);
 		return "bss/dms/purchaseArchive/authorize_archive";
 	}
-	
+
 	/**
 	 * 
-	* @Title: viewAppointed
-	* @author ZhaoBo
-	* @date 2016-11-13 上午9:27:25  
-	* @Description: 查看某人指定档案可以浏览的扫描件 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: viewAppointed
+	 * @author ZhaoBo
+	 * @date 2016-11-13 上午9:27:25  
+	 * @Description: 查看某人指定档案可以浏览的扫描件 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/viewAppointed")
 	@ResponseBody
@@ -801,15 +804,15 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		List<ArchiveBorrow> borrowList = archiveBorrowService.findArchiveById(map);
 		return borrowList;
 	}
-	
+
 	/**
 	 * 
-	* @Title: download
-	* @author ZhaoBo
-	* @date 2016-11-13 上午9:51:28  
-	* @Description: 下载 
-	* @param @return      
-	* @return String
+	 * @Title: download
+	 * @author ZhaoBo
+	 * @date 2016-11-13 上午9:51:28  
+	 * @Description: 下载 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/downloadFile")
 	public void downloadFile(HttpServletRequest request,HttpServletResponse response){

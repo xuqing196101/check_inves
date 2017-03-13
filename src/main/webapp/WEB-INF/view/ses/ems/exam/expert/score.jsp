@@ -40,7 +40,6 @@
 					}
 				});
 			}
-
 			//退出
 			function exitExam() {
 				window.location.href = "${pageContext.request.contextPath }/expertExam/exitExam.html"

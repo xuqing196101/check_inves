@@ -23,11 +23,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 
+
+
 import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.http.impl.client.SystemDefaultHttpClient;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -51,6 +54,7 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.ems.ExamQuestion;
 import ses.model.ems.ExamQuestionType;
@@ -100,27 +104,27 @@ public class ExpertExamController extends BaseSupplierController{
 	private ExpertAuditService expertAuditService;
 	/**
 	 * 
-	* @Title: returnLawExpert
-	* @author ZhaoBo
-	* @date 2016-9-7 上午10:55:35  
-	* @Description: 跳转到法律类专家题库 
-	* @param @return      
-	* @return String
+	 * @Title: returnLawExpert
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午10:55:35  
+	 * @Description: 跳转到法律类专家题库 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/returnLawExpert")
 	public String returnLawExpert(){
 		return "ses/ems/exam/expert/law/list";
 	}
-	
+
 	/**
 	 * 
-	* @Title: searchTecExpPool
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:01:41  
-	* @Description: 查询技术类专家题库 
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: searchTecExpPool
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:01:41  
+	 * @Description: 查询技术类专家题库 
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/searchTecExpPool")
 	public String searchTecExpPool(Model model,Integer page,HttpServletRequest request){
@@ -146,16 +150,16 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("questionTypeId", questionTypeId);
 		return "ses/ems/exam/expert/technical/list";
 	}
-	
+
 	/**
 	 * 
-	* @Title: searchComExpPool
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:02:26  
-	* @Description: 查询商务类专家题库 
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: searchComExpPool
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:02:26  
+	 * @Description: 查询商务类专家题库 
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/searchComExpPool")
 	public String searchComExpPool(Model model,Integer page,HttpServletRequest request){
@@ -181,16 +185,16 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("questionTypeId", questionTypeId);
 		return "ses/ems/exam/expert/commerce/list";
 	}
-	
+
 	/**
 	 * 
-	* @Title: searchLawExpPool
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:02:45  
-	* @Description: 查询法律类专家题库 
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: searchLawExpPool
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:02:45  
+	 * @Description: 查询法律类专家题库 
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/searchLawExpPool")
 	public String searchLawExpPool(Model model,Integer page,HttpServletRequest request){
@@ -216,30 +220,30 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("questionTypeId", questionTypeId);
 		return "ses/ems/exam/expert/law/list";
 	}
-	
+
 	/**
 	 * 
-	* @Title: addLaw
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:06:21  
-	* @Description: 跳转到法律题库增加页面  
-	* @param @return      
-	* @return String
+	 * @Title: addLaw
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:06:21  
+	 * @Description: 跳转到法律题库增加页面  
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/addLaw")
 	public String addLaw(Model model){
 		optionNum(model);
 		return "ses/ems/exam/expert/law/add";
 	}
-	
+
 	/**
 	 * 
-	* @Title: optionNum
-	* @author ZhaoBo
-	* @date 2016-10-13 上午10:17:07  
-	* @Description: 选项数量 
-	* @param @param model      
-	* @return void
+	 * @Title: optionNum
+	 * @author ZhaoBo
+	 * @date 2016-10-13 上午10:17:07  
+	 * @Description: 选项数量 
+	 * @param @param model      
+	 * @return void
 	 */
 	public void optionNum(Model model){
 		Map<String,Object> map = new HashMap<String,Object>();
@@ -253,37 +257,37 @@ public class ExpertExamController extends BaseSupplierController{
 		map.put("ten", "A,B,C,D,E,F,G,H,I,J");
 		model.addAttribute("opt", JSONSerializer.toJSON(map).toString());
 	}
-	
+
 	/**
 	 * 
-	* @Title: addTechnical
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:06:21  
-	* @Description: 跳转到技术题库增加页面  
-	* @param @return      
-	* @return String
+	 * @Title: addTechnical
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:06:21  
+	 * @Description: 跳转到技术题库增加页面  
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/addTechnical")
 	public String addTechnical(Model model){
 		optionNum(model);
 		return "ses/ems/exam/expert/technical/add";
 	}
-	
+
 	/**
 	 * 
-	* @Title: addCommerce
-	* @author ZhaoBo
-	* @date 2016-9-9 上午11:24:21  
-	* @Description: 跳转到商务题库增加页面  
-	* @param @return      
-	* @return String
+	 * @Title: addCommerce
+	 * @author ZhaoBo
+	 * @date 2016-9-9 上午11:24:21  
+	 * @Description: 跳转到商务题库增加页面  
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/addCommerce")
 	public String addCommerce(Model model){
 		optionNum(model);
 		return "ses/ems/exam/expert/commerce/add";
 	}
-	
+
 	public String[] saveOption(){
 		String items[] = new String[11];
 		items[3] = "A,B,C";
@@ -296,18 +300,18 @@ public class ExpertExamController extends BaseSupplierController{
 		items[10] = "A,B,C,D,E,F,G,H,I,J";
 		return items;
 	}
-	
+
 	/**
 	 * 
-	* @Title: saveToLaw
-	* @author ZhaoBo
-	* @date 2016-10-13 下午1:33:10  
-	* @Description: 增加法律类的题库 
-	* @param @param model
-	* @param @param request
-	* @param @param examQuestion
-	* @param @return      
-	* @return String
+	 * @Title: saveToLaw
+	 * @author ZhaoBo
+	 * @date 2016-10-13 下午1:33:10  
+	 * @Description: 增加法律类的题库 
+	 * @param @param model
+	 * @param @param request
+	 * @param @param examQuestion
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/saveToLaw")
 	public String saveToLaw(Model model,HttpServletRequest request,ExamQuestion examQuestion){
@@ -414,19 +418,19 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
 	}
-	
-	
+
+
 	/**
 	 * 
-	* @Title: saveToTec
-	* @author ZhaoBo
-	* @date 2016-10-13 下午4:04:49  
-	* @Description: 增加技术类的题库  
-	* @param @param request
-	* @param @param model
-	* @param @param examQuestion
-	* @param @return      
-	* @return String
+	 * @Title: saveToTec
+	 * @author ZhaoBo
+	 * @date 2016-10-13 下午4:04:49  
+	 * @Description: 增加技术类的题库  
+	 * @param @param request
+	 * @param @param model
+	 * @param @param examQuestion
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/saveToTec")
 	public String saveToTec(HttpServletRequest request,Model model,ExamQuestion examQuestion){
@@ -531,18 +535,18 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: saveToCom
-	* @author ZhaoBo
-	* @date 2016-10-13 下午4:05:24  
-	* @Description: 增加商务类的题库 
-	* @param @param request
-	* @param @param examQuestion
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: saveToCom
+	 * @author ZhaoBo
+	 * @date 2016-10-13 下午4:05:24  
+	 * @Description: 增加商务类的题库 
+	 * @param @param request
+	 * @param @param examQuestion
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/saveToCom")
 	public String saveToCom(HttpServletRequest request,ExamQuestion examQuestion,Model model){
@@ -649,69 +653,69 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestionService.insertSelective(examQuestion);
 		return "redirect:searchComExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editLaw
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:06:58  
-	* @Description: 修改法律类的题库页面  
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: editLaw
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:06:58  
+	 * @Description: 修改法律类的题库页面  
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editLaw")
 	public String editLaw(Model model,HttpServletRequest request){
 		lawQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/law/edit";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editTechnical
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:06:58  
-	* @Description: 修改技术类的题库页面 
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: editTechnical
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:06:58  
+	 * @Description: 修改技术类的题库页面 
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editTechnical")
 	public String editTechnical(Model model,HttpServletRequest request){
 		tecQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/technical/edit";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editCommerce
-	* @author ZhaoBo
-	* @date 2016-9-8 上午9:16:05  
-	* @Description: 修改商务类的题库页面 
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: editCommerce
+	 * @author ZhaoBo
+	 * @date 2016-9-8 上午9:16:05  
+	 * @Description: 修改商务类的题库页面 
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editCommerce")
 	public String editCommerce(Model model,HttpServletRequest request){
 		comQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/commerce/edit";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editToLaw
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:07:55  
-	* @Description: 修改并保存法律类的题库  
-	* @param @param model
-	* @param @param request
-	* @param @param examPool
-	* @param @return      
-	* @return String
+	 * @Title: editToLaw
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:07:55  
+	 * @Description: 修改并保存法律类的题库  
+	 * @param @param model
+	 * @param @param request
+	 * @param @param examPool
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editToLaw")
 	public String editToLaw(Model model,HttpServletRequest request,ExamQuestion examQuestion){
@@ -819,16 +823,16 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchLawExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: lawQuestion
-	* @author ZhaoBo
-	* @date 2016-10-13 下午4:06:57  
-	* @Description: 拿到要修改的法律题目 
-	* @param @param model
-	* @param @param id      
-	* @return void
+	 * @Title: lawQuestion
+	 * @author ZhaoBo
+	 * @date 2016-10-13 下午4:06:57  
+	 * @Description: 拿到要修改的法律题目 
+	 * @param @param model
+	 * @param @param id      
+	 * @return void
 	 */
 	public void lawQuestion(Model model,String id){
 		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
@@ -846,16 +850,16 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("optContent", sb_opt);
 		optionNum(model);
 	}
-	
+
 	/**
 	 * 
-	* @Title: tecQuestion
-	* @author ZhaoBo
-	* @date 2016-10-13 下午4:07:17  
-	* @Description: 拿到要修改的技术题目  
-	* @param @param model
-	* @param @param id      
-	* @return void
+	 * @Title: tecQuestion
+	 * @author ZhaoBo
+	 * @date 2016-10-13 下午4:07:17  
+	 * @Description: 拿到要修改的技术题目  
+	 * @param @param model
+	 * @param @param id      
+	 * @return void
 	 */
 	public void tecQuestion(Model model,String id){
 		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
@@ -873,16 +877,16 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("optContent", sb_opt);
 		optionNum(model);
 	}
-	
+
 	/**
 	 * 
-	* @Title: comQuestion
-	* @author ZhaoBo
-	* @date 2016-10-13 下午4:12:48  
-	* @Description: 拿到要修改的商务题目 
-	* @param @param model
-	* @param @param id      
-	* @return void
+	 * @Title: comQuestion
+	 * @author ZhaoBo
+	 * @date 2016-10-13 下午4:12:48  
+	 * @Description: 拿到要修改的商务题目 
+	 * @param @param model
+	 * @param @param id      
+	 * @return void
 	 */
 	public void comQuestion(Model model,String id){
 		ExamQuestion examQuestion = examQuestionService.selectByPrimaryKey(id);
@@ -900,18 +904,18 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("optContent", sb_opt);
 		optionNum(model);
 	}
-	
+
 	/**
 	 * 
-	* @Title: editToTec
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:07:55  
-	* @Description: 修改并保存技术类的题库  
-	* @param @param model
-	* @param @param request
-	* @param @param examPool
-	* @param @return      
-	* @return String
+	 * @Title: editToTec
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:07:55  
+	 * @Description: 修改并保存技术类的题库  
+	 * @param @param model
+	 * @param @param request
+	 * @param @param examPool
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editToTec")
 	public String editToTec(Model model,HttpServletRequest request,ExamQuestion examQuestion){
@@ -1017,18 +1021,18 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchTecExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editToCom
-	* @author ZhaoBo
-	* @date 2016-9-8 上午9:19:24  
-	* @Description: 修改并保存商务类的题库 
-	* @param @param model
-	* @param @param request
-	* @param @param examPool
-	* @param @return      
-	* @return String
+	 * @Title: editToCom
+	 * @author ZhaoBo
+	 * @date 2016-9-8 上午9:19:24  
+	 * @Description: 修改并保存商务类的题库 
+	 * @param @param model
+	 * @param @param request
+	 * @param @param examPool
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editToCom")
 	public String editToCom(Model model,HttpServletRequest request,ExamQuestion examQuestion){
@@ -1136,17 +1140,17 @@ public class ExpertExamController extends BaseSupplierController{
 		examQuestionService.updateByPrimaryKeySelective(examQuestion);
 		return "redirect:searchComExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: saveScore
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:08:35  
-	* @Description: 专家考试答题算总分 
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: saveScore
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:08:35  
+	 * @Description: 专家考试答题算总分 
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping(value="/saveScore",method=RequestMethod.POST)
 	public String saveScore(Model model,HttpServletRequest request){
@@ -1274,36 +1278,34 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("rule",examRule.get(0));
 		return "ses/ems/exam/expert/score";
 	}
-	
+
 	/**
 	 * 
-	* @Title: insertAnswer
-	* @author ZhaoBo
-	* @date 2016-11-28 下午2:07:49  
-	* @Description: 新增答题记录 
-	* @param       
-	* @return void
+	 * @Title: insertAnswer
+	 * @author ZhaoBo
+	 * @date 2016-11-28 下午2:07:49  
+	 * @Description: 新增答题记录 
+	 * @param       
+	 * @return void
 	 */
 	public void insertAnswer(String content,String queId,String userId){
-		ExamUserAnswer examUserAnswer = new ExamUserAnswer();
-		examUserAnswer.setContent(content);
+		ExamUserAnswer examUserAnswer =new ExamUserAnswer();
 		examUserAnswer.setCreatedAt(new Date());
+		examUserAnswer.setContent(content);
 		examUserAnswer.setUpdatedAt(new Date());
 		examUserAnswer.setQuestionId(queId);
 		examUserAnswer.setUserType(1);
-		examUserAnswer.setUserId(userId);
-		examUserAnswerService.insertSelective(examUserAnswer);
+		
 	}
-	
 	/**
 	 * 
-	* @Title: deleteById
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:12:08  
-	* @Description: 删除题库中的题目 
-	* @param @param request
-	* @param @return      
-	* @return Integer
+	 * @Title: deleteById
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:12:08  
+	 * @Description: 删除题库中的题目 
+	 * @param @param request
+	 * @param @return      
+	 * @return Integer
 	 */
 	@RequestMapping("/deleteById")
 	@ResponseBody
@@ -1314,98 +1316,129 @@ public class ExpertExamController extends BaseSupplierController{
 		}
 		return "1";
 	}
-	
 	/**
 	 * 
-	* @Title: ready
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:16:04  
-	* @Description: 跳转到开始考试页面 
-	* @param @return      
-	* @return String
+	 * @Title: ready
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:16:04  
+	 * @Description: 跳转到开始考试页面 
+	 * @param @?return      
+	 * @return String
 	 */
 	@RequestMapping("/ready")
 	public String ready(Model model,HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
-		List<ExpertAudit> expert = expertAuditService.findResultByExpertId(user.getTypeId());
+		String ID = user.getTypeId();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 5);
+		map.put("id", ID);
+		List<Expert> expert = expertService.findAllExpert(map);   //expertAuditService.findResultByExpertId(user.getTypeId());
 		List<ExamRule> examRule = examRuleService.selectInUseRule();
 		if(examRule.size()==0){
 			model.addAttribute("message", "暂无考试安排");
 		}else{
 			if(expert.size()==0){
-				model.addAttribute("message", "暂无考试安排");
-			}else{
+				model.addAttribute("message", "暂无考试安排");	
+			}else{ 
+				//String str=null;
 				Date auditTime = expert.get(0).getAuditAt();
 				Calendar calendar = Calendar.getInstance();
+				//审核时间
 				calendar.setTime(auditTime);
 				calendar.add(Calendar.MONTH,3);//三个月后的日期
 				Date offTime = calendar.getTime();//三个月后的日期（Date类型）
 				model.addAttribute("offTime",offTime);
+				//三月后时间比当前时间小 就是超出三个月 超出三个月删除用户 只是表中的状态
+				//if(offTime.getTime() < new Date().getTime()){
+				//获取用户id	
+				//根据id删除专家组用户
+			    //int i = expertService.deleteExpertsAccount(user.(getTypeId));	
+					
+					
+				
+				
+				//}
+					
+				
+				
 			}
 		}
 		return "ses/ems/exam/expert/ready";
 	}
-	
+
 	/**
 	 * 
-	* @Title: test
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:17:53  
-	* @Description: 开始考试 
-	* @param @param model
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: test
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:17:53  
+	 * @Description: 开始考试 
+	 * @param @param model
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping(value="/test")
 	public String test(Model model,HttpServletRequest request,ExamQuestion examQuestion){
 		User user=(User) request.getSession().getAttribute("loginUser");
 		String typeId = user.getTypeId();
+		//根据id查评审专家
 		Expert expert = expertService.selectByPrimaryKey(typeId);
+		//用来记录专家考试的历史考试规则
 		List<ExamRule> examRule = examRuleService.selectInUseRule();
+		//
 		List<ExamQuestion> questionList = new ArrayList<ExamQuestion>();
+		//从专家考试规则中获取题型分布  typeDistribution
 		String typeDistribution = examRule.get(0).getTypeDistribution();
+		//json数据格式取出里面的数值
 		JSONObject obj = JSONObject.fromObject(typeDistribution);
-		String singleN =  (String) obj.get("singleNum");
+		String singleN =  (String) obj.get("singleNum");//单选
 		Integer singleNum = Integer.parseInt(singleN);
-		String multipleN = (String) obj.get("multipleNum");
+		String multipleN = (String) obj.get("multipleNum");//多选
 		Integer multipleNum = Integer.parseInt(multipleN);
-		String singleP =  (String) obj.get("singlePoint");
+		String singleP =  (String) obj.get("singlePoint");//单选每题分值
 		BigDecimal singlePoint = new BigDecimal(singleP);
-		String multipleP = (String) obj.get("multiplePoint");
+		String multipleP = (String) obj.get("multiplePoint");//多选每题分值 
 		BigDecimal multiplePoint = new BigDecimal(multipleP);
 		HashMap<String,Object> single = new HashMap<String,Object>();
 		HashMap<String,Object> multiple = new HashMap<String,Object>();
 		List<ExamQuestion> singleQuestion = new ArrayList<ExamQuestion>();
 		List<ExamQuestion> multipleQuestion = new ArrayList<ExamQuestion>();
-		if(expert.getExpertsTypeId().equals("1")){
+		//获取专家类型
+		DictionaryData findById = DictionaryDataUtil.findById(expert.getExpertsTypeId().split(",")[0]);
+		//经济类型 Integer.valueOf("6")转换类型
+		if(Integer.valueOf("19").equals(findById.getKind())){
 			single.put("questionTypeId", 1);
-			single.put("kind", 0);
+			//经济评审类型
+			single.put("kind",DictionaryDataUtil.getId("ECONOMY"));
 			single.put("queNum", singleNum);
 			singleQuestion = examQuestionService.selectQuestionRandom(single);
 			multiple.put("questionTypeId", 2);
-			multiple.put("kind", 0);
-			multiple.put("queNum", multipleNum);
-			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
-		}else if(expert.getExpertsTypeId().equals("2")){
-			single.put("questionTypeId", 1);
-			single.put("kind", 2);
-			single.put("queNum", singleNum);
-			singleQuestion = examQuestionService.selectQuestionRandom(single);
-			multiple.put("questionTypeId", 2);
-			multiple.put("kind", 2);
-			multiple.put("queNum", multipleNum);
-			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
-		}else if(expert.getExpertsTypeId().equals("3")){
-			single.put("questionTypeId", 1);
-			single.put("kind", 1);
-			single.put("queNum", singleNum);
-			singleQuestion = examQuestionService.selectQuestionRandom(single);
-			multiple.put("questionTypeId", 2);
-			multiple.put("kind", 1);
+			multiple.put("kind", DictionaryDataUtil.getId("ECONOMY"));
 			multiple.put("queNum", multipleNum);
 			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
 		}
+		//技术类型
+		else if(Integer.valueOf("6").equals(findById.getKind())){
+			single.put("questionTypeId", 1);
+			//技术评审类型
+			single.put("kind", DictionaryDataUtil.getId("TECHNOLOGY"));
+			single.put("queNum", singleNum);
+			singleQuestion = examQuestionService.selectQuestionRandom(single);
+			multiple.put("questionTypeId", 2);
+			multiple.put("kind", DictionaryDataUtil.getId("TECHNOLOGY"));
+			multiple.put("queNum", multipleNum);
+			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
+	}
+//		else if("3".equals(findById.getCode())){
+//			single.put("questionTypeId", 1);
+//			single.put("kind", 1);
+//			single.put("queNum", singleNum);
+//			singleQuestion = examQuestionService.selectQuestionRandom(single);
+//			multiple.put("questionTypeId", 2);
+//			multiple.put("kind", 1);
+//			multiple.put("queNum", multipleNum);
+//			multipleQuestion = examQuestionService.selectQuestionRandom(multiple);
+//		}
 		questionList.addAll(singleQuestion);
 		questionList.addAll(multipleQuestion);
 		Integer queNum = questionList.size();
@@ -1453,66 +1486,66 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("multipleNum", multipleNum);
 		return "ses/ems/exam/expert/test";
 	}
-	
+
 	/**
 	 * 
-	* @Title: viewLaw
-	* @author ZhaoBo
-	* @date 2016-9-7 下午2:32:39  
-	* @Description: 查看法律类专家题库 
-	* @param @param request
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: viewLaw
+	 * @author ZhaoBo
+	 * @date 2016-9-7 下午2:32:39  
+	 * @Description: 查看法律类专家题库 
+	 * @param @param request
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/viewLaw")
 	public String viewLaw(HttpServletRequest request,Model model){
 		lawQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/law/view";
 	}
-	
+
 	/**
 	 * 
-	* @Title: viewTec
-	* @author ZhaoBo
-	* @date 2016-9-7 下午2:32:39  
-	* @Description: 查看技术类专家题库 
-	* @param @param request
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: viewTec
+	 * @author ZhaoBo
+	 * @date 2016-9-7 下午2:32:39  
+	 * @Description: 查看技术类专家题库 
+	 * @param @param request
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/viewTec")
 	public String viewTec(HttpServletRequest request,Model model){
 		tecQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/technical/view";
 	}
-	
+
 	/**
 	 * 
-	* @Title: viewCom
-	* @author ZhaoBo
-	* @date 2016-9-8 上午9:36:16  
-	* @Description: 查看商务类专家题库  
-	* @param @param request
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: viewCom
+	 * @author ZhaoBo
+	 * @date 2016-9-8 上午9:36:16  
+	 * @Description: 查看商务类专家题库  
+	 * @param @param request
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/viewCom")
 	public String viewCom(HttpServletRequest request,Model model){
 		comQuestion(model, request.getParameter("id"));
 		return "ses/ems/exam/expert/commerce/view";
 	}
-	
+
 	/**
 	 * 
-	* @Title: createRule
-	* @author ZhaoBo
-	* @date 2016-9-8 上午10:28:43  
-	* @Description: 考试规则列表页面 
-	* @param @return      
-	* @return String
+	 * @Title: createRule
+	 * @author ZhaoBo
+	 * @date 2016-9-8 上午10:28:43  
+	 * @Description: 考试规则列表页面 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/ruleList")
 	public String createRule(Model model,Integer page){
@@ -1546,30 +1579,30 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("list", new PageInfo<ExamRule>(list));
 		return "ses/ems/exam/expert/rule/list";
 	}
-	
+
 	/**
 	 * 
-	* @Title: createRule
-	* @author ZhaoBo
-	* @date 2016-11-16 上午9:28:36  
-	* @Description: 新增考试规则 
-	* @param @return      
-	* @return String
+	 * @Title: createRule
+	 * @author ZhaoBo
+	 * @date 2016-11-16 上午9:28:36  
+	 * @Description: 新增考试规则 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/createRule")
 	public String createRule(){
 		return "ses/ems/exam/expert/rule/add";
 	}
-	
+
 	/**
 	 * 
-	* @Title: saveExamRule
-	* @author ZhaoBo
-	* @date 2016-9-8 上午10:26:52  
-	* @Description: 保存考试规则 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: saveExamRule
+	 * @author ZhaoBo
+	 * @date 2016-9-8 上午10:26:52  
+	 * @Description: 保存考试规则 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 * @throws ParseException 
 	 */
 	@RequestMapping("/saveExamRule") 
@@ -1714,15 +1747,15 @@ public class ExpertExamController extends BaseSupplierController{
 		examRuleService.insertSelective(examRule);
 		return "redirect:ruleList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editRule
-	* @author ZhaoBo
-	* @date 2016-11-16 下午12:38:08  
-	* @Description: 修改考试规则 
-	* @param @return      
-	* @return String
+	 * @Title: editRule
+	 * @author ZhaoBo
+	 * @date 2016-11-16 下午12:38:08  
+	 * @Description: 修改考试规则 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/editRule")
 	public String editRule(HttpServletRequest request,Model model){
@@ -1749,15 +1782,15 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("multiplePoint", object.get("multiplePoint"));
 		return "ses/ems/exam/expert/rule/edit";
 	}
-	
+
 	/**
 	 * 
-	* @Title: editToExamRule
-	* @author ZhaoBo
-	* @date 2016-11-16 下午1:21:25  
-	* @Description: 修改考试规则并保存 
-	* @param @return      
-	* @return String
+	 * @Title: editToExamRule
+	 * @author ZhaoBo
+	 * @date 2016-11-16 下午1:21:25  
+	 * @Description: 修改考试规则并保存 
+	 * @param @return      
+	 * @return String
 	 * @throws ParseException 
 	 * @throws NumberFormatException 
 	 */
@@ -1903,17 +1936,17 @@ public class ExpertExamController extends BaseSupplierController{
 		examRuleService.updateByPrimaryKeySelective(examRule);
 		return "redirect:ruleList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: viewRule
-	* @author ZhaoBo
-	* @date 2016-11-16 下午2:18:37  
-	* @Description: 查看考试规则页面 
-	* @param @param request
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: viewRule
+	 * @author ZhaoBo
+	 * @date 2016-11-16 下午2:18:37  
+	 * @Description: 查看考试规则页面 
+	 * @param @param request
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/viewRule")
 	public String viewRule(HttpServletRequest request,Model model){
@@ -1937,32 +1970,32 @@ public class ExpertExamController extends BaseSupplierController{
 		}
 		return "ses/ems/exam/expert/rule/view";
 	}
-	
+
 	/**
 	 * 
-	* @Title: backRule
-	* @author ZhaoBo
-	* @date 2016-11-16 下午2:30:55  
-	* @Description: 返回考试规则列表 
-	* @param @return      
-	* @return String
+	 * @Title: backRule
+	 * @author ZhaoBo
+	 * @date 2016-11-16 下午2:30:55  
+	 * @Description: 返回考试规则列表 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/backRule")
 	public String backRule(){
 		return "redirect:ruleList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: result
-	* @author ZhaoBo
-	* @date 2016-9-23 下午3:52:00  
-	* @Description: 跳转到专家考试成绩查询页面 (也可以按条件查询)
-	* @param @param model
-	* @param @param request
-	* @param @param page
-	* @param @return      
-	* @return String
+	 * @Title: result
+	 * @author ZhaoBo
+	 * @date 2016-9-23 下午3:52:00  
+	 * @Description: 跳转到专家考试成绩查询页面 (也可以按条件查询)
+	 * @param @param model
+	 * @param @param request
+	 * @param @param page
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/result")
 	public String result(Model model,HttpServletRequest request,Integer page){
@@ -2038,16 +2071,16 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("status", status);
 		return "ses/ems/exam/expert/result";
 	}
-	
+
 	/**
 	 * 
-	* @Title: personalResult
-	* @author ZhaoBo
-	* @date 2016-9-29 下午4:51:13  
-	* @Description: 专家后台各专家查询自己的成绩 
-	* @param @param model
-	* @param @return      
-	* @return String
+	 * @Title: personalResult
+	 * @author ZhaoBo
+	 * @date 2016-9-29 下午4:51:13  
+	 * @Description: 专家后台各专家查询自己的成绩 
+	 * @param @param model
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/personalResult")
 	public String personalResult(Integer page,Model model,HttpServletRequest request){
@@ -2106,49 +2139,50 @@ public class ExpertExamController extends BaseSupplierController{
 		model.addAttribute("list", new PageInfo<ExamUserScore>(scores));
 		return "ses/ems/exam/expert/personal_result";
 	}
-	
-	
+
+
 	/**
 	 * 
-	* @Title: judgeTest
-	* @author ZhaoBo
-	* @date 2016-9-9 下午2:46:36  
-	* @Description: 判断当前时间是否过了考试周期,并且判断当前用户是不是专家 
-	* @param @return      
-	* @return String
+	 * @Title: judgeTest
+	 * @author ZhaoBo
+	 * @date 2016-9-9 下午2:46:36  
+	 * @Description: 判断当前时间是否过了考试周期,并且判断当前用户是不是专家 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/judgeTest")
 	@ResponseBody
 	public String judgeTest(HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
-		//String type = user.getTypeName();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 5);
+		map.put("id", user.getTypeId());
+		//List 集合 expert.get(0)获取集合里第一条集合数据再.getAuditAt第一条数据里的某个值
+		List<Expert> expert = expertService.findAllExpert(map);   
 		String str = null;
-		//if(type.equals(DictionaryDataUtil.getId("EXPERT_U"))){
-			List<ExpertAudit> expert = expertAuditService.findResultByExpertId(user.getTypeId());
-			Date auditTime = expert.get(0).getAuditAt();
-			Calendar calendar = Calendar.getInstance();
-			calendar.setTime(auditTime);
-			calendar.add(Calendar.MONTH,3);//三个月后的日期
-			Date offTime = calendar.getTime();//三个月后的日期（Date类型）
-			if(offTime.getTime()<new Date().getTime()){
-				str = "0";//考试时间已截止
-			}else{
-				str = "1";//可以开始考试
-			}
-		//}else{
-		//	str = "2";//不是专家
-		//}
+		Date auditTime = expert.get(0).getAuditAt();
+		Calendar calendar = Calendar.getInstance();
+		calendar.setTime(auditTime);
+		calendar.add(Calendar.MONTH,3);//三个月后的日期
+		Date offTime = calendar.getTime();//三个月后的日期（Date类型）
+		if(offTime.getTime() < new Date().getTime()){
+			
+			//通过id删 专家id和用户表里的id不一样 通过用户表要去user.getTypeId
+			int i=expertService.deleteExpertsAccount(user.getTypeId());
+		}else{
+			str = "1";//可以开始考试
+		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: loadExpertTemplet
-	* @author ZhaoBo
-	* @date 2016-9-9 下午3:42:00  
-	* @Description: 专家题库模板下载 
-	* @param @return      
-	* @return String
+	 * @Title: loadExpertTemplet
+	 * @author ZhaoBo
+	 * @date 2016-9-9 下午3:42:00  
+	 * @Description: 专家题库模板下载 
+	 * @param @return      
+	 * @return String
 	 * @throws IOException 
 	 */
 	@RequestMapping("/loadExpertTemplet")
@@ -2159,43 +2193,43 @@ public class ExpertExamController extends BaseSupplierController{
 		headers.setContentDispositionFormData("attachment", new String("专家题库模板.xlsx".getBytes("UTF-8"), "iso-8859-1"));  
 		return (new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(new File(path)), headers, HttpStatus.CREATED));  
 	}
-	
+
 	private static final String uploadFolderName = "uploadFiles"; //上传到服务器的文件夹名 
 	private static String [] extensionPermit = {"xls","xlsx"}; //允许上传的文件格式
-	
+
 	/**
 	 * 
-	* @Title: importTec
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:31:37  
-	* @Description: 导入技术类专家题库 
-	* @param @param file
-	* @param @param session
-	* @param @param request
-	* @param @param response
-	* @param @return
-	* @param @throws FileNotFoundException
-	* @param @throws IOException      
-	* @return String
+	 * @Title: importTec
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:31:37  
+	 * @Description: 导入技术类专家题库 
+	 * @param @param file
+	 * @param @param session
+	 * @param @param request
+	 * @param @param response
+	 * @param @return
+	 * @param @throws FileNotFoundException
+	 * @param @throws IOException      
+	 * @return String
 	 */
 	@RequestMapping(value="/importTec",method = RequestMethod.POST)
 	public void importTec(@RequestParam("file") CommonsMultipartFile file,
-			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
-		
+			HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+
 		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
-        // 判断文件是否存在  
-        String fileName = null;
-        File excelFile = null;
-        if (!file.isEmpty()) {
-            fileName = file.getOriginalFilename();  
-            String fileExtension = FilenameUtils.getExtension(fileName);   
-            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
-               
-            } 
-            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
-            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
-        }
+		String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
+		// 判断文件是否存在  
+		String fileName = null;
+		File excelFile = null;
+		if (!file.isEmpty()) {
+			fileName = file.getOriginalFilename();  
+			String fileExtension = FilenameUtils.getExtension(fileName);   
+			if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+
+			} 
+			excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+			FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+		}
 		Workbook workbook = null;
 		//判断Excel是2007以下还是2007以上版本
 		try {
@@ -2267,38 +2301,38 @@ public class ExpertExamController extends BaseSupplierController{
 			super.writeJson(response,"0");
 		}
 	}
-	
+
 	/**
 	 * 
-	* @Title: importLaw
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:31:37  
-	* @Description: 导入法律类专家题库 
-	* @param @param file
-	* @param @param session
-	* @param @param request
-	* @param @param response
-	* @param @return
-	* @param @throws FileNotFoundException
-	* @param @throws IOException      
+	 * @Title: importLaw
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:31:37  
+	 * @Description: 导入法律类专家题库 
+	 * @param @param file
+	 * @param @param session
+	 * @param @param request
+	 * @param @param response
+	 * @param @return
+	 * @param @throws FileNotFoundException
+	 * @param @throws IOException      
 	 */
 	@RequestMapping(value="/importLaw",method = RequestMethod.POST)
 	public void importLaw(@RequestParam("file") CommonsMultipartFile file,
-			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+			HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
-        // 判断文件是否存在  
-        String fileName = null;
-        File excelFile = null;
-        if (!file.isEmpty()) {  
-            fileName = file.getOriginalFilename();  
-            String fileExtension = FilenameUtils.getExtension(fileName);   
-            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
-               
-            } 
-            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
-            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
-        }
+		String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
+		// 判断文件是否存在  
+		String fileName = null;
+		File excelFile = null;
+		if (!file.isEmpty()) {  
+			fileName = file.getOriginalFilename();  
+			String fileExtension = FilenameUtils.getExtension(fileName);   
+			if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+
+			} 
+			excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+			FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+		}
 		Workbook workbook = null;
 		//判断Excel是2007以下还是2007以上版本
 		try {
@@ -2342,7 +2376,7 @@ public class ExpertExamController extends BaseSupplierController{
 					map.put("questionTypeId", 1);
 					examQuestion.setQuestionTypeId(1);
 				} else{
-				 	map.put("questionTypeId", 2);
+					map.put("questionTypeId", 2);
 					examQuestion.setQuestionTypeId(2);
 				}
 				map.put("kind", 2);
@@ -2371,42 +2405,42 @@ public class ExpertExamController extends BaseSupplierController{
 			}
 			super.writeJson(response,"0");
 		}
-		
-		
+
+
 	}
-	
+
 	/**
 	 * 
-	* @Title: importCom
-	* @author ZhaoBo
-	* @date 2016-9-7 上午11:31:37  
-	* @Description: 导入商务类专家题库 
-	* @param @param file
-	* @param @param session
-	* @param @param request
-	* @param @param response
-	* @param @return
-	* @param @throws FileNotFoundException
-	* @param @throws IOException      
-	* @return String
+	 * @Title: importCom
+	 * @author ZhaoBo
+	 * @date 2016-9-7 上午11:31:37  
+	 * @Description: 导入商务类专家题库 
+	 * @param @param file
+	 * @param @param session
+	 * @param @param request
+	 * @param @param response
+	 * @param @return
+	 * @param @throws FileNotFoundException
+	 * @param @throws IOException      
+	 * @return String
 	 */
 	@RequestMapping(value="/importCom",method = RequestMethod.POST)
 	public void importCom(@RequestParam("file") CommonsMultipartFile file,
-			 HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
+			HttpSession session,HttpServletRequest request,HttpServletResponse response) throws FileNotFoundException, IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
-        // 判断文件是否存在  
-        String fileName = null;
-        File excelFile = null;
-        if (!file.isEmpty()) {  
-            fileName = file.getOriginalFilename();  
-            String fileExtension = FilenameUtils.getExtension(fileName);   
-            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
-               
-            } 
-            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
-            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
-        }
+		String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
+		// 判断文件是否存在  
+		String fileName = null;
+		File excelFile = null;
+		if (!file.isEmpty()) {  
+			fileName = file.getOriginalFilename();  
+			String fileExtension = FilenameUtils.getExtension(fileName);   
+			if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+
+			} 
+			excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+			FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+		}
 		Workbook workbook = null;
 		//判断Excel是2007以下还是2007以上版本
 		try {
@@ -2480,30 +2514,31 @@ public class ExpertExamController extends BaseSupplierController{
 			super.writeJson(response,"0");
 		}
 	}
-	
+
 	/**
 	 * 
-	* @Title: exitExam
-	* @author ZhaoBo
-	* @date 2016-10-8 上午8:56:19  
-	* @Description: 退出考试 
-	* @param @return      
-	* @return String
+	 * @Title: exitExam
+	 * @author ZhaoBo
+	 * @date 2016-10-8 上午8:56:19  
+	 * @Description: 退出考试 
+	 * @param @return      
+	 * @return String
 	 */
+
 	@RequestMapping("/exitExam")
 	public String exitExam(){
 		return "redirect:/login/home.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: testSchedule
-	* @author ZhaoBo
-	* @date 2016-10-10 下午1:06:02  
-	* @Description: 查看考试安排 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: testSchedule
+	 * @author ZhaoBo
+	 * @date 2016-10-10 下午1:06:02  
+	 * @Description: 查看考试安排 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/testSchedule")
 	public String testSchedule(HttpServletRequest request,Model model){
@@ -2515,64 +2550,69 @@ public class ExpertExamController extends BaseSupplierController{
 		}
 		return "ses/ems/exam/expert/test_schedule";
 	}
-	
+
 	/**
 	 * 
-	* @Title: backLaw
-	* @author ZhaoBo
-	* @date 2016-10-31 上午9:52:27  
-	* @Description: 返回法律题库列表 
-	* @param @return      
-	* @return String
+	 * @Title: backLaw
+	 * @author ZhaoBo
+	 * @date 2016-10-31 上午9:52:27  
+	 * @Description: 返回法律题库列表 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/backLaw")
 	public String backLaw(){
 		return "redirect:searchLawExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: backTec
-	* @author ZhaoBo
-	* @date 2016-10-31 上午9:53:34  
-	* @Description: 返回技术题库列表 
-	* @param @return      
-	* @return String
+	 * @Title: backTec
+	 * @author ZhaoBo
+	 * @date 2016-10-31 上午9:53:34  
+	 * @Description: 返回技术题库列表 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/backTec")
 	public String backTec(){
 		return "redirect:searchTecExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: backCom
-	* @author ZhaoBo
-	* @date 2016-10-31 上午9:54:05  
-	* @Description: 返回商务题库列表 
-	* @param @return      
-	* @return String
+	 * @Title: backCom
+	 * @author ZhaoBo
+	 * @date 2016-10-31 上午9:54:05  
+	 * @Description: 返回商务题库列表 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/backCom")
 	public String backCom(){
 		return "redirect:searchComExpPool.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: judgeReTake
-	* @author ZhaoBo
-	* @date 2016-11-8 上午10:13:37  
-	* @Description: 判断是否可以重考 
-	* @param @return      
-	* @return String
+	 * @Title: judgeReTake
+	 * @author ZhaoBo
+	 * @date 2016-11-8 上午10:13:37  
+	 * @Description: 判断是否可以重考 
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/judgeReTake")
 	@ResponseBody
 	public String judgeReTake(HttpServletRequest request){
-		String str = null;
 		User user = (User) request.getSession().getAttribute("loginUser");
-		List<ExpertAudit> expert = expertAuditService.findResultByExpertId(user.getTypeId());
+		String ID = user.getTypeId();
+		HashMap<String, Object> map = new HashMap<String, Object>();
+		map.put("status", 5);
+		map.put("id", ID);
+		List<Expert> expert = expertService.findAllExpert(map);
+		String str = null;
+//		List<ExpertAudit> expert = expertAuditService.findResultByExpertId(user.getTypeId());
 		Date auditTime = expert.get(0).getAuditAt();
 		Calendar calendar = Calendar.getInstance();
 		calendar.setTime(auditTime);
@@ -2585,16 +2625,16 @@ public class ExpertExamController extends BaseSupplierController{
 		}
 		return str;
 	}
-	
+
 	/**
 	 * 
-	* @Title: startRule
-	* @author ZhaoBo
-	* @date 2016-11-27 下午3:49:55  
-	* @Description: 启用考试规则 
-	* @param @param request
-	* @param @return      
-	* @return String
+	 * @Title: startRule
+	 * @author ZhaoBo
+	 * @date 2016-11-27 下午3:49:55  
+	 * @Description: 启用考试规则 
+	 * @param @param request
+	 * @param @return      
+	 * @return String
 	 */
 	@RequestMapping("/startRule")
 	public String startRule(HttpServletRequest request){
@@ -2614,36 +2654,37 @@ public class ExpertExamController extends BaseSupplierController{
 		}
 		return "redirect:ruleList.html";
 	}
-	
+
 	/**
 	 * 
-	* @Title: poiExcel
-	* @author ZhaoBo
-	* @date 2016-9-22 上午9:05:46  
-	* @Description: 导入Excel的公共方法 
-	* @param @param session
-	* @param @param file
-	* @param @return
-	* @param @throws IOException      
-	* @return File
+	 * @Title: poiExcel
+	 * @author ZhaoBo
+	 * @date 2016-9-22 上午9:05:46  
+	 * @Description: 导入Excel的公共方法 
+	 * @param @param session
+	 * @param @param file
+	 * @param @return
+	 * @param @throws IOException      
+	 * @return File
 	 */
+	
 	public File poiExcel(HttpSession session,CommonsMultipartFile file) throws IOException{
 		String curProjectPath = session.getServletContext().getRealPath("/");  
-        String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
-        // 判断文件是否存在  
-        String fileName = null;
-        File excelFile = null;
-        if (!file.isEmpty()) {  
-            fileName = file.getOriginalFilename();  
-            String fileExtension = FilenameUtils.getExtension(fileName);   
-            if(!Arrays.asList(extensionPermit).contains(fileExtension)){
-               
-            } 
-            excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
-            FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
-        }
+		String saveDirectoryPath = curProjectPath + "/" + uploadFolderName; 
+		// 判断文件是否存在  
+		String fileName = null;
+		File excelFile = null;
+		if (!file.isEmpty()) {  
+			fileName = file.getOriginalFilename();  
+			String fileExtension = FilenameUtils.getExtension(fileName);   
+			if(!Arrays.asList(extensionPermit).contains(fileExtension)){
+ 
+			} 
+			excelFile = new File(saveDirectoryPath,System.currentTimeMillis()+file.getOriginalFilename());
+			FileUtils.copyInputStreamToFile(file.getInputStream(), excelFile);
+		}
 		return excelFile;
 	}
-	
-	
+
+
 }
