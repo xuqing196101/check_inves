@@ -151,6 +151,8 @@ function edit() {
 		});
 	}
 }
+
+/* 查看图片 */
 function openViewDIvs(id){
 	
 	var params={"businessId":id,"typeId":46,"key":2};
@@ -160,11 +162,13 @@ function openViewDIvs(id){
 		async: false,
 		dataType: 'json',
 		success:function(datas){
-			
 			var html ="<ul>";
-			var url='${pageContext.request.contextPath }/file/viewFile.html?id='+datas[0].id+'&key=2';
-		    html+='<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
-			+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li></ul>';
+			for(var i = 0;i < datas.length;i++){
+				var url='${pageContext.request.contextPath }/file/viewFile.html?id='+datas[i].id+'&key=2';
+				html+='<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
+				+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
+			}
+			html += "</ul>";
 			var height = document.documentElement.clientHeight;
 			var index = layer.open({
 				  type: 1,

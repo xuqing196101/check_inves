@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
+import common.dao.FileUploadMapper;
 
 import bss.dao.ob.OBProductMapper;
 import bss.model.ob.OBProduct;
@@ -18,6 +19,9 @@ public class OBProductServiceImpl implements OBProductService {
 
 	@Autowired
 	private OBProductMapper oBProductMapper;
+	
+	@Autowired
+	private FileUploadMapper fileUploadMapper;
 
 	@Override
 	public List<OBProduct> selectByExample(OBProduct example,Integer page) {
@@ -30,6 +34,8 @@ public class OBProductServiceImpl implements OBProductService {
 	@Override
 	public void deleteByPrimaryKey(String id) {
 		oBProductMapper.deleteByPrimaryKey(id);
+		fileUploadMapper.deleteByBusinessId(id);
+		
 	}
 
 	@Override
