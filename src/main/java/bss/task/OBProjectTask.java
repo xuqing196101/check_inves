@@ -21,7 +21,6 @@ public class OBProjectTask {
 	 * 定时处理 竞价信息 业务逻辑
 	 */
 	public void handleOBProject(){
-		System.out.println("ddddd  ddd"+System.currentTimeMillis());
 		OBProjectServer.changeStatus();
 	}
 }

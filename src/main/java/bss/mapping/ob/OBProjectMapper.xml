@@ -25,7 +25,39 @@
     <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
     <result column="ORG_CONTACT_NAME" property="orgContactName" jdbcType="VARCHAR" />
     <result column="ORG_CONTACT_TEL" property="orgContactTel" jdbcType="VARCHAR" />
+    
   </resultMap>
+  
+    <resultMap id="ProjectResultMap"  extends="BaseResultMap" type="bss.model.ob.OBProject">
+     <collection property="obProductInfo" ofType="bss.model.ob.OBProductInfo">
+		<id column="pid"  property="id" />
+   		 <result column="PProductId" property="productId" jdbcType="VARCHAR" />
+   		 <result column="plimitedPrice" property="limitedPrice" jdbcType="DECIMAL" />
+   		 <result column="ppurchaseCount" property="purchaseCount" jdbcType="DECIMAL" />
+    	<result column="pprojectId" property="projectId" jdbcType="VARCHAR" />
+    	<result column="pcreatedAt" property="createdAt" jdbcType="TIMESTAMP" />
+    	<result column="pupdatedAt" property="updatedAt" jdbcType="TIMESTAMP" />
+    	<result column="prmark" property="remark" jdbcType="VARCHAR" />
+    	<result column="pcreaterId" property="remark" jdbcType="VARCHAR" />
+	</collection> 
+  </resultMap>  
+  
+  <!--- 根据参数 获取竞价信息  -->  
+   <select id="selectData" parameterType="Map" resultMap="ProjectResultMap">  
+    select p.*,i.id as pid,i.PRODUCT_ID as PProductId,i.LIMITED_PRICE as plimitedPrice,
+    i.PURCHASE_COUNT as ppurchaseCount,i.PROJECT_ID as pprojectId,i.CREATED_AT as pcreatedAt,
+    i.UPDATED_AT as pupdatedAt,i.REMARK as prmark, i.CREATER_ID as pcreaterId  
+    from T_BSS_OB_PROJECT p LEFT JOIN T_BSS_OB_PRODUCT_INFO i on p.id=i.PROJECT_ID
+      	where  p.CREATER_ID = #{uid} 
+    <if test="name != null and  name !=''">
+     and p.NAME like '%${name}%'
+    </if>
+    <if test="startTime != null and startTime !=''">
+     and p.START_TIME= #{startTime},
+    </if>
+      	ORDER BY p.CREATED_AT DESC
+  </select> 
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -87,7 +119,8 @@
   <sql id="Base_Column_List" >
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
-    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT
+    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,
+     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
     select
@@ -109,6 +142,8 @@
     from T_BSS_OB_PROJECT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
+
+  
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_PROJECT
     where ID = #{id,jdbcType=VARCHAR}
@@ -126,14 +161,15 @@
       END_TIME, CONTENT	, ATTACHMENT_ID, 
       REMARK, STATUS, CREATER_ID, 
       FORM_ID, TURNOVER_RATION, CREATED_AT, 
-      UPDATED_AT)
+      UPDATED_AT,ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{deliveryDeadline,jdbcType=TIMESTAMP}, 
       #{deliveryAddress,jdbcType=VARCHAR}, #{tradedSupplierCount,jdbcType=DECIMAL}, #{transportFees,jdbcType=DECIMAL}, 
       #{demandUnit,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{content	,jdbcType=VARCHAR}, #{attachmentId,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, 
       #{formId,jdbcType=VARCHAR}, #{turnoverRation,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, 
-      #{updatedAt,jdbcType=TIMESTAMP})
+      #{updatedAt,jdbcType=TIMESTAMP},#{orgId,jdbcType=VARCHAR},#{orgContactTel,jdbcType=VARCHAR},
+      #{orgContactName,jdbcType=VARCHAR},#{contactTel,jdbcType=VARCHAR})
   </insert>
   <!-- 根据条件获取 数据 -->
   <select id="selectPageList" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProject" >
@@ -146,7 +182,14 @@
      </if>
      order by  CREATED_AT DESC
   </select>
-  
+  <!--  不是暂存 和结束 的竞价数据-->
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProject" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT
+    where STATUS!=0 and STATUS !=4 and STATUS!=3
+     order by  CREATED_AT DESC
+  </select>
   
   <insert id="insertSelective" parameterType="bss.model.ob.OBProject" >
     insert into T_BSS_OB_PROJECT
@@ -208,6 +251,19 @@
       <if test="updatedAt != null" >
         UPDATED_AT,
       </if>
+      
+      <if test="orgId != null" >
+        ORG_ID,
+      </if>
+      <if test="orgContactTel != null" >
+        ORG_CONTACT_TEL,
+      </if>
+      <if test="orgContactName != null" >
+        ORG_CONTACT_NAME,
+      </if>
+      <if test="contactTel != null" >
+        CONTACT_TEL,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -266,6 +322,19 @@
       </if>
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      
+       <if test="orgId != null" >
+        #{orgId,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgContactTel != null" >
+        #{orgContactTel,jdbcType=TIMESTAMP},
+      </if>
+      <if test="orgContactName != null" >
+        #{orgContactName,jdbcType=TIMESTAMP},
+      </if>
+      <if test="contactTel != null" >
+        #{contactTel,jdbcType=TIMESTAMP},
       </if>
     </trim>
   </insert>
@@ -447,4 +516,25 @@
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectAllOBproject" parameterType="Map" resultMap="BaseResultMap">
+  	select
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT where 1=1
+    <if test="name != null and name !=''" >
+      AND NAME like '%${name}%'
+    </if>
+    <if test="startTime != null and startTime !=''">
+    	<![CDATA[AND START_TIME >= #{startTime}]]>
+    </if>
+    <if test="endTime != null and endTime !=''">
+    	<![CDATA[AND END_TIME <= #{endTime}]]> 
+    </if>
+    <if test="createTime != null and createTime !=''">
+    	<![CDATA[AND CREATED_AT = #{createTime}]]> 
+    </if>
+	ORDER BY
+	UPDATED_AT DESC
+  </select>
+  
 </mapper>

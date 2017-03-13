@@ -27,4 +27,9 @@ public interface OBResultsInfoMapper {
     int updateByPrimaryKeySelective(OBResultsInfo record);
 
     int updateByPrimaryKey(OBResultsInfo record);
+    /***
+     * 根据竞价id 获取 数据
+     * @author YangHongLiang
+     */
+    List<OBResultsInfo> selectByProjectId(String projectId);
 }
