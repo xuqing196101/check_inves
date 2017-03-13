@@ -22,7 +22,7 @@
 			  title: '请注明缺失内容',
 			  skin: 'layui-layer-rim',
 			  shadeClose: true,
-			  area: ['580px','510px'],
+			  area: ['580px','230px'],
 			  content: $("#openDiv")
 			});
 }
@@ -47,24 +47,24 @@ function cancel(){
 	</div>
 
 	
-	<div class="container">
-		<div>
+	<div class="container container_box">
 			<form action="" method="post" class="mb0">
+			<h2 class="list_title">投诉处理详细</h2>
 				<ul class="ul_list">
 					<li class="col-md-3 col-sm-6 col-xs-12  pl15">
 					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉人类型</span>
-						<div class="col-md-12 mb20 col-sm-12 col-xs-12 p0">
+						<div class="input-append input_group col-md-12 mb20 col-sm-12 col-xs-12 p0">
 							<input class="" name="" type="text" value="">
 						</div> 
 				  </li>
-				  <li class="col-md-3 col-sm-6 col-xs-12 pl15"  >
+				  <li class="col-md-3 col-sm-6 col-xs-12"  >
 	                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉人名称（姓名）</span>
 	                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                              <input class="" name="PerSonName" type="text" value="">
                         </div>
 	              </li>	
 	              
-				  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				  <li class="col-md-3 col-sm-6 col-xs-12">
 				  	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉对象</span>
 				  	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
                              <input class="" name="PerSonName" type="text" value="">
@@ -73,10 +73,10 @@ function cancel(){
 				  <li class="col-md-12 col-sm-12 col-xs-12">
 	                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉事项</span>
 	                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px" title="不超过800个字"></textarea>
+                      <textarea class="w100p h130" title="不超过800个字"></textarea>
                      </div>
 	              </li> 
-				  <li class="col-md-3 col-sm-6 col-xs-12">
+				  <li class="col-md-3 col-sm-6 col-xs-12 mt15">
 	 	             <span class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉文件</span>
      	              <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
      	                 <input type="file" id="file" value="" />
@@ -88,34 +88,27 @@ function cancel(){
      	                 <input type="file" id="file" value="" />
                       </div>
 	             </li>
-	             <div>
-	             
-	              </div>
-		         <div class="clear"></div>    
-		        <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-		             <button class="btn" type="button" onclick="y();">立项</button>
-			         <button class="btn" type="button" onclick="openDiv();">无法立项</button>
-		        </div>
-		        <div id="openDiv" class="dnone layui-layer-wrap" >
-		  <div class="drop_window">
-			  <ul class="list-unstyled">
-			    
-			    <li class="col-md-12">
-	    	      <label class="col-md-12 padding-left-5">备注</label>
-                  <textarea id="remarks" name="remarks" class="col-md-12 h80 p0" rows="3" cols="1"></textarea>
-	            </li>
-			    
-	            <div class="clear"></div>
-			  </ul>
-              <div class="tc mt10 col-md-12">
-                <input class="btn" id="inputb" name="addr" onclick="alert('自己实现')" value="确定" type="button"> 
-				<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
-              </div>
+
+			</ul> 
+			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
+		      <button class="btn" type="button" onclick="y();">立项</button>
+			  <button class="btn" type="button" onclick="openDiv();">无法立项</button>
 		    </div>
-		   </div>
-		</ul> 
+			<div id="openDiv" class="dnone layui-layer-wrap" >
+		 		 <div class="drop_window">
+				  <ul class="list-unstyled">
+			   		 <li class=" col-md-12 col-sm-12 col-xs-12 pl15">
+	    	     		 <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">备注</label>
+                 		 <textarea id="remarks" name="remarks" class="w100p h80 p0" rows="3" cols="1"></textarea>
+	           		 </li>
+			 	 </ul>
+              	 <div class="tc mt10 col-md-12 col-sm-12 col-xs-12 ">
+              	 	<input class="btn" id="inputb" name="addr" onclick="alert('自己实现')" value="确定" type="button"> 
+					<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
+              	 </div>
+		    	</div>
+		  	 </div>
 		</form>
-	</div>
 	</div>
 </body>
 </html>

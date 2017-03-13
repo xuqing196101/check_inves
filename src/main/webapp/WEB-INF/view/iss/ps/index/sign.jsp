@@ -128,7 +128,7 @@
     						});
     					}else if(flag[0]=="unperfect"){
     						//询问框
-    						layer.confirm('信息未完善，是否前去完善？', {
+    						layer.confirm("<span style='margin-left:26px;'> 信息未完善，是否前去完善？</span>"+"<br/> <span style='margin-left:26px;'>您选择的采购机构是</span>："+flag[2]+"；联系人是:"+flag[3]+";"+"联系人电话："+flag[4]+"；联系人地址是："+flag[5]+"；联系人邮编："+flag[6], {
     						 	btn: ['是','否'] //按钮
     						}, function(){
     						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
@@ -168,7 +168,7 @@
     								if (response.isok == "1") {
     									// 没有超过45天
     									//询问框
-    		    						layer.confirm("您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待!", {
+    		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>："+response.name+"；联系人是:"+response.concat+";"+"联系人电话："+response.phone+"；联系人地址是："+response.address+"；联系人邮编："+response.code, {
     		    							btn : [ '确定' ]
     		    						//按钮
     		    						}, function() {
