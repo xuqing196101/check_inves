@@ -72,7 +72,7 @@
   
     	if (node && node != null ) {
     		level = node.level + 2;
-    		resetTips();
+    		//resetTips();
     		$("#tableDivId").removeClass("dis_none");
     		$("#uploadBtnId").addClass("dis_none");
 			$("#btnIds").hide();
@@ -80,14 +80,80 @@
 			$("#fileId_showdel").val("false");
 			$("#uploadBtnId").hide();
 	    	nodeName = node.name;
-    		update(treeNode);
+	    	onClickTrees(treeNode);
     		selectedNode = treeNode;
     	} else {
     		$("#tableDivId").addClass("dis_none");
     	}
     }
-
-    
+    function onClickTrees(nodes){
+    	$("#results").css("display","");
+    	$("#result").css("display","none");
+    	 if (treeid==null){
+  			layer.msg("请选择一个节点");
+ 		}else{
+ 			$("#typeIds").empty();
+ 			$("#openIds").empty();
+ 		if(nodes.isParent==false){
+ 			$("#expertTy").show();
+ 		}
+		var node = getCurrentRoot(nodes);
+		  $.ajax({
+			url:"${pageContext.request.contextPath}/engCategory/update.do?id="+treeid,
+			dataType:"json",
+			type:"POST",
+			success:function(cate){
+					$("#fileIdss_downBsId").val(cate.id);
+					$("#parentNameIds").html(nodeName);
+					$("#cateNameIds").html(cate.name);
+					$("#descriptions").html(cate.description);
+					$("#codes").html(cate.code);
+					showInit();
+					if(cate.expertType=='1'){
+						$("#expertTypess").html("工程技术");
+					}else if(cate.expertType=='0'){
+						$("#expertTypess").html("工程经济");
+					}
+						if (level == 3){
+							showQuas(cate, node.classify);
+						}else{
+							$("#generaQuaTrs").hide();
+					       	 $("#profileQuaTrs").hide();
+						}
+						if (node.classify && node.classify == "GOODS"){
+							$("#typeTrIds").show();
+						} else {
+							$("#typeTrIds").hide();
+							
+						}
+		               if(cate.isPublish=='1'){
+		            	   $("#openIds").html("不公开");
+						}else if(cate.isPublish=='0'){
+							$("#openIds").html("公开");
+						}
+					
+		      }
+            });
+        }
+    	
+    }
+    function showQuas(cate, type){
+    	 $("#generaQuaTrs").show();
+       	 $("#profileQuaTrs").show();
+   	 if (type == "GOODS") {
+   		 $("#profileQuaTr_saless").show();
+   		 var tdArr = $("#profileQuaTrs").children();
+   		 tdArr.eq(0).html("物资生产型专业资质要求");
+   	 } else {
+   	     var tdArr = $("#profileQuaTrs").children();
+   		 tdArr.eq(0).html("专业资质要求");
+   	 }
+   	 if (cate != null && cate !="" && cate !="undefined" && cate !="null"){
+   		 $("#generalIQuaNames").val(cate.generalQuaNames);
+   		 $("#profileIQuaNames").val(cate.profileQuaNames);
+   		 $("#profileSalesNames").val(cate.profileSalesQuaNames);
+   	 }
+    }
     /** 判断是否为根节点 */
     function isRoot(node){
     	if (node.pId == 0){
@@ -99,6 +165,8 @@
     
     /**新增 */
     function add(){
+    	$("#results").css("display","none");
+    	$("#result").css("display","");
     	hideQua();
     	
 		if (treeid==null) {
@@ -167,24 +235,23 @@
 
 	/**修改节点信息*/
     function update(nodes){
+    	$("#results").css("display","none");
+    	$("#result").css("display","");
     	hideQua();
  	    if (treeid==null){
  			layer.msg("请选择一个节点");
 		}else{
 		$("#typeId").empty();
 		$("#openId").empty();
-		
 		if(nodes.isParent==false){
 			$("#expertTypes").show();
 		}
 		var node = getCurrentRoot(nodes);
-		
 		  $.ajax({
 			url:"${pageContext.request.contextPath}/engCategory/update.do?id="+treeid,
 			dataType:"json",
 			type:"POST",
 			success:function(cate){
-				
 					$("#uploadId_businessId").val(cate.id);
 					$("#fileId_downBsId").val(cate.id);
 					$("#pid").val(cate.parentId);
@@ -202,9 +269,6 @@
 							}
 						}
 					}
-					
-					
-					
 					showInit();
 					if (level == 3){
 						showQua(cate, node.classify);
@@ -312,6 +376,8 @@
 	
 	  /** 编辑 */
   function 	edit(){
+	  $("#results").css("display","none");
+  	  $("#result").css("display","");
 	  var zTree = $.fn.zTree.getZTreeObj("ztree");
 	  var nodes = zTree.getSelectedNodes();  
 	  $("#operaFlag").val('edit');
@@ -715,6 +781,97 @@
        	          <td id="descTdId">
        	        	<textarea name='description' class="col-md-10 col-sm-10 col-xs-12 h80 textArea_resizeB"   id="descId"></textarea>
        	        	<span class="red" id="descTipsId"></span> 
+       	          </td>
+           	    </tr>
+           	   </tbody>
+            </table>
+            <table id="results"  class="table table-bordered table-condensedb" >
+           	  <tbody>
+           	 	<tr>
+       			  <td class='info w250'>上级目录</td>
+       			  <td id="parentNameIds"></td>
+           		</tr>
+           		<tr>
+           		  <td class='info'>品目名称</td>
+           		  <td id="cateTdIds">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameIds" >
+       		    	  
+       		    	</div>
+       		    	  
+           		  </td>
+           		</tr>
+           		<tr>
+       			  <td class='info'>编码</td>
+       			  <td id="posTdIds">
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="codes">
+       				  
+       				</div>
+       				  
+       		      </td>
+           	    </tr>
+           	    <tr id="expertTy" style="display: none;">
+       			  <td class='info'>类别</td>
+       			  <td id="expertType">
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id ="expertTypess">
+                      
+       				</div>
+       				  
+       		      </td>
+           	    </tr>
+           	    <tr id="generaQuaTrs" class="dnone">
+       			  <td class='info'>通用资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="generalIQuaNames">
+       				  
+       				</div>
+       				 
+       		      </td>
+           	    </tr>
+           	    <tr id="typeTrIds">
+       			  <td class='info'>类型</td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id="typeIds" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTrs" class="dnone">
+       			  <td class='info'>专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="profileIQuaNames">
+       				  
+       				</div>
+       				  
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTr_saless" class="dnone">
+       			  <td class='info'>物资销售型专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="profileSalesNames">
+       				  
+       				</div>
+       				  
+       		      </td>
+           	    </tr>
+           	    <tr>
+       			  <td class='info'>是否公开</td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id="openIds" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <tr>
+       	    	  <td class='info'>图片</td>
+       	    	  <td>
+       	    	  
+       	    		<div id="showFileIdss" class="picShow">
+       	    		  <u:show showId="fileIdss" businessId="${id}" delete="false" sysKey="2"/>
+       	    		</div>
+       	    	  </td>
+           	    </tr>
+           	    <tr>
+       	          <td class='info'>描述</td>
+       	          <td id="descriptions">
+       	        	
        	          </td>
            	    </tr>
            	   </tbody>
