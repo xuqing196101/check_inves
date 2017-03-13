@@ -202,7 +202,7 @@
 										</thead>
 										<c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 											<tr>
-												<td>${vs.index + 1}</td>
+												<td><div class="w50">${vs.index + 1}</div></td>
 												<td>${cate.rootNode}</td>
 												<td>${cate.firstNode}</td>
 												<td>${cate.secondNode}</td>
@@ -213,7 +213,12 @@
 												</td>
 												<td>${cate.certCode}</td>
 												<td>${cate.level.name}</td>
-												<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false" /></td>
+												<td>
+												<div class="w110">
+													<u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false" />
+												</div>
+												</td>
+												
 											</tr>
 										</c:forEach>
 									</table>

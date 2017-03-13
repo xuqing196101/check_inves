@@ -320,14 +320,14 @@
 											      <th class="info tc">中类</th>
 											      <th class="info tc w200">资质类型</th>
 											      <th class="info tc w100">证书编号</th>
-											      <th class="info tc w100">资质等级</th>
-											      <th class="info tc w150">证书图片</th>
+											      <th class="info tc w80">资质等级</th>
+											      <th class="info tc">证书图片</th>
 										   		</tr>
 										    </thead>
 										    <c:forEach items="${allTreeList}" var="cate" varStatus="vs">
 										      <tr <c:if test="${fn:contains(audit,cate.itemsId)}">onmouseover="errorMsg('${cate.itemsId}','aptitude_page')"</c:if>>
 										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										         ${vs.index + 1}
+										        <div class="w50"> ${vs.index + 1}</div>
 										          <input type="hidden" name="listSupplierItems[${vs.index}].id" value="${cate.itemsId}">
 										        </td>
 										        <td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
@@ -349,7 +349,7 @@
 										        </td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}">
+										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}" class="w80">
 										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">
 										     	</td>
 										      	<td class="tc" <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
