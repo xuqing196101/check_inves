@@ -125,6 +125,12 @@
     from T_BSS_OB_PROJECT_RESULT
     where SUPPLIER_ID = #{id,jdbcType=VARCHAR}
   </select>
+  <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
+  <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
+    select status from T_BSS_OB_PROJECT_RESULT 
+    WHERE PROJECT_ID=#{projectId} AND SUPPLIER_ID=#{supplierId} 
+    GROUP BY STATUS
+  </select>
   
   <!-- 根据竞价信息ID查询竞价结果信息 -->
   <select id="selectByProjectId" resultMap="CountMap" parameterType="java.lang.String" >

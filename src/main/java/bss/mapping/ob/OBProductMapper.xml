@@ -116,6 +116,14 @@
     order by id
   </select>
   
+  <!-- 根据供应商id找到对应的商品 -->
+  <select id="selectProductBySupplierId" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT
+    where ID in(select PRODUCT_ID from T_BSS_OB_RESULTS_INFO where SUPPLIER_ID = ${supplierId,jdbcType=VARCHAR})
+  </select>
+  
   <!-- 通过主键查询 -->
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

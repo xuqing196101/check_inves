@@ -131,14 +131,28 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("/confirmResult")
 	public String quoteConfirmResult(Model model, HttpServletRequest request,
-			String supplierId) {
+			String supplierId, String projectId) {
 		if (supplierId == null || "".equals(supplierId)) {
 			// 这个目前做测试用
 			supplierId = "5b214591d1ba471ebcbda346408f6545";
 		}
+		if (projectId == null || "".equals(projectId)) {
+			// 这个目前做测试用
+			projectId = "471076344D094916869BD60CCB9DFD42";
+		}
+		
+		OBProjectResult oBProjectResult = new OBProjectResult();
+		oBProjectResult.setProjectId(projectId);
+		oBProjectResult.setSupplierId(supplierId);
+		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
+		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
+		
+		
 		// 根据供应商查询到的竞价结果信息
 		List<OBProjectResult> oBProjectResultList = oBProjectResultService
 				.selectBySupplierId(supplierId);
+		
+		model.addAttribute("confirmStatus", confirmStatus);
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
 
 		return "bss/ob/supplier/confirmResult";

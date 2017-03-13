@@ -20,6 +20,7 @@
 			$("#confirmCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown").text("确认倒计时已经结束");
+			clearInterval(downTimer);
 		}
 	}
 	//占比下调,返回对应占比后数量@param 值
@@ -30,7 +31,7 @@
 	}
 	$(function() {
 		//定时器调用
-		setInterval(getRTime,1000);
+		var downTimer = setInterval(getRTime,1000);
 		
 		var currentVal = $("input[name='confirmRatioFirst']").val();
 		var changeRatioCounts = [];
@@ -93,10 +94,9 @@
       </div>
     </div> 
     
-    <!-- 表格开始 -->
+    <!-- 表格开始    projectResult -->
     <div class="container container_box">
     
-    <c:forEach items="${oBProjectResultList }" var="projectResult" varStatus="p">
     <h2>竞价管理-结果查询
     	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
     		竞价标题：测试-263842312346<input type="hidden" value=""/>
@@ -109,7 +109,7 @@
     <h2 class="count_flow">确认结束时间：
     	<span id="confirmOverTime">2016-1-1 12：12：12</span>
     </h2>
-    
+    <c:if test="${confirmStatus=='0'}">
      <div>
      <div class="clear total f22">
      	<span class="fl block">基本数量确认：</span>
@@ -169,8 +169,9 @@
 	</table>
   </div>
   </div>
+  </c:if>
   
-  <c:if test="${projectResult.status=='0'}">
+  <c:if test="${confirmStatus=='1'}">
   <div>
      <div class="clear total f22"><span class="fl block">第二轮确认：</span><h2 class="count_flow">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认成交&nbsp;&nbsp;<input id="" name="" value="20" type="text" class="w5 mb0 ">%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二轮确认倒计时：0小时5分钟12秒</h2></div>
 	<div class="content table_box">
@@ -221,7 +222,6 @@
   </div>
   </div>
   	</c:if>
-  </c:forEach>
   
   
   <div class="star_red" style="display: none;">规则1、第一轮确认如果都按比例成交，则没有第二轮确认，如果不是按比例成交，则有第二轮确认，第一轮正在确认的时候不显示<br/>第二轮数据，只有所有供应商第一轮确认完毕后，才有第二轮确认。<br/>
