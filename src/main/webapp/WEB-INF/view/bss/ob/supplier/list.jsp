@@ -98,7 +98,7 @@
 	      </li>
     	  <li>
 	    	<label class="fl">发布时间：</label>
-			<input name="startTime" value="${ createTime }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
+			<input name="createTime" value="${ createTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" class="btn">重置</button>  	
@@ -133,9 +133,6 @@
 			  <td class="tc">
 			  	<c:if test="${ obProject.status == 1 }">
 			  		发布中
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 2 }">
-			  		待确认
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
