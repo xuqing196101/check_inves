@@ -26,7 +26,6 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
-import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
