@@ -2,7 +2,10 @@ package bss.dao.ob;
 
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProjectMapper {
@@ -20,6 +23,17 @@ public interface OBProjectMapper {
     
     List<OBProject> selectPageList(OBProject project);
 
+    /**
+     * 
+     * Description: 根据主键查询竞价信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月11日 
+     * @param  @param id
+     * @param  @return 
+     * @return OBProject 
+     * @exception
+     */
     OBProject selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") OBProject record, @Param("example") OBProjectExample example);
@@ -29,6 +43,14 @@ public interface OBProjectMapper {
     int updateByPrimaryKeySelective(OBProject record);
 
     int updateByPrimaryKey(OBProject record);
-  
-    
+
+
+	List<OBProject> selectAllOBproject(Map<String, Object> map);
+
+	List<OBProject> selectData(Map<String, Object> map);
+	/**
+	 * 获取竞价信息 不是暂存 和 结束竞价 
+	 * @author yangHongLiang
+	 */
+	List<OBProject> selectByStatus();
 }
