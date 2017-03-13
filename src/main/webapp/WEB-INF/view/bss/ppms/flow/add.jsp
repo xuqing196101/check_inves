@@ -56,7 +56,7 @@
 				       	</span>
 					</li>
 					<li class="mt10 col-md-12 p0 col-xs-12">
-					   	<label class="col-md-12 pl20 col-xs-12"><a class="star_red">*</a>流程跳转路径</label>
+					   	<label class="col-md-12 pl20 col-xs-12">流程跳转路径</label>
 					   	<span class="col-md-12 col-xs-12">
                         <input class="col-xs-12 h80 mt6" name="url" maxlength="300" type="text">
                         </span>
