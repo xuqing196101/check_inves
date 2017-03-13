@@ -147,21 +147,11 @@
     where IS_DELETED = 0
     order by CREATED_AT DESC
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
-    delete from T_BSS_OB_PRODUCT
-    where ID = #{id,jdbcType=VARCHAR}
-  </delete>
-  <delete id="deleteByExample" parameterType="bss.model.ob.OBProductExample" >
-    delete from T_BSS_OB_PRODUCT
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-  </delete>
-  <!-- 删除 修改删除状态 
-  <update id="updateByPrimaryKey" parameterType="String" >
+  <!-- 删除 修改删除状态 -->
+  <update id="deleteByPrimaryKey" parameterType="String" >
     update T_BSS_OB_PRODUCT set IS_DELETED = 1 where ID = #{id,jdbcType=VARCHAR}
   </update>
-  -->
+  
   <insert id="insert" parameterType="bss.model.ob.OBProduct" >
     insert into T_BSS_OB_PRODUCT (ID, CODE, NAME, 
       PROCUREMENT_ID, CATEGORY_PARENT_ID, CATEGORY_ID, 
