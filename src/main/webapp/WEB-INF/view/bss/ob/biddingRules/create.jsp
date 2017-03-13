@@ -114,64 +114,52 @@
 	  <div class="container container_box">
   		<form id="ruleForm" action="" method="post">
 		  <div>
-		    <h2 class="count_flow">添加竞价规则</h2>
+		    <h2 class="list_title">添加竞价规则</h2>
 		   <ul class="ul_list">
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价规则名称：</span>
-			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-		        <div class="w200" id="supplierselect">
+			   <div class="input-append input_group col-sm-12 col-xs-12 p0" id="supplierselect">
 					<input class="input_group" name="name" id="name" type="text" class="w230 mb0 border0">
-				</div>
 		        <div class="cue"><span><font id="nameErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 			 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>间隔工作日（天）：</span>
-			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-		        <div class="w200" id="supplierselect">
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 			        <input class="input_group" name="intervalWorkday" id="intervalWorkday" type="text" class="w230 mb0 border0">
-				</div>
-				<div class="cue"><span><font id="intervalWorkdayErr" style="color: red"></font></span></div>
+					<div class="cue"><span><font id="intervalWorkdayErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>具体时间点：</span>
-			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-			        <div class="w200" id="supplierselect">
-				        <input type="text" name="definiteTime"  id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
-					</div>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
+				    <input type="text" name="definiteTime"  id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
 					<div class="cue"><span><font id="definiteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>报价时间（分钟）：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		        	<div class="w200" id="supplierselect">
-				        <input class="input_group" name="quoteTime" id="quoteTime" type="text" class="w230 mb0 border0">
-					</div>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
+				    <input class="input_group" name="quoteTime" id="quoteTime" type="text" class="mb0 border0">
 					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 			 <!--  <td class="bggrey tr">二次报价时间（分钟）：</td>
 			    <td >
-			    	<input id="" name="" value="" type="text" class="w230 mb0 border0">
+			    	<input id="" name="" value="" type="text" class="mb0 border0">
 			   </td> -->
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第一轮）：</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		        	<div class="w200" id="supplierselect">
-				        <input class="input_group" name="confirmTime" id="confirmTime" type="text" class="w230 mb0 border0">
-					</div>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
+				    <input class="input_group" name="confirmTime" id="confirmTime" type="text" class="mb0 border0">
 					<div class="cue"><span><font id="confirmTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第二轮）</span>
-			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-		        	<div class="w200" id="supplierselect">
-				        <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="w230 mb0 border0">
-					</div>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
+				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="mb0 border0">
 					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
@@ -179,11 +167,11 @@
 		       <div class="clear"></div> 
 		  </div> 
 		</form>
-		</div>
-		 <div class="col-md-12 clear tc mt10">
+		 <div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
 	   		<button class="btn btn-windows save" onclick="submitForm()">保存</button>
 	   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 		 </div>
+		</div>
 	</div>
   </div>
  </div> 

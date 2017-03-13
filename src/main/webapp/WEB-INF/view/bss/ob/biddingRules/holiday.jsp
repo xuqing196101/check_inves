@@ -123,7 +123,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li><li class="active"><a href="javascript:void(0)">节假日管理列表</a></li>
+		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li>
 		   </ul>
         <div class="clear"></div>
       </div>
@@ -131,6 +131,9 @@
     
 <!-- 竞价规格列表页面开始 -->
 	<div class="container">
+		<div class="headline-v2">
+     		<h2>节假日管理列表</h2>
+		</div> 
     <div class="search_detail">
        <form id="queryForm" action="" method="post" class="mb0">
     	<ul class="demand_list">
@@ -146,8 +149,8 @@
 	    	    <option value="0" <c:if test="${'0' eq dateType}">selected</c:if>>放假</option>
 	    	  </select>
 	      </li>
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
+	    	<button type="reset" class="btn fl ml5 mt1">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
