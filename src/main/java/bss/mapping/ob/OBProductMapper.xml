@@ -157,11 +157,11 @@
       <include refid="Example_Where_Clause" />
     </if>
   </delete>
-  <!-- 删除 修改删除状态 -->
-  <update id="deleteByPrimaryKey" parameterType="String" >
+  <!-- 删除 修改删除状态 
+  <update id="updateByPrimaryKey" parameterType="String" >
     update T_BSS_OB_PRODUCT set IS_DELETED = 1 where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
+  -->
   <insert id="insert" parameterType="bss.model.ob.OBProduct" >
     insert into T_BSS_OB_PRODUCT (ID, CODE, NAME, 
       PROCUREMENT_ID, CATEGORY_PARENT_ID, CATEGORY_ID, 
