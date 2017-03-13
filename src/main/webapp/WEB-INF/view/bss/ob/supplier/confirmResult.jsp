@@ -9,7 +9,7 @@
 	//倒计时方法
 	function getRTime(){
 		var getOverTime = $("#confirmOverTime").text();
-		var EndTime= new Date('2017-3-10 18:00:00'); //截止时间
+		var EndTime= new Date('2017-3-11 17:00:00'); //截止时间
 		var NowTime = new Date();
 		var t =EndTime.getTime() - NowTime.getTime();
 		if(t > 0) {
@@ -26,13 +26,21 @@
 	function getDownRatioVal(passVal,beforeRatio,afterRatio) {
 		var br = parseInt(beforeRatio)/100;
 		var ar = parseInt(afterRatio)/100;
-		return (parseInt(passVal) / br) * ar;
+		return Math.ceil((parseInt(passVal) / br) * ar);
 	}
 	$(function() {
 		//定时器调用
 		setInterval(getRTime,1000);
 		
 		var currentVal = $("input[name='confirmRatioFirst']").val();
+		var changeRatioCounts = [];
+		$("[title='theProductCount']").each(function(index,element) {
+			changeRatioCounts.push($(this).text());
+		});
+		var productPrices = [];
+		$("[title='theProductPrice']").each(function() {
+			productPrices.push($(this).text());
+		});
 		$("input[name='confirmRatioFirst']").keyup(function(event) {
 			var currentPressKey = event.keyCode;//当前输入的字符
 			var afterInputVal = $(this).val();
@@ -44,26 +52,21 @@
 					$(this).val(currentVal);
 					layer.alert("占比不能为0");
 				} else {
-					var changeRatioCounts = [];
-					var productPrices = [];
 					var allCount = 0;
-					
-					$("[title='theProductCount']").each(function(index,element) {
-						changeRatioCounts.push($(this).text());
-					});
-					$("[title='theProductPrice']").each(function() {
-						productPrices.push($(this).text());
-					});
 					var allCount = 0;
 					$("[title='theProductTotalPrice']").each(function(index,element) {
-						var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal).toFixed(2);
-						alert(afterCount);
-						$(this).text(afterCount * productPrices[index]);
+						var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
+						$(this).text((afterCount * productPrices[index]).toFixed(2));
+						$("[title='theProductCount']").each(function(indexPc,element) {
+							if(index == indexPc) {
+								$(this).text(afterCount);
+							}
+						});
 						allCount += afterCount * productPrices[index];
 					});
-					$("[title='allProductTotalPrice']").text(allCount);
+					$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
 				}
-			} else if(currentPressKey == 13) {
+			} else if(currentPressKey == 13 || currentPressKey == 18) {
 				//删除键和回车，放行
 			} else {
 				$(this).val(currentVal);
@@ -72,7 +75,11 @@
 		});
 		
 	});
-	
+	function confirmAccept() {
+		var projectResult = {};
+		
+		//url saveConfirmQuoteInfo
+	}
 </script>
 </head>
 <body>
@@ -91,13 +98,17 @@
     
     <c:forEach items="${oBProjectResultList }" var="projectResult" varStatus="p">
     <h2>竞价管理-结果查询
-    	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">竞价标题：测试-263842312346</span>
+    	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
+    		竞价标题：测试-263842312346<input type="hidden" value=""/>
+    	</span>
     </h2>
     <h2 class="count_flow">排名：${projectResult.ranking }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	状态：中标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	中标比例:<input id="" name="" readonly="readonly" value="50" type="text" class="w5 mb0 ">%
     </h2>
-    <h2 class="count_flow">确认结束时间：<span id="confirmOverTime">2016-1-1 12：12：12</span></h2>
+    <h2 class="count_flow">确认结束时间：
+    	<span id="confirmOverTime">2016-1-1 12：12：12</span>
+    </h2>
     
      <div>
      <div class="clear total f22">
@@ -120,7 +131,14 @@
 		</tr>
 		</thead>
 		<tr>
-		  <td class="tc">1</td>
+		  <td class="tc">
+		  	1
+		  	<input type="hidden" name="productId" value=""/>
+		  	<input type="hidden" name="productName" value=""/>
+		  	<input type="hidden" name="productNum" value=""/>
+		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  	<input type="hidden" name="productResultCount" value=""/>
+		  </td>
 		  <td class="tc">台式计算机</td>
 		  <td class="tc" title="theProductCount">20</td>
 		  <td class="tc">100</td>
@@ -167,7 +185,14 @@
 		</tr>
 		</thead>
 		<tr>
-		  <td class="tc">1</td>
+		  <td class="tc">
+		  	1
+		  	<input type="hidden" name="productId" value=""/>
+		  	<input type="hidden" name="productName" value=""/>
+		  	<input type="hidden" name="productNum" value=""/>
+		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  	<input type="hidden" name="productResultCount" value=""/>
+		  </td>
 		  <td class="tc">台式计算机</td>
 		  <td class="tc">20</td>
 		  <td class="tc">100</td>
@@ -199,12 +224,12 @@
   </c:forEach>
   
   
-  <div class="star_red">规则1、第一轮确认如果都按比例成交，则没有第二轮确认，如果不是按比例成交，则有第二轮确认，第一轮正在确认的时候不显示<br/>第二轮数据，只有所有供应商第一轮确认完毕后，才有第二轮确认。<br/>
+  <div class="star_red" style="display: none;">规则1、第一轮确认如果都按比例成交，则没有第二轮确认，如果不是按比例成交，则有第二轮确认，第一轮正在确认的时候不显示<br/>第二轮数据，只有所有供应商第一轮确认完毕后，才有第二轮确认。<br/>
 						规则2、自动生成成交比例（可修改），修改后成交数量和总价发生变化，未中标的的显示未中标，不显示成交比例，未中标的只能<br/>看到已中标明细，未中标的只有返回按钮。
   </div>
   <div class="col-md-12 clear tc mt10">
-  <button class="btn" type="submit">接受</button>
-  <button class="btn" type="submit">放弃</button>
+  <button class="btn" onclick="confirmAccept()">接受</button>
+  <button class="btn" onclick="">放弃</button>
   </div>
   </div>
 </body>
