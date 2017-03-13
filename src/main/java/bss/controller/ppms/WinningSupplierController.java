@@ -156,8 +156,10 @@ public class WinningSupplierController extends BaseController {
   public String selectpackage(Model model, String pid, String packageId, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
 	  
 	  //调用service层方法把传过来的供应商id，确定为中标 @author Ma Mingwei
-	  if(pid != null) {
-		  checkPassService.changeSupplierWonTheBidding(packageId,priceRatios);
+	  if(!"priceRatio".equals(priceRatios)) {
+		  if(pid != null) {
+			  checkPassService.changeSupplierWonTheBidding(packageId,priceRatios);
+		  }
 	  }
 	  
     if (view != null && view == 1) {
