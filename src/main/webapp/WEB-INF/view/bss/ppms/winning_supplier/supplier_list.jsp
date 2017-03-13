@@ -419,6 +419,7 @@
 	//点击中标供应商隐藏显示所属明细
 	function ycDiv(obj, index) {
 		//var bfb = parseFloat($(obj).parent().parent().find("td:eq(7)").text())/100;
+		
 		if ($(obj).hasClass("shrink") && !$(obj).hasClass("spread")) {
 			$(obj).removeClass("shrink");
 			$(obj).addClass("spread");
@@ -867,5 +868,10 @@
 		</div>
 	</div>
 </body>
+<script type="text/javascript">
+	$(function() {
+		
+	});
+</script>
 
 </html>
