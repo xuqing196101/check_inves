@@ -29,6 +29,7 @@ import bss.service.ob.OBSupplierQuoteService;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.model.UploadFile;
 import common.utils.JdcgResult;
 
 @RequestMapping("/supplierQuote")
@@ -75,7 +76,7 @@ public class OBSupplierQuoteController {
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
 		map.put("name", name);
-		map.put("startTime", createTime);
+		map.put("createTime", createTime);
 		List<OBProject> list = obProjectServer.selectAllOBproject(map);
 		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 		// 将查询出的数据存入到model域中
@@ -110,6 +111,7 @@ public class OBSupplierQuoteController {
 		// 获取采购机构名称
 		String orgName = (String) map.get("orgName");
 		String productIds = (String) map.get("productIds");
+		List<UploadFile> uploadFiles = (List<UploadFile>) map.get("uploadFiles");
 		List<OBProductInfo> oBProductInfo = null;
 		if (object != null) {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
@@ -118,7 +120,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
-
+		model.addAttribute("uploadFiles", uploadFiles);
 		return "bss/ob/supplier/supplierOffer";
 	}
 

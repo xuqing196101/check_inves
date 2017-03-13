@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -99,6 +100,20 @@
 				}
 			});
 		}
+		
+		
+		// 查看文件
+		function findFile(filePath){
+			$.ajax({
+				url: "${pageContext.request.contextPath }/open_bidding/downloadFile.do",
+				type: "POST",
+				data: {
+					filePath: filePath
+				},
+				success: function(data) {
+				}
+			});
+		}
 	</script>
 </head>
 <body>
@@ -161,19 +176,20 @@
 				  </tr>
 				  <tr>
 				    <td class="tc">竞价内容</td>
-				    <td class="tc" colspan="3" style="height:130px">${ obProject.content }</td>
+				    <td colspan="3" style="height:130px">${ obProject.content }</td>
 				  </tr>
 				  <tr>
 				    <td class="tc">竞价文件</td>
-				    <c:if test="${ !empty obProject.attachmentId }">
-					    <td class="tc">
-					    	${ obProject.attachmentId }.pdf
-					    	<td class="tc"><button class="btn" onclick="findpdfFile('${obProject.attachmentId}')">查看</button></td>
-					    </td>
-				    </c:if>
-				    <c:if test="${ empty obProject.attachmentId }">
-				    	<td class="tc">无</td>
-				    </c:if>
+				    <td class="tc">
+				    <c:if test="${ !empty uploadFiles  }">
+				    	<c:forEach items="${ uploadFiles }" var="file">
+				     		${ file.name }&nbsp;&nbsp;<button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
+				     		<br />
+				       	</c:forEach>
+				     </c:if>
+				     <c:if test="${ empty uploadFiles  }">
+				     	无
+				     </c:if>
 				  </tr>
 				 </tbody>
 			 </table>
