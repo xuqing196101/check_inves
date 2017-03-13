@@ -1533,6 +1533,9 @@
 			<if test="legalTelephone != null">
 				and LEGAL_TELEPHONE = #{legalTelephone}
 			</if>
+			<if test="IS_PUBLISH != null">
+				and IS_PUBLISH = #{IS_PUBLISH}
+			</if>
 		</where>
 
 	</select>

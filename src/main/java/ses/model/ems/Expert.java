@@ -145,7 +145,16 @@ public class Expert extends ExpertHistory implements Serializable {
     private Integer isReferenceLftter;
     /*省+地区*/
     private String range;
+    
+    private Integer isPublish;
+    
+    public Integer getIsPublish() {
+        return isPublish;
+    }
 
+    public void setIsPublish(Integer isPublish) {
+        this.isPublish = isPublish;
+    }
     public String getRange() {
         return range;
     }

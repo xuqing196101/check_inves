@@ -59,7 +59,7 @@
         <result column="IS_REFERENCE_LETTER" jdbcType="CHAR" property="isReferenceLftter" />
         <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
-
+        <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
     </resultMap>
     <sql id="Base_Column_List">
         ID, IS_SUBMIT, IS_DO, IS_DELETE, CREATED_AT,SUBMIT_AT,
@@ -86,7 +86,8 @@
         AUDIT_AT,
         IS_REFERENCE_LETTER,
         PROFESSIONAL,
-        TIME_PROFESSIONAL
+        TIME_PROFESSIONAL,
+        IS_PUBLISH
     </sql>
     <sql id="Column_List">
         e.ID, e.IS_SUBMIT, e.IS_DO, e.IS_DELETE, e.CREATED_AT,
@@ -145,6 +146,10 @@
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
             AND instr( EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
+        </if>
+        
+         <if test="isPublish != null and isPublish !=''">
+            AND IS_PUBLISH = '${isPublish}'
         </if>
         ORDER BY STATUS ASC, CREATED_AT DESC
     </select>
