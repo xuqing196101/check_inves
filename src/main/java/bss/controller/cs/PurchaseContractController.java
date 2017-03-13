@@ -31,6 +31,7 @@ import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
@@ -134,6 +135,9 @@ public class PurchaseContractController extends BaseSupplierController{
     
     @Autowired
     private PurChaseDepOrgService chaseDepOrgService;
+    @Autowired
+    private OrgnizationServiceI orgnizationService;
+    
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -612,8 +616,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		map1.put("projectId", pack.getProjectId());
 		List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
 		BigDecimal projectBudget = BigDecimal.ZERO;
+		String department="";
 		for (ProjectDetail projectDetail : detailList) {
 		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+		   department=projectDetail.getDepartment();
 	    }
 		BigDecimal projectBud = projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP);
 		
@@ -626,6 +632,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		
 		//PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());
 		model.addAttribute("project", project);
+		model.addAttribute("department", department);
 		model.addAttribute("transactionAmount", amounts);
 		model.addAttribute("id", contractuuid);
 		model.addAttribute("supcheckid",supcheckid);
@@ -1350,10 +1357,10 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_documentNumber", "计划任务文号不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getQuaCode())){
+		/*if(ValidateUtils.isNull(purCon.getQuaCode())){
 			flag = false;
 			model.addAttribute("ERR_quaCode", "采购机构文号不能为空");
-		}
+		}*/
 		if(ValidateUtils.isNull(purCon.getPurchaseDepName())){
 			flag = false;
 			model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
@@ -1528,7 +1535,7 @@ public class PurchaseContractController extends BaseSupplierController{
      * @return String
      */
     @RequestMapping("/selectDraftContract")
-    public String selectDraftContract(HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
+    public String selectDraftContract(@CurrentUser User user,HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
         if(page==null){
             page=1;
         }
@@ -1566,14 +1573,48 @@ public class PurchaseContractController extends BaseSupplierController{
             map.put("status", purCon.getStatus());
         }
         List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
-        User user = (User) request.getSession().getAttribute("loginUser");
-		List<Role> roleList = roleService.selectByUserId(user.getId());
-		boolean roleflag = false;
-		for(Role rol:roleList){
-			if(rol.getCode().equals("PURCHASE_R")){
-				roleflag = true;
-			}
-		}
+      //采购机构
+        Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
+        boolean roleflag = true;
+        if("1".equals(orgnization.getTypeName())){
+        	map.put("purchaseDepName", user.getOrg().getId());
+        	if(purCon.getStatus()!=null){
+        		draftConList = purchaseContractService.selectAllContractByStatus(map);
+        	}else{
+        		draftConList = purchaseContractService.selectAllContractByCode(map);
+        	}
+          
+        }
+        /*
+         *判断如果是管理部门*/
+        if("2".equals(orgnization.getTypeName())){
+            
+            List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+            if(list!=null&&list.size()>0){
+            	List<PurchaseContract> draftConLists = new ArrayList<PurchaseContract>();
+            for(int i=0;i<list.size();i++){
+            	map.put("purchaseDepName", list.get(i).getPurchaseDepId());
+            	if(purCon.getStatus()!=null){
+            		draftConLists = purchaseContractService.selectAllContractByStatus(map);
+            	}else{
+            		draftConLists = purchaseContractService.selectAllContractByCode(map);
+            	}
+            	draftConList.addAll(draftConLists);
+             }
+            }
+        }
+      //判断如果是需求部门
+        if("0".equals(orgnization.getTypeName())){
+        	String name=orgnization.getName();
+        	map.put("deptname", name);
+        	if(purCon.getStatus()!=null){
+        		draftConList = purchaseContractService.selectAllContractByStatus(map);
+        	}else{
+        		draftConList = purchaseContractService.selectAllContractByCode(map);
+        	}
+        	
+        }
+      
 		BigDecimal contractSum = new BigDecimal(0);
 		if(roleflag){
 //        List<Role> roleList = user.getRoles();
@@ -1584,11 +1625,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //            }
 //        }
 //        if(isRole){
-        	if(purCon.getStatus()!=null){
-        		draftConList = purchaseContractService.selectAllContractByStatus(map);
-        	}else{
-        		draftConList = purchaseContractService.selectAllContractByCode(map);
-        	}
+        	
             for(PurchaseContract pur:draftConList){
             	Supplier su = null;
             	Orgnization org = null;

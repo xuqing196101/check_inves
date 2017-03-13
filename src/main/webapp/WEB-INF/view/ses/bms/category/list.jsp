@@ -98,7 +98,7 @@
 				/* $("#engLevelTrId").addClass("dis_none"); */
 			}
 	    	nodeName = node.name;
-    		update(treeNode);
+	    	onClickTree(treeNode);
     		selectedNode = treeNode;
     	} else {
     		level = 1;
@@ -107,7 +107,73 @@
     	}
     }
 
-    
+    function onClickTree(nodes){
+    	$("#results").css("display","");
+    	$("#result").css("display","none");
+    	hideQua();
+ 	    if (treeid==null){
+ 			layer.msg("请选择一个节点");
+		}else{
+		var node = getCurrentRoot(nodes);
+		  $.ajax({
+			url:"${pageContext.request.contextPath}/category/update.do?id="+treeid,
+			dataType:"json",
+			type:"POST",
+			success:function(cate){
+					$("#parentNameIds").html(nodeName);
+					$("#cateNameIds").html(cate.name);
+					$("#descriptions").html(cate.description);
+					$("#codes").html(cate.code);
+					$("#fileIds_downBsId").val(cate.id);
+					showInit();
+					if (node.classify && node.classify == "PROJECT" && level == 3){
+						showQuas(cate, node.classify);
+					}
+					if (node.classify && node.classify == "GOODS"){
+						showQuas(cate, node.classify);
+					}
+					if (node.classify && node.classify == "SERVICE"){
+						showQuas(cate, node.classify);
+					}
+					if (node.classify && node.classify == "GOODS"){
+						$("#typeTrIds").show();
+						if(cate.classify=="3"){
+							$("#typeIds").html("物资生产，物资销售");
+						}else if(cate.classify=="2"){
+							$("#typeIds").html("物资销售");
+						}else if(cate.classify=="1"){
+							$("#typeIds").html("物资生产");
+						}
+					} else {
+						$("#typeTrIds").hide();
+					}
+					if(cate.isPublish=="1"){
+						$("#openIds").html("不公开");
+					}else if(cate.isPublish=="0"){
+						$("#openIds").html("公开");
+					}
+		      }
+            });
+        }
+    }
+    function showQuas(cate, type){
+   	 $("#generaQuaTrs").show();
+   	 $("#profileQuaTrs").show();
+   	 if (type == "GOODS") {
+   		 $("#profileQuaTr_saless").show();
+   		 var tdArr = $("#profileQuaTrs").children();
+   		 tdArr.eq(0).html("物资生产型专业资质要求");
+   	 } else {
+   		 $("#profileQuaTr_saless").hide();
+   	     var tdArr = $("#profileQuaTrs").children();
+   		 tdArr.eq(0).html("专业资质要求");
+   	 }
+   	 if (cate != null && cate !="" && cate !="undefined" && cate !="null"){
+   		 $("#generalIQuaNames").html(cate.generalQuaNames);
+   		 $("#profileIQuaNames").html(cate.profileQuaNames);
+   		 $("#profileSalesNames").html(cate.profileSalesQuaNames);
+   	 }
+    }
     /** 判断是否为根节点 */
     function isRoot(node){
     	if (node.pId == 0){
@@ -119,6 +185,8 @@
     
     /**新增 */
     function add(){
+    	$("#results").css("display","none");
+    	$("#result").css("display","");
     	hideQua();
     	$("#parentNameId").attr("readonly","readonly");
 		if (treeid==null) {
@@ -201,8 +269,10 @@
 
 	/**修改节点信息*/
     function update(nodes){
+    	$("#results").css("display","none");
+    	$("#result").css("display","");
     	hideQua();
-    	$("#parentNameId").attr("readonly","");
+    	$("#parentNameId").attr("readonly",false);
  	    if (treeid==null){
  			layer.msg("请选择一个节点");
 		}else{
@@ -356,7 +426,7 @@
 	   silent = false,  
 	   nodes = zTree.getSelectedNodes();  
 	   var parentNode = zTree.getNodeByTId(nodes[0].parentTId); 
-	   alert(parentNode.isParent)
+
 	   zTree.reAsyncChildNodes(parentNode, type,silent); 
 	   zTree.selectNode(nodes[0],true);
 	   zTree.expandNode(parentNode, true, false);
@@ -659,10 +729,12 @@
 	});
  }
  function searchM() {
+	 
 	 var param = $("#param").val();
 	 var isCreate=$("#isCreate").val();
 	 var code=$("#code").val();
-	 if(param!=null&&param!=""){
+	 if((param!=null&&param!="")||(isCreate!=null&&isCreate!="")||(code!=null&&code!="")){
+		 
 		 var zNodes;
 			var zTreeObj;
 			var setting = {
@@ -685,7 +757,7 @@
 				}
 			};
 			// 加载中的菊花图标
-			loading = layer.load(1);
+			 var loading = layer.load(1);
 			
 				$.ajax({
 					url: "${pageContext.request.contextPath}/category/createtree.do",
@@ -701,7 +773,9 @@
 							zTreeObj.expandAll(true);//全部展开
 						}
 						// 关闭加载中的菊花图标
+						
 						layer.close(loading);
+						
 					}
 				});
 	 }else{
@@ -903,11 +977,120 @@
            	    </tr>
            	   </tbody>
             </table>
+            <table id="results"  class="table table-bordered table-condensedb" >
+           	  <tbody>
+           	 	<tr>
+       			  <td class='info w250'>上级目录</td>
+       			  <td id="parentNId">
+       			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="parentNameIds" >
+       		    	  
+       		    	  
+       		    	</div>
+       		    	  
+       			  </td>
+           		</tr>
+           		<tr>
+           		  <td class='info'>品目名称</td>
+           		  <td id="cateTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameIds" >
+       		    	 </div>
+           		  </td>
+           		</tr>
+           		<tr>
+       			  <td class='info'>编码</td>
+       			  <td id="posTdId">
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="codes">
+       				 </div>
+       		      </td>
+           	    </tr>
+           	    <tr id="generaQuaTrs" class="dnone">
+       			  <td class='info'>通用资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0"  id="generalIQuaNames">
+       				 
+       				</div>
+       				 
+       		      </td>
+           	    </tr>
+           	    <tr id="typeTrIds">
+       			  <td class='info'>类型</td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id="typeIds" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTrs" class="dnone">
+       			  <td class='info'>专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="profileIQuaNames">
+       				 
+       				</div>
+       				 
+       		      </td>
+           	    </tr>
+           	    <tr id="profileQuaTr_saless" class="dnone"> 
+       			  <td class='info'>物资销售型专业资质要求</td>
+       			  <td>
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="profileSalesNames">
+       				 
+       				</div>
+       				  
+       		      </td>
+           	    </tr>
+           	    <tr>
+       			  <td class='info'>是否公开</td>
+       			  <td>
+       				<div class="col-md-8 col-sm-8 col-xs-7 p0" id="openIds" >
+       				</div>
+       		      </td>
+           	    </tr>
+           	    <!-- <tr class="dis_none" id="levelTrId">
+           		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
+           		  <td id="levelTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="level" >
+       		    	  <input id="levelId" type="text" name='level' maxlength="1" onkeyup="value=value.replace(/[^\d]/g,'')"/>
+       		    	  <span class="add-on">i</span>
+       		    	</div>
+       		    	  <span id="levelTipsId" class="red clear span_style" />
+           		  </td>
+           		</tr> -->
+           	    <%-- <tr class="dis_none" id="engLevelTrId">
+           		  <td class='info'>供应商注册等级要求<span class="red">*</span></td>
+           		  <td id="engLevelTdId">
+       		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="engLevel" >
+       		    	  <input id="engLevelId" type="hidden" name='engLevel'/>
+       		    	  <select multiple="multiple" id="engLevelSelect">
+       		    	  	<c:forEach items="${levelList}" var="level">
+       		    	  	  <option value="${level.id}">${level.name}</option>
+       		    	  	</c:forEach>
+       		    	  </select>
+       		    	</div>
+       		    	<span id="engLevelTipsId" class="red clear span_style" />
+           		  </td>
+           		</tr> --%>
+           	    <tr>
+       	    	  <td class='info'>图片</td>
+       	    	  <td>
+       	    		
+       	    		<div id="showFileIds" class="picShow">
+       	    		  <u:show showId="fileIds" businessId="${id}" delete="false" sysKey="2"/>
+       	    		</div>
+       	    	  </td>
+           	    </tr>
+           	    <tr>
+       	          <td class='info'>描述</td>
+       	          <td  id='descriptions'>
+       	        	
+       	          </td>
+           	    </tr>
+           	   </tbody>
+            </table>
             <div id="btnIds" class="dnone textc">
               <button  type='button' onclick='save()'  class='mr30  btn btn-windows save '>保存</button>
             </div>
            </form> 
          </div>
+         
       </div>
 	</div>
 </body>
