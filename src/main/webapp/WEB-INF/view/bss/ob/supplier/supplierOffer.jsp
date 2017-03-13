@@ -138,7 +138,7 @@
 				    <td class="tc">竞价标题</td>
 				    <td class="tc">${ obProject.name }</td>
 				    <td class="tc">交货截止时间</td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 				  </tr>
 				  <tr>
 				    <td class="tc">交货地点</td>

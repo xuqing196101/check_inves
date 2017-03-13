@@ -143,17 +143,40 @@
 			  <td>${ obProject.name }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
-			  <td class="tc">${ obProject.tradedSupplierCount }</td>
-			  <td class="tc"></td>
 			  <td class="tc">
+				<c:if test="${ !empty obProject.tradedSupplierCount }">
+					${ obProject.tradedSupplierCount }
+				</c:if>
+				<c:if test="${ empty obProject.tradedSupplierCount }">
+					0
+				</c:if>
+			  </td>
+			  <td class="tc">
+			  	<c:if test="${ !empty obProject.qualifiedSupplier }">
+			  		${ obProject.qualifiedSupplier  }
+			  	</c:if>
+			  	<c:if test="${empty obProject.qualifiedSupplier }">
+			  		0
+			  	</c:if>
+			  </td>
+			  <td class="tc">
+			  	<c:if test="${ obProject.status == 0 }">
+			  		暂存
+			  	</c:if>
 			  	<c:if test="${ obProject.status == 1 }">
-			  		发布中
+			  		已发布
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 }">
-			  		待确认
+			  		竞价中
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 4 }">
+			  		流拍
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 5 }">
+			  		待确认
 			  	</c:if>
 			  </td>
 			  <td class="tc">
