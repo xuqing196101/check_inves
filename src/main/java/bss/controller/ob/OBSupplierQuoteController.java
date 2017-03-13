@@ -119,8 +119,10 @@ public class OBSupplierQuoteController {
 
 	/**
 	 * @author Ma Mingwei
-	 * @param model
-	 * @return
+	 * @param model 
+	 * @param supplierId 供应商id
+	 * @description 点击确认结果
+	 * @return string 视图页面
 	 */
 	@RequestMapping("/confirmResult")
 	public String quoteConfirmResult(Model model, HttpServletRequest request, String supplierId){
@@ -137,6 +139,18 @@ public class OBSupplierQuoteController {
 	
 	@RequestMapping("saveQuoteInfo")
 	public String saveQuoteInfo(OBResultInfoList obResultsInfo, Model model, HttpServletRequest request){
+		return "";
+	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @return string 视图页面
+	 */
+	@RequestMapping("saveConfirmQuoteInfo")
+	public String saveConfirmQuoteInfo(Model model, HttpServletRequest request){
+		
 		return "";
 	}
 }
