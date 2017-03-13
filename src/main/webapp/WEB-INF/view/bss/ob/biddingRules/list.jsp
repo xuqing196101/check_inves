@@ -173,7 +173,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li><li class="active"><a href="javascript:void(0)">竞价规则列表</a></li>
+		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li>
 		   </ul>
         <div class="clear"></div>
       </div>
@@ -181,6 +181,9 @@
     
 <!-- 竞价规格列表页面开始 -->
 	<div class="container">
+	<div class="headline-v2">
+		<h2>竞价规则列表</h2>
+	 </div>
     <div class="search_detail">
        <form action="" method="post" id="queryForm" class="mb0">
     	<ul class="demand_list">
@@ -201,8 +204,8 @@
 	    	<label class="fl">间隔工作日（天）：</label>
 			<input name="intervalWorkday" type="text" value="${ intervalWorkday }"/>
 	      </li> 
-	    	<button type="button" onclick="query()" class="btn">查询</button>
-	    	<button type="reset" class="btn">重置</button>  	
+	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
+	    	<button type="reset" class="btn fl mt1 ml5">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
@@ -229,6 +232,8 @@
 		  <th class="info">项目数量</th>
 		  <th class="info">是否为默认</th>
 		</tr>
+		</thead>
+		<tbody>
 		<c:forEach items="${ info.list }" var="obRule" varStatus="vs">
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obRule.id }" /></td>
@@ -247,7 +252,7 @@
 			  </td>
 			</tr>		
 		</c:forEach>
-		</thead>
+		</tbody>
 	</table>
    </div>
       <div id="pagediv" align="right"></div>

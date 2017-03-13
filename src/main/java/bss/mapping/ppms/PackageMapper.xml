@@ -378,7 +378,7 @@
 		<if test="isCreateContract != null and isCreateContract != ''">
 			and ch.is_Create_Contract = #{isCreateContract}
 		</if>
-		order by isCreateContract
+		order by isCreateContract,CH.CREATED_AT DESC
 	</select>
 
 	<!-- 根据包信息返回抽取出的专家 -->

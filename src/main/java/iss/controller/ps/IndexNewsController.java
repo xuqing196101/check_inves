@@ -66,7 +66,11 @@ import common.utils.UploadUtil;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
+import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.ems.ExpertService;
+import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -109,6 +113,12 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private DownloadService downloadService;
+	
+	@Autowired
+	private SupplierService suppService;
+	
+	@Autowired
+	private ExpertService expertService;
 	/**
 	 * 
 	* @Title: sign
@@ -834,6 +844,22 @@ public class IndexNewsController extends BaseSupplierController{
 		
 		//设置是否弹窗
 		model.addAttribute("isPopup", true);
+		
+		
+		
+		//专家名录
+		Map<String, Object> eMap = new HashMap<String, Object>();
+		Expert expert=new Expert();
+		expert.setIsPublish(1);
+        List<Expert> expertList = expertService.selectAllExpert(10, expert);
+        model.addAttribute("expertList", expertList);
+       
+		//供应商名录
+        Map<String, Object> sMap = new HashMap<String, Object>();
+        sMap.put("IS_PUBLISH", 1);
+        List<Supplier> supplierList = suppService.query(sMap);
+		model.addAttribute("supplierList", supplierList);
+		
 		return "iss/ps/index/index";
 	};
 	

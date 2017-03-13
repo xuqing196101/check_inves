@@ -47,7 +47,7 @@
 			  var expertId = $("#expertId").val();
 			  var auditField;
 			  var auditContent;
-			  var html = "<div class='abolish'><img src='/zhbj/public/backend/images/sc.png'></div>";
+			  var html = "<div class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></div>";
 		    $("#"+obj.id+"").each(function() {
 		      auditField = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
@@ -287,7 +287,7 @@
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="idCardNumberFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  onclick="reasonFile(this);">身份证复印件（正反面）：</span>
             	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
-           		<c:if test="${fn:contains(conditionStr,'身份证复印件（正反面）')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>
+           		<c:if test="${fn:contains(conditionStr,'身份证复印件（正反面）')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
             <li>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" >居民身份证号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -326,8 +326,8 @@
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="coverNoteFile" onclick="reasonFile(this);">缴纳社保证明：</span>
               	<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0">
               		<up:show showId="show2" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="2"/>
-           				<a style="visibility:hidden" id="photoFile1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-            			<c:if test="${fn:contains(conditionStr,'缴纳社保证明')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>
+           				<a style="visibility:hidden" id="photoFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+            			<c:if test="${fn:contains(conditionStr,'缴纳社保证明')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
             		</div>
             	</li>
 						</c:if>
@@ -346,8 +346,8 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
               	<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
-           			<a style="visibility:hidden" id="idNumberFile1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-            		<c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>	
+           			<a style="visibility:hidden" id="idNumberFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+            		<c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
             	<li>
             </c:if>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">手机：</span>
@@ -422,8 +422,8 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专家技术职称证书：</span>
 	              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
-	              <a style="visibility:hidden" id="titleFile1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-            		<c:if test="${fn:contains(conditionStr,'专家技术职称证书')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>	
+	              <a style="visibility:hidden" id="titleFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+            		<c:if test="${fn:contains(conditionStr,'专家技术职称证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
             	</li>
             	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -438,8 +438,8 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="academic" onclick="reasonFile(this);">毕业证书：</span>
 	              <up:show showId="show5" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="5"/>
-	              <a style="visibility:hidden" id="academic1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-	            	<c:if test="${fn:contains(conditionStr,'毕业证书')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>	
+	              <a style="visibility:hidden" id="academic1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	            	<c:if test="${fn:contains(conditionStr,'毕业证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -448,8 +448,8 @@
 							</li>
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">学位证书：</span>
 	              <up:show showId="show6" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="6"/>
-	              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-	            	<c:if test="${fn:contains(conditionStr,'学位证书')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>	
+	              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	            	<c:if test="${fn:contains(conditionStr,'学位证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
 	            </li>
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -468,8 +468,8 @@
 							<c:if test="${expert.isReferenceLftter eq '1'}">
 								<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">推荐信：</span>
 		              <up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
-		              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-		            	<c:if test="${fn:contains(conditionStr,'推荐信')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>	
+		              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+		            	<c:if test="${fn:contains(conditionStr,'推荐信')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
 		            </li>
 							</c:if>
 						</ul>
@@ -477,8 +477,8 @@
 						<ul class="ul_list">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格证书：</span>
 	             	<up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
-	          		<a style="visibility:hidden" id="degreeTypeid1"><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></a>
-	           		<c:if test="${fn:contains(conditionStr,'执业资格证书')}"> <p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p></c:if>	
+	          		<a style="visibility:hidden" id="degreeTypeid1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+	           		<c:if test="${fn:contains(conditionStr,'执业资格证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
 	           	<li>
 						</ul>
 					<!-- 主要工作经历-->

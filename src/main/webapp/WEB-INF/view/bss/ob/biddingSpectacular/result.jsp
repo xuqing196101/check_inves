@@ -70,6 +70,7 @@
 		  <th class="info">操作状态</th>
 		</tr>
 		</thead>
+		<tbody>
 		<c:forEach items="${info.list }" var="result" varStatus="vs">
 			<tr>
 		  		<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
@@ -84,13 +85,14 @@
 		  		</td>
 			</tr>
 		</c:forEach>
+		</tbody>
 		</table>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
-    <div>
     	<div id="pagediv" align="right"></div>
+    <div class="col-md-12 col-sm-12 col-xs-12 tc">
   		<button class="btn btn-windows back" type="button"  onclick="window.location.href = '${pageContext.request.contextPath }/ob_project/biddingInfoList.html'">返回</button>
- 	</div>
+    </div>
    </div>
 </body>
 </html>

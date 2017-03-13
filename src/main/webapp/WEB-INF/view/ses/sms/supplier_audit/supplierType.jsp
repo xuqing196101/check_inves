@@ -144,7 +144,7 @@
 				var auditField = obj.id.replace("_production", "").trim();
 				var auditContent;
 				var auditFieldName;
-				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
+				var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 				$("#" + obj.id + "").each(function() {
 					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 					auditContent = $(this).parents("li").find("input").val();
@@ -230,7 +230,7 @@
 				var auditField = obj.id.replace("_sale", "").trim();
 				var auditContent;
 				var auditFieldName;
-				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
+				var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 				$("#" + obj.id + "").each(function() {
 					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 					auditContent = $(this).parents("li").find("input").val();
@@ -323,7 +323,7 @@
 				var auditField = obj.id.replace("_engineering", "").trim();
 				var auditContent;
 				var auditFieldName;
-				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
+				var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 				$("#" + obj.id + "").each(function() {
 					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 					auditContent = $(this).parents("li").find("input").val();
@@ -441,7 +441,7 @@
 				var auditField = obj.id.replace("_service", "").trim();
 				var auditContent;
 				var auditFieldName;
-				var html = "<a class='abolish' style='margin-top: 6px;'><img src='/zhbj/public/backend/images/sc.png'></a>";
+				var html = "<a class='abolish' style='margin-top: 6px;'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 				$("#" + obj.id + "").each(function() {
 					auditFieldName = $(this).parents("li").find("span").text().replace("：", "").trim();
 					auditContent = $(this).parents("li").find("input").val();
@@ -658,16 +658,16 @@
 							<div class="tc">
 						       <c:forEach items="${wlist }" var="obj" >
 								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_1" value="${obj.code}"/> ${obj.name }</span>
-						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						     		<c:if test="${fn:contains(passedTypeField,obj.id)}">
-						     			<img src='/zhbj/public/backend/images/sc.png'>
+						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 						     		</c:if>
 						      </c:forEach>
 						      <c:forEach items="${supplieType }" var="obj" >
 								    <span <c:if test="${fn:contains(fieldType,obj.code)}">style="color:#FF8C00" </c:if> class="margin-left-30 hand" onclick="reasonType('${obj.id }','${obj.name }');"><input type="checkbox" disabled="disabled" name="chkItem_2" value="${obj.code }"/>${obj.name } </span>
-						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+						      	<a class="b f18 ml10 red" id="${obj.id}_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 						      	<c:if test="${fn:contains(passedTypeField,obj.id)}">
-						     			<img src='/zhbj/public/backend/images/sc.png'>
+						     			<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 						     		</c:if>
 						      </c:forEach>
 						  </div>
@@ -865,11 +865,11 @@
 														<u:show showId="pro_show${vs.index+1}" delete="false" businessId="${m.id}" typeId="${supplierDictionaryData.supplierProCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedProField,m.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(passedProField,m.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${m.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
+														<p onclick="reasonProduction('${m.id}','${m.name}');" id="${m.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedProField,m.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if> <c:if test="${fn:contains(passedProField,m.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${m.id }_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 														<c:if test="${fn:contains(passedProField,m.id)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</tr>
@@ -950,11 +950,11 @@
 													  <u:show showId="sale_show_${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierSellCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonSale('${s.id}','${s.name }');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedSellField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedSellField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${s.id }_show"><img src='/zhbj/public/backend/images/sc.png'></a>
+														<p onclick="reasonSale('${s.id}','${s.name }');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedSellField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedSellField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${s.id }_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 														<c:if test="${fn:contains(passedSellField,s.id)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</tr>
@@ -1014,7 +1014,7 @@
 											<li class="col-md-3 col-sm-6 col-xs-12 pl10">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'supplierConAch');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,'supplierConAch')}">style="border: 1px solid red;"</c:if>>承包合同主要页及保密协议：</span>
 												<u:show showId="conAch_show" delete="false" businessId="${supplierId}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierConAch}" />
-												<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+												<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
 										</c:if>
 										<li class="col-md-12 col-xs-12 col-sm-12 mb25">
@@ -1031,7 +1031,7 @@
 											<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 												<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 hand" onclick="reasonFile(this,'${area.name}');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  <c:if test="${fn:contains(passedEngField,area.name)}">style="border: 1px solid red;"</c:if>>${area.name}：</span>
 													<u:show showId="area_show_${st.index+1}" delete="false" businessId="${supplierId}_${area.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierProContract}" />
-													<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+													<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 											</li>
 										</c:forEach>
 									</ul>
@@ -1053,11 +1053,11 @@
 													<td class="tc" id="regType_${regPrson.id }" <c:if test="${fn:contains(fieldRegPersons,regPrson.id.concat('_regType'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('regType','${regPrson.id }','mat_eng_page');"</c:if>>${regPrson.regType}</td>
 													<td class="tc" id="regNumber_${regPrson.id }" <c:if test="${fn:contains(fieldRegPersons,regPrson.id.concat('_regNumber'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('regNumber','${regPrson.id }','mat_eng_page');"</c:if>>${regPrson.regNumber}</td>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记','${regPrson.regType}');" id="${regPrson.id}_hidden2"><c:if test="${!fn:contains(passedEngField,regPrson.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,regPrson.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${regPrson.id }_show2" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+														<p onclick="reasonEngineering('${regPrson.id}','工程-注册人员登记','${regPrson.regType}');" id="${regPrson.id}_hidden2"><c:if test="${!fn:contains(passedEngField,regPrson.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,regPrson.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${regPrson.id }_show2" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 													
 														<c:if test="${fn:contains(passedEngField,regPrson.id)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</tr>
@@ -1111,11 +1111,11 @@
 														<u:show showId="eng_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${s.id }_show" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+														<p onclick="reasonEngineering('${s.id}','工程-资质证书','${s.certCode}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${s.id }_show" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 													
 														<c:if test="${fn:contains(passedEngField,s.id)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</tr>
@@ -1180,11 +1180,11 @@
 														 <u:show showId="apt_show${vs.index+1}" delete="false" businessId="${s.id}" typeId="${supplierDictionaryData.supplierEngCertFile}" sysKey="${sysKey}" />
 													</td> --%>
 														<td class="tc w50">
-															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-															<a id="${s.id }_show1" style="visibility:hidden"><img src='/zhbj/public/backend/images/sc.png'></a>
+															<p onclick="reasonEngineering('${s.id}','工程-资质资格证书','${s.certCode}');" id="${s.id}_hidden1" class="editItem"><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${!fn:contains(passedEngField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+															<a id="${s.id }_show1" style="visibility:hidden"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 															<c:if test="${fn:contains(passedEngField,s.id)}">
-																<img src='/zhbj/public/backend/images/sc.png'>
+																<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 															</c:if>
 														</td>
 												</tr>
@@ -1265,11 +1265,11 @@
 														<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
 													</td>
 													<td class="tc w50">
-														<p onclick="reasonService('${s.id}','服务-资质证书','${s.name}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedServeField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedServeField,s.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
-														<a id="${s.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
+														<p onclick="reasonService('${s.id}','服务-资质证书','${s.name}');" id="${s.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedServeField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedServeField,s.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+														<a id="${s.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 														
 														<c:if test="${fn:contains(passedServeField,s.id)}">
-															<img src='/zhbj/public/backend/images/sc.png'>
+															<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 														</c:if>
 													</td>
 												</tr>

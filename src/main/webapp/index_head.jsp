@@ -547,10 +547,65 @@ function importAdd(){
         </div>
          <div class="job-content col-md-12">
 		    <div class="categories">
-             <ul class="p0_10 list-unstyled">   
-              <li></li>
+             <ul class="p0_10 list-unstyled">
+             <c:forEach items="${supplierList}" var="item" begin="0" end="9" step="1" varStatus="status" >  
+              <li>
+              <div style="float:left;text-align: left;width:60%">
+              <c:out value="${item.supplierName}"></c:out>
+              </div>
+             
+              <div style="float:right;text-align: left;width:30%;white-space:nowrap;">
+              <c:choose>
+			    <c:when test="${item.status == -1}">
+			           未未提交审核
+			    </c:when>
+                <c:when test="${item.status == 0}">
+			          待审核
+			    </c:when>
+			     <c:when test="${item.status == 1}">
+			          审核通过
+			    </c:when>
+			    <c:when test="${item.status == 2}">
+			          审核退回修改
+			    </c:when>
+			    <c:when test="${item.status == 3}">
+			         审核未通过
+			    </c:when>
+			    <c:when test="${item.status == 4}">
+			          待复核
+			    </c:when>
+			    <c:when test="${item.status == 5}">
+			         复核通过
+			    </c:when>
+			    <c:when test="${item.status == 6}">
+			          复核未通过
+			    </c:when>
+			    <c:when test="${item.status == 7}">
+			          待考察
+			    </c:when>
+			    <c:when test="${item.status == 8}">
+			          考察合格
+			    </c:when>
+			    <c:when test="${item.status == 9}">
+			          考察不合格
+			    </c:when>
+			    <c:otherwise>
+			          无状态
+			    </c:otherwise>
+                </c:choose>
+              
+              </div></li>
+              
+             
+              
+              
+              </c:forEach> 
+              
+               
+         
 			 </ul>
 			</div>
+			
 		  </div>
 	  </div>
 	  
@@ -633,7 +688,53 @@ function importAdd(){
         </div>
          <div class="job-content col-md-12 col-sm-12 col-xs-12">
 		    <div class="categories zhuanjia_list">
-               <a href="#" title=" " target="_blank"></a>
+               <ul class="p0_10 list-unstyled">
+             <c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" >  
+              <li>
+              <div style="float:left;text-align: left;width:60%">
+              <c:out value="${item.relName}"></c:out>
+              </div>
+             
+              <div style="float:right;text-align: left;width:30%;white-space:nowrap;">
+              <c:choose>
+			  
+                <c:when test="${item.status == 0}">
+			          未审核
+			    </c:when>
+			     <c:when test="${item.status == 1}">
+			          初审通过
+			    </c:when>
+			    <c:when test="${item.status == 2}">
+			           初审未通过
+			    </c:when>
+			    <c:when test="${item.status == 3}">
+			        退回修改
+			    </c:when>
+			   <c:when test="${item.status == 4}">
+			        待复审
+			    </c:when>
+			    <c:when test="${item.status == 5}">
+			        复审通过
+			    </c:when>
+			    <c:when test="${item.status == 6}">
+			        复审踢除
+			    </c:when>
+			    
+			    <c:otherwise>
+			   
+			    </c:otherwise>
+                </c:choose>
+              
+              </div></li>
+              
+             
+              
+              
+              </c:forEach> 
+              
+               
+         
+			 </ul>
 			</div>
 		  </div>
 	  </div>

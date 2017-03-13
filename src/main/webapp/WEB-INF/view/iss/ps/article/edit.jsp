@@ -134,7 +134,7 @@
                 if(TtypeId == "图片新闻"){
                     $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10");
                 }
-                if(TtypeId == "部队采购"){
+                /* if(TtypeId == "部队采购"){
 	              $("input[name='ranges']").each(function(){
 				  	  if($(this).val()== 0){
 		   			      $(this).attr('checked','true');
@@ -147,7 +147,7 @@
 	          	    $("input[name='ranges']").each(function(){
 		   		  	   $(this).attr('disabled', false);
 		    	    });
-	          	}
+	          	} */
               }
             });
           
@@ -343,7 +343,7 @@
           if(TtypeId == "专家处罚公告"){
               $("#three").hide();
           }
-          if(TtypeId == "部队采购"){
+          /* if(TtypeId == "部队采购"){
               $("input[name='ranges']").each(function(){
 			  	  if($(this).val()== 0){
 	   			      $(this).attr('checked','true');
@@ -356,7 +356,7 @@
           	  $("input[name='ranges']").each(function(){
 	   		  	 $(this).attr('disabled', false);
 	    	  });
-          }
+          } */
           $.ajax({
                 contentType: "application/json;charset=UTF-8",
                 url: "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="+parentId,

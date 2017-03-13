@@ -39,24 +39,23 @@
    <!-- 发布定型产品页面开始 -->
   <div class="wrapper mt10">
   <div class="container">
-  <div class="headline-v2">
+  	<div class="headline-v2">
      	<h2>添加特殊日期</h2>
 	</div> 
-  <div class="mt10">
-   </div>
    <form action="" id="specialDataForm" name="specialDataForm" method="post">
+   <div class="table_box ">
 	  <table class="table table-bordered mt10">
 	    <tbody>
 		  <tr>
-		    <td class="bggrey tr">设置日期：</td>
+		    <td class="bggrey tr" width="25%">设置日期：</td>
 		    <td >
-		    	<input name="specialDate" class="Wdate" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+		    	<input name="specialDate" class="Wdate w200 mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
 		    </td>
 		  </tr>
 		  <tr>
-		    <td class="bggrey tr">类型：</td>
+		    <td class="bggrey tr" width="25%">类型：</td>
 		    <td>
-		    	<select class="w230" id="dateType" name="dateType">
+		    	<select class="w200" id="dateType" name="dateType">
                		<option value="">--请选择--</option>
                		<option value="1">上班</option>
               		<option value="0">放假</option>
@@ -65,6 +64,7 @@
 		  </tr>
 		 </tbody>
 	  </table>
+	  </div>
 	</form>
  	<div class="col-md-12 clear tc mt10">
   		<button class="btn btn-windows save" onclick="submitForm()">保存</button>

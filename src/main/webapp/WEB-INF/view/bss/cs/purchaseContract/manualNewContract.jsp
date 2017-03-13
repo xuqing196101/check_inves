@@ -18,7 +18,9 @@
   
   	<script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-  	
+  	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
     var treeid = null , nodeName=null;
 	var datas;
@@ -29,7 +31,7 @@
 			if(st == 'view'){
 				obj.SetReadOnly(true);
 		 }
-		/* 	
+		 	
           $.fn.zTree.init($("#treeDemo"),setting,datas);
 	      var treeObj = $.fn.zTree.getZTreeObj("treeDemo");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
@@ -38,7 +40,7 @@
 				 check==true;
 		      }
 	       }
-	       */
+	       
 	      $('a[data-toggle="tab"]').on('shown.bs.tab', function (e) {
 	          // 获取已激活的标签页的名称
 	          var activeTab = $(e.target).text(); 
@@ -116,7 +118,7 @@
 	          }
 	    });*/
 	 }); 
-	/*  var setting={
+	  var setting={
 		   async:{
 					autoParam:["id"],
 					enable:true,
@@ -148,16 +150,16 @@
 			        selectedMulti: false,
 			        showTitle: false,
 			   },
-         }; */
+         }; 
 	
 	 
-	/*  function filter(treeId,parentNode,childNode){
+	 function filter(treeId,parentNode,childNode){
 		 if (!childNodes) return null;
 			for(var i = 0; i<childNodes.length;i++){
 				childNodes[i].name = childNodes[i].name.replace(/\.n/g,'.');
 			}
 		return childNodes;
-	 } */
+	 } 
 	 
 	 function OpenFile(filePath) {
 			var obj = document.getElementById("TANGER_OCX");
@@ -274,15 +276,15 @@
 	 }
 	 
 	 /** 判断是否为根节点 */
-	    /* function isRoot(node){
+	    function isRoot(node){
 	    	if (node.pId == 0){
 	    		return true;
 	    	} 
 	    	return false;
-	    } */
+	    } 
 	 
 	 /*点击事件*/
-	    /* function zTreeOnClick(event,treeId,treeNode){
+	     function zTreeOnClick(event,treeId,treeNode){
 	  	  if (isRoot(treeNode)){
 	  		  layer.msg("不可选择根节点");
 	  		  return;
@@ -293,7 +295,7 @@
             hideMenu();
     	  }
 	    }
-   	  */
+   	  
    	function next(){
    		var ids = "${ids}";
    		window.location.href="${pageContext.request.contextPath}/purchaseContract/createDetailContract.html?ids="+ids;
@@ -605,7 +607,6 @@
             <div class="tab-pane fade active in" id="tab-1">
 	   		<input type="hidden" name="status" value="0" id="status"/>
 	   		<input type="hidden" name="supplierPurId" value="${project.dealSupplier.procurementDepId}"/>
-	   		<input type="hidden" name="projectName" value="${project.name}"/>
 	   		<input type="hidden" name="projectId" value="${project.id}"/>
 	   		<input type="hidden" name="isImport" value="${project.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
@@ -659,13 +660,13 @@
 			        	<div class="cue">${ERR_documentNumber}</div>
 	       			</div>
 				 </li>
-				 <li class="col-md-3 col-sm-6 col-xs-12">
+				 <%-- <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>采购机构资格证号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<input class=" contract_name" name="quaCode" value="${project.purchaseDep.quaCode}" type="text">
 			        	<div class="cue">${ERR_quaCode}</div>
 	       			</div>
-				 </li>
+				 </li> --%>
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>预算(万元)：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
@@ -807,7 +808,7 @@
 	
 	   		<h2 class="f16 count_flow mt40"><i>03</i>乙方信息</h2>
 			 <ul class="list-unstyled ul_list">
-				 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				  <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 			        	<select id="supplierDeps" name="supplierDepName" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeSupplierDep()">
@@ -815,7 +816,37 @@
 			        	<!-- <input class=" supplier_id" name="supplierDepName" type="text" value="${project.dealSupplier.supplierName}"> -->
 			        	<div class="cue">${ERR_supplierDepName}</div>
 	       			</div>
-				 </li>
+				 </li>  --%>
+				  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方单位：</span>
+			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+			        	    <input class="easyui-combobox" name="supplierDepName" id="supplierList" data-options="valueField:'id',textField:'supplierName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>  
+			        	
+			        	<div class="cue">${ERR_supplierDepName}</div>
+	       			</div>
+				 </li> 
+				 <script>
+				    $('#supplierList').combobox({  
+				        prompt:'',  
+				        required:false,  
+				        url: "${pageContext.request.contextPath }/purchaseContract/findAllUsefulSupplier.do",  
+				        editable:true,  
+				        hasDownArrow:true,  
+				        filter: function(L, row){  
+				            var opts = $(this).combobox('options');  
+				            return row[opts.textField].indexOf(L) == 0;  
+				        },
+				        onSelect: function (org) { 
+				        	$("#supplierLegal").val(org.legalName);
+				        	  $("#supplierContact").val(org.contactName);
+				        	  $("#supplierContactTelephone").val(org.contactTelephone);
+				        	  $("#supplierContactAddress").val(org.area.name);
+				        	  $("#supplierUnitpostCode").val(org.postCode);
+				        	  $("#supplierBank").val(org.bankName);
+				        	  $("#supplierBankAccount_string").val(org.bankAccount);
+				        }
+				    });  
+				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>乙方法人：</span>
 				   <div class="input-append input_group col-sm-12 col-xs-12 p0">
@@ -965,9 +996,9 @@
 				</table>
 				</form>
 				<div id="openDiv" class="dnone layui-layer-wrap">
-		 		<!-- <div id="menuContent" class="menuContent dw188 tree_drop">
+		 		 <div id="menuContent" class="menuContent dw188 tree_drop">
 					<ul id="treeDemo" class="ztree slect_option"></ul>
-				</div> -->
+				</div> 
 				<div class="drop_window">
 				<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 				  <ul class="list-unstyled">
@@ -977,7 +1008,7 @@
 		    	      <div class="input-long">
 	                   <input type="hidden" id="categorieId4" name="categoryId" value="">
 	                   <!-- onclick=" showMenu(); return false;" -->
-					   <input id="citySel4" type="text"  name="goodsName"  value=""  class="title col-md-12" />
+					   <input id="citySel4" type="text"  readonly="readonly" name="goodsName"  value=""  class="title col-md-12" onclick=" showMenu(); return false;"/>
 					   <div class="cue" id="wzmc"></div>
 					   </div>
 					  </span>

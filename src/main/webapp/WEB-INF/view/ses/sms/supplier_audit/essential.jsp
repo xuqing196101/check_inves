@@ -57,7 +57,7 @@
 			  var auditField = obj.id;;
 			  var auditContent;
 			  var auditFieldName ;
-			  var html = "<a class='abolish'><img src='/zhbj/public/backend/images/sc.png'></a>";
+			  var html = "<a class='abolish'><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>";
 		    $("#"+obj.id+"").each(function() {
 		      auditFieldName = $(this).parents("li").find("span").text().replace("：","").trim();
           auditContent = $(this).parents("li").find("input").val();
@@ -460,10 +460,10 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 				   		<span class="hand" onclick="reason1(this,'supplierBank');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">基本账户开户许可证：</span> 
 				      <u:show showId="bank_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBank}" />
-							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 							
 							<c:if test="${fn:contains(passedField,'supplierBank')}">
-								<img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'>
+								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 							</c:if>
 						</li>
 					</ul>
@@ -516,31 +516,31 @@
 					<ul class="ul_list hand">
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="hand" onclick="reason1(this,'taxCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月完税凭证：</span>
 							<u:show showId="taxcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierTaxCert}" />
-							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 							
 							<c:if test="${fn:contains(passedField,'taxCert')}">
-								<img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'>
+								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 							</c:if>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'billCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年银行基本账户年末对账单：</span>
 							<u:show showId="billcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
-							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 							
 							<c:if test="${fn:contains(passedField,'billCert')}">
-								<img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'>
+								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 							</c:if>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'securityCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三个月缴纳社会保险金凭证：</span>
 							<u:show showId="curitycert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierSecurityCert}" />
-							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 							
 							<c:if test="${fn:contains(passedField,'securityCert')}">
-								<img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'>
+								<img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 							</c:if>
 						</li>
 						<%-- <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'breachCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">近三年内无重大违法记录声明：</span>
 							<u:show showId="bearchcert_show" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
-							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 						</li> --%>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">近三年内有无重大违法记录：</span>
@@ -564,7 +564,7 @@
 						<c:if test="${suppliers.isHavingConCert eq '1'}">
 							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onclick="reason1(this,'supplierBearchCert');" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'">保密资格证书：</span>
 									<u:show showId="bearchcert_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBearchCert}" />
-									<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+									<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 							</li>
 						</c:if>
 					</ul>
@@ -607,7 +607,7 @@
 						</li> --%>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reason1(this,'supplierIdentityUp');"> 身份证复印件（正反面在一张上）:</span>
 					    <u:show showId="bearchcert_up_show" delete="false" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierIdentityUp}" />
-           		<p><img style="padding-left: 10px;" src='/zhbj/public/backend/images/sc.png'></p>
+           		<p><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
            	</li>
 					</ul>
 
@@ -760,7 +760,7 @@
                 <div class="b f18 ml10 fl hand red">×</div>
               </div> --%>
 							<u:show showId="business_show" delete="false" groups="bank_show,taxcert_show,billcert_show,curitycert_show,bearchcert_show,bearchcert_up_show,business_show" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
-							<p><img style="padding-left: 125px;" src='/zhbj/public/backend/images/sc.png'></p>
+							<p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
 						</li>
 						<li class="col-md-12 col-sm-12 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">营业范围（按照营业执照上填写）：</span>
@@ -842,11 +842,11 @@
 											<td class="tc" id="leadName_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_leadName'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('leadName','${a.id}','11');"</c:if>>${a.leadName}</td>
 											<td class="tc" id="mobile_${a.id}" <c:if test="${fn:contains(fieldAfterSaleDep,a.id.concat('_mobile'))}">style="border: 1px solid #FF8C00;" onMouseOver="showContent('mobile','${a.id}','11');"</c:if>>${a.mobile}</td>
 											<td class="tc w50" >
-				                <a id="${a.id}_show"><img src='/zhbj/public/backend/images/sc.png'></a>
-				                <p onclick="auditList('${a.id}','${a.name}');" id="${a.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,a.id)}"><img src='/zhbj/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,a.id)}"><img src='/zhbj/public/backend/images/light_icon.png' class="hidden"></c:if></p>
+				                <a id="${a.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+				                <p onclick="auditList('${a.id}','${a.name}');" id="${a.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,a.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,a.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></p>
 				              	
 				              	<c:if test="${fn:contains(passedField,a.id)}">
-				              		<img src='/zhbj/public/backend/images/sc.png'>
+				              		<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 				              	</c:if>
 				              	
 				              </td>

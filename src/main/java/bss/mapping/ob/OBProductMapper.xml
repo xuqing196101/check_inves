@@ -15,29 +15,8 @@
     <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-    <result column="STATUS" property="status" jdbcType="DECIMAL" />
-    <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.findById"/>
-	<association property="categoryParent" column="CATEGORY_PARENT_ID" select="ses.dao.bms.CategoryMapper.findById"/>
-    <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
+   <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
   </resultMap>
-  
-  <resultMap id="BaseResultSignalMap" type="bss.model.ob.OBProduct" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="CODE" property="code" jdbcType="VARCHAR" />
-    <result column="NAME" property="name" jdbcType="VARCHAR" />
-    <result column="PROCUREMENT_ID" property="procurementId" jdbcType="VARCHAR" />
-    <result column="CATEGORY_PARENT_ID" property="categoryParentId" jdbcType="VARCHAR" />
-    <result column="CATEGORY_ID" property="categoryId" jdbcType="VARCHAR" />
-    <result column="STANDARD_MODEL" property="standardModel" jdbcType="VARCHAR" />
-    <result column="QUALITY_TECHNICAL_STANDARD" property="qualityTechnicalStandard" jdbcType="VARCHAR" />
-    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <result column="IS_DELETED" property="isDeleted" jdbcType="DECIMAL" />
-    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
-    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
-    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-    <result column="STATUS" property="status" jdbcType="DECIMAL" />
-  </resultMap>
-  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -98,22 +77,22 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, CODE, NAME,PROCUREMENT_ID, CATEGORY_PARENT_ID, CATEGORY_ID, STANDARD_MODEL, 
-    QUALITY_TECHNICAL_STANDARD, REMARK, IS_DELETED, CREATER_ID, CREATED_AT, UPDATED_AT,STATUS
+    QUALITY_TECHNICAL_STANDARD, REMARK, IS_DELETED, CREATER_ID, CREATED_AT, UPDATED_AT
   </sql>
   
-   <!-- 条件查询/查询所有 -->
-  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProduct" >
-    select  <include refid="Base_Column_List"/> FROM T_BSS_OB_PRODUCT WHERE 1=1 AND IS_DELETED=0
-    <if test="code != null and code != ''">
-    	and CODE = #{code}
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProductExample" >
+    select
+    <if test="distinct" >
+      distinct
     </if>
-    <if test="name != null and name != ''">
-    	and NAME like '%'||#{name}||'%'
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
     </if>
-    <if test="status != null and status != 0">
-    	and STATUS = #{status}
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
     </if>
-    order by id
   </select>
   
   <!-- 根据供应商id找到对应的商品 -->
@@ -131,15 +110,6 @@
     from T_BSS_OB_PRODUCT
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  
-  <select id="selectSignalByPrimaryKey" resultMap="BaseResultSignalMap" parameterType="java.lang.String" >
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_OB_PRODUCT
-    where ID = #{id,jdbcType=VARCHAR}
-  </select>
-  
-  
   <select id="selectList" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -147,14 +117,16 @@
     where IS_DELETED = 0
     order by CREATED_AT DESC
   </select>
-  
-  
-  <!-- 删除 修改删除状态 -->
-  <update id="deleteByPrimaryKey" parameterType="String" >
-    update T_BSS_OB_PRODUCT set IS_DELETED = 1 where ID = #{id,jdbcType=VARCHAR}
-  </update>
-  
-  
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BSS_OB_PRODUCT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <delete id="deleteByExample" parameterType="bss.model.ob.OBProductExample" >
+    delete from T_BSS_OB_PRODUCT
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
   <insert id="insert" parameterType="bss.model.ob.OBProduct" >
     insert into T_BSS_OB_PRODUCT (ID, CODE, NAME, 
       PROCUREMENT_ID, CATEGORY_PARENT_ID, CATEGORY_ID, 
@@ -167,11 +139,7 @@
       #{remark,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
-  <!-- 插入非空数据 -->
   <insert id="insertSelective" parameterType="bss.model.ob.OBProduct" >
-  <selectKey keyProperty="id" resultType="String" order="BEFORE">
-        select sys_guid() from dual
-    </selectKey>
     insert into T_BSS_OB_PRODUCT
     <trim prefix="(" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -212,9 +180,6 @@
       </if>
       <if test="updatedAt != null" >
         UPDATED_AT,
-      </if>
-      <if test="status != null" >
-        STATUS,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
@@ -257,21 +222,14 @@
       <if test="updatedAt != null" >
         #{updatedAt,jdbcType=TIMESTAMP},
       </if>
-      <if test="status != null" >
-        #{status,jdbcType=TIMESTAMP},
-      </if>
     </trim>
   </insert>
-  
-  
   <select id="countByExample" parameterType="bss.model.ob.OBProductExample" resultType="java.lang.Integer" >
     select count(*) from T_BSS_OB_PRODUCT
     <if test="_parameter != null" >
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  
-  
   <update id="updateByExampleSelective" parameterType="map" >
     update T_BSS_OB_PRODUCT
     <set >
@@ -338,8 +296,6 @@
       <include refid="Update_By_Example_Where_Clause" />
     </if>
   </update>
-  
-  <!-- 修改 -->
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBProduct" >
     update T_BSS_OB_PRODUCT
     <set >

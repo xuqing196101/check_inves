@@ -89,9 +89,11 @@ public class CategoryController extends BaseSupplierController {
     public String getAll(Category category,String param,Integer isCreate,String code){
        List<CategoryTree> jList=new ArrayList<CategoryTree>();
     	String name="";
-    	if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null&&isCreate!=0){
+    	if((param!=null&&!"".equals(param))||(code!=null&&!"".equals(code))||isCreate!=null){
 			try {
-				name=java.net.URLDecoder.decode(param, "UTF-8");
+				if(param!=null&&!"".equals(param)){
+					name=java.net.URLDecoder.decode(param, "UTF-8");
+				}	
 			} catch (UnsupportedEncodingException e) {
 				e.printStackTrace();
 			}

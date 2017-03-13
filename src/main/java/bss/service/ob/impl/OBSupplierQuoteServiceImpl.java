@@ -13,11 +13,13 @@ import org.springframework.stereotype.Service;
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBSupplierMapper;
+import bss.dao.ppms.AttachmentMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
@@ -27,7 +29,9 @@ import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
 import bss.service.ob.OBSupplierQuoteService;
-
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 import common.utils.JdcgResult;
 
 /**
@@ -53,7 +57,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	// 注入采购机构Mapper
 	@Autowired
 	private OrgnizationMapper orgnizationMapper;
-	
+
 	// 注入供应商
 	@Autowired
 	private OBSupplierMapper obSupplierMapper;
@@ -61,14 +65,30 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	// 注入供应商报价Mapper
 	@Autowired
 	private OBResultsInfoMapper obResultsInfoMapper;
-	
+
+	@Autowired
+	private UploadService uploadService;
+
 	@Override
 	public Map<String, Object> findQuoteInfo(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+
 		// 根据id查询报价信息
 		OBProject obProject = obProjectMapper.selectByPrimaryKey(id);
+
 		if (obProject != null) {
+			// 获取竞价的上传文件项
+			String attachmentId = obProject.getAttachmentId();
+			if(attachmentId != null){
+				String typeId = DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX");
+				String sysKey = String.valueOf(Constant.TENDER_SYS_KEY);
+				List<UploadFile> uploadFiles = uploadService.getFilesOther(
+						attachmentId, typeId, sysKey);
+				if (uploadFiles != null && uploadFiles.size() > 0) {
+					map.put("uploadFiles", uploadFiles);
+				}
+			}
 			// 存储报价信息
 			map.put("obProject", obProject);
 			// 根据采购机构id查询采购机构
@@ -97,11 +117,14 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 			}
 		}
 		int index = sb.toString().lastIndexOf(",");
-		String productIds = sb.toString().substring(0, index);
+		String productIds = "";
+		if(index > 0){
+			productIds = sb.toString().substring(0, index);
+			// 存储所有商品的id
+			map.put("productIds", productIds);
+		}
 		// 存储参与竞价的产品信息的详细内容
 		map.put("oBProductInfoList", list);
-		// 存储所有商品的id
-		map.put("productIds", productIds);
 		return map;
 	}
 
@@ -110,12 +133,14 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		String titleId = (String) map.get("titleId");
 		// 获取用户
 		User user = (User) map.get("user");
-		OBResultInfoList obResultInfoList = (OBResultInfoList) map.get("obResultsInfoExtList");
-		if(user == null){
+		OBResultInfoList obResultInfoList = (OBResultInfoList) map
+				.get("obResultsInfoExtList");
+		if (user == null) {
 			return JdcgResult.ok("请先登录!");
 		}
-		if(obResultInfoList != null){
-			List<OBResultsInfoExt> obResultsInfoExtList = obResultInfoList.getObResultsInfoExt();
+		if (obResultInfoList != null) {
+			List<OBResultsInfoExt> obResultsInfoExtList = obResultInfoList
+					.getObResultsInfoExt();
 			for (OBResultsInfoExt obResultsInfoExt : obResultsInfoExtList) {
 				// 设置竞价标题
 				obResultsInfoExt.setProjectId(titleId);
@@ -126,10 +151,11 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				Integer signalCountInt = obResultsInfoExt.getResultsNumber();
 				BigDecimal myOfferMoney = obResultsInfoExt.getMyOfferMoney();
 				BigDecimal signalCount = null;
-				if(signalCountInt != null && myOfferMoney != null){
+				if (signalCountInt != null && myOfferMoney != null) {
 					// 单个商品的报价
 					signalCount = new BigDecimal(signalCountInt);
-					obResultsInfoExt.setDealMoney(myOfferMoney.multiply(signalCount));
+					obResultsInfoExt.setDealMoney(myOfferMoney
+							.multiply(signalCount));
 				}
 				// 设置创建时间
 				obResultsInfoExt.setCreatedAt(new Date());
@@ -139,7 +165,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
 				obResultsInfoMapper.insert(obResultsInfo);
-				
+
 			}
 		}
 		return JdcgResult.ok("操作成功，请在报价截止时间后，查看本次中标结果！");

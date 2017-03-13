@@ -77,7 +77,7 @@ function query(){
 					</c:if>
 					<c:if test="${length<=50}">
 					   <li>
-					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.articleType.name }${i.name }</a>
+					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>【${i.lastArticleType.name}】${i.name }</a>
 	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                   </li>
 					</c:if>
