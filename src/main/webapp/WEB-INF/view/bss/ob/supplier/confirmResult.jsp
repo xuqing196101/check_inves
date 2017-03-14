@@ -78,7 +78,30 @@
 	});
 	function confirmAccept() {
 		var projectResult = {};
-		
+		layer.alert(
+			'已接受',
+			{
+				btn:['确定']
+			},
+			function() {
+				//window.location.href = "#";
+				window.history.go(-1);
+			}
+		);
+		//url saveConfirmQuoteInfo
+	}
+	function cancelAccept() {
+		var projectResult = {};
+		layer.alert(
+			'已放弃',
+			{
+				btn:['确定']
+			},
+			function() {
+				window.location.reload();
+				//window.history.go(-1);
+			}
+		);
 		//url saveConfirmQuoteInfo
 	}
 	
@@ -238,7 +261,7 @@
   </div>
   <div class="col-md-12 clear tc mt10">
   <button class="btn" onclick="confirmAccept()">接受</button>
-  <button class="btn" onclick="">放弃</button>
+  <button class="btn" onclick="cancelAccept()">放弃</button>
   </div>
   </div>
 </body>
