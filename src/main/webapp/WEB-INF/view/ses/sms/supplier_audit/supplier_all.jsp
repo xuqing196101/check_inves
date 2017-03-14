@@ -75,7 +75,7 @@
 						}
 						var id = $(":radio:checked").val();
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(5).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(6).text().trim();
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
 					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
@@ -95,20 +95,21 @@
 							url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
 							data: {"supplierId" : id},
 							success: function(result) {
-								if(result == "noMessage" ){
+							
+								if(result == "" || result == null){
 									$("input[name='supplierId']").val(id);
 									$("#shenhe_form_id").submit();
 								}else{
 									layer.alert (result, {
-												title: '上次未通过审核的原因：',
-												skin: 'layui-layer-molv', //样式类名
-												closeBtn: 0,
-												offset: '100px',
-												shift: 4 //动画类型
-											},
-											function(){
-												$("input[name='supplierId']").val(id);
-												$("#shenhe_form_id").submit();
+											title: '上次未通过审核的原因：',
+											skin: 'layui-layer-molv', //样式类名
+											closeBtn: 0,
+											offset: '100px',
+											shift: 4 //动画类型
+										},
+										function(){
+											$("input[name='supplierId']").val(id);
+											$("#shenhe_form_id").submit();
 									});
 								}
 							}
