@@ -201,7 +201,7 @@
 
             var bja = [];
 
-            $("input").bind("change", submitformExpert);
+            $("input").bind("blur", submitformExpert);
             var typeIds = "${expert.expertsTypeId}";
             var ids = typeIds.split(",");
             //回显
@@ -368,13 +368,13 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
-                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获取时间</span>
+                        class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'证书获取时间')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('证书获取时间')"</c:if>
+                                <c:if test="${fn:contains(errorField,'取得执业资格时间')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('取得执业资格时间')"</c:if>
                                 value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM' />"
                                 readonly="readonly" name="timeProfessional" id="timeProfessional"
                                 type="text"

@@ -2849,8 +2849,8 @@ public class ExpertController extends BaseController {
             dataMap.put("expertsFrom", "");
         }
         dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
-//        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
-        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
+        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+//        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
         dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional());
         dataMap.put("timeProfessional", expert.getTimeProfessional() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeProfessional()));
         StringBuffer expertType = new StringBuffer();
@@ -2897,7 +2897,7 @@ public class ExpertController extends BaseController {
             }
         }
         String productCategories = ""; 
-        if (categories != null && !"".equals(categories)) {
+        if (categories.toString() != null && !"".equals(categories.toString())) {
             productCategories = categories.substring(0, categories.length() - 1);  
         }
         dataMap.put("productCategories", productCategories);

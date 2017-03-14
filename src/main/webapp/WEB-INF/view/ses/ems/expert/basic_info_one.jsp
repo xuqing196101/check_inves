@@ -478,6 +478,13 @@
                 layer.msg("请填写从事专业起始年月!");
                 return false;
             }
+            
+            var makeTechDate = $("#makeTechDate").val().trim();
+            if (!makeTechDate) {
+                layer.msg("请填写取得技术职称时间!");
+                return false;
+            }
+            
             var professTechTitles = $("#professTechTitles").val();
             if (!professTechTitles) {
                 layer.msg("请填写专家技术职称!");
@@ -1172,15 +1179,15 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>证书获得时间</span>
+                        class="red">*</i>取得技术职称时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'证书获得时间')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('证书获得时间')"</c:if>
-                                value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeToWork" id="timeToWork"
+                                <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('取得技术职称时间')"</c:if>
+                                value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="makeTechDate" id="makeTechDate"
                                 type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
                             class="add-on">i</span> <span class="input-tip">如：2017-03</span>
