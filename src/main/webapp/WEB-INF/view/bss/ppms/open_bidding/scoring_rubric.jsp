@@ -12,6 +12,10 @@
     		$("#tipMsg").val("");
 			layer.msg("请先完成经济、技术审查项的编写",{offset: '50px'});
 		}
+		if ($("#tipMsg").val() == "noThired") {
+            $("#tipMsg").val("");
+            layer.msg("评审计算价格得分的唯一标识必须要有一个,有且只有一个.",{offset: '50px'});
+        }
     	var packageId=	$("input[name='packageId']").val();
     	var flag="${flag}";
     	if(flag=="success"){
@@ -104,7 +108,7 @@
     	window.location.href = "${pageContext.request.contextPath}/intelligentScore/addScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
     }
     function show(packageId, projectId) {
-    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId;
+    	window.location.href = "${pageContext.request.contextPath}/intelligentScore/showScoreMethod.html?packageId="+packageId+"&projectId="+projectId+"&flowDefineId="+'${flowDefineId}';
     }
     function view(packageId,projectId){
     	window.open("${pageContext.request.contextPath}/intelligentScore/viewModel.html?packageId="+packageId+"&projectId="+projectId);   
