@@ -602,8 +602,10 @@ public class SupplierServiceImpl implements SupplierService {
             map.put("status", "success");
             map.put("supplier", supplier);
         }
-        PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
-        map.put("orgnization", dep);
+        if(supplier.getProcurementDepId()!=null){
+        	PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
+            map.put("orgnization", dep);
+        }
         map.put("supplier", supplier);
         if(supplier.getAuditDate()!=null){
         	SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日");
