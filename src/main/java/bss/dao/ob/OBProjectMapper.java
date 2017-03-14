@@ -53,4 +53,8 @@ public interface OBProjectMapper {
 	 * @author yangHongLiang
 	 */
 	List<OBProject> selectByStatus();
+	/**
+	 * 根据id 获取暂存的信息
+	 */
+	OBProject selectTemporary(Map<String,Object> map);
 }

@@ -330,7 +330,65 @@ public class OBProjectController {
 		return msg;
 
 	}
-
+	
+	/** @Description: 竞价管理更新
+	* author: YangHongLiang
+	* @param 接收页面返回数据
+	* @return     
+	* @return String     
+    * @throws IOException 
+	* @throws Exception
+	*/
+	@RequestMapping(value="/edit", produces="text/html;charset=UTF-8" )
+	@ResponseBody
+	public String edit(@CurrentUser User user,OBProject obProject, HttpServletRequest request,
+			String fileid){
+		String msg="";
+		if(user !=null){
+			
+			msg=OBProjectServer.saveProject(obProject,user.getId(),fileid);
+		}
+		return msg;
+		
+	}
+	
+	/** @Description: 编辑暂存的竞价信息
+	* author: YangHongLiang
+	* @param  OBProject
+	* @return     
+	* @return String     
+    * @throws IOException 
+	* @throws Exception
+	*/
+	@RequestMapping(value="/editOBProject", produces="text/html;charset=UTF-8" )
+	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId){
+		if(user !=null){
+			if(StringUtils.isNotBlank(obProjectId)){
+			Map<String,Object> map=new HashMap<String, Object>();	
+			map.put("id", obProjectId);
+			map.put("userId", user.getId());
+			OBProject obProject=OBProjectServer.editOBProject(map);
+			System.out.println(obProject.toString());
+			if(obProject !=null){
+				//默认规则
+				OBRule obr=OBRuleService.selectByStatus();
+				// 生成ID
+				model.addAttribute("rule", obr);
+				model.addAttribute("userId", user.getId());
+				model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+				// 标识 竞价附件
+				model.addAttribute("typeId",
+						DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+				  model.addAttribute("list", obProject);
+				  model.addAttribute("listinfo", JSON.toJSONString(obProject.getObProductInfo()));
+			 }else{
+				 
+			 }
+			}
+		}
+		return "bss/ob/biddingInformation/editPublish";
+		
+	}
 	/**
 	 * @Title: uploadFile
 	 * @Description: 导入excel表格数据 author: YangHongLiang
