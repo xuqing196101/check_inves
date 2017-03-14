@@ -1,5 +1,7 @@
 package bss.controller.cs;
 import ses.util.DictionaryDataUtil;
+
+import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -9,9 +11,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
+
+import org.apache.commons.fileupload.FileUploadException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,6 +26,8 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
+
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
@@ -29,13 +38,10 @@ import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
-import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
-import ses.util.PathUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
@@ -54,9 +60,11 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 import bss.service.sstps.AppraisalContractService;
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
+
+
+
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -1775,6 +1783,7 @@ public class PurchaseContractController extends BaseSupplierController{
         PurchaseContract draftCon = purchaseContractService.selectDraftById(id);
         List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
         draftCon.setContractReList(conRequList);
+        
         //		
         //		String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
         //		model.addAttribute("attachuuid", uuid);
@@ -2667,9 +2676,28 @@ public class PurchaseContractController extends BaseSupplierController{
      * @return void
      */
     @RequestMapping("/createPrintPage")
+    @ResponseBody
     public void createPrintPage(PurchaseContract purCon,ProList proList,BindingResult result,HttpServletResponse response,HttpServletRequest request)throws Exception{
-        Map<String, Object> map = purchaseContractService.createWord(purCon, proList.getProList(), request);
-        super.writeJson(response, JSONSerializer.toJSON(map).toString());
+    	/*String typeId = DictionaryDataUtil.getId("CONTRACT_FILE");*/
+    	Map<String, Object> map =null;
+    	/*List<UploadFile> files = uploadService.getFilesOther(purCon.getId(), typeId, Constant.TENDER_SYS_KEY+"");*/
+        
+        /*if (files != null && files.size() > 0){
+        	map=new HashMap<String, Object>();
+        	map.put("filePath", files.get(0).getPath()) ;
+        	map.put("fileName", files.get(0).getName());
+        	JSONObject object=JSONObject.fromObject(map);
+        	String json = object.toString();
+			response.setContentType("text/html;charset=utf-8");
+			response.getWriter().write(json);
+			response.getWriter().flush();
+			response.getWriter().close();*/
+      /*  }else{*/
+        	map= purchaseContractService.createWord(purCon, proList.getProList(), request);
+        	super.writeJson(response, JSONSerializer.toJSON(map).toString());
+        /*}*/
+    	
+        
     }
     /**
      *〈简述〉保存招标文件到服务器
@@ -2678,9 +2706,10 @@ public class PurchaseContractController extends BaseSupplierController{
      * @param req
      * @param projectId 项目id
      * @throws IOException
+     * @throws FileUploadException 
      */
     @RequestMapping("/saveContractFile")
-    public void saveContractFile(HttpServletRequest req, String projectId, Model model) throws IOException{
+    public void saveContractFile( HttpServletResponse response,HttpServletRequest req, String projectId, Model model, String flowDefineId, String flag) throws IOException, FileUploadException{
         String result = "保存失败";
         //判断该项目是否上传过招标文件
         String typeId = DictionaryDataUtil.getId("CONTRACT_FILE");
@@ -2730,8 +2759,15 @@ public class PurchaseContractController extends BaseSupplierController{
      * @param response
      */
     @RequestMapping("/loadFile")
-    public void loadFile(HttpServletRequest request,HttpServletResponse response,String filePath){
-    	downloadService.downLoadFile(request, response, filePath);
+    public void loadFile(HttpServletRequest request,HttpServletResponse response,String filePath,String id){
+    	String typeId = DictionaryDataUtil.getId("CONTRACT_FILE");
+    	List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+    	if(files!=null&&files.size()>0){
+    		downloadService.downLoadFile(request, response, files.get(0).getPath());
+    	}else{
+    		downloadService.downLoadFile(request, response, filePath);
+    	}
+    	
     }
     @RequestMapping("/getProjectName")
     @ResponseBody
