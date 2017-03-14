@@ -112,6 +112,7 @@
 			<mvc:exclude-mapping path="/area/listByOne.*" />
 			<mvc:exclude-mapping path="/expert/validateAuditTime.*" />
 			<mvc:exclude-mapping path="/expert/*.*" />
+      <mvc:exclude-mapping path="/user/ajaxIdNumber.*" />
 			
 <!-- 			供应商注册 -->
 			<mvc:exclude-mapping path="/supplier/*.*" /> 

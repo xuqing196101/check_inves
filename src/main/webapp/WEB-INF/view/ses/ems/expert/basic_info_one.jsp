@@ -80,31 +80,62 @@
         });
 
         function submitformExpert() {
-            //父地区
-            var add = document.getElementById("addr"); //selectid
-            var addiIdex = add.selectedIndex; // 选中索引
+            var idCardNumber = $("#idCardNumber").val().trim();
+                 // 身份证唯一性验证
+                if (idCardNumber != "") {
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            "idNumber": $("#idCardNumber").val().trim(),
+                            "id": $("#userId").val().trim()
+                        },
+                        success: function (obj) {
+                            if (obj.success == false) {
+//                                 layer.msg("居民身份证号码已被占用!");
+                                return false;
+                            }else{
+                              validateIdCard();
+                            }
+                           
+                      
+                        }
+                    });
+                    
 
-            var addValue1 = add.options[addiIdex].text;
-            //子地区
-            var add2 = document.getElementById("add"); //selectid
-
-            var addiIdex2 = add2.selectedIndex; // 选中索引
-
-            var addValue2 = add2.options[addiIdex2].text;
-
-            $("#range").val(addValue1 + "," + addValue2);
-            getChildren();
-            $.ajax({
-                url: "${pageContext.request.contextPath}/expert/zanCun.do",
-                data: $("#formExpert").serialize(),
-                type: "post",
-                async: true,
-                success: function (result) {
-                    $("#id").val(result.id);
-                    //layer.msg("已暂存",{offset: ['300px', '750px']});
+                }else{
+                  validateIdCard();
                 }
-            });
-        }
+              
+            }
+            
+            function validateIdCard() {
+                //父地区
+                var add = document.getElementById("addr"); //selectid
+                var addiIdex = add.selectedIndex; // 选中索引
+
+                var addValue1 = add.options[addiIdex].text;
+                //子地区
+                var add2 = document.getElementById("add"); //selectid
+
+                var addiIdex2 = add2.selectedIndex; // 选中索引
+
+                var addValue2 = add2.options[addiIdex2].text;
+
+                $("#range").val(addValue1 + "," + addValue2);
+                getChildren();
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/expert/zanCun.do",
+                    data: $("#formExpert").serialize(),
+                    type: "post",
+                    async: true,
+                    success: function (result) {
+                        $("#id").val(result.id);
+                        //layer.msg("已暂存",{offset: ['300px', '750px']});
+                    }
+                });
+            }
         //无提示暂存
         function submitForm2() {
             updateStepNumber("seven");
@@ -300,9 +331,37 @@
         }
 
         // 点击下一步事件 yong
-        function fun() {
-            supplierRegist();
-            editTable();
+       function fun() {
+            var  idCardNumber = $("#idCardNumber").val().trim();
+              // 身份证唯一性验证
+             if (idCardNumber != "") {
+                 $.ajax({
+                     url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
+                     type: "post",
+                     dataType: "json",
+                     data: {
+                         "idNumber": $("#idCardNumber").val().trim(),
+                         "id": $("#userId").val().trim()
+                     },
+                     success: function (obj) {
+                         if (obj.success == false) {
+                             layer.msg("居民身份证号码已被占用!");
+                             return false;
+                         }else{
+                              supplierRegist();
+                                editTable();
+                         }
+                        
+                   
+                     }
+                 });
+                 
+
+             }else{
+                 supplierRegist();
+                 editTable();
+             }
+      
         }
         // 点击2事件
         function fun2() {
@@ -759,7 +818,7 @@
 
 <body>
 <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
-    <input type="hidden" name="userId" value="${user.id}"/>
+    <input type="hidden" id="userId" name="userId" value="${user.id}"/>
     <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
     <input type="hidden" name="id" id="id" value="${expert.id}"/>
     <input type="hidden" name="zancun" id="zancun" value=""/>
@@ -1320,11 +1379,11 @@
                                 onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
                             <option
                                     <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
-                                    value="1">是
+                                    value="1">有
                             </option>
                             <option
                                     <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
-                                    value="2">否
+                                    value="2">无
                             </option>
                         </select>
                     </div>
