@@ -615,6 +615,7 @@ public class ExpertController extends BaseController {
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
+            typeId=DictionaryDataUtil.getId(code);
         }
         if (code.equals("ENG_INFO_ID")) {
             flag = "ENG_INFO";
@@ -3079,7 +3080,20 @@ public class ExpertController extends BaseController {
     @RequestMapping("/isHaveCategory")
     public String isHaveCategory(String expertId) {
         List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
-        return list != null && list.size() > 0 ? "1" : "0";
+        for(ExpertCategory ec:list){
+        	Category cate = categoryService.findById(ec.getCategoryId());
+        	if(cate!=null&&cate.getParentId()!=null){
+            	Category cate1 = categoryService.findById(cate.getParentId());
+            	if(cate1!=null){
+            		Category cate2  = categoryService.findById(cate1.getParentId());
+            		if(cate2!=null){
+        				return "1";
+            		}
+            	}
+        	}
+    
+        }
+        return   "0";
     }
 
     public String getParentId(String cateId, String flag) {

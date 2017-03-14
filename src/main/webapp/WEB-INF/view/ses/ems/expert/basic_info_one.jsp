@@ -76,6 +76,7 @@
         $(function () {
             $("input").bind("blur", submitformExpert);
             $("select").bind("change", submitformExpert);
+            $("textarea").bind("blur", submitformExpert);
         });
 
         function submitformExpert() {
