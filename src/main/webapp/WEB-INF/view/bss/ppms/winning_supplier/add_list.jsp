@@ -108,7 +108,7 @@
 			if(tempFlag > 1) {
 				layer.alert("只能选择一条");
 			} else {
-				appendObj.parent().parent().after('<tr class="tc"><td><input style="display:none;" type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount" type="text"></td><td><input name="unitPrice" type="text"></td></tr>');
+				appendObj.parent().parent().after('<tr class="tc"><td><input style="display:none;" type="checkbox" class="kkkkk" title="'+detailId+'"/></td><td><input type="hidden" value="'+detailId+'"/><input name="goodsName" type="text"></td><td><input name="stand" type="text"></td><td><input name="qualitStand" type="text"></td><td><input name="item" type="text"></td><td><input name="purchaseCount"  onkeyup="this.value=this.value.replace(/\\D/g,' + "''" + ')" type="text"></td><td><input name="unitPrice" onkeyup="this.value=this.value.replace(/\\D/g,' + "''" + ')" type="text"></td></tr>');//.replace(/\D/g,'')
 				tempStrForAdd = 1;
 			}
 			
@@ -141,13 +141,13 @@
 				type : "post",
 				contentType:"application/json",
 				success : function(obj) {
-					layer.confirm(
+					layer.alert(
 						'添加成功',
 						{
 							btn:['确定']
 						},
 						function() {
-							window.history.go(-1);
+							window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + "${packageId}" + "&&flowDefineId=${flowDefineId}&&pid=${pid}&&projectId=${projectId}&&priceRatios=priceRatio";
 						}
 					);
 					//layer.alert("添加成功");
@@ -209,8 +209,8 @@
 					<td><input type="text" name="qualitStand"
 						value="${detail.item }"></td>
 					<td id="purchaseCount"><input type="text" name="item"
-						value="${detail.item}"></td>
-					<td><input type="text" name="price" value="${detail.price }"></td>
+						value="${detail.item}" onkeyup="this.value=this.value.replace(/\D/g,'')"></td>
+					<td><input type="text" name="price" value="${detail.price }" onkeyup="this.value=this.value.replace(/\D/g,'')"></td>
 				</tr>
 				
 				<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">

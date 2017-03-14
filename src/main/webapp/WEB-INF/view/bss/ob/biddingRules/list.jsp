@@ -202,7 +202,7 @@
 	      </li>
     	  <li>
 	    	<label class="fl">间隔工作日（天）：</label>
-			<input name="intervalWorkday" type="text" value="${ intervalWorkday }"/>
+			<input name="intervalWorkday" id="intervalWorkday" type="text" value="${ intervalWorkday }"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
 	    	<button type="reset" class="btn fl mt1 ml5">重置</button>  	

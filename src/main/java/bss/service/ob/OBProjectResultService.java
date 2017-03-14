@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import bss.model.ob.BidProductVo;
+import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 
@@ -64,4 +66,14 @@ public interface OBProjectResultService {
      * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
      */
 	String selectSupplierStatus(OBProjectResult oBProjectResult);
+	
+	/**
+     * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
+     * @author Ma Mingwei
+     * @param obProjectResult
+     * @return 竞价管理-结果查询 页面信息封装对象
+     */
+    ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
+    
+    List<BidProductVo> selectProductBySupplierId(OBProjectResult obProjectResult);
 }

@@ -171,10 +171,10 @@
     	
     }
     
-        function getTotal(){
+    function getTotal(){
 		var allTr = document.getElementsByTagName("tr");
 		var totalScore = 0.0 ;
-		for(var i = 1; i < allTr.length; i++) {
+		for (var i = 1; i < allTr.length; i++) {
 			var score = $(allTr[i]).find("td:last").text();
 			var reg = /^\d+\.?\d*$/;
 			var flag = false;
@@ -183,8 +183,26 @@
 			}
 			totalScore += parseFloat(score) ;
 		};
-			$("#totalScore").text(totalScore);
+		$("#totalScore").text(totalScore);
+		var score = $("#totalScore").text();
+		var projectId = '${projectId}';
+		var packageId = '${packageId}';
+        if (score == 100) {
+           $.ajax({   
+                type: "get",  
+                url: "${pageContext.request.contextPath}/intelligentScore/checkIsCheck.do?projectId="+projectId+"&packageId="+packageId,  
+                dataType:'json',
+                success:function(result){
+                    if (result == 1) {
+                        layer.msg("请选择评审计算价格得分的唯一标识,必须要有一个",{offset: ['150px']});
+                    }
+                },
+                error: function(result){
+                }
+           });
+        }
     }
+       
  </script>
 <body onload="getTotal()">  
     <h2 class="list_title">${packages.name}  经济技术审查项编辑</h2>

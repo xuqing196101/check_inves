@@ -148,12 +148,13 @@
 					//还原select下拉列表只需要这一句
 					$("#status option:selected").removeAttr("selected");
 					$("#businessType option:selected").removeAttr("selected");
+					$("#form1").submit();
 				}
 				
 				//发布
 				function publish(){
 			  	var id = $(":radio:checked").val();
-					var state = $("#" + id + "").parents("tr").find("td").eq(5).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(6).text().trim();
 					if(id != null){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
 			  	 			$.ajax({
@@ -165,6 +166,9 @@
 			  	 	      		result = eval("(" + result + ")");
 			  	 	      		if(result == "yes"){
 			  	 	      			layer.msg("发布成功!",{offset : '100px'});
+			  	 	      			window.setTimeout(function(){
+					       					$("#form1").submit();
+				       					}, 1000);
 			  	 	      		}else{
 			  	 	      			layer.msg('该供应商已发布过！', {	            
 							             shift: 6,

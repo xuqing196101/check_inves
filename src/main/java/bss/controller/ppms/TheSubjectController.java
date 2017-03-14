@@ -53,7 +53,7 @@ public class TheSubjectController extends BaseController {
 	
 	/**
 	 * 
-	 * 〈简述〉批量插入标的 〈详细描述〉
+	 * 〈添加〉批量插入标的 〈详细描述〉
 	 * 
 	 * @author Wang Wenshuai
 	 * 后期改动@author Ma Mingwei
@@ -72,7 +72,7 @@ public class TheSubjectController extends BaseController {
 	
 	/**
 	 * 
-	 * 〈简述〉批量插入标的 〈详细描述〉
+	 * 〈更新〉批量插入标的 〈详细描述〉
 	 * 
 	 * @author Ma Mingwei
 	 * @return

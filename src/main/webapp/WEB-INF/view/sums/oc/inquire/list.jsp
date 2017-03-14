@@ -43,7 +43,7 @@
 		  		<li>
 			    	<label class="fl">状态：</label>
 			    	<span>
-			    		<select id="status" name="status">
+			    		<select class="w178" id="status" name="status">
 				  			<option value="">请选择</option>
 				  			<option value="0">单位</option>
 				  			<option value="1">个人</option>

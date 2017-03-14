@@ -71,8 +71,25 @@
 	}
 	/**发布竞价项目**/
 	function release(){
-	
+	  var checkID= $('input[name="chkItem"]:checked').val().trim();
+	  var status=$("#"+checkID+"status").html().trim();
+	  if(checkID){
+	  if(status=='暂存'){
+	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
+	  }else{
+	  layer.alert("只能修改已暂存的供应商", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+	  }
+	  }else{
+	  layer.alert("请选择暂存的竞价", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	  }
 	}
+	
 	/**查询**/
 	function query(){
 	if(!$("#name").val().trim()){
@@ -108,8 +125,10 @@
 		<h2>竞价信息列表</h2>
 	 </div>
     <div class="search_detail">
+    
        <form action="${pageContext.request.contextPath}/ob_project/list.html" method="post" id="form1" class="mb0">
          <input type="hidden" name="page" id="page">
+         <input type="hidden" name="projectId" id="projectId"/>
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价标题：</label>
@@ -118,7 +137,7 @@
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
 			<input value=""
-			 name="startTime" id="startTime" type="text"  readonly="readonly"   maxlength="7" 
+			 name="startTime" id="startTime" type="text"  readonly="readonly"   maxlength="19" 
 			 onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  class="Wdate" />
 	      </li> 
 	    	<input type="submit" onclick="return query()" class="btn fl mt1" value="查询">
@@ -154,11 +173,11 @@
 		  <td class="tl">${list.name}</td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 		  <td class="tc">
-		  <c:if test="${list.closingSupplier==null}">
+		  <c:if test="${list.tradedSupplierCount==null}">
 		   0
 		  </c:if>
-		   <c:if test="${list.closingSupplier!=null}">
-		   ${list.closingSupplier}
+		   <c:if test="${list.tradedSupplierCount!=null}">
+		   ${list.tradedSupplierCount}
 		  </c:if>
 		  </td>
 		  <td class="tc">
@@ -168,7 +187,7 @@
 		   <c:if test="${list.qualifiedSupplier!=null}">
 		   ${list.closingSupplier}
 		  </c:if></td>
-		  <td class="tc">
+		  <td class="tc" id="${list.id}status">
 		    <c:if test="${list.status==0}">
 		              暂存
 		    </c:if>
@@ -183,6 +202,9 @@
 		    </c:if>
 		     <c:if test="${list.status==4}">
 		              流拍
+		    </c:if>
+		      <c:if test="${list.status==5}">
+		              待确认
 		    </c:if>
 		  
 		  </td>

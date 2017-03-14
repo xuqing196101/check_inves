@@ -9,7 +9,7 @@
 	    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<title>发布竞价信息页面</title>
 <script type="text/javascript">
-	  var number=1;
+	  var number=100001;
 	
 	/** 全选全不选 */
 	function selectAll(){
@@ -206,11 +206,15 @@
 		content: $('#file_div'),
 		});
 	}
-	function loads(number){
-	$.each(productList, function(i, user) {
+	function loads(number,id){
+	   $.each(productList, function(i, user) {
 		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + ">" + user.name+ "</option>");
 	     });
-	     $("select[id=\"productName_"+number+"\"]").select2();
+	   $("select[id=\"productName_"+number+"\"]").select2();
+	    if(id){
+		 $("#productName_"+number+"").select2('val',id); 
+	    changSelectCount(number);
+	    }
 	  } 
 	  
 	 function addTr(productId,productName,productMoney,producCount,productRemark,conut){
@@ -223,9 +227,7 @@
 		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" onkeyup=\"this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"2000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		"</tr>").clone(true);   
-			  loads(number);
-			 $("select[name=\"productName_"+number+"\"]").select2("val",productId);
-			 /*  */
+			  loads(number,productId);
 	} 
 	//导入excl 
 	function fileUpload(){
@@ -356,7 +358,7 @@
 		     show("竞价结束时间不能为空");
 		   return;
 		  }
-		   if($("#content").html()=='undefined' && $("#content").html()==''){
+		    if($("#content").html()=='undefined' && $("#content").html()==''){
 		   $("#contentErr").html("竞价内容不能为空");
 		   show("竞价内容不能为空");
 		   return;
@@ -412,7 +414,7 @@
     			}); 
     			$("#status").val(status);
     			$("#ruleId").val('${rule.id}');
-	       $.post("${pageContext.request.contextPath}/ob_project/addProject.html", $("#myForm").serialize(), function(data) {
+	       $.post("${pageContext.request.contextPath}/ob_project/edit.html", $("#myForm").serialize(), function(data) {
 	                            if (data) {
 									var json = JSON.parse(data);
 									var name = json.attributeName;
@@ -440,7 +442,7 @@
 		});
 	}
 	//根据规则 生成时间
-	function getValues() {
+	function getValue() {
 		var rule = '${rule.quoteTime}';
 		var stattime = $("#startTime").val().trim();
 		if (stattime) {
@@ -468,7 +470,7 @@
     
     <!-- 修改订列表开始-->
   <div class="container container_box">
-  <form id="myForm" action="" method="post" class="mb0">
+  <form id="myForm" action="${pageContext.request.contextPath}/ob_project/addProject.html" method="post" class="mb0">
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
 			<input id="fileid" name="fileid" value="${fileid}" type="hidden">
@@ -479,7 +481,7 @@
        <span><font id="nameErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价标题</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="name"  name="name" type="text"  maxlength="180">
+        <input class="input_group" id="name"  name="name" type="text" value="${list.name }"  maxlength="180">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -488,7 +490,7 @@
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">交货截止时间</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19"  readonly="readonly"
-         onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  type="text">
+         onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -496,7 +498,7 @@
         <span><font id="deliveryAddressErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">交货地点</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="deliveryAddress" name="deliveryAddress" type="text">
+        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" name="deliveryAddress" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
@@ -504,7 +506,7 @@
         <span><font id="tradedSupplierCountErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应商数</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="1" type="text">
+        <input class="input_group" id="tradedSupplierCount" value="${list.tradedSupplierCount }" name="tradedSupplierCount" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="1" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
@@ -513,7 +515,7 @@
         <span><font id="transportFeesErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">运杂费</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="transportFees" name="transportFees" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="20" type="text">
+        <input class="input_group" id="transportFees" value="${list.transportFees }" name="transportFees" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="20" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
@@ -521,7 +523,7 @@
        <span><font id="demandUnitErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">需求单位</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="demandUnit" name="demandUnit"  maxlength="20" type="text">
+        <input class="input_group" id=demandUnit value="${list.demandUnit }"  name="demandUnit"  maxlength="20" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li> 
@@ -529,7 +531,7 @@
        <span><font id="contactNameErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName"  maxlength="20" type="text">
+        <input class="input_group" id="contactName" value="${list.contactName }"  name="contactName"  maxlength="20" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -537,7 +539,7 @@
       <span><font id="contactTelErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel"  maxlength="11" type="text">
+        <input class="input_group" id="contactTel" value="${list.contactTel }" name="contactTel"  maxlength="11" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -556,7 +558,7 @@
       <span><font id="orgContactTelErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="orgContactTel" name="orgContactTel"  readonly="readonly" type="text">
+        <input class="input_group" id="orgContactTel" value="${list.orgContactTel }" name="orgContactTel"  readonly="readonly" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -564,7 +566,7 @@
       <span><font id="orgContactNameErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="orgContactName" name="orgContactName"  readonly="readonly" type="text">
+        <input class="input_group" id="orgContactName" value="${list.orgContactName }" name="orgContactName"  readonly="readonly" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -572,7 +574,7 @@
       <span><font id="startTimeErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价开始时间</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly"  onfocus="getValues()" type="text">
+        <input class="input_group" name="startTime" id="startTime" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>" onfocus="getValue()" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -583,7 +585,7 @@
       <span><font id="endTimeErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价结束时间</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="endTime" name="endTime"   readonly="readonly" type="text">
+        <input class="input_group" id="endTime" name="endTime"  value="<fmt:formatDate value="${list.endTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly" type="text">
         <span class="add-on">i</span>
        </div>
 	 </li>
@@ -591,8 +593,8 @@
 	   <span><font  class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-        <u:upload id="project" buttonName="上传文档"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" multiple="true" auto="true" />
-                <u:show showId="project" groups="b,c,d"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
+        <u:upload id="project" buttonName="上传文档"  businessId="${list.attachmentId}" sysKey="${sysKey}" typeId="${typeId }" multiple="true" auto="true" />
+                <u:show showId="project" groups="b,c,d"  businessId="${list.attachmentId}" sysKey="${sysKey}" typeId="${typeId }" />
        </div>
 	 </li> 
 	  
@@ -601,7 +603,7 @@
      <span><font id="contentErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价内容</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-       <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px"  name="content" title="不超过800个字" maxlength="800"></textarea>
+       <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px"  name="content" title="不超过800个字" maxlength="800">${list.content}</textarea>
        </div>
 	 </li>
 	 </ul>
@@ -642,3 +644,13 @@
 </div>
 </body>
 </html>
+<script type="text/javascript">
+setTimeout(function () {
+   $("#orgId").select2('val','${list.orgId}');
+   var plists='${listinfo}';
+          var temp=eval(plists);
+  		  $.each( temp, function(i, value) {
+		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark,0);
+		  }) ; 
+  }, 500);
+</script>

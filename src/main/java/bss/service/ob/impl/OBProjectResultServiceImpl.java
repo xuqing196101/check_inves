@@ -10,6 +10,9 @@ import ses.util.PropertiesUtil;
 import com.github.pagehelper.PageHelper;
 
 import bss.dao.ob.OBProjectResultMapper;
+import bss.model.ob.BidProductVo;
+import bss.model.ob.ConfirmInfoVo;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import bss.service.ob.OBProjectResultService;
@@ -121,6 +124,29 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	public String selectSupplierStatus(OBProjectResult oBProjectResult) {
 		
 		return oBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+	}
+
+	/**
+     * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
+     * @author Ma Mingwei
+     * @param obProjectResult
+     * @return 竞价管理-结果查询 页面信息封装对象
+     */
+	@Override
+	public ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult) {
+		// TODO Auto-generated method stub
+		ConfirmInfoVo confirmInfoVo = oBProjectResultMapper.selectInfoByPSId(obProjectResult);
+		List<BidProductVo> productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
+		if(confirmInfoVo != null) {
+			confirmInfoVo.setBidProductList(productList);
+		}
+		return oBProjectResultMapper.selectInfoByPSId(obProjectResult);
+	}
+
+	@Override
+	public List<BidProductVo> selectProductBySupplierId(OBProjectResult obProjectResult) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }

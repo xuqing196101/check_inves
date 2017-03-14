@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
+
 import com.github.pagehelper.PageInfo;
 
 import bss.echarts.Data;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSpecialDate;
 import bss.service.ob.OBRuleService;
+import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
 
 /**
@@ -53,7 +56,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/ruleList")
-	public String ruleList(Model model, HttpServletRequest request, Integer page) {
+	public String ruleList(@CurrentUser User user, Model model,
+			HttpServletRequest request, Integer page) {
 		if (page == null) {
 			page = 1;
 		}
@@ -71,13 +75,16 @@ public class OBRuleController {
 		Integer intervalWorkday = null;
 		String intervalWorkdayStr = request.getParameter("intervalWorkday");
 		if (StringUtils.isNotEmpty(intervalWorkdayStr)) {
-			intervalWorkday = Integer.parseInt(intervalWorkdayStr);
+			if (intervalWorkdayStr.matches("^[0-9]+$")) {
+				intervalWorkday = Integer.parseInt(intervalWorkdayStr);
+			}
 		}
 		// 间隔工作日（天）
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("name", name);
 		map.put("quoteTime", quoteTime);
 		map.put("intervalWorkday", intervalWorkday);
+		map.put("userId", user.getId());
 		map.put("page", page);
 		List<OBRule> list = service.selectAllOBRules(map);
 		PageInfo<OBRule> info = new PageInfo<OBRule>(list);
@@ -164,7 +171,7 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/holidayList")
-	public String holidayList(Model model, HttpServletRequest request,
+	public String holidayList(@CurrentUser User user, Model model, HttpServletRequest request,
 			Integer page) throws ParseException {
 		if (page == null) {
 			page = 1;
@@ -182,6 +189,7 @@ public class OBRuleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("specialDate", specialDate);
 		map.put("dateType", dateType);
+		map.put("userId", user.getId());
 		map.put("page", page);
 		List<OBSpecialDate> list = service.selectAllOBSpecialDate(map);
 		PageInfo<OBSpecialDate> info = new PageInfo<OBSpecialDate>(list);
@@ -226,16 +234,16 @@ public class OBRuleController {
 
 	/**
 	 * 
-	* @Title: deleteSpecialDate 
-	* @Description: 删除特殊假期
-	* @param @param request
-	* @param @return    设定文件 
-	* @return JdcgResult    返回类型 
-	* @throws
+	 * @Title: deleteSpecialDate
+	 * @Description: 删除特殊假期
+	 * @param @param request
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
 	 */
 	@RequestMapping(value = "/deleteSpecialDate", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult deleteSpecialDate(HttpServletRequest request){
+	public JdcgResult deleteSpecialDate(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		return service.deleteSpecialDate(ids);

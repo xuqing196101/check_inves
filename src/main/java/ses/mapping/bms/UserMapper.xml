@@ -551,7 +551,7 @@
         ID_NUMBER = #{idNumber,jdbcType=VARCHAR},
       </if>
       <if test="officerCertNo != null and officerCertNo != ''">
-       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR}
+       OFFICER_CERT_NO = #{officerCertNo,jdbcType=VARCHAR},
       </if>
       <if test="netType != null">
        NET_TYPE = #{netType}
