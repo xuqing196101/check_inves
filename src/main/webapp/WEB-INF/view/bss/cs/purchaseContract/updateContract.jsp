@@ -786,6 +786,7 @@
 	       			</div>
 				 </li> 
 				 <script>
+				 var num=0;
 				    $('#supplierList').combobox({  
 				        prompt:'',  
 				        required:false,  
@@ -798,6 +799,7 @@
 				            return row[opts.textField].indexOf(L) == 0;  
 				        },
 				        onSelect: function (org) { 
+				        	if(num!=0&&num!=1){
 				        	$("#supplierLegal").val(org.legalName);
 				        	  $("#supplierContact").val(org.contactName);
 				        	  $("#supplierContactTelephone").val(org.contactTelephone);
@@ -805,7 +807,9 @@
 				        	  $("#supplierUnitpostCode").val(org.postCode);
 				        	  $("#supplierBank").val(org.bankName);
 				        	  $("#supplierBankAccount_string").val(org.bankAccount);
-				        }
+				        	}
+				        	num++;
+				       }
 				    });  
 				 </script>
 			     <li class="col-md-3 col-sm-6 col-xs-12">
