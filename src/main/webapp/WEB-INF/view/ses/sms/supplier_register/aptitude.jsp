@@ -337,7 +337,7 @@
 										            <div class="w150 lh30">${cate.firstNode}</div>
 										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
-										            <div class="w250 lh30">${cate.secondNode}</div>
+										            <div class="w200 lh30">${cate.secondNode}</div>
 										        </td>
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">

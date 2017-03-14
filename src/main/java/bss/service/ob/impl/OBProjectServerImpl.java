@@ -473,14 +473,17 @@ public class OBProjectServerImpl implements OBProjectServer {
 						// 获取是否有二轮确认
 						List<OBProjectResult> round = OBProjectResultMapper
 								.selectSecondRound(op.getId());
-						if (round != null && round.size() > 0) {
-							if (temp < 100) {
-								// 流拍
-								upstatus.setStatus(4);
+						if(round!=null && round.size()>0){
+							if(temp<100){
+								//流拍
+						    	 upstatus.setStatus(4);
+							}else{
+							 //竞价结束
+					    	 upstatus.setStatus(3);
 							}
-						} else {
-							if (temp < 100) {
-								// 竞价二轮 待确认
+						}else{
+					     if(temp<100){
+					    	 //竞价二轮 待确认
 								upstatus.setStatus(2);
 								// 获取 第一轮的供应商 数据
 								if (prlist != null) {
@@ -520,5 +523,185 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 			}
 		}
+	}
+
+	/**
+	 * 更新竞价信息
+	 * 
+	 * @author YangHongLiang
+	 */
+	@Override
+	public String updateProject(OBProject obProject, String userid, String fileid) {
+		// TODO Auto-generated method stub
+				 String attribute="";
+				 String show="";
+				if (StringUtils.isBlank(obProject.getName())) {
+					attribute = "nameErr";
+					show = "竞价标题不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getDeliveryDeadline()==null) {
+					attribute = "deliveryDeadlineErr";
+					show = "交货截至日期不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getDeliveryAddress())) {
+					attribute = "deliveryAddressErr";
+					show = "交货地点不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getTradedSupplierCount()==null) {
+					attribute = "tradedSupplierCountErr";
+					show = "成交供应商数量不能为空";
+					return toJsonProject(attribute, show);
+				}
+				Integer supplierCount = obProject.getTradedSupplierCount();
+				if (supplierCount > 4 && supplierCount < 1) {
+					attribute = "tradedSupplierCountErr";
+					show = "成交供应商数量不能超出4少于1";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getTransportFees()==null) {
+					attribute = "transportFeesErr";
+					show = "运杂费不能为空";
+					return toJsonProject(attribute, show);
+				}
+
+				if (StringUtils.isBlank(obProject.getDemandUnit())) {
+					attribute = "demandUnitErr";
+					show = "需求单位不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getContactName())) {
+					attribute = "contactNameErr";
+					show = "联系人不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getContactTel())) {
+					attribute = "contactTelErr";
+					show = "联系人电话不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (!StringUtils.isNumeric(obProject.getContactTel())) {
+					attribute = "contactTelErr";
+					show = "联系人电话只能是数字";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getOrgId())) {
+					attribute = "orgIdErr";
+					show = "采购机构不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getOrgContactTel())) {
+					attribute = "orgContactTelErr";
+					show = "采购联系人电话不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getOrgContactName())) {
+					attribute = "orgContactNameErr";
+					show = "采购联系人不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getStartTime()==null) {
+					attribute = "startTimeErr";
+					show = "竞价开始时间不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getEndTime()==null) {
+					attribute = "endTimeErr";
+					show = "竞价结束时间不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (StringUtils.isBlank(obProject.getContent())) {
+					attribute = "contentErr";
+					show = "竞价内容不能为空";
+					return toJsonProject(attribute, show);
+				}
+
+				if (obProject.getProductName()==null) {
+					attribute = "buttonErr";
+					show = "竞价产品名称不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (CheckUtil.isList(obProject.getProductName())) {
+					attribute = "buttonErr";
+					show = "竞价产品名称不能为空";
+					return toJsonProject(attribute, show);
+				}
+
+				if (obProject.getProductMoney()==null) {
+					attribute = "buttonErr";
+					show = "竞价产品限价不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (CheckUtil.isList(obProject.getProductMoney())) {
+					attribute = "buttonErr";
+					show = "竞价产品限价不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getProductCount()==null) {
+					attribute = "buttonErr";
+					show = "竞价产品数量不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (CheckUtil.isList(obProject.getProductCount())) {
+					attribute = "buttonErr";
+					show = "竞价产品数量不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (obProject.getProductRemark()==null) {
+					attribute = "buttonErr";
+					show = "竞价产品备注不能为空";
+					return toJsonProject(attribute, show);
+				}
+				if (CheckUtil.isList(obProject.getProductRemark())) {
+					attribute = "buttonErr";
+					show = "竞价产品备注不能为空";
+					return toJsonProject(attribute, show);
+				}
+				//生成ID
+			    String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+				obProject.setId(uuid);
+				obProject.setCreatedAt(new Date());
+			    obProject.setCreaterId(userid);
+				obProject.setAttachmentId(fileid);
+				OBProductInfo product=null;
+				List<OBProductInfo> list=new ArrayList<OBProductInfo>();
+				//拆分数组
+					List<String> productName = obProject.getProductName();
+					for (int i = 0; i < productName.size(); i++) {
+						String uid=UUID.randomUUID().toString().toUpperCase().replace("-", "");
+						product = new OBProductInfo();
+						product.setId(uid);
+						product.setProductId(productName.get(i));
+						product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
+								.getProductMoney().get(i))));
+						product.setRemark(obProject.getProductRemark().get(i));
+						product.setPurchaseCount(Integer.valueOf(obProject
+								.getProductCount().get(i)));
+						product.setProjectId(uuid);
+						product.setCreatedAt(new Date());
+						product.setCreaterId(userid);
+						list.add(product);
+					}
+					 OBprojectMapper.updateByPrimaryKeySelective(obProject);
+					/*if (obProject.getStatus()--- > 0) {
+						for (OBProductInfo b : list) {
+							OBProductInfoMapper.insertSelective(b);
+						}
+						OBRuleMapper.updateCount(obProject.getRuleId());
+					}*/
+					return toJsonProject("success", "执行成功");
+	}
+
+	 /**
+     * 实现 获取可编辑的竞价信息
+     * @author Yanghongliang
+     * @return OBProject
+     */
+	@Override
+	public OBProject editOBProject(Map<String,Object> map) {
+		// TODO Auto-generated method stub
+		return OBprojectMapper.selectTemporary(map);
 	}
 }

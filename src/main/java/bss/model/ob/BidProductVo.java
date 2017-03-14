@@ -1,0 +1,53 @@
+package bss.model.ob;
+
+import java.math.BigDecimal;
+
+/**
+ * 
+ * @author Ma Mingwei
+ * @description 竞价商品的信息
+ *
+ */
+public class BidProductVo {
+
+	//产品名称
+	private String productName;
+	//产品数量
+	private Integer productNum;
+	//自报单价
+	private BigDecimal myOfferMoney;
+	//单个总价(成交竞价)
+	private BigDecimal dealMoney;
+	//备注
+	private String remark;
+	public String getProductName() {
+		return productName;
+	}
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+	public Integer getProductNum() {
+		return productNum;
+	}
+	public void setProductNum(Integer productNum) {
+		this.productNum = productNum;
+	}
+	public BigDecimal getMyOfferMoney() {
+		return myOfferMoney;
+	}
+	public void setMyOfferMoney(BigDecimal myOfferMoney) {
+		this.myOfferMoney = myOfferMoney;
+	}
+	public BigDecimal getDealMoney() {
+		return dealMoney;
+	}
+	public void setDealMoney(BigDecimal dealMoney) {
+		this.dealMoney = dealMoney;
+	}
+	public String getRemark() {
+		return remark;
+	}
+	public void setRemark(String remark) {
+		this.remark = remark;
+	}
+}

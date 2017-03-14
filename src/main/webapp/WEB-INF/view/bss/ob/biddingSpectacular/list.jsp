@@ -76,7 +76,7 @@
 	}
 	// 查看发布中信息
 	function findIssueInfo(id){
-		window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?id="+id;
+		window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?bargainCount=${obProject.qualifiedSupplier}&&id="+id;
 	}
 	
 </script>
@@ -160,31 +160,19 @@
 			  	</c:if>
 			  </td>
 			  <td class="tc">
-			  	<c:if test="${ obProject.status == 0 }">
-			  		暂存
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 1 }">
-			  		已发布
-			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 }">
-			  		竞价中
+			  		发布中
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
 			  	</c:if>
-			  	<c:if test="${ obProject.status == 4 }">
-			  		流拍
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 5 }">
-			  		待确认
-			  	</c:if>
 			  </td>
 			  <td class="tc">
+			  	<c:if test="${ obProject.status == 2 }">
+				  	<a href="javascript:void(0)" onclick="findIssueInfo('${obProject.id}')">查看</a>
+			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 				  	<a href="javascript:void(0)" onclick="findResult('${obProject.id}')">查看结果</a>
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 1 }">
-				  	<a href="javascript:void(0)" onclick="findIssueInfo('${obProject.id}')">查看</a>
 			  	</c:if>
 			  </td>
 			</tr> 

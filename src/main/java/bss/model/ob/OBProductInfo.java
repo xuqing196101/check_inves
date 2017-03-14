@@ -32,6 +32,8 @@ public class OBProductInfo {
     //合格供应商数量
     private Integer qualifiedSupplier;
     
+    /**单个商品的总金额=现价 *采购数量**/
+	private BigDecimal totalMoney;
     
     public OBProject getObProject() {
 		return obProject;
@@ -136,6 +138,14 @@ public class OBProductInfo {
 
 	public void setObProduct(OBProduct obProduct) {
 		this.obProduct = obProduct;
+	}
+
+	public BigDecimal getTotalMoney() {
+		return totalMoney;
+	}
+
+	public void setTotalMoney(BigDecimal totalMoney) {
+		this.totalMoney = totalMoney;
 	}
     
     

@@ -1,5 +1,8 @@
 package bss.dao.ob;
 
+import bss.model.ob.BidProductVo;
+import bss.model.ob.ConfirmInfoVo;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import java.util.List;
@@ -51,7 +54,15 @@ public interface OBProjectResultMapper {
      * @exception
      */
     List<OBProjectResult> selectByProjectId(String supplierId);
-
+    
+    /**
+     * @author Ma Mingwei
+     * <p>根据供应商查找竞价商品</p>
+     * @param supplierId
+     * @return
+     */
+    List<BidProductVo> selectProductBySupplierId(OBProjectResult oBProjectResult);
+    
     OBProjectResult selectByPrimaryKey(String id);
 
     int updateByExampleSelective(@Param("record") OBProjectResult record, @Param("example") OBProjectResultExample example);
@@ -80,4 +91,12 @@ public interface OBProjectResultMapper {
      * 
      */
     List<OBProjectResult> selectSecondRound(String projectID);
+    
+    /**
+     * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
+     * @author Ma Mingwei
+     * @param obProjectResult
+     * @return 竞价管理-结果查询 页面信息封装对象
+     */
+    ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
 }

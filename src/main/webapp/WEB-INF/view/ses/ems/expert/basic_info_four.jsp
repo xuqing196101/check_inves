@@ -135,6 +135,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<input type="hidden" id="categoryId" name="categoryId" value="" />
 			<input type="hidden" name="token2" value="<%=tokenValue%>" />
 			<div id="reg_box_id_6" class="container clear margin-top-30 yinc">
+			  <div class="col-md-12 col-xs-12 col-sm-12 p0 mb10">
 				<h2 class="padding-20 mt40">
 					<span id="dy1" class="new_step current fl" onclick='pre1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 					<span id="sp7" class="new_step current fl" onclick='pre7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
@@ -144,7 +145,9 @@ session.setAttribute("tokenSession", tokenValue);
 					<span id="dy5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span> 
 					<div class="clear"></div>
 		  		</h2>
-				<div class="tab-content padding-top-20">
+		  	  </div>
+		  	  
+				<div class="tab-content padding-top-20 clear">
 					<div class="headline-v2">
 						<h2> 申请表和承诺书下载 </h2>
 					</div>

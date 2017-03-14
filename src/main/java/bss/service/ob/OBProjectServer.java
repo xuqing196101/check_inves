@@ -49,11 +49,29 @@ public interface OBProjectServer {
 	 * 
 	 * **/
 	String saveProject(OBProject project, String uid, String fileid);
+	/**
+	 * 更新竞价信息
+	 * 
+	 * @param OBProject
+	 * @param List
+	 *            <OBProductInfo>
+	 * 
+	 * **/
+	String updateProject(OBProject project, String uid, String fileid);
 
 	/**
 	 * 获取定型产品相关信息 并返回 json
+	 * @author Yanghongliang
 	 * */
 	String getProduct();
+	/**
+	 * 获取可编辑竞价信息
+	 * @author YangHongLiang
+	 * @param projectId
+	 * @param userID
+	 * @return
+	 */
+	OBProject editOBProject(Map<String,Object> map);
 
 	/**
 	 * 

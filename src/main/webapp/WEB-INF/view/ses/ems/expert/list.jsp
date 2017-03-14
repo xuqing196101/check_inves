@@ -183,15 +183,9 @@
 					}
 				}
 				if(count > 1) {
-					layer.alert("只能选择一条记录", {
-						offset: ['222px', '390px'],
-						shade: 0.01
-					});
+					layer.alert("只能选择一条记录", {offset: '100px',});
 				} else if(count < 1) {
-					layer.alert("请选择一条记录", {
-						offset: ['222px', '390px'],
-						shade: 0.01
-					});
+					layer.alert("请选择一条记录", {offset: '100px',});
 				} else if(count == 1) {
 					if(value[1] == 1) {
 						index = layer.open({
@@ -207,10 +201,7 @@
 								//数组第二项即吸附元素选择器或者DOM $('#openWindow')
 						});
 					} else {
-						layer.alert("请选择审核通过的", {
-							offset: ['222px', '390px'],
-							shade: 0.01
-						});
+						layer.msg("请选择审核通过的", {offset: '100px',});
 					}
 
 				}
@@ -245,59 +236,61 @@
 				<h2>评标专家列表</h2>
 			</div>
 			<h2 class="search_detail">  
-   <form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="mb0"> 
-		  <input type="hidden" name="page" id="page">
-		  <input type="hidden" name="flag" value="0">
-		      <ul class="demand_list">
-		          <li>
-		            <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
-		          </li>
-		          <li>
-		            <label class="fl">专家来源：</label>
-		            <span class="fl">
-		              <select  name="expertsFrom" id="expertsFrom" >
-                            <option selected="selected" value="">-请选择-</option>
+   		<form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="mb0"> 
+		  	<input type="hidden" name="page" id="page">
+		  	<input type="hidden" name="flag" value="0">
+		  	<ul class="demand_list">
+     		<li>
+          <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
+        </li>
+        <li>
+        	<label class="fl">专家来源：</label>
+          <span class="fl">
+            <select  name="expertsFrom" id="expertsFrom" >
+            	<option selected="selected" value="">-请选择-</option>
 							<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
-						     <option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
+					    	<option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
 							</c:forEach>
-                           </select>
-                           
-		            </span>
-		          </li>
-                  <li>
-                    <label class="fl">专家类型：</label>
-                    <span class="fl">
-                      <select name="expertsTypeId" id="expertsTypeId">
-                        <option selected="selected"  value=''>-请选择-</option>
-                        <c:forEach items="${expTypeList}" var="exp">
-                          <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
-                        </c:forEach>          
-                      </select>
-                    </span>
-                  </li>
-		          <li>
-                    <label class="fl">审核状态：</label>
-                    <span class="fl">
-                      <select name="status" id="status">
-                         <option selected="selected" value=''>-请选择-</option>
-                         <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
-                         <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
-                         <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
-                         <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
-                         <option <c:if test="${expert.status =='4' }">selected</c:if> value="2">待复审</option>
-                         <option <c:if test="${expert.status =='5' }">selected</c:if> value="3">复审通过</option>
-                         <option <c:if test="${expert.status =='6' }">selected</c:if> value="2">复审踢除</option>
-                       </select>
-                    </span>
-                  </li>
-		        </ul>
-		              <input class="btn fl mt1"  value="查询" type="submit">
-                      <input class="btn  fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
-                   </form>
-                   </h2>
+						</select>          
+          </span>
+        </li>
+        <li>
+          <label class="fl">专家类型：</label>
+          <span class="fl">
+            <select name="expertsTypeId" id="expertsTypeId">
+              <option selected="selected"  value=''>-请选择-</option>
+              <c:forEach items="${expTypeList}" var="exp">
+                <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
+              </c:forEach>          
+            </select>
+          </span>
+        </li>
+  			<li>
+        <label class="fl">审核状态：</label>
+        <span class="fl">
+          <select name="status" id="status">
+             <option selected="selected" value=''>-请选择-</option>
+             <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
+             <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
+             <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
+             <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
+             <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">待复查</option>
+             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复查通过</option>
+             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">复查未通过</option>
+             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">待复审</option>
+             <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复审通过</option>
+             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复审未通过</option>
+           </select>
+        </span>
+     	 </li>
+		  </ul>
+		  <input class="btn fl mt1"  value="查询" type="submit">
+      <input class="btn  fl mt1" id="button" onclick="clearSearch();" value="重置" type="reset">  
+    </form>
+   </h2>
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
-				
+
 				<%-- <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
 				<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 			  <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>--%>
@@ -324,11 +317,11 @@
 						<tr class="pointer">
 							<td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
-							<td class="tc" onclick="view('${e.id}');" >${e.relName}</td>
+							<td class="tc" onclick="view('${e.id}');">${e.relName}</td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.gender}</td>
-							<td class="tl pl20" onclick="view('${e.id}');" >${e.expertsTypeId}</td>
-							<td class="tl pl20"  onclick="view('${e.id}');">${e.graduateSchool }</td>
-							<td class="tl pl20"  onclick="view('${e.id}');">${e.workUnit }</td>
+							<td class="tl pl20" onclick="view('${e.id}');">${e.expertsTypeId}</td>
+							<td class="tl pl20" onclick="view('${e.id}');">${e.graduateSchool }</td>
+							<td class="tl pl20" onclick="view('${e.id}');">${e.workUnit }</td>
 							<td class="tc w80" onclick="view('${e.id}');" class="tc">
 								<fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM" />
 							</td>
@@ -345,20 +338,28 @@
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
 							</c:if>
 							<c:if test="${e.status eq '4' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复查</span></td>
 							</c:if>
 							<c:if test="${e.status eq '5' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复审通过</span></td>
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复查通过</span></td>
 							</c:if>
 							<c:if test="${e.status eq '6' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复审踢除 </span></td>
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复查未通过 </span></td>
+							</c:if>
+							<c:if test="${e.status eq '5' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
+							</c:if>
+							<c:if test="${e.status eq '7' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复审通过</span></td>
+							</c:if>
+							<c:if test="${e.status eq '8' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复审未通过 </span></td>
 							</c:if>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
 						</tr>
 					</c:forEach>
 				</table>
 				<div id="pagediv" align="right"></div>
-
 			</div>
 		</div>
 	</body>
