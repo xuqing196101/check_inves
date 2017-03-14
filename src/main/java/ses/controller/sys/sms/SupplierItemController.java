@@ -808,9 +808,11 @@ public class SupplierItemController extends BaseController {
 		list.addAll(saleQua);
 		list.addAll(serviceQua);
 		
+		List<Qualification> qlist=new ArrayList<Qualification>();
 		for(QualificationBean qb:list){
 			List<Qualification> qbs = qb.getList();
 			for(Qualification q:qbs){
+				qlist.add(q);
 				String id = DictionaryDataUtil.getId("SUPPLIER_APTITUD");
 				List<UploadFile> files = uploadService.getFilesOther(q.getFlag(), id, "1");
 				if(files!=null&&files.size()>0){
@@ -819,7 +821,7 @@ public class SupplierItemController extends BaseController {
 			}
 		
 		}
-		Integer size = list.size();
+		Integer size = qlist.size();
 		if(!count.equals(size)){
 			return "0";
 		}
