@@ -86,7 +86,7 @@
             //暂存无提示
             submitForm2();
         }
-        /*	/!** 专家完善注册信息页面 *!/
+        /*  /!** 专家完善注册信息页面 *!/
          function supplierRegist5() {
          if(!validateJiGou()) {
          return false;
@@ -105,7 +105,7 @@
          window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
          }*/
 
-        /*		function pre6(name, i, position) {
+        /*    function pre6(name, i, position) {
          $.ajax({
          url: "${pageContext.request.contextPath}/expert/getAllCategory.do",
          data: {
@@ -126,7 +126,7 @@
          */
 
 
-        /*		function addPurList() {
+        /*    function addPurList() {
          supplierRegist();
          }
          */
@@ -144,7 +144,7 @@
          }
          */
 
-        /*			function updateStepNumber(stepNumber) {
+        /*      function updateStepNumber(stepNumber) {
          $.ajax({
          url: "${pageContext.request.contextPath}/expert/updateStepNumber.do",
          data: {
@@ -193,7 +193,6 @@
     <input type="hidden" name="token2" value="<%=tokenValue%>"/>
     <!-- 项目戳开始 -->
     <div id="reg_box_id_5" class="container clear margin-top-30 yinc">
-      <div class="col-md-12 col-xs-12 col-sm-12 p0 mb10">
         <h2 class="padding-20 mt40">
             <span id="jg1" class="new_step current fl" onclick='operation(1)'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step current fl" onclick='operation(7)'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
@@ -203,8 +202,7 @@
             <span id="jg5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
-      </div>
-        <div class="col-md-12 col-xs-12 col-sm-12 container_box p0_15 clear">
+        <div class="container container_box">
             <h2 class="list_title">推荐采购机构（以公司注册地址作为推荐采购机构依据）</h2>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <thead>
@@ -222,8 +220,8 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId eq expert.address}">
                         <tr>
-                            <td class="tc"><input type="radio" value="${org1.id}" name="procurementDepId" onclick="checkDep(this)"
-                                    <c:if test="${org1.id == expert.purchaseDepId}"> checked='checked' </c:if> />
+                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)"
+                                    <c:if test="${org1.provinceId==currSupplier.purchaseDepId}"> checked='checked' </c:if> />
                             </td>
                             <td class="tc">${vs.index + 1}</td>
                             <td class="tc">${org1.name}</td>
@@ -252,8 +250,8 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId ne expert.address}">
                         <tr>
-                            <td class="tc"><input type="radio" name="procurementDepId" value="${org1.id}" onclick="checkDep(this)"
-                                                   <c:if
+                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)"
+                                                  name="procurementDepId" <c:if
                                     test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
                             <td class="tc">${vs.index + 1}</td>
                             <td class="tc">${org1.name}</td>
