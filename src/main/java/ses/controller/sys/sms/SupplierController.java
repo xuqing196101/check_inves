@@ -588,8 +588,11 @@ public class SupplierController extends BaseSupplierController {
 				Set<String> set=new HashSet<String>();
 				if(stockholders!=null&&stockholders.size()>1){
 					for(SupplierStockholder s:stockholders){
-						set.add(s.getIdentity());
-						count++;
+						if(s.getIdentity()!=null&&s.getIdentity().trim().length()!=0){
+							set.add(s.getIdentity());
+							count++;
+						}
+						
 					}
 					if(count!=set.size()){
 						return "errIdentity";
@@ -1361,6 +1364,10 @@ public class SupplierController extends BaseSupplierController {
 		}
 		if(supplier.getArmyBuinessTelephone() == null) {
 			model.addAttribute("err_armTelephone", "不能为空!");
+			count++;
+		}
+		if(supplier.getArmyBuinessTelephone() != null&&supplier.getArmyBuinessTelephone().length()!=11 ) {
+			model.addAttribute("err_armTelephone", "格式不正确!");
 			count++;
 		}
 		if(supplier.getArmyBuinessEmail() == null) {

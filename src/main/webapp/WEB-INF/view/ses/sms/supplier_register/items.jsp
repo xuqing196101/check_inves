@@ -357,6 +357,7 @@
 			var id = type;
 			$.ajax({
 				url: "${pageContext.request.contextPath}/expert/searchCate.do",
+				type:"post",
 				data: {"typeId" : id, "cateName" : cateName, "supplierId" : supplierId, "codeName": codeName},
 				async: false,
 				dataType: "json",
