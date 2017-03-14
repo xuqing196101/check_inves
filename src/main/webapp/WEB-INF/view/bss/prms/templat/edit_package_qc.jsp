@@ -177,6 +177,23 @@
 			totalScore += parseFloat(score) ;
 		};
 			$("#totalScore").text(totalScore);
+        var score = $("#totalScore").text();
+        var projectId = '${projectId}';
+        var packageId = '${packageId}';
+        if (score == 100) {
+           $.ajax({   
+                type: "get",  
+                url: "${pageContext.request.contextPath}/intelligentScore/checkIsCheck.do?projectId="+projectId+"&packageId="+packageId,  
+                dataType:'json',
+                success:function(result){
+                    if (result == 1) {
+                        layer.msg("请选择评审计算价格得分的唯一标识,必须要有一个",{offset: ['150px']});
+                    }
+                },
+                error: function(result){
+                }
+           });
+        }
     }
     
     function getBack(){

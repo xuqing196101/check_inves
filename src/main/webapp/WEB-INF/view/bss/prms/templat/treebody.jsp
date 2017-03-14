@@ -146,6 +146,7 @@
 	
 
 	function choseModel(){
+	    $("#biaoshi").addClass("hide");
 		var model = $("#model").val();
 		console.dir(model);
 		$("#showParamButton").hide();
@@ -181,6 +182,7 @@
 			$("#model5 tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
 		}else if(model=="5"){
+		    $("#biaoshi").removeClass("hide");
 			$("#show_table tbody tr").remove();
 			$("#model6 tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
@@ -761,6 +763,7 @@
 			$("#showbutton").show();
 			gernerator();
 		}else if(model=="5"){
+		    $("#biaoshi").removeClass("hide");
 			$("#show_table tbody tr").remove();
 			if('${addStatus}' !=1){
 				$("#model6 tbody tr").clone().appendTo("#show_table tbody");
@@ -936,7 +939,7 @@
 	                   <input name="name" id="name" value="${scoreModel.name}" type="text">
 	                </div>
                   </li>
-                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                  <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15 hide">
                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否标识(评审计算价格得分的唯一标识) ：</div>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                     <select id="check" name="ischeck">
