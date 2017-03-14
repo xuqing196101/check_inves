@@ -24,6 +24,8 @@ import javax.servlet.http.HttpServletResponse;
 import net.sf.json.JSONArray;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang.StringUtils;
+import org.apache.poi.POIXMLDocument;
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFCellStyle;
 import org.apache.poi.hssf.usermodel.HSSFDataFormat;
@@ -32,6 +34,8 @@ import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellStyle;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.apache.poi.ss.util.CellRangeAddress;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -342,6 +346,18 @@ public class PurchaseRequiredController extends BaseController{
         	String errors="";
         	return "1";
         }  
+        String mark="";
+        
+         try {
+			WorkbookFactory.create(file.getInputStream());
+		} catch (Exception e) {
+			mark=e.getMessage();
+		}
+        
+        if(!StringUtils.isBlank(mark)){
+        	return "0";
+        }
+        
         
 		List<PurchaseRequired> list=new ArrayList<PurchaseRequired>();
 //		ExcelUtil util=new ExcelUtil();
