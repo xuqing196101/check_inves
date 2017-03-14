@@ -503,7 +503,7 @@
             
             var timeStartWork = $("#timeToWork").val().trim();
             if (!timeStartWork) {
-                layer.msg("请填写获得证书时间!");
+                layer.msg("请填写取得技术职称时间!");
                 return false;
             }
             
@@ -1208,7 +1208,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 证书获得时间</span>
+                        class="red">*</i>取得技术职称时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -1223,7 +1223,7 @@
                     </div>
                 </li>
                 
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+               <%--  <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 从事专业起始年月</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
@@ -1235,7 +1235,7 @@
                         <span class="add-on">i</span>
                         <span class="input-tip">如：2017-03</span>
                     </div>
-                </li>
+                </li> --%>
                 
                 
                 
@@ -1366,11 +1366,11 @@
                                 onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
                             <option
                                     <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
-                                    value="1">是
+                                    value="1">有
                             </option>
                             <option
                                     <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
-                                    value="2">否
+                                    value="2">无
                             </option>
                         </select>
                     </div>

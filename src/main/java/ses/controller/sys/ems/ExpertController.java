@@ -2820,7 +2820,7 @@ public class ExpertController extends BaseController {
         dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
         dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
         dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote().equals("1") ? "有" : "无");
-        dataMap.put("isReferenceLftter", expert.getIsReferenceLftter() == null ? "无" : expert.getIsReferenceLftter().equals("1") ? "有" : "无");
+        dataMap.put("isReferenceLftter", expert.getIsReferenceLftter() == null ? "无" : expert.getIsReferenceLftter().equals(Integer.valueOf("1")) ? "有" : "无");
         String address = expert.getAddress();
         Area area = areaServiceI.listById(address);
         if(area != null) {
@@ -2848,12 +2848,20 @@ public class ExpertController extends BaseController {
             dataMap.put("expertsFrom", "");
         }
         dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
-        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+//        dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
         dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional());
         dataMap.put("timeProfessional", expert.getTimeProfessional() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeProfessional()));
         StringBuffer expertType = new StringBuffer();
+        if(expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
         for (String typeId : expert.getExpertsTypeId().split(",")) {
-            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+            if(dictionaryDataServiceI.getDictionaryData(typeId).getKind() == 6){
+                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "技术、");
+            }else{
+                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");    
+            }
+            
+        }
         }
         String expertsType = expertType.toString().substring(0, expertType.length() - 1);
         dataMap.put("expertsTypeId", expertsType);

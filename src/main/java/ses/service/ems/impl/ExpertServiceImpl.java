@@ -545,6 +545,7 @@ public class ExpertServiceImpl implements ExpertService {
 			u.setTelephone(expert.getTelephone());
 			u.setGender(expert.getGender());
 			u.setEmail(expert.getEmail());
+			u.setIdNumber(expert.getIdCardNumber());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				u.setTypeId(expertId);
 			}else{
@@ -566,6 +567,7 @@ public class ExpertServiceImpl implements ExpertService {
 			user.setTelephone(expert.getTelephone());
 			user.setGender(expert.getGender());
 			user.setEmail(expert.getEmail());
+			user.setIdNumber(expert.getIdCardNumber());
 			if(expert.getId()==null || expert.getId()=="" || expert.getId().length()==0){
 				user.setTypeId(expertId);
 			}else{
