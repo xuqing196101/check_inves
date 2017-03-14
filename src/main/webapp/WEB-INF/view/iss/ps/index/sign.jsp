@@ -128,14 +128,26 @@
     						});
     					}else if(flag[0]=="unperfect"){
     						//询问框
-    						layer.confirm("<span style='margin-left:26px;'> 信息未完善，是否前去完善？</span>"+"<br/> <span style='margin-left:26px;'>您选择的采购机构是</span>："+flag[2]+"；联系人是:"+flag[3]+";"+"联系人电话："+flag[4]+"；联系人地址是："+flag[5]+"；联系人邮编："+flag[6], {
-    						 	btn: ['是','否'] //按钮
-    						}, function(){
-    						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
-    						 	}, function(){
-    						 		layer.close(index);
-    						 		window.location.href="${pageContext.request.contextPath}/";
-    						 	    });
+    					/* 	if(flag[2]==null){ */
+    							layer.confirm("<span style='margin-left:26px;'> 信息未完善，是否前去完善？</span>", {
+        						 	btn: ['是','否'] //按钮
+        						}, function(){
+        						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
+        						 	}, function(){
+        						 		layer.close(index);
+        						 		window.location.href="${pageContext.request.contextPath}/";
+        						 	    });
+    						/* }else{
+    							layer.confirm("<span style='margin-left:26px;'> 信息未完善，是否前去完善？</span>"+"<br/> <span style='margin-left:26px;'>您选择的采购机构是</span>："+flag[2]+"；联系人是:"+flag[3]+";"+"联系人电话："+flag[4]+"；联系人地址是："+flag[5]+"；联系人邮编："+flag[6], {
+        						 	btn: ['是','否'] //按钮
+        						}, function(){
+        						  window.location.href="${pageContext.request.contextPath}/supplier/login.html?name="+flag[1];
+        						 	}, function(){
+        						 		layer.close(index);
+        						 		window.location.href="${pageContext.request.contextPath}/";
+        						 	    });
+    						} */
+    						
     					}else if(flag[0]=="reject"){
     						//询问框
     						layer.confirm('您提交的审核被退回，是否前去修改？', {

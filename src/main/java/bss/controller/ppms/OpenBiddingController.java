@@ -34,8 +34,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.alibaba.fastjson.JSON;
-
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Templet;
 import ses.model.bms.Todos;
@@ -60,6 +58,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
 import bss.model.ppms.FlowExecute;
+import bss.model.ppms.MarkTerm;
 import bss.model.ppms.Negotiation;
 import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
@@ -74,6 +73,7 @@ import bss.model.prms.PackageExpert;
 import bss.model.prms.PackageFirstAudit;
 import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.MarkTermService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.NegotiationService;
 import bss.service.ppms.PackageService;
@@ -86,6 +86,8 @@ import bss.service.prms.FirstAuditService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.PackageFirstAuditService;
 import bss.util.PropUtil;
+
+import com.alibaba.fastjson.JSON;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -241,6 +243,8 @@ public class OpenBiddingController {
   
   @Autowired
   private UserServiceI userService;
+  @Autowired
+  private MarkTermService markTermService;
   /**
    * @Fields jsonData : ajax返回数据封装类
    */
@@ -312,6 +316,35 @@ public class OpenBiddingController {
           if (sms == null || sms.size() <= 0) {
             msg = "noSecond";
             return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+          }
+          if (sms != null && sms.size() >0) {
+              List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+              int checkCount = 0;
+              for (DictionaryData dictionaryData : ddList) {
+                  MarkTerm mt = new MarkTerm();
+                  mt.setTypeName(dictionaryData.getId());
+                  mt.setProjectId(p.getProjectId());
+                  mt.setPackageId(p.getId());
+                  //默认顶级节点为0
+                  mt.setPid("0");
+                  List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+                  for (MarkTerm mtKey : mtList) {
+                      MarkTerm mt1 = new MarkTerm();
+                      mt1.setPid(mtKey.getId());
+                      mt1.setProjectId(p.getProjectId());
+                      mt1.setPackageId(p.getId());
+                      List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                      for (MarkTerm markTerm : mtValue) {
+                          if ("1".equals(markTerm.isChecked())) {
+                              checkCount ++;
+                          }
+                      }
+                  }
+              }
+              if (checkCount == 0 || checkCount > 1) {
+                  msg = "noThired";
+                  return "redirect:/intelligentScore/packageList.html?projectId="+id+"&flowDefineId="+flowDefineId+"&msg="+msg;
+              }
           }
         }
       }

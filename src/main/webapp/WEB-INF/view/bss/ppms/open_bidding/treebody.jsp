@@ -153,6 +153,7 @@ function judge(index) {
 	
 	
 	function choseModel(){
+	    $("#biaoshi").addClass("hide");
 		var model = $("#model").val();
 		console.dir(model);
 		$("#showParamButton").hide();
@@ -189,6 +190,7 @@ function judge(index) {
 			$("#model5 tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
 		}else if(model=="5"){
+		    $("#biaoshi").removeClass("hide");
 			$("#show_table tbody tr").remove();
 			$("#model6 tbody tr").clone().appendTo("#show_table tbody");
 			$("#showbutton").show();
@@ -441,7 +443,7 @@ function judge(index) {
 						} else {
 							checkScore ++;
 							layer.msg("区间重复,请重新录入"); 
-							console.dir(checkScore);
+							//console.dir(checkScore);
 							break labe;
 						};
 					}
@@ -455,7 +457,7 @@ function judge(index) {
 		//$(obj).parent.remove();//删除当前行   
 		var num = $("#model73 tbody tr").length;
 		var trs = $("#model73 tbody tr");
-		console.dir(trs.find("td:eq(0)"));
+		//console.dir(trs.find("td:eq(0)"));
 		for (i = 0; i < num; i++) {
 			trs.find("td:eq(0)").each(function(i) {
 				$(this).text(i + 1);
@@ -697,7 +699,7 @@ function judge(index) {
 	    var id = $("#id").val();
 	    var isChecked = $("#check").val();
 		var s = validteModel().form();
-		console.dir(s);
+		//console.dir(s);
 		if(s){
 			$.ajax({   
 	            type: "get",  
@@ -773,6 +775,7 @@ function judge(index) {
 			$("#showbutton").show();
 			gernerator();
 		}else if(model=="5"){
+		    $("#biaoshi").removeClass("hide");
 			$("#show_table tbody tr").remove();
 			if('${addStatus}' !=1){
 				$("#model6 tbody tr").clone().appendTo("#show_table tbody");
@@ -1020,7 +1023,7 @@ function judge(index) {
 	                   <input name="name" id="name" value="${scoreModel.name}" type="text">
 	                </div>
                   </li>
-                   <li class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15">
+                   <li id ="biaoshi" class="col-sm-6 col-md-6 col-lg-6 col-xs-6 pl15 hide">
                     <div class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>是否标识(评审计算价格得分的唯一标识) ：</div>
 	                <div class="col-md-12 col-sm-12 col-xs-12 p0 input-append input_group">
 	                     <select id="check" name="ischeck">

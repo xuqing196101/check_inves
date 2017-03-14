@@ -225,6 +225,7 @@ public class SupplierQueryController extends BaseSupplierController {
             listMap.add(mp);
         }   
         String json = JSON.toJSONString(listMap);
+        model.addAttribute("listMap", listMap);
         model.addAttribute("data", json);
         model.addAttribute("maxCount", maxCount);
         model.addAttribute("supplier", sup);

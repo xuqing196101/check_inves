@@ -93,6 +93,7 @@
 				$("input[name='relName']").val("");
 				//还原select下拉列表只需要这一句
 				$("#status option:selected").removeAttr("selected");
+				$("#formSearch").submit();
 			}
 			
 			
@@ -111,6 +112,10 @@
 			  	 	      		result = eval("(" + result + ")");
 			  	 	      		if(result == "yes"){
 			  	 	      			layer.msg("发布成功!",{offset : '100px'});
+			  	 	      			window.setTimeout(function(){
+			  	 	      				$("#status option:selected").removeAttr("selected");
+					       					$("#formSearch").submit();
+				       					}, 1000);
 			  	 	      		}else{
 			  	 	      			layer.msg('该专家已发布过！', {	            
 							             shift: 6,
@@ -184,9 +189,14 @@
 									<option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未通过</option>
 								</c:if>
 								<c:if test="${sign == 2}">
-									<option <c:if test="${state eq '4' or state == null}">selected</c:if> value="4">待复审</option>
-									<option <c:if test="${state eq '3'}">selected</c:if> value="5">复审通过</option>
-									<option <c:if test="${state eq '6'}">selected</c:if> value="6">复审踢除</option>
+									<option <c:if test="${state eq '4' or state == null}">selected</c:if> value="4">待复查</option>
+									<option <c:if test="${state eq '5'}">selected</c:if> value="5">复查通过</option>
+									<option <c:if test="${state eq '6'}">selected</c:if> value="6">复查未通过</option>
+								</c:if>
+								<c:if test="${sign == 3}">
+									<option <c:if test="${state eq '5' or state == null}">selected</c:if> value="5">待复审</option>
+									<option <c:if test="${state eq '7'}">selected</c:if> value="7">复审通过</option>
+									<option <c:if test="${state eq '8'}">selected</c:if> value="8">复审未通过</option>
 								</c:if>
 							</select>
 						</li>

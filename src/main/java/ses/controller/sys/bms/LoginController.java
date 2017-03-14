@@ -17,21 +17,24 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import ses.model.bms.PreMenu;
 import ses.model.bms.Role;
 import ses.model.bms.StationMessage;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.PreMenuServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.StationMessageService;
 import ses.service.bms.TodosService;
 import ses.service.bms.UserServiceI;
-import ses.service.ems.ExamQuestionServiceI;
 import ses.service.ems.ExpertService;
 import ses.service.sms.ImportSupplierService;
 import ses.service.sms.SupplierService;
-
 import common.constant.Constant;
 import common.utils.AuthUtil;
 
@@ -67,9 +70,6 @@ public class LoginController {
     
     @Autowired
     private StationMessageService stationMessageService;//站内消息
-    
-    @Autowired
-    private ExamQuestionServiceI sxamQuestionServiceI;//删除登陆账号
 
     @Autowired
     private SupplierService supplierService;
@@ -101,13 +101,6 @@ public class LoginController {
             String randomCode = "";
             if (list.size() > 0) {
                 randomCode = list.get(0).getRandomCode();
-              //删除方法 登陆用户超过三个月不考试的 登陆走到这进入 sxamQuestionServiceI
-                if(sxamQuestionServiceI.CheckState(user)){
-	                sxamQuestionServiceI.delExpertById(list.get(0));
-	                list.clear();
-	                logger.info("超过三个月没有完成考试，已删除");
-	                out.print("errorcode");
-                }
             }
             // 根据随机码+密码加密
             Md5PasswordEncoder md5 = new Md5PasswordEncoder();
@@ -196,8 +189,13 @@ public class LoginController {
                         req.getSession().setAttribute("loginUserType", "supplier");
                         out.print("scuesslogin");
                     } else  if("unperfect".equals(msg)){
-                        out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
-                    } else  if("初审未通过".equals(msg)){
+                    	if(orgnization!=null){
+                          out.print("unperfect," + u.getLoginName()+","+orgnization.getShortName()+","+orgnization.getSupplierContact()+","+orgnization.getSupplierPhone()+","+orgnization.getSupplierAddress()+","+orgnization.getSupplierPostcode());
+                    	}else{
+                    		 out.print("unperfect," + u.getLoginName());
+                    	}
+                    	
+                    	} else  if("初审未通过".equals(msg)){
                         out.print("firstNotPass");
                     } else  if("考察不合格".equals(msg)){
                         out.print("thirdNotPass");

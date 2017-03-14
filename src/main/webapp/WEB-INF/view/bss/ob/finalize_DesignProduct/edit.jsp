@@ -134,7 +134,7 @@ $(document).ready(function(){
 	
 	/* 发布 */
 	function sub(i){
-		var id = $("#productId").val()
+		var id = $("#productId").val();
 		var code = $("#code").val();
 		var name = $("#name").val();
 		var procurementId = $("#pro").val();

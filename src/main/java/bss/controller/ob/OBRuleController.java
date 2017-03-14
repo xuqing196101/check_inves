@@ -71,7 +71,9 @@ public class OBRuleController {
 		Integer intervalWorkday = null;
 		String intervalWorkdayStr = request.getParameter("intervalWorkday");
 		if (StringUtils.isNotEmpty(intervalWorkdayStr)) {
-			intervalWorkday = Integer.parseInt(intervalWorkdayStr);
+			if (intervalWorkdayStr.matches("^[0-9]+$")) {
+				intervalWorkday = Integer.parseInt(intervalWorkdayStr);
+			}
 		}
 		// 间隔工作日（天）
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -226,16 +228,16 @@ public class OBRuleController {
 
 	/**
 	 * 
-	* @Title: deleteSpecialDate 
-	* @Description: 删除特殊假期
-	* @param @param request
-	* @param @return    设定文件 
-	* @return JdcgResult    返回类型 
-	* @throws
+	 * @Title: deleteSpecialDate
+	 * @Description: 删除特殊假期
+	 * @param @param request
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
 	 */
 	@RequestMapping(value = "/deleteSpecialDate", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult deleteSpecialDate(HttpServletRequest request){
+	public JdcgResult deleteSpecialDate(HttpServletRequest request) {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		return service.deleteSpecialDate(ids);

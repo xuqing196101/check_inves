@@ -58,6 +58,7 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.bms.Userrole;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -76,6 +77,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierFinanceService;
@@ -210,6 +212,9 @@ public class SupplierServiceImpl implements SupplierService {
      
     @Autowired
     private FileUploadMapper fileUploadMapper;
+    
+    @Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationService;
     
     @Override
     public Supplier get(String id) {
@@ -597,8 +602,10 @@ public class SupplierServiceImpl implements SupplierService {
             map.put("status", "success");
             map.put("supplier", supplier);
         }
-        Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(supplier.getProcurementDepId());
-        map.put("orgnization", orgnization);
+        if(supplier.getProcurementDepId()!=null){
+        	PurchaseDep dep = purchaseOrgnizationService.selectPurchaseById(supplier.getProcurementDepId());
+            map.put("orgnization", dep);
+        }
         map.put("supplier", supplier);
         if(supplier.getAuditDate()!=null){
         	SimpleDateFormat sdf=new SimpleDateFormat("yyyy年MM月dd日");

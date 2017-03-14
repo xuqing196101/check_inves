@@ -209,6 +209,9 @@
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
   	</if>
+  	<if test="deptname != null and deptname != ''">
+  		and DEMAND_SECTOR = #{deptname}
+  	</if>
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
@@ -238,6 +241,9 @@
   	<if test="documentNumber != null and documentNumber != ''">
   		and DOCUMENT_NUMBER like '%'||#{documentNumber}||'%'
   	</if>
+  	<if test="deptname != null and deptname != ''">
+  		and DEMAND_SECTOR = #{deptname}
+  	</if>
   	<if test="year != null and year != ''">
   		and YEAR = #{year}
   	</if>
@@ -245,7 +251,7 @@
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
   	and status in (1,2)
-  	order by status
+  	order by status,CREATED_AT desc
   </select>
   <select id="selectAllContractBySupplierId" parameterType="Map" resultMap="purContractMap">
   	select 
@@ -1359,4 +1365,5 @@
 			</if>
 		</where>
 	</select>
+	
 </mapper>

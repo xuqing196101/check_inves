@@ -1,7 +1,5 @@
 package bss.controller.cs;
-
 import ses.util.DictionaryDataUtil;
-
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.SimpleDateFormat;
@@ -11,12 +9,9 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import net.sf.json.JSONSerializer;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -24,13 +19,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
+import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
@@ -59,17 +54,14 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 import bss.service.sstps.AppraisalContractService;
-
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
-
 /* 
  *@Title:PurchaseContractController
  *@Description:采购合同控制类
@@ -80,60 +72,47 @@ import common.service.UploadService;
 @Scope("prototype")
 @RequestMapping("/purchaseContract")
 public class PurchaseContractController extends BaseSupplierController{
-
     @Autowired
     private PurchaseContractService purchaseContractService;
-
     @Autowired
     private ProjectService projectService;
-
     @Autowired
     private ProjectDetailService projectDetailService;
-
     @Autowired
     private ProjectTaskService projectTaskService;
-
     @Autowired
     private ContractRequiredService contractRequiredService;
-
     @Autowired
     private TaskService taskService;
-
     @Autowired
     private PackageService packageService;
-
     @Autowired
     private SupplierCheckPassService supplierCheckPassService;
-
     @Autowired
     private SupplierService supplierService;
-
     @Autowired
     private DictionaryDataServiceI dictionaryDataServiceI;
-
     @Autowired
     private AppraisalContractService appraisalContractService;
-
     @Autowired
     private OrgnizationServiceI orgnizationServiceI;
-
     @Autowired
     private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
-
     @Autowired
     private UploadService uploadService;
-
     @Autowired
     private DownloadService downloadService;
     
     @Autowired
     private RoleServiceI roleService;
-
     @Autowired
     private ProjectDetailService detailService;
     
     @Autowired
     private PurChaseDepOrgService chaseDepOrgService;
+    @Autowired
+    private OrgnizationServiceI orgnizationService;
+    
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -546,7 +525,6 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @param @throws Exception      
 	* @return String
 	 */
-
 	@RequestMapping("/createCommonContract")
 	public String createCommonContract(HttpServletRequest request,Model model) throws Exception{
 		String supcheckid = request.getParameter("supcheckid");
@@ -612,8 +590,10 @@ public class PurchaseContractController extends BaseSupplierController{
 		map1.put("projectId", pack.getProjectId());
 		List<ProjectDetail> detailList = detailService.selectByCondition(map1, null);
 		BigDecimal projectBudget = BigDecimal.ZERO;
+		String department="";
 		for (ProjectDetail projectDetail : detailList) {
 		   projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+		   department=projectDetail.getDepartment();
 	    }
 		BigDecimal projectBud = projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP);
 		
@@ -626,6 +606,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		
 		//PurchaseDep purchaseDep = chaseDepOrgService.findByOrgId(project.getSectorOfDemand());
 		model.addAttribute("project", project);
+		model.addAttribute("department", department);
 		model.addAttribute("transactionAmount", amounts);
 		model.addAttribute("id", contractuuid);
 		model.addAttribute("supcheckid",supcheckid);
@@ -649,7 +630,6 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @param @throws Exception      
 	* @return String
 	 */
-
 	@RequestMapping("/manualCreateContract")
 	public String manualCreateContract(HttpServletRequest request,Model model) throws Exception{
 		
@@ -1350,10 +1330,10 @@ public class PurchaseContractController extends BaseSupplierController{
 			flag = false;
 			model.addAttribute("ERR_documentNumber", "计划任务文号不能为空");
 		}
-		if(ValidateUtils.isNull(purCon.getQuaCode())){
+		/*if(ValidateUtils.isNull(purCon.getQuaCode())){
 			flag = false;
 			model.addAttribute("ERR_quaCode", "采购机构文号不能为空");
-		}
+		}*/
 		if(ValidateUtils.isNull(purCon.getPurchaseDepName())){
 			flag = false;
 			model.addAttribute("ERR_purchaseDepName", "甲方单位不能为空");
@@ -1511,7 +1491,6 @@ public class PurchaseContractController extends BaseSupplierController{
         map.put("model", model);
         return map;
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1528,7 +1507,7 @@ public class PurchaseContractController extends BaseSupplierController{
      * @return String
      */
     @RequestMapping("/selectDraftContract")
-    public String selectDraftContract(HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
+    public String selectDraftContract(@CurrentUser User user,HttpServletRequest request,Integer page,Model model,PurchaseContract purCon) throws Exception{
         if(page==null){
             page=1;
         }
@@ -1566,14 +1545,48 @@ public class PurchaseContractController extends BaseSupplierController{
             map.put("status", purCon.getStatus());
         }
         List<PurchaseContract> draftConList = new ArrayList<PurchaseContract>();
-        User user = (User) request.getSession().getAttribute("loginUser");
-		List<Role> roleList = roleService.selectByUserId(user.getId());
-		boolean roleflag = false;
-		for(Role rol:roleList){
-			if(rol.getCode().equals("PURCHASE_R")){
-				roleflag = true;
-			}
-		}
+      //采购机构
+        Orgnization orgnization = orgnizationService.findByCategoryId(user.getOrg().getId());
+        boolean roleflag = true;
+        if("1".equals(orgnization.getTypeName())){
+        	map.put("purchaseDepName", user.getOrg().getId());
+        	if(purCon.getStatus()!=null){
+        		draftConList = purchaseContractService.selectAllContractByStatus(map);
+        	}else{
+        		draftConList = purchaseContractService.selectAllContractByCode(map);
+        	}
+          
+        }
+        /*
+         *判断如果是管理部门*/
+        if("2".equals(orgnization.getTypeName())){
+            
+            List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+            if(list!=null&&list.size()>0){
+            	List<PurchaseContract> draftConLists = new ArrayList<PurchaseContract>();
+            for(int i=0;i<list.size();i++){
+            	map.put("purchaseDepName", list.get(i).getPurchaseDepId());
+            	if(purCon.getStatus()!=null){
+            		draftConLists = purchaseContractService.selectAllContractByStatus(map);
+            	}else{
+            		draftConLists = purchaseContractService.selectAllContractByCode(map);
+            	}
+            	draftConList.addAll(draftConLists);
+             }
+            }
+        }
+      //判断如果是需求部门
+        if("0".equals(orgnization.getTypeName())){
+        	String name=orgnization.getName();
+        	map.put("deptname", name);
+        	if(purCon.getStatus()!=null){
+        		draftConList = purchaseContractService.selectAllContractByStatus(map);
+        	}else{
+        		draftConList = purchaseContractService.selectAllContractByCode(map);
+        	}
+        	
+        }
+      
 		BigDecimal contractSum = new BigDecimal(0);
 		if(roleflag){
 //        List<Role> roleList = user.getRoles();
@@ -1584,11 +1597,7 @@ public class PurchaseContractController extends BaseSupplierController{
 //            }
 //        }
 //        if(isRole){
-        	if(purCon.getStatus()!=null){
-        		draftConList = purchaseContractService.selectAllContractByStatus(map);
-        	}else{
-        		draftConList = purchaseContractService.selectAllContractByCode(map);
-        	}
+        	
             for(PurchaseContract pur:draftConList){
             	Supplier su = null;
             	Orgnization org = null;
@@ -1668,7 +1677,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("status", status);
         return "bss/cs/purchaseContract/filePage";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1748,7 +1756,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("purCon", purCon);
         return "bss/cs/purchaseContract/roughlist";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1796,7 +1803,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("requList", conRequList);
         return "bss/cs/purchaseContract/updateContract";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1842,7 +1848,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("ids", ids);
         return "bss/cs/purchaseContract/roughContract";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1905,7 +1910,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return url;
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1928,7 +1932,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("draftCon", draftCon);
         return "bss/cs/purchaseContract/showDraftContract";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -1945,7 +1948,6 @@ public class PurchaseContractController extends BaseSupplierController{
     @RequestMapping("/showFormalContract")
     public String showFormalContract(HttpServletRequest request,Model model) throws Exception{
         String ids = request.getParameter("ids");
-
         model.addAttribute("attachuuid", ids);
         DictionaryData dd=new DictionaryData();
         dd.setCode("CONTRACT_APPROVE_ATTACH");
@@ -1954,16 +1956,12 @@ public class PurchaseContractController extends BaseSupplierController{
         if(datas.size()>0){
             model.addAttribute("attachtypeId", datas.get(0).getId());
         }
-
         PurchaseContract draftCon = purchaseContractService.selectFormalById(ids);
         List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(draftCon.getId());
         draftCon.setContractReList(conRequList);
         model.addAttribute("draftCon", draftCon);
         return "bss/cs/purchaseContract/showFormalContract";
     }
-
-
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2029,7 +2027,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return url;
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2093,7 +2090,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return url;
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2115,7 +2111,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return "redirect:selectDraftContract.html";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2137,7 +2132,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return "redirect:selectRoughContract.html";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2217,7 +2211,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("purCon", purCon);
         return "bss/cs/purchaseContract/formallist";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2333,8 +2326,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return url;
     }
-
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2358,10 +2349,8 @@ public class PurchaseContractController extends BaseSupplierController{
         if(datas.size()>0){
             model.addAttribute("attachtypeId", datas.get(0).getId());
         }
-
         return "bss/cs/purchaseContract/toFormalContract";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2433,7 +2422,6 @@ public class PurchaseContractController extends BaseSupplierController{
         model.addAttribute("kinds", DictionaryDataUtil.find(5));
         return "bss/cs/purchaseContract/straightContract";
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2488,14 +2476,12 @@ public class PurchaseContractController extends BaseSupplierController{
             flag=false;
             map.put("dj", "请输入正整数");
         }
-
         if(flag){
             super.writeJson(response, 1);
         }else{
             super.writeJson(response, JSONSerializer.toJSON(map).toString());
         }
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2520,7 +2506,6 @@ public class PurchaseContractController extends BaseSupplierController{
             super.writeJson(response, JSONSerializer.toJSON(map).toString());
         }
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2538,7 +2523,6 @@ public class PurchaseContractController extends BaseSupplierController{
         List<Orgnization> list = orgnizationServiceI.initOrgByType("1");
         super.writeJson(response, list);
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2554,7 +2538,6 @@ public class PurchaseContractController extends BaseSupplierController{
         List<Supplier> list = supplierService.findAllUsefulSupplier();
         super.writeJson(response, list);
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2570,7 +2553,6 @@ public class PurchaseContractController extends BaseSupplierController{
         List<PurchaseDep> list = purchaseOrgnizationServiceI.findAllUsefulPurchaseDep();
         super.writeJson(response, list);
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2587,7 +2569,6 @@ public class PurchaseContractController extends BaseSupplierController{
     	
         super.writeJson(response, purchaseDep);
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2603,7 +2584,6 @@ public class PurchaseContractController extends BaseSupplierController{
         Supplier su = supplierService.selectById(id);
         super.writeJson(response, su);
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2619,7 +2599,6 @@ public class PurchaseContractController extends BaseSupplierController{
         PurchaseDep purDep = purchaseOrgnizationServiceI.selectPurchaseById(id);
         super.writeJson(response, purDep);
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2675,7 +2654,6 @@ public class PurchaseContractController extends BaseSupplierController{
             super.writeJson(response, JSONSerializer.toJSON(map).toString());
         }
     }
-
     /**
      * 
      * 〈简述〉 〈详细描述〉
@@ -2693,7 +2671,6 @@ public class PurchaseContractController extends BaseSupplierController{
         Map<String, Object> map = purchaseContractService.createWord(purCon, proList.getProList(), request);
         super.writeJson(response, JSONSerializer.toJSON(map).toString());
     }
-
     /**
      *〈简述〉保存招标文件到服务器
      *〈详细描述〉
@@ -2717,7 +2694,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         System.out.println(result);
     }
-
     /**
      *〈简述〉跳转到打印页面
      *〈详细描述〉
@@ -2745,7 +2721,6 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         return url;
     }
-
     /**
      *〈简述〉下载附件
      *〈详细描述〉

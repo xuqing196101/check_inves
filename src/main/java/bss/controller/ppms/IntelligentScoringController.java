@@ -153,6 +153,39 @@ public class IntelligentScoringController extends BaseController{
 	    return result;
 	}
 	
+	@RequestMapping(value = "checkIsCheck")
+    @ResponseBody
+    public Integer checkIsCheck(String projectId, String packageId){
+        List<DictionaryData> ddList = DictionaryDataUtil.find(23);
+        Integer result = 0;
+        int checkCount = 0;
+        for (DictionaryData dictionaryData : ddList) {
+            MarkTerm mt = new MarkTerm();
+            mt.setTypeName(dictionaryData.getId());
+            mt.setProjectId(projectId);
+            mt.setPackageId(packageId);
+            //默认顶级节点为0
+            mt.setPid("0");
+            List<MarkTerm> mtList = markTermService.findListByMarkTerm(mt);
+            for (MarkTerm mtKey : mtList) {
+                MarkTerm mt1 = new MarkTerm();
+                mt1.setPid(mtKey.getId());
+                mt1.setProjectId(projectId);
+                mt1.setPackageId(packageId);
+                List<MarkTerm> mtValue = markTermService.findListByMarkTerm(mt1);
+                for (MarkTerm markTerm : mtValue) {
+                    if ("1".equals(markTerm.isChecked())) {
+                        checkCount ++;
+                    }
+                }
+            }
+        }
+        if (checkCount == 0) {
+            result = 1;
+        }
+        return result;
+    }
+	
 	@RequestMapping(value = "addScoreMethod")
     public String addScoreMethod(Model model, String packageId, String projectId, String flowDefineId) {
 	    List<DictionaryData> ddList = DictionaryDataUtil.find(27);
@@ -164,14 +197,25 @@ public class IntelligentScoringController extends BaseController{
     }
 	
 	@RequestMapping(value = "showScoreMethod")
-    public String showScoreMethod(Model model, BidMethod bm) {
+    public String showScoreMethod(Model model, BidMethod bm, String packageId, String projectId, String flowDefineId) {
         List<BidMethod> bidMethod = bidMethodService.findScoreMethod(bm);
         if (bidMethod != null && bidMethod.size() > 0){
             model.addAttribute("bidMethod", bidMethod.get(0));
+            model.addAttribute("packageId", packageId);
+            model.addAttribute("projectId", projectId);
+            model.addAttribute("flowDefineId", flowDefineId);
         }
         List<DictionaryData> ddList = DictionaryDataUtil.find(27);
         model.addAttribute("ddList", ddList);
         return "bss/ppms/open_bidding/show_score_method";
+    }
+	
+	@RequestMapping(value = "updateScoreMethod")
+    public String updateScoreMethod(BidMethod bm, String packageId, String projectId, String flowDefineId) {
+	    bm.setProjectId(projectId);
+	    bm.setPackageId(packageId);
+	    bidMethodService.updateBidMethod(bm);
+        return "redirect:packageList.html?flowDefineId=" + flowDefineId + "&projectId=" + projectId;
     }
 	
 	

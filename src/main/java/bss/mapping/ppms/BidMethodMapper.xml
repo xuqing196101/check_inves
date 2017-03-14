@@ -47,6 +47,7 @@
    
    <select id="findScoreMethod" parameterType="bss.model.ppms.BidMethod" resultType="bss.model.ppms.BidMethod">
    		SELECT
+   		    mt.id,
    		    mt.FLOATING_RATIO as floatingRatio,
    		    mt.type_name as typeName,
    			mt.business,
