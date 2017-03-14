@@ -150,7 +150,7 @@
         <!-- 按钮 -->
         <div class="fr pr15 mt10">
 		     <%-- <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input> --%>
-	         <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input>
+	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
 	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
 	         <input type="button" class="btn btn-windows save" onclick="save()" value="保存"></input>
 	         <input type="button" class="btn btn-windows apply" onclick="publish()" value="提交"></input>  

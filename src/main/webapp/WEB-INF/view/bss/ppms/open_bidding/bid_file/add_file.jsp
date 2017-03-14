@@ -290,7 +290,6 @@ function getTaskTime(strDate) {
     </div>
   </div>
  </c:if>
-     <div class="container">
 <c:if test="${process != 1 }">
 	 <div class="col-md-12 p0">
 	   <ul class="flow_step">
@@ -442,7 +441,6 @@ function getTaskTime(strDate) {
        </div>
         
 	</form>
-	</div>
 </body>
 
 </html>
