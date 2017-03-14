@@ -193,6 +193,7 @@
     <input type="hidden" name="token2" value="<%=tokenValue%>"/>
     <!-- 项目戳开始 -->
     <div id="reg_box_id_5" class="container clear margin-top-30 yinc">
+      <div class="col-md-12 col-xs-12 col-sm-12 p0 mb10">
         <h2 class="padding-20 mt40">
             <span id="jg1" class="new_step current fl" onclick='operation(1)'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step current fl" onclick='operation(7)'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
@@ -202,7 +203,8 @@
             <span id="jg5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
-        <div class="container container_box">
+      </div>
+        <div class="col-md-12 col-xs-12 col-sm-12 container_box p0_15 clear">
             <h2 class="list_title">推荐采购机构（以公司注册地址作为推荐采购机构依据）</h2>
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <thead>
