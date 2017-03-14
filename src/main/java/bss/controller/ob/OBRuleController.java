@@ -18,12 +18,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
+
 import com.github.pagehelper.PageInfo;
 
 import bss.echarts.Data;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSpecialDate;
 import bss.service.ob.OBRuleService;
+import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
 
 /**
@@ -53,7 +56,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/ruleList")
-	public String ruleList(Model model, HttpServletRequest request, Integer page) {
+	public String ruleList(@CurrentUser User user, Model model,
+			HttpServletRequest request, Integer page) {
 		if (page == null) {
 			page = 1;
 		}
@@ -80,6 +84,7 @@ public class OBRuleController {
 		map.put("name", name);
 		map.put("quoteTime", quoteTime);
 		map.put("intervalWorkday", intervalWorkday);
+		map.put("userId", user.getId());
 		map.put("page", page);
 		List<OBRule> list = service.selectAllOBRules(map);
 		PageInfo<OBRule> info = new PageInfo<OBRule>(list);
@@ -166,7 +171,7 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/holidayList")
-	public String holidayList(Model model, HttpServletRequest request,
+	public String holidayList(@CurrentUser User user, Model model, HttpServletRequest request,
 			Integer page) throws ParseException {
 		if (page == null) {
 			page = 1;
@@ -184,6 +189,7 @@ public class OBRuleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("specialDate", specialDate);
 		map.put("dateType", dateType);
+		map.put("userId", user.getId());
 		map.put("page", page);
 		List<OBSpecialDate> list = service.selectAllOBSpecialDate(map);
 		PageInfo<OBSpecialDate> info = new PageInfo<OBSpecialDate>(list);
