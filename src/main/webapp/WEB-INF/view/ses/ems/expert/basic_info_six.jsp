@@ -43,6 +43,7 @@
 
 			function showTree(tabId) {
 				var id = $("#" + tabId + "-value").val();
+// 				var id = $("#tab-2-value").val();
 				if(id == null || id == '') {
 					  layer.alert("此类专家无需选择产品类别，请进入下一环节！");
 					  $("#isServer").val(1);
@@ -189,20 +190,36 @@
 			}
 
 			function initTree() {
-				showTree("tab-1");
-				$("#tab-1").attr("style", "");
-				$("#div-1").attr("style", "");
-				$("li_id_1").attr("class", "active");
-				$("li_1").attr("aria-expanded", "true");
-				$("#tab-2").attr("style", "display: none");
-				$("#div-2").attr("style", "display: none");
-				$("#tab-3").attr("style", "display: none");
-				$("#div-3").attr("style", "display: none");
-				$("#tab-4").attr("style", "display: none");
-				$("#div-4").attr("style", "display: none");
+				var id = $("#tab-1-value").val();
+				if(id!=null){
+					showTree("tab-1");
+					$("#tab-1").attr("style", "");
+					$("#div-1").attr("style", "");
+					$("li_id_1").attr("class", "active");
+					$("li_1").attr("aria-expanded", "true");
+					$("#tab-2").attr("style", "display: none");
+					$("#div-2").attr("style", "display: none");
+					$("#tab-3").attr("style", "display: none");
+					$("#div-3").attr("style", "display: none");
+					$("#tab-4").attr("style", "display: none");
+					$("#div-4").attr("style", "display: none");
+				}else{
+					showTree("tab-2");
+					$("#tab-1").attr("style", "display: none");
+					$("#div-1").attr("style", "display: none");
+					$("#tab-2").attr("style", "");
+					$("#div-2").attr("style", "");
+					$("li_id_2").attr("class", "active");
+					$("li_2").attr("aria-expanded", "true");
+					$("#tab-3").attr("style", "display: none");
+					$("#div-3").attr("style", "display: none");
+					$("#tab-4").attr("style", "display: none");
+					$("#div-4").attr("style", "display: none");
+				}
 			}
 
 			function zancunCategory(count) {
+			alert("zancun");
 				var ids = new Array();
 				for(var i = 1; i <= count; i++) {
 					var id = "tab-" + i;

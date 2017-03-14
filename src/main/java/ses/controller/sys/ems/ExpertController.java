@@ -3656,7 +3656,7 @@ public class ExpertController extends BaseController {
             return JSON.toJSONString(imgInfo);
         }
         if(TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
-            imgInfo="专家技术证书未上传";
+            imgInfo="专业技术职称证书未上传";
             return JSON.toJSONString(imgInfo);
         }
         if( APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){

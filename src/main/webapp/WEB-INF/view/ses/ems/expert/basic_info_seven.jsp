@@ -106,7 +106,6 @@
                 if ((typeof asx) == "undefined") {
                     asx = true;
                 }
-
                 if (asx && isIs ) {
                     if (!validateType()) {
                         return;

@@ -76,6 +76,7 @@
         $(function () {
             $("input").bind("blur", submitformExpert);
             $("select").bind("change", submitformExpert);
+            $("textarea").bind("blur", submitformExpert);
         });
 
         function submitformExpert() {
@@ -326,15 +327,10 @@
         //校验基本信息 不能为空的字段
         function validateformExpert() {
         	
-	       	var zhongwen1 = /[^u4E00-u9FA5]/g
             var from = "${expert.expertsFrom}";
             var relName = $("#relName").val().trim();
             if (!relName) {
                 layer.msg("请输入姓名 !");
-                return false;
-            }
-            if (!zhongwen1.test(relName)) {
-                layer.msg("请填写中文姓名 !");
                 return false;
             }
             var gender = $("#gender").val().trim();
@@ -379,19 +375,9 @@
                 layer.msg("请填写民族 !");
                 return false;
             }
-            var zhongwen2 = /[^u4E00-u9FA5]/g
-            if (!zhongwen2.test(nation)) {
-                layer.msg("民族请填写中文 !");
-                return false;
-            }
             var healthState = $("#healthState").val().trim();
             if (!healthState) {
                 layer.msg("请填写健康状态!");
-                return false;
-            }
-            var zhongwen3 = /[^u4E00-u9FA5]/g
-            if (!zhongwen3.test(healthState)) {
-                layer.msg("健康状况请填写中文 !");
                 return false;
             }
             var idCardNumber = $("#idCardNumber").val().trim();
@@ -399,7 +385,6 @@
                 layer.msg("请填写居民身份证号码 !");
                 return false;
             }
-
             if (from == "ARMY") {
                 var idType = $("#idType").val().trim();
                 if (!idType) {
@@ -444,17 +429,11 @@
                 layer.msg("请正确填写手机号!");
                 return false;
             }
-			var phoneType = /^(\d{3}-\d{8}$)|(\d{4}-\d{7}$)/
             var telephone = $("#telephone").val().trim();
             if (!telephone) {
                 layer.msg("请填写固定电话!");
                 return false;
             }
-            if (!phoneType.test(telephone)) {
-                layer.msg("请正确填写固定电话!");
-                return false;
-            }
-
             var email = $("#email").val().trim();
             if (!email) {
                 layer.msg("请填写个人邮箱!");
@@ -487,7 +466,10 @@
                 layer.msg("请填写单位邮编!");
                 return false;
             }
-
+            if (postCode.length != 6) {
+                layer.msg("请正确填写邮编!");
+                return false;
+            }
 
             var major = $("#major").val().trim();
             if (!major) {
@@ -929,7 +911,7 @@
                 <%--如果是民--%>
                 <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
-                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 缴纳社会保险证明</span>
+                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
                         <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                             <select name="coverNote" id="coverNote" style="width:100%;"
                                     <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
@@ -1220,23 +1202,6 @@
                             class="add-on">i</span> <span class="input-tip">如：2017-03</span>
                     </div>
                 </li>
-                
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 从事专业起始年月</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input
-                                <c:if test="${fn:contains(errorField,'从事专业起始年月')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('从事专业起始年月')"</c:if>
-                                value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeStartWork" id="timeStartWork" type="text"
-                                onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
-                        <span class="add-on">i</span>
-                        <span class="input-tip">如：2017-03</span>
-                    </div>
-                </li>
-                
-                
-                
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red"></i> 毕业院校及专业</span>
@@ -1363,12 +1328,12 @@
                                 <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
                             <option
-                                    <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
-                                    value="1">是
-                            </option>
-                            <option
                                     <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
                                     value="2">否
+                            </option>
+                            <option
+                                    <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
+                                    value="1">是
                             </option>
                         </select>
                     </div>
@@ -1503,7 +1468,7 @@
 
         $("#coverNote").change(function () {
             if ($(this).val() == "1") {
-                $("#sbzm").text("缴纳社保证明")
+                $("#sbzm").text("缴纳社会保险证明")
                 init_web_upload();
             } else {
 

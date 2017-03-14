@@ -16,8 +16,29 @@
         session.setAttribute("tokenSession", tokenValue);
     %>
     <script type="text/javascript">
+    	//提交后显示出已选采购机构的
+    	function queryXinXi(){
+    		$.ajax({
+				url: "${pageContext.request.contextPath}/expert/validateAuditTime.do",
+				data: {"userId" : "${userId}"},
+				dataType: "json",
+				async: false,
+				success: function(response){
+				console.info(response)
+					//询问框
+  						layer.confirm("您选择的是" + response.purchaseDep.name + "，联系人：" + response.purchaseDep.supplierContact + ",电话：" + response.purchaseDep.supplierPhone + "，地址：" + response.purchaseDep.address + "。", {
+  							btn : [ '确定' ],
+  							shade: false //不显示遮罩
+                            //按钮
+                        }, function() {
+                            window.location.href = '${pageContext.request.contextPath}/';
+                        });
+				}
+			});
+    	}
         //提交
         function addSubmitForm() {
+			
             if(!validateHeTong()) {
                 return;
             } else {
@@ -29,13 +50,14 @@
                     data: $('#formExpert').serialize(),
                     success: function(data) {
                         if(data == "0") {
-                            layer.confirm('您已成功提交,请等待审核结果!', {
-                                btn: ['确定'],
-                                shade: false //不显示遮罩
+                        	queryXinXi();
+//                             layer.confirm('您已成功提交,请等待审核结果!', {
+//                                 btn: ['确定'],
+//                                 shade: false //不显示遮罩
                                 //按钮
-                            }, function() {
-                                window.location.href = '${pageContext.request.contextPath}/';
-                            });
+//                             }, function() {
+//                                 window.location.href = '${pageContext.request.contextPath}/';
+//                             });
                         } else {
                             layer.confirm('您已提交,请勿重复操作!', {
                                 btn: ['确定'],
@@ -187,17 +209,17 @@
             </div>
             <table class="table table-bordered">
                 <tr>
-                	<td class="bggrey" width="15%"><i class="red">*</i>军队评审专家承诺书：</td>
+                	<td class="bggrey" width="17%"><i class="red">*</i>军队评审专家承诺书：</td>
                     <td <c:if test="${fn:contains(errorField,'专家承诺书')}">style="border: 1px solid red;" onmouseover="errorMsg('专家承诺书')"</c:if>>
                       <div class="w200 fl">
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert14" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" businessId="${sysId}" multiple="true" sysKey="${expertKey}" typeId="14" maxcount="1"   auto="true" />
                         <u:show showId="show7" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="14" />
                       </div>
                     </td>
-                    <td class="bggrey" width="17%"><i class="red">*</i>军队评审专家入库申请表：</td>
+                    <td class="bggrey" width="19%"><i class="red">*</i>军队评审专家入库申请表：</td>
                     <td <c:if test="${fn:contains(errorField,'专家申请表')}">style="border: 1px solid red;" onmouseover="errorMsg('专家申请表')"</c:if>>
                        <div class="w200 fl">
-                        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="1"   auto="true" />
+                        <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"  id="expert13" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" exts="jpg,jpeg,gif,png,bmp"  businessId="${sysId}" multiple="true"  sysKey="${expertKey}" typeId="13" maxcount="1"   auto="true" />
                         <u:show showId="show6" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="13"  />
                        </div>
                     </td>
