@@ -365,6 +365,28 @@
 				$("body").unbind("mousedown", onBodyDownSupplierType);
 
 			}
+			
+			//切换类表视图
+			function listShow(){
+				if ($("#showList").hasClass("dnone")) {
+          	$("#container").addClass("dnone");
+          	$("#showList").removeClass("dnone");
+          	
+          	$("#mapBut").removeClass("dnone");
+          	$("#listBut").addClass("dnone");
+          }
+			}
+			//切换地图
+			function mapShow(){
+         if ($("#container").hasClass("dnone")) {
+        		$("#container").removeClass("dnone");
+	        	$("#showList").addClass("dnone");
+	        	
+	        	$("#listBut").removeClass("dnone");
+          	$("#mapBut").addClass("dnone");
+          }
+			}
+
 		</script>
 	</head>
 	<!--面包屑导航开始-->
@@ -466,9 +488,34 @@
             </div>
             <div class="clear"></div>
 		     </form>
+		     
      	</div>
-			<div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
+     	<div class="col-md-12 tc">
+					 <button class="btn" onclick="listShow()" id="listBut">切换到列表</button>
+					 <button class="btn dnone" onclick="mapShow()" id="mapBut">切换到地图</button>
+				 </div>
+     	<div class="content table_box dnone" id="showList">
+				<table class="table table-bordered  table-condensed table-hover">
+					<thead>
+						<tr>
+							<th class="info w50">序号</th>
+							<th class="info">地区</th>
+							<th class="info">数量</th>
+						</tr>
+					</thead>
+					<tbody id="finance_attach_list_tbody_id">
+						<c:forEach items="${listMap}" var="list" varStatus="vs">
+							<tr>
+								<td class="tc w50">${vs.index + 1}</td>
+								<td class="tc"><a href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=${list.name }">${list.name }</a></td>
+								<td class="tc">${list.value}</td>
+							</tr>
+						</c:forEach>
+					</tbody>
+				</table>
+			</div>
 		</div>
+		<div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
 	</body>
 
 </html>
