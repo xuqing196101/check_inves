@@ -1,7 +1,9 @@
 package bss.dao.ob;
 
+import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectExample;
+import bss.model.ob.OBProjectResult;
 
 import java.util.List;
 import java.util.Map;
@@ -35,7 +37,7 @@ public interface OBProjectMapper {
      * @exception
      */
     OBProject selectByPrimaryKey(String id);
-
+    
     int updateByExampleSelective(@Param("record") OBProject record, @Param("example") OBProjectExample example);
 
     int updateByExample(@Param("record") OBProject record, @Param("example") OBProjectExample example);

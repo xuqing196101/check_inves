@@ -25,6 +25,13 @@ public class ConfirmInfoVo {
 	private Date confirmOvertime;
 	//产品列表
 	private List<OBProduct> productList;
+	private List<BidProductVo> bidProductList;
+	public List<BidProductVo> getBidProductList() {
+		return bidProductList;
+	}
+	public void setBidProductList(List<BidProductVo> bidProductList) {
+		this.bidProductList = bidProductList;
+	}
 	public String getQuoteName() {
 		return quoteName;
 	}

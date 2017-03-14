@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
+import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
@@ -26,6 +27,7 @@ import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
 
+import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -148,7 +150,13 @@ public class OBSupplierQuoteController {
 		oBProjectResult.setSupplierId(supplierId);
 		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
 		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
-		
+		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult);
+		double allProductPrice = 0;
+		if(confirmInfoVo != null) {
+			for(int i = 0;i < confirmInfoVo.getBidProductList().size();i++) {
+				allProductPrice += (confirmInfoVo.getBidProductList().get(i).getDealMoney()).doubleValue();
+			}
+		}
 		
 		// 根据供应商查询到的竞价结果信息
 		List<OBProjectResult> oBProjectResultList = oBProjectResultService
@@ -156,6 +164,11 @@ public class OBSupplierQuoteController {
 		
 		model.addAttribute("confirmStatus", confirmStatus);
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
+		model.addAttribute("allProductPrice", allProductPrice);
+		String jsonString = JSONArray.toJSONString(oBProjectResultList);
+		model.addAttribute("jsonString", jsonString);
+		
+		model.addAttribute("confirmInfoVo", confirmInfoVo);
 
 		return "bss/ob/supplier/confirmResult";
 	}

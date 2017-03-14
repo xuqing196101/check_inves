@@ -33,6 +33,15 @@
 			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
   </resultMap>
   
+  <!--  -->
+  <resultMap id="confirmInfoVo" type="bss.model.ob.ConfirmInfoVo" >
+    <result column="quoteName" property="quoteName" jdbcType="VARCHAR" />
+    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
+    <result column="STATUS" property="bidStatus" jdbcType="DECIMAL" />
+    <result column="COUNTOFFER_PRICE" property="bidRatio" jdbcType="DECIMAL" />
+    <result column="COUNTTOTAL_AMOUNT" property="confirmOvertime" jdbcType="DECIMAL" />
+  </resultMap>
+  
   
   <sql id="Example_Where_Clause" >
     <where >
@@ -125,6 +134,12 @@
     from T_BSS_OB_PROJECT_RESULT
     where SUPPLIER_ID = #{id,jdbcType=VARCHAR}
   </select>
+  <!-- 根据供应商查找竞价商品 -->
+  <select id="selectProductBySupplierId" resultType="bss.model.ob.BidProductVo" parameterType="bss.model.ob.OBProjectResult">
+    select PRODUCT.NAME,resultInfo.RESULTS_NUMBER,resultInfo.MY_OFFER_MONEY,resultInfo.REMARK FROM T_BSS_OB_PRODUCT product,T_BSS_OB_RESULTS_INFO resultInfo 
+		where RESULTINFO.PROJECT_ID=#{projectId} AND resultInfo.SUPPLIER_ID=#{supplierId} 
+			AND PRODUCT.ID=RESULTINFO.PRODUCT_ID
+  </select>
   <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
   <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
     select status from T_BSS_OB_PROJECT_RESULT 
@@ -162,6 +177,12 @@
 		SUPPLIER_ID,RANKING,STATUS 
 	ORDER BY 
 		RANKING
+  </select>
+  <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
+  <select id="selectInfoByPSId" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
+    SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION PROPORTION,OBPROJECT.DELIVERY_DEADLINE CONFIRMOVERTIME 
+	  FROM T_BSS_OB_PROJECT obProject,T_BSS_OB_PROJECT_RESULT obProjectResult 
+		WHERE obProjectResult.PROJECT_ID=obProject.ID AND obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

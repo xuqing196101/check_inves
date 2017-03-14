@@ -9,7 +9,7 @@
 	//倒计时方法
 	function getRTime(){
 		var getOverTime = $("#confirmOverTime").text();
-		var EndTime= new Date('2017-3-11 17:00:00'); //截止时间
+		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
 		var NowTime = new Date();
 		var t =EndTime.getTime() - NowTime.getTime();
 		if(t > 0) {
@@ -81,6 +81,10 @@
 		
 		//url saveConfirmQuoteInfo
 	}
+	
+	$(function() {
+		
+	});
 </script>
 </head>
 <body>
@@ -99,15 +103,18 @@
     
     <h2>竞价管理-结果查询
     	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
-    		竞价标题：测试-263842312346<input type="hidden" value=""/>
+    		竞价标题：${confirmInfoVo.quoteName }<input type="hidden" id="quoteName" value="${confirmInfoVo.quoteName }"/>
     	</span>
     </h2>
-    <h2 class="count_flow">排名：${projectResult.ranking }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+    <h2 class="count_flow">排名：${confirmInfoVo.ranking }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="hidden" id="quoteName" value="${confirmInfoVo.ranking }"/>
     	状态：中标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
     	中标比例:<input id="" name="" readonly="readonly" value="50" type="text" class="w5 mb0 ">%
     </h2>
     <h2 class="count_flow">确认结束时间：
-    	<span id="confirmOverTime">2016-1-1 12：12：12</span>
+    	<span id="confirmOverTime">
+    	<fmt:formatDate value="${confirmInfoVo.confirmOvertime }" pattern="yyyy-MM-dd HH:ss:mm"/>
+    	<input type="hidden" id="quoteName" value="${confirmInfoVo.confirmOvertime }"/>
+    	</span>
     </h2>
     <c:if test="${confirmStatus=='0'}">
      <div>
@@ -130,6 +137,7 @@
 		  <th class="info">成交总价（元）</th>
 		</tr>
 		</thead>
+		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
 		  <td class="tc">
 		  	1
@@ -139,12 +147,13 @@
 		  	<input type="hidden" name="productQuotePrice" value=""/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
-		  <td class="tc">台式计算机</td>
-		  <td class="tc" title="theProductCount">20</td>
-		  <td class="tc">100</td>
-		  <td class="tc" title="theProductPrice">100</td>
-		  <td class="tc" title="theProductTotalPrice">1000</td>
+		  <td class="tc">${bidproduct.productName }1212</td>
+		  <td class="tc" title="theProductCount">${bidproduct.productNum }</td>
+		  <td class="tc">${bidproduct.myOfferMoney }</td>
+		  <td class="tc" title="theProductPrice">${bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductTotalPrice">${bidproduct.dealMoney }</td>
 		</tr>
+		</c:forEach>
 		<tr>
 		  <td class="tc">2</td>
 		  <td class="tc">便携式式计算机</td>
