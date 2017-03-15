@@ -52,4 +52,6 @@ public interface ExpertCategoryMapper {
      * @return
      */
     ExpertCategory getCategoryByExpertId(@Param("expertId")String expertId, @Param("categoryId")String categoryId );
+
+	List<ExpertCategory> findByExpertId(String map);
 }

@@ -90,6 +90,11 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     public void deleteByMap(Map<String, Object> map) {
 	    mapper.deleteByMap(map);
     }
+	
+	@Override
+	public List<ExpertCategory> findByExpertId(String map) {
+		return mapper.findByExpertId(map);
+	}
 
     /**
      * 

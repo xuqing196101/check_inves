@@ -542,6 +542,12 @@ public class CategoryServiceImpl implements CategoryService {
         // TODO Auto-generated method stub
         return categoryMapper.findById(id);
     }
+    
+    @Override
+    public List<Category> findByParentId(String parentId) {
+    	// TODO Auto-generated method stub
+    	return categoryMapper.findByParentId(parentId);
+    }
 
     /**
      * @Title: findCategoryByType

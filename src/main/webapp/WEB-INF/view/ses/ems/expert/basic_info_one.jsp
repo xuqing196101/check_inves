@@ -964,9 +964,8 @@
                         <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
                         <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                             <select name="coverNote" id="coverNote" style="width:100%;"
-                                    <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
-                                    onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
-
+                                    <c:if test="${fn:contains(errorField,'是否缴纳社会保险')}">style="border: 1px solid #ef0000;"
+                                    onmouseover="errorMsg('是否缴纳社会保险')"</c:if>>
                                 <option
                                         <c:if test="${expert.coverNote eq '2'}">selected="selected"</c:if> value="2">否
                                 </option>
@@ -977,10 +976,10 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
-                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm">缴纳社保证明</span></span>
+                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm">退休证书或退休证明</span></span>
                         <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                             <c:if test="${fn:contains(errorField,'凭证上传')}">style="border: 1px solid #ef0000;"
-                             onmouseover="errorMsg('凭证上传')"</c:if>>
+                             <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;"
+                             onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
                                 <%--图片的大小   图片的类型  --%>
                             <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                       exts="${properties['file.picture.type']}" id="expert1" maxcount="1"
@@ -1518,7 +1517,7 @@
 
         $("#coverNote").change(function () {
             if ($(this).val() == "1") {
-                $("#sbzm").text("缴纳社会保险证明")
+                $("#sbzm").text("缴纳社会保险证明");
                 init_web_upload();
             } else {
 
