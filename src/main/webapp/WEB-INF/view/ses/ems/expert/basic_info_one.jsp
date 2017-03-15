@@ -961,11 +961,7 @@
                 <%--如果是民--%>
                 <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
-<<<<<<< HEAD
                         <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
-=======
-                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>缴纳社会保险证明</span>
->>>>>>> e676a5ef6fec9f7bce437b5ad7448d4f9c2de802
                         <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                             <select name="coverNote" id="coverNote" style="width:100%;"
                                     <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
@@ -1382,13 +1378,6 @@
                                 <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
                             <option
-<<<<<<< HEAD
-=======
-                                    <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
-                                    value="1">有
-                            </option>
-                            <option
->>>>>>> e676a5ef6fec9f7bce437b5ad7448d4f9c2de802
                                     <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
                                     value="2">无
                             </option>
