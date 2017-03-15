@@ -71,6 +71,8 @@ public interface ExpertCategoryService {
      * @return
      */
     ExpertCategory getExpertCategory(String expertId, String categoryId);
+
+	List<ExpertCategory> findByExpertId(String expertId);
 	
 	
 }

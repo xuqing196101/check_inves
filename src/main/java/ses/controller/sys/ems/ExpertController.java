@@ -165,7 +165,7 @@ public class ExpertController extends BaseController {
     private BidMethodService bidMethodService;
     @Autowired
     private UploadService uploadService;
-
+    
     /**
      * 
      * @Title: toExpert
@@ -637,78 +637,158 @@ public class ExpertController extends BaseController {
                 }
             }
         } else if("0".equals(type)) {
+
             // 0代表删除
             // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
             Map < String, Object > map = new HashMap < String, Object > ();
             map.put("expertId", expertId);
-            if(!isParent) {
-                // 代表是子节点,只需要在中间表中删除自身即可
-                map.put("categoryId", categoryId);
-                expertCategoryService.deleteByMap(map);
-                boolean isDel = false;
-                a: while(true) {
-                    Category cate1 = null;
-                    if (flag == null) {
-                        cate1 = categoryService.selectByPrimaryKey(categoryId);
-                    } else {
-                        cate1 = engCategoryService.selectByPrimaryKey(categoryId);
-                    }
-                    if(cate1 != null) {
-                        if(cate1.getParentId().equals(categoryId)) {
-                            isDel = true;
-                            break a;
-                        } else {
-                            categoryId = cate1.getParentId();
-                        }
-                    } else {
-                        isDel = true;
-                        break a;
-                    }
+            map.put("categoryId", categoryId);
+            expertCategoryService.deleteByMap(map);
+            
+            Category cate1 = categoryService.findById(categoryId);
+            if (cate1 != null) {
+            	List<Category> treeList = categoryService.findByParentId(cate1.getParentId());
+                String StrIds = "";
+                for (int i = 0; i < treeList.size(); i++) {
+                	StrIds += treeList.get(i).getId() + ",";
+        		}
+                
+                List<ExpertCategory> expertCate = expertCategoryService.findByExpertId(expertId);
+                for (int i = 0; i < expertCate.size(); i++) {
+                	String cateId = expertCate.get(i).getCategoryId();
+                	if ((i+1) == expertCate.size() && StrIds.indexOf(cateId) < 0) {
+                		
+                		Map < String, Object > map1 = new HashMap < String, Object > ();
+                		map1.put("expertId", expertId);
+                        map1.put("categoryId", cate1.getParentId());
+                        expertCategoryService.deleteByMap(map1);
+                        
+                        
+                        Category cate2 = categoryService.findById(cate1.getParentId());
+                        if (cate2 != null) {
+                        	List<Category> treeList2 = categoryService.findByParentId(cate2.getParentId());
+                        	String StrIds2 = "";
+                        	for (int j = 0; j < treeList2.size(); j++) {
+                        		StrIds2 += treeList2.get(j).getId() + ",";
+                        	}
+                        	
+                        	List<ExpertCategory> expertCate2 = expertCategoryService.findByExpertId(expertId);
+                        	for (int j = 0; j < expertCate2.size(); j++) {
+                        		String cateId2 = expertCate2.get(j).getCategoryId();
+                        		if ((j+1) == expertCate2.size() && StrIds2.indexOf(cateId2) < 0) {
+                        			
+                        			Map < String, Object > map2 = new HashMap < String, Object > ();
+                        			map2.put("expertId", expertId);
+                        			map2.put("categoryId", cate2.getParentId());
+                        			expertCategoryService.deleteByMap(map2);
+                        			
+                        			Category cate3 = categoryService.findById(cate2.getParentId());
+                        	        if (cate3 != null) {
+                        	        	List<Category> treeList3 = categoryService.findByParentId(cate3.getParentId());
+                        	        	String StrIds3 = "";
+                        	        	for (int z = 0; z < treeList3.size(); z++) {
+                        	        		StrIds3 += treeList3.get(z).getId() + ",";
+                        	        	}
+                        	        	
+                        	        	List<ExpertCategory> expertCate3 = expertCategoryService.findByExpertId(expertId);
+                        	        	for (int z = 0; z < expertCate3.size(); z++) {
+                        	        		String cateId3 = expertCate3.get(z).getCategoryId();
+                        	        		if ((z+1) == expertCate3.size() && StrIds3.indexOf(cateId3) < 0) {
+                        	        			
+                        	        			Map < String, Object > map3 = new HashMap < String, Object > ();
+                        	        			map3.put("expertId", expertId);
+                        	        			map3.put("categoryId", cate3.getParentId());
+                        	        			expertCategoryService.deleteByMap(map3);
+                        	        			
+                        	        		}
+                        	        	}
+                        				
+                        			}
+                        			
+                        			
+                        		}
+                        	}
+    						
+    					}
+                    
+                        
+        			}
                 }
-                if(isDel) {
-                    map.put("categoryId", categoryId);
-                    expertCategoryService.deleteByMap(map);
-                }
-            } else {
-                // 需要删除所有的子节点
-                List < ExpertCategory > allList = expertCategoryService.getListByExpertId(expertId, null);
-                Expert expert = new Expert();
-                expert.setId(expertId);
-                map.put("categoryId", categoryId);
-                expertCategoryService.deleteByMap(map);
-                for(ExpertCategory category: allList) {
-                    String id = category.getCategoryId();
-                    boolean isDel = false;
-                    a: while(true) {
-                        Category cate1 = null;
-                        if (flag == null) {
-                            cate1 = categoryService.selectByPrimaryKey(id);
-                        } else {
-                            cate1 = engCategoryService.selectByPrimaryKey(id);
-                        }
-                        if(cate1 != null) {
-                            if(cate1.getParentId().equals(categoryId)) {
-                                isDel = true;
-                                break a;
-                            } else {
-                                id = cate1.getParentId();
-                            }
-                        } else {
-                            if(id.equals(categoryId)) {
-                                isDel = true;
-                            }
-                            break a;
-                        }
-                    }
-                    if(isDel) {
-                        map.put("categoryId", id);
-                        expertCategoryService.deleteByMap(map);
-                    }
-                }
-            }
+			}
+            
+
+//            // 0代表删除
+//            // 判断是否是子节点,如果是父节点被取消则删除该节点的所有子节点
+//            Map < String, Object > map = new HashMap < String, Object > ();
+//            map.put("expertId", expertId);
+//            if(!isParent) {
+//                // 代表是子节点,只需要在中间表中删除自身即可
+//                map.put("categoryId", categoryId);
+//                expertCategoryService.deleteByMap(map);
+//                boolean isDel = false;
+//                a: while(true) {
+//                    Category cate1 = null;
+//                    if (flag == null) {
+//                        cate1 = categoryService.selectByPrimaryKey(categoryId);
+//                    } else {
+//                        cate1 = engCategoryService.selectByPrimaryKey(categoryId);
+//                    }
+//                    if(cate1 != null) {
+//                        if(cate1.getParentId().equals(categoryId)) {
+//                            isDel = true;
+//                            break a;
+//                        } else {
+//                            categoryId = cate1.getParentId();
+//                        }
+//                    } else {
+//                        isDel = true;
+//                        break a;
+//                    }
+//                }
+//                if(isDel) {
+//                    map.put("categoryId", categoryId);
+//                    expertCategoryService.deleteByMap(map);
+//                }
+//            } else {
+//                // 需要删除所有的子节点
+//                List < ExpertCategory > allList = expertCategoryService.getListByExpertId(expertId, null);
+//                Expert expert = new Expert();
+//                expert.setId(expertId);
+//                map.put("categoryId", categoryId);
+//                expertCategoryService.deleteByMap(map);
+//                for(ExpertCategory category: allList) {
+//                    String id = category.getCategoryId();
+//                    boolean isDel = false;
+//                    a: while(true) {
+//                        Category cate1 = null;
+//                        if (flag == null) {
+//                            cate1 = categoryService.selectByPrimaryKey(id);
+//                        } else {
+//                            cate1 = engCategoryService.selectByPrimaryKey(id);
+//                        }
+//                        if(cate1 != null) {
+//                            if(cate1.getParentId().equals(categoryId)) {
+//                                isDel = true;
+//                                break a;
+//                            } else {
+//                                id = cate1.getParentId();
+//                            }
+//                        } else {
+//                            if(id.equals(categoryId)) {
+//                                isDel = true;
+//                            }
+//                            break a;
+//                        }
+//                    }
+//                    if(isDel) {
+//                        map.put("categoryId", id);
+//                        expertCategoryService.deleteByMap(map);
+//                    }
+//                }
+//            }
         }
     }
-
+    
     /**
      *〈简述〉
      * 异步加载zTree
@@ -3084,21 +3164,34 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/isHaveCategory")
     public String isHaveCategory(String expertId) {
-        List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
-        for(ExpertCategory ec:list){
-        	Category cate = categoryService.findById(ec.getCategoryId());
-        	if(cate!=null&&cate.getParentId()!=null){
-            	Category cate1 = categoryService.findById(cate.getParentId());
-            	if(cate1!=null){
-            		Category cate2  = categoryService.findById(cate1.getParentId());
-            		if(cate2!=null){
-        				return "1";
-            		}
-            	}
-        	}
-    
-        }
-        return   "0";
+    	List<ExpertCategory> expertCate = expertCategoryService.findByExpertId(expertId);
+    	if (expertCate != null && expertCate.size()>0) {
+    		for (int i = 0; i < expertCate.size(); i++) {
+    			List<Category> treeList = categoryService.findByParentId(expertCate.get(i).getCategoryId());
+    			if (treeList == null || treeList.size() == 0) {
+    				return "1";
+				}
+			}
+		}
+    	return "0";
+    	
+    	
+    	
+//        List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
+//        for(ExpertCategory ec:list){
+//        	Category cate = categoryService.findById(ec.getCategoryId());
+//        	if(cate!=null&&cate.getParentId()!=null){
+//            	Category cate1 = categoryService.findById(cate.getParentId());
+//            	if(cate1!=null){
+//            		Category cate2  = categoryService.findById(cate1.getParentId());
+//            		if(cate2!=null){
+//        				return "1";
+//            		}
+//            	}
+//        	}
+//    
+//        }
+//        return   "0";
     }
 
     public String getParentId(String cateId, String flag) {
