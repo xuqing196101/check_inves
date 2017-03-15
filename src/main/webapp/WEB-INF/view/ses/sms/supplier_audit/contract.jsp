@@ -6,7 +6,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-		<title>品目合同</title>
+		<title>销售合同</title>
 		<script type="text/javascript">
 			$(function() {
 				var product = $("#a_id_1").text();
@@ -67,7 +67,7 @@
 			}
 		</script>
 		<script type="text/javascript">
-			function reason(auditField, auditFieldName) {
+			function reason(auditField, firstNode, secondNode, thirdNode, fourthNode) {
 				var supplierId = $("#supplierId").val();
 				var product = $("#pro_val").val();
 				var sales = $("#sal_val").val();
@@ -86,6 +86,21 @@
 				if(service != null && str == ""){
 					str = "服务";
 				}
+				var auditFieldName;
+				if(fourthNode != null && fourthNode !=""){
+					auditFieldName = fourthNode;
+					/* auditContent = fourthNode + "目录信息"; */
+				}else if(thirdNode !=null && thirdNode!=""){
+					auditFieldName = thirdNode;
+					/* auditContent = thirdNode + "目录信息"; */
+				}else if(secondNode !=null && secondNode !=""){
+					auditFieldName = secondNode;
+					/* auditContent = secondNode + "目录信息"; */
+				}else{
+					auditFieldName = firstNode;
+					/* auditContent = firstNode + "目录信息"; */
+				}
+				
 				var index = layer.prompt({
 						title: '请填写不通过的理由：',
 						formType: 2,
@@ -224,10 +239,10 @@
 							<a aria-expanded="false">供应商类型</a>
 							<i></i>
 						</li>
-						<li onclick="jump('items')">
+						<!-- <li onclick="jump('items')">
 							<a aria-expanded="false">产品类别</a>
 							<i></i>
-						</li>
+						</li> -->
 						<li onclick="jump('aptitude')">
 							<a aria-expanded="false">资质文件维护</a>
 							<i></i>

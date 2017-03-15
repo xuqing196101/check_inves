@@ -2596,27 +2596,56 @@ public class SupplierAuditController extends BaseSupplierController {
 		String id5 = DictionaryDataUtil.getId("CTAEGORY_TWO_BIL");
 		String id6 = DictionaryDataUtil.getId("CATEGORY_THREE_BIL");
 
-		List < Category > category = new ArrayList < Category > ();
+		/*List < Category > category = new ArrayList < Category > ();*/
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
-		for(SupplierItem item: itemsList) {
+		/*for(SupplierItem item: itemsList) {
 			Category cate = categoryService.findById(item.getCategoryId());
 			cate.setId(item.getId());
 			category.add(cate);
 		}
 		// 查询品目合同信息
-		List < ContractBean > contract = supplierService.getContract(category);
-		for(ContractBean con: contract) {
-			con.setOneContract(id1);
-			con.setTwoContract(id2);
-			con.setThreeContract(id3);
-			con.setOneBil(id4);
-			con.setTwoBil(id5);
-			con.setThreeBil(id6);
+		List < ContractBean > contract = supplierService.getContract(category);*/
+		// 查询已选中的节点信息
+		
+		List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+		for(SupplierItem item: itemsList) {
+			String categoryId = item.getCategoryId();
+			SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, null);
+			
+			if(cateTree != null && cateTree.getRootNode() != null) {
+				cateTree.setItemsId(item.getId());
+				allTreeList.add(cateTree);
+			}
+			
+			
 		}
+		for(SupplierCateTree item: allTreeList) {
+			item.setOneContract(id1);
+			item.setTwoContract(id2);
+			item.setThreeContract(id3);
+			item.setOneBil(id4);
+			item.setTwoBil(id5);
+			item.setThreeBil(id6);
+		}
+		for(SupplierCateTree cate: allTreeList) {
+			cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
+			cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
+			cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
+			cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
+			cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+			String typeName = "";
+			if(supplierTypeId.equals("PRODUCT")) {
+				typeName = "生产";
+			} else if(supplierTypeId.equals("SALES")) {
+				typeName = "销售";
+			}
+			cate.setRootNode(cate.getRootNode() + typeName);
+		}
+		
 		// 分页,pageSize == 10
 		PageInfo < SupplierItem > pageInfo = new PageInfo < SupplierItem > (itemsList);
 		model.addAttribute("result", pageInfo);
-		model.addAttribute("contract", contract);
+		model.addAttribute("contract", allTreeList);
 		// 年份
 		List < Integer > years = supplierService.getThressYear();
 		model.addAttribute("years", years);

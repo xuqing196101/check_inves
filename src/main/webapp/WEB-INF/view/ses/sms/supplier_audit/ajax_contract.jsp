@@ -77,13 +77,17 @@
 			<input type="hidden" name="supplierTypeId" id="supplierTypeId" value="${supplierTypeId}">
 			<table class="table table-bordered">
 				<tr>
-					<td class="tc info"> 品目名称</td>
+					<td class="tc info" colspan="4"> 品目名称</td>
 					<td colspan="3" class="tc info">合同上传（体现甲乙双方盖章及工程名称、地点的相关页）</td>
 					<td colspan="3" class="tc info">收款进账单</td>
 					<td class="tc info w50" rowspan="2">操作</td>
 				</tr>
 				<tr>
-					<td class="tc info"> 末级节点</td>
+					<!-- <td class="info tc w100">类别</td> -->
+		      <td class="info tc">大类</td>
+		      <td class="info tc">中类</td>
+		      <td class="info tc">小类</td>
+		      <td class="info tc">名称</td>
 					<c:forEach items="${years}" var="year">
 						<td class="tc info">${year}</td>
 					</c:forEach>
@@ -93,29 +97,33 @@
 				</tr>
 				<c:forEach items="${contract}" var="obj" varStatus="vs">
 					<tr>
-						<td class="">${obj.name }</td>
+						<%-- <td class="tc">${obj.rootNode}</td> --%>
+				    <td class="">${obj.firstNode}</td>
+				    <td class="">${obj.secondNode}</td>
+				    <td class="">${obj.thirdNode}</td>
+				    <td class="">${obj.fourthNode}</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-1}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneContract}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-2}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoContract}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-3}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeContract}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-4}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.oneBil}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-5}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.twoBil}" />
 						</td>
 						<td class="">
-							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.id}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
+							<u:show showId="${fileShow}${(vs.index + 1)*6-6}" delete="false" businessId="${obj.itemsId}" sysKey="${sysKey}" typeId="${obj.threeBil}" />
 						</td>
 						<td class="tc w50">
-							<a onclick="reason('${obj.id}','${obj.name }');" id="${obj.id}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,obj.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,obj.id)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
-							<p id="${obj.id}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-							<c:if test="${fn:contains(passedField,obj.id)}">
+							<a onclick="reason('${obj.itemsId}','${obj.firstNode}','${obj.secondNode}','${obj.thirdNode}','${obj.fourthNode}');" id="${obj.itemsId}_hidden" class="editItem"><c:if test="${!fn:contains(passedField,obj.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if><c:if test="${fn:contains(passedField,obj.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
+							<p id="${obj.itemsId}_show"><img src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
+							<c:if test="${fn:contains(passedField,obj.itemsId)}">
 								<img src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 							</c:if>
 						</td>
