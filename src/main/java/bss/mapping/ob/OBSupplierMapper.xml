@@ -107,27 +107,28 @@
 		T_BSS_OB_PRODUCT T1
 		LEFT JOIN
 		(select
-		PRODUCT_ID,count(ID) NN from T_BSS_OB_SUPPLIER WHERE IS_DELETED = 0
+		PRODUCT_ID,count(ID) NN from T_BSS_OB_SUPPLIER WHERE IS_DELETED = 0 AND CERT_VALID_PERIOD &gt; SYSDATE 
 		GROUP BY PRODUCT_ID ) T2
 		ON
 		T1.ID = T2.PRODUCT_ID
 	</select>
 
 	<!-- 根据产品id查询供应商列表 所有 -->
-	<select id="selectByProductId" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="selectByProductId" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
-		where IS_DELETED = 0
-		<if test="productId != null">
+		WHERE IS_DELETED = 0
+		<if test="productId != null and productId != ''">
 			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierName != null and supplierName != ''">
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
 		</if>
 	</select>
 
 	<!-- 根据id查询供应商列表 过期 -->
-	<select id="selectByProductId1" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="selectByProductId1" resultMap="BaseResultMap" >
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
@@ -135,8 +136,11 @@
 		CERT_VALID_PERIOD &lt; SYSDATE
 		AND
 		IS_DELETED = 0
-		<if test="productId != null">
+		<if test="productId != null and productId != ''">
 			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierName != null and supplierName != ''">
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
 		</if>
 	</select>
 	
@@ -157,8 +161,7 @@
 	</select>
 	
 	<!-- 根据id查询供应商列表 未过期 -->
-	<select id="selectByProductId2" resultMap="BaseResultMap"
-		parameterType="java.lang.String">
+	<select id="selectByProductId2" resultMap="BaseResultMap">
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
@@ -166,8 +169,11 @@
 		CERT_VALID_PERIOD &gt; SYSDATE
 		AND
 		IS_DELETED = 0
-		<if test="productId != null">
-			and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		<if test="productId != null and productId != ''">
+			AND PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+		</if>
+		<if test="supplierName != null and supplierName != ''">
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
 		</if>
 	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"

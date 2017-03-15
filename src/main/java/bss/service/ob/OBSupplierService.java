@@ -27,7 +27,7 @@ public interface OBSupplierService {
 	 * @return List<OBSupplier>
 	 * @exception
 	 */
-	List<OBSupplier> selectByProductId(String id, Integer page, Integer status);
+	List<OBSupplier> selectByProductId(String id, Integer page, Integer status,String supplierName);
 
 	/**
 	 * 

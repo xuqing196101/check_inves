@@ -120,11 +120,15 @@ public class OBSupplierController {
 		}
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
-		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-				status);
+		String id = request.getParameter("prodid") == null ? "" : request.getParameter("prodid");
+		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
+		List<OBSupplier> list = oBSupplierService.selectByProductId(id, page,
+				status,supplierName);
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("status", status);
+		model.addAttribute("prodid", id);
+		model.addAttribute("supplierName", supplierName);
 		return "bss/ob/addSupplier/supplierlist";
 	}
 

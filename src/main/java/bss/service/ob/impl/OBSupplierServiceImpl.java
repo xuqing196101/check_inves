@@ -21,17 +21,17 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 
 	@Override
 	public List<OBSupplier> selectByProductId(String id, Integer page,
-			Integer status) {
+			Integer status,String supplierName) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBSupplier> list = null;
 		if (status == 1) {
-			list = oBSupplierMapper.selectByProductId1(id);
+			list = oBSupplierMapper.selectByProductId1(id,supplierName);
 		} else if (status == 2) {
-			list = oBSupplierMapper.selectByProductId2(id);
+			list = oBSupplierMapper.selectByProductId2(id,supplierName);
 		}else{
-			list = oBSupplierMapper.selectByProductId(id);
+			list = oBSupplierMapper.selectByProductId(id,supplierName);
 		}
 		return list;
 	}

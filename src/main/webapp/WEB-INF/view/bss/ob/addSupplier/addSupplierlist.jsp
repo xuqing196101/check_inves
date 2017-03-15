@@ -95,7 +95,23 @@
 
 	/* 供应商列表 */
 	function supplierlist(){
-		window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html";
+		var id = [];
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		if(id.length == 1) {
+			window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html?prodid=" + id;
+		} else if(id.length > 1) {
+			layer.alert("只能选择一个", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		} else {
+			layer.alert("请选择一个定型产品", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
 	}
 	</script>
 </head>
@@ -170,10 +186,10 @@
 		  <td><a href="javascript:void(0)">${product.name }</a></td>
 		  <td class="tl">${product.categoryParent.name }</td>
 		  <td class="tl">${product.category.name }</td>
-		  <td class="tc">
+		  <td class="tc"><a href = "${pageContext.request.contextPath}/obSupplier/supplier.html?status=2&&prodid=${product.id }">
 		  	<c:forEach items="${numlist }" var="num">
 		  		<c:if test="${num.productId == product.id }">${num.nCount }</c:if>
-		  	</c:forEach>
+		  	</c:forEach></a>
 		  </td>
 		</tr>
 		</c:forEach>

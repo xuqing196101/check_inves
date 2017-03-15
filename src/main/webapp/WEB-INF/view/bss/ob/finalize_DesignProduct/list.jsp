@@ -109,7 +109,7 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?proid=" + id[0] + "&&type=1";
+			window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?proid=" + id + "&&type=1";
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
 				offset: ['222px', '390px'],
@@ -202,7 +202,7 @@
 		  <td><a href="javascript:void(0)">${product.name}</a></td>
 		  <td class="tl">${product.categoryParent.name }</td>
 		  <td class="tl">${product.category.name }</td>
-		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?prodid=${product.id }">
+		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?status=2&&prodid=${product.id }">
 		  	<c:forEach items="${numlist }" var="num">
 		  		<c:if test="${num.productId == product.id }">${num.nCount }</c:if>
 		  	</c:forEach>

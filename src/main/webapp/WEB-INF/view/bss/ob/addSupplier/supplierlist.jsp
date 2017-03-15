@@ -31,8 +31,9 @@ $(function() {
 
 //重置
 function resetQuery() {
+	var prodid = $("#prodid").val();
 	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
-	window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html";
+	window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html?prodid="+prodid;
 }
 
 /** 全选全不选 */
@@ -204,7 +205,12 @@ function openViewDIvs(id){
 	<div class="container">
     <div class="search_detail">
        <form action="${pageContext.request.contextPath}/obSupplier/supplier.html" method="post" class="mb0" id = "form1">
+    	<input id = "prodid" name = "prodid" value = "${prodid }" style="display: none;">
     	<ul class="demand_list">
+    	<li>
+	    	<label class="fl">供应商名称：</label>
+			<input type="text" id="" class="" name = "supplierName" value="${supplierName }"/>
+	     </li>
 		<li>
 			<label class="fl">供应商证书状态：</label>
 			<select class="w178" name = "status">

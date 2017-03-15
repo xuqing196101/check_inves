@@ -47,7 +47,7 @@ public interface OBSupplierMapper {
 	 * @return List<OBSupplier>
 	 * @exception
 	 */
-	List<OBSupplier> selectByProductId(@Param("productId") String productId);
+	List<OBSupplier> selectByProductId(@Param("productId") String productId,@Param("supplierName") String supplierName);
 
 	/**
 	 * 
@@ -60,7 +60,7 @@ public interface OBSupplierMapper {
 	 * @return List<OBSupplier>
 	 * @exception
 	 */
-	List<OBSupplier> selectByProductId1(@Param("productId") String productId);
+	List<OBSupplier> selectByProductId1(@Param("productId") String productId,@Param("supplierName") String supplierName);
 
 	/**
 	 * 
@@ -74,7 +74,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 
-	List<OBSupplier> selectByProductId2(@Param("productId") String productId);
+	List<OBSupplier> selectByProductId2(@Param("productId") String productId,@Param("supplierName") String supplierName);
 	/**
 	 * 
 	 * Description:  证书未过期
@@ -90,7 +90,7 @@ public interface OBSupplierMapper {
 	Integer countByProductId2(Map<String,Object> map);
 	/**
 	 * 
-	 * Description: 查询产品对应的供应商数量
+	 * Description: 查询产品对应的合格供应商数量
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月8日

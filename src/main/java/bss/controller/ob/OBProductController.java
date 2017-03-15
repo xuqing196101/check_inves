@@ -164,15 +164,15 @@ public class OBProductController {
 		if (page == null) {
 			page = 1;
 		}
-		int status = request.getParameter("status") == null ? 0 : Integer
-				.parseInt(request.getParameter("status"));
-		String id = request.getParameter("prodid");
+		int status = request.getParameter("status") == null ? 0 : Integer.parseInt(request.getParameter("status"));
+		String id = request.getParameter("prodid") == null ? "" : request.getParameter("prodid");
+		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(id, page,
-				status);
+				status,supplierName);
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("prodid", id);
-		model.addAttribute("status", status);
+		model.addAttribute("supplierName", supplierName);
 		return "bss/ob/finalize_DesignProduct/qualifiedSupplierlist";
 	}
 

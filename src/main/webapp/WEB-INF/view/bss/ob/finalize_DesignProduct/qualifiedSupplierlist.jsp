@@ -28,11 +28,43 @@ $(function() {
     });
   });
 
+
+/* 查看图片 */
+function openViewDIvs(id){
+	
+	var params={"businessId":id,"typeId":46,"key":2};
+	$.ajax({
+		url: globalPath + '/file/displayFile.do',
+		data: params,
+		async: false,
+		dataType: 'json',
+		success:function(datas){
+			var html ="<ul>";
+			for(var i = 0;i < datas.length;i++){
+				var url='${pageContext.request.contextPath }/file/viewFile.html?id='+datas[i].id+'&key=2';
+				html+='<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
+				+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
+			}
+			html += "</ul>";
+			var height = document.documentElement.clientHeight;
+			var index = layer.open({
+				  type: 1,
+				  title: '图片查看',
+				  skin: 'layui-layer-pic',
+				  shadeClose: true,
+				  area: [$(document).width() +'px',height + "px"],
+				  offset:['0px','0px'],
+				  content: html
+				});
+		}
+	});
+	
+
 //重置
 function resetQuery() {
 	var prodid = $("#prodid").val();
 	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
-	window.location.href = "${pageContext.request.contextPath}/product/supplier.html?prodid="+prodid;
+	window.location.href = "${pageContext.request.contextPath}/product/supplier.html?status=2&&prodid="+prodid;
 }
 </script>
 </head>
@@ -55,13 +87,9 @@ function resetQuery() {
     	<input id = "prodid" name = "prodid" value = "${prodid }" style="display: none;">
     	<ul class="demand_list">
 		<li>
-			<label class="fl">供应商证书状态：</label>
-			<select class="w178" name = "status">
-				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
-	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>过期</option>
-	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
-			</select>
-		</li>
+	    	<label class="fl">供应商名称：</label>
+			<input type="text" id="" class="" name = "supplierName" value="${supplierName }"/>
+	     </li>
 		<button type="submit" class="btn">查询</button>
 		<button type="reset" class="btn" onclick="resetQuery()">重置</button>  	
 		</ul>
@@ -80,6 +108,7 @@ function resetQuery() {
 		  <th class="w50 info">序号</th>
 		  <th class="info">供应商名称</th>
 		  <th class="info">证书有效期至</th>
+		  <th class="info">资质证书内容</th>
 		  <th class="info">是否过期</th>
 		</tr>
 		</thead>
@@ -90,6 +119,7 @@ function resetQuery() {
 				<td class="tc">
 					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>
+				<td class="tc"><button type="button" onclick="openViewDIvs('${supplier.id }');" class="btn">查看</button></td>
 				<td class="tc">
 				<c:set var="nowDate" value="<%=System.currentTimeMillis()%>"></c:set>
 					<c:choose>  
