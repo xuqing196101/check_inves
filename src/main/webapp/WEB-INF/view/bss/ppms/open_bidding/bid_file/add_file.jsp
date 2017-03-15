@@ -289,6 +289,7 @@ function getTaskTime(strDate) {
     <div class="clear"></div>
     </div>
   </div>
+  <div class="container">
  </c:if>
 <c:if test="${process != 1 }">
 	 <div class="col-md-12 p0">
@@ -435,6 +436,7 @@ function getTaskTime(strDate) {
             <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回重报 "></input>
              <input type="button" class="btn btn-windows git " onclick="updateAudit('4')" value="修改报备 "></input> 
             <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+          </div>
           </div>
          </c:if>
        
