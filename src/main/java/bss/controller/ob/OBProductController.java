@@ -1,6 +1,5 @@
 package bss.controller.ob;
 
-import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +15,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Category;
 import ses.model.bms.User;
-import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
@@ -140,7 +138,9 @@ public class OBProductController {
 			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
 			Category category = categoryService.findById(obProduct.getCategoryId());
 			model.addAttribute("obProduct", obProduct);
-			model.addAttribute("categoryName", category.getName());
+			if(category != null){
+				model.addAttribute("categoryName", category.getName());
+			}
 			return "bss/ob/finalize_DesignProduct/edit";
 		} else {
 			return "bss/ob/finalize_DesignProduct/publish";
@@ -214,6 +214,7 @@ public class OBProductController {
 	 */
 	@RequestMapping("/add")
 	public String add(Model model, HttpServletRequest request) {
+		boolean flag = true;
 		HttpSession session = request.getSession();
 		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
 		String name = request.getParameter("name") == null ? "" :request.getParameter("name");
@@ -250,8 +251,29 @@ public class OBProductController {
 		obProduct.setCreaterId(userId);
 		obProduct.setStatus(i);
 		obProduct.setIsDeleted(0);
-		oBProductService.insertSelective(obProduct);
-		return "redirect:/product/list.html";
+		if(oBProductService.yzProductCode(code,null) > 0){
+			flag = false;
+			model.addAttribute("error_code","产品代码不能重复");
+		}
+		if(oBProductService.yzProductName(name,null) > 0){
+			flag = false;
+			model.addAttribute("error_name","产品名称不能重复");
+		}
+		if(standardModel.length() > 1000){
+			flag = false;
+			model.addAttribute("error_standardModel","不能超过1000个字");
+		}
+		if(qualityTechnicalStandard.length() > 1000){
+			flag = false;
+			model.addAttribute("error_quality","不能超过1000个字");
+		}
+		if(flag == false){
+			model.addAttribute("obProduct",obProduct);
+			return "bss/ob/finalize_DesignProduct/publish";
+		}else{
+			oBProductService.insertSelective(obProduct);
+			return "redirect:/product/list.html";
+		}
 	}
 	
 	/**
@@ -280,14 +302,32 @@ public class OBProductController {
 		if(code.equals("")){
 			model.addAttribute("errorCode", "产品代码不能为空");
 			flag = false;
+		}else{
+			if(oBProductService.yzProductCode(code,id) > 0){
+				model.addAttribute("errorCode", "产品代码不能重复");
+				flag = false;
+			}
 		}
 		if(name.equals("")){
 			model.addAttribute("errorName", "产品名称不能为空");
 			flag = false;
+		}else{
+			if(oBProductService.yzProductName(name,id) > 0){
+				model.addAttribute("errorName", "产品名称不能重复");
+				flag = false;
+			}
 		}
 		if(procurementId.equals("")){
 			model.addAttribute("errorProcurement", "采购机构不能为空");
 			flag = false;
+		}
+		if(standardModel.length() > 1000){
+			flag = false;
+			model.addAttribute("error_standardModel","不能超过1000个字");
+		}
+		if(qualityTechnicalStandard.length() > 1000){
+			flag = false;
+			model.addAttribute("error_quality","不能超过1000个字");
 		}
 		OBProduct obProduct = new OBProduct();
 		obProduct.setId(id);
@@ -316,7 +356,9 @@ public class OBProductController {
 		}else{
 			Category ccategory = categoryService.findById(obProduct.getCategoryId());
 			model.addAttribute("obProduct", obProduct);
-			model.addAttribute("categoryName", ccategory.getName());
+			if(ccategory != null){
+				model.addAttribute("categoryName", ccategory.getName());
+			}
 			return "bss/ob/finalize_DesignProduct/edit";
 		}
 	}

@@ -47,7 +47,8 @@ public interface OBSupplierMapper {
 	 * @return List<OBSupplier>
 	 * @exception
 	 */
-	List<OBSupplier> selectByProductId(@Param("productId") String productId,@Param("supplierName") String supplierName);
+	List<OBSupplier> selectByProductId(@Param("productId") String productId,
+			@Param("supplierName") String supplierName);
 
 	/**
 	 * 
@@ -60,7 +61,8 @@ public interface OBSupplierMapper {
 	 * @return List<OBSupplier>
 	 * @exception
 	 */
-	List<OBSupplier> selectByProductId1(@Param("productId") String productId,@Param("supplierName") String supplierName);
+	List<OBSupplier> selectByProductId1(@Param("productId") String productId,
+			@Param("supplierName") String supplierName);
 
 	/**
 	 * 
@@ -74,7 +76,9 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 
-	List<OBSupplier> selectByProductId2(@Param("productId") String productId,@Param("supplierName") String supplierName);
+	List<OBSupplier> selectByProductId2(@Param("productId") String productId,
+			@Param("supplierName") String supplierName);
+
 	/**
 	 * 
 	 * Description:  证书未过期
@@ -87,7 +91,8 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 
-	Integer countByProductId2(Map<String,Object> map);
+	Integer countByProductId2(Map<String, Object> map);
+
 	/**
 	 * 
 	 * Description: 查询产品对应的合格供应商数量
@@ -100,6 +105,34 @@ public interface OBSupplierMapper {
 	 */
 	List<OBSupplier> selectSupplierNum();
 
+	/**
+	 * 	
+	 * Description: 验证供应商唯一
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param supplierId
+	 * @param  @param productId
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzSupplierName(@Param("supplierId") String supplierId,
+			@Param("productId") String productId,@Param("id") String id);
+
+	/**
+	 * 
+	 * Description: 验证是否上传图片
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param id
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzShangchuan(String id);
+	
 	OBSupplier selectByPrimaryKey(String id);
 
 	int updateByExampleSelective(@Param("record") OBSupplier record,

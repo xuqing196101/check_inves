@@ -60,4 +60,14 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 	public int updateByPrimaryKeySelective(OBSupplier record) {
 		return oBSupplierMapper.updateByPrimaryKeySelective(record);
 	}
+
+	@Override
+	public int yzSupplierName(String supplierId, String productId,String id) {
+		return oBSupplierMapper.yzSupplierName(supplierId, productId,id);
+	}
+
+	@Override
+	public int yzShangchuan(String id) {
+		return oBSupplierMapper.yzShangchuan(id);
+	}
 }

@@ -48,8 +48,9 @@
 		});
 	}
 	
-	
-	
+	function yichu(){
+		$("#shangchuan").html("");
+	}
 	</script>
 </head>
 <body>
@@ -68,6 +69,7 @@
    <div class="container container_box">
    <form action="${pageContext.request.contextPath}/obSupplier/edit.html" method="post">
    <input name = "id" value = "${obSupplier.id }" style="display: none;">
+   <input name = "productId" value = "${obSupplier.productId }" style="display: none;">
    <div>
     <h2 class="count_flow">修改信息</h2>
    <ul class="ul_list">
@@ -137,9 +139,10 @@
 	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>资质证书：</span>
-        <div class="input-append input_group col-sm-12 col-xs-12 p0 " >
+        <div class="input-append input_group col-sm-12 col-xs-12 p0 " onmousedown="yichu()">
         <u:upload id="post_attach_up" businessId="${obSupplier.id }" sysKey="2" typeId="46" multiple="true" auto="true" />
 		<u:show showId="post_attach_show" businessId="${obSupplier.id }" sysKey="2" typeId="46"/>
+     	<div class="cue" id = "shangchuan">${errorShangchuan }</div>
      	</div>
 	 </li>
 	 

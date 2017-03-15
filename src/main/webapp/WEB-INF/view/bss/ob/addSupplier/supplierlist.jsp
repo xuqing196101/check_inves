@@ -102,7 +102,7 @@ function del(){
 						ids: ids
 					},
 					success: function() {
-						window.location.href = "${pageContext.request.contextPath }/obSupplier/supplier.html";
+						window.location.href = "${pageContext.request.contextPath }/obSupplier/supplier.html?prodid=${prodid }";
 					},
 					error: function() {
 
@@ -133,7 +133,7 @@ function edit() {
 		var status = $("#"+id+"status").html();
 		var aa=status.replace(/\s+/g,"");
 		if(aa == "已过期"){
-			window.location.href = "${pageContext.request.contextPath }/obSupplier/toedit.html?suppid=" + id ;
+			window.location.href = "${pageContext.request.contextPath }/obSupplier/toedit.html?status=${status}&&suppid=" + id ;
 		}else {
 			layer.alert("只能修改已过期的供应商", {
 				offset: ['222px', '390px'],
@@ -182,9 +182,6 @@ function openViewDIvs(id){
 				});
 		}
 	});
-	
-	
-	
 
 }
 </script>

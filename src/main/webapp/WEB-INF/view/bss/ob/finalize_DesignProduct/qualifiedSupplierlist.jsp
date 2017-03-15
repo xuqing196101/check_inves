@@ -4,6 +4,7 @@
 <html>
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
+		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<title>供应商列表页面</title>
 <script type="text/javascript">
 /* 分页 */
@@ -58,7 +59,7 @@ function openViewDIvs(id){
 				});
 		}
 	});
-	
+}
 
 //重置
 function resetQuery() {

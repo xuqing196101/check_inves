@@ -22,7 +22,7 @@
 					});
 				} 
 			 $("#orgId").select2();
-			 
+			 $("#orgId").select2("val", "${obProduct.procurementId}");
 			}
 		});
 		
@@ -40,7 +40,7 @@
 					});
 				} 
 			 $("#catgory").select2();
-			 
+			 $("#catgory").select2("val", "${obProduct.procurementId}");
 			}
 		});
 	});
@@ -114,13 +114,13 @@
 				  <tr>
 				    <td class="info" width="18%"><div class="star_red">*</div>产品代码</td>
 				    <td width="32%">
-				    	<input id="code" name="" value="" type="text" class="w230 mb0 border0" onmousedown="codeover()">
-				    	<div class="star_red" id = "pcode"></div>
+				    	<input id="code" name="" value="${obProduct.code }" type="text" class="w230 mb0" onmousedown="codeover()">
+				    	<div class="star_red" id = "pcode">${error_code }</div>
 				    </td>
 				    <td class="info" width="18%"><div class="star_red">*</div>产品名称</td>
 				    <td width="32%">
-				    	<input id="name" name="" value="" type="text" class="w230 mb0 border0" onmousedown="nameover()">
-				    	<div class="star_red" id = "pname"></div>
+				    	<input id="name" name="" value="${obProduct.name }" type="text" class="w230 mb0" onmousedown="nameover()">
+				    	<div class="star_red" id = "pname">${error_name }</div>
 				    </td>
 				  </tr>
 				  <tr>
@@ -145,16 +145,18 @@
 				    <td class="info">规格型号</td>
 				    <td colspan="3">
 				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
-        					<textarea id = "standardModel" name="" class="w100p" style="height:130px"></textarea>
+        					<textarea id = "standardModel" name="" class="w100p" style="height:130px">${obProduct.standardModel }</textarea>
        					</div>
+       					<div class="star_red">${error_standardModel }</div>
 				   	</td>
 				  </tr>
 				  <tr>
 				    <td class="info">质量技术标准</td>
 				    <td colspan="3">
 				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
-        					<textarea id = "qualityTechnicalStandard" name="" class="w100p" style="height:130px"></textarea>
+        					<textarea id = "qualityTechnicalStandard" name="" class="w100p" style="height:130px">${obProduct.qualityTechnicalStandard }</textarea>
        					</div>
+       					<div class="star_red">${error_quality }</div>
 				   	</td>
 				  </tr>
 				 </tbody>

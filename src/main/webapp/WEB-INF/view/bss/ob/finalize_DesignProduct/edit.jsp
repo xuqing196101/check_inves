@@ -178,6 +178,7 @@ $(document).ready(function(){
 				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
         					<textarea id = "standardModel" name=""  class="col-md-12 col-sm-12 col-xs-12" style="height:130px">${obProduct.standardModel }</textarea>
        					</div>
+       					<div class="star_red">${error_standardModel }</div>
 				   	</td>
 				  </tr>
 				  <tr>
@@ -186,6 +187,7 @@ $(document).ready(function(){
 				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
         					<textarea id = "qualityTechnicalStandard" name="" class="col-md-12 col-sm-12 col-xs-12" style="height:130px">${obProduct.qualityTechnicalStandard }</textarea>
        					</div>
+       					<div class="star_red">${error_quality }</div>
 				   	</td>
 				  </tr>
 				 </tbody>

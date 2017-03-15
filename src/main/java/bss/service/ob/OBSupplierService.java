@@ -2,6 +2,8 @@ package bss.service.ob;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.ob.OBSupplier;
 
 /**
@@ -27,7 +29,8 @@ public interface OBSupplierService {
 	 * @return List<OBSupplier>
 	 * @exception
 	 */
-	List<OBSupplier> selectByProductId(String id, Integer page, Integer status,String supplierName);
+	List<OBSupplier> selectByProductId(String id, Integer page, Integer status,
+			String supplierName);
 
 	/**
 	 * 
@@ -52,43 +55,71 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	void deleteByPrimaryKey(String id);
-	
+
 	/**
 	 * 
 	 * Description: 插入非空数据
 	 * 
-	 * @author  zhang shubin
-	 * @version  2017年3月9日 
-	 * @param  @param record
-	 * @param  @return 
-	 * @return int 
+	 * @author zhang shubin
+	 * @version 2017年3月9日
+	 * @param @param record
+	 * @param @return
+	 * @return int
 	 * @exception
 	 */
-	 int insertSelective(OBSupplier record);
-	 
+	int insertSelective(OBSupplier record);
+
 	/**
 	 * 
 	 * Description: 根据主键ID查询
 	 * 
-	 * @author  zhang shubin
-	 * @version  2017年3月9日 
-	 * @param  @param id
-	 * @param  @return 
-	 * @return OBSupplier 
+	 * @author zhang shubin
+	 * @version 2017年3月9日
+	 * @param @param id
+	 * @param @return
+	 * @return OBSupplier
 	 * @exception
 	 */
-	 OBSupplier selectByPrimaryKey(String id);
-	 
-	 /**
-	  * 
-	  * Description: 修改
-	  * 
-	  * @author  zhang shubin
-	  * @version  2017年3月9日 
-	  * @param  @param record
-	  * @param  @return 
-	  * @return int 
-	  * @exception
-	  */
-	 int updateByPrimaryKeySelective(OBSupplier record);
+	OBSupplier selectByPrimaryKey(String id);
+
+	/**
+	 * 
+	 * Description: 修改
+	 * 
+	 * @author zhang shubin
+	 * @version 2017年3月9日
+	 * @param @param record
+	 * @param @return
+	 * @return int
+	 * @exception
+	 */
+	int updateByPrimaryKeySelective(OBSupplier record);
+
+	/**
+	 * 
+	 * Description: 验证供应商唯一
+	 * 
+	 * @author zhang shubin
+	 * @version 2017年3月15日
+	 * @param @param supplierId
+	 * @param @param productId
+	 * @param @return
+	 * @return int
+	 * @exception
+	 */
+	int yzSupplierName(String supplierId, String productId,String id);
+	
+	/**
+	 * 
+	 * Description: 验证是否上传图片
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param id
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzShangchuan(String id);
+
 }

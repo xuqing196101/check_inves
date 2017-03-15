@@ -401,4 +401,23 @@
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 验证产品名称唯一 -->
+  <select id="yzProductName" resultType="Integer">
+  	SELECT COUNT(ID) FROM T_BSS_OB_PRODUCT WHERE NAME = #{name,jdbcType=VARCHAR}
+  	AND IS_DELETED = 0
+  	<if test="id != null">
+  		AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
+  <!-- 验证产品代码唯一 -->
+  <select id="yzProductCode" resultType="Integer">
+  	SELECT COUNT(ID) FROM T_BSS_OB_PRODUCT WHERE CODE = #{code,jdbcType=VARCHAR}
+  	AND IS_DELETED = 0
+  	<if test="id != null">
+  		AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
 </mapper>

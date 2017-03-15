@@ -8,8 +8,8 @@ import org.springframework.stereotype.Service;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
-import common.dao.FileUploadMapper;
 
+import common.dao.FileUploadMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.model.ob.OBProduct;
 import bss.service.ob.OBProductService;
@@ -51,6 +51,16 @@ public class OBProductServiceImpl implements OBProductService {
 	@Override
 	public int updateByPrimaryKeySelective(OBProduct record) {
 		return oBProductMapper.updateByPrimaryKeySelective(record);
+	}
+
+	@Override
+	public int yzProductCode(String code,String id) {
+		return oBProductMapper.yzProductCode(code,id);
+	}
+
+	@Override
+	public int yzProductName(String name,String id) {
+		return oBProductMapper.yzProductName(name,id);
 	}
 
 }

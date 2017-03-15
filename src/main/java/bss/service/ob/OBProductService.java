@@ -80,4 +80,30 @@ public interface OBProductService {
 	 * @exception
 	 */
 	int updateByPrimaryKeySelective(OBProduct record);
+	
+	/**
+	 * 
+	 * Description: 验证产品代码唯一
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param code
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzProductCode(String code,String id);
+	
+	/**
+	 * 
+	 * Description: 验证产品名称唯一
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param name
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzProductName(String name,String id);
 }

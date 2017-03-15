@@ -2,7 +2,9 @@ package bss.dao.ob;
 
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductExample;
+
 import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProductMapper {
@@ -32,5 +34,31 @@ public interface OBProductMapper {
      * @author YangHongLiang
      * */
     List<OBProduct> selectList();
+    
+    /**
+	 * 
+	 * Description: 验证产品代码唯一
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param code
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzProductCode(@Param("code") String code,@Param("id") String id);
+	
+	/**
+	 * 
+	 * Description: 验证产品名称唯一
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月15日 
+	 * @param  @param name
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzProductName(@Param("name") String name,@Param("id") String id);
     
 }

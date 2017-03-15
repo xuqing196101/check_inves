@@ -215,6 +215,11 @@ public class OBSupplierController {
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
 			flag = false;
 			model.addAttribute("errorName","供应商名称不能为空");
+		}else{
+			if(oBSupplierService.yzSupplierName(obSupplier.getSupplierId(), obSupplier.getProductId(),null) > 0){
+				flag = false;
+				model.addAttribute("errorName","已经添加过该供应商了");
+			}
 		}
 		if(obSupplier.getCertValidPeriod() == null){
 			flag = false;
@@ -245,7 +250,10 @@ public class OBSupplierController {
 			flag = false;
 			model.addAttribute("errorUscc","统一社会信用代码不能为空");
 		}
-		
+		if(oBSupplierService.yzShangchuan(obSupplier.getId()) < 1){
+			flag = false;
+			model.addAttribute("errorShangchuan","请上传资质证书图片");
+		}
 		if(flag == true){
 			HttpSession session = request.getSession();
 			obSupplier.setIsDeleted(0);
@@ -293,6 +301,11 @@ public class OBSupplierController {
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
 			flag = false;
 			model.addAttribute("errorName","供应商名称不能为空");
+		}else{
+			if(oBSupplierService.yzSupplierName(obSupplier.getSupplierId(), obSupplier.getProductId(),obSupplier.getId()) > 0){
+				flag = false;
+				model.addAttribute("errorName","已经添加过该供应商了");
+			}
 		}
 		if(obSupplier.getCertValidPeriod() == null){
 			flag = false;
@@ -327,6 +340,10 @@ public class OBSupplierController {
 			flag = false;
 			model.addAttribute("errorUscc","统一社会信用代码不能为空");
 		}
+		if(oBSupplierService.yzShangchuan(obSupplier.getId()) < 1){
+			flag = false;
+			model.addAttribute("errorShangchuan","请上传资质证书图片");
+		}
 		if(flag == true){
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("loginUser");
@@ -337,7 +354,7 @@ public class OBSupplierController {
 			obSupplier.setCreaterId(userId);
 			obSupplier.setUpdatedAt(new Date());
 			oBSupplierService.updateByPrimaryKeySelective(obSupplier);
-			return "redirect:/obSupplier/supplier.html";
+			return "redirect:/obSupplier/supplier.html?prodid="+obSupplier.getProductId();
 		}else{
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/editSupplier";
