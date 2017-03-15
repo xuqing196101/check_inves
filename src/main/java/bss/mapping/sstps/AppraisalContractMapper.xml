@@ -22,6 +22,7 @@
     
     <association property="purchaseContract" column="PURCHASE_ID" select="bss.dao.cs.PurchaseContractMapper.selectContractByid"/>
     <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
+  	<association property="supplier" column="SUPPLIER_NAME" select="ses.dao.sms.SupplierMapper.selectByPrimaryKey"/>
   </resultMap>
   
   <sql id="Base_Column_List">
@@ -351,13 +352,16 @@
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
     where APPRAISAL = 3
     <if test="name != null and name != ''">
-        AND NAME LIKE #{name} 
+        AND NAME LIKE '%'||#{name}||'%'
     </if>
     <if test="code != null and code != ''">
-        AND CODE LIKE #{code} 
+        AND CODE LIKE '%'||#{code}||'%'
     </if>
     <if test="supplierName != null and supplierName != ''">
-        AND SUPPLIER_NAME LIKE #{supplierName} 
+        AND SUPPLIER_NAME LIKE '%'||#{supplier.supplierName}||'%'
+    </if>
+    <if test="user != null">
+        AND USER_ID = #{user.id}
     </if>
     ORDER BY UPDATED_AT DESC
   </select>

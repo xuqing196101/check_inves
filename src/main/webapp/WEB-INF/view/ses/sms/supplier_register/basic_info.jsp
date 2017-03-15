@@ -758,7 +758,7 @@
 				<form id="basic_info_form_id" action="${pageContext.request.contextPath}/supplier/perfect_basic.html" method="post">
 					<input name="id" value="${currSupplier.id}" type="hidden" />
 					<input name="flag" type="hidden" />
-					<div>
+					<div class="col-md-12 col-xs-12 col-sm-12 p0">
 						<h2 class="count_flow"> <i>1</i> 基本信息</h2>
 						<fieldset class="col-md-12 col-sm-12 col-xs-12 border_font">
 							<legend>供应商信息</legend>

@@ -887,8 +887,9 @@
 	</select>
 	
 	<!-- 获取 全部 可用的 采购机构 -->
+	<!-- 获取简称  -->
 	<select id="getAllList" resultMap="baseOrgnization">
-	 select ID,NAME,CONTACT_MOBILE,CONTACT_NAME  from T_SES_OMS_ORG 
+	 select ID,NAME,CONTACT_MOBILE,CONTACT_NAME,SHORT_NAME  from T_SES_OMS_ORG 
  	 where TYPE_NAME=1 and IS_DELETED=0 and PARENT_ID is null
  	 ORDER BY CREATED_AT ASC,UPDATED_AT DESC
 	</select>

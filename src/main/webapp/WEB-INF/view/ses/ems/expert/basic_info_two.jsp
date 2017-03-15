@@ -189,6 +189,7 @@ session.setAttribute("tokenSession", tokenValue);
 			<input type="hidden" id="expertsTypeId" name="expertsTypeId" value="" />
 			<input type="hidden" name="token2" value="<%=tokenValue%>" />
 			<div id="reg_box_id_4" class="container clear margin-top-30 yinc">
+			 <div class="col-md-12 col-xs-12 col-sm-12 p0 mb10">
 				<h2 class="padding-20 mt40">
 					<span id="ty1" class="new_step current fl"  onclick='pre()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span> 
 					<span id="ty2" class="new_step current fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">经历经验</span> </span>
@@ -199,7 +200,8 @@ session.setAttribute("tokenSession", tokenValue);
 					<span id="ty5" class="new_step fl"><i class="">7</i> <span class="step_desc_02">提交审核</span> </span> 
 					<div class="clear"></div>
 				</h2>
-				<div class="container container_box">
+			  </div>
+				<div class="col-md-12 col-xs-12 col-sm-12 container_box p0_15 clear">
 					<!-- 主要工作经历-->
 					<div class="padding-top-10 clear">
 						<h2 class="count_flow"><i>1</i><font color=red>*</font> 主要工作经历</h2>
@@ -221,7 +223,6 @@ session.setAttribute("tokenSession", tokenValue);
 					<!-- 获奖证书-->
 					 <div class="padding-top-10 clear">
 						<h2 class="count_flow"><i>3</i><font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
-						
 							<div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0" <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('学位证书')"</c:if>>
 								<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="expert4" groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8" multiple="true" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" auto="true" />
 								<u:show showId="show4" groups="show1,show2,show3,show4,show5,show6,show7,show8" businessId="${sysId}" sysKey="${expertKey}" typeId="${typeMap.EXPERT_DEGREE_TYPEID}" />
@@ -253,7 +254,6 @@ session.setAttribute("tokenSession", tokenValue);
 						</div>
 					</div>
 				</div>
-			</div>
 			</div>
 		</form>
 		<jsp:include page="/index_bottom.jsp"></jsp:include>

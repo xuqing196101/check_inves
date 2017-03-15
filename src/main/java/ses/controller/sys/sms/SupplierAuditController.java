@@ -283,9 +283,6 @@ public class SupplierAuditController extends BaseSupplierController {
 		String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
 		request.setAttribute("supplierTypeNames", supplierTypeName);
 
-		//审核、复核的标识
-		request.getSession().setAttribute("signs", sign);
-
 		//文件
 		request.setAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 		request.setAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
@@ -1938,8 +1935,9 @@ public class SupplierAuditController extends BaseSupplierController {
 		request.setAttribute("state", status);
 		request.setAttribute("businessTypeId", supplier.getBusinessType());
 
-		//审核、复核标识
+		//审核、复核、实地考察的标识
 		request.setAttribute("sign", supplier.getSign());
+		request.getSession().setAttribute("signs", supplier.getSign());
 		request.getSession().getAttribute("sign");
 
 		return "ses/sms/supplier_audit/supplier_all";
@@ -2759,7 +2757,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(supplierAuditNot != null) {
 			return supplierAuditNot.getReason();
 		}
-		return "noMessage";
+		return "";
 	}
 	
 	/**

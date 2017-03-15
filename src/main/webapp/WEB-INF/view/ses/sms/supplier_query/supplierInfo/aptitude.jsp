@@ -101,12 +101,12 @@
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('contract');">销售合同</a>
 						</li>
-						<li class="">
+						<!-- <li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('chengxin');">诚信记录</a>
 						</li>
 						<li class="">
 							<a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18" onclick="tijiao('updateHistory');">历史修改记录</a>
-						</li>
+						</li> -->
 					</ul>
 					<ul class="count_flow ul_list count_flow">
 						<ul id="page_ul_id" class="nav nav-tabs bgdd supplier_tab">

@@ -1,6 +1,7 @@
 
 package bss.controller.sstps;
 
+import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
@@ -14,6 +15,9 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.bms.LoginController;
+import ses.model.bms.User;
+import ses.model.sms.Supplier;
+import ses.service.sms.SupplierService;
 import ses.util.PropertiesUtil;
 import bss.model.sstps.AppraisalContract;
 import bss.model.sstps.ContractProduct;
@@ -45,6 +49,9 @@ public class OfferController {
 	
 	@Autowired
 	private ProductInfoService productInfoService;
+	
+	@Autowired
+	private SupplierService supplierService;
 	
 	private Logger logger = Logger.getLogger(LoginController.class); 
 	
@@ -123,9 +130,22 @@ public class OfferController {
 	* @return String
 	 */
 	@RequestMapping("/userAppraisalList")
-	public String userAppraisalList(Model model,Integer page){
-		List<AppraisalContract> list = appraisalContractService.selectByOffer(null,page==null?1:page);
+	public String userAppraisalList(AppraisalContract appraisalContract,HttpServletRequest request, Model model,Integer page){
+		User user = (User) request.getSession().getAttribute("loginUser");
+		appraisalContract.setUser(user);
+		List<AppraisalContract> list = appraisalContractService.selectByOffer(appraisalContract,page==null?1:page);
+		for (AppraisalContract ac : list) {
+            //这个supplierName里面存的是id
+            Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+            if (supplier != null) {
+                ac.setSupplierName(supplier.getSupplierName());
+            } else {
+                ac.setSupplierName("");
+            }
+            ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
+        }
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
+		model.addAttribute("ap", appraisalContract);
 		logger.info(JSON.toJSONStringWithDateFormat(list, "yyyy-MM-dd HH:mm:ss"));
 		return "bss/sstps/offer/userAppraisal/list";
 	}
@@ -388,6 +408,16 @@ public class OfferController {
 		sib.setCode("%"+code+"%");
 		sib.setSupplierName("%"+supplierName+"%");
 		List<AppraisalContract> list = appraisalContractService.selectDistributionUser(sib,page==null?1:page);
+		for (AppraisalContract ac : list) {
+            //这个supplierName里面存的是id
+            Supplier supplier = supplierService.selectOne(ac.getSupplierName());
+            if (supplier != null) {
+                ac.setSupplierName(supplier.getSupplierName());
+            } else {
+                ac.setSupplierName("");
+            }
+            ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
+        }
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("name",name);
 		model.addAttribute("code",code);

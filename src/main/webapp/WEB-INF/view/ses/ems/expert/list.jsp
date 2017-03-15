@@ -131,6 +131,7 @@
 				$("#expertsFrom option:selected").removeAttr("selected");
 				$("#status option:selected").removeAttr("selected");
 				$("#expertsTypeId option:selected").removeAttr("selected");
+				$("#formSearch").submit();
 			}
 			//查看信息
 			function view(id) {
@@ -172,22 +173,12 @@
 			}
 			//诚信登记
 			function creadible() {
-				var count = 0;
-				var ids = document.getElementsByName("check");
-
-				for(i = 0; i < ids.length; i++) {
-					if(document.getElementsByName("check")[i].checked) {
-						var id = document.getElementsByName("check")[i].value;
-						var value = id.split(",");
-						count++;
-					}
-				}
-				if(count > 1) {
-					layer.alert("只能选择一条记录", {offset: '100px',});
-				} else if(count < 1) {
-					layer.alert("请选择一条记录", {offset: '100px',});
-				} else if(count == 1) {
-					if(value[1] == 1) {
+				var str = $(":radio:checked").val();
+				if(str == null) {
+					layer.msg("请选择专家！", {offset: '100px'});
+				} else {
+					var id = str.split(",");
+					if(id[1] == "1" || id[1] == "4" || id[1] == "5" || id[1] == "7") {
 						index = layer.open({
 							type: 2, //page层
 							area: ['700px', '440px'],
@@ -197,11 +188,11 @@
 							shift: 1, //0-6的动画形式，-1不开启
 							offset: ['5px', '300px'],
 							shadeClose: true,
-							content: "${pageContext.request.contextPath}/credible/findAll.html?id=" + value[0]
+							content: "${pageContext.request.contextPath}/credible/findAll.html?id=" + id[0],
 								//数组第二项即吸附元素选择器或者DOM $('#openWindow')
 						});
 					} else {
-						layer.msg("请选择审核通过的", {offset: '100px',});
+						layer.msg("请选择审核通过的专家！", {offset: '100px'});
 					}
 
 				}
@@ -243,21 +234,21 @@
      		<li>
           <label class="fl">专家姓名：</label><span><input type="text" id="relName" name="relName" value="${expert.relName }"></span>
         </li>
-        <li>
+        <%-- <li>
         	<label class="fl">专家来源：</label>
           <span class="fl">
-            <select  name="expertsFrom" id="expertsFrom" >
+            <select  name="expertsFrom" id="expertsFrom" class="w178">
             	<option selected="selected" value="">-请选择-</option>
 							<c:forEach items="${lyTypeList }" var="ly" varStatus="vs"> 
 					    	<option <c:if test="${expert.expertsFrom eq ly.id }">selected="selected"</c:if> value="${ly.id}">${ly.name}</option>
 							</c:forEach>
 						</select>          
           </span>
-        </li>
+        </li> --%>
         <li>
           <label class="fl">专家类型：</label>
           <span class="fl">
-            <select name="expertsTypeId" id="expertsTypeId">
+            <select name="expertsTypeId" id="expertsTypeId" class="w178">
               <option selected="selected"  value=''>-请选择-</option>
               <c:forEach items="${expTypeList}" var="exp">
                 <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
@@ -268,9 +259,9 @@
   			<li>
         <label class="fl">审核状态：</label>
         <span class="fl">
-          <select name="status" id="status">
+          <select name="status" id="status" class="w178">
              <option selected="selected" value=''>-请选择-</option>
-             <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
+             <option <c:if test="${expert.status =='0' or expert.status == null}">selected</c:if> value="0">待初审</option>
              <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
              <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
              <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
@@ -301,7 +292,7 @@
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
-							<th class="info w30"><input type="checkbox" onclick="selectAll();" id="allId" alt=""></th>
+							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
 							<th class="info w50">性别</th>
@@ -309,13 +300,13 @@
 							<th class="info">毕业院校及专业</th>
 							<th class="info">所在单位</th>
 							<th class="info w80">日期</th>
-							<th class="info">审核状态</th>
 							<th class="info w50">积分</th>
+							<th class="info">审核状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
 						<tr class="pointer">
-							<td class="tc w30"><input type="checkbox" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
+							<td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tc" onclick="view('${e.id}');">${e.relName}</td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.gender}</td>
@@ -325,6 +316,7 @@
 							<td class="tc w80" onclick="view('${e.id}');" class="tc">
 								<fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM" />
 							</td>
+							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
 							<c:if test="${e.status eq '0' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
 							</c:if>
@@ -355,7 +347,6 @@
 							<c:if test="${e.status eq '8' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复审未通过 </span></td>
 							</c:if>
-							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
 						</tr>
 					</c:forEach>
 				</table>

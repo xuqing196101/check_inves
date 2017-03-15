@@ -70,7 +70,6 @@
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>供应商名称</span>
 	   <div class="select_common col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-        <!-- <input class="input_group" id="appendedInput" type="text" name = ""> -->
 		<select id="supplierId" name="supplierId" class="hide" onchange="change()">
   			<option value=""></option>
 		</select>

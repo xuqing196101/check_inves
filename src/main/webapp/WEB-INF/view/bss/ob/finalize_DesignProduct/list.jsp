@@ -109,7 +109,7 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?proid=" + id + "&&type=1";
+			window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?proid=" + id[0] + "&&type=1";
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
 				offset: ['222px', '390px'],

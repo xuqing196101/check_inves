@@ -80,31 +80,62 @@
         });
 
         function submitformExpert() {
-            //父地区
-            var add = document.getElementById("addr"); //selectid
-            var addiIdex = add.selectedIndex; // 选中索引
+            var idCardNumber = $("#idCardNumber").val().trim();
+                 // 身份证唯一性验证
+                if (idCardNumber != "") {
+                    $.ajax({
+                        url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
+                        type: "post",
+                        dataType: "json",
+                        data: {
+                            "idNumber": $("#idCardNumber").val().trim(),
+                            "id": $("#userId").val().trim()
+                        },
+                        success: function (obj) {
+                            if (obj.success == false) {
+//                                 layer.msg("居民身份证号码已被占用!");
+                                return false;
+                            }else{
+                              validateIdCard();
+                            }
+                           
+                      
+                        }
+                    });
+                    
 
-            var addValue1 = add.options[addiIdex].text;
-            //子地区
-            var add2 = document.getElementById("add"); //selectid
-
-            var addiIdex2 = add2.selectedIndex; // 选中索引
-
-            var addValue2 = add2.options[addiIdex2].text;
-
-            $("#range").val(addValue1 + "," + addValue2);
-            getChildren();
-            $.ajax({
-                url: "${pageContext.request.contextPath}/expert/zanCun.do",
-                data: $("#formExpert").serialize(),
-                type: "post",
-                async: true,
-                success: function (result) {
-                    $("#id").val(result.id);
-                    //layer.msg("已暂存",{offset: ['300px', '750px']});
+                }else{
+                  validateIdCard();
                 }
-            });
-        }
+              
+            }
+            
+            function validateIdCard() {
+                //父地区
+                var add = document.getElementById("addr"); //selectid
+                var addiIdex = add.selectedIndex; // 选中索引
+
+                var addValue1 = add.options[addiIdex].text;
+                //子地区
+                var add2 = document.getElementById("add"); //selectid
+
+                var addiIdex2 = add2.selectedIndex; // 选中索引
+
+                var addValue2 = add2.options[addiIdex2].text;
+
+                $("#range").val(addValue1 + "," + addValue2);
+                getChildren();
+                $.ajax({
+                    url: "${pageContext.request.contextPath}/expert/zanCun.do",
+                    data: $("#formExpert").serialize(),
+                    type: "post",
+                    async: true,
+                    success: function (result) {
+                        $("#id").val(result.id);
+                        //layer.msg("已暂存",{offset: ['300px', '750px']});
+                    }
+                });
+            }
         //无提示暂存
         function submitForm2() {
             updateStepNumber("seven");
@@ -300,9 +331,37 @@
         }
 
         // 点击下一步事件 yong
-        function fun() {
-            supplierRegist();
-            editTable();
+       function fun() {
+            var  idCardNumber = $("#idCardNumber").val().trim();
+              // 身份证唯一性验证
+             if (idCardNumber != "") {
+                 $.ajax({
+                     url: '${pageContext.request.contextPath}/user/ajaxIdNumber.do',
+                     type: "post",
+                     dataType: "json",
+                     data: {
+                         "idNumber": $("#idCardNumber").val().trim(),
+                         "id": $("#userId").val().trim()
+                     },
+                     success: function (obj) {
+                         if (obj.success == false) {
+                             layer.msg("居民身份证号码已被占用!");
+                             return false;
+                         }else{
+                              supplierRegist();
+                                editTable();
+                         }
+                        
+                   
+                     }
+                 });
+                 
+
+             }else{
+                 supplierRegist();
+                 editTable();
+             }
+      
         }
         // 点击2事件
         function fun2() {
@@ -326,9 +385,8 @@
         }
         //校验基本信息 不能为空的字段
         function validateformExpert() {
-        	
             var from = "${expert.expertsFrom}";
-            var relName = $("#relName").val().trim();
+            var relName = $("#relName").val();
             if (!relName) {
                 layer.msg("请输入姓名 !");
                 return false;
@@ -339,12 +397,12 @@
                 return false;
             }
 
-            var politicsStatus = $("#politicsStatus").val().trim();
+            var politicsStatus = $("#politicsStatus").val();
             if (!politicsStatus) {
                 layer.msg("请填写政治面貌 !");
                 return false;
             }
-            var birthday = $("#birthday").val().trim();
+            var birthday = $("#birthday").val();
             if (!birthday) {
                 layer.msg("请填写出生日期 !");
                 return false;
@@ -370,7 +428,7 @@
             if (isAge == false) {
                 return false;
             }
-            var nation = $("#nation").val().trim();
+            var nation = $("#nation").val();
             if (!nation) {
                 layer.msg("请填写民族 !");
                 return false;
@@ -386,12 +444,12 @@
                 return false;
             }
             if (from == "ARMY") {
-                var idType = $("#idType").val().trim();
+                var idType = $("#idType").val();
                 if (!idType) {
                     layer.msg("请选择军队人员身份证件类型 !");
                     return false;
                 }
-                var idNumber = $("#idNumber").val().trim();
+                var idNumber = $("#idNumber").val();
                 if (!idNumber) {
                     layer.msg("请填写证件号码 !");
                     return false;
@@ -419,14 +477,10 @@
                     return false;
                 }
             }
-			var mobileType = /^1\d{10}$/
-            var mobile = $("#mobile").val().trim();
+
+            var mobile = $("#mobile").val();
             if (!mobile) {
                 layer.msg("请填写手机号!");
-                return false;
-            }
-            if (!mobileType.test(mobile)) {
-                layer.msg("请正确填写手机号!");
                 return false;
             }
             var telephone = $("#telephone").val().trim();
@@ -444,24 +498,25 @@
                 layer.msg("个人邮箱格式有误 !");
                 return false;
             }
-            var workUnit = $("#workUnit").val().trim();
+            var workUnit = $("#workUnit").val();
             if (!workUnit) {
                 layer.msg("请填写所在单位 !");
                 return false;
             }
 
-            var id_areaSelect = $("#add").val().trim();
+            var id_areaSelect = $("#add").val();
             if (!id_areaSelect) {
                 layer.msg("请选择区域 !");
                 return false;
             }
 
-            var unitAddress = $("#unitAddress").val().trim();
+
+            var unitAddress = $("#unitAddress").val();
             if (!unitAddress) {
                 layer.msg("请填写单位地址!");
                 return false;
             }
-            var postCode = $("#postCode").val().trim();
+            var postCode = $("#postCode").val();
             if (!postCode) {
                 layer.msg("请填写单位邮编!");
                 return false;
@@ -471,25 +526,25 @@
                 return false;
             }
 
-            var major = $("#major").val().trim();
+            var major = $("#major").val();
             if (!major) {
                 layer.msg("请填写从事专业!");
                 return false;
             }
 
-            var timeStartWork = $("#timeStartWork").val().trim();
+            var timeStartWork = $("#timeStartWork").val();
             if (!timeStartWork) {
                 layer.msg("请填写从事专业起始年月!");
                 return false;
             }
             
-            var timeStartWork = $("#timeToWork").val().trim();
-            if (!timeStartWork) {
-                layer.msg("请填写获得证书时间!");
+            var makeTechDate = $("#makeTechDate").val().trim();
+            if (!makeTechDate) {
+                layer.msg("请填写取得技术职称时间!");
                 return false;
             }
             
-            var professTechTitles = $("#professTechTitles").val().trim();
+            var professTechTitles = $("#professTechTitles").val();
             if (!professTechTitles) {
                 layer.msg("请填写专家技术职称!");
                 return false;
@@ -497,7 +552,7 @@
 
 
 
-            var hightEducation = $("#hightEducation").val().trim();
+            var hightEducation = $("#hightEducation").val();
             if (!hightEducation) {
                 layer.msg("请选择最高学历!");
                 return false;
@@ -505,7 +560,7 @@
             //如果是地方则为必填
 
 
-            var jobExperiences = $("#jobExperiences").val().trim();
+            var jobExperiences = $("#jobExperiences").val();
             if (!jobExperiences) {
                 layer.msg("请填写主要工作经历!");
                 return false;
@@ -513,7 +568,7 @@
 
 
             if (from == "LOCAL") {
-                var degree = $("#degree").val().trim();
+                var degree = $("#degree").val();
                 if (!degree) {
                     layer.msg("请选择最高学位!");
                     return false;
@@ -521,7 +576,7 @@
 
                 //毕业证书  学位证书
 
-                var graduateSchool = $("#graduateSchool").val().trim();
+                var graduateSchool = $("#graduateSchool").val();
                 if (!graduateSchool) {
                     layer.msg("请填写毕业院校及专业 !");
                     return false;
@@ -538,13 +593,13 @@
              return false;
              }
              }*/
-            var fax = $("#fax").val().trim();
+            var fax = $("#fax").val();
             var faxReg = /^(\d{3,4}-{0,1})?\d{7,8}$/
             /* if (fax != "" && !faxReg.test(fax)) {
              layer.msg("传真电话格式有误 !");
              return false;
              }*/
-            var postCode = $("#postCode").val().trim();
+            var postCode = $("#postCode").val();
             if (idNumber != "" && isNaN(postCode)) {
                 layer.msg("邮编格式只能输入数字 !");
                 return false;
@@ -555,11 +610,6 @@
                 var reg = /(^\d{15}$)|(^\d{18}$)|(^\d{17}(X|x)$)/
                 if (!reg.test(idCardNumber)) {
                     layer.msg("居民身份证号码格式有误 !");
-                    return false;
-                }
-                var birthdata = birthday.replace("-", "").replace("-", "");
-                if (idCardNumber.indexOf(birthdata) < 0) {
-                    layer.msg("身份证号与出生日期不符!");
                     return false;
                 }
                 if (reg.test(idCardNumber) && idCardNumber.length == 18) {
@@ -650,7 +700,7 @@
                 cache: false,
                 async: false,
                 success: function (data) {
-                	layer.msg(data);
+                  alert(data);
                     if (data) {
                         layer.msg(data);
                         flag = false;
@@ -768,7 +818,7 @@
 
 <body>
 <form id="formExpert" action="${pageContext.request.contextPath}/expert/add.html" method="post">
-    <input type="hidden" name="userId" value="${user.id}"/>
+    <input type="hidden" id="userId" name="userId" value="${user.id}"/>
     <input type="hidden" id="purchaseDepId" value="${expert.purchaseDepId}"/>
     <input type="hidden" name="id" id="id" value="${expert.id}"/>
     <input type="hidden" name="zancun" id="zancun" value=""/>
@@ -894,7 +944,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 身份证复印件（正反面在一张上）</span>
+                        class="red">*</i> 身份证复印件（正反面）</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('居民身份证')"</c:if>>
@@ -911,7 +961,11 @@
                 <%--如果是民--%>
                 <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
+<<<<<<< HEAD
                         <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
+=======
+                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>缴纳社会保险证明</span>
+>>>>>>> e676a5ef6fec9f7bce437b5ad7448d4f9c2de802
                         <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                             <select name="coverNote" id="coverNote" style="width:100%;"
                                     <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
@@ -927,7 +981,7 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
-                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm"> 退休证书或退休证明</span></span>
+                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm">缴纳社保证明</span></span>
                         <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                              <c:if test="${fn:contains(errorField,'凭证上传')}">style="border: 1px solid #ef0000;"
                              onmouseover="errorMsg('凭证上传')"</c:if>>
@@ -1039,7 +1093,7 @@
                                <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('固定电话')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">如: 010 - 12345678</span>
+                        <span class="input-tip">如: 010 - 1234567</span>
                     </div>
                 </li>
 
@@ -1103,16 +1157,16 @@
                         class="red">*</i> 单位地址</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
-                               type="text" placeholder="例如街道名称，门牌号码，楼层和房间号等"
+                               type="text" placeholder="长春街道1号"
                                <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位地址')"</c:if>/>
                         <span class="add-on">i</span>
-                        <span class="input-tip">请如实填写单位地址</span>
+                        <span class="input-tip">不能为空</span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i
-                        class="red">*</i> 单位邮编</span>
+                        class="red">*</i>单位邮编</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input maxlength="6" value="${expert.postCode}" name="postCode" id="postCode" type="text"
                                <c:if test="${fn:contains(errorField,'单位邮编')}">style="border: 1px solid #ef0000;"
@@ -1156,7 +1210,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 专业技术职称</span> <!--/执业资格  -->
+                        class="red">*</i>专业技术职称</span> <!--/执业资格  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
@@ -1188,15 +1242,15 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 证书获得时间</span>
+                        class="red">*</i>取得技术职称时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
                         <input
-                                <c:if test="${fn:contains(errorField,'证书获得时间')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('证书获得时间')"</c:if>
-                                value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeToWork" id="timeToWork"
+                                <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('取得技术职称时间')"</c:if>
+                                value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="makeTechDate" id="makeTechDate"
                                 type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
                             class="add-on">i</span> <span class="input-tip">如：2017-03</span>
@@ -1328,8 +1382,15 @@
                                 <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
                             <option
+<<<<<<< HEAD
+=======
+                                    <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
+                                    value="1">有
+                            </option>
+                            <option
+>>>>>>> e676a5ef6fec9f7bce437b5ad7448d4f9c2de802
                                     <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
-                                    value="2">否
+                                    value="2">无
                             </option>
                             <option
                                     <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>

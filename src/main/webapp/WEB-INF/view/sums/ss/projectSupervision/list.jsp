@@ -72,6 +72,12 @@
         $("#status option:selected").removeAttr("selected");
         $("#purchaseType option:selected").removeAttr("selected");
       }
+      
+      
+      
+      function view(id,type){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id+"&type="+type;
+      }
     </script>
   </head>
 
@@ -174,9 +180,9 @@
                   <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
                 </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-                <td class="tl pl20" onclick="view('${obj.id}')">${obj.name}</td>
-                <td class="tl pl20" onclick="view('${obj.id}')">${obj.projectNumber}</td>
-                <td class="tc " onclick="view('${obj.id}')">${obj.purchaseDepId}</td>
+                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.name}</td>
+                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.projectNumber}</td>
+                <td class="tc " onclick="view('${obj.id}','0')">${obj.purchaseDepId}</td>
                 <td class="tc " onclick="view('${obj.id}')">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>

@@ -13,6 +13,7 @@ import ses.model.ems.ProjectExtract;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCondition;
 import ses.model.sms.SupplierExtRelate;
+import bss.model.pms.CollectPlan;
 import bss.model.prms.FirstAudit;
 
 
@@ -78,6 +79,8 @@ public class Packages {
   private List<ProjectDetail> projectDetails;
 
   private List<SupplierCheckPass> supplierList; 
+  
+  private List<CollectPlan> collectPlan;
 
   private Project project;
 
@@ -583,5 +586,14 @@ public void setNegotiationReport(NegotiationReport negotiationReport) {
   public void setListMinimumTechnology(List<FirstAudit> listMinimumTechnology) {
     this.listMinimumTechnology = listMinimumTechnology;
   }
+
+    public List<CollectPlan> getCollectPlan() {
+        return collectPlan;
+    }
+    
+    public void setCollectPlan(List<CollectPlan> collectPlan) {
+        this.collectPlan = collectPlan;
+    }
+
 
 }

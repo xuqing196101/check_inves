@@ -164,12 +164,13 @@
 	 }
 	 
 	 function OpenFile(filePath) {
+		    var projectId = $("#contractId").val();
 			var obj = document.getElementById("TANGER_OCX");
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
 			if(filePath != 0){
 				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
-				+"/purchaseContract/loadFile.html?filePath="+filePath,true,false, 'word.document');// 异步加载, 服务器文件路径
+				+"/purchaseContract/loadFile.html?filePath="+filePath+"&id="+projectId,true,false, 'word.document');// 异步加载, 服务器文件路径
 			} 
 		}
 		
@@ -191,6 +192,7 @@
 		function saveFile(){
 			var projectId = $("#contractId").val();
 			var obj = document.getElementById("TANGER_OCX");
+			
 			var projectName = $("#contract_code").val();
 			//参数说明
 			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
@@ -1065,8 +1067,8 @@
 	        <input type="button" class="btn btn-windows save" onclick="saveFile()" value="存至服务器"></input>
 	    	</div>
             <form id="MyFile" method="post" >
-				<input type="hidden" id="ope" value="${ope }">
-    			<input type="hidden" id="contractId" value="${id }">
+				<input type="hidden" id="ope" value="${ope}">
+    			<input type="hidden" id="contractId" value="${id}">
     			<input type="hidden" id="contractName" value="">
 				<script type="text/javascript" src="${pageContext.request.contextPath}/public/ntko/ntkoofficecontrol.js"></script>
 			</form>

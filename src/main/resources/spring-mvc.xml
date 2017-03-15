@@ -112,6 +112,7 @@
 			<mvc:exclude-mapping path="/area/listByOne.*" />
 			<mvc:exclude-mapping path="/expert/validateAuditTime.*" />
 			<mvc:exclude-mapping path="/expert/*.*" />
+      <mvc:exclude-mapping path="/user/ajaxIdNumber.*" />
 			
 <!-- 			供应商注册 -->
 			<mvc:exclude-mapping path="/supplier/*.*" /> 
@@ -199,7 +200,7 @@
 		</property>
 	</bean> -->
 	<bean id="multipartResolver" class="bss.util.MyMultipartResolver">
-     <property name="excludeUrls" value="file/upload,supplierProject/saveBidFile,open_bidding/saveBidFile"/>
+     <property name="excludeUrls" value="file/upload,supplierProject/saveBidFile,open_bidding/saveBidFile,purchaseContract/saveContractFile"/>
 		<!-- url中带有http请求就不会被multipartResolver先解析-->
 	</bean>
 

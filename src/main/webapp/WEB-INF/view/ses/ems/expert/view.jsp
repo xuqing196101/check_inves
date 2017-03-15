@@ -87,33 +87,10 @@ session.setAttribute("tokenSession", tokenValue);
 					<td width="25%" id="tFace"></td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">所在地区</td>
-					<td width="25%" id="Taddress"></td>
-					<td width="12%" class="bggrey">专业技术职称/执业资格</td>
-					<td width="25%" id="tHey">${expert.professTechTitles}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">居民身份证号码</td>
-					<td width="25%">${expert.idCardNumber}</td>
 					<td width="12%" class="bggrey">民族</td>
 					<td width="25%">${expert.nation}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">健康状况</td>
-					<td width="25%">${expert.healthState}</td>
-					<td width="12%" class="bggrey">所在单位</td>
-					<td width="25%" id="tTimeStartWork">${expert.workUnit}</td>
-				</tr>
-
-				<tr>
-					<td width="12%" class="bggrey">缴纳社会保险证明</td>
-					<td width="25%">${expert.coverNote}</td>
-					<td width="12%" class="bggrey">单位邮编</td>
-					<td width="25%">${expert.postCode}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">单位地址</td>
-					<td colspan="3">${expert.unitAddress}</td>
+					<td width="12%" class="bggrey">居民身份证号码</td>
+					<td width="25%">${expert.idCardNumber}</td>
 				</tr>
 				<tr>
 					<td width="12%" class="bggrey">军队人员身份证件类型</td>
@@ -122,13 +99,44 @@ session.setAttribute("tokenSession", tokenValue);
 					<td width="25%">${expert.idNumber}</td>
 				</tr>
 				<tr>
+					<td width="12%" class="bggrey">手机</td>
+					<td width="25%">${expert.mobile}</td>
+					<td width="12%" class="bggrey">固定电话</td>
+					<td width="25%">${expert.telephone}</td>
+				</tr>
+				<tr>
+					<td width="12%" class="bggrey">传真电话</td>
+					<td width="25%">${expert.fax}</td>
+					<td width="12%" class="bggrey">个人邮箱</td>
+					<td width="25%">${expert.email}</td>
+				</tr>
+				<tr>
+					<td width="12%" class="bggrey">所在单位</td>
+					<td width="25%" id="tTimeStartWork">${expert.workUnit}</td>
+					<td width="12%" class="bggrey">所在地区</td>
+					<td width="25%" id="Taddress"></td>
+				</tr>
+				<tr>
+					<td width="12%" class="bggrey">缴纳社会保险证明</td>
+					<td width="25%">${expert.coverNote}</td>
+					<td width="12%" class="bggrey">健康状况</td>
+					<td width="25%">${expert.healthState}</td>
+				</tr>
+				<tr>
+					<td width="12%" class="bggrey">单位邮编</td>
+					<td width="25%">${expert.postCode}</td>
+					<td width="12%" class="bggrey">单位地址</td>
+					<td width="25%">${expert.unitAddress}</td>
+				</tr>
+				
+				<tr>
 					<td width="12%" class="bggrey">现任职务</td>
 					<td width="25%">${expert.atDuty}</td>
 					<td width="12%" class="bggrey">从事专业</td>
 					<td width="25%">${expert.major}</td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">从事专业起始年度</td>
+					<td width="12%" class="bggrey">从事专业起始年月</td>
 					<td width="25%">
 						<fmt:formatDate value="${expert.timeStartWork}" pattern="yyyy-MM" />
 					</td>
@@ -136,7 +144,7 @@ session.setAttribute("tokenSession", tokenValue);
 					<td width="25%" id="expertsFrom"></td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">专业技术职称/执业资格</td>
+					<td width="12%" class="bggrey">专业技术职称</td>
 					<td width="25%">${expert.professTechTitles}</td>
 					<td width="12%" class="bggrey">取得技术职称时间</td>
 					<td width="25%">
@@ -145,31 +153,21 @@ session.setAttribute("tokenSession", tokenValue);
 				</tr>
 				<tr>
 					<td width="12%" class="bggrey">毕业院校及专业</td>
-					<td colspan="3">${expert.graduateSchool}</td>
+					<td width="25%">${expert.graduateSchool}</td>
+					<td width="12%" class="bggrey">最高学位</td>
+					<td width="25%" id="degree"></td>
 				</tr>
 				<tr>
-					<td width="12%" class="bggrey">专家类别</td>
-					<td width="25%" id="expertsType"></td>
+					<td width="12%" class="bggrey">专业技术职称/执业资格</td>
+					<td width="25%" id="tHey">${expert.professTechTitles}</td>
 					<td width="12%" class="bggrey">最高学历</td>
 					<td width="25%" id="tHight"></td>
 				</tr>
-				<tr>
-					<td width="12%" class="bggrey">最高学位</td>
-					<td width="25%" id="degree"></td>
-					<td width="12%" class="bggrey">个人邮箱</td>
-					<td width="25%">${expert.email}</td>
+				<%--<tr>
+					<td width="12%" class="bggrey">专家类别</td>
+					<td width="25%" id="expertsType"></td>
 				</tr>
-				<tr>
-					<td width="12%" class="bggrey">移动电话</td>
-					<td width="25%">${expert.mobile}</td>
-					<td width="12%" class="bggrey">固定电话</td>
-					<td width="25%">${expert.telephone}</td>
-				</tr>
-				<tr>
-					<td width="12%" class="bggrey">传真电话</td>
-					<td colspan="3">${expert.fax}</td>
-				</tr>
-				<tr>
+				 <tr>
 					<td width="12%" class="bggrey">参评的产品类别 </td>
 					<td colspan="3">${expert.productCategories}</td>
 				</tr>
@@ -188,7 +186,7 @@ session.setAttribute("tokenSession", tokenValue);
 				<tr>
 					<td width="12%" class="bggrey">需要申请回避的情况 </td>
 					<td colspan="3">${expert.avoidanceSituation}</td>
-				</tr>
+				</tr> --%>
 			</table>
 			<div class="tc mt20 clear col-md-12 col-sm-12 col-xs-12">
 				<div class="padding-10" align="center">

@@ -149,7 +149,7 @@
   
   <!-- 根据id判断是军队还是地方用户 -->
   <select id="selectByArmyLocal" parameterType="java.lang.String" resultMap="UserBaseMap">
-	SELECT TSBU.ID, TSBU.LOGIN_NAME 
+	SELECT TSBU.ID as ID, TSBU.LOGIN_NAME as LOGIN_NAME
 	  FROM T_SES_BMS_USER TSBU, T_SES_EMS_EXPERT TSEE
 	 WHERE TSBU.TYPE_ID = TSEE.ID
 	   AND TSEE.EXPERTS_FROM = (SELECT ID

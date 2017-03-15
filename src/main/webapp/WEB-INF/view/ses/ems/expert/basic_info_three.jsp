@@ -86,7 +86,7 @@
             //暂存无提示
             submitForm2();
         }
-        /*	/!** 专家完善注册信息页面 *!/
+        /*  /!** 专家完善注册信息页面 *!/
          function supplierRegist5() {
          if(!validateJiGou()) {
          return false;
@@ -105,7 +105,7 @@
          window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
          }*/
 
-        /*		function pre6(name, i, position) {
+        /*    function pre6(name, i, position) {
          $.ajax({
          url: "${pageContext.request.contextPath}/expert/getAllCategory.do",
          data: {
@@ -126,7 +126,7 @@
          */
 
 
-        /*		function addPurList() {
+        /*    function addPurList() {
          supplierRegist();
          }
          */
@@ -144,7 +144,7 @@
          }
          */
 
-        /*			function updateStepNumber(stepNumber) {
+        /*      function updateStepNumber(stepNumber) {
          $.ajax({
          url: "${pageContext.request.contextPath}/expert/updateStepNumber.do",
          data: {
@@ -220,8 +220,8 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId eq expert.address}">
                         <tr>
-                            <td class="tc"><input type="radio" value="${org1.id}" name="procurementDepId" onclick="checkDep(this)"
-                                    <c:if test="${org1.id == expert.purchaseDepId}"> checked='checked' </c:if> />
+                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)"
+                                    <c:if test="${org1.provinceId==currSupplier.purchaseDepId}"> checked='checked' </c:if> />
                             </td>
                             <td class="tc">${vs.index + 1}</td>
                             <td class="tc">${org1.shortName}</td>
@@ -250,8 +250,8 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId ne expert.address}">
                         <tr>
-                            <td class="tc"><input type="radio" name="procurementDepId" value="${org1.id}" onclick="checkDep(this)"
-                                                   <c:if
+                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)"
+                                                  name="procurementDepId" <c:if
                                     test="${org1.id ==expert.purchaseDepId}"> checked='checked' </c:if> /></td>
                             <td class="tc">${vs.index + 1}</td>
                             <td class="tc">${org1.shortName}</td>

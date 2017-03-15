@@ -194,6 +194,7 @@
     <input type="hidden" id="categoryId" name="categoryId" value="" />
     <input type="hidden" name="token2" value="<%=tokenValue%>" />
     <div id="reg_box_id_7" class="container clear margin-top-30">
+      <div class="col-md-12 col-xs-12 col-sm-12 p0 mb10">
         <h2 class="padding-20 mt40">
             <span id="sc1" class="new_step current fl" onclick='tab1()'><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step current fl" onclick='tab7()'><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类别</span> </span>
@@ -203,7 +204,8 @@
             <span id="sc5" class="new_step current fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
-        <div class="tab-content padding-top-20 col-md-12 col-sm-12 col-xs-12 over_auto">
+      </div>
+        <div class="tab-content padding-top-20 col-md-12 col-sm-12 col-xs-12 over_auto clear">
             <div class="headline-v2">
                 <h2>上传专家申请表、承诺书(将第五步下载的申请表、承诺书签字盖章后,扫描为彩色图片上传。)</h2>
             </div>

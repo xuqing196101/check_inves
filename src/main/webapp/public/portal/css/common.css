@@ -401,14 +401,24 @@ width: 780px!important; }
   padding:0px !important;
  }
 .p0_25 {
-  padding: 0 25px!important; }
+  padding: 0 25px!important; 
+}
   
 .p0_10 {
-  padding: 0 10px!important; }
+  padding: 0 10px!important; 
+}
+  
+.p0_15 {
+  padding: 0 15px!important; 
+}
+  
 .p0_20 {
-  padding: 0 20px!important; }
+  padding: 0 20px!important; 
+}
+
 .p0_30 {
-  padding: 0 30px!important; }
+  padding: 0 30px!important; 
+}
   
 .p5_0 {
   padding: 5px 0px!important; }

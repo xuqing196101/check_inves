@@ -4,139 +4,62 @@
 <html>
   <head>
    <%@ include file="/WEB-INF/view/common.jsp" %>
+   <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 <title>发布定型产品页面</title>
 <script type="text/javascript">
-$(document).ready(function(){
-	var datas;
-	var setting={
-			   async:{
-						autoParam:["id"],
-						enable:true,
-						url:"${pageContext.request.contextPath}/category/createtree.do",
-						otherParam:{"otherParam":"zTreeAsyncTest"},  
-						dataType:"json",
-						type:"get",
-					},
-					callback:{
-				    	onClick:zTreeOnClick,//点击节点触发的事件
-	       			    
-				    }, 
-					data:{
-						keep:{
-							parent:true
-						},
-						key:{
-							title:"title"
-						},
-						simpleData:{
-							enable:true,
-							idKey:"id",
-							pIdKey:"pId",
-							rootPId:"0",
-						}
-				    },
-				   view:{
-				        selectedMulti: false,
-				        showTitle: false,
-				   },
-	         };
-    $.fn.zTree.init($("#treeDemo"),setting,datas);
 
-}); 
-
-	function openDiv(){
-		layer.open({
-			type: 1,
-			title: '采购机构列表',
-			skin: 'layui-layer-rim',
-			shadeClose: true,
-			area: ['650px','400px'],
-			content: $("#openDiv")
+	//加载采购机构 下拉数据
+	$(function(){
+		$.ajax({
+			url: "${pageContext.request.contextPath }/ob_project/mechanism.html",
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data) {
+					$.each(data, function(i, org) {
+						$("#orgId").append("<option  value=" + org.id + ">" + org.shortName + "</option>");
+					});
+				} 
+			 $("#orgId").select2();
+			 
+			}
 		});
-	}
+		
+		
+		//加载菜单  下拉框内容
+		$.ajax({
+			url: "${pageContext.request.contextPath }/ob_project/mechanism.html",
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data) {
+					$.each(data, function(i, org) {
+						$("#catgory").append("<option  value=" + org.id + ">" + org.shortName + "</option>");
+					});
+				} 
+			 $("#catgory").select2();
+			 
+			}
+		});
+	});
 	
-	function cancel(){
-		layer.closeAll();
-	}
 	
-	/* 选择机构确定 */
-	function ok(){
-		var item = document.getElementsByName("chkItem");
-		var n = new Array();
- 		var j = 0;
- 		for (var i = 0; i < item.length; i++) {
- 			if(item[i].checked){
- 				n[j] = item[i].value;
- 				j ++;
- 			}
- 		}
- 		if(n.length > 1){
- 			alert("只能选择一家采购机构");
- 		}else{
- 			jgid = n[0];
- 			$("#pro").val(jgid);
-			$.ajax({
-				url: "${pageContext.request.contextPath }/product/selPurchaseDepbyId.do",
-				type: "post",
-				data: {
-					id: jgid
-				},
-				success: function(data) {
-					$("#procurementId").val(data.data);
-				}
-			});
-			layer.closeAll();
- 		}
-	}
-	 /** 判断是否为根节点 */
-    function isRoot(node){
-    	if (node.pId == 0){
-    		return true;
-    	} 
-    	return false;
-    }
- 
- /*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-  	  if (isRoot(treeNode)){
-  		  layer.msg("不可选择根节点");
-  		  return;
-  	  }
-	  if (treeNode) {
-		  if(treeNode.level > 4 || treeNode.level == 4){
-			  $("#citySel4").val(treeNode.name);
-	          $("#categorieId4").val(treeNode.id);
-	          hideMenu();
-		  }else{
-			  layer.msg("不能选择该目录");
-		  }
-       
-        
-	  }
-    }
- 
-    function showMenu() {
-		var cityObj = $("#citySel4");
-		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "445px", top: "205px"}).slideDown("fast");
-
-		$("body").bind("mousedown", onBodyDown);
-	}
-    function hideMenu() {
-		$("#menuContent").fadeOut("fast");
-		$("body").unbind("mousedown", onBodyDown);
-	}
-	function onBodyDown(event) {
-		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-			hideMenu();
-		}
-	}
+	
+	
+	
+	
+	
+	
+	
+	
 	
 	/* 发布 */
 	function sub(i){
 		var code = $("#code").val();
 		var name = $("#name").val();
-		var procurementId = $("#pro").val();
+		var procurementId = $("#orgId option:selected").val();
 		var category = $("#categorieId4").val();
 		var standardModel = $("#standardModel").val();
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
@@ -203,17 +126,19 @@ $(document).ready(function(){
 				  <tr>
 				    <td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
 				    <td width="82%" colspan="3">
-				    	<input id="procurementId" name="" value="" type="text" class="w70p mb0 border0"  onclick="openDiv()" onmousedown="pover()" readonly>
-						<input id = "pro" style="display:none;" value="">
+				    	<select id="orgId" name="supplierId" style="width: 30%;" onchange="pover()">
+  							<option value=""></option>
+						</select>
+						<!-- <input id = "pro" style="display:none;" value=""> -->
 						<div class="star_red" id = "ppro"></div>
 					</td>
 				  </tr>
 				   <tr>
 				    <td class="info">选择目录</td>
 				    <td colspan="3">
-				    	<button class="btn" onclick=" showMenu(); return false;">选择目录</button>
-				    	<input id="citySel4" name="" value="" type="text" class="w230 mb0 border0"  onclick="" readonly>
-				    	<input id="categorieId4" name="categoryId" value="" type="hidden" class="w230 mb0 border0" >
+				    <select id="catgory" name="catgId" style="width: 30%;">
+  							<option value=""></option>
+					</select>
 				    </td>
 				  </tr>
 				  <tr>
@@ -249,25 +174,26 @@ $(document).ready(function(){
 			<ul id="treeDemo" class="ztree slect_option"></ul>
 		</div>
   <!-- 选择框弹出 -->
-  <div id="openDiv" class="dnone layui-layer-wrap" >
+  <%-- <div id="openDiv" class="dnone layui-layer-wrap" >
 	<div class="col-md-12 col-sm-12 col-xs-12 mt20">
 	 <table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
 		  <th class="w30 info">选择</th>
-		  <th class="w50 info">序号</th>
+		  <th class="w30
+		  
+		   info">序号</th>
 		  <th class="info" width="38%">单位名称</th>
-		  <th class="info">采购机构级别</th>
 		</tr>
 		</thead>
 		<tbody>
 		<c:forEach items="${purchaseDepList }" var="purchase" varStatus="vs">
+			<c:if test="${purchase.depName != null}">
 		<tr>
 		  <td class="tc w30"><input type="checkbox" name="chkItem" value="${purchase.id}" /></td>
-		  <td class="tc w50">${vs.index+1}</td>
+		  <td class="tc w30">${vs.index+1}</td>
 		  <td>${purchase.depName}</td>
-		  <td>${purchase.levelDep}</td>
-		</tr>
+		</tr></c:if>
 		</c:forEach>
 	  </tbody>
 	</table>
@@ -276,6 +202,6 @@ $(document).ready(function(){
 	  <input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
     </div>
   </div>
- </div>
+ </div> --%>
 </body>
 </html>

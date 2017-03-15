@@ -632,7 +632,10 @@
 	                           var chars = ['A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
 							  /*  if(data=="2"){
 							    	 layer.alert("部门名称填写错误，请填写本部门名称！",{offset: ['222px', '390px'], shade:0.01});
-							    }    */     
+							    }    */
+							   if(data=="0"){
+							    	layer.alert("非法文件不能导入",{offset: ['222px', '390px'], shade:0.01});
+							    } 
 	                            if(data=="1"){
 					        	   layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
 					        	    
@@ -1288,7 +1291,7 @@
 
 			</div>
 			<div class="padding-top-10 clear">
-				<h2 class="count_flow"><i>2</i>计划明细 </h2> <span class="red"> 注：请选择无标签的水印文件</span>
+				<h2 class="count_flow"><i>2</i>计划明细 </h2>
 				<div class="ul_list">
 					<div class="col-md-12 p115 mt10">
 						<button class="btn btn-windows add" onclick="aadd()">添加</button>
@@ -1515,8 +1518,14 @@
 		
 		
 	<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
+	        
+			 
 <%--     	<form id="up_form" action="${pageContext.request.contextPath}/purchaser/upload.do" method="post" enctype="multipart/form-data">
  --%>    	  <div class="col-md-12 col-sm-12 col-xs-12">
+ 
+						<p class="red" style="font-size: 16px;"> 注：请选择无标签水印的文件！</p> 
+					 
+					
  				<input type="file" id="fileName" class="input_group" name="file" >
  			  </div>
  			  <div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">

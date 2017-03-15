@@ -615,6 +615,7 @@ public class ExpertController extends BaseController {
         String flag = null;
         if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
+            typeId=DictionaryDataUtil.getId(code);
         }
         if (code.equals("ENG_INFO_ID")) {
             flag = "ENG_INFO";
@@ -1775,14 +1776,19 @@ public class ExpertController extends BaseController {
             if(exp.getExpertsTypeId() != null) {
                 for(String typeId: exp.getExpertsTypeId().split(",")) {
                     DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
-                    if(6 == data.getKind()) {
-                        expertType.append(data.getName() + "技术、");
-                    } else {
-                        expertType.append(data.getName() + "、");
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
                     }
+                    
                 }
-                String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-                exp.setExpertsTypeId(expertsType);
+                if(expertType.length() > 0){
+                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                	 exp.setExpertsTypeId(expertsType);
+                }
             } else {
                 exp.setExpertsTypeId("");
             }
@@ -2820,7 +2826,7 @@ public class ExpertController extends BaseController {
         dataMap.put("healthState", expert.getHealthState() == null ? "" : expert.getHealthState());
         dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
         dataMap.put("coverNote", expert.getCoverNote() == null ? "(不必填)" : expert.getCoverNote().equals("1") ? "有" : "无");
-        dataMap.put("isReferenceLftter", expert.getIsReferenceLftter() == null ? "无" : expert.getIsReferenceLftter().equals("1") ? "有" : "无");
+        dataMap.put("isReferenceLftter", expert.getIsReferenceLftter() == null ? "无" : expert.getIsReferenceLftter().equals(Integer.valueOf("1")) ? "有" : "无");
         String address = expert.getAddress();
         Area area = areaServiceI.listById(address);
         if(area != null) {
@@ -2849,11 +2855,19 @@ public class ExpertController extends BaseController {
         }
         dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
         dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
+//        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
         dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional());
         dataMap.put("timeProfessional", expert.getTimeProfessional() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeProfessional()));
         StringBuffer expertType = new StringBuffer();
+        if(expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
         for (String typeId : expert.getExpertsTypeId().split(",")) {
-            expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
+            if(dictionaryDataServiceI.getDictionaryData(typeId).getKind() == 6){
+                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "技术、");
+            }else{
+                expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");    
+            }
+            
+        }
         }
         String expertsType = expertType.toString().substring(0, expertType.length() - 1);
         dataMap.put("expertsTypeId", expertsType);
@@ -2888,7 +2902,7 @@ public class ExpertController extends BaseController {
             }
         }
         String productCategories = ""; 
-        if (categories != null && !"".equals(categories)) {
+        if (categories.toString() != null && !"".equals(categories.toString())) {
             productCategories = categories.substring(0, categories.length() - 1);  
         }
         dataMap.put("productCategories", productCategories);
@@ -3071,7 +3085,20 @@ public class ExpertController extends BaseController {
     @RequestMapping("/isHaveCategory")
     public String isHaveCategory(String expertId) {
         List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
-        return list != null && list.size() > 0 ? "1" : "0";
+        for(ExpertCategory ec:list){
+        	Category cate = categoryService.findById(ec.getCategoryId());
+        	if(cate!=null&&cate.getParentId()!=null){
+            	Category cate1 = categoryService.findById(cate.getParentId());
+            	if(cate1!=null){
+            		Category cate2  = categoryService.findById(cate1.getParentId());
+            		if(cate2!=null){
+        				return "1";
+            		}
+            	}
+        	}
+    
+        }
+        return   "0";
     }
 
     public String getParentId(String cateId, String flag) {
