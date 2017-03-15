@@ -169,8 +169,12 @@ $(function (){
     
     /**生成正式的采购文件*/
     function oncreate(){
-    	  var projectId = $("#projectId").val();
-        window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId;
+    	/*   var projectId = $("#projectId").val();
+        window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId; */
+    	var obj = document.getElementById("TANGER_OCX");
+    	
+    	obj.SaveToLocal("E:\\招标文件.doc",false,true);
+    
     }
 </script>
 <!-- 打开文档后调用  -->
