@@ -212,11 +212,11 @@
      </div>
      
 <!-- 表格开始 -->
-	<div class="col-md-12 pl20 mt10">
+     <div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows add" onclick="createOBRules()">创建竞价规则</button>
 		<button class="btn" onclick="setDefault()">设为默认</button>
 		<button class="btn btn-windows delete" onclick="del()">删除</button>
-	</div>   
+	</div>  
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>

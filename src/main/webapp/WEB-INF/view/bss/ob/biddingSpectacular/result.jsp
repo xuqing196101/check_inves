@@ -55,7 +55,8 @@
 	<!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
 		<span><font size="3">供应商确认中标数量总量为${chengjiao}，预定采购数量为${count}，剩余采购数量为${count-chengjiao}.</font></span>
-		<button class="btn" onclick="printResult()">打印结果</button>
+		<button class="btn btn-windows print" onclick="printResult()">打印结果</button>
+	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -90,9 +91,6 @@
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
     	<div id="pagediv" align="right"></div>
-    <div class="col-md-12 col-sm-12 col-xs-12 tc">
-  		<button class="btn btn-windows back" type="button"  onclick="window.location.href = '${pageContext.request.contextPath }/ob_project/biddingInfoList.html'">返回</button>
-    </div>
    </div>
 </body>
 </html>
