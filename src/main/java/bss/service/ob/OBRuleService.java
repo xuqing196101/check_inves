@@ -61,7 +61,7 @@ public interface OBRuleService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult setDefaultRule(String id);
+	public JdcgResult updateDefaultRule(String id);
 
 	/**
 	 * 

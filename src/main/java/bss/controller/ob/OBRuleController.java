@@ -84,7 +84,9 @@ public class OBRuleController {
 		map.put("name", name);
 		map.put("quoteTime", quoteTime);
 		map.put("intervalWorkday", intervalWorkday);
-		map.put("userId", user.getId());
+		if(user != null){
+			map.put("userId", user.getId());
+		}
 		map.put("page", page);
 		List<OBRule> list = service.selectAllOBRules(map);
 		PageInfo<OBRule> info = new PageInfo<OBRule>(list);
@@ -155,7 +157,7 @@ public class OBRuleController {
 	@ResponseBody
 	public JdcgResult setDefaultRule(HttpServletRequest request) {
 		String id = request.getParameter("id");
-		return service.setDefaultRule(id);
+		return service.updateDefaultRule(id);
 	}
 
 	/**

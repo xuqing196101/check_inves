@@ -225,10 +225,11 @@
 		  <th class="w50 info">序号</th>
 		  <th class="info">竞价规则名称</th>
 		  <th class="info">间隔工作日（天）</th>
-		  <th class="info">具体时间点</th>
+		  <th class="info">竞价开始时间</th>
 		  <th class="info">报价时间（分钟）</th>
 		  <th class="info">确认时间（第一轮）（分钟）</th>
 		  <th class="info">确认时间（第二轮）（分钟）</th>
+		  <th class="info">最少供应商数量</th>
 		  <th class="info">项目数量</th>
 		  <th class="info">是否为默认</th>
 		</tr>
@@ -244,6 +245,7 @@
 			  <td class="tc">${obRule.quoteTime}</td>
 			  <td class="tc">${obRule.confirmTime}</td>
 			  <td class="tc">${obRule.confirmTimeSecond}</td>
+			  <td class="tc">${obRule.leastSupplierNum}</td>
 			  <td class="tc">${obRule.bidingCount}</td>
 			  <td class="tc">
 				<c:if test="${ obRule.status == 1 }">

@@ -8,6 +8,18 @@
 
 <script type="text/javascript">
 	function submitForm(){
+		$("#specialDateErr").html("");
+		$("#dateTypeErr").html("");
+		
+		if($("#specialDate").val()==''){
+			$("#specialDateErr").html("*请输入设置日期");
+			return;
+		}
+		if($("#dateType").val()==''){
+			$("#dateTypeErr").html("*请输入类型");
+			return;
+		}
+		
 		$.post("${pageContext.request.contextPath}/obrule/addSpecialdate.do", $("#specialDataForm").serialize(), function(data) {
 			if (data.status == 200) {
 				layer.confirm(data.data,{
@@ -26,7 +38,7 @@
 
 </head>
 <body>
-<!--面包屑导航开始-->
+   <!--面包屑导航开始-->
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
@@ -37,39 +49,41 @@
       </div>
    </div>
    <!-- 发布定型产品页面开始 -->
-  <div class="wrapper mt10">
-  <div class="container">
-  	<div class="headline-v2">
-     	<h2>添加特殊日期</h2>
-	</div> 
-   <form action="" id="specialDataForm" name="specialDataForm" method="post">
-   <div class="table_box ">
-	  <table class="table table-bordered mt10">
-	    <tbody>
-		  <tr>
-		    <td class="bggrey tr" width="25%">设置日期：</td>
-		    <td >
-		    	<input name="specialDate" class="Wdate w200 mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
-		    </td>
-		  </tr>
-		  <tr>
-		    <td class="bggrey tr" width="25%">类型：</td>
-		    <td>
-		    	<select class="w200" id="dateType" name="dateType">
-               		<option value="">--请选择--</option>
-               		<option value="1">上班</option>
-              		<option value="0">放假</option>
-	            </select>
-		    </td>
-		  </tr>
-		 </tbody>
-	  </table>
-	  </div>
-	</form>
- 	<div class="col-md-12 clear tc mt10">
-  		<button class="btn btn-windows save" onclick="submitForm()">保存</button>
-  		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
- 	</div>
+   <div class="container">
+	  <div class="mt10">
+	  <div class="container container_box">
+  		<form form action="" id="specialDataForm" name="specialDataForm" method="post">
+		  <div>
+		    <h2 class="list_title">添加特殊日期</h2>
+		   <ul class="ul_list">
+		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>设置日期</span>
+			   <div class="input-append input_group col-sm-12 col-xs-12 p0">
+					<input name="specialDate" id="specialDate" class="Wdate w200 mb0" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+		        <div class="cue"><span><font id="specialDateErr" style="color: red"></font></span></div>
+		       </div>
+			 </li>
+			 
+		     <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>类型</span>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			        <select class="w200" id="dateType" name="dateType">
+	               		<option value="">--请选择--</option>
+	               		<option value="1">上班</option>
+	              		<option value="0">放假</option>
+		            </select>
+					<div class="cue"><span><font id="dateTypeErr" style="color: red"></font></span></div>
+		       </div>
+			 </li>
+		   </ul>
+		       <div class="clear"></div> 
+		  </div> 
+		</form>
+		 <div class="col-md-12 col-sm-12 col-xs-12 clear tc mt10">
+	   		<button class="btn btn-windows save" onclick="submitForm()">保存</button>
+	   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+		 </div>
+		</div>
 	</div>
   </div>
 </body>
