@@ -310,9 +310,9 @@ public class OBSupplierController {
 			flag = false;
 			model.addAttribute("errorContactTel","联系人电话不能为空");
 		}else {
-			if(isMobileNO(obSupplier.getContactTel()) == false){
+			if(obSupplier.getContactTel().matches("[0-9]+") == false){
 				flag = false;
-				model.addAttribute("errorContactTel","请输入正确手机号码");
+				model.addAttribute("errorContactTel","请输入正确电话号码");
 			}
 		}
 		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
@@ -353,7 +353,7 @@ public class OBSupplierController {
 	 * @exception
 	 */
 	public static boolean isMobileNO(String mobiles) {
-		Pattern p = Pattern.compile("^((13[0-9])|(15[^4])|(18[0,2,3,5-9])|(17[0-8])|(14[5|7]))\\d{8}$");
+		Pattern p = Pattern.compile("[0-9]{1,}");
 		return p.matcher(mobiles).matches();
 	}
 }

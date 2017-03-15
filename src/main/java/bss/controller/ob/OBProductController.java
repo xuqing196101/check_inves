@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.Category;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.CategoryService;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
@@ -53,6 +55,9 @@ public class OBProductController {
 
 	@Autowired
 	private CategoryService categoryService;
+	
+	@Autowired
+	private OrgnizationServiceI orgnizationService;
 	
 
 	/**
@@ -133,12 +138,8 @@ public class OBProductController {
 		model.addAttribute("purchaseDepList", purchaseDepList);
 		if (type == 1) {
 			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-			PurchaseDep purchaseDep = purchaseOrgnizationServiceI
-					.selectPurchaseById(obProduct.getProcurementId());
-			String name = purchaseDep.getDepName();
 			Category category = categoryService.findById(obProduct.getCategoryId());
 			model.addAttribute("obProduct", obProduct);
-			model.addAttribute("procurementName", name);
 			model.addAttribute("categoryName", category.getName());
 			return "bss/ob/finalize_DesignProduct/edit";
 		} else {
@@ -214,7 +215,6 @@ public class OBProductController {
 	@RequestMapping("/add")
 	public String add(Model model, HttpServletRequest request) {
 		HttpSession session = request.getSession();
-		boolean flag = true;
 		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
 		String name = request.getParameter("name") == null ? "" :request.getParameter("name");
 		String procurementId = request.getParameter("procurementId") == null ? "" :request.getParameter("procurementId");
@@ -229,18 +229,16 @@ public class OBProductController {
 		obProduct.setCategoryId(category);
 		obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
 		obProduct.setStandardModel(standardModel);
-		PurchaseDep purchaseDep = purchaseOrgnizationServiceI
-				.selectPurchaseById(obProduct.getProcurementId());
-		String pname = purchaseDep.getDepName();
-		Category ccategory = categoryService.findById(obProduct.getCategoryId());
+		//Category ccategory = categoryService.findById(obProduct.getCategoryId());
 		// 查询
 		Category parentCategory = categoryService.findById(category);
 		Category parentPCategory = null;
 		if(parentCategory != null){
-			// 查询父节点的父节点
+			// 查询父节点
 			parentPCategory = categoryService.findById(parentCategory.getParentId());
 		}
 		if(parentPCategory != null){
+			//获取到父节点的parentId
 			obProduct.setCategoryParentId(parentPCategory.getParentId());
 		}
 		obProduct.setCreatedAt(new Date());
@@ -292,39 +290,36 @@ public class OBProductController {
 			flag = false;
 		}
 		OBProduct obProduct = new OBProduct();
-		
-			obProduct.setId(id);
-			obProduct.setCode(code);
-			obProduct.setName(name);
-			obProduct.setProcurementId(procurementId);
-			obProduct.setCategoryId(category);
-			// 查询
-			Category parentCategory = categoryService.findById(category);
-			Category parentPCategory = null;
-			if(parentCategory != null){
-				// 查询父节点的父节点
-				parentPCategory = categoryService.findById(parentCategory.getParentId());
-			}
-			if(parentPCategory != null){
-				obProduct.setCategoryParentId(parentPCategory.getParentId());
-			}
-			obProduct.setStandardModel(standardModel);
-			obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
-			obProduct.setUpdatedAt(new Date());
-			obProduct.setStatus(i);
-			obProduct.setIsDeleted(0);
+		obProduct.setId(id);
+		obProduct.setCode(code);
+		obProduct.setName(name);
+		obProduct.setProcurementId(procurementId);
+		obProduct.setCategoryId(category);
+		// 查询
+		Category parentCategory = categoryService.findById(category);
+		Category parentPCategory = null;
+		if(parentCategory != null){
+			// 查询父节点的父节点
+			parentPCategory = categoryService.findById(parentCategory.getParentId());
+		}
+		if(parentPCategory != null){
+			obProduct.setCategoryParentId(parentPCategory.getParentId());
+		}
+		obProduct.setStandardModel(standardModel);
+		obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
+		obProduct.setUpdatedAt(new Date());
+		obProduct.setStatus(i);
+		obProduct.setIsDeleted(0);
 		if(flag == true){
 			oBProductService.updateByPrimaryKeySelective(obProduct);
 			return "redirect:/product/list.html";
 		}else{
-			PurchaseDep purchaseDep = purchaseOrgnizationServiceI
-					.selectPurchaseById(obProduct.getProcurementId());
-			String pname = purchaseDep.getDepName();
 			Category ccategory = categoryService.findById(obProduct.getCategoryId());
 			model.addAttribute("obProduct", obProduct);
-			model.addAttribute("procurementName", pname);
 			model.addAttribute("categoryName", ccategory.getName());
 			return "bss/ob/finalize_DesignProduct/edit";
 		}
 	}
+	
+
 }

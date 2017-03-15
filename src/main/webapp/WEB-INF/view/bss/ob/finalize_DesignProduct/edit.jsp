@@ -4,9 +4,27 @@
 <html>
   <head>
    <%@ include file="/WEB-INF/view/common.jsp" %>
+      <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 <title>发布定型产品页面</title>
 <script type="text/javascript">
 $(document).ready(function(){
+	//加载采购机构信息
+	$.ajax({
+		url: "${pageContext.request.contextPath }/ob_project/mechanism.html",
+		contentType: "application/json;charset=UTF-8",
+		dataType: "json", //返回格式为json
+		type: "POST", //请求方式           
+		success: function(data) {
+			if (data) {
+				$.each(data, function(i, org) {
+					$("#orgId").append("<option  value=" + org.id + ">" + org.shortName + "</option>");
+				});
+			} 
+		 $("#orgId").select2();
+		 $("#orgId").select2("val", "${obProduct.procurementId}");
+		}
+	});
+	
 	var datas;
 	var setting={
 			   async:{
@@ -44,50 +62,6 @@ $(document).ready(function(){
 
 }); 
 
-	function openDiv(){
-		layer.open({
-			type: 1,
-			title: '采购机构列表',
-			skin: 'layui-layer-rim',
-			shadeClose: true,
-			area: ['650px','400px'],
-			content: $("#openDiv")
-		});
-	}
-	
-	function cancel(){
-		layer.closeAll();
-	}
-	
-	/* 选择机构确定 */
-	function ok(){
-		var item = document.getElementsByName("chkItem");
-		var n = new Array();
- 		var j = 0;
- 		for (var i = 0; i < item.length; i++) {
- 			if(item[i].checked){
- 				n[j] = item[i].value;
- 				j ++;
- 			}
- 		}
- 		if(n.length > 1){
- 			alert("只能选择一家采购机构");
- 		}else{
- 			var jgid = n[0];
- 			$("#pro").val(jgid);
-			$.ajax({
-				url: "${pageContext.request.contextPath }/product/selPurchaseDepbyId.do",
-				type: "post",
-				data: {
-					id: jgid
-				},
-				success: function(data) {
-					$("#procurementId").val(data.data);
-				}
-			});
-			layer.closeAll();
- 		}
-	}
 	 /** 判断是否为根节点 */
     function isRoot(node){
     	if (node.pId == 0){
@@ -137,7 +111,7 @@ $(document).ready(function(){
 		var id = $("#productId").val();
 		var code = $("#code").val();
 		var name = $("#name").val();
-		var procurementId = $("#pro").val();
+		var procurementId = $("#orgId option:selected").val();
 		var category = $("#categorieId4").val();
 		var standardModel = $("#standardModel").val();
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
@@ -184,8 +158,9 @@ $(document).ready(function(){
 				  <tr>
 				    <td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
 				    <td width="32%" colspan="3">
-				    	<input id="procurementId" name="" value="${procurementName }" type="text" class="w230 mb0 border0"  onclick="openDiv()" readonly>
-						<input id = "pro" style="display:none;" value="${obProduct.procurementId}">
+				    	<select id="orgId" name="supplierId" style="width: 30%;" >
+  							<option value=""></option>
+						</select>
 						<div class="star_red">${errorProcurement }</div>
 					</td>
 				  </tr>

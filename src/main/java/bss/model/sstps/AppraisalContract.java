@@ -5,6 +5,7 @@ import java.util.Date;
 
 import bss.model.cs.PurchaseContract;
 import ses.model.bms.User;
+import ses.model.sms.Supplier;
 
 /**
 * @Title:AppraisalContract
@@ -88,8 +89,21 @@ public class AppraisalContract {
     
     private BigDecimal subtract;
     
+    /**
+     *  供应商   关联供应商信息
+     */
+	private Supplier supplier;
     
-    public String getId() {
+    
+    public Supplier getSupplier() {
+		return supplier;
+	}
+
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public String getId() {
         return id;
     }
 
