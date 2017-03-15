@@ -119,6 +119,7 @@
 					</ul>
 					<form id="form_id" action="" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+						<input name="judge" value="${judge}" type="hidden">
 					</form>
 					<c:forEach items="${financial}" var="f" varStatus="vs">
 						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（单位：万元）</h2>

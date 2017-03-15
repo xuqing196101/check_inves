@@ -118,6 +118,7 @@
 					<div class="padding-top-20"></div>
 					<form id="form_id" action="" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
+						<input name="judge" value="${judge}" type="hidden">
 					</form>
 					<c:if test="${not empty list }">
 						<c:forEach items="${list }" var="record" varStatus="vs">

@@ -109,6 +109,7 @@
 					<div class="tab-content padding-top-20">
 						<form id="form_id" action="" method="post">
 							<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+							<input name="judge" value="${judge}" type="hidden">
 						</form>
 						<table class="table table-bordered table-condensed table-hover">
 							<thead>
