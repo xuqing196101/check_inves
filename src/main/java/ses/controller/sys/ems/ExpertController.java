@@ -1776,14 +1776,19 @@ public class ExpertController extends BaseController {
             if(exp.getExpertsTypeId() != null) {
                 for(String typeId: exp.getExpertsTypeId().split(",")) {
                     DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
-                    if(6 == data.getKind()) {
-                        expertType.append(data.getName() + "技术、");
-                    } else {
-                        expertType.append(data.getName() + "、");
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
                     }
+                    
                 }
-                String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-                exp.setExpertsTypeId(expertsType);
+                if(expertType.length() > 0){
+                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                	 exp.setExpertsTypeId(expertsType);
+                }
             } else {
                 exp.setExpertsTypeId("");
             }
