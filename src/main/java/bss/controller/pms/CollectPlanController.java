@@ -1,6 +1,5 @@
 package bss.controller.pms;
 
-import java.io.IOException;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
@@ -14,11 +13,6 @@ import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 
-import org.apache.poi.ss.usermodel.Cell;
-import org.apache.poi.ss.usermodel.Row;
-import org.apache.poi.ss.usermodel.Sheet;
-import org.apache.poi.ss.usermodel.Workbook;
-import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.StringTrimmerEditor;
@@ -36,7 +30,6 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
-import ses.model.oms.PurchaseOrg;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
@@ -56,9 +49,7 @@ import bss.util.NumberUtils;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
-import common.bean.ResponseBean;
 
 /**
  * @Title: CollectPlanController
@@ -71,26 +62,26 @@ import common.bean.ResponseBean;
 @RequestMapping("/collect")
 public class CollectPlanController extends BaseController {
 
-  @Autowired
-  private CollectPlanService collectPlanService;
+   @Autowired
+   private CollectPlanService collectPlanService;
 
-  @Autowired
-  private PurchaseRequiredService purchaseRequiredService;
+    @Autowired
+    private PurchaseRequiredService purchaseRequiredService;
   
-  @Autowired
-  private CollectPurchaseService collectPurchaseService;
+    @Autowired
+    private CollectPurchaseService collectPurchaseService;
   
-  @Autowired
-  private DictionaryDataServiceI dictionaryDataServiceI;
-  @Autowired
-  private OrgnizationMapper oargnizationMapper;
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
+    @Autowired
+    private OrgnizationMapper oargnizationMapper;
   
   
-  @Autowired
-  private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+    @Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
   
-  @Autowired
-  private PurchaseDetailService purchaseDetailService;
+    @Autowired
+    private PurchaseDetailService purchaseDetailService;
   
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
@@ -109,82 +100,93 @@ public class CollectPlanController extends BaseController {
 		* @return String     
 		* @throws
 		 */
-    @RequestMapping("/list")
-    public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model,String status){
-    Map<String,Object> map=new HashMap<String,Object>();
-//    purchaseRequired.setIsMaster(1);
-    if(purchaseRequired.getStatus()==null){
-//    	purchaseRequired.setStatus("3");
-    	map.put("status", "3");
-    }else if(purchaseRequired.getStatus().equals("total")){
-    	map.put("sign", "3");
-//    	purchaseRequired.setSign("3");
-//    	purchaseRequired.setStatus(null);
-    }else if(purchaseRequired.getStatus().equals("5")){
-    	map.put("status", "5");
-    }
-//    map.put("status", 1);
-    map.put("isMaster", "1");
-	List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,2);
-
-//	List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
-	List<String> listDep=new ArrayList<String>();
-	if(list2!=null&&list2.size()>0){
-		for(PurchaseManagement p:list2){
-//			Orgnization dep= orgnizationServiceI.getOrgByPrimaryKey(p.getOrgId());
-//			if(dep!=null){
-				listDep.add(p.getPurchaseId());
-//			}
+	    @RequestMapping("/list")
+	    public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired,Integer page,Model model,String status){
+			    Map<String,Object> map=new HashMap<String,Object>();
+			    if(purchaseRequired.getStatus()==null){
+			    	map.put("status", "3");
+			    }
+//			    else if(purchaseRequired.getStatus().equals("total")){
+//			    	map.put("sign", "3");
+//			    }else if(purchaseRequired.getStatus().equals("5")){
+//			    	map.put("status", "5");
+//			    }else if(purchaseRequired.getStatus().equals("3")){
+//			    	map.put("status", "3");
+//			    }
+			    map.put("isMaster", "1");
+			    model.addAttribute("status", status);
+			    if(status==null){
+			    	 model.addAttribute("status", "3");
+			    	status="2";
+			    }
 			
-		}
-	}else{
-		listDep.add("sss");
-	}
-	
-	map.put("list", listDep);
-//    List<PurchaseRequired> list = purchaseRequiredService.queryByAuthority(map,page==null?1:page);
-    List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
-    PageInfo<PurchaseRequired> info = new PageInfo<>(list);
-    model.addAttribute("info", info);
-    model.addAttribute("inf", purchaseRequired);
-    List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
-    if(purchaseRequired.getStatus()==null){
-    	status="3";
-    }
-    model.addAttribute("dic", dic);
-    model.addAttribute("status", status);
-	model.addAttribute("types", DictionaryDataUtil.find(6));
-//    Map<String,Object> map = new HashMap<String,Object>();
-//    List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-//    model.addAttribute("requires", requires);
-    return "bss/pms/collect/collectlist";
-  }
+			    if(status.equals("5")){
+					status="4";
+				}
+			    if(status.equals("3")){
+					status="2";
+				}
+			    
+			    if(status.equals("total")){
+					status="-2";
+				}
+			   
+				List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,Integer.valueOf(status));
+				PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);
+				List<String> listDep=new ArrayList<String>();
+				if(list2!=null&&list2.size()>0){
+					for(PurchaseManagement p:list2){
+							listDep.add(p.getPurchaseId());
+					}
+				}else{
+					listDep.add("sss");
+				}
+				
+				map.put("list", listDep);
+			    List<PurchaseRequired> list = purchaseRequiredService.queryListUniqueId(map);
+			    PageInfo<PurchaseRequired> info = new PageInfo<>(list);
+				info.setStartRow(pm.getStartRow());
+				info.setEndRow(pm.getEndRow());
+				info.setPages(pm.getPages());
+				info.setTotal(pm.getTotal());
+				info.setFirstPage(pm.getFirstPage());
+				info.setPageNum(pm.getPageNum());
+				info.setPageSize(pm.getPageSize());
+			    model.addAttribute("info", info);
+			    model.addAttribute("inf", purchaseRequired);
+			    List<DictionaryData> dic = dictionaryDataServiceI.findByKind("6");
+			  
+			    model.addAttribute("dic", dic);
+			 
+				model.addAttribute("types", DictionaryDataUtil.find(6));
+	        return "bss/pms/collect/collectlist";
+	    }
     
-    @RequestMapping("/view")
-    public String getById(@CurrentUser User user,String planNo,Model model,String type){
-        PurchaseRequired p=new PurchaseRequired();
-        p.setUniqueId(planNo.trim());
-        List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
-        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
-        model.addAttribute("list", list);
-        
-    	HashMap<String,Object> maps=new HashMap<String,Object>();
-		maps.put("typeName", 1);
-	     List<PurchaseDep> orga = purchaseOrgnizationServiceI.findPurchaseDepList(maps);
-		
-		
-	      model.addAttribute("orga", orga);	
-	      
-	      
-//        回头加上
-//        Map<String,Object> map=new HashMap<String,Object>();
-//        List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
-//        model.addAttribute("requires", requires);
-        
-        return "bss/pms/collect/collect_view";
-        
-    }
-    
+	    @RequestMapping("/view")
+	    public String getById(@CurrentUser User user,String planNo,Model model,String type){
+	        PurchaseRequired p=new PurchaseRequired();
+	        p.setUniqueId(planNo.trim());
+	        List<PurchaseRequired> list = purchaseRequiredService.queryUnique(p);
+	        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+	        model.addAttribute("list", list);
+	        
+	    	HashMap<String,Object> maps=new HashMap<String,Object>();
+			maps.put("typeName", 1);
+		     List<PurchaseDep> orga = purchaseOrgnizationServiceI.findPurchaseDepList(maps);
+			
+			
+		      model.addAttribute("orga", orga);	
+		      
+		      
+	//        回头加上
+	//        Map<String,Object> map=new HashMap<String,Object>();
+	//        List<Orgnization> requires = oargnizationMapper.findOrgPartByParam(map);
+	//        model.addAttribute("requires", requires);
+	        
+	        return "bss/pms/collect/collect_view";
+	        
+	    }
+	    
     
 		/**
 		 * 
@@ -196,22 +198,22 @@ public class CollectPlanController extends BaseController {
 		* @return String     
 		* @throws
 		 */
-		@RequestMapping("/collectlist")
+	@RequestMapping("/collectlist")
     public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,Integer page,Model model,String type) {
     //下达状态
-    collectPlan.setSign("3");
-	collectPlan.setUserId(user.getId());
-    List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page == null ? 1 : page);
-    PageInfo<CollectPlan> info = new PageInfo<>(list);
- 
-    model.addAttribute("info", info);
-    model.addAttribute("inf", collectPlan);
-    model.addAttribute("type", type);
-    List<DictionaryData> list2 = DictionaryDataUtil.find(6);
-    model.addAttribute("mType", list2);
-
-    return "bss/pms/collect/contentlist";
-  }
+	    collectPlan.setSign("3");
+		collectPlan.setUserId(user.getId());
+	    List<CollectPlan> list = collectPlanService.queryCollect(collectPlan, page == null ? 1 : page);
+	    PageInfo<CollectPlan> info = new PageInfo<>(list);
+	 
+	    model.addAttribute("info", info);
+	    model.addAttribute("inf", collectPlan);
+	    model.addAttribute("type", type);
+	    List<DictionaryData> list2 = DictionaryDataUtil.find(6);
+	    model.addAttribute("mType", list2);
+	
+	    return "bss/pms/collect/contentlist";
+	 }
     /**
 		  * 
 		 * @Title: queryCollect
@@ -222,7 +224,7 @@ public class CollectPlanController extends BaseController {
 		 * @return String     
 		 * @throws
 		  */
-  @RequestMapping("/add")
+    @RequestMapping("/add")
     public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType,HttpServletRequest request) {
     PurchaseRequired p = new PurchaseRequired();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
@@ -239,8 +241,8 @@ public class CollectPlanController extends BaseController {
 					p.setIsMaster(null);
 					purchaseRequiredService.updateStatus(p);
 					list.addAll(one);
-					
-					
+					//修改中间表状态
+					purchaseManagementService.updateStatus(u,4);	
 				}
 			}
 					BigDecimal budget=BigDecimal.ZERO;
@@ -356,6 +358,9 @@ public class CollectPlanController extends BaseController {
 				p.setStatus("5");//修改
 				p.setIsMaster(null);
 				purchaseRequiredService.updateStatus(p);
+				
+				//修改中间表状态
+				purchaseManagementService.updateStatus(c,4);	
 			
 			}
 			
@@ -432,20 +437,20 @@ public class CollectPlanController extends BaseController {
 			
 		}
 		
-		/**
-		 * @throws Exception 
-     * 
-    * @Title: upload
-    * @Description: 采购计划导入
-    * @author: LChenHao 
-    * @return     
-    * @return String     
-    * @throws
-     */
-  @SuppressWarnings("unchecked")
-  @RequestMapping(value = "/upload" ,produces="text/html;charset=UTF-8")
-  @ResponseBody
-  public String uploadFile(@CurrentUser User user,MultipartFile file,Model model,String planType)throws Exception{
+				/**
+				 * @throws Exception 
+		     * 
+		    * @Title: upload
+		    * @Description: 采购计划导入
+		    * @author: LChenHao 
+		    * @return     
+		    * @return String     
+		    * @throws
+		     */
+		  @SuppressWarnings("unchecked")
+		  @RequestMapping(value = "/upload" ,produces="text/html;charset=UTF-8")
+		  @ResponseBody
+		  public String uploadFile(@CurrentUser User user,MultipartFile file,Model model,String planType)throws Exception{
 	        String fileName = file.getOriginalFilename();  
 	        if(!fileName.endsWith(".xls")&&!fileName.endsWith(".xlsx")){  
 	        	return "1";
@@ -611,8 +616,8 @@ public class CollectPlanController extends BaseController {
 				BeanUtils.copyProperties(pr, pd,new String[] {"serialVersionUID"});
 				purchaseDetailService.add(pd);
 			}
-    return jsonString;
-  }
+		    return jsonString;
+		 }
 
 	  
 		/**

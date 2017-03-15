@@ -37,6 +37,9 @@ public class OBRule {
     /**确认时间（第二轮）**/
     private Integer confirmTimeSecond;
 
+    /**最少供应商数量**/
+    private Integer leastSupplierNum;
+    
     public String getId() {
         return id;
     }
@@ -140,4 +143,14 @@ public class OBRule {
     public void setConfirmTimeSecond(Integer confirmTimeSecond) {
         this.confirmTimeSecond = confirmTimeSecond;
     }
+
+	public Integer getLeastSupplierNum() {
+		return leastSupplierNum;
+	}
+
+	public void setLeastSupplierNum(Integer leastSupplierNum) {
+		this.leastSupplierNum = leastSupplierNum;
+	}
+    
+    
 }

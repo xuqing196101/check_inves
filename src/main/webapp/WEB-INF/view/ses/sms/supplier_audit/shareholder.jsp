@@ -230,10 +230,10 @@
            	  <a aria-expanded="false">供应商类型</a>
             	<i></i>
 	          </li>
-          <li onclick = "jump('items')">
+          <!-- <li onclick = "jump('items')">
             <a aria-expanded="false" >产品类别</a>
             <i></i>
-	        </li>
+	        </li> -->
 	        <li onclick="jump('aptitude')">
 						<a aria-expanded="false" >资质文件维护</a>
 						<i></i>

@@ -169,8 +169,12 @@ $(function (){
     
     /**生成正式的采购文件*/
     function oncreate(){
-    	  var projectId = $("#projectId").val();
-        window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId;
+    	/*   var projectId = $("#projectId").val();
+        window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId; */
+    	var obj = document.getElementById("TANGER_OCX");
+    	
+    	obj.SaveToLocal("E:\\招标文件.doc",false,true);
+    
     }
 </script>
 <!-- 打开文档后调用  -->
@@ -289,6 +293,7 @@ function getTaskTime(strDate) {
     <div class="clear"></div>
     </div>
   </div>
+  <div class="container">
  </c:if>
 <c:if test="${process != 1 }">
 	 <div class="col-md-12 p0">
@@ -435,6 +440,7 @@ function getTaskTime(strDate) {
             <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回重报 "></input>
              <input type="button" class="btn btn-windows git " onclick="updateAudit('4')" value="修改报备 "></input> 
             <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+          </div>
           </div>
          </c:if>
        

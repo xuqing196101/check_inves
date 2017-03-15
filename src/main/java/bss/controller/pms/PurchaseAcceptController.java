@@ -112,29 +112,47 @@ public class PurchaseAcceptController extends BaseController{
 	@RequestMapping("/list")
 	public String queryPlan(@CurrentUser User user,PurchaseRequired purchaseRequired, Integer page, Model model,String status) {
 		Map<String,Object> map=new HashMap<String,Object>();
-		if(purchaseRequired.getStatus()==null){
-			map.put("status", "2");
-			
-		} else if(purchaseRequired.getStatus().equals("3")){
+//		if(purchaseRequired.getStatus()==null){
+//			map.put("status", "2");
+//			
+//		} else if(purchaseRequired.getStatus().equals("3")){
 //			purchaseRequired.setSign("3");
-			map.put("sign", "3");
-			purchaseRequired.setStatus(null);
-		}
-		else if(purchaseRequired.getStatus().equals("total")){
+//			map.put("sign", "3");
+//			purchaseRequired.setStatus(null);
+//		}
+//		else if(purchaseRequired.getStatus().equals("total")){
 //			purchaseRequired.setSign("2");
-			map.put("sign", "2");
-			purchaseRequired.setStatus(null);
-		}else if(purchaseRequired.getStatus().equals("4")){
-			map.put("status", status);
-		}
-		
+//			map.put("sign", "2");
+//			purchaseRequired.setStatus(null);
+//		}else if(purchaseRequired.getStatus().equals("4")){
+//			map.put("status", status);
+//		}
+//		
 		map.put("isMaster", "1");
 		map.put("planName", purchaseRequired.getPlanName());
 //		purchaseRequired.setIsMaster(1);
 		//所有的需求部门
+		if(status==null){
+			status="2";
+		}
+		model.addAttribute("status", status);
+		if(status==null||status.equals("2")){
+			status="1";
+		}
 		
-		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,1);
+		if(status.equals("3")){
+			status="2";
+		}
+		if(status.equals("4")){
+			status="3";
+		}
+		if(status.equals("total")){
+			status="-1";
+		}
+		 
+		List<PurchaseManagement> list2 = purchaseManagementService.queryByMid(user.getOrg().getId(), page==null?1:page,Integer.valueOf(status));
 //		List<PurchaseOrg> list2 = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+		PageInfo<PurchaseManagement> pm = new PageInfo<>(list2);
 		List<String> listDep=new ArrayList<String>();
 		if(list2!=null&&list2.size()>0){
 			for(PurchaseManagement p:list2){
@@ -153,15 +171,18 @@ public class PurchaseAcceptController extends BaseController{
 		    pur.setUserId(userServiceI.getUserById(pur.getUserId()).getRelName());
 		}
 		PageInfo<PurchaseRequired> info = new PageInfo<>(list);
+		info.setStartRow(pm.getStartRow());
+		info.setEndRow(pm.getEndRow());
+		info.setPages(pm.getPages());
+		info.setTotal(pm.getTotal());
+		info.setFirstPage(pm.getFirstPage());
+		info.setPageNum(pm.getPageNum());
+		info.setPageSize(pm.getPageSize());
 		model.addAttribute("info", info);
-		if(status==null){
-//			purchaseRequired.setStatus("2");
+		/*if(status==null){
 			status="2";
 		}
-//		if(purchaseRequired.ge){
-//			
-//		}
-		model.addAttribute("status", status);
+		model.addAttribute("status", status);*/
 		model.addAttribute("inf", purchaseRequired);
 //		Map<String,Object> maps=new HashMap<String,Object>();
 //		List<Orgnization> requires = orgnizationService.findOrgPartByParam(maps);
@@ -242,13 +263,14 @@ public class PurchaseAcceptController extends BaseController{
     	  	id=	plist.get(0).getUserId();
     		if(plist!=null&&plist.size()>0){
     			if(reason!=null){
+    				purchaseManagementService.updateStatus(planNo,3);
     				for(PurchaseRequired p:plist){
     					p.setReason(reason);
     					p.setStatus(status);
         				purchaseRequiredService.updateByPrimaryKeySelective(p);	
         			}
     			}else{
-    				purchaseManagementService.updateStatus(planNo);
+    				purchaseManagementService.updateStatus(planNo,2);
     				for(PurchaseRequired p:plist){
     					p.setStatus(status);
          				purchaseRequiredService.updateByPrimaryKeySelective(p);	

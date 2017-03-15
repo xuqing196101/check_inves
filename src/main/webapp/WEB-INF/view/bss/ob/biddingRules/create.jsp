@@ -17,6 +17,7 @@
 		$("#quoteTimeErr").html("");
 		$("#confirmTimeErr").html("");
 		$("#confirmTimeSecond").html("");
+		$("#leastSupplierNum").html("");
 		
 		if($("#name").val()==''){
 			$("#nameErr").html("*请输入竞价规则名称");
@@ -37,7 +38,7 @@
 		}
 
 		if($("#d242").val()==''){
-			$("#definiteTimeErr").html("*具体时间点不能为空");
+			$("#definiteTimeErr").html("*竞价开始时间不能为空");
 			return;
 		}
 		
@@ -80,6 +81,22 @@
 			} 
 		}
 		
+		var leastSupplierNumStr = document.getElementById('leastSupplierNum').value.trim();
+		if(leastSupplierNumStr.length==0){
+			$("#leastSupplierNumStrErr").html("*最少供应商数量不能为空");
+			return;
+		}
+		if(leastSupplierNumStr.length!=0){
+			reg=/^[-+]?\d*$/; 
+			if(!reg.test(leastSupplierNumStr)){ 
+				$("#leastSupplierNumErr").html("*您输入的整数类型格式不正确");
+				return;
+			}
+			if(parseInt(leastSupplierNumStr)<=0){
+				$("#leastSupplierNumErr").html("*请输入大于0的整数");
+				return;
+			}
+		}
 		 $.post("${pageContext.request.contextPath}/obrule/addRule.do", $("#ruleForm").serialize(), function(data) {
 				if (data.status == 200) {
 					layer.confirm(data.data,{
@@ -132,7 +149,7 @@
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
-			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>具体时间点：</span>
+			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价开始时间：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input type="text" name="definiteTime"  id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
 					<div class="cue"><span><font id="definiteTimeErr" style="color: red"></font></span></div>
@@ -161,6 +178,13 @@
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
 				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="mb0 border0">
 					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
+		       </div>
+			 </li> 
+		     <li class="col-md-3 col-sm-6 col-xs-12">
+			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>最少供应商数量</span>
+			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
+				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" class="mb0 border0">
+					<div class="cue"><span><font id="leastSupplierNumErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		   </ul>

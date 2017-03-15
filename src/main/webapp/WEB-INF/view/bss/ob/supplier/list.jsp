@@ -72,6 +72,12 @@
 	function beginQuote(titleId){
 		window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+titleId;
 	}
+	
+	// 确认结果
+	function confirmResult(titleId){
+		window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+titleId;
+	}
+	
 </script>
 </head>
 <body>
@@ -128,10 +134,13 @@
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td>${ obProject.name }</td>
-			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
-			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
 			  	<c:if test="${ obProject.status == 2 }">
+			  		发布中
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 1 }">
 			  		发布中
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
@@ -143,7 +152,7 @@
 				  	<a href="javascript:void(0)" onclick="beginQuote('${obProject.id}')">报价</a>
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
-				  	确认结果
+				  	<a href="javascript:void(0)" onclick="confirmResult('${obProject.id}')">确认结果</a>
 			  	</c:if>
 			  </td>
 			</tr>

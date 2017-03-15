@@ -417,17 +417,17 @@
 					  	 		<input type="text" name="planName" id="planName" value="${inf.planName }"/>
 					    	</span>
 				      </li>
-				   		<li>
+				   		<%-- <li>
 				    	<label class="fl">需求计划编号：</label>
 				    		<span>
 				  	  		<input type="text" name="planNo" id="planNo" value="${inf.planNo }"/>
 				    		</span>
-				    	</li>
+				    	</li> --%>
 				      <li>
 				    	<label class="fl">状态：</label>
 				    		<span>
 				    	 		<select name="status" id="status">
-										<option value="total"> 全部</option>
+									<option value="total"> 全部</option>
 								   	<option value="3" <c:if test="${status=='3'}"> selected</c:if> >待汇总</option>
 								   	<option value="5" <c:if test="${status=='5'}"> selected</c:if> >已汇总</option>
 						 
@@ -477,7 +477,7 @@
               </c:if>
 			   <input type="hidden"  value="${obj.department }">
 			  </td>
-			  <td class="tc w50"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+			  <td class="tc w50"  onclick="view('${obj.uniqueId}')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl pl20" width="25%" onclick="view('${obj.uniqueId}')">${obj.department}</td>
 			    
 			    

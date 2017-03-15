@@ -258,4 +258,7 @@ public interface CategoryMapper {
     public List<Category> findTreeByPidAndName(HashMap<String, Object> map);
     public List<Category> readNameAndPid(HashMap<String, Object> map);
     public List<Category> searchByNameAndCode(String name,String code,Integer ispublish);
+
+
+	public List<Category> findByParentId(String parentId);
 }

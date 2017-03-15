@@ -19,16 +19,17 @@ import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBSupplierMapper;
-import bss.dao.ppms.AttachmentMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectExample;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
 import bss.service.ob.OBSupplierQuoteService;
+
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -165,7 +166,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
 				obResultsInfoMapper.insert(obResultsInfo);
-
+				
 			}
 		}
 		return JdcgResult.ok("操作成功，请在报价截止时间后，查看本次中标结果！");

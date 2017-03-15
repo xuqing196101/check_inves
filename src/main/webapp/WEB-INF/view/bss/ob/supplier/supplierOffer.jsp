@@ -183,7 +183,7 @@
 				    <td class="tc">
 				    <c:if test="${ !empty uploadFiles  }">
 				    	<c:forEach items="${ uploadFiles }" var="file">
-				     		${ file.name }&nbsp;&nbsp;<button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
+				     		${ file.name } <button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
 				     		<br />
 				       	</c:forEach>
 				     </c:if>

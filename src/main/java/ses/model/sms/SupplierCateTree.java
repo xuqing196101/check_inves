@@ -56,6 +56,18 @@ public class SupplierCateTree {
         return fileId;
     }
 
+    private String oneContract;
+	
+	private String twoContract;
+	
+	private String threeContract;
+	
+	private String oneBil;
+	
+	private String twoBil;
+	
+	private String threeBil;
+    
     public void setFileId(String fileId) {
         this.fileId = fileId;
     }
@@ -147,5 +159,54 @@ public class SupplierCateTree {
     public void setQualificationType(String qualificationType) {
         this.qualificationType = qualificationType;
     }
+
+	public String getOneContract() {
+		return oneContract;
+	}
+
+	public void setOneContract(String oneContract) {
+		this.oneContract = oneContract;
+	}
+
+	public String getTwoContract() {
+		return twoContract;
+	}
+
+	public void setTwoContract(String twoContract) {
+		this.twoContract = twoContract;
+	}
+
+	public String getThreeContract() {
+		return threeContract;
+	}
+
+	public void setThreeContract(String threeContract) {
+		this.threeContract = threeContract;
+	}
+
+	public String getOneBil() {
+		return oneBil;
+	}
+
+	public void setOneBil(String oneBil) {
+		this.oneBil = oneBil;
+	}
+
+	public String getTwoBil() {
+		return twoBil;
+	}
+
+	public void setTwoBil(String twoBil) {
+		this.twoBil = twoBil;
+	}
+
+	public String getThreeBil() {
+		return threeBil;
+	}
+
+	public void setThreeBil(String threeBil) {
+		this.threeBil = threeBil;
+	}
+    
     
 }

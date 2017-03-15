@@ -120,7 +120,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	}
 
 	@Override
-	public JdcgResult setDefaultRule(String id) {
+	public JdcgResult updateDefaultRule(String id) {
 		OBRule obRule = obRuleMapper.selectByPrimaryKey(id);
 		if (obRule != null && obRule.getStatus() == 1) {
 			return JdcgResult.ok("改项已设置为默认规则");

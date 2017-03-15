@@ -924,6 +924,66 @@ public class OBRuleExample {
             addCriterion("CONFIRM_TIME_SECOND not between", value1, value2, "confirmTimeSecond");
             return (Criteria) this;
         }
+
+        public Criteria andLeastSupplierNumIsNull() {
+            addCriterion("LEAST_SUPPLIER_NUM is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumIsNotNull() {
+            addCriterion("LEAST_SUPPLIER_NUM is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumEqualTo(Integer value) {
+            addCriterion("LEAST_SUPPLIER_NUM =", value, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumNotEqualTo(Integer value) {
+            addCriterion("LEAST_SUPPLIER_NUM <>", value, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumGreaterThan(Integer value) {
+            addCriterion("LEAST_SUPPLIER_NUM >", value, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumGreaterThanOrEqualTo(Integer value) {
+            addCriterion("LEAST_SUPPLIER_NUM >=", value, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumLessThan(Integer value) {
+            addCriterion("LEAST_SUPPLIER_NUM <", value, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumLessThanOrEqualTo(Integer value) {
+            addCriterion("LEAST_SUPPLIER_NUM <=", value, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumIn(List<Integer> values) {
+            addCriterion("LEAST_SUPPLIER_NUM in", values, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumNotIn(List<Integer> values) {
+            addCriterion("LEAST_SUPPLIER_NUM not in", values, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumBetween(Integer value1, Integer value2) {
+            addCriterion("LEAST_SUPPLIER_NUM between", value1, value2, "leastSupplierNum");
+            return (Criteria) this;
+        }
+
+        public Criteria andLeastSupplierNumNotBetween(Integer value1, Integer value2) {
+            addCriterion("LEAST_SUPPLIER_NUM not between", value1, value2, "leastSupplierNum");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {

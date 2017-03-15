@@ -70,4 +70,12 @@
    	where EXPERT_ID = #{expertId}
    	and CATEGORY_ID = #{categoryId}
   </delete>
+	<!-- 根据父id查询 -->
+	<select id="findByExpertId" resultMap="BaseResultMap">
+		SELECT
+		<include refid="baseExpertSql" />
+		FROM T_SES_EMS_EXPERT_CATEGORY
+		WHERE EXPERT_ID = #{expertId}
+	</select>
+  
 </mapper>

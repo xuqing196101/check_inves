@@ -51,5 +51,5 @@ public interface PurchaseManagementService {
 	* @return void     
 	* @throws
 	 */
-	void updateStatus(String uniqueId);
+	void updateStatus(String uniqueId,Integer status);
 }
