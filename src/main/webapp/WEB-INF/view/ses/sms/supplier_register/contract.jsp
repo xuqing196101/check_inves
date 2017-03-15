@@ -23,7 +23,7 @@
 		var PROJECT = $("#li_id_3").text();
 		var SERVICE = $("#li_id_4").text();
 		if($.trim(PRODUCT)==""&&$.trim(SALES)=="" && $.trim(SERVICE)==""){
-			layer.alert("没有必须上传的合同信息，可以击下一步！");
+			layer.alert("没有必须上传的合同信息，可以点击下一步！");
 		}
 		//加载默认的页签
 		if(PRODUCT == "物资-生产型合同信息") {
@@ -35,7 +35,8 @@
 			return;
 		}
 		if(PROJECT == "工程合同信息") {
-			loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
+			
+			// loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT');
 			return;
 		}
 		if(SERVICE == "服务合同信息") {
@@ -169,11 +170,11 @@
 								<li id="li_id_2" onclick="loadPageTwo('tab-2','supplier/ajaxContract.html','SALES')" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-2" data-toggle="tab" class="f18">物资-销售型合同信息</a></li>
 								<c:set value="${liCount+1}" var="liCount"/>
 							</c:if>
-							<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
+						<%-- 	<c:if test="${fn:contains(supplierTypeIds, 'PROJECT')}">
 								<c:set var="icount" value="${icount + 1}"></c:set>
 								<li id="li_id_3" onclick="loadPageThree('tab-3','supplier/ajaxContract.html','PROJECT')" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-3" data-toggle="tab" class="f18">工程合同信息</a></li>
 								<c:set value="${liCount+1}" var="liCount"/>
-							</c:if>
+							</c:if> --%>
 							<c:if test="${fn:contains(supplierTypeIds, 'SERVICE')}">
 								<c:set var="icount" value="${icount + 1}"></c:set>
 								<li id="li_id_4" onclick="loadPageFour('tab-4','supplier/ajaxContract.html','SERVICE')" class='<c:if test="${liCount == 0}">active</c:if>'><a aria-expanded="false" href="#tab-4" data-toggle="tab" class="f18">服务合同信息</a></li>

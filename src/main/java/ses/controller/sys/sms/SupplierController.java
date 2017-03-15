@@ -1865,6 +1865,10 @@ public class SupplierController extends BaseSupplierController {
 		        }
 		    }
 		}
+		if(supplierMatPro.getBusinessScope()==null){
+			 model.addAttribute("province", "至少选择一个省市!");
+			 bool = false;
+		}
 		return bool;
 	}
 	//服务信息校验
