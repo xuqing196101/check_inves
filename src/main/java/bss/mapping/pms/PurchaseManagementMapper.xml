@@ -94,7 +94,15 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PMS_PURCHASE_MANAGEMENT
-    where MANAGEMENT_ID = #{mid} and STATUS=#{status} order By CREATE_AT
+  		  where MANAGEMENT_ID = #{mid} 
+	    <if test="status != -1 and status != -2 ">
+	       and STATUS=#{status}
+	    </if>
+	    <if test="status == -2">
+	       and STATUS in(2,4)
+	    </if>
+	    
+     order By CREATE_AT
   </select>
   
   <select id="queryByPid" parameterType="String" resultMap="BaseResultMap">
@@ -106,7 +114,7 @@
   
   <update id="updateStaus" parameterType="String">
    update T_BSS_PMS_PURCHASE_MANAGEMENT
-    set  STATUS =2
+    set  STATUS =#{status}
    where  PURCHASE_ID = #{purchaseId}
   </update>
   

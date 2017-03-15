@@ -38,8 +38,8 @@ public class PurchaseManagementServiceImpl  implements PurchaseManagementService
 	}
 
 	@Override
-	public void updateStatus(String uniqueId) {
-		purchaseManagementMapper.updateStaus(uniqueId);
+	public void updateStatus(String uniqueId,Integer status) {
+		purchaseManagementMapper.updateStaus(uniqueId,status);
 		
 	}
 	
