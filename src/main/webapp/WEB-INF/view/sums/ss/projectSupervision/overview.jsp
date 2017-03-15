@@ -182,6 +182,9 @@
           <p align="center" class="f22 fw">单一来源审价阶段</p>
         </ul>
     </div>
+    <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+      <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+    </div>
   </body>
 
 </html>

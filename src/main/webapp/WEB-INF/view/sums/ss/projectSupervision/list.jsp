@@ -6,6 +6,9 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
+    <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
       /*分页  */
       $(function() {
@@ -28,6 +31,13 @@
             }
           }
         });
+        
+      var value = $('#p').progressbar('getValue');
+      if (value < 100){
+          value += Math.floor(Math.random() * 10);
+          $('#p').progressbar('setValue', value);
+      }
+        
       });
 
       /** 全选全不选 */
@@ -78,6 +88,7 @@
       function view(id,type){
         window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id+"&type="+type;
       }
+      
     </script>
   </head>
 
@@ -199,7 +210,9 @@
                     </c:if>
                   </c:forEach>
                 </td>
-                <td class="tc" onclick="view('${obj.id}')"></td>
+                <td class="tc" onclick="view('${obj.id}','1')">
+                  <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                </td>
               </tr>
             </c:forEach>
           </tbody>
