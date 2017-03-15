@@ -41,75 +41,76 @@
         });
       }
 
-      function showTree(tabId) {
-        var id = $("#" + tabId + "-value").val();
-        if(id == null || id == '') {
-            layer.alert("此类专家无需选择产品类别，请进入下一环节！");
-            $("#isServer").val(1);
-        }
-        var zTreeObj;
-        var zNodes;
-        var expertId = "${expert.id}";
-        var setting = {
-          async: {
-            autoParam: ["id"],
-            enable: true,
-            url: "${pageContext.request.contextPath}/expert/getCategory.do",
-            otherParam: {
-              "categoryId": id,
-              "expertId": expertId,
-            },
-            dataFilter: ajaxDataFilter,
-            dataType: "json",
-            type: "get"
-          },
-          check: {
-            enable: true,
-            chkStyle: "checkbox",
-            chkboxType: {
-              "Y": "ps",
-              "N": "ps"
-            }, //勾选checkbox对于父子节点的关联关系  
-          },
-          data: {
-            simpleData: {
-              enable: true,
-              idKey: "id",
-              pIdKey: "parentId"
-            }
-          },
-          callback: {
-            onCheck: saveCategory,
-            onAsyncSuccess: zTreeOnAsyncSuccess,
-            onExpand: zTreeOnExpand,
-            beforeCheck: zTreeBeforeCheck,
-          },
-          view: {
-            fontCss: setFontCss,
-            showLine: true
-          },
-        };
-        zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
-        zTreeObj.expandAll(true); //全部展开
-      }
-      
-      // 树节点展开的回调事件
-      function zTreeOnExpand(event, treeId, treeNode) {
-        $("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
-      }
-      
-      function ajaxDataFilter(treeId, parentNode, childNodes) {
-        // 判断是否为空
-        if(childNodes) {
-          // 判断如果父节点是第三极,则将查询出来的子节点全部改为isParent = false
-          if(parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
-            for(var i = 0; i < childNodes.length; i++) {
-              childNodes[i].isParent += false;
-            }
-          }
-        }
-        return childNodes;
-      }
+		function showTree(tabId) {
+			var id = $("#" + tabId + "-value").val();
+			if(id == null || id == '') {
+				  layer.alert("此类专家无需选择产品类别，请进入下一环节！");
+				  $("#isServer").val(1);
+			}
+			var zTreeObj;
+			var zNodes;
+			var expertId = "${expert.id}";
+			var setting = {
+				async: {
+					autoParam: ["id"],
+					enable: true,
+					url: "${pageContext.request.contextPath}/expert/getCategory.do",
+					otherParam: {
+						"categoryId": id,
+						"expertId": expertId,
+					},
+					dataFilter: ajaxDataFilter,
+					dataType: "json",
+					type: "get"
+				},
+				check: {
+					enable: true,
+					chkStyle: "checkbox",
+					chkboxType: {
+						"Y": "ps",
+						"N": "ps"
+					}, //勾选checkbox对于父子节点的关联关系  
+				},
+				data: {
+					simpleData: {
+						enable: true,
+						idKey: "id",
+						pIdKey: "parentId"
+					}
+				},
+				callback: {
+					onCheck: saveCategory,
+					onAsyncSuccess: zTreeOnAsyncSuccess,
+					onExpand: zTreeOnExpand,
+					beforeCheck: zTreeBeforeCheck,
+				},
+				view: {
+					fontCss: setFontCss,
+					showLine: true
+				},
+			};
+			zTreeObj = $.fn.zTree.init($("#" + tabId), setting, zNodes);
+			zTreeObj.expandAll(true); //全部展开
+		}
+		
+		// 树节点展开的回调事件
+		function zTreeOnExpand(event, treeId, treeNode) {
+			$("a[title='" + treeNode.name + "']").next("ul").removeAttr("style");
+		}
+		
+		function ajaxDataFilter(treeId, parentNode, childNodes) {
+			// 判断是否为空
+			if(childNodes) {
+				// 判断如果父节点是第三极,则将查询出来的子节点全部改为isParent = false
+				if(parentNode != null && parentNode != "undefined" && parentNode.level == 2) {
+					for(var i = 0; i < childNodes.length; i++) {
+						childNodes[i].isParent += false;
+					}
+				}
+			}
+			return childNodes;
+		}
+
 
       function saveCategory(event, treeId, treeNode) {
 
@@ -188,50 +189,50 @@
         showTree(page);
       }
 
-      function initTree() {
-        var id = $("#tab-1-value").val();
-        if(id!=null){
-          showTree("tab-1");
-          $("#tab-1").attr("style", "");
-          $("#div-1").attr("style", "");
-          $("li_id_1").attr("class", "active");
-          $("li_1").attr("aria-expanded", "true");
-          $("#tab-2").attr("style", "display: none");
-          $("#div-2").attr("style", "display: none");
-          $("#tab-3").attr("style", "display: none");
-          $("#div-3").attr("style", "display: none");
-          $("#tab-4").attr("style", "display: none");
-          $("#div-4").attr("style", "display: none");
-        }else{
-          showTree("tab-2");
-          $("#tab-1").attr("style", "display: none");
-          $("#div-1").attr("style", "display: none");
-          $("#tab-2").attr("style", "");
-          $("#div-2").attr("style", "");
-          $("li_id_2").attr("class", "active");
-          $("li_2").attr("aria-expanded", "true");
-          $("#tab-3").attr("style", "display: none");
-          $("#div-3").attr("style", "display: none");
-          $("#tab-4").attr("style", "display: none");
-          $("#div-4").attr("style", "display: none");
-        }
-      }
-
-      function zancunCategory(count) {
-        var ids = new Array();
-        for(var i = 1; i <= count; i++) {
-          var id = "tab-" + i;
-          var tree = $.fn.zTree.getZTreeObj(id);
-          nodes = tree.getCheckedNodes(true);
-          for(var j = 0; j < nodes.length; j++) {
-            if(!nodes[j].isParent) {
-              ids.push(nodes[j].id);
-            }
-          }
-        }
-        $("#categoryId").val(ids);
-        zancunMsg();
-      }
+		function initTree() {
+			var id = $("#tab-1-value").val();
+			if(id!=null){
+				showTree("tab-1");
+				$("#tab-1").attr("style", "");
+				$("#div-1").attr("style", "");
+				$("li_id_1").attr("class", "active");
+				$("li_1").attr("aria-expanded", "true");
+				$("#tab-2").attr("style", "display: none");
+				$("#div-2").attr("style", "display: none");
+				$("#tab-3").attr("style", "display: none");
+				$("#div-3").attr("style", "display: none");
+				$("#tab-4").attr("style", "display: none");
+				$("#div-4").attr("style", "display: none");
+			}else{
+				showTree("tab-2");
+				$("#tab-1").attr("style", "display: none");
+				$("#div-1").attr("style", "display: none");
+				$("#tab-2").attr("style", "");
+				$("#div-2").attr("style", "");
+				$("li_id_2").attr("class", "active");
+				$("li_2").attr("aria-expanded", "true");
+				$("#tab-3").attr("style", "display: none");
+				$("#div-3").attr("style", "display: none");
+				$("#tab-4").attr("style", "display: none");
+				$("#div-4").attr("style", "display: none");
+			}
+		}
+	
+		function zancunCategory(count) {
+			var ids = new Array();
+			for(var i = 1; i <= count; i++) {
+				var id = "tab-" + i;
+				var tree = $.fn.zTree.getZTreeObj(id);
+				nodes = tree.getCheckedNodes(true);
+				for(var j = 0; j < nodes.length; j++) {
+					if(!nodes[j].isParent) {
+						ids.push(nodes[j].id);
+					}
+				}
+			}
+			$("#categoryId").val(ids);
+			zancunMsg();
+		}
 
       function nextCategory() {
         var expertId = "${expert.id}";

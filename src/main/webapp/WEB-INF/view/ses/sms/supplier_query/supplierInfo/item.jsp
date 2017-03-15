@@ -292,6 +292,7 @@
 							</div>
 							<form id="form_id" action="" method="post">
 								<input id="supplierId" name="supplierId" value="${supplierId}" type="hidden">
+								<input name="judge" value="${judge}" type="hidden">
 							</form>
 							<div class="tab-content padding-top-20" id="tab_content_div_id">
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">

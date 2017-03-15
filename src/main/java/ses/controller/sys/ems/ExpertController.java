@@ -1776,14 +1776,19 @@ public class ExpertController extends BaseController {
             if(exp.getExpertsTypeId() != null) {
                 for(String typeId: exp.getExpertsTypeId().split(",")) {
                     DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
-                    if(6 == data.getKind()) {
-                        expertType.append(data.getName() + "技术、");
-                    } else {
-                        expertType.append(data.getName() + "、");
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
                     }
+                    
                 }
-                String expertsType = expertType.toString().substring(0, expertType.length() - 1);
-                exp.setExpertsTypeId(expertsType);
+                if(expertType.length() > 0){
+                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                	 exp.setExpertsTypeId(expertsType);
+                }
             } else {
                 exp.setExpertsTypeId("");
             }
@@ -3678,7 +3683,7 @@ public class ExpertController extends BaseController {
             return JSON.toJSONString(imgInfo);
         }
         if(TECHNOLOGY_PROOF.size()<1 && TECHNOLOGY_PROOF!=null){
-            imgInfo="专家技术证书未上传";
+            imgInfo="专业技术职称证书未上传";
             return JSON.toJSONString(imgInfo);
         }
         if( APPLICATION_PROOF.size()<1 && isReferenceLftter==5 && APPLICATION_PROOF!=null){

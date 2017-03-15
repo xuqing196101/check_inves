@@ -391,7 +391,7 @@
                 layer.msg("请输入姓名 !");
                 return false;
             }
-            var gender = $("#gender").val();
+            var gender = $("#gender").val().trim();
             if (!gender) {
                 layer.msg("请选择性别 !");
                 return false;
@@ -433,17 +433,16 @@
                 layer.msg("请填写民族 !");
                 return false;
             }
-            var healthState = $("#healthState").val();
+            var healthState = $("#healthState").val().trim();
             if (!healthState) {
                 layer.msg("请填写健康状态!");
                 return false;
             }
-            var idCardNumber = $("#idCardNumber").val();
+            var idCardNumber = $("#idCardNumber").val().trim();
             if (!idCardNumber) {
                 layer.msg("请填写居民身份证号码 !");
                 return false;
             }
-
             if (from == "ARMY") {
                 var idType = $("#idType").val();
                 if (!idType) {
@@ -484,14 +483,12 @@
                 layer.msg("请填写手机号!");
                 return false;
             }
-
-            var telephone = $("#telephone").val();
+            var telephone = $("#telephone").val().trim();
             if (!telephone) {
                 layer.msg("请填写固定电话!");
                 return false;
             }
-
-            var email = $("#email").val();
+            var email = $("#email").val().trim();
             if (!email) {
                 layer.msg("请填写个人邮箱!");
                 return false;
@@ -524,7 +521,10 @@
                 layer.msg("请填写单位邮编!");
                 return false;
             }
-
+            if (postCode.length != 6) {
+                layer.msg("请正确填写邮编!");
+                return false;
+            }
 
             var major = $("#major").val();
             if (!major) {
@@ -961,7 +961,7 @@
                 <%--如果是民--%>
                 <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                     <li class="col-md-3 col-sm-6 col-xs-12">
-                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i>缴纳社会保险证明</span>
+                        <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 是否缴纳社会保险</span>
                         <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                             <select name="coverNote" id="coverNote" style="width:100%;"
                                     <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
@@ -1378,12 +1378,12 @@
                                 <c:if test="${fn:contains(errorField,'相关机关事业部门推荐信')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('相关机关事业部门推荐信')"</c:if>>
                             <option
-                                    <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
-                                    value="1">有
-                            </option>
-                            <option
                                     <c:if test="${expert.isReferenceLftter eq '2'}">selected="selected"</c:if>
                                     value="2">无
+                            </option>
+                            <option
+                                    <c:if test="${expert.isReferenceLftter eq '1'}">selected="selected"</c:if>
+                                    value="1">是
                             </option>
                         </select>
                     </div>
@@ -1518,7 +1518,7 @@
 
         $("#coverNote").change(function () {
             if ($(this).val() == "1") {
-                $("#sbzm").text("缴纳社保凭证")
+                $("#sbzm").text("缴纳社会保险证明")
                 init_web_upload();
             } else {
 
