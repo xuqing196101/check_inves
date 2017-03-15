@@ -119,8 +119,7 @@
     	  <div class="clear"></div>
        </form>
      </div>
-         
-<!-- 表格开始 -->
+	<!-- 表格开始 -->
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
@@ -141,11 +140,11 @@
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td>${ obProject.name }</td>
-			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
-			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
 				<c:if test="${ !empty obProject.tradedSupplierCount }">
-					${ obProject.tradedSupplierCount }
+					<a href="javascript:;">${ obProject.tradedSupplierCount }</a>
 				</c:if>
 				<c:if test="${ empty obProject.tradedSupplierCount }">
 					0
@@ -153,18 +152,30 @@
 			  </td>
 			  <td class="tc">
 			  	<c:if test="${ !empty obProject.qualifiedSupplier }">
-			  		${ obProject.qualifiedSupplier  }
+			  	    <a href="javascript:;">${ obProject.qualifiedSupplier  }</a>
 			  	</c:if>
 			  	<c:if test="${empty obProject.qualifiedSupplier }">
 			  		0
 			  	</c:if>
 			  </td>
 			  <td class="tc">
+			  	<c:if test="${ obProject.status == 0 }">
+			  		暂存 
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 1 }">
+			  		已发布 
+			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 }">
-			  		发布中
+			  		竞价中
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 4 }">
+			  		流拍
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 5 }">
+			  		待确认
 			  	</c:if>
 			  </td>
 			  <td class="tc">

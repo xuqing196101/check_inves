@@ -32,15 +32,17 @@
         <div class="clear"></div>
       </div>
     </div>
-    
-    <!-- 修改订列表开始-->
+   <!-- 修改订列表开始-->
    <div class="container container_box">
+   <div class="mt10">
+	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   </div> 
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
 		<table class="table table-bordered mt10">
 			    <tbody>
 				  <tr>
-				    <td class="tc">竞价标题</td>
+				    <td class="tc" class="info">竞价标题</td>
 				    <td class="tc">${ obProject.name }</td>
 				    <td class="tc">交货截止时间</td>
 				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
@@ -142,9 +144,6 @@
 	  </div>
 	  </div>	 
   </form>
-	<div class="col-md-12 clear tc mt10">
-   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-   	</div>
  </div>
 </body>
 </html>

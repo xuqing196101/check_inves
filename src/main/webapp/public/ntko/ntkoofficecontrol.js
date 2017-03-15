@@ -204,8 +204,13 @@ document.write('<param name="ProductKey" value="AB579623F5B4E11E5F61C06579A21F84
 	}
 	
 }
-else if (browser=="firefox"){ 	
-		document.write('<object id="TANGER_OCX" type="application/ntko-plug"  codebase="'+codebase+'" width="100%" height="100%" ForOnSaveToURL="OnComplete2" ForOnBeginOpenFromURL="OnComplete" ForOndocumentopened="OnComplete3"');
+else if (browser=="firefox"){
+		/*var curWwwPath=window.document.location.href;
+		var pathName=window.document.location.pathname;
+		var pos=curWwwPath.indexOf(pathName); 
+		var localhostPaht=curWwwPath.substring(0,pos); 
+		document.write(localhostPaht);*/
+		document.write('<object id="TANGER_OCX" type="application/ntko-plug"  codebase="'+codebase+'#version=5,0,3,9" width="100%" height="100%" ForOnSaveToURL="OnComplete2" ForOnBeginOpenFromURL="OnComplete" ForOndocumentopened="OnComplete3"');
 		
 		document.write('ForOnpublishAshtmltourl="publishashtml"');
 		document.write('ForOnpublishAspdftourl="publishaspdf"');
@@ -234,7 +239,7 @@ document.write('_ProductKey="AB579623F5B4E11E5F61C06579A21F8446416FB7"');
 		document.write('_MenuButtonStyle="7"   ');
 		document.write('_WebUserName="NTKO"   ');
 		document.write('clsid="{'+classid+'}" >');
-		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web FireFox跨浏览器插件。请点击<a href="javascript:downloadNtko();">安装组1件</a></SPAN>   ');
+		document.write('<SPAN STYLE="color:red">尚未安装NTKO Web FireFox跨浏览器插件。请点击<a href="javascript:downloadNtko();">安装组件</a></SPAN>   ');
 		document.write('</object>   ');
 }else if(browser=="chrome"){
 		document.write('<object id="TANGER_OCX" clsid="{'+classid+'}"  ForOnSaveToURL="OnComplete2" ForOnBeginOpenFromURL="OnComplete" ForOndocumentopened="OnComplete3"');
