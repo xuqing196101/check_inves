@@ -72,6 +72,12 @@
 	function beginQuote(titleId){
 		window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+titleId;
 	}
+	
+	// 确认结果
+	function confirmResult(titleId){
+		window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+titleId;
+	}
+	
 </script>
 </head>
 <body>
@@ -146,7 +152,7 @@
 				  	<a href="javascript:void(0)" onclick="beginQuote('${obProject.id}')">报价</a>
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
-				  	确认结果
+				  	<a href="javascript:void(0)" onclick="confirmResult('${obProject.id}')">确认结果</a>
 			  	</c:if>
 			  </td>
 			</tr>
