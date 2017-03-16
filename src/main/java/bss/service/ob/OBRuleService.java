@@ -5,6 +5,7 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import ses.model.bms.User;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSpecialDate;
 import common.utils.JdcgResult;
@@ -74,7 +75,7 @@ public interface OBRuleService {
 	 * @throws
 	 */
 	public JdcgResult addSpecialdate(OBSpecialDate obSpecialDate,
-			HttpServletRequest request);
+			HttpServletRequest request, User user);
 	
 	/**
 	 * 
@@ -104,4 +105,5 @@ public interface OBRuleService {
 	* @return OBRule    返回类型 
 	 */
 	public OBRule selectByStatus();
+
 }

@@ -191,7 +191,6 @@ public class OBRuleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("specialDate", specialDate);
 		map.put("dateType", dateType);
-		map.put("userId", user.getId());
 		map.put("page", page);
 		List<OBSpecialDate> list = service.selectAllOBSpecialDate(map);
 		PageInfo<OBSpecialDate> info = new PageInfo<OBSpecialDate>(list);
@@ -229,9 +228,9 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "addSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult addSpecialdate(OBSpecialDate obSpecialDate,
+	public JdcgResult addSpecialdate(@CurrentUser User user, OBSpecialDate obSpecialDate,
 			HttpServletRequest request) {
-		return service.addSpecialdate(obSpecialDate, request);
+		return service.addSpecialdate(obSpecialDate, request, user);
 	}
 
 	/**
