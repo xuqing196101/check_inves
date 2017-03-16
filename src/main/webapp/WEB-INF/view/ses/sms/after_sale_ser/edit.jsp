@@ -85,6 +85,38 @@
 				<div>
 			        <h2 class="list_title">售后服务修改</h2> 
 					<ul class="ul_list">
+					<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>产品名称</span>
+							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<span class="add-on">i</span>
+								<div class="cue">${ERR_legalName}</div>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>合同编号</span>
+							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<span class="add-on">i</span>
+								<div class="cue">${ERR_legalName}</div>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>合同金额</span>
+							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<span class="add-on">i</span>
+								<div class="cue">${ERR_legalName}</div>
+							</div>
+						</li>
+						<li class="col-md-3 col-sm-6 col-xs-12">
+							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>技术参数</span>
+							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<span class="add-on">i</span>
+								<div class="cue">${ERR_legalName}</div>
+							</div>
+						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>全国售后服务地址</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -93,7 +125,6 @@
 								<div class="cue">${ERR_name}</div>
 							</div>
 						</li>
-
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">

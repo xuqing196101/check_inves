@@ -55,6 +55,17 @@ public class AfterSaleSer implements Serializable{
     
     /** 问题描述 **/
     private String question;
+    
+	/** 技术参数 **/
+    private String technicalParameters;
+    
+    public String getTechnicalParameters() {
+		return technicalParameters;
+	}
+
+	public void setTechnicalParameters(String technicalParameters) {
+		this.technicalParameters = technicalParameters;
+	}
 
 	public String getId() {
 		return id;
