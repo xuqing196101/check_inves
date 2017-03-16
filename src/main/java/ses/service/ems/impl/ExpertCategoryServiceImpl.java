@@ -110,7 +110,14 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 			int listSize = list.size();
 			String[] array = new String[listSize];
 			for (int i = 0; i < array.length; i++) {
-				array[i] = list.get(i).getId();
+				String listId = list.get(i).getId();
+				String code = DictionaryDataUtil.findById(listId).getCode();
+				if (code != null && code.equals("GOODS_PROJECT")) {
+		            code = "PROJECT";
+		            array[i] = DictionaryDataUtil.getId(code);
+		        }else {
+		        	array[i] = listId;
+				}
 			}
 			map.put("array", array);
 		}
