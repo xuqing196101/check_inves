@@ -14,12 +14,19 @@
 			ids = idsStr.split(",");
 		})
 		
-		function totalPrice(obj,id){
+		function totalPrice(obj,id,limitedPriceId){
 			// 获取采购数量
 			var count = $(obj).attr("data-count");
 			// 获取报价金额
 			var unitPrice = $(obj).val();
 			
+			var limitedPrice = $("#"+limitedPriceId).html();
+			if(parseFloat(unitPrice) > parseFloat(limitedPrice)){
+				layer.msg("对不起，报价不能大于限价");
+				$("#"+id).html("");
+				$("#totalPrice").html("");
+				return;
+			}
 			// 判断单价输入是否为空
 			if(unitPrice != ''){
 				if(! /^-?\d+$/.test(unitPrice) && ! /^-?\d+\.?\d{0,2}$/.test(unitPrice)){
@@ -42,6 +49,7 @@
 			
 		}
 		
+		// 字符串转浮点数
 		function toDecimal(signalTotalPrice) { 
 	        var f = Math.round(signalTotalPrice*100)/100;
 	        var s = f.toString();
@@ -207,7 +215,7 @@
 			  <th class="info">定型产品名称</th>
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
-			  <th class="info">报价</th>
+			  <th class="info" width="10px">报价</th>
 			  <th class="info">总价（元）</th>
 			  <th class="info">备注信息</th>
 			</tr>
@@ -224,9 +232,9 @@
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].resultsNumber" value="${ productInfo.purchaseCount }">
 				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc">${ productInfo.obProduct.name }</td>
-				  <td class="tc">${ productInfo.limitedPrice }</td>
+				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
-				  <td><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}')" type="text" class="w230 mb0 border0" /></td>
+				  <td class="tc" width="3px"><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}','${ vs.index }')" type="text" class="w230 mb0 border0" /></td>
 				  <td class="tc" id="${ productInfo.obProduct.id }"></td>
 				  <td class="tc">${ productInfo.obProduct.remark }</td>
 				</tr>
