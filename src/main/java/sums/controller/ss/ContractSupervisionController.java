@@ -19,11 +19,16 @@ import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
+import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Project;
 import bss.service.cs.PurchaseContractService;
 import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.DownloadService;
+import common.service.UploadService;
 
 /* 
  *@Title:ContractSupervisionController
@@ -40,7 +45,11 @@ public class ContractSupervisionController {
 	@Autowired
 	private OrgnizationServiceI orgnizationServiceI;
 	@Autowired
-	    private SupplierService supplierService;
+	private SupplierService supplierService;
+	@Autowired
+    private UploadService uploadService;
+    @Autowired
+    private DownloadService downloadService;
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
 		if(page==null){
@@ -110,7 +119,22 @@ public class ContractSupervisionController {
 		return "sums/ss/contractSupervision/draftlist";
 	}
 	@RequestMapping(value="/contSupervision",produces = "text/html;charset=UTF-8")
-	public String detailContract(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
+	public String detailContract(Model model, PurchaseContract purCon,Integer page){
+		PurchaseContract purchaseContract = purchaseContractService.selectById(purCon.getId());
+		model.addAttribute("contract",purchaseContract);
 		return "sums/ss/contractSupervision/contractSupervision";
 	}
+	@RequestMapping(value="/filePage",produces = "text/html;charset=UTF-8")
+	public String filePage(Model model,String id){
+		String typeId = DictionaryDataUtil.getId("CONTRACT_FILE");
+    	List<UploadFile> files = uploadService.getFilesOther(id, typeId, Constant.TENDER_SYS_KEY+"");
+    	if(files!=null&&files.size()>0){
+    		model.addAttribute("status", "ok");
+    	}else{
+    		model.addAttribute("status", "no");
+    	}
+    	model.addAttribute("id", id);
+		return "sums/ss/contractSupervision/filePage";
+	}
+	
 }
