@@ -45,7 +45,7 @@ public interface ExpertMapper {
       * @param @return      
       * @return List<Expert>
      */
-    List<Expert> selectAllExpert(Map paramMap);
+    List<Expert> selectAllExpert(Expert expert);
     /**
      *〈简述〉
      * 查询所有待复审和复审通过未通过的专家

@@ -139,6 +139,9 @@
         <if test="relName != null and relName !=''">
             AND REAL_NAME like '%${relName}%'
         </if>
+        <if test="mobile != null and mobile !=''">
+            AND MOBILE like '%${mobile}%'
+        </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND EXPERTS_FROM = '${expertsFrom}'
         </if>
