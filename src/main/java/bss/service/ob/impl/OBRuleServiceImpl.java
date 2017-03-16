@@ -24,6 +24,7 @@ import bss.model.ob.OBSpecialDateExample;
 import bss.service.ob.OBRuleService;
 
 import com.github.pagehelper.PageHelper;
+
 import common.utils.JdcgResult;
 
 /**
@@ -46,7 +47,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	private OBSpecialDateMapper obSpecialDateMapper;
 
 	@Override
-	public JdcgResult addRule(OBRule obRule, HttpServletRequest req) {
+	public JdcgResult addRule(OBRule obRule, User user) {
 		if (obRule == null) {
 			return JdcgResult.build(500, "请填写竞价规则相关信息");
 		}
@@ -80,7 +81,6 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "确认时间(第二轮)不能为空");
 		}
 		// 校验表单提交数据结束
-		User user = (User) req.getSession().getAttribute("loginUser");
 		if (user == null) {
 			return JdcgResult.build(500, "请先登录再操作");
 		}
@@ -218,5 +218,41 @@ public class OBRuleServiceImpl implements OBRuleService {
 	public OBRule selectByStatus() {
 		// TODO Auto-generated method stub
 		return obRuleMapper.selectByStatus();
+	}
+
+	/**
+	 * 
+	 * @Title: editObRule
+	 * @Description: 修改竞价规则数据回显
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
+	 */
+	@Override
+	public OBRule editObRule(String id) {
+		OBRule obRule = obRuleMapper.selectByPrimaryKey(id);
+		if (obRule != null) {
+			return obRule;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: updateobRule
+	 * @Description: 修改竞价规则
+	 * @author Easong
+	 * @param @param obRule
+	 * @param @return 设定文件
+	 */
+	@Override
+	public JdcgResult updateobRule(OBRule obRule) {
+		if (obRule == null || obRule.getId() == null) {
+			return JdcgResult.build(500, "竞价规则已失效");
+		}
+		// 设置修改时间
+		obRule.setUpdatedAt(new Date());
+		obRuleMapper.updateByPrimaryKeySelective(obRule);
+		return JdcgResult.ok("修改成功");
 	}
 }

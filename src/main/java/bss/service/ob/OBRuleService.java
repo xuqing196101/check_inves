@@ -30,7 +30,7 @@ public interface OBRuleService {
 	 * @return JdcgResult 返回类型
 	 * @throws
 	 */
-	public JdcgResult addRule(OBRule obRule, HttpServletRequest request);
+	public JdcgResult addRule(OBRule obRule, User user);
 
 	/**
 	 * 
@@ -105,5 +105,30 @@ public interface OBRuleService {
 	* @return OBRule    返回类型 
 	 */
 	public OBRule selectByStatus();
+	
+	
+	/**
+	 * 
+	* @Title: updateObRule 
+	* @Description: 编辑竞价规则数据回显
+	* @author Easong
+	* @param @param id
+	* @param @return    设定文件 
+	* @return OBRule    返回类型 
+	* @throws
+	 */
+	public OBRule editObRule(String id);
+	
+	/**
+	 * 
+	* @Title: updateobRule 
+	* @Description: 修改竞价规则
+	* @author Easong
+	* @param @param obRule
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	public JdcgResult updateobRule(OBRule obRule);
 
 }

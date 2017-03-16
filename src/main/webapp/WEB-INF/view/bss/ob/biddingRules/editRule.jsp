@@ -5,7 +5,7 @@
   <head>
    <%@ include file="/WEB-INF/view/common.jsp" %>
    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
-<title>创建竞价规则</title>
+<title>编辑竞价规则</title>
 
 <script type="text/javascript">
 		
@@ -97,7 +97,7 @@
 				return;
 			}
 		}
-		 $.post("${pageContext.request.contextPath}/obrule/addRule.do", $("#ruleForm").serialize(), function(data) {
+		 $.post("${pageContext.request.contextPath}/obrule/updateobRule.do", $("#ruleForm").serialize(), function(data) {
 				if (data.status == 200) {
 					layer.confirm(data.data,{
 						btn:['确定']
@@ -119,7 +119,7 @@
       <div class="container">
         <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li><li class="active"><a href="javascript:void(0)">创建竞价规则</a></li>
+		   <li class="active"><a href="javascript:void(0)">竞价规则管理</a></li><li class="active"><a href="javascript:void(0)">修改竞价规则</a></li>
 		</ul>
         <div class="clear"></div>
       </div>
@@ -130,13 +130,14 @@
 	  <div class="mt10">
 	  <div class="container container_box">
   		<form id="ruleForm" action="" method="post">
+  		  <input name="id" type="hidden" value="${ obRule.id }" />
 		  <div>
-		    <h2 class="list_title">添加竞价规则</h2>
+		    <h2 class="list_title">修改竞价规则</h2>
 		   <ul class="ul_list">
 		     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价规则名称：</span>
 			   <div class="input-append input_group col-sm-12 col-xs-12 p0" id="supplierselect">
-					<input class="input_group" name="name" id="name" type="text" class="w230 mb0 border0">
+					<input class="input_group" name="name" id="name" type="text" value="${ obRule.name }" class="w230 mb0 border0">
 		        <div class="cue"><span><font id="nameErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
@@ -144,21 +145,21 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>间隔工作日（天）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-			        <input class="input_group" name="intervalWorkday" id="intervalWorkday" type="text" class="w230 mb0 border0">
+			        <input class="input_group" name="intervalWorkday" id="intervalWorkday" type="text" value="${ obRule.intervalWorkday }"  class="w230 mb0 border0">
 					<div class="cue"><span><font id="intervalWorkdayErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价开始时间：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input type="text" name="definiteTime"  id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
+				    <input type="text" name="definiteTime"  value='<fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:ss:mm"/>' id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
 					<div class="cue"><span><font id="definiteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>报价时间（分钟）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="quoteTime" id="quoteTime" type="text" class="mb0 border0">
+				    <input class="input_group" name="quoteTime" id="quoteTime" type="text" value="${ obRule.quoteTime }" class="mb0 border0">
 					<div class="cue"><span><font id="quoteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li>
@@ -169,21 +170,21 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第一轮）：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="confirmTime" id="confirmTime" type="text" class="mb0 border0">
+				    <input class="input_group" name="confirmTime" id="confirmTime" type="text" value="${ obRule.confirmTime }" class="mb0 border0">
 					<div class="cue"><span><font id="confirmTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>确认时间（分钟）（第二轮）</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" class="mb0 border0">
+				    <input class="input_group" name="confirmTimeSecond" id="confirmTimeSecond" type="text" value="${ obRule.confirmTimeSecond }" class="mb0 border0" />
 					<div class="cue"><span><font id="confirmTimeSecondErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>最少供应商数量</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" class="mb0 border0">
+				    <input class="input_group" name="leastSupplierNum" id="leastSupplierNum" type="text" value="${ obRule.leastSupplierNum }" class="mb0 border0" />
 					<div class="cue"><span><font id="leastSupplierNumErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 
