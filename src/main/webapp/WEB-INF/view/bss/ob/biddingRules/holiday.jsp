@@ -62,6 +62,27 @@
 		   }
 	}
 	
+	//修改
+    function edit() {
+       var id = [];
+	   $('input[name="chkItem"]:checked').each(function() {
+	   		id.push($(this).val());
+	   });
+	   if(id.length == 1) {
+        	window.location.href = '${pageContext.request.contextPath}/obrule/editSpecialdate.html?id=' + id;
+       } else if(id.length > 1) {
+          layer.alert("只能选择一个", {
+            offset: ['222px', '255px'],
+            shade: 0.01,
+          });
+	   } else {
+          layer.alert("请选择需要修改的特殊日期", {
+            offset: ['222px', '255px'],
+            shade: 0.01,
+          });
+        }
+    }	
+	
 	/* 删除 */
 	function del(){
 		var id = [];
@@ -159,6 +180,7 @@
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows add" onclick="createSpecialdate()">创建特殊日期</button>
+		<button class="btn btn-windows edit" onclick="edit()">修改 </button>
 		<button class="btn btn-windows delete" onclick="del()">删除</button>
 		系统默认周末为放假，如有特殊情况请手动标记为上班，特殊法定节假日请手动管理！
 	</div>   

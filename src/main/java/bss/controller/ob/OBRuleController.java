@@ -287,4 +287,41 @@ public class OBRuleController {
 	public JdcgResult updateobRule(OBRule obRule) {
 		return service.updateobRule(obRule);
 	}
+	
+	/**
+	 * 
+	* @Title: editSpecialdate 
+	* @Description: 修改特殊节假日数据回显
+	* @author Easong
+	* @param @param model
+	* @param @param id
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/editSpecialdate")
+	public String editSpecialdate(Model model, String id){
+		if (StringUtils.isEmpty(id)) {
+			return "bss/ob/biddingRules/editSpecialdate";
+		}
+		OBSpecialDate specialDate = service.editSpecialdate(id);
+		model.addAttribute("specialDate", specialDate);
+		return "bss/ob/biddingRules/editSpecialdate";
+	}
+	
+	/**
+	 * 
+	* @Title: updateSpecialdate 
+	* @Description: 修改特殊日期
+	* @author Easong
+	* @param @param obSpecialDate
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value = "/updateSpecialdate", method = RequestMethod.POST)
+	@ResponseBody
+	public JdcgResult updateSpecialdate(OBSpecialDate obSpecialDate){
+		return service.updateobSpecialDate(obSpecialDate);
+	}
 }
