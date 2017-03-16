@@ -44,6 +44,8 @@ public class Task {
     private String orgName;
     
     private Integer notDetail;
+    
+    private String createrId; //创建人
 
 	public Task(String id) {
 		super();
@@ -197,6 +199,14 @@ public class Task {
 
     public void setOrgId(String orgId) {
         this.orgId = orgId;
+    }
+
+    public String getCreaterId() {
+        return createrId;
+    }
+
+    public void setCreaterId(String createrId) {
+        this.createrId = createrId;
     }
     
 }

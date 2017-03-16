@@ -20,11 +20,13 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierAddressService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import common.annotation.CurrentUser;
 
+import bss.model.cs.PurchaseContract;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
@@ -32,7 +34,9 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
+import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
@@ -40,6 +44,7 @@ import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 
 
@@ -85,6 +90,12 @@ public class ProjectSupervisionController {
 
     @Autowired
     private PurchaseRequiredService requiredService;
+    
+    @Autowired
+    private SupplierCheckPassService checkPassService;
+    
+    @Autowired
+    private PurchaseContractService contractService;
 
     /**
      * 〈列表〉 〈详细描述〉
@@ -259,6 +270,92 @@ public class ProjectSupervisionController {
         }
 
     }
+    
+    
+    /**
+     * 
+     *〈跳转任务汇总页面〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewTask")
+    public String viewTask(String id, Model model){
+        if(StringUtils.isNotBlank(id)){
+            Project project = projectService.selectById(id);
+            //项目信息
+            if (project != null) {
+                DictionaryData findById = DictionaryDataUtil.findById(project.getStatus());
+                if(StringUtils.isNotBlank(project.getPrincipal())){
+                    User users = userService.getUserById(project.getPrincipal());
+                    project.setAppointMan(users.getRelName());
+                    project.setAddress(users.getAddress());
+                }
+                if(StringUtils.isNotBlank(project.getPurchaseDepId())){
+                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                    project.setPurchaseDepId(org.getName());
+                }
+                project.setStatus(findById.getName());
+                model.addAttribute("project", project);
+                model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
+                model.addAttribute("project", project);
+            }
+            
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("projectId", id);
+            List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
+            if(projectTasks != null && projectTasks.size() > 0){
+                List<Task> listTask = new ArrayList<Task>();
+                List<CollectPlan> listCollect = new ArrayList<CollectPlan>();
+                List<PurchaseRequired> listRequired = new ArrayList<PurchaseRequired>();
+                for (ProjectTask projectTask : projectTasks) {
+                    //任务信息
+                    Task task = taskService.selectById(projectTask.getTaskId());
+                    
+                    //采购计划信息
+                    CollectPlan collectPlan = collectPlanService.queryById(task.getCollectId());
+                    User user = userService.getUserById(collectPlan.getUserId());
+                    collectPlan.setUserId(user.getRelName());
+                    collectPlan.setUpdatedAt(task.getGiveTime());
+                    listCollect.add(collectPlan);
+                    task.setPassWord(String.valueOf(collectPlan.getBudget()));
+                    listTask.add(task);
+                    //需求计划信息
+                    List<PurchaseDetail> details = purchaseDetailService.getUnique(task.getCollectId());
+                    for (PurchaseDetail detail : details) { 
+                        if("1".equals(detail.getParentId())){
+                            PurchaseRequired required = requiredService.queryById(detail.getId());
+                            User users = userService.getUserById(required.getUserId());
+                            required.setUserId(users.getRelName());
+                            listRequired.add(required);
+                            break;
+                        } 
+                    }
+                }
+                model.addAttribute("listTask", listTask);
+                model.addAttribute("listCollect", listCollect);
+                model.addAttribute("listRequired", listRequired);
+            }
+            
+            SupplierCheckPass checkPass = new SupplierCheckPass();
+            checkPass.setProjectId(id);
+            checkPass.setIsWonBid((short)1);
+            List<SupplierCheckPass> checkPasses = checkPassService.listCheckPass(checkPass);
+            if(checkPasses != null && checkPasses.size() > 0){
+                List<PurchaseContract> listContract = new ArrayList<PurchaseContract>();
+                for (SupplierCheckPass supplierCheckPass : checkPasses) {
+                    PurchaseContract contract = contractService.selectById(supplierCheckPass.getContractId());
+                    listContract.add(contract);
+                }
+                model.addAttribute("listContract", listContract);
+            }
+            
+        }
+        return "sums/ss/projectSupervision/task_view";
+    }
+    
 
     /**
      * 〈采购计划去重〉 〈详细描述〉
