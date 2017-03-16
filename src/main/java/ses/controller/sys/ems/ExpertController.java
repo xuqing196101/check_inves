@@ -546,8 +546,11 @@ public class ExpertController extends BaseController {
 				allTypeId.remove(i);
 				continue a;
 			};*/
+            
             allCategoryList.add(dictionaryData);
         }
+        
+        expertCategoryService.delNoTree(expert.getId(), allCategoryList);
         model.addAttribute("allCategoryList", allCategoryList);
     }
 

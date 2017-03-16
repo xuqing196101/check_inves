@@ -1,6 +1,7 @@
 package ses.service.ems.impl;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -94,6 +95,26 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	@Override
 	public List<ExpertCategory> findByExpertId(String map) {
 		return mapper.findByExpertId(map);
+	}
+	
+	/**
+	 * 删除非选中树节点
+	 */
+	@Override
+	public void delNoTree(String expertId, List<DictionaryData> list) {
+		// TODO Auto-generated method stub
+		Map<String,Object> map= new HashMap<String,Object>();
+		map.put("expertId", expertId);
+		
+		if (list != null && list.size() >0) {
+			int listSize = list.size();
+			String[] array = new String[listSize];
+			for (int i = 0; i < array.length; i++) {
+				array[i] = list.get(i).getId();
+			}
+			map.put("array", array);
+		}
+		mapper.delNoTree(map);
 	}
 
     /**

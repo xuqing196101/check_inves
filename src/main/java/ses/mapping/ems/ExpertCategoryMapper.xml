@@ -77,5 +77,16 @@
 		FROM T_SES_EMS_EXPERT_CATEGORY
 		WHERE EXPERT_ID = #{expertId}
 	</select>
+
+	<!-- 删除选中节点以外数据 -->
+	<delete id="delNoTree">
+		delete from T_SES_EMS_EXPERT_CATEGORY T
+		where EXPERT_ID = #{expertId} AND T.TYPE_ID NOT IN 
+        <if test="array != null ">
+	        <foreach collection="array" item="id" open="(" separator="," close=")">
+              #{id}
+           </foreach>
+        </if>
+	</delete>
   
 </mapper>

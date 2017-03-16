@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import ses.model.bms.DictionaryData;
 import ses.model.ems.ExpertCategory;
 
 public interface ExpertCategoryMapper {
@@ -54,4 +55,11 @@ public interface ExpertCategoryMapper {
     ExpertCategory getCategoryByExpertId(@Param("expertId")String expertId, @Param("categoryId")String categoryId );
 
 	List<ExpertCategory> findByExpertId(String map);
+
+	/**
+	 * 树删除非选中节点
+	 * @param expertId
+	 * @param list
+	 */
+	void delNoTree(Map<String, Object> map);
 }
