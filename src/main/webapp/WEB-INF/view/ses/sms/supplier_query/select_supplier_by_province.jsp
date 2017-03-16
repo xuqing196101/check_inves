@@ -310,7 +310,7 @@
 			$('input[name="chkItem"]:checked').each(function(){ 
 				id = $(this).val();
 			});
-			var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+			var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim();
    		if(id != null){
    			if(state == "待审核" || state== "审核退回修改"){
    			layer.confirm('您确定要注销吗?', {title:'提示！',offset: ['200px']}, function(index){
@@ -428,6 +428,10 @@
 			       	 </span>
 	      		</li> -->
 	      		<li>
+							<label class="fl">手机号：</label>
+							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
+						</li>
+	      		<li>
 	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 	            <span class="f14">至</span>
 	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
@@ -453,11 +457,12 @@
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">联系人</th>
+							<th class="info">手机号</th>
 							<!-- <th class="info">供应商级别</th> -->
 							<th class="info">创建日期</th>
 							<th class="info">供应商类型</th>
-							<th class="info">供应商状态</th>
 							<th class="info">营业执照登记类型</th>
+							<th class="info">供应商状态</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -468,26 +473,27 @@
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a>
 								</td>
-								<td class="tc">${list.contactName }</td>
+								<td class="">${list.contactName }</td>
 								<%-- <td class="tc">${list.level }</td> --%>
+								<td class="tc">${list.mobile }</td>
 								<td class="tc">
 									<fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd" />
 								</td>
 								<td class="">${list.supplierType }</td>
-								<td class="tc">
-									<c:if test="${list.status==-1 }">暂存</c:if>
-									<c:if test="${list.status==0 }">待审核</c:if>
-									<c:if test="${list.status==1 }">审核通过</c:if>
-									<c:if test="${list.status==2 }">审核退回修改</c:if>
-									<c:if test="${list.status==3 }">审核未通过</c:if>
-									<c:if test="${list.status==4 }">待复核</c:if>
-									<c:if test="${list.status==5 }">复核通过</c:if>
-									<c:if test="${list.status==6 }">复核未通过</c:if>
-									<c:if test="${list.status==7 }">待考察</c:if>
-									<c:if test="${list.status==8 }">考察合格</c:if>
-									<c:if test="${list.status==9 }">考察不合格</c:if>
-								</td>
 								<td class="tc">${list.businessType }</td>
+								<td class="tc">
+									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
+									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
+									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
+									<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">审核退回修改</span></c:if>
+									<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
+									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+									<c:if test="${list.status==5 }"><span class="label rounded-2x label-u">复核通过</span></c:if>
+									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
+									<c:if test="${list.status==7 }"><span class="label rounded-2x label-dark">待考察</span></c:if>
+									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
+								</td>
 							</tr>
 						</c:forEach>
 					</tbody>

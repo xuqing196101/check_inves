@@ -163,6 +163,12 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("expertsTypeId", null);
 		
 		}*/
+		if(expert.getRelName() != null && !"".equals(expert.getRelName())){
+			expert.setRelName("%"+expert.getRelName()+"%");
+		}
+		if(expert.getMobile() != null && !"".equals(expert.getMobile())){
+			expert.setMobile("%"+expert.getMobile()+"%");
+		}
 		return mapper.selectAllExpert(expert);
 	}
 	/**

@@ -476,6 +476,10 @@
 								<input type="hidden" name="categoryIds" class="w220" id="categoryIds" value="${categoryIds }" />
 							</li>
 							<li>
+								<label class="fl">手机号：</label>
+								<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
+							</li>
+							<li>
 								<label class="fl">注册时间：</label>
 								<input id="startDate" name="startDate" class="Wdate w110 fl" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})" />
 								<span class="f13">至</span>

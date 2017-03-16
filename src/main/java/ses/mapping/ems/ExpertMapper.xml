@@ -137,10 +137,10 @@
         from T_SES_EMS_EXPERT
         where 1=1 and IS_SUBMIT != '0' and IS_DELETE != 1
         <if test="relName != null and relName !=''">
-            AND REAL_NAME like '%${relName}%'
+            AND REAL_NAME like #{relName}
         </if>
         <if test="mobile != null and mobile !=''">
-            AND MOBILE like '%${mobile}%'
+            AND MOBILE like #{mobile}
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
             AND EXPERTS_FROM = '${expertsFrom}'
