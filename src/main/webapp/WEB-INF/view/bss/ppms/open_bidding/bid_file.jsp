@@ -214,6 +214,10 @@
 		     03、单一来源文件
 		     </c:if> --%>
 		   </a>
+		   <i></i>
+		 </li>
+		 <li>
+		   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">04、审核意见</a>
 		 </li>
 	   </ul>
 	 </div>

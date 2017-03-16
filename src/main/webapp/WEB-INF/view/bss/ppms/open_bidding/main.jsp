@@ -41,6 +41,7 @@
 					}
 					$("#currPrincipal").select2();
 					$("#currPrincipal").select2("val", data.currOperatorId);
+					$("#currPrincipalId").val(data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
 					//禁止变更经办人操作
 					if (data.isOperate == 0) { 
@@ -68,6 +69,7 @@
 						
 						$("#principal").select2();
 						$("#principal").select2("val", data.operatorId);
+						$("#principalId").val(data.operatorId);
 					}
 					if (data.isEnd) {
 						$("#nextHaunjie").hide();
@@ -103,6 +105,7 @@
 					}
 					$("#currPrincipal").select2();
 					$("#currPrincipal").select2("val", data.currOperatorId);
+					$("#currPrincipalId").val(data.currOperatorId);
 					$("#isOperate").val(data.isOperate);
 					//禁止变更经办人操作
 					if (data.isOperate == 0) { 
@@ -129,6 +132,7 @@
 						}
 						$("#principal").select2();
 						$("#principal").select2("val", data.operatorId);
+						$("#principalId").val(data.operatorId);
 					}
 					if (data.isEnd) {
 						$("#nextHaunjie").hide();
@@ -164,24 +168,33 @@
 	
 	//变更当前环节经办人
 	function updateCurrOperator(){
-		var projectId = "${project.id}";
-		var currFlowDefineId = $("#currHuanjieId").val();
-		var currUpdateUserId = $("#currPrincipal").val();
-		$.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
-				dataType: "json", //返回格式为json
-                data:{"currFlowDefineId":currFlowDefineId ,"currUpdateUserId":currUpdateUserId, "projectId":projectId},
-                success: function(data) {
-                    if(data.success){
-                    	layer.msg("变更当前环节经办人成功",{offset: '100px'});
-                    	jumpLoad(data.url, projectId, currFlowDefineId);
-                    }
-                },
-                error: function(data){
-                    layer.msg("请稍后再试",{offset: '100px'});
-                }
-            });
+		var currUpdateoperator = $("#currPrincipal").select2("data").text;
+		layer.confirm('您确认变更当前环节经办人为 【'+currUpdateoperator+'】吗?', {
+			btn: ['确定','取消']
+		}, function(){
+			var projectId = "${project.id}";
+			var currFlowDefineId = $("#currHuanjieId").val();
+			var currUpdateUserId = $("#currPrincipal").val();
+			$.ajax({
+	                type: "POST",
+	                url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
+					dataType: "json", //返回格式为json
+	                data:{"currFlowDefineId":currFlowDefineId ,"currUpdateUserId":currUpdateUserId, "projectId":projectId},
+	                success: function(data) {
+	                    if(data.success){
+	                    	layer.msg("变更当前环节经办人成功",{offset: '100px'});
+	                    	$("#currPrincipalId").val(currUpdateUserId);
+	                    	jumpLoad(data.url, projectId, currFlowDefineId);
+	                    }
+	                },
+	                error: function(data){
+	                    layer.msg("请稍后再试",{offset: '100px'});
+	                }
+	          });
+	   }, function(){
+      		$("#currPrincipal").select2();
+			$("#currPrincipal").select2("val", $("#currPrincipalId").val());
+      });
 	}
 	
 	function jumpChild(url){
@@ -202,23 +215,32 @@
 	
 	//变更下一环节经办人
 	function submitCurrOperator(){
-		var projectId = "${project.id}";
-		var nextFlowDefineId = $("#huanjieId").val();
-		var nextUpdateUserId = $("#principal").val();
-		$.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
-				dataType: "json", //返回格式为json
-                data:{"currFlowDefineId":nextFlowDefineId ,"currUpdateUserId":nextUpdateUserId, "projectId":projectId},
-                success: function(data) {
-                    if(data.success){
-                    	layer.msg(data.flowDefineName+ "经办人设置成功",{offset: '100px'});
-                    }
-                },
-                error: function(data){
-                    layer.msg("请稍后再试",{offset: '100px'});
-                }
-            });
+		var nextUpdateOperator = $("#principal").select2("data").text;
+		layer.confirm('您确认要变更下一环节经办人为【'+nextUpdateOperator+'】吗?', {
+			btn: ['确定','取消']
+		}, function(){
+			var projectId = "${project.id}";
+			var nextFlowDefineId = $("#huanjieId").val();
+			var nextUpdateUserId = $("#principal").val();
+			$.ajax({
+	                type: "POST",
+	                url: "${pageContext.request.contextPath}/open_bidding/updateCurrOperator.html",
+					dataType: "json", //返回格式为json
+	                data:{"currFlowDefineId":nextFlowDefineId ,"currUpdateUserId":nextUpdateUserId, "projectId":projectId},
+	                success: function(data) {
+	                    if(data.success){
+	                    	$("#principalId").val(nextUpdateUserId);	
+	                    	layer.msg(data.flowDefineName+ "经办人设置成功",{offset: '100px'});
+	                    }
+	                },
+	                error: function(data){
+	                    layer.msg("请稍后再试",{offset: '100px'});
+	                }
+	         });
+      	}, function(){
+      		$("#principal").select2();
+			$("#principal").select2("val", $("#principalId").val());
+      	});
 	}
 	
 /* 	function abandoned(id){
@@ -395,7 +417,8 @@
 					      	 <div class="fr" id="updateOperateId">
 					      		<span class="fl h30 lh30">经办人：</span>
 					      		<div class="w120 fl">
-					      			<select id="principal" name="principal" onchange="submitCurrOperator()"></select>
+					      			<input type="hidden" id="principalId">
+					      			<select id="principal" name="principal" onchange="submitCurrOperator();"></select>
 					      		</div>
 					      	</div>
 					      	<div class="fr mr10" id="nextHaunjie">
@@ -407,6 +430,7 @@
 					        <div class="fl mr10">
 					      		<span class="fl h30 lh30">变更经办人：</span>
 					      		<div  class="w120 fl">
+					      			<input type="hidden" id="currPrincipalId">
 					      			<input type="hidden" id="currHuanjieId">
 					      		    <select id="currPrincipal" name="currPrincipal" onchange="updateCurrOperator()"></select>
 					      		</div>

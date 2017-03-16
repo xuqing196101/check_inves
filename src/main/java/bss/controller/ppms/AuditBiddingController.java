@@ -112,7 +112,7 @@ public class AuditBiddingController extends BaseController {
     project.setPrincipal(user.getId());
     model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
     model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
-    List<Project> list = projectService.list(page == null || "".equals(page) ? 1 : page, project);
+    List<Project> list = projectService.selectProjectByAudit(page == null || "".equals(page) ? 1 : page, project);
     for (int i=0, k = list.size(); i < k; i++) {
       try {
         User contractor = userService.getUserById(list.get(i).getPrincipal());
@@ -224,7 +224,27 @@ public class AuditBiddingController extends BaseController {
     }
     
   }
-
+  
+    
+    /**
+     *〈简述〉查看招标文件审核意见
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param request
+     * @param projectId
+     * @param model
+     * @param flowDefineId
+     * @return
+     */
+    @RequestMapping("/viewAudit")
+    public String viewAudit(HttpServletRequest request, String projectId, Model model, String flowDefineId){
+        Project project = projectService.selectById(projectId);
+        model.addAttribute("project", project);
+        model.addAttribute("flowDefineId", flowDefineId);
+        model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
+        model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
+        return "bss/ppms/audit_bidding/audit_suggestion";
+    }
 
 
 

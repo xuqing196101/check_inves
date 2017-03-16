@@ -151,7 +151,11 @@
 			     03、单一来源文件
 			     </c:if> --%>
 			</a>
-			</li>
+			  <i></i>
+			 </li>
+			 <li>
+			   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${projectId}&flowDefineId=${flowDefineId}">04、审核意见</a>
+			 </li>
 			</c:if>
 			<c:if test="${ope == 'view' }">
 	   	 	<li >

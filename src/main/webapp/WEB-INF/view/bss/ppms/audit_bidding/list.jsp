@@ -165,7 +165,8 @@
 			<th class="info">项目名称</th>
 			<th class="info">项目编号</th>
 			<th class="info">采购方式</th>
-			<th class="info">创建时间</th>
+			<!-- <th class="info">项目创建时间</th> -->
+			<th class="info">提交时间</th>
 			<th class="info">项目负责人</th>
 			<th class="info">审核状态</th>
 		  </tr>
@@ -177,21 +178,29 @@
 			    <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()" alt="">
 			  </td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.name}</a></td>
-			  <td class="tl pl20"><a href="javascript:void(0)" onclick="view('${obj.id}');">${obj.projectNumber}</a></td>
+			  <td class="tl w320" title="${obj.name}">
+			  	 <c:if test="${fn:length(obj.name)>20}">
+			  	 ${fn:substring(obj.name,0,20)}...
+			  	 </c:if>
+			  	<c:if test="${fn:length(obj.name)<=20}">
+			  	 ${obj.name}
+			  	 </c:if>
+			  </td>
+			  <td class="tl w120">${obj.projectNumber}</td>
 			  <td class="tc">
-			    <a href="javascript:void(0)" onclick="view('${obj.id}');">
+			    <%-- <a href="javascript:void(0)" onclick="view('${obj.id}');"> --%>
 				  <c:forEach items="${kind}" var="kind" >
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
-				</a>
+				<!-- </a> -->
 			  </td>
-			  <td class="tl pl20" onclick="view('${obj.id}')"><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
-			  <td class="tc" onclick="view('${obj.id}')">${obj.projectContractor}</td>
-			   <td class="tc" onclick="view('${obj.id}')">
+			  <%-- <td class="tl pl20" ><fmt:formatDate type='date' value='${obj.createAt}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td> --%>
+			  <td class="tl w180" ><fmt:formatDate type='date' value='${obj.approvalTime}'  pattern=" yyyy-MM-dd HH:mm:ss "/></td>
+			  <td class="tc" >${obj.projectContractor}</td>
+			   <td class="tc">
 			   <c:if test="${obj.confirmFile == 1 }">待审核</c:if>
 			   <c:if test="${obj.confirmFile == 3 }">审核通过</c:if>
-			   <c:if test="${obj.confirmFile == 2 }">审核未通过</c:if>
+			   <c:if test="${obj.confirmFile == 2 }">退回重报</c:if>
 			   <c:if test="${obj.confirmFile == 4 }">修改报备</c:if>
 			   </td>
 			</tr>

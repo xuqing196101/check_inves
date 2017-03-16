@@ -476,4 +476,12 @@ public class ProjectServiceImpl implements ProjectService {
         return projectMapper.selectByDemand(map);
     }
 
+    @Override
+    public List<Project> selectProjectByAudit(Integer page, Project project) {
+        PropertiesUtil config = new PropertiesUtil("config.properties");
+        PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+        List<Project> lists = projectMapper.selectProjectByAudit(project);
+        return lists;
+    }
+
   }

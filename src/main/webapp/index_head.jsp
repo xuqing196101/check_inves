@@ -7,7 +7,7 @@
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
 <!--[if !IE]><!-->
 <html class=" js cssanimations csstransitions" lang="en"><!--<![endif]-->
-
+<title>${properties['system.title']}</title>
 <head>
 <!--导航js-->
 

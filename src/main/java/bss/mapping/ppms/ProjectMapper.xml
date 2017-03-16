@@ -1433,4 +1433,36 @@
     	</set>
     	where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <select id="selectProjectByAudit" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS
+    where 1=1 and IS_REHEARSE = 0 and IS_PROVISIONAL=0
+     <if test="name != null and name != ''">
+       and NAME like '%${name}%'
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null">
+       and STATUS like '%${status}%'
+      </if>
+      <if test="purchaseDep != null">
+       and PURCHASE_DEP_ID = #{purchaseDep.id}
+      </if>
+      <if test=" (purchaseDepId != null and purchaseDepId != '' ) or ( principal != null and principal != '')">
+       and ( PURCHASE_DEP_ID in (${purchaseDepId}) or principal = #{principal}) 
+       and (
+       <foreach collection="statusArray" item="ay" separator="or" >
+          STATUS like '%${ay}%'
+       </foreach> 
+       )
+      </if>
+      and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
+      ORDER BY APPROVAL_TIME DESC
+  </select>
+  
+  
+  
 </mapper>
