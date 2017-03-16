@@ -131,16 +131,28 @@ public class OBProductController {
 		String id = request.getParameter("proid") == null ? "" : request
 				.getParameter("proid");
 		int type = Integer.parseInt(request.getParameter("type"));
-		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI
-				.findAllUsefulPurchaseDep();
-		model.addAttribute("purchaseDepList", purchaseDepList);
 		if (type == 1) {
+			Category parentCategory = new Category();
 			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-			Category category = categoryService.findById(obProduct.getCategoryId());
-			model.addAttribute("obProduct", obProduct);
-			if(category != null){
-				model.addAttribute("categoryName", category.getName());
+			if(obProduct != null){
+				if(obProduct.getProductCategoryLevel() == 2){
+					parentCategory = categoryService.findById(obProduct.getCategoryBigId());
+				}
+				if(obProduct.getProductCategoryLevel() == 3){
+					parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
+				}
+				if(obProduct.getProductCategoryLevel() == 4){
+					parentCategory = categoryService.findById(obProduct.getCategoryId());
+				}
+				if(obProduct.getProductCategoryLevel() == 5){
+					parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+				}
 			}
+			if(parentCategory != null){
+				model.addAttribute("categoryName", parentCategory.getName());
+				model.addAttribute("cId",parentCategory.getId() );
+			}
+			model.addAttribute("obProduct", obProduct);
 			return "bss/ob/finalize_DesignProduct/edit";
 		} else {
 			return "bss/ob/finalize_DesignProduct/publish";
@@ -230,6 +242,10 @@ public class OBProductController {
 		obProduct.setProcurementId(procurementId);
 		obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
 		obProduct.setStandardModel(standardModel);
+		if(categoryLevel == 2){
+			//大类
+			obProduct.setCategoryBigId(categoryId);
+		}
 		if(categoryLevel == 3){
 			//中类
 			Category parentCategory = categoryService.findById(categoryId);
@@ -371,6 +387,10 @@ public class OBProductController {
 		obProduct.setCode(code);
 		obProduct.setName(name);
 		obProduct.setProcurementId(procurementId);
+		if(categoryLevel == 2){
+			//大类
+			obProduct.setCategoryBigId(categoryId);
+		}
 		if(categoryLevel == 3){
 			//中类
 			Category parentCategory = categoryService.findById(categoryId);
