@@ -348,6 +348,9 @@
 		<if test="packageId != null and packageId != ''">
 			AND CP.PACKAGE_ID =#{packageId}
 		</if>
+		<if test="projectId != null and projectId != ''">
+      AND CP.PROJECT_ID =#{projectId}
+    </if>
 		<if test="supplierId != null and supplierId != ''">
 			AND CP.SUPPLIER_ID =#{supplierId}
 		</if>

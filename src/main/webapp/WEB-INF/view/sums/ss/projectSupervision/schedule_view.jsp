@@ -7,6 +7,9 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
+      function viewTask(id){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewTask.html?id="+id;
+      }
     </script>
   </head>
   
@@ -34,6 +37,9 @@
     <div class="container">
     <div class="headline-v2">
       <h2>进度列表</h2>
+    </div>
+    <div class="col-md-12 pl20 mt10">
+      <button class="btn btn-windows apply" onclick="viewTask('${project.id}');" type="button">查看任务汇总</button>
     </div>
     <div class="content table_box">
     <table class="table table-bordered">
