@@ -114,6 +114,7 @@
 					}else if(cate.expertType=='0'){
 						$("#expertTypess").html("工程经济");
 					}
+					
 						if (level == 3){
 							showQuas(cate, node.classify);
 						}else{
@@ -138,7 +139,7 @@
     	
     }
     function showQuas(cate, type){
-    	 $("#generaQuaTrs").show();
+    	 $("#generaQuaTrs").hide();
        	 $("#profileQuaTrs").show();
    	 if (type == "GOODS") {
    		 $("#profileQuaTr_saless").show();
@@ -469,7 +470,7 @@
 
   //显示资质要求
  function showQua(cate, type){
-	 $("#generaQuaTr").show();
+	 $("#generaQuaTr").hide();
 	 $("#profileQuaTr").show();
 	 if (type == "GOODS") {
 		 $("#profileQuaTr_sales").show();
@@ -788,7 +789,7 @@
             <table id="results"  class="table table-bordered table-condensedb" >
            	  <tbody>
            	 	<tr>
-       			  <td class='info w250'>上级目录</td>
+       			  <td class='info w200'>上级目录</td>
        			  <td id="parentNameIds"></td>
            		</tr>
            		<tr>

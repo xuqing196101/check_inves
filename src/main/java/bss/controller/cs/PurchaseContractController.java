@@ -825,6 +825,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
 			PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
 			if(pur==null){
+				//
 				purchaseContractService.insertSelective(purCon);
 			}else{
 				purchaseContractService.updateByPrimaryKeySelective(purCon);
@@ -853,6 +854,7 @@ public class PurchaseContractController extends BaseSupplierController{
 					SupplierCheckPass sup = new SupplierCheckPass();
 					sup.setId(supid);
 					sup.setIsCreateContract(1);
+					sup.setContractId(purCon.getId());
 					supplierCheckPassService.update(sup);
 				}
 			}else{
@@ -860,6 +862,7 @@ public class PurchaseContractController extends BaseSupplierController{
 					SupplierCheckPass sup = new SupplierCheckPass();
 					sup.setId(supchid);
 					sup.setIsCreateContract(1);
+					sup.setContractId(purCon.getId());
 					supplierCheckPassService.update(sup);
 				}
 			}

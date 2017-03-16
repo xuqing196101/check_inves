@@ -23,7 +23,10 @@ import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Project;
+import bss.model.ppms.SupplierCheckPass;
 import bss.service.cs.PurchaseContractService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.SupplierCheckPassService;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -50,6 +53,12 @@ public class ContractSupervisionController {
     private UploadService uploadService;
     @Autowired
     private DownloadService downloadService;
+    @Autowired
+    private SupplierCheckPassService supplierCheckPassService;
+    @Autowired
+    private ProjectService projectService;
+    
+    
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
 		if(page==null){
@@ -135,6 +144,22 @@ public class ContractSupervisionController {
     	}
     	model.addAttribute("id", id);
 		return "sums/ss/contractSupervision/filePage";
+	}
+	@RequestMapping(value="/contractDateil",produces="text/html;charset=UTF-8")
+	public String contractDateil(Model model,String id){
+		//根据合同id查询合同信息
+		PurchaseContract purchaseContract = purchaseContractService.selectById(id);
+		model.addAttribute("contract",purchaseContract);
+		//根据合同id查询中标供应商，包，项目信息,如果合并生成合同则有两条相同的合同id
+		List<SupplierCheckPass> SupplierCheckPass = supplierCheckPassService.getByContractId(purchaseContract.getId());
+		if(SupplierCheckPass!=null&&SupplierCheckPass.size()>0){
+			for(SupplierCheckPass pass:SupplierCheckPass){
+			}
+			String projectId = SupplierCheckPass.get(0).getProjectId();
+			Project project = projectService.selectById(projectId);
+			model.addAttribute("project",project);
+		}
+		return "sums/ss/contractSupervision/contractdateil";
 	}
 	
 }

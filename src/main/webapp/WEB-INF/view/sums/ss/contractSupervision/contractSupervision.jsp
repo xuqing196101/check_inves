@@ -13,6 +13,9 @@
 function openFile(id){
 	location.href="${pageContext.request.contextPath }/contractSupervision/filePage.html?id="+id;
 }
+function contractDateil(id){
+	location.href="${pageContext.request.contextPath }/contractSupervision/contractDateil.html?id="+id;
+}
 </script>
 </head>
 <body>
@@ -71,7 +74,7 @@ function openFile(id){
 					   <div class="w200 mt5">审核人：</div>
 					   <div class="w200 mt5">负责人：</div>
 					   <div class="mt5 tc">
-                             <button class="btn btn-windows edit" onclick="">查看任务汇总</button>
+                             <button class="btn btn-windows edit" onclick="contractDateil('${contract.id}')">查看任务汇总</button>
                        </div>
 					</td>
 				</tr>
