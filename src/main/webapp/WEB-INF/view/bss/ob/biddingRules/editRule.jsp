@@ -16,8 +16,8 @@
 		$("#definiteTimeErr").html("");
 		$("#quoteTimeErr").html("");
 		$("#confirmTimeErr").html("");
-		$("#confirmTimeSecond").html("");
-		$("#leastSupplierNum").html("");
+		$("#confirmTimeSecondErr").html("");
+		$("#leastSupplierNumErr").html("");
 		
 		if($("#name").val()==''){
 			$("#nameErr").html("*请输入竞价规则名称");

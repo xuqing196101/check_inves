@@ -146,7 +146,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				// 设置竞价标题
 				obResultsInfoExt.setProjectId(titleId);
 				// 设置供应商id
-				obResultsInfoExt.setSupplierId(user.getId());
+				obResultsInfoExt.setSupplierId(user.getTypeId());
 				// 计算单个商品总价
 				// 单个商品的采购数量
 				Integer signalCountInt = obResultsInfoExt.getResultsNumber();

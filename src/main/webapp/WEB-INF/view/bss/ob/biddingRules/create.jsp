@@ -16,8 +16,8 @@
 		$("#definiteTimeErr").html("");
 		$("#quoteTimeErr").html("");
 		$("#confirmTimeErr").html("");
-		$("#confirmTimeSecond").html("");
-		$("#leastSupplierNum").html("");
+		$("#confirmTimeSecondErr").html("");
+		$("#leastSupplierNumErr").html("");
 		
 		if($("#name").val()==''){
 			$("#nameErr").html("*请输入竞价规则名称");
@@ -97,7 +97,18 @@
 				return;
 			}
 		}
-		 $.post("${pageContext.request.contextPath}/obrule/addRule.do", $("#ruleForm").serialize(), function(data) {
+		// 竞价开始时间
+		var beginTime = $("#d242").val();
+		var time = beginTime.split(":");
+		// 报价时间 确认时间第一轮 确认时间第二轮 小时数
+		var totalMinute = parseInt(quoteTimeStr)+parseInt(confirmTimeStr)+parseInt(confirmTimeSecondStr)
+		var hour = toHourMinute(totalMinute);
+		var totalHour = parseInt(time[0]) + hour
+		if(totalHour >= 23){
+			layer.alert("结束时间不能超过23:59:59");
+			return;
+		}
+		$.post("${pageContext.request.contextPath}/obrule/addRule.do", $("#ruleForm").serialize(), function(data) {
 				if (data.status == 200) {
 					layer.confirm(data.data,{
 						btn:['确定']
@@ -109,8 +120,17 @@
 				if(data.status == 500){
 					layer.alert(data.msg);
 				}
-			});  
-	}
+			});
+		}
+		
+		// 分钟转换成时分
+		// 将分钟数量转换为小时和分钟字符串
+		function toHourMinute(minutes){
+			return Math.floor(minutes/60);
+		  // 也可以转换为json，以方便外部使用
+		  // return {hour:Math.floor(minutes/60),minute:(minutes%60)};
+		}
+		
 </script>
 </head>
 <body>
