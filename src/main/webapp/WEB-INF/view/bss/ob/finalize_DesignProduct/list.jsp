@@ -128,6 +128,10 @@
 		window.location.href = "${pageContext.request.contextPath}/product/list.html";
 	}
 	
+	//导入数据
+	function input(){
+		
+	}
 	</script>
 </head>
 <body>
@@ -179,6 +183,7 @@
 		<button class="btn btn-windows apply" type="button" onclick="window.location.href = '${pageContext.request.contextPath }/product/tiaozhuan.html?type=2'">发布定型产品</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="input()">导入</button>
 	</div>   
 	<div class="content table_box">
 	
