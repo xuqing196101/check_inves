@@ -19,8 +19,25 @@
 			var s = Math.floor(t/1000%60);
 			$("#confirmCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
-			$("#confirmCountDown").text("确认倒计时已经结束");
+			$("#confirmCountDown").text("第一轮确认倒计时已经结束");
 			clearInterval(downTimer);
+		}
+	}
+	function getRTime2(){
+		var getOverTime = $("#confirmOverTime").text();
+		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
+		var sysNowTime = new Date("${sysNowTime}");
+		var clientNowTime = new Date();
+		var t = EndTime.getTime() - clientNowTime.getTime();
+		if(t > 0) {
+			var d = Math.floor(t/1000/60/60/24);
+			var h = Math.floor(t/1000/60/60%24);
+			var m = Math.floor(t/1000/60%60);
+			var s = Math.floor(t/1000%60);
+			$("#confirmCountDown2").text(d + "天" + h + "时" + m + "分" + s + "秒");
+		} else {
+			$("#confirmCountDown2").text("第二轮确认倒计时已经结束");
+			clearInterval(downTimer2);
 		}
 	}
 	//占比下调,返回对应占比后数量@param 值
@@ -32,6 +49,7 @@
 	$(function() {
 		//定时器调用
 		var downTimer = setInterval(getRTime,1000);
+		var downTimer2 = setInterval(getRTime2,1000);
 		
 		var currentVal = $("input[name='confirmRatioFirst']").val();
 		var changeRatioCounts = [];
@@ -54,7 +72,6 @@
 					layer.alert("占比不能为0");
 				} else {
 					var allCount = 0;
-					var allCount = 0;
 					$("[title='theProductTotalPrice']").each(function(index,element) {
 						var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
 						$(this).text((afterCount * productPrices[index]).toFixed(2));
@@ -75,38 +92,105 @@
 			}
 		});
 		
+		
+		
 	});
+	//点击接受按钮调用的方法
 	function confirmAccept() {
-		var projectResult = {};
-		layer.alert(
-			'已接受',
-			{
-				btn:['确定']
-			},
-			function() {
-				//window.location.href = "#";
-				window.history.go(-1);
+		layer.confirm('您确定接受吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
+			layer.close(index);
+			var currentConfirmStatus = $("#currentConfirmStatus").val();
+			if(currentConfirmStatus == "-1") {
+				var projectResultList = [];
+				var oBProjectResult = {};
+				
+				$("[title='theProductId']").each(function(index,element) {
+					oBProjectResult.projectId = "${projectId}";
+					oBProjectResult.supplierId = "${supplierId}";
+					oBProjectResult.proportion = $("input[name='confirmRatioFirst']").val();
+					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.resultCount = $(this).find("input[name='productNum']").val();
+					oBProjectResult.offerPrice = $(this).find("input[name='productQuotePrice']").val();
+					oBProjectResult.status = 1;
+					projectResultList.push(oBProjectResult);
+				});
+				
+				$.ajax({
+					type : "post",
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html",
+					data : JSON.stringify(projectResultList),
+					dataType : "json",
+					contentType:"application/json",
+					success : function(obj) {
+						alert("suc");
+					},
+					error : function(obj) {
+						alert("error");
+					}
+				});
+			} else if(currentConfirmStatus == "1") {
+				var projectResultList = [];
+				var oBProjectResult = {};
+				
+				$("[title='theProductId2']").each(function(index,element) {
+					oBProjectResult.projectId = "${projectId}";
+					oBProjectResult.supplierId = "${supplierId}";
+					oBProjectResult.proportion = $("input[name='confirmRatioFirst2']").val();
+					oBProjectResult.productId = $(this).find("input[name='productId2']").val();
+					oBProjectResult.resultCount = $(this).find("input[name='productNum2']").val();
+					oBProjectResult.offerPrice = $(this).find("input[name='productQuotePrice2']").val();
+					oBProjectResult.status = 2;
+					projectResultList.push(oBProjectResult);
+				});
+				
+				$.ajax({
+					type : "post",
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html",
+					data : JSON.stringify(projectResultList),
+					dataType : "json",
+					contentType:"application/json",
+					success : function(obj) {
+						alert("suc");
+					},
+					error : function(obj) {
+						alert("error");
+					}
+				});
 			}
-		);
+			
+		});
 		//url saveConfirmQuoteInfo
 	}
 	function cancelAccept() {
 		var projectResult = {};
-		layer.alert(
-			'已放弃',
-			{
-				btn:['确定']
-			},
-			function() {
-				window.location.reload();
-				//window.history.go(-1);
-			}
-		);
+		var closeLayerIndex = 0;
+		layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
+			//window.location.href="${pageContext.request.contextPath}/performance/deletePerfor.html?id="+ids;
+			layer.close(index);
+			$.ajax({
+				url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+				type:"post",
+				dataType:"text",
+				data:{
+					"projectId" : "${supplierId}"
+				},
+				success:function(data){
+					window.history.go(-1);
+				},
+				error : function(data) {
+					alert("放弃失败");
+				}
+			});
+		});
 		//url saveConfirmQuoteInfo
 	}
 	
 	$(function() {
-		
+		var allCount = 0;
+		$("[title='theProductTotalPrice']").each(function(index,element) {
+			allCount += parseInt($(this).text());
+		});
+		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
 	});
 </script>
 </head>
@@ -124,14 +208,21 @@
     <!-- 表格开始    projectResult -->
     <div class="container container_box">
     
-    <h2>竞价管理-结果查询
+    <h2>竞价结果 - 查询管理
     	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
     		竞价标题：${confirmInfoVo.quoteName }<input type="hidden" id="quoteName" value="${confirmInfoVo.quoteName }"/>
     	</span>
     </h2>
-    <h2 class="count_flow">排名：${confirmInfoVo.ranking }&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<input type="hidden" id="quoteName" value="${confirmInfoVo.ranking }"/>
-    	状态：中标&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
-    	中标比例:<input id="" name="" readonly="readonly" value="50" type="text" class="w5 mb0 ">%
+    <h2 class="count_flow">排名：${confirmInfoVo.ranking }<input type="hidden" id="quoteName" value="${confirmInfoVo.ranking }"/>
+    	<span style="margin-left: 22px;">状态：</span>
+    		<c:if test="${confirmInfoVo.ranking < 7}">
+    		中标
+    		</c:if>
+    		<c:if test="${confirmInfoVo.ranking >= 7}">
+    		中标
+    		</c:if>
+    	<span style="margin-left: 22px;margin-right: 12px;">中标比例  :</span>
+    		<input id="" name="" readonly="readonly" value="50" type="text" class="w5 mb0 ">%
     </h2>
     <h2 class="count_flow">确认结束时间：
     	<span id="confirmOverTime">
@@ -142,9 +233,10 @@
     <c:if test="${confirmStatus=='0'}">
      <div>
      <div class="clear total f22">
-     	<span class="fl block">基本数量确认：</span>
-     	<h2 class="count_flow">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认成交&nbsp;&nbsp;
-     		<input id="" name="confirmRatioFirst" value="50" type="text" class="w5 mb0 ">%
+     	<span class="fl block">基本数量---第一轮确认：</span>
+     	<h2 class="count_flow">
+     		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
+     		<input id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text" class="w5 mb0 ">%
      		<span style="padding-left: 22px;">确认倒计时：<span id="confirmCountDown"></span></span>
      	</h2>
      </div>
@@ -160,23 +252,31 @@
 		  <th class="info">成交总价（元）</th>
 		</tr>
 		</thead>
+		<tr>
+		  <td class="tc"></td>
+		  <td class="tc" colspan="4">合计</td>
+		  <td class="tc" title="allProductTotalPrice"></td>
+		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc">
-		  	1
-		  	<input type="hidden" name="productId" value=""/>
-		  	<input type="hidden" name="productName" value=""/>
-		  	<input type="hidden" name="productNum" value=""/>
-		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  <td class="tc" title="theProductId">
+		  	${vs.index + 1 }
+		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productNum" value="${bidproduct.productNum }"/>
+		  	<input type="hidden" name="productQuotePrice" value="${bidproduct.myOfferMoney }"/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
-		  <td class="tc">${bidproduct.productName }1212</td>
-		  <td class="tc" title="theProductCount">${bidproduct.productNum }</td>
+		  <td class="tc" title="theProductName">${bidproduct.productName }</td>
+		  <td class="tc" title="theProductCount">
+		  	<fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/>
+		  </td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc" title="theProductPrice">${bidproduct.dealMoney }</td>
-		  <td class="tc" title="theProductTotalPrice">${bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductTotalPrice">${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 * bidproduct.dealMoney }</td>
 		</tr>
 		</c:forEach>
+		<!-- 
 		<tr>
 		  <td class="tc">2</td>
 		  <td class="tc">便携式式计算机</td>
@@ -193,63 +293,74 @@
 		  <td class="tc" title="theProductPrice">300</td>
 		  <td class="tc" title="theProductTotalPrice">3000</td>
 		</tr>
-		<tr>
-		  <td class="tc"></td>
-		  <td class="tc" colspan="4">合计</td>
-		  <td class="tc" title="allProductTotalPrice">12000</td>
-		</tr>
+		 -->
 	</table>
   </div>
   </div>
   </c:if>
   
-  <c:if test="${confirmStatus=='1'}">
+  <c:if test="${confirmInfoVo.bidStatus=='-1' || confirmInfoVo.bidStatus==null || confirmInfoVo.bidStatus=='2'}">
   <div>
-     <div class="clear total f22"><span class="fl block">第二轮确认：</span><h2 class="count_flow">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;确认成交&nbsp;&nbsp;<input id="" name="" value="20" type="text" class="w5 mb0 ">%&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;第二轮确认倒计时：0小时5分钟12秒</h2></div>
+     <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
+     	<h2 class="count_flow">
+     		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
+     		<input id="" name="confirmRatioSecond" value="20" type="text" class="w5 mb0 ">%
+     			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
+     			<span id="confirmCountDown2">未开始</span>
+     	</h2>
+     </div>
 	<div class="content table_box">
-    	<table class="table table-bordered table-condensed table-hover table-striped">
+    	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
 		  <th class="w30 info">序号</th>
 		  <th class="info">产品名称</th>
 		  <th class="info">数量</th>
 		  <th class="info">自报单价（元）</th>
+		  <th class="info">成交单价（元）</th>
 		  <th class="info">成交总价（元）</th>
 		</tr>
 		</thead>
 		<tr>
+		  <td class="tc"></td>
+		  <td class="tc" colspan="4">合计</td>
+		  <td class="tc" title="allProductTotalPrice2">12000</td>
+		</tr>
+		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
+		<tr>
 		  <td class="tc">
-		  	1
+		  	${vs.index + 1 }
 		  	<input type="hidden" name="productId" value=""/>
 		  	<input type="hidden" name="productName" value=""/>
 		  	<input type="hidden" name="productNum" value=""/>
 		  	<input type="hidden" name="productQuotePrice" value=""/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
-		  <td class="tc">台式计算机</td>
-		  <td class="tc">20</td>
-		  <td class="tc">100</td>
-		  <td class="tc">1000</td>
+		  <td class="tc">${bidproduct.productName }</td>
+		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/></td>
+		  <td class="tc">${bidproduct.myOfferMoney }</td>
+		  <td class="tc" title="theProductPrice2">${bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductTotalPrice2">${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 * bidproduct.dealMoney }</td>
 		</tr>
+		</c:forEach>
+		<!-- 
 		<tr>
 		  <td class="tc">2</td>
 		  <td class="tc">便携式式计算机</td>
-		  <td class="tc">20</td>
-		  <td>200</td>
-		  <td class="tc">4000</td>
+		  <td class="tc" title="theProductCount2">20</td>
+		  <td class="tc">200</td>
+		  <td class="tc" title="theProductPrice2">200</td>
+		  <td class="tc" title="theProductTotalPrice2">4000</td>
 		</tr>
 		<tr>
 		  <td class="tc">3</td>
 		  <td class="tc">服务器</td>
-		  <td class="tc">10</td>
-		  <td>300</td>
-		  <td class="tc">3000</td>
+		  <td class="tc" title="theProductCount2">10</td>
+		  <td class="tc">300</td>
+		  <td class="tc" title="theProductPrice2">300</td>
+		  <td class="tc" title="theProductTotalPrice2">3000</td>
 		</tr>
-		<tr>
-		  <td class="tc"></td>
-		  <td class="tc" colspan="3">合计</td>
-		  <td class="tc">12000</td>
-		</tr>
+		 -->
 	</table>
   </div>
   </div>
@@ -261,6 +372,7 @@
   </div>
   <div class="col-md-12 clear tc mt10">
   <button class="btn" onclick="confirmAccept()">接受</button>
+  <input type="hidden" value="${confirmStatus }" id="currentConfirmStatus"/>
   <button class="btn" onclick="cancelAccept()">放弃</button>
   </div>
   </div>
