@@ -248,11 +248,47 @@ public class OBRuleServiceImpl implements OBRuleService {
 	@Override
 	public JdcgResult updateobRule(OBRule obRule) {
 		if (obRule == null || obRule.getId() == null) {
-			return JdcgResult.build(500, "竞价规则已失效");
+			return JdcgResult.build(500, "此竞价规则已失效");
 		}
 		// 设置修改时间
 		obRule.setUpdatedAt(new Date());
 		obRuleMapper.updateByPrimaryKeySelective(obRule);
+		return JdcgResult.ok("修改成功");
+	}
+
+	/**
+	 * 
+	 * @Title: editSpecialdate
+	 * @Description: 编辑特殊节假日数据回显
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
+	 */
+	@Override
+	public OBSpecialDate editSpecialdate(String id) {
+		OBSpecialDate specialDate = obSpecialDateMapper.selectByPrimaryKey(id);
+		if (specialDate != null) {
+			return specialDate;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: updateobSpecialDate
+	 * @Description: 修改特殊节假日
+	 * @author Easong
+	 * @param @param obSpecialDate
+	 * @param @return 设定文件
+	 */
+	@Override
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) {
+		if (obSpecialDate == null || obSpecialDate.getId() == null) {
+			return JdcgResult.build(500, "此特殊节假日已失效");
+		}
+		// 设置修改时间
+		obSpecialDate.setUpdatedAt(new Date());
+		obSpecialDateMapper.updateByPrimaryKeySelective(obSpecialDate);
 		return JdcgResult.ok("修改成功");
 	}
 }

@@ -130,5 +130,29 @@ public interface OBRuleService {
 	* @throws
 	 */
 	public JdcgResult updateobRule(OBRule obRule);
+	
+	/**
+	 * 
+	* @Title: editSpecialdate 
+	* @Description: 编辑特殊节假日数据回显
+	* @author Easong
+	* @param @param id
+	* @param @return    设定文件 
+	* @return OBSpecialDate    返回类型 
+	* @throws
+	 */
+	public OBSpecialDate editSpecialdate(String id);
+
+	/**
+	 * 
+	* @Title: updateobSpecialDate 
+	* @Description: 修改特殊节假日
+	* @author Easong
+	* @param @param obSpecialDate
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate);
 
 }
