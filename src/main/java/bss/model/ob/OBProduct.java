@@ -9,14 +9,14 @@ import ses.model.bms.Category;
  * 
  * Description： 定型产品实体
  * 
- * @author  zhang shubin
- * @version  
+ * @author zhang shubin
+ * @version
  * @since JDK1.7
- * @date 2017年3月7日 下午6:11:25 
- *
+ * @date 2017年3月7日 下午6:11:25
+ * 
  */
 public class OBProduct {
-	
+
 	private OBProduct obProduct;
 	private List<OBSupplier> obSupplierList;
 	private String id;
@@ -27,9 +27,20 @@ public class OBProduct {
 
 	private String procurementId;
 
-	private String categoryParentId;
-
+	// 产品小类
 	private String categoryId;
+
+	// 产品中类
+	private String categoryMiddleId;
+
+	// 产品大类
+	private String categoryBigId;
+
+	// 产品类别
+	private String productCategoryId;
+
+	// 产品类别等级
+	private Integer productCategoryLevel;
 
 	private String standardModel;
 
@@ -47,10 +58,18 @@ public class OBProduct {
 
 	private Integer status;
 
+	// 产品小类
 	private Category category;
 
-	private Category categoryParent;
-	
+	// 产品大类
+	private Category categoryBig;
+
+	// 产品中类
+	private Category categoryMiddle;
+
+	// 产品类别
+	private Category productCategory;
+
 	public OBProduct getObProduct() {
 		return obProduct;
 	}
@@ -98,15 +117,6 @@ public class OBProduct {
 	public void setProcurementId(String procurementId) {
 		this.procurementId = procurementId == null ? null : procurementId
 				.trim();
-	}
-
-	public String getCategoryParentId() {
-		return categoryParentId;
-	}
-
-	public void setCategoryParentId(String categoryParentId) {
-		this.categoryParentId = categoryParentId == null ? null
-				: categoryParentId.trim();
 	}
 
 	public String getCategoryId() {
@@ -191,12 +201,60 @@ public class OBProduct {
 		this.category = category;
 	}
 
-	public Category getCategoryParent() {
-		return categoryParent;
+	public String getCategoryMiddleId() {
+		return categoryMiddleId;
 	}
 
-	public void setCategoryParent(Category categoryParent) {
-		this.categoryParent = categoryParent;
+	public void setCategoryMiddleId(String categoryMiddleId) {
+		this.categoryMiddleId = categoryMiddleId;
+	}
+
+	public String getCategoryBigId() {
+		return categoryBigId;
+	}
+
+	public void setCategoryBigId(String categoryBigId) {
+		this.categoryBigId = categoryBigId;
+	}
+
+	public String getProductCategoryId() {
+		return productCategoryId;
+	}
+
+	public void setProductCategoryId(String productCategoryId) {
+		this.productCategoryId = productCategoryId;
+	}
+
+	public Integer getProductCategoryLevel() {
+		return productCategoryLevel;
+	}
+
+	public void setProductCategoryLevel(Integer productCategoryLevel) {
+		this.productCategoryLevel = productCategoryLevel;
+	}
+
+	public Category getCategoryBig() {
+		return categoryBig;
+	}
+
+	public void setCategoryBig(Category categoryBig) {
+		this.categoryBig = categoryBig;
+	}
+
+	public Category getCategoryMiddle() {
+		return categoryMiddle;
+	}
+
+	public void setCategoryMiddle(Category categoryMiddle) {
+		this.categoryMiddle = categoryMiddle;
+	}
+
+	public Category getProductCategory() {
+		return productCategory;
+	}
+
+	public void setProductCategory(Category productCategory) {
+		this.productCategory = productCategory;
 	}
 
 }
