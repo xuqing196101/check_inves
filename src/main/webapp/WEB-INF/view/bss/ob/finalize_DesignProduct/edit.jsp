@@ -77,22 +77,17 @@ $(document).ready(function(){
   		  return;
   	  }
 	  if (treeNode) {
-		  if(treeNode.level > 4 || treeNode.level == 4){
-			  $("#citySel4").val(treeNode.name);
-	          $("#categorieId4").val(treeNode.id);
-	          hideMenu();
-		  }else{
-			  layer.msg("不能选择该目录");
-		  }
-       
-        
+	  	$("#citySel4").val(treeNode.name);
+	    $("#categorieId4").val(treeNode.id);
+	    $("#categoryLevel").val(treeNode.level+1);
+	    hideMenu();
 	  }
     }
  
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "445px", top: "205px"}).slideDown("fast");
+		$("#menuContent").css({left: "440px", top: "250px"}).slideDown("fast");
 
 		$("body").bind("mousedown", onBodyDown);
 	}
@@ -113,10 +108,11 @@ $(document).ready(function(){
 		var name = $("#name").val();
 		var procurementId = $("#orgId option:selected").val();
 		var category = $("#categorieId4").val();
+		var categoryLevel = $("#categoryLevel").val();
 		var standardModel = $("#standardModel").val();
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
 		window.location.href = "${pageContext.request.contextPath}/product/edit.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
-				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&id="+id;
+				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&id="+id+"&&categoryLevel="+categoryLevel;
 	}
 </script>
 </head>
@@ -158,18 +154,19 @@ $(document).ready(function(){
 				  <tr>
 				    <td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
 				    <td width="32%" colspan="3">
-				    	<select id="orgId" name="supplierId" style="width: 30%;" >
+				    	<select id="orgId" name="supplierId" style="width: 25.5%;" >
   							<option value=""></option>
 						</select>
 						<div class="star_red">${errorProcurement }</div>
 					</td>
 				  </tr>
 				   <tr>
-				    <td class="info" width="18%">选择目录</td>
+				    <td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
 				    <td colspan="3" width="82%">
-				    	<button class="btn" onclick=" showMenu(); return false;">选择目录</button>
-				    	<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0 border0"  onclick="" readonly>
-				    	<input id="categorieId4" name="categoryId" value="${obProduct.categoryId}" type="hidden" class="w230 mb0 border0" >
+				    	<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0"  onclick=" showMenu(); return false;" readonly>
+				    	<input id="categorieId4" name="categoryId" value="${cId}" type="hidden" class="w230 mb0 border0" >
+				    	<input id="categoryLevel" name="categoryLevel" value="${obProduct.productCategoryLevel}" type="hidden" class="w230 mb0 border0" >
+				    	<div class="star_red" id = "pcategory">${error_category }</div>
 				    </td>
 				  </tr>
 				  <tr>

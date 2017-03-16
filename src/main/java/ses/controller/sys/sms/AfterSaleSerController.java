@@ -35,8 +35,8 @@ public class AfterSaleSerController {
 		}
 		if (str.contains("1")) {
 			model.addAttribute("status", "fail");
+			model.addAttribute("status", "fail");
 		}
-		
 		model.addAttribute("list", list);*/
 		return "ses/sms/after_sale_ser/list";
 		

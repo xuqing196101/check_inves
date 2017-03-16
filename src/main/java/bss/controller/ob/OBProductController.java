@@ -131,16 +131,28 @@ public class OBProductController {
 		String id = request.getParameter("proid") == null ? "" : request
 				.getParameter("proid");
 		int type = Integer.parseInt(request.getParameter("type"));
-		List<PurchaseDep> purchaseDepList = purchaseOrgnizationServiceI
-				.findAllUsefulPurchaseDep();
-		model.addAttribute("purchaseDepList", purchaseDepList);
 		if (type == 1) {
+			Category parentCategory = new Category();
 			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-			Category category = categoryService.findById(obProduct.getCategoryId());
-			model.addAttribute("obProduct", obProduct);
-			if(category != null){
-				model.addAttribute("categoryName", category.getName());
+			if(obProduct != null){
+				if(obProduct.getProductCategoryLevel() == 2){
+					parentCategory = categoryService.findById(obProduct.getCategoryBigId());
+				}
+				if(obProduct.getProductCategoryLevel() == 3){
+					parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
+				}
+				if(obProduct.getProductCategoryLevel() == 4){
+					parentCategory = categoryService.findById(obProduct.getCategoryId());
+				}
+				if(obProduct.getProductCategoryLevel() == 5){
+					parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+				}
 			}
+			if(parentCategory != null){
+				model.addAttribute("categoryName", parentCategory.getName());
+				model.addAttribute("cId",parentCategory.getId() );
+			}
+			model.addAttribute("obProduct", obProduct);
 			return "bss/ob/finalize_DesignProduct/edit";
 		} else {
 			return "bss/ob/finalize_DesignProduct/publish";
@@ -219,7 +231,8 @@ public class OBProductController {
 		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
 		String name = request.getParameter("name") == null ? "" :request.getParameter("name");
 		String procurementId = request.getParameter("procurementId") == null ? "" :request.getParameter("procurementId");
-		String category = request.getParameter("category") == null ? "" :request.getParameter("category");
+		String categoryId = request.getParameter("category") == null ? "" :request.getParameter("category");
+		int categoryLevel = request.getParameter("categoryLevel") == null ? 0 : Integer.parseInt(request.getParameter("categoryLevel"));
 		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel");
 		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard");
 		int i = Integer.parseInt(request.getParameter("i"));
@@ -227,21 +240,49 @@ public class OBProductController {
 		obProduct.setCode(code);
 		obProduct.setName(name);
 		obProduct.setProcurementId(procurementId);
-		obProduct.setCategoryId(category);
 		obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
 		obProduct.setStandardModel(standardModel);
-		//Category ccategory = categoryService.findById(obProduct.getCategoryId());
-		// 查询
-		Category parentCategory = categoryService.findById(category);
-		Category parentPCategory = null;
-		if(parentCategory != null){
-			// 查询父节点
-			parentPCategory = categoryService.findById(parentCategory.getParentId());
+		if(categoryLevel == 2){
+			//大类
+			obProduct.setCategoryBigId(categoryId);
 		}
-		if(parentPCategory != null){
-			//获取到父节点的parentId
-			obProduct.setCategoryParentId(parentPCategory.getParentId());
+		if(categoryLevel == 3){
+			//中类
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setCategoryMiddleId(categoryId);
+			if(parentCategory != null){
+				obProduct.setCategoryBigId(parentCategory.getParentId());
+			}
 		}
+		if(categoryLevel == 4){
+			//小类
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setCategoryId(categoryId);
+			if(parentCategory != null){
+				obProduct.setCategoryMiddleId(parentCategory.getParentId());
+				Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
+				if(parentCategory1 != null){
+					obProduct.setCategoryBigId(parentCategory1.getParentId());
+				}
+			}
+		}
+		if(categoryLevel == 5){
+			//产品类别
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setProductCategoryId(categoryId); //产品类别id
+			if(parentCategory != null){
+				obProduct.setCategoryId(parentCategory.getParentId());//小类
+				Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
+				if(parentCategory1 != null){
+					obProduct.setCategoryMiddleId(parentCategory1.getParentId());//中类
+					Category parentCategory2 = categoryService.findById(parentCategory1.getParentId());
+					if(parentCategory1 != null){
+						obProduct.setCategoryBigId(parentCategory2.getParentId());//大类
+					}
+				}
+			}
+		}
+		obProduct.setProductCategoryLevel(categoryLevel);
 		obProduct.setCreatedAt(new Date());
 		User user = (User) session.getAttribute("loginUser");
 		String userId = "";
@@ -267,8 +308,15 @@ public class OBProductController {
 			flag = false;
 			model.addAttribute("error_quality","不能超过1000个字");
 		}
+		if(categoryId.equals("")){
+			model.addAttribute("error_category", "产品目录不能为空");
+			flag = false;
+		}
 		if(flag == false){
 			model.addAttribute("obProduct",obProduct);
+			Category parentCategory = categoryService.findById(categoryId);
+			model.addAttribute("categoryName", parentCategory.getName());
+			model.addAttribute("cId",categoryId );
 			return "bss/ob/finalize_DesignProduct/publish";
 		}else{
 			oBProductService.insertSelective(obProduct);
@@ -295,7 +343,8 @@ public class OBProductController {
 		String code = request.getParameter("code") == null ? "" : request.getParameter("code");
 		String name = request.getParameter("name") == null ? "" :request.getParameter("name");
 		String procurementId = request.getParameter("procurementId") == null ? "" :request.getParameter("procurementId");
-		String category = request.getParameter("category") == null ? "" :request.getParameter("category");
+		String categoryId = request.getParameter("category") == null ? "" :request.getParameter("category");
+		int categoryLevel = request.getParameter("categoryLevel") == null ? 0 : Integer.parseInt(request.getParameter("categoryLevel"));
 		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel");
 		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard");
 		int i = Integer.parseInt(request.getParameter("i"));
@@ -329,22 +378,56 @@ public class OBProductController {
 			flag = false;
 			model.addAttribute("error_quality","不能超过1000个字");
 		}
+		if(categoryId.equals("")){
+			model.addAttribute("error_category", "产品目录不能为空");
+			flag = false;
+		}
 		OBProduct obProduct = new OBProduct();
 		obProduct.setId(id);
 		obProduct.setCode(code);
 		obProduct.setName(name);
 		obProduct.setProcurementId(procurementId);
-		obProduct.setCategoryId(category);
-		// 查询
-		Category parentCategory = categoryService.findById(category);
-		Category parentPCategory = null;
-		if(parentCategory != null){
-			// 查询父节点的父节点
-			parentPCategory = categoryService.findById(parentCategory.getParentId());
+		if(categoryLevel == 2){
+			//大类
+			obProduct.setCategoryBigId(categoryId);
 		}
-		if(parentPCategory != null){
-			obProduct.setCategoryParentId(parentPCategory.getParentId());
+		if(categoryLevel == 3){
+			//中类
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setCategoryMiddleId(categoryId);
+			if(parentCategory != null){
+				obProduct.setCategoryBigId(parentCategory.getParentId());
+			}
 		}
+		if(categoryLevel == 4){
+			//小类
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setCategoryId(categoryId);
+			if(parentCategory != null){
+				obProduct.setCategoryMiddleId(parentCategory.getParentId());
+				Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
+				if(parentCategory1 != null){
+					obProduct.setCategoryBigId(parentCategory1.getParentId());
+				}
+			}
+		}
+		if(categoryLevel == 5){
+			//产品类别
+			Category parentCategory = categoryService.findById(categoryId);
+			obProduct.setProductCategoryId(categoryId); //产品类别id
+			if(parentCategory != null){
+				obProduct.setCategoryId(parentCategory.getParentId());//小类
+				Category parentCategory1 = categoryService.findById(parentCategory.getParentId());
+				if(parentCategory1 != null){
+					obProduct.setCategoryMiddleId(parentCategory1.getParentId());//中类
+					Category parentCategory2 = categoryService.findById(parentCategory1.getParentId());
+					if(parentCategory1 != null){
+						obProduct.setCategoryBigId(parentCategory2.getParentId());//大类
+					}
+				}
+			}
+		}
+		obProduct.setProductCategoryLevel(categoryLevel);
 		obProduct.setStandardModel(standardModel);
 		obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
 		obProduct.setUpdatedAt(new Date());
@@ -354,8 +437,9 @@ public class OBProductController {
 			oBProductService.updateByPrimaryKeySelective(obProduct);
 			return "redirect:/product/list.html";
 		}else{
-			Category ccategory = categoryService.findById(obProduct.getCategoryId());
+			Category ccategory = categoryService.findById(categoryId);
 			model.addAttribute("obProduct", obProduct);
+			model.addAttribute("cId",categoryId );
 			if(ccategory != null){
 				model.addAttribute("categoryName", ccategory.getName());
 			}

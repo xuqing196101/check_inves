@@ -3,6 +3,7 @@ package ses.service.ems;
 import java.util.List;
 import java.util.Map;
 
+import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
 
@@ -73,6 +74,8 @@ public interface ExpertCategoryService {
     ExpertCategory getExpertCategory(String expertId, String categoryId);
 
 	List<ExpertCategory> findByExpertId(String expertId);
+
+	void delNoTree(String id, List<DictionaryData> allCategoryList);
 	
 	
 }

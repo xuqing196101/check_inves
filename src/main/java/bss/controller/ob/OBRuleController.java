@@ -84,9 +84,9 @@ public class OBRuleController {
 		map.put("name", name);
 		map.put("quoteTime", quoteTime);
 		map.put("intervalWorkday", intervalWorkday);
-		if(user != null){
+		/*if (user != null) {
 			map.put("userId", user.getId());
-		}
+		}*/
 		map.put("page", page);
 		List<OBRule> list = service.selectAllOBRules(map);
 		PageInfo<OBRule> info = new PageInfo<OBRule>(list);
@@ -123,8 +123,8 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "/addRule", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult addRule(OBRule obRule, HttpServletRequest request) {
-		return service.addRule(obRule, request);
+	public JdcgResult addRule(OBRule obRule, @CurrentUser User user) {
+		return service.addRule(obRule, user);
 	}
 
 	/**
@@ -173,8 +173,8 @@ public class OBRuleController {
 	 * @throws
 	 */
 	@RequestMapping("/holidayList")
-	public String holidayList(@CurrentUser User user, Model model, HttpServletRequest request,
-			Integer page) throws ParseException {
+	public String holidayList(@CurrentUser User user, Model model,
+			HttpServletRequest request, Integer page) throws ParseException {
 		if (page == null) {
 			page = 1;
 		}
@@ -191,7 +191,6 @@ public class OBRuleController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("specialDate", specialDate);
 		map.put("dateType", dateType);
-		map.put("userId", user.getId());
 		map.put("page", page);
 		List<OBSpecialDate> list = service.selectAllOBSpecialDate(map);
 		PageInfo<OBSpecialDate> info = new PageInfo<OBSpecialDate>(list);
@@ -229,9 +228,9 @@ public class OBRuleController {
 	 */
 	@RequestMapping(value = "addSpecialdate", method = RequestMethod.POST)
 	@ResponseBody
-	public JdcgResult addSpecialdate(OBSpecialDate obSpecialDate,
-			HttpServletRequest request) {
-		return service.addSpecialdate(obSpecialDate, request);
+	public JdcgResult addSpecialdate(@CurrentUser User user,
+			OBSpecialDate obSpecialDate, HttpServletRequest request) {
+		return service.addSpecialdate(obSpecialDate, request, user);
 	}
 
 	/**
@@ -249,5 +248,80 @@ public class OBRuleController {
 		String id = request.getParameter("id");
 		String[] ids = id.split(",");
 		return service.deleteSpecialDate(ids);
+	}
+
+	/**
+	 * 
+	* @Title: editobRule 
+	* @Description: 修改竞价规则数据回显
+	* @author Easong
+	* @param @param model
+	* @param @param id
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/editobRule")
+	public String editobRule(Model model, String id) {
+		if (StringUtils.isEmpty(id)) {
+			return "bss/ob/biddingRules/editRule";
+		}
+		OBRule obRule = service.editObRule(id);
+		model.addAttribute("obRule", obRule);
+		return "bss/ob/biddingRules/editRule";
+	}
+	
+	/**
+	 * 
+	* @Title: updateobRule 
+	* @Description: 修改规则
+	* @author Easong
+	* @param @param obRule
+	* @param @param request
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value = "/updateobRule", method = RequestMethod.POST)
+	@ResponseBody
+	public JdcgResult updateobRule(OBRule obRule) {
+		return service.updateobRule(obRule);
+	}
+	
+	/**
+	 * 
+	* @Title: editSpecialdate 
+	* @Description: 修改特殊节假日数据回显
+	* @author Easong
+	* @param @param model
+	* @param @param id
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/editSpecialdate")
+	public String editSpecialdate(Model model, String id){
+		if (StringUtils.isEmpty(id)) {
+			return "bss/ob/biddingRules/editSpecialdate";
+		}
+		OBSpecialDate specialDate = service.editSpecialdate(id);
+		model.addAttribute("specialDate", specialDate);
+		return "bss/ob/biddingRules/editSpecialdate";
+	}
+	
+	/**
+	 * 
+	* @Title: updateSpecialdate 
+	* @Description: 修改特殊日期
+	* @author Easong
+	* @param @param obSpecialDate
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value = "/updateSpecialdate", method = RequestMethod.POST)
+	@ResponseBody
+	public JdcgResult updateSpecialdate(OBSpecialDate obSpecialDate){
+		return service.updateobSpecialDate(obSpecialDate);
 	}
 }

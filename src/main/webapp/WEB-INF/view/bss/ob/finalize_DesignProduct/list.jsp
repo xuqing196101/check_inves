@@ -128,6 +128,10 @@
 		window.location.href = "${pageContext.request.contextPath}/product/list.html";
 	}
 	
+	//导入数据
+	function input(){
+		
+	}
 	</script>
 </head>
 <body>
@@ -179,6 +183,7 @@
 		<button class="btn btn-windows apply" type="button" onclick="window.location.href = '${pageContext.request.contextPath }/product/tiaozhuan.html?type=2'">发布定型产品</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="input()">导入</button>
 	</div>   
 	<div class="content table_box">
 	
@@ -187,10 +192,12 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info" width="17%">产品代码</th>
-		  <th class="info" width="20%">产品名称</th>
-		  <th class="info" width="22%">大类</th>
-		  <th class="info" width="22%">小类</th>
+		  <th class="info">产品代码</th>
+		  <th class="info">产品名称</th>
+		  <th class="info">大类</th>
+		  <th class="info">中类</th>
+		  <th class="info">小类</th>
+		  <th class="info">产品类别</th>
 		  <th class="info">合格供应商数量</th>
 		</tr>
 		</thead>
@@ -200,8 +207,10 @@
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td>${product.code}</td>
 		  <td><a href="javascript:void(0)">${product.name}</a></td>
-		  <td class="tl">${product.categoryParent.name }</td>
+		  <td class="tl">${product.categoryBig.name }</td>
+		  <td class="tl">${product.categoryMiddle.name }</td>
 		  <td class="tl">${product.category.name }</td>
+		  <td class="tl">${product.productCategory.name }</td>
 		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?status=2&&prodid=${product.id }">
 		  	<c:forEach items="${numlist }" var="num">
 		  		<c:if test="${num.productId == product.id }">${num.nCount }</c:if>

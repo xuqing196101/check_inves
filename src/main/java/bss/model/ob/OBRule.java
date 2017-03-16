@@ -8,7 +8,7 @@ public class OBRule {
     private String id;
     /**间隔工作日**/
     private Integer intervalWorkday;
-    /**具体时间点**/
+    /**竞价开始时间**/
 
     @DateTimeFormat(pattern="HH:mm:ss")
     private Date definiteTime;

@@ -149,7 +149,7 @@ public class ExpertServiceImpl implements ExpertService {
 	public List<Expert> selectAllExpert(Integer pageNum,Expert expert) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		Map<String, Object> map = new HashMap<String, Object>();
+		/*Map<String, Object> map = new HashMap<String, Object>();
 		if(expert!=null){
 		    map.put("relName", expert.getRelName());
 		    map.put("expertsFrom", expert.getExpertsFrom());
@@ -162,8 +162,14 @@ public class ExpertServiceImpl implements ExpertService {
 			map.put("status", null);
 			map.put("expertsTypeId", null);
 		
+		}*/
+		if(expert.getRelName() != null && !"".equals(expert.getRelName())){
+			expert.setRelName("%"+expert.getRelName()+"%");
 		}
-		return mapper.selectAllExpert(map);
+		if(expert.getMobile() != null && !"".equals(expert.getMobile())){
+			expert.setMobile("%"+expert.getMobile()+"%");
+		}
+		return mapper.selectAllExpert(expert);
 	}
 	/**
 	 * 查询所有待复审,通过和未通过的专家 带分页 可条件查询

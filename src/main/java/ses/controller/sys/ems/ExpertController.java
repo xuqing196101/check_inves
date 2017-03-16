@@ -546,8 +546,11 @@ public class ExpertController extends BaseController {
 				allTypeId.remove(i);
 				continue a;
 			};*/
+            
             allCategoryList.add(dictionaryData);
         }
+        
+        expertCategoryService.delNoTree(expert.getId(), allCategoryList);
         model.addAttribute("allCategoryList", allCategoryList);
     }
 
@@ -1885,6 +1888,12 @@ public class ExpertController extends BaseController {
         jsTypeList.addAll(jjTypeList);
         request.setAttribute("expTypeList", jsTypeList);
         request.setAttribute("result", new PageInfo < Expert > (allExpert));
+        if(expert.getRelName() != null && !"".equals(expert.getRelName())){
+        	expert.setRelName(expert.getRelName().replaceAll("%", ""));
+        }
+        if(expert.getMobile() != null && !"".equals(expert.getMobile())){
+        	expert.setMobile(expert.getMobile().replaceAll("%", ""));
+        }
         request.setAttribute("expert", expert);
         return "ses/ems/expert/list";
     }
@@ -3165,6 +3174,7 @@ public class ExpertController extends BaseController {
     @RequestMapping("/isHaveCategory")
     public String isHaveCategory(String expertId) {
     	List<ExpertCategory> expertCate = expertCategoryService.findByExpertId(expertId);
+    	List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
     	if (expertCate != null && expertCate.size()>0) {
     		for (int i = 0; i < expertCate.size(); i++) {
     			List<Category> treeList = categoryService.findByParentId(expertCate.get(i).getCategoryId());
@@ -3173,25 +3183,20 @@ public class ExpertController extends BaseController {
 				}
 			}
 		}
-    	return "0";
-    	
-    	
-    	
-//        List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
-//        for(ExpertCategory ec:list){
-//        	Category cate = categoryService.findById(ec.getCategoryId());
-//        	if(cate!=null&&cate.getParentId()!=null){
-//            	Category cate1 = categoryService.findById(cate.getParentId());
-//            	if(cate1!=null){
-//            		Category cate2  = categoryService.findById(cate1.getParentId());
-//            		if(cate2!=null){
-//        				return "1";
-//            		}
-//            	}
-//        	}
-//    
-//        }
-//        return   "0";
+        for(ExpertCategory ec:list){
+        	Category cate = categoryService.findById(ec.getCategoryId());
+        	if(cate!=null&&cate.getParentId()!=null){
+            	Category cate1 = categoryService.findById(cate.getParentId());
+            	if(cate1!=null){
+            		Category cate2  = categoryService.findById(cate1.getParentId());
+            		if(cate2!=null){
+        				return "1";
+            		}
+            	}
+        	}
+    
+        }
+        return   "0";
     }
 
     public String getParentId(String cateId, String flag) {

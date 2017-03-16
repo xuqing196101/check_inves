@@ -6,22 +6,29 @@ import java.util.Date;
 public class OBProjectResult {
 	private String id;
 
+	//产品ID
 	private String productId;
 
+	//竞价标题ID
 	private String projectId;
 
+	//供应商ID
 	private String supplierId;
 
+	//排名
 	private Integer ranking;
 
+	//成交比例
 	private String proportion;
 
+	//供应商提供的报价
 	private BigDecimal offerPrice;
 
 	private BigDecimal totalAmount;
 
 	private Date createTime;
 
+	//是否接受的状态： -1默认		0表示不接受	1表示第一轮接受		2表示第二轮接受		第二轮放弃状态仍为1
 	private Integer status;
 
 	private String createrId;
@@ -32,6 +39,7 @@ public class OBProjectResult {
 
 	private Date updatedAt;
 
+	//竞价结果数量
 	private Integer resultCount;
 
 	private OBSupplier supplier;

@@ -1,5 +1,6 @@
 package bss.controller.ob;
 
+import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -134,15 +135,15 @@ public class OBSupplierQuoteController {
 	 * @return string 视图页面
 	 */
 	@RequestMapping("/confirmResult")
-	public String quoteConfirmResult(Model model, HttpServletRequest request,
+	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) {
 		if (supplierId == null || "".equals(supplierId)) {
 			// 这个目前做测试用
-			supplierId = "5b214591d1ba471ebcbda346408f6545";
+			supplierId = "2E7A7EAC566343379640DDAB5A35123F";
 		}
 		if (projectId == null || "".equals(projectId)) {
 			// 这个目前做测试用
-			projectId = "471076344D094916869BD60CCB9DFD42";
+			projectId = "DDE523291D694F5B8CC084EC2DFDBFF9";
 		}
 		
 		OBProjectResult oBProjectResult = new OBProjectResult();
@@ -150,11 +151,16 @@ public class OBSupplierQuoteController {
 		oBProjectResult.setSupplierId(supplierId);
 		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
 		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
+		
 		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult);
+		//根据状态有选择的查询
+		
 		double allProductPrice = 0;
 		if(confirmInfoVo != null) {
 			for(int i = 0;i < confirmInfoVo.getBidProductList().size();i++) {
-				allProductPrice += (confirmInfoVo.getBidProductList().get(i).getDealMoney()).doubleValue();
+				Double dealMoney = confirmInfoVo.getBidProductList().get(i).getMyOfferMoney().doubleValue() * confirmInfoVo.getBidProductList().get(i).getProductNum().doubleValue();
+				confirmInfoVo.getBidProductList().get(i).setDealMoney(new BigDecimal(dealMoney));
+				allProductPrice += dealMoney;
 			}
 		}
 		
@@ -165,9 +171,8 @@ public class OBSupplierQuoteController {
 		model.addAttribute("confirmStatus", confirmStatus);
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
 		model.addAttribute("allProductPrice", allProductPrice);
-		String jsonString = JSONArray.toJSONString(oBProjectResultList);
-		model.addAttribute("jsonString", jsonString);
-		
+		model.addAttribute("projectId", projectId);
+		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("confirmInfoVo", confirmInfoVo);
 
 		return "bss/ob/supplier/confirmResult";
@@ -188,6 +193,84 @@ public class OBSupplierQuoteController {
 		// 供应商报价信息
 		map.put("obResultsInfoExtList", obResultsInfoExt);
 		return obSupplierQuoteService.saveQuoteInfo(map);
+	}
+	
+	/**
+	 * @description 确认结果页面   点击接受,后台针对传过来的信息执行修改
+	 * @param model
+	 * @param request
+	 * @return string ajax返回执行状态
+	 * @author Ma Mingwei
+	 */
+	@RequestMapping("uptConfirmAccept")
+	@ResponseBody
+	public String uptConfirmQuoteInfoAccept(@CurrentUser User user,
+			List<OBProjectResult> projectResultList,
+			Model model,
+			HttpServletRequest request){
+		//调用service层的修改
+		int updateNum = oBProjectResultService.updateInfoBySPPIdList(projectResultList);
+		String updateFlag = "no";
+		if(updateNum > 0) {
+			updateFlag = "yes";
+		}
+		return updateFlag;
+	}
+	
+	/**
+	 * @description 确认结果页面   点击放弃,后台针对传过来的信息执行修改
+	 * @param model
+	 * @param request
+	 * @return string ajax返回执行状态
+	 * @author Ma Mingwei
+	 */
+	@RequestMapping("uptConfirmDrop")
+	@ResponseBody
+	public String uptConfirmQuoteInfoDrop(@CurrentUser User user,
+			String projectId,
+			Model model,
+			String roundNum,
+			HttpServletRequest request){
+		String supplierId = "2E7A7EAC566343379640DDAB5A35123F";//user.getId();
+		
+		OBProjectResult oBProjectResult = new OBProjectResult();
+		//把此供应商的状态都改为0，表示放弃
+		oBProjectResult.setSupplierId(supplierId);
+		oBProjectResult.setSupplierId(projectId);
+		oBProjectResult.setStatus(0);
+		int uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult);
+		String resFlag = "fail";
+		if(uptResult > 0) {
+			resFlag = "success";
+		}
+		System.out.println(projectId + "cnjewfn" + uptResult);
+		return resFlag;
+	}
+	
+	/**
+	 * @author Ma Mingwei
+	 * @description 竞价结果查询
+	 * @param model
+	 * @param request 	projectId--竞价标题id
+	 * @return string 视图页面
+	 */
+	@RequestMapping("queryBiddingResult")
+	public String queryBiddingResult(Model model,
+			HttpServletRequest request,
+			String projectId){
+		if (projectId == null || "".equals(projectId)) {
+			// 这个目前做测试用
+			projectId = "DDE523291D694F5B8CC084EC2DFDBFF9";
+		}
+		//查找这个标题id的标题信息
+		OBProject obProject = obProjectServer.selectByPrimaryKey(projectId);
+		
+		//查找 参与这个标题的供应商
+		
+		
+		model.addAttribute("obProject", obProject);
+		
+		return "bss/ob/supplier/queryBiddingResults";
 	}
 	
 	/**

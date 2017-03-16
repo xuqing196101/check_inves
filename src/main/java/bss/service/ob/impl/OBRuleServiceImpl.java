@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.github.pagehelper.PageHelper;
-
 import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBRuleMapper;
@@ -22,7 +20,11 @@ import bss.model.ob.OBRule;
 import bss.model.ob.OBRuleExample;
 import bss.model.ob.OBRuleExample.Criteria;
 import bss.model.ob.OBSpecialDate;
+import bss.model.ob.OBSpecialDateExample;
 import bss.service.ob.OBRuleService;
+
+import com.github.pagehelper.PageHelper;
+
 import common.utils.JdcgResult;
 
 /**
@@ -45,7 +47,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	private OBSpecialDateMapper obSpecialDateMapper;
 
 	@Override
-	public JdcgResult addRule(OBRule obRule, HttpServletRequest req) {
+	public JdcgResult addRule(OBRule obRule, User user) {
 		if (obRule == null) {
 			return JdcgResult.build(500, "请填写竞价规则相关信息");
 		}
@@ -79,7 +81,6 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "确认时间(第二轮)不能为空");
 		}
 		// 校验表单提交数据结束
-		User user = (User) req.getSession().getAttribute("loginUser");
 		if (user == null) {
 			return JdcgResult.build(500, "请先登录再操作");
 		}
@@ -144,7 +145,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 
 	@Override
 	public JdcgResult addSpecialdate(OBSpecialDate obSpecialDate,
-			HttpServletRequest req) {
+			HttpServletRequest req, User user) {
 		if (obSpecialDate == null) {
 			return JdcgResult.build(500, "请填写相关信息");
 		}
@@ -158,9 +159,22 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "类型不能为空");
 		}
 		// 校验表单提交数据结束
-		User user = (User) req.getSession().getAttribute("loginUser");
 		if (user == null) {
 			return JdcgResult.build(500, "请先登录再操作");
+		}
+
+		// 判断用户输入的设置日期是否已存在
+		OBSpecialDateExample example = new OBSpecialDateExample();
+		bss.model.ob.OBSpecialDateExample.Criteria criteria = example
+				.createCriteria();
+		criteria.andSpecialDateEqualTo(obSpecialDate.getSpecialDate());
+		List<OBSpecialDate> list = obSpecialDateMapper.selectByExample(example);
+		OBSpecialDate existobSpecialDate = null;
+		if (list != null && list.size() > 0) {
+			existobSpecialDate = list.get(0);
+		}
+		if (existobSpecialDate != null) {
+			return JdcgResult.build(500, "对不起，设置日期已存在");
 		}
 		// 设置创建人ID
 		obSpecialDate.setCreaterId(user.getId());
@@ -204,5 +218,77 @@ public class OBRuleServiceImpl implements OBRuleService {
 	public OBRule selectByStatus() {
 		// TODO Auto-generated method stub
 		return obRuleMapper.selectByStatus();
+	}
+
+	/**
+	 * 
+	 * @Title: editObRule
+	 * @Description: 修改竞价规则数据回显
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
+	 */
+	@Override
+	public OBRule editObRule(String id) {
+		OBRule obRule = obRuleMapper.selectByPrimaryKey(id);
+		if (obRule != null) {
+			return obRule;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: updateobRule
+	 * @Description: 修改竞价规则
+	 * @author Easong
+	 * @param @param obRule
+	 * @param @return 设定文件
+	 */
+	@Override
+	public JdcgResult updateobRule(OBRule obRule) {
+		if (obRule == null || obRule.getId() == null) {
+			return JdcgResult.build(500, "此竞价规则已失效");
+		}
+		// 设置修改时间
+		obRule.setUpdatedAt(new Date());
+		obRuleMapper.updateByPrimaryKeySelective(obRule);
+		return JdcgResult.ok("修改成功");
+	}
+
+	/**
+	 * 
+	 * @Title: editSpecialdate
+	 * @Description: 编辑特殊节假日数据回显
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
+	 */
+	@Override
+	public OBSpecialDate editSpecialdate(String id) {
+		OBSpecialDate specialDate = obSpecialDateMapper.selectByPrimaryKey(id);
+		if (specialDate != null) {
+			return specialDate;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: updateobSpecialDate
+	 * @Description: 修改特殊节假日
+	 * @author Easong
+	 * @param @param obSpecialDate
+	 * @param @return 设定文件
+	 */
+	@Override
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) {
+		if (obSpecialDate == null || obSpecialDate.getId() == null) {
+			return JdcgResult.build(500, "此特殊节假日已失效");
+		}
+		// 设置修改时间
+		obSpecialDate.setUpdatedAt(new Date());
+		obSpecialDateMapper.updateByPrimaryKeySelective(obSpecialDate);
+		return JdcgResult.ok("修改成功");
 	}
 }

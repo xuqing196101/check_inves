@@ -1270,6 +1270,9 @@
 		<if test="loginName != null and loginName !=''">
 			and LOGIN_NAME like '%${loginName}%'
 		</if>
+		<if test="mobile != null and mobile !=''">
+			and MOBILE like '%${mobile}%'
+		</if>
 		<!-- <if test="address != null and address !=''"> and ADDRESS like '%${address}%' 
 			</if> -->
 

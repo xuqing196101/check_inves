@@ -26,41 +26,89 @@
 			}
 		});
 		
-		
-		//加载菜单  下拉框内容
-		$.ajax({
-			url: "${pageContext.request.contextPath }/ob_project/mechanism.html",
-			contentType: "application/json;charset=UTF-8",
-			dataType: "json", //返回格式为json
-			type: "POST", //请求方式           
-			success: function(data) {
-				if (data) {
-					$.each(data, function(i, org) {
-						$("#catgory").append("<option  value=" + org.id + ">" + org.shortName + "</option>");
-					});
-				} 
-			 $("#catgory").select2();
-			 $("#catgory").select2("val", "${obProduct.procurementId}");
-			}
-		});
+		/* 加载目录信息 */
+		var datas;
+		var setting={
+				   async:{
+							autoParam:["id"],
+							enable:true,
+							url:"${pageContext.request.contextPath}/category/createtree.do",
+							otherParam:{"otherParam":"zTreeAsyncTest"},  
+							dataType:"json",
+							type:"get",
+						},
+						callback:{
+					    	onClick:zTreeOnClick,//点击节点触发的事件
+		       			    
+					    }, 
+						data:{
+							keep:{
+								parent:true
+							},
+							key:{
+								title:"title"
+							},
+							simpleData:{
+								enable:true,
+								idKey:"id",
+								pIdKey:"pId",
+								rootPId:"0",
+							}
+					    },
+					   view:{
+					        selectedMulti: false,
+					        showTitle: false,
+					   },
+		         };
+	    $.fn.zTree.init($("#treeDemo"),setting,datas);
+
 	});
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+/** 判断是否为根节点 */
+    function isRoot(node){
+    	if (node.pId == 0){
+    		return true;
+    	} 
+    	return false;
+    }
+ 
+ /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (isRoot(treeNode)){
+  		  layer.msg("不可选择根节点");
+  		  return;
+  	  }
+	  if (treeNode) {
+		  $("#citySel4").val(treeNode.name);
+          $("#categorieId4").val(treeNode.id);
+          $("#categoryLevel").val(treeNode.level+1);
+          hideMenu();
+	  }
+    }
+ 
+    function showMenu() {
+		var cityObj = $("#citySel4");
+		var cityOffset = $("#citySel4").offset();
+		$("#menuContent").css({left: "440px", top: "250px"}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDown);
+	}
+    function hideMenu() {
+		$("#menuContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDown);
+	}
+	function onBodyDown(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+			hideMenu();
+		}
+	} 
+
 	/* 发布 */
 	function sub(i){
 		var code = $("#code").val();
 		var name = $("#name").val();
 		var procurementId = $("#orgId option:selected").val();
 		var category = $("#categorieId4").val();
+		var categoryLevel = $("#categoryLevel").val();
 		var standardModel = $("#standardModel").val();
 		var qualityTechnicalStandard = $("#qualityTechnicalStandard").val();
 		if(code == null || code == ""){
@@ -74,10 +122,11 @@
 		}
 		if(code != null && name != null && procurementId != null && code != "" && name != "" && procurementId != ""){
 		window.location.href = "${pageContext.request.contextPath}/product/add.html?code="+code+"&&name="+name+"&&procurementId="+procurementId
-				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i;
+				+"&&category="+category+"&&standardModel="+standardModel+"&&qualityTechnicalStandard="+qualityTechnicalStandard+"&&i="+i+"&&categoryLevel="+categoryLevel;
 		}
 	}
 	
+	/* 清空提示消息 */
 	function codeover(){
 		$("#pcode").html("");
 	}
@@ -86,6 +135,9 @@
 	}
 	function pover(){
 		$("#ppro").html("");
+	}
+	function pcategory(){
+		$("#pcategory").html("");
 	}
 </script>
 </head>
@@ -126,7 +178,7 @@
 				  <tr>
 				    <td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
 				    <td width="82%" colspan="3">
-				    	<select id="orgId" name="supplierId" style="width: 30%;" onchange="pover()">
+				    	<select id="orgId" name="supplierId" style="width: 25.5%;" onchange="pover()">
   							<option value=""></option>
 						</select>
 						<!-- <input id = "pro" style="display:none;" value=""> -->
@@ -134,11 +186,12 @@
 					</td>
 				  </tr>
 				   <tr>
-				    <td class="info">选择目录</td>
+				    <td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
 				    <td colspan="3">
-				    <select id="catgory" name="catgId" style="width: 30%;">
-  							<option value=""></option>
-					</select>
+				    	<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0"  onclick=" showMenu(); return false;" readonly>
+				    	<input id="categorieId4" name="categoryId" value="${cId}" type="hidden" class="w230 mb0 border0" >
+				    	<input id="categoryLevel" name="categoryLevel" value="${obProduct.productCategoryLevel}" type="hidden" class="w230 mb0 border0" >
+				    	<div class="star_red" id = "pcategory">${error_category }</div>
 				    </td>
 				  </tr>
 				  <tr>
@@ -171,10 +224,9 @@
   </div>
   
   <!-- 目录框 -->
-  
- 		<div id="menuContent" class="menuContent dw188 tree_drop">
-			<ul id="treeDemo" class="ztree slect_option"></ul>
-		</div>
+	<div id="menuContent" class="menuContent dw188 tree_drop">
+		<ul id="treeDemo" class="ztree slect_option"></ul>
+	</div>
   <!-- 选择框弹出 -->
   <%-- <div id="openDiv" class="dnone layui-layer-wrap" >
 	<div class="col-md-12 col-sm-12 col-xs-12 mt20">

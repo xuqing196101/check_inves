@@ -64,7 +64,9 @@
   	function onclickDetail(id){
   		location.href="${pageContext.request.contextPath }/contractSupervision/contSupervision.html?id="+id;
   	}
-	
+	function openFile(id){
+		location.href="${pageContext.request.contextPath }/contractSupervision/filePage.html?id="+id;
+	}
   </script>
   </head>
   
@@ -134,18 +136,18 @@
 				<c:set value="${draftCon.code}" var="code"></c:set>
 				<c:set value="${fn:length(code)}" var="length"></c:set>
 				<c:if test="${length>7}">
-					<td  class="pointer pl20" title="${code}">${fn:substring(code,0,7)}...</td>
+					<td  class="pointer pl20" title="${code}" onclick="openFile('${draftCon.id}');">${fn:substring(code,0,7)}...</td>
 				</c:if>
 				<c:if test="${length<=7}">
-					<td  class="pointer pl20" title="${code}">${code}</td>
+					<td  class="pointer pl20" title="${code}" onclick="openFile('${draftCon.id}');">${code}</td>
 				</c:if>
 				<c:set value="${draftCon.name}" var="name"></c:set>
 				<c:set value="${fn:length(name)}" var="length"></c:set>
-				<c:if test="${length>9}">
-					<td  class="pointer pl20" title="${name}">${fn:substring(name,0,9)}...</td>
+				<c:if test="${length>9}" >
+					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');">${fn:substring(name,0,9)}...</td>
 				</c:if>
-				<c:if test="${length<=9}">
-					<td  class="pointer pl20" title="${name}">${name}</td>
+				<c:if test="${length<=9}" >
+					<td  class="pointer pl20" title="${name}" onclick="openFile('${draftCon.id}');">${name}</td>
 				</c:if>
 				<td class="tr pr20 pointer" >${draftCon.money}</td>
 				<td class="tl pl20 pointer" >${draftCon.projectName}</td>

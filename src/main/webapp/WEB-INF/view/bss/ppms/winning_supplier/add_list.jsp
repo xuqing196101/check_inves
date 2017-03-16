@@ -122,7 +122,23 @@
 		if(btnVal == "保存" && tempStrForAdd == 1) {
 			var sid = "${supplierId}";
 			var subjectList = [];
+			var validateFlag = true;
 			$(".kkkkk").each(function(index , element) {
+				if($(this).parent().parent().find(":input[name='goodsName']").val() == null || $(this).parent().parent().find(":input[name='goodsName']").val() == "") {
+					validateFlag = false;
+				}
+				if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
+					validateFlag = false;
+				}
+				if($(this).parent().parent().find(":input[name='qualitStand']").val() == null || $(this).parent().parent().find(":input[name='qualitStand']").val() == "") {
+					validateFlag = false;
+				}
+				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
+					validateFlag = false;
+				}
+				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
+					validateFlag = false;
+				}
 				var data = {
 					detailId : $(this).attr("title"),
 					supplierId : sid,
@@ -135,28 +151,32 @@
 				};
 				subjectList.push(data);
 			});
-			$.ajax({
-				url : "${pageContext.request.contextPath}/theSubject/batchInsert.do",
-				data : JSON.stringify(subjectList),
-				type : "post",
-				contentType:"application/json",
-				success : function(obj) {
-					layer.alert(
-						'添加成功',
-						{
-							btn:['确定']
-						},
-						function() {
-							window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + "${packageId}" + "&&flowDefineId=${flowDefineId}&&pid=${pid}&&projectId=${projectId}&&priceRatios=priceRatio";
-						}
-					);
-					//layer.alert("添加成功");
-					
-				},
-				error : function(obj) {
-					layer.alert("添加失败");
-				}
-			});
+			if(validateFlag) {
+				$.ajax({
+					url : "${pageContext.request.contextPath}/theSubject/batchInsert.do",
+					data : JSON.stringify(subjectList),
+					type : "post",
+					contentType:"application/json",
+					success : function(obj) {
+						layer.alert(
+							'添加成功',
+							{
+								btn:['确定']
+							},
+							function() {
+								window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + "${packageId}" + "&&flowDefineId=${flowDefineId}&&pid=${pid}&&projectId=${projectId}&&priceRatios=priceRatio";
+							}
+						);
+						//layer.alert("添加成功");
+						
+					},
+					error : function(obj) {
+						layer.alert("添加失败");
+					}
+				});
+			} else {
+				layer.alert("标的内容不可以为空");
+			}
 		} else if(btnVal == "修改") {
 			
 		} else if(btnVal == "保存" && tempStrForAdd == 0) {

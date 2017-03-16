@@ -263,9 +263,6 @@
   	select
     <include refid="Base_Column_List" />
     from T_BSS_OB_SPECIAL_DATE where 1=1
-    <if test="userId != null and userId  !=''" >
-      AND CREATER_ID =#{userId}
-    </if>
     <if test="specialDate != null and specialDate !=''" >
       AND SPECIAL_DATE =#{specialDate}
     </if>
