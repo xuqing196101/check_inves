@@ -109,6 +109,10 @@ public class OBRuleServiceImpl implements OBRuleService {
 	public JdcgResult delete(String[] ids) {
 		for (int i = 0; i < ids.length; i++) {
 			try {
+				OBRule obRule = obRuleMapper.selectByPrimaryKey(ids[i]);
+				if(obRule != null && obRule.getStatus() == 1){
+					return JdcgResult.ok("不能删除默认的竞价规则");
+				}
 				obRuleMapper.deleteByPrimaryKey(ids[i]);
 			} catch (Exception e) {
 				OBRule obRule = obRuleMapper.selectByPrimaryKey(ids[i]);
