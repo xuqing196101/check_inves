@@ -86,6 +86,13 @@
       order by ${orderByClause}
     </if>
   </select>
+   <!-- 根据日期 获取相关数据 -->
+  <select id="selectBySpecialDate" resultMap="BaseResultMap" parameterType="Map" >
+    select SPECIAL_DATE,DATE_TYPE
+    from T_BSS_OB_SPECIAL_DATE
+    where SPECIAL_DATE &gt;= #{stateDate,jdbcType=TIMESTAMP}
+    order by SPECIAL_DATE
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

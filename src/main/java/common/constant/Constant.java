@@ -35,6 +35,13 @@ public final class Constant {
     /** 论坛系统value */
     public static final String FORUM_SYS_VALUE = "T_ISS_FS_POST_ATTACHMENT";
        
+    /**竞价比例分成**/
+    public static final Integer [] OB_PROJECT_ONE={100};
+    public static final Integer [] OB_PROJECT_TWO={70,30};
+    public static final Integer [] OB_PROJECT_THREE={50,30,20};
+    public static final Integer [] OB_PROJECT_FOUR={40,30,20,10};
+    public static final Integer [] OB_PROJECT_FIVE={30,25,20,15,10};
+    public static final Integer [] OB_PROJECT_SIX={30,24,19,14,9,4};
     /**
      * 
      *〈简述〉初始化

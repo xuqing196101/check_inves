@@ -257,4 +257,22 @@ public class OBProduct {
 		this.productCategory = productCategory;
 	}
 
+	@Override
+	public String toString() {
+		return "OBProduct [obProduct=" + obProduct + ", obSupplierList="
+				+ obSupplierList + ", id=" + id + ", code=" + code + ", name="
+				+ name + ", procurementId=" + procurementId + ", categoryId="
+				+ categoryId + ", categoryMiddleId=" + categoryMiddleId
+				+ ", categoryBigId=" + categoryBigId + ", productCategoryId="
+				+ productCategoryId + ", productCategoryLevel="
+				+ productCategoryLevel + ", standardModel=" + standardModel
+				+ ", qualityTechnicalStandard=" + qualityTechnicalStandard
+				+ ", remark=" + remark + ", isDeleted=" + isDeleted
+				+ ", createrId=" + createrId + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", status=" + status
+				+ ", category=" + category + ", categoryBig=" + categoryBig
+				+ ", categoryMiddle=" + categoryMiddle + ", productCategory="
+				+ productCategory + "]";
+	}
+
 }

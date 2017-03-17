@@ -34,4 +34,8 @@ public interface OBProjectSupplierMapper {
     int updateByPrimaryKeySelective(OBProjectSupplier record);
 
     int updateByPrimaryKey(OBProjectSupplier record);
+    /**
+     * 根据竞价id 删除关系
+     */
+    int deleteByProjectId(String projectID);
 }

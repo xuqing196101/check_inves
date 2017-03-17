@@ -6,6 +6,7 @@ import java.util.Map;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBSupplier;
 
 /***
  * 竞价信息管理 接口
@@ -95,5 +96,12 @@ public interface OBProjectServer {
 	 * @exception
 	 */
 	void changeStatus();
+	/**
+	 * 
+	 * 获取 并集 供应商
+	 * @author YangHongLiang
+	 * @exception
+	 */
+	List<OBSupplier> selecUniontSupplier(List<String> productID);
 
 }
