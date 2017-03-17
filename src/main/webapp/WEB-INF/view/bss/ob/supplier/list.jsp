@@ -157,8 +157,15 @@
 			  	<c:if test="${ obProject.status == 2 && '3' eq obProject.remark}">
 				  	已报价待确认
 			  	</c:if>
+			  	<!-- 供应商报价失效情况 -->
+			  	<c:if test="${ obProject.status == 3 && '5' eq obProject.remark}">
+				  	未报价
+			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 && '6' eq obProject.remark}">
 				  	<a href="javascript:void(0)" onclick="confirmResult('${obProject.id}')">确认结果</a>
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 2 && '6' eq obProject.remark}">
+				  	重新刷新页面
 			  	</c:if>
 			  </td>
 			</tr>

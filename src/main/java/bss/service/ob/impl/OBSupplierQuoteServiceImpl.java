@@ -29,7 +29,7 @@ import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
 import bss.service.ob.OBSupplierQuoteService;
-
+import bss.util.BiddingStateUtil;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
@@ -165,8 +165,31 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				// 保存
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
-				obResultsInfoMapper.insert(obResultsInfo);
 				
+				// 报价前，判断截止时间是否已到
+				// 查询竞价标题信息
+				OBProject obProject = obProjectMapper.selectByPrimaryKey(titleId);
+				if(obProject != null){
+					Date endTime = obProject.getEndTime();
+					int compareTo = BiddingStateUtil.compareTo(new Date(), endTime);
+					// 报价时间截止
+					if(compareTo == 2){
+						//remark 5标识：时间截止，未能及时完成报价
+						obProject.setRemark("5");
+						obProject.setUpdatedAt(new Date());
+						obProjectMapper.updateByPrimaryKeySelective(obProject);
+						return JdcgResult.ok("抱歉，报价时间已结束，未完成本次报价！");
+					}
+					
+					if(compareTo == 1){
+						//remark 3标识：时间还未截止，完成报价
+						obProject.setRemark("3");
+						obProject.setUpdatedAt(new Date());
+						obProjectMapper.updateByPrimaryKeySelective(obProject);
+					}
+				}
+				// 竞价还没结束已报价，则显示已报价待确认状态
+				obResultsInfoMapper.insert(obResultsInfo);
 			}
 		}
 		return JdcgResult.ok("操作成功，请在报价截止时间后，查看本次中标结果！");
