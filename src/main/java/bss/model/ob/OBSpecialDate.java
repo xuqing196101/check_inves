@@ -13,7 +13,7 @@ public class OBSpecialDate implements Serializable{
     @DateTimeFormat(pattern="yyyy-MM-dd")
     private Date specialDate;
     
-    /**1：上班  0：放假**/
+    /**1：上班     0：放假**/
     private String dateType;
 
     private Date createdAt;

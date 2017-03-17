@@ -3,6 +3,7 @@ package bss.dao.ob;
 import bss.model.ob.OBSpecialDate;
 import bss.model.ob.OBSpecialDateExample;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -32,5 +33,10 @@ public interface OBSpecialDateMapper {
     int updateByPrimaryKey(OBSpecialDate record);
     
     List<OBSpecialDate> selectAllOBSpecialDate(Map<String, Object> map);
-    
+    /***
+     * 获取 时间段的 特殊日期
+     * @author Yanghongliang
+     */
+    List<OBSpecialDate> selectBySpecialDate(Map<String, Object> map);
+   
 }

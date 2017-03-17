@@ -9,7 +9,7 @@
 	    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<title>发布竞价信息页面</title>
 <script type="text/javascript">
-	  var number=1;
+	  var number=10000001;
 	
 	/** 全选全不选 */
 	function selectAll(){
@@ -100,10 +100,11 @@
 				if (data) {
 				list=data;
 					$.each(data, function(i, user) {
-						$("#orgId").append("<option  value=" + user.id + ">" + user.name + "</option>");
+						$("#orgId").append("<option  value=" + user.id + ">" + user.shortName + "</option>");
 					});
 				} 
 			 $("#orgId").select2();
+			 $("#orgId").select2('val','${list.orgId}');
 			}
 		});
 		
@@ -115,7 +116,15 @@
 			type: "POST", //请求方式           
 			success: function(data) {
 				if (data) {
-				productList=data;
+				productList=data;//延迟加载 数据
+   
+       var plists='${listinfo}';
+         if(plists){
+          var temp=eval(plists);
+  		  $.each( temp, function(i, value) {
+		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
+		  }) ; 
+		  }
 				} 
 			}
 		 });
@@ -134,64 +143,84 @@
 	 	});
 	  }
 	}
-	
+	 //存储选中的产品的全部供应商id
+     var supplielist=[];
 	//根据定型产品更新 
-	function changSelectCount(number){
+	function changSelectCount(){
 	 if(productList){
-	 	var temp=0;
-	 	var value=$("select[id=\"productName_"+number+"\"]").val();
-	  	$.each(productList, function(i, user) {
-	   	if(user.id==value){
-	  	   temp=user.obSupplierList.length;
-	    	$("input[name=\"count_"+number+"\"]").val(temp);
-	    	changGYSCount();
-	       }
-	 	});
+	 	changSupplier();
+	 	
 	  }else{
 	   $("#gys_count").text(0);
 	  }
 	}
-	//改变供应商数量
-	function changGYSCount(){
-	       var ds=[];
+	function changSupplier(){
+	     //存储选中的产品id
+	     var ds=[];
 			//获取选中全部的产品id
 			$('*[name="productName"]').each(function(){
 			  if($(this).val()){
 		      ds.push($(this).val());
 			  }
 		  });
+		  
+		  
+		  //存储 list;
 		  var list=[];
-		  if(ds.length>1){
-		  var temp =null;
-		  //遍历 选中产品id
+		  var dslength=ds.length;
+		  //根据选中的 产品id获取 获取供应商
+		  if(dslength>0){
+		    //遍历 选中产品id
 		  for(var i=0;i<ds.length;i++) { 
-		    temp=ds[i];
+		    var temp=ds[i];
 		    //便利选中产品 获取选中产品集合
 		   	$.each(productList, function(i, user) {
 		   	   if(temp==user.id){
-		   	     list.push(user);
+		   	   if(user.obSupplierList){
+		   	   $.each(user.obSupplierList, function(i, user) {
+		   	     list.push(user.supplierId);
+	    	     });
+		   	    }
 		   	   }
-		   });
+		     });
 		   }
-		   var count=0;
-		   //便利选中的集合 是否有共同的供应商
+		    //并集供应商数量 有可能是多个
+		   var union=0;
+		 if(dslength==1){
+		 union=list.length;
+		 }else{
+		  var tempArray=[];
 		   for(var i=0;i<list.length;i++){
+		   var count=1;
 		      var  templist=list[i];
-		      for(var j=1;j<list.length;j++){
-		        var within=list[j];
-		        if(templist.obSupplierList.id!=within.obSupplierList.id){
-		         count++;
-		         break;
+		      for(var j=0;j<list.length;j++){
+		      if(i!=j){
+		        //循环比较并集供应商数量
+		        if(templist==list[j]){
+		          count++;
 		        };
+		        }
 		      };
-		   };
-		   $("#gys_count").text((list.length)-parseInt(count));
-		  }else{
-		     $("#gys_count").text(1);
+		        if(count==dslength){
+		        //如果相等的数量 等于选中产品的数据 那么就是并集 存储
+		        tempArray.push(templist);
+		        }
+		     }; 
+			supplielist=[];
+		    //去重复
+              for(var i = 0; i < tempArray.length-1; i++){    //从数组第二项开始循环遍历此数组  
+                if(supplielist.indexOf(tempArray[i]) == -1){  
+                    supplielist.push(tempArray[i]);  
+                  }
+                }  
+   					union= supplielist.length;
+		   }
+		    $("#gys_count").text(union);
 		  }
-			
+	
 	}
-	// 弹出导入框
+	
+		// 弹出导入框
 	var index;
 	function uploadExcl(){
 	 index = layer.open({
@@ -206,27 +235,30 @@
 		content: $('#file_div'),
 		});
 	}
-	function loads(number){
+	function loads(number,id){
 	$.each(productList, function(i, user) {
 		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + ">" + user.name+ "</option>");
 	     });
 	     $("select[id=\"productName_"+number+"\"]").select2();
+	     if(id){
+		 $("#productName_"+number+"").select2('val',id); 
+	    changSelectCount(number);
+	    }
 	  } 
 	  
-	 function addTr(productId,productName,productMoney,producCount,productRemark,conut){
+	 function addTr(productId,productName,productMoney,producCount,productRemark){
 	      ++number;
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
 		  "<td class=\"p0\"><select id=\"productName_"+number+"\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
-		  "<input id=\"count\" name=\"count_"+number+"\" value=\""+conut+"\" type=\"hidden\" >"+
 		  "</td>"+
-		  "<td class=\"p0\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" onkeyup=\"this.value=this.value.replace(/\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"2000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productMoney\" maxlength=\"10\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		"</tr>").clone(true);   
-			  loads(number);
-			 $("select[name=\"productName_"+number+"\"]").select2("val",productId);
-			 /*  */
+		//加载数据
+		loads(number,productId);
 	} 
+	
 	//导入excl 
 	function fileUpload(){
 	 $.ajaxFileUpload ({
@@ -252,7 +284,7 @@
 						 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
 						       layer.close(index);
 						         $.each(data, function(index, value) {
-									addTr(value.id,value.code,value.standardModel,value.isDeleted,value.remark,value.name);
+									addTr(value.id,value.code,value.standardModel,value.isDeleted,value.remark);
 								}); 
 	                 }
 	             }
@@ -285,8 +317,8 @@
 		   return;
 		  }
 		   if(!$("#deliveryDeadline").val().trim()){
-		   $("#deliveryDeadlineErr").html("交货截至日期不能为空");
-		     show("交货截至日期不能为空");
+		   $("#deliveryDeadlineErr").html("交货时间不能为空");
+		     show("交货时间不能为空");
 		   return;
 		  }
 		   if(!$("#deliveryAddress").val().trim()){
@@ -294,26 +326,36 @@
 		     show("交货地点不能为空");
 		   return;
 		  }
-		  var supplierCount=!$("#tradedSupplierCount").val().trim();
-		    if(supplierCount){
+		  var supplierCount=$("#tradedSupplierCount").val().trim();
+		    if(!supplierCount){
 		   $("#tradedSupplierCountErr").html("成交供应商数量不能为空");
 		     show("成交供应商数量不能为空");
 		   return;
 		  }
-		  if(parseInt(supplierCount)>parseInt(4)){
-		  $("#tradedSupplierCountErr").html("成交供应商数量不能大于4");
-		    show("成交供应商数量不能大于4");
+		  if(isNaN(supplierCount)){
+		  $("#tradedSupplierCountErr").html("成交供应商数量必须是数字");
+		     show("成交供应商数量必须是数字");
+		   return;
+		  }
+		   if(parseInt(supplierCount)>=parseInt(6)){
+		  $("#tradedSupplierCountErr").html("成交供应商数量不能大于6");
+		    show("成交供应商数量不能大于6");
 		   return;
 		  }
 		   if(parseInt(supplierCount)<parseInt(1)){
 		  $("#tradedSupplierCountErr").html("成交供应商数量不能小于1");
 		  show("成交供应商数量不能小于1");
 		   return;
-		  }
-		  
+		  } 
 		   if(!$("#transportFees").val().trim()){
 		   $("#transportFeesErr").html("运杂费不能为空");
 		    show("运杂费不能为空");
+		   return;
+		  }
+		  
+		  if(isNaN($("#transportFees").val().trim())){
+		   $("#transportFeesErr").html("运杂费必须是小数");
+		    show("运杂费必须是小数");
 		   return;
 		  }
 		   if(!$("#demandUnit").val().trim()){
@@ -346,74 +388,110 @@
 		     show("采购联系人不能为空");
 		   return;
 		  }
-		    if(!$("#startTime").val().trim()){
-		   $("#startTimeErr").html("竞价开始时间不能为空");
-		     show("竞价开始时间不能为空");
-		   return;
-		     } 
-		   if(!$("#endTime").val().trim()){
-		   $("#endTimeErr").html("竞价结束时间不能为空");
-		     show("竞价结束时间不能为空");
-		   return;
-		  }
 		   if($("#content").html()=='undefined' && $("#content").html()==''){
 		   $("#contentErr").html("竞价内容不能为空");
 		   show("竞价内容不能为空");
 		   return;
 		  }  
 		  
-		   if($('[name="productName"]').length == 0){
-		   $("#buttonErr").html("竞价产品不能为空");
-		   show("竞价产品不能为空");
-		   return;
-		  }else{ 
-		   var temp=0;
-		  $('*[name="productName"]').each(function(){
-		    if(!$(this).val().trim()){
-		      $("#buttonErr").html("竞价产品名称不能为空");
-		      show("竞价产品名称不能为空");
-		      return;
-		    }
-		  });
-		
-		   $('*[id="productMoney"]').each(function(){
-		    if(!$(this).val().trim()){
-		      $("#buttonErr").html("竞价产品限价不能为空");
-		       show("竞价产品限价信息不能为空");
-		      return;
-		    }else{
-		      temp=1;
-		    }
-		  });
-		     $('*[id="productCount"]').each(function(){
-		    if(!$(this).val().trim()){
-		      $("#buttonErr").html("竞价产品数量不能为空");
-		      show("竞价产品数量不能为空");
-		      return;
-		      }else{
-		      temp=1;
-		    }
-		  });
-		     $('*[id="productRemark"]').each(function(){
-		    if(!$(this).val().trim()){
-		      $("#buttonErr").html("竞价产品备注不能为空");
-		      show("竞价产品备注不能为空");
-		      return;
-		      }else{
-		      temp=1;
-		    }
-		  });
-		    if(temp==0){return};
-		  }  
-    			if('${rule}' ){
-		    var index = layer.load(0,{
-    				  shade: [0.1,'#fff'],
-    				  offset:['45%','53%']
-    			}); 
-    			$("#status").val(status);
-    			$("#ruleId").val('${rule.id}');
-	       $.post("${pageContext.request.contextPath}/ob_project/addProject.html", $("#myForm").serialize(), function(data) {
-	                            if (data) {
+		  
+	if ($('[name="productName"]').length == 0) {
+			$("#buttonErr").html("竞价产品不能为空");
+			show("竞价产品不能为空");
+			return;
+		} else {
+			var temp = 0;
+			var names = [];
+			$('*[name="productName"]').each(function() {
+				if (!$(this).val().trim()) {
+					temp = 1;
+					return;
+				} else {
+					names.push($(this).val());
+				}
+			});
+			//验证 选中产品唯一 产品名称不能为空
+			if (temp == 1) {
+				$("#buttonErr").html("竞价产品名称不能为空");
+				show("竞价产品名称不能为空");
+				return;
+			} else {
+				if (names.length > 1) {
+					var tempName = null;
+					for ( var i = 0; names.length > i; i++) {
+						var name = names[i];
+						if (names.indexOf(name) == 0) {
+							temp++;
+						}
+					}
+					if (parseInt(temp) > 1) {
+						$("#buttonErr").html("竞价产品不可重复");
+						show("竞价产品不可重复");
+						return;
+					}
+				}
+			}
+			temp = 0;
+			names = [];
+			$('*[id="productCount"]').each(function() {
+				var count = $(this).val().trim();
+				if (!count) {
+					temp = 1;
+					return;
+				} else {
+					names.push($(this).val());
+				}
+			});
+
+			if (temp == 1) {
+				$("#buttonErr").html("竞价产品数量不能为空");
+				show("竞价产品数量不能为空");
+				return;
+			} else {
+				if (names.length > 0) {
+					var tempName = null;
+					for ( var i = 0; names.length > i; i++) {
+						var name = names[i];
+						if (parseInt(parseInt) < 1) {
+							temp++;
+						}
+					}
+					if (parseInt(temp) >= 1) {
+						$("#buttonErr").html("竞价产品数量必须大于0");
+						show("竞价产品数量不能为空");
+						return;
+					}
+				}
+			}
+			temp = 0;
+			$('*[id="productRemark"]').each(function() {
+				if (!$(this).val().trim()) {
+					temp = 1;
+					return;
+				}
+			});
+			if (temp == 1) {
+				$("#buttonErr").html("竞价产品备注不能为空");
+				show("竞价产品备注不能为空");
+				return;
+			}
+		}
+		var supplierCount='${supplierCount}';
+		var gyscount=$('#gys_count').html();
+		 if(parseInt(supplierCount)>parseInt(gyscount)){
+		    show("提供当前产品的供应商不能少于"+supplierCount+"家");
+				return;
+		 }
+			var index = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
+			$("#status").val(status);
+				$("#supplieId").val(supplielist);
+			         $.post("${pageContext.request.contextPath}/ob_project/addProject.html",
+							$("#myForm").serialize(),
+							function(data) {
+								if (data) {
 									var json = JSON.parse(data);
 									var name = json.attributeName;
 									var context = json.show;
@@ -429,27 +507,12 @@
 									show("错误！");
 								}
 							});
-		} else {
-			show("竞价规则不能没有默认");
-		}
 	}
 
 	function show(content) {
 		layer.alert(content, {
 			offset : [ '30%', '40%' ]
 		});
-	}
-	//根据规则 生成时间
-	function getValues() {
-		var rule = '${rule.quoteTime}';
-		var stattime = $("#startTime").val().trim();
-		if (stattime) {
-			var date = new Date(stattime);//
-			//分
-			var monute = date.setMinutes(date.getMinutes() + 30);
-			var d = new Date(monute).Format("yyyy-MM-dd hh:mm:ss");
-			$("#endTime").val(d);
-		}
 	}
 </script>
 </head>
@@ -469,126 +532,115 @@
     <!-- 修改订列表开始-->
   <div class="container container_box">
   <form id="myForm" action="" method="post" class="mb0">
+  <input type="hidden" id="status" name="status">
+  <input type="hidden" id="id" name="id" value="${list.id}">
+ <input type="hidden" id="supplieId" name="supplieId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
-			<input id="fileid" name="fileid" value="${fileid}" type="hidden">
-			<input id="status" name="status" type="hidden">
-			<input id="ruleId" name="ruleId" type="hidden">
-			
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-       <span><font id="nameErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价标题</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="name"  name="name" type="text"  maxlength="180">
+        <input class="input_group" id="name"  value="${list.name}" name="name" type="text"  maxlength="100">
         <span class="add-on">i</span>
+        <span class="input-tip">不能为空</span>
+        <div class="cue" id="nameErr">${nameErr}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-        <span><font id="deliveryDeadlineErr" class="red star_red"></font></span>
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">交货截止时间</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">交货时间</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19"  readonly="readonly"
+        <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly"
          onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  type="text">
         <span class="add-on">i</span>
+         <span class="input-tip">不能为空</span>
+        <div class="cue" id="deliveryDeadlineErr">${deliveryDeadlineErr}</div>
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-        <span><font id="deliveryAddressErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">交货地点</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="deliveryAddress" name="deliveryAddress" type="text">
+        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" type="text">
         <span class="add-on">i</span>
+        <span class="input-tip">不能为空</span>
+        <div class="cue" id="deliveryAddressErr">${deliveryAddressErr}</div>
        </div>
 	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-        <span><font id="tradedSupplierCountErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应商数</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="1" type="text">
+        <input class="input_group" id="tradedSupplierCount" value="${list.tradedSupplierCount}" name="tradedSupplierCount" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="1" type="text">
         <span class="add-on">i</span>
+        <span class="input-tip">不能为空,必须小于7大于1</span>
+        <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
        </div>
 	 </li> 
 	 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-        <span><font id="transportFeesErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">运杂费</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="transportFees" name="transportFees" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="20" type="text">
+        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
         <span class="add-on">i</span>
+         <span class="input-tip">不能为空,只可以是数字</span>
+        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
        </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-       <span><font id="demandUnitErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">需求单位</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="demandUnit" name="demandUnit"  maxlength="20" type="text">
+        <input class="input_group" id="demandUnit" name="demandUnit" value="${list.demandUnit}"  maxlength="50" type="text">
         <span class="add-on">i</span>
+          <span class="input-tip">不能为空</span>
+        <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
        </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-       <span><font id="contactNameErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName"  maxlength="20" type="text">
+        <input class="input_group" id="contactName" name="contactName" value="${list.contactName }" maxlength="20" type="text">
         <span class="add-on">i</span>
+           <span class="input-tip">不能为空</span>
+        <div class="cue" id="contactNameErr">${contactNameErr}</div>
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-      <span><font id="contactTelErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel"  maxlength="11" type="text">
+        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }" maxlength="20" type="text">
         <span class="add-on">i</span>
+        <span class="input-tip">不能为空</span>
+        <div class="cue" id="contactTelErr">${contactTelErr}</div>
        </div>
 	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
-      <span><font id="orgIdErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购机构</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" >
 			  <option value=""></option>
 			</select></div>
+			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
        </div>
 	 </li>
 	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-      <span><font id="orgContactTelErr" class="red star_red"></font></span>
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="orgContactTel" name="orgContactTel"  readonly="readonly" type="text">
+        <input class="input_group" id="orgContactTel" name="orgContactTel" value="${list.orgContactTel }" readonly="readonly" type="text">
         <span class="add-on">i</span>
+        <span class="input-tip">不能为空,只可以是数字</span>
+        <div class="cue" id="orgContactTelErr">${orgContactTelErr}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-      <span><font id="orgContactNameErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="orgContactName" name="orgContactName"  readonly="readonly" type="text">
+        <input class="input_group" id="orgContactName" name="orgContactName" value="${list.orgContactName }"  readonly="readonly" type="text">
         <span class="add-on">i</span>
+        <span class="input-tip">不能为空</span>
+        <div class="cue" id="orgContactNameErr">${orgContactNameErr}</div>
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-      <span><font id="startTimeErr" class="red star_red"></font></span>
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价开始时间</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" name="startTime" id="startTime" onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly"  onfocus="getValues()" type="text">
-        <span class="add-on">i</span>
-       </div>
-	 </li>
-	 
-	 
-	 
-	  <li class="col-md-3 col-sm-6 col-xs-12 " >
-      <span><font id="endTimeErr" class="red star_red"></font></span>
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价结束时间</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="endTime" name="endTime"   readonly="readonly" type="text">
-        <span class="add-on">i</span>
-       </div>
-	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span><font  class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
         <u:upload id="project" buttonName="上传文档"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" multiple="true" auto="true" />
@@ -598,10 +650,11 @@
 	  
 
 	  <li class="col-md-12 col-sm-12 col-xs-12">
-     <span><font id="contentErr" class="red star_red"></font></span>
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价内容</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-       <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:130px"  name="content" title="不超过800个字" maxlength="800"></textarea>
+       <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:100px"  name="content" title="不超过1000个字" maxlength="1000">${list.content}</textarea>
+        <span class="input-tip">不能为空</span>
+        <div class="cue" id="contentErr">${contentErr}</div>
        </div>
 	 </li>
 	 </ul>
@@ -618,7 +671,7 @@
 			<tr>
 		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  		<th class="info" width="30%"><span class="red star_red">*</span>定型产品名称</th>
-		  		<th class="info"><span class="red star_red">*</span>限价（元）</th>
+		  		<th class="info">限价（元）</th>
 		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
 		  		<th class="info" width="30%"><span class="red star_red">*</span>备注</th>
 			</tr>
@@ -629,6 +682,7 @@
   <div class="col-md-12 clear tc mt10">
 	<button class="btn btn-windows save mb20" type="submit" onclick="submitProject(0)">暂存</button>
 	<button class="btn btn-windows apply mb20" type="submit" onclick="submitProject(1)">发布</button>
+	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
    </div>
   
   <div  class=" clear margin-top-30" id="file_div"  style="display:none;" >

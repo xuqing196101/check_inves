@@ -70,7 +70,7 @@ public class OBProject {
     /**
      * @Fields content : 竞价内容
      */
-    private String content	;
+    private String content;
     /**
      * @Fields attachmentId : 附件
      */
@@ -138,12 +138,25 @@ public class OBProject {
     /**
      * 页面数量
      */
+    
     private List<String> productCount;
+    /***
+     * 选中的供应商id
+     */
+    private String supplieId;
     //成交供应商 数量
     private Integer closingSupplier;
     //合格供应商数量
     private Integer qualifiedSupplier;
     
+	public String getSupplieId() {
+		return supplieId;
+	}
+
+	public void setSupplieId(String supplieId) {
+		this.supplieId = supplieId;
+	}
+
 	public String getRuleId() {
 		return ruleId;
 	}
@@ -320,12 +333,12 @@ public class OBProject {
         this.endTime = endTime;
     }
 
-    public String getContent	() {
+    public String getContent() {
         return content	;
     }
 
-    public void setContent	(String content	) {
-        this.content	 = content	 == null ? null : content	.trim();
+    public void setContent(String content) {
+        this.content= content== null ? null : content.trim();
     }
 
     public String getAttachmentId() {
@@ -410,10 +423,9 @@ public class OBProject {
 				+ updatedAt + ", obProductInfo=" + obProductInfo
 				+ ", productName=" + productName + ", productMoney="
 				+ productMoney + ", productRemark=" + productRemark
-				+ ", productCount=" + productCount + ", closingSupplier="
-				+ closingSupplier + ", qualifiedSupplier=" + qualifiedSupplier
-				+ "]";
+				+ ", productCount=" + productCount + ", supplieId=" + supplieId
+				+ ", closingSupplier=" + closingSupplier
+				+ ", qualifiedSupplier=" + qualifiedSupplier + "]";
 	}
 
-    
-}
+	}
