@@ -639,6 +639,7 @@ public class ExpertController extends BaseController {
                     expertCategoryService.save(expert, cate.getId(), typeId);
                 }
             }
+            
         } else if("0".equals(type)) {
 
             // 0代表删除
@@ -867,6 +868,7 @@ public class ExpertController extends BaseController {
                         }
                         // 判断是否被选中
                         ct.setChecked(isExpertChecked(ct.getId(), expertId, categoryId, null));
+                        //
                         allCategories.add(ct);
                     }
                     // 判断专家是否为被退回状态
@@ -3167,8 +3169,27 @@ public class ExpertController extends BaseController {
     @ResponseBody
     @RequestMapping("/isHaveCategory")
     public String isHaveCategory(String expertId) {
+    	
     	List<ExpertCategory> expertCate = expertCategoryService.findByExpertId(expertId);
-    	List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
+        String typeId1 = DictionaryDataUtil.getId("ENG_INFO_ID");
+		String typeId2 = DictionaryDataUtil.getId("PROJECT");
+		int trueFalse1 = 0;
+		int trueFalse2 = 0;
+		for (int i = 0; i < expertCate.size(); i++) {
+			String typeId = expertCate.get(i).getTypeId();
+			if (typeId1.equals(typeId)) {
+				trueFalse1 = 1;
+			}
+			if (typeId2.equals(typeId)) {
+				trueFalse2 = 1;
+			}
+		}
+		if (trueFalse1 == 1 && trueFalse2 ==1) {
+			return "1";
+		} else if (trueFalse1 == 1 || trueFalse2 ==1) {
+			return "0";
+		}
+    	
     	if (expertCate != null && expertCate.size()>0) {
     		for (int i = 0; i < expertCate.size(); i++) {
     			List<Category> treeList = categoryService.findByParentId(expertCate.get(i).getCategoryId());
@@ -3177,6 +3198,7 @@ public class ExpertController extends BaseController {
 				}
 			}
 		}
+        List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
         for(ExpertCategory ec:list){
         	Category cate = categoryService.findById(ec.getCategoryId());
         	if(cate!=null&&cate.getParentId()!=null){
@@ -3190,6 +3212,7 @@ public class ExpertController extends BaseController {
         	}
     
         }
+        
         return   "0";
     }
 
@@ -3454,7 +3477,10 @@ public class ExpertController extends BaseController {
         // 查询已选中的节点信息
         List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
         List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+        int count=0;
         for (ExpertCategory expertCategory : items) {
+        	count++;
+        	System.out.println(count);
             if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
                 Category data = categoryService.findById(expertCategory.getCategoryId());
                 List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
@@ -3494,7 +3520,10 @@ public class ExpertController extends BaseController {
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (expertItems));
         model.addAttribute("itemsList", allTreeList);
-
+        int totalPages = expertCategoryService.getListCount(expertId, typeId);
+        model.addAttribute("resultPages", totalPages);
+        model.addAttribute("resultpageNum", pageNum);
+        
         // 如果状态为退回修改则查询没通过的字段 
         ExpertAudit expertAudit = new ExpertAudit();
         expertAudit.setExpertId(expertId);

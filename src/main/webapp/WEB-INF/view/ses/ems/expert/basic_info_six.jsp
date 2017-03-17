@@ -495,6 +495,7 @@
                 <c:if test="${cate.code eq 'GOODS'}">
                   <c:set var="count" value="${count + 1}"></c:set>
                   <c:set var="gcount" value="${gcount + 1}"></c:set>
+                  <input id="cate_hid" value="${cate.code}" type="hidden">
                   <div id="div-${vs.index + 1}" class="mb10 col-md-12 col-sm-12 col-xs-12 p0">
                     <div class="fl mr5">
                     产品类别：<input type="text" id="cate-${vs.index + 1}">

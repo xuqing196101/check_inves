@@ -14,6 +14,8 @@ public class ExpertCategory implements Serializable{
     // 类型id(根)
     private String typeId;
 
+    private String levels;
+    
     public String getExpertId() {
         return expertId;
     }
@@ -37,4 +39,13 @@ public class ExpertCategory implements Serializable{
     public void setTypeId(String typeId) {
         this.typeId = typeId;
     }
+
+	public String getLevels() {
+		return levels;
+	}
+
+	public void setLevels(String levels) {
+		this.levels = levels;
+	}
+    
 }

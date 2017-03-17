@@ -76,6 +76,8 @@ public interface ExpertCategoryService {
 	List<ExpertCategory> findByExpertId(String expertId);
 
 	void delNoTree(String id, List<DictionaryData> allCategoryList);
+
+	int getListCount(String expertId, String typeId);
 	
 	
 }

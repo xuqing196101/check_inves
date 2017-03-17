@@ -5,10 +5,11 @@
     <result column="EXPERT_ID" jdbcType="VARCHAR" property="expertId" />
     <result column="CATEGORY_ID" jdbcType="VARCHAR" property="categoryId" />
     <result column="TYPE_ID" jdbcType="VARCHAR" property="typeId" />
+    <result column="LEVELS" jdbcType="VARCHAR" property="levels" />
   </resultMap>
   
   <sql id="baseExpertSql">
-     EXPERT_ID, CATEGORY_ID, TYPE_ID
+     EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS
   </sql>
   
   <!-- 根据专家id查询品目id集合 -->
@@ -16,7 +17,7 @@
     select 
     <include refid="baseExpertSql"/>
     from T_SES_EMS_EXPERT_CATEGORY
-    where EXPERT_ID = #{param1,jdbcType=VARCHAR}
+    where LEVELS = '1' AND EXPERT_ID = #{param1,jdbcType=VARCHAR}
     <if test="param2 != null">
     and TYPE_ID = #{param2,jdbcType=VARCHAR}
     </if>
@@ -35,8 +36,8 @@
    		 where EXPERT_ID = #{expertId}
   </delete>
   <insert id="insert" parameterType="ses.model.ems.ExpertCategory">
-    insert into T_SES_EMS_EXPERT_CATEGORY (EXPERT_ID, CATEGORY_ID, TYPE_ID)
-    values (#{expertId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR})
+    insert into T_SES_EMS_EXPERT_CATEGORY (EXPERT_ID, CATEGORY_ID, TYPE_ID, LEVELS)
+    values (#{expertId,jdbcType=VARCHAR}, #{categoryId,jdbcType=VARCHAR}, #{typeId,jdbcType=VARCHAR}, #{levels,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertCategory">
     insert into T_SES_EMS_EXPERT_CATEGORY

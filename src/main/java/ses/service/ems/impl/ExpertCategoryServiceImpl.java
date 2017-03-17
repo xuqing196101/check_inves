@@ -13,9 +13,12 @@ import com.github.pagehelper.PageHelper;
 
 import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.ems.ExpertCategoryMapper;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertCategory;
+import ses.service.bms.CategoryService;
+import ses.service.bms.EngCategoryService;
 import ses.service.ems.ExpertCategoryService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
@@ -26,6 +29,10 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	private ExpertCategoryMapper mapper;
 	@Autowired
 	private  DictionaryDataMapper dictionaryDataMapper;
+	@Autowired
+    private CategoryService categoryService; //品目
+	
+	
 	 /**
      * 
       * @Title: selectListByExpertId
@@ -43,6 +50,21 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
             ExpertCategory expertCategory = new ExpertCategory();
             //循环品目id集合
             for (String id : code) {
+            	
+            	Category data = categoryService.findById(id);
+            	if (data != null && data.getCode().length() == 7) {
+            		expertCategory.setLevels("1");
+				}else {
+					List<Category> treeList = categoryService.findByParentId(id);
+					if (treeList != null && treeList.size() > 0) {
+						expertCategory.setLevels("0");
+					} else {
+						expertCategory.setLevels("1");
+					}
+				}
+            	
+            	
+            	
                 //根据编码查询id
                 //String id = DictionaryDataUtil.getId(string);
                 expertCategory.setCategoryId(id);
@@ -80,6 +102,23 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         return list;
     }
 	
+	@Override
+	public int getListCount(String expertId, String typeId) {
+		// TODO Auto-generated method stub
+		List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
+		int pageSize = PropUtil.getIntegerProperty("pageSize");
+		
+		int totalPages = 0;  //总页数
+		
+		if ((list.size() % pageSize) == 0) {
+            totalPages = list.size() / pageSize;
+        } else {
+            totalPages = list.size() / pageSize + 1;
+        }
+		
+		return totalPages;
+	}
+	
 	/**
      *〈简述〉
      * 根据专家id和品目id删除
@@ -108,16 +147,21 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		
 		if (list != null && list.size() >0) {
 			int listSize = list.size();
-			String[] array = new String[listSize];
-			for (int i = 0; i < array.length; i++) {
+			String[] array = new String[listSize+1];
+			for (int i = 0; i < listSize; i++) {
 				String listId = list.get(i).getId();
 				String code = DictionaryDataUtil.findById(listId).getCode();
-				if (code != null && code.equals("GOODS_PROJECT")) {
-		            code = "PROJECT";
-		            array[i] = DictionaryDataUtil.getId(code);
-		        }else {
-		        	array[i] = listId;
+				if (code != null) {
+					if (code.equals("GOODS_PROJECT") || code.equals("PROJECT") ) {
+						array[i] = DictionaryDataUtil.getId("ENG_INFO_ID");
+						array[listSize] = DictionaryDataUtil.getId("PROJECT");
+					} else {
+						array[i] = listId;
+					}
 				}
+			}
+			if (array[listSize] == null || ("").equals(array[listSize])) {
+				array[listSize] = "111";   // 111没有意义
 			}
 			map.put("array", array);
 		}
