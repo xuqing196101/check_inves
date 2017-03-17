@@ -214,14 +214,14 @@
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(2);" value="初审不通过" id="butongguo">
 											<input class="btn btn-windows reset" type="button" onclick="shenhe(3);" value="退回修改" id="tuihui">
 										</c:if>
-										<c:if test="${status eq '4'}">
-											<input class="btn btn-windows git" type="button" onclick="shenhe(5);" value="复查通过 " id="tongguo">
-											<input class="btn btn-windows edit" type="button" onclick="shenhe(6);" value="复查不通过" id="tichu">
+										<c:if test="${status eq '1'}">
+											<input class="btn btn-windows git" type="button" onclick="shenhe(5);" value="复审通过 " id="tongguo">
+											<input class="btn btn-windows edit" type="button" onclick="shenhe(6);" value="复审不通过" id="tichu">
 											<!-- <input class="btn btn-windows reset" type="button" onclick="shenhe(6);" value="退回" id="tuihui"> -->
 										</c:if>
-										<c:if test="${status eq '5'}">
-											<input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复审通过 " id="tongguo">
-											<input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复审不通过" id="tichu">
+										<c:if test="${status eq '6'}">
+											<input class="btn btn-windows git" type="button" onclick="shenhe(7);" value="复查通过 " id="tongguo">
+											<input class="btn btn-windows edit" type="button" onclick="shenhe(8);" value="复查不通过" id="tichu">
 										</c:if>
 									</div>
 								</div>

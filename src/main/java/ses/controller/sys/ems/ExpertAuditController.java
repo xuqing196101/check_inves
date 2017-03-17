@@ -177,7 +177,7 @@ public class ExpertAuditController {
 		model.addAttribute("result", new PageInfo < Expert > (expertList));
 		model.addAttribute("expertList", expertList);
 
-		//初审复审标识（1初审，2复查，3复审）
+		//初审复审标识（1初审，2复审，3复查）
 		model.addAttribute("sign", expert.getSign());
 		request.getSession().setAttribute("signs", expert.getSign());
 
@@ -210,7 +210,7 @@ public class ExpertAuditController {
 		expert = expertService.selectByPrimaryKey(expertId);
 		model.addAttribute("expert", expert);
 		
-		//初审复审标识（1初审，2复查，3复审）
+		//初审复审标识（1初审，2复审，3复查）
 		model.addAttribute("sign", sign);
 		
 		//专家来源
@@ -306,7 +306,7 @@ public class ExpertAuditController {
 		}
 		
 		//回显未通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("4") ||  expert.getStatus().equals("5")){
+		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			ExpertAudit expertAudit = new ExpertAudit();
 			expertAudit.setExpertId(expertId);
 			expertAudit.setSuggestType("one");
@@ -503,7 +503,7 @@ public class ExpertAuditController {
 	 */
 	@RequestMapping("/product")
 	public String product(Expert expert, Model model, String expertId, Integer sign) {
-		//初审复审标识（1初审，2复查，3复审）
+		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		
 		expert = expertService.selectByPrimaryKey(expertId);
@@ -867,7 +867,7 @@ public class ExpertAuditController {
 	 */
 	@RequestMapping("/expertFile")
 	public String expertFile(Expert expert, Model model, String expertId, Integer sign) {
-		//初审复审标识（1初审，2复查，3复审）
+		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 				
 		// 专家系统key
@@ -882,7 +882,7 @@ public class ExpertAuditController {
 		model.addAttribute("expert", expert);
 		model.addAttribute("expertId", expertId);
 		//回显不通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("4") ||  expert.getStatus().equals("5")){
+		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("five");
@@ -977,7 +977,7 @@ public class ExpertAuditController {
 	 */
 	@RequestMapping("/expertType")
 	public String expertType(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
-		//初审复审标识（1初审，2复查，3复审）
+		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		
 		// 产品类型数据字典
@@ -1050,7 +1050,7 @@ public class ExpertAuditController {
 		model.addAttribute("typeMap", typeMap);
 		
 		//回显不通过的字段
-		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("4") ||  expert.getStatus().equals("5")){
+		if( expert.getStatus().equals("0") ||  expert.getStatus().equals("1") ||  expert.getStatus().equals("6")){
 			ExpertAudit expertAuditFor = new ExpertAudit();
 			expertAuditFor.setExpertId(expertId);
 			expertAuditFor.setSuggestType("seven");
@@ -1082,7 +1082,7 @@ public class ExpertAuditController {
 	 */
 	@RequestMapping("/reasonsList")
 	public String reasonsList(ExpertAudit expertAudit, Model model, String expertId, Integer sign) {
-		//初审复审标识（1初审，2复查，3复审）
+		//初审复审标识（1初审，3复查，2复审）
 		model.addAttribute("sign", sign);
 		
 		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expertId);
@@ -1122,9 +1122,10 @@ public class ExpertAuditController {
 		expert.setAuditAt(new Date());
 		expertService.updateByPrimaryKeySelective(expert);
 
-		String status = expert.getStatus();
+		
 		String expertId = expert.getId();
 		expert = expertService.selectByPrimaryKey(expertId);
+		String status = expert.getStatus();
 		/*Todos todos = new Todos();
 		String expertName = expert.getRelName();
 		User user=(User) request.getSession().getAttribute("loginUser");*/
@@ -1132,7 +1133,7 @@ public class ExpertAuditController {
 		/**
 		 * 更新待办（已完成）
 		 */
-		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("5") || status.equals("6") || status.equals("7") || status.equals("8")) {
+		if(status.equals("1") || status.equals("2") || status.equals("3") || status.equals("4") || status.equals("5") || status.equals("7") || status.equals("8")) {
 			todosService.updateIsFinish("expertAudit/basicInfo.html?expertId=" + expertId);
 
 		}
@@ -1140,7 +1141,7 @@ public class ExpertAuditController {
 		/**
 		 * 待办
 		 */
-		if ("5".equals(status)){
+		if ("1".equals(status)){
 	        Todos todos = new Todos();
 	        todos.setCreatedAt(new Date());
 	        todos.setIsDeleted((short)0);

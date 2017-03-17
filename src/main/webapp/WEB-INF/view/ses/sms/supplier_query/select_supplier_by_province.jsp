@@ -308,16 +308,17 @@
    	function cancellation(){
    		var id;
 			$('input[name="chkItem"]:checked').each(function(){ 
-				id = $(this).val();
+				str = $(this).val();
 			});
-			var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim();
+			/* var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim(); */
+			id = str.split(",");
    		if(id != null){
-   			if(state == "待审核" || state== "审核退回修改"){
+   			if(id[1] == "0" || id[1] == "2"){
    			layer.confirm('您确定要注销吗?', {title:'提示！',offset: ['200px']}, function(index){
    	 			layer.close(index);
    	 			$.ajax({
    	 				url:"${pageContext.request.contextPath}/supplierQuery/cancellation.html",
-   	 				data:"supplierId=" +id,
+   	 				data:"supplierId=" + id[0],
    	 				type:"post",
    	 	      	success:function(){
    	 	       		layer.msg("注销成功!",{offset : '100px'});
@@ -468,7 +469,7 @@
 					<tbody>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
-								<td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td>
+								<td class="tc w30"><input type="radio" value="${list.id },${list.status}" name="chkItem"  id="${list.id}"></td>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a>
