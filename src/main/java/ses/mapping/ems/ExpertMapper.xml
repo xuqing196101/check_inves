@@ -974,8 +974,8 @@
         EC.EXPERT_ID
         WHERE 1=1 AND
         ee.IS_DELETE = 0
-        AND (ee.STATUS = 1 OR
-        ee.STATUS = 5)
+        AND (ee.STATUS = 4 OR
+        ee.STATUS = 7)
         AND
         ee.IS_BLACK = 0
         AND ee.IS_SUBMIT = '1'
@@ -1148,14 +1148,14 @@
         (IS_SUBMIT = '1'
         AND (STATUS = '0' OR STATUS = '1' OR STATUS = '2'))
         OR (IS_SUBMIT = '0' AND status = '3')
-    </if>
+   		  </if>
         <if test="sign == 2">
             (IS_SUBMIT = '1'
-            AND (STATUS = '4' OR STATUS = '5' OR STATUS = '6'))
+            AND (STATUS = '1' OR STATUS = '4' OR STATUS = '5'))
         </if>
         <if test="sign == 3">
             (IS_SUBMIT = '1'
-            AND (STATUS = '5' OR STATUS = '7' OR STATUS = '8'))
+            AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
         </if>
         )
         <if test="relName != null and relName !=''">

@@ -83,7 +83,7 @@
 								}
 							}
 						},
-						data: ${data}
+						data:eval('${data}'),
 					}]
 				};
 
