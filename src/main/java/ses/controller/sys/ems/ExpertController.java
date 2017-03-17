@@ -2410,6 +2410,28 @@ public class ExpertController extends BaseController {
         return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),    
             headers, HttpStatus.OK);    
     }
+    
+    
+    /**
+   	 * 军队评审专家注册操作手册下载
+   	 * @param request
+   	 * @param filename
+   	 * @return
+   	 * @throws IOException
+   	 */
+   	@RequestMapping("/downloadReghandbook")
+   	public ResponseEntity < byte[] > downloadRegHandbook(HttpServletRequest request, String filename) throws IOException {
+   		 String path = PathUtil.getWebRoot() + "excel/军队评审专家注册操作手册.docx";;
+   	        File file = new File(path);
+
+   	        HttpHeaders headers = new HttpHeaders();
+   	        String fileName = new String("军队评审专家注册操作手册.docx".getBytes("UTF-8"), "iso-8859-1"); //为了解决中文名称乱码问题  
+   	        headers.setContentDispositionFormData("attachment", fileName);
+   	        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+   	        return new ResponseEntity < byte[] > (FileUtils.readFileToByteArray(file),
+   	            headers, HttpStatus.CREATED);
+   	}
+    
 
     //  public ResponseEntity < byte[] > downloadBook(String id,
     //    HttpServletRequest request, HttpServletResponse response) throws Exception {
