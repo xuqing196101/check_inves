@@ -12,6 +12,7 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
@@ -77,15 +78,18 @@ public class OBProjectServerImpl implements OBProjectServer {
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
 	//定义 竞价控制类型
-		private int type=2;
-		
-		public int getType() {
-			return type;
-		}
+	private int type=2;
+	
+	public int getType() {
+		return type;
+	}
 
-		public void setType(int type) {
-			this.type = type;
-		}
+	public void setType(int type) {
+		this.type = type;
+	}
+	@Autowired
+	private OBProjectSupplierMapper obProjectSupplierMapper;
+	
 	@Override
 	public List<OBProject> list(OBProject op) {
 		// TODO Auto-generated method stub
@@ -105,7 +109,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 		PageHelper.startPage((Integer) (map.get("page")),
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBProject> list = OBprojectMapper.selectAllOBproject(map);
-		java.util.List<OBProject> afterList = BiddingStateUtil.judgeState(OBprojectMapper,list);
 		if (list != null) {
 			for (OBProject obp : list) {
 				// 获取产品集合
@@ -133,7 +136,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 			}
 		}
-		return afterList;
+		return list;
 	}
 
 	/**
@@ -758,5 +761,35 @@ public class OBProjectServerImpl implements OBProjectServer {
          map.put("list", productID);
          map.put("count", productID.size());
 		return OBSupplierMapper.selecUniontSupplier(map);
+	}
+	
+	/**
+	 * 
+	* @Title: selectSupplierOBproject 
+	* @Description: 供应商查看符合自己的竞价项目
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件
+	 */
+	@Override
+	public List<OBProject> selectSupplierOBproject(
+			Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer) (map.get("page")),
+				Integer.parseInt(config.getString("pageSize")));
+		// 获取此用户所对应的供应商
+		User user = (User) map.get("user");
+		if(user != null){
+			map.put("supplier_id", user.getTypeId());
+		}
+		List<OBProject> obProjects = new ArrayList<OBProject>();
+		// 查询符合自己需求的竞价项目
+		List<OBProjectSupplier> obProjectList = obProjectSupplierMapper.selectSupplierOBprojectList(map);
+		if(obProjectList != null && obProjectList.size() > 0){
+			OBProject obProject = OBprojectMapper.selectByPrimaryKey(obProjectList.get(0).getProjectId());
+			obProjects.add(obProject);
+		}
+		List<OBProject> list = BiddingStateUtil.judgeState(OBprojectMapper,obProjects);
+		return list;
 	}
 }

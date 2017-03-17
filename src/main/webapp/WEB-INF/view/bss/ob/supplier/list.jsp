@@ -146,6 +146,9 @@
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
 			  	</c:if>
+			  	<c:if test="${ obProject.status == 4 }">
+				  	流拍
+			  	</c:if>
 			  </td>
 			  <td class="tc">
 			  	<c:if test="${ obProject.status == 1 && '1' eq obProject.remark}">

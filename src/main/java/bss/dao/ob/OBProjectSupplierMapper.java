@@ -2,7 +2,10 @@ package bss.dao.ob;
 
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBProjectSupplierExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 /**
  * 
@@ -38,4 +41,7 @@ public interface OBProjectSupplierMapper {
      * 根据竞价id 删除关系
      */
     int deleteByProjectId(String projectID);
+
+	List<OBProjectSupplier> selectSupplierOBprojectList(Map<String, Object> map);
+    
 }

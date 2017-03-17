@@ -15,6 +15,9 @@ public class OBProjectSupplier {
     /**竞价管理ID**/
     private String projectId;
 
+    /**竞价信息**/
+    private OBProject obProject;
+    
     /**供应商 ID**/
     private String supplierId;
 
@@ -75,11 +78,12 @@ public class OBProjectSupplier {
         this.remark = remark == null ? null : remark.trim();
     }
 
-	@Override
-	public String toString() {
-		return "OBProjectSupplier [id=" + id + ", projectId=" + projectId
-				+ ", supplierId=" + supplierId + ", createdAt=" + createdAt
-				+ ", updatedAt=" + updatedAt + ", remark=" + remark + "]";
+	public OBProject getObProject() {
+		return obProject;
+	}
+
+	public void setObProject(OBProject obProject) {
+		this.obProject = obProject;
 	}
     
 }

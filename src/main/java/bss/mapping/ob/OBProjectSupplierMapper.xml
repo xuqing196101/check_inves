@@ -8,6 +8,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <!-- <association column="PROJECT_ID"  property="obProject" select="bss.dao.ob.OBProjectSupplierMapper.selectByPrimaryKey" /> -->
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -229,4 +230,14 @@
       REMARK = #{remark,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 根据supplier_id查询所有的竞价信息 -->
+  <select id="selectSupplierOBprojectList" resultMap="BaseResultMap" parameterType="Map">
+  	SELECT
+  	<if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+  	FROM T_BSS_OB_PROJECT_SUPPLIER PS WHERE PS.SUPPLIER_ID = #{supplier_id}
+  </select>
 </mapper>

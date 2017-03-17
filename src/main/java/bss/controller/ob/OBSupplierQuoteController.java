@@ -63,7 +63,7 @@ public class OBSupplierQuoteController {
 	 * @throws
 	 */
 	@RequestMapping("/list")
-	public String list(Model model, HttpServletRequest request, Integer page)
+	public String list(@CurrentUser User user, Model model, HttpServletRequest request, Integer page)
 			throws ParseException {
 		if (page == null) {
 			page = 1;
@@ -79,9 +79,10 @@ public class OBSupplierQuoteController {
 		}
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("page", page);
+		map.put("user", user);
 		map.put("name", name);
 		map.put("createTime", createTime);
-		List<OBProject> list = obProjectServer.selectAllOBproject(map);
+		List<OBProject> list = obProjectServer.selectSupplierOBproject(map);
 		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 		// 将查询出的数据存入到model域中
 		model.addAttribute("info", info);

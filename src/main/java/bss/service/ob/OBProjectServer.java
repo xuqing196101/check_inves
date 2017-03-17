@@ -4,7 +4,6 @@ import java.util.List;
 import java.util.Map;
 
 import bss.model.ob.OBProduct;
-import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBSupplier;
 
@@ -103,5 +102,18 @@ public interface OBProjectServer {
 	 * @exception
 	 */
 	List<OBSupplier> selecUniontSupplier(List<String> productID);
+	
+	
+	/**
+	 * 
+	* @Title: selectSupplierOBproject 
+	* @Description: 供应商查看符合自己的竞价项目
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return List<OBProject>    返回类型 
+	* @throws
+	 */
+	List<OBProject> selectSupplierOBproject(Map<String,Object> map);
 
 }
