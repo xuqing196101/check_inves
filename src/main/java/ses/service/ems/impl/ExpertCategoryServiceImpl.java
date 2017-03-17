@@ -31,6 +31,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	private  DictionaryDataMapper dictionaryDataMapper;
 	@Autowired
     private CategoryService categoryService; //品目
+    @Autowired
+    private EngCategoryService engCategoryService; //工程专业信息
 	
 	
 	 /**
@@ -51,19 +53,19 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
             //循环品目id集合
             for (String id : code) {
             	
-            	Category data = categoryService.findById(id);
-            	if (data != null && data.getCode().length() == 7) {
+            	Category cata1 = categoryService.findById(id);
+            	Category cata2 = engCategoryService.selectByPrimaryKey(id);
+            	if ((cata1 != null && cata1.getCode().length() == 7) || (cata2 != null && cata2.getCode().length() == 7)) {
             		expertCategory.setLevels("1");
-				}else {
-					List<Category> treeList = categoryService.findByParentId(id);
-					if (treeList != null && treeList.size() > 0) {
+				} else {
+					List<Category> treeList1 = categoryService.findByParentId(id);
+					List<Category> treeList2 = engCategoryService.selectParentId(id);
+					if ((treeList1 != null && treeList1.size() > 0) || (treeList2 != null && treeList2.size() > 0)) {
 						expertCategory.setLevels("0");
 					} else {
 						expertCategory.setLevels("1");
 					}
 				}
-            	
-            	
             	
                 //根据编码查询id
                 //String id = DictionaryDataUtil.getId(string);

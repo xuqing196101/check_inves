@@ -307,4 +307,6 @@ import ses.model.sms.SupplierTypeTree;
      * @return Category
      */
     public Category getCategoryQuaById(String id);
+
+	public List<Category> selectParentId(String id);
 }

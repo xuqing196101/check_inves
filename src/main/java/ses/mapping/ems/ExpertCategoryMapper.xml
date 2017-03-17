@@ -69,7 +69,9 @@
   <delete id="deleteByMap">
   	delete from T_SES_EMS_EXPERT_CATEGORY
    	where EXPERT_ID = #{expertId}
-   	and CATEGORY_ID = #{categoryId}
+   	<if test="categoryId != null">
+	   	and CATEGORY_ID = #{categoryId}
+    </if>
   </delete>
 	<!-- 根据父id查询 -->
 	<select id="findByExpertId" resultMap="BaseResultMap">

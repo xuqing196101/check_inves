@@ -650,8 +650,14 @@ public class ExpertController extends BaseController {
             expertCategoryService.deleteByMap(map);
             
             Category cate1 = categoryService.findById(categoryId);
-            if (cate1 != null) {
-            	List<Category> treeList = categoryService.findByParentId(cate1.getParentId());
+            Category cata11 = engCategoryService.selectByPrimaryKey(categoryId);
+            if (cate1 != null || cata11 != null) {
+            	List<Category> treeList = new ArrayList<Category>();
+            	String parentId1 = (cate1 != null ? cate1.getParentId() : cata11.getParentId());
+            	treeList = categoryService.findByParentId(parentId1);
+            	if (treeList == null || treeList.size() == 0) {
+            		treeList = engCategoryService.selectParentId(parentId1);
+				}
                 String StrIds = "";
                 for (int i = 0; i < treeList.size(); i++) {
                 	StrIds += treeList.get(i).getId() + ",";
@@ -664,13 +670,19 @@ public class ExpertController extends BaseController {
                 		
                 		Map < String, Object > map1 = new HashMap < String, Object > ();
                 		map1.put("expertId", expertId);
-                        map1.put("categoryId", cate1.getParentId());
+                        map1.put("categoryId", parentId1);
                         expertCategoryService.deleteByMap(map1);
                         
                         
-                        Category cate2 = categoryService.findById(cate1.getParentId());
-                        if (cate2 != null) {
-                        	List<Category> treeList2 = categoryService.findByParentId(cate2.getParentId());
+                        Category cate2 = categoryService.findById(parentId1);
+                        Category cate22 = engCategoryService.selectByPrimaryKey(parentId1);
+                        if (cate2 != null || cate22 != null) {
+                        	List<Category> treeList2 = new ArrayList<Category>();
+                        	String parentId2 = (cate2 != null ? cate2.getParentId() : cate22.getParentId());
+                        	treeList2 = categoryService.findByParentId(parentId2);
+                        	if (treeList2 == null || treeList2.size() == 0) {
+                        		treeList2 = engCategoryService.selectParentId(parentId2);
+            				}
                         	String StrIds2 = "";
                         	for (int j = 0; j < treeList2.size(); j++) {
                         		StrIds2 += treeList2.get(j).getId() + ",";
@@ -683,12 +695,18 @@ public class ExpertController extends BaseController {
                         			
                         			Map < String, Object > map2 = new HashMap < String, Object > ();
                         			map2.put("expertId", expertId);
-                        			map2.put("categoryId", cate2.getParentId());
+                        			map2.put("categoryId", parentId2);
                         			expertCategoryService.deleteByMap(map2);
                         			
-                        			Category cate3 = categoryService.findById(cate2.getParentId());
-                        	        if (cate3 != null) {
-                        	        	List<Category> treeList3 = categoryService.findByParentId(cate3.getParentId());
+                        			Category cate3 = categoryService.findById(parentId2);
+                        			Category cate33 = engCategoryService.selectByPrimaryKey(parentId2);
+                        	        if (cate3 != null || cate33 != null) {
+                        	        	List<Category> treeList3 = new ArrayList<Category>();
+                        	        	String parentId3 = (cate3 != null ? cate3.getParentId() : cate33.getParentId());
+                        	        	treeList3 = categoryService.findByParentId(parentId3);
+                        	        	if (treeList3 == null || treeList3.size() == 0) {
+                                    		treeList3 = engCategoryService.selectParentId(parentId3);
+                        				}
                         	        	String StrIds3 = "";
                         	        	for (int z = 0; z < treeList3.size(); z++) {
                         	        		StrIds3 += treeList3.get(z).getId() + ",";
@@ -701,7 +719,7 @@ public class ExpertController extends BaseController {
                         	        			
                         	        			Map < String, Object > map3 = new HashMap < String, Object > ();
                         	        			map3.put("expertId", expertId);
-                        	        			map3.put("categoryId", cate3.getParentId());
+                        	        			map3.put("categoryId", parentId3);
                         	        			expertCategoryService.deleteByMap(map3);
                         	        			
                         	        		}
@@ -1766,6 +1784,17 @@ public class ExpertController extends BaseController {
                 String productCategories = categories.substring(0, categories.length() - 1);
                 expert.setProductCategories(productCategories);
             }
+            List<Expert> listExp = service.querySelect(expertId);
+            if (!listExp.isEmpty()) {
+            	String newTypeId = expert.getExpertsTypeId();
+            	String oldTypeId = listExp.get(0).getExpertsTypeId();
+            	
+            	if (newTypeId.split(",").length < oldTypeId.split(",").length) {
+            		Map < String, Object > map = new HashMap < String, Object > ();
+            		map.put("expertId", expertId);
+            		expertCategoryService.deleteByMap(map);
+				}
+			}
             service.zanCunInsert(expert, expertId, categoryId);
 
         } catch(Exception e) {
@@ -2923,7 +2952,7 @@ public class ExpertController extends BaseController {
         if(area != null) {
             String province = areaServiceI.listById(area.getParentId()).getName();
             String city = area.getName();
-            expert.setUnitAddress(province + city + expert.getUnitAddress());
+            expert.setUnitAddress(province + city);  //具体街道   expert.getUnitAddress()
         }
         dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
@@ -3177,49 +3206,98 @@ public class ExpertController extends BaseController {
     public String isHaveCategory(String expertId) {
     	
     	List<ExpertCategory> expertCate = expertCategoryService.findByExpertId(expertId);
-        String typeId1 = DictionaryDataUtil.getId("ENG_INFO_ID");
-		String typeId2 = DictionaryDataUtil.getId("PROJECT");
-		int trueFalse1 = 0;
-		int trueFalse2 = 0;
-		for (int i = 0; i < expertCate.size(); i++) {
-			String typeId = expertCate.get(i).getTypeId();
-			if (typeId1.equals(typeId)) {
-				trueFalse1 = 1;
-			}
-			if (typeId2.equals(typeId)) {
-				trueFalse2 = 1;
-			}
-		}
-		if (trueFalse1 == 1 && trueFalse2 ==1) {
-			return "1";
-		} else if (trueFalse1 == 1 || trueFalse2 ==1) {
-			return "0";
-		}
     	
-    	if (expertCate != null && expertCate.size()>0) {
-    		for (int i = 0; i < expertCate.size(); i++) {
-    			List<Category> treeList = categoryService.findByParentId(expertCate.get(i).getCategoryId());
-    			if (treeList == null || treeList.size() == 0) {
-    				return "1";
-				}
+    	//先查出选中专家类型
+    	List<Expert> listExp = service.querySelect(expertId);
+    	
+    	if (!expertCate.isEmpty() && !listExp.isEmpty()) {
+    		String[] splExp = listExp.get(0).getExpertsTypeId().split(",");
+    		
+    		int lenExp = splExp.length;
+    		
+    		String stat = "";
+    		for (int i = 0; i < lenExp; i++) {
+    			for (int j = 0; j < expertCate.size(); j++) {
+    				String code = DictionaryDataUtil.findById(splExp[i]).getCode();
+    		        String flag = null;
+    		        if (code != null && code.equals("GOODS_PROJECT")) {
+    		            code = "PROJECT";
+    		            splExp[i]=DictionaryDataUtil.getId(code);
+    		        }
+    				if (splExp[i].equals(expertCate.get(j).getCategoryId())) {
+    					stat += "1";
+    					break;
+    				}
+    			}
 			}
+    		if (stat.length() == lenExp) {
+				String typeId1 = DictionaryDataUtil.getId("ENG_INFO_ID");
+				String typeId2 = DictionaryDataUtil.getId("PROJECT");
+				int trueFalse1 = 0;
+				int trueFalse2 = 0;
+				for (int i = 0; i < expertCate.size(); i++) {
+					String typeId = expertCate.get(i).getTypeId();
+					if (typeId1.equals(typeId)) {
+						trueFalse1 = 1;
+					}
+					if (typeId2.equals(typeId)) {
+						trueFalse2 = 1;
+					}
+				}
+				if ((trueFalse1 == 1 && trueFalse2 == 1) || (trueFalse1 == 0 && trueFalse2 == 0)) {
+					return "1";
+				}   	
+			} else {
+				
+			}
+			
 		}
-        List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
-        for(ExpertCategory ec:list){
-        	Category cate = categoryService.findById(ec.getCategoryId());
-        	if(cate!=null&&cate.getParentId()!=null){
-            	Category cate1 = categoryService.findById(cate.getParentId());
-            	if(cate1!=null){
-            		Category cate2  = categoryService.findById(cate1.getParentId());
-            		if(cate2!=null){
-        				return "1";
-            		}
-            	}
-        	}
-    
-        }
-        
-        return   "0";
+    	return "0";
+    	
+    	
+//    	String typeId1 = DictionaryDataUtil.getId("ENG_INFO_ID");
+//		String typeId2 = DictionaryDataUtil.getId("PROJECT");
+//		int trueFalse1 = 0;
+//		int trueFalse2 = 0;
+//		for (int i = 0; i < expertCate.size(); i++) {
+//			String typeId = expertCate.get(i).getTypeId();
+//			if (typeId1.equals(typeId)) {
+//				trueFalse1 = 1;
+//			}
+//			if (typeId2.equals(typeId)) {
+//				trueFalse2 = 1;
+//			}
+//		}
+//		if (trueFalse1 == 1 && trueFalse2 ==1) {
+//			return "1";
+//		} else if (trueFalse1 == 1 || trueFalse2 ==1) {
+//			return "0";
+//		}
+//    	
+//    	if (expertCate != null && expertCate.size()>0) {
+//    		for (int i = 0; i < expertCate.size(); i++) {
+//    			List<Category> treeList = categoryService.findByParentId(expertCate.get(i).getCategoryId());
+//    			if (treeList == null || treeList.size() == 0) {
+//    				return "1";
+//				}
+//			}
+//		}
+//        List < ExpertCategory > list = expertCategoryService.getListByExpertId(expertId, null);
+//        for(ExpertCategory ec:list){
+//        	Category cate = categoryService.findById(ec.getCategoryId());
+//        	if(cate!=null&&cate.getParentId()!=null){
+//            	Category cate1 = categoryService.findById(cate.getParentId());
+//            	if(cate1!=null){
+//            		Category cate2  = categoryService.findById(cate1.getParentId());
+//            		if(cate2!=null){
+//        				return "1";
+//            		}
+//            	}
+//        	}
+//    
+//        }
+//        
+//        return   "0";
     }
 
     public String getParentId(String cateId, String flag) {

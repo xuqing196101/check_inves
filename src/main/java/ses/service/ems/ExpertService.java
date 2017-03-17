@@ -388,4 +388,11 @@ public interface ExpertService {
      * @return
      */
     List<ProjectExt> getProjectExtList(List<Packages> packageList, String expertId, String status, Integer pageNum) throws IllegalAccessException, InvocationTargetException, NoSuchMethodException ;
+	
+    /**
+     * 查看该用户所选中的产品类别
+     * @param expertId
+     * @return
+     */
+    List<Expert> querySelect(String expertId);
 }

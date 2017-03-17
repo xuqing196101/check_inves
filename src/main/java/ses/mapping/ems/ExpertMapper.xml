@@ -938,6 +938,15 @@
             resultMap="BaseResultMap">
         select * from T_SES_EMS_EXPERT
     </select>
+    
+	<!-- 查看该用户选中的产品类别 -->
+    <select id="querySelect" resultMap="BaseResultMap">
+        SELECT 
+        <include refid="Column_List" /> 
+		FROM T_SES_BMS_USER t, T_SES_EMS_EXPERT e 
+		WHERE t.TYPE_ID = e.ID 
+		AND t.TYPE_ID = #{typeId,jdbcType=VARCHAR}
+    </select>
 
     <!-- 查询专家 可条件查询 -->
     <select id="findExpertAll" resultMap="BaseResultMap"

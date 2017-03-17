@@ -190,4 +190,11 @@ public interface ExpertMapper {
      * @return 专家集合
      */
     List<Expert> getModifyExpertByDate(String updateDate);
+
+    /**
+     * 查看该用户选中的产品类别
+     * @param expertId
+     * @return
+     */
+	List<Expert> querySelect(String typeId);
 }

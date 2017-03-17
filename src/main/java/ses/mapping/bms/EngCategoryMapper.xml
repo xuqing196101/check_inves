@@ -52,6 +52,13 @@
 		from T_SES_BMS_ENG_CATEGORY
 		where ID = #{id}
 	</select>
+	<!-- 根据parentId查询 -->
+	<select id="selectParentId" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_ENG_CATEGORY
+		where PARENT_ID = #{parentId}
+	</select>
 	<!--根据品目名称查询 关联的机构部门信息 -->
 	<select id="">
 		<include refid="Base_Column_List" />

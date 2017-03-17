@@ -249,4 +249,7 @@ public interface EngCategoryMapper {
      * @return Category 集合
      */
     public List<Category> searchByName(String cateName, String codeName);
+
+
+	public List<Category> selectParentId(String parentId);
 }

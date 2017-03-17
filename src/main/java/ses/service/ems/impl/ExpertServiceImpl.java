@@ -434,6 +434,14 @@ public class ExpertServiceImpl implements ExpertService {
 	}
 	
 	/**
+	 * 查看该用户选中的产品类别
+	 */
+	@Override
+	public List<Expert> querySelect(String typeId) {
+		return mapper.querySelect(typeId);
+	}
+	
+	/**
 	 * 
 	  * @Title: saveOrUpdate
 	  * @author ShaoYangYang

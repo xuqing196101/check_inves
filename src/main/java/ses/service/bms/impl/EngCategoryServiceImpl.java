@@ -117,6 +117,11 @@ public class EngCategoryServiceImpl implements EngCategoryService {
         return category;
     }
     
+    public List<Category> selectParentId(String parentId) {
+    	return engCcategoryMapper.selectParentId(parentId);
+    }
+    
+    
     /**
      * 
      * @see ses.service.bms.CategoryService#getCategoryQuaById(java.lang.String)
