@@ -2463,13 +2463,17 @@ public class ExpertController extends BaseController {
     @RequestMapping("downloadSupplier")
     public ResponseEntity < byte[] > downloadSupplier(String supplierJson, HttpServletRequest request, HttpServletResponse response) throws Exception {
 
+        Supplier supplier = supplierService.get(supplierJson);
+        /** 数据处理 **/
+        handingData(supplier);
+        
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
             .getRealPath("/WEB-INF/upload_file/");
         // 文件名称
         String name = new String(("军队供应商库入库申请表.doc").getBytes("UTF-8"),
             "UTF-8");
-        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
+//        Supplier supplier = JSON.parseObject(supplierJson, Supplier.class);
         /** 创建word文件 **/
         String fileName = WordUtil.createWord(supplier, "supplier.ftl",
             name, request);
