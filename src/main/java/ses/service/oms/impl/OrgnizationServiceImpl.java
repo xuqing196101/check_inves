@@ -839,4 +839,12 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 		  }
 		return getJson;
 	}
+
+	/**
+	 * 根据简称查询
+	 */
+	@Override
+	public Orgnization selectByShortName(String shortName) {
+		return orgniztionMapper.selectByShortName(shortName);
+	}
 }

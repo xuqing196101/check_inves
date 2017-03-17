@@ -7,6 +7,7 @@
 	<title>定型产品列表页面</title>
 
 	<jsp:include page="../../../ses/bms/page_style/backend_common.jsp"></jsp:include>	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 	/* 分页 */
 	$(function() {
@@ -128,10 +129,59 @@
 		window.location.href = "${pageContext.request.contextPath}/product/list.html";
 	}
 	
-	//导入数据
-	function input(){
-		
+	// 弹出导入框
+	var index;
+	function upload(){
+	 index = layer.open({
+		type: 1, //page层
+		area: ['400px', '300px'],
+		title: '导入定型产品',
+		closeBtn: 1,
+		shade: 0.01, //遮罩透明度
+		moveType: 1, //拖拽风格，0是默认，1是传统拖动
+		shift: 1, //0-6的动画形式，-1不开启
+		offset: ['80px', '400px'],
+		content: $('#file_div'),
+		});
 	}
+	
+	//下载模板
+    function down(){
+    	window.location.href ="${pageContext.request.contextPath}/product/download.html";
+    }
+	
+	//导入excl 
+	function fileUpload(){
+	 $.ajaxFileUpload ({
+	               url: "${pageContext.request.contextPath}/product/upload.do?",  
+	               secureuri: false,  
+	               fileElementId: 'fileName', 
+	               dataType: 'json',
+	               success: function (data) { 
+	               var bool=true;
+	               var chars = ['A','B','C','D','E','F','G','H','I'];
+	               if(data=="1"){
+				     layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
+					 } 
+					 for(var i = 0; i < chars.length ; i ++) {
+						 if(data.indexOf(chars[i])!=-1){
+						  	 bool=false;
+						}
+						 }
+						if(bool!=true){
+						 	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+						  }else{
+						 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+						       layer.close(index);
+						       window.location.href = "${pageContext.request.contextPath}/product/list.html";
+	                 }
+	             }
+	         }); 
+	     }
+	
+	
+	
+	
 	</script>
 </head>
 <body>
@@ -183,7 +233,8 @@
 		<button class="btn btn-windows apply" type="button" onclick="window.location.href = '${pageContext.request.contextPath }/product/tiaozhuan.html?type=2'">发布定型产品</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
-		<button class="btn btn-windows btn btn-windows input" type="button" onclick="input()">导入</button>
+		<button class="btn btn-windows btn btn-windows output" type="button" onclick="down()">下载EXCEL模板</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="upload()">导入EXCEL</button>
 	</div>   
 	<div class="content table_box">
 	
@@ -223,6 +274,15 @@
    </div>
       <div id="pagediv" align="right"></div>
    </div>
-
+   
+   <!-- 导入文件 -->
+	<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
+		<div class="col-md-12 col-sm-12 col-xs-12">
+ 		   <input type="file" id="fileName" class="input_group" name="file" >
+ 		</div>
+ 		<div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+    	    <input type="button" class="btn input" onclick="fileUpload()" value="导入" />
+    	</div>
+	</div>
 </body>
 </html>

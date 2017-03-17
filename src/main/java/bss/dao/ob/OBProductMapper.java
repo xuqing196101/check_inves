@@ -60,5 +60,18 @@ public interface OBProductMapper {
 	 * @exception
 	 */
 	int yzProductName(@Param("name") String name,@Param("id") String id);
+	
+	/**
+	 * 
+	 * Description: 验证采购机构是否存在
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月16日 
+	 * @param  @param shortName
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzorg(String shortName);
     
 }

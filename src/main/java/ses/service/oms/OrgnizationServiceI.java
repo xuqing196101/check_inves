@@ -166,5 +166,19 @@ public interface OrgnizationServiceI {
     public void sameDep(String id, Integer position,String targetId,Integer position2,String type);
     
     Boolean verify(Orgnization orgnization);
+    
+    
+    /**
+     * 
+     * Description: 根据采购机构简称查询
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月16日 
+     * @param  @param shortName
+     * @param  @return 
+     * @return Orgnization 
+     * @exception
+     */
+    Orgnization selectByShortName(String shortName);
 
 }

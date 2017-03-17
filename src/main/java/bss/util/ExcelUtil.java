@@ -2,7 +2,9 @@ package bss.util;
 
 import java.io.FileNotFoundException;
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -15,7 +17,6 @@ import javax.annotation.PostConstruct;
 
 import org.apache.poi.hssf.usermodel.HSSFCell;
 import org.apache.poi.hssf.usermodel.HSSFDateUtil;
-import org.apache.poi.hssf.usermodel.HSSFRow;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -26,11 +27,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.Category;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
+import ses.service.bms.CategoryService;
+import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierService;
 import bss.model.ob.OBProduct;
+import bss.model.ob.OBSupplier;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseRequired;
+import bss.service.ob.OBProductService;
 import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBSupplierService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.impl.CollectPlanServiceImpl;
@@ -52,6 +61,21 @@ public class ExcelUtil {
   /**定型产品**/
   @Autowired
   private  OBProjectServer OBProjectServer;
+  
+  @Autowired
+  private OBProductService oBProductService;
+  
+  @Autowired
+  private OrgnizationServiceI orgnizationService;
+  
+  @Autowired
+  private CategoryService categoryService;
+  
+  @Autowired
+  private SupplierService supplierService;
+  
+  @Autowired
+  private OBSupplierService oBSupplierService;
   
   private static ExcelUtil excelUtil;
   
@@ -875,6 +899,400 @@ public class ExcelUtil {
 	         map.put("list", list);
 		return map;
 	}
+	
+	/**
+	 * 
+	 * Description: 定型产品文件上传
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月16日 
+	 * @param  @param file
+	 * @param  @return
+	 * @param  @throws Exception 
+	 * @return Map<String,Object> 
+	 * @exception
+	 */
+	public static Map<String,Object> readOBProductExcel(MultipartFile file) throws Exception{
+		List<OBProduct> list=new LinkedList<OBProduct>();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Workbook workbook = WorkbookFactory.create(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        String errMsg=null;
+        String planName="";
+        boolean bool=true;
+        for(Row row:sheet){
+        	OBProduct obp=new OBProduct();
+        	for(Cell cell : row){
+        		if(cell.getColumnIndex()==0){
+    				planName=cell.getStringCellValue();
+    			}
+        	}
+        	if(row.getRowNum()>1){
+        		Cell cel = row.getCell(0);
+        		if(cel==null){
+					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+					 map.put("errMsg", errMsg);
+					 bool=false;
+   				 break;
+				}
+        		for (Cell cell : row) {
+        			//判断第一列
+        			if(cell.getColumnIndex()==0){
+        				if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					//验证产品代码唯一
+        					String code = cell.getRichStringCellValue().toString();
+        					if(excelUtil.oBProductService.yzProductCode(code, null) > 0){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，产品代码不能重复!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}else{
+        						obp.setCode(code);
+        					}
+        				}
+        			}
+        			//第二列
+    				if(cell.getColumnIndex()==1){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					//验证产品代码唯一
+        					String name = cell.getRichStringCellValue().toString();
+        					if(excelUtil.oBProductService.yzProductName(name, null) > 0){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，产品名称不能重复!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}else{
+        						obp.setName(name);
+        					}
+        				}
+        			 }
+        			//第三列
+    				if(cell.getColumnIndex()==2){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					//验证产采购机构是否存在
+        					String org = cell.getRichStringCellValue().toString();
+        					if(excelUtil.oBProductService.yzorg(org) < 1){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，采购机构不存在!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}else{
+        						Orgnization orgnization = excelUtil.orgnizationService.selectByShortName(org);
+        						obp.setProcurementId(orgnization.getId());
+        					}
+        				}
+        			 }
+        			//第四列
+    				if(cell.getColumnIndex()==3){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，产品目录大类不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					//验证产品目录是否存在
+        					String categoryCode = cell.getRichStringCellValue().toString();
+        					if(excelUtil.categoryService.findByCode(categoryCode) < 1){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，产品目录不存在!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}else{
+        						Category category = new Category();
+        						category.setCode(categoryCode);
+        						List<Category> categorylist = excelUtil.categoryService.readExcel(category);
+        						if(categorylist != null){
+        							obp.setCategoryBigId(categorylist.get(0).getId());
+        						}
+        					}
+        				}
+        			 }
+    				//第五列
+    				if(cell.getColumnIndex()==4){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length() >= 1){
+	        					//验证产品目录是否存在
+	        					String categoryCode = cell.getRichStringCellValue().toString();
+	        					if(excelUtil.categoryService.findByCode(categoryCode) < 1){
+	        						errMsg=String.valueOf(row.getRowNum()+1)+"行E列错误，产品目录不存在!";
+	        						map.put("errMsg", errMsg);
+		        					 bool=false;
+			        				 break;
+	        					}else{
+	        						Category category = new Category();
+	        						category.setCode(categoryCode);
+	        						List<Category> categorylist = excelUtil.categoryService.readExcel(category);
+	        						if(categorylist != null){
+	        							obp.setCategoryMiddleId(categorylist.get(0).getId());
+	        						}
+	        					}
+        					}
+        				}
+        			 }
+    				//第六列
+    				if(cell.getColumnIndex()==5){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length() >= 1){
+	        					//验证产品目录是否存在
+	        					String categoryCode = cell.getRichStringCellValue().toString();
+	        					if(excelUtil.categoryService.findByCode(categoryCode) < 1){
+	        						errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，产品目录不存在!";
+	        						map.put("errMsg", errMsg);
+		        					 bool=false;
+			        				 break;
+	        					}else{
+	        						Category category = new Category();
+	        						category.setCode(categoryCode);
+	        						List<Category> categorylist = excelUtil.categoryService.readExcel(category);
+	        						if(categorylist != null){
+	        							obp.setCategoryId(categorylist.get(0).getId());
+	        						}
+	        					}
+        					}
+        				}
+        			 }
+    				//第七列
+    				if(cell.getColumnIndex()==6){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length() >= 1){
+	        					//验证产品目录是否存在
+	        					String categoryCode = cell.getRichStringCellValue().toString();
+	        					if(excelUtil.categoryService.findByCode(categoryCode) < 1){
+	        						errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，产品目录不存在!";
+	        						map.put("errMsg", errMsg);
+		        					 bool=false;
+			        				 break;
+	        					}else{
+	        						Category category = new Category();
+	        						category.setCode(categoryCode);
+	        						List<Category> categorylist = excelUtil.categoryService.readExcel(category);
+	        						if(categorylist != null){
+	        							obp.setProductCategoryId(categorylist.get(0).getId());
+	        						}
+	        					}
+        					}
+        				}
+        			 }
+        			
+        			//第八列
+    				if(cell.getColumnIndex()==7){
+    					String standardModel = cell.getRichStringCellValue().toString();
+    					obp.setStandardModel(standardModel);
+    				}
+    				//第九列
+    				if(cell.getColumnIndex()==8){
+    					String qualityTechnicalStandard = cell.getRichStringCellValue().toString();
+    					obp.setQualityTechnicalStandard(qualityTechnicalStandard);;
+    				}
+        		}
+        		if(bool==false)break;
+        		list.add(obp);
+        	}
+        }
+        map.put("list", list);
+		return map;
+	}
+	
+	/**
+	 * 
+	 * Description: 供应商列表上传
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月16日 
+	 * @param  @param file
+	 * @param  @return
+	 * @param  @throws Exception 
+	 * @return Map<String,Object> 
+	 * @exception
+	 */
+	public static Map<String,Object> readOBSupplierExcel(MultipartFile file,String productId) throws Exception{
+		List<OBSupplier> list=new LinkedList<OBSupplier>();
+		Map<String,Object> map=new HashMap<String,Object>();
+		Workbook workbook = WorkbookFactory.create(file.getInputStream());
+        Sheet sheet = workbook.getSheetAt(0);
+        String errMsg=null;
+        String planName="";
+        boolean bool=true;
+        for(Row row:sheet){
+        	String uscc = "";
+        	OBSupplier obp=new OBSupplier();
+        	for(Cell cell : row){
+        		if(cell.getColumnIndex()==0){
+    				planName=cell.getStringCellValue();
+    			}
+        	}
+        	if(row.getRowNum()>1){
+        		Cell cel = row.getCell(0);
+        		if(cel==null){
+					 errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能为空!";
+					 map.put("errMsg", errMsg);
+					 bool=false;
+   				 break;
+				}
+        		for (Cell cell : row) {
+        			//判断第一列
+        			if(cell.getColumnIndex()==0){
+        				if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商名称不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String supplierName = cell.getRichStringCellValue().toString();
+        					Supplier supplier = excelUtil.supplierService.selByName(supplierName);
+        					//验证供应商是否存在
+        					if(supplier == null){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商不存在!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}
+        					if(excelUtil.oBSupplierService.yzSupplierName(supplier.getId(), productId, null) > 0){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能重复添加供应商!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}
+        					uscc = supplier.getCreditCode();
+        					obp.setSupplierId(supplier.getId());
+        				}
+        			}
+        			//第二列
+    				if(cell.getColumnIndex()==1){
+    					System.out.println("=======================================");
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        				}else if(HSSFDateUtil.isCellDateFormatted(cell)){
+        					Date time = cell.getDateCellValue();
+        					obp.setCertValidPeriod(time);
+        				}else{
+        					errMsg=String.valueOf(row.getRowNum()+1)+"行B列错误，日期格式错误!";
+       					 map.put("errMsg", errMsg);
+       					 bool=false;
+	        				 break;
+        				}
+        			 }
+        			//第三列
+    				if(cell.getColumnIndex()==2){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行C列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String str = cell.getRichStringCellValue().toString();
+        					obp.setQualityInspectionDep(str);
+        				}
+        			 }
+        			//第四列
+    				if(cell.getColumnIndex()==3){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String str = cell.getRichStringCellValue().toString();
+        					obp.setContactName(str);
+        				}
+        			 }
+    				//第五列
+    				if(cell.getColumnIndex()==4){
+    					if(cell.getCellType()==0){
+    						int i = (int) cell.getNumericCellValue();
+       					 obp.setContactTel(Integer.toString(i));//数量
+		        			 continue;
+       				 }if(cell.getCellType()!=3){
+       					 errMsg=String.valueOf(row.getRowNum()+1)+"行，E列错误,请输入正确的电话号";
+	        				 map.put("errMsg", errMsg);
+	        				 bool=false;
+	        				 break;
+	        			}
+        			 }
+    				//第六列
+    				if(cell.getColumnIndex()==5){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String str = cell.getRichStringCellValue().toString();
+        					obp.setCertCode(str);
+        				}
+        			 }
+    				//第七列
+    				if(cell.getColumnIndex()==6){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行E列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String str = cell.getRichStringCellValue().toString();
+        					if(!str.trim().equals(uscc)){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，统一社会信用代码不正确!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}
+        					obp.setUscc(str);
+        					}
+        				}
+        		}
+        		if(bool==false)break;
+        		list.add(obp);
+        	}
+        }
+        map.put("list", list);
+		return map;
+	
+	}
+	
+	
+	
 	
 	public static void readPlanExcel(MultipartFile file) throws Exception{
     List<PurchaseRequired> list=new LinkedList<PurchaseRequired>();

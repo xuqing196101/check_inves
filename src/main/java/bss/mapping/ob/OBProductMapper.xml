@@ -453,4 +453,9 @@
   	</if>
   </select>
   
+  <!-- 验证采购机构是否存在 -->
+  <select id="yzorg" resultType="Integer" parameterType="String">
+  	SELECT COUNT(ID) FROM T_SES_OMS_ORG WHERE SHORT_NAME = #{shortName,jdbcType=VARCHAR}
+  </select>
+  
 </mapper>

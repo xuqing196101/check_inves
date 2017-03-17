@@ -292,4 +292,17 @@ public interface SupplierService {
     * @param supplierId
     */
    void deleteSupplier(String supplierId);
+   
+   /**
+    * 
+    * Description: 根据名称查找供应商
+    * 
+    * @author  zhang shubin
+    * @version  2017年3月16日 
+    * @param  @param supplierName
+    * @param  @return 
+    * @return Supplier 
+    * @exception
+    */
+   Supplier selByName(String supplierName);
 }

@@ -1638,4 +1638,12 @@
 		DELETE FROM T_SES_SMS_SUPPLIER
 		WHERE ID = #{id}
 	</delete>
+	
+	<!-- 通过供应商名称查询 -->
+	<select id="selByName" resultMap="BaseResultMap" parameterType="String">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_NAME = #{supplierName}
+	</select>
 </mapper>

@@ -63,4 +63,9 @@ public class OBProductServiceImpl implements OBProductService {
 		return oBProductMapper.yzProductName(name,id);
 	}
 
+	@Override
+	public int yzorg(String shortName) {
+		return oBProductMapper.yzorg(shortName);
+	}
+
 }

@@ -967,5 +967,10 @@ public class SupplierServiceImpl implements SupplierService {
         
         
     }
+
+	@Override
+	public Supplier selByName(String supplierName) {
+		return supplierMapper.selByName(supplierName);
+	}
     
 }

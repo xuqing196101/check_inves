@@ -1,17 +1,27 @@
 package bss.controller.ob;
 
+import java.io.File;
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.Category;
 import ses.model.bms.User;
@@ -19,13 +29,18 @@ import ses.model.oms.PurchaseDep;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.util.PathUtil;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
+import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
+import bss.util.ExcelUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import common.utils.JdcgResult;
 
 /**
@@ -137,15 +152,28 @@ public class OBProductController {
 			if(obProduct != null){
 				if(obProduct.getProductCategoryLevel() == 2){
 					parentCategory = categoryService.findById(obProduct.getCategoryBigId());
-				}
-				if(obProduct.getProductCategoryLevel() == 3){
+				}else if(obProduct.getProductCategoryLevel() == 3){
 					parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
-				}
-				if(obProduct.getProductCategoryLevel() == 4){
+				}else if(obProduct.getProductCategoryLevel() == 4){
 					parentCategory = categoryService.findById(obProduct.getCategoryId());
-				}
-				if(obProduct.getProductCategoryLevel() == 5){
+				}else if(obProduct.getProductCategoryLevel() == 5){
 					parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+				}else{
+					if(obProduct.getProductCategoryId() != null){
+						parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+					}else{
+						if(obProduct.getCategoryId() != null){
+							parentCategory = categoryService.findById(obProduct.getCategoryId());
+						}else{
+							if(obProduct.getCategoryMiddleId() != null){
+								parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
+							}else{
+								if(obProduct.getCategoryBigId() != null){
+									parentCategory = categoryService.findById(obProduct.getCategoryBigId());
+								}
+							}
+						}
+					}
 				}
 			}
 			if(parentCategory != null){
@@ -447,5 +475,81 @@ public class OBProductController {
 		}
 	}
 	
+	/**
+	 * 
+	 * Description: 模板下载
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月16日 
+	 * @param  @param request
+	 * @param  @param filename
+	 * @param  @return
+	 * @param  @throws IOException 
+	 * @return ResponseEntity<byte[]> 
+	 * @exception
+	 */
+	@RequestMapping("/download")
+	public ResponseEntity<byte[]> download(HttpServletRequest request,
+			String filename) throws IOException {
+		String path = PathUtil.getWebRoot() + "excel/定型产品上传模板.xlsx";
+		File file = new File(path);
+		HttpHeaders headers = new HttpHeaders();
+		String fileName = new String("定型产品上传模板.xlsx".getBytes("UTF-8"),
+				"iso-8859-1");// 为了解决中文名称乱码问题
+		headers.setContentDispositionFormData("attachment", fileName);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+				headers, HttpStatus.OK);
+	}
+	
+	/**
+	 * 
+	 * Description: 导入excel
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月16日 
+	 * @param  @param user
+	 * @param  @param planDepName
+	 * @param  @param file
+	 * @param  @param type
+	 * @param  @param planName
+	 * @param  @param planNo
+	 * @param  @param model
+	 * @param  @return
+	 * @param  @throws Exception 
+	 * @return String 
+	 * @exception
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String uploadFile(@CurrentUser User user,MultipartFile file) throws Exception {
+		String fileName = file.getOriginalFilename();
+		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
+			return "1";
+		}
+
+		List<OBProduct> list = new ArrayList<OBProduct>();
+		Map<String, Object> maps = (Map<String, Object>) ExcelUtil
+				.readOBProductExcel(file);
+		list = (List<OBProduct>) maps.get("list");
+		
+		String errMsg = (String) maps.get("errMsg");
+
+		if (errMsg != null) {
+			String jsonString = JSON.toJSONString(errMsg);
+			return jsonString;
+		}else{
+			if(list != null){
+				for (OBProduct obProduct : list) {
+					obProduct.setIsDeleted(0);
+					oBProductService.insertSelective(obProduct);
+				}
+			}
+		}
+		String jsonString = JSON.toJSONString(list);
+		return jsonString;
+	}
+
 
 }

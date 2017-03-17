@@ -893,4 +893,13 @@
  	 where TYPE_NAME=1 and IS_DELETED=0 and PARENT_ID is null
  	 ORDER BY CREATED_AT ASC,UPDATED_AT DESC
 	</select>
+	
+	<!-- 根据简称查询 -->
+	<select id="selectByShortName" parameterType="String" resultType="ses.model.oms.Orgnization">
+	  SELECT 
+      <include refid="baseSearchSql" />
+      FROM T_SES_OMS_ORG
+      WHERE 
+      SHORT_NAME = #{shortName} AND IS_DELETED=0
+	</select>
 </mapper>

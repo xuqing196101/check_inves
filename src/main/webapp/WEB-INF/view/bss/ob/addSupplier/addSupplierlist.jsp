@@ -7,6 +7,7 @@
 	<title>定型产品列表页面</title>
 
 	<jsp:include page="../../../ses/bms/page_style/backend_common.jsp"></jsp:include>	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 	/* 分页 */
 	$(function() {
@@ -113,6 +114,73 @@
 			});
 		}
 	}
+	
+	// 弹出导入框
+	var index;
+	var id = [];
+	function upload(){
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		if(id.length == 1) {
+			index = layer.open({
+				type: 1, //page层
+				area: ['400px', '300px'],
+				title: '导入供应商',
+				closeBtn: 1,
+				shade: 0.01, //遮罩透明度
+				moveType: 1, //拖拽风格，0是默认，1是传统拖动
+				shift: 1, //0-6的动画形式，-1不开启
+				offset: ['80px', '400px'],
+				content: $('#file_div'),
+				});
+		} else if(id.length > 1) {
+			layer.alert("只能选择一个", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		} else {
+			layer.alert("请选择一个定型产品", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
+	}
+	
+	//下载模板
+    function down(){
+    	window.location.href ="${pageContext.request.contextPath}/obSupplier/download.html";
+    }
+	
+	//导入excl 
+	function fileUpload(){
+	 $.ajaxFileUpload ({
+	               url: "${pageContext.request.contextPath}/obSupplier/upload.do?id="+id,  
+	               secureuri: false,  
+	               fileElementId: 'fileName', 
+	               dataType: 'json',
+	               success: function (data) { 
+	               var bool=true;
+	               var chars = ['A','B','C','D','E','F','G'];
+	               if(data=="1"){
+				     layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
+					 } 
+					 for(var i = 0; i < chars.length ; i ++) {
+						 if(data.indexOf(chars[i])!=-1){
+						  	 bool=false;
+						}
+						 }
+						if(bool!=true){
+						 	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+						  }else{
+						 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+						       layer.close(index);
+						       $('input:checkbox').attr('checked', false);
+						       window.location.href = "${pageContext.request.contextPath}/obSupplier/list.html";
+	                 }
+	             }
+	         }); 
+	     }
 	</script>
 </head>
 <body>
@@ -163,6 +231,8 @@
 	<div class="col-md-12 pl20 mt10">
 		<button class="btn" type="button" onclick="addSupplier()">添加供应商</button>
 		<button class="btn" type="button" onclick="supplierlist()">供应商列表</button>
+		<button class="btn btn-windows btn btn-windows output" type="button" onclick="down()">下载EXCEL模板</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="upload()">导入EXCEL</button>
 	</div>   
 	<div class="content table_box">
 	
@@ -202,6 +272,14 @@
    </div>
       <div id="pagediv" align="right"></div>
    </div>
-
+ <!-- 导入文件 -->
+	<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
+		<div class="col-md-12 col-sm-12 col-xs-12">
+ 		   <input type="file" id="fileName" class="input_group" name="file" >
+ 		</div>
+ 		<div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+    	    <input type="button" class="btn input" onclick="fileUpload()" value="导入" />
+    	</div>
+	</div>
 </body>
 </html>
