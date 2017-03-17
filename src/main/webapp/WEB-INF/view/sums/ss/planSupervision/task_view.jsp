@@ -76,40 +76,39 @@
           </ul>
         </div>
         </c:if>
-        <c:if test="${listCollect != null}">
+        <c:if test="${collectPlan != null}">
         <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>2</i>采购计划</h2>
           <ul class="ul_list">
-            <c:forEach items="${listCollect}" var="obj">
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
                     <td width="25%" class="info">计划名称：</td>
-                    <td width="25%">${obj.fileName}</td>
+                    <td width="25%">${collectPlan.fileName}</td>
                     <td width="25%" class="info">计划编号：</td>
-                    <td width="25%">${obj.planNo}</td>
+                    <td width="25%">${collectPlan.planNo}</td>
                   </tr>
                   <tr>
                     <td width="25%" class="info">预算金额：</td>
-                    <td width="25%">${obj.budget}</td>
+                    <td width="25%">${collectPlan.budget}</td>
                     <td width="25%" class="info">状态：</td>
                     <td width="25%">
-                      <c:if test="${obj.status eq '1'}">审核轮次设置</c:if>
-                      <c:if test="${obj.status eq '3'}">第一轮审核</c:if>
-			                <c:if test="${obj.status eq '4'}">第二轮审核人员设置</c:if>
-			                <c:if test="${obj.status eq '5'}">第二轮审核</c:if>
-			                <c:if test="${obj.status eq '6'}">第三轮审核人员设置</c:if>
-			                <c:if test="${obj.status eq '7'}">第三轮审核</c:if>
-			                <c:if test="${obj.status eq '8'}">审核结束</c:if>
-			                <c:if test="${obj.status eq '12'}">未下达</c:if>
-			                <c:if test="${obj.status eq '2'}">已下达</c:if>
+                      <c:if test="${collectPlan.status eq '1'}">审核轮次设置</c:if>
+                      <c:if test="${collectPlan.status eq '3'}">第一轮审核</c:if>
+			                <c:if test="${collectPlan.status eq '4'}">第二轮审核人员设置</c:if>
+			                <c:if test="${collectPlan.status eq '5'}">第二轮审核</c:if>
+			                <c:if test="${collectPlan.status eq '6'}">第三轮审核人员设置</c:if>
+			                <c:if test="${collectPlan.status eq '7'}">第三轮审核</c:if>
+			                <c:if test="${collectPlan.status eq '8'}">审核结束</c:if>
+			                <c:if test="${collectPlan.status eq '12'}">未下达</c:if>
+			                <c:if test="${collectPlan.status eq '2'}">已下达</c:if>
                     </td>
                   </tr>
                   <tr>
                     <td width="25%" class="info">编制时间：</td>
-                    <td width="25%"><fmt:formatDate value='${obj.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                    <td width="25%"><fmt:formatDate value='${collectPlan.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     <td width="25%" class="info">创建人：</td>
-                    <td width="25%">${obj.userId}</td>
+                    <td width="25%">${collectPlan.userId}</td>
                   </tr>
                   <%-- <tr>
                     <td width="25%" class="info">审批时间：</td>
@@ -119,76 +118,75 @@
                   </tr> --%>
                 </tbody>
               </table>
-            </c:forEach>
           </ul>
         </div>
         </c:if>
-        <c:if test="${listTask != null}">
+        <c:if test="${task != null}">
         <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>3</i>采购任务</h2>
           <ul class="ul_list">
-            <c:forEach items="${listTask}" var="obj">
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
                     <td width="25%" class="info">任务名称：</td>
-                    <td width="25%">${obj.name}</td>
+                    <td width="25%">${task.name}</td>
                     <td width="25%" class="info">计划文号：</td>
-                    <td width="25%">${obj.documentNumber}</td>
+                    <td width="25%">${task.documentNumber}</td>
                   </tr>
                   <tr>
                     <td width="25%" class="info">预算金额：</td>
-                    <td width="25%">${obj.passWord}</td>
+                    <td width="25%">${task.passWord}</td>
                     <td width="25%" class="info">状态：</td>
                     <td width="25%">
-                      <c:if test="${obj.status eq '0'}">未受领</c:if>
-                      <c:if test="${obj.status eq '1'}">已受领</c:if>
+                      <c:if test="${task.status eq '0'}">未受领</c:if>
+                      <c:if test="${task.status eq '1'}">已受领</c:if>
                     </td>
                   </tr>
                   <tr>
                     <td width="25%" class="info">受领时间：</td>
-                    <td width="25%"><fmt:formatDate value='${obj.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
+                    <td width="25%"><fmt:formatDate value='${task.acceptTime}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
                     <td width="25%" class="info">创建人：</td>
-                    <td width="25%">${obj.createrId}</td>
+                    <td width="25%">${task.createrId}</td>
                   </tr>
                 </tbody>
               </table>
-            </c:forEach>
           </ul>
         </div>
         </c:if>
-        <c:if test="${project != null}">
+        <c:if test="${listProject != null}">
         <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>4</i>采购项目</h2>
           <ul class="ul_list">
-            <table class="table table-bordered mt10">
-              <tbody>
-                <tr>
-                  <td width="25%" class="info">项目名称：</td>
-                  <td width="25%">${project.name}</td>
-                  <td width="25%" class="info">创建时间：</td>
-                  <td width="25%"><fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
-                </tr>
-                <tr>
-                  <td width="25%" class="info">招标单位：</td>
-                  <td width="25%">${project.purchaseDepId}</td>
-                  <td width="25%" class="info">负责人：</td>
-                  <td width="25%">${project.appointMan}</td>
-                </tr>
-                <tr>
-                  <td width="25%" class="info">联系地址：</td>
-                  <td width="25%">${project.address}</td>
-                  <td width="25%" class="info">联系电话：</td>
-                  <td width="25%">${project.ipone}</td>
-                </tr>
-                <tr>
-                  <td width="25%" class="info">状态：</td>
-                  <td width="25%">${project.status}</td>
-                  <td width="25%" class="info"></td>
-                  <td width="25%"></td>
-                </tr>
-               </tbody>
-             </table>
+            <c:forEach items="listProject" var="obj">
+	            <table class="table table-bordered mt10">
+	              <tbody>
+	                <tr>
+	                  <td width="25%" class="info">项目名称：</td>
+	                  <td width="25%">${obj.name}</td>
+	                  <td width="25%" class="info">创建时间：</td>
+	                  <td width="25%"><fmt:formatDate value='${obj.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss'/></td>
+	                </tr>
+	                <tr>
+	                  <td width="25%" class="info">招标单位：</td>
+	                  <td width="25%">${obj.purchaseDepId}</td>
+	                  <td width="25%" class="info">负责人：</td>
+	                  <td width="25%">${obj.appointMan}</td>
+	                </tr>
+	                <tr>
+	                  <td width="25%" class="info">联系地址：</td>
+	                  <td width="25%">${obj.address}</td>
+	                  <td width="25%" class="info">联系电话：</td>
+	                  <td width="25%">${obj.ipone}</td>
+	                </tr>
+	                <tr>
+	                  <td width="25%" class="info">状态：</td>
+	                  <td width="25%">${obj.status}</td>
+	                  <td width="25%" class="info"></td>
+	                  <td width="25%"></td>
+	                </tr>
+	               </tbody>
+	             </table>
+             </c:forEach>
           </ul>
        </div>
        </c:if>

@@ -162,6 +162,7 @@
 	
 	function save(){
 	   if(flag == true){
+	     $("#formID").validForm();
 	     $("#formID").submit();
 	   }else{
 	     $("input[name='name']").focus();
@@ -255,7 +256,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">  
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="address" type="text"> 
+			  <input class="input_group" name="address" maxlength="250" type="text"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
@@ -271,7 +272,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12">  
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="postCode" type="text"> 
+			  <input class="input_group" name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>

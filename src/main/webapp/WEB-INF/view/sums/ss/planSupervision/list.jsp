@@ -5,6 +5,9 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp" %>
+    <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
       /*分页  */
       $(function() {
@@ -29,6 +32,10 @@
         });
       });
   
+  
+      function view(id,type){
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/view.html?id="+id+"&type="+type;
+      }
   
       function resetQuery() {
         $("#add_form").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -115,7 +122,7 @@
           <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
               <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tl pl20" width="35%" onclick="view('${obj.id}')">${obj.fileName }</td>
+              <td class="tl pl20" width="35%" onclick="view('${obj.id}','0')">${obj.fileName }</td>
               <td class="tr pr20 w140" onclick="view('${obj.id}')">
                 <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
               </td>
@@ -133,7 +140,8 @@
                 <c:if test="${obj.status == 7}">第三轮审核</c:if>
                 <c:if test="${obj.status == 12}">未下达</c:if>
               </td>
-              <td class="tl pl20" onclick="view('${obj.id}')">
+              <td class="tl pl20" onclick="view('${obj.id}','1')">
+                <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
               </td>
             </tr>
           </c:forEach>
