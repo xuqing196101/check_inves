@@ -209,10 +209,13 @@
 		  
 		  </td>
 		  <td class="tc"><a href="javascript:void(0)">
+		   <c:if test="${list.status==0}">
+		              暂存
+		    </c:if>
 		   <c:if test="${list.status==3}">
 		              查看结果
 		    </c:if>
-		     <c:if test="${list.status!=3}">
+		     <c:if test="${list.status!=3 && list.status!=0}">
 		              查看供应商
 		    </c:if>
 		  </a></td>

@@ -94,6 +94,10 @@
     delete from T_BSS_OB_PROJECT_SUPPLIER
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
+   <delete id="deleteByProjectId" parameterType="java.lang.String" >
+    delete from T_BSS_OB_PROJECT_SUPPLIER
+    where PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </delete>
   <delete id="deleteByExample" parameterType="bss.model.ob.OBProjectSupplierExample" >
     delete from T_BSS_OB_PROJECT_SUPPLIER
     <if test="_parameter != null" >

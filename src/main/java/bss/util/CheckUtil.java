@@ -14,11 +14,15 @@ public class CheckUtil {
      * @return
      */
 	public static boolean isList(List<String> list){
+		 if(list !=null && list.size()>0){
 		for(String item:list){
 			if(item==""||item==null){
 				return true;
 			}
 		}
+		 }else{
+			 return false;
+		 }
 		return false;
 	}
 }

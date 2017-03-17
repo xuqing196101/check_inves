@@ -87,7 +87,7 @@ public class DateUtils {
      * 根据 两个 日期 比较大 小
      * @param smdate
      * @param bdate
-     * @return 1 DATE1 小  2 DATE1 大
+     * @return 1 DATE1 小  2 DATE1 大  0相等
      */
     public static int compareDate(Date dt1, Date dt2) {
 		try {
@@ -107,10 +107,10 @@ public class DateUtils {
     	}
     /**
      * 
-     *〈简述〉当前时间加上N分钟
+     *〈简述〉date时间加上N分钟
      *〈详细描述〉
      * @author YangHongLiang
-     * @param dateString
+     * @param addMin
      * @return
      */
     public static Date getAddDate(Date date,int addMin){
@@ -118,7 +118,100 @@ public class DateUtils {
         Date dated = new Date(dateLong);
         return dated;
     }
+    /**
+     * date 日期加N天
+     * @author YangHongLiang
+     */
+    public static Date addDayDate(Date date,int day){
+    	Long oneDay = 1000 * 60 * 60 * 24l;
+    	 long dateLong = (date.getTime() + oneDay*day);
+         Date dated = new Date(dateLong);
+         return dated;
+    }
+    /***
+     * 根据当前日期 获取 周几
+     * @author YangHongLiang
+     * @parma Date
+     * @return   1 ，2 ，3 ，4 ，5 ，6， 周日：0
+     */
+    public static int isWeek(Date date){
+    	 Calendar calendar = Calendar.getInstance();
+    	  calendar.setTime(date);
+    	  int intWeek = calendar.get(Calendar.DAY_OF_WEEK) - 1;
+    	 return intWeek;
+    }
+    /***
+     * 根据当前日期 去掉时分秒
+     * @author YangHongLiang
+     * @parma Date
+     * @return   1 ，2 ，3 ，4 ，5 ，6， 周日：0
+     * @throws ParseException 
+     */
+    public static Date combinationDate(Date date){
+    	SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd");
+    	
+    	 Calendar calendar = Calendar.getInstance();
+    	  try {
+			calendar.setTime(sdf.parse(sdf.format(date)));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	 return calendar.getTime();
+    }
+    /***
+     * 根据当前日期跳过 周六 周日 生产新日期
+     * @author YangHongLiang
+     * @return Date
+     */
+    public static Date ignoreWeekend(Date date){
+    	//判断 周六
+    	if(isWeek(date)==6){
+    		return addDayDate(date, 2);
+    	}
+    	//判断周日
+    	if(isWeek(date)==0){
+    		return addDayDate(date, 1);
+    	}
+    	return date;
+    }
+    /**
+     * date 日期 改变  日期年月日 加时分秒组合
+     * @author YangHongLiang
+     * @param ymd 年月日
+     * @param yms 时分秒
+     */
+    public static Date changeDate(Date ymd,Date hms){
+    	Calendar ymd_cal=Calendar.getInstance();
+    	Calendar hms_cal=Calendar.getInstance();
+    	Calendar chang_cal=Calendar.getInstance();
+    	ymd_cal.setTime(ymd);
+    	hms_cal.setTime(hms);
+    	chang_cal.set(ymd_cal.get(Calendar.YEAR), ymd_cal.get(Calendar.MONTH), 
+    			ymd_cal.get(Calendar.DAY_OF_MONTH), hms_cal.get(Calendar.HOUR_OF_DAY),
+    			hms_cal.get(Calendar.MINUTE), hms_cal.get(Calendar.SECOND));
+         return chang_cal.getTime();
+    }
     
+    /***
+     * 根据时间段 获取当前日期的周六周日的天数
+     * @author YangHongliang
+     * @return INT
+     */
+    public static int isWeekend(Date statDate,Date endDate){
+    	Calendar stat_cal = Calendar.getInstance();
+    	Calendar end_cal = Calendar.getInstance();
+    	stat_cal.setTime(statDate);
+    	end_cal.setTime(endDate);
+    	int i=0;
+    	while(stat_cal.before(end_cal)){
+    		if(stat_cal.get(Calendar.DAY_OF_WEEK)==Calendar.SATURDAY||stat_cal.get(Calendar.DAY_OF_WEEK)==Calendar.SUNDAY){
+    		  i++;
+    		 }
+    		stat_cal.add(Calendar.DAY_OF_MONTH, 1);
+    	}
+    	return i;
+    }
     /**
      * 
      *〈简述〉获取当前时间
