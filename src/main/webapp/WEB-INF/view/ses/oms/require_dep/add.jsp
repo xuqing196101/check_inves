@@ -195,7 +195,7 @@
   <div class="container container_box">
     <sf:form action="${pageContext.request.contextPath}/purchaseManage/create.html" method="post" onsubmit="return check();" id="formID" modelAttribute="orgnization">
 	  <input type="hidden"  name="typeName" id="typeName" value="${orgnization.typeName}"/>
-	  <input type="hidden"  name="parentId" id="parentId" value="${parentId}"/>
+	  <input type="hidden" id="parentId" value="${parentId}"/>
 	  <div>
 	    <c:if test="${orgnization.typeName == '0'}">
 	      <h2 class="count_flow "><i>1</i>基本信息</h2>
