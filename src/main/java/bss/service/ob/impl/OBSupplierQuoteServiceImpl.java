@@ -70,6 +70,14 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Autowired
 	private UploadService uploadService;
 
+	/**
+	 * 
+	* @Title: findQuoteInfo 
+	* @Description: 查看报价信息列表
+	* @author Easong
+	* @param @param id
+	* @param @return    设定文件
+	 */
 	@Override
 	public Map<String, Object> findQuoteInfo(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
@@ -129,6 +137,14 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		return map;
 	}
 
+	/**
+	 * 
+	* @Title: saveQuoteInfo 
+	* @Description: 开始报价
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件
+	 */
 	@Override
 	public JdcgResult saveQuoteInfo(Map<String, Object> map) {
 		String titleId = (String) map.get("titleId");
@@ -175,17 +191,15 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					// 报价时间截止
 					if(compareTo == 2){
 						//remark 5标识：时间截止，未能及时完成报价
-						obProject.setRemark("5");
-						obProject.setUpdatedAt(new Date());
-						obProjectMapper.updateByPrimaryKeySelective(obProject);
+						String remark = "5";
+						BiddingStateUtil.updateRemark(obProjectMapper, obProject, remark);
 						return JdcgResult.ok("抱歉，报价时间已结束，未完成本次报价！");
 					}
 					
 					if(compareTo == 1){
 						//remark 3标识：时间还未截止，完成报价
-						obProject.setRemark("3");
-						obProject.setUpdatedAt(new Date());
-						obProjectMapper.updateByPrimaryKeySelective(obProject);
+						String remark = "3";
+						BiddingStateUtil.updateRemark(obProjectMapper, obProject, remark);
 					}
 				}
 				// 竞价还没结束已报价，则显示已报价待确认状态
