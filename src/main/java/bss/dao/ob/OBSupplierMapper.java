@@ -144,4 +144,11 @@ public interface OBSupplierMapper {
 	int updateByPrimaryKeySelective(OBSupplier record);
 
 	int updateByPrimaryKey(OBSupplier record);
+	/**
+	 * 查询产品对应的 并集供应商
+	 * @author YangHongliang
+	 * @param map
+	 * @return
+	 */
+	List<OBSupplier> selecUniontSupplier(Map<String,Object> map);
 }

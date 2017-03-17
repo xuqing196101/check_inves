@@ -45,6 +45,9 @@
 						<div class="fl">
 							《军队物资工程服务采购评审专家参评产品分类目录》<a href="${pageContext.request.contextPath}/supplier/download_category.html" class="download"></a>
 						</div>
+						<div class="fl">
+							《军队评审专家注册操作手册》<a href="${pageContext.request.contextPath}/expert/downloadReghandbook.html" class="download"></a>
+						</div>
 						<div class="clear"></div>
 					</div>
 					<div class="mt40 col-md-12 col-xs-12 col-sm-12 p0">

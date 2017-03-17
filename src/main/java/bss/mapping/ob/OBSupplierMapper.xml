@@ -112,7 +112,17 @@
 		ON
 		T1.ID = T2.PRODUCT_ID
 	</select>
-
+   	<!-- 查询产品对应的 并集供应商 -->
+	<select id="selecUniontSupplier" resultMap="BaseResultMap" parameterType="Map">
+	SELECT s.supplier_id
+    FROM T_BSS_OB_SUPPLIER s
+    WHERE s.product_id IN 
+    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+   			#{item}  
+ 	</foreach>
+    GROUP BY s.supplier_id
+    HAVING COUNT(s.supplier_id) >= #{count,jdbcType=DECIMAL}
+	</select>
 	<!-- 根据产品id查询供应商列表 所有 -->
 	<select id="selectByProductId" resultMap="BaseResultMap">
 		SELECT

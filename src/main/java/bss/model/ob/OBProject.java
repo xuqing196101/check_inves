@@ -70,13 +70,24 @@ public class OBProject {
     /**
      * @Fields content : 竞价内容
      */
-    private String content	;
+    private String content;
     /**
      * @Fields attachmentId : 附件
      */
     private String attachmentId;
     /**
      * @Fields remark : 备注
+     */
+    /**供应商恢复操作标识**/
+    /**
+     * 1：发布中---等待竞价
+     * 2：竞价中---开始报价（在报价时间范围内）
+     * 3：竞价中---已报价待确认（报价时间还没结束）
+     * 4：竞价中---未报价（在操作报价的时候报价时时间已到，则显示未报价）
+     * 5：竞价结束---未报价（在第一轮确认时间范围内）
+     * 6：竞价结束---确认结果（在第一轮确认时间范围内，如果没有确认则视为放弃）
+     * 7：竞价结束---已确认（在第一轮确认时间范围内）
+     * 8：竞价结束---结束（所有供应商都已确认后且如果有第二轮，第二轮也已经结束了）
      */
     private String remark;
     /**
@@ -127,13 +138,25 @@ public class OBProject {
     /**
      * 页面数量
      */
+    
     private List<String> productCount;
+    /***
+     * 选中的供应商id
+     */
+    private String supplieId;
     //成交供应商 数量
     private Integer closingSupplier;
     //合格供应商数量
     private Integer qualifiedSupplier;
     
-    
+	public String getSupplieId() {
+		return supplieId;
+	}
+
+	public void setSupplieId(String supplieId) {
+		this.supplieId = supplieId;
+	}
+
 	public String getRuleId() {
 		return ruleId;
 	}
@@ -310,12 +333,12 @@ public class OBProject {
         this.endTime = endTime;
     }
 
-    public String getContent	() {
+    public String getContent() {
         return content	;
     }
 
-    public void setContent	(String content	) {
-        this.content	 = content	 == null ? null : content	.trim();
+    public void setContent(String content) {
+        this.content= content== null ? null : content.trim();
     }
 
     public String getAttachmentId() {
@@ -400,9 +423,9 @@ public class OBProject {
 				+ updatedAt + ", obProductInfo=" + obProductInfo
 				+ ", productName=" + productName + ", productMoney="
 				+ productMoney + ", productRemark=" + productRemark
-				+ ", productCount=" + productCount + ", closingSupplier="
-				+ closingSupplier + ", qualifiedSupplier=" + qualifiedSupplier
-				+ "]";
+				+ ", productCount=" + productCount + ", supplieId=" + supplieId
+				+ ", closingSupplier=" + closingSupplier
+				+ ", qualifiedSupplier=" + qualifiedSupplier + "]";
 	}
-    
-}
+
+	}

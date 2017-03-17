@@ -137,22 +137,35 @@
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
-			  	<c:if test="${ obProject.status == 2 }">
-			  		发布中
-			  	</c:if>
 			  	<c:if test="${ obProject.status == 1 }">
 			  		发布中
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 2 }">
+			  		竞价中
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
 			  		竞价结束
 			  	</c:if>
 			  </td>
 			  <td class="tc">
-			  	<c:if test="${ obProject.status == 2 }">
+			  	<c:if test="${ obProject.status == 1 && '1' eq obProject.remark}">
+			  		等待竞价
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 2 && '2' eq obProject.remark}">
 				  	<a href="javascript:void(0)" onclick="beginQuote('${obProject.id}')">报价</a>
 			  	</c:if>
-			  	<c:if test="${ obProject.status == 3 }">
+			  	<c:if test="${ obProject.status == 2 && '3' eq obProject.remark}">
+				  	已报价待确认
+			  	</c:if>
+			  	<!-- 供应商报价失效情况 -->
+			  	<c:if test="${ obProject.status == 3 && '5' eq obProject.remark}">
+				  	未报价
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 3 && '6' eq obProject.remark}">
 				  	<a href="javascript:void(0)" onclick="confirmResult('${obProject.id}')">确认结果</a>
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 2 && '6' eq obProject.remark}">
+				  	重新刷新页面
 			  	</c:if>
 			  </td>
 			</tr>

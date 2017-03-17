@@ -322,5 +322,6 @@ import ses.model.sms.SupplierTypeTree;
     public List<Category> searchByNameAndCode(String name,String code,Integer ispublish);
 
 	public List<Category> findByParentId(String parentId);
+	 public List<Category> findCategoryByChildrenAndWuZi(HashMap<String, Object> map);
     
 }
