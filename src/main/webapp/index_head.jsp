@@ -117,7 +117,7 @@ function importAdd(){
         <div class="navbar-header col-md-12 col-xs-12 col-sm-12">
           <div class="row margin-bottom-10">
             <div class="col-md-5 col-sm-5 col-xs-12 head_logo">
-              <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
+              <a href="${pageContext.request.contextPath}/">
                  <img alt="Logo" src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="100%" id="logo-header">
               </a>
             </div>
@@ -163,7 +163,7 @@ function importAdd(){
       <ul class="nav navbar-nav">
       <!-- 通知 -->
         <li id="firstPage" class="dropdown shouye_li mega-menu-fullwidth">
-          <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/index/selectIndexNews.html"><i class="shouye nav_icon"></i>首 页</a>
+          <a class=" dropdown-toggle " href="${pageContext.request.contextPath}/"><i class="shouye nav_icon"></i>首 页</a>
         </li>
       <!-- End 通知 -->
 

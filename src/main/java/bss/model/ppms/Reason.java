@@ -1,6 +1,5 @@
 package bss.model.ppms;
 
-import ses.util.WfUtil;
 
 public class Reason {
   
@@ -65,9 +64,5 @@ public class Reason {
    */
   public void setFinalReason(String finalReason) {
     this.finalReason = finalReason;
-  }
- 
-  public static void main(String[] args) {
-    System.out.println(WfUtil.createUUID());
   }
 }
