@@ -8,6 +8,7 @@ import bss.model.ob.BidProductVo;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.SupplierProductVo;
 
 /**
  * 
@@ -76,4 +77,26 @@ public interface OBProjectResultService {
     ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
     
     List<BidProductVo> selectProductBySupplierId(OBProjectResult obProjectResult);
+    
+    /**
+     * <p>Description 把此供应商的状态都改为0，表示放弃</p>
+     * @author Ma Mingwei
+     * @param obProjectResult封装的条件对象
+     * @return 竞价管理-结果查询 
+     */
+    int updateBySupplierId(OBProjectResult record);
+    
+    /**
+     * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>
+     * @author Ma Mingwei
+     * @param obProjectResult封装的条件对象
+     * @return 竞价管理-结果查询   修改了几条记录数
+     */
+	public int updateInfoBySPPIdList(List<OBProjectResult> projectResultList);
+	
+	/**
+     * 根据标题id获取封装的供应商信息
+     * @author Ma Mingwei
+     */
+    List<SupplierProductVo> selectInfoByPID(String projectID, String supplierID);
 }

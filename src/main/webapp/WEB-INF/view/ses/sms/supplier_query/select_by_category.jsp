@@ -213,13 +213,15 @@
 					}
 				}
 				$("#categoryIds").val(ids);
-				form1.submit();
+				$("#form1").submit();
 			}
 
 			function resetQuery() {
 				var Obj = $.fn.zTree.getZTreeObj("treeDemo");
 				Obj.checkAllNodes(false);
 				$("#supplierName").val("");
+				$("#contactName").val("");
+				$("#form1").submit();
 			}
 		</script>
 	</head>
@@ -253,7 +255,7 @@
 					<div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 						<div class="tag-box tag-box-v3">
 							<!-- <input type="text" id="key"  value="" class="empty w220" /><br/> -->
-							<ul id="treeDemo" class="ztree" />
+							<ul id="treeDemo" class="ztree s_ztree" />
 						</div>
 					</div>
 					<div class="tag-box tag-box-v4 col-md-9" id="show_content_div">
@@ -262,7 +264,11 @@
 							<input type="hidden" id="categoryIds" name="categoryIds" />
 							<ul class="demand_list">
 								<li>
-									<label class="fl">供应商名称：</label><span><input id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
+									<label class="fl">供应商名称：</label><span><input class="w220" id="supplierName" name="supplierName" value="${supplier.supplierName }" type="text"></span>
+								</li>
+								<li>
+									<label class="fl">联系人：</label>
+									<input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text">
 								</li>
 							</ul>
 							<input class="btn fl mt1" onclick="tijiao()" type="button" value="查询">
@@ -277,7 +283,7 @@
 										<th class="info">联系人</th>
 										<th class="info">供应商类别</th>
 										<th class="info">供应商状态</th>
-										<th class="info">电话</th>
+										<th class="info">手机</th>
 										<!-- <th class="info">级别</th> -->
 									</tr>
 								</thead>
@@ -303,7 +309,7 @@
 												<c:if test="${list.status==8 }">考察合格</c:if>
 												<c:if test="${list.status==9 }">考察不合格</c:if>
 											</td>
-											<td class="tc">${list.contactMobile}</td>
+											<td class="tc">${list.mobile}</td>
 											<%-- <td class="tc">${list.level}</td> --%>
 										</tr>
 									</c:forEach>

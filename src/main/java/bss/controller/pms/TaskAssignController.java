@@ -124,7 +124,7 @@ public class TaskAssignController extends BaseController{
 	* @throws
 	 */
 	@RequestMapping("/add")
-	public String assgin(Task task,String cid,HttpServletRequest request){
+	public String assgin(@CurrentUser User users,Task task,String cid,HttpServletRequest request){
 		User user = (User) request.getSession().getAttribute("loginUser");
 		List<String>  list=new LinkedList<String>();
 		String[] ids = cid.split(",");
@@ -164,6 +164,7 @@ public class TaskAssignController extends BaseController{
 				task.setNotDetail(0);
 				task.setCollectId(ids[0]);
 				task.setTaskNature(0);
+				task.setCreaterId(users.getId());
 				taskservice.add(task);
 				
 				

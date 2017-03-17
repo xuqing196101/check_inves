@@ -106,6 +106,10 @@ public class theSubject {
      * </pre>
      */
     private String projectId;
+    
+    private String trademark;
+    
+    private String serialNumber;
 
     /**
      * <pre>
@@ -413,6 +417,22 @@ public class theSubject {
 
 	public void setSupplierId(String supplierId) {
 		this.supplierId = supplierId;
+	}
+
+	public String getTrademark() {
+		return trademark;
+	}
+
+	public void setTrademark(String trademark) {
+		this.trademark = trademark;
+	}
+
+	public String getSerialNumber() {
+		return serialNumber;
+	}
+
+	public void setSerialNumber(String serialNumber) {
+		this.serialNumber = serialNumber;
 	}
     
 }

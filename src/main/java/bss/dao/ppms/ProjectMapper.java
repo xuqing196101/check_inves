@@ -21,6 +21,15 @@ public interface ProjectMapper {
     
     List<Project> selectProjectByAll(Project project);
     
+    /**
+     *〈简述〉取需要审核和审核过招标文件的项目
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param project
+     * @return
+     */
+    List<Project> selectProjectByAudit(Project project);
+    
     List<Project> selectByList(Project project);
     
     List<Project> verifyByProject(Project project);

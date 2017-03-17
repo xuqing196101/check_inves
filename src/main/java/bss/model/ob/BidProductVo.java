@@ -10,6 +10,8 @@ import java.math.BigDecimal;
  */
 public class BidProductVo {
 
+	//产品Id
+	private String id;
 	//产品名称
 	private String productName;
 	//产品数量
@@ -20,6 +22,12 @@ public class BidProductVo {
 	private BigDecimal dealMoney;
 	//备注
 	private String remark;
+	public String getId() {
+		return id;
+	}
+	public void setId(String id) {
+		this.id = id;
+	}
 	public String getProductName() {
 		return productName;
 	}

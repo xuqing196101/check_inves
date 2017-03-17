@@ -106,4 +106,17 @@ public interface OBProductService {
 	 * @exception
 	 */
 	int yzProductName(String name,String id);
+	
+	/**
+	 * 
+	 * Description: 验证采购机构是否存在
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月16日 
+	 * @param  @param shortName
+	 * @param  @return 
+	 * @return int 
+	 * @exception
+	 */
+	int yzorg(String shortName);
 }

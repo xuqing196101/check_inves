@@ -240,4 +240,8 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 			checkPassMapper.updateByPrimaryKeySelective(record);
 		}
 	}
+	@Override
+	public List<SupplierCheckPass> getByContractId(String contractId){
+		return checkPassMapper.getByContractId(contractId);
+	}
 }

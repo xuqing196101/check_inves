@@ -24,7 +24,6 @@ public interface AfterSaleSerMapper {
      * 新增一条记录
      *〈详细描述〉
      * @author LiChenHao
-     
      */
     public void insertSelective(AfterSaleSer AfterSaleSer);
     
@@ -40,7 +39,6 @@ public interface AfterSaleSerMapper {
      * 根据明细ID查询
      *〈详细描述〉
      * @author LiChenHao
-     
      * @return
      */
     public List < AfterSaleSer > findAfterSaleSerByrequiredId(String requiredId);

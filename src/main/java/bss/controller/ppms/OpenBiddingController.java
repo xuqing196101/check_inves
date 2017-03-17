@@ -392,12 +392,6 @@ public class OpenBiddingController {
       }
       model.addAttribute("fileId", "0");
     }*/
-    //当前登录用户是否为项目负责人
-    if (user.getId().equals(project.getPrincipal())) {
-      model.addAttribute("isAdmin", 1);
-    }else{
-      model.addAttribute("isAdmin", 2);
-    }
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("project", project);
     model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
@@ -982,11 +976,14 @@ public class OpenBiddingController {
         projectService.update(project);
         //推送待办
         push(user,project.getId());
-        //该环节设置为执行完状态
-        flowMangeService.flowExe(req, flowDefineId, projectId, 1);
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(req, flowDefineId, projectId, 2);
       }
       //flag：0，招标文件为暂存状态
       if ("0".equals(flag)) {
+        Project project = projectService.selectById(projectId);
+        project.setConfirmFile(0);
+        projectService.update(project);
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
       }
@@ -1003,11 +1000,14 @@ public class OpenBiddingController {
         projectService.update(project);
         //推待办
         push(user,project.getId());
-        //该环节设置为执行完状态
-        flowMangeService.flowExe(req, flowDefineId, projectId, 1);
+        //该环节设置为执行中状态
+        flowMangeService.flowExe(req, flowDefineId, projectId, 2);
       }
       //flag：0，招标文件为暂存状态
       if ("0".equals(flag)) {
+        Project project = projectService.selectById(projectId);
+        project.setConfirmFile(0);
+        projectService.update(project);
         //该环节设置为执行中状态
         flowMangeService.flowExe(req, flowDefineId, projectId, 2);
       }

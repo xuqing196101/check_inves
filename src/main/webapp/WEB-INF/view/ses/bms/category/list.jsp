@@ -110,7 +110,7 @@
     function onClickTree(nodes){
     	$("#results").css("display","");
     	$("#result").css("display","none");
-    	hideQua();
+    	hideQuas();
  	    if (treeid==null){
  			layer.msg("请选择一个节点");
 		}else{
@@ -157,7 +157,7 @@
         }
     }
     function showQuas(cate, type){
-   	 $("#generaQuaTrs").show();
+   	 $("#generaQuaTrs").hide();
    	 $("#profileQuaTrs").show();
    	 if (type == "GOODS") {
    		 $("#profileQuaTr_saless").show();
@@ -539,7 +539,7 @@
 
   //显示资质要求
  function showQua(cate, type){
-	 $("#generaQuaTr").show();
+	 $("#generaQuaTr").hide();
 	 $("#profileQuaTr").show();
 	 if (type == "GOODS") {
 		 $("#profileQuaTr_sales").show();
@@ -570,6 +570,17 @@
 	 $("#generaQuaTr").hide();
 	 $("#profileQuaTr").hide();
 	 $("#profileQuaTr_sales").hide();
+ }
+ function hideQuas(){
+ 	 $("#profileSalesIds").val("");
+ 	 $("#profileIQuaIds").val("");
+ 	 $("#generalIQuaIds").val("");   
+ 	 $("#profileSalesNames").val("");
+ 	 $("#profileIQuaNames").val("");
+ 	 $("#generalIQuaNames").val("");
+	 $("#generaQuaTrs").hide();
+	 $("#profileQuaTrs").hide();
+	 $("#profileQuaTr_saless").hide();
  }
  
  //初始化类型
@@ -817,14 +828,8 @@
    <!-- 内容 -->
    <div class="container">
    
-     <div class="col-md-3 col-sm-4 col-xs-12">
-  	   <div class="tag-box tag-box-v3 mt15">
-	 	 <div><ul id="ztree" class="ztree s_ztree"></ul></div>
-	   </div>
-     </div>
-     <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
-      <form action="">
-     <ul class="demand_list">
+   <div class="search_detail">
+    	<ul class="demand_list">
           <li class="fl pl5"><label class="fl">目录名称：</label><span><input type="text" id="param" name="param"/></span></li>
 	      <li class="fl pl5"><label class="fl">目录编号：</label><span><input type="text" id="code" name="code"/></span></li>
 	      <li class="fl pl5"><label class="fl">是否公开：</label><span>
@@ -835,12 +840,22 @@
 	      	</select>
 	      </span></li>	
     	</ul>
-	      <div class="col-md-12 col-sm-12 col-xs-15 tc mt5">
+	      
 	    	<button type="button" onclick="searchM();" class="btn">查询</button>
 	    	<button type="reset" onclick="reset()" class="btn">重置</button>
-	      </div>  
+	        
     	  <div class="clear"></div>
-    	  </form>
+     </div>
+   
+     
+
+     <div class="col-md-3 col-sm-4 col-xs-12">
+  	   <div class="tag-box tag-box-v3 mt15">
+	 	 <div><ul id="ztree" class="ztree s_ztree"></ul></div>
+	   </div>
+     </div>
+     <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
+      
    	   <button class="btn btn-windows add" type="button" onclick="add();" >新增</button>
    	   <button class="btn btn-windows edit" type="button" onclick="edit();">修改</button>
    	   <button class="btn btn-windows delete" type="button" onclick="del();">删除</button>
@@ -980,7 +995,7 @@
             <table id="results"  class="table table-bordered table-condensedb" >
            	  <tbody>
            	 	<tr>
-       			  <td class='info w250'>上级目录</td>
+       			  <td class='info w200'>上级目录</td>
        			  <td id="parentNId">
        			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="parentNameIds" >
        		    	  

@@ -24,6 +24,7 @@ import bss.model.ob.OBSpecialDateExample;
 import bss.service.ob.OBRuleService;
 
 import com.github.pagehelper.PageHelper;
+
 import common.utils.JdcgResult;
 
 /**
@@ -46,7 +47,7 @@ public class OBRuleServiceImpl implements OBRuleService {
 	private OBSpecialDateMapper obSpecialDateMapper;
 
 	@Override
-	public JdcgResult addRule(OBRule obRule, HttpServletRequest req) {
+	public JdcgResult addRule(OBRule obRule, User user) {
 		if (obRule == null) {
 			return JdcgResult.build(500, "请填写竞价规则相关信息");
 		}
@@ -80,7 +81,6 @@ public class OBRuleServiceImpl implements OBRuleService {
 			return JdcgResult.build(500, "确认时间(第二轮)不能为空");
 		}
 		// 校验表单提交数据结束
-		User user = (User) req.getSession().getAttribute("loginUser");
 		if (user == null) {
 			return JdcgResult.build(500, "请先登录再操作");
 		}
@@ -109,6 +109,10 @@ public class OBRuleServiceImpl implements OBRuleService {
 	public JdcgResult delete(String[] ids) {
 		for (int i = 0; i < ids.length; i++) {
 			try {
+				OBRule obRule = obRuleMapper.selectByPrimaryKey(ids[i]);
+				if(obRule != null && obRule.getStatus() == 1){
+					return JdcgResult.ok("不能删除默认的竞价规则");
+				}
 				obRuleMapper.deleteByPrimaryKey(ids[i]);
 			} catch (Exception e) {
 				OBRule obRule = obRuleMapper.selectByPrimaryKey(ids[i]);
@@ -218,5 +222,77 @@ public class OBRuleServiceImpl implements OBRuleService {
 	public OBRule selectByStatus() {
 		// TODO Auto-generated method stub
 		return obRuleMapper.selectByStatus();
+	}
+
+	/**
+	 * 
+	 * @Title: editObRule
+	 * @Description: 修改竞价规则数据回显
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
+	 */
+	@Override
+	public OBRule editObRule(String id) {
+		OBRule obRule = obRuleMapper.selectByPrimaryKey(id);
+		if (obRule != null) {
+			return obRule;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: updateobRule
+	 * @Description: 修改竞价规则
+	 * @author Easong
+	 * @param @param obRule
+	 * @param @return 设定文件
+	 */
+	@Override
+	public JdcgResult updateobRule(OBRule obRule) {
+		if (obRule == null || obRule.getId() == null) {
+			return JdcgResult.build(500, "此竞价规则已失效");
+		}
+		// 设置修改时间
+		obRule.setUpdatedAt(new Date());
+		obRuleMapper.updateByPrimaryKeySelective(obRule);
+		return JdcgResult.ok("修改成功");
+	}
+
+	/**
+	 * 
+	 * @Title: editSpecialdate
+	 * @Description: 编辑特殊节假日数据回显
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
+	 */
+	@Override
+	public OBSpecialDate editSpecialdate(String id) {
+		OBSpecialDate specialDate = obSpecialDateMapper.selectByPrimaryKey(id);
+		if (specialDate != null) {
+			return specialDate;
+		}
+		return null;
+	}
+
+	/**
+	 * 
+	 * @Title: updateobSpecialDate
+	 * @Description: 修改特殊节假日
+	 * @author Easong
+	 * @param @param obSpecialDate
+	 * @param @return 设定文件
+	 */
+	@Override
+	public JdcgResult updateobSpecialDate(OBSpecialDate obSpecialDate) {
+		if (obSpecialDate == null || obSpecialDate.getId() == null) {
+			return JdcgResult.build(500, "此特殊节假日已失效");
+		}
+		// 设置修改时间
+		obSpecialDate.setUpdatedAt(new Date());
+		obSpecialDateMapper.updateByPrimaryKeySelective(obSpecialDate);
+		return JdcgResult.ok("修改成功");
 	}
 }

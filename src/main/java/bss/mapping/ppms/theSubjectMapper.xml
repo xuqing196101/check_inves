@@ -16,12 +16,14 @@
 		<result column="PACKAGE_ID" jdbcType="VARCHAR" property="packageId" />
 		<result column="PROJECT_ID" jdbcType="VARCHAR" property="projectId" />
 		<result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+		<result column="TRADEMARK" jdbcType="VARCHAR" property="trademark" />
+		<result column="SERIAL_NUMBER" jdbcType="VARCHAR" property="serialNumber" />
 	</resultMap>
 	<sql id="Base_Column_List">
 		<!-- @mbggenerated -->
 		ID, DETAIL_ID, GOODS_NAME, STAND, QUALIT_STAND, ITEM, PURCHASE_COUNT,
 		UNIT_PRICE,
-		CREATED_AT, UPDATED_AT, PACKAGE_ID, PROJECT_ID,SUPPLIER_ID
+		CREATED_AT, UPDATED_AT, PACKAGE_ID, PROJECT_ID,SUPPLIER_ID,SERIAL_NUMBER,TRADEMARK
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">
@@ -93,6 +95,12 @@
 			<if test="supplierId != null">
 				SUPPLIER_ID,
 			</if>
+			<if test="serialNumber != null">
+				SERIAL_NUMBER,
+			</if>
+			<if test="trademark != null">
+				TRADEMARK,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -133,6 +141,12 @@
 			</if>
 			<if test="supplierId != null">
 				#{supplierId,jdbcType=VARCHAR},
+			</if>
+			<if test="serialNumber != null">
+				#{serialNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="trademark != null">
+				#{trademark,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -176,6 +190,12 @@
 			<if test="supplierId != null">
 				SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 			</if>
+			<if test="serialNumber != null">
+			    SERIAL_NUMBER=#{serialNumber,jdbcType=VARCHAR},
+			</if>
+			<if test="trademark != null">
+				TRADEMARK=#{trademark,jdbcType=VARCHAR},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -206,7 +226,7 @@
 		INSERT INTO T_BSS_PPMS_THE_SUBJECT
 		(DETAIL_ID, GOODS_NAME, STAND,
 		QUALIT_STAND, ITEM, PURCHASE_COUNT, UNIT_PRICE,
-		PACKAGE_ID, PROJECT_ID,SUPPLIER_ID)
+		PACKAGE_ID, PROJECT_ID,SUPPLIER_ID,SERIAL_NUMBER,TRADEMARK)
 		<foreach collection="list" item="item" index="index"
 			separator="union" close=")" open="(">
 			select
@@ -219,7 +239,10 @@
 			#{item.unitPrice,jdbcType=DECIMAL},
 			#{item.packageId,jdbcType=VARCHAR},
 			#{item.projectId,jdbcType=VARCHAR},
-			#{item.supplierId,jdbcType=VARCHAR}
+			#{item.supplierId,jdbcType=VARCHAR},
+			#{item.serialNumber,jdbcType=VARCHAR},
+			#{item.trademark,jdbcType=VARCHAR}
+			
 			from dual
 		</foreach>
 	</insert>

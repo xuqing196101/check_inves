@@ -40,7 +40,10 @@
     	<result column="prmark" property="remark" jdbcType="VARCHAR" />
     	<result column="pcreaterId" property="remark" jdbcType="VARCHAR" />
 	</collection> 
-  </resultMap>  
+  </resultMap>
+  
+  
+  
   
   <!--- 根据参数 获取竞价信息  -->  
    <select id="selectData" parameterType="Map" resultMap="ProjectResultMap">  
@@ -517,16 +520,26 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
-  <select id="selectAllOBproject" parameterType="Map" resultMap="BaseResultMap">
-  	select
+  <select id="selectAllOBproject" parameterType="Map" resultMap="ProjectResultMap">
+  	<!--  select 
+  	 	p.*,
+  	 	i.id as pid,
+  	 	i.PRODUCT_ID as PProductId,
+  	 	i.LIMITED_PRICE as plimitedPrice,
+     	i.PURCHASE_COUNT as ppurchaseCount,
+     	i.PROJECT_ID as pprojectId,
+     	i.CREATED_AT as pcreatedAt,
+     	i.UPDATED_AT as pupdatedAt,
+     	i.REMARK as prmark, 
+     	i.CREATER_ID as pcreaterId  
+     		from T_BSS_OB_PROJECT p LEFT OUTER JOIN T_BSS_OB_PRODUCT_INFO i 
+     		on p.id=i.PROJECT_ID
+      	where 1=1  -->
+    select
     <include refid="Base_Column_List" />
-    from T_BSS_OB_PROJECT where 1=1
-    <if test="userId != null and userId !=''" >
-      AND CREATER_ID = #{userId}
-    </if>
-    
+      from T_BSS_OB_PROJECT where 1=1
     <if test="name != null and name !=''" >
-      AND NAME like '%${name}%'
+      AND p.NAME like '%${name}%'
     </if>
     <if test="startTime != null and startTime !=''">
     	<![CDATA[AND START_TIME >= #{startTime}]]>

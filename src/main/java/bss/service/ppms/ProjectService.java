@@ -190,5 +190,15 @@ public interface ProjectService {
      * @throws IOException 
      */
     JSONObject submitHuanjie(User currLoginUser, String projectId, String currFlowDefineId);
+   
+    /**
+     *〈简述〉获取需要审核和审核过招标文件的项目
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param i
+     * @param project
+     * @return
+     */
+    List<Project> selectProjectByAudit(Integer i, Project project);
     
 }

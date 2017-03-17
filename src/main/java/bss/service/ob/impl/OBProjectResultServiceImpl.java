@@ -15,6 +15,7 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
 /**
  * 
@@ -140,13 +141,57 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		if(confirmInfoVo != null) {
 			confirmInfoVo.setBidProductList(productList);
 		}
-		return oBProjectResultMapper.selectInfoByPSId(obProjectResult);
+		return confirmInfoVo;
 	}
 
 	@Override
 	public List<BidProductVo> selectProductBySupplierId(OBProjectResult obProjectResult) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+	/**
+     * <p>Description 把此供应商的状态都改为0，表示放弃</p>
+     * @author Ma Mingwei
+     * @param obProjectResult封装的条件对象
+     * @return 竞价管理-结果查询 
+     */
+	@Override
+	public int updateBySupplierId(OBProjectResult record) {
+		// TODO Auto-generated method stub
+		return oBProjectResultMapper.updateBySupplierId(record);
+	}
+
+	/**
+     * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>
+     * @author Ma Mingwei
+     * @param obProjectResult封装的条件对象
+     * @return 竞价管理-结果查询   修改了几条记录数
+     */
+	public int updateInfoBySPPIdList(List<OBProjectResult> projectResultList) {
+		// TODO Auto-generated method stub
+		int flag = 0;
+		for (OBProjectResult obProjectResult : projectResultList) {
+			flag += oBProjectResultMapper.updateInfoBySPPId(obProjectResult);
+		}
+		return flag;
+	}
+
+	/**
+     * 根据标题id获取封装的供应商信息
+     * @author Ma Mingwei
+     */
+	@Override
+	public List<SupplierProductVo> selectInfoByPID(String projectID, String supplierID) {
+		// TODO Auto-generated method stub
+		OBProjectResult oBProjectResult = new OBProjectResult();
+		oBProjectResult.setProjectId(projectID);
+		oBProjectResult.setProjectId(supplierID);
+		List<SupplierProductVo> spVo = oBProjectResultMapper.selectInfoByPID(projectID); 
+		for (SupplierProductVo supplierProductVo : spVo) {
+			List<BidProductVo> bidProductList = oBProjectResultMapper.selectProductBySupplierId(oBProjectResult);
+		}
+		return spVo;
 	}
 
 }

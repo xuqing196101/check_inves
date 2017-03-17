@@ -17,13 +17,27 @@ import com.github.pagehelper.PageInfo;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.sms.Supplier;
+import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.PurchaseContract;
+import bss.model.pms.CollectPlan;
+import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectTask;
+import bss.model.ppms.SupplierCheckPass;
+import bss.model.ppms.Task;
 import bss.service.cs.PurchaseContractService;
+import bss.service.pms.CollectPlanService;
+import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.ProjectService;
+import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SupplierCheckPassService;
+import bss.service.ppms.TaskService;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -50,6 +64,22 @@ public class ContractSupervisionController {
     private UploadService uploadService;
     @Autowired
     private DownloadService downloadService;
+    @Autowired
+    private SupplierCheckPassService supplierCheckPassService;
+    @Autowired
+    private ProjectService projectService;
+    @Autowired
+    private ProjectTaskService projectTaskService;
+    @Autowired
+    private PurchaseRequiredService requiredService;
+    @Autowired
+    private TaskService taskService;
+    @Autowired
+    private CollectPlanService collectPlanService;
+    @Autowired
+    private PurchaseDetailService purchaseDetailService;
+    @Autowired
+    private UserServiceI userService;
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
 		if(page==null){
@@ -122,6 +152,63 @@ public class ContractSupervisionController {
 	public String detailContract(Model model, PurchaseContract purCon,Integer page){
 		PurchaseContract purchaseContract = purchaseContractService.selectById(purCon.getId());
 		model.addAttribute("contract",purchaseContract);
+		List<SupplierCheckPass> SupplierCheckPass = supplierCheckPassService.getByContractId(purchaseContract.getId());
+		Project project=null;
+		if(SupplierCheckPass!=null&&SupplierCheckPass.size()>0){
+			for(SupplierCheckPass pass:SupplierCheckPass){
+			}
+			String projectId = SupplierCheckPass.get(0).getProjectId();
+			project = projectService.selectById(projectId);
+			model.addAttribute("project",project);
+		}
+		 // 根据项目ID查询中间表，然后查询采购计划表
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("projectId", project.getId());
+        List<CollectPlan> list = new ArrayList<CollectPlan>();
+        List<PurchaseRequired> list2 = new ArrayList<PurchaseRequired>();
+        List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
+        if (projectTasks != null && projectTasks.size() > 0) {
+            for (ProjectTask projectTask : projectTasks) {
+                Task task = taskService.selectById(projectTask.getTaskId());
+                CollectPlan collectPlan = collectPlanService.queryById(task.getCollectId());
+                collectPlan.setUpdatedAt(task.getGiveTime());
+                 List<PurchaseDetail> details = purchaseDetailService.getUnique(task.getCollectId());
+                  for (PurchaseDetail detail : details) { 
+                      if("1".equals(detail.getParentId())){
+                          PurchaseRequired required = requiredService.queryById(detail.getId());
+                          list2.add(required);
+                          break;
+                      } 
+                  }
+                 
+                list.add(collectPlan);
+            }
+        }
+        
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++ ) {
+                try {
+                    User user = userService.getUserById(list.get(i).getUserId());
+                    list.get(i).setUserId(user.getRelName());
+                    list.get(i).setPurchaseId(user.getOrgName());
+                } catch (Exception e) {
+                	list.get(i).setUserId("");
+                }
+            }
+        }
+        if (list2 != null && list2.size() > 0) {
+            for (int i = 0; i < list2.size(); i++ ) {
+                try {
+                    User user = userService.getUserById(list2.get(i).getUserId());
+                    list2.get(i).setUserId(user.getRelName());
+                } catch (Exception e) {
+                    list2.get(i).setUserId("");
+                }
+            }
+           
+        }
+        model.addAttribute("list", list);
+        model.addAttribute("lists", list2);
 		return "sums/ss/contractSupervision/contractSupervision";
 	}
 	@RequestMapping(value="/filePage",produces = "text/html;charset=UTF-8")
@@ -135,6 +222,22 @@ public class ContractSupervisionController {
     	}
     	model.addAttribute("id", id);
 		return "sums/ss/contractSupervision/filePage";
+	}
+	@RequestMapping(value="/contractDateil",produces="text/html;charset=UTF-8")
+	public String contractDateil(Model model,String id){
+		//根据合同id查询合同信息
+		PurchaseContract purchaseContract = purchaseContractService.selectById(id);
+		model.addAttribute("contract",purchaseContract);
+		//根据合同id查询中标供应商，包，项目信息,如果合并生成合同则有两条相同的合同id
+		List<SupplierCheckPass> SupplierCheckPass = supplierCheckPassService.getByContractId(purchaseContract.getId());
+		if(SupplierCheckPass!=null&&SupplierCheckPass.size()>0){
+			for(SupplierCheckPass pass:SupplierCheckPass){
+			}
+			String projectId = SupplierCheckPass.get(0).getProjectId();
+			Project project = projectService.selectById(projectId);
+			model.addAttribute("project",project);
+		}
+		return "sums/ss/contractSupervision/contractdateil";
 	}
 	
 }

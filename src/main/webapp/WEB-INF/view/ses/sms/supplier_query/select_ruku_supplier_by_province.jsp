@@ -399,7 +399,7 @@
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}">${list.supplierName }</a>
 								</td>
-								<td class="tc">${list.contactName }</td>
+								<td class="">${list.contactName }</td>
 								<%-- <td class="tc">${list.level }</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
@@ -408,15 +408,15 @@
 								<td class="tc">
 									<%-- <c:if test="${list.status==-1 }">暂存</c:if>
 									<c:if test="${list.status==0 }">待审核</c:if> --%>
-									<c:if test="${list.status==1 }">审核通过</c:if>
+									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<%-- <c:if test="${list.status==2 }">审核退回修改</c:if>
 									<c:if test="${list.status==3 }">审核未通过</c:if> --%>
-									<c:if test="${list.status==4 }">待复核</c:if>
-									<c:if test="${list.status==5 }">复核通过</c:if>
-									<c:if test="${list.status==6 }">复核未通过</c:if>
-									<c:if test="${list.status==7 }">待考察</c:if>
-									<c:if test="${list.status==8 }">考察合格</c:if>
-									<c:if test="${list.status==9 }">考察不合格</c:if>
+									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
+									<c:if test="${list.status==5 }"><span class="label rounded-2x label-u">复核通过</span></c:if>
+									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
+									<c:if test="${list.status==7 }"><span class="label rounded-2x label-dark">待考察</span></c:if>
+									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
+									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 								</td>
 								<td class="tc">${list.businessType }</td>
 							</tr>

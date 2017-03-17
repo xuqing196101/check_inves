@@ -94,18 +94,36 @@
 					return;
 				}
 			}
-			$.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
-				if (data.status == 200) {
-					layer.confirm(data.data,{
-						btn:['确定']
-					},function(){
-							window.location.href="${pageContext.request.contextPath}/supplierQuote/list.html";
-						}
-					) 
-				}
-				if(data.status == 500){
-					layer.alert(data.msg);
-				}
+			
+			layer.confirm('您确认要提交吗？', {
+			    btn: ['确定','取消'], //按钮
+			    shade: false //不显示遮罩
+			}, function(index){
+			    layer.close(index);
+				$.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
+					if (data.status == 200) {
+						layer.confirm(data.data,{
+							btn:['确定']
+						},function(){
+								window.location.href="${pageContext.request.contextPath}/supplierQuote/list.html";
+							}
+						) 
+					}
+					if(data.status == 500){
+						layer.alert(data.msg);
+					}
+				});
+			});
+		}
+		
+		// 返回
+		function forWord(){
+			layer.confirm('您确认要退出吗？', {
+			    btn: ['确认','取消'], //按钮
+			    shade: false //不显示遮罩
+			}, function(index){
+			    layer.close(index);
+			    window.history.go(-1);        // 返回+刷新  
 			});
 		}
 		
@@ -145,7 +163,7 @@
 				  <tr>
 				    <td class="tc">竞价标题</td>
 				    <td class="tc">${ obProject.name }</td>
-				    <td class="tc">交货截止时间</td>
+				    <td class="tc">交货时间</td>
 				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 				  </tr>
 				  <tr>
@@ -245,7 +263,7 @@
   </form>
 	<div class="col-md-12 clear tc mt10">
    		<button class="btn btn-windows save" onclick="confirm()">提交</button>
-   		<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   		<button class="btn btn-windows back" type="button" onclick="forWord()">返回</button>
    	</div>
  </div>
 </body>

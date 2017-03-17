@@ -121,4 +121,5 @@ public interface SupplierCheckPassService {
  * @param priceRatios 
    */
   void changeSupplierWonTheBidding(String packageId, String priceRatios);
+  List<SupplierCheckPass> getByContractId(String contractId);
 }

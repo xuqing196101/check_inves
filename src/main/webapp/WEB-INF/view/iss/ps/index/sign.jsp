@@ -258,7 +258,7 @@
   		<div class="row">
 
   			<div class='login-logo col-md-8 col-sm-6 col-xs-12'>
-  			  <a href="${pageContext.request.contextPath}/index/selectIndexNews.html">
+  			  <a href="${pageContext.request.contextPath}/">
   				<img src="${pageContext.request.contextPath}/public/portal/images/logo.png" width="50%" height="90%" />
   			  </a>
   			</div>

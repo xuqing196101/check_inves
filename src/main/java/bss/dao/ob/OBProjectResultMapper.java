@@ -5,6 +5,8 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.SupplierProductVo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -88,15 +90,37 @@ public interface OBProjectResultMapper {
     List<OBProjectResult> selectNotSuppler(String projectID);
     /**
      * 获取是否第二轮
-     * 
+     * @author Ma Mingwei
      */
     List<OBProjectResult> selectSecondRound(String projectID);
     
     /**
+     * 根据标题id获取封装的供应商信息
+     * @author Ma Mingwei
+     */
+    List<SupplierProductVo> selectInfoByPID(String projectID);
+    
+    /**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
      * @author Ma Mingwei
-     * @param obProjectResult
+     * @param obProjectResult  封装的条件对象
      * @return 竞价管理-结果查询 页面信息封装对象
      */
     ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
+    
+    /**
+     * <p>Description 把此供应商的状态都改为0，表示放弃</p>
+     * @author Ma Mingwei
+     * @param obProjectResult封装的条件对象
+     * @return 竞价管理-结果查询 
+     */
+    int updateBySupplierId(OBProjectResult record);
+    
+    /**
+     * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>
+     * @author Ma Mingwei
+     * @param obProjectResult封装的条件对象
+     * @return 竞价管理-结果查询   修改了几条记录数
+     */
+    int updateInfoBySPPId(OBProjectResult record);
 }

@@ -159,10 +159,7 @@
 						<tr>
 							<!-- <th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th> -->
 							<th class="info w50">序号</th>
-							<!-- <th class="info">合同编号</th> -->
 							<th class="info">产品名称</th>
-							<!-- <th class="info">技术参数</th>
-							<th class="info">合同金额（元）</th> -->
 							<th class="info">供应商名称</th>
 							<th class="info">详情</th>
 						</tr>

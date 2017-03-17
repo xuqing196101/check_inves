@@ -1,5 +1,6 @@
 package bss.model.ppms;
 
+
 public class Reason {
   
   
@@ -64,6 +65,4 @@ public class Reason {
   public void setFinalReason(String finalReason) {
     this.finalReason = finalReason;
   }
- 
-  
 }

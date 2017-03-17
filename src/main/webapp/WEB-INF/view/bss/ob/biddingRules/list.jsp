@@ -66,6 +66,27 @@
 		   }
 	}
 	
+	//修改
+    function edit() {
+       var id = [];
+	   $('input[name="chkItem"]:checked').each(function() {
+	   		id.push($(this).val());
+	   });
+	   if(id.length == 1) {
+        	window.location.href = '${pageContext.request.contextPath}/obrule/editobRule.html?id=' + id;
+       } else if(id.length > 1) {
+          layer.alert("只能选择一个", {
+            offset: ['222px', '255px'],
+            shade: 0.01,
+          });
+	   } else {
+          layer.alert("请选择需要修改的竞价规则", {
+            offset: ['222px', '255px'],
+            shade: 0.01,
+          });
+        }
+    }
+	
 	/* 删除 */
 	function del(){
 		var id = [];
@@ -76,7 +97,7 @@
 		if(id.length > 0) {
 			layer.confirm('您确定要删除吗?', {
 				title: '提示',
-				offset: ['222px', '360px'],
+				offset: ['222px', '255px'],
 				shade: 0.01
 			}, function(index) {
 				layer.close(index);
@@ -102,7 +123,7 @@
 			});
 		} else {
 			layer.alert("请选择要删除的版块", {
-				offset: ['222px', '360px'],
+				offset: ['222px', '255px'],
 				shade: 0.01
 			});
 		}
@@ -143,12 +164,12 @@
    			});
         } else if(id.length > 1) {
           layer.alert("只能选择一个", {
-            offset: ['222px', '390px'],
+            offset: ['222px', '255px'],
             shade: 0.01
           });
         } else {
           layer.alert("请选择要设置的默认项", {
-            offset: ['222px', '390px'],
+            offset: ['222px', '255px'],
             shade: 0.01
           });
         }
@@ -215,6 +236,7 @@
      <div class="col-md-12 pl20 mt10">
 		<button class="btn btn-windows add" onclick="createOBRules()">创建竞价规则</button>
 		<button class="btn" onclick="setDefault()">设为默认</button>
+		<button class="btn btn-windows edit" onclick="edit()">修改 </button>
 		<button class="btn btn-windows delete" onclick="del()">删除</button>
 	</div>  
 	<div class="content table_box">
