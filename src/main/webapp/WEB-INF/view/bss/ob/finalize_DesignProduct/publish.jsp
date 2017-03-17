@@ -1,13 +1,14 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file="/WEB-INF/view/common/tags.jsp"%>
 <!DOCTYPE HTML>
 <html>
-  <head>
-   <%@ include file="/WEB-INF/view/common.jsp" %>
-   <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
+<head>
+<%@ include file="/WEB-INF/view/common.jsp"%>
+<link
+	href="${pageContext.request.contextPath }/public/select2/css/select2.css"
+	rel="stylesheet" />
 <title>发布定型产品页面</title>
 <script type="text/javascript">
-
 	//加载采购机构 下拉数据
 	$(function(){
 		$.ajax({
@@ -26,13 +27,40 @@
 			}
 		});
 		
-		/* 加载目录信息 */
+		intiTree();
+
+	});
+	
+/** 判断是否为根节点 */
+    function isRoot(node){
+    	if (node.pId == 0){
+    		return true;
+    	} 
+    	return false;
+    }
+ 
+ /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (isRoot(treeNode)){
+  		  layer.msg("不可选择根节点");
+  		  return;
+  	  }
+	  if(!treeNode.isParent) {
+		  $("#citySel4").val(treeNode.name);
+          $("#categorieId4").val(treeNode.id);
+          $("#categoryLevel").val(treeNode.level+1);
+          hideMenu();
+	  }
+    }
+ 
+  function intiTree(){
+	  /* 加载目录信息 */
 		var datas;
 		var setting={
 				   async:{
 							autoParam:["id"],
 							enable:true,
-							url:"${pageContext.request.contextPath}/category/createtree.do",
+							url:"${pageContext.request.contextPath}/category/createtreeById.do",
 							otherParam:{"otherParam":"zTreeAsyncTest"},  
 							dataType:"json",
 							type:"get",
@@ -61,35 +89,12 @@
 					   },
 		         };
 	    $.fn.zTree.init($("#treeDemo"),setting,datas);
-
-	});
-	
-/** 判断是否为根节点 */
-    function isRoot(node){
-    	if (node.pId == 0){
-    		return true;
-    	} 
-    	return false;
-    }
- 
- /*点击事件*/
-    function zTreeOnClick(event,treeId,treeNode){
-  	  if (isRoot(treeNode)){
-  		  layer.msg("不可选择根节点");
-  		  return;
-  	  }
-	  if (treeNode) {
-		  $("#citySel4").val(treeNode.name);
-          $("#categorieId4").val(treeNode.id);
-          $("#categoryLevel").val(treeNode.level+1);
-          hideMenu();
-	  }
-    }
+  }
  
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "440px", top: "250px"}).slideDown("fast");
+		$("#menuContent").css({left: "417px", top: "250px"}).slideDown("fast");
 		$("body").bind("mousedown", onBodyDown);
 	}
     function hideMenu() {
@@ -139,123 +144,151 @@
 	function pcategory(){
 		$("#pcategory").html("");
 	}
+	
+	function search(id){
+		
+		var name=$("#"+id).val();
+		if(name!=""){
+		 var zNodes;
+			var zTreeObj;
+			var setting = {
+					async:{
+						autoParam:["id"],
+						enable:true,
+						url: "${pageContext.request.contextPath}/category/createtreeById.do"
+					},
+				data : {
+					simpleData : {
+						enable : true,
+						idKey: "id",
+						pIdKey: "parentId",
+					}
+				},
+				callback: {
+					onClick: zTreeOnClick
+				},view: {
+					showLine: true
+				}
+			};
+			// 加载中的菊花图标
+			 var loading = layer.load(1);
+			
+				$.ajax({
+					url: "${pageContext.request.contextPath}/category/createtreeById.do",
+					data: { "name" : encodeURI(name)},
+					async: false,
+					dataType: "json",
+					success: function(data){
+						if (data.length == 1) {
+							layer.msg("没有符合查询条件的产品类别信息！");
+						} else {
+							zNodes = data;
+							zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+							zTreeObj.expandAll(true);//全部展开
+						}
+						// 关闭加载中的菊花图标
+						
+						layer.close(loading);
+						
+					}
+				});
+		}else{
+			intiTree();
+		}
+	}
 </script>
 </head>
 <body>
-<!--面包屑导航开始-->
-   <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li><li class="active"><a href="javascript:void(0)">发布定型产品</a></li>
-		</ul>
-        <div class="clear"></div>
-      </div>
-   </div>
-   <!-- 发布定型产品页面开始 -->
-  <div class="wrapper mt10">
-  <div class="container">
-  	<div class="headline-v2">
-     	<h2>发布定型产品</h2>
-	</div> 
-  <!-- 	<div class="mt10">
-    </div>  -->
-    <div class="content table_box">
- 		 <table class="table table-bordered">
-			    <tbody>
-				  <tr>
-				    <td class="info" width="18%"><div class="star_red">*</div>产品代码</td>
-				    <td width="32%">
-				    	<input id="code" name="" value="${obProduct.code }" type="text" class="w230 mb0" onmousedown="codeover()">
-				    	<div class="star_red" id = "pcode">${error_code }</div>
-				    </td>
-				    <td class="info" width="18%"><div class="star_red">*</div>产品名称</td>
-				    <td width="32%">
-				    	<input id="name" name="" value="${obProduct.name }" type="text" class="w230 mb0" onmousedown="nameover()">
-				    	<div class="star_red" id = "pname">${error_name }</div>
-				    </td>
-				  </tr>
-				  <tr>
-				    <td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
-				    <td width="82%" colspan="3">
-				    	<select id="orgId" name="supplierId" style="width: 25.5%;" onchange="pover()">
-  							<option value=""></option>
-						</select>
-						<!-- <input id = "pro" style="display:none;" value=""> -->
-						<div class="star_red" id = "ppro"></div>
-					</td>
-				  </tr>
-				   <tr>
-				    <td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
-				    <td colspan="3">
-				    	<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0"  onclick=" showMenu(); return false;" readonly>
-				    	<input id="categorieId4" name="categoryId" value="${cId}" type="hidden" class="w230 mb0 border0" >
-				    	<input id="categoryLevel" name="categoryLevel" value="${obProduct.productCategoryLevel}" type="hidden" class="w230 mb0 border0" >
-				    	<div class="star_red" id = "pcategory">${error_category }</div>
-				    </td>
-				  </tr>
-				  <tr>
-				    <td class="info">规格型号</td>
-				    <td colspan="3">
-				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
-        					<textarea id = "standardModel" name="" class="w100p" style="height:130px">${obProduct.standardModel }</textarea>
-       					</div>
-       					<div class="star_red">${error_standardModel }</div>
-				   	</td>
-				  </tr>
-				  <tr>
-				    <td class="info">质量技术标准</td>
-				    <td colspan="3">
-				   		<div class="col-md-12 col-sm-12 col-xs-12 p0">
-        					<textarea id = "qualityTechnicalStandard" name="" class="w100p" style="height:130px">${obProduct.qualityTechnicalStandard }</textarea>
-       					</div>
-       					<div class="star_red">${error_quality }</div>
-				   	</td>
-				  </tr>
-				 </tbody>
-			 </table>
+	<!--面包屑导航开始-->
+	<div class="margin-top-10 breadcrumbs ">
+		<div class="container">
+			<ul class="breadcrumb margin-left-0">
+				<li><a href="javascript:void(0)"> 首页</a></li>
+				<li><a href="javascript:void(0)">保障作业</a></li>
+				<li><a href="javascript:void(0)">定型产品竞价</a></li>
+				<li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
+				<li class="active"><a href="javascript:void(0)">发布定型产品</a></li>
+			</ul>
+			<div class="clear"></div>
+		</div>
+	</div>
+	<!-- 发布定型产品页面开始 -->
+	<div class="wrapper mt10">
+		<div class="container">
+			<div class="headline-v2">
+				<h2>发布定型产品</h2>
+			</div>
+			<div class="content table_box">
+				<table class="table table-bordered">
+					<tbody>
+						<tr>
+							<td class="info" width="18%"><div class="star_red">*</div>产品代码</td>
+							<td width="32%"><input id="code" name=""
+								value="${obProduct.code }" type="text" class="w230 mb0"
+								onmousedown="codeover()">
+								<div class="star_red" id="pcode">${error_code }</div></td>
+							<td class="info" width="18%"><div class="star_red">*</div>产品名称</td>
+							<td width="32%"><input id="name" name=""
+								value="${obProduct.name }" type="text" class="w230 mb0"
+								onmousedown="nameover()">
+								<div class="star_red" id="pname">${error_name }</div></td>
+						</tr>
+						<tr>
+							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
+							<td width="82%" colspan="3"><select id="orgId"
+								name="supplierId" style="width: 25.5%;" onchange="pover()">
+									<option value=""></option>
+							</select> 
+								<div class="star_red" id="ppro"></div></td>
+						</tr>
+						<tr>
+							<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
+							<td colspan="3"><input id="citySel4" name=""
+								value="${categoryName }" type="text" class="w230 mb0"
+								onclick=" showMenu(); return false;" readonly> <input
+								id="categorieId4" name="categoryId" value="${cId}" type="hidden"
+								class="w230 mb0 border0"> <input id="categoryLevel"
+								name="categoryLevel" value="${obProduct.productCategoryLevel}"
+								type="hidden" class="w230 mb0 border0">
+								<div class="star_red" id="pcategory">${error_category }</div></td>
+						</tr>
+						<tr>
+							<td class="info">规格型号</td>
+							<td colspan="3">
+								<div class="col-md-12 col-sm-12 col-xs-12 p0">
+									<textarea id="standardModel" name="" class="w100p"
+										style="height: 130px">${obProduct.standardModel }</textarea>
+								</div>
+								<div class="star_red">${error_standardModel }</div>
+							</td>
+						</tr>
+						<tr>
+							<td class="info">质量技术标准</td>
+							<td colspan="3">
+								<div class="col-md-12 col-sm-12 col-xs-12 p0">
+									<textarea id="qualityTechnicalStandard" name="" class="w100p"
+										style="height: 130px">${obProduct.qualityTechnicalStandard }</textarea>
+								</div>
+								<div class="star_red">${error_quality }</div>
+							</td>
+						</tr>
+					</tbody>
+				</table>
 			</div>
 			<div class="col-md-12 clear tc mt10">
-	    		<button class="btn btn-windows save" type="button" onclick = "sub(1)">暂存</button>
-	    		<button class="btn btn-windows apply" type="button" onclick = "sub(2)">发布</button>
-	    		<button class="btn btn-windows back" type="button" onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
+				<button class="btn btn-windows save" type="button" onclick="sub(1)">暂存</button>
+				<button class="btn btn-windows apply" type="button" onclick="sub(2)">发布</button>
+				<button class="btn btn-windows back" type="button"
+					onclick="window.location.href = '${pageContext.request.contextPath}/product/list.html'">返回</button>
 			</div>
+		</div>
 	</div>
-  </div>
-  
-  <!-- 目录框 -->
+
+	<!-- 目录框 -->
 	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<ul id="treeDemo" class="ztree slect_option"></ul>
+		<input type="text" id="search" class="fl m0">
+		<button class="btn ml5" type="button" onclick="search('search')">查询</button>
+		<ul id="treeDemo" class="ztree slect_option clear"></ul>
 	</div>
-  <!-- 选择框弹出 -->
-  <%-- <div id="openDiv" class="dnone layui-layer-wrap" >
-	<div class="col-md-12 col-sm-12 col-xs-12 mt20">
-	 <table class="table table-bordered table-condensed table-hover table-striped">
-		<thead>
-		<tr>
-		  <th class="w30 info">选择</th>
-		  <th class="w30
-		  
-		   info">序号</th>
-		  <th class="info" width="38%">单位名称</th>
-		</tr>
-		</thead>
-		<tbody>
-		<c:forEach items="${purchaseDepList }" var="purchase" varStatus="vs">
-			<c:if test="${purchase.depName != null}">
-		<tr>
-		  <td class="tc w30"><input type="checkbox" name="chkItem" value="${purchase.id}" /></td>
-		  <td class="tc w30">${vs.index+1}</td>
-		  <td>${purchase.depName}</td>
-		</tr></c:if>
-		</c:forEach>
-	  </tbody>
-	</table>
-    <div class="tc mt10 col-md-12">
-      <input class="btn" id="inputb" name="addr" onclick="ok()" value="确定" type="button"> 
-	  <input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
-    </div>
-  </div>
- </div> --%>
 </body>
 </html>

@@ -17,6 +17,7 @@ import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseOrg;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import bss.controller.base.BaseController;
 import bss.model.pms.PurchaseRequired;
 import bss.service.pms.PurchaseRequiredService;
 
@@ -34,7 +35,7 @@ import common.constant.StaticVariables;
 @Controller
 @Scope("prototype")
 @RequestMapping("/supervision")
-public class DemandSupervisionController {
+public class DemandSupervisionController extends BaseController{
 
 	// 需求计划服务
 	@Autowired
@@ -83,6 +84,8 @@ public class DemandSupervisionController {
 		if (page == null) {
 			page = StaticVariables.DEFAULT_PAGE;
 		}
+		
+		
 		//获取用户角色
 		List<Role> roles = user.getRoles();
 		boolean bool = false;
@@ -98,8 +101,8 @@ public class DemandSupervisionController {
 		}
 		
 		List<PurchaseRequired> list = purchaseRequiredService.query(
-				purchaseRequired, page);
-		model.addAttribute("info", new PageInfo<PurchaseRequired>(list));
+				purchaseRequired, page == null ? 1 : page);
+		model.addAttribute("list", new PageInfo<PurchaseRequired>(list));
 		model.addAttribute("inf", purchaseRequired);
 
 		Map<String, Object> map = new HashMap<String, Object>();

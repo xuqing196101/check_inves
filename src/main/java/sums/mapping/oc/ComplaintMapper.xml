@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="sums.mapper.oc.ComplaintMapper">
+  <resultMap id="BaseResultMap" type="sums.model.oc.Complaint">
+   
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="TYPE" jdbcType="DECIMAL" property="type" />
+    <result column="COMPLAINT_OBJECT" jdbcType="VARCHAR" property="complaintObject" />
+    <result column="COMPLAINT_MATTER" jdbcType="VARCHAR" property="complaintMatter" />
+    <result column="STATUS" jdbcType="DECIMAL" property="status" />
+    <result column="RESION" jdbcType="VARCHAR" property="resion" />
+    <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
+    <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
+    <result column="CREATER_ID" jdbcType="VARCHAR" property="createrId" />
+  </resultMap>
+  <sql id="Base_Column_List">
+    <!--
+    表中所有字段
+    -->
+    ID, NAME, TYPE, COMPLAINT_OBJECT, COMPLAINT_MATTER, STATUS, RESION, IS_DELETED, CREATED_AT, 
+    UPDATED_AT,CREATER_ID
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    <!--
+    @mbggenerated  查询
+    -->
+    select 
+    <include refid="Base_Column_List" />
+    from T_SUMS_OC_COMPLAINT
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    <!--
+    @mbggenerated  删除
+    -->
+    delete from T_SUMS_OC_COMPLAINT
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="sums.model.oc.Complaint">
+    <!--
+    @mbggenerated  插入
+    -->
+    insert into T_SUMS_OC_COMPLAINT (ID, NAME, TYPE, 
+      COMPLAINT_OBJECT, COMPLAINT_MATTER, STATUS, 
+      RESION, IS_DELETED, CREATED_AT, 
+      UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
+      #{complaintObject,jdbcType=VARCHAR}, #{complaintMatter,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
+      #{resion,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
+      #{updatedAt,jdbcType=DATE})
+  </insert>
+  <insert id="insertSelective" parameterType="sums.model.oc.Complaint">
+    <!--
+    @mbggenerated
+    -->
+    insert into T_SUMS_OC_COMPLAINT
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="type != null">
+        TYPE,
+      </if>
+      <if test="complaintObject != null">
+        COMPLAINT_OBJECT,
+      </if>
+      <if test="complaintMatter != null">
+        COMPLAINT_MATTER,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+      <if test="resion != null">
+        RESION,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="complaintObject != null">
+        #{complaintObject,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintMatter != null">
+        #{complaintMatter,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="resion != null">
+        #{resion,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=DATE},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="sums.model.oc.Complaint">
+    <!--
+    @mbggenerated  更新
+    -->
+    update T_SUMS_OC_COMPLAINT
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="type != null">
+        TYPE = #{type,jdbcType=DECIMAL},
+      </if>
+      <if test="complaintObject != null">
+        COMPLAINT_OBJECT = #{complaintObject,jdbcType=VARCHAR},
+      </if>
+      <if test="complaintMatter != null">
+        COMPLAINT_MATTER = #{complaintMatter,jdbcType=VARCHAR},
+      </if>
+      <if test="status != null">
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="resion != null">
+        RESION = #{resion,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=DATE},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=DATE},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="sums.model.oc.Complaint">
+    <!--
+    @mbggenerated
+    -->
+    update T_SUMS_OC_COMPLAINT
+    set NAME = #{name,jdbcType=VARCHAR},
+      TYPE = #{type,jdbcType=DECIMAL},
+      COMPLAINT_OBJECT = #{complaintObject,jdbcType=VARCHAR},
+      COMPLAINT_MATTER = #{complaintMatter,jdbcType=VARCHAR},
+      STATUS = #{status,jdbcType=DECIMAL},
+      RESION = #{resion,jdbcType=VARCHAR},
+      IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=DATE},
+      UPDATED_AT = #{updatedAt,jdbcType=DATE}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+  <select id="selectAllComplaint"  resultMap="BaseResultMap">
+    select 
+   <include refid="Base_Column_List" />
+    from T_SUMS_OC_COMPLAINT
+  </select>
+  
+  
+</mapper>

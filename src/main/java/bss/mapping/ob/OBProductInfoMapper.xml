@@ -103,6 +103,16 @@
   		PROJECT_ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <!-- 根据 竞价id 获取竞价产品 -->
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT 
+  		<include refid="Base_Column_List" />
+  	FROM 
+  		T_BSS_OB_PRODUCT_INFO 
+  	WHERE 
+  		PROJECT_ID = #{id,jdbcType=VARCHAR}
+  </select>
+  
    <select id="selectByCreaterId" resultMap="BaseResultMap" parameterType="Map" >
     select 
     <include refid="Base_Column_List" />

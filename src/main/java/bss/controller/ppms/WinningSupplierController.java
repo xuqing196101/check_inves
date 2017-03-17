@@ -845,7 +845,7 @@ public class WinningSupplierController extends BaseController {
    * @return
    */
   @RequestMapping("/inputList")
-  public String inputList(Model model, String supplierId, String packageId,String projectId,String pid){
+  public String inputList(Model model,String quote, String supplierId, String packageId,String projectId,String pid){
 	model.addAttribute("supplierId", supplierId);
     model.addAttribute("packageId", packageId);
     model.addAttribute("projectId", projectId);

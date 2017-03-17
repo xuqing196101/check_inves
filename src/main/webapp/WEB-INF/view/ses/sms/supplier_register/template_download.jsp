@@ -27,7 +27,7 @@
 
 			//下载
 			function downloadTable() {
-				var index = layer.load(1);
+			 	var index = layer.load(1);
 				var supplierId = "${currSupplier.id}";
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/isPass.do",
@@ -37,20 +37,24 @@
 					type: "post",
 					success: function(data) {
 						if (data == "1") {
-							$.ajax({
+							/* $.ajax({
 								url: "${pageContext.request.contextPath}/expert/getSupplierInfo.do",
 								data: {
 									"supplierId": supplierId
 								},
 								type: "post",
 								dataType: "json",
-								success: function(supplier) {
-									layer.close(index);
-									var supplierJson = JSON.stringify(supplier);
+								success: function(supplier) { */
+									//alert("测试");
+								//	layer.close(index);
+									/* var supplierJson = JSON.stringify(supplier);
 									$("#supplierJson").val(supplierJson);
+									$("#download_form").submit(); */
+									layer.close(index);
+									$("#supplierJson").val(supplierId);
 									$("#download_form").submit();
-								}
-							});
+						/* 		}
+							}); */
 						} else {
 							layer.msg("近3年加权平均净资产不满足物资销售型供应商的要求！");
 							layer.close(index);

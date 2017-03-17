@@ -796,7 +796,7 @@ public class ExpExtractRecordController extends BaseController {
     if ("1".equals(ids[2]) || "2".equals(ids[2])){
       ProjectExtract expExtRelate = extractService.getExpExtRelate(ids[0]);
 
-      if ("1".equals(expExtRelate.getExpert().getStatus())){
+      if ("4".equals(expExtRelate.getExpert().getStatus())){
         /**
          * 推送
          */
@@ -824,7 +824,7 @@ public class ExpExtractRecordController extends BaseController {
         todosService.insert(todos );
         Expert expert = new Expert();
         expert.setId(id);
-        expert.setStatus("4");
+        expert.setStatus("6");
         expertServices.updateByPrimaryKeySelective(expert);
       }
     }

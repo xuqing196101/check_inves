@@ -189,14 +189,14 @@
 									<option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未通过</option>
 								</c:if>
 								<c:if test="${sign == 2}">
-									<option <c:if test="${state eq '4' or state == null}">selected</c:if> value="4">待复查</option>
-									<option <c:if test="${state eq '5'}">selected</c:if> value="5">复查通过</option>
-									<option <c:if test="${state eq '6'}">selected</c:if> value="6">复查未通过</option>
+									<option <c:if test="${state eq '1' or state == null}">selected</c:if> value="1">待复审</option>
+									<option <c:if test="${state eq '4'}">selected</c:if> value="4">复审通过</option>
+									<option <c:if test="${state eq '5'}">selected</c:if> value="5">复审未通过</option>
 								</c:if>
 								<c:if test="${sign == 3}">
-									<option <c:if test="${state eq '5' or state == null}">selected</c:if> value="5">待复审</option>
-									<option <c:if test="${state eq '7'}">selected</c:if> value="7">复审通过</option>
-									<option <c:if test="${state eq '8'}">selected</c:if> value="8">复审未通过</option>
+									<option <c:if test="${state eq '6' or state == null}">selected</c:if> value="5">待复查</option>
+									<option <c:if test="${state eq '7'}">selected</c:if> value="7">复查通过</option>
+									<option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未通过</option>
 								</c:if>
 							</select>
 						</li>
@@ -258,23 +258,23 @@
 							<c:if test="${sign == 1 and expert.status eq '3' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">退回修改</span></td>
 							</c:if>
-							<c:if test="${sign == 2 and expert.status eq '4' }">
-								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
-							</c:if>
-							<c:if test="${sign == 2 and expert.status eq '5' }">
-								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查通过</span></td>
-							</c:if>
-							<c:if test="${sign == 2 and expert.status eq '6' }">
-								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未通过</span></td>
-							</c:if>
-							<c:if test="${sign == 3 and expert.status eq '5' }">
+							<c:if test="${sign == 2 and expert.status eq '1' }">
 								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复审</span></td>
 							</c:if>
-							<c:if test="${sign == 3 and expert.status eq '7' }">
+							<c:if test="${sign == 2 and expert.status eq '4' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审通过</span></td>
 							</c:if>
-							<c:if test="${sign == 3 and expert.status eq '8' }">
+							<c:if test="${sign == 2 and expert.status eq '5' }">
 								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复审未通过</span></td>
+							</c:if>
+							<c:if test="${sign == 3 and expert.status eq '6' }">
+								<td class="tc"><span class="label rounded-2x label-u" onclick="shenhe('${expert.id}');">待复查</span></td>
+							</c:if>
+							<c:if test="${sign == 3 and expert.status eq '7' }">
+								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查通过</span></td>
+							</c:if>
+							<c:if test="${sign == 3 and expert.status eq '8' }">
+								<td class="tc"><span class="label rounded-2x label-dark" onclick="shenhe('${expert.id}');">复查未通过</span></td>
 							</c:if>
 						</tr>
 					</c:forEach>

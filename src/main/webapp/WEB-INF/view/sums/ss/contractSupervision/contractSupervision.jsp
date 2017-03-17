@@ -18,17 +18,11 @@ function openFile(id){
 function contractDateil(id){
 	location.href="${pageContext.request.contextPath }/contractSupervision/contractDateil.html?id="+id;
 }
-function clear(){ 
-	var par=parent.document.getElementsByTagName('iframe');
-	alert(par[0].contentWindow.document.body.firstChild.data)
-	par[0].contentWindow.document.open();
-	par[0].contentWindow.document.close(); 
-	par[0].contentWindow.document.body.innerHTML="3213"
-	}
+
 </script>
 </head>
 
-<body onload="clear();">
+<body>
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
 			<ul class="breadcrumb margin-left-0">

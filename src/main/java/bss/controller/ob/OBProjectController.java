@@ -38,7 +38,9 @@ import ses.model.oms.Orgnization;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
+import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
+import bss.dao.ob.OBRuleMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
@@ -46,6 +48,7 @@ import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBRule;
+import bss.model.ob.OBSupplier;
 import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProductInfoServer;
 import bss.service.ob.OBProjectResultService;
@@ -55,7 +58,9 @@ import bss.service.ob.OBSupplierQuoteService;
 import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
+import com.google.gson.Gson;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
@@ -96,7 +101,11 @@ public class OBProjectController {
 
 	@Autowired
 	private OBSupplierQuoteService obSupplierQuoteService;
+	
+	@Autowired
+	private OBRuleMapper OBRuleMapper;
 
+	
 	/***
 	 * 获取竞价信息跳转 list页
 	 * 
@@ -118,6 +127,9 @@ public class OBProjectController {
 			map.put("uid", user.getId());
 			map.put("startTime", startTime);
 			map.put("name", name);
+			PropertiesUtil config = new PropertiesUtil("config.properties");
+			PageHelper.startPage((Integer) (map.get("page")),
+					Integer.parseInt(config.getString("pageSize")));
 			List<OBProject> list = OBProjectServer.List(map);
 			PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 			model.addAttribute("info", info);
@@ -136,13 +148,13 @@ public class OBProjectController {
 	@RequestMapping("/add")
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
-		// 默认规则
-		OBRule obr = OBRuleService.selectByStatus();
+		// 获取当前 默认规则
+		 OBRule obRule = OBRuleMapper.selectByStatus();
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
+		model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
 		model.addAttribute("fileid", uuid);
-		model.addAttribute("rule", obr);
 		model.addAttribute("userId", user.getId());
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		// 标识 竞价附件
@@ -330,11 +342,33 @@ public class OBProjectController {
 			HttpServletRequest request, String fileid) {
 		String msg = "";
 		if (user != null) {
-
 			msg = OBProjectServer.saveProject(obProject, user.getId(), fileid);
 		}
 		return msg;
 
+	}
+	/***
+	 * @Description: 查询供应商并集
+	 * @author: YangHongLiang
+	 * @param 接收页面返回数据
+	 * @throws IOException
+	 * @throws Exception
+	 */
+	@RequestMapping("unionSupplier")
+	public void unionSupplier(HttpServletRequest request, HttpServletResponse response,List<String> productid) throws IOException{
+		try {
+			System.out.println(productid.size());
+			if(productid!=null&&productid.size()>0){
+			List<OBSupplier> list = OBProjectServer.selecUniontSupplier(productid);
+			response.getWriter().print(JSON.toJSONString(list).toString());
+			response.getWriter().flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			response.getWriter().close();
+		}
+		
 	}
 	
 	/** @Description: 竞价管理更新
@@ -351,7 +385,6 @@ public class OBProjectController {
 			String fileid){
 		String msg="";
 		if(user !=null){
-			
 			msg=OBProjectServer.saveProject(obProject,user.getId(),fileid);
 		}
 		return msg;
@@ -383,16 +416,13 @@ public class OBProjectController {
 				model.addAttribute("userId", user.getId());
 				model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 				// 标识 竞价附件
-				model.addAttribute("typeId",
-						DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
-				  model.addAttribute("list", obProject);
-				  model.addAttribute("listinfo", JSON.toJSONString(obProject.getObProductInfo()));
-			 }else{
-				 
+				model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+				model.addAttribute("list", obProject);
+				model.addAttribute("listinfo", JSON.toJSONString(obProject.getObProductInfo()));
 			 }
 			}
 		}
-		return "bss/ob/biddingInformation/editPublish";
+		return "bss/ob/biddingInformation/publish";
 		
 	}
 	/**
@@ -409,6 +439,7 @@ public class OBProjectController {
 	public String uploadFile(@CurrentUser User user, String planDepName,
 			MultipartFile file, String type, String planName, String planNo,
 			Model model) throws Exception {
+		
 		String fileName = file.getOriginalFilename();
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";

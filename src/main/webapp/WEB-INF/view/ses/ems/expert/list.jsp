@@ -179,7 +179,7 @@
 					layer.msg("请选择专家！", {offset: '100px'});
 				} else {
 					var id = str.split(",");
-					if(id[1] == "1" || id[1] == "4" || id[1] == "5" || id[1] == "7") {
+					if(id[1] == "4" || id[1] == "5" || id[1] == "6" || id[1] == "7" || id[1] == "8") {
 						index = layer.open({
 							type: 2, //page层
 							area: ['700px', '440px'],
@@ -193,7 +193,7 @@
 								//数组第二项即吸附元素选择器或者DOM $('#openWindow')
 						});
 					} else {
-						layer.msg("请选择审核通过的专家！", {offset: '100px'});
+						layer.msg("请选择入库的专家！", {offset: '100px'});
 					}
 
 				}
@@ -269,12 +269,12 @@
              <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
              <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
              <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
-             <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">待复查</option>
-             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复查通过</option>
-             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">复查未通过</option>
-             <%-- <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">待复审</option> --%>
-             <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复审通过</option>
-             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复审未通过</option>
+             <%-- <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">待复审</option> --%>
+             <option <c:if test="${expert.status =='4' }">selected</c:if> value="4">复审通过</option>
+             <option <c:if test="${expert.status =='5' }">selected</c:if> value="5">复审未通过</option>
+             <option <c:if test="${expert.status =='6' }">selected</c:if> value="6">待复查</option>
+             <option <c:if test="${expert.status =='7' }">selected</c:if> value="7">复查通过</option>
+             <option <c:if test="${expert.status =='8' }">selected</c:if> value="8">复查未通过</option>
            </select>
         </span>
      	 </li>
@@ -334,23 +334,23 @@
 							<c:if test="${e.status eq '3' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
 							</c:if>
-							<c:if test="${e.status eq '4' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复查</span></td>
-							</c:if>
-							<c:if test="${e.status eq '5' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复查通过</span></td>
-							</c:if>
-							<c:if test="${e.status eq '6' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复查未通过 </span></td>
-							</c:if>
-							<%-- <c:if test="${e.status eq '5' }">
+							<%-- <c:if test="${e.status eq '1' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
 							</c:if> --%>
-							<c:if test="${e.status eq '7' }">
+							<c:if test="${e.status eq '4' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复审通过</span></td>
 							</c:if>
-							<c:if test="${e.status eq '8' }">
+							<c:if test="${e.status eq '5' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复审未通过 </span></td>
+							</c:if>
+							<c:if test="${e.status eq '6' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复查</span></td>
+							</c:if>
+							<c:if test="${e.status eq '7' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复查通过</span></td>
+							</c:if>
+							<c:if test="${e.status eq '8' }">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复查未通过 </span></td>
 							</c:if>
 						</tr>
 					</c:forEach>

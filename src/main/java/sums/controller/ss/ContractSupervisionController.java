@@ -22,6 +22,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
+import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
@@ -30,6 +31,7 @@ import bss.model.ppms.Project;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
@@ -80,6 +82,10 @@ public class ContractSupervisionController {
     private PurchaseDetailService purchaseDetailService;
     @Autowired
     private UserServiceI userService;
+    @Autowired
+    private ContractRequiredService contractRequiredService;
+    
+    
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
 		if(page==null){
@@ -227,6 +233,27 @@ public class ContractSupervisionController {
 	public String contractDateil(Model model,String id){
 		//根据合同id查询合同信息
 		PurchaseContract purchaseContract = purchaseContractService.selectById(id);
+		if(purchaseContract.getPurchaseDepName()!=null){
+			Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(purchaseContract.getPurchaseDepName());
+			if(org!=null){
+				purchaseContract.setPurchaseDepName(org.getName());
+				purchaseContract.setPurchaseBankAccount_string(org.getFax());
+			}else{
+				purchaseContract.setPurchaseDepName("");
+			}
+			
+		}
+		if(purchaseContract.getSupplierDepName()!=null){
+			 Supplier supplier = supplierService.selectById(purchaseContract.getSupplierDepName());
+			 if(supplier!=null){
+				 purchaseContract.setSupplierDepName(supplier.getSupplierName());
+				 purchaseContract.setSupplierBankAccount_string(supplier.getContactFax());
+			 }else{
+				 purchaseContract.setSupplierDepName("");
+			 }
+			 
+		}
+		
 		model.addAttribute("contract",purchaseContract);
 		//根据合同id查询中标供应商，包，项目信息,如果合并生成合同则有两条相同的合同id
 		List<SupplierCheckPass> SupplierCheckPass = supplierCheckPassService.getByContractId(purchaseContract.getId());
@@ -235,8 +262,27 @@ public class ContractSupervisionController {
 			}
 			String projectId = SupplierCheckPass.get(0).getProjectId();
 			Project project = projectService.selectById(projectId);
+			//项目负责人
+			User user = userService.getUserById(project.getPrincipal());
+			if(user!=null){
+			project.setPrincipal(user.getRelName());
+			}else{
+				project.setPrincipal("");
+			}
+			//项目联系人
+			if(project.getLinkman()!=null){
+			User users = userService.getUserById(project.getLinkman());
+			if(users!=null){
+				project.setLinkman(users.getRelName());
+				}else{
+					project.setLinkman("");
+				}
+			}
 			model.addAttribute("project",project);
 		}
+		
+		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(purchaseContract.getId());
+		model.addAttribute("conRequList",conRequList);
 		return "sums/ss/contractSupervision/contractdateil";
 	}
 	

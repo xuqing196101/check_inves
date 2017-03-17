@@ -837,7 +837,8 @@ public class ExcelUtil {
 			        							boo=true;
 			        							/* 错误  注释
 			        							 * listsize=ob.getObSupplierList().size();
-			        							id=ob.getId();*/
+			        							;*/
+			        							id=ob.getId();
 			        							break;
 			        						}
 			        					}

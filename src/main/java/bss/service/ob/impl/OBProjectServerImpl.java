@@ -17,6 +17,7 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
 import bss.dao.ob.OBSupplierMapper;
@@ -24,15 +25,21 @@ import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
+import bss.model.ob.OBSpecialDate;
+import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProjectServer;
+import bss.util.BiddingStateUtil;
 import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-import common.utils.DateUtils;
 
+import common.constant.Constant;
+import common.utils.DateUtils;
+import bss.dao.ob.OBSpecialDateMapper;
 /**
  * 竞价信息管理接口实现
  * 
@@ -56,13 +63,29 @@ public class OBProjectServerImpl implements OBProjectServer {
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
 
+	/***
+	 * 竞价信息和供应商关系表
+	 */
+	@Autowired
+	private OBProjectSupplierMapper OBProjectSupplierMapper;
 	/** 竞价规则 **/
 	@Autowired
 	private OBRuleMapper OBRuleMapper;
-
+	/**特殊日期**/
+	@Autowired
+	private OBSpecialDateMapper OBSpecialDateMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
+	//定义 竞价控制类型
+		private int type=2;
+		
+		public int getType() {
+			return type;
+		}
 
+		public void setType(int type) {
+			this.type = type;
+		}
 	@Override
 	public List<OBProject> list(OBProject op) {
 		// TODO Auto-generated method stub
@@ -82,6 +105,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		PageHelper.startPage((Integer) (map.get("page")),
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBProject> list = OBprojectMapper.selectAllOBproject(map);
+		java.util.List<OBProject> afterList = BiddingStateUtil.judgeState(OBprojectMapper,list);
 		if (list != null) {
 			for (OBProject obp : list) {
 				// 获取产品集合
@@ -109,7 +133,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 			}
 		}
-		return list;
+		return afterList;
 	}
 
 	/**
@@ -133,9 +157,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * 实现 保存 竞价信息
 	 * 
 	 * @author YangHongLiang
+	 * @throws ParseException 
 	 */
 	@Override
-	public String saveProject(OBProject obProject, String userid, String fileid) {
+	public String saveProject(OBProject obProject, String userid, String fileid)  {
 		// TODO Auto-generated method stub
 		String attribute = "";
 		String show = "";
@@ -144,9 +169,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "竞价标题不能为空";
 			return toJsonProject(attribute, show);
 		}
+		if(obProject.getName().length()>101){
+			attribute = "nameErr";
+			show = "竞价标题长度过长";
+			return toJsonProject(attribute, show);
+		}
 		if (obProject.getDeliveryDeadline() == null) {
 			attribute = "deliveryDeadlineErr";
-			show = "交货截至日期不能为空";
+			show = "交货日期不能为空";
 			return toJsonProject(attribute, show);
 		}
 		if (StringUtils.isBlank(obProject.getDeliveryAddress())) {
@@ -154,15 +184,21 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "交货地点不能为空";
 			return toJsonProject(attribute, show);
 		}
+		if (obProject.getDeliveryAddress().length()>151) {
+			attribute = "deliveryAddressErr";
+			show = "交货地点长度过长";
+			return toJsonProject(attribute, show);
+		}
 		if (obProject.getTradedSupplierCount() == null) {
 			attribute = "tradedSupplierCountErr";
 			show = "成交供应商数量不能为空";
 			return toJsonProject(attribute, show);
 		}
+		
 		Integer supplierCount = obProject.getTradedSupplierCount();
-		if (supplierCount > 4 && supplierCount < 1) {
+		if (supplierCount >= 6 && supplierCount < 1) {
 			attribute = "tradedSupplierCountErr";
-			show = "成交供应商数量不能超出4少于1";
+			show = "成交供应商数量不能超出6少于1";
 			return toJsonProject(attribute, show);
 		}
 		if (obProject.getTransportFees() == null) {
@@ -170,10 +206,19 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "运杂费不能为空";
 			return toJsonProject(attribute, show);
 		}
-
+		if (obProject.getTransportFees().toString().length()>11) {
+			attribute = "transportFeesErr";
+			show = "运杂费长度过长";
+			return toJsonProject(attribute, show);
+		} 
 		if (StringUtils.isBlank(obProject.getDemandUnit())) {
 			attribute = "demandUnitErr";
 			show = "需求单位不能为空";
+			return toJsonProject(attribute, show);
+		}
+		if (obProject.getDemandUnit().length()>50) {
+			attribute = "demandUnitErr";
+			show = "需求单位长度过长";
 			return toJsonProject(attribute, show);
 		}
 		if (StringUtils.isBlank(obProject.getContactName())) {
@@ -181,16 +226,22 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "联系人不能为空";
 			return toJsonProject(attribute, show);
 		}
+		if (obProject.getContactName().length()>20) {
+			attribute = "contactNameErr";
+			show = "联系人长度过长";
+			return toJsonProject(attribute, show);
+		}
 		if (StringUtils.isBlank(obProject.getContactTel())) {
 			attribute = "contactTelErr";
 			show = "联系人电话不能为空";
 			return toJsonProject(attribute, show);
 		}
-		if (!StringUtils.isNumeric(obProject.getContactTel())) {
+		if (obProject.getContactTel().length()>20) {
 			attribute = "contactTelErr";
-			show = "联系人电话只能是数字";
+			show = "联系人电话长度过长";
 			return toJsonProject(attribute, show);
 		}
+		
 		if (StringUtils.isBlank(obProject.getOrgId())) {
 			attribute = "orgIdErr";
 			show = "采购机构不能为空";
@@ -206,22 +257,18 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "采购联系人不能为空";
 			return toJsonProject(attribute, show);
 		}
-		if (obProject.getStartTime() == null) {
-			attribute = "startTimeErr";
-			show = "竞价开始时间不能为空";
-			return toJsonProject(attribute, show);
-		}
-		if (obProject.getEndTime() == null) {
-			attribute = "endTimeErr";
-			show = "竞价结束时间不能为空";
-			return toJsonProject(attribute, show);
-		}
+		
 		if (StringUtils.isBlank(obProject.getContent())) {
 			attribute = "contentErr";
 			show = "竞价内容不能为空";
 			return toJsonProject(attribute, show);
 		}
-
+		if (obProject.getContent().length()>1000) {
+			attribute = "contentErr";
+			show = "竞价内容长度过长";
+			return toJsonProject(attribute, show);
+		}
+         
 		if (obProject.getProductName() == null) {
 			attribute = "buttonErr";
 			show = "竞价产品名称不能为空";
@@ -263,15 +310,129 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "竞价产品备注不能为空";
 			return toJsonProject(attribute, show);
 		}
+		if (obProject.getStatus()==null) {
+			obProject.setStatus(0);
+		}
+		
+		// 默认规则
+		 OBRule obr = OBRuleMapper.selectByStatus();
+		 if(obr ==null){
+				show = "发布竞价请先设置默认规则";
+		    return toJsonProject("attribute", show);
+		 }
+		 if(StringUtils.isBlank(obProject.getSupplieId())){
+			 show = "竞价产品有误";
+			return toJsonProject("attribute", show);
+		 }
+		 /*if(obProject.getSupplieId().size()<obr.getLeastSupplierNum()){
+			 show = "提供当前产品的供应商不能少于"+obr.getLeastSupplierNum()+"家";
+			return toJsonProject("attribute", show);
+		 }*/
+		 
+		 //获取间隔日
+		 int intervalWorkday= obr.getIntervalWorkday();
+		 //获取竞价开始 时间忽略年月日
+		 Date definiteTime=obr.getDefiniteTime();
+		 //获取报价时间
+		 int quoteTime=obr.getQuoteTime();
+		 //确认时间
+		 int confirmTime=obr.getConfirmTime();
+		 //第二轮 确认时间
+		 int confirmTimeSecond=obr.getConfirmTimeSecond();
+		 //获取当前日期
+		 Date date=new Date();
+		 //1.当前时间加上间隔日
+		  date= DateUtils.addDayDate(date, intervalWorkday);
+		  // date加上竞价开始时间   计算竞价开始时间 未加特殊节假日
+		 Date startdate=DateUtils.changeDate(date, definiteTime);
+		 
+		 // 封装map
+		 Map<String,Object> map=new HashMap<String, Object>();
+		 map.put("startDate", DateUtils.combinationDate(startdate));
+		 //根据规则 和特殊日期 节假日 组合竞价开始时间
+		 List<OBSpecialDate> specialDateList= OBSpecialDateMapper.selectBySpecialDate(map);
+		  //2.date时间加上 节假日 
+		 if(specialDateList!=null&&specialDateList.size()>0){
+			 //调用排除 特殊假期
+			 startdate= recursion(specialDateList, DateUtils.combinationDate(startdate), type, specialDateList.size());
+			 //判断是否是特殊日期上班 如果不是排除 周末假日
+			if(getType()!=3){
+				startdate=DateUtils.ignoreWeekend(startdate);
+			}
+		 }
+		 // 获取竞价结束时间  竞价开始时间+ 报价 
+		 Date endDate=DateUtils.getAddDate(startdate, quoteTime);
+		  
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
-		obProject.setId(uuid);
 		obProject.setCreatedAt(new Date());
 		obProject.setCreaterId(userid);
 		obProject.setAttachmentId(fileid);
-		OBProductInfo product = null;
+		obProject.setStartTime(startdate);
+		obProject.setEndTime(endDate);
 		List<OBProductInfo> list = new ArrayList<OBProductInfo>();
+		//如果有 id 更新数据
+		if(StringUtils.isNotBlank(obProject.getId())){
+			OBprojectMapper.updateByPrimaryKeySelective(obProject);
+			//组合 集合
+			list=splitList(list, obProject, userid);
+			for (OBProductInfo b : list) {
+				OBProductInfoMapper.deleteByPrimaryKey(b.getId());
+				OBProductInfoMapper.updateByPrimaryKeySelective(b);
+			}
+			OBProjectSupplierMapper.deleteByProjectId(obProject.getId());
+			//保存关系数据
+			addSupplier(obProject, uuid,1);
+			if(obProject.getStatus()==1){
+				OBRuleMapper.updateCount(obProject.getRuleId());
+			}
+		}else{
+			obProject.setId(uuid);
+			//组合 集合
+			list=splitList(list, obProject, userid);
+		int i = OBprojectMapper.insertSelective(obProject);
+		if (i > 0) {
+			for (OBProductInfo b : list) {
+				OBProductInfoMapper.insertSelective(b);
+			}
+			//保存关系数据
+			addSupplier(obProject, uuid,0);
+			if(obProject.getStatus()==1){
+			OBRuleMapper.updateCount(obProject.getRuleId());
+			}
+		}
+		}
+		return toJsonProject("success", "执行成功");
+	}
+	/***
+	 * 封装插入 竞价信息 供应商关系表
+	 * @param i类型区分 是否插入更新 时间
+	 */
+	private void addSupplier(OBProject obProject,String uuid,int i){
+		if(obProject.getSupplieId()!=null){
+			OBProjectSupplier supplier=null;
+			String [] list=obProject.getSupplieId().split(",");
+			for(String supp:list){
+				supplier=new OBProjectSupplier();
+				supplier.setId(UUID.randomUUID().toString().toUpperCase()
+						.replace("-", ""));
+				supplier.setCreatedAt(new Date());
+				supplier.setProjectId(uuid);
+				if(i==1){
+				supplier.setUpdatedAt(new Date());	
+				}
+				supplier.setSupplierId(supp);
+				OBProjectSupplierMapper.insertSelective(supplier);
+				System.out.println(supplier.toString());
+			}
+		}
+	}
+	/**
+	 * 拆分 集合
+	 * */
+	private List<OBProductInfo> splitList(List<OBProductInfo> list,OBProject obProject,String userid ){
+		OBProductInfo product = null;
 		// 拆分数组
 		List<String> productName = obProject.getProductName();
 		for (int i = 0; i < productName.size(); i++) {
@@ -280,26 +441,65 @@ public class OBProjectServerImpl implements OBProjectServer {
 			product = new OBProductInfo();
 			product.setId(uid);
 			product.setProductId(productName.get(i));
-			product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
-					.getProductMoney().get(i))));
-			product.setRemark(obProject.getProductRemark().get(i));
-			product.setPurchaseCount(Integer.valueOf(obProject
-					.getProductCount().get(i)));
-			product.setProjectId(uuid);
+			 if(obProject.getProductMoney()==null){
+				 product.setLimitedPrice(new BigDecimal(0));
+			 }else{
+				 product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
+						 .getProductMoney().get(i))));
+			 }
+			if(obProject.getProductRemark()==null){
+				
+			}else{
+				product.setRemark(obProject.getProductRemark().get(i));
+			}
+			if(obProject.getProductCount()==null){
+				product.setPurchaseCount(0);
+			}else{
+				product.setPurchaseCount(Integer.valueOf(obProject
+						.getProductCount().get(i)));
+			}
+			product.setProjectId(obProject.getId());
 			product.setCreatedAt(new Date());
 			product.setCreaterId(userid);
 			list.add(product);
 		}
-		int i = OBprojectMapper.insertSelective(obProject);
-		if (i > 0) {
-			for (OBProductInfo b : list) {
-				OBProductInfoMapper.insertSelective(b);
-			}
-			OBRuleMapper.updateCount(obProject.getRuleId());
-		}
-		return toJsonProject("success", "执行成功");
+		return list;
+		
 	}
-
+	/**
+     *  计算忽略 特殊
+     *  @param specialDateList 特殊日期集合
+     *  @param date 竞价时间
+     *  @param type 控制分类
+     *  @param size 集合的数量
+     *  @author YangHongLiang
+     *  @return date
+     * @throws 
+     */
+	private Date recursion(List<OBSpecialDate> specialDateList,Date start,int type,int size){
+		for(OBSpecialDate sd:specialDateList){
+			 if(type==2){
+			   if(sd.getSpecialDate().getTime()==start.getTime()){
+					if(sd.getDateType().equals("0")){//放假
+						type=2;
+						start=DateUtils.addDayDate(start, 1);
+						break;
+					}else if(sd.getDateType().equals("1")){// 上班
+						type=3;
+						start=sd.getSpecialDate();
+						break;
+					}
+			   }
+			 }
+		 }
+		 if(size>0&& type==2){
+			 size=size-1;
+			 recursion(specialDateList, start,type,size);
+		 }
+		 setType(type);
+		 return start;
+	}
+	
 	/***
 	 * 封装 验证 竞价 json
 	 */
@@ -324,7 +524,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if (list != null) {
 			for (OBProject obp : list) {
 				// 获取产品集合
-				List<OBProductInfo> slist = obp.getObProductInfo();
+				List<OBProductInfo> slist = OBProductInfoMapper.selectByProjectId(obp.getId());
 				// 存储 产品id 集合
 				List<String> pidList = new ArrayList<String>();
 				if (slist != null) {
@@ -375,13 +575,19 @@ public class OBProjectServerImpl implements OBProjectServer {
 			// 获取当前 默认规则
 			OBRule obRule = OBRuleMapper.selectByStatus();
 			for (OBProject op : getOBProject) {
+				 //确认时间
+				 int confirmTime=obRule.getConfirmTime();
+				 //第二轮 确认时间
+				 int confirmTimeSecond=obRule.getConfirmTimeSecond();
+				 
 				/** 竞价状态 0：暂存 1已发布 2竞价中 3：竞价结束 4.流拍 5待确认 **/
 				switch (op.getStatus()) {
-				case 1:// 已发布
-					int compare = DateUtils.compareDate(new Date(),
-							op.getStartTime());
+				// 已发布
+				case 1:
+					//判断   竞价结束时间 是否已到
+					int compare = DateUtils.compareDate(new Date(),op.getStartTime());
 					// 比较 竞价信息 如果等于1 那么是竞价 开始的时间
-					if (compare == 1) {
+					if (compare > -1) {
 						// 根据状态竞价中
 						OBProject upstatus = new OBProject();
 						upstatus.setStatus(2);
@@ -392,17 +598,30 @@ public class OBProjectServerImpl implements OBProjectServer {
 					break;
 				case 2:// 竞价中
 						// 根据竞价id 获取 是否 在规定的时间内 参与报价
-					int compareDate = DateUtils.compareDate(new Date(),
-							op.getEndTime());
+					int compareDate = DateUtils.compareDate(new Date(),op.getEndTime());
 					// 比较 竞价信息 如果等于1 那么是竞价 报价结束的时间
-					if (compareDate == 1) {
+					if (compareDate > -1) {
 						// 说明 已发布 的竞价信息 已经超过 报价 时间
-						List<OBResultsInfo> obresultsList = OBResultsInfoMapper
-								.selectByProjectId(op.getId());
-						// 判读 是否有竞价供应商
+						List<OBResultsInfo> obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
+						// 判断 是否有竞价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
 							for (int i = 0; i < obresultsList.size(); i++) {
-								// 生成ID
+								Integer rk[]=null;
+								int proportion=0;
+								if(op.getTradedSupplierCount()==1){
+									rk=Constant.OB_PROJECT_ONE;
+								}else if(op.getTradedSupplierCount()==2){
+									rk=Constant.OB_PROJECT_TWO;
+								}else if(op.getTradedSupplierCount()==3){
+									rk=Constant.OB_PROJECT_THREE;
+								}else if(op.getTradedSupplierCount()==4){
+									rk=Constant.OB_PROJECT_FOUR;
+								}else if(op.getTradedSupplierCount()==5){
+									rk=Constant.OB_PROJECT_FIVE;
+								}else if(op.getTradedSupplierCount()==6){
+									rk=Constant.OB_PROJECT_SIX;
+								}
+								// 生成ID 
 								String uuid = UUID.randomUUID().toString()
 										.toUpperCase().replace("-", "");
 								OBProjectResult rsult = new OBProjectResult();
@@ -414,6 +633,13 @@ public class OBProjectServerImpl implements OBProjectServer {
 								rsult.setUpdatedAt(new Date());
 								rsult.setId(uuid);
 								rsult.setCreatedAt(new Date());
+								 if(rk.toString().length()>i){
+									 proportion=rk[i];
+								 }else{
+									 proportion=0 ;
+								 }
+								rsult.setProportion(String.valueOf(proportion));
+								// 将 参与报价的供应商 插入到结果数据中
 								OBProjectResultMapper.insertSelective(rsult);
 							}
 							// 根据状态竞价中 修改竞价结束时间
@@ -421,6 +647,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							upstatus.setStatus(5);
 							upstatus.setUpdatedAt(new Date());
 							upstatus.setId(op.getId());
+							upstatus.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTime));
 							OBprojectMapper
 									.updateByPrimaryKeySelective(upstatus);
 						} else {
@@ -435,27 +662,23 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					break;
 				case 5:// 待确认
-						// 结束时间 加上 确定时间
-					Date date = DateUtils.getAddDate(op.getEndTime(),
-							obRule.getConfirmTime());
-					// 在加上 二轮确认时间
-					date = DateUtils.getAddDate(date, obRule.getConfirmTime());
 					// 根据竞价id 获取 是否 在规定的时间内 参与报价
-					int compareDate1 = DateUtils.compareDate(new Date(), date);
+					int compareDate1 = DateUtils.compareDate(new Date(), op.getEndTime());
 					// 比较 竞价信息 如果等于1 那么是竞价确认结束的时间
-					if (compareDate1 == 1) {
-						// 说明 已发布 的竞价信息 已经超过 确认 时间
-						List<OBProjectResult> prlist = OBProjectResultMapper
-								.selectNotSuppler(op.getId());
+					if (compareDate1 > -1) {
+						// 说明 已发布 的竞价信息 已经超过 确认 时间   获取全部参与报价的供应商 数据
+						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId());
 						// 临时存储交易比例
 						int temp = 0;
 						if (prlist != null) {
 							for (int i = 0; i < prlist.size(); i++) {
-								temp = temp
-										+ Integer.valueOf(prlist.get(i)
-												.getProportion());
-								if (prlist.get(i).getStatus() != 0
-										&& prlist.get(i).getStatus() != 1) {
+								String proportionString=prlist.get(i).getProportion();
+								  if(proportionString==null || proportionString==""){
+									  proportionString="0";
+								  }
+								//累加交易比例
+								temp = temp	+ Integer.valueOf(proportionString);
+								if (prlist.get(i).getStatus() == -1) {
 									OBProjectResult rsult = new OBProjectResult();
 									rsult.setStatus(0);
 									rsult.setSupplierId(prlist.get(i)
@@ -463,50 +686,25 @@ public class OBProjectServerImpl implements OBProjectServer {
 									rsult.setProjectId(prlist.get(i)
 											.getProjectId());
 									rsult.setId(prlist.get(i).getId());
-									OBProjectResultMapper
-											.updateByPrimaryKeySelective(rsult);
+									//更新 超过时间没有 确认报价的供应商
+									OBProjectResultMapper.updateByPrimaryKeySelective(rsult);
 								}
 							}
 						}
 						// 根据状态竞价中 修改竞价结束时间
 						OBProject upstatus = new OBProject();
 						// 获取是否有二轮确认
-						List<OBProjectResult> round = OBProjectResultMapper
-								.selectSecondRound(op.getId());
+						List<OBProjectResult> round = OBProjectResultMapper.selectSecondRound(op.getId());
+						// 数据不为空 说明 是第二轮
 						if(round!=null && round.size()>0){
-							if(temp<100){
-								//流拍
-						    	 upstatus.setStatus(4);
-							}else{
-							 //竞价结束
-					    	 upstatus.setStatus(3);
-							}
+							//竞价结束
+							upstatus.setStatus(3);
 						}else{
 					     if(temp<100){
 					    	 //竞价二轮 待确认
-								upstatus.setStatus(2);
-								// 获取 第一轮的供应商 数据
-								if (prlist != null) {
-									for (int i = 0; i < prlist.size(); i++) {
-										// 生成ID
-										String uuid = UUID.randomUUID()
-												.toString().toUpperCase()
-												.replace("-", "");
-										OBProjectResult or = prlist.get(i);
-										// 封装 对象
-										OBProjectResult rsult = new OBProjectResult();
-										rsult.setStatus(null);
-										rsult.setSupplierId(or.getSupplierId());
-										rsult.setProjectId(or.getProjectId());
-										rsult.setId(uuid);
-										rsult.setRanking(or.getRanking());
-										rsult.setCreatedAt(new Date());
-										rsult.setUpdatedAt(new Date());
-										// 插入第二轮 供应商 数据
-										OBProjectResultMapper
-												.insertSelective(rsult);
-									}
-								}
+								upstatus.setStatus(5);
+								//竞价结束时间 加上 二轮结束时间
+								upstatus.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
 							} else if (temp == 0) {
 								// 流拍
 								upstatus.setStatus(4);
@@ -525,6 +723,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 	}
 
+
 	/**
 	 * 更新竞价信息
 	 * 
@@ -533,164 +732,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 	@Override
 	public String updateProject(OBProject obProject, String userid, String fileid) {
 		// TODO Auto-generated method stub
-				 String attribute="";
-				 String show="";
-				if (StringUtils.isBlank(obProject.getName())) {
-					attribute = "nameErr";
-					show = "竞价标题不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getDeliveryDeadline()==null) {
-					attribute = "deliveryDeadlineErr";
-					show = "交货截至日期不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getDeliveryAddress())) {
-					attribute = "deliveryAddressErr";
-					show = "交货地点不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getTradedSupplierCount()==null) {
-					attribute = "tradedSupplierCountErr";
-					show = "成交供应商数量不能为空";
-					return toJsonProject(attribute, show);
-				}
-				Integer supplierCount = obProject.getTradedSupplierCount();
-				if (supplierCount > 4 && supplierCount < 1) {
-					attribute = "tradedSupplierCountErr";
-					show = "成交供应商数量不能超出4少于1";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getTransportFees()==null) {
-					attribute = "transportFeesErr";
-					show = "运杂费不能为空";
-					return toJsonProject(attribute, show);
-				}
-
-				if (StringUtils.isBlank(obProject.getDemandUnit())) {
-					attribute = "demandUnitErr";
-					show = "需求单位不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getContactName())) {
-					attribute = "contactNameErr";
-					show = "联系人不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getContactTel())) {
-					attribute = "contactTelErr";
-					show = "联系人电话不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (!StringUtils.isNumeric(obProject.getContactTel())) {
-					attribute = "contactTelErr";
-					show = "联系人电话只能是数字";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getOrgId())) {
-					attribute = "orgIdErr";
-					show = "采购机构不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getOrgContactTel())) {
-					attribute = "orgContactTelErr";
-					show = "采购联系人电话不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getOrgContactName())) {
-					attribute = "orgContactNameErr";
-					show = "采购联系人不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getStartTime()==null) {
-					attribute = "startTimeErr";
-					show = "竞价开始时间不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getEndTime()==null) {
-					attribute = "endTimeErr";
-					show = "竞价结束时间不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (StringUtils.isBlank(obProject.getContent())) {
-					attribute = "contentErr";
-					show = "竞价内容不能为空";
-					return toJsonProject(attribute, show);
-				}
-
-				if (obProject.getProductName()==null) {
-					attribute = "buttonErr";
-					show = "竞价产品名称不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (CheckUtil.isList(obProject.getProductName())) {
-					attribute = "buttonErr";
-					show = "竞价产品名称不能为空";
-					return toJsonProject(attribute, show);
-				}
-
-				if (obProject.getProductMoney()==null) {
-					attribute = "buttonErr";
-					show = "竞价产品限价不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (CheckUtil.isList(obProject.getProductMoney())) {
-					attribute = "buttonErr";
-					show = "竞价产品限价不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getProductCount()==null) {
-					attribute = "buttonErr";
-					show = "竞价产品数量不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (CheckUtil.isList(obProject.getProductCount())) {
-					attribute = "buttonErr";
-					show = "竞价产品数量不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (obProject.getProductRemark()==null) {
-					attribute = "buttonErr";
-					show = "竞价产品备注不能为空";
-					return toJsonProject(attribute, show);
-				}
-				if (CheckUtil.isList(obProject.getProductRemark())) {
-					attribute = "buttonErr";
-					show = "竞价产品备注不能为空";
-					return toJsonProject(attribute, show);
-				}
-				//生成ID
-			    String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-				obProject.setId(uuid);
-				obProject.setCreatedAt(new Date());
-			    obProject.setCreaterId(userid);
-				obProject.setAttachmentId(fileid);
-				OBProductInfo product=null;
-				List<OBProductInfo> list=new ArrayList<OBProductInfo>();
-				//拆分数组
-					List<String> productName = obProject.getProductName();
-					for (int i = 0; i < productName.size(); i++) {
-						String uid=UUID.randomUUID().toString().toUpperCase().replace("-", "");
-						product = new OBProductInfo();
-						product.setId(uid);
-						product.setProductId(productName.get(i));
-						product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
-								.getProductMoney().get(i))));
-						product.setRemark(obProject.getProductRemark().get(i));
-						product.setPurchaseCount(Integer.valueOf(obProject
-								.getProductCount().get(i)));
-						product.setProjectId(uuid);
-						product.setCreatedAt(new Date());
-						product.setCreaterId(userid);
-						list.add(product);
-					}
-					 OBprojectMapper.updateByPrimaryKeySelective(obProject);
-					/*if (obProject.getStatus()--- > 0) {
-						for (OBProductInfo b : list) {
-							OBProductInfoMapper.insertSelective(b);
-						}
-						OBRuleMapper.updateCount(obProject.getRuleId());
-					}*/
 					return toJsonProject("success", "执行成功");
 	}
 
@@ -703,5 +744,19 @@ public class OBProjectServerImpl implements OBProjectServer {
 	public OBProject editOBProject(Map<String,Object> map) {
 		// TODO Auto-generated method stub
 		return OBprojectMapper.selectTemporary(map);
+	}
+	/**
+	 * 
+	 * 实现获取 并集 供应商
+	 * @author YangHongLiang
+	 * @exception
+	 */
+	@Override
+	public java.util.List<OBSupplier> selecUniontSupplier(
+			java.util.List<String> productID) {
+		 Map<String,Object>map=new HashMap<String, Object>();
+         map.put("list", productID);
+         map.put("count", productID.size());
+		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 }

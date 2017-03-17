@@ -875,6 +875,13 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.searchByNameAndCode(name, code, ispublish);
 	}
 
+	@Override
+	public List<Category> findCategoryByChildrenAndWuZi(
+			HashMap<String, Object> map) {
+		
+		return categoryMapper.findCategoryByChildrenAndWuZi(map);
+	}
+
 	
 
 }
