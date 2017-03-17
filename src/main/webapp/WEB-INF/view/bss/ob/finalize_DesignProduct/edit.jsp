@@ -30,7 +30,7 @@ $(document).ready(function(){
 			   async:{
 						autoParam:["id"],
 						enable:true,
-						url:"${pageContext.request.contextPath}/category/createtree.do",
+						url:"${pageContext.request.contextPath}/category/createtreeById.do",
 						otherParam:{"otherParam":"zTreeAsyncTest"},  
 						dataType:"json",
 						type:"get",
@@ -87,7 +87,7 @@ $(document).ready(function(){
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "440px", top: "250px"}).slideDown("fast");
+		$("#menuContent").css({left: "417px", top: "250px"}).slideDown("fast");
 
 		$("body").bind("mousedown", onBodyDown);
 	}

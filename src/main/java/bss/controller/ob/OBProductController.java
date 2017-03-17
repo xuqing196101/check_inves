@@ -149,7 +149,7 @@ public class OBProductController {
 		if (type == 1) {
 			Category parentCategory = new Category();
 			OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-			if(obProduct != null){
+			if(obProduct != null && obProduct.getProductCategoryLevel() != null){
 				if(obProduct.getProductCategoryLevel() == 2){
 					parentCategory = categoryService.findById(obProduct.getCategoryBigId());
 				}else if(obProduct.getProductCategoryLevel() == 3){

@@ -32,7 +32,7 @@
 				   async:{
 							autoParam:["id"],
 							enable:true,
-							url:"${pageContext.request.contextPath}/category/createtree.do",
+							url:"${pageContext.request.contextPath}/category/createtreeById.do",
 							otherParam:{"otherParam":"zTreeAsyncTest"},  
 							dataType:"json",
 							type:"get",
@@ -78,7 +78,7 @@
   		  layer.msg("不可选择根节点");
   		  return;
   	  }
-	  if (treeNode) {
+	  if(!treeNode.isParent) {
 		  $("#citySel4").val(treeNode.name);
           $("#categorieId4").val(treeNode.id);
           $("#categoryLevel").val(treeNode.level+1);
@@ -89,7 +89,7 @@
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "440px", top: "250px"}).slideDown("fast");
+		$("#menuContent").css({left: "417px", top: "250px"}).slideDown("fast");
 		$("body").bind("mousedown", onBodyDown);
 	}
     function hideMenu() {

@@ -234,6 +234,67 @@ public class CategoryController extends BaseSupplierController {
     	
     	
     }
+    
+    /**
+     * 
+     * Description: 根据id查询目录树
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月17日 
+     * @param  @param category
+     * @param  @return 
+     * @return String 
+     * @exception
+     */
+    @ResponseBody
+    @RequestMapping(value="/createtreeById", produces = "application/json;charset=utf-8")
+    public String createtreeById(Category category,String param,Integer isCreate,String code){
+    	List<CategoryTree> jList=new ArrayList<CategoryTree>();
+    	
+    		 //获取字典表中的根数据
+            if(category.getId()==null){
+                category.setId("0");
+                DictionaryData data=new DictionaryData();
+                data.setKind(6);
+                List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+                for (DictionaryData dictionaryData : listByPage) {
+                	if(dictionaryData.getName().equals("物资")){
+                    CategoryTree ct=new CategoryTree();
+                    ct.setId(dictionaryData.getId());
+                    ct.setName(dictionaryData.getName());
+                    ct.setIsParent("true");
+                    ct.setClassify(dictionaryData.getCode());
+                    jList.add(ct);
+                	}
+                    
+                }
+                
+                return JSON.toJSONString(jList);
+            }
+            String list="";
+            List<Category> cateList=categoryService.findTreeByPid(category.getId());
+    	        for(Category cate:cateList){
+    	            List<Category> cList=categoryService.findTreeByPid(cate.getId());
+    	            CategoryTree ct=new CategoryTree();
+    	            if(!cList.isEmpty()){
+    	                ct.setIsParent("true");
+    	            }else{
+    	                ct.setIsParent("false");
+    	            }
+    	            ct.setId(cate.getId());
+    	            ct.setName(cate.getName());
+    	            ct.setpId(cate.getParentId());
+    	            ct.setKind(cate.getKind());
+    	            ct.setStatus(cate.getStatus());
+    	            jList.add(ct);
+    	        }
+
+            list = JSON.toJSONString(jList);
+            return list;
+    	}
+    	
+    	
+    
     public List < Category > getParentNodeList(String nodeId) {
     	 List < Category > parentNodeList = new ArrayList < Category > ();
 	        Category category = categoryService.findById(nodeId);
