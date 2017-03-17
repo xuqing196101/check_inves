@@ -299,8 +299,6 @@ public class ProjectSupervisionController {
                 }
                 project.setStatus(findById.getName());
                 model.addAttribute("project", project);
-                model.addAttribute("kind", DictionaryDataUtil.find(5));// 获取数据字典数据
-                model.addAttribute("project", project);
             }
             
             HashMap<String, Object> map = new HashMap<>();
@@ -321,14 +319,16 @@ public class ProjectSupervisionController {
                     collectPlan.setUpdatedAt(task.getGiveTime());
                     listCollect.add(collectPlan);
                     task.setPassWord(String.valueOf(collectPlan.getBudget()));
+                   /* User users = userService.getUserById(task.getCreaterId());
+                    task.setCreaterId(users.getRelName());*/
                     listTask.add(task);
                     //需求计划信息
                     List<PurchaseDetail> details = purchaseDetailService.getUnique(task.getCollectId());
                     for (PurchaseDetail detail : details) { 
                         if("1".equals(detail.getParentId())){
                             PurchaseRequired required = requiredService.queryById(detail.getId());
-                            User users = userService.getUserById(required.getUserId());
-                            required.setUserId(users.getRelName());
+                            User user1 = userService.getUserById(required.getUserId());
+                            required.setUserId(user1.getRelName());
                             listRequired.add(required);
                             break;
                         } 

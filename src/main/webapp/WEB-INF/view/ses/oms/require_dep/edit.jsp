@@ -249,7 +249,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">详细地址</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="address" type="text" value="${orgnization.address }"> 
+			  <input class="input_group" name="address" type="text" maxlength="250" value="${orgnization.address }"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
@@ -265,7 +265,7 @@
 		  <li class="col-md-3 col-sm-6 col-xs-12"> 
 		    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">邮编</span>
 			<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-			  <input class="input_group" name="postCode" type="text" value="${orgnization.postCode }"> 
+			  <input class="input_group" name="postCode" isZipCode="true" onkeyup="this.value=this.value.replace(/\D/g,'')" type="text" value="${orgnization.postCode }"> 
 			  <span class="add-on">i</span>
 			</div>
 		  </li>
