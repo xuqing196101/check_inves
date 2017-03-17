@@ -16,19 +16,36 @@
 <title>投诉处理详细页面</title>
 <script type="text/javascript">
      
-     function openDiv(){
+     function openBli(){
     	 layer.open({
 			  type: 1,
 			  title: '请注明缺失内容',
 			  skin: 'layui-layer-rim',
 			  shadeClose: true,
 			  area: ['580px','230px'],
-			  content: $("#openDiv")
+			  content: $("#openBli")
 			});
 }
 function cancel(){
 	layer.closeAll();
      }
+
+function openLi(){
+	 layer.open({
+		  type: 1,
+		  title: '请输入处理结果',
+		  skin: 'layui-layer-rim',
+		  shadeClose: true,
+		  area: ['580px','230px'],
+		  content: $("#openLi")
+		});
+}
+function cancelA(){
+layer.closeAll();
+}
+    
+     
+
 </script>
 </head>
 <body>
@@ -54,26 +71,31 @@ function cancel(){
 					<li class="col-md-3 col-sm-6 col-xs-12  pl15">
 					    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉人类型</span>
 						<div class="input-append input_group col-md-12 mb20 col-sm-12 col-xs-12 p0">
-							<input class="" name="" type="text" value="">
+							<c:if test="${complaint.type=='0'}">
+								            <input class="" name="PerSonName" type="text" value="单位">
+								     </c:if> 
+								     <c:if test="${complaint.type=='1'}">
+								               <input class="" name="PerSonName" type="text" value="个人">
+								     </c:if>
 						</div> 
 				  </li>
 				  <li class="col-md-3 col-sm-6 col-xs-12"  >
 	                    <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉人名称（姓名）</span>
 	                    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                             <input class="" name="PerSonName" type="text" value="">
+                             <input class="" name="PerSonName" type="text" value="${complaint.name }">
                         </div>
 	              </li>	
 	              
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				  	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉对象</span>
 				  	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-                             <input class="" name="PerSonName" type="text" value="">
+                             <input class="" name="PerSonName" type="text" value="${complaint.complaintObject }">
                      </div>
 				  </li>
 				  <li class="col-md-12 col-sm-12 col-xs-12">
 	                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉事项</span>
 	                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea class="w100p h130" title="不超过800个字"></textarea>
+                      <textarea class="w100p h130" title="不超过800个字">${complaint.complaintMatter }</textarea>
                      </div>
 	              </li> 
 				  <li class="col-md-3 col-sm-6 col-xs-12 mt15">
@@ -91,10 +113,11 @@ function cancel(){
 
 			</ul> 
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-		      <button class="btn" type="button" onclick="y();">立项</button>
-			  <button class="btn" type="button" onclick="openDiv();">无法立项</button>
+		      <button class="btn" type="button" onclick="openLi();">立项</button>
+			  <button class="btn" type="button" onclick="openBli();">无法立项</button>
 		    </div>
-			<div id="openDiv" class="dnone layui-layer-wrap" >
+		    <!--无法立项弹出框-->
+			<div id="openBli" class="dnone layui-layer-wrap" >
 		 		 <div class="drop_window">
 				  <ul class="list-unstyled">
 			   		 <li class=" col-md-12 col-sm-12 col-xs-12 pl15">
@@ -105,7 +128,20 @@ function cancel(){
               	 <div class="tc mt10 col-md-12 col-sm-12 col-xs-12 ">
               	 	<input class="btn" id="inputb" name="addr" onclick="alert('自己实现')" value="确定" type="button"> 
 					<input class="btn" id="inputa" name="addr" onclick="cancel();" value="取消" type="button"> 
-              	 </div>
+              	 </div></div></div>
+             <!--立项弹出框-->
+			<div id="openLi" class="dnone layui-layer-wrap" >
+		 		 <div class="drop_window">
+				  <ul class="list-unstyled">
+			   		 <li class=" col-md-12 col-sm-12 col-xs-12 pl15">
+	    	     		 <label class="col-md-12 col-sm-12 col-xs-12 padding-left-5">立项结果</label>
+                 		 <textarea id="remarks" name="remarks" class="w100p h80 p0" rows="3" cols="1"></textarea>
+	           		 </li>
+			 	 </ul>
+              	 <div class="tc mt10 col-md-12 col-sm-12 col-xs-12 ">
+              	 	<input class="btn" id="inputb" name="addr" onclick="alert('自己实现')" value="确定" type="button"> 
+					<input class="btn" id="inputa" name="addr" onclick="cancelA();" value="取消" type="button"> 
+              	 </div> 	 
 		    	</div>
 		  	 </div>
 		</form>
