@@ -5,7 +5,9 @@ import java.util.List;
 /**
  * 
  * @author Ma Mingwei
- * @description 供应商下面的产品
+ * @description 供应商下面的产品信息
+ * 		页面需求信息量不大，操作少，固有此实体类专门作为介质
+ * 		在OBProjectResultMapper.xml里映射
  *
  */
 public class SupplierProductVo {
@@ -15,7 +17,7 @@ public class SupplierProductVo {
 	//供应商名称
 	private String supplierName;
 	//供应商排名
-	private String ranking;
+	private Integer ranking;
 	//供应商成交比例
 	private String dealQuote;
 	//对应的产品信息列表
@@ -37,11 +39,11 @@ public class SupplierProductVo {
 		this.supplierName = supplierName;
 	}
 
-	public String getRanking() {
+	public Integer getRanking() {
 		return ranking;
 	}
 
-	public void setRanking(String ranking) {
+	public void setRanking(Integer ranking) {
 		this.ranking = ranking;
 	}
 

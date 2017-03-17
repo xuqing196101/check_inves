@@ -1982,6 +1982,7 @@
 																	$("select[title='cnjewfn']").each(function() {
 																		var $obj = $(this);
 																		$obj.combobox({
+																			panelHeight : 240,
 																			onSelect : function(record) {
 																				getAptLevelSelect(record);
 																			},

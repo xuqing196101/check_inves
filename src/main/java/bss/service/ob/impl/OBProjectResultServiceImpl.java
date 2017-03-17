@@ -15,6 +15,7 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
 /**
  * 
@@ -174,6 +175,23 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			flag += oBProjectResultMapper.updateInfoBySPPId(obProjectResult);
 		}
 		return flag;
+	}
+
+	/**
+     * 根据标题id获取封装的供应商信息
+     * @author Ma Mingwei
+     */
+	@Override
+	public List<SupplierProductVo> selectInfoByPID(String projectID, String supplierID) {
+		// TODO Auto-generated method stub
+		OBProjectResult oBProjectResult = new OBProjectResult();
+		oBProjectResult.setProjectId(projectID);
+		oBProjectResult.setProjectId(supplierID);
+		List<SupplierProductVo> spVo = oBProjectResultMapper.selectInfoByPID(projectID); 
+		for (SupplierProductVo supplierProductVo : spVo) {
+			List<BidProductVo> bidProductList = oBProjectResultMapper.selectProductBySupplierId(oBProjectResult);
+		}
+		return spVo;
 	}
 
 }

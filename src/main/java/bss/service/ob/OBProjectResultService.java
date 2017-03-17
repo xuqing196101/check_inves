@@ -8,6 +8,7 @@ import bss.model.ob.BidProductVo;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.SupplierProductVo;
 
 /**
  * 
@@ -92,4 +93,10 @@ public interface OBProjectResultService {
      * @return 竞价管理-结果查询   修改了几条记录数
      */
 	public int updateInfoBySPPIdList(List<OBProjectResult> projectResultList);
+	
+	/**
+     * 根据标题id获取封装的供应商信息
+     * @author Ma Mingwei
+     */
+    List<SupplierProductVo> selectInfoByPID(String projectID, String supplierID);
 }
