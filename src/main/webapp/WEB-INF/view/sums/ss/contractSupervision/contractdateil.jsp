@@ -29,7 +29,7 @@
 		<div class="headline-v2">
 			<h2>合同监督</h2>
 		</div>
-		<div class="content table_box">
+		<div class="container container_box">
 			<div class="col-md-12 tab-pane active">
 				<h2 class="count_flow fl">
 					<i>01</i>需求计划
@@ -39,28 +39,28 @@
 					<table class="table table-bordered">
 						<tbody>
 							<tr>
-								<td class="bggrey w100">需求计划：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100">填制单位：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey ">需求计划：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey ">填制单位：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">预算金额：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">计划状态：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">预算金额：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">计划状态：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">编制时间：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">创建人：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">编制时间：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">创建人：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">审批时间：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">审核人：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">审批时间：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">审核人：</td>
+								<td width="35%"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -74,28 +74,28 @@
 					<table class="table table-bordered">
 						<tbody>
 							<tr>
-								<td class="bggrey w100">文件名称：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">计划编号：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey ">文件名称：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">计划编号：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">总金额：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">状态：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">总金额：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">状态：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">编制时间：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">创建人：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">编制时间：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">创建人：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">审批时间：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">审核人：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">审批时间：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">审核人：</td>
+								<td width="35%"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -109,22 +109,22 @@
 					<table class="table table-bordered">
 						<tbody>
 							<tr>
-								<td class="bggrey w100">文件名称：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">计划文号：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey ">文件名称：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">计划文号：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">总金额：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">状态：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">总金额：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">状态：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">下达时间：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">创建人：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">下达时间：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">创建人：</td>
+								<td width="35%"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -138,28 +138,28 @@
 					<table class="table table-bordered">
 						<tbody>
 							<tr>
-								<td class="bggrey w100">项目名称：</td>
-								<td class="w500">${project.name}</td>
-								<td class="bggrey w100 ">创建时间：</td>
-								<td class="w500"><fmt:formatDate value="${project.createAt}" pattern="yyyy-MM-dd hh:mm:ss" /> </td>
+								<td width="15%" class="bggrey ">项目名称：</td>
+								<td width="35%">${project.name}</td>
+								<td  width="15%" class="bggrey  ">创建时间：</td>
+								<td width="35%"><fmt:formatDate value="${project.createAt}" pattern="yyyy-MM-dd hh:mm:ss" /> </td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">招标单位：</td>
-								<td class="w500">${project.principal }</td>
-								<td class="bggrey w100 ">负责人：</td>
-								<td class="w500">${project.principal }</td>
+								<td width="15%" class="bggrey  ">招标单位：</td>
+								<td width="35%">${project.principal }</td>
+								<td  width="15%" class="bggrey  ">负责人：</td>
+								<td width="35%">${project.principal }</td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">联系人：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">联系电话：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">联系人：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">联系电话：</td>
+								<td width="35%"></td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">联系地址：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">当前状态：</td>
-								<td class="w500"></td>
+								<td width="15%" class="bggrey  ">联系地址：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">当前状态：</td>
+								<td width="35%"></td>
 							</tr>
 						</tbody>
 					</table>
@@ -173,26 +173,26 @@
 					<table class="table table-bordered">
 						<tbody>
 							<tr>
-								<td class="bggrey w100">合同名称：</td>
-								<td class="w500">${contract.name}</td>
-								<td class="bggrey w100 ">合同状态：</td>
-								<td class="w500">
+								<td width="15%" class="bggrey ">合同名称：</td>
+								<td width="35%">${contract.name}</td>
+								<td width="15%" class="bggrey  ">合同状态：</td>
+								<td width="35%">
 								  <c:if test="${contract.status==1}">草案</c:if>
 								  <c:if test="${contract.status==2}">正式</c:if>
 								  <c:if test="${contract.status==0}">暂存</c:if>
 								</td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">签订时间：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">合同编号：</td>
-								<td class="w500">${contract.code}</td>
+								<td width="15%" class="bggrey  ">签订时间：</td>
+								<td width="35%"></td>
+								<td width="15%"class="bggrey  ">合同编号：</td>
+								<td width="35%">${contract.code}</td>
 							</tr>
 							<tr>
-								<td class="bggrey w100 ">创建人：</td>
-								<td class="w500"></td>
-								<td class="bggrey w100 ">负责人：</td>
-								<td class="w500"></td>
+								<td width="15%"  class="bggrey  ">创建人：</td>
+								<td width="35%"></td>
+								<td width="15%" class="bggrey  ">负责人：</td>
+								<td width="35%"></td>
 							</tr>
 						</tbody>
 					</table>
