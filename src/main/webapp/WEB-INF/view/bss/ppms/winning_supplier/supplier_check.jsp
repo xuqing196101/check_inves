@@ -558,7 +558,7 @@
 					<!--               </td> -->
 					<td class="tc opinter" id="totalPrice" onclick="">${checkpass.totalPrice}</td>
 					<td class="tc opinter" onclick="">${checkpass.totalScore}</td>
-					<td class="tc opinter" onclick="">${(vs.index+1)}</td>
+					<td class="tc opinter" onclick="">${vs.index+1}</td>
 					<c:if test="${view == 1}">
 						<c:if test="${checkpass.isWonBid != 1}">
 							<td class="tc opinter">未中标</td>

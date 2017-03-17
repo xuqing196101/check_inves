@@ -193,7 +193,7 @@
 			onclick="add(this);" type="button">录入标的</button>
 	</div>
 	<div class="content table_box pl0">
-		<table class="table table-bordered table-condensed table_input left_table table_input">
+		<table class="table table-bordered table-condensed table_input table_input">
 			<tr class="tc">
 				<!-- 		                <th class="w30"> -->
 				<!-- 		                  <input type="checkbox" id="checkAll"  onclick="selectAll()" /> -->
@@ -202,8 +202,10 @@
 				<th>
 				<input type="checkbox" name="cks"/>
 				</th>
+				<th width="20%">编号</th>
 				<th width="20%">物资名称</th>
 				<th width="20%">规格型号</th>
+				<th width="20%">品牌商标</th>
 				<th width="20%">质量技术标准</th>
 				<th>计量单位</th>
 				<th>采购数量</th>
@@ -216,23 +218,27 @@
 					<td >
 						<input type="checkbox" name="ck" class="ck" title="${detail.id }"/>
 					</td>
+					<td title="${detail.serialNumber }"><input type="text"
+						name="serialNumber" value="${detail.serialNumber }"></td>
 					<td title="${detail.goodsName}"><input type="hidden"
 						name="detailId" value="${detail.id }"> <input
 						type="hidden" name="detailId" value="${detail.id }"> <input
 						type="hidden" name="detailId" value="${detail.id }"> <input
 						type="text" disabled="disabled" name="goodsName"
 						value="${detail.goodsName }"></td>
-					<td class="w150" title=" ${detail.stand }"><input type="text"
+					<td title=" ${detail.stand }"><input type="text"
 						name="stand" value=" ${detail.stand }"></td>
 					<td title="${detail.qualitStand }"><input type="text"
-						name="qualitStand" value="${detail.qualitStand }"></td>
+						name="trademark" value=""></td>
+						<td title="${detail.brand }"><input type="text"
+						name="trademark" value="${detail.brand }"></td>
 					<td><input type="text" name="qualitStand"
 						value="${detail.item }"></td>
 					<td id="purchaseCount"><input type="text" name="item"
-						value="${detail.item}" onkeyup="this.value=this.value.replace(/\D/g,'')"></td>
+						value="${detail.purchaseCount}" onkeyup="this.value=this.value.replace(/\D/g,'')"></td>
 					<td><input type="text" name="price" value="${detail.price }" onkeyup="this.value=this.value.replace(/\D/g,'')"></td>
 				</tr>
-				
+				<!-- 
 				<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
 					<tr class="tc ">
 						<td>${s.index + 1 }
@@ -250,12 +256,12 @@
 						</td>
 						<td>${subject.unitPrice }
 						</td>
-						<!-- 
+						
 						<td>${subject.goodsName }
 						</td>
-						 -->
-					</tr>
-				</c:forEach>
+						
+					</tr> 
+				</c:forEach>-->
 			</c:forEach>
 		</table>
 	</div>
