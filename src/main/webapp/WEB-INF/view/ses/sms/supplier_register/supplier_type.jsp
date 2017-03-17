@@ -1679,7 +1679,7 @@
 
 									<fieldset
 										class="col-md-12 col-sm-12 col-xs-12 border_font mt10">
-										<legend> <font class="red">*</font> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</legend>
+										<span class="font_line"> <font class="red">*</font> 承揽业务范围：省级行政区对应合同主要页 （体现甲乙双方盖章及工程名称、地点的相关页）</span>
 										<div class="ml20">
 											省、直辖市：
 										    <select multiple="multiple" size="5" id="areaSelect" onchange="disAreaFile(this)" title="按住CTRL+鼠标左键可多选和取消选择">
