@@ -521,20 +521,6 @@
   </update>
   
   <select id="selectAllOBproject" parameterType="Map" resultMap="ProjectResultMap">
-  	<!--  select 
-  	 	p.*,
-  	 	i.id as pid,
-  	 	i.PRODUCT_ID as PProductId,
-  	 	i.LIMITED_PRICE as plimitedPrice,
-     	i.PURCHASE_COUNT as ppurchaseCount,
-     	i.PROJECT_ID as pprojectId,
-     	i.CREATED_AT as pcreatedAt,
-     	i.UPDATED_AT as pupdatedAt,
-     	i.REMARK as prmark, 
-     	i.CREATER_ID as pcreaterId  
-     		from T_BSS_OB_PROJECT p LEFT OUTER JOIN T_BSS_OB_PRODUCT_INFO i 
-     		on p.id=i.PROJECT_ID
-      	where 1=1  -->
     select
     <include refid="Base_Column_List" />
       from T_BSS_OB_PROJECT where 1=1

@@ -27,10 +27,12 @@ import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
 import bss.service.ob.OBProjectServer;
+import bss.util.BiddingStateUtil;
 import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
 import common.utils.DateUtils;
 
 /**
@@ -82,6 +84,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		PageHelper.startPage((Integer) (map.get("page")),
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBProject> list = OBprojectMapper.selectAllOBproject(map);
+		java.util.List<OBProject> afterList = BiddingStateUtil.judgeState(OBprojectMapper,list);
 		if (list != null) {
 			for (OBProject obp : list) {
 				// 获取产品集合
@@ -109,7 +112,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 			}
 		}
-		return list;
+		return afterList;
 	}
 
 	/**
