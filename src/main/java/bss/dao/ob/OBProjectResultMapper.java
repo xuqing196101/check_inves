@@ -5,6 +5,8 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.SupplierProductVo;
+
 import java.util.List;
 import java.util.Map;
 
@@ -88,14 +90,20 @@ public interface OBProjectResultMapper {
     List<OBProjectResult> selectNotSuppler(String projectID);
     /**
      * 获取是否第二轮
-     * 
+     * @author Ma Mingwei
      */
     List<OBProjectResult> selectSecondRound(String projectID);
     
     /**
+     * 根据标题id获取封装的供应商信息
+     * @author Ma Mingwei
+     */
+    List<SupplierProductVo> selectInfoByPID(String projectID);
+    
+    /**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
      * @author Ma Mingwei
-     * @param obProjectResult
+     * @param obProjectResult  封装的条件对象
      * @return 竞价管理-结果查询 页面信息封装对象
      */
     ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);

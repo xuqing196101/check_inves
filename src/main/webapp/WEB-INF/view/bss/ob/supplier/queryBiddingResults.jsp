@@ -1,5 +1,6 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+<%@ include file ="/WEB-INF/view/common/webupload.jsp" %>
 <!DOCTYPE HTML>
 <html>
 	<head>
@@ -78,14 +79,15 @@
 				  <tr>
 				    <td class="tc">竞价文件</td>
 				    <td class="tc">${obProject.attachmentId }.pdf</td>
-				    <td class="tc"><button class="btn">查看</button></td>
+				    <td class="tc">
+				    	<button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
+				    </td>
 				  </tr>
 				 </tbody>
 			 </table>
   </div> 
   <div class="clear" ></div>
-  <c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
-  </c:forEach>
+  <c:forEach items="${selectInfoByPID }" var="supplierProduct" varStatus="vs">
   <div>
     <h2 class="count_flow mt3 b">
     	<span>供应商名称：北京新华电子科技有限公司</span>
@@ -108,31 +110,19 @@
 		  <td class="tc" colspan="3">合计</td>
 		  <td class="tc">12000</td>
 		</tr>
+		<c:forEach items="${supplierProduct.productList }" var="bidproduct" varStatus="pi">
 		<tr>
-		  <td class="tc">1</td>
-		  <td class="tc">台式计算机</td>
-		  <td class="tc">20</td>
-		  <td class="tc">100</td>
+		  <td class="tc">${pi.index + 1 }</td>
+		  <td class="tc">${bidproduct.productName }</td>
+		  <td class="tc">${bidproduct.productNum }</td>
+		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc">1000</td>
 		</tr>
-		<tr>
-		  <td class="tc">2</td>
-		  <td class="tc">便携式式计算机</td>
-		  <td class="tc">20</td>
-		  <td>200</td>
-		  <td class="tc">4000</td>
-		</tr>
-		<tr>
-		  <td class="tc">3</td>
-		  <td class="tc">服务器</td>
-		  <td class="tc">10</td>
-		  <td>300</td>
-		  <td class="tc">3000</td>
-		</tr>
+		</c:forEach>
 	</table>
   </div>
   </div>
-  
+  </c:forEach>
   <div>
     <h2 class="count_flow">供应商名称：北京新华电子科技有限公司排名：第一名成交比例：50%</h2>
 	<div class="content table_box">

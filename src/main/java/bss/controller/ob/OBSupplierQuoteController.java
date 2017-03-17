@@ -24,6 +24,7 @@ import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBResultInfoList;
+import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
@@ -139,7 +140,7 @@ public class OBSupplierQuoteController {
 			String supplierId, String projectId) {
 		if (supplierId == null || "".equals(supplierId)) {
 			// 这个目前做测试用
-			supplierId = "2E7A7EAC566343379640DDAB5A35123F";
+			supplierId = "2E7A7EAC566343379640DDAB5A35123F";//"529e68e5351842f1910b5b2f97a03b78";
 		}
 		if (projectId == null || "".equals(projectId)) {
 			// 这个目前做测试用
@@ -256,18 +257,21 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping("queryBiddingResult")
 	public String queryBiddingResult(Model model,
+			@CurrentUser User user,
 			HttpServletRequest request,
 			String projectId){
 		if (projectId == null || "".equals(projectId)) {
 			// 这个目前做测试用
 			projectId = "DDE523291D694F5B8CC084EC2DFDBFF9";
 		}
+		String supplierId = user.getTypeId();
 		//查找这个标题id的标题信息
 		OBProject obProject = obProjectServer.selectByPrimaryKey(projectId);
 		
-		//查找 参与这个标题的供应商
+		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
+		List<SupplierProductVo> selectInfoByPID = oBProjectResultService.selectInfoByPID(projectId, supplierId);
 		
-		
+		model.addAttribute("selectInfoByPID", selectInfoByPID);
 		model.addAttribute("obProject", obProject);
 		
 		return "bss/ob/supplier/queryBiddingResults";

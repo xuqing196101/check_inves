@@ -29,6 +29,7 @@
 		$("select[title='cnjewfnAdd1']").each(function() {
 			var $obj = $(this);
 			$obj.combobox({
+				panelHeight : 240,
 				width : "200px",
 				onSelect : function(record) {
 					getAptLevelSelect(record);
@@ -50,6 +51,7 @@
 		$("select[title='cnjewfnAdd2']").each(function() {
 			var $obj = $(this);
 			$obj.combobox({
+				panelHeight : 240,
 				width : "200px",
 				onSelect : function(record) {
 					getAptLevelSelect(record);
