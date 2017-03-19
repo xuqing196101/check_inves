@@ -343,16 +343,50 @@
 		WHERE
 		1=1
 		<if test="id != null and id != ''">
-			AND CP.ID in ${id}
+			AND CP.ID =#{id}
 		</if>
 		<if test="packageId != null and packageId != ''">
 			AND CP.PACKAGE_ID =#{packageId}
 		</if>
 		<if test="projectId != null and projectId != ''">
-      AND CP.PROJECT_ID =#{projectId}
-    </if>
+		  AND CP.PROJECT_ID =#{projectId}
+	    </if>
 		<if test="supplierId != null and supplierId != ''">
 			AND CP.SUPPLIER_ID =#{supplierId}
+		</if>
+		<if test="isSendNotice != null and isSendNotice != '' ">
+			AND IS_SEND_NOTICE=#{isSendNotice}
+		</if>
+		<if test="isWonBid !=null and isWonBid !='' ">
+			AND IS_WON_BID = #{isWonBid}
+		</if>
+
+		ORDER BY
+		CP.ID
+
+	</select>
+	
+	<!-- @author Ma Mingwei -->
+	<select id="listCheckPassBD" parameterType="bss.model.ppms.SupplierCheckPass"
+		resultMap="BaseResultMap">
+
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+		WHERE
+		1=1
+		<if test="id != null and id != ''">
+			AND CP.ID =#{id}
+		</if>
+		<if test="projectId != null and projectId != ''">
+	      AND CP.PROJECT_ID =#{projectId}
+	    </if>
+		<if test="packageId != null and packageId != ''">
+			AND CP.PACKAGE_ID =#{packageId}
+		</if>
+		<if test="supplierId != null and supplierId != ''">
+			AND CP.SUPPLIER_ID in ${supplierId}
 		</if>
 		<if test="isSendNotice != null and isSendNotice != '' ">
 			AND IS_SEND_NOTICE=#{isSendNotice}

@@ -209,21 +209,26 @@ public class WinningSupplierController extends BaseController {
    * 
    *〈简述〉获取包下所有供应商信息
    *〈详细描述〉
-   * @author Wang Wenshuai 
+   * @author Wang Wenshuai update Ma Mingwei
    * @param model
-   * @param packageId   供应商id,是一个","分开的字符串
+   * @param packageId   供应商id组,是一个","分开的字符串
    * @param pid 是真正的packageId
    * @param projectId
+   * @param ids 是T_BSS_PPMS_SUPPLIER_CHECK_PASS表的id组
    * @param flowDefineId
+   * @param passquote此处传过来是否为唱明细还是唱总价，方法里面有判断，可以不用传，后期根据需要可以把方法里的quote判断删除了
    * @return 路径
    */
   @RequestMapping("/packageSupplier")
-  public String selectpackage(Model model, String pid, String packageId, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
-	  
+  public String selectpackage(Model model,String passquote, String pid, String packageId,String ids, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
+	  //将传过来前面判断好的唱总价还是明细放到model中，在下个页面进行判断
+	  if(passquote != null) {
+		  model.addAttribute("passquote", passquote);
+	  }
 	  //调用service层方法把传过来的供应商id，确定为中标 @author Ma Mingwei
-	  if(!"priceRatio".equals(priceRatios)) {
+	  if(!"priceRatios".equals(priceRatios)) {
 		  if(pid != null) {
-			  checkPassService.changeSupplierWonTheBidding(packageId,priceRatios);
+			  checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
 		  }
 	  }
 	  
@@ -231,7 +236,7 @@ public class WinningSupplierController extends BaseController {
       SupplierCheckPass scp = new SupplierCheckPass();
       scp.setPackageId(packageId);
       scp.setIsWonBid((short)1);
-      List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
+      List<SupplierCheckPass> listCheck = checkPassService.listCheckPassBD(scp);
       String[] rat = ratio(listCheck.size());
       for (int i = 0,l = listCheck.size(); i < l; i++ ) {
         if (listCheck.get(i).getIsWonBid() == 1 && listCheck.get(i).getWonPrice() == null && listCheck.get(i).getPriceRatio() ==null ){
@@ -247,18 +252,21 @@ public class WinningSupplierController extends BaseController {
     }
     SupplierCheckPass checkPass = new SupplierCheckPass();
     //checkPass.setPackageId(packageId);
-    String ids[] = packageId.split(",");
+    //把传过来的supplierid即packageId，切割处理放到一个字符串里适宜sql语句
+    String pids[] = packageId.split(",");
     String str_id = "";
-    for (String id : ids) {
+    for (String id : pids) {
 		str_id += "'" + id + "',";
 	}
     str_id = str_id.substring(0,str_id.lastIndexOf(","));
     str_id = "(" + str_id + ")";
-    checkPass.setId(str_id);
+    //checkPass.setId(str_id);
+    checkPass.setSupplierId(str_id);
     //查询是否中标条件---已中标的
     checkPass.setIsWonBid((short)1);
+    checkPass.setPackageId(pid);
     
-    List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPass(checkPass);
+    List<SupplierCheckPass> listSupplierCheckPass = checkPassService.listCheckPassBD(checkPass);
     for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
       //查询报价历史记录
       if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
@@ -310,6 +318,7 @@ public class WinningSupplierController extends BaseController {
     HashMap<String,Object> map = new HashMap<>();
     map.put("packageId", pid);
     
+    //查询到包下面的明细条数
     List<ProjectDetail> detailList = detailService.selectById(map);
     model.addAttribute("detailList", detailList);
 
@@ -322,7 +331,8 @@ public class WinningSupplierController extends BaseController {
    *〈详细描述〉
    * @author Ma Mingwei
    * @param model
-   * @param projectId
+   * @param projectId 项目id
+   * @param packageId 包id
    * @param flowDefineId
    * @return 路径---确认供应商页面
    */
@@ -331,7 +341,7 @@ public class WinningSupplierController extends BaseController {
     if (view != null && view == 1) {
       SupplierCheckPass scp = new SupplierCheckPass();
       scp.setPackageId(packageId);
-      scp.setIsWonBid((short)1);
+      //scp.setIsWonBid((short)1);//
       List<SupplierCheckPass> listCheck = checkPassService.listCheckPass(scp);
       String[] rat = ratio(listCheck.size());
       for (int i = 0,l = listCheck.size(); i < l; i++ ) {
@@ -842,6 +852,9 @@ public class WinningSupplierController extends BaseController {
    * @author Wang Wenshuai
    * 后续修改@author Ma Mingwei
    * @param passId checkId
+   * @param supplierId 供应商id
+   * @param packageId 封装了 供应商id组
+   * @param pid 包id
    * @return
    */
   @RequestMapping("/inputList")

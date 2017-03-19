@@ -74,9 +74,12 @@
     </if> 
     <if test="packageId != null and packageId !=''">
         AND PACKAGE_ID = #{packageId}
-     </if> 
+     </if>
      <if test="taskId != null and taskId !=''">
         AND TASK_ID = #{taskId}
+     </if>
+     <if test="supplier != null and supplier !=''">
+        AND SUPPLIER = #{supplier}
      </if>
      <if test="requiredId != null and requiredId !=''">
         AND REQUIRED_ID = #{requiredId}

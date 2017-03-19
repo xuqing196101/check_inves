@@ -58,8 +58,13 @@
     }
     /**展示信息**/
     function view(id) {
+      var packageId = "";
+      $("input[name='supplierId']").each(function() {
+    	  packageId += $(this).val() + ",";
+      });
+      packageId = packageId.substring(0,packageId.length - 1);
       //window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&view=1";
-      window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&view=1";
+      window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?pid=" + id + "&&flowDefineId=${flowDefineId}&&priceRatios=priceRatios&&projectId=${projectId}&&view=1&&packageId="+packageId;
     }
 
     /** 确认中标供应商  */
@@ -206,7 +211,7 @@
                     <c:when test="${fn:length(pack.listCheckPasses) != 0}">
                       <a href="javascript:void(0);" onclick="view('${pack.id}');">
                         <c:forEach items="${pack.listCheckPasses}" var="list">
-                          ${list.supplier.supplierName}
+                          ${list.supplier.supplierName}<input type="hidden" name="supplierId" value="${list.supplier.id}"/>
                         </c:forEach>
                       </a>
                     </c:when>

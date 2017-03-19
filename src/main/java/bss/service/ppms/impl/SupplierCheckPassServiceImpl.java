@@ -185,6 +185,9 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
   public List<SupplierCheckPass> listCheckPass(SupplierCheckPass checkPass){
     return checkPassMapper.listCheckPass(checkPass);
   }
+  public List<SupplierCheckPass> listCheckPassBD(SupplierCheckPass checkPass){
+    return checkPassMapper.listCheckPassBD(checkPass);
+  }
 
   /**
    *〈简述〉 查询每包是否都选择了中标供应商
@@ -236,6 +239,8 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 			SupplierCheckPass record = new SupplierCheckPass();
 			record.setId(pids[i]);
 			record.setIsWonBid((short)1);
+			if(priceRatios.length > (i + 1)) {
+			}
 			record.setPriceRatio(priceRatios[i]);
 			checkPassMapper.updateByPrimaryKeySelective(record);
 		}

@@ -85,6 +85,13 @@ public interface SupplierCheckPassMapper {
      * @return 包集合
      */
     List<SupplierCheckPass> listCheckPass(SupplierCheckPass checkPass);
+    /**
+     * @author Ma Mingwei
+     * @description 根据包id获取包下为发送通知的供应商和中标未中标的供应商---为了不改上面原作者方法，新增一个
+     * @param checkPass
+     * @return 包集合
+     */
+    List<SupplierCheckPass> listCheckPassBD(SupplierCheckPass checkPass);
     
     /**
      *〈简述〉 查询每包是否都选择了中标供应商

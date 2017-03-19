@@ -73,6 +73,12 @@ public interface SupplierCheckPassService {
    * @return 包集合
    */
   List<SupplierCheckPass> listCheckPass(SupplierCheckPass checkPass);
+  /**
+   * @author Ma Mingwei
+   * @param checkPass
+   * @return 包的供应商集合
+   */
+  List<SupplierCheckPass> listCheckPassBD(SupplierCheckPass checkPass);
 
   /**
    *〈简述〉 查询每包是否都选择了中标供应商

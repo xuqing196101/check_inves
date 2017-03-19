@@ -29,7 +29,6 @@
 		var quote = "${quote}";
 
 		// 	  0总价 1明细
-		//     alert(quote);
 		if (quote == 0) {
 
 		} else {
@@ -666,7 +665,8 @@
 				}
 			});
 			var calResult = parseInt(purchaseCount) * parseInt(unitPrice) * (parseInt(ratioVal)/100);
-			
+			//生成总价为万元保留4位
+			calResult = (calResult / 1000).toFixed(4);
 			$(this).parent().next().text(calResult);
 		});
 		
@@ -757,7 +757,7 @@
 						</td>
 					</c:if>
 					<c:if test="${quote==1 }">
-						<td class="tc opinter" id="singQuote">${checkpass.wonPrice }
+						<td class="tc opinter" id="singQuote">${checkpass.totalPrice*checkpass.priceRatio }
 							<input type="hidden" class="singQuote${(vs.index+1)}" name="singQuote" id="singQuotehhide">
 						</td>
 					</c:if>
@@ -863,9 +863,10 @@
 
 		</table>
 		<div class="col-md-12 tc">
+			<c:if test="${quote == 0 }">
 			<button class="btn btn-windows add" onclick="ratioPrice()"
 				type="button">生成总价</button>
-			
+			</c:if>
 			<button class="btn btn-windows back" onclick="history.go(-1)"
 				type="button">返回</button>
 		</div>

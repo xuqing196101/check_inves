@@ -29,7 +29,6 @@
 		var quote = "${quote}";
 
 		// 	  0总价 1明细
-		//     alert(quote);
 		if (quote == 0) {
 
 		} else {
@@ -112,47 +111,45 @@
 		});
 		if (ids.length == 1) {
 
-			layer
-					.confirm(
-							'您确定要移除吗?',
-							{
-								title : '提示',
-								offset : [ '222px', '360px' ],
-								shade : 0.01
-							},
-							function(index) {
-								layer.close(index);
+			layer.confirm(
+				'您确定要移除吗?',
+				{
+					title : '提示',
+					offset : [ '222px', '360px' ],
+					shade : 0.01
+				},
+				function(index) {
+					layer.close(index);
 
-								var type = 0;
-								layer
-										.open({
-											type : 2,
-											title : '上传',
-											shadeClose : false,
-											shade : 0.01,
-											area : [ '367px', '180px' ], //宽高
-											content : '${pageContext.request.contextPath}/winningSupplier/supplierUpload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='
-													+ ids,
-											success : function(layero, index) {
-												iframeWin = window[layero
-														.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
-											},
-											btn : [ '保存', '关闭' ],
-											yes : function() {
-												iframeWin.upload();
-												type = 1;
-											},
-											btn2 : function() {
-												delFileAjax();
-											},
-											end : function() {
-												if (type != 1) {
-													delFileAjax();
-												}
-											}
-										});
+					var type = 0;
+					layer.open({
+						type : 2,
+						title : '上传',
+						shadeClose : false,
+						shade : 0.01,
+						area : [ '367px', '180px' ], //宽高
+						content : '${pageContext.request.contextPath}/winningSupplier/supplierUpload.html?packageId=${packageId}&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&checkPassId='
+								+ ids,
+						success : function(layero, index) {
+							iframeWin = window[layero
+									.find('iframe')[0]['name']]; //得到iframe页的窗口对象，执行iframe页的方法：iframeWin.method();
+						},
+						btn : [ '保存', '关闭' ],
+						yes : function() {
+							iframeWin.upload();
+							type = 1;
+						},
+						btn2 : function() {
+							delFileAjax();
+						},
+						end : function() {
+							if (type != 1) {
+								delFileAjax();
+							}
+						}
+					});
 
-							});
+				});
 		} else if (ids.length > 1) {
 			layer.alert("只能选择一个供应商", {
 				offset : [ '222px', '390px' ],
@@ -278,14 +275,16 @@
 	}
 
 	function save() {
-		var id = [];
+		var id = "";
 		var wonPrice = [];
 		var isNull = 0;
 		var priceRatio = [];
 		var quote = "${quote}";
+		var supplierIds = [];
 
 		$('input[name="chkItem"]:checked').each(function() {
-			id.push($(this).val());
+			id += $(this).val() + ",";
+			supplierIds.push($(this).attr("class"));
 			priceRatio.push($(this).parent().parent().find("[title='priceRatio']").text());
 
 			var sq = 0;
@@ -301,6 +300,7 @@
 			}
 			wonPrice.push(sq);
 		});
+		id = id.substring(0, id.length - 1);
 
 		if (id.length >= 1) {
 			layer.confirm(
@@ -314,7 +314,7 @@
 					//var json = '${supplierCheckPassJosn}';
 					var json = '';
 					layer.close(index);
-					window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
+					window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + supplierIds + "&&ids=" + id + "&&flowDefineId=${flowDefineId}&&passquote=${quote}&&pid=${packageId}&&projectId=${projectId}&&priceRatios="+priceRatio;
 				}
 			);
 			/*
@@ -538,7 +538,7 @@
 								test="${checkpass.isDeleted == 0}">
 
 								<input onclick="check('${checkpass.id}');"
-									id="rela${checkpass.id}" type="checkbox" name="chkItem"
+									id="rela${checkpass.id}" type="checkbox" name="chkItem" class="${checkpass.supplier.id}"
 									value="${checkpass.id}" />
 
 							</c:if></td>
