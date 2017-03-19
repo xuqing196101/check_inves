@@ -305,7 +305,7 @@ function getTaskTime(strDate) {
       <li><a href="javascript:void(0)">首页</a></li>
     <li><a href="javascript:void(0)">保障作业系统</a></li>
     <li><a href="javascript:void(0)">采购项目管理</a></li>
-    <li class="active"><a href="javascript:void(0)">招标文件审核</a></li>
+    <li class="active"><a href="javascript:void(0)">采购文件审核</a></li>
     </ul>
     <div class="clear"></div>
     </div>
@@ -417,21 +417,21 @@ function getTaskTime(strDate) {
 	<form id="MyFile" method="post" class="h800">
 		<c:if test="${ (project.confirmFile == null || project.confirmFile == 0 || project.confirmFile == 2) && process != 1  }">
 			<div class="" id="audit_file_add">
-				<span class="fl">上传审批文件</span>
+				<span class="fl">上传审批文件：</span>
 				<div>
-			        <u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+			        <u:upload id="a" buttonName="上传彩色扫描件" exts="jpg,jpeg,gif,png,bmp,pdf" multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 			        <u:show  showId="b" groups="b,c,d" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 				</div>
 			</div>
 			<div class="dnone" id="audit_file_view">
-				<span class="fl">审批文件</span>
+				<span class="fl">审批文件：</span>
 		        <u:show  showId="d" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 			</div>
 		</c:if>
 		
 		<c:if test="${project.confirmFile == 1 || project.confirmFile == 3 || project.confirmFile == 4 || process == 1 }">
 			<div class="clear" >
-				<span class="fl">审批文件</span>
+				<span class="fl">审批文件：</span>
 		        <u:show  showId="c" groups="b,c,d" delete="false" businessId="${project.id}" sysKey="${sysKey}" typeId="${typeId}"/>
 			</div>
 		</c:if>
@@ -450,24 +450,39 @@ function getTaskTime(strDate) {
          	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">采购管理部门意见</span>
             <c:if test="${pStatus != 'ZBWJYTJ'}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
+            	<span class="fl">采购管理部门审核意见附件:</span>
+            	<u:show  showId="e" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
             </c:if>
             <c:if test="${pStatus == 'ZBWJYTJ'}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="pcReason" maxlength="2000" name="pcReason" title="不超过2000个字">${reasons.pcReason}</textarea>
+            	<span class="fl">采购管理部门审核意见附件:</span>
+            	<u:upload id="r"  buttonName="上传采购管理部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${pcTypeId}" auto="true" />
+			    <u:show  showId="t" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
             </c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">事业部门意见</span>
             <c:if test="${pStatus != 'ZBWJYTJ'}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
+          		<span class="fl">事业部门审核意见附件:</span>
+          		<u:show  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
           	</c:if>
           	<c:if test="${pStatus == 'ZBWJYTJ'}">
           		<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="causereason" maxlength="2000" name="causeReason" title="不超过2000个字">${reasons.causeReason}</textarea>
+          		<span class="fl">事业部门审核意见附件:</span>
+          		<u:upload id="u"  buttonName="上传事业部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${causeTypeId}" auto="true" />
+			    <u:show  showId="i" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
           	</c:if>
           	<span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">财务部门意见</span>
             <c:if test="${pStatus != 'ZBWJYTJ'}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10" disabled="disabled"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
+            	<span class="fl">财务部门审核意见附件:</span>
+            	<u:show  showId="o" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
             </c:if>
             <c:if test="${pStatus == 'ZBWJYTJ'}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb10"  id="financereason" maxlength="2000" name="financeReason" title="不超过2000个字">${reasons.financeReason}</textarea>
-            </c:if>
+            	<span class="fl">财务部门审核意见附件:</span>
+            	<u:upload id="p"  buttonName="上传财务部门审核意见"  multiple="true"  businessId="${project.id}"  sysKey="${sysKey}" typeId="${financeTypeId}" auto="true" />
+			    <u:show  showId="s" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
+          	</c:if>
             <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5" id="cgspan">最终意见</span>
             <c:if test="${pStatus != 'ZBWJYTJ'}">
             	<textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20" disabled="disabled"  id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
@@ -476,19 +491,17 @@ function getTaskTime(strDate) {
 	            <textarea class="col-md-12 col-sm-12 col-xs-12 col-lg-12 h80 mb20"  id="finalreason" maxlength="2000" name="finalReason" title="不超过2000个字">${reasons.finalReason}</textarea>
             </c:if>
           </div>
-         </c:if>
-         <c:if test="${pStatus == 'ZBWJYTJ' && exist == true}">
-           	<div class="tc mt50">
+         <div class="clear tc mt50">
+         	<c:if test="${pStatus == 'ZBWJYTJ' && exist == true}">
 	            <input type="button" class="btn btn-windows git " onclick="updateAudit('3')" value="审核通过"></input>
-	            <input type="button" class="btn btn-windows git " onclick="updateAudit('2')" value="退回重报 "></input>
-	            <input type="button" class="btn btn-windows git " onclick="updateAudit('4')" value="修改报备 "></input> 
-	            <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
-          	</div>
-          </div>
+	            <input type="button" class="btn btn-windows cancel " onclick="updateAudit('2')" value="退回重报 "></input>
+	            <input type="button" class="btn btn-windows edit " onclick="updateAudit('4')" value="修改报备 "></input> 
+         	</c:if>
+	        <input type="button" class="btn btn-windows back " onclick="javascript:history.go(-1);" value="返回 "></input>
+         </div>
+         </div>
          </c:if>
-       
        </div>
-        
 	</form>
 </body>
 

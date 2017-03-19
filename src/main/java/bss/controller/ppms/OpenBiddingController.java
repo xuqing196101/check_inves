@@ -394,11 +394,20 @@ public class OpenBiddingController {
     }*/
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("project", project);
-    model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
+    String jsonReason = project.getAuditReason();
+    if (jsonReason != null && !"".equals(jsonReason)) {
+        model.addAttribute("reasons", JSON.parseObject(jsonReason, Reason.class));
+    }
     model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
     model.addAttribute("ope", "add");
     model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
     model.addAttribute("typeId", DictionaryDataUtil.getId("BID_FILE_AUDIT"));
+    //采购管理部门审核意见附件
+    model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
+    //事业部门审核意见附件
+    model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
+    //财务部门审核意见附件
+    model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
     return "bss/ppms/open_bidding/bid_file/add_file";
   }
 

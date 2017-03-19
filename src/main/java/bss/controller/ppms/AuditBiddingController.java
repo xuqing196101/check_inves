@@ -243,6 +243,13 @@ public class AuditBiddingController extends BaseController {
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
         model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
+        model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        //采购管理部门审核意见附件
+        model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
+        //事业部门审核意见附件
+        model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
+        //财务部门审核意见附件
+        model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
         return "bss/ppms/audit_bidding/audit_suggestion";
     }
 
