@@ -598,64 +598,86 @@
 .btn-vimeo {
   background-color: transparent;
   border-color: #00a2cd;
-  color: #00a2cd; }
+  color: #00a2cd; 
+ }
+ 
   .btn-vimeo:hover {
     background-color: #00a2cd;
-    color: white; }
+    color: white; 
+ }
 
 .btn-vk {
   background-color: transparent;
   border-color: #45688e;
-  color: #45688e; }
+  color: #45688e; 
+ }
+ 
   .btn-vk:hover {
     background-color: #45688e;
-    color: white; }
+    color: white; 
+  }
 
 .btn-weibo {
   background-color: transparent;
   border-color: #d7584d;
-  color: #d7584d; }
+  color: #d7584d; 
+ }
+ 
   .btn-weibo:hover {
     background-color: #d7584d;
-    color: white; }
+    color: white; 
+  }
 
 .btn-xing {
   background-color: transparent;
   border-color: #0a5d5e;
-  color: #0a5d5e; }
+  color: #0a5d5e; 
+  }
+  
   .btn-xing:hover {
     background-color: #0a5d5e;
-    color: white; }
+    color: white; 
+  }
 
 .btn-youtube {
   background-color: transparent;
   border-color: #ff0000;
-  color: #ff0000; }
+  color: #ff0000; 
+  }
+  
   .btn-youtube:hover {
     background-color: #ff0000;
-    color: white; }
+    color: white; 
+  }
 
 .btn-csgo {
   background-color: transparent;
   border-color: #b67300;
-  color: #b67300; }
+  color: #b67300; 
+  }
+  
   .btn-csgo:hover {
     background-color: #b67300;
-    color: white; }
+    color: white; 
+  }
 
 .btn-dota2 {
   background-color: transparent;
   border-color: #c33d2b;
-  color: #c33d2b; }
+  color: #c33d2b; 
+  }
+  
   .btn-dota2:hover {
     background-color: #c33d2b;
-    color: white; }
+    color: white; 
+   }
 
 .btn-gm {
   background-color: transparent;
   border-color: #1194f0;
   color: #1194f0; }
-  .btn-gm:hover {
+  
+.btn-gm:hover {
     background-color: #1194f0;
     color: white; }
 
@@ -744,7 +766,14 @@
 .print{
    background-position:-42px -1262px; 
 }
-
+.check_pass{
+   background-position: 8px center; 
+   background-image: url(../images/check_pass.png);
+}
+.check_back{
+    background-image:url(../images/check_back.png);
+    background-position: 8px center; 
+}
 /*add&&delete*/
 .btn.list_btn{
    border-radius: 4px !important;

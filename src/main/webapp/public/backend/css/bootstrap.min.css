@@ -404,7 +404,7 @@ button, input, select, textarea {
     display: inline-block;
     *display: inline;
     padding: 4px 12px;
-    margin-bottom: 0;
+    margin-bottom: 2px;
     margin-right:3px;
     *margin-left: .3em;
     font-size: 14px;

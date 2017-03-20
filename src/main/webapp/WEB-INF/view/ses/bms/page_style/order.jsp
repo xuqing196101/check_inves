@@ -120,6 +120,8 @@
 	<button class="btn btn-windows output" type="submit">导出</button>
 	<button class="btn btn-windows add" type="submit">新增合同</button>
 	<button class="btn btn-windows cancel" type="submit">取消</button>
+	<button class="btn btn-windows check_pass" type="submit">审核通过</button>
+	<button class="btn btn-windows check_back" type="submit">退回重报</button>
    </div>
    <div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">

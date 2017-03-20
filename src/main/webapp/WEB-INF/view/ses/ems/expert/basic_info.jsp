@@ -777,7 +777,7 @@
     <input type="hidden" id="expertsTypeId" name="expertsTypeId" value=""/>
     <input type="hidden" name="token2" value="<%=tokenValue%>"/>
     <div id="reg_box_id_3" class="container clear margin-top-30 job-content">
-        <h2 class="padding-20 mt40">
+        <h2 class="padding-20 mt40 mb20">
             <span id="sp1" class="new_step current fl"><i class="">1</i><div class="line"></div> <span class="step_desc_02">基本信息</span> </span>
             <span id="sp7" class="new_step fl"><i class="">2</i><div class="line"></div> <span class="step_desc_01">专家类型</span> </span>
             <span id="ty6" class="new_step fl"><i class="">3</i><div class="line"></div> <span class="step_desc_02">产品类别</span> </span>
@@ -786,7 +786,7 @@
             <span id="sp5" class="new_step fl"><i class="">6</i> <span class="step_desc_01">提交审核</span> </span>
             <div class="clear"></div>
         </h2>
-        <div class="container container_box">
+        <div class="p0_15 container_box">
             <h2 class="count_flow"><i>1</i>专家个人信息</h2>
             <ul class="ul_list">
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
