@@ -3281,6 +3281,10 @@ public class ExpertController extends BaseController {
     					stat += "1";
     					break;
     				}
+    				if (code != null && code.equals("GOODS_SERVER")) {
+    					stat += "1";
+    					break;
+    				}
     			}
 			}
     		if (stat.length() == lenExp) {
