@@ -180,9 +180,8 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 			} else {
 				map.put("array", array);
 			}
-
+			mapper.delNoTree(map);
 		}
-		mapper.delNoTree(map);
 	}
 
     /**
