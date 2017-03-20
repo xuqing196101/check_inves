@@ -80,7 +80,6 @@ public interface ExpertCategoryService {
 
 	int getListCount(String expertId, String typeId);
 
-	List<ExpertCategory> findEnginId(String string);
-	
-	
+	List<ExpertCategory> findEnginId(String expertId, String engin_type);
+
 }
