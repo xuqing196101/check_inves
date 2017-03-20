@@ -141,11 +141,11 @@ public class OBSupplierQuoteController {
 			String supplierId, String projectId) {
 		if (supplierId == null || "".equals(supplierId)) {
 			// 这个目前做测试用
-			supplierId = "2E7A7EAC566343379640DDAB5A35123F";//"529e68e5351842f1910b5b2f97a03b78";
+			supplierId = "1e54762a00ac444db7ad56afbd401b57";//"529e68e5351842f1910b5b2f97a03b78";
 		}
 		if (projectId == null || "".equals(projectId)) {
 			// 这个目前做测试用
-			projectId = "DDE523291D694F5B8CC084EC2DFDBFF9";
+			projectId = "28BFAB6639CC4ED9853BBE581705FAD9";
 		}
 		
 		OBProjectResult oBProjectResult = new OBProjectResult();

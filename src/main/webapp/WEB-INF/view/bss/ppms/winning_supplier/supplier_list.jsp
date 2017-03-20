@@ -27,7 +27,6 @@
 <script type="text/javascript">
 	$(function() {
 		var quote = "${quote}";
-
 		// 	  0总价 1明细
 		if (quote == 0) {
 
@@ -535,7 +534,7 @@
 	//录入表的
 	function InputBD(obj) {
 		var supplierId = $(obj).parent().parent().find(".supplierId").val();
-		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&pid=${pid}&supplierId=" + supplierId;
+		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&quote=${quote}&pid=${pid}&supplierId=" + supplierId;
 	}
 	//关联选中
 	function associateSelected(id, obj, index) {

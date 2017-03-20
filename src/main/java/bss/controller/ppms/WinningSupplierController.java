@@ -862,6 +862,7 @@ public class WinningSupplierController extends BaseController {
 	model.addAttribute("supplierId", supplierId);
     model.addAttribute("packageId", packageId);
     model.addAttribute("projectId", projectId);
+    model.addAttribute("quote", quote);
     model.addAttribute("pid", pid);
     //获取明细
     HashMap<String,Object> map = new HashMap<>();
