@@ -623,11 +623,9 @@ public class ExpertController extends BaseController {
             typeId=DictionaryDataUtil.getId(code);
         }
         if (code.equals("ENG_INFO_ID")) {
-        	List<ExpertCategory> lis = expertCategoryService.findEnginId("1");
-        	if (lis != null && lis.size() >0) {
-        		engin_type="1";
-			}else {
-				engin_type="2";
+        	List<ExpertCategory> lis = expertCategoryService.findEnginId(expertId, "2");
+        	if (lis != null && lis.size() > 0) {
+        		engin_type ="2";
 			}
             flag = "ENG_INFO";
         }

@@ -65,6 +65,6 @@ public interface ExpertCategoryMapper {
 
 	List<ExpertCategory> selectListByExpertId1(String expertId, String typeId);
 
-	List<ExpertCategory> findEnginId(String id);
+	List<ExpertCategory> findEnginId(Map<String, Object> map);
 
 }
