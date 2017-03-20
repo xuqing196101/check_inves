@@ -111,7 +111,7 @@ public class InnerExpertServiceImpl implements InnerExpertService {
         if (categories != null && categories.size() > 0) {
             Expert expert = expertService.selectByPrimaryKey(categories.get(0).getExpertId());
             for (ExpertCategory expertCategory : categories) {
-                expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId());
+                expertCategoryService.save(expert, expertCategory.getCategoryId(), expertCategory.getTypeId(), null);
             }
         }
     }
