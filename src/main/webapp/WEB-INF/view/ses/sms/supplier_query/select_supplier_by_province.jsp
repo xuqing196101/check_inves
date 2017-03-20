@@ -339,6 +339,26 @@
    		}
    		
    	}
+   	
+   		//禁用F12键及右键
+  		function click(e) {
+			if (document.layers) {
+					if (e.which == 3) {
+					oncontextmenu='return false';
+					}
+				}
+			}
+			if (document.layers) {
+				document.captureEvents(Event.MOUSEDOWN);
+			}
+			document.onmousedown=click;
+			document.oncontextmenu = new Function("return false;");
+			document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
+				if(window.event.keyCode == 123) { 
+					window.event.returnValue=false;
+					return(false); 
+				} 
+			};
 		</script>
 	</head>
 	<!--面包屑导航开始-->

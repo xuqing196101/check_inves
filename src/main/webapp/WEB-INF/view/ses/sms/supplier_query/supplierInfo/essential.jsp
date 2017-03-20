@@ -167,7 +167,7 @@
 								</tr>
 								<tr>
 									<td class="bggrey" width="20%">住所详细地址：</td>
-									<td width="30%">${suppliers.detailAddress}</td>
+									<td colspan="3">${suppliers.detailAddress}</td>
 							</tbody>
 						</table>
 
@@ -182,7 +182,8 @@
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">生产或经营详细地址：</td>
-										<td width="30%">${supplierAddress.detailAddress}</td>
+										<td colspan="3">${supplierAddress.detailAddress}</td>
+									</tr> 
 								</tbody>
 							</table>
 						</c:forEach>
@@ -285,7 +286,7 @@
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">详细地址：</td>
-										<td width="30%">${suppliers.contactAddress}</td>
+										<td colspan="3">${suppliers.contactAddress}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -318,7 +319,7 @@
 									</tr>
 									<tr>
 										<td class="bggrey" width="20%">详细地址：</td>
-										<td width="30%">${suppliers.armyBuinessAddress}</td>
+										<td colspan="3">${suppliers.armyBuinessAddress}</td>
 									</tr>
 								</tbody>
 							</table>
@@ -348,13 +349,16 @@
 											</c:if>
 											<%-- <fmt:formatDate value="${suppliers.businessEndDate}" pattern="yyyy-MM-dd" /> </td> --%>
 									</tr>
+									
 									<tr>
-										<td class="bggrey" width="20%">经营范围：</td>
-										<td width="30%">${suppliers.businessScope } </td>
 										<td class="bggrey" width="20%">营业执照：</td>
 										<td class="hand" width="30%">
 											<u:show showId="business_show" delete="false" businessId="${suppliers.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBusinessCert}" />
 										</td>
+									</tr>
+									<tr>
+										<td class="bggrey" width="20%">经营范围：</td>
+										<td colspan="3">${suppliers.businessScope } </td>
 									</tr>
 									<%-- <tr>
 									  <td class="bggrey" width="20%">邮编：</td>
@@ -393,9 +397,11 @@
 											</tr>
 											<tr>
 												<td class="bggrey" width="20%">详细地址：</td>
-												<td width="30%">${supplierBranch.detailAddress}</td>
+												<td colspan="3">${supplierBranch.detailAddress}</td>
+											</tr>
+											<tr>
 												<td class="bggrey" width="20%">分支生产经营范围：</td>
-												<td width="30%">${supplierBranch.businessSope } </td>
+												<td colspan="3">${supplierBranch.businessSope } </td>
 											</tr>
 										</tbody>
 									</table>

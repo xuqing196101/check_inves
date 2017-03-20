@@ -556,43 +556,43 @@ function importAdd(){
              
               <div style="float:right;text-align: left;width:30%;white-space:nowrap;">
               <c:choose>
-			    <c:when test="${item.status == -1}">
-			           未未提交审核
-			    </c:when>
-                <c:when test="${item.status == 0}">
-			          待审核
-			    </c:when>
-			     <c:when test="${item.status == 1}">
-			          审核通过
-			    </c:when>
-			    <c:when test="${item.status == 2}">
-			          审核退回修改
-			    </c:when>
-			    <c:when test="${item.status == 3}">
-			         审核未通过
-			    </c:when>
-			    <c:when test="${item.status == 4}">
-			          待复核
-			    </c:when>
-			    <c:when test="${item.status == 5}">
-			         复核通过
-			    </c:when>
-			    <c:when test="${item.status == 6}">
-			          复核未通过
-			    </c:when>
-			    <c:when test="${item.status == 7}">
-			          待考察
-			    </c:when>
-			    <c:when test="${item.status == 8}">
-			          考察合格
-			    </c:when>
-			    <c:when test="${item.status == 9}">
-			          考察不合格
-			    </c:when>
-			    <c:otherwise>
-			          无状态
-			    </c:otherwise>
-                </c:choose>
+						    <%-- <c:when test="${item.status == -1}">
+						           未未提交审核
+						    </c:when>
+			          <c:when test="${item.status == 0}">
+						          待审核
+						    </c:when> --%>
+						    <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
+						          审核通过
+						    </c:when>
+						   <%--  <c:when test="${item.status == 2}">
+						          审核退回修改
+						    </c:when>
+						    <c:when test="${item.status == 3}">
+						         审核未通过
+						    </c:when>
+						    <c:when test="${item.status == 4}">
+						          待复核
+						    </c:when> --%>
+						    <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
+						         复核通过
+						    </c:when>
+						    <%-- <c:when test="${item.status == 6}">
+						          复核未通过
+						    </c:when>
+						    <c:when test="${item.status == 7}">
+						          待考察
+						    </c:when> --%>
+						    <c:when test="${item.status == 8}">
+						          考察合格
+						    </c:when>
+						   <%--  <c:when test="${item.status == 9}">
+						          考察不合格
+						    </c:when> --%>
+						    <c:otherwise>
+						          无状态
+						    </c:otherwise>
+               </c:choose>
               
               </div></li>
               
@@ -698,31 +698,31 @@ function importAdd(){
               <div style="float:right;text-align: left;width:30%;white-space:nowrap;">
               <c:choose>
 			  
-                <c:when test="${item.status == 0}">
-			          未审核
-			    </c:when>
-			     <c:when test="${item.status == 1}">
-			          初审通过
-			    </c:when>
-			    <c:when test="${item.status == 2}">
-			           初审未通过
-			    </c:when>
-			    <c:when test="${item.status == 3}">
-			        退回修改
-			    </c:when>
-			   <c:when test="${item.status == 4}">
-			        待复审
-			    </c:when>
-			    <c:when test="${item.status == 5}">
-			        复审通过
-			    </c:when>
-			    <c:when test="${item.status == 6}">
-			        复审踢除
-			    </c:when>
+                <%-- <c:when test="${item.status == 0}">
+						          未审核
+						    </c:when>
+						     <c:when test="${item.status == 1}">
+						          初审通过
+						    </c:when>
+						    <c:when test="${item.status == 2}">
+						           初审未通过
+						    </c:when>
+						    <c:when test="${item.status == 3}">
+						        退回修改
+						    </c:when>
+						   <c:when test="${item.status == 4}">
+						        待复审
+						    </c:when> --%>
+						    <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+						        复审通过
+						    </c:when>
+						    <c:when test="${item.status eq '7'}">
+						        复查通过
+						    </c:when>
 			    
-			    <c:otherwise>
-			   
-			    </c:otherwise>
+						    <c:otherwise>
+						   
+						    </c:otherwise>
                 </c:choose>
               
               </div></li>

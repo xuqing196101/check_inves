@@ -75,7 +75,7 @@
 						}
 						var id = $(":radio:checked").val();
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(6).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
 					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
@@ -155,7 +155,7 @@
 				//发布
 				function publish(){
 			  	var id = $(":radio:checked").val();
-					var state = $("#" + id + "").parents("tr").find("td").eq(6).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
 					if(id != null){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
 			  	 			$.ajax({
@@ -189,6 +189,28 @@
 			  		}
 			  		
 			  	}
+			  	
+			  	//禁用F12键及右键
+		  		function click(e) {
+					if (document.layers) {
+							if (e.which == 3) {
+							oncontextmenu='return false';
+							}
+						}
+					}
+					if (document.layers) {
+						document.captureEvents(Event.MOUSEDOWN);
+					}
+					document.onmousedown=click;
+					document.oncontextmenu = new Function("return false;");
+					document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
+						if(window.event.keyCode == 123) { 
+							window.event.returnValue=false;
+							return(false); 
+						} 
+					};
+			  	
+		
 			</script>
 		</head>
 
@@ -301,6 +323,7 @@
 								<th class="info w50">选择</th>
 								<th class="info w50">序号</th>
 								<th class="info">供应商名称</th>
+								<th class="info">手机号</th>
 								<th class="info">企业类型</th>
 								<th class="info">企业性质</th>
 								<th class="info w60">发布</th>
@@ -312,6 +335,7 @@
 								<td class="tc w30"><input name="id" type="radio" value="${list.id}"></td>
 								<td class="tc w50" onclick="shenhe('${list.id }');">${(page.count)+(result.pageNum-1)*(result.pageSize)}</td>
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierName }</td>
+								<td class="tc" onclick="shenhe('${list.id }');">${list.mobile }</td>
 								<td class="tl pl20" onclick="shenhe('${list.id }');">${list.supplierTypeNames}</td>
 								<td class="tc" onclick="shenhe('${list.id }');">
 								  <c:forEach items="${enterpriseTypeList}" var="type">

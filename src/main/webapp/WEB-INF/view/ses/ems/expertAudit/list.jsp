@@ -76,7 +76,7 @@
 				var id = $(":radio:checked").val();
 				var state = $("#" + id + "").parent("tr").find("td").eq(7).text().trim();
 				if(state == "待初审" || state == "待复审" || state == "待复查" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
-					layer.msg("请选择审核未通过的专家 !", {
+					layer.msg("请选择未通过审核的专家 !", {
 						offset: '100px',
 					});
 					return;
@@ -102,7 +102,7 @@
 			  	var id = $(":radio:checked").val();
 					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
 					if(id != null){
-			  			if(state == "复审通过"){
+			  			if(state == "复审通过" || state == "待复查" || state == "复查通过" || state == "复查未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/expertAudit/publish.html",
 			  	 				data:"expertId=" +id,
@@ -128,13 +128,34 @@
 			  	 					}
 			  	 	     });
 			  		}else{
-			  			layer.alert("请选择【复审通过】的专家！",{offset : '100px'});
+			  			layer.alert("请选择入库的专家！",{offset : '100px'});
 			     	}
 			  		}else{
 			  			layer.msg("请选择专家 !", {offset: '100px',});
 			  		}
 			  		
 			  	}
+			  	
+			  	
+			  	//禁用F12键及右键
+		  		function click(e) {
+					if (document.layers) {
+							if (e.which == 3) {
+							oncontextmenu='return false';
+							}
+						}
+					}
+					if (document.layers) {
+						document.captureEvents(Event.MOUSEDOWN);
+					}
+					document.onmousedown=click;
+					document.oncontextmenu = new Function("return false;");
+					document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
+						if(window.event.keyCode == 123) { 
+							window.event.returnValue=false;
+							return(false); 
+						} 
+					};
 		</script>
 
 	</head>
@@ -216,7 +237,7 @@
 				<table class="table table-bordered table-condensed table-hover table-striped hand">
 					<thead>
 						<tr>
-							<th class="info w40">选择</th>
+							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
 							<th class="info">性别</th>
