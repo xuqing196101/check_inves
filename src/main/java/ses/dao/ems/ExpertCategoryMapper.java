@@ -63,4 +63,6 @@ public interface ExpertCategoryMapper {
 	 */
 	void delNoTree(Map<String, Object> map);
 
+	List<ExpertCategory> selectListByExpertId1(String expertId, String typeId);
+
 }
