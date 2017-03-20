@@ -8,8 +8,23 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
-    <!-- <association column="PROJECT_ID"  property="obProject" select="bss.dao.ob.OBProjectSupplierMapper.selectByPrimaryKey" /> -->
   </resultMap>
+  
+  <resultMap type="bss.model.ob.OBProjectSupplier" id="OBProjectResultMap" extends="BaseResultMap">
+  	<collection property="obProjectList" ofType="bss.model.ob.OBProject">
+  		 <id column="PID" property="id" jdbcType="VARCHAR" />
+	    <result column="PNAME" property="name" jdbcType="VARCHAR" />
+	    <result column="PSTART_TIME" property="startTime" jdbcType="TIMESTAMP" />
+	    <result column="PEND_TIME" property="endTime" jdbcType="TIMESTAMP" />
+	    <result column="PREMARK" property="remark" jdbcType="VARCHAR" />
+	    <result column="PSTATUS" property="status" jdbcType="DECIMAL" />
+	    <result column="PCREATER_ID" property="createrId" jdbcType="VARCHAR" />
+     	<result column="PCREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    	<result column="PUPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  	</collection>
+  	
+  </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -232,12 +247,32 @@
   </update>
   
   <!-- 根据supplier_id查询所有的竞价信息 -->
-  <select id="selectSupplierOBprojectList" resultMap="BaseResultMap" parameterType="Map">
+  <select id="selectSupplierOBprojectList" resultMap="OBProjectResultMap" parameterType="Map">
   	SELECT
   	<if test="distinct" >
       distinct
     </if>
-    <include refid="Base_Column_List" />
-  	FROM T_BSS_OB_PROJECT_SUPPLIER PS WHERE PS.SUPPLIER_ID = #{supplier_id}
+		S.ID as ID, 
+  		S.PROJECT_ID AS PROJECT_ID,
+  		S.SUPPLIER_ID AS SUPPLIER_ID,
+   		P.ID AS PID,
+   		P.NAME AS PNAME,
+   		P.START_TIME AS PSTART_TIME,
+   		P.END_TIME AS PEND_TIME,
+   		P.REMARK AS PREMARK,
+   		P.STATUS AS PSTATUS,
+   		P.CREATER_ID AS PCREATER_ID,
+   		P.CREATED_AT AS PCREATED_AT,
+   		P.UPDATED_AT AS PUPDATED_AT
+  		FROM T_BSS_OB_PROJECT_SUPPLIER S
+  		LEFT JOIN T_BSS_OB_PROJECT P
+  		ON S.PROJECT_ID = P.ID
+ 		WHERE S.SUPPLIER_ID = #{supplier_id}
+ 		<if test="name != null and name != ''">
+        	AND P.NAME LIKE '%${name}%'
+      	</if>
+      	<if test="createTime != null and createTime != ''">
+        	AND P.CREATED_AT = #{createTime}
+      	</if>
   </select>
 </mapper>

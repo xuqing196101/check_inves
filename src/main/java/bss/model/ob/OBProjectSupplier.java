@@ -1,6 +1,7 @@
 package bss.model.ob;
 
 import java.util.Date;
+import java.util.List;
 /**
  * 
 * @ClassName: OBProjectSupplier 
@@ -16,7 +17,7 @@ public class OBProjectSupplier {
     private String projectId;
 
     /**竞价信息**/
-    private OBProject obProject;
+    private List<OBProject> obProjectList;
     
     /**供应商 ID**/
     private String supplierId;
@@ -78,12 +79,12 @@ public class OBProjectSupplier {
         this.remark = remark == null ? null : remark.trim();
     }
 
-	public OBProject getObProject() {
-		return obProject;
+	public List<OBProject> getObProjectList() {
+		return obProjectList;
 	}
 
-	public void setObProject(OBProject obProject) {
-		this.obProject = obProject;
+	public void setObProjectList(List<OBProject> obProjectList) {
+		this.obProjectList = obProjectList;
 	}
     
 }
