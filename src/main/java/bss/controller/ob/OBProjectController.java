@@ -502,7 +502,7 @@ public class OBProjectController {
 		selectMap.put("id", obProject.getOrgId());
 		List<Orgnization> orgnizationMapperList = orgnizationMapper
 				.selectByPrimaryKey(selectMap);
-		int countOfferPricebyOne = 0;
+		Integer countOfferPricebyOne = 0;
 		if (list != null && list.size() > 0) {
 			Orgnization orgnization = orgnizationMapperList.get(0);
 			model.addAttribute("orgName", orgnization.getName());
