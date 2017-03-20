@@ -204,5 +204,29 @@
     </if>-->
   </select>
   
+  <!--根据投诉人查询所有 -->
+  <select id="selectComplaintByUserId" parameterType="sums.model.oc.Complaint" resultMap="BaseResultMap">
+  	SELECT 
+  	 <include refid="Base_Column_List" />
+  	FROM T_SUMS_OC_COMPLAINT
+  	WHERE IS_DELETED = 0
+  	<if test="name != null and name != ''">
+      AND NAME like '%'||#{name}||'%'
+    </if>
+ 	<if test="createrId != null and createrId != ''">
+      AND CREATER_ID = #{createrId,jdbcType=VARCHAR}
+    </if>
+    <if test="complaintObject != null and complaintObject != ''">
+      AND COMPLAINT_OBJECT like '%'||#{complaintObject}||'%'
+    </if>
+    <if test="type != null">
+      AND TYPE = #{type,jdbcType=DECIMAL}
+    </if>
+  </select>
+  
+  <!-- 删除  改变删除状态 -->
+  <update id="updateIsDeleteByPrimaryKey" parameterType="String">
+  	UPDATE T_SUMS_OC_COMPLAINT SET IS_DELETED = 1 WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
   
 </mapper>

@@ -247,7 +247,7 @@ function openViewDIvs(id){
 				<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 				<td class="tl">${supplier.supplier.supplierName }</td>
 				<td class="tc">
-					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
+					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd HH:mm:ss" /> 
 				</td>
 				<td class="tc"><button type="button" onclick="openViewDIvs('${supplier.id }');" class="btn">查看</button></td>
 				<td class="tc" id = "${supplier.id }status">

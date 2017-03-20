@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 
 
+
 import com.github.pagehelper.PageHelper;
 
 import ses.util.PropertiesUtil;
@@ -38,6 +39,25 @@ public class ComplaintServiceImpl implements ComplaintService {
 	@Override
 	public int updateByPrimaryKey(Complaint complaint) {
 		return complaintMapper.updateByPrimaryKeySelective(complaint);
+	}
+	@Override
+	public List<Complaint> selectComplaintByUserId(Complaint record,
+			Integer page) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		return complaintMapper.selectComplaintByUserId(record);
+	}
+	@Override
+	public void updateIsDeleteByPrimaryKey(String id) {
+		complaintMapper.updateIsDeleteByPrimaryKey(id);
+	}
+	@Override
+	public int insertSelective(Complaint record) {
+		return complaintMapper.insertSelective(record);
+	}
+	@Override
+	public int updateByPrimaryKeySelective(Complaint record) {
+		return complaintMapper.updateByPrimaryKeySelective(record);
 	}
 
 

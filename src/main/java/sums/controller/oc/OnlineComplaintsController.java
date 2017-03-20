@@ -1,11 +1,7 @@
 package sums.controller.oc;
 
-import java.io.UnsupportedEncodingException;
-import java.net.URLDecoder;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
 import java.util.List;
+import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -15,21 +11,11 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import bss.model.ob.OBProduct;
-
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
-
 import ses.model.bms.User;
-import ses.model.ems.ExamPaper;
-import ses.model.ems.ExamPaperUser;
-import ses.model.ems.ExamQuestion;
-import ses.model.ems.ExamUserScore;
-import ses.model.ems.Expert;
-import ses.service.bms.UserServiceI;
-import ses.util.PropertiesUtil;
 import sums.model.oc.Complaint;
 import sums.service.oc.ComplaintService;
+
+import com.github.pagehelper.PageInfo;
 
 /**
  * 
@@ -59,11 +45,108 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/complaints")
-	public String complaints(HttpServletRequest request) {
-		Complaint complaint = new Complaint();
-		complaint.setStatus(0);
+	public String complaints(HttpServletRequest request,Integer page,Complaint complaint, Model model) {
+		if (page == null) {
+			page = 1;
+		}
+		User user = (User) request.getSession().getAttribute("loginUser");
+		if(user != null){
+			complaint.setCreaterId(user.getId());
+		}
+		List<Complaint> list = complaintService.selectComplaintByUserId(complaint,page);
+		PageInfo<Complaint> info = new PageInfo<>(list);
+		model.addAttribute("info", info);
+		model.addAttribute("complaint", complaint);
+		return "sums/oc/onlineComplaints/list";
+	}
+	
+	/**
+	 * 
+	 * Description: 页面跳转
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月18日 
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("/addoredit")
+	public String addoredit(HttpServletRequest request,Model model){
+		int type = request.getParameter("type") == null ? 0 :Integer.parseInt(request.getParameter("type"));
+		if(type == 1){
+			String id = UUID.randomUUID().toString().replaceAll("-", "");
+			Complaint complaint = new Complaint();
+			complaint.setId(id);
+			model.addAttribute("complaint",complaint);
+			return "sums/oc/onlineComplaints/add";
+		}
+		if(type == 2){
+			String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+			Complaint complaint = complaintService.selectByPrimaryKey(id);
+			model.addAttribute("complaint",complaint);
+			return "sums/oc/onlineComplaints/edit";
+		}
+		return "redirect:/onlineComplaints/complaints.html";
+	}
+	
+	/**
+	 * 
+	 * Description: 添加
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月18日 
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("/add")
+	public String add(HttpServletRequest request,Model model,Complaint complaint){
+		if(complaint != null){
+			complaintService.insertSelective(complaint);
+		}
+		return "redirect:/onlineComplaints/complaints.html";
+	}
+	
+	/**
+	 * 
+	 * Description: 修改
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月18日 
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("/edit")
+	public String edit(HttpServletRequest request,Model model,Complaint complaint){
+		if(complaint != null){
+			complaintService.updateByPrimaryKeySelective(complaint);
+		}
+		return "redirect:/onlineComplaints/complaints.html";
+	}
+	
+	/**
+	 * 
+	 * Description: 删除
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月18日 
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("/delete")
+	@ResponseBody
+	public void delete(HttpServletRequest request){
+		String ids = request.getParameter("ids");
+		String id = ids.trim();
+		if (id.length() != 0) {
+			String[] uniqueIds = id.split(",");
+			for (String str : uniqueIds) {
+				complaintService.updateIsDeleteByPrimaryKey(str);
+			}
 
-		return "sums/oc/onlineComplaints/add";
+		}
 	}
 
 	/**
@@ -104,8 +187,14 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/recordQuery")
-	public String recordQuery(HttpServletRequest request) {
-
+	public String recordQuery(HttpServletRequest request,Integer page,Complaint complaint, Model model) {
+		if (page == null) {
+			page = 1;
+		}
+		List<Complaint> list = complaintService.selectComplaintByUserId(complaint,page);
+		PageInfo<Complaint> info = new PageInfo<>(list);
+		model.addAttribute("info", info);
+		model.addAttribute("complaint", complaint);
 		return "sums/oc/inquire/list";
 	}
 

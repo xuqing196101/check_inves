@@ -18,4 +18,55 @@ public interface ComplaintService {
 	Complaint selectByPrimaryKey(String id);
 	 
 	int updateByPrimaryKey(Complaint complaint);
+	
+	/**
+     * 
+     * Description: 根据投诉人id查询
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月17日 
+     * @param  @param userId
+     * @param  @return 
+     * @return List<Complaint> 
+     * @exception
+     */
+    List<Complaint> selectComplaintByUserId(Complaint record,Integer page);
+    
+    /**
+     * 
+     * Description: 删除 改变删除状态
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月18日 
+     * @param  @param id 
+     * @return void 
+     * @exception
+     */
+    void updateIsDeleteByPrimaryKey(String id);
+    
+    /**
+     * 
+     * Description: 插入非空数据
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月18日 
+     * @param  @param record
+     * @param  @return 
+     * @return int 
+     * @exception
+     */
+    int insertSelective(Complaint record);
+    
+    /**
+     * 
+     * Description: 修改 非空数据
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月18日 
+     * @param  @param record
+     * @param  @return 
+     * @return int 
+     * @exception
+     */
+    int updateByPrimaryKeySelective(Complaint record);
 }

@@ -11,81 +11,99 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript">
-	function publish(){
-		window.location.href = "${pageContext.request.contextPath }/onlineComplaints/publish.do";
-	}
+//重置
+function resetQuery() {
+	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
+	window.location.href = "${pageContext.request.contextPath }/onlineComplaints/recordQuery.html";
+}
 </script>
 </head>
 <body>
-     
-	<!--面包屑导航开始-->
-	<div class="margin-top-10 breadcrumbs ">
-		<div class="container">
-			<ul class="breadcrumb margin-left-0">
-				<li><a href="javascript:void(0)"> 首页</a></li>
-				<li><a href="javascript:void(0)">业务监管</a></li>
-				<li><a href="javascript:void(0)">网上投诉处理</a></li>
-				<li class="active"><a href="javascript:void(0)">投诉记录查询</a></li>
-			</ul>
-			<div class="clear"></div>
-		</div>
-	</div> 
+  <!--面包屑导航开始-->
+    <div class="margin-top-10 breadcrumbs ">
+      <div class="container">
+        <ul class="breadcrumb margin-left-0">
+		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">业务监管</a></li><li><a href="javascript:void(0)">网上投诉</a></li>
+		   <li><a href="javascript:void(0)">投诉记录查询</a></li>
+		   </ul>
+        <div class="clear"></div>
+      </div>
+    </div>
+    
+    <!-- 网上投诉列表页面开始 -->
 	<div class="container">
-	<div class="headline-v2">
+	 <div class="headline-v2">
 		<h2>投诉记录列表</h2>
 	 </div>
-	<div class="search_detail">
-	<form action="" method="post" class="mb0">
-	   <ul class="demand_list">
-				<li>
-			    	<label class="fl">投诉人名称：</label><span><input type="text" id="name" name="name" class=""/></span>
-			    </li>
-		  		<li>
-			    	<label class="fl">状态：</label>
-			    	<span>
-			    		<select class="w178" id="status" name="status">
-				  			<option value="">请选择</option>
-				  			<option value="0">单位</option>
-				  			<option value="1">个人</option>
-				  		</select>
-			    	</span>
-			    </li>
-		  		<li>
-			    	<label class="fl">投诉对象：</label><span><input type="text" id="contractCode" name="contractCode" class=""/></span>
-			    </li>
-			  	<button class="btn" type="submit">查询</button>
-	  		</ul>
-	  		<div class="clear"></div>
-	  </form>
-	  </div>
-	  	<div class="col-md-12 pl20 mt10">
-				<button class="btn" type="button" onclick="publish()">公布</button>
-		   </div>
-       <div class="content table_box">
-				<table class="table table-bordered table-condensed table-hover">
-					<thead>
-						<tr class="info">
-							<th class="w50">序号</th>
-							<th>投诉人名称</th>
-							<th>投诉人类型</th>
-							<th>投诉对象</th>
-							<th width="25%">投诉事项</th>
-							<th>处理情况</th>
-						</tr>
-					</thead>
-					<tbody>
-						<tr class="tc">
-							<td class="tc">1</td>
-							<td class="tc">XXXXXXXXXXXX</td>
-							<td class="tc">xhxhxhxhxhx</td>
-							<td class="tc">dddsdadad</td>
-							<td class="tl">dasdadasda</td>
-							<td class="tc">adasdasdasd</td>
-						</tr>
-					</tbody>
-				</table>
-	
-	</div></div>
+    <div class="search_detail">
+       <form action="${pageContext.request.contextPath }/onlineComplaints/recordQuery.html" method="post" class="mb0" id = "form1">
+    	<ul class="demand_list">
+    	<li>
+	    	<label class="fl">投诉人名称：</label>
+			<input type="text" id="" class="" name = "name" value="${complaint.name }"/>
+	      </li>
+    	  <li>
+	    	<label class="fl">投诉人类型：</label>
+	    	  <select class="w178" name="type">
+	    	    <option value="">--请选择--</option>
+	    	    <option value="1" <c:if test="${1==complaint.type}">selected="selected"</c:if>>个人</option>
+	    	    <option value="0" <c:if test="${0==complaint.type}">selected="selected"</c:if>>单位</option>
+	    	  </select>
+	      </li>
+    	  <li>
+	    	<label class="fl">投诉对象：</label>
+			<input type="text" id="" class="" name = "complaintObject" value="${complaint.complaintObject }"/>
+	      </li>
+	      <input class="btn fl mt1" type="submit" value="查询" /> 
+	      <input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
+    	</ul>
+    	  <div class="clear"></div>
+       </form>
+     </div>
+     
+<!-- 表格开始 -->
+	<!-- <div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows add" type="button" onclick="add()">新增</button>
+		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+	</div>  -->  
+	<div class="content table_box">
+	<table class="table table-bordered table-condensed table-hover">
+		<thead>
+			<tr class="info">
+				<th class="w50">序号</th>
+				<th>投诉人名称</th>
+				<th>投诉人类型</th>
+				<th>投诉对象</th>
+				<th width="25%">投诉事项</th>
+				<th>处理情况</th>
+			</tr>
+		</thead>
+		<tbody>
+		<c:forEach items="${info.list }" var="complaint" varStatus="vs">
+			<tr class="tc">
+				<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+				<td class="tc">${complaint.name }</td>
+				<td class="tc">
+					<c:if test="${complaint.type == 1 }">个人</c:if>
+					<c:if test="${complaint.type == 0 }">单位</c:if>
+				</td>
+				<td class="tc">${complaint.complaintObject }</td>
+				<td class="tl">${complaint.complaintMatter }</td>
+				<td class="tc">
+					<c:if test="${complaint.status == 0 }">等待处理</c:if>
+					<c:if test="${complaint.status == 1 }">已立项</c:if>
+					<c:if test="${complaint.status == 2 }">立项驳回</c:if>
+					<c:if test="${complaint.status == 3 }">已公示</c:if>
+				</td>
+			</tr>
+		</c:forEach>
+		</tbody>
+	</table>
+   </div>
+      <div id="pagediv" align="right"></div>
+   </div>
+    
 
 </body>
 </html>

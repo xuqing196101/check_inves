@@ -2,6 +2,8 @@ package bss.model.ob;
 
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import ses.model.sms.Supplier;
 
 /**
@@ -21,6 +23,7 @@ public class OBSupplier {
 
 	private String qualificationCert;
 
+	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
 	private Date certValidPeriod;
 
 	private String qualityInspectionDep;

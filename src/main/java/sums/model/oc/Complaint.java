@@ -36,7 +36,7 @@ public class Complaint {
      * 表字段 : T_SUMS_OC_COMPLAINT.TYPE
      * </pre>
      */
-    private int type;
+    private Integer type;
 
     /**
      * <pre>
@@ -60,7 +60,7 @@ public class Complaint {
      * 表字段 : T_SUMS_OC_COMPLAINT.STATUS
      * </pre>
      */
-    private int status;
+    private Integer status;
 
     /**
      * <pre>
@@ -76,7 +76,7 @@ public class Complaint {
      * 表字段 : T_SUMS_OC_COMPLAINT.IS_DELETED
      * </pre>
      */
-    private int isDeleted;
+    private Integer isDeleted;
 
     /**
      * <pre>
@@ -165,7 +165,7 @@ public class Complaint {
      *
      * @return T_SUMS_OC_COMPLAINT.TYPE：投诉人类型
      */
-    public int getType() {
+    public Integer getType() {
         return type;
     }
 
@@ -178,7 +178,7 @@ public class Complaint {
      * @param type
      *            T_SUMS_OC_COMPLAINT.TYPE：投诉人类型
      */
-    public void setType(int type) {
+    public void setType(Integer type) {
         this.type = type;
     }
 
@@ -240,7 +240,7 @@ public class Complaint {
      *
      * @return T_SUMS_OC_COMPLAINT.STATUS：是否立项状态
      */
-    public int getStatus() {
+    public Integer getStatus() {
         return status;
     }
 
@@ -253,7 +253,7 @@ public class Complaint {
      * @param status
      *            T_SUMS_OC_COMPLAINT.STATUS：是否立项状态
      */
-    public void setStatus(int status) {
+    public void setStatus(Integer status) {
         this.status = status;
     }
 
@@ -290,7 +290,7 @@ public class Complaint {
      *
      * @return T_SUMS_OC_COMPLAINT.IS_DELETED：是否删除
      */
-    public int getIsDeleted() {
+    public Integer getIsDeleted() {
         return isDeleted;
     }
 
@@ -303,7 +303,7 @@ public class Complaint {
      * @param isDeleted
      *            T_SUMS_OC_COMPLAINT.IS_DELETED：是否删除
      */
-    public void setIsDeleted(int isDeleted) {
+    public void setIsDeleted(Integer isDeleted) {
         this.isDeleted = isDeleted;
     }
 

@@ -1188,7 +1188,6 @@ public class ExcelUtil {
         			}
         			//第二列
     				if(cell.getColumnIndex()==1){
-    					System.out.println("=======================================");
     					if(cell.getCellType()==1){
         					//判断是否为空
         					if(cell.getStringCellValue().trim().length()<1){

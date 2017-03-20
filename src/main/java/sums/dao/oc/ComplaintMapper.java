@@ -58,5 +58,28 @@ public interface ComplaintMapper {
      */
     List<Complaint> selectAllComplaint(String id);
     
-    //List<Complaint> selectByPrimaryKey(String id);
+    /**
+     * 
+     * Description: 根据投诉人id查询
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月17日 
+     * @param  @param userId
+     * @param  @return 
+     * @return List<Complaint> 
+     * @exception
+     */
+    List<Complaint> selectComplaintByUserId(Complaint record);
+    
+    /**
+     * 
+     * Description: 删除 改变删除状态
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月18日 
+     * @param  @param id 
+     * @return void 
+     * @exception
+     */
+    void updateIsDeleteByPrimaryKey(String id);
 }
