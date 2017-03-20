@@ -26,15 +26,21 @@
              url: "${pageContext.request.contextPath}/preMenu/viewTreedata.do?userId="+userId,
              dataType: "json",
              success: function(zNodes){
-                     for (var i = 0; i < zNodes.length; i++) { 
+             		if (zNodes.length > 0) {
+						for (var i = 0; i < zNodes.length; i++) { 
 			            if (zNodes[i].isParent) {  
 			  
-			            } else {  
-			                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
-			            }  
-			        }  
-			        tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);  
-			        tree.expandAll(true);//全部展开
+				            } else {  
+				                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
+				            }  
+				        }  
+				        tree = $.fn.zTree.init($("#menuTree"), setting, zNodes);  
+				        tree.expandAll(true);//全部展开
+				        $("#tipMsg").hide();
+					} else {
+						$("#tipMsg").show();
+					}
+                    
                }
          	});
 		});
@@ -83,5 +89,6 @@
    <div id="menu" class="clear">
 	   <div id="menuTree" class="ztree"></div>
    </div>
+   <div class="clear tc mt10" id="tipMsg">暂未分配权限！</div>
   </body>
 </html>
