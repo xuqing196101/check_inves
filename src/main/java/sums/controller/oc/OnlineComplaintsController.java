@@ -174,7 +174,7 @@ public class OnlineComplaintsController {
 		model.addAttribute("info", info);
 		return "sums/oc/complaintHandling/list";
 	}
-
+	
 	/**
 	 * 
 	 * Description: 投诉记录查询
@@ -200,7 +200,7 @@ public class OnlineComplaintsController {
 
 	/**
 	 * 
-	 * Description: 处理
+	 * Description: 立项处理
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月13日
@@ -222,9 +222,7 @@ public class OnlineComplaintsController {
 		request.setAttribute("ComplaintId", id);
 		if (status == 0) {
 			return "sums/oc/complaintHandling/show";
-		} else  if(status == 1){
-			return "sums/oc/complaintHandling/show1";
-		} else {
+		} else{
 			return "redirect:handling.do";
 		}
 		/*
@@ -240,7 +238,7 @@ public class OnlineComplaintsController {
 
 	/**
 	 * 
-	 * Description: 公布
+	 * Description: 公布更改状态
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月13日
@@ -251,9 +249,18 @@ public class OnlineComplaintsController {
 	 */
 	@RequestMapping("/publish")
 	public String publish(Model model, HttpServletRequest request) {
+		//获取前台传过来的值
+		User user = (User) request.getSession().getAttribute("loginUser");
 		String id = request.getParameter("id");
+		String status = request.getParameter("status");
+		//通过id查询
 		Complaint complaint = complaintService.selectByPrimaryKey(id);
-		return "sums/oc/complaintHandling/show1";
+		complaint.setStatus(Integer.parseInt(status));
+		// String Id = user.getId();
+		complaint.setAuditId(user.getId());
+		complaint.setCreaterId(user.getId());
+		complaintService.updateByPrimaryKey(complaint);
+		return "redirect:handling.do";
 	}
 
 	/**
@@ -283,7 +290,22 @@ public class OnlineComplaintsController {
 		complaintService.updateByPrimaryKey(complaint);
 		return "redirect:handling.do";
 	}
+	/**
+	 * 跳转公布页面
+	 */
 
-	
-
+	@RequestMapping("/gongshi")
+	public String gongbu(Model model, HttpServletRequest request) {
+		String id = request.getParameter("id");
+		Complaint complaint = complaintService.selectByPrimaryKey(id);
+		// 获得 的值传入前
+		model.addAttribute("complaint", complaint);
+		int status = complaint.getStatus();
+		request.setAttribute("ComplaintId", id);
+		if (status == 1) {
+			return "sums/oc/complaintHandling/show1";
+		} else{
+			return "redirect:handling.do";
+		}
+	}
 }
