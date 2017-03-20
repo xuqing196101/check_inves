@@ -42,25 +42,25 @@
 		<table class="table table-bordered mt10">
 			    <tbody>
 				  <tr>
-				    <td class="tc" class="info">竞价标题</td>
+				    <td class="tc" class="info"><b>竞价标题</b></td>
 				    <td class="tc">${ obProject.name }</td>
-				    <td class="tc">交货截止时间</td>
+				    <td class="tc"><b>交货截止时间</b></td>
 				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 				  </tr>
 				  <tr>
-				    <td class="tc">交货地点</td>
+				    <td class="tc"><b>交货地点</b></td>
 				    <td class="tc">${ obProject.deliveryAddress }</td>
-				    <td class="tc">成交供应商数</td>
+				    <td class="tc"><b>成交供应商数</b></td>
 				    <td class="tc">${ obProject.tradedSupplierCount }</td>
 				  </tr>
 				  <tr>
-				    <td class="tc">运杂费</td>
+				    <td class="tc"><b>运杂费</b></td>
 				    <td class="tc">
 				    	<c:if test="${ !empty obProject.transportFees }">
 					    	${ obProject.transportFees }元
 				    	</c:if>
 				    </td>
-				    <td class="tc">合格供应商数</td>
+				    <td class="tc"><b>合格供应商数</b></td>
 				    <td class="tc">
 					    <c:if test="${!empty obProject.qualifiedSupplier }">
 					    	${ obProject.qualifiedSupplier }
@@ -71,29 +71,29 @@
 				    </td>
 				  </tr>
 				  <tr>
-				    <td class="tc">需求单位</td>
+				    <td class="tc" class="info"><b>需求单位</b></td>
 				    <td class="tc">${ obProject.demandUnit }</td>
-				    <td class="tc">联系人：${ obProject.contactName }</td>
-				    <td class="tc">联系电话：${ obProject.contactTel }</td>
+				    <td class="tc"><b>联系人：</b>${ obProject.contactName }</td>
+				    <td class="tc"><b>联系电话：</b>${ obProject.contactTel }</td>
 				  </tr>
 				  <tr>
-				    <td class="tc">采购机构</td>
+				    <td class="tc"><b>采购机构</b></td>
 				    <td class="tc">${ orgName }</td>
-				    <td class="tc">采购联系人：${ obProject.orgContactName }</td>
-				    <td class="tc">联系电话：${ obProject.orgContactTel }</td>
+				    <td class="tc"><b>采购联系人：</b>${ obProject.orgContactName }</td>
+				    <td class="tc"><b>联系电话：</b>${ obProject.orgContactTel }</td>
 				  </tr>
 				  <tr>
-				    <td class="tc">竞价开始时间</td>
+				    <td class="tc"><b>竞价开始时间</b></td>
 				    <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
-				    <td class="tc">竞价结束时间</td>
+				    <td class="tc"><b>竞价结束时间</b></td>
 				    <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 				  </tr>
 				  <tr>
-				    <td class="tc">竞价内容</td>
-				    <td colspan="3" style="height:130px">${ obProject.content }</td>
+				    <td class="tc"><b>竞价内容</b></td>
+				    <td colspan="3">${ obProject.content }</td>
 				  </tr>
 				  <tr>
-				    <td class="tc">竞价文件</td>
+				    <td class="tc"><b>竞价文件</b></td>
 				    <td class="tc">
 				    <c:if test="${ !empty uploadFiles  }">
 				    	<c:forEach items="${ uploadFiles }" var="file">

@@ -35,7 +35,14 @@ import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.model.UploadFile;
 import common.utils.JdcgResult;
-
+/**
+ * 
+* @ClassName: OBSupplierQuoteController 
+* @Description: 供应商后台管理Controller
+* @author Easong
+* @date 2017年3月20日 下午1:19:19 
+*
+ */
 @RequestMapping("/supplierQuote")
 @Controller
 public class OBSupplierQuoteController {

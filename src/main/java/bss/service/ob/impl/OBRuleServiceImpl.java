@@ -46,6 +46,16 @@ public class OBRuleServiceImpl implements OBRuleService {
 	@Autowired
 	private OBSpecialDateMapper obSpecialDateMapper;
 
+	/**
+	 * @param request
+	 * 
+	 * @Title: addRule
+	 * @Description: 竞价规则的添加
+	 * @param @param obRule
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
+	 */
 	@Override
 	public JdcgResult addRule(OBRule obRule, User user) {
 		if (obRule == null) {
@@ -97,6 +107,14 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return JdcgResult.ok("新增成功");
 	}
 
+	/**
+	 * 
+	 * @Title: selectAllRules
+	 * @Description: 查询所有竞价规则
+	 * @param @return 设定文件
+	 * @return List<OBRule> 返回类型
+	 * @throws
+	 */
 	@Override
 	public List<OBRule> selectAllOBRules(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
@@ -105,6 +123,15 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return obRuleMapper.selectAllOBRules(map);
 	}
 
+	/**
+	 * 
+	 * @Title: delete
+	 * @Description: 删除规则操作
+	 * @param @param ids
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
+	 */
 	@Override
 	public JdcgResult delete(String[] ids) {
 		for (int i = 0; i < ids.length; i++) {
@@ -124,6 +151,15 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return JdcgResult.ok("删除成功");
 	}
 
+	/**
+	 * 
+	 * @Title: setDefaultRule
+	 * @Description: 默认规则设置
+	 * @param @param id
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
+	 */
 	@Override
 	public JdcgResult updateDefaultRule(String id) {
 		OBRule obRule = obRuleMapper.selectByPrimaryKey(id);
@@ -147,6 +183,17 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return JdcgResult.ok("设置默认规则成功");
 	}
 
+
+	/**
+	 * 
+	 * @Title: addSpecialdate
+	 * @Description: 创建特殊日期
+	 * @param @param obSpecialDate
+	 * @param @param request
+	 * @param @return 设定文件
+	 * @return JdcgResult 返回类型
+	 * @throws
+	 */
 	@Override
 	public JdcgResult addSpecialdate(OBSpecialDate obSpecialDate,
 			HttpServletRequest req, User user) {
@@ -192,6 +239,14 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return JdcgResult.ok("添加成功");
 	}
 
+	/**
+	 * 
+	* @Title: selectAllOBSpecialDate 
+	* @Description: 查询所有节假日
+	* @param @return    设定文件 
+	* @return List<OBSpecialDate>    返回类型 
+	* @throws
+	 */
 	@Override
 	public List<OBSpecialDate> selectAllOBSpecialDate(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
@@ -200,6 +255,15 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return obSpecialDateMapper.selectAllOBSpecialDate(map);
 	}
 
+	/**
+	 * 
+	* @Title: deleteSpecialDate 
+	* @Description: 删除特殊假期
+	* @param @param ids
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
 	@Override
 	public JdcgResult deleteSpecialDate(String[] ids) {
 		for (int i = 0; i < ids.length; i++) {
@@ -218,6 +282,13 @@ public class OBRuleServiceImpl implements OBRuleService {
 		return JdcgResult.ok("删除成功");
 	}
 
+	/**
+	* @Title: selectByStatus 
+	* @Description: 获取默认规则
+	* @param @param 
+	* @param @return    设定文件 
+	* @return OBRule    返回类型 
+	 */
 	@Override
 	public OBRule selectByStatus() {
 		// TODO Auto-generated method stub

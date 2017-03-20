@@ -3,7 +3,14 @@ package bss.model.ob;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+/**
+ * 
+* @ClassName: OBRule 
+* @Description: 竞价规则实体类
+* @author Easong
+* @date 2017年3月20日 下午1:16:59 
+*
+ */
 public class OBRule {
     private String id;
     /**间隔工作日**/

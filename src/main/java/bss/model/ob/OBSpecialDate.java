@@ -4,10 +4,20 @@ import java.io.Serializable;
 import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
-
+/**
+ * 
+* @ClassName: OBSpecialDate 
+* @Description: 特殊节假日实体类
+* @author Easong
+* @date 2017年3月20日 下午1:17:21 
+*
+ */
 public class OBSpecialDate implements Serializable{
     private String id;
 
+    /**
+     * 创建人
+     */
     private String createrId;
     
     @DateTimeFormat(pattern="yyyy-MM-dd")
@@ -16,12 +26,23 @@ public class OBSpecialDate implements Serializable{
     /**1：上班     0：放假**/
     private String dateType;
 
+    /**
+     * 创建日期
+     */
     private Date createdAt;
 
+    /**
+     * 备注
+     */
     private String remark;
-
+    /**
+     * 修改日期
+     */
     private Date updatedAt;
 
+    /**
+     * 创建人姓名
+     */
     private String createrName;
 
     public String getId() {
