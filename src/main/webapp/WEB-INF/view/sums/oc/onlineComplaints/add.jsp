@@ -16,15 +16,20 @@
 <meta name="author" content="">
 <title>投诉页面</title>
 <script type="text/javascript">
+
+function open(){
+	document.getElementById("idcad").style.display="none"; 
+}
+
 function show(){
-	$("#idcad").show();
+	document.getElementById("idcad").style.display="";
 }
 function hid(){
-	$("#idcad").hide();
+	document.getElementById("idcad").style.display="none";
 }
 </script>
 </head>
-<body>
+<body onload="open();">
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">
@@ -85,11 +90,11 @@ function hid(){
 				     	<div class="cue" id = ""></div>
 				     	</div>
 	             </li>
-	             <li class="col-md-3 col-sm-6 col-xs-12" hidden="hidden" id = "idcad">
+	             <li class="col-md-3 col-sm-6 col-xs-12"  id = "idcad">
 	 	              	<span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>身份证照片：</span>
 				       	<div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-				        <u:upload id="post_attach_up" businessId="${complaint.id }" sysKey="2" typeId="48" multiple="true" auto="true" />
-						<u:show showId="post_attach_show" businessId="${complaint.id }" sysKey="2" typeId="48"/>
+				        <u:upload id="post_attach_ups" businessId="${complaint.id }" sysKey="2" typeId="48" multiple="true" auto="true" />
+						<u:show showId="post_attach_shows" businessId="${complaint.id }" sysKey="2" typeId="48"/>
 				     	<div class="cue" id = ""></div>
 				     	</div>
 	             </li>
