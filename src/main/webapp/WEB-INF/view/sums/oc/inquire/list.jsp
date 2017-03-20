@@ -11,6 +11,28 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript">
+/* 分页 */
+$(function() {
+    laypage({
+      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+      pages : "${info.pages}", //总页数
+      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+      skip : true, //是否开启跳页
+      total : "${info.total}",
+      startRow : "${info.startRow}",
+      endRow : "${info.endRow}",
+      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+        return "${info.pageNum}";
+      }(),
+      jump : function(e, first) { //触发分页后的回调
+    	if(!first){ //一定要加此判断，否则初始时会无限刷新
+      		location.href = "${pageContext.request.contextPath }/onlineComplaints/complaints.do?page=" + e.curr;
+        }
+      }
+    });
+  });
+
 //重置
 function resetQuery() {
 	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
@@ -89,11 +111,14 @@ function resetQuery() {
 					<c:if test="${complaint.type == 0 }">单位</c:if>
 				</td>
 				<td class="tc">${complaint.complaintObject }</td>
-				<td class="tl">${complaint.complaintMatter }</td>
+				<td class="tl" <c:if test="${fn:length(complaint.complaintMatter) > 12 }">title="${complaint.complaintMatter }"</c:if>>  
+					<c:if test="${fn:length(complaint.complaintMatter) > 12 }">${fn:substring(complaint.complaintMatter, 0, 12)}...</c:if>
+					<c:if test="${fn:length(complaint.complaintMatter) <= 12 }">${complaint.complaintMatter }</c:if>
+				</td>
 				<td class="tc">
-					<c:if test="${complaint.status == 0 }">等待处理</c:if>
+					<c:if test="${complaint.status == 0 }">未处理</c:if>
 					<c:if test="${complaint.status == 1 }">已立项</c:if>
-					<c:if test="${complaint.status == 2 }">立项驳回</c:if>
+					<c:if test="${complaint.status == 2 }">已驳回</c:if>
 					<c:if test="${complaint.status == 3 }">已公示</c:if>
 				</td>
 			</tr>

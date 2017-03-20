@@ -81,13 +81,13 @@
 			}, function(index) {
 				layer.close(index);
 				$.ajax({
-					url: "${pageContext.request.contextPath }/onlineComplaints/delete.html",
+					url: "${pageContext.request.contextPath}/onlineComplaints/delete.do",
 					type: "post",
 					data: {
 						ids: ids
 					},
 					success: function() {
-						window.location.href = "${pageContext.request.contextPath }/onlineComplaints/complaints.html";
+						window.location.href = "${pageContext.request.contextPath}/onlineComplaints/complaints.html";
 					},
 					error: function() {
 
@@ -186,7 +186,7 @@
 		<tbody>
 		<c:forEach items="${info.list }" var="complaint" varStatus="vs">
 			<tr class="tc">
-				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${complaint.id }" /></td>
 				<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 				<td class="tc">${complaint.name }</td>
 				<td class="tc">
@@ -194,11 +194,14 @@
 					<c:if test="${complaint.type == 0 }">单位</c:if>
 				</td>
 				<td class="tc">${complaint.complaintObject }</td>
-				<td class="tl">${complaint.complaintMatter }</td>
+				<td class="tl" <c:if test="${fn:length(complaint.complaintMatter) > 12 }">title="${complaint.complaintMatter }"</c:if>>  
+					<c:if test="${fn:length(complaint.complaintMatter) > 12 }">${fn:substring(complaint.complaintMatter, 0, 12)}...</c:if>
+					<c:if test="${fn:length(complaint.complaintMatter) <= 12 }">${complaint.complaintMatter }</c:if>
+				</td>
 				<td class="tc">
-					<c:if test="${complaint.status == 0 }">等待处理</c:if>
+					<c:if test="${complaint.status == 0 }">未处理</c:if>
 					<c:if test="${complaint.status == 1 }">已立项</c:if>
-					<c:if test="${complaint.status == 2 }">立项驳回</c:if>
+					<c:if test="${complaint.status == 2 }">已驳回</c:if>
 					<c:if test="${complaint.status == 3 }">已公示</c:if>
 				</td>
 			</tr>

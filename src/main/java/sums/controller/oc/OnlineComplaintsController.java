@@ -1,5 +1,6 @@
 package sums.controller.oc;
 
+import java.util.Date;
 import java.util.List;
 import java.util.UUID;
 
@@ -102,6 +103,36 @@ public class OnlineComplaintsController {
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model,Complaint complaint){
 		if(complaint != null){
+			boolean flag = true;
+			if(complaint.getType() == null || complaint.getType().equals("")){
+				flag = false;
+				model.addAttribute("error_type","投诉人类型不能为空");
+			}
+			if(complaint.getName() == null || complaint.getName().equals("")){
+				flag = false;
+				model.addAttribute("error_name","投诉人名称不能为空");
+			}
+			if(complaint.getComplaintObject() == null || complaint.getComplaintObject().equals("")){
+				flag = false;
+				model.addAttribute("error_complaintObject","投诉对象不能为空");
+			}
+			if(complaint.getComplaintMatter() != null){
+				if(complaint.getComplaintMatter().length() > 1000){
+					flag = false;
+					model.addAttribute("error_complaintMatter","不能超过1000个字");
+				}
+			}
+			if(flag == false){
+				model.addAttribute("complaint",complaint);
+				return "sums/oc/onlineComplaints/add";
+			}
+			complaint.setStatus(0);
+			complaint.setIsDeleted(0);
+			User user = (User) request.getSession().getAttribute("loginUser");
+			if(user != null){
+				complaint.setCreaterId(user.getId());
+			}
+			complaint.setCreatedAt(new Date());
 			complaintService.insertSelective(complaint);
 		}
 		return "redirect:/onlineComplaints/complaints.html";
@@ -120,6 +151,30 @@ public class OnlineComplaintsController {
 	@RequestMapping("/edit")
 	public String edit(HttpServletRequest request,Model model,Complaint complaint){
 		if(complaint != null){
+			boolean flag = true;
+			if(complaint.getType() == null || complaint.getType().equals("")){
+				flag = false;
+				model.addAttribute("error_type","投诉人类型不能为空");
+			}
+			if(complaint.getName() == null || complaint.getName().equals("")){
+				flag = false;
+				model.addAttribute("error_name","投诉人名称不能为空");
+			}
+			if(complaint.getComplaintObject() == null || complaint.getComplaintObject().equals("")){
+				flag = false;
+				model.addAttribute("error_complaintObject","投诉对象不能为空");
+			}
+			if(complaint.getComplaintMatter() != null){
+				if(complaint.getComplaintMatter().length() > 1000){
+					flag = false;
+					model.addAttribute("error_complaintMatter","不能超过1000个字");
+				}
+			}
+			if(flag == false){
+				model.addAttribute("complaint",complaint);
+				return "sums/oc/onlineComplaints/edit";
+			}
+			complaint.setUpdatedAt(new Date());
 			complaintService.updateByPrimaryKeySelective(complaint);
 		}
 		return "redirect:/onlineComplaints/complaints.html";
