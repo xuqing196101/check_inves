@@ -151,16 +151,19 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 		if (list != null && list.size() >0) {
 			int listSize = list.size();
 			String[] array = new String[listSize+1];
+			String engin_type ="0";
 			for (int i = 0; i < listSize; i++) {
 				String listId = list.get(i).getId();
 				String code = DictionaryDataUtil.findById(listId).getCode();
 				if (code != null) {
 					if (code.equals("GOODS_PROJECT")) {
-						map.put("engin_type", "1");
+						engin_type = "1";
+						map.put("engin_type", engin_type);
 						array[i] = DictionaryDataUtil.getId("ENG_INFO_ID");
 						array[listSize] = DictionaryDataUtil.getId("PROJECT");
 					} else if (code.equals("PROJECT") ) {
-						map.put("engin_type", "2");
+						engin_type = "2";
+						map.put("engin_type", engin_type);
 						array[i] = DictionaryDataUtil.getId("ENG_INFO_ID");
 						array[listSize] = DictionaryDataUtil.getId("PROJECT");
 					} else {
@@ -171,7 +174,13 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 			if (array[listSize] == null || ("").equals(array[listSize])) {
 				array[listSize] = "111";   // 111没有意义
 			}
-			map.put("array", null);
+
+			if (engin_type.equals("2")) {
+				map.put("array", null);
+			} else {
+				map.put("array", array);
+			}
+
 		}
 		mapper.delNoTree(map);
 	}
@@ -203,9 +212,12 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     }
 	
     @Override
-    public List<ExpertCategory> findEnginId(String id) {
+    public List<ExpertCategory> findEnginId(String expertId, String engin_type) {
     	// TODO Auto-generated method stub
-    	return mapper.findEnginId(id);
+    	Map<String, Object> map = new HashMap<>();
+    	map.put("expertId", expertId);
+    	map.put("engin_type", engin_type);
+    	return mapper.findEnginId(map);
     }
 	
 	

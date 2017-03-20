@@ -93,13 +93,13 @@
 		WHERE EXPERT_ID = #{expertId}
 	</select>
 	<!-- 根据父id查询 -->
-	<select id="findEnginId" resultMap="BaseResultMap">
+	<select id="findEnginId" parameterType="Map" resultMap="BaseResultMap">
 		SELECT
 		<include refid="baseExpertSql" />
 		FROM T_SES_EMS_EXPERT_CATEGORY
-		WHERE ENGIN_TYPE = #{id}
+		WHERE EXPERT_ID = #{expertId,jdbcType=VARCHAR} AND ENGIN_TYPE = #{engin_type,jdbcType=VARCHAR}
 	</select>
-
+	
 	<!-- 删除选中节点以外数据 -->
 	<delete id="delNoTree">
 		delete from T_SES_EMS_EXPERT_CATEGORY T
