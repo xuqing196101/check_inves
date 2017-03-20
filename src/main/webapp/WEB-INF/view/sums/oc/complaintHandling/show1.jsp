@@ -15,7 +15,11 @@
 <meta name="author" content="">
 <title>投诉页面</title>
 <script type="text/javascript">
-
+/**公布*/
+function gongshi() {
+	var id = $("#ComplaintId").val();
+	window.location.href = "${pageContext.request.contextPath}/onlineComplaints/publish.do?id="+id+"&status=3";
+}
 </script>
 </head>
 <body>
@@ -47,6 +51,7 @@
 								     <c:if test="${complaint.type=='1'}">
 								        <input readOnly="readOnly" class="" name="PerSonName" type="text" value="个人">
 								     </c:if>
+								     <input readOnly="readOnly" type="hidden" id="ComplaintId" value="${ComplaintId}">
                         </div>
 	             	 </li>	
 				  	<li class="col-md-3 col-sm-6 col-xs-12"   >
@@ -65,18 +70,18 @@
 				  <li class="col-md-12 col-sm-12 col-xs-12">
 	                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉事项</span>
 	                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea readOnly="readOnly" class="w100p h130" title="不超过800个字">${complaint.complaintMatter }</textarea>
+                      <textarea readOnly="readOnly" class="w100p h130" >${complaint.complaintMatter }</textarea>
                      </div>
 	              </li> 
 	              <li class="col-md-12 col-sm-12 col-xs-12 mt15">
 	                <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">处理结果</span>
 	                 <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                      <textarea readOnly="readOnly" class="w100p h130"  title="不超过800个字">${complaint.resion}</textarea>
+                      <textarea readOnly="readOnly" class="w100p h130"  >${complaint.resion}</textarea>
                      </div>
 	              </li>  
 	            </ul>
 		        <div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
-			         <button type="botton" class="btn">公示</button>
+			         <button type="botton" class="btn" onclick="gongshi();">公示</button>
 		        </div>
 		</form>
 	</div>

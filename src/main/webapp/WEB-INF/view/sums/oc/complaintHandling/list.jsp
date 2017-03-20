@@ -37,46 +37,92 @@
 			}
 		});
 	})
-
+   /** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("info");
+		 var checkAll = document.getElementById("checkAll");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
+		}
 	
-
-	//检查全选
-	function check() {
-		
-		var count = 0;
-		var index =0;
-		var info = document.getElementsByName("info");		
-		for (var i = 0; i < info.length; i++) {
-			if (info[i].checked == true) {
-				count++;
-				index = i;
-			}
-		}
-		
-		if (count == 1) {
-			var id = info[index].value;					
-			window.location.href="${pageContext.request.contextPath}/onlineComplaints/dealWith.do?id="+id;
-		}
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("info");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
 	}
-	function gongbu() {
+	/*立项*/
+	function lixiang() {
 		var id = [];
 		$('input[name="info"]:checked').each(function() {
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			window.location.href = "${pageContext.request.contextPath}/onlineComplaints/dealWith.do?id="+id;
-		} else if(id.length > 1) {
-			layer.alert("只能选择一个", {
+			window.location.href = "${pageContext.request.contextPath}/onlineComplaints/dealWith.do?id="+id+"&status=0";
+		}  else if(id.length > 1) {
+			layer.alert("只能选择一个未处理的信息", {
 				offset: ['122px', '390px'],
 				shade: 0.01
 			});
 		} else {
-			layer.alert("请选择需要公布的处理信息", {
+			layer.alert("请选择一条需要处理的信息", {
 				offset: ['122px', '390px'],
 				shade: 0.01
 			});
 		}
 	}
+	/**公布*/
+	function gongbu() {
+		var id = [];
+		console.dir(1);
+		$('input[name="info"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		console.dir(2);
+		if(id.length == 1) {
+			var status = $('input[name="info"]:checked').parent().parent().children("td").eq(6).text();
+			if(status="立项处理"){
+			window.location.href = "${pageContext.request.contextPath}/onlineComplaints/gongshi.do?id="+id+"&status=1";}
+			else{
+				layer.alert("只能选择立项处理过的数据", {
+					offset: ['122px', '390px'],
+					shade: 0.01
+				});
+			}
+		} else if(id.length > 1) {
+			layer.alert("只能选择一个信息公布", {
+				offset: ['122px', '390px'],
+				shade: 0.01
+			});
+		} else {
+			layer.alert("请选择一条需要公布的信息", {
+				offset: ['122px', '390px'],
+				shade: 0.01
+			});
+		}
+	}
+	
 	<!--
 	$.ajax({
 		url:"${pageContext.request.contextPath}/onlineComplaints/Test.do",
@@ -111,20 +157,22 @@
 	<div class="container">
 		<div class="headline-v2">
 			<h2>投诉处理列表</h2>
-
+			<div class="col-md-12 pl20 mt10">
+	    	       <button class="btn" type="button" onclick="lixiang()">立项</button>
+		           <button class="btn" type="button" onclick="gongbu()">公布</button>
+            </div>
 		</div>
-
+		
+   <div class="content table_box">
+				
 		<form action="" method="post" class="mb0">
 
 			<div class="content table_box">
-				<div class="col-md-12 col-sm-12 col-xs-12 mt10 tc">
-					<button class="btn" type="button" onclick="check()">立项</button>
-					<button class="btn" type="button" onclick="gongbu()">公布</button>
-				</div>
+				
 				<table class="table table-bordered table-condensed table-hover">
 					<thead>
 						<tr class="info">
-							<th class="w50">选择</th>
+							<th class="w50"><input id="checkAll" type="checkbox" onclick="check()" /></th>
 							<th class="w50">序号</th>
 							<th>投诉人名称</th>
 							<th>投诉人类型</th>
@@ -139,7 +187,7 @@
 							<!-- -ondealwith 的值里面要带‘’ -->
 							<tr class="tc" >
 								<!-- onclick="check"前面选择这个框的触发事件  value="${list.id}获取result集合里id的值 -->
-								<td class="w50"><input type="checkbox"    value="${result.id }" name="info"  /></td>
+								<td class="w50"><input onclick="check()" type="checkbox"    value="${result.id }" name="info"  /></td>
 								<td class="w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 								<td>${result.name }</td>
 								<td><c:if test="${result.type=='0'}">
@@ -148,14 +196,26 @@
 								               个人
 								     </c:if></td>
 								<td>${result.complaintObject }</td>
-								<td>${result.complaintMatter }</td>
+								<!-- -数据前台展示截取 -->
+								<td>
+                                  <input class="w230 border0" title="${result.complaintMatter }"  
+					              <c:if test="${fn:length(result.complaintMatter) > 12 }">value=" ${fn:substring(result.complaintMatter, 0, 12)}..."</c:if>
+					              <c:if test="${fn:length(result.complaintMatter) <= 12 }">value="${result.complaintMatter }"</c:if>
+					                      />
+                                </td>
 								<td><c:if test="${result.status=='0'}">
-								             未处理
-								     </c:if> <c:if test="${result.status=='1'}">
-								            立项处理
-								     </c:if> <c:if test="${result.status=='2'}">
-								           立项驳回
-								     </c:if></td>
+								           未处理
+								     </c:if> 
+								     <c:if test="${result.status=='1'}">
+								           已立项
+								     </c:if> 
+								     <c:if test="${result.status=='2'}">
+								           已驳回
+								     </c:if> 
+								     <c:if test="${result.status=='3'}">
+								           已公示
+								     </c:if>
+								 </td>
 							</tr>
 						</c:forEach>
 					</tbody>
