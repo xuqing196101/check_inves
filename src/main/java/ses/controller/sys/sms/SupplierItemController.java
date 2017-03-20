@@ -354,7 +354,7 @@ public class SupplierItemController extends BaseController {
 		if(supplier.getSupplierTypeIds().trim().length()!=0){
 			String[] types = supplier.getSupplierTypeIds().split(",");
 			for(String s:types){
-				List<SupplierItem> items = supplierItemService.queryBySupplierAndType( supplierItem.getSupplierId(), s);
+				List<SupplierItem> items = supplierItemService.queryBySupplierAndType( supId, s);
 				if(items!=null&&items.size()<1&&s.equals("PRODUCT")){
 					model.addAttribute("productError", "productError");
 					return "ses/sms/supplier_register/items";
