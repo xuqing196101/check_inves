@@ -100,6 +100,7 @@
 		layer.confirm('您确定接受吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
 			layer.close(index);
 			var currentConfirmStatus = $("#currentConfirmStatus").val();
+			alert(currentConfirmStatus);
 			if(currentConfirmStatus == "-1") {
 				var projectResultList = [];
 				var oBProjectResult = {};
@@ -230,7 +231,7 @@
     	<input type="hidden" id="quoteName" value="${confirmInfoVo.confirmOvertime }"/>
     	</span>
     </h2>
-    <c:if test="${confirmStatus=='0'}">
+    <c:if test="${confirmStatus=='-1'}">
      <div>
      <div class="clear total f22">
      	<span class="fl block">基本数量---第一轮确认：</span>
