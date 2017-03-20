@@ -926,12 +926,14 @@
 	//之前的代码，管用
 	function getAptLevel_annotation(obj){
 		var typeId = $(obj).val();
+		var supplierId = "${currSupplier.id}";
 		if (typeId != null && typeId != "") {
 			$(obj).parent().next().next().next().find("select").html("");
 			$.ajax({
 				url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
 				data: {
 					"typeId": typeId,
+					"supplierId":supplierId
 				},
 				dataType: "json",
 				success: function(data){
@@ -956,6 +958,7 @@
 	}
 	//资质类型下拉框改变时调用的方法
 	function getAptLevel(obj,enterWay){
+		var supplierId=$("#sid").val();
 		if(obj instanceof jQuery) {
 			var typeId = obj.val();
 			var currentText = obj.combobox("getText");
@@ -975,11 +978,14 @@
 			if (typeId != null && typeId != "") {
 				$.ajax({
 					url: "${pageContext.request.contextPath}/supplier/getAptLevel.do",
+					type:"POST",
 					data: {
 						"typeId": typeId,
+						"supplierId":supplierId,
 					},
 					dataType: "json",
 					success: function(data){
+						
 						var easyuiData = [];
 						var flag_certGrade = 0;
 						if(data == null || data == {} || data == "") {
@@ -987,6 +993,7 @@
 							easyuiData.push(cur_str);
 						} else {
 							for(var i = 0; i < data.length; i++){
+							
 								var optionDOM = "";
 								var cur_str = "";
 								if (obj.parent().children(".forSelectId").val() != "" && obj.parent().children(".forSelectId").val() == data[i].id) {
@@ -1001,8 +1008,9 @@
 								//obj.parent().next().next().next().find("select").append(optionDOM);
 							}
 						}
-						
+					
 						if(enterWay == "addBtn") {
+							alert("add");
 							if(flag_certGrade == 0) {
 								easyuiData[0].selected = true;
 							}
@@ -1030,7 +1038,7 @@
 							var selectData = obj.combobox("getData");
 							for(var i = 0;i < selectData.length;i++) {
 								if(selectData[i].value == currentText) {
-									flag_current = 1;
+									//flag_current = 1;
 								}
 							}
 							
@@ -1908,8 +1916,7 @@
 													<c:forEach
 														items="${currSupplier.supplierMatEng.listSupplierAptitutes}"
 														var="aptitute" varStatus="vs">
-														<tr
-															<c:if test="${fn:contains(engPageField,aptitute.id)}"> onmouseover="errorMsg('${aptitute.id}','mat_eng_page')"</c:if>>
+														<tr <c:if test="${fn:contains(engPageField,aptitute.id)}"> onmouseover="errorMsg('${aptitute.id}','mat_eng_page')"</c:if>>
 															<td class="tc"
 																<c:if test="${fn:contains(engPageField,aptitute.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="checkbox" class="border0"

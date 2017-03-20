@@ -143,6 +143,26 @@ public class SupplierCertEng implements Serializable {
 	
 	private List<UploadFile> fileList=new ArrayList<UploadFile>();
 	
+	private List<SupplierHistory> historys=new ArrayList<SupplierHistory>();
+    
+    private List<SupplierModify> modifys=new ArrayList<SupplierModify>();
+    
+    public List<SupplierModify> getModifys() {
+		return modifys;
+	}
+
+	public void setModifys(List<SupplierModify> modifys) {
+		this.modifys = modifys;
+	}
+
+	public List<SupplierHistory> getHistorys() {
+		return historys;
+	}
+
+	public void setHistorys(List<SupplierHistory> historys) {
+		this.historys = historys;
+	}
+    
 	public List<UploadFile> getFileList() {
 		return fileList;
 	}

@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.sms.SupplierPorjectQuaMapper">
+  <resultMap id="BaseResultMap" type="ses.model.sms.SupplierPorjectQua">
+    <id column="ID" jdbcType="VARCHAR" property="id" />
+    <result column="NAME" jdbcType="VARCHAR" property="name" />
+    <result column="SUPPLIER_ID" jdbcType="VARCHAR" property="supplierId" />
+    <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
+    <result column="CERT_LEVEL" jdbcType="VARCHAR" property="certLevel" />
+    
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, NAME, SUPPLIER_ID, IS_DELETE,CERT_LEVEL
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PROJECT_QUA
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_PROJECT_QUA
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="ses.model.sms.SupplierPorjectQua">
+    insert into T_SES_SMS_PROJECT_QUA (ID, NAME, SUPPLIER_ID, 
+      IS_DELETE,CERT_LEVEL)
+    values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{supplierId,jdbcType=VARCHAR}, 
+      #{isDelete,jdbcType=DECIMAL}, #{certLevel,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="ses.model.sms.SupplierPorjectQua">
+    insert into T_SES_SMS_PROJECT_QUA
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE,
+      </if>
+       <if test="certLevel != null">
+        CERT_LEVEL,
+      </if>
+      
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="name != null">
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="certLevel != null">
+        #{certLevel,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.SupplierPorjectQua">
+    update T_SES_SMS_PROJECT_QUA
+    <set>
+      <if test="name != null">
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierId != null">
+        SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="isDelete != null">
+        IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      </if>
+       <if test="certLevel != null">
+        CERT_LEVEL = #{certLevel,jdbcType=VARCHAR},
+      </if>
+      
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.SupplierPorjectQua">
+    update T_SES_SMS_PROJECT_QUA
+    set NAME = #{name,jdbcType=VARCHAR},
+      SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
+      IS_DELETE = #{isDelete,jdbcType=DECIMAL},
+      CERT_LEVEL = #{certLevel,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
+   <select id="queryByNameAndSupplierId"  resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_SMS_PROJECT_QUA
+    where SUPPLIER_ID=#{supplierId}
+    <if test="name !=null">
+      and  NAME = #{name}  
+    </if>
+  </select>
+  
+  <update id="updateBysupplierIdAndName" parameterType="ses.model.sms.SupplierPorjectQua">
+    update T_SES_SMS_PROJECT_QUA
+    <set>
+     
+       <if test="certLevel != null">
+        CERT_LEVEL = #{certLevel,jdbcType=VARCHAR}
+      </if>
+      
+    </set>
+    where SUPPLIER_ID=#{supplierId} and  NAME = #{name}  
+    
+  </update>
+  
+  
+  
+</mapper>

@@ -27,6 +27,7 @@ import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -35,6 +36,7 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
@@ -80,6 +82,9 @@ public class SupplierItemController extends BaseController {
 
 	@Autowired
 	private SupplierAuditService supplierAuditService;
+	
+	@Autowired
+	private SupplierPorjectQuaService supplierPorjectQuaService;
 
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
@@ -244,7 +249,20 @@ public class SupplierItemController extends BaseController {
 		if(item != null) {
 			// 等级
 			if(item != null && item.getLevel() != null) {
-				cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
+				DictionaryData data = DictionaryDataUtil.findById(item.getLevel());
+				if(data!=null){
+					cateTree.setLevel(data);
+				}else{
+					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
+					   if(projectData!=null&&projectData.size()>0){
+				        	DictionaryData dd=new DictionaryData();
+				        	dd.setId(projectData.get(0).getCertLevel());
+				        	dd.setName(projectData.get(0).getCertLevel());
+				        	cateTree.setLevel(dd); 
+				        }
+					   
+				}
+				
 			}
 			// 证书编号
 			if(item != null && item.getCertCode() != null) {
@@ -262,6 +280,14 @@ public class SupplierItemController extends BaseController {
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
 			}
+			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+			for(SupplierPorjectQua qua:supplierQua){
+				Qualification q=new Qualification();
+				q.setId(qua.getName());
+				q.setName(qua.getName());
+				typeList.add(q);
+			}
+			
 			cateTree.setTypeList(typeList);
 		}
 		return cateTree;
@@ -348,7 +374,16 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("rootArea", areaService.findRootArea());
-			model.addAttribute("typeList", qualificationService.findList(null, null, 4));
+			List<Qualification> findList = qualificationService.findList(null, null, 4);
+			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplierItem.getSupplierId());
+			for(SupplierPorjectQua qua:supplierQua){
+				Qualification q=new Qualification();
+				q.setId(qua.getName());
+				q.setName(qua.getName());
+				findList.add(q);
+			}
+			
+			model.addAttribute("typeList", findList);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 		if(supplier.getSupplierTypeIds().trim().length()!=0){

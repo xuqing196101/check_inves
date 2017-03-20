@@ -8,10 +8,13 @@ import java.util.UUID;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.QualificationMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
 import ses.dao.sms.SupplierMatEngMapper;
+import ses.dao.sms.SupplierPorjectQuaMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
+import ses.model.bms.Qualification;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierCertEng;
@@ -19,6 +22,7 @@ import ses.model.sms.SupplierCertPro;
 import ses.model.sms.SupplierCertSell;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
 import ses.service.sms.SupplierMatEngService;
 import ses.util.WfUtil;
@@ -41,6 +45,11 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
 	@Autowired
 	private SupplierAptituteMapper supplierAptituteMapper;
 
+	@Autowired
+	private SupplierPorjectQuaMapper supplierPorjectQuaMapper;
+	
+	@Autowired
+	private QualificationMapper qualificationMapper;
 	@Override
 	public void saveOrUpdateSupplierMatPro(Supplier supplier) {
 		String id = supplier.getSupplierMatEng().getId();
@@ -97,11 +106,36 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
         List<SupplierAptitute> listAptitutes = supplier.getSupplierMatEng().getListSupplierAptitutes();
         for (SupplierAptitute aptitute : listAptitutes) {
             SupplierAptitute aptituteBean = supplierAptituteMapper.selectByPrimaryKey(aptitute.getId());
+ 
+            
+            
             // 判断是否已经存在,来选择insert还是update
             if (aptituteBean != null) {
                 // 修改
                 aptitute.setMatEngId(supplierMatEng.getId());
                 supplierAptituteMapper.updateByPrimaryKeySelective(aptitute);
+                if(aptituteBean.getCertType()!=null){
+                	Qualification qualification = qualificationMapper.getQualification(aptituteBean.getCertType());
+                	List<SupplierPorjectQua> sQua = supplierPorjectQuaMapper.queryByNameAndSupplierId(aptituteBean.getCertType(), supplier.getId());
+                	if(sQua.size()<1&&qualification==null){
+                		SupplierPorjectQua projectQua=new SupplierPorjectQua();
+                		projectQua.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+                		projectQua.setName(aptituteBean.getCertType());
+                		projectQua.setSupplierId(supplier.getId());
+                		projectQua.setIsDelete(0);
+                		supplierPorjectQuaMapper.insert(projectQua);
+                	}
+                	if(sQua!=null&&sQua.size()>0){
+                		
+                		SupplierPorjectQua projectQua=new SupplierPorjectQua();
+                		projectQua.setName(aptituteBean.getCertType());
+                		projectQua.setSupplierId(supplier.getId());
+                		projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+                		supplierPorjectQuaMapper.updateBysupplierIdAndName(projectQua);
+                	}
+                }
+                
+                
             } else {
                 // 新增
                 aptitute.setMatEngId(supplierMatEng.getId());

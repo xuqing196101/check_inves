@@ -50,6 +50,7 @@ import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.Qualification;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
@@ -68,6 +69,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
@@ -93,6 +95,7 @@ import ses.service.sms.SupplierMatProService;
 import ses.service.sms.SupplierMatSeService;
 import ses.service.sms.SupplierMatSellService;
 import ses.service.sms.SupplierModifyService;
+import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierStockholderService;
 import ses.service.sms.SupplierTypeRelateService;
@@ -214,7 +217,8 @@ public class SupplierController extends BaseSupplierController {
 	@Autowired
 	private SupplierCertEngService supplierCertEngService;
 	
-
+	@Autowired
+	private SupplierPorjectQuaService supplierPorjectQuaService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -780,7 +784,15 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("rootArea", areaService.findRootArea());
-			model.addAttribute("typeList", qualificationService.findList(null, null, 4));
+			List<Qualification> findList = qualificationService.findList(null, null, 4);
+			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
+	         for(SupplierPorjectQua qua:supplierQua){
+	            	Qualification	q=new Qualification();
+	            	q.setId(qua.getName());
+	            	q.setName(qua.getName());
+	            	findList.add(q);
+	            }
+			model.addAttribute("typeList", findList);
 			return "ses/sms/supplier_register/supplier_type";
 		} else {
 			Supplier supplier2 = supplierService.get(supplier.getId());
@@ -953,7 +965,15 @@ public class SupplierController extends BaseSupplierController {
 			model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
             model.addAttribute("rootArea", areaList);
-            model.addAttribute("typeList", qualificationService.findList(null, null, 4));
+            List<Qualification> findList = qualificationService.findList(null, null, 4);
+            List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
+            for(SupplierPorjectQua qua:supplierQua){
+            	Qualification	q=new Qualification();
+            	q.setId(qua.getName());
+            	q.setName(qua.getName());
+            	findList.add(q);
+            }
+            model.addAttribute("typeList",  findList);
 			return "ses/sms/supplier_register/supplier_type";
 		}
 	}
@@ -2742,11 +2762,30 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/getAptLevel", produces = "application/json;charset=utf-8")
-    public String getAptLevel(String typeId) {
+    public String getAptLevel(String typeId,String supplierId) {
         List<DictionaryData> data = qualificationLevelService.getByQuaId(typeId);
-        if (data != null) {
+        List<DictionaryData>  list= new ArrayList<DictionaryData>();
+        if (data != null&&data.size()>0) {
             return JSON.toJSONString(data);
+        }else if(data.size()<1){
+        	List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
+        	if(projectData!=null&&projectData.size()>0){
+        		DictionaryData dictionaryData = DictionaryDataUtil.findById(projectData.get(0).getCertLevel());
+            	if(dictionaryData!=null){
+            		list.add(dictionaryData);
+            		return JSON.toJSONString(list);
+            	}else{
+            		DictionaryData dd=new DictionaryData();	
+            		dd.setId(projectData.get(0).getCertLevel());
+                	dd.setName(projectData.get(0).getCertLevel());
+                	list.add(dd);
+                	return JSON.toJSONString(list);
+            	}
+        	}
+        	
+        	
         }
+         
         return null;
     }
     
@@ -2762,8 +2801,16 @@ public class SupplierController extends BaseSupplierController {
     public String getAptLevel(String typeId, String certCode, String supplierId) {
         Supplier supplier = supplierService.get(supplierId);
         String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
-        if (level != null) {
-            return JSON.toJSONString(DictionaryDataUtil.findById(level));
+        DictionaryData data = DictionaryDataUtil.findById(level);
+        if (data != null) {
+            return JSON.toJSONString(data);
+        }
+        List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
+        if(projectData!=null&&projectData.size()>0){
+        	DictionaryData dd=new DictionaryData();
+        	dd.setId(projectData.get(0).getCertLevel());
+        	dd.setName(projectData.get(0).getCertLevel());
+        	 return JSON.toJSONString(dd);
         }
         return null;
     }
