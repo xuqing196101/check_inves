@@ -119,7 +119,7 @@
 		//tableObj.show();
 		var appendStr = '<tr class="tc">'
 			+ '<td><input type="checkbox" name="appendCK"/></td>'
-			+ '<td><input type="text" name="serialNumber"></td>'
+			+ '<td><input type="text" class="tc w50" name="serialNumber"></td>'
 			+ '<td><input type="text" name="goodsName"></td>'
 			+ '<td><input type="text" name="stand"></td>'
 			+ '<td><input type="text" name="trademark"></td>'
@@ -151,24 +151,24 @@
 		if(btnVal == "保存" && tempStrForAdd == 3) {
 			var sid = "${supplierId}";
 			var subjectList = [];
-			var validateFlag = true;
+			var validateFlag = "pass";
 			//‘正规’标的信息循环放入数组
 			$("input[name='ck']").each(function(index , element) {
-				/**
+				/****/
 				if($(this).parent().parent().find(":input[name='goodsName']").val() == null || $(this).parent().parent().find(":input[name='goodsName']").val() == "") {
-					validateFlag = false;
+					validateFlag = "goodsName";
 				}
 				if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
-					validateFlag = false;
+					validateFlag = "stand";
 				}
 				if($(this).parent().parent().find(":input[name='qualitStand']").val() == null || $(this).parent().parent().find(":input[name='qualitStand']").val() == "") {
-					validateFlag = false;
+					validateFlag = "qualitStand";
 				}
 				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
-					validateFlag = false;
-				}**/
+					validateFlag = "purchaseCount";
+				}
 				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
-					validateFlag = false;
+					validateFlag = "unitPrice";
 				}
 				
 				var data = {
@@ -188,21 +188,20 @@
 			});
 			//附赠标的信息循环放入同一个数组，此标的只关联供应商
 			$("input[name='appendCK']").each(function(index , element) {
-				/**
 				if($(this).parent().parent().find(":input[name='goodsName']").val() == null || $(this).parent().parent().find(":input[name='goodsName']").val() == "") {
-					validateFlag = false;
+					validateFlag = "goodsName";
 				}
 				if($(this).parent().parent().find(":input[name='stand']").val() == null || $(this).parent().parent().find(":input[name='stand']").val() == "") {
-					validateFlag = false;
+					validateFlag = "stand";
 				}
 				if($(this).parent().parent().find(":input[name='qualitStand']").val() == null || $(this).parent().parent().find(":input[name='qualitStand']").val() == "") {
-					validateFlag = false;
+					validateFlag = "qualitStand";
 				}
 				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
-					validateFlag = false;
-				}**/
+					validateFlag = "purchaseCount";
+				}
 				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
-					validateFlag = false;
+					validateFlag = "unitPrice";
 				}
 				
 				var data = {
@@ -219,7 +218,7 @@
 				};
 				subjectList.push(data);
 			});
-			if(validateFlag) {
+			if(validateFlag == "pass") {
 				layer.confirm("保存后不可以修改",{
 					title : '提示',
 					offset : ['222px','360px'],
@@ -248,7 +247,7 @@
 					});
 				});
 			} else {
-				layer.alert("价格字段不可以为空");
+				layer.alert("填写内容不可以为空");
 			}
 		} else if(btnVal == "修改") {
 			
@@ -274,11 +273,11 @@
 				<input type="checkbox" id="checkAll" disabled="disabled" onclick="selectAll()" /><!-- -->
 				</th><!-- -->
 				<!--<th class="w30">序号</th> -->
-				<th width="20%"><input type="hidden" name="cks"/>编号</th>
-				<th width="20%">物资名称</th>
-				<th width="20%">规格型号</th>
-				<th width="20%">品牌商标</th>
-				<th width="20%">质量技术标准</th>
+				<th class="tc w50"><input type="hidden" name="cks"/>编号</th>
+				<th>物资名称</th>
+				<th>规格型号</th>
+				<th>品牌商标</th>
+				<th>质量技术标准</th>
 				<th>计量单位</th>
 				<th>采购数量</th>
 				<th>单价（元）</th>
@@ -290,10 +289,10 @@
 					<td>
 					<input type="checkbox" id="checkAll" disabled="disabled" />
 					</td>
-					<td class="" title="${detail.serialNumber }">
+					<td class="tc w50" title="${detail.serialNumber }">
 						<input type="hidden" name="ck" class="ck" title="${detail.id }"/>
 						<input type="text"
-						name="serialNumber" value="${detail.serialNumber }"></td>
+						name="serialNumber" class="tc w50" value="${detail.serialNumber }"></td>
 					<td title="${detail.goodsName}"><input type="hidden"
 						name="detailId" value="${detail.id }"> <input
 						type="hidden" name="detailId" value="${detail.id }"> <input
