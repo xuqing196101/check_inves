@@ -175,7 +175,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 				array[listSize] = "111";   // 111没有意义
 			}
 
-			if (engin_type.equals("2")) {
+			if (engin_type.equals("2") || engin_type.equals("1")) {
 				map.put("array", null);
 			} else {
 				map.put("array", array);
