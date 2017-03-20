@@ -11,10 +11,11 @@ public interface ComplaintService {
 	 * @param 
 	 * @return
 	 */
-	List<Complaint> selectAllComplaint(Integer page); 
+	List<Complaint> selectAllComplaint(Integer page,String Id); 
 	/**
 	 * 通过id查询投诉信息
 	 */
 	Complaint selectByPrimaryKey(String id);
 	 
+	int updateByPrimaryKey(Complaint complaint);
 }

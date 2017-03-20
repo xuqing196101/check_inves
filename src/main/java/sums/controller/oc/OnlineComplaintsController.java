@@ -1,5 +1,7 @@
 package sums.controller.oc;
 
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
@@ -11,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import bss.model.ob.OBProduct;
 
@@ -42,9 +45,8 @@ import sums.service.oc.ComplaintService;
 @RequestMapping("/onlineComplaints")
 public class OnlineComplaintsController {
 
-	@Autowired   
+	@Autowired
 	private ComplaintService complaintService;
-	
 
 	/**
 	 * 
@@ -60,7 +62,7 @@ public class OnlineComplaintsController {
 	public String complaints(HttpServletRequest request) {
 		Complaint complaint = new Complaint();
 		complaint.setStatus(0);
-		
+
 		return "sums/oc/onlineComplaints/add";
 	}
 
@@ -76,15 +78,17 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/handling")
-	public String handling(Model model,HttpServletRequest request,Integer page) {
-		//验证页面非空
+	public String handling(Model model, HttpServletRequest request, Integer page) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String id = user.getId();
+		// 验证页面非空
 		if (page == null) {
 			page = 1;
 		}
-		List<Complaint> list = complaintService.selectAllComplaint(page);
-		//封装的分页的类 把当前查询的对象传入进去
+		List<Complaint> list = complaintService.selectAllComplaint(page, id);
+		// 封装的分页的类 把当前查询的对象传入进去
 		PageInfo<Complaint> info = new PageInfo<>(list);
-		model.addAttribute("info", info);	
+		model.addAttribute("info", info);
 		return "sums/oc/complaintHandling/list";
 	}
 
@@ -101,7 +105,7 @@ public class OnlineComplaintsController {
 	 */
 	@RequestMapping("/recordQuery")
 	public String recordQuery(HttpServletRequest request) {
-        
+
 		return "sums/oc/inquire/list";
 	}
 
@@ -117,31 +121,32 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/dealWith")
-	public String dealWith(Model model,HttpServletRequest request) {
-		//非空验证
-		
-		//获取前台传过来的值
-		String id =  request.getParameter("id");
+	public String dealWith(Model model, HttpServletRequest request) {
+		// 非空验证
+
+		// 获取前台传过来的值
+		String id = request.getParameter("id");
 		Complaint complaint = complaintService.selectByPrimaryKey(id);
-		model.addAttribute("complaint",complaint);
+		// 获得 的值传入前
+		model.addAttribute("complaint", complaint);
 		int status = complaint.getStatus();
-		if(status ==0){
+		request.setAttribute("ComplaintId", id);
+		if (status == 0) {
 			return "sums/oc/complaintHandling/show";
-		} else{
-			return  "redirect:handling.do";
-			}
-		/*if(status == 1||status == 2){
-			return "sums/oc/complaintHandling/show";			
-		}else if(status == 3){			
-			return "sums/oc/complaintHandling/show1"; 
-		}
-		
-		else{
-			//重定向 同一个controller直接redirect 那个方法 前端如何有后缀也加上
-			//配置文件里边规定的 .do 就会被认为是返回一个页面 加上.do会被认为是 一个Controller
+		} else  if(status == 1){
+			return "sums/oc/complaintHandling/show1";
+		} else {
 			return "redirect:handling.do";
-		}*/
-		
+		}
+		/*
+		 * if(status == 1||status == 2){ return
+		 * "sums/oc/complaintHandling/show"; }else if(status == 3){ return
+		 * "sums/oc/complaintHandling/show1"; }
+		 * 
+		 * else{ //重定向 同一个controller直接redirect 那个方法 前端如何有后缀也加上 //配置文件里边规定的 .do
+		 * 就会被认为是返回一个页面 加上.do会被认为是 一个Controller return "redirect:handling.do"; }
+		 */
+
 	}
 
 	/**
@@ -156,9 +161,40 @@ public class OnlineComplaintsController {
 	 * @exception
 	 */
 	@RequestMapping("/publish")
-	public String publish(Model model,HttpServletRequest request) {
-		String id =  request.getParameter("id");
-		Complaint complaint=complaintService.selectByPrimaryKey(id);
+	public String publish(Model model, HttpServletRequest request) {
+		String id = request.getParameter("id");
+		Complaint complaint = complaintService.selectByPrimaryKey(id);
 		return "sums/oc/complaintHandling/show1";
 	}
+
+	/**
+	 * 对投诉进行处理的结果
+	 * 
+	 * @param model
+	 * @param request
+	 * @return
+	 */
+	@RequestMapping("/update")
+	public String update(Model model, HttpServletRequest request) {
+		User user = (User) request.getSession().getAttribute("loginUser");
+		String id = request.getParameter("Id");
+		String state = request.getParameter("State");
+		String msg = request.getParameter("Msg");
+		//try {
+			//msg = URLDecoder.decode(msg, "UTF-8");
+		//} catch (UnsupportedEncodingException e) {
+			//e.printStackTrace();
+		//}
+		Complaint complaint = complaintService.selectByPrimaryKey(id);
+		complaint.setStatus(Integer.parseInt(state));
+		complaint.setResion(msg);
+		// String Id = user.getId();
+		complaint.setAuditId(user.getId());
+		complaint.setCreaterId(user.getId());
+		complaintService.updateByPrimaryKey(complaint);
+		return "redirect:handling.do";
+	}
+
+	
+
 }

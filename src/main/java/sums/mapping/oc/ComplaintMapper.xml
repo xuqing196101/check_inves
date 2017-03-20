@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="sums.mapper.oc.ComplaintMapper">
+<mapper namespace="sums.dao.oc.ComplaintMapper">
   <resultMap id="BaseResultMap" type="sums.model.oc.Complaint">
    
     <id column="ID" jdbcType="VARCHAR" property="id" />
@@ -14,13 +14,14 @@
     <result column="CREATED_AT" jdbcType="DATE" property="createdAt" />
     <result column="UPDATED_AT" jdbcType="DATE" property="updatedAt" />
     <result column="CREATER_ID" jdbcType="VARCHAR" property="createrId" />
+    <result column="AUDIT_ID" jdbcType="VARCHAR" property="auditId" />
   </resultMap>
   <sql id="Base_Column_List">
     <!--
     表中所有字段
     -->
     ID, NAME, TYPE, COMPLAINT_OBJECT, COMPLAINT_MATTER, STATUS, RESION, IS_DELETED, CREATED_AT, 
-    UPDATED_AT,CREATER_ID
+    UPDATED_AT,CREATER_ID,AUDIT_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     <!--
@@ -45,11 +46,11 @@
     insert into T_SUMS_OC_COMPLAINT (ID, NAME, TYPE, 
       COMPLAINT_OBJECT, COMPLAINT_MATTER, STATUS, 
       RESION, IS_DELETED, CREATED_AT, 
-      UPDATED_AT)
+      UPDATED_AT,CREATER_ID,AUDIT_ID)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{type,jdbcType=DECIMAL}, 
       #{complaintObject,jdbcType=VARCHAR}, #{complaintMatter,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, 
       #{resion,jdbcType=VARCHAR}, #{isDeleted,jdbcType=DECIMAL}, #{createdAt,jdbcType=DATE}, 
-      #{updatedAt,jdbcType=DATE})
+      #{updatedAt,jdbcType=DATE},#{createrId,jdbcType=VARCHAR},#{auditId,jdbcType=VARCHAR})
   </insert>
   <insert id="insertSelective" parameterType="sums.model.oc.Complaint">
     <!--
@@ -87,6 +88,12 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
+      <if test="createrId != null">
+        CREATER_ID,
+      </if>
+      <if test="auditId != null">
+        AUDIT_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -118,6 +125,12 @@
       </if>
       <if test="updatedAt != null">
         #{updatedAt,jdbcType=DATE},
+      </if>
+      <if test="createrId != null">
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="auditId != null">
+        #{auditId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -154,6 +167,12 @@
       <if test="updatedAt != null">
         UPDATED_AT = #{updatedAt,jdbcType=DATE},
       </if>
+       <if test="createrId != null">
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
+       <if test="auditId != null">
+        AUDIT_ID = #{auditId,jdbcType=VARCHAR},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -171,13 +190,18 @@
       IS_DELETED = #{isDeleted,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=DATE},
       UPDATED_AT = #{updatedAt,jdbcType=DATE}
+      CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      AUDIT_ID = #{auditId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  
-  <select id="selectAllComplaint"  resultMap="BaseResultMap">
+  <select id="selectAllComplaint" parameterType="String"  resultMap="BaseResultMap">
     select 
    <include refid="Base_Column_List" />
-    from T_SUMS_OC_COMPLAINT
+    from T_SUMS_OC_COMPLAINT where status = 0 or AUDIT_ID = #{id,jdbcType=VARCHAR}
+   <!--  toc where 1=1 and toc.audit is null 
+    <if test="">
+    or toc.audit_id = #{ dbcType=VARCHAR}
+    </if>-->
   </select>
   
   

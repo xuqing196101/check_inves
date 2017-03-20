@@ -102,6 +102,13 @@ public class Complaint {
     private String createrId;
     /**
      * <pre>
+     * 审核人
+     * 表字段 : T_SUMS_OC_COMPLAINT.AUDIT_ID
+     * </pre>
+     */
+    private String auditId;
+    /**
+     * <pre>
      * 获取：主键
      * 表字段：T_SUMS_OC_COMPLAINT.ID
      * </pre>
@@ -370,7 +377,15 @@ public class Complaint {
      * @param updatedAt
      *            T_SUMS_OC_COMPLAINT.CREATER_ID：操作人
      */
-    public void  getCreaterId(String createrId) {
+    public void  setCreaterId(String createrId) {
         this.createrId = createrId;
+    }
+    
+    public String getAuditId() {
+        return auditId;
+    }
+
+    public void setAuditId(String auditId){
+    	this.auditId = auditId;
     }
 }

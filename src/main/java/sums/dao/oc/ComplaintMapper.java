@@ -1,4 +1,4 @@
-package sums.mapper.oc;
+package sums.dao.oc;
 
 import java.util.List;
 
@@ -34,7 +34,7 @@ public interface ComplaintMapper {
 
     /**
      * 根据主键获取一条数据库记录
-     *
+     *  对象
      * @param id
      */
     Complaint selectByPrimaryKey(String id);
@@ -56,7 +56,7 @@ public interface ComplaintMapper {
      * 查询所有投诉信息
      * @return
      */
-    List<Complaint> selectAllComplaint();
+    List<Complaint> selectAllComplaint(String id);
     
     //List<Complaint> selectByPrimaryKey(String id);
 }
