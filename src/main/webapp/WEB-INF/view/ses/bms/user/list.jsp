@@ -314,7 +314,12 @@
 					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
 					  <td class="tc">${user.relName}</td>
 					  <td class="tl pl20">
-					  	<c:if test="${user.org != null }">${user.org.name}</c:if>
+					  	<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
+					  		${user.org.fullName}
+					  	</c:if>
+					  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
+					  		${user.org.name}
+					  	</c:if>
 					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
 					  </td>
 					  <td class="tc">${user.mobile}</td>

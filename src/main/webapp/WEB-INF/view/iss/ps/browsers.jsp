@@ -1,12 +1,22 @@
-<%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
+<%@ page language="java" import="java.util.*,bss.util.PropUtil" pageEncoding="UTF-8"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE>
 <html class=" js cssanimations csstransitions" lang="en">
 <head>
+<%
+  //生产环境
+  String environment = PropUtil.getProperty("environment");
+  //内外网
+  String ipAddressType = PropUtil.getProperty("ipAddressType");
+%>
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/portal/js/jquery.min.js"></script>
 	<style>
+		.red {
+		  color: red;
+		  text-decoration:none;
+		}
 		.brower{
 			margin-top:30px;
 		}
@@ -60,6 +70,9 @@
 		.f22{
 			font-size:22px;
 		}
+		.f28{
+			font-size:28px;
+		}
 		.container{
 			width:1170px;
 			margin:0 auto;
@@ -85,6 +98,13 @@
 </head>
 <body>
   <div class="container brower">
+  	  <div class="show_tips f28">
+  	  <% if (environment != null && environment.equals("1")){ %>
+         <% if(ipAddressType != null && ipAddressType.equals("0")) { %>
+           <a href="http://21.100.16.14" class="red">【旧系统登录】</a>
+         <%} %>
+	   <% } %>
+	   </div>
 	  <h2 class="show_tips">	
 		亲，您使用的浏览器版本过低，<br/>
 		为了正常访问，建议您升级或者下载以下浏览器。

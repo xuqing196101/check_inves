@@ -82,9 +82,9 @@
       select 
       <include refid="baseSearchSql" />
       from T_SES_OMS_ORG
-      where 
+      where  1=1
       <if test="name != null and name != ''">
-        NAME = #{name} 
+       AND NAME = #{name} 
      </if>
      <if test="parentId != null and parentId != ''">
        AND PARENT_ID = #{parentId}
@@ -381,7 +381,8 @@
 		       d.DEP_ID       as depId,
 		       d.TYPE_NAME       as typeName,
 		       d.IS_ROOT         as isRoot,
-		       d.STATUS          as status
+		       d.STATUS          as status,
+		       d.FULL_NAME     as fullName
 		  from T_SES_OMS_ORG     d
 		  where d.id= #{id,jdbcType=VARCHAR}
 	</select>

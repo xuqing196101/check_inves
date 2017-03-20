@@ -150,10 +150,15 @@
 		 				<c:if test="${user.typeName == '2' }">采购管理部门</c:if>
 		 				<c:if test="${user.typeName == '3' }">其他</c:if>
 		 			</td>
-		 			<td class="bggrey">机构：</td>
+		 			<td class="bggrey">单位：</td>
 		 			<td colspan="3">
-		 				<c:if test="${user.typeName == '3' }">${user.orgName}</c:if>
-		 				<c:if test="${user.typeName != '3' }">${user.org.name}</c:if>
+		 				<c:if test="${user.org == null }">${user.orgName}</c:if>
+		 				<c:if test="${user.org != null && user.org.fullName != null && user.org.fullName != ''}">
+					  		${user.org.fullName}
+					  	</c:if>
+					  	<c:if test="${user.org != null && (user.org.fullName == null || user.org.fullName == '')}">
+					  		${user.org.name}
+					  	</c:if>
 		 			</td>
 		 		</tr>
 		 		<tr>
