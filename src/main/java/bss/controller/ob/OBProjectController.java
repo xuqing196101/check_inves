@@ -265,9 +265,10 @@ public class OBProjectController {
 		PageInfo<OBProjectResult> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		OBProject obProject = OBProjectServer.selectByPrimaryKey(id);
-		int countOfferPricebyOne = 0;
-		if (list != null & list.size() > 0) {
-			countOfferPricebyOne = list.get(0).getCountOfferPrice();
+		Integer countOfferPricebyOne = 0;
+		if (list != null && list.size() > 0) {
+			OBProjectResult obProjectResult = list.get(0);
+			countOfferPricebyOne = obProjectResult.getCountOfferPrice();
 		}
 		model.addAttribute("projectName", obProject.getName());
 		model.addAttribute("countOfferPricebyOne", countOfferPricebyOne);
