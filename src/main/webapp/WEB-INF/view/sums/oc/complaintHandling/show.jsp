@@ -67,6 +67,37 @@
 					}
 				});
 	}
+	/* 查看图片 */
+	function openViewDIvs(id){
+		
+		var params={"businessId":id,"typeId":46,"key":2};
+		$.ajax({
+			url: globalPath + '/file/displayFile.do',
+			data: params,
+			async: false,
+			dataType: 'json',
+			success:function(datas){
+				var html ="<ul>";
+				for(var i = 0;i < datas.length;i++){
+					var url='${pageContext.request.contextPath }/file/viewFile.html?id='+datas[i].id+'&key=2';
+					html+='<li><div class="col-md-2 padding-0 fl"><div class="fl suolue"><a href="javascript:upPicture();" class="thumbnail mb0 suolue">'
+					+'<img data-original="'+url+'"  src="'+url+'" height="120px"/></a></div></div></li>';
+				}
+				html += "</ul>";
+				var height = document.documentElement.clientHeight;
+				var index = layer.open({
+					  type: 1,
+					  title: '图片查看',
+					  skin: 'layui-layer-pic',
+					  shadeClose: true,
+					  area: [$(document).width() +'px',height + "px"],
+					  offset:['0px','0px'],
+					  content: html
+					});
+			}
+		});
+
+	}
 </script>
 </head>
 <body>
@@ -101,7 +132,7 @@
 							<input readOnly="readOnly" class="" name="PerSonName" type="text"
 								value="个人">
 						</c:if>
-						<input type="hidden" id="ComplaintId" value="${ComplaintId}">
+						<input readOnly="readOnly" type="hidden" id="ComplaintId" value="${ComplaintId}">
 					</div></li>
 				<li class="col-md-3 col-sm-6 col-xs-12"><span
 					class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉人名称（姓名）</span>
@@ -121,22 +152,14 @@
 				<li class="col-md-12 col-sm-12 col-xs-12"><span
 					class="col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉事项</span>
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
-						<textarea readOnly="readOnly" class="w100p h130" title="不超过800个字">${complaint.complaintMatter }</textarea>
+						<textarea readOnly="readOnly" class="w100p h130" >${complaint.complaintMatter }</textarea>
 					</div></li>
-				<li class="col-md-3 col-sm-6 col-xs-12 mt15"><span
-					class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉文件</span>
+			  <li class="col-md-3 col-sm-6 col-xs-12 mt15"><span
+					class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉文件附件</span>
 					<div
 						class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-						<input type="file" id="file" value="" />
-					</div></li>
-				<li class="col-md-3 col-sm-6 col-xs-12" hidden="hidden" id="idcad">
-					<span class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证照片</span>
-					<div
-						class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-						<input type="file" id="file" value="" />
-					</div>
-				</li>
-
+						<td class="tc"><button type="button" onclick="openViewDIvs('${supplier.id }');" class="btn">查看</button></td>
+					</div></li>  
 			</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
 				<button class="btn" type="button" onclick="openLi();">立项</button>
