@@ -46,7 +46,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
       * @return List<ExpertCategory>
      */
 	@Override
-	public void save(Expert expert,String ids,String typeId) {
+	public void save(Expert expert,String ids,String typeId, String engin_type) {
 	    if(ids!=null && StringUtils.isNotEmpty(ids)){
             String[] code = ids.split(",");
             ExpertCategory expertCategory = new ExpertCategory();
@@ -72,6 +72,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
                 expertCategory.setCategoryId(id);
                 expertCategory.setExpertId(expert.getId());
                 expertCategory.setTypeId(typeId);
+                expertCategory.setEngin_type(engin_type == null ? "1": engin_type);
                 //逐条保存
                 mapper.insert(expertCategory);
             }
@@ -154,7 +155,12 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 				String listId = list.get(i).getId();
 				String code = DictionaryDataUtil.findById(listId).getCode();
 				if (code != null) {
-					if (code.equals("GOODS_PROJECT") || code.equals("PROJECT") ) {
+					if (code.equals("GOODS_PROJECT")) {
+						map.put("engin_type", "1");
+						array[i] = DictionaryDataUtil.getId("ENG_INFO_ID");
+						array[listSize] = DictionaryDataUtil.getId("PROJECT");
+					} else if (code.equals("PROJECT") ) {
+						map.put("engin_type", "2");
 						array[i] = DictionaryDataUtil.getId("ENG_INFO_ID");
 						array[listSize] = DictionaryDataUtil.getId("PROJECT");
 					} else {
@@ -165,7 +171,7 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 			if (array[listSize] == null || ("").equals(array[listSize])) {
 				array[listSize] = "111";   // 111没有意义
 			}
-			map.put("array", array);
+			map.put("array", null);
 		}
 		mapper.delNoTree(map);
 	}
@@ -196,6 +202,11 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
         return mapper.getCategoryByExpertId(expertId, categoryId);
     }
 	
+    @Override
+    public List<ExpertCategory> findEnginId(String id) {
+    	// TODO Auto-generated method stub
+    	return mapper.findEnginId(id);
+    }
 	
 	
 }

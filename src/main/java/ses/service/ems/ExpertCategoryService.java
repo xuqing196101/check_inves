@@ -20,13 +20,14 @@ public interface ExpertCategoryService {
 	 * 
 	  * @Title: save
 	  * @author ShaoYangYang
+	 * @param engin_type 
 	  * @date 2016年9月28日 上午10:32:12  
 	  * @Description: TODO 保存中间表数据
 	  * @param @param expert
 	  * @param @param ids      
 	  * @return void
 	 */
-	void save(Expert expert, String ids, String typeId);
+	void save(Expert expert, String ids, String typeId, String engin_type);
 	
 	/**
 	 *〈简述〉
@@ -78,6 +79,8 @@ public interface ExpertCategoryService {
 	void delNoTree(String id, List<DictionaryData> allCategoryList);
 
 	int getListCount(String expertId, String typeId);
+
+	List<ExpertCategory> findEnginId(String string);
 	
 	
 }

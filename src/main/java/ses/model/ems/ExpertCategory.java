@@ -15,6 +15,7 @@ public class ExpertCategory implements Serializable{
     private String typeId;
 
     private String levels;
+    private String engin_type;
     
     public String getExpertId() {
         return expertId;
@@ -47,5 +48,13 @@ public class ExpertCategory implements Serializable{
 	public void setLevels(String levels) {
 		this.levels = levels;
 	}
-    
+
+	public String getEngin_type() {
+		return engin_type;
+	}
+
+	public void setEngin_type(String engin_type) {
+		this.engin_type = engin_type;
+	}
+	
 }

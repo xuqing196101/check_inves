@@ -550,7 +550,7 @@ public class ExpertController extends BaseController {
             allCategoryList.add(dictionaryData);
         }
         
-        expertCategoryService.delNoTree(expert.getId(), allCategoryList);
+//        expertCategoryService.delNoTree(expert.getId(), allCategoryList);
         model.addAttribute("allCategoryList", allCategoryList);
     }
 
@@ -616,11 +616,19 @@ public class ExpertController extends BaseController {
     public void saveCategory(String expertId, String categoryId, String type, String typeId, boolean isParent) {
         String code = DictionaryDataUtil.findById(typeId).getCode();
         String flag = null;
-        if (code != null && code.equals("GOODS_PROJECT")) {
+        String engin_type = "1";
+        if (code != null && code.equals("GOODS_PROJECT")) {    //PROJECT工程技术   GOODS_PROJECT  工程经济
             code = "PROJECT";
+            engin_type ="2";
             typeId=DictionaryDataUtil.getId(code);
         }
         if (code.equals("ENG_INFO_ID")) {
+        	List<ExpertCategory> lis = expertCategoryService.findEnginId("1");
+        	if (lis != null && lis.size() >0) {
+        		engin_type="1";
+			}else {
+				engin_type="2";
+			}
             flag = "ENG_INFO";
         }
         if("1".equals(type)) {
@@ -636,7 +644,7 @@ public class ExpertController extends BaseController {
             for(Category cate: list) {
                 ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, cate.getId());
                 if(expertCategory == null) {
-                    expertCategoryService.save(expert, cate.getId(), typeId);
+                    expertCategoryService.save(expert, cate.getId(), typeId, engin_type);
                 }
             }
             
@@ -1784,17 +1792,38 @@ public class ExpertController extends BaseController {
                 String productCategories = categories.substring(0, categories.length() - 1);
                 expert.setProductCategories(productCategories);
             }
-            List<Expert> listExp = service.querySelect(expertId);
-            if (!listExp.isEmpty()) {
-            	String newTypeId = expert.getExpertsTypeId();
-            	String oldTypeId = listExp.get(0).getExpertsTypeId();
-            	
-            	if (newTypeId.split(",").length < oldTypeId.split(",").length) {
-            		Map < String, Object > map = new HashMap < String, Object > ();
-            		map.put("expertId", expertId);
-            		expertCategoryService.deleteByMap(map);
-				}
+//            List<Expert> listExp = service.querySelect(expertId);
+//            if (!listExp.isEmpty()) {
+//            	String newTypeId = expert.getExpertsTypeId();
+//            	String oldTypeId = listExp.get(0).getExpertsTypeId();
+//            	
+//            	if (newTypeId.split(",").length < oldTypeId.split(",").length) {
+//            		Map < String, Object > map = new HashMap < String, Object > ();
+//            		map.put("expertId", expertId);
+//            		expertCategoryService.deleteByMap(map);
+//				}
+//			}
+            
+            List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
+            // 获取专家类别
+            List < String > allTypeId = new ArrayList < String > ();
+            String expertsTypeId = expert.getExpertsTypeId();
+			if (expertsTypeId != null) {
+	            for(String id: expert.getExpertsTypeId().split(",")) {
+	                allTypeId.add(id);
+	            }
+	            a: for(int i = 0; i < allTypeId.size(); i++) {
+	                DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+	                /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
+	    				allTypeId.remove(i);
+	    				continue a;
+	    			};*/
+	                
+	                allCategoryList.add(dictionaryData);
+	            }
 			}
+            
+            expertCategoryService.delNoTree(expert.getId(), allCategoryList);
             service.zanCunInsert(expert, expertId, categoryId);
 
         } catch(Exception e) {
