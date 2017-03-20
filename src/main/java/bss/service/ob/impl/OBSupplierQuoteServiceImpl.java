@@ -28,11 +28,13 @@ import bss.model.ob.OBProjectExample;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
+import bss.model.ob.OBRule;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
+import common.utils.DateUtils;
 import common.utils.JdcgResult;
 
 /**
@@ -186,16 +188,18 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				// 查询竞价标题信息
 				OBProject obProject = obProjectMapper.selectByPrimaryKey(titleId);
 				if(obProject != null){
-					Date endTime = obProject.getEndTime();
-					int compareTo = BiddingStateUtil.compareTo(new Date(), endTime);
+					// 获取报价截止时间
+					Date quoteEndTime = BiddingStateUtil.getQuoteEndTime(obProject);
+					int compareTo = BiddingStateUtil.compareTo(new Date(), quoteEndTime);
 					// 报价时间截止
+					// systemDate > biddingTime
 					if(compareTo == 2){
 						//remark 5标识：时间截止，未能及时完成报价
 						String remark = "5";
 						BiddingStateUtil.updateRemark(obProjectMapper, obProject, remark);
 						return JdcgResult.ok("抱歉，报价时间已结束，未完成本次报价！");
 					}
-					
+					// systemDate < biddingTime
 					if(compareTo == 1){
 						//remark 3标识：时间还未截止，完成报价
 						String remark = "3";

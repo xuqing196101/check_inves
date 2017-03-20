@@ -25,6 +25,8 @@
     <result column="ORG_ID" property="orgId" jdbcType="VARCHAR" />
     <result column="ORG_CONTACT_NAME" property="orgContactName" jdbcType="VARCHAR" />
     <result column="ORG_CONTACT_TEL" property="orgContactTel" jdbcType="VARCHAR" />
+    <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+    <association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
   
@@ -143,7 +145,7 @@
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
     STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,
-     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL
+     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
     select

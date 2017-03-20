@@ -14,6 +14,7 @@ public class OBProject {
 	 * 竞价规则id
 	 */
 	private String ruleId;
+	private OBRule obRule;
     private String id;
     /**
      * @Fields name : 竞价名称
@@ -148,6 +149,9 @@ public class OBProject {
     private Integer closingSupplier;
     //合格供应商数量
     private Integer qualifiedSupplier;
+    
+    /**报价截止时间字段**/
+    private Date quoteEndTime;
     
 	public String getSupplieId() {
 		return supplieId;
@@ -426,6 +430,22 @@ public class OBProject {
 				+ ", productCount=" + productCount + ", supplieId=" + supplieId
 				+ ", closingSupplier=" + closingSupplier
 				+ ", qualifiedSupplier=" + qualifiedSupplier + "]";
+	}
+
+	public OBRule getObRule() {
+		return obRule;
+	}
+
+	public void setObRule(OBRule obRule) {
+		this.obRule = obRule;
+	}
+
+	public Date getQuoteEndTime() {
+		return quoteEndTime;
+	}
+
+	public void setQuoteEndTime(Date quoteEndTime) {
+		this.quoteEndTime = quoteEndTime;
 	}
 
 	}

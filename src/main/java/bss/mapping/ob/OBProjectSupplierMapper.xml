@@ -21,6 +21,8 @@
 	    <result column="PCREATER_ID" property="createrId" jdbcType="VARCHAR" />
      	<result column="PCREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     	<result column="PUPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    	<result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+    	<association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
   	</collection>
   	
   </resultMap>
@@ -263,7 +265,8 @@
    		P.STATUS AS PSTATUS,
    		P.CREATER_ID AS PCREATER_ID,
    		P.CREATED_AT AS PCREATED_AT,
-   		P.UPDATED_AT AS PUPDATED_AT
+   		P.UPDATED_AT AS PUPDATED_AT,
+   		P.RULE_ID AS RULE_ID
   		FROM T_BSS_OB_PROJECT_SUPPLIER S
   		LEFT JOIN T_BSS_OB_PROJECT P
   		ON S.PROJECT_ID = P.ID
