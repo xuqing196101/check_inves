@@ -115,8 +115,8 @@
 			}
 		}
 		**/
-		var tableObj = $("#appendTable");
-		tableObj.show();
+		var tableObj = $("#forAppendTr");
+		//tableObj.show();
 		var appendStr = '<tr class="tc">'
 			+ '<td><input type="checkbox" name="appendCK"/></td>'
 			+ '<td><input type="text" name="serialNumber"></td>'
@@ -137,9 +137,11 @@
 			$(this).parent().parent().remove();
 		});
 		//标的的行删除完，把此table隐藏
+		/**
 		if($("input[name='appendCK']").size() == 0) {
 			$("#appendTable").hide();
 		}
+		**/
 	}
 
 	//保存
@@ -164,11 +166,11 @@
 				}
 				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
 					validateFlag = false;
-				}
+				}**/
 				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
 					validateFlag = false;
 				}
-				**/
+				
 				var data = {
 					detailId : $(this).attr("title"),
 					serialNumber : $(this).parent().parent().find(":input[name='serialNumber']").val(),
@@ -198,11 +200,11 @@
 				}
 				if($(this).parent().parent().find(":input[name='purchaseCount']").val() == null || $(this).parent().parent().find(":input[name='purchaseCount']").val() == "") {
 					validateFlag = false;
-				}
+				}**/
 				if($(this).parent().parent().find(":input[name='unitPrice']").val() == null || $(this).parent().parent().find(":input[name='unitPrice']").val() == "") {
 					validateFlag = false;
 				}
-				**/
+				
 				var data = {
 					serialNumber : $(this).parent().parent().find(":input[name='serialNumber']").val(),
 					supplierId : sid,
@@ -246,7 +248,7 @@
 					});
 				});
 			} else {
-				layer.alert("标的内容不可以为空");
+				layer.alert("价格字段不可以为空");
 			}
 		} else if(btnVal == "修改") {
 			
@@ -266,12 +268,12 @@
 			onclick="del(this);" type="button">删除</button>
 	</div>
 	<div class="content table_box pl0">
-		<table class="table table-bordered table-condensed table_input table_input">
+		<table class="table table-bordered table-condensed table_input table_input" id="forAppendTr">
 			<tr class="tc">
-				<!-- 		                <th class="w30"> -->
-				<!-- 		                  <input type="checkbox" id="checkAll"  onclick="selectAll()" /> -->
-				<!-- 		                </th> -->
-				<!--                     <th class="w30">序号</th> -->
+				<th class="w30"><!-- -->
+				<input type="checkbox" id="checkAll" disabled="disabled" onclick="selectAll()" /><!-- -->
+				</th><!-- -->
+				<!--<th class="w30">序号</th> -->
 				<th width="20%"><input type="hidden" name="cks"/>编号</th>
 				<th width="20%">物资名称</th>
 				<th width="20%">规格型号</th>
@@ -285,6 +287,9 @@
 				<tr class="tc ">
 					<%--                       <td class=""> <input type="checkbox" value="${pack.id }" name="chkItem" onclick="check()"></td> --%>
 					<%--                       <td>${detail.serialNumber}</td> --%>
+					<td>
+					<input type="checkbox" id="checkAll" disabled="disabled" />
+					</td>
 					<td class="" title="${detail.serialNumber }">
 						<input type="hidden" name="ck" class="ck" title="${detail.id }"/>
 						<input type="text"
@@ -293,7 +298,7 @@
 						name="detailId" value="${detail.id }"> <input
 						type="hidden" name="detailId" value="${detail.id }"> <input
 						type="hidden" name="detailId" value="${detail.id }"> <input
-						type="text" disabled="disabled" name="goodsName"
+						type="text" name="goodsName"
 						value="${detail.goodsName }"></td>
 					<td title=" ${detail.stand }"><input type="text"
 						name="stand" value=" ${detail.stand }"></td>
