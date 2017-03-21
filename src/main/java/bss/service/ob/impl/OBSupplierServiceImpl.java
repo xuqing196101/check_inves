@@ -9,6 +9,9 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBSupplierService;
@@ -18,20 +21,23 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 
 	@Autowired
 	private OBSupplierMapper oBSupplierMapper;
+	
+	@Autowired
+    private FileUploadMapper fileDao;
 
 	@Override
 	public List<OBSupplier> selectByProductId(String id, Integer page,
-			Integer status,String supplierName) {
+			Integer status,String supplierName,String smallPointsName) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,
 				Integer.parseInt(config.getString("pageSize")));
 		List<OBSupplier> list = null;
 		if (status == 1) {
-			list = oBSupplierMapper.selectByProductId1(id,supplierName);
+			list = oBSupplierMapper.selectByProductId1(id,supplierName,smallPointsName);
 		} else if (status == 2) {
-			list = oBSupplierMapper.selectByProductId2(id,supplierName);
+			list = oBSupplierMapper.selectByProductId2(id,supplierName,smallPointsName);
 		}else{
-			list = oBSupplierMapper.selectByProductId(id,supplierName);
+			list = oBSupplierMapper.selectByProductId(id,supplierName,smallPointsName);
 		}
 		return list;
 	}
@@ -62,12 +68,18 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 	}
 
 	@Override
-	public int yzSupplierName(String supplierId, String productId,String id) {
-		return oBSupplierMapper.yzSupplierName(supplierId, productId,id);
+	public int yzSupplierName(String supplierId, String smallPointsId,String id) {
+		return oBSupplierMapper.yzSupplierName(supplierId, smallPointsId,id);
 	}
 
 	@Override
 	public int yzShangchuan(String id) {
 		return oBSupplierMapper.yzShangchuan(id);
+	}
+
+	@Override
+	public List<UploadFile> findBybusinessId(String businessId, Integer key) {
+		String tableName = Constant.fileSystem.get(key);
+		return fileDao.findBybusinessId(businessId, tableName);
 	}
 }

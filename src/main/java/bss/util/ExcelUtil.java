@@ -1132,13 +1132,14 @@ public class ExcelUtil {
 	 * @return Map<String,Object> 
 	 * @exception
 	 */
-	public static Map<String,Object> readOBSupplierExcel(MultipartFile file,String productId) throws Exception{
+	public static Map<String,Object> readOBSupplierExcel(MultipartFile file) throws Exception{
 		List<OBSupplier> list=new LinkedList<OBSupplier>();
 		Map<String,Object> map=new HashMap<String,Object>();
 		Workbook workbook = WorkbookFactory.create(file.getInputStream());
         Sheet sheet = workbook.getSheetAt(0);
         String errMsg=null;
         String planName="";
+        String suId = "";
         boolean bool=true;
         for(Row row:sheet){
         	String uscc = "";
@@ -1176,13 +1177,8 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
         					}
-        					if(excelUtil.oBSupplierService.yzSupplierName(supplier.getId(), productId, null) > 0){
-        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，不能重复添加供应商!";
-        						map.put("errMsg", errMsg);
-	        					 bool=false;
-		        				 break;
-        					}
         					uscc = supplier.getCreditCode();
+        					suId = supplier.getId();
         					obp.setSupplierId(supplier.getId());
         				}
         			}
@@ -1266,7 +1262,7 @@ public class ExcelUtil {
     					if(cell.getCellType()==1){
         					//判断是否为空
         					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行E列错误，不能为空!";
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行G列错误，不能为空!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
@@ -1279,6 +1275,34 @@ public class ExcelUtil {
 		        				 break;
         					}
         					obp.setUscc(str);
+        					}
+        				}
+    				//第八列
+    				if(cell.getColumnIndex()==7){
+    					if(cell.getCellType()==1){
+        					//判断是否为空
+        					if(cell.getStringCellValue().trim().length()<1){
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不能为空!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+	        				}
+        					String str = cell.getRichStringCellValue().toString();
+        					List<Category> list2 = excelUtil.categoryService.selectByName(str);
+        					if(list2.size() == 0){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，目录不存在!";
+	        					 map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}else{
+        						if(excelUtil.oBSupplierService.yzSupplierName(suId, list2.get(0).getId(), null) > 0){
+        							errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不能重复添加!";
+   	        					 map.put("errMsg", errMsg);
+   	        					 bool=false;
+   		        				 break;
+        						}
+        					}
+        					obp.setUscc(list2.get(0).getId());
         					}
         				}
         		}

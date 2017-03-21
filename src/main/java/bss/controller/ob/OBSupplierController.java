@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -14,6 +15,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -24,11 +26,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.model.bms.Category;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
+import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierService;
 import ses.util.PathUtil;
-import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
@@ -38,6 +41,7 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.model.UploadFile;
 
 /**
  * 
@@ -50,6 +54,7 @@ import common.annotation.CurrentUser;
  * 
  */
 @Controller
+@Scope("prototype")
 @RequestMapping("/obSupplier")
 public class OBSupplierController {
 
@@ -61,10 +66,13 @@ public class OBSupplierController {
 	
 	@Autowired
 	private SupplierService supplierService;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	/**
 	 * 
-	 * Description: 查询定型产品列表信息
+	 * Description: 查询供应商列表
 	 * 
 	 * @author zhang shubin
 	 * @version 2017年3月7日
@@ -75,7 +83,7 @@ public class OBSupplierController {
 	 * @return String
 	 * @exception
 	 */
-	@RequestMapping("/list")
+	/*@RequestMapping("/list")
 	public String list(OBProduct example, Model model, Integer page) {
 		if (page == null) {
 			page = 1;
@@ -92,7 +100,7 @@ public class OBSupplierController {
 		model.addAttribute("supplierinfo", info);
 		model.addAttribute("supplierproductExample", example);
 		return "bss/ob/addSupplier/addSupplierlist";
-	}
+	}*/
 
 	/**
 	 * 
@@ -107,11 +115,9 @@ public class OBSupplierController {
 	 */
 	@RequestMapping("/addSupplieri")
 	public String addSupplieri(HttpServletRequest request,Model model) {
-		String productid = request.getParameter("proid") == null ? "" : request.getParameter("proid");
 		String supid = UUID.randomUUID().toString().replaceAll("-", "");
 		OBSupplier obSupplier = new OBSupplier();
 		obSupplier.setId(supid);
-		obSupplier.setProductId(productid);
 		model.addAttribute("obSupplier",obSupplier);
 		return "bss/ob/addSupplier/addSupplier";
 	}
@@ -135,15 +141,34 @@ public class OBSupplierController {
 		}
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
-		String id = request.getParameter("prodid") == null ? "" : request.getParameter("prodid");
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
-		List<OBSupplier> list = oBSupplierService.selectByProductId(id, page,
-				status,supplierName);
+		String smallPointsName = request.getParameter("smallPointsName") == null ? "" : request.getParameter("smallPointsName");
+		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
+				status,supplierName,smallPointsName);
+		if(list != null){
+			for (OBSupplier obSupplier : list) {
+				String id = obSupplier.getSmallPointsId();
+				if(id != null){
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("id", id);
+					List<Category> clist = categoryService.findCategoryByParentNode(map);
+					String str = "";
+					for (Category category : clist) {
+						if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
+							str += category.getName() +"/";
+						}
+						
+					}
+					str+=obSupplier.getSmallPoints().getName();
+					obSupplier.setPointsName(str);
+				}
+			}
+		}
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("status", status);
-		model.addAttribute("prodid", id);
 		model.addAttribute("supplierName", supplierName);
+		model.addAttribute("smallPointsName", smallPointsName);
 		return "bss/ob/addSupplier/supplierlist";
 	}
 
@@ -230,11 +255,6 @@ public class OBSupplierController {
 		if(obSupplier.getSupplierId() == null || obSupplier.getSupplierId() == ""){
 			flag = false;
 			model.addAttribute("errorName","供应商名称不能为空");
-		}else{
-			if(oBSupplierService.yzSupplierName(obSupplier.getSupplierId(), obSupplier.getProductId(),null) > 0){
-				flag = false;
-				model.addAttribute("errorName","已经添加过该供应商了");
-			}
 		}
 		if(obSupplier.getCertValidPeriod() == null){
 			flag = false;
@@ -269,6 +289,15 @@ public class OBSupplierController {
 			flag = false;
 			model.addAttribute("errorShangchuan","请上传资质证书图片");
 		}
+		if(obSupplier.getSmallPointsId() == null || obSupplier.getSmallPointsId() == ""){
+			flag = false;
+			model.addAttribute("errorsmallPoints","产品目录不能为空");
+		}else{
+			if(oBSupplierService.yzSupplierName(obSupplier.getSupplierId(), obSupplier.getSmallPointsId(),null) > 0){
+				flag = false;
+				model.addAttribute("errorsmallPoints","已经添加过该目录了");
+			}
+		}
 		if(flag == true){
 			HttpSession session = request.getSession();
 			obSupplier.setIsDeleted(0);
@@ -280,7 +309,7 @@ public class OBSupplierController {
 			obSupplier.setCreaterId(userId);
 			obSupplier.setCreatedAt(new Date());
 			oBSupplierService.insertSelective(obSupplier);
-			return "redirect:/obSupplier/list.html";
+			return "redirect:/obSupplier/supplier.do";
 		}else{
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/addSupplier";
@@ -359,6 +388,15 @@ public class OBSupplierController {
 			flag = false;
 			model.addAttribute("errorShangchuan","请上传资质证书图片");
 		}
+		if(obSupplier.getSmallPointsId() == null || obSupplier.getSmallPointsId() == ""){
+			flag = false;
+			model.addAttribute("errorsmallPoints","产品目录不能为空");
+		}else{
+			if(oBSupplierService.yzSupplierName(obSupplier.getSupplierId(), obSupplier.getSmallPointsId(),obSupplier.getId()) > 0){
+				flag = false;
+				model.addAttribute("errorsmallPoints","已经添加过该目录了");
+			}
+		}
 		if(flag == true){
 			HttpSession session = request.getSession();
 			User user = (User) session.getAttribute("loginUser");
@@ -369,7 +407,7 @@ public class OBSupplierController {
 			obSupplier.setCreaterId(userId);
 			obSupplier.setUpdatedAt(new Date());
 			oBSupplierService.updateByPrimaryKeySelective(obSupplier);
-			return "redirect:/obSupplier/supplier.html?prodid="+obSupplier.getProductId();
+			return "redirect:/obSupplier/supplier.do";
 		}else{
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/editSupplier";
@@ -442,14 +480,14 @@ public class OBSupplierController {
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file,HttpServletRequest request) throws Exception {
+		System.out.println("sssssssssssssssssssss");
 		String fileName = file.getOriginalFilename();
-		String productId = request.getParameter("id") == null ? "" : request.getParameter("id");
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";
 		}
 		List<OBSupplier> list = new ArrayList<OBSupplier>();
 		Map<String, Object> maps = (Map<String, Object>) ExcelUtil
-				.readOBSupplierExcel(file,productId);
+				.readOBSupplierExcel(file);
 		list = (List<OBSupplier>) maps.get("list");
 		
 		String errMsg = (String) maps.get("errMsg");
@@ -461,9 +499,14 @@ public class OBSupplierController {
 			if(list != null){
 				for (OBSupplier obSupplier : list) {
 					String supid = UUID.randomUUID().toString().replaceAll("-", "");
-					obSupplier.setProductId(productId);
 					obSupplier.setId(supid);
 					obSupplier.setIsDeleted(0);
+					String userId = "";
+					if(user != null){
+						userId = user.getId();
+					}
+					obSupplier.setCreaterId(userId);
+					obSupplier.setCreatedAt(new Date());
 					oBSupplierService.insertSelective(obSupplier);
 				}
 			}
@@ -472,4 +515,35 @@ public class OBSupplierController {
 		return jsonString;
 	}
 
+	
+	/**
+	 * 
+	 * Description: 根据业务id查询主键id
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月21日 
+	 * @param  @param request
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("/findBybusinessId")
+	@ResponseBody
+	public String findBybusinessId(HttpServletRequest request){
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+		Integer key = request.getParameter("key") == null ? 0 : Integer.parseInt(request.getParameter("key"));
+		if(id != "" && key != 0){
+			List<UploadFile> list = oBSupplierService.findBybusinessId(id, key);
+			if(list != null){
+				StringBuffer sb = new StringBuffer();
+				for (int i = 0; i < list.size(); i++) {
+					sb. append(list.get(i).getId());
+					sb. append(",");
+				}
+				String s = sb.toString();
+				return s;
+			}
+		}
+		return "";
+	}
 }

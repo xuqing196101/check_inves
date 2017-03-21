@@ -5,6 +5,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+		<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<title>供应商列表页面</title>
 <script type="text/javascript">
 /* 分页 */
@@ -184,6 +185,91 @@ function openViewDIvs(id){
 	});
 
 }
+
+/**
+ * 附件下载
+ * @param id 主键
+ * @param key 对应系统的key
+ */
+function download(bid){
+	var key = 2;
+	var zipFileName = null;
+	var fileName = null;
+	$.ajax({
+		url: "${pageContext.request.contextPath }/obSupplier/findBybusinessId.html",
+		type: "post",
+		data: {
+			id: bid,
+			key:key
+		},
+		success: function(data) {
+			if(data != ""){
+				id = data;
+				var form = $("<form>");   
+			    form.attr('style', 'display:none');   
+			    form.attr('method', 'post');
+			    form.attr('action', globalPath + '/file/download.html?id='+ id +'&key='+key + '&zipFileName=' + encodeURI(encodeURI(zipFileName)) + '&fileName=' + encodeURI(encodeURI(fileName)));
+			    $('body').append(form); 
+			    form.submit();
+			}
+		},
+		error: function() {
+
+		}
+	});
+	
+}
+
+//弹出导入框
+var index;
+function upload(){
+		index = layer.open({
+			type: 1, //page层
+			area: ['400px', '300px'],
+			title: '导入供应商',
+			closeBtn: 1,
+			shade: 0.01, //遮罩透明度
+			moveType: 1, //拖拽风格，0是默认，1是传统拖动
+			shift: 1, //0-6的动画形式，-1不开启
+			offset: ['80px', '400px'],
+			content: $('#file_div'),
+			});
+}
+
+//下载模板
+function down(){
+	window.location.href ="${pageContext.request.contextPath}/obSupplier/download.html";
+}
+
+//导入excl 
+function fileUpload(){
+ $.ajaxFileUpload ({
+               url: "${pageContext.request.contextPath}/obSupplier/upload.do",
+               secureuri: false,  
+               fileElementId: 'fileName', 
+               dataType: 'json',
+               success: function (data) { 
+               var bool=true;
+               var chars = ['A','B','C','D','E','F','G','H'];
+               if(data=="1"){
+			     layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
+				 } 
+				 for(var i = 0; i < chars.length ; i ++) {
+					 if(data.indexOf(chars[i])!=-1){
+					  	 bool=false;
+					}
+					 }
+					if(bool!=true){
+					 	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
+					  }else{
+					 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
+					       layer.close(index);
+					       $('input:checkbox').attr('checked', false);
+					       window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html";
+                 }
+             }
+         }); 
+     }
 </script>
 </head>
 <body>
@@ -208,6 +294,10 @@ function openViewDIvs(id){
 	    	<label class="fl">供应商名称：</label>
 			<input type="text" id="" class="" name = "supplierName" value="${supplierName }"/>
 	     </li>
+	     <li>
+	    	<label class="fl">产品目录：</label>
+			<input type="text" id="" class="" name = "smallPointsName" value="${smallPointsName }"/>
+	     </li>
 		<li>
 			<label class="fl">供应商证书状态：</label>
 			<select class="w178" name = "status">
@@ -225,9 +315,11 @@ function openViewDIvs(id){
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows back" type="button" onclick="window.location.href = '${pageContext.request.contextPath}/obSupplier/list.html'">返回</button>
+		<button class="btn btn-windows add" type="button" onclick = "window.location.href = '${pageContext.request.contextPath }/obSupplier/addSupplieri.html'">添加</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn btn-windows btn btn-windows output" type="button" onclick="down()">下载EXCEL模板</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="upload()">导入EXCEL</button>
 	</div>
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -235,8 +327,9 @@ function openViewDIvs(id){
 		<tr>
 		<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">供应商名称</th>
+		  <th class="info" width="38%">供应商名称</th>
 		  <th class="info">证书有效期至</th>
+		  <th class="info">产品目录（末节点）</th>
 		  <th class="info">资质证书内容</th>
 		  <th class="info">是否过期</th>
 		</tr>
@@ -245,11 +338,22 @@ function openViewDIvs(id){
 			<tr>
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${supplier.id }" /></td>
 				<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-				<td class="tl">${supplier.supplier.supplierName }</td>
+				<td class="tl" width="38%">${supplier.supplier.supplierName }</td>
 				<td class="tc">
-					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd HH:mm:ss" /> 
+					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>
-				<td class="tc"><button type="button" onclick="openViewDIvs('${supplier.id }');" class="btn">查看</button></td>
+				<td class="tc" title = "${supplier.pointsName }">${supplier.smallPoints.name }</td>
+				<td class="tc">
+					<ul id="post_attach_show_disFileId" class="uploadFiles">
+						<li class="file_view">
+						<a href="javascript:openViewDIvs('${supplier.id }');"></a>
+						</li>
+						<li class="file_load">
+							<a href="javascript:download('${supplier.id }');"></a>
+						</li>
+						<li class="file_delete"></li>
+					</ul>
+				</td>
 				<td class="tc" id = "${supplier.id }status">
 				<c:set var="nowDate" value="<%=System.currentTimeMillis()%>"></c:set>
 					<c:choose>  
@@ -263,5 +367,14 @@ function openViewDIvs(id){
    </div>
       <div id="pagediv" align="right"></div>
    </div>
+   <!-- 导入文件 -->
+	<div  class=" clear margin-top-30" id="file_div"  style="display:none;" >
+		<div class="col-md-12 col-sm-12 col-xs-12">
+ 		   <input type="file" id="fileName" class="input_group" name="file" >
+ 		</div>
+ 		<div class="col-md-12 col-sm-12 col-xs-12 mt20 tc">
+    	    <input type="button" class="btn input" onclick="fileUpload()" value="导入" />
+    	</div>
+	</div>
 </body>
 </html>

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import common.model.UploadFile;
+
 import bss.model.ob.OBSupplier;
 
 /**
@@ -30,7 +32,7 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId(String id, Integer page, Integer status,
-			String supplierName);
+			String supplierName,String smallPointsName);
 
 	/**
 	 * 
@@ -107,7 +109,7 @@ public interface OBSupplierService {
 	 * @return int
 	 * @exception
 	 */
-	int yzSupplierName(String supplierId, String productId,String id);
+	int yzSupplierName(String supplierId, String smallPointsId,String id);
 	
 	/**
 	 * 
@@ -121,5 +123,19 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	int yzShangchuan(String id);
+	
+	/**
+	 * 
+	 * Description: 根据业务id查询主键id
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月21日 
+	 * @param  @param businessId
+	 * @param  @param key
+	 * @param  @return 
+	 * @return List<UploadFile> 
+	 * @exception
+	 */
+	List<UploadFile> findBybusinessId(String businessId,Integer key);
 
 }
