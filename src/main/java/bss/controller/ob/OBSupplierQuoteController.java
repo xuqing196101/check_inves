@@ -15,7 +15,9 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
@@ -154,18 +156,27 @@ public class OBSupplierQuoteController {
 	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) {
 		supplierId = user.getTypeId();
-		
+		//把供应商id和标题id封装在oBProjectResult对象里
 		OBProjectResult oBProjectResult = new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
 		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
 		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
 		
-		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult);
+		//这是第一轮显示的数据，由于尽管是第二轮这个依然要显示
+		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult,"-1");
 		//根据状态有选择的查询
-		
+		if("1".equals(confirmStatus)) {
+			//第一轮接受，参加第二轮的操作
+			ConfirmInfoVo secondConfirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult,confirmStatus);
+			model.addAttribute("secondConfirmInfoVo", secondConfirmInfoVo);
+		}
+		if("0".equals(confirmStatus)) {
+			//第一轮放弃，参加第二轮时的操作	这个需求暂时不够确定，先不走这一步
+			
+		}
 		//获取当前(在猫上运行，就是猫的)时间
-		Date currentTime = new Date();
+		Date sysCurrentTime = new Date();
 		
 		double allProductPrice = 0;
 		if(confirmInfoVo != null) {
@@ -184,7 +195,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
 		model.addAttribute("allProductPrice", allProductPrice);
 		model.addAttribute("projectId", projectId);
-		model.addAttribute("sysCurrentTime", currentTime);
+		model.addAttribute("sysCurrentTime", sysCurrentTime);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("confirmInfoVo", confirmInfoVo);
 
@@ -213,19 +224,43 @@ public class OBSupplierQuoteController {
 	 * @param model
 	 * @param request
 	 * @return string ajax返回执行状态
-	 * @author Ma Mingwei
+	 * @author Ma Mingwei	//,method=RequestMethod.POST
+	 * @throws ParseException 
 	 */
-	@RequestMapping("uptConfirmAccept")
+	@RequestMapping(value="uptConfirmAccept")
 	@ResponseBody
 	public String uptConfirmQuoteInfoAccept(@CurrentUser User user,
-			List<OBProjectResult> projectResultList,
+			@RequestBody List<OBProjectResult> projectResultList,
 			Model model,
-			HttpServletRequest request){
-		//调用service层的修改
-		int updateNum = oBProjectResultService.updateInfoBySPPIdList(projectResultList);
+			HttpServletRequest request) throws ParseException{
+		String acceptNum = request.getParameter("acceptNum");
+		int updateNum = 0;//定义接受的数字
+		SimpleDateFormat sdf = new SimpleDateFormat();
+		//获取页面传过来的时间（这个时间点并不准确到实际操作，只是根据前面竞价开始时间加上规则计算出来的）
+		String confirmStarttime = request.getParameter("confirmStarttime");//确认开始字符串
+		Date cs = sdf.parse(confirmStarttime);//new Date(confirmStarttime)这个过时了
+		String confirmOvertime = request.getParameter("confirmOvertime");//第一轮确认结束
+		Date co = sdf.parse(confirmOvertime);
+		String secondOvertime = request.getParameter("secondOvertime");//第二轮确认结束
+		Date so = sdf.parse(secondOvertime);
+		//获取当前的时间
+		Date currentDate = new Date();
+		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() > co.getTime()) {
+			//在第一轮中间
+			//调用service层的修改
+			updateNum = oBProjectResultService.updateInfoBySPPIdList(projectResultList);
+		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() > so.getTime()) {
+			//在第二轮中间
+		} else if(currentDate.getTime() >= so.getTime()) {
+			//在第二轮之后(直接给页面一个反馈，不走后台流程)
+			updateNum = -1;
+		}
+		
 		String updateFlag = "no";
 		if(updateNum > 0) {
 			updateFlag = "yes";
+		} else if(updateNum == -1) {
+			updateFlag = "error";
 		}
 		return updateFlag;
 	}
