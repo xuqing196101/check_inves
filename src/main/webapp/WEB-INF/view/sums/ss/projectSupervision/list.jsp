@@ -181,7 +181,7 @@
               <th>创建时间</th>
               <th>创建人</th>
               <th>项目状态</th>
-              <th>进度</th>
+              <th class="info">查看进度</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
@@ -191,27 +191,29 @@
                   <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
                 </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.name}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.projectNumber}</td>
-                <td class="tc " onclick="view('${obj.id}','0')">${obj.purchaseDepId}</td>
-                <td class="tc " onclick="view('${obj.id}')">
+                <td class="tl pl20">
+                  <a href="javascript:void(0)" onclick="view('${obj.id}','0');">${obj.name}</a>
+                </td>
+                <td class="tl pl20">${obj.projectNumber}</td>
+                <td class="tl pl20">${obj.purchaseDepId}</td>
+                <td class="tc">
                   <c:forEach items="${kind}" var="kind">
                     <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
                   </c:forEach>
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}')">
+                <td class="tl pl20">
                   <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}')">${obj.appointMan}</td>
-                <td class="tc">
+                <td class="tl pl20">${obj.appointMan}</td>
+                <td>
                   <c:forEach items="${status}" var="status">
                     <c:if test="${status.id == obj.status}">${status.name}
                     <input type="hidden" value="${status.code}"/>
                     </c:if>
                   </c:forEach>
                 </td>
-                <td class="tc" onclick="view('${obj.id}','1')">
-                  <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                <td class="tc">
+                  <a href="javascript:void(0)" onclick="view('${obj.id}','1');">进入</a>
                 </td>
               </tr>
             </c:forEach>

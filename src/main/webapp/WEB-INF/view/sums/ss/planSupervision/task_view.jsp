@@ -157,7 +157,7 @@
         <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>4</i>采购项目</h2>
           <ul class="ul_list">
-            <c:forEach items="listProject" var="obj">
+            <c:forEach items="${listProject}" var="obj">
 	            <table class="table table-bordered mt10">
 	              <tbody>
 	                <tr>

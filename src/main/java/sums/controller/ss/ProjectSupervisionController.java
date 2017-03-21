@@ -131,14 +131,18 @@ public class ProjectSupervisionController {
             PageHelper.startPage(page, Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
             List<Project> list = projectService.selectProjectsByConition(map);
             for (int i = 0; i < list.size(); i++ ) {
-                try {
-                    Orgnization org = orgnizationService.getOrgByPrimaryKey(list.get(i).getPurchaseDepId());
-                    User users = userService.getUserById(list.get(i).getAppointMan());
+                Orgnization org = orgnizationService.getOrgByPrimaryKey(list.get(i).getPurchaseDepId());
+                if(org != null && StringUtils.isNotBlank(org.getName())){
                     list.get(i).setPurchaseDepId(org.getName());
-                    list.get(i).setAppointMan(users.getRelName());
-                } catch (Exception e) {
+                }else{
                     list.get(i).setPurchaseDepId("");
-                    list.get(i).setAppointMan("");
+                }
+                
+                if(StringUtils.isNotBlank(list.get(i).getAppointMan())){
+                    User users = userService.getUserById(list.get(i).getAppointMan());
+                    if(users != null && StringUtils.isNotBlank(users.getRelName())){
+                        list.get(i).setAppointMan(users.getRelName());
+                    }
                 }
             }
             model.addAttribute("info", new PageInfo<Project>(list));

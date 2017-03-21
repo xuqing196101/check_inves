@@ -61,9 +61,9 @@
             </td>
           </tr>
           <tr>
-            <td class="bggrey ">编制时间：</td>
+            <td class="bggrey">编制时间：</td>
             <td><fmt:formatDate value='${collectPlan.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' /></td>
-            <td class="bggrey ">创建人：</td>
+            <td class="bggrey">创建人：</td>
             <td>${collectPlan.userId}</td>
           </tr>
         </tbody>

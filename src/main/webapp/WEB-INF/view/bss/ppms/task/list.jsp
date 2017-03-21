@@ -227,12 +227,16 @@
                             type: "post",
                             dateType: "json",
                             success: function() {
-                              layer.msg("受领成功", {
-                                offset: ['30%', '40%'],
+                              layer.open({
+                                type: 2, //page层
+                                area: ['800px', '500px'],
+                                title: '请上传项目批文',
+                                shade: 0.01, //遮罩透明度
+                                moveType: 1, //拖拽风格，0是默认，1是传统拖动
+                                shift: 1, //0-6的动画形式，-1不开启
+                                shadeClose: true,
+                                content: '${pageContext.request.contextPath}/advancedProject/startProject.html?id=' + id,
                               });
-                              window.setTimeout(function() {
-                                location.reload();
-                              }, 1000);
                             },
                             error: function() {
                               layer.msg("受领失败", {
