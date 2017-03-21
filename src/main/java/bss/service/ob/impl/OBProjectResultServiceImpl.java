@@ -1,5 +1,7 @@
 package bss.service.ob.impl;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -134,12 +136,28 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @return 竞价管理-结果查询 页面信息封装对象
      */
 	@Override
-	public ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult) {
+	public ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult,String confirmStatus) {
 		// TODO Auto-generated method stub
 		ConfirmInfoVo confirmInfoVo = oBProjectResultMapper.selectInfoByPSId(obProjectResult);
-		//new datetime
-		List<BidProductVo> productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
+		
 		if(confirmInfoVo != null) {
+			//根据confirmStatus当前的状态进行查询显示的是第一轮还是第二轮
+			List<BidProductVo> productList = null;
+			if("1".equals(confirmStatus)) {
+				productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
+			} else if("0".equals(confirmStatus)) {
+				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
+			}
+			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
+			GregorianCalendar gc = new GregorianCalendar();
+			gc.setTime(confirmInfoVo.getConfirmOvertime());
+			gc.add(Calendar.HOUR, confirmInfoVo.getQuoteTime().intValue());
+			confirmInfoVo.setConfirmStarttime(gc.getTime());
+			gc.add(Calendar.HOUR, confirmInfoVo.getConfirmTime().intValue());
+			confirmInfoVo.setConfirmOvertime(gc.getTime());
+			gc.add(Calendar.HOUR, confirmInfoVo.getConfirmTimeSecond().intValue());
+			confirmInfoVo.setSecondOvertime(gc.getTime());
+			
 			confirmInfoVo.setBidProductList(productList);
 		}
 		return confirmInfoVo;
@@ -172,8 +190,14 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	public int updateInfoBySPPIdList(List<OBProjectResult> projectResultList) {
 		// TODO Auto-generated method stub
 		int flag = 0;
-		for (OBProjectResult obProjectResult : projectResultList) {
-			flag += oBProjectResultMapper.updateInfoBySPPId(obProjectResult);
+		for(int i = 0; i < projectResultList.size();i++) {
+			if(i == 0) {
+				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
+				flag++;
+			} else if(i > 0) {
+				oBProjectResultMapper.insert(projectResultList.get(i));
+				flag++;
+			}
 		}
 		return flag;
 	}

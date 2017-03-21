@@ -72,9 +72,10 @@ public interface OBProjectResultService {
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
      * @author Ma Mingwei
      * @param obProjectResult
+	 * @param confirmStatus 
      * @return 竞价管理-结果查询 页面信息封装对象
      */
-    ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
+    ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult, String confirmStatus);
     
     List<BidProductVo> selectProductBySupplierId(OBProjectResult obProjectResult);
     

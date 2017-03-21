@@ -59,11 +59,18 @@ public interface OBProjectResultMapper {
     
     /**
      * @author Ma Mingwei
-     * <p>根据供应商查找竞价商品</p>
+     * <p>根据供应商查找竞价的商品</p>
      * @param supplierId
      * @return
      */
     List<BidProductVo> selectProductBySupplierId(OBProjectResult oBProjectResult);
+     /**
+      * @author Ma Mingwei
+      * <p>根据供应商查找竞价表里的商品信息</p>
+      * @param supplierId
+      * @return
+      */
+     List<BidProductVo> selectResultProductBySupplierId(OBProjectResult oBProjectResult);
     
     OBProjectResult selectByPrimaryKey(String id);
 
