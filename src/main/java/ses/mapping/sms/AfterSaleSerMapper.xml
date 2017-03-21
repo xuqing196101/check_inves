@@ -31,6 +31,12 @@
     	PROPOSER,PRO_MOBILE,SUPPLIER_NAME,QUESTION,TECHNICAL_PARAMETERS
   	</sql>
   	
+  	<select id="queryByList" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM T_SES_SMS_AFTER_SALE_SERVICE
+		WHERE IS_DELETED=0
+  	</select>
   	<!-- 根据主键查询 -->
   	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
 		SELECT

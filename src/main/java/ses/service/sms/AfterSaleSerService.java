@@ -17,12 +17,12 @@ public interface AfterSaleSerService {
 	/**
 	 * 2.添加模板
 	 */
-	public void add(AfterSaleSer AfterSaleSer);
+	public void add(AfterSaleSer afterSaleSer);
 	
 	/**
 	 * 3.更新模板
 	 */
-	public void update(AfterSaleSer AfterSaleSer);
+	public void update(AfterSaleSer afterSaleSer);
 	
 	/**
 	 * 4.根据主键查询模板
@@ -46,11 +46,11 @@ public interface AfterSaleSerService {
      * @author 
      * @param AfterSaleSer
      */
-    public void saveOrUpdateAfterSaleSer(AfterSaleSer AfterSaleSer);
+    public void saveOrUpdateAfterSaleSer(AfterSaleSer afterSaleSer);
     
     public List<AfterSaleSer> findAfterSaleSer();
     
     
-    public void updateAfterSaleSer(AfterSaleSer AfterSaleSer);
+    public void updateAfterSaleSer(AfterSaleSer afterSaleSer);
 
 }

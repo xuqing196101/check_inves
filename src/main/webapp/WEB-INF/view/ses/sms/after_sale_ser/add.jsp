@@ -87,7 +87,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>产品名称</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<input class="input_group" id="productName" name="product.name" value="${AfterSaleSer.product.name}" type="text">
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_legalName}</div>
 							</div>
@@ -95,7 +95,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>合同编号</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<input class="input_group" id="contractCode" name="contract.code" value="${AfterSaleSer.contract.code }" type="text">
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_legalName}</div>
 							</div>
@@ -103,7 +103,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>合同金额</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<input class="input_group" id="contractAmount" name="contract.amount" value="${AfterSaleSer.contract.amount }" type="text">
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_legalName}</div>
 							</div>
@@ -111,7 +111,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>技术参数</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<input class="input_group" id="technicalParameters" name="technical.parameters" value="${AfterSaleSer.technicalParameters }" type="text">
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_legalName}</div>
 							</div>
@@ -119,14 +119,14 @@
 						<li class="col-md-12 col-sm-12 col-xs-12">
 			   				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>全国售后服务地址：</span>
 			   				<div class="col-md-12 col-sm-12 col-xs-12 p0">
-		        				<textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="detail" title="不超过800个字" placeholder="不超过800个字">${pqinfo.detail}</textarea>
+		        				<textarea class="h130 col-md-12 col-sm-12 col-xs-12 " name="address" title="不超过800个字" placeholder="不超过800个字">${AfterSaleSer.address}</textarea>
 		       				</div>
 		       				<div class="clear red">${ERR_detail}</div>
 			 			</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系人</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								<input class="input_group" id="legalName" name="legalName" value="${ir.legalName }" type="text">
+								<input class="input_group" id="contactName" name="contact.name" value="${AfterSaleSer.contactName }" type="text">
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_legalName}</div>
 							</div>
@@ -134,7 +134,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 							<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="star_red">*</span>联系方式</span>
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-								<input class="input_group" id="recommendDep" name="recommendDep" value="${ir.recommendDep }" type="text">
+								<input class="input_group" id="mobile" name="mobile" value="${AfterSaleSer.mobile }" type="text">
 								<span class="add-on">i</span>
 								<div class="cue">${ERR_recommendDep}</div>
 							</div>

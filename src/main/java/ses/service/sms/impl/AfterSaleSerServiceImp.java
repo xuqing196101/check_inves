@@ -4,6 +4,7 @@ import java.sql.Timestamp;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.github.pagehelper.PageHelper;
 
@@ -15,72 +16,68 @@ import ses.model.sms.SupplierAfterSaleDep;
 import ses.model.sms.SupplierStars;
 import ses.service.sms.AfterSaleSerService;
 import ses.util.PropertiesUtil;
-
-public class AfterSaleSerServiceImp {
+@Service(value="afterSaleSerService")
+public class AfterSaleSerServiceImp implements AfterSaleSerService {
 	/** 售后服务Mapper **/
     @Autowired
-    private AfterSaleSerMapper AfterSaleSerMapper;
-    
-    /**
-	 * 1.获取所有售后服务信息对象
-	 */
+    private AfterSaleSerMapper afterSaleSerMapper;
+
+	@Override
 	public List<AfterSaleSer> getAll(Integer pageNum) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return AfterSaleSerMapper.queryByList();
+		return afterSaleSerMapper.queryByList();
 	}
-    
-	/** 
-	 * 添加售后服务信息
-	 */
+
+	@Override
 	public void add(AfterSaleSer AfterSaleSer) {
 		AfterSaleSer.setCreatedAt(new Timestamp(System.currentTimeMillis()));
-		AfterSaleSerMapper.insertSelective(AfterSaleSer);
-
+		afterSaleSerMapper.insertSelective(AfterSaleSer);
 	}
-    
-	/** 
-	 * 更新售后服务信息
-	 */
+
+	@Override
 	public void update(AfterSaleSer AfterSaleSer) {
 		AfterSaleSer.setUpdateAt(new Timestamp(System.currentTimeMillis()));
-		AfterSaleSerMapper.updateByPrimaryKeySelective(AfterSaleSer);
-
+		afterSaleSerMapper.updateByPrimaryKeySelective(AfterSaleSer);
 	}
-    
-	/**
-	 * 根据主键查询售后服务信息
-	 */
+
+	@Override
 	public AfterSaleSer get(String id) {
-		return AfterSaleSerMapper.selectByPrimaryKey(id);
-	}
-    
-	/**
-	 * 根据主键删除
-	 */
-	public void delete(String id) {
-		AfterSaleSerMapper.deleteByPrimaryKey(id);
-	}
-	
-    /**
-     * @see ses.service.sms.AfterSaleSerService#queryById(java.lang.String)
-     */
-    public AfterSaleSer queryById(String id) {
-        return AfterSaleSerMapper.selectByPrimaryKey(id);
-    }
-    
-    /**
-     * @see ses.service.sms.AfterSaleSerService#saveOrUpdateAfterSale(ses.model.sms.AfterSale)
-     */
-    public void saveOrUpdateAfterSaleSer(AfterSaleSer AfterSaleSer) {
-        if (AfterSaleSer.getId() == null) {
-        	AfterSaleSerMapper.insertSelective(AfterSaleSer);
-        } else {
-        	AfterSaleSerMapper.updateByPrimaryKeySelective(AfterSaleSer);
-        }
-    }
-    public void updateAfterSaleSer(AfterSaleSer AfterSaleSer) {
-    	AfterSaleSerMapper.updateAfterSaleSer(AfterSaleSer);
+		return afterSaleSerMapper.selectByPrimaryKey(id);
 	}
 
+	@Override
+	public String queryPath(String id) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void delete(String id) {
+		afterSaleSerMapper.deleteByPrimaryKey(id);
+		
+	}
+
+	@Override
+	public void saveOrUpdateAfterSaleSer(AfterSaleSer AfterSaleSer) {
+		 if (AfterSaleSer.getId() == null) {
+	        	afterSaleSerMapper.insertSelective(AfterSaleSer);
+	        } else {
+	        	afterSaleSerMapper.updateByPrimaryKeySelective(AfterSaleSer);
+	        }
+		
+	}
+
+	@Override
+	public List<AfterSaleSer> findAfterSaleSer() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void updateAfterSaleSer(AfterSaleSer AfterSaleSer) {
+		// TODO Auto-generated method stub
+		
+	}
+    
 }

@@ -9,6 +9,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 
+
 import com.github.pagehelper.PageInfo;
 
 import ses.dao.sms.AfterSaleSerMapper;
@@ -17,14 +18,13 @@ import ses.service.sms.AfterSaleSerService;
 
 @Controller
 @Scope("prototype")
-@RequestMapping(value ="/after_sale_ser")
+@RequestMapping("/after_sale_ser")
 public class AfterSaleSerController {
 	
-	@Autowired
-	private AfterSaleSerMapper AfterSaleSerMapper; //售后服务
+	
 	
 	@Autowired
-	private AfterSaleSerService AfterSaleSerService; //售后服务
+	private AfterSaleSerService  afterSaleSerService; //售后服务
 	
 	/**
 	 * 
@@ -34,32 +34,48 @@ public class AfterSaleSerController {
 	 * @param:     
 	 * @return:
 	 */
-	@RequestMapping("/list")
+	@RequestMapping(value="/list")
 	public String getAll(Model model,Integer page){
-		List<AfterSaleSer> AfterSaleSers = AfterSaleSerService.getAll(page==null?1:page);
+		List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(page==null?1:page);
 		model.addAttribute("list",new PageInfo<AfterSaleSer>(AfterSaleSers));
 		return "ses/sms/after_sale_ser/list";
 	}
 	
+	/**
+	 * 
+	 * @Title: add
+	 * @author LiChenHao  
+	 * @Description:新增售后服务信息
+	 * @param:     
+	 * @return:
+	 */
 	@RequestMapping(value = "add")
-	public String add(Model model, AfterSaleSer AfterSaleSer) {
-		String id = AfterSaleSer.getId();
+	public String add(Model model, AfterSaleSer afterSaleSer) {
+		String id = afterSaleSer.getId();
 		if (id != null && !"".equals(id)) {
-			AfterSaleSer = AfterSaleSerService.get(id);
-			model.addAttribute("AfterSaleSer", AfterSaleSer);
+			afterSaleSer = afterSaleSerService.get(id);
+			model.addAttribute("AfterSaleSer",afterSaleSer);
 		}
 		return "ses/sms/after_sales_ser/add";
 	}
 	
-	@RequestMapping(value = "save_or_update_supplier_stars")
-	public String saveOrUpdateAfterSaleSer(AfterSaleSer AfterSaleSer) {
-		AfterSaleSerService.saveOrUpdateAfterSaleSer(AfterSaleSer);
+	/**
+	 * 
+	 * @Title: saveOrUpdateAfterSaleSer
+	 * @author LiChenHao  
+	 * @Description:保存修改
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping(value = "saveOrUpdateAfterSaleSer")
+	public String saveOrUpdateAfterSaleSer(AfterSaleSer afterSaleSer) {
+		afterSaleSerService.saveOrUpdateAfterSaleSer(afterSaleSer);
 		return "redirect:list.html";
 	}
 	
 	@RequestMapping(value = "update_status")
 	public String updateAfterSaleSer(AfterSaleSer AfterSaleSer) {
-		AfterSaleSerService.updateAfterSaleSer(AfterSaleSer);
+		afterSaleSerService.saveOrUpdateAfterSaleSer(AfterSaleSer);
 		return "redirect:list.html";
 	}
 
