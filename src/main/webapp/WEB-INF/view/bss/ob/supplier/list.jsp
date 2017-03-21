@@ -80,12 +80,16 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
-			   if(status == '1' && remark == '1'){
+			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待!");
 				   return;
 			   }
-			   if(status == '2' && remark == '3'){
+			   if(status == '2' && remark == '1'){
 				   layer.alert("已报价，请等待确认!");
+				   return;
+			   }
+			   if(status == '5' && remark == '1'){
+				   layer.alert("请您确认结果!");
 				   return;
 			   }
 			   if(status == '3' && remark == '5'){
@@ -101,7 +105,7 @@
 				   return;
 			   }
 			   // 开始报价
-			   if(status == '2' && remark == '2'){
+			   if(status == '2'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0];
 			   }
 	       } else if(id.length > 1) {
@@ -126,13 +130,13 @@
 		   if(id.length == 1) {
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
-			   var remark = valueArr[2];
-			   if(status != '3' && remark != '6'){
-				   layer.alert("对不起，未报价的项目不能确认结果!");
+			   // var remark = valueArr[2];
+			   if(status != '5'){
+				   layer.alert("对不起，确认时间未到不能确认结果!");
 				   return;
 			   }
 			   // 开始确认结果
-			   if(status == '3' && remark == '6'){
+			   if(status == '5' && remark == '1'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 			   }
 	       } else if(id.length > 1) {
@@ -203,23 +207,26 @@
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.id},${ obProject.status },${obProject.remark}" /></td>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark}" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td>${ obProject.name }</td>
-			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			  <td class="tc"><fmt:formatDate value="${ obProject.quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			  <td>${ obProject.obProjectList[0].name }</td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
-			  	<c:if test="${ obProject.status == 1 }">
+			  	<c:if test="${ obProject.obProjectList[0].status == 1 }">
 			  		发布中
 			  	</c:if>
-			  	<c:if test="${ obProject.status == 2 }">
-			  		竞价中
+			  	<c:if test="${ obProject.obProjectList[0].status == 2 }">
+			  		报价中
 			  	</c:if>
-			  	<c:if test="${ obProject.status == 3 }">
+			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
 			  		竞价结束
 			  	</c:if>
-			  	<c:if test="${ obProject.status == 4 }">
+			  	<c:if test="${ obProject.obProjectList[0].status == 4 }">
 				  	流拍
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
+			  		报价结束
 			  	</c:if>
 			  </td>
 			 <%--  <td class="tc">

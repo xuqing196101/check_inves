@@ -41,7 +41,7 @@ public final class Constant {
     public static final Integer [] OB_PROJECT_THREE={50,30,20};
     public static final Integer [] OB_PROJECT_FOUR={40,30,20,10};
     public static final Integer [] OB_PROJECT_FIVE={30,25,20,15,10};
-    public static final Integer [] OB_PROJECT_SIX={30,24,19,14,9,4};
+    public static final Integer [] OB_PROJECT_SIX={25,21,19,15,12,8};
     /**
      * 
      *〈简述〉初始化

@@ -19,7 +19,7 @@ public interface OBProjectResultMapper {
      * @param map
      * @return
      */
-    Integer countByStatus(Map<String,Object> map);
+    Integer countByStatus(String projectId);
     /**
      * 根据产品 id/竞价id获取已经成交的数量
      * @param example
@@ -94,7 +94,7 @@ public interface OBProjectResultMapper {
      * @author Yanghongliang
      * @return list
      */
-    List<OBProjectResult> selectNotSuppler(String projectID);
+    List<OBProjectResult> selectNotSuppler(@Param("id")String projectID ,@Param("status")Integer status);
     /**
      * 获取是否第二轮
      * @author Ma Mingwei

@@ -68,23 +68,6 @@
     function down(){
      window.location.href ="${pageContext.request.contextPath}/ob_project/download.html";
     }
-	//选择采购机构
-	function getMechanism(){
-	       $.ajax({
-                type: "POST",
-                url: "${pageContext.request.contextPath}/ob_project/mechanism.html",
-				dataType: "json", //返回格式为json
-                data:{"currFlowDefineId":nextFlowDefineId ,"currUpdateUserId":nextUpdateUserId, "projectId":projectId},
-                success: function(data) {
-                    if(data.success){
-                    	layer.msg(data.flowDefineName+ "经办人设置成功",{offset: '100px'});
-                    }
-                },
-                error: function(data){
-                    layer.msg("请稍后再试",{offset: '100px'});
-                }
-            });
-	}
 	//定义采购集合
 	var list=null;
 	//定义产品集合
@@ -128,6 +111,9 @@
 				} 
 			}
 		 });
+		 $("#tradedSupplierCount").select2();
+		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
+		 tradedCount();
 	});
 	//根据下拉框信息改变 采购联系人 采购联系电话
 	function changSelect(){
@@ -235,6 +221,17 @@
 		content: $('#file_div'),
 		});
 	}
+	//根据选中获取name
+	function getSelectName(checkID){
+	     var name='';
+	    //获取选中全部的产品id
+			$('*[name="productName"]').each(function(){
+			  if($(this).val()==checkID){
+		        name=$(this).find("option:selected").text();
+			  }
+		  });
+		return name;
+	}
 	function loads(number,id){
 	$.each(productList, function(i, user) {
 		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + ">" + user.name+ "</option>");
@@ -337,7 +334,7 @@
 		     show("成交供应商数量必须是数字");
 		   return;
 		  }
-		   if(parseInt(supplierCount)>=parseInt(6)){
+		   if(parseInt(supplierCount)>parseInt(6)){
 		  $("#tradedSupplierCountErr").html("成交供应商数量不能大于6");
 		    show("成交供应商数量不能大于6");
 		   return;
@@ -482,7 +479,13 @@
 		    show("提供当前产品的供应商不能少于"+supplierCount+"家");
 				return;
 		 }
-			var index = layer.load(0, {
+		  
+		  exec();
+			
+	}
+    /**执行 */
+    function exec(){
+    var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]
 			});
@@ -499,20 +502,45 @@
 										window.location.href = "${pageContext.request.contextPath}/ob_project/list.html";
 										layer.close(index);
 									} else {
-										layer.close(index);
+									  var tempContext="";
+									    if(name=="pName"){
+									    tempContext=getSelectName(context);
+									    context="产品:"+tempContext+"供应商数量不得超过 该产品注册的供应商数量的1/4";
+									     $("#buttonErr").html(context);
+									    }else if(name=="catalog"){
+									      tempContext=getSelectName(context);
+									      context="产品:"+tempContext+"不属于同一个目录";
+									      $("#buttonErr").html(context);
+									    }else{
 										$("#" + name).html(context);
+									    }
+										layer.close(index);
 										show(context);
 									}
 								} else {
 									show("错误！");
 								}
 							});
-	}
-
+    }
 	function show(content) {
 		layer.alert(content, {
 			offset : [ '30%', '40%' ]
 		});
+	}
+	function tradedCount(){
+	var tradedCount=$("#tradedSupplierCount").val();
+	if(tradedCount){
+      $.ajax({
+				url: "${pageContext.request.contextPath }/ob_project/proportion.do",
+				type: "POST",
+				data: {
+					supplierCount: tradedCount
+				},
+				success: function(data) {
+				 $("#tradedSupplier").val(data);
+		 }
+     });
+     }
 	}
 </script>
 </head>
@@ -528,13 +556,15 @@
       </div>
     </div>
     <div class="tab-content">
-    
     <!-- 修改订列表开始-->
   <div class="container container_box">
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
+  <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}">
   <input type="hidden" id="id" name="id" value="${list.id}">
- <input type="hidden" id="supplieId" name="supplieId" >
+  <input type="hidden" id="ruleId" name="ruleId" value="${ruleId}">
+  <input type="hidden" id="supplieId" name="supplieId" >
+  <input type="hidden" id="suppliePrimaryId" name="suppliePrimaryId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -568,20 +598,18 @@
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应商数</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="tradedSupplierCount" value="${list.tradedSupplierCount}" name="tradedSupplierCount" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="1" type="text">
-        <span class="add-on">i</span>
-        <span class="input-tip">不能为空,必须小于7大于1</span>
+	   <div class="w200">
+	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()">
+	   <option value=""></option>
+	   <option value="1">1</option>
+	   <option value="2">2</option>
+	   <option value="3">3</option>
+	   <option value="4">4</option>
+	   <option value="5">5</option>
+	   <option value="6">6</option>
+	   </select>
+	   </div>
         <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
-       </div>
-	 </li> 
-	 
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">运杂费</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
-        <span class="add-on">i</span>
-         <span class="input-tip">不能为空,只可以是数字</span>
-        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
        </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
@@ -611,6 +639,23 @@
         <div class="cue" id="contactTelErr">${contactTelErr}</div>
        </div>
 	 </li>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应比例</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="tradedSupplier" value="" name=""  readonly="readonly" type="text">
+        <span class="add-on">i</span>
+        <span class="input-tip">自动获取</span>
+       </div>
+	 </li>
+	   <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">运杂费</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
+        <span class="add-on">i</span>
+         <span class="input-tip">不能为空,只可以是数字</span>
+        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
+       </div>
+	 </li> 
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购机构</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">

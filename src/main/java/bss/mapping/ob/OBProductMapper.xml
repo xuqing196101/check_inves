@@ -138,6 +138,15 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
+  <select id="selectInId" parameterType="java.util.List" resultMap="BaseResultMap">
+   select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PRODUCT
+  	where ID in
+			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+   			#{item}  
+ 			</foreach>
+  </select>
   <select id="selectSignalByPrimaryKey" resultMap="BaseResultSignalMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />

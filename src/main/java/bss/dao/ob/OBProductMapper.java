@@ -73,5 +73,12 @@ public interface OBProductMapper {
 	 * @exception
 	 */
 	int yzorg(String shortName);
+	/**
+	 * 根据id集合 获取相关的 产品 信息
+	 * @author YangHongLiang
+	 * @param ids
+	 * @return
+	 */
+	List<OBProduct> selectInId(@Param("list")List<String> ids);
     
 }

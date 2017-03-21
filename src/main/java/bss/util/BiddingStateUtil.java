@@ -2,11 +2,14 @@ package bss.util;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
+import ses.model.bms.User;
 import common.utils.DateUtils;
-
 import bss.dao.ob.OBProjectMapper;
+import bss.dao.ob.OBProjectSupplierMapper;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBRule;
 
@@ -22,6 +25,41 @@ public class BiddingStateUtil {
 
 	/**
 	 * 
+	 * @Title: getQuotoEndTime
+	 * @Description: 封装报价截止时间
+	 * @author Easong
+	 * @param @param obProjectList
+	 * @param @return 设定文件
+	 * @return List<OBProject> 返回类型
+	 * @throws
+	 */
+	public static List<OBProject> getQuotoEndTime(
+			List<OBProject> obProjectList, Map<String, Object> map) {
+		if (obProjectList != null) {
+			for (OBProject obProject : obProjectList) {
+				// 发布中(status == 1)状态判断
+				if (obProject != null) {
+					// 获取当前竞价信息的状态
+					Date quoteEndTime = getQuoteEndTime(obProject);
+					// 页面回显报价截止时间
+					obProject.setQuoteEndTime(quoteEndTime);
+
+					// 【竞价中】--【已报价待确认结果状态的判断】
+					/*
+					 * if(obProject.getStatus()==2 &&
+					 * "1".equals(obProject.getRemark())){
+					 * 
+					 * }
+					 */
+				}
+
+			}
+		}
+		return obProjectList;
+	}
+
+	/**
+	 * 
 	 * @Title: judgeState
 	 * @Description: 状态判断
 	 * @author Easong
@@ -29,7 +67,7 @@ public class BiddingStateUtil {
 	 * @return void 返回类型
 	 * @throws
 	 */
-	public static List<OBProject> judgeState(OBProjectMapper mapper,
+	/*public static List<OBProject> judgeState(OBProjectMapper mapper,
 			List<OBProject> obProjectList) {
 		if (obProjectList != null) {
 			for (OBProject obProject : obProjectList) {
@@ -48,7 +86,8 @@ public class BiddingStateUtil {
 					}
 
 					// 竞价中
-					if (obProject.getStatus() == 2 && !"3".equals(obProject.getRemark())
+					if (obProject.getStatus() == 2
+							&& !"3".equals(obProject.getRemark())
 							&& !"6".equals(obProject.getRemark())) {
 						int compareTo = BiddingStateUtil.compareTo(systemDate,
 								quoteEndTime);
@@ -66,22 +105,23 @@ public class BiddingStateUtil {
 						if (!"6".equals(obProject.getRemark())
 								&& !"3".equals(obProject.getRemark())
 								&& !"7".equals(obProject.getRemark())
-								&& !"8".equals(obProject.getRemark())){
-							String remark = "5";							
+								&& !"8".equals(obProject.getRemark())) {
+							String remark = "5";
 							updateRemark(mapper, obProject, remark);
 						}
 					}
-					
+
 					// 【已报价待确认状态】改为【确认结果状态】
-					if(obProject.getStatus() == 3 && "3".equals(obProject.getRemark())){
-						String remark = "6";	
+					if (obProject.getStatus() == 3
+							&& "3".equals(obProject.getRemark())) {
+						String remark = "6";
 						updateRemark(mapper, obProject, remark);
 					}
 				}
 			}
 		}
 		return obProjectList;
-	}
+	}*/
 
 	/**
 	 * 
@@ -111,39 +151,42 @@ public class BiddingStateUtil {
 			// systemDate > biddingTime
 			return 2;
 	}
-	
-	
+
 	/**
 	 * 
-	* @Title: updateRemark 
-	* @Description: 修改remark状态标识符字段
-	* @author Easong
-	* @param @param mapper
-	* @param @param obProject
-	* @param @param remark    设定文件 
-	* @return void    返回类型 
-	* @throws
+	 * @Title: updateRemark
+	 * @Description: 修改remark状态标识符字段
+	 * @author Easong
+	 * @param @param mapper
+	 * @param @param obProject
+	 * @param @param remark 设定文件
+	 * @return void 返回类型
+	 * @throws
 	 */
-	public static void updateRemark(OBProjectMapper mapper,OBProject obProject, String remark){
-		// 设置状态标识
-		obProject.setRemark(remark);
-		// 设置修改时间
-		obProject.setUpdatedAt(new Date());
-		// 修改状态
-		mapper.updateByPrimaryKeySelective(obProject);
+	public static void updateRemark(OBProjectSupplierMapper mapper,
+			OBProject obProject, User user, String remark) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		if(obProject != null ){
+			map.put("obproject_id", obProject.getId());
+		}
+		if(user != null ){
+			map.put("type_id", user.getTypeId());
+		}
+		map.put("remark", remark);
+		mapper.updateByCondition(map);
 	}
-	
+
 	/**
 	 * 
-	* @Title: getQuoteEndTime 
-	* @Description: 获取报价结束时间
-	* @author Easong
-	* @param @param obProject
-	* @param @return    设定文件 
-	* @return Date    返回类型 
-	* @throws
+	 * @Title: getQuoteEndTime
+	 * @Description: 获取报价结束时间
+	 * @author Easong
+	 * @param @param obProject
+	 * @param @return 设定文件
+	 * @return Date 返回类型
+	 * @throws
 	 */
-	public static Date getQuoteEndTime(OBProject obProject){
+	public static Date getQuoteEndTime(OBProject obProject) {
 		// 获取竞价开始时间
 		Date startTime = obProject.getStartTime();
 		// 获取报价结束时间
@@ -151,14 +194,14 @@ public class BiddingStateUtil {
 		Date quoteEndTime = null;
 		// 获取报价时间
 		Integer quoteTime = null;
-		if(obRule != null){
+		if (obRule != null) {
 			quoteTime = obRule.getQuoteTime();
-			if(quoteTime != null){
+			if (quoteTime != null) {
 				// 报价开始时间到报价结束时间(竞价开始时间加上报价时间)
 				quoteEndTime = DateUtils.getAddDate(startTime, quoteTime);
 			}
 		}
 		return quoteEndTime;
 	}
-	
+
 }

@@ -265,28 +265,28 @@
 	      <label class="fl">供应商名称：</label> 
 	      <input class="" name="supplierName" type="text" value="${supplierName }">
       </li>
-	      <li class="fl">
-		      <label class="fl">状态：</label> 
-		      <select name="status" class="w178" id="status">
-		        <option value="">-请选择-</option>
-	        	<c:if test="${sign eq '1' }">
-	        		<option <c:if test="${state == 0 or state == null}">selected</c:if> value="0">待审核</option>
-	            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
-	            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核退回</option>
-	            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
-	        	</c:if>
-	        	<c:if test="${sign eq '2' }">
-	        		<option <c:if test="${state == 4 or state == null}">selected</c:if> value="4">待复核</option>
-	            <option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
-	            <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option>
-	        	</c:if>
-	        	<c:if test="${sign eq '3' }">
-	        	  <option <c:if test="${state == 5 or state == null}">selected</c:if> value="5">待考察</option>
-	        		<option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
-              <option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option>
-	        	</c:if>
-		      </select> 
-	       </li>
+      <li class="fl">
+	      <label class="fl">状态：</label> 
+	      <select name="status" class="w178" id="status">
+	        <option value="">-请选择-</option>
+        	<c:if test="${sign eq '1' }">
+        		<option <c:if test="${state == 0 or state == null}">selected</c:if> value="0">待审核</option>
+            <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
+            <option <c:if test="${state == 2 }">selected</c:if> value="2">审核退回</option>
+            <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
+        	</c:if>
+        	<c:if test="${sign eq '2' }">
+        		<option <c:if test="${state == 4 or state == null}">selected</c:if> value="4">待复核</option>
+            <option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
+            <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option>
+        	</c:if>
+        	<c:if test="${sign eq '3' }">
+        	  <option <c:if test="${state == 5 or state == null}">selected</c:if> value="5">待考察</option>
+        		<option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
+             <option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option>
+        	</c:if>
+	      </select> 
+       </li>
        <li class="fl">
 		      <label class="fl">企业性质：</label> 
 		        <select name="businessType" id="businessType" class="w178">

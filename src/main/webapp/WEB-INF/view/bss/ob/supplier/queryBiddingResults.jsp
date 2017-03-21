@@ -29,7 +29,7 @@
 				    <td class="tc">${obProject.name }</td>
 				    <td class="tc">交货截止时间</td>
 				    <td class="tc">
-				    	<fmt:formatDate value="${obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/>
+				    	<fmt:formatDate value="${obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/>
 				    </td>
 				  </tr>
 				  <tr>
@@ -61,13 +61,13 @@
 				    <td class="tc">${obProject.orgContactTel }</td>
 				    <td class="tc">竞价开始时间</td>
 				    <td class="tc">
-				    	<fmt:formatDate value="${obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/>
+				    	<fmt:formatDate value="${obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
 				    </td>
 				  </tr>
 				  <tr>
 				    <td class="tc">竞价结束时间</td>
 				    <td class="tc">
-				    	<fmt:formatDate value="${obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/>
+				    	<fmt:formatDate value="${obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/>
 				    </td>
 				  </tr>
 				  <tr>

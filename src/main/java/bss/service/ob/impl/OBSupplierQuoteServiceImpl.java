@@ -17,6 +17,7 @@ import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
+import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBProduct;
@@ -71,6 +72,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 
 	@Autowired
 	private UploadService uploadService;
+	
+	@Autowired
+	private OBProjectSupplierMapper obProjectSupplierMapper;
 
 	/**
 	 * 
@@ -194,16 +198,16 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					// 报价时间截止
 					// systemDate > biddingTime
 					if(compareTo == 2){
-						//remark 5标识：时间截止，未能及时完成报价
-						String remark = "5";
-						BiddingStateUtil.updateRemark(obProjectMapper, obProject, remark);
+						//remark 2标识：时间截止，未能及时完成报价
+						String remark = "2";
+						BiddingStateUtil.updateRemark(obProjectSupplierMapper, obProject, user, remark);
 						return JdcgResult.ok("抱歉，报价时间已结束，未完成本次报价！");
 					}
 					// systemDate < biddingTime
 					if(compareTo == 1){
-						//remark 3标识：时间还未截止，完成报价
-						String remark = "3";
-						BiddingStateUtil.updateRemark(obProjectMapper, obProject, remark);
+						//remark 1标识：时间还未截止，完成报价
+						String remark = "1";
+						BiddingStateUtil.updateRemark(obProjectSupplierMapper, obProject, user, remark);
 					}
 				}
 				// 竞价还没结束已报价，则显示已报价待确认状态

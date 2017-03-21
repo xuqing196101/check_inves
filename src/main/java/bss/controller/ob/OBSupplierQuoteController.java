@@ -25,6 +25,7 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
@@ -77,6 +78,11 @@ public class OBSupplierQuoteController {
 		if (page == null) {
 			page = 1;
 		}
+		// 状态标识
+		String remark = request.getParameter("remark");
+		if(StringUtils.isEmpty(remark)){
+			remark = "0";
+		}
 		// 竞价标题
 		String name = request.getParameter("name");
 		// 竞价发布时间
@@ -91,8 +97,9 @@ public class OBSupplierQuoteController {
 		map.put("user", user);
 		map.put("name", name);
 		map.put("createTime", createTime);
-		List<OBProject> list = obProjectServer.selectSupplierOBproject(map);
-		PageInfo<OBProject> info = new PageInfo<OBProject>(list);
+		map.put("remark", remark);
+		List<OBProjectSupplier> oBProjectSupplier = obProjectServer.selectSupplierOBproject(map);
+		PageInfo<OBProjectSupplier> info = new PageInfo<OBProjectSupplier>(oBProjectSupplier);
 		// 将查询出的数据存入到model域中
 		model.addAttribute("info", info);
 		// 竞价发布时间回显

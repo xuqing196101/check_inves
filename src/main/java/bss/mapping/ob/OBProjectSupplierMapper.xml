@@ -8,6 +8,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_PRIMARY_ID" property="supplierPrimaryId" jdbcType="VARCHAR" />
   </resultMap>
   
   <resultMap type="bss.model.ob.OBProjectSupplier" id="OBProjectResultMap" extends="BaseResultMap">
@@ -86,7 +87,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, PROJECT_ID, SUPPLIER_ID, CREATED_AT, UPDATED_AT, REMARK
+    ID, PROJECT_ID, SUPPLIER_ID, CREATED_AT, UPDATED_AT, REMARK,SUPPLIER_PRIMARY_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectSupplierExample" >
     select
@@ -257,6 +258,8 @@
 		S.ID as ID, 
   		S.PROJECT_ID AS PROJECT_ID,
   		S.SUPPLIER_ID AS SUPPLIER_ID,
+  		S.UPDATED_AT AS UPDATED_AT,
+  		S.REMARK AS REMARK,
    		P.ID AS PID,
    		P.NAME AS PNAME,
    		P.START_TIME AS PSTART_TIME,
@@ -279,4 +282,19 @@
       	</if>
       	AND P.STATUS <![CDATA[ <> ]]> 0
   </select>
+  <update id="updateByCondition" parameterType="map" >
+    UPDATE T_BSS_OB_PROJECT_SUPPLIER
+	   SET
+	   <if test="remark != null and remark != ''">
+		   REMARK=#{remark}
+	   </if>
+	   WHERE 1=1
+	   <if test="obproject_id != null and obproject_id != ''">
+	  		AND PROJECT_ID=#{obproject_id}
+	   </if>
+	   <if test="type_id != null and type_id != ''">
+	  		AND SUPPLIER_ID=#{type_id}
+	   </if>
+  </update>
+  
 </mapper>

@@ -80,7 +80,6 @@
     from T_BSS_OB_PROJECT p LEFT JOIN T_BSS_OB_PRODUCT_INFO i on p.id=i.PROJECT_ID
       where  p.CREATER_ID=#{userId,jdbcType=VARCHAR}
     and p.ID = #{id,jdbcType=VARCHAR}
-    and p.STATUS=0
       	ORDER BY p.CREATED_AT DESC
   </select> 
   <sql id="Example_Where_Clause" >

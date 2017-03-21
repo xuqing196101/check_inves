@@ -55,6 +55,7 @@ import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBRuleService;
 import bss.service.ob.OBSupplierQuoteService;
+import bss.util.CheckUtil;
 import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
@@ -136,6 +137,33 @@ public class OBProjectController {
 		}
 		return "bss/ob/biddingInformation/list";
 	}
+	/***
+	 * 获取供应商信息跳转 list页
+	 * 
+	 * @author YangHongLiang
+	 * @param model
+	 * @param request
+	 * @param status区分供应商 类型
+	 * @return
+	 */
+	@RequestMapping(value = "/supplierList", produces = "text/html;charset=UTF-8")
+	public String supplierList(@CurrentUser User user, Model model,
+			HttpServletRequest request, Integer page,String obProjectId,
+			String name,String status,String result) {
+		if (user != null) {
+			if (page == null) {
+				page = 1;
+			}
+			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
+					 name, status,result);
+			model.addAttribute("info", new PageInfo<OBSupplier>(lists));
+			model.addAttribute("obProjectId",obProjectId);
+			model.addAttribute("name",name);
+			model.addAttribute("status",status);
+			model.addAttribute("result",result);
+		}
+		return "bss/ob/biddingInformation/supplierlist";
+	}
 
 	/**
 	 * 发布竞价信息跳转 add页
@@ -154,6 +182,7 @@ public class OBProjectController {
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
 		model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
+		model.addAttribute("ruleId",obRule.getId());
 		model.addAttribute("fileid", uuid);
 		model.addAttribute("userId", user.getId());
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
@@ -410,23 +439,68 @@ public class OBProjectController {
 			map.put("id", obProjectId);
 			map.put("userId", user.getId());
 			OBProject obProject=OBProjectServer.editOBProject(map);
-			System.out.println(obProject.toString());
 			if(obProject !=null){
-				//默认规则
-				OBRule obr=OBRuleService.selectByStatus();
 				// 生成ID
-				model.addAttribute("rule", obr);
+				model.addAttribute("ruleId", obProject.getRuleId());
 				model.addAttribute("userId", user.getId());
 				model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 				// 标识 竞价附件
 				model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 				model.addAttribute("list", obProject);
 				model.addAttribute("listinfo", JSON.toJSONString(obProject.getObProductInfo()));
-			 }
+				model.addAttribute("fileid", obProject.getAttachmentId());
+				if(obProject.getStatus()==0){
+					return "bss/ob/biddingInformation/publish";
+				}else{
+					return "bss/ob/biddingInformation/editPublish";
+				}
+			  }
 			}
 		}
-		return "bss/ob/biddingInformation/publish";
-		
+		return "bss/ob/biddingInformation/editPublish";
+	}
+	/**
+	 * @Description:根据 供应商数量 获取相对应的成交比例
+	 * @author: YangHongLiang
+	 * @param @return
+	 * @return String
+	 * @throws IOException 
+	 */
+	@RequestMapping("proportion")
+	public void proportion(HttpServletRequest request, HttpServletResponse response, Integer supplierCount) throws IOException{
+		String combination="";
+		try {
+			if(supplierCount !=null){
+				switch (supplierCount) {
+				case 1:
+					combination=CheckUtil.combinationInteger(Constant.OB_PROJECT_ONE);
+					break;
+				case 2:
+					combination=CheckUtil.combinationInteger(Constant.OB_PROJECT_TWO);
+					break;
+				case 3:
+					combination=CheckUtil.combinationInteger(Constant.OB_PROJECT_THREE);
+					break;
+				case 4:
+					combination=CheckUtil.combinationInteger(Constant.OB_PROJECT_FOUR);
+					break;
+				case 5:
+					combination=CheckUtil.combinationInteger(Constant.OB_PROJECT_FIVE);
+					break;
+				case 6:
+					combination=CheckUtil.combinationInteger(Constant.OB_PROJECT_SIX);
+					break;
+				default:
+					break;
+				}
+			response.getWriter().print(combination);
+			response.getWriter().flush();
+			}
+		} catch (IOException e) {
+			e.printStackTrace();
+		} finally {
+			response.getWriter().close();
+		}
 	}
 	/**
 	 * @Title: uploadFile
@@ -564,7 +638,7 @@ public class OBProjectController {
 		if (object != null) {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
-		double totalCountPriceBigDecimal = 0.00;
+		Double totalCountPriceBigDecimal = 0.00;
 		/** 计算单个商品的总价以及合计金额 **/
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
@@ -584,12 +658,14 @@ public class OBProjectController {
 				}
 			}
 		}
+		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
+		bigDecimal.setScale(2);
 		model.addAttribute("orgName", orgName);
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal);
+		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
 		return "bss/ob/biddingSpectacular/findBiddingIssueInfo";
 	}
 
