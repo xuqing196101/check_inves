@@ -198,7 +198,7 @@
 		  <th class="info">报价开始时间</th>
 		  <th class="info">报价截止时间</th>
 		  <th class="info">状态</th>
-		  <th class="info">恢复操作</th>
+		 <!--  <th class="info">恢复操作</th> -->
 		</tr>
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
@@ -222,7 +222,7 @@
 				  	流拍
 			  	</c:if>
 			  </td>
-			  <td class="tc">
+			 <%--  <td class="tc">
 			  	<c:if test="${ obProject.status == 1 && '1' eq obProject.remark}">
 			  		报价等待中...
 			  	</c:if>
@@ -242,7 +242,7 @@
 			  	<c:if test="${ obProject.status == 2 && '6' eq obProject.remark}">
 				  	重新刷新页面
 			  	</c:if>
-			  </td>
+			  </td> --%>
 			</tr>
 		</c:forEach>
 	</table>
