@@ -104,7 +104,6 @@ public interface OBProjectServer {
 	 */
 	List<OBSupplier> selecUniontSupplier(List<String> productID);
 	
-	
 	/**
 	 * 
 	* @Title: selectSupplierOBproject 
@@ -117,4 +116,12 @@ public interface OBProjectServer {
 	 */
 	List<OBProjectSupplier> selectSupplierOBproject(Map<String,Object> map);
 
+	/**
+	 * 
+	 * 获取 供应商信息
+	 * @author YangHongLiang
+	 * @exception
+	 */
+	List<OBSupplier>  supplierList (Integer page,String projectid,
+			String name,String status,String result);
 }

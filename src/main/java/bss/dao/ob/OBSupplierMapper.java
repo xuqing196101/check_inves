@@ -150,5 +150,18 @@ public interface OBSupplierMapper {
 	 * @param map
 	 * @return
 	 */
-	List<OBSupplier> selecUniontSupplier(Map<String,Object> map);
+	List<OBSupplier> selecUniontSupplier(Map<String,Object> map); 
+	/**
+	 * 查询产品 模糊对应的 并集供应商
+	 * @author YangHongliang
+	 * @param map
+	 * @return
+	 */
+	List<OBSupplier> selectSupplierDate(Map<String,Object> map);
+	/**
+	 * 获取注册的有效供应商 数量
+	 * @author YangHongliang
+	 * @return
+	 */
+	int countProductId(String productId);
 }

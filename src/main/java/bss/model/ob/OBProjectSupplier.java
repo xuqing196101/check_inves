@@ -30,8 +30,18 @@ public class OBProjectSupplier {
 
     /**备注**/
     private String remark;
+    /**供应商主键id**/
+    private String supplierPrimaryId;
 
-    public String getId() {
+    public String getSupplierPrimaryId() {
+		return supplierPrimaryId;
+	}
+
+	public void setSupplierPrimaryId(String supplierPrimaryId) {
+		this.supplierPrimaryId = supplierPrimaryId;
+	}
+
+	public String getId() {
         return id;
     }
 

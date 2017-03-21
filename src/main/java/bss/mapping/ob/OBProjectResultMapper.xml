@@ -157,13 +157,16 @@
     GROUP BY STATUS
   </select>
   
-   <!-- 根据竞价 id查 未 确认的供应商信息结果信息 -->
+   <!-- 根据竞价 id查 的供应商信息结果信息 -->
   <select id="selectNotSuppler" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from T_BSS_OB_PROJECT_RESULT
     where 
     PROJECT_ID = #{id,jdbcType=VARCHAR}
+    <if test="status != null and status != -1">
+      AND STATUS =#{status,jdbcType=DECIMAL} 
+     </if>
     order by RANKING
   </select>
     <!-- 根据竞价 id查获取 是否有第二轮确认 -->
@@ -320,10 +323,9 @@
     </if>
   </select>
   <!-- 去重复供应商 根据参数 获取成交供应商数量  -->
-  <select id="countByStatus" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
+  <select id="countByStatus" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
-    where PRODUCT_ID= #{productId,jdbcType=VARCHAR}
-        and PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS=1
+    where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS=1
   </select>
   
   <update id="updateByExampleSelective" parameterType="map" >

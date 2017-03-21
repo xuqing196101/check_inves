@@ -154,20 +154,60 @@
 		</if>
 	</select>
 	
-	<!-- 根据id查询供应商列表 未过期 数量-->
-	<select id="countByProductId2" resultMap="BaseResultMap"
+	<!-- 根据id查询供应商列表  数量-->
+	<select id="countByProductId2" resultType="java.lang.Integer"
 		parameterType="Map">
 		SELECT
-		 count(DISTINCT SUPPLIER_ID)
+		 count( SUPPLIER_ID)
 		FROM T_BSS_OB_SUPPLIER
 		WHERE
-		CERT_VALID_PERIOD &gt; SYSDATE
-		AND
+		<!-- CERT_VALID_PERIOD &gt; SYSDATE
+		AND -->
 		IS_DELETED = 0
 			and PRODUCT_ID in
 			<foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
    			#{item}  
  			</foreach>
+	</select>
+	
+		<!-- 根据id查询供应商列表  数量-->
+	<select id="countProductId" resultType="java.lang.Integer"
+		parameterType="Map">
+		SELECT
+		 count(SUPPLIER_ID)
+		FROM T_BSS_OB_SUPPLIER
+		WHERE
+		 CERT_VALID_PERIOD &gt; SYSDATE
+		AND 
+		IS_DELETED = 0
+			AND PRODUCT_ID =#{productId,jdbcType=VARCHAR}
+	</select>
+	
+	
+	<!-- 根据产品 查询供应商列表 -->
+	<select id="selectSupplierDate" resultMap="BaseResultMap" parameterType="Map">
+		SELECT  s.ID,
+		 s.SUPPLIER_ID,s.PRODUCT_ID,s.CERT_VALID_PERIOD,p.NAME as REMARK
+		FROM T_BSS_OB_SUPPLIER s,T_BSS_OB_PRODUCT p 
+		WHERE s.IS_DELETED = 0 and s.PRODUCT_ID=p.id
+		<!-- 大于当前日期  未过期 -->
+		<if test="notDate != null and notDate != ''">
+		AND s.CERT_VALID_PERIOD &gt; SYSDATE
+		</if>
+		<!-- 小于当前日期  已过期 -->
+		<if test="inDate != null and inDate != ''">
+		AND s.CERT_VALID_PERIOD &lt; SYSDATE
+		</if>
+		 <if test="name != null and name != ''">
+		AND  s.SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME = #{name,jdbcType=VARCHAR})
+		</if> 
+		<if test="result != null and result != ''">
+		AND  s.SUPPLIER_ID IN 
+           <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
+   			#{item}  
+ 			</foreach>
+		</if> 
+		 AND s.PRODUCT_ID IN(SELECT DISTINCT PRODUCT_ID FROM T_BSS_OB_PRODUCT_INFO WHERE PROJECT_ID= #{projectId,jdbcType=VARCHAR})
 	</select>
 	
 	<!-- 根据id查询供应商列表 未过期 -->

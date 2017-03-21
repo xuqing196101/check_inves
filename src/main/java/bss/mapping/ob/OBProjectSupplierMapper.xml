@@ -8,6 +8,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="SUPPLIER_PRIMARY_ID" property="supplierPrimaryId" jdbcType="VARCHAR" />
   </resultMap>
   
   <resultMap type="bss.model.ob.OBProjectSupplier" id="OBProjectResultMap" extends="BaseResultMap">
@@ -86,7 +87,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, PROJECT_ID, SUPPLIER_ID, CREATED_AT, UPDATED_AT, REMARK
+    ID, PROJECT_ID, SUPPLIER_ID, CREATED_AT, UPDATED_AT, REMARK,SUPPLIER_PRIMARY_ID
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectSupplierExample" >
     select

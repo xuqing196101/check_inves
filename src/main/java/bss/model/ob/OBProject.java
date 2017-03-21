@@ -3,6 +3,8 @@ package bss.model.ob;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
+
+import org.springframework.format.annotation.DateTimeFormat;
 /**
 
 * @Title:BidAnnouncementAttach 
@@ -23,6 +25,7 @@ public class OBProject {
     /**
      * @Fields deliveryDeadline : 交货截止时间
      */
+    @DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
     private Date deliveryDeadline;
     /**
      * @Fields deliveryAddress : 交货地点
@@ -144,7 +147,11 @@ public class OBProject {
     /***
      * 选中的供应商id
      */
-    private String supplieId;
+    private String [] supplieId;
+    /**
+     * 定型产品供应商表主键
+     */
+    private String [] suppliePrimaryId; 
     //成交供应商 数量
     private Integer closingSupplier;
     //合格供应商数量
@@ -152,12 +159,21 @@ public class OBProject {
     
     /**报价截止时间字段**/
     private Date quoteEndTime;
-    
-	public String getSupplieId() {
+  
+   
+	public String[] getSuppliePrimaryId() {
+		return suppliePrimaryId;
+	}
+
+	public void setSuppliePrimaryId(String[] suppliePrimaryId) {
+		this.suppliePrimaryId = suppliePrimaryId;
+	}
+
+	public String[] getSupplieId() {
 		return supplieId;
 	}
 
-	public void setSupplieId(String supplieId) {
+	public void setSupplieId(String[] supplieId) {
 		this.supplieId = supplieId;
 	}
 

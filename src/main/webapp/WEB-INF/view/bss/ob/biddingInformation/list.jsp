@@ -74,14 +74,7 @@
 	  var checkID= $('input[name="chkItem"]:checked').val().trim();
 	  var status=$("#"+checkID+"status").html().trim();
 	  if(checkID){
-	  if(status=='暂存'){
 	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
-	  }else{
-	  layer.alert("只能修改已暂存的供应商", {
-				offset: ['222px', '390px'],
-				shade: 0.01
-			});
-	  }
 	  }else{
 	  layer.alert("请选择暂存的竞价", {
 			offset: ['222px', '390px'],
@@ -125,7 +118,6 @@
 		<h2>竞价信息列表</h2>
 	 </div>
     <div class="search_detail">
-    
        <form action="${pageContext.request.contextPath}/ob_project/list.html" method="post" id="form1" class="mb0">
          <input type="hidden" name="page" id="page">
          <input type="hidden" name="projectId" id="projectId"/>
@@ -160,10 +152,9 @@
 		  <th class="w50 info">序号</th>
 		  <th class="info" width="30%">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
-		  <th class="info">成交供应商</th>
-		  <th class="info">合格供应商</th>
+		  <th class="info">中标供应商数量</th>
+		  <th class="info">供应商数量</th>
 		  <th class="info">竞价状态</th>
-		  <th class="info">操作</th>
 		</tr>
 		</thead>
 		<c:forEach items="${info.list}" var="list" varStatus="v">
@@ -173,20 +164,28 @@
 		  <td class="tl">${list.name}</td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/></td>
 		  <td class="tc">
-		  <c:if test="${list.tradedSupplierCount==null}">
+		  <c:if test="${list.closingSupplier==0}">
 		   0
 		  </c:if>
-		   <c:if test="${list.tradedSupplierCount!=null}">
-		   ${list.tradedSupplierCount}
+		  <c:if test="${list.closingSupplier==null}">
+		   0
+		  </c:if>
+		   <c:if test="${list.closingSupplier!=0}">
+		   <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${list.id}&result=1">${list.closingSupplier}</a>
 		  </c:if>
 		  </td>
 		  <td class="tc">
-		   <c:if test="${list.qualifiedSupplier==null}">
+		   <c:if test="${list.qualifiedSupplier==0}">
 		   0
 		  </c:if>
-		   <c:if test="${list.qualifiedSupplier!=null}">
-		   ${list.closingSupplier}
-		  </c:if></td>
+		  <c:if test="${list.qualifiedSupplier==null}">
+		   0
+		  </c:if>
+		   <c:if test="${list.qualifiedSupplier!=0}">
+		    <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${list.id}">${list.qualifiedSupplier}</a>
+		  </c:if>
+		  
+		  </td>
 		  <td class="tc" id="${list.id}status">
 		    <c:if test="${list.status==0}">
 		              暂存
@@ -208,7 +207,7 @@
 		    </c:if>
 		  
 		  </td>
-		  <td class="tc"><a href="javascript:void(0)">
+		<%--   <td class="tc"><a href="javascript:void(0)">
 		   <c:if test="${list.status==0}">
 		              暂存
 		    </c:if>
@@ -218,7 +217,8 @@
 		     <c:if test="${list.status!=3 && list.status!=0}">
 		              查看供应商
 		    </c:if>
-		  </a></td>
+		  </a>
+		  </td> --%>
 		</tr>
 		</c:forEach>
 		
