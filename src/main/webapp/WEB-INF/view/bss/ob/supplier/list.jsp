@@ -132,7 +132,7 @@
 			   var status = valueArr[1];
 			   // var remark = valueArr[2];
 			   if(status != '5'){
-				   layer.alert("对不起，未报价的项目不能确认结果!");
+				   layer.alert("对不起，确认时间未到不能确认结果!");
 				   return;
 			   }
 			   // 开始确认结果

@@ -129,6 +129,7 @@
 			  <td class="tc"><input type="checkbox" alt=""></td>
 			  <td class="tc" colspan="3">合计</td>
 			  <td class="tc">${ totalCountPriceBigDecimal }</td>
+			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 				<tr>
@@ -137,7 +138,7 @@
 				  <td class="tc">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc">${ productInfo.totalMoney }</td>
-				  <td class="tc">${ productInfo.obProduct.remark }</td>
+				  <td class="tc">${ productInfo.remark }</td>
 				</tr>
 			</c:forEach>
 		</table>

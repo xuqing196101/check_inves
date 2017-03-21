@@ -254,7 +254,7 @@
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc" width="3px"><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}','${ vs.index }')" type="text" class="w230 mb0 border0" /></td>
 				  <td class="tc" id="${ productInfo.obProduct.id }"></td>
-				  <td class="tc">${ productInfo.obProduct.remark }</td>
+				  <td class="tc">${ productInfo.remark }</td>
 				</tr>
 			</c:forEach>
 		</table>

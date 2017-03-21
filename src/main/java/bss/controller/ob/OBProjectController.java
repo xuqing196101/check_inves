@@ -564,7 +564,7 @@ public class OBProjectController {
 		if (object != null) {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
-		double totalCountPriceBigDecimal = 0.00;
+		Double totalCountPriceBigDecimal = 0.00;
 		/** 计算单个商品的总价以及合计金额 **/
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
@@ -584,12 +584,14 @@ public class OBProjectController {
 				}
 			}
 		}
+		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
+		bigDecimal.setScale(2);
 		model.addAttribute("orgName", orgName);
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal);
+		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
 		return "bss/ob/biddingSpectacular/findBiddingIssueInfo";
 	}
 
