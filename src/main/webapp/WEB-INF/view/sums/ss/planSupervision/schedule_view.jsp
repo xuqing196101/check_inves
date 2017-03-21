@@ -47,12 +47,15 @@
         <tr>
           <td class="w350 tc">采购需求</td>
           <td class="w350 tc">采购计划</td>
+          <c:if test="${listProject != null}">
           <td class="w350 tc">采购项目</td>
+          </c:if>
+          <c:if test="${listContract != null}">
           <td class="w350 tc">采购合同</td>
-          
+          </c:if>
         </tr>
         <tr>
-          <td class="h365 tc">
+          <td class="h365 tc" onclick="view('${collectPlan.id}','1')">
             <c:forEach items="${listRequired}" var="obj">
               <p class="ml20 tl">需求部门：${obj.department}</p>
               <p class="ml20 tl">需求名称：${obj.planName}</p>
@@ -60,7 +63,7 @@
               <p class="ml20 tl">联系人：${obj.userId}</p>
             </c:forEach>
           </td>
-          <td class="h365 tc">
+          <td class="h365 tc" onclick="view('${collectPlan.id}','2')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
 	          <p class="ml20 tl">采购管理部门：${collectPlan.purchaseId}</p>
 	          <p class="ml20 tl">计划名称：${collectPlan.fileName}</p>
@@ -86,13 +89,6 @@
 	            </c:forEach>
 	          </td>
           </c:if>
-        </tr>
-        <tr>
-          <td class="h50 tc"></td>
-          <td class="h50 tc"></td>
-          <td class="h50 tc"></td>
-          <td class="h50 tc"></td>
-          
         </tr>
 
       </tbody>

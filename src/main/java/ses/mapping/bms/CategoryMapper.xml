@@ -525,8 +525,8 @@
 	<select id="findCategoryByParentNode" parameterType="Map" resultMap="CateMap">
 		 SELECT <include refid="Base_Column_List" /> 
 		 FROM T_SES_BMS_CATEGORY WHERE  IS_DELETED = 0 START WITH 
-         ID=#{id} CONNECT BY PRIOR PARENT_ID=ID 
-	</select>
+         ID=#{id} CONNECT BY PRIOR PARENT_ID=ID  order by code 
+	</select> 
 	<select id="findCategoryByChildren" parameterType="Map" resultMap="CateMap">
 		 SELECT <include refid="Base_Column_List" /> 
 		 FROM T_SES_BMS_CATEGORY WHERE PARAM_STATUS IS NOT NULL AND  IS_DELETED = 0 START WITH 
@@ -559,5 +559,9 @@
 		 SELECT <include refid="Base_Column_List" /> 
 		 FROM T_SES_BMS_CATEGORY WHERE  IS_DELETED = 0 AND NAME LIKE '%'||#{name}||'%'  START WITH 
          PARENT_ID=#{id} CONNECT BY PRIOR ID=PARENT_ID ORDER BY CODE
+	</select>
+	<select id="selectByName" parameterType="String" resultMap="CateMap">
+	 	SELECT <include refid="Base_Column_List" /> 
+		 FROM T_SES_BMS_CATEGORY WHERE IS_DELETED = 0 AND NAME = #{name}
 	</select>
 </mapper>

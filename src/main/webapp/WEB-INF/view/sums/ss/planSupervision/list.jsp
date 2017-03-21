@@ -116,21 +116,23 @@
               <th class="info">编制人</th>
               <th class="info">编制时间</th>
               <th class="info">状态</th>
-              <th class="info">执行情况</th>
+              <th class="info">查看进度</th>
             </tr>
           </thead>
           <c:forEach items="${info.list}" var="obj" varStatus="vs">
             <tr style="cursor: pointer;">
-              <td class="tc w50">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-              <td class="tl pl20" width="35%" onclick="view('${obj.id}','0')">${obj.fileName }</td>
-              <td class="tr pr20 w140" onclick="view('${obj.id}')">
+              <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+              <td class="tl pl20" width="35%">
+                <a href="javascript:void(0)" onclick="view('${obj.id}','0');">${obj.fileName}</a>
+              </td>
+              <td class="tr pr20 w140">
                 <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
               </td>
-              <td class="tr pr20 w140" onclick="view('${obj.id}')">${obj.userId}</td>
-              <td class="tc " onclick="view('${obj.id}')">
+              <td class="tr pr20 w140">${obj.userId}</td>
+              <td class="tc">
                 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
               </td>
-              <td class="tl pl20" onclick="view('${obj.id}')">
+              <td class="tl pl20">
                 <c:if test="${obj.status == 1}">审核轮次设置</c:if>
                 <c:if test="${obj.status == 2}">已下达</c:if>
                 <c:if test="${obj.status == 3}">第一轮审核</c:if>
@@ -140,8 +142,8 @@
                 <c:if test="${obj.status == 7}">第三轮审核</c:if>
                 <c:if test="${obj.status == 12}">未下达</c:if>
               </td>
-              <td class="tl pl20" onclick="view('${obj.id}','1')">
-                <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+              <td class="tc">
+                <a href="javascript:void(0)" onclick="view('${obj.id}','1');">进入</a>
               </td>
             </tr>
           </c:forEach>

@@ -725,7 +725,7 @@
         FAX,
       </if>
       <if test="telephone != null and telephone != ''">
-        TELEPHONE
+        TELEPHONE,
       </if>
       <if test="createdAt != null and createdAt != ''">
         CREATED_AT
@@ -769,7 +769,7 @@
         #{fax},
       </if>
       <if test="telephone != null and telephone != ''">
-        #{telephone}
+        #{telephone},
       </if>
       <if test="createdAt != null and createdAt != ''">
         #{createdAt}

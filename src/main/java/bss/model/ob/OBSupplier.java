@@ -4,6 +4,7 @@ import java.util.Date;
 
 import org.springframework.format.annotation.DateTimeFormat;
 
+import ses.model.bms.Category;
 import ses.model.sms.Supplier;
 
 /**
@@ -23,7 +24,7 @@ public class OBSupplier {
 
 	private String qualificationCert;
 
-	@DateTimeFormat(pattern="yyyy-MM-dd HH:mm:ss")
+	@DateTimeFormat(pattern="yyyy-MM-dd")
 	private Date certValidPeriod;
 
 	private String qualityInspectionDep;
@@ -51,6 +52,39 @@ public class OBSupplier {
 	private Supplier supplier;
 
 	private Integer nCount;// 计数
+	
+	private String smallPointsId;//末节点id
+	
+	private Category smallPoints;//末节点对应的实体对象
+	
+	/**
+	 * 目录全路径
+	 */
+	private String pointsName;
+	
+	public String getPointsName() {
+		return pointsName;
+	}
+
+	public void setPointsName(String pointsName) {
+		this.pointsName = pointsName;
+	}
+
+	public String getSmallPointsId() {
+		return smallPointsId;
+	}
+
+	public void setSmallPointsId(String smallPointsId) {
+		this.smallPointsId = smallPointsId;
+	}
+
+	public Category getSmallPoints() {
+		return smallPoints;
+	}
+
+	public void setSmallPoints(Category smallPoints) {
+		this.smallPoints = smallPoints;
+	}
 
 	public String getId() {
 		return id;

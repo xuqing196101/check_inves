@@ -228,7 +228,6 @@
   		});
       }
       
-      var flag;
 		  //验证重复
 		  function verify(ele){
 		    var name = $(ele).val();
@@ -240,10 +239,8 @@
 		            var datas = eval("(" + data + ")");
 		            if(datas == false) {
 		              $("#sps").html("机构已存在").css('color', 'red');
-		              flag = false;
 		            } else {
 		              $("#sps").html("");
-		              flag = true;
 		            }
 		          },
 		        });
@@ -251,20 +248,30 @@
       
       /** 保存  **/
       function save(){
-        if(flag == true){
-          var id = [];
-	        $("input[name='selectedItem']").each(function(){ 
-	            id.push($(this).val());
-	        }); 
-	        $("#ids").val(id);
-	        
-	        $("#formID").validForm();
-	        
-	        $("#formID").submit();
-        }else{
-          $("input[name='name']").focus();
-        }
-		    
+        var name = $("input[name='name']").val();
+        $.ajax({
+              url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name,
+              type: "post",
+              dataType: "json",
+              success: function(data) {
+                var datas = eval("(" + data + ")");
+                if(datas == false) {
+                  $("input[name='name']").focus();
+                  $("#sps").html("机构已存在").css('color', 'red');
+                } else {
+                  $("#sps").html("");
+                  var id = [];
+				          $("input[name='selectedItem']").each(function(){ 
+				              id.push($(this).val());
+				          }); 
+				          $("#ids").val(id);
+				          
+				          $("#formID").validForm();
+				          
+				          $("#formID").submit();
+                }
+              },
+            });
       }
       
       /** 返回 **/

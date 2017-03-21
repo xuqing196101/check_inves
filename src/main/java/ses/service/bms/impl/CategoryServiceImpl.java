@@ -882,6 +882,11 @@ public class CategoryServiceImpl implements CategoryService {
 		return categoryMapper.findCategoryByChildrenAndWuZi(map);
 	}
 
+	@Override
+	public List<Category> selectByName(String name) {
+		return categoryMapper.selectByName(name);
+	}
+
 	
 
 }

@@ -324,4 +324,16 @@ import ses.model.sms.SupplierTypeTree;
 	public List<Category> findByParentId(String parentId);
 	 public List<Category> findCategoryByChildrenAndWuZi(HashMap<String, Object> map);
     
+	 /**
+		 * 
+		 * Description: 根据名称查询
+		 * 
+		 * @author  zhang shubin
+		 * @version  2017年3月21日 
+		 * @param  @param name
+		 * @param  @return 
+		 * @return List<Category> 
+		 * @exception
+		 */
+		public List<Category> selectByName(String name);
 }

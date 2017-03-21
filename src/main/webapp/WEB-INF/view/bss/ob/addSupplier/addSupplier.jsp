@@ -30,6 +30,7 @@
 			$("#supplierId").select2("val", "${obSupplier.supplierId}");
 		}
 		});
+		intiTree();
 	});
 	
 	function change(){
@@ -49,6 +50,135 @@
 	function yichu(){
 		$("#shangchuan").html("");
 	}
+	
+	/** 判断是否为根节点 */
+    function isRoot(node){
+    	if (node.pId == 0){
+    		return true;
+    	} 
+    	return false;
+    }
+ 
+ /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (isRoot(treeNode)){
+  		  layer.msg("不可选择根节点");
+  		  return;
+  	  }
+	  if(!treeNode.isParent) {
+		  $("#citySel4").val(treeNode.name);
+          $("#categorieId4").val(treeNode.id);
+          $("#categoryLevel").val(treeNode.level+1);
+          hideMenu();
+	  }
+    }
+	
+    function intiTree(){
+  	  /* 加载目录信息 */
+  		var datas;
+  		var setting={
+  				   async:{
+  							autoParam:["id"],
+  							enable:true,
+  							url:"${pageContext.request.contextPath}/category/createtreeById.do",
+  							otherParam:{"otherParam":"zTreeAsyncTest"},  
+  							dataType:"json",
+  							type:"get",
+  						},
+  						callback:{
+  					    	onClick:zTreeOnClick,//点击节点触发的事件
+  		       			    
+  					    }, 
+  						data:{
+  							keep:{
+  								parent:true
+  							},
+  							key:{
+  								title:"title"
+  							},
+  							simpleData:{
+  								enable:true,
+  								idKey:"id",
+  								pIdKey:"pId",
+  								rootPId:"0",
+  							}
+  					    },
+  					   view:{
+  					        selectedMulti: false,
+  					        showTitle: false,
+  					   },
+  		         };
+  	    $.fn.zTree.init($("#treeDemo"),setting,datas);
+    }
+   
+      function showMenu() {
+  		var cityObj = $("#citySel4");
+  		var cityOffset = $("#citySel4").offset();
+  		$("#menuContent").css({left: "1049px", top: "282px"}).slideDown("fast");
+  		$("body").bind("mousedown", onBodyDown);
+  	}
+      function hideMenu() {
+  		$("#menuContent").fadeOut("fast");
+  		$("body").unbind("mousedown", onBodyDown);
+  	}
+  	function onBodyDown(event) {
+  		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+  			hideMenu();
+  		}
+  	} 
+	
+	function search(id){
+		
+		var name=$("#"+id).val();
+		if(name!=""){
+		 var zNodes;
+			var zTreeObj;
+			var setting = {
+					async:{
+						autoParam:["id"],
+						enable:true,
+						url: "${pageContext.request.contextPath}/category/createtreeById.do"
+					},
+				data : {
+					simpleData : {
+						enable : true,
+						idKey: "id",
+						pIdKey: "parentId",
+					}
+				},
+				callback: {
+					onClick: zTreeOnClick
+				},view: {
+					showLine: true
+				}
+			};
+			// 加载中的菊花图标
+			 var loading = layer.load(1);
+			
+				$.ajax({
+					url: "${pageContext.request.contextPath}/category/createtreeById.do",
+					data: { "name" : encodeURI(name)},
+					async: false,
+					dataType: "json",
+					success: function(data){
+						if (data.length == 1) {
+							layer.msg("没有符合查询条件的产品类别信息！");
+						} else {
+							zNodes = data;
+							zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+							zTreeObj.expandAll(true);//全部展开
+						}
+						// 关闭加载中的菊花图标
+						
+						layer.close(loading);
+						
+					}
+				});
+		}else{
+			intiTree();
+		}
+	}
+	
 	</script>
 </head>
 <body>
@@ -67,7 +197,6 @@
    <div class="container container_box">
    <form action="${pageContext.request.contextPath}/obSupplier/add.html" method="post">
 	<input name = "id" value = "${obSupplier.id }" style="display: none;">
-	<input name = "productId" value = "${obSupplier.productId }" style="display: none;">
    <div>
     <h2 class="list_title">添加质检信息</h2>
    <ul class="ul_list">
@@ -131,7 +260,15 @@
         <span class="add-on">i</span>
         <div class="cue">${errorUscc }</div>
        </div>
-       
+	 </li>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>产品目录</span>
+	 	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        	<input class="input_group" id="citySel4" type="text" value="${obSupplier.smallPoints.name }" onclick=" showMenu(); return false;" readonly="readonly" >
+        	<input id="categorieId4" name="smallPointsId" value="" type="hidden">
+        	<span class="add-on">i</span>
+        	<div class="cue">${errorsmallPoints }</div>
+        </div>
 	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>资质证书：</span>
@@ -145,12 +282,18 @@
 	 
    </ul>
    <div class="col-md-12 clear tc mt10">
-	    	<button class="btn btn-windows save" type="submit" onclick = "ss()">保存</button>
-	    	<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+	    	<button class="btn btn-windows save" type="submit">保存</button>
+	    	<button class="btn btn-windows back" type="button" onclick="window.location.href='${pageContext.request.contextPath}/obSupplier/supplier.html'">返回</button>
 	    </div>
        <div class="clear"></div> 
   </div> 
   </form>
   </div>
+  <!-- 目录框 -->
+	<div id="menuContent" class="menuContent dw188 tree_drop">
+		<input type="text" id="search" class="fl m0">
+		<button class="btn ml5" type="button" onclick="search('search')">查询</button>
+		<ul id="treeDemo" class="ztree slect_option clear"></ul>
+	</div>
 </body>
 </html>

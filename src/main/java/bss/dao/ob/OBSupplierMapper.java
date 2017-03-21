@@ -48,7 +48,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId(@Param("productId") String productId,
-			@Param("supplierName") String supplierName);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName);
 
 	/**
 	 * 
@@ -62,7 +62,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId1(@Param("productId") String productId,
-			@Param("supplierName") String supplierName);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsNam);
 
 	/**
 	 * 
@@ -77,7 +77,7 @@ public interface OBSupplierMapper {
 	 */
 
 	List<OBSupplier> selectByProductId2(@Param("productId") String productId,
-			@Param("supplierName") String supplierName);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName);
 
 	/**
 	 * 
@@ -118,7 +118,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	int yzSupplierName(@Param("supplierId") String supplierId,
-			@Param("productId") String productId,@Param("id") String id);
+			@Param("smallPointsId") String smallPointsId,@Param("id") String id);
 
 	/**
 	 * 

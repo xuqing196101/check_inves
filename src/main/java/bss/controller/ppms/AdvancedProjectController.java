@@ -1546,14 +1546,36 @@ public class AdvancedProjectController extends BaseController {
     
     @RequestMapping("/startProject")
     public String startProject(String id, Model model) {
-        AdvancedProject project = advancedProjectService.selectById(id);
-        if (project != null){
-           List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
-           model.addAttribute("purchaseInfo", purchaseInfo);
+        HashMap<String, Object> map1 = new HashMap<>();
+        map1.put("taskId", id);
+        List<ProjectTask> projectTask = projectTaskService.queryByNo(map1);
+        if(projectTask != null && projectTask.size()>0){
+            AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
+            if (project != null){
+                List<PurchaseInfo> purchaseInfo = purchaseService.findPurchaseUserList(project.getPurchaseDepId());
+                model.addAttribute("purchaseInfo", purchaseInfo);
+                model.addAttribute("project", project);
+             }
         }
-        model.addAttribute("project", project);
         model.addAttribute("dataIds", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS"));
         return "bss/ppms/advanced_project/upload";
+    }
+    
+    @RequestMapping("/savePrincipal")
+    public String savePrincipal(String id, String principal){
+        String status = DictionaryDataUtil.getId("YJLX");
+        User user = userService.getUserById(principal);
+        if(StringUtils.isNotBlank(id)){
+            AdvancedProject project = advancedProjectService.selectById(id);
+            if(project != null){
+                project.setPrincipal(principal);
+                project.setIpone(user.getMobile());
+                project.setStatus(status);
+                project.setStartTime(new Date());
+                advancedProjectService.update(project);
+            }
+        }
+        return "redirect:list.html";
     }
     
     

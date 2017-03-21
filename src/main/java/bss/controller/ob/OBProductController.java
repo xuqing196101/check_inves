@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -54,6 +55,7 @@ import common.utils.JdcgResult;
  * 
  */
 @Controller
+@Scope("prototype")
 @RequestMapping("/product")
 public class OBProductController {
 
@@ -161,15 +163,19 @@ public class OBProductController {
 				}else{
 					if(obProduct.getProductCategoryId() != null){
 						parentCategory = categoryService.findById(obProduct.getProductCategoryId());
+						obProduct.setProductCategoryLevel(5);
 					}else{
 						if(obProduct.getCategoryId() != null){
 							parentCategory = categoryService.findById(obProduct.getCategoryId());
+							obProduct.setProductCategoryLevel(4);
 						}else{
 							if(obProduct.getCategoryMiddleId() != null){
 								parentCategory = categoryService.findById(obProduct.getCategoryMiddleId());
+								obProduct.setProductCategoryLevel(3);
 							}else{
 								if(obProduct.getCategoryBigId() != null){
 									parentCategory = categoryService.findById(obProduct.getCategoryBigId());
+									obProduct.setProductCategoryLevel(2);
 								}
 							}
 						}
@@ -208,7 +214,7 @@ public class OBProductController {
 		String id = request.getParameter("prodid") == null ? "" : request.getParameter("prodid");
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(id, page,
-				status,supplierName);
+				status,supplierName,null);
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("prodid", id);

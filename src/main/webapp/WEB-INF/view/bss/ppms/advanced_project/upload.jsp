@@ -61,7 +61,7 @@
 
 <body>
 <div class="container">
-  <form id="att" action="${pageContext.request.contextPath}/advancedProject/start.html"  method="post" name="form1" class="simple" target="_parent">
+  <form id="att" action="${pageContext.request.contextPath}/advancedProject/savePrincipal.html"  method="post" name="form1" class="simple" target="_parent">
     <input type="hidden" name="id" value="${project.id}"/>
     <input type="hidden" id="userId" name="userId"/>
     <div id="openDiv" class="layui-layer-wrap" >

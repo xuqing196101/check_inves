@@ -11,7 +11,7 @@
     <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
       function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewPack.html?id="+id+"&type="+type+"&planId=${planId}";
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id+"&type="+type;
       }
     </script>
   </head>
@@ -39,7 +39,7 @@
     </div>
     <div class="container">
       <div class="headline-v2">
-        <h2>项目列表</h2>
+        <h2>需求计划列表</h2>
       </div>
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
@@ -49,35 +49,31 @@
           <thead>
             <tr class="info">
               <th class="w50">序号</th>
-              <th>项目名称</th>
-              <th>项目编号</th>
-              <th>采购机构名称</th>
-              <th>采购方式</th>
-              <th>创建时间</th>
-              <th>创建人</th>
-              <th>项目状态</th>
+              <th>需求名称</th>
+              <th>填报人</th>
+              <th>填报时间</th>
+              <th>金额</th>
+              <th>状态</th>
               <th>进度</th>
             </tr>
           </thead>
           <tbody id="tbody_id">
-            <c:forEach items="${listProject}" var="obj" varStatus="vs">
+            <c:forEach items="${listRequired}" var="obj" varStatus="vs">
               <tr class="pointer">
                 <td class="tc w50">${(vs.index+1)}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.name}</td>
-                <td class="tl pl20" onclick="view('${obj.id}','0')">${obj.projectNumber}</td>
-                <td class="tc " onclick="view('${obj.id}','0')">${obj.purchaseDepId}</td>
-                <td class="tc " onclick="view('${obj.id}')">
-                  <c:forEach items="${kind}" var="kind">
-                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                  </c:forEach>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.planName}</td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.userId}</td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">
+                  <fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
                 </td>
-                <td class="tl pl20" onclick="view('${obj.id}')">
-                  <fmt:formatDate type='date' value='${obj.createAt}' pattern=" yyyy-MM-dd HH:mm:ss " />
-                </td>
-                <td class="tl pl20" onclick="view('${obj.id}')">${obj.appointMan}</td>
-                <td class="tc">${obj.status}</td>
+                <td class="tl pl20" onclick="view('${obj.uniqueId}','0')">${obj.budget}</td>
                 <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}','1');">查看</a>
+                   <c:if test="${obj.status eq '1'}">未提交</c:if>
+                   <c:if test="${obj.status eq '4'}">受理退回</c:if> 
+                   <c:if test="${obj.status eq '2' || obj.status eq '3' || obj.status eq '5'}">已提交</c:if>
+                </td>
+                <td class="tc">
+                  <a href="javascript:void(0)" onclick="view('${obj.id}','0');">查看</a>
                 </td>
               </tr>
             </c:forEach>

@@ -16,6 +16,19 @@
 <meta name="author" content="">
 <title>投诉页面</title>
 <script type="text/javascript">
+function open(){
+	var chkObjs=null;
+	var obj=document.getElementsByName("type");
+	for (var i=0;i<obj.length;i++){ //遍历Radio 
+		if(obj[i].checked){ 
+		chkObjs=obj[i].value; 
+		} 
+	}
+	if(chkObjs == 0){
+		document.getElementById("idcad").style.display="none";
+	}
+}
+
 function show(){
 	document.getElementById("idcad").style.display="";
 }
@@ -24,7 +37,7 @@ function hid(){
 }
 </script>
 </head>
-<body>
+<body onload="open();">
 	<!--面包屑导航开始-->
 	<div class="margin-top-10 breadcrumbs ">
 		<div class="container">

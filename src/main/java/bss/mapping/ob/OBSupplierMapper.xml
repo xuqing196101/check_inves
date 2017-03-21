@@ -21,8 +21,10 @@
 		<result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
 		<result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
 		<result column="NN" property="nCount" jdbcType="INTEGER" />
+		<result column="SMALL_POINTS_ID" property="smallPointsId" jdbcType="VARCHAR" />
 		<association property="supplier" column="SUPPLIER_ID"
 			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+			<association property="smallPoints" column="SMALL_POINTS_ID" select="ses.dao.bms.CategoryMapper.findById"/>
 	</resultMap>
 	<sql id="Example_Where_Clause">
 		<where>
@@ -95,7 +97,7 @@
 		CONTACT_TEL, CERT_CODE, USCC,
 		CREATER_ID, IS_DELETED, PRODUCT_ID, REMARK,
 		CREATED_AT,
-		UPDATED_AT
+		UPDATED_AT,SMALL_POINTS_ID
 	</sql>
 
 	<!-- 查询产品对应的供应商数量 -->
@@ -135,6 +137,9 @@
 		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
 		</if>
+		<if test="smallPointsName != null and smallPointsName != ''">
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${smallPointsName}%')
+		</if>
 	</select>
 
 	<!-- 根据id查询供应商列表 过期 -->
@@ -151,6 +156,9 @@
 		</if>
 		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+		</if>
+		<if test="smallPointsName != null and smallPointsName != ''">
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
 		</if>
 	</select>
 	
@@ -224,6 +232,9 @@
 		</if>
 		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+		</if>
+		<if test="smallPointsName != null and smallPointsName != ''">
+			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
 		</if>
 	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"
@@ -335,6 +346,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT,
 			</if>
+			<if test="smallPointsId != null">
+				SMALL_POINTS_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -381,6 +395,9 @@
 			</if>
 			<if test="updatedAt != null">
 				#{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="smallPointsId != null">
+				#{smallPointsId,jdbcType=TIMESTAMP},
 			</if>
 		</trim>
 	</insert>
@@ -525,6 +542,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
+			<if test="smallPointsId != null">
+				SMALL_POINTS_ID = #{smallPointsId,jdbcType=TIMESTAMP},
+			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
 	</update>
@@ -555,7 +575,7 @@
 	
 	<!-- 验证供应商唯一 -->
 	<select id="yzSupplierName" resultType="Integer">
-		SELECT COUNT(ID) FROM T_BSS_OB_SUPPLIER WHERE PRODUCT_ID = #{productId,jdbcType=VARCHAR} 
+		SELECT COUNT(ID) FROM T_BSS_OB_SUPPLIER WHERE PRODUCT_ID = #{smallPointsId,jdbcType=VARCHAR} 
 		AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 		AND IS_DELETED = 0
 		<if test="id != null">
