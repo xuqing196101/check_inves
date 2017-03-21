@@ -164,6 +164,7 @@ public class OBSupplierQuoteController {
 		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
 		
 		//这是第一轮显示的数据，由于尽管是第二轮这个依然要显示
+		//状态为-1，也就是默认时，查找的第一轮的信息，第一、二轮都要显示的
 		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult,"-1");
 		//根据状态有选择的查询
 		if("1".equals(confirmStatus)) {

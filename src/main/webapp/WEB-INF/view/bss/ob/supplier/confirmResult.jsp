@@ -313,6 +313,7 @@
   </div>
   <!-- 
   <c:if test="${confirmInfoVo.bidStatus=='-1' || confirmInfoVo.bidStatus==null || confirmInfoVo.bidStatus=='2'}">
+  </c:if>
    -->
    <c:if test="${confirmStatus=='-1'">
   <div>
@@ -385,7 +386,7 @@
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="20" type="text" class="tc w50">%
+     		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2">未开始</span>
      	</h2>
@@ -407,7 +408,7 @@
 		  <td class="tc" colspan="4">合计</td>
 		  <td class="tc" title="allProductTotalPrice2">12000</td>
 		</tr>
-		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
+		<c:forEach items="${secondConfirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
 		  <td class="tc">
 		  	${vs.index + 1 }
