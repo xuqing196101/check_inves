@@ -5,6 +5,7 @@ import java.util.Map;
 
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBSupplier;
 
 /***
@@ -114,6 +115,6 @@ public interface OBProjectServer {
 	* @return List<OBProject>    返回类型 
 	* @throws
 	 */
-	List<OBProject> selectSupplierOBproject(Map<String,Object> map);
+	List<OBProjectSupplier> selectSupplierOBproject(Map<String,Object> map);
 
 }

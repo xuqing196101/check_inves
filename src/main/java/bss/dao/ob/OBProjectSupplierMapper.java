@@ -42,6 +42,17 @@ public interface OBProjectSupplierMapper {
      */
     int deleteByProjectId(String projectID);
 
+    /**
+     * 
+    * @Title: selectSupplierOBprojectList 
+    * @Description: 查询供应商所看到的竞价信息
+    * @author Easong
+    * @param @param map
+    * @param @return    设定文件 
+    * @return List<OBProjectSupplier>    返回类型 
+    * @throws
+     */
 	List<OBProjectSupplier> selectSupplierOBprojectList(Map<String, Object> map);
     
+	int updateByCondition(Map<String, Object> map);
 }

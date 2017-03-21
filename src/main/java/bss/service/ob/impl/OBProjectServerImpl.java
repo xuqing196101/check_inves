@@ -805,7 +805,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * @param @return 设定文件
 	 */
 	@Override
-	public List<OBProject> selectSupplierOBproject(Map<String, Object> map) {
+	public List<OBProjectSupplier> selectSupplierOBproject(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer) (map.get("page")),
 				Integer.parseInt(config.getString("pageSize")));
@@ -814,21 +814,20 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if (user != null) {
 			map.put("supplier_id", user.getTypeId());
 		}
-		List<OBProject> obProjects = new ArrayList<OBProject>();
 		// 查询符合自己需求的竞价项目
 		List<OBProjectSupplier> obProjectList = obProjectSupplierMapper
 				.selectSupplierOBprojectList(map);
+		// 遍历得到竞价项目信息
 		if (obProjectList != null && obProjectList.size() > 0) {
 			for (OBProjectSupplier obProjectSupplier : obProjectList) {
 				List<OBProject> obProject = obProjectSupplier
 						.getObProjectList();
 				if (obProject != null && obProject.size() > 0) {
-					obProjects.add(obProject.get(0));
+					// 调用封装报价截止时间方法
+					obProject.get(0).setQuoteEndTime(BiddingStateUtil.getQuoteEndTime(obProject.get(0)));
 				}
 			}
 		}
-		List<OBProject> list = BiddingStateUtil.judgeState(OBprojectMapper,
-				obProjects);
-		return list;
+		return obProjectList;
 	}
 }

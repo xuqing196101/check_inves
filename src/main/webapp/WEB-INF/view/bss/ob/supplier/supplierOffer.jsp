@@ -157,14 +157,14 @@
    <div class="container container_box">
    <div class="star_red">提示：报价一旦提交将不能修改，请谨慎提交！</div>
    <div>
-    <h2 class="count_flow"><b>1</b>竞价基本信息</h2>
+    <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
 		<table class="table table-bordered mt10">
 			    <tbody>
 				  <tr>
 				    <td class="tc"><b>竞价标题</b></td>
 				    <td class="tc">${ obProject.name }</td>
 				    <td class="tc"><b>交货时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>交货地点</b></td>
@@ -196,9 +196,9 @@
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>竞价开始时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				    <td class="tc"><b>竞价结束时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>竞价内容</b></td>
@@ -224,7 +224,7 @@
   <form id="productForm" name="" method="post">
   	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
-	    <h2 class="count_flow"><b>2</b>产品信息</h2>
+	    <h2 class="count_flow"><i>2</i>产品信息</h2>
 		<div class="content table_box">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
