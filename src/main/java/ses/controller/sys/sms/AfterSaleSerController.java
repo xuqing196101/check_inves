@@ -8,6 +8,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+
+import com.github.pagehelper.PageInfo;
+
 import ses.dao.sms.AfterSaleSerMapper;
 import ses.model.sms.AfterSaleSer;
 import ses.service.sms.AfterSaleSerService;
@@ -23,23 +26,19 @@ public class AfterSaleSerController {
 	@Autowired
 	private AfterSaleSerService AfterSaleSerService; //售后服务
 	
-	@RequestMapping(value = "list")
-	public String list(Model model) {
-		/*List<AfterSaleSer> list = AfterSaleSerService.findAfterSaleSer();
-		String str = "";
-		for (int i = 0; i < list.size(); i++) {
-			if (i > 0) {
-				str += ",";
-			}
-			str += list.get(i).getRequiredId();
-		}
-		if (str.contains("1")) {
-			model.addAttribute("status", "fail");
-			model.addAttribute("status", "fail");
-		}
-		model.addAttribute("list", list);*/
+	/**
+	 * 
+	 * @Title: getAll
+	 * @author LiChenHao  
+	 * @Description:获取售后服务信息列表
+	 * @param:     
+	 * @return:
+	 */
+	@RequestMapping("/list")
+	public String getAll(Model model,Integer page){
+		List<AfterSaleSer> AfterSaleSers = AfterSaleSerService.getAll(page==null?1:page);
+		model.addAttribute("list",new PageInfo<AfterSaleSer>(AfterSaleSers));
 		return "ses/sms/after_sale_ser/list";
-		
 	}
 	
 	@RequestMapping(value = "add")
@@ -49,7 +48,7 @@ public class AfterSaleSerController {
 			AfterSaleSer = AfterSaleSerService.get(id);
 			model.addAttribute("AfterSaleSer", AfterSaleSer);
 		}
-		return "ses/sms/after_sales/add";
+		return "ses/sms/after_sales_ser/add";
 	}
 	
 	@RequestMapping(value = "save_or_update_supplier_stars")

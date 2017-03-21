@@ -2,22 +2,42 @@ package ses.service.sms;
 
 import java.util.List;
 
+import java.math.BigDecimal;
+import java.util.List;
 import ses.model.sms.AfterSaleSer;
-import ses.model.sms.SupplierAfterSaleDep;
-import ses.model.sms.SupplierStars;
+
 
 
 public interface AfterSaleSerService {
 	
 	/**
-     *〈简述〉
-     * 根据主键查询
-     *〈详细描述〉
-     * @author 
-     * @param id
-     * @return SupplierAfterSaleDep对象
-     */
-    public AfterSaleSer queryById(String id);
+	 * 1.获取所有模板对象
+	 */
+	List<AfterSaleSer> getAll(Integer pageNum);
+	/**
+	 * 2.添加模板
+	 */
+	public void add(AfterSaleSer AfterSaleSer);
+	
+	/**
+	 * 3.更新模板
+	 */
+	public void update(AfterSaleSer AfterSaleSer);
+	
+	/**
+	 * 4.根据主键查询模板
+	 */
+	AfterSaleSer get(String id);
+	
+	/**
+	 * 5.查询；图片路径
+	 */
+	String queryPath(String id);
+	
+	/**
+	 * 6.根据主键删除模板
+	 */
+	public void delete(String id);
     
     /**
      *〈简述〉
@@ -30,7 +50,6 @@ public interface AfterSaleSerService {
     
     public List<AfterSaleSer> findAfterSaleSer();
     
-    public AfterSaleSer get(String id);
     
     public void updateAfterSaleSer(AfterSaleSer AfterSaleSer);
 

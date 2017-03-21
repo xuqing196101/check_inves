@@ -16,11 +16,21 @@
 	    <result column="SUPPLIER_NAME" property="supplierName"/>
 	    <result column="QUESTION" property="question"/>
 	    <result column="TECHNICAL_PARAMETERS" property="technicalParameters"/>
+	    <!-- 查询合同  -->
+    <association column="CONTRACT_ID"  property="contract" select="bss.dao.cs.PurchaseContractMapper.selectContractByid" />
   	</resultMap>
+  	
+  	<!-- 表名 -->
+	<sql id="Tabel_Name">
+    	T_SES_SMS_AFTER_SALE_SERVICE
+	</sql>
+  
+	<!-- 表中所有列 -->
   	<sql id="Base_Column_List">
     	ID,CONTACT_NAME,ADDRESS,MOBILE,IS_AFTER_SUPPORT,CREATED_AT,UPDATED_AT,IS_DELETED,REQUIRED_ID,
     	PROPOSER,PRO_MOBILE,SUPPLIER_NAME,QUESTION,TECHNICAL_PARAMETERS
   	</sql>
+  	
   	<!-- 根据主键查询 -->
   	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
 		SELECT
@@ -29,35 +39,36 @@
 		WHERE ID = #{id}
   	</select>
   	
-  	<!-- 
-  	根据明细ID查询-->
+  	<!--根据明细ID查询-->
 	<select id="findAfterSaleSerByrequiredId" resultMap="BaseResultMap">
 		SELECT 
 		<include refid="Base_Column_List"/>
-		FROM T_BSS_CS_CONTRACT_REQUIRED 
+		FROM T_SES_SMS_AFTER_SALE_SERVICE 
 		WHERE ID = #{id}
 	</select>
+	
+	<!-- 根据id删除 -->
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
+    delete from T_SES_SMS_AFTER_SALE_SERVICE
+    where ID = #{id}
+  </delete>
+	
+	<!-- 插入数据 -->
+  <insert id="insert" parameterType="ses.model.sms.AfterSaleSer">
+ 	
+    insert into T_SES_SMS_AFTER_SALE_SERVICE (ID, ADDRESS, CONTACT_NAME, 
+      MOBILE, IS_AFTER_SUPPORT, CREATED_AT, 
+      UPDATED_AT, IS_DELETED, REQUIRED_ID, 
+      PROPOSER, PRO_MOBILE, SUPPLIER_NAME, 
+      QUESTION,TECHNICAL_PARAMETERS)
+    values (#{id}, #{address}, #{contactName}, 
+      #{mobile}, #{isAfterSupport}, #{createdAt}, 
+      #{updatedAt}, #{isDeleted}, #{requiredId}, 
+      #{proposer}, #{proMobile}, #{supplierName}, 
+      #{question},#{technicalParameters})
+  </insert>
 	 
-	
-	
-  	<!-- 根据主键修改 -->
-	<update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.AfterSaleSer">
-		UPDATE T_SES_SMS_AFTER_SALE_SERVICE
-		<set>
-			<if test="address != null">
-				ADDRESS = #{address},
-			</if>
-			<if test="contactName != null">
-				CONTACT_NAME = #{contactName},
-			</if>
-			<if test="mobile != null">
-				MOBILE = #{mobile},
-			</if>
-		</set>
-		WHERE ID = #{id}
-	</update>
-	
-	<!-- 新增一条记录 -->
+	 <!-- 新增一条不为空记录 -->
   	<insert id="insertSelective" parameterType="ses.model.sms.AfterSaleSer">
 		INSERT INTO T_SES_SMS_AFTER_SALE_SERVICE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
@@ -150,4 +161,70 @@
 		</trim>
   	</insert>
   	
+  	<!-- 更新数据 -->
+  <update id="updateByPrimaryKey" parameterType="ses.model.sms.AfterSaleSer">
+    update T_SES_SMS_AFTER_SALE_SERVICE
+    set ADDRESS = #{address},
+      CONTACT_NAME = #{contactName},
+      MOBILE = #{mobile},
+      IS_AFTER_SUPPORT = #{isAfterSupport},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
+      IS_DELETED = #{isDeleted},
+      REQUIRED_ID = #{requiredId},
+      PROPOSER = #{proposer},
+      PRO_MOBILE = #{proMobile},
+      SUPPLIER_NAME = #{supplierName},
+      QUESTION = #{question},
+      TECHNICAL_PARAMETERS = #{technicalParameters}
+    where ID = #{id}
+  </update>
+  
+  <!--根据更新不为空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.sms.AfterSaleSer">
+    update T_SES_SMS_AFTER_SALE_SERVICE
+    <set>
+      <if test="address != null">
+        ADDRESS = #{address},
+      </if>
+      <if test="contactName != null">
+        CONTACT_NAME = #{contactName},
+      </if>
+      <if test="mobile != null">
+        MOBILE = #{mobile},
+      </if>
+      <if test="isAfterSupport != null">
+        IS_AFTER_SUPPORT = #{isAfterSupport},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED = #{isDeleted},
+      </if>
+      <if test="requiredId != null">
+        REQUIRED_ID = #{requiredId},
+      </if>
+      <if test="proposer != null">
+        PROPOSER = #{proposer},
+      </if>
+      <if test="proMobile != null">
+        PRO_MOBILE = #{proMobile},
+      </if>
+      <if test="supplierName != null">
+        SUPPLIER_NAME = #{supplierName},
+      </if>
+      <if test="question != null">
+        QUESTION = #{question},
+      </if>
+      <if test="technicalParameters != null">
+        TECHNICAL_PARAMETERS = #{technicalParameters},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+  
 </mapper>

@@ -3,6 +3,8 @@ package ses.model.sms;
 import java.io.Serializable;
 import java.util.Date;
 
+import bss.model.cs.PurchaseContract;
+
 /**
  * 版权：(C) 版权所有
  * <简述>
@@ -58,8 +60,19 @@ public class AfterSaleSer implements Serializable{
     
 	/** 技术参数 **/
     private String technicalParameters;
+   
+    /** 合同实体类*/
+    private PurchaseContract contract;
     
-    public String getTechnicalParameters() {
+    public PurchaseContract getContract() {
+		return contract;
+	}
+
+	public void setContract(PurchaseContract contract) {
+		this.contract = contract;
+	}
+
+	public String getTechnicalParameters() {
 		return technicalParameters;
 	}
 

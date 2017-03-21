@@ -4,125 +4,112 @@
 <html>
 <head>
 <%@ include file="../../../common.jsp"%>
+
 <script type="text/javascript">
-	$(function() {
+  $(function() {
 		laypage({
 		 	cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-			pages: "${listSupplierBlacklists.pages}", //总页数
+			pages: "${listAfterSaleSerlists.pages}", //总页数
 			skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
 			skip: true, //是否开启跳页
-			total: "${listSupplierBlacklists.total}",
-			startRow: "${listSupplierBlacklists.startRow}",
-			endRow: "${listSupplierBlacklists.endRow}",
-			groups: "${listSupplierBlacklists.pages}">=5?5:"${listSupplierBlacklists.pages}", //连续显示分页数
+			total: "${listAfterSaleSerlists.total}",
+			startRow: "${listAfterSaleSerlists.startRow}",
+			endRow: "${listAfterSaleSerlists.endRow}",
+			groups: "${listAfterSaleSerlists.pages}">=5?5:"${listAfterSaleSerlists.pages}", //连续显示分页数
 			curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
 			    var page = location.search.match(/page=(\d+)/);
 			    return page ? page[1] : 1;
 			}(), 
 			jump : function(e, first) { //触发分页后的回调
 				if (!first) { //一定要加此判断，否则初始时会无限刷新
-					//location.href = '${pageContext.request.contextPath}/supplier_blacklist/list_supplier.html?page=' + e.curr;
-					//alert(e.curr);
 					$("input[name='page']").val(e.curr);
-					searchSupplierBlacklist(0);
+					searchAfterSaleSerlist(0);
 				}
 			}
 		});	
 	});
-	function searchSupplierBlacklist(sign) {
-		if (sign) {
-			$("input[name='page']").val(1);
+  	/** 全选全不选 */
+	function selectAll(){
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		   if(checkAll.checked){
+			   for(var i=0;i<checklist.length;i++)
+			   {
+			      checklist[i].checked = true;
+			   } 
+			 }else{
+			  for(var j=0;j<checklist.length;j++)
+			  {
+			     checklist[j].checked = false;
+			  }
+		 	}
 		}
-		$("#search_form_id").submit();
-	}
-	function resetForm() {
-		$("input[name='supplierName']").val("");
-		$("input[name='startTime']").val("");
-		$("input[name='endTime']").val("");
-	}
 	
-	function editSupplierBlacklist() {
-		var checkbox = $("input[name='checkbox']:checked");
-		if (checkbox.size() != 1) {
-			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+	/** 单选 */
+	function check(){
+		 var count=0;
+		 var checklist = document.getElementsByName ("chkItem");
+		 var checkAll = document.getElementById("checkAll");
+		 for(var i=0;i<checklist.length;i++){
+			   if(checklist[i].checked == false){
+				   checkAll.checked = false;
+				   break;
+			   }
+			   for(var j=0;j<checklist.length;j++){
+					 if(checklist[j].checked == true){
+						   checkAll.checked = true;
+						   count++;
+					   }
+				 }
+		   }
+	}
+  	function show(id){
+  		window.location.href="${pageContext.request.contextPath}/after_sale_ser/show.html?id="+id;
+  	}
+    function edit(){
+    	var id=[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			id.push($(this).val());
+		}); 
+		if(id.length==1){
+			
+			window.location.href="${pageContext.request.contextPath}/after_sale_ser/edit.html?id="+id;
+		}else if(id.length>1){
+			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+		}else{
+			layer.alert("请选择需要修改的质检报告",{offset: ['222px', '390px'], shade:0.01});
+		}
+    }
+    function del(){
+    	var ids =[]; 
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+		}); 
+		if(ids.length>0){
+			layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
+				layer.close(index);
+				window.location.href="${pageContext.request.contextPath}/after_sale_ser/delete.html?ids="+ids;
 			});
-			return;
+		}else{
+			layer.alert("请选择要删除的质检报告",{offset: ['222px', '390px'], shade:0.01});
 		}
-		var id = checkbox.val();
-		$("input[name='supplierBlacklistId']").val(id);
-		$("#edit_form_id").submit();
-	}
-	
-	function operatorRemove() {
-		var checkbox = $("input[name='checkbox']:checked");
-		if (!checkbox.size()) {
-			layer.msg("请至少勾选一条记录 !", {
-				offset : '300px',
-			});
-			return;
-		}
-		var ids = "";
-		var count = 0;
-		checkbox.each(function() {
-			var v = $(this).parents("tr").find("td").eq(7).text();
-			v = $.trim(v);
-			if (v == "过期") {
-				count ++;
-				layer.msg("已过期的不能手动移除 !", {
-					offset : '300px',
-				});
-				return;
-			} else if (v == "手动移除") {
-				count ++;
-				layer.msg("不能重复手动移除 !", {
-					offset : '300px',
-				});
-				return;
-			}
-			if (ids) {
-				ids += ",";
-			}
-			ids += $(this).val();
-		});
-		if (count) {
-			return;
-		}
-		window.location.href = "${pageContext.request.contextPath}/supplier_blacklist/operator_remove.html?ids=" + ids;
-	}
-	
-	function checkAll(ele) {
-		var flag = $(ele).prop("checked");
-		$("input[name='checkbox']").each(function() {
-			$(this).prop("checked", flag);
-		});
-	}
-	
-	function findLog(supplierId) {
+    }
+    function add(){
+    	window.location.href="${pageContext.request.contextPath}/after_sale_ser/add.html";
+    }
+    function showPic(url,name){
+    	var pic = $("#"+url.toString());
 		layer.open({
-			type : 2,
-			title : '供应商黑名单记录表',
-			// skin : 'layui-layer-rim', //加上边框
-			area : [ '1000px', '420px' ], //宽高
-			offset : '50px',
-			scrollbar : false,
-			content : '${pageContext.request.contextPath}/blacklist_log/list.html?supplierId=' + supplierId, //url
-			closeBtn : 1, //不显示关闭按钮
-		});
-	}
-	
-	function searchBlacklist() {
-		var checkbox = $("input[name='checkbox']:checked");
-		if (checkbox.size() != 1) {
-			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+			  type: 1,
+			  title: false,
+			  closeBtn: 0,
+			  area: '516px',
+			  skin: 'layui-layer-nobg', //没有背景色
+			  shadeClose: true,
+			  content: pic
 			});
-			return;
-		}
-		var supplierId = checkbox.val();
-		findLog(supplierId);
-	}
-</script>
+	};
+  </script>
 
 </head>
 
@@ -151,29 +138,29 @@
         <h2>售后服务登记列表</h2>
       </div>
       <h2 class="search_detail ">
-      <form id="form1" action="${pageContext.request.contextPath}/after_sales/list.html" method="post" class="mb0" > 
+      <form id="form" action="${pageContext.request.contextPath}/after_sale_ser/list.html" method="post" class="mb0" > 
       <ul class="demand_list">
         <li class="fl">
-        <label class="fl">产品名称：</label><span><input class="span2"   type="text"></span>
+        <label class="fl">产品名称：</label><span><input class="span2" name="product.name" id="productName"  type="text"></span>
         </li>
         <li class="fl">
-        <label class="fl">合同名称：</label><span><input class="span2"    type="text"></span>
+        <label class="fl">合同名称：</label><span><input class="span2" name="contract.name" id="contractName"  type="text"></span>
         </li>
         <li class="fl">
-        <label class="fl">合同编号：</label><span><input class="span2"   type="text"></span>
+        <label class="fl">合同编号：</label><span><input class="span2" name="contract.code" id="contractCode" type="text"></span>
         </li>
-        <button type="button" onclick="submit()" class="btn">查询</button>
-        <button type="button" onclick="chongzhi()" class="btn">重置</button>    
-      </ul>
+	   	 <button class="btn fl" type="submit">查询</button>
+	   	 <button type="reset" class="btn fl">重置</button> 
+	 </ul>
         <div class="clear"></div>
        </form>
      </h2>
       <div class="content table_box">
 		  <div class="col-md-12 pl20 mt10">
-                <button class="btn btn-windows add" type="button" onclick="location='${pageContext.request.contextPath}/supplier_blacklist/add_supplier.html'">新增</button>
-                <button class="btn btn-windows edit" type="button" onclick="editSupplierBlacklist()">修改</button>
-                <button class="btn btn-windows delete" type="button" onclick="operatorRemove()">删除</button>
-            </div>
+    		<button class="btn btn-windows add" type="button" onclick="add()">登记</button>
+			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>      
+   </div>
 
 		 <div class="content table_box">
         <table class="table table-bordered table-condensed table-hover table-striped">
@@ -188,15 +175,22 @@
 						</tr>
 					</thead>
 					<tbody id="black_tbody_id">
-						<c:forEach items="${listSupplierBlacklists.list}" var="supplierBlacklist" varStatus="vs">
-							<tr class="hand">
-								<td class="tc"><input id="${supplierBlacklist.supplierId}" name="checkbox" value="${supplierBlacklist.id}" type="checkbox"></td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')">${vs.index + 1}</td>
-								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.supplierName}</td>
-								<td class="tc" onclick="findLog('${supplierBlacklist.supplierId}')"><fmt:formatDate value="${supplierBlacklist.startTime}" pattern="yyyy-MM-dd"/></td>
-								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.reason}</td>
-								<td class="tl pl20" onclick="findLog('${supplierBlacklist.supplierId}')">${supplierBlacklist.reason}</td>
-							</tr>
+						<c:forEach items="${list.list}" var="AfterSaleSer" varStatus="vs">
+						<tr>
+				
+							<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${AfterSaleSer.id}" /></td>
+				
+							<td class="tc pointer" onclick="show('${AfterSaleSer.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
+				
+							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.contract.code}</td>
+				
+							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.product.name}</td>
+			
+							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.technicalParameters}</td>
+			
+							<td class="tc pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.contract.amount}</td>
+				
+						</tr>
 						</c:forEach>
 					</tbody>
 				</table>
