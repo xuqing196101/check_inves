@@ -256,24 +256,27 @@ public class SupplierQueryController extends BaseSupplierController {
      * @throws UnsupportedEncodingException 异常处理
      */
     @RequestMapping("/findSupplierByPriovince")
-    public String findSupplierByPriovince(Integer judge, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds) throws UnsupportedEncodingException{
+    public String findSupplierByPriovince(Integer judge, Integer sign, Supplier sup, Integer page, Model model, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds) throws UnsupportedEncodingException{
         /*if (judge != null) {
             sup.setStatus(judge);
         }*/
-        model.addAttribute("address", sup.getAddress());
-        String address = supplierEditService.getProvince(sup.getAddress());
-        if ("".equals(address)) {
-            String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
-            if (addressName.length() > NUMBER_TWO) {
-                sup.setAddress(addressName.substring(0, NUMBER_THREE).replace(",", ""));
-                model.addAttribute("address", sup.getAddress());
+    	if(sup.getAddress() != null){
+    		model.addAttribute("address", sup.getAddress());
+            String address = supplierEditService.getProvince(sup.getAddress());
+            if ("".equals(address)) {
+                String addressName = URLDecoder.decode(sup.getAddress(), "UTF-8");
+                if (addressName.length() > NUMBER_TWO) {
+                    sup.setAddress(addressName.substring(0, NUMBER_THREE).replace(",", ""));
+                    model.addAttribute("address", sup.getAddress());
+                } else {
+                    sup.setAddress(addressName.substring(0, NUMBER_TWO).replace(",", ""));
+                    model.addAttribute("address", sup.getAddress());
+                }
             } else {
-                sup.setAddress(addressName.substring(0, NUMBER_TWO).replace(",", ""));
-                model.addAttribute("address", sup.getAddress());
+                sup.setAddress(address);
             }
-        } else {
-            sup.setAddress(address);
-        }
+    	}
+        
         if (categoryIds != null && !"".equals(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
@@ -291,10 +294,16 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("supplierTypeIds", supplierTypeIds);
         model.addAttribute("categoryIds", categoryIds);
         model.addAttribute("judge", judge);
-        //等于5说明是入库供应商
+        //judge等于5说明是入库供应商
         if (judge != null && judge == NUMBER_FIVE) {
+        	if(sign !=null && sign == 2){
+        		model.addAttribute("sign", 2);
+        	}
             return "ses/sms/supplier_query/select_ruku_supplier_by_province";
         } else {
+        	if(sign !=null && sign == 1){
+        		model.addAttribute("sign", 1);
+        	}
         	return "ses/sms/supplier_query/select_supplier_by_province";
         }
     }
