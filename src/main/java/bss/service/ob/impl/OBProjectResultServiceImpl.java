@@ -137,6 +137,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	public ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult) {
 		// TODO Auto-generated method stub
 		ConfirmInfoVo confirmInfoVo = oBProjectResultMapper.selectInfoByPSId(obProjectResult);
+		//new datetime
 		List<BidProductVo> productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
 		if(confirmInfoVo != null) {
 			confirmInfoVo.setBidProductList(productList);

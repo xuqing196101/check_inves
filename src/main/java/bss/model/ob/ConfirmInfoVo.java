@@ -23,9 +23,34 @@ public class ConfirmInfoVo {
 	private String bidRatio;
 	//确认结束时间
 	private Date confirmOvertime;
+	//第一次确认结束时间段
+	private Integer confirmTime;
+	//第二次确认结束时间段
+	private Integer confirmTimeSecond;
+	//竞价时间段
+	private Integer quoteTime;
 	//产品列表
 	private List<OBProduct> productList;
 	private List<BidProductVo> bidProductList;
+	
+	public Integer getConfirmTime() {
+		return confirmTime;
+	}
+	public void setConfirmTime(Integer confirmTime) {
+		this.confirmTime = confirmTime;
+	}
+	public Integer getConfirmTimeSecond() {
+		return confirmTimeSecond;
+	}
+	public void setConfirmTimeSecond(Integer confirmTimeSecond) {
+		this.confirmTimeSecond = confirmTimeSecond;
+	}
+	public Integer getQuoteTime() {
+		return quoteTime;
+	}
+	public void setQuoteTime(Integer quoteTime) {
+		this.quoteTime = quoteTime;
+	}
 	public List<BidProductVo> getBidProductList() {
 		return bidProductList;
 	}

@@ -157,6 +157,9 @@ public class OBSupplierQuoteController {
 		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult);
 		//根据状态有选择的查询
 		
+		//获取当前(在猫上运行，就是猫的)时间
+		Date currentTime = new Date();
+		
 		double allProductPrice = 0;
 		if(confirmInfoVo != null) {
 			for(int i = 0;i < confirmInfoVo.getBidProductList().size();i++) {
@@ -174,6 +177,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("oBProjectResultList", oBProjectResultList);
 		model.addAttribute("allProductPrice", allProductPrice);
 		model.addAttribute("projectId", projectId);
+		model.addAttribute("sysCurrentTime", currentTime);
 		model.addAttribute("supplierId", supplierId);
 		model.addAttribute("confirmInfoVo", confirmInfoVo);
 

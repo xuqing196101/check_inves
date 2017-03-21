@@ -39,6 +39,9 @@
     <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
     <result column="STATUS" property="bidStatus" jdbcType="DECIMAL" />
     <result column="COUNTOFFER_PRICE" property="bidRatio" jdbcType="DECIMAL" />
+    <result column="CONFIRMTIME" property="confirmTime" jdbcType="DECIMAL" />
+    <result column="CONFIRMTIMESECOND" property="confirmTimeSecond" jdbcType="DECIMAL" />
+    <result column="QUOTETIME" property="quoteTime" jdbcType="DECIMAL" />
     <result column="COUNTTOTAL_AMOUNT" property="confirmOvertime" jdbcType="DECIMAL" />
   </resultMap>
   
@@ -187,8 +190,8 @@
   </select>
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
   <select id="selectInfoByPSId" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
-    SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,OBPROJECT.DELIVERY_DEADLINE CONFIRMOVERTIME 
-	  FROM T_BSS_OB_PROJECT obProject,T_BSS_OB_PROJECT_RESULT obProjectResult 
+    SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,OBPROJECT.START_TIME CONFIRMOVERTIME,ruleTable.CONFIRM_TIME confirmTime,ruleTable.CONFIRM_TIME_SECOND confirmTimeSecond,ruleTable.QUOTE_TIME quoteTime 
+	  FROM T_BSS_OB_PROJECT obProject,T_BSS_OB_PROJECT_RESULT obProjectResult,(select QUOTE_TIME,CONFIRM_TIME,CONFIRM_TIME_SECOND from T_BSS_OB_RULE where id=(select DISTINCT RULE_ID FROM T_BSS_OB_PROJECT WHERE id=#{projectId,jdbcType=VARCHAR})) ruleTable
 		WHERE obProjectResult.PROJECT_ID=obProject.ID AND obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND OBPROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
   </select>
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->

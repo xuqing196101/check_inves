@@ -26,9 +26,9 @@
 	function getRTime2(){
 		var getOverTime = $("#confirmOverTime").text();
 		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
-		var sysNowTime = new Date("${sysNowTime}");
-		var clientNowTime = new Date();
-		var t = EndTime.getTime() - clientNowTime.getTime();
+		var sysNowTime = new Date("${sysCurrentTime}");
+		var clientNowTime = new Date();//这个不准确，暂时不用
+		var t = EndTime.getTime() - sysNowTime.getTime();
 		if(t > 0) {
 			var d = Math.floor(t/1000/60/60/24);
 			var h = Math.floor(t/1000/60/60%24);
@@ -204,7 +204,7 @@
 		   </ul>
         <div class="clear"></div>
       </div>
-    </div> 
+    </div>
     
     <!-- 表格开始    projectResult -->
     <div class="container container_box">
@@ -220,10 +220,10 @@
     		中标
     		</c:if>
     		<c:if test="${confirmInfoVo.ranking >= 7}">
-    		中标
+    		未中标
     		</c:if>
     	<span style="margin-left: 22px;margin-right: 12px;">中标比例  :</span>
-    		<input id="" name="" readonly="readonly" value="50" type="text" class="w5 mb0 ">%
+    		<input id="" name="" readonly="readonly" value="${confirmInfoVo.bidRatio }" type="text" class="tc w50">%
     </h2>
     <h2 class="count_flow">确认结束时间：
     	<span id="confirmOverTime">
@@ -237,7 +237,7 @@
      	<span class="fl block">基本数量---第一轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text" class="w5 mb0 ">%
+     		<input id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text" class="tc w50">%
      		<span style="padding-left: 22px;">确认倒计时：<span id="confirmCountDown"></span></span>
      	</h2>
      </div>
@@ -305,7 +305,7 @@
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="20" type="text" class="w5 mb0 ">%
+     		<input id="" name="confirmRatioSecond" value="20" type="text" class="tc w50">%
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2">未开始</span>
      	</h2>
