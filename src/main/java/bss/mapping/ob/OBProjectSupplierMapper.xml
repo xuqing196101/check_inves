@@ -277,5 +277,6 @@
       	<if test="createTime != null and createTime != ''">
         	AND P.CREATED_AT = #{createTime}
       	</if>
+      	AND P.STATUS <![CDATA[ <> ]]> 0
   </select>
 </mapper>

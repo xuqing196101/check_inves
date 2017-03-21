@@ -68,15 +68,85 @@
 		$("#queryForm").submit();
 	}
 	
+	
+	
 	// 开始报价
-	function beginQuote(titleId){
-		window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+titleId;
-	}
+	function beginQuote() {
+	       var id = [];
+		   $('input[name="chkItem"]:checked').each(function() {
+		   		id.push($(this).val());
+		   });
+		   if(id.length == 1) {
+			   var valueArr = id[0].split(',');
+			   var status = valueArr[1];
+			   var remark = valueArr[2];
+			   if(status == '1' && remark == '1'){
+				   layer.alert("对不起，报价时间还未开始，请您等待!");
+				   return;
+			   }
+			   if(status == '2' && remark == '3'){
+				   layer.alert("已报价，请等待确认!");
+				   return;
+			   }
+			   if(status == '3' && remark == '5'){
+				   layer.alert("报价时间结束!");
+				   return;
+			   }
+			   if(status == '2' && remark == '6'){
+				   layer.alert("请重新刷新页面!");
+				   return;
+			   }
+			   if(status == '3' && remark == '6'){
+				   layer.alert("已报价，请确认结果!");
+				   return;
+			   }
+			   // 开始报价
+			   if(status == '2' && remark == '2'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0];
+			   }
+	       } else if(id.length > 1) {
+	          layer.alert("只能选择一个", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+		   } else {
+	          layer.alert("请选择开始报价的模块", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+	        }
+	    }
 	
 	// 确认结果
-	function confirmResult(titleId){
-		window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+titleId;
-	}
+	function confirmResult() {
+	       var id = [];
+		   $('input[name="chkItem"]:checked').each(function() {
+		   		id.push($(this).val());
+		   });
+		   if(id.length == 1) {
+			   var valueArr = id[0].split(',');
+			   var status = valueArr[1];
+			   var remark = valueArr[2];
+			   if(status != '3' && remark != '6'){
+				   layer.alert("对不起，未报价的项目不能确认结果!");
+				   return;
+			   }
+			   // 开始确认结果
+			   if(status == '3' && remark == '6'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+			   }
+	       } else if(id.length > 1) {
+	          layer.alert("只能选择一个", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+		   } else {
+	          layer.alert("请选择开始报价的模块", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+	        }
+	    }
 	
 </script>
 </head>
@@ -115,6 +185,8 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows apply" type="submit" onclick="beginQuote()">开始报价</button>
+		<button class="btn btn-windows git" type="submit" onclick="confirmResult()">确认结果</button>
 	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -131,7 +203,7 @@
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.id},${ obProject.status },${obProject.remark}" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td>${ obProject.name }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
@@ -152,10 +224,10 @@
 			  </td>
 			  <td class="tc">
 			  	<c:if test="${ obProject.status == 1 && '1' eq obProject.remark}">
-			  		等待竞价
+			  		报价等待中...
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 && '2' eq obProject.remark}">
-				  	<a href="javascript:void(0)" onclick="beginQuote('${obProject.id}')">报价</a>
+				  	报价
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 && '3' eq obProject.remark}">
 				  	已报价待确认
@@ -165,7 +237,7 @@
 				  	未报价
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 && '6' eq obProject.remark}">
-				  	<a href="javascript:void(0)" onclick="confirmResult('${obProject.id}')">确认结果</a>
+				  	确认结果
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 2 && '6' eq obProject.remark}">
 				  	重新刷新页面

@@ -270,7 +270,9 @@ public class OBProjectController {
 			OBProjectResult obProjectResult = list.get(0);
 			countOfferPricebyOne = obProjectResult.getCountOfferPrice();
 		}
-		model.addAttribute("projectName", obProject.getName());
+		if(obProject != null){
+			model.addAttribute("projectName", obProject.getName());
+		}
 		model.addAttribute("countOfferPricebyOne", countOfferPricebyOne);
 		int count = OBProductInfo.selectCount(id);
 		int chengjiao = 0;

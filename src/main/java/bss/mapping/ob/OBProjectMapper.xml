@@ -545,19 +545,20 @@
   <select id="selectAllOBproject" parameterType="Map" resultMap="ProjectResultMap">
     select
     <include refid="Base_Column_List" />
-      from T_BSS_OB_PROJECT where 1=1
+      from T_BSS_OB_PROJECT p where 1=1
     <if test="name != null and name !=''" >
       AND p.NAME like '%${name}%'
     </if>
     <if test="startTime != null and startTime !=''">
-    	<![CDATA[AND START_TIME >= #{startTime}]]>
+    	<![CDATA[AND p.START_TIME >= #{startTime}]]>
     </if>
     <if test="endTime != null and endTime !=''">
-    	<![CDATA[AND END_TIME <= #{endTime}]]> 
+    	<![CDATA[AND p.END_TIME <= #{endTime}]]> 
     </if>
     <if test="createTime != null and createTime !=''">
-    	<![CDATA[AND CREATED_AT = #{createTime}]]> 
+    	<![CDATA[AND p.CREATED_AT = #{createTime}]]> 
     </if>
+    AND p.STATUS <![CDATA[ <> ]]> 0
 	ORDER BY
 	UPDATED_AT DESC
   </select>

@@ -69,15 +69,64 @@
 		$("#queryForm").submit();
 	}
 	
-	
-	// 查看结果
-	function findResult(id){
-		window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingResult.html?id="+id;
-	}
-	// 查看发布中信息
-	function findIssueInfo(id){
-		window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?bargainCount=${obProject.qualifiedSupplier}&&id="+id;
-	}
+	//  查看结果
+	function findResult() {
+	       var id = [];
+		   $('input[name="chkItem"]:checked').each(function() {
+		   		id.push($(this).val());
+		   });
+		   if(id.length == 1) {
+			   var valueArr = id[0].split(',');
+			   var status = valueArr[1];
+			   if(status != '3'){
+				   layer.alert("竞价结束才可以查看结果!");
+				   return;
+			   }
+			   if(status == '3'){
+			   	   // 查看结果
+				  window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingResult.html?id="+valueArr[0];
+			   }
+	       } else if(id.length > 1) {
+	          layer.alert("只能选择一个", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+		   } else {
+	          layer.alert("请选择要查看结果的模块", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+	        }
+	    }
+	//  查看
+	function findIssueInfo() {
+	       var id = [];
+		   $('input[name="chkItem"]:checked').each(function() {
+		   		id.push($(this).val());
+		   });
+		   if(id.length == 1) {
+			   var valueArr = id[0].split(',');
+			   var status = valueArr[1];
+			   if(status == '3'){
+				   layer.alert("请点击查看结果按钮!");
+				   return;
+			   }
+			   if(status == '1' || status == '2' || status == '4' || status == '5'){
+			   	   // 查看结果
+				   window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?bargainCount=${obProject.qualifiedSupplier}&&id="+valueArr[0];
+			   }
+	       } else if(id.length > 1) {
+	          layer.alert("只能选择一个", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+		   } else {
+	          layer.alert("请选择要查看的模块", {
+	            offset: ['222px', '255px'],
+	            shade: 0.01,
+	          });
+	        }
+	    }
 	
 </script>
 </head>
@@ -119,6 +168,10 @@
     	  <div class="clear"></div>
        </form>
      </div>
+    <div class="col-md-12 pl20 mt10">
+		<button class="btn btn-windows apply" type="submit" onclick="findIssueInfo()">查看</button>
+		<button class="btn btn-windows apply" type="submit" onclick="findResult()">查看结果</button>
+	</div>   
 	<!-- 表格开始 -->
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -132,12 +185,12 @@
 		  <th class="info">成交供应商</th>
 		  <th class="info">参与供应商数量</th>
 		  <th class="info">竞价状态</th>
-		  <th class="info">操作</th>
+		  <!-- <th class="info">操作</th> -->
 		</tr>
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.id},${obProject.status}" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td>${ obProject.name }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
@@ -159,9 +212,6 @@
 			  	</c:if>
 			  </td>
 			  <td class="tc">
-			  	<c:if test="${ obProject.status == 0 }">
-			  		暂存 
-			  	</c:if>
 			  	<c:if test="${ obProject.status == 1 }">
 			  		已发布 
 			  	</c:if>
@@ -178,14 +228,14 @@
 			  		待确认
 			  	</c:if>
 			  </td>
-			  <td class="tc">
+			  <%-- <td class="tc">
 			  	<c:if test="${ obProject.status == 2 }">
 				  	<a href="javascript:void(0)" onclick="findIssueInfo('${obProject.id}')">查看</a>
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 3 }">
-				  	<a href="javascript:void(0)" onclick="findResult('${obProject.id}')">查看结果</a>
+				  	查看结果
 			  	</c:if>
-			  </td>
+			  </td> --%>
 			</tr> 
 		</c:forEach>
 	</table>
