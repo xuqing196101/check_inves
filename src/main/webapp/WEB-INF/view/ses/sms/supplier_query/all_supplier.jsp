@@ -365,11 +365,6 @@
 				$("body").unbind("mousedown", onBodyDownSupplierType);
 
 			}
-			
-			//切换类表视图
-			function listShow(){ 
-			
-			}
 		</script>
 	</head>
 	<!--面包屑导航开始-->
@@ -424,6 +419,15 @@
 								<label class="fl">手机号：</label>
 								<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
 							</li>
+							<li>
+	            	<label class="fl">企业性质:</label>
+		            <select name="businessType" id="businessType" class="w220">
+		              <option value=''>-请选择-</option>
+		              <c:forEach items="${businessType}" var="list">
+		              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+		              </c:forEach>
+		            </select>
+	         	  </li>
 							<li>
 								<label class="fl">供应商类型：</label>
 								<input id="supplierType" class="span2" type="text" name="supplierType" readonly value="${supplierType }" onclick="showSupplierType();" />

@@ -45,17 +45,31 @@
 				$("#supplierType").val('');
 				$("#categoryIds").val('');
 				$("#supplierTypeIds").val('');
-				$("option")[0].selected = true;
-				var address = '${address}';
+				$("#mobile").val('');
+				$("#status option:selected").removeAttr("selected");
+				$("#address option:selected").removeAttr("selected");
+				$("#businessType option:selected").removeAttr("selected");
+				
+				/* var address = '${address}';
 				address = encodeURI(address);
 				address = encodeURI(address);
-				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5";
+				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address + "&judge=5"; */
+				$("#form1").submit();
 			}
+			
+			//回显下拉框
 			$(function() {
-				var optionNodes = $("option");
+				/* var optionNodes = $("option");
 				for(var i = 1; i < optionNodes.length; i++) {
 					if("${supplier.score}" == $(optionNodes[i]).val()) {
 						optionNodes[i].selected = true;
+					}
+				} */
+				
+				var optionStatus = $("#status").find("option");
+				for(var i = 1; i < optionStatus.length; i++) {
+					if("${supplier.status}" == $(optionStatus[i]).val()) {
+						optionStatus[i].selected = true;
 					}
 				}
 			});
@@ -329,7 +343,10 @@
   			<form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html" method="post">
 		    	<input type="hidden" name="page" id="page">
 		      <input type="hidden" name="judge" value="5">
-		      <input type="hidden" name="address" value="${address }">
+		      <c:if test="${sign != 2 }">
+		      	<input type="hidden" name="address" value="${address }">
+		      </c:if>
+		      <input type="hidden" name="sign" value="${sign }">
 		      <ul class="demand_list">
 		      	<li>
             	<label class="fl">供应商名称：</label><span><input id="supplierName" class="w220" name="supplierName" value="${supplier.supplierName }" type="text"></span>
@@ -339,15 +356,39 @@
 		        </li>
             <li>
               <label class="fl">联系人：</label><span><input id="contactName" class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
-            </li> 
+            </li>
+            <li>
+							<label class="fl">手机号：</label>
+							<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
+						</li>
+						<li>
+            	<label class="fl">企业性质:</label>
+	            <select name="businessType" id="businessType" class="w220">
+	              <option value=''>-请选择-</option>
+	              <c:forEach items="${businessType}" var="list">
+	              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+	              </c:forEach>
+	            </select>
+	          </li>
+            <c:if test ="${sign == 2 }">
+            	<li>
+	            	<label class="fl">地区:</label>
+		            <select name="address" id="address" class="w220">
+		              <option value=''>-请选择-</option>
+		              <c:forEach items="${privnce}" var="list">
+		              	<option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+		              </c:forEach>
+		            </select>
+		          </li>
+            </c:if>
             <li>
               <label class="fl">供应商类型：</label><span><input id="supplierType" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" class="w220"/>
               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
             </li>
-            <li>
+            <%-- <li>
               <label class="fl">品目：</label><span><input id="category" type="text" name="categoryNames" value="${categoryNames }" readonly onclick="showCategory();" class="w220"/>
               <input type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
-            </li>
+            </li> --%>
             <!-- <li>
 	            <label class="fl">供应商级别:</label>
 	            <span>
@@ -362,6 +403,19 @@
 	            </span>
 		         </li> -->
 		         <li>
+							<label class="fl">供应商状态：</label>
+							<select id="status" name="status" class="w220">
+								<option value=''>-请选择-</option>
+								<option value="1">审核通过</option>
+								<option value="4">待复核</option>
+								<option value="5">复核通过</option>
+								<option value="6">复核未通过</option>
+								<option value="7">待考察</option>
+								<option value="8">考察合格</option>
+								<option value="9">考察不合格</option>
+							</select>
+						 </li>
+		         <li>
             	 <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text" value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
                <span class="f14">至</span>
                <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>'  class="Wdate w110" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
@@ -375,9 +429,20 @@
            <div class="clear"></div>
 		     </form>
 		   </h2>
-			   <div class="col-md-12 pl20 mt10">
-				 		<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
-				 </div>
+	
+		 		<c:choose>
+		 			<c:when test="${sign == 2 }">
+			 			<div class="col-md-12 tc">
+			 				<button class="btn" type="button" onclick="fanhui();">切换到地图</button>
+			 			</div>
+		 			</c:when>
+		 			<c:otherwise>
+		 				<div class="col-md-12 pl20 mt10">
+		 					<button class="btn btn-windows back" type="button" onclick="fanhui();">返回</button>
+		 				</div>
+		 			</c:otherwise>
+		 		</c:choose>
+		 		
 			<div class="content table_box">
 				<table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
@@ -385,11 +450,13 @@
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
 							<th class="info">联系人</th>
+							<th class="info">手机号</th>
 							<!-- <th class="info">供应商级别</th> -->
 							<th class="info">入库日期</th>
+							<th class="info">地区</th>
 							<th class="info">供应商类型</th>
 							<th class="info">供应商状态</th>
-							<th class="info">经济性质</th>
+							<th class="info">企业性质</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -400,17 +467,16 @@
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}">${list.supplierName }</a>
 								</td>
 								<td class="">${list.contactName }</td>
+								<td class="tc">${list.mobile }</td>
 								<%-- <td class="tc">${list.level }</td> --%>
 								<td class="tc">
 									<fmt:formatDate value="${list.auditDate }" pattern="yyyy-MM-dd" />
 								</td>
+								<td class="">${list.name }</td>							
 								<td class="">${list.supplierType }</td>
+								<td class="tc">${list.businessType }</td>
 								<td class="tc">
-									<%-- <c:if test="${list.status==-1 }">暂存</c:if>
-									<c:if test="${list.status==0 }">待审核</c:if> --%>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
-									<%-- <c:if test="${list.status==2 }">审核退回修改</c:if>
-									<c:if test="${list.status==3 }">审核未通过</c:if> --%>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
 									<c:if test="${list.status==5 }"><span class="label rounded-2x label-u">复核通过</span></c:if>
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
@@ -418,7 +484,6 @@
 									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>
 									<c:if test="${list.status==9 }"><span class="label rounded-2x label-dark">考察不合格</span></c:if>
 								</td>
-								<td class="tc">${list.businessType }</td>
 							</tr>
 						</c:forEach>
 					</tbody>

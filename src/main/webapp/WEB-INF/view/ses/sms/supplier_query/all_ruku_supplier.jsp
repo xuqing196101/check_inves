@@ -113,14 +113,15 @@
 				$("#supplierType").val('');
 				$("#categoryIds").val('');
 				$("#supplierTypeIds").val('');
-				$("option")[0].selected = true;
+				$("#mobile").val('');
+				/* $("option")[0].selected = true; */
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html?judge=5";
 			}
 			$(function() {
-				var optionNodes = $("option");
-				for(var i = 1; i < optionNodes.length; i++) {
-					if("${supplier.score}" == $(optionNodes[i]).val()) {
-						optionNodes[i].selected = true;
+				var optionStatus = $("#status").find("option");
+				for(var i = 1; i < optionStatus.length; i++) {
+					if("${supplier.status}" == $(optionStatus[i]).val()) {
+						optionStatus[i].selected = true;
 					}
 				}
 			});
@@ -356,7 +357,7 @@
 
 			}
 			
-			//切换类表视图
+			/* //切换类表视图
 			function listShow(){
 				if ($("#showList").hasClass("dnone")) {
           	$("#container").addClass("dnone");
@@ -375,7 +376,7 @@
 	        	$("#listBut").removeClass("dnone");
           	$("#mapBut").addClass("dnone");
           }
-			}
+			} */
 		</script>
 	</head>
 	<!--面包屑导航开始-->
@@ -423,15 +424,28 @@
 		         </li>
              <li>
                <label class="fl">联系人：</label><span><input id="contactName"  class="w220" name="contactName" value="${supplier.contactName }" type="text"></span>
-             </li> 
+             </li>
+             <li>
+								<label class="fl">手机号：</label>
+								<input id="mobile" class="w220" name="mobile" value="${supplier.mobile }" type="text">
+						</li>
+						<li>
+            	<label class="fl">企业性质:</label>
+	            <select name="businessType" id="businessType" class="w220">
+	              <option value=''>-请选择-</option>
+	              <c:forEach items="${businessType}" var="list">
+	              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+	              </c:forEach>
+	            </select>
+	          </li>
              <li>
                <label class="fl">供应商类型：</label><span><input id="supplierType" class="w220" type="text" readonly name="supplierType" value="${supplierType }" onclick="showSupplierType();" />
                 <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
              </li>
-             <li>
+             <%-- <li>
                <label class="fl">品目：</label><span> <input id="category" class="span2 mt5" type="text" readonly name="categoryNames" value="${categoryNames }" onclick="showCategory();" />
                <input   type="hidden" name="categoryIds"  id="categoryIds" value="${categoryIds }"   /></span>
-             </li>
+             </li> --%>
              <!-- <li>
            	   <label class="fl">供应商级别：</label>
            		 <span>
@@ -445,6 +459,19 @@
 	               </select>
            		 </span>
          		 </li> -->
+        		 <li>
+							<label class="fl">供应商状态：</label>
+							<select id="status" name="status" class="w220">
+								<option  value=''>-请选择-</option>
+								<option value="1">审核通过</option>
+								<option value="4">待复核</option>
+								<option value="5">复核通过</option>
+								<option value="6">复核未通过</option>
+								<option value="7">待考察</option>
+								<option value="8">考察合格</option>
+								<option value="9">考察不合格</option>
+							</select>
+						 </li>
              <li>
                <label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w100" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 	               <span class="f14 fl">至</span>
@@ -460,29 +487,8 @@
 		     </form>
 		  </h2>
 		  <div class="col-md-12 tc">
-				<button class="btn" onclick="listShow()" id="listBut">切换到列表</button>
-				<button class="btn dnone" onclick="mapShow()" id="mapBut">切换到地图</button>
+				<a href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?judge=5&sign=2" class="btn">切换到列表</a>
 			</div>
-			<div class="content table_box dnone" id="showList">
-			<table class="table table-bordered  table-condensed table-hover">
-				<thead>
-					<tr>
-						<th class="info w50">序号</th>
-						<th class="info">地区</th>
-						<th class="info">数量</th>
-					</tr>
-				</thead>
-				<tbody id="finance_attach_list_tbody_id">
-					<c:forEach items="${listMap}" var="list" varStatus="vs">
-						<tr>
-							<td class="tc w50">${vs.index + 1}</td>
-							<td class="tc"><a href="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=${list.name }">${list.name }</a></td>
-							<td class="tc">${list.value}</td>
-						</tr>
-					</c:forEach>
-				</tbody>
-			</table>
-		</div>
 		</div>
 		<div id="container" style="height: 700px;min-width: 310px;margin: 0 auto;width: 800px;"></div>
 	</body>

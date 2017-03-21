@@ -200,6 +200,11 @@ public class SupplierQueryController extends BaseSupplierController {
             sup.setItemType(listSupplierTypeIds);
         }
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, null);
+        
+        //企业性质
+  		List < DictionaryData > businessType = DictionaryDataUtil.find(17);
+  		model.addAttribute("businessType", businessType);
+        
         //开始循环 判断地址是否
         Map<String, Integer> map = supplierEditService.getMap();
         Integer maxCount = 0;
@@ -285,6 +290,15 @@ public class SupplierQueryController extends BaseSupplierController {
             List<String> listSupplierTypeIds = Arrays.asList(supplierTypeIds.split(","));
             sup.setItemType(listSupplierTypeIds);
         }
+        
+        //地区
+        List < Area > privnce = areaService.findRootArea();
+        model.addAttribute("privnce", privnce);
+		
+        //企业性质
+  		List < DictionaryData > businessType = DictionaryDataUtil.find(17);
+  		 model.addAttribute("businessType", businessType);
+        
         List<Supplier>  listSupplier = supplierAuditService.querySupplierbytypeAndCategoryIds(sup, page == null ? 1 : page);
         this.getSupplierType(listSupplier);
         model.addAttribute("listSupplier", new PageInfo<>(listSupplier));

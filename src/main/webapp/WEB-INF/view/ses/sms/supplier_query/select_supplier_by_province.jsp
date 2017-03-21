@@ -41,12 +41,13 @@
 				$("#startDate").val('');
 				$("#endDate").val('');
 				$("#contactName").val('');
-				$("option")[0].selected = true;
 				$("#categoryIds").val('');
 				$("#supplierTypeIds").val('');
 				$("#category").val('');
-				$("option")[0].selected = true;
 				$("#supplierType").val('');
+				$("#status option:selected").removeAttr("selected");
+				$("#address option:selected").removeAttr("selected");
+				$("#businessType option:selected").removeAttr("selected");
 				/* var address = '${address}';
 				address = encodeURI(address);
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + address; */
@@ -396,7 +397,9 @@
 			</div>
 			<h2 class="search_detail">
 	      <form id="form1" action="${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?sign=${sign}" method="post" class="mb0">
-	      	<input type="hidden" name="address" value="${address }">
+	      	<c:if test="${sign != 1 }">
+	      		<input type="hidden" name="address" value="${address }">
+	      	</c:if>
 	        <input type="hidden" name="page" id="page">
 	        <ul class="demand_list">
 	        	<li>
@@ -416,6 +419,15 @@
               <label class="fl">供应商类型：</label><span><input  class="w220" id="supplierType" class="span2 mt5" type="text" name="supplierType"  readonly value="${supplierType }" onclick="showSupplierType();" />
               <input   type="hidden" name="supplierTypeIds"  id="supplierTypeIds" value="${supplierTypeIds }" /></span>
             </li>
+            <li>
+            	<label class="fl">企业性质:</label>
+	            <select name="businessType" id="businessType" class="w220">
+	              <option value=''>-请选择-</option>
+	              <c:forEach items="${businessType}" var="list">
+	              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
+	              </c:forEach>
+	            </select>
+         	  </li>
 	          <li>
               <label class="fl">供应商状态:</label>
               <span>
@@ -452,7 +464,17 @@
 			            </select>
 			       	 </span>
 	      		</li> -->
-	      		
+	      		<c:if test ="${sign == 1 }">
+            	<li>
+	            	<label class="fl">地区:</label>
+		            <select name="address" id="address" class="w220">
+		              <option value=''>-请选择-</option>
+		              <c:forEach items="${privnce}" var="list">
+		              	<option <c:if test="${supplier.address eq list.name }">selected</c:if> value="${list.name }">${list.name }</option>
+		              </c:forEach>
+		            </select>
+		          </li>
+            </c:if>
 	      		<li>
 	          	<label class="fl">注册时间：</label><span><input id="startDate" name="startDate" class="Wdate w110 fl" type="text"  value='<fmt:formatDate value="${supplier.startDate }" pattern="YYYY-MM-dd"/>' onFocus="var endDate=$dp.$('endDate');WdatePicker({onpicked:function(){endDate.focus();},maxDate:'#F{$dp.$D(\'endDate\')}'})"/>
 	            <span class="f14">至</span>
