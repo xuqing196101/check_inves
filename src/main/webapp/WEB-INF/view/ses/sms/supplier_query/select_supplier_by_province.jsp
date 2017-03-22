@@ -308,12 +308,15 @@
 		//撤销
    	function cancellation(){
    		var id;
+   		var str;
 			$('input[name="chkItem"]:checked').each(function(){ 
 				str = $(this).val();
+				id = str.split(",");
 			});
 			/* var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim(); */
-			id = str.split(",");
+			
    		if(id != null){
+   			
    			if(id[1] == "0" || id[1] == "2"){
    			layer.confirm('您确定要注销吗?', {title:'提示！',offset: ['200px']}, function(index){
    	 			layer.close(index);
@@ -342,7 +345,7 @@
    	}
    	
    		//禁用F12键及右键
-  		function click(e) {
+  		 function click(e) {
 			if (document.layers) {
 					if (e.which == 3) {
 					oncontextmenu='return false';
@@ -527,7 +530,7 @@
 								<td class="tc w30"><input type="radio" value="${list.id },${list.status}" name="chkItem"  id="${list.id}"></td>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
-									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}">${list.supplierName }</a>
+									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
 								</td>
 								<td class="">${list.contactName }</td>
 								<%-- <td class="tc">${list.level }</td> --%>

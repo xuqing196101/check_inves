@@ -175,7 +175,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @param sup 供应商实体类
      * @param model 模型
      * @param status 状态
-     * @param judge 判断是哪个菜单 供应商查询0 入库供应商2 按照品目查询供应商2
+     * @param judge 判断是哪个菜单 供应商查询null 入库供应商5
      * @param supplierTypeIds 供应商类型ID组成的字符串
      * @param supplierType 供应商类型名称组成的字符串
      * @param categoryNames 品目名称组成的字符串
@@ -249,7 +249,6 @@ public class SupplierQueryController extends BaseSupplierController {
      *〈简述〉点击地图进入某一个省
      *〈详细描述〉
      * @author Song Biaowei
-     * @param judge 判断是哪个菜单 供应商查询0 入库供应商2 按照品目查询供应商2
      * @param sup 供应商实体类
      * @param page 当前页
      * @param model 模型
@@ -257,6 +256,8 @@ public class SupplierQueryController extends BaseSupplierController {
      * @param supplierType 供应商类型名称组成的字符串
      * @param categoryNames 品目名称组成的字符串
      * @param categoryIds 品目ID组成的字符串
+     * @param sign 1：进入全部供应商列表，2：进入全部入库供应商列表，
+     * @param judge null：进入全部供应商地图，5：进入全部入库供应商地图
      * @return String
      * @throws UnsupportedEncodingException 异常处理
      */
@@ -309,7 +310,7 @@ public class SupplierQueryController extends BaseSupplierController {
         model.addAttribute("categoryIds", categoryIds);
         model.addAttribute("judge", judge);
         //judge等于5说明是入库供应商
-        if (judge != null && judge == NUMBER_FIVE) {
+        if ((judge != null && judge == NUMBER_FIVE) || (sign != null && sign == 2)) {
         	if(sign !=null && sign == 2){
         		model.addAttribute("sign", 2);
         	}
@@ -333,7 +334,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/selectByCategory")
-    public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model, Integer judge) {
+    public String selectByCategory(Supplier sup, Integer page, String categoryIds, Model model) {
         if (categoryIds != null && !"".equals(categoryIds)) {
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);
@@ -368,7 +369,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/essential")
-    public String essentialInformation(HttpServletRequest request, Integer judge, Supplier supplier, String supplierId, Integer person, Model model) {
+    public String essentialInformation(HttpServletRequest request, Integer judge, Integer sign, Supplier supplier, String supplierId, Integer person, Model model) {
         /*User user = (User) request.getSession().getAttribute("loginUser");
         Integer ps = (Integer) request.getSession().getAttribute("ps");
         if (user.getTypeId() != null && ps != null) {
@@ -450,6 +451,7 @@ public class SupplierQueryController extends BaseSupplierController {
             model.addAttribute("category", 1);
         }*/
         model.addAttribute("judge", judge);
+        model.addAttribute("sign", sign);
         
        /* model.addAttribute("person", person);*/
         
@@ -470,7 +472,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/financial")
-    public String financialInformation(HttpServletRequest request, Integer judge, SupplierFinance supplierFinance, Supplier supplier) {
+    public String financialInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierFinance supplierFinance, Supplier supplier) {
         String supplierId = supplierFinance.getSupplierId();
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
@@ -507,6 +509,7 @@ public class SupplierQueryController extends BaseSupplierController {
         getSupplierType(supplier);
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
+        request.setAttribute("sign", sign);
         return "ses/sms/supplier_query/supplierInfo/financial";
     }
     
@@ -519,7 +522,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/shareholder")
-    public String shareholderInformation(HttpServletRequest request, Integer judge, SupplierStockholder supplierStockholder) {
+    public String shareholderInformation(HttpServletRequest request, Integer judge, Integer sign, SupplierStockholder supplierStockholder) {
         String supplierId = supplierStockholder.getSupplierId();
         List<SupplierStockholder> list = supplierAuditService.ShareholderBySupplierId(supplierId);
         request.setAttribute("supplierId", supplierId);
@@ -543,6 +546,7 @@ public class SupplierQueryController extends BaseSupplierController {
         getSupplierType(supplier);
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
+        request.setAttribute("sign", sign);
         return "ses/sms/supplier_query/supplierInfo/shareholder";
     }
 
@@ -725,7 +729,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/item")
-    public String item(String supplierId, Integer judge, Model model, HttpServletRequest request) {
+    public String item(String supplierId, Integer judge, Model model, Integer sign,  HttpServletRequest request) {
         //勾选的供应商类型
         String supplierTypeName = supplierAuditService.findSupplierTypeNameBySupplierId(supplierId);
         request.setAttribute("supplierTypeNames", supplierTypeName);
@@ -748,6 +752,7 @@ public class SupplierQueryController extends BaseSupplierController {
             e.printStackTrace();
         }
         request.setAttribute("judge", judge);
+        request.setAttribute("sign", sign);
         request.setAttribute("currSupplier", supplier);
         return "ses/sms/supplier_query/supplierInfo/item";
     }
@@ -859,7 +864,7 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping(value = "aptitude")
-    public String aptitude(Model model, Integer judge, String supplierId, Integer supplierStatus) {
+    public String aptitude(Model model, Integer judge, Integer sign, String supplierId, Integer supplierStatus) {
 		String supplierTypeIds = supplierTypeRelateService.findBySupplier(supplierId);
 
 		//勾选的供应商类型
@@ -1018,6 +1023,7 @@ public class SupplierQueryController extends BaseSupplierController {
             e.printStackTrace();
         }
         model.addAttribute("judge", judge);
+        model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
 		
        return "ses/sms/supplier_query/supplierInfo/aptitude";
@@ -1476,7 +1482,7 @@ public class SupplierQueryController extends BaseSupplierController {
 	 * @return String
 	 */
 	@RequestMapping(value = "/contract")
-	public String contractUp(String supplierId, Model model, Integer judge) {
+	public String contractUp(String supplierId, Model model, Integer judge, Integer sign) {
 		List < SupplierTypeRelate > typeIds = supplierTypeRelateService.queryBySupplier(supplierId);
 		String supplierTypeIds = "";
 		for(SupplierTypeRelate s: typeIds) {
@@ -1502,6 +1508,7 @@ public class SupplierQueryController extends BaseSupplierController {
             e.printStackTrace();
         }
         model.addAttribute("judge", judge);
+        model.addAttribute("sign", sign);
         model.addAttribute("suppliers", supplier);
 		return "ses/sms/supplier_query/supplierInfo/contract";
 	}
@@ -1607,7 +1614,7 @@ public class SupplierQueryController extends BaseSupplierController {
        }
        
     @RequestMapping("supplierType")
-   	public String supplierType(HttpServletRequest request, Integer judge, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
+   	public String supplierType(HttpServletRequest request, Integer judge, Integer sign, SupplierMatSell supplierMatSell, SupplierMatPro supplierMatPro, SupplierMatEng supplierMatEng, SupplierMatServe supplierMatSe, String supplierId, Integer supplierStatus) {
    		request.setAttribute("supplierStatus", supplierStatus);
    		
    		//勾选的供应商类型
@@ -1779,7 +1786,7 @@ public class SupplierQueryController extends BaseSupplierController {
         }
         request.setAttribute("suppliers", supplier);
         request.setAttribute("judge", judge);
-        
+        request.setAttribute("sign", sign);
    		return "ses/sms/supplier_query/supplierInfo/supplierType";
    	}
        
