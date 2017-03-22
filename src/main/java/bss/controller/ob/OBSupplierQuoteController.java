@@ -237,7 +237,7 @@ public class OBSupplierQuoteController {
 			HttpServletRequest request) throws ParseException{
 		String acceptNum = request.getParameter("acceptNum");
 		int updateNum = 0;//定义接受的数字
-		SimpleDateFormat sdf = new SimpleDateFormat();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		//获取页面传过来的时间（这个时间点并不准确到实际操作，只是根据前面竞价开始时间加上规则计算出来的）
 		String confirmStarttime = request.getParameter("confirmStarttime");//确认开始字符串
 		Date cs = sdf.parse(confirmStarttime);//new Date(confirmStarttime)这个过时了
@@ -247,11 +247,11 @@ public class OBSupplierQuoteController {
 		Date so = sdf.parse(secondOvertime);
 		//获取当前的时间
 		Date currentDate = new Date();
-		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() > co.getTime()) {
+		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() < co.getTime()) {
 			//在第一轮中间
 			//调用service层的修改
 			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
-		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() > so.getTime()) {
+		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() < so.getTime()) {
 			//在第二轮中间
 			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
 		} else if(currentDate.getTime() >= so.getTime()) {

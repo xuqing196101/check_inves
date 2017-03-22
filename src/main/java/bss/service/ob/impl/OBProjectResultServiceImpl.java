@@ -146,7 +146,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		if(confirmInfoVo != null) {
 			//根据confirmStatus当前的状态进行查询显示的是第一轮还是第二轮
 			List<BidProductVo> productList = null;
-			if("1".equals(confirmStatus)) {
+			if("-1".equals(confirmStatus)) {
 				productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
 			} else if("0".equals(confirmStatus)) {
 				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
@@ -154,11 +154,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
 			GregorianCalendar gc = new GregorianCalendar();
 			gc.setTime(confirmInfoVo.getConfirmOvertime());
-			gc.add(Calendar.HOUR, confirmInfoVo.getQuoteTime().intValue());
+			gc.add(Calendar.MINUTE, confirmInfoVo.getQuoteTime().intValue());
 			confirmInfoVo.setConfirmStarttime(gc.getTime());
-			gc.add(Calendar.HOUR, confirmInfoVo.getConfirmTime().intValue());
+			gc.add(Calendar.MINUTE, confirmInfoVo.getConfirmTime().intValue());
 			confirmInfoVo.setConfirmOvertime(gc.getTime());
-			gc.add(Calendar.HOUR, confirmInfoVo.getConfirmTimeSecond().intValue());
+			gc.add(Calendar.MINUTE, confirmInfoVo.getConfirmTimeSecond().intValue());
 			confirmInfoVo.setSecondOvertime(gc.getTime());
 			
 			confirmInfoVo.setBidProductList(productList);
