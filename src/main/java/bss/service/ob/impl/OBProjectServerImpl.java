@@ -311,6 +311,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 			obProject.setStatus(0);
 		}
 		String verify=verifyProduct(obProject.getProductName(), obProject.getTradedSupplierCount());
+		if(verify==null){
+			attribute = "buttonErr";
+			show = "竞价产品有误";
+			return toJsonProject(attribute, show);
+		}
 		//验证 产品 信息 
 		if(!verify.equals("success")){
 			return verify;
@@ -507,7 +512,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 						.replace("-", ""));
 				supplier.setCreatedAt(new Date());
 				supplier.setProjectId(uuid);
-				supplier.setSupplierPrimaryId(obProject.getSuppliePrimaryId()[j]);
 				if (i == 1) {
 					supplier.setUpdatedAt(new Date());
 				}
@@ -902,6 +906,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			List<String> productID) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", productID);
+		map.put("count", productID.size());
 		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 

@@ -148,10 +148,6 @@ public class OBProject {
      * 选中的供应商id
      */
     private String [] supplieId;
-    /**
-     * 定型产品供应商表主键
-     */
-    private String [] suppliePrimaryId; 
     //成交供应商 数量
     private Integer closingSupplier;
     //合格供应商数量
@@ -161,13 +157,6 @@ public class OBProject {
     private Date quoteEndTime;
   
    
-	public String[] getSuppliePrimaryId() {
-		return suppliePrimaryId;
-	}
-
-	public void setSuppliePrimaryId(String[] suppliePrimaryId) {
-		this.suppliePrimaryId = suppliePrimaryId;
-	}
 
 	public String[] getSupplieId() {
 		return supplieId;

@@ -28,6 +28,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -387,20 +388,19 @@ public class OBProjectController {
 	 * @throws Exception
 	 */
 	@RequestMapping("unionSupplier")
-	public void unionSupplier(HttpServletRequest request, HttpServletResponse response,List<String> productid) throws IOException{
-		try {
-			System.out.println(productid.size());
-			if(productid!=null&&productid.size()>0){
-			List<OBSupplier> list = OBProjectServer.selecUniontSupplier(productid);
-			response.getWriter().print(JSON.toJSONString(list).toString());
-			response.getWriter().flush();
+	@ResponseBody
+	public String unionSupplier(HttpServletRequest request, HttpServletResponse response,String productid){
+			List<OBSupplier> getlist=null;
+			 if(productid!=null && productid!=""){
+				 productid=productid.substring(0,productid.length()-1);
+				 String plist[]=productid.split(",");
+				 List<String> list=new ArrayList<>();
+				 for(String item:plist){
+					 list.add(item);
+				 }
+				 getlist= OBProjectServer.selecUniontSupplier(list);
 			}
-		} catch (IOException e) {
-			e.printStackTrace();
-		} finally {
-			response.getWriter().close();
-		}
-		
+			 return JSON.toJSONString(getlist);
 	}
 	
 	/** @Description: 竞价管理更新

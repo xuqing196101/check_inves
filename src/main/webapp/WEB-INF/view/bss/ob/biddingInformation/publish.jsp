@@ -134,8 +134,8 @@
 	//根据定型产品更新 
 	function changSelectCount(){
 	 if(productList){
-	 	changSupplier();
-	 	//gysCount();
+	 	//changSupplier();
+	 	gysCount();
 	  }else{
 	   $("#gys_count").text(0);
 	  }
@@ -545,29 +545,51 @@
 	}
 	// 动态获取供应商 数量
 	function gysCount(){
-	  var ds=[];
+	  var productid=[];
 	    //获取选中全部的产品id
 	   $('*[name="productName"]').each(function(){
 			if($(this).val()){
-		      ds.push($(this).val());
+		      productid.push($(this).val());
 			  }
 		  });
-		  if(ds.length>0){
+		  
+		  if(productid.length>0){
 		     var temp="";
-            for(var i=0;i<ds.length;i++) { 
-             temp=temp+ds[i]+",";
+            for(var i=0;i<productid.length;i++) { 
+             temp=temp+productid[i]+",";
            }
-	    if(tradedCount){
+	    if(productid){
            $.ajax({
 				url: "${pageContext.request.contextPath }/ob_project/unionSupplier.do",
 				type: "POST",
-				data: {productid: temp},
+				data: {productid:temp},
 				success: function(data) {
-				 $("#gys_count").text(data);
+				 itemDate(data);
 		      }
            });
 		 }
      }
+	}
+	function itemDate(data){
+	data=eval(data);
+	 var list=[];
+	    if(data){
+	  //便利选中产品 获取选中产品集合
+		   	$.each(data, function(i, user) {
+		   	   if(user.supplierId){
+		   	     list.push(user.supplierId);
+		   	   }
+		     });
+      //去重复
+              for(var i = 0; i < list.length-1; i++){    //从数组第二项开始循环遍历此数组  
+                if(supplielist.indexOf(list[i]) == -1){  
+                    supplielist.push(list[i]);  
+                  }
+                }  
+   		  $("#gys_count").text(supplielist.length);
+   		  }else{
+   		  $("#gys_count").text(0);
+   		  }
 	}
 </script>
 </head>
