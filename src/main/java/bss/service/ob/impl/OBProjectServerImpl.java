@@ -327,11 +327,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 		    return toJsonProject("attribute", show);
 		 }
 		
-		 if(CheckUtil.isArrayString(obProject.getSupplieId())){
-			 show = "竞价产品有误";
-			return toJsonProject("attribute", show);
-		}
-		
 		// 获取间隔日
 		int intervalWorkday = obr.getIntervalWorkday();
 		// 获取竞价开始 时间忽略年月日
@@ -372,7 +367,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
-		obProject.setCreatedAt(new Date());
+		obProject.setCreatedAt(date);
 		obProject.setCreaterId(userid);
 		obProject.setStartTime(startdate);
 		obProject.setEndTime(endDate);
@@ -383,14 +378,16 @@ public class OBProjectServerImpl implements OBProjectServer {
 			// 组合 集合
 			list = splitList(list, obProject, userid);
 			for (OBProductInfo b : list) {
-				OBProductInfoMapper.deleteByPrimaryKey(b.getId());
+				b.setUpdatedAt(date);
 				OBProductInfoMapper.updateByPrimaryKeySelective(b);
 			}
+			//删除关系
 			OBProjectSupplierMapper.deleteByProjectId(obProject.getId());
-			// 保存关系数据
-			addSupplier(obProject, uuid, 1);
+			// 更新关系数据
+			addSupplier(obProject,uuid, 1);
 			if (obProject.getStatus() == 1) {
-				OBRuleMapper.updateCount(obProject.getRuleId());
+				//如果发布 更新规则数量 时间
+				OBRuleMapper.updateCount(obProject.getRuleId(),date);
 			}
 		} else {
 			obProject.setId(uuid);
@@ -402,9 +399,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 					OBProductInfoMapper.insertSelective(b);
 				}
 				// 保存关系数据
-				addSupplier(obProject, uuid, 0);
+				addSupplier(obProject,uuid, 0);
 				if (obProject.getStatus() == 1) {
-					OBRuleMapper.updateCount(obProject.getRuleId());
+					//如果发布 更新规则数量 时间
+					OBRuleMapper.updateCount(obProject.getRuleId(),date);
 				}
 			}
 		}
@@ -438,51 +436,22 @@ public class OBProjectServerImpl implements OBProjectServer {
     	 //嵌套 便利判断产品集合
     	 for (int i = 0; i < productList.size(); i++) {
     		 abroad=productList.get(i);
-    		 //等级
-    		 Integer level=abroad.getProductCategoryLevel();
-    		 if(level==null){
-    			 level=-1;
+    		 //目录id
+    		 String catalogA=abroad.getSmallPointsId();
+    		 if(catalogA ==null || catalogA==""){
+    			 catalogA="1";
     		 }
-    		 //小类
-    		 String small=abroad.getCategoryId();
-    		 //中类
-    		 String in=abroad.getCategoryMiddleId();
-    		 //大类
-    		 String big=abroad.getCategoryBigId();
     		  for (int j = 0; j < productList.size(); j++) {
     			  within=productList.get(j);
-				// 等级
-				Integer levelw = within.getProductCategoryLevel();
-				if (levelw == null) {
-					levelw = -1;
-				}
-				// 小类
-				String smallw = within.getCategoryId();
-				// 中类
-				String inw = within.getCategoryMiddleId();
-				// 大类
-				String bigw = within.getCategoryBigId();
+    			  //目录id
+    	         String catalogW=within.getSmallPointsId();
+    	         if(catalogW ==null || catalogW==""){
+    	        	 catalogW="2";
+        		 }
     			  //循环判断 排除本身
 				if(j!=i){
-					 //首先判断产品的等级是否相同
-					if(level==levelw){
-						//如果等级相等 判断小类
-						if(smallw.equals(small)){
-							//如果小类相等 判断中类
-							if(in.equals(inw)){
-								//如果小类相等 判断大类
-								if(big.equals(bigw)){
-									
-								 return "success";	
-								}else{
-								return toJsonProject("catalog", abroad.getId());
-								}
-							}else{
-								return toJsonProject("catalog", abroad.getId());
-							}
-						}else{
-							return toJsonProject("catalog", abroad.getId());
-						}
+					if(catalogA.equals(catalogW)){
+						 return "success";
 					}else{
 						return toJsonProject("catalog", abroad.getId());
 					}
@@ -501,11 +470,24 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * @param i类型区分
 	 *            是否插入更新 时间
 	 */
-	private void addSupplier(OBProject obProject, String uuid, int i) {
-		if (obProject.getSupplieId() != null) {
+	private void addSupplier(OBProject obProject,String uuid, int i) {
 			OBProjectSupplier supplier = null;
-			String[] list = obProject.getSupplieId();
-			for (int j = 0; j < list.length; j++) {
+			Map<String,Object> map=new HashMap<String, Object>();
+			map.put("list", obProject.getProductName());
+			List<OBSupplier> supList= OBSupplierMapper.selectSupplierByID(map);
+			   for(OBSupplier os:supList){
+				   supplier = new OBProjectSupplier();
+					supplier.setId(UUID.randomUUID().toString().toUpperCase()
+							.replace("-", ""));
+					supplier.setCreatedAt(new Date());
+					supplier.setProjectId(uuid);
+					if (i == 1) {
+						supplier.setUpdatedAt(new Date());
+					}
+					supplier.setSupplierId(os.getSupplierId());
+					OBProjectSupplierMapper.insertSelective(supplier);
+			   }
+			/*for (int j = 0; j < list.length; j++) {
 				supplier = new OBProjectSupplier();
 				supplier.setId(UUID.randomUUID().toString().toUpperCase()
 						.replace("-", ""));
@@ -516,8 +498,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 				supplier.setSupplierId(list[j]);
 				OBProjectSupplierMapper.insertSelective(supplier);
-			}
-		}
+			}*/
 	}
 
 	/**
@@ -649,8 +630,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
-					// 获取 成交供应商 数量
-					Integer closingSupplier = OBProjectResultMapper.countByStatus(obp.getId());
+					// 获取 中标供应商 数量
+					Integer closingSupplier = OBProjectResultMapper.countProportion(obp.getId());
 					obp.setProductName(pidList);
 					if(closingSupplier==null){
 						closingSupplier=0;
@@ -917,6 +898,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			List<String> productID) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", productID);
+		map.put("count", productID.size());
 		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 

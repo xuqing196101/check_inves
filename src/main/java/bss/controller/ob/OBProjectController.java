@@ -9,12 +9,16 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
+import net.sf.json.JSONObject;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -67,6 +71,7 @@ import com.google.gson.Gson;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
+import common.utils.JdcgResult;
 
 /**
  * 竞价信息管理控制
@@ -389,8 +394,9 @@ public class OBProjectController {
 	 */
 	@RequestMapping("unionSupplier")
 	@ResponseBody
-	public String unionSupplier(HttpServletRequest request, HttpServletResponse response,String productid){
+	public JdcgResult unionSupplier(HttpServletRequest request, HttpServletResponse response,String productid){
 			List<OBSupplier> getlist=null;
+			JdcgResult jdcg=new JdcgResult();
 			 if(productid!=null && productid!=""){
 				 productid=productid.substring(0,productid.length()-1);
 				 String plist[]=productid.split(",");
@@ -399,8 +405,20 @@ public class OBProjectController {
 					 list.add(item);
 				 }
 				 getlist= OBProjectServer.selecUniontSupplier(list);
+				 if(getlist!=null && getlist.size()>0){
+					 if(getlist.get(0).getSupplierId()=="" ||getlist.get(0).getSupplierId() ==null){
+						 jdcg.setCount("0");
+					 }else{
+						 jdcg.setCount(getlist.get(0).getSupplierId());
+					 }
+					 if(getlist.get(0).getSupplierId()=="" ||getlist.get(0).getSupplierId() ==null){
+						 jdcg.setSum("0");
+					 }else{
+						 jdcg.setSum(getlist.size()+"");
+					 }
 			}
-			 return JSON.toJSONString(getlist);
+				 }
+			 return jdcg;
 	}
 	
 	/** @Description: 编辑暂存的竞价信息

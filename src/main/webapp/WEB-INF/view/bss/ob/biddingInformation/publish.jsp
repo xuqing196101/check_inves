@@ -10,7 +10,8 @@
 	<title>发布竞价信息页面</title>
 <script type="text/javascript">
 	  var number=10000001;
-	
+	  //选择数量
+	  var suppCount=0;
 	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("productId");
@@ -479,7 +480,17 @@
 		    show("提供当前产品的供应商不能少于"+supplierCount+"家");
 				return;
 		 }
-		  
+		 var productid=[];
+	    //获取选中全部的产品id
+	   $('*[name="productName"]').each(function(){
+			if($(this).val()){
+		      productid.push($(this).val());
+			  }
+		  });
+		  if(productid.length!=suppCount){
+   		 	 show("提供当前产品的供应商不能少于"+supplierCount+"家");
+		     return;
+		   }
 		  exec(status);
 			
 	}
@@ -490,7 +501,7 @@
 				offset : [ '45%', '53%' ]
 			});
 			$("#status").val(status);
-				$("#supplieId").val(supplielist);
+			  //$("#supplieId").val(supplielist);
 			         $.post("${pageContext.request.contextPath}/ob_project/addProject.html",
 							$("#myForm").serialize(),
 							function(data) {
@@ -564,32 +575,22 @@
 				type: "POST",
 				data: {productid:temp},
 				success: function(data) {
-				 itemDate(data);
+				if(data){
+				 if(data){
+   		 	    suppCount=data.sum;
+				 if(productid.length==suppCount){
+   		 	    $("#gys_count").text(data.count);
+				 }else{
+				 $("#gys_count").text(0);
+				 }
+   		 	     }else{
+   		 	      $("#gys_count").text(0);
+   		 	     }
+				}
 		      }
            });
 		 }
      }
-	}
-	function itemDate(data){
-	data=eval(data);
-	 var list=[];
-	    if(data){
-	  //便利选中产品 获取选中产品集合
-		   	$.each(data, function(i, user) {
-		   	   if(user.supplierId){
-		   	     list.push(user.supplierId);
-		   	   }
-		     });
-      //去重复
-              for(var i = 0; i < list.length-1; i++){    //从数组第二项开始循环遍历此数组  
-                if(supplielist.indexOf(list[i]) == -1){  
-                    supplielist.push(list[i]);  
-                  }
-                }  
-   		  $("#gys_count").text(supplielist.length);
-   		  }else{
-   		  $("#gys_count").text(0);
-   		  }
 	}
 </script>
 </head>
@@ -612,7 +613,7 @@
   <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}">
   <input type="hidden" id="id" name="id" value="${list.id}">
   <input type="hidden" id="ruleId" name="ruleId" value="${ruleId}">
-  <input type="hidden" id="supplieId" name="supplieId" >
+  <!-- <input type="hidden" id="supplieId" name="supplieId" > -->
   <input type="hidden" id="suppliePrimaryId" name="suppliePrimaryId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">

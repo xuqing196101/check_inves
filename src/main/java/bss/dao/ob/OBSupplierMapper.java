@@ -160,6 +160,14 @@ public interface OBSupplierMapper {
 	 */
 	List<OBSupplier> selectSupplierDate(Map<String,Object> map);
 	/**
+	 * 查询产品 查询供应商 信息
+	 * @author YangHongliang
+	 * @param map
+	 * @return
+	 */
+	List<OBSupplier> selectSupplierByID(Map<String,Object> map);
+	
+	/**
 	 * 获取注册的有效供应商 数量
 	 * @author YangHongliang
 	 * @return

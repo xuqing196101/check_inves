@@ -140,7 +140,7 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectInId" parameterType="java.util.List" resultMap="BaseResultMap">
+  <select id="selectInId" parameterType="java.util.List" resultMap="BaseResultSignalMap">
    select 
     <include refid="Base_Column_List" />
     from T_BSS_OB_PRODUCT
