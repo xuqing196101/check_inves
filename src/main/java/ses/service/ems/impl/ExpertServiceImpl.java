@@ -902,8 +902,9 @@ public class ExpertServiceImpl implements ExpertService {
      * @see ses.service.ems.ExpertService#getCommitExpertByDate(java.lang.String)
      */
     @Override
-    public List<Expert> getCommitExpertByDate(String createDate) {
-        return mapper.getCommitExpertByDate(createDate);
+
+    public List<Expert> getCommitExpertByDate(String startDate,String endDate) {
+        return mapper.getCommitExpertByDate(startDate,endDate);
     }
 
     /**

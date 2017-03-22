@@ -4,6 +4,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpExtCondition;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertHistory;
@@ -179,7 +181,7 @@ public interface ExpertMapper {
      * @param createDate 创建日期
      * @return 专家集合
      */
-    List<Expert> getCommitExpertByDate(String createDate);
+    List<Expert> getCommitExpertByDate(@Param("startDate")String startDate,@Param("endDate")String endDate);
     
 
     /**

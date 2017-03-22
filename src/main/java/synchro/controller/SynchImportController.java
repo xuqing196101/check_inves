@@ -20,6 +20,7 @@ import ses.model.bms.DictionaryData;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
+import synchro.inner.read.expert.InnerExpertService;
 import synchro.inner.read.supplier.InnerSupplierService;
 import synchro.model.SynchRecord;
 import synchro.outer.read.att.OuterAttachService;
@@ -66,7 +67,9 @@ public class SynchImportController {
     
     @Autowired
     private SupplierService supplierService;
-    
+   
+    @Autowired
+    private InnerExpertService innerExpertService;
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
     
@@ -167,11 +170,9 @@ public class SynchImportController {
                 }
                 for (File f : files){
                     if (f.getName().contains(FileUtils.C_SUPPLIER_FILENAME)){
-                     
                     	Date date = supplierService.addDate(new Date(), 3, -1);
                     	SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
                     	String format = sdf.format(date);
-                    	
                      	String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.supplier.system.path")+"/"+format;
                      	String newPath = PropUtil.getProperty("file.sync.base")+"/"+format;
                      	FileUtil.copyFolder(path, newPath);
@@ -179,6 +180,28 @@ public class SynchImportController {
                     	
                     }
                     if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
+                        attachService.importAttach(f);
+                    }
+                    if (f.isDirectory()){
+                        if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
+                            OperAttachment.moveFolder(f);
+                        }
+                    }
+                }
+            } 
+        }else  if(synchType.equals(Constant.DATA_TYPE_EXPERT_CODE)){
+        	if (file != null && file.exists()){
+                File [] files = file.listFiles();
+                if(files.length<1){
+                	bean.setSuccess(false);
+                    return bean;
+                }
+                for (File f : files){
+                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
+                    	innerExpertService.readNewExpertInfo(f);
+                    	
+                    }
+                    if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
                         attachService.importAttach(f);
                     }
                     if (f.isDirectory()){

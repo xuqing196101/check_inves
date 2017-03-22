@@ -48,6 +48,8 @@ public class Constant {
     /** 新提交专家描述 **/
     public final static String NEW_COMMIT_EXPERT = "新提交专家数量:";
     
+    public final static String DATA_TYPE_EXPERT_CODE = "SYNCH_EXPERT";
+    
     /** 修改专家描述 **/
     public final static String MODIFY_COMMIT_EXPERT = "修改专家数量:";
     

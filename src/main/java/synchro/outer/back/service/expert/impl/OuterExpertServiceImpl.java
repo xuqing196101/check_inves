@@ -1,6 +1,7 @@
 package synchro.outer.back.service.expert.impl;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -60,8 +61,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      * @see synchro.outer.back.service.supplier.OuterReadExpertService#backupCreated()
      */
     @Override
-    public void backupCreated() {
-        getCreatedData();
+    public void backupCreated(String startTime, String endTime) {
+        getCreatedData(startTime,  endTime);
     }
     
     /**
@@ -116,8 +117,8 @@ public class OuterExpertServiceImpl implements OuterExpertService {
      *〈详细描述〉
      * @author WangHuijie
      */
-    public void getCreatedData() {
-        List<Expert> expertList = expertService.getCommitExpertByDate(DateUtils.getYesterDay());
+    public void getCreatedData(String startTime, String endTime) {
+        List<Expert> expertList = expertService.getCommitExpertByDate(startTime,endTime);
         List<Expert> list = getNewExpertList(expertList);
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewExpertBackUpFile(),JSON.toJSONString(list));

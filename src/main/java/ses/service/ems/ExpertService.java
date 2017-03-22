@@ -360,7 +360,7 @@ public interface ExpertService {
      * @param createDate 创建日期
      * @return 专家集合
      */
-    List<Expert> getCommitExpertByDate(String createDate);
+    List<Expert> getCommitExpertByDate(String startDate,String endDate);
     
     /**
      *〈简述〉根据修改日期获取修改了的专家信息
