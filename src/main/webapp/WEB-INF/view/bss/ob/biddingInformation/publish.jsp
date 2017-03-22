@@ -58,7 +58,7 @@
 				$('input[name="productId"]:checked').each(function(){ 
 		       $(this).parent().parent().remove(); 
 		       });
-		       changGYSCount();
+		       changSupplier();
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
@@ -135,7 +135,7 @@
 	function changSelectCount(){
 	 if(productList){
 	 	changSupplier();
-	 	
+	 	//gysCount();
 	  }else{
 	   $("#gys_count").text(0);
 	  }
@@ -480,11 +480,11 @@
 				return;
 		 }
 		  
-		  exec();
+		  exec(status);
 			
 	}
     /**执行 */
-    function exec(){
+    function exec(status){
     var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]
@@ -527,19 +527,46 @@
 			offset : [ '30%', '40%' ]
 		});
 	}
+	//动态改变 比例
 	function tradedCount(){
-	var tradedCount=$("#tradedSupplierCount").val();
-	if(tradedCount){
+	var count=$("#tradedSupplierCount").val();
+	if(count){
       $.ajax({
 				url: "${pageContext.request.contextPath }/ob_project/proportion.do",
 				type: "POST",
 				data: {
-					supplierCount: tradedCount
+					supplierCount: count
 				},
 				success: function(data) {
 				 $("#tradedSupplier").val(data);
 		 }
      });
+     }
+	}
+	// 动态获取供应商 数量
+	function gysCount(){
+	  var ds=[];
+	    //获取选中全部的产品id
+	   $('*[name="productName"]').each(function(){
+			if($(this).val()){
+		      ds.push($(this).val());
+			  }
+		  });
+		  if(ds.length>0){
+		     var temp="";
+            for(var i=0;i<ds.length;i++) { 
+             temp=temp+ds[i]+",";
+           }
+	    if(tradedCount){
+           $.ajax({
+				url: "${pageContext.request.contextPath }/ob_project/unionSupplier.do",
+				type: "POST",
+				data: {productid: temp},
+				success: function(data) {
+				 $("#gys_count").text(data);
+		      }
+           });
+		 }
      }
 	}
 </script>

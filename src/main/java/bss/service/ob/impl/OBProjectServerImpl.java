@@ -312,7 +312,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 		String verify=verifyProduct(obProject.getProductName(), obProject.getTradedSupplierCount());
 		//验证 产品 信息 
-		if(verify!="success"){
+		if(!verify.equals("success")){
 			return verify;
 		}
 		// 默认规则
@@ -430,6 +430,7 @@ public class OBProjectServerImpl implements OBProjectServer {
     	 OBProduct abroad=null;
     	 //内循环
     	 OBProduct within=null;
+    	 if(productList.size()>1){
     	 //嵌套 便利判断产品集合
     	 for (int i = 0; i < productList.size(); i++) {
     		 abroad=productList.get(i);
@@ -484,8 +485,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 			}
     	 }
+    	 }else{
+    		 return "success";
+    	 }
+		return null;
     	 
-    	 return "";
      }
 	/***
 	 * 封装插入 竞价信息 供应商关系表
@@ -793,7 +797,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					if (compareDate1 > -1) {
 						// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
 						List<OBProjectResult> prlist = OBProjectResultMapper
-								.selectNotSuppler(op.getId(),null);
+								.selectNotSuppler(op.getId(),null,null);
 						// 临时存储交易比例
 						int temp = 0;
 						if (prlist != null && prlist.size()>0) {
@@ -804,9 +808,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 									proportionString = "0";
 								}
 								// 累加交易比例
-								temp = temp + Integer.valueOf(proportionString);
-								if (prlist.get(i).getStatus() == -1) {
-									OBProjectResult rsult = new OBProjectResult();
+								if (prlist.get(i).getStatus() == 1) {
+									temp = temp + Integer.valueOf(proportionString);
+									/*OBProjectResult rsult = new OBProjectResult();
 									rsult.setStatus(0);
 									rsult.setSupplierId(prlist.get(i)
 											.getSupplierId());
@@ -816,6 +820,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 									// 更新 超过时间没有 确认报价的供应商
 									OBProjectResultMapper
 											.updateByPrimaryKeySelective(rsult);
+									*/
 								}
 							}
 						}
@@ -893,11 +898,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * @exception
 	 */
 	@Override
-	public java.util.List<OBSupplier> selecUniontSupplier(
-			java.util.List<String> productID) {
+	public List<OBSupplier> selecUniontSupplier(
+			List<String> productID) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", productID);
-		map.put("count", productID.size());
 		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 
@@ -956,9 +960,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 			map.put("notDate", "1");
 		 }
 		}
-		//成交 供应商
+		//中标 供应商
 		if(StringUtils.isNotBlank(result)){
-			List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(projectid,1);
+			List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(projectid,1,"1");
 			Set<String> list=new HashSet<>();
 			for (OBProjectResult obProjectResult : prlist) {
 				list.add(obProjectResult.getSupplierId());

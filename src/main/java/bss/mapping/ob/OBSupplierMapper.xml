@@ -113,14 +113,15 @@
 	</select>
    	<!-- 查询产品对应的 并集供应商 -->
 	<select id="selecUniontSupplier" resultMap="BaseResultMap" parameterType="Map">
-	SELECT s.supplier_id
-    FROM T_BSS_OB_SUPPLIER s
-    WHERE s.product_id IN 
+	SELECT DISTINCT s.supplier_id
+		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID
+		WHERE s.CERT_VALID_PERIOD > SYSDATE
+		AND s.IS_DELETED = 0
+		AND s.PRODUCT_ID IN 
     <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
    			#{item}  
  	</foreach>
-    GROUP BY s.supplier_id
-    HAVING COUNT(s.supplier_id) >= #{count,jdbcType=DECIMAL}
+	
 	</select>
 	<!-- 根据产品id查询供应商列表 所有 -->
 	<select id="selectByProductId" resultMap="BaseResultMap">
@@ -169,7 +170,7 @@
 	<select id="countByProductId2" resultType="java.lang.Integer"
 		parameterType="Map">
 		SELECT
-		 count( SUPPLIER_ID)
+		 count(DISTINCT SUPPLIER_ID)
 		FROM T_BSS_OB_SUPPLIER
 		WHERE
 		<!-- CERT_VALID_PERIOD &gt; SYSDATE
@@ -184,15 +185,14 @@
 		<!-- 根据id查询供应商列表  数量-->
 	<select id="countProductId" resultType="java.lang.Integer"
 		parameterType="Map">
-		SELECT
-		 count(SUPPLIER_ID)
-		FROM T_BSS_OB_SUPPLIER
-		WHERE
-		 CERT_VALID_PERIOD &gt; SYSDATE
-		AND 
-		IS_DELETED = 0
-			AND PRODUCT_ID =#{productId,jdbcType=VARCHAR}
+		SELECT count(DISTINCT s.SUPPLIER_ID)
+		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID and p.SMALL_POINTS_ID is not null
+		WHERE s.CERT_VALID_PERIOD > SYSDATE
+		AND s.IS_DELETED = 0
+		AND p.ID =#{productId,jdbcType=VARCHAR}
 	</select>
+	
+	
 	
 	
 	<!-- 根据产品 查询供应商列表 -->
