@@ -288,6 +288,9 @@
       <if test="contactTel != null" >
         CONTACT_TEL,
       </if>
+      <if test="ruleId != null" >
+        RULE_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -360,6 +363,9 @@
       <if test="contactTel != null" >
         #{contactTel,jdbcType=TIMESTAMP},
       </if>
+       <if test="ruleId != null" >
+        #{ruleId,jdbcType=VARCHAR},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="bss.model.ob.OBProjectExample" resultType="java.lang.Integer" >
@@ -428,6 +434,7 @@
       <if test="record.updatedAt != null" >
         UPDATED_AT = #{record.updatedAt,jdbcType=TIMESTAMP},
       </if>
+      
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -514,6 +521,9 @@
       </if>
       <if test="updatedAt != null" >
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="ruleId != null" >
+        #{RULE_ID,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
