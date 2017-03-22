@@ -7,8 +7,8 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-      function viewTask(id){
-        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewTask.html?id="+id;
+      function view(id,type){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewOver.html?id="+id+"&type="+type;
       }
     </script>
   </head>
@@ -39,7 +39,7 @@
       <h2>进度列表</h2>
     </div>
     <div class="col-md-12 pl20 mt10">
-      <button class="btn btn-windows apply" onclick="viewTask('${project.id}');" type="button">查看任务汇总</button>
+      <button class="btn btn-windows apply" onclick="view('${project.id}','0');" type="button">查看任务汇总</button>
     </div>
     <div class="content table_box">
     <table class="table table-bordered">
@@ -52,27 +52,27 @@
           
         </tr>
         <tr>
-          <td class="h365 tc">
-            <c:forEach items="${lists}" var="obj">
+          <td class="h365 tc" onclick="view('${project.id}','1')">
+            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+            <%-- <c:forEach items="${lists}" var="obj">
               <p class="ml20 tl">需求部门：${obj.department}</p>
               <p class="ml20 tl">需求名称：${obj.planName}</p>
               <p class="ml20 tl">编报时间：<fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
               <p class="ml20 tl">联系人：${obj.userId}</p>
-            </c:forEach>
+            </c:forEach> --%>
           </td>
-          <td class="h365 tc">
-            <c:forEach items="${list}" var="obj">
+          <td class="h365 tc" onclick="view('${project.id}','2')">
+            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+            <%-- <c:forEach items="${list}" var="obj">
 	            <p class="ml20 tl">采购管理部门：${obj.purchaseId}</p>
 	            <p class="ml20 tl">计划名称：${obj.fileName}</p>
 	            <p class="ml20 tl">计划编号：${obj.planNo}</p>
 	            <p class="ml20 tl">计划下达时间：<fmt:formatDate type='date' value='${obj.updatedAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
 	            <p class="ml20 tl">联系人：${obj.userId}</p>
-            </c:forEach>
+            </c:forEach> --%>
           </td>
-          <td class="h365 tc">
+          <td class="h365 tc"  onclick="view('${project.id}','3')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-            <p class="ml20 tl">项目名称：${project.name}</p>
-            <p class="ml20 tl">项目编号：${project.projectNumber}</p>
           </td>
           <td class="h365 tc">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
@@ -82,7 +82,10 @@
         <tr>
           <td class="h50 tc"></td>
           <td class="h50 tc"></td>
-          <td class="h50 tc"></td>
+          <td class="h50 tc">
+            <p class="ml20 tl">项目名称：${project.name}</p>
+            <p class="ml20 tl">项目编号：${project.projectNumber}</p>
+          </td>
           <td class="h50 tc"></td>
           
         </tr>

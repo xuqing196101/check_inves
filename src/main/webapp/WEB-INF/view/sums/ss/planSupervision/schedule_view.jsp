@@ -56,41 +56,48 @@
         </tr>
         <tr>
           <td class="h365 tc" onclick="view('${collectPlan.id}','1')">
-            <c:forEach items="${listRequired}" var="obj">
+            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+            <%-- <c:forEach items="${listRequired}" var="obj">
               <p class="ml20 tl">需求部门：${obj.department}</p>
               <p class="ml20 tl">需求名称：${obj.planName}</p>
               <p class="ml20 tl">编报时间：<fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
               <p class="ml20 tl">联系人：${obj.userId}</p>
-            </c:forEach>
+            </c:forEach> --%>
           </td>
           <td class="h365 tc" onclick="view('${collectPlan.id}','2')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-	          <p class="ml20 tl">采购管理部门：${collectPlan.purchaseId}</p>
-	          <p class="ml20 tl">计划名称：${collectPlan.fileName}</p>
-	          <p class="ml20 tl">计划编号：${collectPlan.planNo}</p>
-	          <p class="ml20 tl">计划下达时间：<fmt:formatDate type='date' value='${collectPlan.orderAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
-	          <p class="ml20 tl">联系人：${collectPlan.userId}</p>
           </td>
           <c:if test="${listProject != null}">
 	          <td class="h365 tc" onclick="view('${collectPlan.id}','3')">
 	            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-	            <c:forEach items="${listProject}" var="obj">
+	            <%-- <c:forEach items="${listProject}" var="obj">
 		            <p class="ml20 tl">项目名称：${obj.name}</p>
 		            <p class="ml20 tl">项目编号：${obj.projectNumber}</p>
-	            </c:forEach>
+	            </c:forEach> --%>
 	          </td>
           </c:if>
           <c:if test="${listContract != null}">
 	          <td class="h365 tc">
 	            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-	            <c:forEach items="${listContract}" var="obj">
+	            <%-- <c:forEach items="${listContract}" var="obj">
 	              <p class="ml20 tl">合同名称：${obj.name}</p>
                 <p class="ml20 tl">合同编号：${obj.code}</p>
-	            </c:forEach>
+	            </c:forEach> --%>
 	          </td>
           </c:if>
         </tr>
-
+        <tr>
+          <td class="h50 tc"></td>
+          <td class="h50 tc">
+            <p class="ml20 tl">采购管理部门：${collectPlan.purchaseId}</p>
+            <p class="ml20 tl">计划名称：${collectPlan.fileName}</p>
+            <p class="ml20 tl">计划编号：${collectPlan.planNo}</p>
+            <p class="ml20 tl">计划下达时间：<fmt:formatDate type='date' value='${collectPlan.orderAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
+            <p class="ml20 tl">联系人：${collectPlan.userId}</p>
+          </td>
+          <td class="h50 tc"></td>
+          <td class="h50 tc"></td>
+        </tr>
       </tbody>
     </table>
     </div>

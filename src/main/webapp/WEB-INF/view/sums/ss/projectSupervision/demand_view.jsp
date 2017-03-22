@@ -6,9 +6,6 @@
 
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
       function view(id,type){
         window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id="+id+"&type="+type;
@@ -31,7 +28,7 @@
             <a href="javascript:void(0)">采购业务监督</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">采购计划监督</a>
+            <a href="javascript:void(0)">采购项目监督</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -73,7 +70,7 @@
                    <c:if test="${obj.status eq '2' || obj.status eq '3' || obj.status eq '5'}">已提交</c:if>
                 </td>
                 <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.uniqueId}','0');">查看</a>
+                  <a href="javascript:void(0)" onclick="view('${obj.id}','0');">查看</a>
                 </td>
               </tr>
             </c:forEach>

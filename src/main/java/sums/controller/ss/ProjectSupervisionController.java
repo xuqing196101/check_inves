@@ -3,6 +3,7 @@ package sums.controller.ss;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -360,6 +361,116 @@ public class ProjectSupervisionController {
         return "sums/ss/projectSupervision/task_view";
     }
     
+    /**
+     * 
+     *〈进度列表跳转页面〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param id
+     * @param type
+     * @return
+     */
+    @RequestMapping("/viewOver")
+    public String viewOver(Model model, String id, String type){
+        if(StringUtils.isNotBlank(id)){
+            //项目明细
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            List<ProjectDetail> details = detailService.selectById(map);
+            HashMap<String, Object> st = new HashMap<>();
+            if(details != null && details.size() > 0){
+                for (int i = 0; i < details.size(); i++ ) {
+                    st.put("id", details.get(i).getRequiredId());
+                    st.put("projectId", id);
+                    List<ProjectDetail> list = detailService.selectByParentId(st);
+                    if(list.size() > 1){
+                        details.get(i).setPurchaseType(null);
+                    }
+                }
+                rank(details, id);
+                model.addAttribute("details", details);
+            }
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            
+            
+            HashMap<String, Object> maps = new HashMap<>();
+            maps.put("projectId", id);
+            List<ProjectTask> projectTasks = projectTaskService.queryByNo(maps);
+            List<CollectPlan> listCollect = new ArrayList<>();
+            List<PurchaseRequired> listRequired = new ArrayList<>();
+            if(projectTasks != null && projectTasks.size() > 0){
+                for (ProjectTask projectTask : projectTasks) {
+                    Task task = taskService.selectById(projectTask.getTaskId());
+                    if(task != null){
+                        //采购计划列表
+                        CollectPlan collectPlan = collectPlanService.queryById(task.getCollectId());
+                        if(collectPlan != null){
+                            User user = userService.getUserById(collectPlan.getUserId());
+                            collectPlan.setUserId(user.getRelName());
+                            listCollect.add(collectPlan);
+                        }
+                        
+                        //需求计划列表
+                        HashSet<String> set = new HashSet<>();
+                        List<PurchaseDetail> details2 = purchaseDetailService.getUnique(task.getCollectId());
+                        for (PurchaseDetail detail : details2) { 
+                            set.add(detail.getFileId());
+                        }
+                        for (String string : set) {
+                            maps.put("fileId", string);
+                            List<PurchaseRequired> details3 = requiredService.getByMap(maps);
+                            if(details3 != null && details3.size() > 0){
+                                for (PurchaseRequired purchaseRequired : details3) {
+                                    if("1".equals(purchaseRequired.getParentId())){
+                                        User user = userService.getUserById(purchaseRequired.getUserId());
+                                        purchaseRequired.setUserId(user.getRelName());
+                                        listRequired.add(purchaseRequired);
+                                        break;
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+            model.addAttribute("listRequired", listRequired);
+            model.addAttribute("list", listCollect);
+        }
+        if(StringUtils.isNotBlank(type) && "1".equals(type)){
+            return "sums/ss/projectSupervision/demand_view";
+        }
+        if(StringUtils.isNotBlank(type) && "2".equals(type)){
+            return "sums/ss/projectSupervision/plan_view";
+        }
+        if(StringUtils.isNotBlank(type) && "3".equals(type)){
+            return "sums/ss/projectSupervision/project_detail";
+        }
+        return null;
+    }
+    
+    
+    @RequestMapping("/viewDetail")
+    public String viewDetail(Model model, String id, String type){
+        if(StringUtils.isNotBlank(id)){
+            List<PurchaseDetail> details = purchaseDetailService.getUnique(id);
+            if(details != null && details.size() > 0){
+                HashMap<String, Object> map = new HashMap<>();
+                for (int i = 0; i < details.size(); i++ ) {
+                    map.put("id", details.get(i).getId());
+                    map.put("projectId", id);
+                    List<PurchaseDetail> list = purchaseDetailService.selectByParentId(map);
+                    if(list.size() > 1){
+                        details.get(i).setPurchaseType(null);
+                    }
+                }
+                model.addAttribute("list", details);
+                model.addAttribute("kind", DictionaryDataUtil.find(5));
+            }
+        }
+        model.addAttribute("type", type);
+        return "sums/ss/projectSupervision/detail_view";
+    }
 
     /**
      * 〈采购计划去重〉 〈详细描述〉
@@ -375,5 +486,146 @@ public class ProjectSupervisionController {
                 }
             }
         }
+    }
+    
+    /**
+     * 
+     *〈项目明细排序〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param newDetails
+     * @param id
+     * @return
+     */
+    public List<ProjectDetail> rank(List<ProjectDetail> newDetails, String id){
+        HashMap<String, Object> map = new HashMap<>();
+        int serialoneOne = 1;
+        int serialtwoTwo = 1;
+        int serialthreeThree = 1;
+        int serialfourFour = 1;
+        int serialfiveFive = 0;
+        int serialOne = 1;
+        int serialTwo = 1;
+        int serialThree = 1;
+        int serialFour = 1;
+        int serialSix = 0;
+        int serialFive = 0;
+        List<String> newParentId = new ArrayList<>();
+        List<String> oneParentId = new ArrayList<>();
+        List<String> twoParentId = new ArrayList<>();
+        List<String> threeParentId = new ArrayList<>();
+        List<String> fourParentId = new ArrayList<>();
+        List<String> fiveParentId = new ArrayList<>();
+        for(int i=0;i<newDetails.size();i++){
+            HashMap<String,Object> detailMap = new HashMap<>();
+            detailMap.put("id",newDetails.get(i).getRequiredId());
+            detailMap.put("projectId", id);
+            List<ProjectDetail> dlist = detailService.selectByParentId(detailMap);
+            List<ProjectDetail> plist = detailService.selectByParent(detailMap);
+            if(plist.size()==1&&plist.get(0).getPurchaseCount()==null){
+                if(!oneParentId.contains(newDetails.get(i).getParentId())){
+                    oneParentId.add(newDetails.get(i).getParentId());
+                    serialoneOne = 1;
+                }
+                newDetails.get(i).setSerialNumber(test(serialoneOne));
+                serialoneOne ++;
+            }else if(plist.size()==2&&plist.get(1).getPurchaseCount()==null){
+                if(!twoParentId.contains(newDetails.get(i).getParentId())){
+                    twoParentId.add(newDetails.get(i).getParentId());
+                    serialtwoTwo = 1;
+                }
+                newDetails.get(i).setSerialNumber("（"+test(serialtwoTwo)+"）");
+                serialtwoTwo ++;
+            }else if(plist.size()==3&&plist.get(2).getPurchaseCount()==null){
+                if(!threeParentId.contains(newDetails.get(i).getParentId())){
+                    threeParentId.add(newDetails.get(i).getParentId());
+                    serialthreeThree = 1;
+                }
+                newDetails.get(i).setSerialNumber(String.valueOf(serialthreeThree));
+                serialthreeThree ++;
+            }else if(plist.size()==4&&plist.get(3).getPurchaseCount()==null){
+                if(!fourParentId.contains(newDetails.get(i).getParentId())){
+                    fourParentId.add(newDetails.get(i).getParentId());
+                    serialfourFour = 1;
+                }
+                newDetails.get(i).setSerialNumber("（"+String.valueOf(serialfourFour)+"）");
+                serialfourFour ++;
+            }else if(plist.size()==5&&plist.get(4).getPurchaseCount()==null){
+                if(!fiveParentId.contains(newDetails.get(i).getParentId())){
+                    fiveParentId.add(newDetails.get(i).getParentId());
+                    serialfiveFive = 0;
+                }
+                char serialNum = (char) (97 + serialfiveFive);
+                newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                serialfiveFive++;
+            }
+            if(dlist.size()==1){
+                map.put("projectId", id);
+                map.put("id", newDetails.get(i).getRequiredId());
+                List<ProjectDetail> list = detailService.selectByParent(map);
+                if(!newParentId.contains(newDetails.get(i).getParentId())){
+                    serialOne = 1;
+                    serialTwo = 1;
+                    serialThree = 1;
+                    serialFour = 1;
+                    serialFive = 0;
+                    serialSix = 0;
+                    newParentId.add(newDetails.get(i).getParentId());
+                }
+                if(list.size()==1){
+                    newDetails.get(i).setSerialNumber(test(serialOne));
+                    serialOne ++;
+                }else if(list.size()==2){
+                    newDetails.get(i).setSerialNumber("（"+test(serialTwo)+"）");
+                    serialTwo ++;
+                }else if(list.size()==3){
+                    newDetails.get(i).setSerialNumber(String.valueOf(serialThree));
+                    serialThree ++;
+                }else if(list.size()==4){
+                    newDetails.get(i).setSerialNumber("（"+String.valueOf(serialFour)+"）");
+                    serialFour ++;
+                }else if(list.size()==5){
+                    char serialNum = (char) (97 + serialFive);
+                    newDetails.get(i).setSerialNumber(String.valueOf(serialNum));
+                    serialFive ++;
+                }else if(list.size()==6){
+                    char serialNum = (char) (97 + serialSix);
+                    newDetails.get(i).setSerialNumber("（"+serialNum+"）");
+                    serialSix ++;
+                }
+            }
+        }
+        return newDetails;
+    }
+    
+    private static String[] hanArr = { "零", "一", "二", "三", "四", "五", "六", "七","八", "九" };
+    private static String[] unitArr = { "十", "百", "千", "万", "十", "白", "千", "亿","十", "百", "千" };
+    
+    /**
+     * 
+     *〈序号〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param number
+     * @return
+     */
+    public String test(int number) {
+        String numStr = number + "";
+        String result = "";
+        int numLen = numStr.length();
+        for (int i = 0; i < numLen; i++) {
+            int num = numStr.charAt(i) - 48;
+            if (i != numLen - 1 && num != 0) {
+                result += hanArr[num] + unitArr[numLen - 2 - i];
+                if (number >= 10 && number < 20) {
+                    result = result.substring(1);
+                }
+            } else {
+                if (!(number >= 10 && number % 10 == 0)) {
+                    result += hanArr[num];
+                }
+            }
+        }
+        return result;
     }
 }
