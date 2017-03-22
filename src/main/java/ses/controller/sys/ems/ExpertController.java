@@ -655,6 +655,8 @@ public class ExpertController extends BaseController {
             map.put("categoryId", categoryId);
             expertCategoryService.deleteByMap(map);
             
+            //遍历循环只要存在一个父节点相同的就不删除，否则删除
+            
             Category cate1 = categoryService.findById(categoryId);
             Category cata11 = engCategoryService.selectByPrimaryKey(categoryId);
             if (cate1 != null || cata11 != null) {
@@ -679,12 +681,28 @@ public class ExpertController extends BaseController {
                         map1.put("categoryId", parentId1);
                         expertCategoryService.deleteByMap(map1);
                         
-                        
                         Category cate2 = categoryService.findById(parentId1);
-                        Category cate22 = engCategoryService.selectByPrimaryKey(parentId1);
-                        if (cate2 != null || cate22 != null) {
+                        if (cate2 == null) {
+                        	cate2 = engCategoryService.selectByPrimaryKey(parentId1);
+						}
+                        
+                        
+                        List<ExpertCategory> expertCat = expertCategoryService.selectListByExpertId(expertId);
+                        for (int ii = 0; ii < expertCat.size(); ii++) {
+                        	String catId = expertCat.get(ii).getCategoryId();
+                        	Category cat = categoryService.findById(catId);
+                        	if (cat == null) {
+                        		cat = engCategoryService.selectByPrimaryKey(catId);
+							}
+                        	if (cate2.getId().equals(cat.getId())) {
+								
+							}
+							
+						}
+                        
+                        if (cate2 != null ) {
                         	List<Category> treeList2 = new ArrayList<Category>();
-                        	String parentId2 = (cate2 != null ? cate2.getParentId() : cate22.getParentId());
+                        	String parentId2 = cate2.getParentId();
                         	treeList2 = categoryService.findByParentId(parentId2);
                         	if (treeList2 == null || treeList2.size() == 0) {
                         		treeList2 = engCategoryService.selectParentId(parentId2);
@@ -743,6 +761,25 @@ public class ExpertController extends BaseController {
         			}
                 }
 			}
+            
+            List<ExpertCategory> expCatList = expertCategoryService.selectListByExpertId(expertId);
+            if (expCatList != null && expCatList.size() > 0) {
+            	for (int i = 0; i < expCatList.size(); i++) {
+            		ExpertCategory expCat = expCatList.get(i);
+            		
+            		Expert expert = new Expert();
+            		expert.setId(expertId);
+            		// 递归获取当前节点的所有子节点
+            		List <Category> list = getAllParentNode(expCat.getCategoryId(), flag);
+            		for(Category cate: list) {
+            			ExpertCategory expertCategory = expertCategoryService.getExpertCategory(expertId, cate.getId());
+            			if(expertCategory == null) {
+            				expertCategoryService.save(expert, cate.getId(), typeId, engin_type);
+            			}
+            		}
+            	}
+			}
+            
             
 
 //            // 0代表删除
@@ -2746,9 +2783,11 @@ public class ExpertController extends BaseController {
             if(cate == null) {
                 DictionaryData root = DictionaryDataUtil.findById(categoryId);
                 Category rootNode = new Category();
-                rootNode.setId(root.getId());
-                rootNode.setName(root.getName());
-                categoryList.add(rootNode);
+                if (root != null) {
+                	rootNode.setId(root.getId());
+                	rootNode.setName(root.getName());
+                	categoryList.add(rootNode);
+				}
                 break;
             } else {
                 categoryList.add(cate);
@@ -3661,8 +3700,10 @@ public class ExpertController extends BaseController {
         model.addAttribute("typeId", typeId);
         model.addAttribute("result", new PageInfo < > (expertItems));
         model.addAttribute("itemsList", allTreeList);
-        int totalPages = expertCategoryService.getListCount(expertId, typeId);
-        model.addAttribute("resultPages", totalPages);
+        List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId);
+        
+        model.addAttribute("resultPages", this.totalPages(list));
+        model.addAttribute("resultTotal", list.size());
         model.addAttribute("resultpageNum", pageNum);
         
         // 如果状态为退回修改则查询没通过的字段 
@@ -3678,6 +3719,20 @@ public class ExpertController extends BaseController {
         model.addAttribute("errorField", errorField);
 
         return "ses/ems/expert/ajax_items";
+    }
+    
+    public static int totalPages(List<ExpertCategory> list) {
+		int pageSize = PropUtil.getIntegerProperty("pageSize");
+		
+		int totalPages = 0;  //总页数
+		
+		if ((list.size() % pageSize) == 0) {
+            totalPages = list.size() / pageSize;
+        } else {
+            totalPages = list.size() / pageSize + 1;
+        }
+		
+		return totalPages;
     }
 
     /**

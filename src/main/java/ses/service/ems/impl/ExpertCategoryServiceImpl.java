@@ -106,20 +106,9 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     }
 	
 	@Override
-	public int getListCount(String expertId, String typeId) {
+	public List<ExpertCategory> getListCount(String expertId, String typeId) {
 		// TODO Auto-generated method stub
-		List<ExpertCategory> list = mapper.selectListByExpertId(expertId, typeId);
-		int pageSize = PropUtil.getIntegerProperty("pageSize");
-		
-		int totalPages = 0;  //总页数
-		
-		if ((list.size() % pageSize) == 0) {
-            totalPages = list.size() / pageSize;
-        } else {
-            totalPages = list.size() / pageSize + 1;
-        }
-		
-		return totalPages;
+		return mapper.selectListByExpertId(expertId, typeId);
 	}
 	
 	/**
@@ -137,6 +126,12 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
 	@Override
 	public List<ExpertCategory> findByExpertId(String map) {
 		return mapper.findByExpertId(map);
+	}
+	
+	@Override
+	public List<ExpertCategory> selectListByExpertId(String expertId) {
+		// TODO Auto-generated method stub
+		return mapper.selectListByExpertId(expertId, null);
 	}
 	
 	/**

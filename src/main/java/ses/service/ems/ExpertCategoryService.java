@@ -78,8 +78,10 @@ public interface ExpertCategoryService {
 
 	void delNoTree(String id, List<DictionaryData> allCategoryList);
 
-	int getListCount(String expertId, String typeId);
+	List<ExpertCategory> getListCount(String expertId, String typeId);
 
 	List<ExpertCategory> findEnginId(String expertId, String engin_type);
+
+	List<ExpertCategory> selectListByExpertId(String expertId);
 
 }

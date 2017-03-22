@@ -46,7 +46,7 @@ session.setAttribute("tokenSession", tokenValue);
 			return false;
 		}
 	   if(loginName.replace(/\s/g,"").length<3){
-		   $("#spp").html("必须三位以上").css('color','red');
+		   $("#spp").html("必须两位以上").css('color','red');
 		   flag=1;
 		   return false;
 		   

@@ -427,7 +427,12 @@ public class ExpertServiceImpl implements ExpertService {
 			//修改时间
 			expert.setUpdatedAt(new Date());
 			
-			mapper.updateByPrimaryKey(expert);
+			try {
+				mapper.updateByPrimaryKey(expert);
+			} catch (Exception e) {
+				// TODO: handle exception
+				e.printStackTrace();
+			}
 			//保存品目
 			saveCategory(expert,categoryIds);
 		}
