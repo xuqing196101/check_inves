@@ -480,11 +480,11 @@
 				return;
 		 }
 		  
-		  exec();
+		  exec(status);
 			
 	}
     /**执行 */
-    function exec(){
+    function exec(status){
     var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]

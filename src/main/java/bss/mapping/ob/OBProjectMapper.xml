@@ -523,7 +523,7 @@
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
        <if test="ruleId != null" >
-        #{RULE_ID,jdbcType=VARCHAR},
+      RULE_ID=  #{ruleId,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

@@ -430,6 +430,7 @@ public class OBProjectServerImpl implements OBProjectServer {
     	 OBProduct abroad=null;
     	 //内循环
     	 OBProduct within=null;
+    	 if(productList.size()>1){
     	 //嵌套 便利判断产品集合
     	 for (int i = 0; i < productList.size(); i++) {
     		 abroad=productList.get(i);
@@ -484,8 +485,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 				}
 			}
     	 }
+    	 }else{
+    		 return "success";
+    	 }
+		return null;
     	 
-    	 return "success";
      }
 	/***
 	 * 封装插入 竞价信息 供应商关系表
