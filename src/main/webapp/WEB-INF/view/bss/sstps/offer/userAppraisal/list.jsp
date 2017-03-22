@@ -115,11 +115,11 @@ function add(){
 					</li>
 					<li><label class="fl">供应商名称：</label>
 						<span>
-							<input type="text" name="supplierName" id="supplierName" class="mb0" value="${ap.supplierName }" />
+							<input type="text" name="supplierName" id="supplierName" class="mb0" value="${ap.supplier.supplierName }" />
 						</span>
 					</li>
 					<button class="btn fl" type="submit">查询</button>
-					<button type="reset" class="btn fl">重置</button>
+					<button type="reset" class="btn fl" onclick = "window.location.href = '${pageContext.request.contextPath}/offer/userAppraisalList.html'">重置</button>
 				</ul>
 
 				<div class="clear"></div>
@@ -151,7 +151,7 @@ function add(){
 				  				<td class="tc pointer">${contract.name }</td>
 				  				<td class="tc pointer">${contract.code }</td>
 				  				<td class="tr">${contract.money }</td>
-				  				<td class="tc pointer">${contract.supplierName }</td>
+				  				<td class="tc pointer">${contract.supplier.supplierName }</td>
 				  				<td class="tc pointer">审价中</td>
 				  			</tr>
 				  			</c:if>

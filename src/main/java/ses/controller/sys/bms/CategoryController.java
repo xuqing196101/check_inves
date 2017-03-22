@@ -284,7 +284,7 @@ public class CategoryController extends BaseSupplierController {
 			Set<Category> set=new HashSet<Category>();
 			for(int i=0;i<categoryList.size();i++){
 				Category catego = categoryList.get(i);
-				List<Category> cList=categoryService.findTreeByPid(catego.getId());
+				List<Category> cList=categoryService.findTreeByPidPublish(catego.getId());
 				if(cList==null||cList.size()<=0){
 					cateList.add(catego);
 				}
@@ -301,7 +301,7 @@ public class CategoryController extends BaseSupplierController {
 			Iterator<Category> it = set.iterator();  
 			while(it.hasNext()){
 				Category cate = it.next();
-				List<Category> cList=categoryService.findTreeByPid(cate.getId());
+				List<Category> cList=categoryService.findTreeByPidPublish(cate.getId());
 	            CategoryTree ct=new CategoryTree();
 	            if(!cList.isEmpty()){
 	                ct.setIsParent("true");
@@ -339,9 +339,9 @@ public class CategoryController extends BaseSupplierController {
                 return JSON.toJSONString(jList);
             }
             String list="";
-            List<Category> cateList=categoryService.findTreeByPid(category.getId());
+            List<Category> cateList=categoryService.findTreeByPidPublish(category.getId());
     	        for(Category cate:cateList){
-    	            List<Category> cList=categoryService.findTreeByPid(cate.getId());
+    	            List<Category> cList=categoryService.findTreeByPidPublish(cate.getId());
     	            CategoryTree ct=new CategoryTree();
     	            if(!cList.isEmpty()){
     	                ct.setIsParent("true");

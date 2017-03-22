@@ -80,6 +80,18 @@ import ses.model.sms.SupplierTypeTree;
 	
 	/**
 	 * 
+	 * Description: 根据父节点找子节点(公开的)
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月22日 
+	 * @param  @param id
+	 * @param  @return 
+	 * @return List<Category> 
+	 * @exception
+	 */
+	public List<Category> findTreeByPidPublish(String id);
+	/**
+	 * 
 	 *〈简述〉
 	 * 查询状态大于当状态的数据
 	 *〈详细描述〉

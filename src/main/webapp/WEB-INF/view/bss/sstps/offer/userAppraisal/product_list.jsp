@@ -86,8 +86,7 @@ function offer(){
 	}
 }
 
-</script>    
-    `
+</script>
   </head>
   
   <body>
