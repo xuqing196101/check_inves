@@ -1,6 +1,7 @@
 package bss.service.ob.impl;
 
 import java.util.Calendar;
+import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 
@@ -13,9 +14,11 @@ import ses.util.PropertiesUtil;
 import com.github.pagehelper.PageHelper;
 
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectSupplierMapper;
 import bss.model.ob.BidProductVo;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
+import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import bss.model.ob.SupplierProductVo;
@@ -35,6 +38,8 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Autowired
 	private OBProjectResultMapper oBProjectResultMapper;
 	
+	@Autowired
+	OBProjectSupplierMapper mapper;
 	@Override
 	public int countByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
@@ -148,7 +153,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			List<BidProductVo> productList = null;
 			if("-1".equals(confirmStatus)) {
 				productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
-			} else if("0".equals(confirmStatus)) {
+			} else if("1".equals(confirmStatus)) {
 				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
 			}
 			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
@@ -179,8 +184,16 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @return 竞价管理-结果查询 
      */
 	@Override
-	public int updateBySupplierId(OBProjectResult record) {
+	public int updateBySupplierId(OBProjectResult record, String confirmStatus) {
 		// TODO Auto-generated method stub
+		if("1".equals(confirmStatus)) {
+			OBProject obProject = new OBProject();
+			obProject.setId(record.getProjectId());
+			User user = new User();
+			user.setTypeId(record.getSupplierId());
+			String remark = "3";
+			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+		}
 		return oBProjectResultMapper.updateBySupplierId(record);
 	}
 
@@ -194,8 +207,18 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			List<OBProjectResult> projectResultList) {
 		// TODO Auto-generated method stub
 		int flag = 0;
-		//BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+		Date currentDate = new Date();
+		
 		for(int i = 0; i < projectResultList.size();i++) {
+			projectResultList.get(i).setUpdatedAt(currentDate);
+			//在第二轮接受时进行判断，
+			if(2 == projectResultList.get(i).getStatus()) {
+				OBProject obProject = new OBProject();
+				obProject.setId(projectResultList.get(i).getProjectId());
+				String remark = "3";
+				//设置列表页面显示的操作状态判断值
+				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+			}
 			if(i == 0) {
 				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
 				flag++;

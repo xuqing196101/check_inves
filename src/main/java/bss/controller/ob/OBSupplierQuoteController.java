@@ -174,7 +174,7 @@ public class OBSupplierQuoteController {
 			model.addAttribute("secondConfirmInfoVo", secondConfirmInfoVo);
 		}
 		if("0".equals(confirmStatus)) {
-			//第一轮放弃，参加第二轮时的操作	这个需求暂时不够确定，先不走这一步
+			//第一轮放弃，参加第二轮时的操作	这个需求暂时无，不走这一步
 			
 		}
 		//获取当前(在猫上运行，就是猫的)时间,（用此时间和当前标题的各个时间段比对）
@@ -289,13 +289,23 @@ public class OBSupplierQuoteController {
 		//把此供应商的状态都改为0，表示放弃
 		oBProjectResult.setSupplierId(supplierId);
 		oBProjectResult.setSupplierId(projectId);
-		oBProjectResult.setStatus(0);
-		int uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult);
+		
+		int uptResult = 0;
+		//第一轮就选择放弃
+		if("-1" == confirmStatus) {
+			oBProjectResult.setStatus(0);
+			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"-1");
+		}
+		//第二轮选择放弃
+		if("1" == confirmStatus) {
+			oBProjectResult.setStatus(1);
+			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"1");
+		}
+		
 		String resFlag = "fail";
 		if(uptResult > 0) {
 			resFlag = "success";
 		}
-		System.out.println(projectId + "cnjewfn" + uptResult);
 		return resFlag;
 	}
 	

@@ -218,7 +218,7 @@
 				});
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime,
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
@@ -236,16 +236,16 @@
 					oBProjectResult.projectId = "${projectId}";
 					oBProjectResult.supplierId = "${supplierId}";
 					oBProjectResult.proportion = $("input[name='confirmRatioFirst2']").val();
-					oBProjectResult.productId = $(this).find("input[name='productId2']").val();
-					oBProjectResult.resultCount = $(this).find("input[name='productNum2']").val();
-					oBProjectResult.offerPrice = $(this).find("input[name='productQuotePrice2']").val();
+					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.resultCount = $(this).find("input[name='productNum']").val();
+					oBProjectResult.offerPrice = $(this).find("input[name='productQuotePrice']").val();
 					oBProjectResult.status = 2;
 					projectResultList.push(oBProjectResult);
 				});
 				
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html",
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime,
 					data : JSON.stringify(projectResultList),
 					dataType : "json",
 					contentType:"application/json",
@@ -274,7 +274,8 @@
 					type:"post",
 					dataType:"text",
 					data:{
-						"projectId" : "${projectId}"
+						"projectId" : "${projectId}",
+						"confirmStatus" : confirmStatus
 					},
 					success:function(data){
 						window.history.go(-1);
@@ -437,7 +438,7 @@
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
+     		<input id="" name="confirmRatioFirst2" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2">未开始</span>
      	</h2>
@@ -461,12 +462,12 @@
 		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc">
+		  <td class="tc" title="theProductId2">
 		  	${vs.index + 1 }
-		  	<input type="hidden" name="productId" value=""/>
-		  	<input type="hidden" name="productName" value=""/>
-		  	<input type="hidden" name="productNum" value=""/>
-		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productNum" value="${bidproduct.productNum }"/>
+		  	<input type="hidden" name="productQuotePrice" value="${bidproduct.dealMoney }"/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
@@ -503,7 +504,7 @@
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
+     		<input id="" name="confirmRatioFirst2" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2">未开始</span>
      	</h2>
@@ -527,12 +528,12 @@
 		</tr>
 		<c:forEach items="${secondConfirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc">
+		  <td class="tc" title="theProductId2">
 		  	${vs.index + 1 }
-		  	<input type="hidden" name="productId" value=""/>
-		  	<input type="hidden" name="productName" value=""/>
-		  	<input type="hidden" name="productNum" value=""/>
-		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productNum" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productQuotePrice" value="${bidproduct.dealMoney }"/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
