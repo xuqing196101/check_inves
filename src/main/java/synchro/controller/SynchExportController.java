@@ -56,6 +56,9 @@ public class SynchExportController {
     @Autowired
     private SynchRecordService  recordService;
     
+    @Autowired
+    private OuterExpertService outerExpertService;
+    
     
     /** 设置数据类型 **/
     private static final Integer DATA_TYPE_KIND = 29;
@@ -144,6 +147,9 @@ public class SynchExportController {
             bean.setSuccess(true);
         } else if (synchType.equals(Constant.DATA_TYPE_SUPPLIER_CODE)) {
             outerSupplierService.exportCommitSupplier(startTime, endTime, new Date());
+            bean.setSuccess(true);
+        }else if (synchType.equals(Constant.DATA_TYPE_EXPERT_CODE)) {
+        	outerExpertService.backupCreated(startTime, endTime);
             bean.setSuccess(true);
         }
         return bean;

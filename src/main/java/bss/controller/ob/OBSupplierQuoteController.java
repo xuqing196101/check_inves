@@ -174,7 +174,7 @@ public class OBSupplierQuoteController {
 			model.addAttribute("secondConfirmInfoVo", secondConfirmInfoVo);
 		}
 		if("0".equals(confirmStatus)) {
-			//第一轮放弃，参加第二轮时的操作	这个需求暂时不够确定，先不走这一步
+			//第一轮放弃，参加第二轮时的操作	这个需求暂时无，不走这一步
 			
 		}
 		//获取当前(在猫上运行，就是猫的)时间,（用此时间和当前标题的各个时间段比对）
@@ -237,7 +237,7 @@ public class OBSupplierQuoteController {
 			HttpServletRequest request) throws ParseException{
 		String acceptNum = request.getParameter("acceptNum");
 		int updateNum = 0;//定义接受的数字
-		SimpleDateFormat sdf = new SimpleDateFormat();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		//获取页面传过来的时间（这个时间点并不准确到实际操作，只是根据前面竞价开始时间加上规则计算出来的）
 		String confirmStarttime = request.getParameter("confirmStarttime");//确认开始字符串
 		Date cs = sdf.parse(confirmStarttime);//new Date(confirmStarttime)这个过时了
@@ -247,11 +247,11 @@ public class OBSupplierQuoteController {
 		Date so = sdf.parse(secondOvertime);
 		//获取当前的时间
 		Date currentDate = new Date();
-		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() > co.getTime()) {
+		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() < co.getTime()) {
 			//在第一轮中间
 			//调用service层的修改
 			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
-		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() > so.getTime()) {
+		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() < so.getTime()) {
 			//在第二轮中间
 			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
 		} else if(currentDate.getTime() >= so.getTime()) {
@@ -289,13 +289,23 @@ public class OBSupplierQuoteController {
 		//把此供应商的状态都改为0，表示放弃
 		oBProjectResult.setSupplierId(supplierId);
 		oBProjectResult.setSupplierId(projectId);
-		oBProjectResult.setStatus(0);
-		int uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult);
+		
+		int uptResult = 0;
+		//第一轮就选择放弃
+		if("-1" == confirmStatus) {
+			oBProjectResult.setStatus(0);
+			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"-1");
+		}
+		//第二轮选择放弃
+		if("1" == confirmStatus) {
+			oBProjectResult.setStatus(1);
+			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"1");
+		}
+		
 		String resFlag = "fail";
 		if(uptResult > 0) {
 			resFlag = "success";
 		}
-		System.out.println(projectId + "cnjewfn" + uptResult);
 		return resFlag;
 	}
 	

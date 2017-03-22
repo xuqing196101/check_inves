@@ -133,16 +133,14 @@ public class OfferController {
 	public String userAppraisalList(AppraisalContract appraisalContract,HttpServletRequest request, Model model,Integer page){
 		User user = (User) request.getSession().getAttribute("loginUser");
 		appraisalContract.setUser(user);
+		appraisalContract.setSupplier(new Supplier());
+		if(appraisalContract.getSupplier() != null ){
+			appraisalContract.getSupplier().setSupplierName(appraisalContract.getSupplierName());
+		}
 		List<AppraisalContract> list = appraisalContractService.selectByOffer(appraisalContract,page==null?1:page);
 		for (AppraisalContract ac : list) {
             //这个supplierName里面存的是id
-            Supplier supplier = supplierService.selectOne(ac.getSupplierName());
-            if (supplier != null) {
-                ac.setSupplierName(supplier.getSupplierName());
-            } else {
-                ac.setSupplierName("");
-            }
-            ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
+           ac.setMoney(ac.getMoney().setScale(4, BigDecimal.ROUND_HALF_UP));
         }
 		model.addAttribute("list", new PageInfo<AppraisalContract>(list));
 		model.addAttribute("ap", appraisalContract);

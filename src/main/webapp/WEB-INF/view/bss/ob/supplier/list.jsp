@@ -81,27 +81,28 @@
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
 			   if(status == '1'){
-				   layer.alert("对不起，报价时间还未开始，请您等待!");
+				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
 				   return;
 			   }
 			   if(status == '2' && remark == '1'){
-				   layer.alert("已报价，请等待确认!");
+				   layer.alert("已报价，请等待确认 ！");
 				   return;
 			   }
 			   if(status == '5' && remark == '1'){
-				   layer.alert("报价已结束，请您确认结果!");
+				   layer.alert("报价已结束，请您确认结果 ！");
 				   return;
 			   }
 			   if(status == '3' && remark == '5'){
-				   layer.alert("报价时间结束!");
+				   layer.alert("报价时间结束 ！");
 				   return;
 			   }
 			   if(status == '2' && remark == '6'){
-				   layer.alert("请重新刷新页面!");
+				   layer.alert("请重新刷新页面 ！");
 				   return;
 			   }
-			   if(status == '3' && remark == '6'){
-				   layer.alert("已报价，请确认结果!");
+			   // 该项目已流拍
+			   if(status == '4'){
+				   layer.alert("对不起，项目已流拍 ！");
 				   return;
 			   }
 			   // 开始报价
@@ -131,8 +132,24 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
+			   // 该项目已流拍
+			   if(status == '4'){
+				   layer.alert("对不起，项目已流拍 ！");
+				   return;
+			   }
+			   // 时间未到
 			   if(status != '5'){
-				   layer.alert("对不起，确认时间未到不能确认结果!");
+				   layer.alert("对不起，确认时间未到不能确认结果 ！");
+				   return;
+			   }
+			   // 竞价结束
+			   if(status == '3'){
+				   layer.alert("竞价已结束 ！");
+				   return;
+			   }
+			   // 第二轮确认结束
+			   if(status == '5' && remark == '3'){
+				   layer.alert("您已确认结束 ！");
 				   return;
 			   }
 			   // 开始确认结果
@@ -226,7 +243,7 @@
 				  	流拍
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
-			  		报价结束
+			  		待确认
 			  	</c:if>
 			  </td>
 			 <%--  <td class="tc">

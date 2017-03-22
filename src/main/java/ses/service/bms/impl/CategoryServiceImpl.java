@@ -88,7 +88,9 @@ public class CategoryServiceImpl implements CategoryService {
     public List<Category> findTreeByPid(String id) {
         return categoryMapper.findTreeByPid(id);
     }
-    
+    public List<Category> findTreeByPidPublish(String id) {
+    	return categoryMapper.findTreeByPidPublish(id);
+    }
     
     /**
      * 

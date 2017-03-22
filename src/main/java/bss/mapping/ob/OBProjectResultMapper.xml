@@ -150,6 +150,13 @@
 		where RESULTINFO.PROJECT_ID=#{projectId} AND resultInfo.SUPPLIER_ID=#{supplierId} 
 		  AND PRODUCT.ID=RESULTINFO.PRODUCT_ID
   </select>
+  <!-- 根据供应商查找竞价商品   mmw -->
+  <select id="selectResultProductBySupplierId" resultType="bss.model.ob.BidProductVo" parameterType="bss.model.ob.OBProjectResult">
+    select PRODUCT.ID id,PRODUCT.NAME productName,projectResult.RESULT_COUNT productNum,projectResult.OFFER_PRICE myOfferMoney
+  	  FROM T_BSS_OB_PRODUCT product,T_BSS_OB_PROJECT_RESULT projectResult 
+		where projectResult.PROJECT_ID=#{projectId} AND projectResult.SUPPLIER_ID=#{supplierId} 
+		  AND PRODUCT.ID=projectResult.PRODUCT_ID
+  </select>
   <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
   <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
     select status from T_BSS_OB_PROJECT_RESULT 
@@ -461,6 +468,9 @@
       <if test="proportion != null" >
         PROPORTION = #{proportion,jdbcType=VARCHAR},
       </if>
+      <if test="productId != null" >
+        PRODUCT_ID = #{productId,jdbcType=VARCHAR},
+      </if>
       <if test="offerPrice != null" >
         OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
       </if>
@@ -486,7 +496,7 @@
         UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
       </if>
     </set>
-    where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} and PROJECT_ID = #{projectId,jdbcType=VARCHAR} and PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+    where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} and PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </update>
   <update id="updateBySupplierId" parameterType="bss.model.ob.OBProjectResult" >
     update T_BSS_OB_PROJECT_RESULT

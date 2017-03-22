@@ -197,7 +197,7 @@
   <select id="selectAllComplaint" parameterType="String"  resultMap="BaseResultMap">
     select 
    <include refid="Base_Column_List" />
-    from T_SUMS_OC_COMPLAINT where status = 0 or AUDIT_ID = #{id,jdbcType=VARCHAR}
+    from T_SUMS_OC_COMPLAINT where status = 0 and is_deleted = 0 or AUDIT_ID = #{id,jdbcType=VARCHAR}
    <!--  toc where 1=1 and toc.audit is null 
     <if test="">
     or toc.audit_id = #{ dbcType=VARCHAR}

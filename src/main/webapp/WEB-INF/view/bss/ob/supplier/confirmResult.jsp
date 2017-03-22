@@ -7,11 +7,13 @@
 <title>确认结果页面</title>
 <script type="text/javascript">
 	//倒计时方法
+	var loadPageTime = new Date();
 	function getRTime(){
 		var getOverTime = $("#confirmOverTime").text();
 		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
-		var NowTime = new Date();
-		var t =EndTime.getTime() - NowTime.getTime();
+		var sysNowTime = new Date("${sysCurrentTime}");//后台传过来的系统的当前时间
+		var clientNowTime = new Date();
+		var t = (EndTime.getTime() - sysNowTime.getTime()) - (clientNowTime.getTime() - loadPageTime.getTime());
 		if(t > 0) {
 			var d = Math.floor(t/1000/60/60/24);
 			var h = Math.floor(t/1000/60/60%24);
@@ -28,7 +30,8 @@
 		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
 		var sysNowTime = new Date("${sysCurrentTime}");//后台传过来的系统的当前时间
 		var clientNowTime = new Date();//这个客户端的当前时间，暂时不用
-		var t = EndTime.getTime() - sysNowTime.getTime();
+		//var t = EndTime.getTime() - sysNowTime.getTime();
+		var t = (EndTime.getTime() - sysNowTime.getTime()) - (clientNowTime.getTime() - loadPageTime.getTime());
 		if(t > 0) {
 			var d = Math.floor(t/1000/60/60/24);
 			var h = Math.floor(t/1000/60/60%24);
@@ -47,14 +50,20 @@
 		return Math.ceil((parseInt(passVal) / br) * ar);
 	}
 	$(function() {
+		//定义一个变量接收后台传过来的状态值
+		var passStatus = "${confirmStatus}";
 		//定时器调用
-		var downTimer = setInterval(getRTime,1000);
-		var downTimer2 = setInterval(getRTime2,1000);
+		if(passStatus == "-1") {
+			var downTimer = setInterval(getRTime,1000);
+		} else {
+			var downTimer2 = setInterval(getRTime2,1000);
+		}
 		
 		//第一轮占比的初始值
 		var currentVal = $("input[name='confirmRatioFirst']").val();
 		//第二轮占比的初始值
 		var currentSecondVal = $("input[name='confirmRatioSecond']").val();
+		
 		var changeRatioCounts = [];
 		$("[title='theProductCount']").each(function(index,element) {
 			changeRatioCounts.push($(this).text());
@@ -66,41 +75,124 @@
 		$("input[name='confirmRatioFirst']").keyup(function(event) {
 			var currentPressKey = event.keyCode;//当前输入的字符
 			var afterInputVal = $(this).val();
-			if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
-				if(parseInt(afterInputVal) > parseInt(currentVal)) {
-					$(this).val(currentVal);
-					layer.alert("占比只能下调");
-				} else if(parseInt(afterInputVal) == 0) {
-					$(this).val(currentVal);
-					layer.alert("占比不能为0");
-				} else {
-					var allCount = 0;
-					$("[title='theProductTotalPrice']").each(function(index,element) {
-						var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
-						$(this).text((afterCount * productPrices[index]).toFixed(2));
-						$("[title='theProductCount']").each(function(indexPc,element) {
-							if(index == indexPc) {
-								$(this).text(afterCount);
-								$(this).parent().find("input[name='productNum']").text();
-							}
+			if(passStatus == "-1") {
+				if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
+					if(parseInt(afterInputVal) > parseInt(currentVal)) {
+						$(this).val(currentVal);
+						layer.alert("占比只能下调");
+					} else if(parseInt(afterInputVal) == 0) {
+						$(this).val(currentVal);
+						layer.alert("占比不能为0");
+					} else {
+						var allCount = 0;
+						$("[title='theProductTotalPrice']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
+							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$("[title='theProductCount']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productNum']").text();
+								}
+							});
+							allCount += afterCount * productPrices[index];
 						});
-						allCount += afterCount * productPrices[index];
-					});
-					$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+					}
+				} else if(currentPressKey == 13 || currentPressKey == 18) {
+					//删除键和回车，放行
+				} else {
+					$(this).val(currentVal);
+					layer.alert("请输入合法数字");
 				}
-			} else if(currentPressKey == 13 || currentPressKey == 18) {
-				//删除键和回车，放行
 			} else {
 				$(this).val(currentVal);
-				layer.alert("请输入合法数字");
+				layer.alert("已经在第二轮,不能修改第一轮的数据");
+			}
+		});
+		
+		$("input[name='confirmRatioSecond']").keyup(function(event) {
+			var currentPressKey = event.keyCode;//当前输入的字符
+			var afterInputVal = $(this).val();
+			if(passStatus == "1") {
+				if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
+					if(parseInt(afterInputVal) > parseInt(currentSecondVal)) {
+						$(this).val(currentSecondVal);
+						layer.alert("占比只能下调");
+					} else if(parseInt(afterInputVal) == 0) {
+						$(this).val(currentSecondVal);
+						layer.alert("占比不能为0");
+					} else {
+						var allCount = 0;
+						$("[title='theProductTotalPrice']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts[index],currentSecondVal,afterInputVal);
+							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$("[title='theProductCount']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productNum']").text();
+								}
+							});
+							allCount += afterCount * productPrices[index];
+						});
+						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+					}
+				} else if(currentPressKey == 13 || currentPressKey == 18) {
+					//删除键和回车，放行
+				} else {
+					$(this).val(currentSecondVal);
+					layer.alert("请输入合法数字");
+				}
+			} else {
+				$(this).val(currentSecondVal);
+				layer.alert("已经在第一轮,不能修改第二轮的数据");
 			}
 		});
 	});
 	
 	//定义当前标题的全局(无论第一、二轮)变量
+	
 	var confirmStarttime = "${confirmInfoVo.confirmStarttime }";
 	var confirmOvertime = "${confirmInfoVo.confirmOvertime }";
 	var secondOvertime = "${confirmInfoVo.secondOvertime }";
+	
+	//这个暂时不用
+	var formatDateTime = function (date) {
+		var y = date.getFullYear();
+		var m = date.getMonth() + 1;
+		m = m < 10 ? ('0' + m) : m;
+		var d = date.getDate();
+		d = d < 10 ? ('0' + d) : d;
+		var h = date.getHours();
+		var minute = date.getMinutes();
+		minute = minute < 10 ? ('0' + minute) : minute;
+		var second = date.getSeconds();
+		return y + '-' + m + '-' + d+' '+h+':'+minute + ':' + second;
+	}
+	//CST（后台传过来的）转GMT（js用的）
+	function getTaskTime(strDate) {   
+	    if(null==strDate || ""==strDate){  
+	        return "";  
+	    }
+	    var dateStr=strDate.trim().split(" ");  
+	    var strGMT = dateStr[0]+" "+dateStr[1]+" "+dateStr[2]+" "+dateStr[5]+" "+dateStr[3]+" GMT+0800";  
+	    var date = new Date(Date.parse(strGMT));  
+	    var y = date.getFullYear();  
+	    var m = date.getMonth() + 1;    
+	    m = m < 10 ? ('0' + m) : m;  
+	    var d = date.getDate();    
+	    d = d < 10 ? ('0' + d) : d;  
+	    var h = date.getHours();  
+	    var minute = date.getMinutes();    
+	    minute = minute < 10 ? ('0' + minute) : minute;  
+	    var second = date.getSeconds();  
+	    second = second < 10 ? ('0' + second) : second;  
+	      
+	    return y+"-"+m+"-"+d+" "+h+":"+minute+":"+second;  
+	}
+	//后台传过来的时间调用此方法转换
+	confirmStarttime = getTaskTime(confirmStarttime);
+	confirmOvertime = getTaskTime(confirmOvertime);
+	secondOvertime = getTaskTime(secondOvertime);
 	//定义当前标题的供应商正处的状态
 	//var currentStatus 
 	
@@ -126,14 +218,14 @@
 				});
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime,
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
-						layer.alert("接受失败");
+						layer.alert("第一轮接受失败");
 					}
 				});
 			} else if(currentConfirmStatus == "1") {
@@ -144,16 +236,16 @@
 					oBProjectResult.projectId = "${projectId}";
 					oBProjectResult.supplierId = "${supplierId}";
 					oBProjectResult.proportion = $("input[name='confirmRatioFirst2']").val();
-					oBProjectResult.productId = $(this).find("input[name='productId2']").val();
-					oBProjectResult.resultCount = $(this).find("input[name='productNum2']").val();
-					oBProjectResult.offerPrice = $(this).find("input[name='productQuotePrice2']").val();
+					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.resultCount = $(this).find("input[name='productNum']").val();
+					oBProjectResult.offerPrice = $(this).find("input[name='productQuotePrice']").val();
 					oBProjectResult.status = 2;
 					projectResultList.push(oBProjectResult);
 				});
 				
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html",
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime,
 					data : JSON.stringify(projectResultList),
 					dataType : "json",
 					contentType:"application/json",
@@ -182,7 +274,8 @@
 					type:"post",
 					dataType:"text",
 					data:{
-						"projectId" : "${projectId}"
+						"projectId" : "${projectId}",
+						"confirmStatus" : confirmStatus
 					},
 					success:function(data){
 						window.history.go(-1);
@@ -345,7 +438,7 @@
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="20" type="text" class="tc w50">%
+     		<input id="" name="confirmRatioFirst2" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2">未开始</span>
      	</h2>
@@ -369,12 +462,12 @@
 		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc">
+		  <td class="tc" title="theProductId2">
 		  	${vs.index + 1 }
-		  	<input type="hidden" name="productId" value=""/>
-		  	<input type="hidden" name="productName" value=""/>
-		  	<input type="hidden" name="productNum" value=""/>
-		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productNum" value="${bidproduct.productNum }"/>
+		  	<input type="hidden" name="productQuotePrice" value="${bidproduct.dealMoney }"/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
@@ -411,7 +504,7 @@
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
+     		<input id="" name="confirmRatioFirst2" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2">未开始</span>
      	</h2>
@@ -435,12 +528,12 @@
 		</tr>
 		<c:forEach items="${secondConfirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc">
+		  <td class="tc" title="theProductId2">
 		  	${vs.index + 1 }
-		  	<input type="hidden" name="productId" value=""/>
-		  	<input type="hidden" name="productName" value=""/>
-		  	<input type="hidden" name="productNum" value=""/>
-		  	<input type="hidden" name="productQuotePrice" value=""/>
+		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productNum" value="${bidproduct.productName }"/>
+		  	<input type="hidden" name="productQuotePrice" value="${bidproduct.dealMoney }"/>
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
