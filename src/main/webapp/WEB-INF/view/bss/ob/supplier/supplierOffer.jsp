@@ -170,7 +170,17 @@
 				    <td class="tc"><b>交货地点</b></td>
 				    <td class="tc">${ obProject.deliveryAddress }</td>
 				    <td class="tc"><b>成交供应商数</b></td>
-				    <td class="tc">${ obProject.tradedSupplierCount }</td>
+				    <td class="tc">
+				    	<c:if test="${obProject.qualifiedSupplier==0}">
+					   		0
+					  	</c:if>
+					  	<c:if test="${obProject.qualifiedSupplier==null}">
+					  		0
+					  	</c:if>
+					   	<c:if test="${obProject.qualifiedSupplier!=0}">
+					   		 ${obProject.qualifiedSupplier}
+					 	</c:if>
+				    </td>
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>运杂费</b></td>

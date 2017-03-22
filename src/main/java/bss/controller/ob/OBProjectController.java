@@ -597,16 +597,9 @@ public class OBProjectController {
 			throws Exception {
 		// 获取标题id
 		String titleId = request.getParameter("id");
-		// 获取成交合格供应商数
-		String bargainCountStr = request.getParameter("bargainCount");
-		Integer bargainCount = 0;
-		if (StringUtils.isNotEmpty(bargainCountStr)) {
-			bargainCount = Integer.parseInt(bargainCountStr);
-		}
 		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(titleId);
 		// 竞价信息
 		OBProject obProject = (OBProject) map.get("obProject");
-		obProject.setQualifiedSupplier(bargainCount);
 		// 竞价商品信息
 		Object object = map.get("oBProductInfoList");
 		// 获取采购机构名称

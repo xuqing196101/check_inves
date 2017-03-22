@@ -55,13 +55,23 @@
 				form.submit();
 			}
 			
-			function fanhui() {
+			/* function fanhui() {
 				if('${judge}' == 2) {
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
 				} else {
 					window.location.href = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html?address=" + encodeURI(encodeURI('${suppliers.address}')) + "&judge=${judge}";
 				}
-			}
+			} */
+			
+			function fanhui() {
+				if('${judge}' == 2) {
+					window.location.href = "${pageContext.request.contextPath}/supplierQuery/selectByCategory.html";
+				} else {
+					var action = "${pageContext.request.contextPath}/supplierQuery/findSupplierByPriovince.html";
+					$("#form_back").attr("action", action);
+					$("#form_back").submit();
+				};
+			};
 		</script>
 	</head>
 
@@ -120,6 +130,14 @@
 					<form id="form_id" action="" method="post">
 						<input name="supplierId" id="id" value="${suppliers.id }" type="hidden">
 						<input name="judge" value="${judge}" type="hidden">
+						<input name="sign" value="${sign}" type="hidden">
+					</form>
+					<form id="form_back" action="" method="post">
+						<input name="judge" value="${judge}" type="hidden">
+						<c:if test="${sign!=1 and sign!=2 }">
+							<input name="address" value="${suppliers.address}" type="hidden">
+						</c:if>
+						<input name="sign" value="${sign}" type="hidden">
 					</form>
 					<c:forEach items="${financial}" var="f" varStatus="vs">
 						<h2 class="count_flow"><i>${vs.index + 1}</i>${f.year }年财务（单位：万元）</h2>

@@ -340,7 +340,7 @@
   <c:if test="${confirmInfoVo.bidStatus=='-1' || confirmInfoVo.bidStatus==null || confirmInfoVo.bidStatus=='2'}">
   </c:if>
    -->
-   <c:if test="${confirmStatus=='-1'">
+   <c:if test="${confirmStatus=='-1'}">
   <div>
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">
@@ -406,7 +406,7 @@
   </div>
   </div>
   	</c:if>
-  	<c:if test="${confirmStatus=='1'">
+  	<c:if test="${confirmStatus=='1'}">
   <div>
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow">

@@ -89,7 +89,7 @@
 				   return;
 			   }
 			   if(status == '5' && remark == '1'){
-				   layer.alert("请您确认结果!");
+				   layer.alert("报价已结束，请您确认结果!");
 				   return;
 			   }
 			   if(status == '3' && remark == '5'){
@@ -130,7 +130,7 @@
 		   if(id.length == 1) {
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
-			   // var remark = valueArr[2];
+			   var remark = valueArr[2];
 			   if(status != '5'){
 				   layer.alert("对不起，确认时间未到不能确认结果!");
 				   return;
