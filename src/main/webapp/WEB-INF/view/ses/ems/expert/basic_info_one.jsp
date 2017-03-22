@@ -568,12 +568,6 @@
 
 
             if (from == "LOCAL") {
-                var degree = $("#degree").val();
-                if (!degree) {
-                    layer.msg("请选择最高学位!");
-                    return false;
-                }
-
                 //毕业证书  学位证书
 
                 var graduateSchool = $("#graduateSchool").val();
@@ -1237,7 +1231,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i>取得技术职称时间</span>
+                        class="red">*</i> 取得技术职称时间</span>
                     <!--/职业资格时间  -->
                     <div
                             class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
@@ -1305,12 +1299,10 @@
                     </div>
                 </li>
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red"></i> 最高学位</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
                     </c:if>
                     <c:if test="${expert.expertsFrom eq 'LOCAL'}">
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 最高学位</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 最高学位</span>
                     </c:if>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select name="degree" id="degree"
@@ -1326,12 +1318,10 @@
                     </div>
                 </li>
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red"></i> 学位证书</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
                     </c:if>
                     <c:if test="${expert.expertsFrom eq 'LOCAL'}">
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 学位证书</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
                     </c:if>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;"
