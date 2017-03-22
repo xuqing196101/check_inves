@@ -403,26 +403,6 @@ public class OBProjectController {
 			 return JSON.toJSONString(getlist);
 	}
 	
-	/** @Description: 竞价管理更新
-	* author: YangHongLiang
-	* @param 接收页面返回数据
-	* @return     
-	* @return String     
-    * @throws IOException 
-	* @throws Exception
-	*/
-	@RequestMapping(value="/edit", produces="text/html;charset=UTF-8" )
-	@ResponseBody
-	public String edit(@CurrentUser User user,OBProject obProject, HttpServletRequest request,
-			String fileid){
-		String msg="";
-		if(user !=null){
-			msg=OBProjectServer.saveProject(obProject,user.getId(),fileid);
-		}
-		return msg;
-		
-	}
-	
 	/** @Description: 编辑暂存的竞价信息
 	* author: YangHongLiang
 	* @param  OBProject

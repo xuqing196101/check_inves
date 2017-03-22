@@ -391,7 +391,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-         <u:show showId="project" groups="b,c,d"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
+         <u:show showId="project" groups="b,c,d"  delete="false" businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
        </div>
 	 </li> 
 	  
@@ -420,7 +420,6 @@
 			</tr>
 		  </table>
 		</div>
-   <h2 class="tc">温馨提示：能够提供当前产品的供应商数量为<span id="gys_count" >0</span>家</h2>
   </form>
   <div class="col-md-12 clear tc mt10">
 	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>

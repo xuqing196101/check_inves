@@ -127,8 +127,7 @@
    	     #{item}  
  	   </foreach>
       GROUP BY s.supplier_id,p.id
-      HAVING COUNT(s.supplier_id)> #{count}
-	
+     <!--  HAVING COUNT(s.supplier_id)> #{count} -->
 	</select>
 	<!-- 根据产品id查询供应商列表 所有 -->
 	<select id="selectByProductId" resultMap="BaseResultMap">

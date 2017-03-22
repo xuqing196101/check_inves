@@ -374,7 +374,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 				.replace("-", "");
 		obProject.setCreatedAt(new Date());
 		obProject.setCreaterId(userid);
-		obProject.setAttachmentId(fileid);
 		obProject.setStartTime(startdate);
 		obProject.setEndTime(endDate);
 		List<OBProductInfo> list = new ArrayList<OBProductInfo>();
@@ -535,22 +534,36 @@ public class OBProjectServerImpl implements OBProjectServer {
 			product = new OBProductInfo();
 			product.setId(uid);
 			product.setProductId(productName.get(i));
-			if (obProject.getProductMoney() == null) {
+			if (obProject.getProductMoney().size()==0) {
 				product.setLimitedPrice(new BigDecimal(0));
 			} else {
-				product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
-						.getProductMoney().get(i))));
+				if(obProject.getProductMoney().get(i)=="" ){
+					product.setLimitedPrice(new BigDecimal(0));
+				}else{
+					product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
+							.getProductMoney().get(i))));
+				}
 			}
-			if (obProject.getProductRemark() == null) {
+			if (obProject.getProductRemark().size()==0) {
 
 			} else {
-				product.setRemark(obProject.getProductRemark().get(i));
+				if(obProject.getProductRemark().get(i)=="" ){
+					product.setRemark("");
+				}else{
+					product.setRemark(obProject.getProductRemark().get(i));
+				}
+				
 			}
-			if (obProject.getProductCount() == null) {
+			if (obProject.getProductCount().size()==0) {
 				product.setPurchaseCount(0);
 			} else {
-				product.setPurchaseCount(Integer.valueOf(obProject
-						.getProductCount().get(i)));
+				if(obProject.getProductCount().get(i)==""){
+					product.setPurchaseCount(0);
+				}else{
+					product.setPurchaseCount(Integer.valueOf(obProject
+							.getProductCount().get(i)));
+				}
+				
 			}
 			product.setProjectId(obProject.getId());
 			product.setCreatedAt(new Date());
@@ -716,8 +729,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					// 比较 竞价信息 如果等于1 那么是竞价 报价结束的时间
 					if (compareDate > -1) {
 						// 说明 已发布 的竞价信息 已经超过 报价 时间
-						List<OBResultsInfo> obresultsList = OBResultsInfoMapper
-								.selectByProjectId(op.getId());
+						List<OBResultsInfo> obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
 						// 判断 是否有竞价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
 						//判读报价数量是否 达到竞价成交供应商数量
@@ -745,8 +757,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 								rsult.setRanking(i + 1);
 								rsult.setSupplierId(obresultsList.get(i)
 										.getSupplierId());
-								rsult.setProjectId(obresultsList.get(i)
-										.getProjectId());
+								rsult.setProjectId(op.getId());
 								rsult.setUpdatedAt(new Date());
 								rsult.setId(uuid);
 								rsult.setCreatedAt(new Date());
@@ -906,7 +917,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 			List<String> productID) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", productID);
-		map.put("count", productID.size());
 		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 

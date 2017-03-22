@@ -58,7 +58,7 @@
 				$('input[name="productId"]:checked').each(function(){ 
 		       $(this).parent().parent().remove(); 
 		       });
-		       changSupplier();
+		       gysCount();
 			});
 		}else{
 			layer.alert("请选择",{offset: '222px', shade:0.01});
