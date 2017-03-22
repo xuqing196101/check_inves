@@ -2,6 +2,7 @@
 package iss.dao.ps;
 
 import iss.model.ps.Article;
+import iss.model.ps.ArticleCategory;
 
 import java.math.BigDecimal;
 import java.util.HashMap;
@@ -407,4 +408,29 @@ public interface ArticleMapper {
      * @return
      */
     BigDecimal selectByTypeIdTimer(HashMap<String, String> timerMap);
+    
+    /**
+     *〈简述〉查询信息公告和产品目录的关联
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param articleCategory
+     * @return
+     */
+    List<ArticleCategory> findArtCategory(ArticleCategory articleCategory);
+    
+    /**
+     *〈简述〉保存信息公告和产品目录的关联
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param articleCategory
+     */
+    void saveArtCategory(ArticleCategory articleCategory);
+    
+    /**
+     *〈简述〉删除信息公告和产品目录的关联
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param articleCategory
+     */
+    void deleteArtCategory(ArticleCategory articleCategory);
 }

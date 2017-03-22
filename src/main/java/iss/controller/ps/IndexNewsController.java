@@ -1295,79 +1295,86 @@ public class IndexNewsController extends BaseSupplierController{
       //外网
 		  String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
 		  String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
-  		/*String filePathFile = filePath+"/"+article.getId()+".png";
-  		String glisteningFile = glisteningPath+"/"+article.getId()+".jpg";*/
+  		/*String filePathFile = filePath+"/"+article.getId()+".png";*/
+  		File glisteningFile = new File(glisteningPath+"/"+articleDetail.getId()+".jpg");
 		  String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
 		  File stagingFile = new File(filePath);
 		  File glisFile = new File(glisteningPath);
-/*  		if(stagingFile.exists()){
-  			stagingFile.delete();
-  		}
-  		if(glisFile.exists()){
-  			glisFile.delete();
-  		}
-  		if(stagingFile.exists()&&stagingFile.isDirectory()){
-  			File[] files = stagingFile.listFiles();
-  			for(int i=0;i<files.length;i++){
-  				if(files[i].isFile()){
-  					File file = new File(files[i].getAbsolutePath());
-  					if(file.exists()&&file.isFile()){
-  						file.delete();
-  					}
-  				}
-  			}
-  		}
-  		if(stagingFile.exists()&&stagingFile.isDirectory()){
-  			stagingFile.delete();
-  		}
-  		if(glisFile.exists()&&glisFile.isDirectory()){
-  			File[] files = glisFile.listFiles();
-  			for(int i=0;i<files.length;i++){
-  				if(files[i].isFile()){
-  					File file = new File(files[i].getAbsolutePath());
-  					if(file.exists()&&file.isFile()){
-  						file.delete();
-  					}
-  				}
-  			}
-  		}
-  		if(glisFile.exists()&&glisFile.isDirectory()){
-  			glisFile.delete();
-  		}*/
-		  if(!stagingFile.exists()){
-		    stagingFile.mkdir();
-		  }
-		  if(!glisFile.exists()){
-		    glisFile.mkdir();
-		  }
-		  HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
-		  StringBuffer divStyle = new StringBuffer();
-		  divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
 		  
-		  String content = articleDetail.getContent();
+		  //判读图片是否存在
+		  if(glisteningFile.exists()){
+          
+      }else {
+          /*  		if(stagingFile.exists()){
+    			stagingFile.delete();
+    		}
+    		if(glisFile.exists()){
+    			glisFile.delete();
+    		}
+    		if(stagingFile.exists()&&stagingFile.isDirectory()){
+    			File[] files = stagingFile.listFiles();
+    			for(int i=0;i<files.length;i++){
+    				if(files[i].isFile()){
+    					File file = new File(files[i].getAbsolutePath());
+    					if(file.exists()&&file.isFile()){
+    						file.delete();
+    					}
+    				}
+    			}
+    		}
+    		if(stagingFile.exists()&&stagingFile.isDirectory()){
+    			stagingFile.delete();
+    		}
+    		if(glisFile.exists()&&glisFile.isDirectory()){
+    			File[] files = glisFile.listFiles();
+    			for(int i=0;i<files.length;i++){
+    				if(files[i].isFile()){
+    					File file = new File(files[i].getAbsolutePath());
+    					if(file.exists()&&file.isFile()){
+    						file.delete();
+    					}
+    				}
+    			}
+    		}
+    		if(glisFile.exists()&&glisFile.isDirectory()){
+    			glisFile.delete();
+    		}*/
+          if(!stagingFile.exists()){
+            stagingFile.mkdir();
+          }
+          if(!glisFile.exists()){
+            glisFile.mkdir();
+          }
+          HtmlImageGenerator imageGenerator = new HtmlImageGenerator();
+          StringBuffer divStyle = new StringBuffer();
+          divStyle.append("<div class='article_content' style='font-size: 14px; line-height: 35px; padding: 20px; width:900px'>");
+          
+          String content = articleDetail.getContent();
+          
+          if (StringUtils.isNotBlank(content)){
+            content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
+          }
+          
+          divStyle.append(content);
+          divStyle.append("</div>");
+          String htmlstr = divStyle.toString();
+          imageGenerator.loadHtml(htmlstr);
+          imageGenerator.getBufferedImage();
+          imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
+          String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
+          
+          String srcImgPath = zancunPicPath; 
+  //		String logoText = "军队采购网";  
+          String iconPath = proWaterPath;
+          String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
+          
+          // 给图片添加水印
+  //		markByText(logoText, srcImgPath, targerPath);
+          
+          //给图片添加水印，水印旋转-45
+          markByText(iconPath, srcImgPath,targerPath2,0);
+      }
 		  
-		  if (StringUtils.isNotBlank(content)){
-		      content = content.replaceAll(CommonStringUtil.getAppendString("&nbsp;", 30), "");
-		  }
-		  
-		  divStyle.append(content);
-		  divStyle.append("</div>");
-		  String htmlstr = divStyle.toString();
-		  imageGenerator.loadHtml(htmlstr);
-		  imageGenerator.getBufferedImage();
-		  imageGenerator.saveAsImage(filePath+"/"+articleDetail.getId()+".png");
-		  String zancunPicPath = filePath+"/"+articleDetail.getId()+".png";
-		  
-		  String srcImgPath = zancunPicPath; 
-//		String logoText = "军队采购网";  
-		  String iconPath = proWaterPath;
-		  String targerPath2 = glisteningPath+"/"+articleDetail.getId()+".jpg";
-		  
-		  // 给图片添加水印
-//		markByText(logoText, srcImgPath, targerPath);
-		  
-		  //给图片添加水印，水印旋转-45
-		  markByText(iconPath, srcImgPath,targerPath2,0);
 //		Map<String,Object> indexMapper = new HashMap<String, Object>();
 //		List<ArticleType> articleTypeList = articleTypeService.selectAllArticleTypeForSolr();
 //		for(int i=0;i<26;i++){

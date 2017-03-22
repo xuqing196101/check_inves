@@ -3,13 +3,18 @@ package iss.service.ps.impl;
 
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Dictionary;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.commons.lang3.StringUtils;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.ui.Model;
 
 import com.github.pagehelper.PageHelper;
 
@@ -19,7 +24,12 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.ProjectDetail;
 import iss.dao.ps.ArticleMapper;
 import iss.model.ps.Article;
+import iss.model.ps.ArticleCategory;
 import iss.service.ps.ArticleService;
+import ses.dao.bms.CategoryMapper;
+import ses.model.bms.Category;
+import ses.model.bms.DictionaryData;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 
@@ -36,6 +46,10 @@ public class ArticleServiceImpl implements ArticleService {
   @Autowired
   private ArticleMapper articleMapper;
 
+  @Autowired
+  private CategoryMapper categoryMapper;
+  
+  
   /**
    * 新增信息
    */
@@ -562,5 +576,254 @@ public class ArticleServiceImpl implements ArticleService {
     return articleMapper.selectByTypeIdTimer(timerMap);
   }
 
+  @Override
+  public List<Category> getCategoryIsPublish(String parentId) {
+      return categoryMapper.findPublishTree(parentId, null);
+  }
+
+  @Override
+  public boolean isCheckCategory(String articleId, String categoryId) {
+      ArticleCategory articleCategory = new ArticleCategory();
+      articleCategory.setArticleId(articleId);
+      articleCategory.setCategoryId(categoryId);
+      List<ArticleCategory> articleCategories = articleMapper.findArtCategory(articleCategory);
+      if (articleCategories != null && articleCategories.size() > 0) {
+          return true;
+      } else {
+          return false;
+      }
+  }
+
+  @Override
+  public void saveArtCategory(String articleId, String categoryIds) {
+      //先查删除原有关联
+      ArticleCategory articleCategory0 = new ArticleCategory();
+      articleCategory0.setArticleId(articleId);
+      articleMapper.deleteArtCategory(articleCategory0);
+      if (articleId != null && !"".equals(articleId) && categoryIds != null && !"".equals(categoryIds)) {
+          //保存关联
+          String[] categoryIdArry = categoryIds.split(",");
+          for (String categoryId : categoryIdArry) {
+              ArticleCategory articleCategory = new ArticleCategory();
+              articleCategory.setArticleId(articleId);
+              articleCategory.setCategoryId(categoryId.trim());
+              articleMapper.saveArtCategory(articleCategory);
+          }
+      }
+    
+  }
+
+  @Override
+  public void getArticleCategory(String articleId, Model model) {
+      ArticleCategory articleCategory = new ArticleCategory();
+      articleCategory.setArticleId(articleId);
+      List<ArticleCategory> articleCategories = articleMapper.findArtCategory(articleCategory);
+      String categoryIds = "";
+      String categoryNames = "";
+      if (articleCategories != null && articleCategories.size() > 0) {
+          for (int i = 0; i < articleCategories.size(); i++) {
+              ArticleCategory category = articleCategories.get(i);
+              Category category2 = categoryMapper.findById(category.getCategoryId());
+              if (category != null) {
+                  if (category2 != null) {
+                    if (i+1 == articleCategories.size()) {
+                      categoryIds += category.getCategoryId();
+                      categoryNames += category2.getName();
+                    } else {
+                      categoryIds += category.getCategoryId() + ",";
+                      categoryNames += category2.getName() + ",";
+                    }
+                  }else {
+                    //根节点
+                    DictionaryData dictionaryData = DictionaryDataUtil.findById(category.getCategoryId());
+                    if (dictionaryData != null && category != null) {
+                      if (i+1 == articleCategories.size()) {
+                        categoryIds += category.getCategoryId();
+                        categoryNames += dictionaryData.getName();
+                      } else {
+                        categoryIds += category.getCategoryId() + ",";
+                        categoryNames += dictionaryData.getName() + ",";
+                      }
+                    } 
+                  }
+              }
+          }
+      }
+      model.addAttribute("categoryIds", categoryIds);
+      model.addAttribute("categoryNames", categoryNames);
+  }
+
+  @Override
+  public void backArtCategory(String categoryIds, Model model) {
+      String categoryNames = "";
+      if (categoryIds != null && !"".equals(categoryIds)) {
+          String[] categoryIdArry = categoryIds.split(",");
+          for (int i = 0; i < categoryIdArry.length; i++) {
+              Category category2 = categoryMapper.findById(categoryIdArry[i]);
+              if (category2 != null) {
+                  if (i+1 == categoryIdArry.length) {
+                    categoryNames += category2.getName();
+                  } else {
+                    categoryNames += category2.getName() + ",";
+                  }
+              }else {
+                  //根节点
+                  DictionaryData dictionaryData = DictionaryDataUtil.findById(categoryIdArry[i]);
+                  if (dictionaryData != null) {
+                        if (i+1 == categoryIdArry.length) {
+                          categoryNames += dictionaryData.getName();
+                        } else {
+                          categoryNames += dictionaryData.getName() + ",";
+                        }
+                  } 
+              }
+          }
+      }
+      model.addAttribute("categoryIds", categoryIds);
+      model.addAttribute("categoryNames", categoryNames);
+      model.addAttribute("backCategoryIds", categoryIds);
+  }
+
+  @Override
+  public List<Category> getAllParent(String categoryId) {
+      List < Category > categoryList = new ArrayList < Category > ();
+      while(true) {
+          Category category = null;
+          category = categoryMapper.findById(categoryId);
+          if(category == null) {
+              DictionaryData root = DictionaryDataUtil.findById(categoryId);
+              Category rootNode = new Category();
+              rootNode.setId(root.getId());
+              rootNode.setName(root.getName());
+              categoryList.add(rootNode);
+              break;
+          } else {
+              categoryList.add(category);
+              categoryId = category.getParentId();
+          }
+      }
+      return categoryList;
+  }
+
+  @Override
+  public JSONObject saveArtCategory2(String categoryIds, String categoryNames, String articleId, List<Category> list) {
+    JSONObject jsonObj = new JSONObject();  
+    for (Category category : list) {
+          String cId = category.getId();
+          if (categoryIds != null && !"".equals(categoryIds)) {
+              if (categoryIds.indexOf(cId) != -1) {
+              } else {
+                  categoryIds += ","+ cId;
+                  categoryNames += ","+ category.getName();
+              }
+          } else {
+              categoryIds = cId;
+              categoryNames = category.getName();
+          }
+          
+      }
+      jsonObj.put("categoryIds", categoryIds);
+      jsonObj.put("categoryNames", categoryNames);
+      return jsonObj;
+  }
+
+  @Override
+  public JSONObject cancelArtCategory(String categoryIds, String categoryNames, String articleId, String categoryId) {
+      JSONObject jsonObj = new JSONObject();  
+      String[] categoryIdArry = categoryIds.split(",");
+      //去除取消选中的节点
+      ArrayList<String> listIds=new ArrayList<String>();
+      ArrayList<String> listNames=new ArrayList<String>();
+      for (String strId : categoryIdArry) {
+          if (!strId.trim().equals(categoryId)) {
+              listIds.add(strId.trim());
+              Category category = categoryMapper.findById(strId);
+              if (category !=null) {
+                  listNames.add(category.getName());
+              } else {
+                  DictionaryData dd = DictionaryDataUtil.findById(strId);
+                  if (dd != null) {
+                      listNames.add(dd.getName());
+                  }
+              }
+          }
+      }
+      categoryIds = listIds.toString().substring(1, listIds.toString().length()-1);
+      categoryNames = listNames.toString().substring(1, listNames.toString().length()-1);
+      while(true) {
+          Category category = null;
+          category = categoryMapper.findById(categoryId);
+          if(category == null) {
+              //查询子节点是否被选中
+              List<Category> categories = categoryMapper.findByParentId(categoryId);
+              int isExist = 0;
+              for (Category category2 : categories) {
+                  if (categoryIds.indexOf(category2.getId()) != -1) {
+                      isExist += 1;
+                  }
+              }
+              if (isExist == 0) {
+                  String[] categoryIdArry2 = categoryIds.split(",");
+                  //去除取消选中的节点
+                  ArrayList<String> listIds2= new ArrayList<String>();
+                  ArrayList<String> listNames2=new ArrayList<String>();
+                  for (String strId : categoryIdArry2) {
+                      if (!strId.trim().equals(categoryId)) {
+                          listIds2.add(strId.trim());
+                          Category category2 = categoryMapper.findById(strId.trim());
+                          if (category2 !=null) {
+                              listNames2.add(category2.getName());
+                          } else {
+                            DictionaryData dd = DictionaryDataUtil.findById(strId.trim());
+                            if (dd != null) {
+                                listNames2.add(dd.getName());
+                            }
+                          }
+                      }
+                  }
+                  categoryIds = listIds2.toString().substring(1, listIds2.toString().length()-1);
+                  categoryNames = listNames2.toString().substring(1, listNames2.toString().length()-1);
+              }
+              break;
+          } else {
+              //查询子节点是否被选中
+              List<Category> categories = categoryMapper.findByParentId(categoryId);
+              int isExist = 0;
+              for (Category category2 : categories) {
+                  if (categoryIds.indexOf(category2.getId()) != -1) {
+                      //有子节点被选中
+                      isExist += 1;
+                  }
+              }
+              if (isExist == 0) {
+                  String[] categoryIdArry2 = categoryIds.split(",");
+                  //去除取消选中的节点
+                  ArrayList<String> listIds2= new ArrayList<String>();
+                  ArrayList<String> listNames2=new ArrayList<String>();
+                  for (String strId : categoryIdArry2) {
+                      //剔除该父节点
+                      if (!strId.trim().equals(categoryId)) {
+                          listIds2.add(strId.trim());
+                          Category category2 = categoryMapper.findById(strId.trim());
+                          if (category2 !=null) {
+                              listNames2.add(category2.getName());
+                          } else {
+                            DictionaryData dd = DictionaryDataUtil.findById(strId.trim());
+                            if (dd != null) {
+                                listNames2.add(dd.getName());
+                            }
+                          }
+                      }
+                  }
+                  categoryIds = listIds2.toString().substring(1, listIds2.toString().length()-1);
+                  categoryNames = listNames2.toString().substring(1, listNames2.toString().length()-1);
+              }
+              categoryId = category.getParentId();
+          }
+      }
+      jsonObj.put("categoryIds", categoryIds);
+      jsonObj.put("categoryNames", categoryNames);
+      return jsonObj;
+  }
 
 }

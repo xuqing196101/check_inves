@@ -975,3 +975,7 @@ a.redhover:hover{
 	clear:none;
 }
 
+.edit-posit{
+	position: relative;z-index: 88;
+}
+

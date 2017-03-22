@@ -9,6 +9,12 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.json.JSONObject;
+import org.springframework.ui.Model;
+
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 
@@ -396,4 +402,80 @@ public interface ArticleService {
      * @return
      */
     BigDecimal selectByTypeIdTimer(HashMap<String, String> timerMap);
+
+    /**
+     *〈简述〉产品目录
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param parentId
+     * @return
+     */
+    List<Category> getCategoryIsPublish(String parentId);
+
+    /**
+     *〈简述〉是否选中
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param articleId
+     * @param id
+     * @return
+     */
+    boolean isCheckCategory(String articleId, String id);
+
+    /**
+     *〈简述〉保存信息公告与产品目录关联
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @param categoryIds
+     */
+    void saveArtCategory(String id, String categoryIds);
+
+    /**
+     *〈简述〉查询关联品目
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @param model 
+     */
+    void getArticleCategory(String id, Model model);
+
+    /**
+     *〈简述〉回显关联品目
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param id
+     * @param model
+     */
+    void backArtCategory(String id, Model model);
+
+    /**
+     *〈简述〉获取所有父节点
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param categoryId
+     * @return
+     */
+    List<Category> getAllParent(String categoryId);
+
+    /**
+     *〈简述〉实时保存关联品目
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param categoryNames 
+     * @param articleId
+     * @param articleId2 
+     * @param jsonObj 
+     * @param list
+     */
+    JSONObject saveArtCategory2(String categoryIds, String categoryNames, String articleId, List<Category> list);
+
+    /**
+     *〈简述〉取消关联品目
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param categoryId 
+     * @param articleId 
+     */
+    JSONObject cancelArtCategory(String categoryIds, String categoryNames, String articleId, String categoryId);
 }

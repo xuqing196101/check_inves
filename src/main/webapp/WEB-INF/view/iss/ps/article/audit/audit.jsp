@@ -10,6 +10,143 @@
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script type="text/javascript">
+      	<!-- ztree 产品类别 --> 
+		var treeid = null;
+		function beforeClick(treeId, treeNode) {
+			var zTree = $.fn.zTree.getZTreeObj("treeCategory");
+			zTree.checkNode(treeNode, !treeNode.checked, null, true);
+			return false;
+		}
+		
+		function zTreeBeforeCheck(treeId, treeNode) {
+	      if (treeNode.isParent == true) {
+	          layer.msg("请在末节点上进行操作！");
+	          return false;
+	        } else {
+	        return true;        
+	        }
+	    }
+		
+		function onCheck(e, treeId, treeNode) {
+			var clickFlag;
+	        if(treeNode.checked) {
+	          	clickFlag = "1";
+	        } else {
+	          	clickFlag = "0";
+	        }
+	        var articleId = "${article.id}";
+	        var categoryIds = $("#cId").val();
+	        var categoryNames = $("#categorySel").val();
+	        if(clickFlag == "1") {
+	          $.ajax({
+	            url: "${pageContext.request.contextPath}/article/saveArtCategory.do",
+	            contentType:'application/json;charset=UTF-8',
+	            async: false,
+	            data: {
+	              "categoryIds":categoryIds,
+	              "categoryNames":encodeURI(categoryNames),
+	              "articleId": articleId,
+	              "categoryId": treeNode.id,
+	              "type": clickFlag
+	            },
+	            dataType: "json",
+	            success: function(data){
+	            	$("#cId").val(data.categoryIds);
+	        		$("#categorySel").val(data.categoryNames);
+	            }
+	          });
+	        } else {
+	          $.ajax({
+	            url: "${pageContext.request.contextPath}/article/saveArtCategory.do",
+	            contentType:'application/json;charset=UTF-8',
+	            async: false,
+	            data: {
+	              "categoryIds":categoryIds,
+	              "categoryNames":encodeURI(categoryNames),
+	              "articleId": articleId,
+	              "categoryId": treeNode.id,
+	              "type": clickFlag
+	            },
+	            dataType: "json",
+	            success: function(data){
+	            	$("#cId").val(data.categoryIds);
+	        		$("#categorySel").val(data.categoryNames);
+	            }
+		      });
+	       	}
+		}
+		
+		function showCategory(articleId) {
+			//回显勾选
+			var backCategoryIds = $("#cId").val();
+			var zTreeObj;
+			var zNodes;
+			var setting = {
+				async: {
+					autoParam: ["id"],
+					enable: true,
+					url: "${pageContext.request.contextPath}/article/categoryTree.do",
+					otherParam: {
+						"articleId": articleId,
+						"backCategoryIds":backCategoryIds,
+					},
+					dataFilter: ajaxDataFilter,
+					dataType: "json",
+					type: "get"
+				},
+				check: {
+					enable: true,
+					chkStyle: "checkbox",
+					chkboxType: {
+						"Y": "ps",
+						"N": "ps"
+					}, //勾选checkbox对于父子节点的关联关系  
+				},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					beforeClick: beforeClick,
+					onCheck: onCheck,
+					beforeCheck: zTreeBeforeCheck,
+				}
+			};
+			zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+			zTreeObj.expandAll(true); //全部展开
+			var cityObj = $("#categorySel");
+			var cityOffset = $("#categorySel").offset();
+			$("#categoryContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+			$("body").bind("mousedown", onBodyDownOrg);
+		}
+		
+		function ajaxDataFilter(treeId, parentNode, childNodes) {
+			// 判断是否为空
+			if(childNodes) {
+				// 判断如果父节点是第二级,则将查询出来的子节点全部改为isParent = false
+				if(parentNode != null && parentNode != "undefined" && parentNode.level == 1) {
+					for(var i = 0; i < childNodes.length; i++) {
+						childNodes[i].isParent += false;
+					}
+				}
+			}
+			return childNodes;
+		}
+		function hideCategory() {
+			$("#categoryContent").fadeOut("fast");
+			$("body").unbind("mousedown", onBodyDownOrg);
+		}
+		function onBodyDownOrg(event) {
+			if (!(event.target.id == "menuBtn" || event.target.id == "categorySel" || event.target.id == "categoryContent" || $(event.target).parents("#categoryContent").length>0)) {
+				hideCategory();
+			}
+		}
+    
+    
       $(function() {
         var range = "${article.range}";
          $("input[name='ranges']").each(function(){
@@ -90,30 +227,41 @@
             if(typeId == "工作动态") {
             	$("#second").show();
             	$("#lmsx").addClass("tphide");
+            	$("#choseCategory").hide();
+				hideCategory();
             } else if(typeId == "采购公告") {
               $("#second").show();
               $("#three").show();
               $("#four").show();
+              $("#choseCategory").show();
             } else if(typeId == "中标公示") {
               $("#second").show();
               $("#three").show();
               $("#four").show();
+              $("#choseCategory").show();
             } else if(typeId == "单一来源公示") {
               $("#second").show();
               $("#three").show();
               $("#four").hide();
+              $("#choseCategory").show();
             } else if(typeId == "商城竞价公告") {
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+              $("#choseCategory").hide();
+			  hideCategory();
             } else if(typeId == "网上竞价公告") {
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+              $("#choseCategory").hide();
+			  hideCategory();
             } else if(typeId == "采购法规") {
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+              $("#choseCategory").hide();
+			  hideCategory();
             } else if(typeId == "处罚公告") {
               $("#second").show();
               var secId = "${article.secondArticleTypeId}";
@@ -124,6 +272,8 @@
                  $("#three").hide();
 			   }
               $("#four").hide();
+              $("#choseCategory").hide();
+			  hideCategory();
             }
           }
         });
@@ -223,6 +373,8 @@
           $("#four").hide();
           $("#lmsx").addClass("tphide");
           getSencond(parentId);
+          $("#choseCategory").hide();
+		  hideCategory();
         }else if(typeId == "采购公告"){
             $("#second").show();
             $("#three").show();
@@ -230,6 +382,7 @@
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
+            $("#choseCategory").show();
          }else if(typeId == "中标公示"){
              $("#second").show();
              $("#three").show();
@@ -237,6 +390,7 @@
              $("#lmsx").removeClass("tphide");
              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
              getSencond(parentId);
+             $("#choseCategory").show();
          }else if(typeId == "单一来源公示"){
              $("#second").show();
              $("#three").show();
@@ -244,13 +398,16 @@
              $("#lmsx").removeClass("tphide");
              $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
              getSencond(parentId);
+             $("#choseCategory").show();
          }else if(typeId == "商城竞价公告"){
         	  $("#second").show();
         	  $("#three").hide();
             $("#four").hide();
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
-        	  getSencond(parentId);
+        	getSencond(parentId);
+        	$("#choseCategory").hide();
+			hideCategory();
          }else if(typeId == "网上竞价公告"){
             $("#second").show();
             $("#three").hide();
@@ -258,6 +415,8 @@
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
+            $("#choseCategory").hide();
+			hideCategory();
          }else if(typeId == "采购法规"){
             $("#second").show();
             $("#three").hide();
@@ -265,6 +424,8 @@
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
+            $("#choseCategory").hide();
+			hideCategory();
          }else if(typeId == "处罚公告"){
             $("#second").show();
             $("#three").hide();
@@ -272,6 +433,8 @@
             $("#lmsx").removeClass("tphide");
             $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
             getSencond(parentId);
+            $("#choseCategory").hide();
+			hideCategory();
          }else {
           $("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
           $("#second").hide();
@@ -281,6 +444,8 @@
           $("#secondType").empty();
           $("#threeType").empty();
           $("#fourType").empty();
+          $("#choseCategory").hide();
+		  hideCategory();
         }
       }
       
@@ -397,9 +562,21 @@
     	                   if(four==null||four==""){
     	                       $("#ERR_fourType").html("采购方式不能为空");
     	                        return false;
-    	                      }
-    	               }
-    	        }
+    	                      }else if (articleTypes == "单一来源公示" || articleTypes == "采购公告" || articleTypes == "中标公示"){
+		          		   var categoryIds = $("#cId").val();
+				           if (categoryIds == "" || categoryIds == null || categoryIds== "undefined") {
+								$("#ERR_category").html("产品类别不能为空");
+								return false;
+						   }
+		              }
+                  }else if (articleTypes == "单一来源公示" || articleTypes == "采购公告" || articleTypes == "中标公示"){
+	          		   var categoryIds = $("#cId").val();
+			           if (categoryIds == "" || categoryIds == null || categoryIds== "undefined") {
+							$("#ERR_category").html("产品类别不能为空");
+							return false;
+					   }
+	              }
+    	      }
          }else{
            return true;
        }
@@ -431,6 +608,9 @@
     </div>
 
     <div class="container container_box">
+    	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+			<ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+	   	</div>
       <form action="${pageContext.request.contextPath }/article/audit.html" onsubmit="return clk()" method="post" id="form">
         <div>
           <input type="hidden" id="status" name="status">
@@ -490,6 +670,18 @@
                 <div class="cue">${ERR_range}</div>
               </div>
             </li>
+            <li class="col-md-3 col-sm-6 col-xs-12 dnone" id="choseCategory">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+				<div class="star_red">*</div>选择产品类别：</span>
+				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+					<input id="cId" name="categoryId"  type="hidden" value="${categoryIds}">
+			        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryNames}"  onclick="showCategory('${article.id}');" />
+					<div class="drop_up" onclick="showCategory('${article.id}');">
+					    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
+			        </div>
+					<div class="cue" id="ERR_category">${ERR_category}</div>
+				</div>
+			</li>
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">提交时间：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
@@ -501,7 +693,7 @@
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>信息正文：</span>
               <div class="col-md-12 col-sm-12 col-xs-12 p0">
               	<input type="hidden" id="articleContent" value='${article.content}'>
-                <script id="editor" name="content" type="text/plain" class="col-md-12 p0"></script>
+                <script id="editor" name="content" type="text/plain" class="col-md-12 edit-posit p0"></script>
               </div>
               <div class="red f14 clear col-ms-12 col-xs-12 col-sm-12 p0">${ERR_content}</div>
             </li>
