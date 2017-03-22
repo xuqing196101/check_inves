@@ -4,6 +4,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -216,6 +217,25 @@ public class OBProductController {
 		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
 				0,supplierName,null,smallPointsId);
+		if(list != null){
+			for (OBSupplier obSupplier : list) {
+				String id = obSupplier.getSmallPointsId();
+				if(id != null){
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("id", id);
+					List<Category> clist = categoryService.findCategoryByParentNode(map);
+					String str = "";
+					for (Category category : clist) {
+						if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
+							str += category.getName() +"/";
+						}
+						
+					}
+					str+=obSupplier.getSmallPoints().getName();
+					obSupplier.setPointsName(str);
+				}
+			}
+		}
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("supplierName", supplierName);

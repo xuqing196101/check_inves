@@ -274,18 +274,21 @@ function fileUpload(){
 </head>
 <body>
 <!--面包屑导航开始-->
-    <!-- <div class="margin-top-10 breadcrumbs ">
+   <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li><li class="active"><a href="javascript:void(0)">供应商列表</a></li>
+		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li><li class="active"><a href="javascript:void(0)">质检供应商列表</a></li>
 		</ul>
         <div class="clear"></div>
       </div>
-    </div> -->
+    </div>
     
 <!-- 供应商列表页面开始 -->
 	<div class="container">
+	<div class="headline-v2">
+		<h2>质检供应商列表</h2>
+	 </div>
     <div class="search_detail">
        <form action="${pageContext.request.contextPath}/obSupplier/supplier.html" method="post" class="mb0" id = "form1">
     	<input id = "prodid" name = "prodid" value = "${prodid }" style="display: none;">

@@ -187,7 +187,7 @@
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">添加供应商</a></li><li class="active"><a href="javascript:void(0)">添加质检信息</a></li>
+		   <li class="active"><a href="javascript:void(0)">添加质检供应商</a></li><li class="active"><a href="javascript:void(0)">添加质检信息</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
