@@ -144,7 +144,7 @@ public class OBSupplierController {
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
 		String smallPointsName = request.getParameter("smallPointsName") == null ? "" : request.getParameter("smallPointsName");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-				status,supplierName,smallPointsName);
+				status,supplierName,smallPointsName,null);
 		if(list != null){
 			for (OBSupplier obSupplier : list) {
 				String id = obSupplier.getSmallPointsId();

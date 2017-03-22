@@ -102,17 +102,14 @@
 
 	<!-- 查询产品对应的供应商数量 -->
 	<select id="selectSupplierNum" resultMap="BaseResultMap">
-		SELECT
-		T1.ID
-		PRODUCT_ID,T2.NN NN
+		SELECT DISTINCT
+		T1.SMALL_POINTS_ID SMALL_POINTS_ID,T2.NN NN
 		FROM
 		T_BSS_OB_PRODUCT T1
 		LEFT JOIN
-		(select
-		PRODUCT_ID,count(ID) NN from T_BSS_OB_SUPPLIER WHERE IS_DELETED = 0 AND CERT_VALID_PERIOD &gt; SYSDATE 
-		GROUP BY PRODUCT_ID ) T2
+		(select SMALL_POINTS_ID,count(ID) NN from T_BSS_OB_SUPPLIER WHERE IS_DELETED = 0 GROUP BY SMALL_POINTS_ID ) T2
 		ON
-		T1.ID = T2.PRODUCT_ID
+		T1.SMALL_POINTS_ID = T2.SMALL_POINTS_ID
 	</select>
    	<!-- 查询产品对应的 并集供应商 -->
 	<select id="selecUniontSupplier" resultMap="BaseResultMap" parameterType="Map">
@@ -140,6 +137,9 @@
 		<if test="smallPointsName != null and smallPointsName != ''">
 			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${smallPointsName}%')
 		</if>
+		<if test="smallPointsId != null and smallPointsId != ''">
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
+		</if>
 	</select>
 
 	<!-- 根据id查询供应商列表 过期 -->
@@ -159,6 +159,9 @@
 		</if>
 		<if test="smallPointsName != null and smallPointsName != ''">
 			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
+		</if>
+		<if test="smallPointsId != null and smallPointsId != ''">
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
 	</select>
 	
@@ -235,6 +238,9 @@
 		</if>
 		<if test="smallPointsName != null and smallPointsName != ''">
 			AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE NAME LIKE '%${categoryName}%')
+		</if>
+		<if test="smallPointsId != null and smallPointsId != ''">
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
 	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"
@@ -575,7 +581,7 @@
 	
 	<!-- 验证供应商唯一 -->
 	<select id="yzSupplierName" resultType="Integer">
-		SELECT COUNT(ID) FROM T_BSS_OB_SUPPLIER WHERE PRODUCT_ID = #{smallPointsId,jdbcType=VARCHAR} 
+		SELECT COUNT(ID) FROM T_BSS_OB_SUPPLIER WHERE SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR} 
 		AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
 		AND IS_DELETED = 0
 		<if test="id != null">
