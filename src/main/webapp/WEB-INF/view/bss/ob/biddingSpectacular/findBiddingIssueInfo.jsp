@@ -45,13 +45,23 @@
 				    <td class="tc" class="info"><b>竞价标题</b></td>
 				    <td class="tc">${ obProject.name }</td>
 				    <td class="tc"><b>交货截止时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>交货地点</b></td>
 				    <td class="tc">${ obProject.deliveryAddress }</td>
 				    <td class="tc"><b>成交供应商数</b></td>
-				    <td class="tc">${ obProject.tradedSupplierCount }</td>
+				    <td class="tc">
+				    	<c:if test="${obProject.qualifiedSupplier==0}">
+					   		0
+					  	</c:if>
+					  	<c:if test="${obProject.qualifiedSupplier==null}">
+					  		0
+					  	</c:if>
+					   	<c:if test="${obProject.qualifiedSupplier!=0}">
+					   		 ${obProject.qualifiedSupplier}
+					 	</c:if>
+				    </td>
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>运杂费</b></td>
@@ -60,14 +70,17 @@
 					    	${ obProject.transportFees }元
 				    	</c:if>
 				    </td>
-				    <td class="tc"><b>合格供应商数</b></td>
+				    <td class="tc"><b>参与供应商数</b></td>
 				    <td class="tc">
-					    <c:if test="${!empty obProject.qualifiedSupplier }">
-					    	${ obProject.qualifiedSupplier }
-					    </c:if>
-					    <c:if test="${empty obProject.qualifiedSupplier }">
-					    	0
-					    </c:if>
+					    <c:if test="${obProject.closingSupplier==0}">
+				   			0
+				  		</c:if>
+				  		<c:if test="${obProject.closingSupplier==null}">
+				   			0
+				  		</c:if>
+				   		<c:if test="${obProject.closingSupplier!=0}">
+				   			${obProject.closingSupplier}
+				  		</c:if>
 				    </td>
 				  </tr>
 				  <tr>
@@ -84,9 +97,9 @@
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>竞价开始时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				    <td class="tc"><b>竞价结束时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+				    <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>竞价内容</b></td>

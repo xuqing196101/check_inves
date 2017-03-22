@@ -113,7 +113,7 @@
 			   }
 			   if(status == '1' || status == '2' || status == '4' || status == '5'){
 			   	   // 查看结果
-				   window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?bargainCount=${obProject.qualifiedSupplier}&&id="+valueArr[0];
+				   window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?id="+valueArr[0];
 			   }
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
@@ -182,7 +182,7 @@
 		  <th class="info">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">竞价结束时间</th>
-		  <th class="info">成交供应商</th>
+		  <th class="info">成交供应商数量</th>
 		  <th class="info">参与供应商数量</th>
 		  <th class="info">竞价状态</th>
 		  <!-- <th class="info">操作</th> -->
@@ -192,7 +192,7 @@
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.id},${obProject.status}" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td>${ obProject.name }</td>
+			  <td class="tc">${ obProject.name }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">

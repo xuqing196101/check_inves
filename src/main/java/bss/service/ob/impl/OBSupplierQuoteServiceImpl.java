@@ -1,6 +1,7 @@
 package bss.service.ob.impl;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,7 @@ import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
+import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBSupplierMapper;
@@ -72,31 +74,35 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 
 	@Autowired
 	private UploadService uploadService;
-	
+
 	@Autowired
 	private OBProjectSupplierMapper obProjectSupplierMapper;
 
+	@Autowired
+	private OBProjectResultMapper obProjectResultMapper;
+
 	/**
 	 * 
-	* @Title: findQuoteInfo 
-	* @Description: 查看报价信息列表
-	* @author Easong
-	* @param @param id
-	* @param @return    设定文件
+	 * @Title: findQuoteInfo
+	 * @Description: 查看报价信息列表
+	 * @author Easong
+	 * @param @param id
+	 * @param @return 设定文件
 	 */
 	@Override
 	public Map<String, Object> findQuoteInfo(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		HashMap<String, Object> selectMap = new HashMap<String, Object>();
 
-		// 根据id查询报价信息
+		// 根据id查询竞价信息
 		OBProject obProject = obProjectMapper.selectByPrimaryKey(id);
 
 		if (obProject != null) {
 			// 获取竞价的上传文件项
 			String attachmentId = obProject.getAttachmentId();
-			if(attachmentId != null){
-				String typeId = DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX");
+			if (attachmentId != null) {
+				String typeId = DictionaryDataUtil
+						.getId("BIDD_INFO_MANAGE_ANNEX");
 				String sysKey = String.valueOf(Constant.TENDER_SYS_KEY);
 				List<UploadFile> uploadFiles = uploadService.getFilesOther(
 						attachmentId, typeId, sysKey);
@@ -104,8 +110,6 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					map.put("uploadFiles", uploadFiles);
 				}
 			}
-			// 存储报价信息
-			map.put("obProject", obProject);
 			// 根据采购机构id查询采购机构
 			selectMap.put("id", obProject.getOrgId());
 			List<Orgnization> list = orgnizationMapper
@@ -114,6 +118,39 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				Orgnization orgnization = list.get(0);
 				map.put("orgName", orgnization.getName());
 			}
+			// 获取成交供应商数量和参与供应商数量
+			if (obProject.getStatus() != 0) {
+				// 获取产品集合
+				List<OBProductInfo> slist = obProductInfoMapper
+						.selectByProjectId(obProject.getId());
+				// 存储 产品id 集合
+				List<String> pidList = new ArrayList<String>();
+				if (slist != null) {
+					for (OBProductInfo obinfo : slist) {
+						pidList.add(obinfo.getProductId());
+					}
+					Map<String, Object> maps = new HashMap<String, Object>();
+					maps.put("list", pidList);
+					// 获取 成交供应商 数量
+					Integer closingSupplier = obProjectResultMapper
+							.countByStatus(obProject.getId());
+					obProject.setProductName(pidList);
+					if (closingSupplier == null) {
+						closingSupplier = 0;
+					}
+					obProject.setClosingSupplier(closingSupplier);
+					// 获取 供应商数量
+					Integer qualifiedSupplier = obSupplierMapper
+							.countByProductId2(maps);
+					if (qualifiedSupplier == null) {
+						qualifiedSupplier = 0;
+					}
+					obProject.setQualifiedSupplier(qualifiedSupplier);
+				}
+
+			}
+			// 存储报价信息
+			map.put("obProject", obProject);
 		}
 		// 根据标题id查询该标题下发布的产品信息
 		OBProductInfoExample example = new OBProductInfoExample();
@@ -133,7 +170,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		}
 		int index = sb.toString().lastIndexOf(",");
 		String productIds = "";
-		if(index > 0){
+		if (index > 0) {
 			productIds = sb.toString().substring(0, index);
 			// 存储所有商品的id
 			map.put("productIds", productIds);
@@ -145,11 +182,11 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 
 	/**
 	 * 
-	* @Title: saveQuoteInfo 
-	* @Description: 开始报价
-	* @author Easong
-	* @param @param map
-	* @param @return    设定文件
+	 * @Title: saveQuoteInfo
+	 * @Description: 开始报价
+	 * @author Easong
+	 * @param @param map
+	 * @param @return 设定文件
 	 */
 	@Override
 	public JdcgResult saveQuoteInfo(Map<String, Object> map) {
@@ -187,27 +224,32 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				// 保存
 				OBResultsInfo obResultsInfo = new OBResultsInfo();
 				BeanUtils.copyProperties(obResultsInfoExt, obResultsInfo);
-				
+
 				// 报价前，判断截止时间是否已到
 				// 查询竞价标题信息
-				OBProject obProject = obProjectMapper.selectByPrimaryKey(titleId);
-				if(obProject != null){
+				OBProject obProject = obProjectMapper
+						.selectByPrimaryKey(titleId);
+				if (obProject != null) {
 					// 获取报价截止时间
-					Date quoteEndTime = BiddingStateUtil.getQuoteEndTime(obProject);
-					int compareTo = BiddingStateUtil.compareTo(new Date(), quoteEndTime);
+					Date quoteEndTime = BiddingStateUtil
+							.getQuoteEndTime(obProject);
+					int compareTo = BiddingStateUtil.compareTo(new Date(),
+							quoteEndTime);
 					// 报价时间截止
 					// systemDate > biddingTime
-					if(compareTo == 2){
-						//remark 2标识：时间截止，未能及时完成报价
+					if (compareTo == 2) {
+						// remark 2标识：时间截止，未能及时完成报价
 						String remark = "2";
-						BiddingStateUtil.updateRemark(obProjectSupplierMapper, obProject, user, remark);
+						BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+								obProject, user, remark);
 						return JdcgResult.ok("抱歉，报价时间已结束，未完成本次报价！");
 					}
 					// systemDate < biddingTime
-					if(compareTo == 1){
-						//remark 1标识：时间还未截止，完成报价
+					if (compareTo == 1) {
+						// remark 1标识：时间还未截止，完成报价
 						String remark = "1";
-						BiddingStateUtil.updateRemark(obProjectSupplierMapper, obProject, user, remark);
+						BiddingStateUtil.updateRemark(obProjectSupplierMapper,
+								obProject, user, remark);
 					}
 				}
 				// 竞价还没结束已报价，则显示已报价待确认状态
