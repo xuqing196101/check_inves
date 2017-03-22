@@ -305,7 +305,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 		String verify=verifyProduct(obProject.getProductName(), obProject.getTradedSupplierCount());
 		//验证 产品 信息 
-		if(verify!="success"){
+		if(!verify.equals("success")){
 			return verify;
 		}
 		// 默认规则
@@ -478,7 +478,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			}
     	 }
     	 
-    	 return "";
+    	 return "success";
      }
 	/***
 	 * 封装插入 竞价信息 供应商关系表
@@ -887,11 +887,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * @exception
 	 */
 	@Override
-	public java.util.List<OBSupplier> selecUniontSupplier(
-			java.util.List<String> productID) {
+	public List<OBSupplier> selecUniontSupplier(
+			List<String> productID) {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("list", productID);
-		map.put("count", productID.size());
 		return OBSupplierMapper.selecUniontSupplier(map);
 	}
 

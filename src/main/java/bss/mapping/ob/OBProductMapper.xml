@@ -20,6 +20,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="SMALL_POINTS_ID" property="smallPointsId" jdbcType="VARCHAR" />
     <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
     <association property="category" column="CATEGORY_ID" select="ses.dao.bms.CategoryMapper.findById"/>
 	<association property="categoryBig" column="CATEGORY_BIG_ID" select="ses.dao.bms.CategoryMapper.findById"/>
@@ -43,6 +44,8 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="SMALL_POINTS_ID" property="smallPointsId" jdbcType="VARCHAR" />
+    <association property="smallPoints" column="SMALL_POINTS_ID" select="ses.dao.bms.CategoryMapper.findById"/>
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -105,14 +108,14 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, CODE, NAME,PROCUREMENT_ID, CATEGORY_ID, STANDARD_MODEL,CATEGORY_MIDDLE_ID,PRODUCT_CATEGORY_ID, PRODUCT_CATEGORY_LEVEL,CATEGORY_BIG_ID,
-    QUALITY_TECHNICAL_STANDARD, REMARK, IS_DELETED, CREATER_ID, CREATED_AT, UPDATED_AT,STATUS
+    QUALITY_TECHNICAL_STANDARD, REMARK, IS_DELETED, CREATER_ID, CREATED_AT, UPDATED_AT,STATUS,SMALL_POINTS_ID
   </sql>
   
    <!-- 条件查询/查询所有 -->
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProduct" >
     select  <include refid="Base_Column_List"/> FROM T_BSS_OB_PRODUCT WHERE 1=1 AND IS_DELETED=0
     <if test="code != null and code != ''">
-    	and CODE = #{code}
+    	and CODE like '%'||#{code}||'%'
     </if>
     <if test="name != null and name != ''">
     	and NAME like '%'||#{name}||'%'
@@ -237,6 +240,9 @@
       <if test="productCategoryLevel != null" >
         PRODUCT_CATEGORY_LEVEL,
       </if>
+      <if test="smallPointsId != null" >
+        SMALL_POINTS_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -289,6 +295,9 @@
       </if>
       <if test="productCategoryLevel != null" >
         #{productCategoryLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="smallPointsId != null" >
+        #{smallPointsId,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -423,6 +432,9 @@
       </if>
       <if test="productCategoryLevel != null" >
         PRODUCT_CATEGORY_LEVEL = #{productCategoryLevel,jdbcType=DECIMAL},
+      </if>
+      <if test="smallPointsId != null" >
+        SMALL_POINTS_ID = #{smallPointsId,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
