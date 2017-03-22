@@ -45,7 +45,6 @@
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
     <result column="SMALL_POINTS_ID" property="smallPointsId" jdbcType="VARCHAR" />
-    <association property="smallPoints" column="SMALL_POINTS_ID" select="ses.dao.bms.CategoryMapper.findById"/>
   </resultMap>
   
   <sql id="Example_Where_Clause" >
