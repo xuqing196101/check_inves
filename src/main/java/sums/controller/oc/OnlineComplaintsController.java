@@ -267,7 +267,6 @@ public class OnlineComplaintsController {
 	@RequestMapping("/dealWith")
 	public String dealWith(Model model, HttpServletRequest request) {
 		// 非空验证
-
 		// 获取前台传过来的值
 		String id = request.getParameter("id");
 		Complaint complaint = complaintService.selectByPrimaryKey(id);
@@ -276,8 +275,8 @@ public class OnlineComplaintsController {
 		int status = complaint.getStatus();
 		request.setAttribute("ComplaintId", id);
 		if (status == 0) {
-			return "sums/oc/complaintHandling/show";
-		} else{
+			return "sums/oc/complaintHandling/show";			
+		}else{
 			return "redirect:handling.do";
 		}
 		/*
@@ -363,4 +362,19 @@ public class OnlineComplaintsController {
 			return "redirect:handling.do";
 		}
 	}
+	
+	
+	@RequestMapping("/ValidateState") 
+	public @ResponseBody String ValidateState(Model model, HttpServletRequest request) {
+		String id = request.getParameter("ComplaintId");
+		String state = request.getParameter("State");
+		Complaint complaint = complaintService.selectByPrimaryKey(id);
+		String status = complaint.getStatus().toString();
+		if (status.equals(state)) {
+			return "success";
+		} else{
+			return "error";
+		}
+	}
+	
 }
