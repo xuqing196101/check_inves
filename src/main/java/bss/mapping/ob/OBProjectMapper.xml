@@ -541,10 +541,14 @@
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
+  <!--- 根据参数 获取竞价信息  -->
   <select id="selectAllOBproject" parameterType="Map" resultMap="ProjectResultMap">
     select
     <include refid="Base_Column_List" />
       from T_BSS_OB_PROJECT p where 1=1
+    <if test="userId != null and userId !=''" >
+      AND CREATER_ID = #{userId}
+    </if>
     <if test="name != null and name !=''" >
       AND p.NAME like '%${name}%'
     </if>
@@ -559,7 +563,7 @@
     </if>
     AND p.STATUS <![CDATA[ <> ]]> 0
 	ORDER BY
-	UPDATED_AT DESC
+	CREATED_AT DESC
   </select>
   
 </mapper>

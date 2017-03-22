@@ -494,7 +494,6 @@
 			         $.post("${pageContext.request.contextPath}/ob_project/addProject.html",
 							$("#myForm").serialize(),
 							function(data) {
-							alert(data);
 								if (data) {
 									var json = JSON.parse(data);
 									var name = json.attributeName;

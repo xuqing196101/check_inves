@@ -101,6 +101,8 @@
 	var confirmStarttime = "${confirmInfoVo.confirmStarttime }";
 	var confirmOvertime = "${confirmInfoVo.confirmOvertime }";
 	var secondOvertime = "${confirmInfoVo.secondOvertime }";
+	//定义当前标题的供应商正处的状态
+	//var currentStatus 
 	
 	//点击接受按钮调用的方法
 	function confirmAccept() {
@@ -168,27 +170,50 @@
 		//url saveConfirmQuoteInfo
 	}
 	//点击放弃按钮调用此方法
-	function cancelAccept() {
+	function cancelAccept(confirmStatus) {
 		var projectResult = {};
 		var closeLayerIndex = 0;
-		layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
-			//window.location.href="${pageContext.request.contextPath}/performance/deletePerfor.html?id="+ids;
-			layer.close(index);
-			$.ajax({
-				url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
-				type:"post",
-				dataType:"text",
-				data:{
-					"projectId" : "${supplierId}"
-				},
-				success:function(data){
-					window.history.go(-1);
-				},
-				error : function(data) {
-					alert("放弃失败");
-				}
+		if(confirmStatus == "-1") {
+			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
+				//window.location.href="${pageContext.request.contextPath}/performance/deletePerfor.html?id="+ids;
+				layer.close(index);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					type:"post",
+					dataType:"text",
+					data:{
+						"projectId" : "${projectId}"
+					},
+					success:function(data){
+						window.history.go(-1);
+					},
+					error : function(data) {
+						alert("放弃失败");
+					}
+				});
 			});
-		});
+		} else if(confirmStatus == "1") {
+			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
+				//window.location.href="${pageContext.request.contextPath}/performance/deletePerfor.html?id="+ids;
+				layer.close(index);
+				$.ajax({
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					type:"post",
+					dataType:"text",
+					data:{
+						"projectId" : "${projectId}",
+						"confirmStatus" : confirmStatus
+					},
+					success:function(data){
+						window.history.go(-1);
+					},
+					error : function(data) {
+						alert("放弃失败");
+					}
+				});
+			});
+		}
+		
 		//url saveConfirmQuoteInfo
 	}
 	
@@ -453,9 +478,9 @@
 						规则2、自动生成成交比例（可修改），修改后成交数量和总价发生变化，未中标的的显示未中标，不显示成交比例，未中标的只能<br/>看到已中标明细，未中标的只有返回按钮。
   </div>
   <div class="col-md-12 clear tc mt10">
-  <button class="btn" onclick="confirmAccept()">接受</button>
+  <button class="btn" onclick="confirmAccept('${confirmStatus }')">接受</button>
   <input type="hidden" value="${confirmStatus }" id="currentConfirmStatus"/>
-  <button class="btn" onclick="cancelAccept()">放弃</button>
+  <button class="btn" onclick="cancelAccept('${confirmStatus }')">放弃</button>
   </div>
   </div>
 </body>

@@ -2,6 +2,7 @@ package bss.dao.ob;
 
 import bss.model.ob.OBSupplier;
 import bss.model.ob.OBSupplierExample;
+
 import java.util.List;
 import java.util.Map;
 
@@ -48,7 +49,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId(@Param("productId") String productId,
-			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
 
 	/**
 	 * 
@@ -62,7 +63,7 @@ public interface OBSupplierMapper {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId1(@Param("productId") String productId,
-			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsNam);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsNam,@Param("smallPointsId")String smallPointsId);
 
 	/**
 	 * 
@@ -77,7 +78,7 @@ public interface OBSupplierMapper {
 	 */
 
 	List<OBSupplier> selectByProductId2(@Param("productId") String productId,
-			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName);
+			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
 
 	/**
 	 * 

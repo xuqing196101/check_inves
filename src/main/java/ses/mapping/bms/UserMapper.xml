@@ -155,7 +155,7 @@
 	   AND TSEE.EXPERTS_FROM = (SELECT ID
 	                              FROM T_SES_BMS_DICTIONARY_DATA DD
 	                             WHERE DD.KIND = 12
-	                               AND DD.NAME = '地方')
+	                               AND DD.NAME = '军队')
 	   AND TSBU.ID = #{id,jdbcType=VARCHAR}
   </select>
   

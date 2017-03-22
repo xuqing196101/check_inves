@@ -32,7 +32,7 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	List<OBSupplier> selectByProductId(String id, Integer page, Integer status,
-			String supplierName,String smallPointsName);
+			String supplierName,String smallPointsName,String smallPointsId);
 
 	/**
 	 * 

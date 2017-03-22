@@ -262,9 +262,9 @@
 		  <td class="tl">${product.categoryMiddle.name }</td>
 		  <td class="tl">${product.category.name }</td>
 		  <td class="tl">${product.productCategory.name }</td>
-		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?status=2&&prodid=${product.id }">
+		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
 		  	<c:forEach items="${numlist }" var="num">
-		  		<c:if test="${num.productId == product.id }">${num.nCount }</c:if>
+		  		<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
 		  	</c:forEach>
 		  </a></td>
 		</tr>

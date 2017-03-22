@@ -57,6 +57,16 @@ public class OBProduct {
 	private Date updatedAt;
 
 	private Integer status;
+	
+	private String smallPointsId;
+
+	public String getSmallPointsId() {
+		return smallPointsId;
+	}
+
+	public void setSmallPointsId(String smallPointsId) {
+			this.smallPointsId = smallPointsId;
+	}
 
 	// 产品小类
 	private Category category;

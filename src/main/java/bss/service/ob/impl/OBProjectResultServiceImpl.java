@@ -7,6 +7,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.model.bms.User;
 import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
@@ -19,6 +20,8 @@ import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
+import bss.util.BiddingStateUtil;
+import common.annotation.CurrentUser;
 /**
  * 
  * @author Ma Mingwei
@@ -187,9 +190,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @param obProjectResult封装的条件对象
      * @return 竞价管理-结果查询   修改了几条记录数
      */
-	public int updateInfoBySPPIdList(List<OBProjectResult> projectResultList) {
+	public int updateInfoBySPPIdList(User user,
+			List<OBProjectResult> projectResultList) {
 		// TODO Auto-generated method stub
 		int flag = 0;
+		//BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 		for(int i = 0; i < projectResultList.size();i++) {
 			if(i == 0) {
 				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));

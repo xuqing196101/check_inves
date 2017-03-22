@@ -97,8 +97,10 @@ public class OBProductController {
 		PageInfo<OBProduct> info = new PageInfo<>(list);
 		List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
 		for (OBSupplier ob : numlist) {
-			if (ob.getnCount() == null) {
-				ob.setnCount(0);
+			if(null != ob){
+				if (null == ob.getnCount()) {
+					ob.setnCount(0);
+				}
 			}
 		}
 		model.addAttribute("info", info);
@@ -210,15 +212,14 @@ public class OBProductController {
 		if (page == null) {
 			page = 1;
 		}
-		int status = request.getParameter("status") == null ? 0 : Integer.parseInt(request.getParameter("status"));
-		String id = request.getParameter("prodid") == null ? "" : request.getParameter("prodid");
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
-		List<OBSupplier> list = oBSupplierService.selectByProductId(id, page,
-				status,supplierName,null);
+		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
+		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
+				0,supplierName,null,smallPointsId);
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
-		model.addAttribute("prodid", id);
 		model.addAttribute("supplierName", supplierName);
+		model.addAttribute("smallPointsId", smallPointsId);
 		return "bss/ob/finalize_DesignProduct/qualifiedSupplierlist";
 	}
 
@@ -276,6 +277,7 @@ public class OBProductController {
 		obProduct.setProcurementId(procurementId);
 		obProduct.setQualityTechnicalStandard(qualityTechnicalStandard);
 		obProduct.setStandardModel(standardModel);
+		obProduct.setSmallPointsId(categoryId);
 		if(categoryLevel == 2){
 			//大类
 			obProduct.setCategoryBigId(categoryId);
@@ -421,6 +423,7 @@ public class OBProductController {
 		obProduct.setCode(code);
 		obProduct.setName(name);
 		obProduct.setProcurementId(procurementId);
+		obProduct.setSmallPointsId(categoryId);
 		if(categoryLevel == 2){
 			//大类
 			obProduct.setCategoryBigId(categoryId);

@@ -196,20 +196,39 @@
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
-				<c:if test="${ !empty obProject.tradedSupplierCount }">
+				<%-- <c:if test="${ !empty obProject.tradedSupplierCount }">
 					<a href="javascript:;">${ obProject.tradedSupplierCount }</a>
 				</c:if>
 				<c:if test="${ empty obProject.tradedSupplierCount }">
 					0
-				</c:if>
+				</c:if> --%>
+				<c:if test="${obProject.qualifiedSupplier==0}">
+			   		0
+			  	</c:if>
+			  	<c:if test="${obProject.qualifiedSupplier==null}">
+			  		0
+			  	</c:if>
+			   	<c:if test="${obProject.qualifiedSupplier!=0}">
+			   		 <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}">${obProject.qualifiedSupplier}</a>
+			 	</c:if>
+				
 			  </td>
 			  <td class="tc">
-			  	<c:if test="${ !empty obProject.qualifiedSupplier }">
+			  	<%-- <c:if test="${ !empty obProject.qualifiedSupplier }">
 			  	    <a href="javascript:;">${ obProject.qualifiedSupplier  }</a>
 			  	</c:if>
 			  	<c:if test="${empty obProject.qualifiedSupplier }">
 			  		0
-			  	</c:if>
+			  	</c:if> --%>
+			  	<c:if test="${obProject.closingSupplier==0}">
+		   			0
+		  		</c:if>
+		  		<c:if test="${obProject.closingSupplier==null}">
+		   			0
+		  		</c:if>
+		   		<c:if test="${obProject.closingSupplier!=0}">
+		   			<a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}&result=1">${obProject.closingSupplier}</a>
+		  		</c:if>
 			  </td>
 			  <td class="tc">
 			  	<c:if test="${ obProject.status == 1 }">

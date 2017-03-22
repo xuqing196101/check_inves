@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -176,7 +177,7 @@ public class OBSupplierQuoteController {
 			//第一轮放弃，参加第二轮时的操作	这个需求暂时不够确定，先不走这一步
 			
 		}
-		//获取当前(在猫上运行，就是猫的)时间
+		//获取当前(在猫上运行，就是猫的)时间,（用此时间和当前标题的各个时间段比对）
 		Date sysCurrentTime = new Date();
 		
 		double allProductPrice = 0;
@@ -249,9 +250,10 @@ public class OBSupplierQuoteController {
 		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() > co.getTime()) {
 			//在第一轮中间
 			//调用service层的修改
-			updateNum = oBProjectResultService.updateInfoBySPPIdList(projectResultList);
+			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
 		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() > so.getTime()) {
 			//在第二轮中间
+			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
 		} else if(currentDate.getTime() >= so.getTime()) {
 			//在第二轮之后(直接给页面一个反馈，不走后台流程)
 			updateNum = -1;
@@ -279,8 +281,9 @@ public class OBSupplierQuoteController {
 			String projectId,
 			Model model,
 			String roundNum,
+			String confirmStatus,//当前正处于的未操作的状态
 			HttpServletRequest request){
-		String supplierId = "2E7A7EAC566343379640DDAB5A35123F";//user.getId();
+		String supplierId = user.getTypeId();//"2E7A7EAC566343379640DDAB5A35123F";//user.getId();
 		
 		OBProjectResult oBProjectResult = new OBProjectResult();
 		//把此供应商的状态都改为0，表示放弃

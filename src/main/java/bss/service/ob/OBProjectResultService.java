@@ -9,6 +9,8 @@ import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
 import bss.model.ob.SupplierProductVo;
+import common.annotation.CurrentUser;
+import ses.model.bms.User;
 
 /**
  * 
@@ -93,7 +95,7 @@ public interface OBProjectResultService {
      * @param obProjectResult封装的条件对象
      * @return 竞价管理-结果查询   修改了几条记录数
      */
-	public int updateInfoBySPPIdList(List<OBProjectResult> projectResultList);
+	public int updateInfoBySPPIdList(User user, List<OBProjectResult> projectResultList);
 	
 	/**
      * 根据标题id获取封装的供应商信息

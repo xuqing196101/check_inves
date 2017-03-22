@@ -445,7 +445,7 @@ public class ExpertController extends BaseController {
 
 		List<User> num = userService.selectByArmyLocal(userId);   //地方用户不显示本科以下学历
 		if (num != null && num.size() > 0) {
-			for (int j = xlList.size() - 1; j > 2; j--) {
+			for (int j = xlList.size() - 1; j > 4; j--) {
 				xlList.remove(j);
 			}
 		}
@@ -3924,10 +3924,10 @@ public class ExpertController extends BaseController {
                 imgInfo="毕业证书未上传";
                 return JSON.toJSONString(imgInfo);
             }
-            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
-                imgInfo="学位证书未上传";
-                return JSON.toJSONString(imgInfo);
-            }
+//            if(QUALIFICATIONS_PROOF.size()<1 && QUALIFICATIONS_PROOF !=null ){
+//                imgInfo="学位证书未上传";
+//                return JSON.toJSONString(imgInfo);
+//            }
 
         }else if(from.equals("ARMY")){
             if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){
