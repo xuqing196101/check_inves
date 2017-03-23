@@ -865,13 +865,13 @@
                          <c:if test="${fn:contains(errorField,'证件照')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('证件照')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                  exts="${properties['file.picture.type']}" id="expert13"
-                                  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert13"
+                                  exts="${properties['file.picture.type']}" id="expert50"
+                                  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"
                                   multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1"
-                                  typeId="13" auto="true"/>
-                        <u:show showId="show13" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show13"
+                                  typeId="50" auto="true"/>
+                        <u:show showId="show50" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50"
                                 businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="13"/>
+                                typeId="50"/>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
