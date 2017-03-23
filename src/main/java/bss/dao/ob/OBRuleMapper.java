@@ -3,6 +3,7 @@ package bss.dao.ob;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBRuleExample;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -43,5 +44,5 @@ public interface OBRuleMapper {
      * @param id  规则id
      * @return
      */
-    int updateCount(String id);
+    int updateCount(@Param("id")String id,@Param("updatedAt")Date updatedAt);
 }

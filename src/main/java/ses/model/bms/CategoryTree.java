@@ -33,6 +33,8 @@ public class CategoryTree {
      * 是否被选中
      */
     private boolean checked;
+    
+    private boolean nocheck;
 
     private Integer isEnd;
 
@@ -155,7 +157,12 @@ public class CategoryTree {
         this.parentId = parentId;
     }
 
-
+    public boolean isNocheck() {
+      return nocheck;
+    }
+    public void setNocheck(boolean nocheck) {
+      this.nocheck = nocheck;
+    }
     
 
 

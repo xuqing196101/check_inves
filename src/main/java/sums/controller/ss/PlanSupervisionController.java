@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 
 import org.apache.commons.lang3.StringUtils;
@@ -247,33 +248,30 @@ public class PlanSupervisionController {
             }
             
             //需求计划信息
+            HashSet<String> set = new HashSet<>();
             List<PurchaseDetail> details = detailService.getUnique(id);
+            HashMap<String, Object> maps = new HashMap<>();
+            List<PurchaseRequired> listRequired = new ArrayList<>();
             if(details != null && details.size() > 0){
-                HashMap<String, Object> map = new HashMap<>();
-                for (int i = 0; i < details.size(); i++ ) {
-                    map.put("id", details.get(i).getId());
-                    List<PurchaseRequired> purchaseDetails = requiredService.selectByParentId(map);
-                    if(purchaseDetails.size() > 1){
-                        details.get(i).setPurchaseType("");
-                    }else{
-                        DictionaryData findById = DictionaryDataUtil.findById(details.get(i).getPurchaseType());
-                        details.get(i).setPurchaseType(findById.getName());
+                for (PurchaseDetail detail : details) { 
+                    set.add(detail.getFileId());
+                }
+                
+                for (String string : set) {
+                    maps.put("fileId", string);
+                    List<PurchaseRequired> details3 = requiredService.getByMap(maps);
+                    if(details3 != null && details3.size() > 0){
+                        for (PurchaseRequired purchaseRequired : details3) {
+                            if("1".equals(purchaseRequired.getParentId())){
+                                User user = userService.getUserById(purchaseRequired.getUserId());
+                                purchaseRequired.setUserId(user.getRelName());
+                                listRequired.add(purchaseRequired);
+                                break;
+                            }
+                        }
                     }
                 }
-                List<PurchaseRequired> listRequired = new ArrayList<PurchaseRequired>();
-                for (PurchaseDetail detail : details) { 
-                    if("1".equals(detail.getParentId())){
-                        PurchaseRequired required = requiredService.queryById(detail.getId());
-                        if(required != null){
-                            User users = userService.getUserById(required.getUserId());
-                            required.setUserId(users.getRelName());
-                            listRequired.add(required);
-                        }
-                        break;
-                    } 
-                }
                 model.addAttribute("listRequired", listRequired);
-                model.addAttribute("list", details);
             }
             
             //任务信息
@@ -449,6 +447,11 @@ public class PlanSupervisionController {
                                 packages2.setProjectDetails(list);
                             }
                         }
+                        for (int i = 0; i < packages.size(); i++ ) {
+                            if(packages.get(i).getProjectDetails().size() < 1){
+                                packages.remove(i);
+                            }
+                        }
                         model.addAttribute("packages", packages);
                     }else{
                         model.addAttribute("details", details);
@@ -459,6 +462,33 @@ public class PlanSupervisionController {
             }
         }
         return "sums/ss/planSupervision/package_view";
+    }
+    
+    
+    @RequestMapping("/overview")
+    public String overview(String id, Model model){
+        if(StringUtils.isNotBlank(id)){
+            HashMap<String, Object> map = new HashMap<>();
+            PurchaseDetail detail = detailService.queryById(id);
+            if(detail != null){
+                //计划信息
+                CollectPlan collectPlan = collectPlanService.queryById(detail.getUniqueId());
+                if(collectPlan != null){
+                    model.addAttribute("collectPlan", collectPlan);
+                }
+                //项目信息
+                map.put("requiredId", detail.getId());
+                List<ProjectDetail> selectById = projectDetailService.selectById(map);
+                if(selectById != null && selectById.size() > 0){
+                    Project project = projectService.selectById(selectById.get(0).getProject().getId());
+                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                    project.setPurchaseDepName(org.getName());
+                    model.addAttribute("project", project);
+                }
+                
+            }
+        }
+        return null;
     }
     
     

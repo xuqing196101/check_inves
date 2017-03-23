@@ -80,6 +80,12 @@
   	<collection property="articleAttachments" ofType="iss.model.ps.ArticleAttachments"/>
   </resultMap>
   
+  <!-- 信息公告与品目关联 -->
+  <resultMap id="ArticleCategoryMapper" type="iss.model.ps.ArticleCategory">
+    <result column="ARTICLE_ID" property="articleId"/>
+    <result column="CATEGORY_ID" property="categoryId"/>
+  </resultMap>
+  
   <sql id="Article_Column_List">
     ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
     STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK,
@@ -1306,4 +1312,31 @@ where
 	and IS_DELETED = 0
 	and rownum &lt;=6
   </select>
+  
+  <!-- 删除信息公告和产品目录的关联 -->  
+  <delete id="deleteArtCategory" parameterType="Object">  
+      delete from T_SES_BMS_ARTICLE_CATEGORY  
+      <where>  
+          <if test="categoryId != null">"CATEGORY_ID" = #{categoryId}</if>  
+          <if test="articleId != null">and "ARTICLE_ID" = #{articleId}</if>  
+      </where>  
+  </delete>  
+  
+  <!-- 保存信息公告和产品目录的关联 -->  
+  <insert id="saveArtCategory" parameterType="Object">  
+      insert into T_SES_BMS_ARTICLE_CATEGORY("CATEGORY_ID","ARTICLE_ID")  	
+      values(#{categoryId},#{articleId})  
+  </insert>
+  
+  <!-- 查询信息公告和产品目录的关联 -->
+  <select id="findArtCategory" resultMap="ArticleCategoryMapper"  parameterType="Object">
+    select
+    *
+    from T_SES_BMS_ARTICLE_CATEGORY  
+    <where>  
+        <if test="categoryId != null">"CATEGORY_ID" = #{categoryId}</if>  
+        <if test="articleId != null">and "ARTICLE_ID" = #{articleId}</if>  
+    </where>
+  </select>
+  
 </mapper>

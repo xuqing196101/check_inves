@@ -346,7 +346,7 @@
   </select>
   
   <!-- 获取报价合同列表 -->
-  <select id="selectByOffer" parameterType="Object" resultMap="AppraisalContractResultMap">
+  <select id="selectByOffer" parameterType="bss.model.sstps.AppraisalContract" resultMap="AppraisalContractResultMap">
     select 
     <include refid="Base_Column_List" />
     from T_BSS_SSTPS_APPRAISAL_CONTRACT
@@ -357,8 +357,8 @@
     <if test="code != null and code != ''">
         AND CODE LIKE '%'||#{code}||'%'
     </if>
-    <if test="supplierName != null and supplierName != ''">
-        AND SUPPLIER_NAME LIKE '%'||#{supplier.supplierName}||'%'
+    <if test="supplier.supplierName != null and supplier.supplierName != ''">
+    	AND SUPPLIER_NAME IN (SELECT ID SUPPLIER_NAME FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplier.supplierName}%')
     </if>
     <if test="user != null">
         AND USER_ID = #{user.id}

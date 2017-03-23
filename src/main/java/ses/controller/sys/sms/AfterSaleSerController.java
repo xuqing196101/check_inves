@@ -24,8 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import bss.model.cs.PurchaseContract;
-import bss.model.pqims.PqInfo;
-import bss.model.pqims.SupplierPqrecord;
+
 import bss.service.cs.PurchaseContractService;
 
 import com.github.pagehelper.PageInfo;
@@ -54,6 +53,9 @@ public class AfterSaleSerController {
 	
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+    private SupplierService supplierService;
 	
 	/**
 	 * 
@@ -97,8 +99,8 @@ public class AfterSaleSerController {
 	 */
 	@RequestMapping("/add")
 	public String add(HttpServletRequest request,Model model){
-		String pqinfouuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
-		model.addAttribute("pqinfoId", pqinfouuid);
+		String afterSaleSeruid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+		model.addAttribute("afterSaleSerId", afterSaleSeruid);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("CONTRACT_APPROVE_ATTACH");
 		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
@@ -157,7 +159,12 @@ public class AfterSaleSerController {
 			flag = false;
 			model.addAttribute("ERR_mobile", "联系电话不能为空!");
 		}
-		
+		if(flag == false){
+			
+			url="ses/sms/after_sales_ser/add";
+		}else{
+			
+		}
 		return url;
 	}
 	/**

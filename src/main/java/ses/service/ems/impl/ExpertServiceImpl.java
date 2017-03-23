@@ -691,7 +691,7 @@ public class ExpertServiceImpl implements ExpertService {
 		DictionaryData data = dictionaryDataMapper.selectByPrimaryKey(idType);
 		if(data != null){
 		    if("ID_CARD".equals(data.getCode())){
-		        if(!ValidateUtils.IDcard(expert.getIdNumber())){
+		        if(expert.getIdNumber() != null && !ValidateUtils.IDcard(expert.getIdNumber())){
 		            map.put("idNumber2", "证件号码无效！");
 		         }
 		    }

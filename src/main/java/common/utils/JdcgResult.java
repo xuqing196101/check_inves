@@ -18,7 +18,9 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 public class JdcgResult implements Serializable {
 
 	private static final long serialVersionUID = 1L;
-
+    private String count;
+    private String sum;
+	
 	// 定义jackson对象
 	private static final ObjectMapper MAPPER = new ObjectMapper();
 
@@ -37,6 +39,22 @@ public class JdcgResult implements Serializable {
 
 	public static JdcgResult ok(Object data) {
 		return new JdcgResult(data);
+	}
+
+	public String getCount() {
+		return count;
+	}
+
+	public void setCount(String count) {
+		this.count = count;
+	}
+
+	public String getSum() {
+		return sum;
+	}
+
+	public void setSum(String sum) {
+		this.sum = sum;
 	}
 
 	public static JdcgResult ok() {

@@ -17,21 +17,29 @@ import java.util.Map;
 import java.util.UUID;
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.controller.sys.bms.LoginController;
 import ses.controller.sys.sms.BaseSupplierController;
+import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.ExpertCategory;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
@@ -253,7 +261,10 @@ public class ArticleController extends BaseSupplierController {
     // flag = false;
     // model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
     // }
-
+    
+    //产品类别
+    String categoryIds = request.getParameter("categoryId");
+    
     if (flag == false) {
       model.addAttribute("article", article);
       model.addAttribute("articleId", id);
@@ -302,6 +313,7 @@ public class ArticleController extends BaseSupplierController {
       if (article.getStatus() == 1) {
         article.setSubmitAt(new Date());
       }
+      articleService.saveArtCategory(id, categoryIds);
       articleService.addArticle(article);
       if (article.getStatus() == 1) {
         url = "redirect:getAll.html?news=0";
@@ -414,6 +426,9 @@ public class ArticleController extends BaseSupplierController {
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
+    
+    //查询关联品目
+    articleService.getArticleCategory(id, model);
     return "iss/ps/article/edit";
   }
 
@@ -537,7 +552,9 @@ public class ArticleController extends BaseSupplierController {
         }
       }
     }
-
+    //产品类别
+    String categoryIds = request.getParameter("categoryId");
+    
     if (flag == false) {
       model.addAttribute("article", article);
       model.addAttribute("articleId", id);
@@ -561,6 +578,8 @@ public class ArticleController extends BaseSupplierController {
       if (secrets.size() > 0) {
         model.addAttribute("secretTypeId", secrets.get(0).getId());
       }
+      //回显关联品目  有问题
+      //articleService.backArtCategory(categoryIds, model);
       url = "iss/ps/article/edit";
     } else {
       if (ValidateUtils.isNull(article.getFourArticleTypeId())) {
@@ -580,6 +599,7 @@ public class ArticleController extends BaseSupplierController {
       if (article.getStatus() == 1) {
         article.setSubmitAt(new Date());
       }
+      articleService.saveArtCategory(id, categoryIds);
       articleService.update(article);
       if (article.getStatus() == 1) {
         url = "redirect:getAll.html?news=0";
@@ -1021,7 +1041,8 @@ public class ArticleController extends BaseSupplierController {
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
-
+    //查询关联品目
+    articleService.getArticleCategory(id, model);
     return "iss/ps/article/audit/audit";
   }
 
@@ -1193,11 +1214,16 @@ public class ArticleController extends BaseSupplierController {
         model.addAttribute("secretTypeId", secrets.get(0).getId());
       }
 
+      //产品类别
+      String categoryIds = request.getParameter("categoryId");
+      
       if (flag == false) {
         model.addAttribute("article", article);
         model.addAttribute("articleId", id);
         List<ArticleType> articleList = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", articleList);
+        //查询关联品目
+        //articleService.getArticleCategory(id, model);
         url = "iss/ps/article/audit/audit";
       } else {
         article.setPublishedName(user.getRelName());
@@ -1231,6 +1257,7 @@ public class ArticleController extends BaseSupplierController {
               }
         }
         
+        articleService.saveArtCategory(id, categoryIds);
         articleService.update(article);
         
 
@@ -1256,6 +1283,8 @@ public class ArticleController extends BaseSupplierController {
         model.addAttribute("articleId", id);
         List<ArticleType> articleList = articleTypeService.selectAllArticleTypeForSolr();
         model.addAttribute("list", articleList);
+        //查询关联品目
+        articleService.getArticleCategory(id, model);
         url = "iss/ps/article/audit/audit";
       }else {
         articleService.update(article);
@@ -1728,5 +1757,82 @@ public class ArticleController extends BaseSupplierController {
       super.writeJson(response, list);
     }
   }
+  
+  /**
+   *〈简述〉产品目录
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param articleId
+   * @param parentId
+   * @return
+   */
+  @ResponseBody
+  @RequestMapping(value = "/categoryTree", produces = "application/json;charset=UTF-8")
+  public String categoryTree(String articleId, String id, String backCategoryIds){
+      List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
+      //回显数据库保存
+      if (id == null) {
+          if (backCategoryIds != null && !"".equals(backCategoryIds)) {
+            //后台校验返回时回显选中
+            articleTypeService.backTree(id, backCategoryIds, allCategories, "root");
+          } else {
+              DictionaryData data=new DictionaryData();
+              data.setKind(6);
+              List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+              for (DictionaryData dictionaryData : listByPage) {
+                CategoryTree ct=new CategoryTree();
+                ct.setId(dictionaryData.getId());
+                ct.setName(dictionaryData.getName());
+                ct.setIsParent("true");
+                ct.setClassify(dictionaryData.getCode());
+                // 设置是否被选中
+                ct.setChecked(articleService.isCheckCategory(articleId, dictionaryData.getId()));
+                allCategories.add(ct);
+              }
+          }
+      } else {
+          if (backCategoryIds != null && !"".equals(backCategoryIds)) {
+              //后台校验返回时回显选中
+              articleTypeService.backTree(id, backCategoryIds, allCategories, null);
+          } else {
+              List < Category > tempNodes = articleService.getCategoryIsPublish(id);
+              for (Category category : tempNodes) {
+                CategoryTree ct = new CategoryTree();
+                ct.setName(category.getName());
+                ct.setId(category.getId());
+                ct.setParentId(category.getParentId());
+                // 判断是否为父级节点
+                List < Category > nodesList = articleService.getCategoryIsPublish(category.getId());
+                if(nodesList != null && nodesList.size() > 0) {
+                  ct.setIsParent("true");
+                }
+                // 判断是否被选中
+                ct.setChecked(articleService.isCheckCategory(articleId, category.getId()));
+                allCategories.add(ct);
+              }
+          }
+      }
+      return JSON.toJSONString(allCategories);
+  }
 
+    @ResponseBody
+    @RequestMapping(value = "/saveArtCategory")
+    public String saveArtCategory(String categoryIds, String categoryNames, String articleId, String categoryId, String type) throws UnsupportedEncodingException{
+        JSONObject jsonObj = new JSONObject();
+        if (categoryNames != null && !"".equals(categoryNames)) {
+          categoryNames = URLDecoder.decode(categoryNames,"UTF-8");
+        }
+        if ("1".equals(type)) {
+          //如果是选中
+          //获取选中节点以及所有父节点
+          List < Category > list = articleService.getAllParent(categoryId);
+          jsonObj = articleService.saveArtCategory2(categoryIds, categoryNames, articleId, list);
+        } else if("0".equals(type)) {
+          //如果是取消选中
+          jsonObj = articleService.cancelArtCategory(categoryIds, categoryNames, articleId, categoryId);
+          
+        }
+        return jsonObj.toString();
+    }
+  
 }

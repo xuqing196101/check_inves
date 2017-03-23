@@ -77,17 +77,9 @@ local.properties
 
 .DS_Store
 src/.DS_Store
-src/main/java/ses/mapping/sms/SupplierMapper.xml
+
 
 .idea
 out
 zhbj.iml
-src/main/java/bss/controller/cs/PurchaseContractController.java
-src/main/java/bss/controller/cs/PurchaseContractController.java
-src/main/java/bss/controller/cs/PurchaseContractController.java
-src/main/java/bss/controller/cs/PurchaseContractController.java
-src/main/java/bss/controller/cs/PurchaseContractController.java
-src/main/java/bss/controller/ob/OBProjectController.java
-src/main/java/bss/controller/ob/OBProjectController.java
-src/main/java/bss/controller/ob/OBSupplierController.java
-*.java
+

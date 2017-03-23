@@ -15,6 +15,19 @@
 <meta name="author" content="">
 <title>投诉处理详细页面</title>
 <script type="text/javascript">
+
+//$("#sendPhoneNum").css("display", "none"); 
+
+$(function(){ 
+	<c:if test="${complaint.type=='0'}">
+	$("#idcard").css("display", "none"); 	
+    </c:if>
+    <c:if test="${complaint.type=='1'}">
+    $("#idcard").css("display", ""); 
+</c:if>
+
+}); 
+    
 	function openBli() {
 		layer
 				.open({
@@ -68,9 +81,8 @@
 				});
 	}
 	/* 查看图片 */
-	function openViewDIvs(id){
-		
-		var params={"businessId":id,"typeId":46,"key":2};
+	function openViewDIvs(id,typeId){
+		var params={"businessId":id,"typeId":typeId,"key":2};
 		$.ajax({
 			url: globalPath + '/file/displayFile.do',
 			data: params,
@@ -125,11 +137,11 @@
 					<div
 						class="input-append input_group col-md-12 mb20 col-sm-12 col-xs-12 p0">
 						<c:if test="${complaint.type=='0'}">
-							<input readOnly="readOnly" class="" name="PerSonName" type="text"
+							<input readOnly="readOnly" class="" onchange="hid()" name="PerSonName" type="text"
 								value="单位">
 						</c:if>
 						<c:if test="${complaint.type=='1'}">
-							<input readOnly="readOnly" class="" name="PerSonName" type="text"
+							<input readOnly="readOnly" class="" onchange="hid()" name="PerSonName" type="text"
 								value="个人">
 						</c:if>
 						<input readOnly="readOnly" type="hidden" id="ComplaintId" value="${ComplaintId}">
@@ -158,8 +170,14 @@
 					class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">投诉文件附件</span>
 					<div
 						class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-						<td class="tc"><button type="button" onclick="openViewDIvs('${supplier.id }');" class="btn">查看</button></td>
+						<td class="tc"><button type="button" onclick="openViewDIvs('${complaint.id }',47);" class="btn" >查看</button></td>
 					</div></li>  
+			<li class="col-md-3 col-sm-6 col-xs-12 mt15 " id="idcard"><span
+			class="zzzx col-md-12 col-sm-12 col-xs-12 padding-left-5">身份证照片附件</span>
+			<div
+				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+				<td class="tc"><button type="button" onclick="openViewDIvs('${complaint.id }',48);" class="btn" >查看</button></td>
+			</div></li> 
 			</ul>
 			<div class="col-md-12 col-sm-12 col-xs-12 tc mt5">
 				<button class="btn" type="button" onclick="openLi();">立项</button>

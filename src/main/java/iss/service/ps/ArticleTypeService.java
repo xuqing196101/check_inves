@@ -4,6 +4,8 @@ import iss.model.ps.ArticleType;
 
 import java.util.List;
 
+import ses.model.bms.CategoryTree;
+
 /**
 * @Title:ArticleTypeService 
 * @Description: 栏目管理接口
@@ -111,4 +113,15 @@ public interface ArticleTypeService {
       * @return ArticleType
        */
      List<ArticleType> selectShowNumByParId(String parentId);
+     
+     /**
+     *〈简述〉后台校验返回时回显选中
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param parentId
+     * @param backCategoryIds 
+     * @param allCategories
+     * @param string 
+     */
+    void backTree(String parentId, String backCategoryIds, List<CategoryTree> allCategories, String string);
 }

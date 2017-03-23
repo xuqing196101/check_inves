@@ -91,7 +91,7 @@
                     <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
                     <th class="info item">计量<br/>单位</th>
                     <th class="info purchasecount">采购<br/>数量</th>
-                    <th class="info w150">单位<br/>（元）</th>
+                    <th class="info w150">单价<br/>（元）</th>
                     <th class="info w150">预算金额<br/>（万元）</th>
                     <th class="info deliverdate">交货<br/>期限</th>
                     <th class="info purchasetype">采购方式</th>

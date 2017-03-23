@@ -28,7 +28,7 @@
              success: function(zNodes){
              		if (zNodes.length > 0) {
 						for (var i = 0; i < zNodes.length; i++) { 
-			            if (zNodes[i].isParent) {  
+			            	if (zNodes[i].isParent) {  
 			  
 				            } else {  
 				                //zNodes[i].icon = "${ctxStatic}/images/532.ico";//设置图标  
@@ -40,7 +40,6 @@
 					} else {
 						$("#tipMsg").show();
 					}
-                    
                }
          	});
 		});

@@ -30,8 +30,8 @@
 				return page ? page[1] : 1;
 			}(),
 			jump : function(e, first) { //触发分页后的回调
-				if (!first) { //一定要加此判断，否则初始时会无限刷新
-					location.href = "${pageContext.request.contextPath }/onlineComplaints/dealWith.do?page="
+				if (!first) { //一定要加此判断，否则初始时会无限刷新 分页跳转页面是当前controller加对应的方法。
+					location.href = "${pageContext.request.contextPath }/onlineComplaints/handling.html?page="
 							+ e.curr;
 				}
 			}
@@ -79,7 +79,22 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			window.location.href = "${pageContext.request.contextPath}/onlineComplaints/dealWith.do?id="+id+"&status=0";
+			var comId= id[0];
+			
+			$.ajax({
+				url:"${pageContext.request.contextPath}/onlineComplaints/ValidateState.do",
+				type:"POST",
+				data:{"ComplaintId":comId,"State":"0"},
+				success:function(data){
+					
+					if(data == "error"){
+						layer.alert("只能选择未处理过的数据");
+					}else if(data == "success"){
+						window.location.href = "${pageContext.request.contextPath}/onlineComplaints/dealWith.do?id="+id+"&status=0";				
+					}				
+				},
+			});
+
 		}  else if(id.length > 1) {
 			layer.alert("只能选择一个未处理的信息", {
 				offset: ['122px', '390px'],
@@ -101,15 +116,20 @@
 		});
 		console.dir(2);
 		if(id.length == 1) {
-			var status = $('input[name="info"]:checked').parent().parent().children("td").eq(6).text();
-			if(status="立项处理"){
-			window.location.href = "${pageContext.request.contextPath}/onlineComplaints/gongshi.do?id="+id+"&status=1";}
-			else{
-				layer.alert("只能选择立项处理过的数据", {
-					offset: ['122px', '390px'],
-					shade: 0.01
-				});
-			}
+			var comId= id[0];
+			$.ajax({
+				url:"${pageContext.request.contextPath}/onlineComplaints/ValidateState.do",
+				type:"POST",
+				data:{"ComplaintId":comId,"State":"1"},
+				success:function(data){
+					if(data == "error"){
+						layer.alert("只能选择立项处理过的数据");
+					}else if(data == "success"){
+						window.location.href = "${pageContext.request.contextPath}/onlineComplaints/gongshi.do?id="+id+"&status=1";					
+					}				
+				},
+			});
+			
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个信息公布", {
 				offset: ['122px', '390px'],
@@ -123,19 +143,7 @@
 		}
 	}
 	
-	<!--
-	$.ajax({
-		url:"${pageContext.request.contextPath}/onlineComplaints/Test.do",
-		type:"GET",
-		data:{"id":id},
-		success:function(data){
-			if(data != "0"){
-				alert("此信息已处理");
-			}
-			
-		},
-	});
-	-->
+
 </script>
 </head>
 <body>

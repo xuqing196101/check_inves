@@ -10,8 +10,8 @@
     <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
     <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
     <script type="text/javascript">
-      function view(id) {
-        window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
+      function view(id, type) {
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/viewDetail.html?id=" + id + "&type=" + type;
       }
     </script>
   </head>
@@ -31,7 +31,7 @@
             <a href="javascript:void(0)">采购业务监督</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">采购计划监督</a>
+            <a href="javascript:void(0)">采购项目监督</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -61,8 +61,6 @@
               <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
               <th class="info item">计量<br/>单位</th>
               <th class="info purchasecount">采购<br/>数量</th>
-              <th class="info w150">单价<br/>（元）</th>
-              <th class="info w150">预算金额<br/>（万元）</th>
               <th class="info deliverdate">交货<br/>期限</th>
               <th class="info purchasetype">采购方式</th>
               <th class="info purchasename">供应商名称</th>
@@ -90,16 +88,18 @@
                   <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
                 </td>
                 <td class="tl pl20">${obj.purchaseCount}</td>
-                <td class="tr pr20">${obj.price}</td>
-                <td class="tr pr20">${obj.budget}</td>
                 <td class="tl pl20">${obj.deliverDate}</td>
-                <td class="tl pl20">${obj.purchaseType}</td>
+                <td class="tl pl20">
+                  <c:forEach items="${kind}" var="kind">
+                    <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
+                  </c:forEach>
+                </td>
                 <td title="${obj.supplier}" class="tl pl20">
                   <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                   <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                 </td>
-                <td class="tc" onclick="view('${obj.id}')">
-                  <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                <td class="tc" onclick="view('${obj.uniqueId}','0')">
+                  <div class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
                 </td>
               </tr>
             </c:forEach>
