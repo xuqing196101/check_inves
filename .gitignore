@@ -90,4 +90,4 @@ src/main/java/bss/controller/cs/PurchaseContractController.java
 src/main/java/bss/controller/ob/OBProjectController.java
 src/main/java/bss/controller/ob/OBProjectController.java
 src/main/java/bss/controller/ob/OBSupplierController.java
-*.java
+#*.java
