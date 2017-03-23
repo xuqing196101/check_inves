@@ -15,7 +15,7 @@ public class ContractRequired {
 
     private String item;//计量单位
 
-    private Long purchaseCount;//采购数量
+    private BigDecimal purchaseCount;//采购数量
     
     private String purchaseCount_string;
 
@@ -115,15 +115,16 @@ public class ContractRequired {
         this.item = item == null ? null : item.trim();
     }
 
-    public Long getPurchaseCount() {
-        return purchaseCount;
-    }
+    
+    public BigDecimal getPurchaseCount() {
+		return purchaseCount;
+	}
 
-    public void setPurchaseCount(Long purchaseCount) {
-        this.purchaseCount = purchaseCount;
-    }
+	public void setPurchaseCount(BigDecimal purchaseCount) {
+		this.purchaseCount = purchaseCount;
+	}
 
-    public BigDecimal getPrice() {
+	public BigDecimal getPrice() {
         return price;
     }
 

@@ -15,7 +15,6 @@
 <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
   $(function(){
-	 
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${list.pages}", //总页数

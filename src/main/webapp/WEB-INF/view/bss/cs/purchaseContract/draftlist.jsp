@@ -139,10 +139,12 @@
 			if(ids.length>1){
 				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
 			}else{
-				if(status!="2"){
+				if(status=="1"){
 					window.location.href="${pageContext.request.contextPath}/purchaseContract/createDraftContract.html?ids="+ids;
+				}else if(status=="0"){
+					window.location.href="${pageContext.request.contextPath}/purchaseContract/updateZanCun.html?id="+ids[0];
 				}else{
-					layer.alert("只可修改草案的合同",{offset: ['222px', '390px'], shade:0.01});
+					layer.alert("正式合同不能修改",{offset: ['222px', '390px'], shade:0.01});
 				}
 			}
 		}else{
@@ -305,7 +307,52 @@
 		});
 		window.location.href="${pageContext.request.contextPath}/purchaseContract/printContract.html?id="+ids+"&status="+status;
 	}
-	
+	function manualCreateContract(){
+  		window.location.href="${pageContext.request.contextPath}/purchaseContract/manualCreateContract.html";
+  	}
+	function updateZanCun(){
+		var ids =[]; 
+  		var status = "";
+		$('input[name="chkItem"]:checked').each(function(){ 
+			ids.push($(this).val()); 
+			status = ($(this).parent().next().text());
+		}); 
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				if(status=="0"){
+					window.location.href="${pageContext.request.contextPath}/purchaseContract/updateZanCun.html?id="+ids[0];
+				}else{
+					layer.alert("只可修改暂存的合同",{offset: ['222px', '390px'], shade:0.01});
+				}
+			}
+		}else{
+			layer.alert("请选择要修改的合同",{offset: ['222px', '390px'], shade:0.01});
+		}
+  		/* var ids =[]; 
+  		var supcheckid = [];
+  		var isCreateContract =[] ;
+		$('input[name="chkItem"]:checked').each(function(){
+			ids.push($(this).val()); 
+			supcheckid.push($(this).parent().next().next().text());
+			isCreateContract.push($(this).parent().next().next().next().text());
+		});
+		if(ids.length>0){
+			if(ids.length>1){
+				layer.alert("只可选择一条修改",{offset: ['222px', '390px'], shade:0.01});
+			}else{
+				if(isCreateContract==2){
+					window.location.href="${pageContext.request.contextPath}/purchaseContract/updateZanCun.html?supcheckid="+supcheckid+"&isCreateContract="+isCreateContract;
+				}else{
+					layer.alert("只可选择暂存的修改",{offset: ['222px', '390px'], shade:0.01});
+				}
+			}
+		}else{
+			layer.alert("请选择要修改的信息",{offset: ['222px', '390px'], shade:0.01});
+		} */
+  	}
+  	
   </script>
   </head>
   
@@ -358,12 +405,14 @@
    	  	  <button class="btn btn-windows delete" onclick="delDraft()">删除</button>
    	  	  <button class="btn" onclick="printContract()">打印</button>
 	      <button class="btn" onclick="createContract()">生成正式合同</button>
+	      <button class="btn" onclick="manualCreateContract()">新增合同</button>
+	      <!-- <button class="btn" onclick="updateZanCun()">修改暂存</button> -->
 	      <%--<button class="btn" onclick="createDraftContract()">生成草案合同</button>
 	      <button class="btn" onclick="updateModel()">更新合同模板</button>
 	      --%>
 	      
 	      <div class="fr mt5 b">
-	      	项目总金额：${contractSum}
+	      	项目总金额(万元)：${contractSum}
 	      </div>
 	     </div>
    <div class="content table_box over_auto table_wrap">
@@ -373,7 +422,7 @@
 				<th class="info w30"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 				<th class="tnone"></th>
 			    <th class="info w50">序号</th>
-			    <th class="info">合同编号</th>
+			    <th width="10%" class="info">合同编号</th>
 				<th class="info">合同名称</th>
 				<th class="info">合同金额(万元)</th>
 				<th class="info">项目名称</th>
@@ -423,6 +472,9 @@
 				</c:if>
 				<c:if test="${draftCon.status==2}">
 					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">正式</td>
+				</c:if>
+				<c:if test="${draftCon.status==0}">
+					<td class="tc pointer" onclick="showDraftContract('${draftCon.id}','${draftCon.status}')">暂存</td>
 				</c:if>
 			</tr>
 		</c:forEach>

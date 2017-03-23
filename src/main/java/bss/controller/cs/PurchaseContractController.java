@@ -66,6 +66,9 @@ import bss.service.sstps.AppraisalContractService;
 
 
 
+
+
+
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -123,11 +126,8 @@ public class PurchaseContractController extends BaseSupplierController{
     private PurChaseDepOrgService chaseDepOrgService;
     @Autowired
     private OrgnizationServiceI orgnizationService;
-    
-    
     @Autowired
     private AfterSaleSerService saleSerService;
-    
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -524,8 +524,6 @@ public class PurchaseContractController extends BaseSupplierController{
 		}
 		return purchaseCon;
 	}
-	
-	
 	@ResponseBody
 	@RequestMapping("/viewAfter")
 	public String viewAfter(String code){
@@ -545,7 +543,6 @@ public class PurchaseContractController extends BaseSupplierController{
 	        return "2";
 	    }
 	}
-	
 	/**
 	 * 
 	* 〈简述〉 〈详细描述〉
@@ -875,14 +872,17 @@ public class PurchaseContractController extends BaseSupplierController{
 			}
 			if(pur!=null){
 				String supchid = pur.getSupplierCheckIds();
-				String[] supchids = supchid.split(",");
-				for(String supid:supchids){
-					SupplierCheckPass sup = new SupplierCheckPass();
-					sup.setId(supid);
-					sup.setIsCreateContract(1);
-					sup.setContractId(purCon.getId());
-					supplierCheckPassService.update(sup);
+				if(supchid!=null&&!"".equals(supchid)){
+					String[] supchids = supchid.split(",");
+					for(String supid:supchids){
+						SupplierCheckPass sup = new SupplierCheckPass();
+						sup.setId(supid);
+						sup.setIsCreateContract(1);
+						sup.setContractId(purCon.getId());
+						supplierCheckPassService.update(sup);
+					}
 				}
+				
 			}else{
 				for(String supchid:supcheckids){
 					SupplierCheckPass sup = new SupplierCheckPass();
@@ -964,14 +964,31 @@ public class PurchaseContractController extends BaseSupplierController{
 				contractRequiredService.insertSelective(conRequ);
 			}
 		}
-		for(String supchid:supcheckids){
-			SupplierCheckPass sup = new SupplierCheckPass();
-			sup.setId(supchid);
-			sup.setIsCreateContract(2);
-			sup.setContractId(id);
-			supplierCheckPassService.update(sup);
+		if(supcheckid!=null){
+			if(purCon.getManualType()!=1){
+				List<SupplierCheckPass> byContractId = supplierCheckPassService.getByContractId(id);
+				if(byContractId!=null&&byContractId.size()>0){
+					for(SupplierCheckPass pass:byContractId){
+						pass.setId(pass.getId());
+						pass.setIsCreateContract(1);
+						pass.setContractId(id);
+						supplierCheckPassService.update(pass);
+					}
+				}else{
+					SupplierCheckPass sup = new SupplierCheckPass();
+					for(String pass:supcheckids){
+						sup.setId(pass);
+						sup.setIsCreateContract(1);
+						sup.setContractId(id);
+						supplierCheckPassService.update(sup);
+					}
+				}
+				
 		}
-		return "redirect:selectAllPuCon.html";
+		}
+		
+		
+		return "redirect:selectDraftContract.html";
 	}
 	
 	/**
@@ -991,11 +1008,12 @@ public class PurchaseContractController extends BaseSupplierController{
 	* @return String
 	 */
 	@RequestMapping("/updateZanCun")
-	public String updateZanCun(HttpServletRequest request,Model model) throws Exception{
+	public String updateZanCun(HttpServletRequest request,Model model,String id) throws Exception{
+		PurchaseContract purCon = purchaseContractService.selectById(id);
 		String supcheckid = request.getParameter("supcheckid");
-		SupplierCheckPass supChkPa = supplierCheckPassService.findByPrimaryKey(supcheckid);
-		String contractuuid = supChkPa.getContractId();
-		model.addAttribute("attachuuid", contractuuid);
+		/*SupplierCheckPass supChkPa = supplierCheckPassService.findByPrimaryKey(supcheckid);
+		String contractuuid = supChkPa.getContractId();*/
+		model.addAttribute("attachuuid", id);
 		DictionaryData dd=new DictionaryData();
 		dd.setCode("DRAFT_REVIEWED");
 		List<DictionaryData> datas = dictionaryDataServiceI.find(dd);
@@ -1013,8 +1031,8 @@ public class PurchaseContractController extends BaseSupplierController{
 			model.addAttribute("bookattachtypeId", bookdata.get(0).getId());
 		}
 		model.addAttribute("kinds", DictionaryDataUtil.find(5));
-		model.addAttribute("id", contractuuid);
-		PurchaseContract purCon = purchaseContractService.selectById(supChkPa.getContractId());
+		model.addAttribute("id", id);
+		
         if(purCon.getMoney()!=null){
         	purCon.setMoney_string(purCon.getMoney().toString());
         }
@@ -1027,13 +1045,13 @@ public class PurchaseContractController extends BaseSupplierController{
         if(purCon.getPurchaseBankAccount()!=null){
         	purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
         }
-		purCon.setMoney_string(purCon.getMoney().toString());
-		purCon.setBudget_string(purCon.getBudget().toString());
-		purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount().toString());
-		purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount().toString());
-		purCon.setBudget(new BigDecimal(purCon.getBudget_string()));
-		purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string()));
-		purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string()));
+		purCon.setMoney_string(purCon.getMoney()==null?"":purCon.getMoney().toString());
+		purCon.setBudget_string(purCon.getBudget()==null?"":purCon.getBudget().toString());
+		purCon.setSupplierBankAccount_string(purCon.getSupplierBankAccount()==null?"":purCon.getSupplierBankAccount().toString());
+		purCon.setPurchaseBankAccount_string(purCon.getPurchaseBankAccount()==null?"":purCon.getPurchaseBankAccount().toString());
+		purCon.setBudget(new BigDecimal(purCon.getBudget_string().equals("")?"0":purCon.getBudget_string().toString()));
+		purCon.setSupplierBankAccount(new BigDecimal(purCon.getSupplierBankAccount_string().equals("")?"0":purCon.getSupplierBankAccount_string().toString()));
+		purCon.setPurchaseBankAccount(new BigDecimal(purCon.getPurchaseBankAccount_string().equals("")?"0":purCon.getPurchaseBankAccount_string().toString()));
 		List<ContractRequired> resultList = contractRequiredService.selectConRequeByContractId(purCon.getId());
 		model.addAttribute("requList", resultList);
 		model.addAttribute("purCon", purCon);
@@ -1271,6 +1289,7 @@ public class PurchaseContractController extends BaseSupplierController{
 				}
 			}
 			purCon.setContractReList(requList);
+			model.addAttribute("kinds", DictionaryDataUtil.find(5));
 			url = "bss/cs/purchaseContract/updateErrContract";
 		}else{
 			SimpleDateFormat sdf = new SimpleDateFormat("YYYY");

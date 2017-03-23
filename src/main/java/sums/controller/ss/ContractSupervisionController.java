@@ -14,11 +14,15 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
 
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
@@ -27,7 +31,9 @@ import bss.model.cs.PurchaseContract;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
@@ -36,6 +42,8 @@ import bss.service.cs.PurchaseContractService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.PackageService;
+import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SupplierCheckPassService;
@@ -84,8 +92,14 @@ public class ContractSupervisionController {
     private UserServiceI userService;
     @Autowired
     private ContractRequiredService contractRequiredService;
-    
-    
+    @Autowired
+    private PurchaseOrgnizationServiceI purchaseOrgnizationServiceI;
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
+    @Autowired
+    private PackageService packageService;
+    @Autowired
+    private ProjectDetailService detailService;
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
 		if(page==null){
@@ -170,7 +184,9 @@ public class ContractSupervisionController {
 		 // 根据项目ID查询中间表，然后查询采购计划表
         HashMap<String, Object> map = new HashMap<>();
         map.put("projectId", project.getId());
+        //采购计划
         List<CollectPlan> list = new ArrayList<CollectPlan>();
+        //采购需求
         List<PurchaseRequired> list2 = new ArrayList<PurchaseRequired>();
         List<ProjectTask> projectTasks = projectTaskService.queryByNo(map);
         if (projectTasks != null && projectTasks.size() > 0) {
@@ -284,6 +300,67 @@ public class ContractSupervisionController {
 		List<ContractRequired> conRequList = contractRequiredService.selectConRequeByContractId(purchaseContract.getId());
 		model.addAttribute("conRequList",conRequList);
 		return "sums/ss/contractSupervision/contractdateil";
+	}
+	@SuppressWarnings("unused")
+	@RequestMapping(value="projectDateil",produces="text/html;charset=UTF-8")
+	public String projectList(Model model, String id,String contractId){
+		Project project = projectService.selectById(id);
+		User user = userService.getUserById(project.getAppointMan());
+		List<PurchaseOrg> list = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
+		DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(project.getStatus());
+		if(dictionaryData!=null){
+			project.setStatus(dictionaryData.getName());
+		}else{
+			project.setStatus("");
+		}
+		if(user!=null){
+			project.setAppointMan(user.getRelName());
+		}else{
+			project.setAppointMan("");
+		}
+		String orgs="";
+		if(list!=null&&list.size()>0){
+			
+			for(PurchaseOrg org:list){
+				Orgnization orgnization = orgnizationServiceI.findByCategoryId(org.getOrgId());
+				orgs+=orgnization.getName()+",";
+			}
+		}
+		if(orgs.length()>0){
+			orgs=orgs.substring(0, orgs.length()-1);
+		}
+		model.addAttribute("org",orgs);
+		model.addAttribute("project",project);
+		List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
+		List<Packages> packages=null;
+		if(checkPass!=null&&checkPass.size()>0){
+			packages=new ArrayList<Packages>();
+			for(SupplierCheckPass chp:checkPass){
+				HashMap<String, Object> hashMap=new HashMap<String, Object>();
+				Packages pack = packageService.selectByPrimaryKeyId(chp.getPackageId());
+				hashMap.put("packageId", pack.getId());
+				List<ProjectDetail> projectDetails = detailService.selectById(hashMap);
+				if(projectDetails!=null&&projectDetails.size()>0){
+					for(ProjectDetail projectDetail:projectDetails){
+						DictionaryData type = dictionaryDataServiceI.getDictionaryData(projectDetail.getPurchaseType());
+						if(type!=null){
+					    	projectDetail.setPurchaseType(type.getName());
+					    }else{
+					    	projectDetail.setPurchaseType(type.getName());
+					    }
+					}
+				}
+				pack.setProjectDetails(projectDetails);
+				packages.add(pack);
+			}
+		}
+		model.addAttribute("listPackages",packages);
+		return "sums/ss/contractSupervision/projectdateil";
+	}
+	
+	@RequestMapping(value="planList",produces="text/html;charset=UTF-8")
+	public String planList(Model model, String id,String contractId){
+		return "sums/ss/contractSupervision/planList";
 	}
 	
 }

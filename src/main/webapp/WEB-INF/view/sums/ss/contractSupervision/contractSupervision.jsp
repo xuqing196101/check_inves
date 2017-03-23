@@ -12,13 +12,17 @@
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
 <script type="text/javascript">
-function openFile(id){
-	location.href="${pageContext.request.contextPath }/contractSupervision/filePage.html?id="+id;
-}
+
 function contractDateil(id){
 	location.href="${pageContext.request.contextPath }/contractSupervision/contractDateil.html?id="+id;
 }
+function openProject(id,contractId){
+	location.href="${pageContext.request.contextPath }/contractSupervision/projectDateil.html?id="+id+"&contractId="+contractId;
+}
 
+function openPlan(id,contractId){
+	location.href="${pageContext.request.contextPath }/contractSupervision/planList.html?id="+id+"&contractId="+contractId;
+}
 </script>
 </head>
 
@@ -39,7 +43,6 @@ function contractDateil(id){
 			<h2>合同监督</h2>
 		</div>
 		<div class="content table_box">
-		<button class="btn btn-windows edit" onclick="contractDateil('${contract.id}')">查看任务汇总</button>
 		<table class="table table-bordered mt5">
 			<tbody>
 				<tr>
@@ -58,47 +61,28 @@ function contractDateil(id){
 		            </c:forEach>
 					</td>
 					<td class="h365 tc">
-					
-                      <c:forEach items="${list}" var="obj">
+					 <img alt="" onclick="openPlan('${project.id}','${contract.id}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png"> 
+                      <%-- <c:forEach items="${list}" var="obj">
 				            <p class="ml20 tl">采购管理部门：${obj.purchaseId}</p>
 				            <p class="ml20 tl">计划名称：${obj.fileName}</p>
 				            <p class="ml20 tl">计划编号：${obj.planNo}</p>
 				            <p class="ml20 tl">计划下达时间：<fmt:formatDate type='date' value='${obj.updatedAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
 				            <p class="ml20 tl">联系人：${obj.userId}</p>
-			            </c:forEach>  
+			            </c:forEach>   --%>
+					</td>
+					<td class="h365 tc" >
+					   <img alt="" onclick="openProject('${project.id}','${contract.id}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png"> 
 					</td>
 					<td class="h365 tc">
-					        <p class="ml20 tl">项目名称：${project.name}</p>
-				            <p class="ml20 tl">项目编号：${project.projectNumber}</p>
-				            <p class="ml20 tl">采购方式：${project.dictionary.name}</p>
-				            <p class="ml20 tl">联系人：</p>
-					</td>
-					<td class="h365 tc">
-					   <img alt="" onclick="openFile('${contract.id}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-					   
-					        <p class="ml20 tl">合同名称：${contract.name}</p>
-				            <p class="ml20 tl">合同编号：${contract.code}</p>
-				            <p class="ml20 tl">签订时间：</p>
+					   <img alt="" onclick="contractDateil('${contract.id}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png"> 
 					</td>
 				</tr>
-				<tr>
-					<td class="h50 tc">
-					<div class="w200 mt5">审核人：</div>
-					</td>
-					<td class="h50 tc">
-					<div class="w200 mt5">审核人：</div>
-					</td>
-					<td class="h50 tc">
-					<div class="w200 mt5">审核人：</div>
-					</td>
-					<td class="h50 tc">
-					   <div class="w200 mt5">审核人：</div>
-					   <div class="w200 mt5">负责人：</div>
-					   
-					</td>
-				</tr>
+				
 			</tbody>
 		</table>
+		<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+      </div>
 		</div>
 	</div>
 

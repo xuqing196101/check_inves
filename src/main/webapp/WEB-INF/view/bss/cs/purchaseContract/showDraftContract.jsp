@@ -3,6 +3,7 @@
 <!DOCTYPE HTML>
 <head>
 	<jsp:include page="/WEB-INF/view/common.jsp"/>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <title>合同草案查看</title>
 	<meta http-equiv="pragma" content="no-cache">
 	<meta http-equiv="cache-control" content="no-cache">
@@ -167,13 +168,13 @@
 	        <div class="col-md-12 col-xs-12 col-sm-12 p0">
 	        	<h2 class="count_flow jbxx fl">草案批复意见</h2>  
 	        	<div class="fl mt10">
-					<u:show showId="post_attach_show" delete="false" groups="post_attach_show,draft_reviewed_show" businessId="${attachuuid}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
+					<u:show showId="post_attach_show" delete="false" groups="post_attach_show,draft_reviewed_show" businessId="${draftCon.id}" sysKey="${attachsysKey}" typeId="${attachtypeId}"/>
 				</div>
 			</div>
 			<div class="col-md-12 col-xs-12 col-sm-12 p0">
 				<h2 class="count_flow jbxx fl">授权书</h2>  
 	        	<div class="fl mt10">
-					<u:show showId="draft_reviewed_show" delete="false" groups="post_attach_show,draft_reviewed_show" businessId="${attachuuid}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
+					<u:show showId="draft_reviewed_show" delete="false" groups="post_attach_show,draft_reviewed_show" businessId="${draftCon.id}" sysKey="${bookattachsysKey}" typeId="${bookattachtypeId}"/>
 				</div>
 			</div>
 	     </div>
