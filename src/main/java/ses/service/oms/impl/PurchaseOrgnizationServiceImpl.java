@@ -166,7 +166,7 @@ public class PurchaseOrgnizationServiceImpl implements PurchaseOrgnizationServic
       map.put("postCode", purchaseDep.getPostCode());
       map.put("fax", purchaseDep.getFax());
       map.put("contactName", purchaseDep.getContactName());
-      map.put("contractMobile", purchaseDep.getContactMobile());
+      map.put("contactMobile", purchaseDep.getContactMobile());
       map.put("pid", purchaseDep.getProvinceId());
       map.put("cid", purchaseDep.getCityId());
       orgniztionMapper.updateOrgnization(map);
