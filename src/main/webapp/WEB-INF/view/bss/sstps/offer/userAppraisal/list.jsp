@@ -77,6 +77,22 @@ function add(){
 		layer.alert("请选择需要审核的合同",{offset: ['222px', '390px'], shade:0.01});
 	}
 }
+/* 导出 */
+function exports(){
+	var id=[]; 
+	$('input[name="chkItem"]:checked').each(function(){ 
+		id.push($(this).val());
+	}); 
+	if(id.length==1){
+		window.location.href="${pageContext.request.contextPath}/offer/exports.html?id="+id;
+	}else if(id.length>1){
+		layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
+	}else{
+		layer.alert("请选择需要导出的合同",{offset: ['222px', '390px'], shade:0.01});
+	}
+}
+
+
 
 </script>    
     
@@ -128,7 +144,7 @@ function add(){
 		<!-- 表格开始-->
 		<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows add" type="button" onclick="add()">审价</button>
-				<button class="btn btn-windows edit" type="button">导出</button>
+				<button class="btn btn-windows edit" type="button" onclick = "exports()">导出</button>
 		</div>
 		<div class="content table_box">
              <table class="table table-bordered table-condensed table-hover table-striped">

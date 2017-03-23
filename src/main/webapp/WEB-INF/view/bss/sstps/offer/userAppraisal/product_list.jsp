@@ -141,11 +141,14 @@ function offer(){
 	  				<td class="tc" id="tds"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 	  				<td class="tc pointer">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 	  				<td class="tc pointer">${product.name }</td>
-	  				<c:if test="${product.auditOffer!=1 }">
-	  					<td class="tc pointer" name="offer">已报价</td>
+	  				<c:if test="${product.auditOffer == 0 }">
+	  					<td class="tc pointer">未审核</td>
 	  				</c:if>
-	  				<c:if test="${product.auditOffer==1 }">
-	  					<td class="tc pointer" name="offer">已审价</td>
+	  				<c:if test="${product.auditOffer == 1 }">
+	  					<td class="tc pointer">已审价</td>
+	  				</c:if>
+	  				<c:if test="${product.auditOffer == 2 }">
+	  					<td class="tc pointer">已复审</td>
 	  				</c:if>
 	  			</tr>
 	  			</c:if>

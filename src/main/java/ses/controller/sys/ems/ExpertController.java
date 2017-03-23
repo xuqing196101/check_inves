@@ -1,7 +1,9 @@
 package ses.controller.sys.ems;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
@@ -92,6 +94,7 @@ import ses.util.PropertiesUtil;
 import ses.util.SupplierLevelUtil;
 import ses.util.WfUtil;
 import ses.util.WordUtil;
+import sun.misc.BASE64Encoder;
 import bss.controller.base.BaseController;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
@@ -3006,6 +3009,27 @@ public class ExpertController extends BaseController {
             "iso-8859-1"); // 为了解决中文名称乱码问题
         return service.downloadFile(fileName, filePath, downFileName);
     }
+    
+    /**
+     * 证件照
+     * @return
+     */
+	 private String getImageStr(String imgFile) {
+//		 String imgFile = "d:/2.png";
+		 InputStream in = null;
+		 byte[] data = null;
+		 try {
+			 in = new FileInputStream(imgFile);
+			 data = new byte[in.available()];
+			 in.read(data);
+			 in.close();
+		 } catch (IOException e) {
+			 e.printStackTrace();
+		 }
+		 BASE64Encoder encoder = new BASE64Encoder();
+		 return encoder.encode(data);
+	 }
+    
 
     /**
      * 
@@ -3031,6 +3055,12 @@ public class ExpertController extends BaseController {
         dataMap.put("birthday",
             expert.getBirthday() == null ? "" : new SimpleDateFormat(
                 "yyyy-MM-dd").format(expert.getBirthday()));
+        /** 注入service */
+        List<UploadFile> listImage = uploadService.queryImage("50", expert.getId());
+        if (listImage != null && listImage.size() > 0) {
+        	String finalPath = PropUtil.getProperty("file.base.path");
+        	dataMap.put("image", getImageStr(listImage.get(0).getPath()));
+		}
         String faceId = expert.getPoliticsStatus();
         DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
         dataMap.put("politicsStatus", politicsStatus == null ? "" : politicsStatus.getName());
@@ -3965,10 +3995,15 @@ public class ExpertController extends BaseController {
         List<UploadFile> PRACTICING_REQUIREMENTS_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.PRACTICING_REQUIREMENTS_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> APPLICATION_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.APPLICATION_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         List<UploadFile> COMMITMENT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.COMMITMENT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
+        List<UploadFile> HEADPORTRAIT_PROOF = uploadService.getFilesOther(sysId, ExpertPictureType.HEADPORTRAIT_PROOF.getSign() + "", Constant.EXPERT_SYS_KEY.toString());
         String imgInfo="cg";
         if(IDENTITY_CARD_PROOF.size()<1 && IDENTITY_CARD_PROOF!=null){
             imgInfo="身份证复印件未上传";
             return JSON.toJSONString(imgInfo);
+        }
+        if( HEADPORTRAIT_PROOF.size()<1 && HEADPORTRAIT_PROOF!=null){
+        	imgInfo="近期免冠彩色证件照未上传";
+        	return JSON.toJSONString(imgInfo);
         }
         if(from.equals("LOCAL")){
             if(SOCIAL_SECURITY_PROOF.size()<1 && SOCIAL_SECURITY_PROOF !=null ){

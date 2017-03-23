@@ -3185,10 +3185,19 @@ public class ProjectController extends BaseController {
      */
     @RequestMapping(value="/getUserForSelect" ) 
     @ResponseBody
-    public List<PurchaseInfo> getUserForSelect(@CurrentUser User user) {
+    public List<PurchaseInfo> getUserForSelect(@CurrentUser User user, String id) {
         List<PurchaseInfo> purchaseInfo = new ArrayList<>();
         if(user != null && user.getOrg() != null){
-           purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
+            if("1".equals(user.getOrg().getTypeName())){
+                purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
+            }else{
+                Project project = projectService.selectById(id);
+                if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
+                    User user2 = userService.getUserById(project.getPrincipal());
+                    purchaseInfo = purchaseService.findPurchaseUserList(user2.getOrg().getId());
+                }
+            }
+           
         }
         return purchaseInfo;
     }

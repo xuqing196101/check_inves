@@ -1005,7 +1005,7 @@ public class ExcelUtil {
     					if(cell.getCellType()==1){
         					//判断是否为空
         					if(cell.getStringCellValue().trim().length()<1){
-	        					errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，产品目录大类不能为空!";
+	        					errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，目录末节点不能为空!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
@@ -1022,12 +1022,12 @@ public class ExcelUtil {
         						category.setCode(categoryCode);
         						List<Category> categorylist = excelUtil.categoryService.readExcel(category);
         						if(categorylist != null){
-        							obp.setCategoryBigId(categorylist.get(0).getId());
+        							obp.setSmallPointsId(categorylist.get(0).getId());
         						}
         					}
         				}
         			 }
-    				//第五列
+    				/*//第五列
     				if(cell.getColumnIndex()==4){
     					if(cell.getCellType()==1){
         					//判断是否为空
@@ -1095,15 +1095,15 @@ public class ExcelUtil {
 	        					}
         					}
         				}
-        			 }
+        			 }*/
         			
-        			//第八列
-    				if(cell.getColumnIndex()==7){
+        			//第五列
+    				if(cell.getColumnIndex()==4){
     					String standardModel = cell.getRichStringCellValue().toString();
     					obp.setStandardModel(standardModel);
     				}
-    				//第九列
-    				if(cell.getColumnIndex()==8){
+    				//第六列
+    				if(cell.getColumnIndex()==5){
     					String qualityTechnicalStandard = cell.getRichStringCellValue().toString();
     					obp.setQualityTechnicalStandard(qualityTechnicalStandard);;
     				}

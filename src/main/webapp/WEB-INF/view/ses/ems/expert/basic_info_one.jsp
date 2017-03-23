@@ -488,6 +488,10 @@
                 layer.msg("请填写固定电话!");
                 return false;
             }
+            if (telephone != "" && telephone.length>20) {
+                layer.msg("固定电话格式有误!");
+                return false;
+            }
             var email = $("#email").val().trim();
             if (!email) {
                 layer.msg("请填写个人邮箱!");
@@ -860,7 +864,7 @@
                         <span class="input-tip">不能为空</span>
                     </div>
                 </li>
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 近期免冠彩色证件照</span>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 近期免冠彩色证件照</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'近期免冠彩色证件照')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('近期免冠彩色证件照')"</c:if>>
@@ -1434,9 +1438,8 @@
             <h2 class="count_flow"><i>5 </i><font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
             <ul class="ul_list">
                 <!-- 专业学术成果 -->
+	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获奖证书</span></li>
                 <div class="padding-top-10 clear">
-                    <%-- <h2 class="count_flow"><i>3</i><font color=red></font>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>--%>
-                    
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('获奖证书')"</c:if>>

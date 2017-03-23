@@ -45,8 +45,8 @@ session.setAttribute("tokenSession", tokenValue);
 			flag=1;
 			return false;
 		}
-	   if(loginName.replace(/\s/g,"").length<3){
-		   $("#spp").html("必须两位以上").css('color','red');
+	   if(loginName.replace(/\s/g,"").length<6){
+		   $("#spp").html("登录名由6-20位字母数字和下划线组成 ").css('color','red');
 		   flag=1;
 		   return false;
 		   
@@ -76,7 +76,7 @@ session.setAttribute("tokenSession", tokenValue);
 		   flag4=1;
 		   return false;
 	   }else if(!(/^1[3|4|5|7|8]\d{9}$/.test(phone))){ 
-		   $("#phone2").html("手机号码格式错误").css('color','red');
+		   $("#phone2").html("手机号码格式不正确").css('color','red');
 		   flag4=1;
 		   return false;
 		}else{
@@ -146,14 +146,14 @@ session.setAttribute("tokenSession", tokenValue);
      		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>用户名：</span>
 			  <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="loginName" id="loginName" placeholder="用户名为3~16位" maxlength="16" type="text" onkeyup="validataLoginName();" value="">
+		        <input name="loginName" id="loginName" placeholder="由6-20位字母和数字组成" maxlength="20" type="text" onkeyup="validataLoginName();" value="">
 		        <div id="spp" class="cue"></div>
 		       </div>
 			 </li>
 		     <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="password" placeholder="密码为6~20位" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
+		        <input name="password" placeholder="密码长度为6~20位" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
 		        <div id="pwd1" class="cue"></div>
 		       </div>
 			 </li> 

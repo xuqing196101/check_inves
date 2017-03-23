@@ -376,6 +376,16 @@ public class ExpertAuditController {
 			Date date = sdf1.parse(value);
 			content.append(new SimpleDateFormat("yyyy-MM").format(date));
 		}
+		
+		//相关机关事业部门推荐信
+		if("getIsReferenceLftter".equals(field)){
+			if(oldExpert.getIsReferenceLftter() == 1){
+				content.replace(0, 1, "是");
+			}else{
+				content.replace(0, 1, "否");
+			}
+			
+		}
 		return content.toString();
 	}
 
@@ -509,20 +519,24 @@ public class ExpertAuditController {
 		expert = expertService.selectByPrimaryKey(expertId);
 
 		List < DictionaryData > allCategoryList = new ArrayList < DictionaryData > ();
-		// 获取专家类别
-		List < String > allTypeId = new ArrayList < String > ();
-		for(String id: expert.getExpertsTypeId().split(",")) {
-			allTypeId.add(id);
-		}
-		a: for(int i = 0; i < allTypeId.size(); i++) {
-			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
-			if(dictionaryData != null && dictionaryData.getKind() == 19) {
+
+        // 获取专家类别
+        List < String > allTypeId = new ArrayList < String > ();
+        for(String id: expert.getExpertsTypeId().split(",")) {
+            allTypeId.add(id);
+        }
+        a: for(int i = 0; i < allTypeId.size(); i++) {
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+            /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
 				allTypeId.remove(i);
 				continue a;
-			};
-			allCategoryList.add(dictionaryData);
-		}
-		model.addAttribute("allCategoryList", allCategoryList);
+			};*/
+            
+            allCategoryList.add(dictionaryData);
+        }
+        //expertCategoryService.delNoTree(expert.getId(), allCategoryList);
+        model.addAttribute("allCategoryList", allCategoryList);
+
 		model.addAttribute("expertId", expertId);
 		
 		//查询品目类型id
@@ -531,10 +545,16 @@ public class ExpertAuditController {
 		String serCodeId=DictionaryDataUtil.getId("SERVICE");
 		String engInfoId=DictionaryDataUtil.getId("ENG_INFO_ID");
 		
+		String goodsServerId=DictionaryDataUtil.getId("GOODS_SERVER");
+		String goodsProjectId=DictionaryDataUtil.getId("GOODS_PROJECT");
+		
 		model.addAttribute("matCodeId", matCodeId);
 		model.addAttribute("engCodeId", engCodeId);
 		model.addAttribute("serCodeId", serCodeId);
 		model.addAttribute("engInfoId", engInfoId);
+		
+		model.addAttribute("goodsServerId", goodsServerId);
+		model.addAttribute("goodsProjectId", goodsProjectId);
 		
 		return "ses/ems/expertAudit/product";
 	}
@@ -554,42 +574,45 @@ public class ExpertAuditController {
 	@RequestMapping("/getCategories")
 	public String getCategories(String expertId, String typeId, Model model, Integer pageNum) {
 		String code = DictionaryDataUtil.findById(typeId).getCode();
-	    String flag = null;
-	    if (code != null && code.equals("GOODS_PROJECT")) {
+        String flag = null;
+        if (code != null && code.equals("GOODS_PROJECT")) {
             code = "PROJECT";
             typeId = DictionaryDataUtil.getId("PROJECT");
         }
-	    if (code.equals("ENG_INFO_ID")) {
-	        flag = "ENG_INFO";
-	    }
-	    // 查询已选中的节点信息
-	    List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
-	    List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
-	    for (ExpertCategory expertCategory : items) {
-	        if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
-	            Category data = categoryService.findById(expertCategory.getCategoryId());
-	            List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
-	            if (findPublishTree.size() == 0) {
-	                expertItems.add(expertCategory);
-	            } else if (data != null && data.getCode().length() == 7) {
-	                expertItems.add(expertCategory);
-	            }
-	        } else {
-                Category data = engCategoryService.findById(expertCategory.getCategoryId());
-	            List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+        if (code.equals("ENG_INFO_ID")) {
+            flag = "ENG_INFO";
+        }
+        // 查询已选中的节点信息
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+        int count=0;
+        for (ExpertCategory expertCategory : items) {
+        	count++;
+        	System.out.println(count);
+            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                Category data = categoryService.findById(expertCategory.getCategoryId());
+                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
                 if (findPublishTree.size() == 0) {
                     expertItems.add(expertCategory);
                 } else if (data != null && data.getCode().length() == 7) {
                     expertItems.add(expertCategory);
                 }
-	        }
+            } else {
+                Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
+                    expertItems.add(expertCategory);
+                }
+            }
         }
         List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
         for(ExpertCategory item: expertItems) {
             String categoryId = item.getCategoryId();
             SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, flag);
             if(cateTree != null && cateTree.getRootNode() != null) {
-            	cateTree.setItemsId(categoryId);
+                cateTree.setItemsId(categoryId);
                 allTreeList.add(cateTree);
             }
         }
@@ -603,9 +626,11 @@ public class ExpertAuditController {
         }
         model.addAttribute("expertId", expertId);
         model.addAttribute("typeId", typeId);
-        model.addAttribute("result", new PageInfo < > (expertItems));
+        model.addAttribute("result", new PageInfo <ExpertCategory > (expertItems));
         model.addAttribute("itemsList", allTreeList);
+
         
+        //未通过 字段
         ExpertAudit expertAuditFor = new ExpertAudit();
 		expertAuditFor.setExpertId(expertId);
 		expertAuditFor.setSuggestType("six");

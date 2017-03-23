@@ -38,21 +38,41 @@
       </div>
     </div>
     <div class="container">
-      <div class="headline-v2">
-        <c:choose>
-          <c:when test="${'0' eq type}">
-            <h2>需求明细</h2>
-          </c:when>
-          <c:otherwise>
-            <h2>采购明细</h2>
-          </c:otherwise>
-        </c:choose>
-      </div>
-      <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
-      </div>
-      <div class="content table_box">
-        <table class="table table-bordered table-condensed table-hover table-striped">
+      <div class="tab-content">
+            <div class="tab-pane fade in active" id="dep_tab-0">
+              <h2 class="count_flow jbxx">基本信息</h2>
+              <table class="table table-bordered">
+                <tbody>
+                  <tr>
+                    <td class="bggrey">采购管理部门：</td>
+                    <td>${collectPlan.purchaseId}</td>
+                    <td class="bggrey">计划名称：</td>
+                    <td>${collectPlan.fileName}</td>
+                    <td class="bggrey">计划编号：</td>
+                    <td>${collectPlan.planNo}</td>
+                  </tr>
+                  <tr>
+                    <td class="bggrey">计划下达时间：</td>
+                    <td><fmt:formatDate type='date' value='${collectPlan.orderAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></td>
+                    <td class="bggrey">联系人：</td>
+                    <td>${collectPlan.userId}</td>
+                    <td class="bggrey"></td>
+                    <td></td>
+                  </tr>
+                </tbody>
+              </table>
+              <h2 class="count_flow jbxx">
+              <c:choose>
+	          <c:when test="${'0' eq type}">
+	            需求明细
+	          </c:when>
+	          <c:otherwise>
+	            采购明细
+	          </c:otherwise>
+	        </c:choose>
+             </h2>
+      <div class="col-md-12 col-sm-12 col-xs-12 p0">
+        <table class="table table-bordered table-condensed table-hover ">
           <thead>
             <tr class="info">
               <th class="w50">序号</th>
@@ -99,12 +119,16 @@
                   <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                 </td>
                 <td class="tc" onclick="view('${obj.id}')">
-                  <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                  <c:if test="${obj.price != null}">
+                    <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
+                  </c:if>
                 </td>
               </tr>
             </c:forEach>
           </tbody>
         </table>
+      </div>
+      </div>
       </div>
     </div>
   </body>

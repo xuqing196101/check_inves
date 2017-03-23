@@ -17,7 +17,7 @@
 		   return false;
 	   }else
 	   if(password1.replace(/\s/g,"").length<6){
-		   $("#pwd1").html("密码必须六位以上").css('color','red');
+		   $("#pwd1").html("密码长度为6-20位").css('color','red');
 		   flag2=1;
 		   return false;
 	   }else{

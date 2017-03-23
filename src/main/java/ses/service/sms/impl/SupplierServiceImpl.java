@@ -972,5 +972,10 @@ public class SupplierServiceImpl implements SupplierService {
 	public Supplier selByName(String supplierName) {
 		return supplierMapper.selByName(supplierName);
 	}
+
+	@Override
+	public List<Supplier> findQualifiedSupplier() {
+		return supplierMapper.findQualifiedSupplier();
+	}
     
 }

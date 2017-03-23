@@ -92,7 +92,9 @@
 			function resetForm() {
 				$("input[name='relName']").val("");
 				//还原select下拉列表只需要这一句
-				$("#status option:selected").removeAttr("selected");
+				//$("#status option:selected").removeAttr("selected");
+				//这里下标1，写的定值，当然可以根据需要得到加载页面过来的值
+				document.getElementById('status')[1].selected = true;
 				$("#formSearch").submit();
 			}
 			

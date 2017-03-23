@@ -95,6 +95,24 @@ public class OBProductController {
 			page = 1;
 		}
 		List<OBProduct> list = oBProductService.selectByExample(example, page);
+		if(list != null){
+			for (OBProduct oBProduct : list) {
+				String id = oBProduct.getSmallPointsId();
+				if(id != null){
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("id", id);
+					List<Category> clist = categoryService.findCategoryByParentNode(map);
+					String str = "";
+					for (Category category : clist) {
+						if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
+							str += category.getName() +"/";
+						}
+					}
+					str+=oBProduct.getSmallPoints().getName();
+					oBProduct.setPointsName(str);
+				}
+			}
+		}
 		PageInfo<OBProduct> info = new PageInfo<>(list);
 		List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
 		for (OBSupplier ob : numlist) {
@@ -122,15 +140,51 @@ public class OBProductController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public void delete(HttpServletRequest request) {
+	public String delete(HttpServletRequest request) {
 		String oBProductids = request.getParameter("oBProductids");
 		String productId = oBProductids.trim();
 		if (productId.length() != 0) {
 			String[] uniqueIds = productId.split(",");
 			for (String str : uniqueIds) {
+				OBProduct obProduct = oBProductService.selectByPrimaryKey(str);
+				int status = 0;
+				if(obProduct != null){
+					status = obProduct.getStatus();
+				}
+				if(status != 1){
+					return "no";
+				}
+			}
+			for (String str : uniqueIds) {
 				oBProductService.deleteByPrimaryKey(str);
 			}
-
+		}
+		return "ok";
+	}
+	/**
+	 * 
+	 * Description: 发布定型产品(改变发布状态)
+	 * 
+	 * @author zhang shubin
+	 * @version 2017年3月7日
+	 * @param @param request
+	 * @return void
+	 * @exception
+	 */
+	@RequestMapping("/fab")
+	@ResponseBody
+	public String fab(HttpServletRequest request,Model model) {
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
+		int status = 0;
+		if(obProduct != null){
+			status = obProduct.getStatus();
+		}
+		if(status == 1){
+			oBProductService.fab(id);
+			return "ok";
+		}else{
+			return "no";
 		}
 	}
 
@@ -571,7 +625,49 @@ public class OBProductController {
 		}else{
 			if(list != null){
 				for (OBProduct obProduct : list) {
+					int i = 2;
+					String smallPointsId = obProduct.getSmallPointsId();
+					Category category = categoryService.findById(smallPointsId);
+					Category category1 = categoryService.findById(category.getParentId());//上一级目录
+					Category category2 = null;
+					Category category3 = null;
+					if(category1 != null){//计算机设备
+						i++;//3
+						category2 = categoryService.findById(category1.getParentId());//上两级目录
+						if(category2 != null){ //通用设备
+							i++;
+							category3 = categoryService.findById(category2.getParentId());//上三级目录
+							if(category3 != null){
+								i++;
+							}
+						}
+					}
+					if(i == 2){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setCategoryBigId(smallPointsId);
+					}
+					if(i == 3){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setCategoryMiddleId(smallPointsId);
+						obProduct.setCategoryBigId(category1.getId());
+					}
+					if(i == 4){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setCategoryId(smallPointsId);
+						obProduct.setCategoryMiddleId(category1.getId());
+						obProduct.setCategoryBigId(category2.getId());
+					}
+					if(i == 5){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setProductCategoryId(smallPointsId);
+						obProduct.setCategoryId(category1.getId());
+						obProduct.setCategoryMiddleId(category2.getId());
+						obProduct.setCategoryBigId(category3.getId());
+						
+					}
 					obProduct.setIsDeleted(0);
+					obProduct.setStatus(2);
+					obProduct.setCreatedAt(new Date());
 					oBProductService.insertSelective(obProduct);
 				}
 			}

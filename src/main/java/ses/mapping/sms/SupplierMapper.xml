@@ -1649,4 +1649,11 @@
 		FROM T_SES_SMS_SUPPLIER
 		WHERE SUPPLIER_NAME = #{supplierName}
 	</select>
+	
+	<select id="findQualifiedSupplier" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM T_SES_SMS_SUPPLIER
+		WHERE SUPPLIER_STATUS = 1
+	</select>
 </mapper>

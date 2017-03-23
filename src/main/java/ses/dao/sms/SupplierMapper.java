@@ -386,4 +386,16 @@ public interface SupplierMapper {
      * @exception
      */
     Supplier selByName(String supplierName);
+    
+    /**
+     * 
+     * Description: 查询入库供应商
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月23日 
+     * @param  @return 
+     * @return List<Supplier> 
+     * @exception
+     */
+    List<Supplier> findQualifiedSupplier();
 }

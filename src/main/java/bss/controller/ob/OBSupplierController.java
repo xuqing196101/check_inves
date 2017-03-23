@@ -209,7 +209,7 @@ public class OBSupplierController {
 	@RequestMapping("/findAllSupplier")
 	@ResponseBody
 	public List<Supplier> findAllSupplier(){
-		List<Supplier> list = supplierService.findAllUsefulSupplier();
+		List<Supplier> list = supplierService.findQualifiedSupplier();
 		return list;
 	}
 	

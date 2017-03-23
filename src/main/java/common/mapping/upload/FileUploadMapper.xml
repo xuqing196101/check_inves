@@ -127,6 +127,15 @@
   	 AND ID = #{id}
   </select>
   
+  <!-- 查询证件照片 -->
+  <select id="queryImage"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
+  	 SELECT 
+  	 <include refid="BASE_FILE_LIST" />
+  	 FROM T_SES_EMS_EXPERT_ATTACHMENT
+  	 WHERE IS_DELETED = 0 
+  	 AND type_id = #{typeId}
+  	 AND business_id = #{businessId}
+  </select>
   <!-- 根据businessId查询 -->
   <select id="findBybusinessId"  parameterType="java.lang.String" resultMap="BaseResultMap_File">
      SELECT 

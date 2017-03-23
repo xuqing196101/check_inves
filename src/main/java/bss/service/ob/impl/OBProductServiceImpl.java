@@ -68,4 +68,9 @@ public class OBProductServiceImpl implements OBProductService {
 		return oBProductMapper.yzorg(shortName);
 	}
 
+	@Override
+	public void fab(String id) {
+		oBProductMapper.fab(id);
+	}
+
 }

@@ -27,6 +27,7 @@
 	<association property="categoryMiddle" column="CATEGORY_MIDDLE_ID" select="ses.dao.bms.CategoryMapper.findById"/>
 	<association property="productCategory" column="PRODUCT_CATEGORY_ID" select="ses.dao.bms.CategoryMapper.findById"/>
     <association property="obSupplierList" column="ID" select="bss.dao.ob.OBSupplierMapper.selectByProductID"/> 
+  	<association property="smallPoints" column="SMALL_POINTS_ID" select="ses.dao.bms.CategoryMapper.findById"/>
   </resultMap>
   
   <resultMap id="BaseResultSignalMap" type="bss.model.ob.OBProduct" >
@@ -122,7 +123,7 @@
     <if test="status != null and status != 0">
     	and STATUS = #{status}
     </if>
-    order by id
+    ORDER BY CREATED_AT DESC
   </select>
   
   <!-- 根据供应商id找到对应的商品 -->
@@ -477,5 +478,12 @@
   <select id="yzorg" resultType="Integer" parameterType="String">
   	SELECT COUNT(ID) FROM T_SES_OMS_ORG WHERE SHORT_NAME = #{shortName,jdbcType=VARCHAR}
   </select>
+  
+  <!-- 发布 -->
+  <update id="fab" parameterType="String">
+  	UPDATE T_BSS_OB_PRODUCT
+    SET STATUS = 2
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
   
 </mapper>

@@ -80,5 +80,18 @@ public interface OBProductMapper {
 	 * @return
 	 */
 	List<OBProduct> selectInId(@Param("list")List<String> ids);
+	
+	
+	/**
+	 * 
+	 * Description: 修改产品发布状态
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月23日 
+	 * @param  @param id 
+	 * @return void 
+	 * @exception
+	 */
+	void fab(String id);
     
 }
