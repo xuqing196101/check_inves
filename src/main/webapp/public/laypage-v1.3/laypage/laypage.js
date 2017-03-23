@@ -131,7 +131,7 @@ Page.prototype.view = function(){
     }(conf.skin)) : 'default') +'" id="laypage_'+ that.config.item +'">'+ view.join('') + function(){
         return conf.skip 
         ? '<span class="laypage_curr" style="background-color:'+ conf.skin +'">共'+ conf.pages +'页</span><div class="p0"><label>&#x5230;&#x7B2C;</label><input type="text" min="1" onkeyup="this.value=this.value.replace(/\\D/, \'\');" class="laypage_skip"><label>&#x9875;</label>'
-        + '<button type="button" class="laypage_btn">\&#x786e;&#x5b9a</button></div>' 
+        + '<button type="button" class="laypage_btn">\&#x786e;\&#x5b9a;</button></div>' 
         : '';
     }() +'</div>';
 };
