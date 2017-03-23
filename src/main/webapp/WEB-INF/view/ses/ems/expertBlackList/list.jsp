@@ -144,7 +144,7 @@
    function resetForm(){
       //$("#relName").attr("value","");
       $("#relName").val("");
-        //还原select下拉列表只需要这一句
+        //还原select下拉列表只需要这一句，注：这几个方法在IE8失效
       $("#punishDate option:selected").removeAttr("selected");
       $("#punishType option:selected").removeAttr("selected");
         $("#punishDate option:selected").attr("selected", false);
