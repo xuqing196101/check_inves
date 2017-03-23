@@ -1294,9 +1294,10 @@
 		REVIEW_SITUATION
 		reviewSituation,
 		AVOIDANCE_SITUATION avoidanceSituation,
-        IS_REFERENCE_LETTER isReferenceLftter,
-         PROFESSIONAL professional,
-        TIME_PROFESSIONAL timeProfessional
+    IS_REFERENCE_LETTER isReferenceLftter,
+    PROFESSIONAL professional,
+    TIME_PROFESSIONAL timeProfessional
+    RANGE range,
 		from T_SES_EMS_EXPERT_History
 		where ID = #{_parameter}
 	</select>

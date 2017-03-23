@@ -1004,11 +1004,13 @@ public class ExpertAuditController {
 			}
 		}
 		
-		//修改前的类型
+		/**
+		 * 修改前的专家类型
+		 */
 		if(expert.getStatus() != null && expert.getStatus().equals("0")) {
 			StringBuffer editFields = new StringBuffer();
 			
-			//历史表里记录的类型（修改前的类型）
+			//历史表里记录的类型（修改前的专家类型）
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
 			if(oldExpert !=null){
 				String oldType = oldExpert.getExpertsTypeId();
@@ -1018,8 +1020,6 @@ public class ExpertAuditController {
 						editFields.append(h);
 					}
 				}
-			
-			
 			
 			//全部类型
 			StringBuffer typeAll = new StringBuffer();
@@ -1040,7 +1040,31 @@ public class ExpertAuditController {
 	
 			model.addAttribute("editFields", editFields);
 			}
-		}	
+		}
+		
+		//  判断当前状态如果为退回修改则比较两次的信息
+		// 判断有没有进行修改
+		if(expert.getStatus() != null || expert.getStatus().equals("0")) {
+			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
+			if(oldExpert != null) {
+				Map < String, Object > compareMap = compareExpert(oldExpert, (ExpertHistory) expert);
+				// 如果isEdit==1代表没有进行任何修改就进行了二次提交
+				if(compareMap.isEmpty()) {
+					// 没有修改
+					model.addAttribute("isEdit", "0");
+				} else {
+					// 有修改
+					model.addAttribute("isEdit", "1");
+				}
+				Set < String > keySet = compareMap.keySet();
+				List < String > editPractice = new ArrayList < String > ();
+				for(String method: keySet) {
+					editPractice.add(method);
+				}
+				model.addAttribute("editPractice", editPractice);
+			}
+		}
+		
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
 		model.addAttribute("expertKey", expertKey);
