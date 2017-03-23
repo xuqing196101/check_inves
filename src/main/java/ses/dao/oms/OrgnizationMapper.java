@@ -214,9 +214,14 @@ public interface OrgnizationMapper {
 
     /**
      * 获取全部可用的采购机构信息
-     * @author YangHongLiang
      */
     List<Orgnization> getAllList();
+    /**
+     * 获取 采购机构 需求部门
+     * @author YangHongLiang
+     * @return
+     */
+    List<Orgnization> selectByTypeName();
     
     /**
      * 

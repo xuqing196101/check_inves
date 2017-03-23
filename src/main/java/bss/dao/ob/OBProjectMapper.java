@@ -6,6 +6,8 @@ import bss.model.ob.OBProjectExample;
 import java.util.List;
 import java.util.Map;
 
+import javax.validation.constraints.Past;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBProjectMapper {
@@ -16,7 +18,14 @@ public interface OBProjectMapper {
     int deleteByPrimaryKey(String id);
 
     int insert(OBProject record);
-
+    /**
+     * 查询当天创建竞价数量
+     * @author YangHongLiang
+     * @param createDate
+     * @return
+     */
+    int countByDate(@Param("createDate")String createDate);
+    
     int insertSelective(OBProject record);
 
     List<OBProject> selectByExample(OBProjectExample example);

@@ -19,6 +19,10 @@ public class OBProject {
 	private OBRule obRule;
     private String id;
     /**
+     * 竞价编号
+     */
+    private BigDecimal projectNumber;
+    /**
      * @Fields name : 竞价名称
      */
     private String name;
@@ -157,6 +161,15 @@ public class OBProject {
     private Date quoteEndTime;
   
    
+    
+	
+	public BigDecimal getProjectNumber() {
+		return projectNumber;
+	}
+
+	public void setProjectNumber(BigDecimal projectNumber) {
+		this.projectNumber = projectNumber;
+	}
 
 	public String[] getSupplieId() {
 		return supplieId;

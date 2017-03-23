@@ -831,7 +831,7 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	@Override
 	public String getMechanism() {
 		// TODO Auto-generated method stub
-		List<Orgnization> list=orgniztionMapper.getAllList();
+		List<Orgnization> list=orgniztionMapper.selectByTypeName();
 		  Gson gson=new Gson();
 		  String getJson="";
 		  if(list!=null){

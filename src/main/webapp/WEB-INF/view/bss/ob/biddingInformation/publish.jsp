@@ -75,6 +75,10 @@
 	var productList=null;
 	//加载采购机构 下拉数据
 	$(function(){
+	 var index = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
 		$.ajax({
 			url: "${pageContext.request.contextPath }/ob_project/mechanism.html",
 			contentType: "application/json;charset=UTF-8",
@@ -84,11 +88,20 @@
 				if (data) {
 				list=data;
 					$.each(data, function(i, user) {
-						$("#orgId").append("<option  value=" + user.id + ">" + user.shortName + "</option>");
-					});
+					//需求
+					if(user.typeName==0){
+					  $("#demandUnit").append("<option  value=" + user.id + ">" + user.shortName + "</option>");
+					}
+					//采购
+					if(user.typeName==1){
+					$("#orgId").append("<option  value=" + user.id + ">" + user.shortName + "</option>");
+					 }
+				  });
 				} 
 			 $("#orgId").select2();
 			 $("#orgId").select2('val','${list.orgId}');
+			  $("#demandUnit").select2();
+			 $("#demandUnit").select2('val','${list.demandUnit}');
 			}
 		});
 		
@@ -115,6 +128,7 @@
 		 $("#tradedSupplierCount").select2();
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
 		 tradedCount();
+		 layer.close(index);
 	});
 	//根据下拉框信息改变 采购联系人 采购联系电话
 	function changSelect(){
@@ -124,8 +138,17 @@
 	  	   if(user.id==value){
 	    	$("#orgContactTel").val(user.contactMobile);
 	    	 $("#orgContactName").val(user.contactName);
-	    	 $("#showorgContactTel").val(user.contactMobile);
-	    	 $("#showorgContactName").val(user.contactName);
+	    	 }
+	 	});
+	  }
+	}//根据下拉跟新 需求单位联系人 联系电话
+	function changDemandUnit(){
+	if(list){
+	  	var value=  $("#demandUnit").val();
+	  	$.each(list, function(i, user) {
+	  	   if(user.id==value){
+	    	$("#contactTel").val(user.telephone);
+	    	 $("#contactName").val(user.princinpal);
 	    	 }
 	 	});
 	  }
@@ -461,18 +484,6 @@
 					}
 				}
 			}
-			temp = 0;
-			$('*[id="productRemark"]').each(function() {
-				if (!$(this).val().trim()) {
-					temp = 1;
-					return;
-				}
-			});
-			if (temp == 1) {
-				$("#buttonErr").html("竞价产品备注不能为空");
-				show("竞价产品备注不能为空");
-				return;
-			}
 		}
 		var supplierCount='${supplierCount}';
 		var gyscount=$('#gys_count').html();
@@ -515,7 +526,7 @@
 									  var tempContext="";
 									    if(name=="pName"){
 									    tempContext=getSelectName(context);
-									    context="产品:"+tempContext+"供应商数量不得超过 该产品注册的供应商数量的1/4";
+									    context="该产品["+tempContext+"]的成交供应商数量不得超过该产品注册的供应商数量的1/4";
 									     $("#buttonErr").html(context);
 									    }else if(name=="catalog"){
 									      tempContext=getSelectName(context);
@@ -616,8 +627,16 @@
   <input type="hidden" id="suppliePrimaryId" name="suppliePrimaryId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
+       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价编号</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
+        <span class="add-on">i</span>
+        <span class="input-tip">自动生成</span>
+       </div>
+	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价标题</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价名称</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="name"  value="${list.name}" name="name" type="text"  maxlength="100">
         <span class="add-on">i</span>
@@ -664,16 +683,17 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="demandUnit" name="demandUnit" value="${list.demandUnit}"  maxlength="50" type="text">
-        <span class="add-on">i</span>
-          <span class="input-tip">不能为空</span>
+       <div class="w200">
+			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" >
+			  <option value=""></option>
+			</select></div>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
        </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName" value="${list.contactName }" maxlength="20" type="text">
+        <input class="input_group" id="contactName" name="contactName" readonly="readonly" value="${list.contactName }" maxlength="20" type="text">
         <span class="add-on">i</span>
            <span class="input-tip">不能为空</span>
         <div class="cue" id="contactNameErr">${contactNameErr}</div>
@@ -682,29 +702,21 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }" maxlength="20" type="text">
+        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }" readonly="readonly" maxlength="20" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="contactTelErr">${contactTelErr}</div>
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应比例</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应比例</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="tradedSupplier" value="" name=""  readonly="readonly" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">自动获取</span>
        </div>
 	 </li>
-	   <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
-        <span class="add-on">i</span>
-         <span class="input-tip">不能为空,只可以是数字</span>
-        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
-       </div>
-	 </li> 
+	  
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -735,10 +747,21 @@
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
+        <span class="add-on">i</span>
+         <span class="input-tip">不能为空,只可以是数字</span>
+        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
+       </div>
+	 </li> 
+	 
+	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-        <u:upload id="project" buttonName="上传文档"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" multiple="true" auto="true" />
+        <u:upload id="project" buttonName="上传附件"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" multiple="true" auto="true" />
                 <u:show showId="project" groups="b,c,d"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
+       <div class="cue" id="fileUploadErr">${fileUploadErr}</div>
        </div>
 	 </li> 
 	  
@@ -774,7 +797,13 @@
    <h2 class="tc">温馨提示：能够提供当前产品的供应商数量为<span id="gys_count" >0</span>家</h2>
   </form>
   <div class="col-md-12 clear tc mt10">
-	<button class="btn btn-windows save mb20" type="submit" onclick="submitProject(0)">暂存</button>
+	<button class="btn btn-windows save mb20" type="submit" onclick="submitProject(0)">
+	<c:if test="${list.status!=null}">
+	编辑
+	</c:if>
+	<c:if test="${list.status==null}">
+	暂存
+	</c:if></button>
 	<button class="btn btn-windows apply mb20" type="submit" onclick="submitProject(1)">发布</button>
 	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
    </div>

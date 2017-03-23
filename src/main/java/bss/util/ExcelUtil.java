@@ -835,9 +835,6 @@ public class ExcelUtil {
 			        					for(OBProduct ob:lists){
 			        						if(ob.getName().equals(product)){
 			        							boo=true;
-			        							/* 错误  注释
-			        							 * listsize=ob.getObSupplierList().size();
-			        							;*/
 			        							id=ob.getId();
 			        							break;
 			        						}
@@ -845,8 +842,7 @@ public class ExcelUtil {
 			        					if(boo==true){
 			        						obp.setId(id);//产品id
 			        						obp.setCode(product);//产品名称
-			        						obp.setName(listsize+"");//供应商数量
-					        				 continue;
+			        						/*obp.setName(listsize+"");//供应商数量*/					        				 continue;
 			        					}else{
 			        						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错,定型产品不存在!";
 				        					 map.put("errMsg", errMsg);

@@ -26,6 +26,7 @@
     <result column="ORG_CONTACT_NAME" property="orgContactName" jdbcType="VARCHAR" />
     <result column="ORG_CONTACT_TEL" property="orgContactTel" jdbcType="VARCHAR" />
     <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
+     <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
     <association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
@@ -144,7 +145,7 @@
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
     STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,
-     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID
+     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID,PROJECT_NUMBER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
     select
@@ -291,6 +292,10 @@
       <if test="ruleId != null" >
         RULE_ID,
       </if>
+      
+      <if test="projectNumber != null" >
+        PROJECT_NUMBER,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -366,6 +371,9 @@
        <if test="ruleId != null" >
         #{ruleId,jdbcType=VARCHAR},
       </if>
+      <if test="projectNumber != null" >
+          #{projectNumber,jdbcType=DECIMAL},
+      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="bss.model.ob.OBProjectExample" resultType="java.lang.Integer" >
@@ -374,6 +382,12 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <!-- 根据日期查出当前创建竞价数量 -->
+   <select id="countByDate" parameterType="java.lang.String" resultType="java.lang.Integer" >
+    select count(id) from T_BSS_OB_PROJECT
+    where TO_CHAR(CREATED_AT,'yyyy-MM-dd')= #{createDate,jdbcType=VARCHAR}
+  </select>
+  
   <update id="updateByExampleSelective" parameterType="map" >
     update T_BSS_OB_PROJECT
     <set >
@@ -524,6 +538,9 @@
       </if>
        <if test="ruleId != null" >
       RULE_ID=  #{ruleId,jdbcType=VARCHAR},
+      </if>
+       <if test="projectNumber != null" >
+         PROJECT_NUMBER= #{projectNumber,jdbcType=DECIMAL},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}

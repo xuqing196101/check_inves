@@ -891,8 +891,14 @@
 	<!-- 获取简称  -->
 	<select id="getAllList" resultMap="baseOrgnization">
 	 select ID,NAME,CONTACT_MOBILE,CONTACT_NAME,SHORT_NAME  from T_SES_OMS_ORG 
- 	 where TYPE_NAME=1 and IS_DELETED=0 and PARENT_ID is null
+ 	 where TYPE_NAME=1 and IS_DELETED=0 
  	 ORDER BY CREATED_AT ASC,UPDATED_AT DESC
+	</select>
+	<!-- 获取采购机构   需求单位 -->
+	<select id="selectByTypeName" resultMap="baseOrgnization">
+	select ID,NAME,CONTACT_MOBILE,CONTACT_NAME,SHORT_NAME,TYPE_NAME,PRINCINPAL,TELEPHONE  from T_SES_OMS_ORG 
+ 	 where (TYPE_NAME=1 or TYPE_NAME=0 )and IS_DELETED=0 
+ 	 ORDER BY CREATED_AT ASC,UPDATED_AT DESC 
 	</select>
 	
 	<!-- 根据简称查询 -->
