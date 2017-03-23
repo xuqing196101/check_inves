@@ -11,7 +11,9 @@ import java.io.OutputStream;
 import java.io.RandomAccessFile;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import javax.servlet.http.HttpServletRequest;
@@ -231,6 +233,15 @@ public class UploadServiceImpl implements UploadService {
             }
         }
         return ERROR;
+    }
+    
+    @Override
+    public List queryImage(String typeId, String businessId) {
+    	Map<String,Object> map= new HashMap<String,Object>();
+		map.put("typeId", typeId);
+		map.put("businessId", businessId);
+    	// TODO Auto-generated method stub
+    	return uploadDao.queryImage(map);
     }
 
     /**

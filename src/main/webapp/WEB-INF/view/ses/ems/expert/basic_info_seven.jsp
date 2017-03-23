@@ -110,7 +110,7 @@
                     if (!validateType()) {
                         return;
                     } else{
-                        submitForm2()
+                        submitForm2();
                     }
 
                 }
@@ -119,7 +119,7 @@
                 if (!validateType()) {
                     return;
                 } else{
-                    submitForm2()
+                    submitForm2();
                 }
 
             }

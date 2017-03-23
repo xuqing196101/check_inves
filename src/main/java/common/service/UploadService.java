@@ -217,4 +217,6 @@ public interface UploadService {
      */
     public Integer findCountById(String id, Integer tenderSysKey);
 
+	public List queryImage(String string, String id);
+
 }

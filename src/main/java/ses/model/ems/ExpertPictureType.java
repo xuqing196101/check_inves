@@ -98,11 +98,19 @@ public  enum ExpertPictureType {
             return 13;
         }
     },
-    //专家承诺书
+  //专家承诺书
     COMMITMENT_PROOF {
         @Override
         public Integer getSign() {
             return 14;
+        }
+    },
+    
+  //证件照
+    HEADPORTRAIT_PROOF {
+        @Override
+        public Integer getSign() {
+            return 50;
         }
     };
 

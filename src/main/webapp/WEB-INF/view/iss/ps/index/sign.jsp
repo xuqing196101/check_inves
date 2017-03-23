@@ -116,9 +116,9 @@
     							async: false,
     							success: function(response){
     							
-    							console.info(response)
+    								console.info(response);
    									//询问框
-   		    						layer.confirm("您选择的是" + response.purchaseDep.shortName + "，联系人：" + response.purchaseDep.supplierContact + ",电话：" + response.purchaseDep.supplierPhone + "，地址：" + response.purchaseDep.address + "。", {
+   		    						layer.confirm("<span style='margin-left:26px;'> 您的信息已于" + response.submitDate + "提交审核,将于45天内审核完成,请耐心等待！</span>"+"<br/> <span style='margin-left:26px;'> 您选择的采购机构是</span>：" + response.purchaseDep.shortName + "；联系人是:" + response.purchaseDep.supplierContact + ";"+"联系人电话：" + response.purchaseDep.supplierPhone + "；联系人地址是：" + response.purchaseDep.address + "。", {
    		    							btn : [ '确定' ]
    		    						//按钮
    		    						}, function() {
@@ -126,6 +126,7 @@
    		    						});
     							}
     						});
+    						
     					}else if(flag[0]=="unperfect"){
     						//询问框
     					/* 	if(flag[2]==null){ */
