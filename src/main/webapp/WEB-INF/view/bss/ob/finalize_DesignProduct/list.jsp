@@ -87,8 +87,12 @@
 					data: {
 						oBProductids: ids
 					},
-					success: function() {
-						window.location.href = "${pageContext.request.contextPath }/product/list.html";
+					success: function(data) {
+						if(data == 'ok'){
+							window.location.href = "${pageContext.request.contextPath }/product/list.html";
+						}else{
+							layer.msg("只能删除暂存的商品");
+						}
 					},
 					error: function() {
 
@@ -278,8 +282,8 @@
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn btn-windows apply" type="button" onclick="fb()">发布</button>
-		<button class="btn btn-windows btn btn-windows output" type="button" onclick="down()">下载EXCEL模板</button>
-		<button class="btn btn-windows btn btn-windows input" type="button" onclick="upload()">导入EXCEL</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载EXCEL模板</button>
+		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">导入EXCEL</button>
 	</div>   
 	<div class="content table_box">
 	
@@ -290,10 +294,7 @@
 		  <th class="w50 info">序号</th>
 		  <th class="info">产品代码</th>
 		  <th class="info">产品名称</th>
-		  <th class="info">大类</th>
-		  <th class="info">中类</th>
-		  <th class="info">小类</th>
-		  <th class="info">产品类别</th>
+		  <th class="info">产品目录（末节点）</th>
 		  <th class="info">产品状态</th>
 		  <th class="info">合格供应商数量</th>
 		</tr>
@@ -304,10 +305,7 @@
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 		  <td>${product.code}</td>
 		  <td><a href="javascript:void(0)">${product.name}</a></td>
-		  <td class="tl">${product.categoryBig.name }</td>
-		  <td class="tl">${product.categoryMiddle.name }</td>
-		  <td class="tl">${product.category.name }</td>
-		  <td class="tl">${product.productCategory.name }</td>
+		  <td class="tc" title = "${product.pointsName }">${product.smallPoints.name }</td>
 		  <td class="tc">
 		  	<c:if test="${product.status == 1}">暂存</c:if>
 		  	<c:if test="${product.status == 2}">发布</c:if>

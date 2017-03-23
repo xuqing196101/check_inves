@@ -474,7 +474,7 @@ public class OfferController {
 	 * @return void 
 	 * @exception
 	 */
-    @RequestMapping("/exports")
+    /*@RequestMapping("/exports")
     public void export(String id,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException{
         String filename ="审价合同信息";
         response.setContentType("application/vnd.ms-excel; charset=utf-8");
@@ -504,5 +504,5 @@ public class OfferController {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
+    }*/
 }

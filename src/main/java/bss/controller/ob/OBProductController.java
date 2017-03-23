@@ -95,6 +95,24 @@ public class OBProductController {
 			page = 1;
 		}
 		List<OBProduct> list = oBProductService.selectByExample(example, page);
+		if(list != null){
+			for (OBProduct oBProduct : list) {
+				String id = oBProduct.getSmallPointsId();
+				if(id != null){
+					HashMap<String, Object> map = new HashMap<String, Object>();
+					map.put("id", id);
+					List<Category> clist = categoryService.findCategoryByParentNode(map);
+					String str = "";
+					for (Category category : clist) {
+						if(!oBProduct.getSmallPoints().getName().equals(category.getName())){
+							str += category.getName() +"/";
+						}
+					}
+					str+=oBProduct.getSmallPoints().getName();
+					oBProduct.setPointsName(str);
+				}
+			}
+		}
 		PageInfo<OBProduct> info = new PageInfo<>(list);
 		List<OBSupplier> numlist = oBSupplierService.selectSupplierNum();
 		for (OBSupplier ob : numlist) {
@@ -122,16 +140,26 @@ public class OBProductController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public void delete(HttpServletRequest request) {
+	public String delete(HttpServletRequest request) {
 		String oBProductids = request.getParameter("oBProductids");
 		String productId = oBProductids.trim();
 		if (productId.length() != 0) {
 			String[] uniqueIds = productId.split(",");
 			for (String str : uniqueIds) {
+				OBProduct obProduct = oBProductService.selectByPrimaryKey(str);
+				int status = 0;
+				if(obProduct != null){
+					status = obProduct.getStatus();
+				}
+				if(status != 1){
+					return "no";
+				}
+			}
+			for (String str : uniqueIds) {
 				oBProductService.deleteByPrimaryKey(str);
 			}
-
 		}
+		return "ok";
 	}
 	/**
 	 * 
@@ -639,6 +667,7 @@ public class OBProductController {
 					}
 					obProduct.setIsDeleted(0);
 					obProduct.setStatus(2);
+					obProduct.setCreatedAt(new Date());
 					oBProductService.insertSelective(obProduct);
 				}
 			}

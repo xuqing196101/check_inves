@@ -79,6 +79,29 @@ public class OBProduct {
 
 	// 产品类别
 	private Category productCategory;
+	
+	/**
+	 * 目录全路径
+	 */
+	private String pointsName;
+	
+	private Category smallPoints;//末节点对应的实体对象
+
+	public Category getSmallPoints() {
+		return smallPoints;
+	}
+
+	public void setSmallPoints(Category smallPoints) {
+		this.smallPoints = smallPoints;
+	}
+
+	public String getPointsName() {
+		return pointsName;
+	}
+
+	public void setPointsName(String pointsName) {
+		this.pointsName = pointsName;
+	}
 
 	public OBProduct getObProduct() {
 		return obProduct;

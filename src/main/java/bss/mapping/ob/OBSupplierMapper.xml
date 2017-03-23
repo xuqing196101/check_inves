@@ -148,6 +148,7 @@
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
+		ORDER BY CERT_VALID_PERIOD DESC
 	</select>
 
 	<!-- 根据id查询供应商列表 过期 -->
@@ -171,6 +172,7 @@
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
+		ORDER BY CERT_VALID_PERIOD DESC
 	</select>
 	
 	<!-- 根据id查询供应商列表  数量-->
@@ -258,6 +260,7 @@
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
+		ORDER BY CERT_VALID_PERIOD
 	</select>
 	<select id="selectByExample" resultMap="BaseResultMap"
 		parameterType="bss.model.ob.OBSupplierExample">

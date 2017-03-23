@@ -94,7 +94,7 @@
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "417px", top: "250px"}).slideDown("fast");
+		$("#menuContent").css({left: "977px", top: "198px"}).slideDown("fast");
 		$("body").bind("mousedown", onBodyDown);
 	}
     function hideMenu() {
@@ -235,15 +235,15 @@
 						</tr>
 						<tr>
 							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
-							<td width="82%" colspan="3"><select id="orgId"
-								name="supplierId" style="width: 25.5%;" onchange="pover()">
+							<td width="32%"><select id="orgId"
+								name="supplierId" style="width: 66%;" onchange="pover()">
 									<option value=""></option>
 							</select> 
 								<div class="star_red" id="ppro"></div></td>
-						</tr>
-						<tr>
+								
+								
 							<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
-							<td colspan="3"><input id="citySel4" name=""
+							<td ><input id="citySel4" name=""
 								value="${categoryName }" type="text" class="w230 mb0"
 								onclick=" showMenu(); return false;" readonly> <input
 								id="categorieId4" name="categoryId" value="${cId}" type="hidden"
