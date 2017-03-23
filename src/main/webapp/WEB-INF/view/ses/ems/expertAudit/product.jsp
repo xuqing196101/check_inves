@@ -147,10 +147,14 @@
 				var mat = $("#mat").val();
 				var eng = $("#eng").val();
 				var ser = $("#ser").val();
+				var goodsProject = $("#goodsProject").val();
+				var goodsEngInfo = $("#goodsEngInfo").val();
 				var engInfo = $("#engInfo").val();
 				var matCodeId = $("#matCodeId").val();
 				var engCodeId = $("#engCodeId").val();
 				var serCodeId = $("#serCodeId").val();
+				var goodsProjectId = $("#goodsProjectId").val();
+				var goodsEngInfoId = $("#goodsEngInfoId").val();
 				if(mat == "mat_page"){
 					// 加载已选品目列表
 					loading = layer.load(1);
@@ -167,6 +171,20 @@
 					// 加载已选品目列表
 					loading = layer.load(1);
 					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + serCodeId;
+					$("#tbody_category").load(path);
+				}
+				
+ 				if(goodsProject == "goodsProject_page"){
+					// 加载已选品目列表
+					loading = layer.load(1);
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsProjectId;
+					$("#tbody_category").load(path);
+				}
+				
+				if(goodsEngInfo == "goodsEngInfo_page"){
+					// 加载已选品目列表
+					loading = layer.load(1);
+					var path = "${pageContext.request.contextPath}/expertAudit/getCategories.html?expertId=" + expertId + "&typeId=" + goodsEngInfoId;
 					$("#tbody_category").load(path);
 				}
 			});
@@ -344,6 +362,8 @@
 								<c:if test="${cate.code eq 'PROJECT'}">
 									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engInfoId }');">
 										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业信息</a>
+										<input type="hidden" id="engInfo" value="engInfo_page">
+										<input id="engInfoId" type="hidden" value="${engInfoId }">
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
@@ -356,6 +376,25 @@
 									</li>
 									<c:set value="${liCount+1}" var="liCount" />
 								</c:if>
+								
+								<!-- 经济 -->
+								<c:if test="${cate.code eq 'GOODS_PROJECT'}">
+									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${goodsProjectId }');">
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程产品类别信息</a>
+										<input type="hidden" id="goodsProject" value="goodsProject_page">
+										<input id=goodsProjectId type="hidden" value="${goodsProjectId }">
+									</li>
+									<c:set value="${liCount+1}" var="liCount" />
+								</c:if>
+								<c:if test="${cate.code eq 'GOODS_PROJECT'}">
+									<li id="li_id_${vs.index + 1}" class='<c:if test="${liCount == 0}">active</c:if>' onclick="showDivTree('${engInfoId }');">
+										<a id="li_${vs.index + 1}" aria-expanded="true" data-toggle="tab" class="f18">工程专业属性信息</a>
+										<input type="hidden" id="goodsEngInfo" value="goodsEngInfo_page">
+										<input id=goodsEngInfo type="hidden" value="${engInfoId }">
+									</li>
+									<c:set value="${liCount+1}" var="liCount" />
+								</c:if>
+
 							</c:forEach>
 						</ul>
 						<%-- <c:set var="count" value="0"></c:set>
