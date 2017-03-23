@@ -256,7 +256,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 							<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">专家姓名：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-								<input id="relName" <c:if test="${fn:contains(conditionStr,'专家姓名')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getRelName')}"> style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onmouseover="isCompare('relName','getRelName','0');"</c:if> value="${expert.relName}" type="text" onclick="reason(this);"/>
+								<input id="relName" <c:if test="${fn:contains(editFields,'getRelName')}"> style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onmouseover="isCompare('relName','getRelName','0');"</c:if> <c:if test="${fn:contains(conditionStr,'专家姓名')}"> style="border: 1px solid red;"</c:if> value="${expert.relName}" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
 						<li class="col-md-3 col-sm-6 col-xs-12">
@@ -265,6 +265,11 @@
 								<input id="gender" <c:if test="${fn:contains(conditionStr,'性别')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getGender')}"> style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onmouseover="isCompare('gender','getGender','1');"</c:if> value="${gender }" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
+            <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="recentPhotos" onclick="reasonFile(this);">近期免冠彩色证件照：</span>
+             	<up:show showId="show13" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="13"/>
+          			<a style="visibility:hidden" id="recentPhotos1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+           		<c:if test="${fn:contains(conditionStr,'近期免冠彩色证件照')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
+           	<li>
 						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">出生日期：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input readonly="readonly" <c:if test="${fn:contains(conditionStr,'出生日期')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getBirthday')}"> style="border: 1px solid #FF8C00;" style="border: 1px solid #FF8C00;" onmouseover="isCompare('birthday','getBirthday','2');"</c:if> value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd'/>" id="birthday" type="text" onclick="reason(this);"/>
@@ -279,16 +284,17 @@
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.nation}" <c:if test="${fn:contains(conditionStr,'民族')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getNation')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('nation','getNation','0');"</c:if> id="nation" type="text" onclick="reason(this);"/>
 							</div>
-						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">健康状态：</span>
+						</li>						
+            <li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idCardNumberFile" onclick="reasonFile(this);">身份证复印件（正反面）:</span>
+             	<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
+          			<a style="visibility:hidden" id="idCardNumberFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+           		<c:if test="${fn:contains(conditionStr,'身份证复印件（正反面）')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
+           	<li>
+            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">健康状态：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.healthState}" <c:if test="${fn:contains(conditionStr,'健康状态')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getHealthState')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('healthState','getHealthState','0');"</c:if> id="healthState" type="text" onclick="reason(this);"/>
 							</div>
 						</li>
-						<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="idCardNumberFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'"  onclick="reasonFile(this);">身份证复印件（正反面）：</span>
-            	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
-           		<c:if test="${fn:contains(conditionStr,'身份证复印件（正反面）')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>
-            <li>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5" >居民身份证号码：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 								<input value="${expert.idCardNumber}" <c:if test="${fn:contains(conditionStr,'居民身份证号码')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIdCardNumber')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('idCardNumber','getIdCardNumber','0');"</c:if> id="idCardNumber" type="text" onclick="reason(this);"/>
@@ -338,17 +344,17 @@
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input id="idType" <c:if test="${fn:contains(conditionStr,'军队人员身份证件类型')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIdType')}">style="border: 1px solid #FF8C00;"  onmouseover="isCompare('idType','getIdType','1');"</c:if> value="${idType }" type="text" onclick="reason(this);"/>
 								</div>
-							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证件号码：</span>
+							</li>				
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
+              	<up:show showId="show1" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="1"/>
+           			<a style="visibility:hidden" id="idNumberFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+            		<c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
+            	<li>
+            	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证件号码：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
 									<input value="${expert.idNumber}" <c:if test="${fn:contains(conditionStr,'证件号码')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getIdNumber')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('idNumber','getIdNumber','0');"</c:if> id="idNumber" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="idNumberFile" onclick="reasonFile(this);">军队人员身份证件：</span>
-              	<up:show showId="show3" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="3"/>
-           			<a style="visibility:hidden" id="idNumberFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-            		<c:if test="${fn:contains(conditionStr,'军队人员身份证件')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
-            	<li>
             </c:if>
             <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">手机：</span>
 							<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -373,7 +379,7 @@
 					</ul>
 					
 					<div class="padding-top-10 clear">
-						<h2 class="count_flow"><i>2</i>专业信息</h2>
+						<h2 class="count_flow"><i>2</i>专业信息（包括学历和专业）</h2>
 						<ul class="ul_list">
 							<li class="col-md-3 col-sm-6 col-xs-12 pl15"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">所在单位：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -415,15 +421,15 @@
 									<input maxlength="20" <c:if test="${fn:contains(conditionStr,'专家技术职称')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getProfessTechTitles')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professTechTitles','getProfessTechTitles','0');"</c:if> value="${expert.professTechTitles}" name="professTechTitles" id="professTechTitles" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获得时间：</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得技术职称时间：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-									<input <c:if test="${fn:contains(conditionStr,'证书获得时间')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeToWork')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeToWork','getTimeToWork','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeToWork}' dateStyle='default' pattern='yyyy-MM-dd'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
+									<input <c:if test="${fn:contains(conditionStr,'取得技术职称时间')}"> style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getMakeTechDate')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('makeTechDate','getMakeTechDate','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="makeTechDate" type="text" onclick="reason(this);"/>
 								</div>
 							</li>
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专家技术职称证书：</span>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" id="titleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" onclick="reasonFile(this);" id="professTechTitlesFile">专业技术职称证书：</span>
 	              <up:show showId="show4" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="4"/>
 	              <a style="visibility:hidden" id="titleFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-            		<c:if test="${fn:contains(conditionStr,'专家技术职称证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
+            		<c:if test="${fn:contains(conditionStr,'专业技术职称证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
             	</li>
             	<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">最高学历：</span>
 								<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
@@ -466,19 +472,19 @@
 								</li>
 							</c:if>
 							<c:if test="${expert.isReferenceLftter eq '1'}">
-								<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="degreeFile" onclick="reasonFile(this);">推荐信：</span>
-		              <up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
-		              <a style="visibility:hidden" id="degreeFile1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+								<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="recommend" onclick="reasonFile(this);">推荐信：</span>
+		              <up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
+		              <a style="visibility:hidden" id="recommend1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 		            	<c:if test="${fn:contains(conditionStr,'推荐信')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
 		            </li>
 							</c:if>
 						</ul>
 						<h2 class="count_flow"><i>4</i>获奖证书(限国家科技进步三等或军队科技进步二等以上奖项)</h2>
 						<ul class="ul_list">
-							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格证书：</span>
-	             	<up:show showId="show8" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="8"/>
+							<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="degreeTypeid" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">获奖证书：</span>
+	             	<up:show showId="show7" delete="false" businessId="${sysId}" sysKey="${expertKey}" typeId="7"/>
 	          		<a style="visibility:hidden" id="degreeTypeid1"><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-	           		<c:if test="${fn:contains(conditionStr,'执业资格证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
+	           		<c:if test="${fn:contains(conditionStr,'获奖证书')}"> <p><img style="padding-left: 125px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p></c:if>	
 	           	<li>
 						</ul>
 					<!-- 主要工作经历-->
