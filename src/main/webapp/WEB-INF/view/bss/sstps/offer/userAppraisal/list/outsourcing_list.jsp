@@ -69,7 +69,7 @@ function onStep(){
 				<tbody>
 				<c:forEach items="${list}" var="out" varStatus="vs">
 					<tr>
-						<td><input type="hidden"
+						<td><input type="hidden" /></td>
 						<td>${vs.index+1 }<input type="hidden" name="outsourcingCons['${vs.index }'].id" value="${out.id }" /></td>
 						<td class="tc">${out.outsourcingName }</td>
 						<td class="tc">${out.norm }</td>

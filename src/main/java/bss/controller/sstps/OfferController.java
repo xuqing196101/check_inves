@@ -1,13 +1,22 @@
 
 package bss.controller.sstps;
 
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.OutputStream;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.apache.log4j.Logger;
+import org.apache.poi.hssf.usermodel.HSSFCell;
+import org.apache.poi.hssf.usermodel.HSSFRow;
+import org.apache.poi.hssf.usermodel.HSSFSheet;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -16,6 +25,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import ses.controller.sys.bms.LoginController;
 import ses.model.bms.User;
+import ses.model.ppms.CategoryParam;
 import ses.model.sms.Supplier;
 import ses.service.sms.SupplierService;
 import ses.util.PropertiesUtil;
@@ -448,4 +458,51 @@ public class OfferController {
 		model.addAttribute("supplierName",supplierName);
 		return "bss/sstps/offer/checkAppraisal/list";
 	}
+	
+	
+	/**
+	 * 
+	 * Description: 导出
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月23日 
+	 * @param  @param id
+	 * @param  @param session
+	 * @param  @param request
+	 * @param  @param response
+	 * @param  @throws IOException 
+	 * @return void 
+	 * @exception
+	 */
+    @RequestMapping("/exports")
+    public void export(String id,HttpSession session,HttpServletRequest request,HttpServletResponse response) throws IOException{
+        String filename ="审价合同信息";
+        response.setContentType("application/vnd.ms-excel; charset=utf-8");
+        response.setHeader("Content-Disposition","attachment;filename="+filename+".xlsx");
+        response.setCharacterEncoding("utf-8");
+        OutputStream os=response.getOutputStream();
+        HSSFWorkbook wb = new HSSFWorkbook();
+        HSSFSheet sheet = wb.createSheet("审价合同信息");
+        HSSFRow row = sheet.createRow(0);
+        HSSFCell cell = row.createCell(0);
+        cell.setCellValue("合同名称");
+        HSSFCell cell1 = row.createCell(1);
+        cell1.setCellValue("合同编号");
+        HSSFCell cell2 = row.createCell(2);
+        cell2.setCellValue("合同金额");
+        HSSFCell cell3 = row.createCell(3);
+        cell3.setCellValue("供应商名称");
+        AppraisalContract contract = appraisalContractService.selectContractInfo(id);
+        row = sheet.createRow(1);
+        row.createCell(0).setCellValue(contract.getName());
+        row.createCell(1).setCellValue(contract.getCode());
+        row.createCell(2).setCellValue(contract.getMoney().toString());
+        row.createCell(3).setCellValue(contract.getSupplier().getSupplierName());
+        try {
+            os.close();
+        } catch (FileNotFoundException e) {
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
 }

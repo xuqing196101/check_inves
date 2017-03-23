@@ -478,4 +478,11 @@
   	SELECT COUNT(ID) FROM T_SES_OMS_ORG WHERE SHORT_NAME = #{shortName,jdbcType=VARCHAR}
   </select>
   
+  <!-- 发布 -->
+  <update id="fab" parameterType="String">
+  	UPDATE T_BSS_OB_PRODUCT
+    SET STATUS = 2
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
 </mapper>

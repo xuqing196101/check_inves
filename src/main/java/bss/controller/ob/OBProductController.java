@@ -133,6 +133,32 @@ public class OBProductController {
 
 		}
 	}
+	/**
+	 * 
+	 * Description: 发布定型产品(改变发布状态)
+	 * 
+	 * @author zhang shubin
+	 * @version 2017年3月7日
+	 * @param @param request
+	 * @return void
+	 * @exception
+	 */
+	@RequestMapping("/fab")
+	@ResponseBody
+	public String fab(HttpServletRequest request,Model model) {
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
+		int status = 0;
+		if(obProduct != null){
+			status = obProduct.getStatus();
+		}
+		if(status == 1){
+			oBProductService.fab(id);
+			return "ok";
+		}else{
+			return "no";
+		}
+	}
 
 	/**
 	 * 
@@ -571,7 +597,48 @@ public class OBProductController {
 		}else{
 			if(list != null){
 				for (OBProduct obProduct : list) {
+					int i = 2;
+					String smallPointsId = obProduct.getSmallPointsId();
+					Category category = categoryService.findById(smallPointsId);
+					Category category1 = categoryService.findById(category.getParentId());//上一级目录
+					Category category2 = null;
+					Category category3 = null;
+					if(category1 != null){//计算机设备
+						i++;//3
+						category2 = categoryService.findById(category1.getParentId());//上两级目录
+						if(category2 != null){ //通用设备
+							i++;
+							category3 = categoryService.findById(category2.getParentId());//上三级目录
+							if(category3 != null){
+								i++;
+							}
+						}
+					}
+					if(i == 2){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setCategoryBigId(smallPointsId);
+					}
+					if(i == 3){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setCategoryMiddleId(smallPointsId);
+						obProduct.setCategoryBigId(category1.getId());
+					}
+					if(i == 4){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setCategoryId(smallPointsId);
+						obProduct.setCategoryMiddleId(category1.getId());
+						obProduct.setCategoryBigId(category2.getId());
+					}
+					if(i == 5){
+						obProduct.setProductCategoryLevel(i);
+						obProduct.setProductCategoryId(smallPointsId);
+						obProduct.setCategoryId(category1.getId());
+						obProduct.setCategoryMiddleId(category2.getId());
+						obProduct.setCategoryBigId(category3.getId());
+						
+					}
 					obProduct.setIsDeleted(0);
+					obProduct.setStatus(2);
 					oBProductService.insertSelective(obProduct);
 				}
 			}

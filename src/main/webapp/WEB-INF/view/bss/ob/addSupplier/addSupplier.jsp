@@ -8,7 +8,7 @@
 		<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
 	<title>添加供应商页面</title>
 	<script type="text/javascript">
-	//加载采购机构 下拉数据
+	//加载供应商
 	$(function(){
 		$.ajax({
 			url: "${pageContext.request.contextPath }/obSupplier/findAllSupplier.do",
@@ -216,7 +216,7 @@
      <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="red star_red">*</div>证书有效期至</span>
 	   <div class="input-append input_group col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="" value="<fmt:formatDate value="${obSupplier.certValidPeriod }" pattern="yyyy-MM-dd" /> " name = "certValidPeriod" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})" readonly="readonly">
+        <input class="input_group" id="" value="<fmt:formatDate value="${obSupplier.certValidPeriod }" pattern="yyyy-MM-dd" /> " name = "certValidPeriod" type="text" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd'})" readonly="readonly">
         <span class="add-on">i</span>
         <div class="cue">${errorCertValidPeriod }</div>
        </div>

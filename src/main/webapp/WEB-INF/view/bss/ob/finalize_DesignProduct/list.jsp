@@ -103,6 +103,50 @@
 		}
 	}
 	
+	/* 发布 */
+	function fb() {
+		var id = [];
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		if(id.length == 1) {
+			layer.confirm('您确定要发布吗?', {
+				title: '提示',
+				offset: ['222px', '360px'],
+				shade: 0.01
+			}, function(index) {
+				layer.close(index);
+				$.ajax({
+					url: "${pageContext.request.contextPath }/product/fab.html",
+					type: "post",
+					data: {
+						id:id[0]
+					},
+					success: function(data) {
+						if(data == 'ok'){
+							window.location.href = "${pageContext.request.contextPath }/product/list.html";
+						}else{
+							layer.msg("只能发布暂存的商品");
+						}
+					},
+					error: function() {
+						
+					}
+				});
+			});
+		} else if(id.length > 1) {
+			layer.alert("只能选择一个", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		} else {
+			layer.alert("请选择需要发布的产品", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
+	}
+	
 	/* 修改 */
 	function edit() {
 		var id = [];
@@ -117,7 +161,7 @@
 				shade: 0.01
 			});
 		} else {
-			layer.alert("请选择需要修改的版块", {
+			layer.alert("请选择需要修改的产品", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});
@@ -159,7 +203,7 @@
 	               dataType: 'json',
 	               success: function (data) { 
 	               var bool=true;
-	               var chars = ['A','B','C','D','E','F','G','H','I'];
+	               var chars = ['A','B','C','D','E','F'];
 	               if(data=="1"){
 				     layer.alert("文件格式错误",{offset: ['222px', '390px'], shade:0.01});
 					 } 
@@ -233,6 +277,7 @@
 		<button class="btn btn-windows apply" type="button" onclick="window.location.href = '${pageContext.request.contextPath }/product/tiaozhuan.html?type=2'">发布定型产品</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
+		<button class="btn btn-windows apply" type="button" onclick="fb()">发布</button>
 		<button class="btn btn-windows btn btn-windows output" type="button" onclick="down()">下载EXCEL模板</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="upload()">导入EXCEL</button>
 	</div>   
@@ -249,6 +294,7 @@
 		  <th class="info">中类</th>
 		  <th class="info">小类</th>
 		  <th class="info">产品类别</th>
+		  <th class="info">产品状态</th>
 		  <th class="info">合格供应商数量</th>
 		</tr>
 		</thead>
@@ -262,6 +308,10 @@
 		  <td class="tl">${product.categoryMiddle.name }</td>
 		  <td class="tl">${product.category.name }</td>
 		  <td class="tl">${product.productCategory.name }</td>
+		  <td class="tc">
+		  	<c:if test="${product.status == 1}">暂存</c:if>
+		  	<c:if test="${product.status == 2}">发布</c:if>
+		  </td>
 		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
 		  	<c:forEach items="${numlist }" var="num">
 		  		<c:if test="${num.smallPointsId == product.smallPointsId }">${num.nCount }</c:if>
