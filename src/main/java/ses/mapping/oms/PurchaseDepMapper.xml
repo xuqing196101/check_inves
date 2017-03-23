@@ -810,9 +810,6 @@
 			<if test="orgId != null and orgId != ''">
 				ORG_ID = #{orgId},
 			</if>
-			<if test="createdAt != null">
-				CREATED_AT = #{createdAt},
-			</if>
 			<if test="dutyRoomPhone != null and dutyRoomPhone != ''">
 				DUTY_ROOM_PHONE = #{dutyRoomPhone},
 			</if>
