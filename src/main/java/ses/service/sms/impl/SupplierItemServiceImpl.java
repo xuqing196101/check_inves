@@ -12,23 +12,19 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.github.pagehelper.PageHelper;
-
-import bss.util.WordUtil;
 import ses.dao.sms.ProductParamMapper;
 import ses.dao.sms.SupplierItemMapper;
 import ses.dao.sms.SupplierProductsMapper;
 import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertCategory;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierItem;
 import ses.service.bms.CategoryService;
 import ses.service.sms.SupplierItemService;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
-import common.constant.StaticVariables;
+
+import com.github.pagehelper.PageHelper;
 
 @Service(value = "supplierItemService")
 public class SupplierItemServiceImpl implements SupplierItemService {
@@ -285,41 +281,61 @@ public class SupplierItemServiceImpl implements SupplierItemService {
         }
         // 判断父节点下还有没有子节点被勾选
         if (current != null) {
-            Map<String, Object> param = new HashMap<String, Object>();
-            param.put("supplierId", supplierItem.getSupplierId());
-            param.put("type", supplierItem.getSupplierTypeRelateId());
-            List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
+//            Map<String, Object> param = new HashMap<String, Object>();
+//            param.put("supplierId", supplierItem.getSupplierId());
+//            param.put("type", supplierItem.getSupplierTypeRelateId());
+//            List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
             String parentId = current.getParentId();
-            if (parentId != null) {
-                out:while (true) {
-                    boolean flag = false;
-                    in:for (SupplierItem category : allCategory) {
-                        Category node = categoryService.findById(category.getCategoryId());
-                        if (node != null) {
-                            if (parentId.equals(node.getParentId())) {
-                                List<Category> childNodes = categoryService.findPublishTree(category.getCategoryId(), null);
-                                if (childNodes == null || childNodes.size() == 0) {
-                                    flag = true;
-                                    break in;
-                                }
-                            }
-                        }
-                    }
-                    if (!flag) {
-                        map.put("categoryId", parentId);
-                        supplierItemMapper.deleteByMap(map);
-                    }
-                    Category category = categoryService.findById(parentId);
-                    if (category == null) {
-                        break out;
-                    } else {
-                        parentId = category.getParentId();
-                    }
-                }
-            }
-        } else {
-            map.put("categoryId", categoryId);
-            supplierItemMapper.deleteByMap(map);
+//            boolean pflag = false;
+             while(true){
+            	 
+//            没有同级节点删除父级节点
+             boolean bool = sameCategory(supplierItem.getSupplierId(),parentId,supplierItem.getSupplierTypeRelateId());
+             if(bool==false){
+	        	   Category category = categoryService.findById(parentId);
+	        	   List<SupplierItem> bySupplierIdCategoryId = supplierItemMapper.getBySupplierIdCategoryId(supplierItem.getSupplierId(), category.getId(), supplierItem.getSupplierTypeRelateId());
+	        	   if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+	        		   map.put("categoryId", category.getId());
+	                   supplierItemMapper.deleteByMap(map);
+	                   parentId = category.getParentId();
+	        	   }else{
+	        		   break  ;
+	        	   }
+	           }else{
+	        	   break  ;
+	           } 
+            }  
+//            if (parentId != null) {
+//                out:while (true) {
+//                    boolean flag = false;
+//                    in:for (SupplierItem category : allCategory) {
+//                        Category node = categoryService.findById(category.getCategoryId());
+//                        if (node != null) {
+//                            if (parentId.equals(node.getParentId())) {
+//                                List<Category> childNodes = categoryService.findPublishTree(category.getCategoryId(), null);
+//                                if (childNodes == null || childNodes.size() == 0) {
+//                                    flag = true;
+//                                    break in;
+//                                }
+//                            }
+//                        }
+//                    }
+//                    if (!flag) {
+//                        map.put("categoryId", parentId);
+//                        supplierItemMapper.deleteByMap(map);
+//                    }
+//                    Category category = categoryService.findById(parentId);
+//                    if (category == null) {
+//                        break out;
+//                    } else {
+//                        parentId = category.getParentId();
+//                    }
+//                }
+//            }
+//        } else {
+//            map.put("categoryId", categoryId);
+//            supplierItemMapper.deleteByMap(map);
+//        }
         }
     }
 
@@ -352,6 +368,26 @@ public class SupplierItemServiceImpl implements SupplierItemService {
 		return items;
 	}
 	
-	
+	//查询供应商品目中间表是否还有同级
+	public boolean sameCategory(String supplierId,String categoryId,String supplierType){
+		boolean bool=false;
+		  Map<String, Object> param = new HashMap<String, Object>();
+          param.put("supplierId", supplierId);
+          param.put("type", supplierType);
+          List<SupplierItem> allCategory = supplierItemMapper.findByMap(param);
+          for (SupplierItem category : allCategory) {
+              Category node = categoryService.findById(category.getCategoryId());
+              if (node != null) {
+                  if (categoryId.equals(node.getParentId())) {
+                    	  bool = true;
+                          break;
+//                      }
+                  }
+              }
+          }
+          
+          
+		return bool;
+	}
 	
 }

@@ -24,13 +24,14 @@
 					if (response != 1) {
 						$("input[name='jsp']").val(flag);
 						if (flag == "commit") {
-							layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>"+"<br/><span style='margin-left:26px;'> 您选择的采购机构是："+response.shortName+"；联系人姓名是："+response.supplierContact+"；"+"联系人手机号是："+response.supplierPhone+"；联系人地址："+response.supplierAddress+"；联系人邮编"+response.supplierPostcode, {
+							/* layer.confirm("<span style='margin-left:26px;'> 您已成功提交,请等待审核结果！</span>"+"<br/><span style='margin-left:26px;'> 您选择的采购机构是："+response.shortName+"；联系人姓名是："+response.supplierContact+"；"+"联系人手机号是："+response.supplierPhone+"；联系人地址："+response.supplierAddress+"；联系人邮编"+response.supplierPostcode, {
 								btn : [ '确定' ],
-								shade: false //不显示遮罩
-							//按钮
-							}, function() {
+								shade: false 
+							}, function() { */
 								$("#template_upload_form_id").submit();
-							});	
+								var index = layer.load(1);
+								
+						/* 	});	 */
 						}
 					} else {
 						layer.msg("还有附件未上传!",{offset: ['300px', '750px']});
