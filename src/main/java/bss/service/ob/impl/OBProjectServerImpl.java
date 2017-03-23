@@ -1,6 +1,7 @@
 package bss.service.ob.impl;
 
 import java.math.BigDecimal;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -10,11 +11,13 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
+import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ses.model.bms.User;
+import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
@@ -41,6 +44,8 @@ import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 
 import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
 import common.utils.DateUtils;
 import bss.dao.ob.OBSpecialDateMapper;
 
@@ -66,7 +71,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
-
+	/**
+	 * 上传附件
+	 */
+    @Autowired
+	private FileUploadMapper fileUploadMapper;
 	/***
 	 * 竞价信息和供应商关系表
 	 */
@@ -285,7 +294,13 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "竞价产品名称不能为空";
 			return toJsonProject(attribute, show);
 		}
-
+		List<UploadFile> fileList= fileUploadMapper.getFiles(Constant.TENDER_SYS_VALUE, obProject.getAttachmentId(), DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		 if(fileList==null||fileList.size()==0){
+		   attribute = "fileUploadErr";
+		   show = "附件不能为空";
+		   return toJsonProject(attribute, show);
+		 }
+		
 		
 		if (obProject.getProductCount() == null) {
 			attribute = "buttonErr";
@@ -295,16 +310,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if (CheckUtil.isList(obProject.getProductCount())) {
 			attribute = "buttonErr";
 			show = "竞价产品数量不能为空";
-			return toJsonProject(attribute, show);
-		}
-		if (obProject.getProductRemark() == null) {
-			attribute = "buttonErr";
-			show = "竞价产品备注不能为空";
-			return toJsonProject(attribute, show);
-		}
-		if (CheckUtil.isList(obProject.getProductRemark())) {
-			attribute = "buttonErr";
-			show = "竞价产品备注不能为空";
 			return toJsonProject(attribute, show);
 		}
 		if (obProject.getStatus() == null) {
@@ -393,6 +398,13 @@ public class OBProjectServerImpl implements OBProjectServer {
 			obProject.setId(uuid);
 			// 组合 集合
 			list = splitList(list, obProject, userid);
+			SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMddHHmmss");
+			SimpleDateFormat ymd=new SimpleDateFormat("yyyy-MM-dd");
+			Date start=new Date();
+			//生成竞价编号
+			int countByDate=OBprojectMapper.countByDate(ymd.format(start));
+			BigDecimal big=new BigDecimal(sdf.format(start)+"00000");
+			obProject.setProjectNumber(big.add(new BigDecimal(countByDate+1)));
 			int i = OBprojectMapper.insertSelective(obProject);
 			if (i > 0) {
 				for (OBProductInfo b : list) {
@@ -409,7 +421,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 		return toJsonProject("success", "执行成功");
 	}
 	/***
-	 * 验证 产品的供应商数量不得超过 该产品注册的供应商数量的1/4 (忽略且最多不能超过6家)
+	 * 验证 产品的成交供应商数量不得超过 该产品注册的供应商数量的1/4 (忽略且最多不能超过6家)
 	 * @param count 供应商成交数量
 	 */
      private String verifyProduct(List<String> productName,Integer count){
