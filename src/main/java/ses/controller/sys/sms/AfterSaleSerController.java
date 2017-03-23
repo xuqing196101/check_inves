@@ -4,6 +4,7 @@ import java.math.BigDecimal;
 import java.text.ParsePosition;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -11,6 +12,7 @@ import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -27,6 +29,7 @@ import bss.model.cs.PurchaseContract;
 
 import bss.service.cs.PurchaseContractService;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
@@ -37,6 +40,7 @@ import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
+import ses.util.PropUtil;
 
 @Controller
 @Scope("prototype")
@@ -58,19 +62,38 @@ public class AfterSaleSerController {
     private SupplierService supplierService;
 	
 	/**
-	 * 
-	 * @Title: getAll
-	 * @author LiChenHao  
-	 * @Description:获取售后服务信息列表
-	 * @param:     
-	 * @return:
-	 */
-	@RequestMapping(value="/list")
-	public String getAll(Model model,Integer page){
-		List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(page==null?1:page);
-		model.addAttribute("list",new PageInfo<AfterSaleSer>(AfterSaleSers));
-		return "ses/sms/after_sale_ser/list";
-	}
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param model
+     * @param code 合同编号
+     * @param type 类型 1：从质检那边进来的只能查看不能有别的操作
+     * @param page
+     * @return
+     */
+    @RequestMapping(value="/list")
+    public String getAll(Model model, String code, String type, Integer page){
+        HashMap<String, Object> map = new HashMap<>();
+        if(StringUtils.isNotBlank(code)){
+            PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
+            if(purchaseCon != null){
+                map.put("purchaseCon", purchaseCon);
+            }
+            if(page == null){
+                page = 1;
+            }
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            List<AfterSaleSer> selectByAll = afterSaleSerService.selectByAll(map);
+            if(selectByAll != null && selectByAll.size() > 0){
+                model.addAttribute("list", new PageInfo<AfterSaleSer>(selectByAll));
+            }
+        }
+        /*List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(page==null?1:page);
+        model.addAttribute("list",new PageInfo<AfterSaleSer>(AfterSaleSers));*/
+        model.addAttribute("type", type);
+        return "ses/sms/after_sale_ser/list";
+    }
 	
 	/**
 	 * 

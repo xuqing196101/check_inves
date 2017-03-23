@@ -19,6 +19,7 @@ import net.sf.json.JSONObject;
 import net.sf.json.JSONSerializer;
 
 import org.apache.commons.fileupload.FileUploadException;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -35,12 +36,14 @@ import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.oms.PurchaseOrg;
+import ses.model.sms.AfterSaleSer;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.RoleServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurChaseDepOrgService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
 import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
@@ -120,6 +123,10 @@ public class PurchaseContractController extends BaseSupplierController{
     private PurChaseDepOrgService chaseDepOrgService;
     @Autowired
     private OrgnizationServiceI orgnizationService;
+    
+    
+    @Autowired
+    private AfterSaleSerService saleSerService;
     
 	/**
 	 * 
@@ -509,15 +516,34 @@ public class PurchaseContractController extends BaseSupplierController{
 	public PurchaseContract selectByCode(HttpServletRequest request) throws Exception{
 		String code = request.getParameter("code");
 		PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
-		String projectType= "";
-		if(purchaseCon==null){
-			purchaseCon=new PurchaseContract();
+		if(purchaseCon == null){
+			purchaseCon = new PurchaseContract();
 			purchaseCon.setCode("ErrCode");
 		}else{
-			projectType = purchaseCon.getPurchaseType();
-			purchaseCon.setPurchaseType(DictionaryDataUtil.findById(projectType).getName());
+			purchaseCon.setPurchaseType(DictionaryDataUtil.findById(purchaseCon.getPurchaseType()).getName());
 		}
 		return purchaseCon;
+	}
+	
+	
+	@ResponseBody
+	@RequestMapping("/viewAfter")
+	public String viewAfter(String code){
+	    HashMap<String, Object> map = new HashMap<>();
+	    if(StringUtils.isNotBlank(code)){
+	        PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
+	        if(purchaseCon != null){
+	            map.put("purchaseCon", purchaseCon);
+	        }
+	        List<AfterSaleSer> selectByAll = saleSerService.selectByAll(map);
+	        if(selectByAll != null && selectByAll.size() > 0){
+	            return "1";
+	        }else{
+	            return "0";
+	        }
+	    }else{
+	        return "2";
+	    }
 	}
 	
 	/**

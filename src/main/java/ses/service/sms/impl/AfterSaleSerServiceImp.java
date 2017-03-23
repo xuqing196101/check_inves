@@ -1,6 +1,7 @@
 package ses.service.sms.impl;
 
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,5 +80,11 @@ public class AfterSaleSerServiceImp implements AfterSaleSerService {
 		// TODO Auto-generated method stub
 		
 	}
+
+    @Override
+    public List<AfterSaleSer> selectByAll(HashMap<String, Object> map) {
+       
+        return afterSaleSerMapper.selectByAll(map);
+    }
     
 }

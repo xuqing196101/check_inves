@@ -233,4 +233,15 @@
     where ID = #{id}
   </update>
   
+  
+  <select id="selectByAll" parameterType="java.util.Map" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM T_SES_SMS_AFTER_SALE_SERVICE
+    WHERE IS_DELETED = 0
+    <if test="contract != null">
+      AND CONTRACT_ID = #{contract.id}
+    </if> 
+  </select>
+  
 </mapper>

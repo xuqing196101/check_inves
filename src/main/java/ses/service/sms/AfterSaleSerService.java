@@ -1,5 +1,6 @@
 package ses.service.sms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import java.math.BigDecimal;
@@ -52,5 +53,15 @@ public interface AfterSaleSerService {
     
     
     public void updateAfterSaleSer(AfterSaleSer afterSaleSer);
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<AfterSaleSer> selectByAll(HashMap<String, Object> map);
 
 }

@@ -157,9 +157,16 @@
      </h2>
       <div class="content table_box">
 		  <div class="col-md-12 pl20 mt10">
-    		<button class="btn btn-windows add" type="button" onclick="add()">登记</button>
-			<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
-			<button class="btn btn-windows delete" type="button" onclick="del();">删除</button>      
+		  <c:choose>
+          <c:when test="${'1' eq type}">
+            <button class="btn btn-windows back" type="button" onclick="window.history.go(-1)">返回</button>
+          </c:when>
+          <c:otherwise>
+            <button class="btn btn-windows add" type="button" onclick="add()">登记</button>
+            <button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
+            <button class="btn btn-windows delete" type="button" onclick="del();">删除</button> 
+          </c:otherwise>
+        </c:choose>
    </div>
 
 		 <div class="content table_box">
