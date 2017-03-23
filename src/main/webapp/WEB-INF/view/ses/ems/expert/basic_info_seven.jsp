@@ -93,6 +93,18 @@
         function fun() {
             //此处是对选中专家进行校验
             if (isIs) {
+            	
+            	var checklists = document.getElementsByName("chkItem_1");
+				if (checklists[1].checked) {
+					if (!$("#professional").val()) {
+	                    layer.msg("请填写执业资格职称 !");
+	                    return false;
+	                }
+	                if (!$("#timeProfessional").val()) {
+	                    layer.msg("请填写获取专家证书的时间 !");
+	                    return false;
+	                }
+				}
                 var asx = mmm();
 
                 /*if (!$("#professTechTitles").val()) {
@@ -123,13 +135,7 @@
                 }
 
             }
-
-
-
-
             //暂存无提示
-
-
         }
 
         function updateStepNumber(stepNumber) {

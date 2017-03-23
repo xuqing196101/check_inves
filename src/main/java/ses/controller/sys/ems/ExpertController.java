@@ -3732,9 +3732,12 @@ public class ExpertController extends BaseController {
         model.addAttribute("itemsList", allTreeList);
         List<ExpertCategory> list = expertCategoryService.getListCount(expertId, typeId);
         
-        model.addAttribute("resultPages", this.totalPages(list));
-        model.addAttribute("resultTotal", list.size());
+        model.addAttribute("resultPages", (list == null ? 0 : this.totalPages(list)));
+        model.addAttribute("resultTotal", (list == null ? 0 : list.size()));
         model.addAttribute("resultpageNum", pageNum);
+        model.addAttribute("resultStartRow", (list == null ? 0 : 1));
+        model.addAttribute("resultEndRow", new PageInfo < > (expertItems).getEndRow()+1);
+        
         
         // 如果状态为退回修改则查询没通过的字段 
         ExpertAudit expertAudit = new ExpertAudit();
@@ -3748,7 +3751,7 @@ public class ExpertController extends BaseController {
         }
         model.addAttribute("errorField", errorField);
 
-        return "ses/ems/expert/ajax_items";
+        return "ses/ems/expert/ajax_items_expert";
     }
     
     public static int totalPages(List<ExpertCategory> list) {
