@@ -2169,6 +2169,7 @@ public class PackageExpertController {
         record.setProject(project);
         record.setIsFirstPass(1);
         record.setIsRemoved("0");
+        record.setIsTurnUp(0);
         List<SaleTender> supplierList = saleTenderService.getPackegeSuppliers(record);
         model.addAttribute("supplierList", supplierList);
         // 分数
