@@ -160,15 +160,6 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 			 }
 		 }*/
         
-        
-        
-        
-		
-		
-		
-		
-		
-		
 		
 		/**
 		 * 地址信息
@@ -634,6 +625,37 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		}
 		
 		/**
+		 * 保密工程业绩
+		 */
+		supplierHistory.setmodifyType("mat_eng_page");
+		supplierHistory.setListType(null);
+		List<SupplierHistory> secrecyList = supplierHistoryMapper.findListBySupplierId(supplierHistory);
+		
+		supplierModify.setmodifyType("mat_eng_page");
+		SupplierMatEng supplierMatEng = supplierService.get(supplierId).getSupplierMatEng();
+		if(supplierMatEng != null){
+			for(SupplierHistory h : secrecyList){
+				if(h.getBeforeField() != null && h.getBeforeContent() !=null){
+					//国家或军队保密工程业绩
+					if(h.getBeforeField().equals("confidentialAchievement") && !h.getBeforeContent().equals(supplierMatEng.getConfidentialAchievement())){
+						supplierModify.setBeforeField("confidentialAchievement");
+						supplierModify.setBeforeContent(h.getBeforeContent());
+						supplierModify.setListType(5);
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+					
+					//是否有国家或军队保密工程业绩
+					if(h.getBeforeField().equals("isHavingConAchi") && !h.getBeforeContent().equals(supplierMatEng.getIsHavingConAchi())){
+						supplierModify.setBeforeField("isHavingConAchi");
+						supplierModify.setBeforeContent(h.getBeforeContent());
+						supplierModify.setListType(5);
+						supplierModifyMapper.insertSelective(supplierModify);
+					}
+				}
+			}
+		}
+		
+		/**
 		 * 工程-注册人员
 		 */
 		supplierHistory.setListType(7);
@@ -643,7 +665,7 @@ public class SupplierModifyServiceImpl implements SupplierModifyService{
 		
 		supplierModify.setListType(7);
 		supplierModify.setmodifyType("mat_eng_page");
-		SupplierMatEng supplierMatEng = supplierService.get(supplierId).getSupplierMatEng();
+		
 		if(supplierMatEng != null){
 			List<SupplierRegPerson> listSupplierRegPersons = supplierMatEng.getListSupplierRegPersons();
 			/*List<SupplierRegPerson> listSupplierRegPersons = supplierService.get(supplierId).getSupplierMatEng().getListSupplierRegPersons();*/
