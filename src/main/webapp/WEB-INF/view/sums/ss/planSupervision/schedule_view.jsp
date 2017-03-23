@@ -38,9 +38,6 @@
     <div class="headline-v2">
       <h2>进度列表</h2>
     </div>
-    <div class="col-md-12 pl20 mt10">
-      <button class="btn btn-windows apply" onclick="view('${collectPlan.id}','0');" type="button">查看任务汇总</button>
-    </div>
     <div class="content table_box">
     <table class="table table-bordered">
       <tbody>
@@ -86,7 +83,7 @@
 	          </td>
           </c:if>
         </tr>
-        <tr>
+        <%-- <tr>
           <td class="h50 tc"></td>
           <td class="h50 tc">
             <p class="ml20 tl">采购管理部门：${collectPlan.purchaseId}</p>
@@ -97,7 +94,7 @@
           </td>
           <td class="h50 tc"></td>
           <td class="h50 tc"></td>
-        </tr>
+        </tr> --%>
       </tbody>
     </table>
     </div>

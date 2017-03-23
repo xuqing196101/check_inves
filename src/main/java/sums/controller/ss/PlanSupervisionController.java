@@ -98,7 +98,17 @@ public class PlanSupervisionController {
     @Autowired
     private ProjectDetailService projectDetailService;
     
-    
+    /**
+     * 
+     *〈计划监督列表〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param model
+     * @param user
+     * @param collectPlan
+     * @param page
+     * @return
+     */
     @RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user, CollectPlan collectPlan, Integer page){
         if(user != null && user.getOrg() != null){
@@ -243,7 +253,12 @@ public class PlanSupervisionController {
             CollectPlan collectPlan = collectPlanService.queryById(id);
             if(collectPlan != null){
                 User user = userService.getUserById(collectPlan.getUserId());
+                Task task = taskService.selectByCollectId(id);
+                if(task != null){
+                    collectPlan.setOrderAt(task.getGiveTime());
+                }
                 collectPlan.setUserId(user.getRelName());
+                collectPlan.setPurchaseId(user.getOrgName());
                 model.addAttribute("collectPlan", collectPlan);
             }
             
@@ -254,6 +269,14 @@ public class PlanSupervisionController {
             List<PurchaseRequired> listRequired = new ArrayList<>();
             if(details != null && details.size() > 0){
                 for (PurchaseDetail detail : details) { 
+                    maps.put("id", detail.getId());
+                    List<PurchaseDetail> purchaseDetails = detailService.selectByParentId(maps);
+                    if(purchaseDetails.size() > 1){
+                        detail.setPurchaseType("");
+                    }else{
+                        DictionaryData findById = DictionaryDataUtil.findById(detail.getPurchaseType());
+                        detail.setPurchaseType(findById.getName());
+                    }
                     set.add(detail.getFileId());
                 }
                 
@@ -272,6 +295,7 @@ public class PlanSupervisionController {
                     }
                 }
                 model.addAttribute("listRequired", listRequired);
+                model.addAttribute("list", details);
             }
             
             //任务信息
@@ -464,16 +488,26 @@ public class PlanSupervisionController {
         return "sums/ss/planSupervision/package_view";
     }
     
-    
+    /**
+     * 
+     *〈项目信息总览页面〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param id
+     * @param model
+     * @return
+     */
     @RequestMapping("/overview")
     public String overview(String id, Model model){
         if(StringUtils.isNotBlank(id)){
-            HashMap<String, Object> map = new HashMap<>();
             PurchaseDetail detail = detailService.queryById(id);
             if(detail != null){
+                HashMap<String, Object> map = new HashMap<>();
                 //计划信息
                 CollectPlan collectPlan = collectPlanService.queryById(detail.getUniqueId());
                 if(collectPlan != null){
+                    User user = userService.getUserById(collectPlan.getUserId());
+                    collectPlan.setPurchaseId(user.getOrgName());
                     model.addAttribute("collectPlan", collectPlan);
                 }
                 //项目信息
@@ -481,14 +515,30 @@ public class PlanSupervisionController {
                 List<ProjectDetail> selectById = projectDetailService.selectById(map);
                 if(selectById != null && selectById.size() > 0){
                     Project project = projectService.selectById(selectById.get(0).getProject().getId());
+                    User user = userService.getUserById(project.getAppointMan());
+                    project.setAppointMan(user.getRelName());
                     Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
                     project.setPurchaseDepName(org.getName());
+                    project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
                     model.addAttribute("project", project);
                 }
                 
             }
+            
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("id", id);
+            List<PurchaseRequired> requireds = requiredService.selectByParent(map);
+            for (PurchaseRequired purchaseRequired : requireds) {
+                if("1".equals(purchaseRequired.getParentId())){
+                    User user = userService.getUserById(purchaseRequired.getUserId());
+                    purchaseRequired.setUserId(user.getRelName());
+                    model.addAttribute("purchaseRequired", purchaseRequired);
+                    break;
+                }
+            }
+            
         }
-        return null;
+        return "sums/ss/planSupervision/overview";
     }
     
     

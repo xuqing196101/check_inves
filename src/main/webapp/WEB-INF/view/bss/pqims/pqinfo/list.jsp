@@ -39,7 +39,7 @@
 		        }
 		    }
 		});
-  })
+  });
   	/** 全选全不选 */
 	function selectAll(){
 		 var checklist = document.getElementsByName ("chkItem");
