@@ -862,16 +862,16 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 近期免冠彩色证件照</span>
                     <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                         <c:if test="${fn:contains(errorField,'证件照')}">style="border: 1px solid #ef0000;"
-                         onmouseover="errorMsg('证件照')"</c:if>>
+                         <c:if test="${fn:contains(errorField,'近期免冠彩色证件照')}">style="border: 1px solid #ef0000;"
+                         onmouseover="errorMsg('近期免冠彩色证件照')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                  exts="${properties['file.picture.type']}" id="expert13"
-                                  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert13"
+                                  exts="${properties['file.picture.type']}" id="expert50"
+                                  groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8,expert8,expert50"
                                   multiple="true" businessId="${sysId}" sysKey="${expertKey}" maxcount="1"
-                                  typeId="13" auto="true"/>
-                        <u:show showId="show13" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show13"
+                                  typeId="50" auto="true"/>
+                        <u:show showId="show50" groups="show1,show2,show3,show4,show5,show6,show7,show8,show8,show50"
                                 businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="13"/>
+                                typeId="50"/>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -1140,8 +1140,8 @@
                         class="red">*</i> 省</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select id="addr" onchange="func123()"
-                                <c:if test="${fn:contains(errorField,'省')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('省')"</c:if>>
+                                <c:if test="${fn:contains(errorField,'地址')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('地址')"</c:if>>
                             <option value="">-请选择-</option>
                         </select>
                     </div>
@@ -1150,8 +1150,8 @@
                         class="red">*</i> 市</span>
                     <div class="select_common col-md-12 col-xs-12 col-sm-12 p0">
                         <select name="address" id="add"
-                                <c:if test="${fn:contains(errorField,'市')}">style="border: 1px solid #ef0000;"
-                                onmouseover="errorMsg('市')"</c:if>>
+                                <c:if test="${fn:contains(errorField,'地址')}">style="border: 1px solid #ef0000;"
+                                onmouseover="errorMsg('地址')"</c:if>>
                             <option value="">-请选择-</option>
                         </select>
                     </div>

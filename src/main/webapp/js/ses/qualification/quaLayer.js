@@ -157,8 +157,8 @@ function ok(){
 		return ;
 	}*/
 	if (choseedIds == '' || choseedIds == null) {
-		layer.msg("请选择资质信息");
-		return ;
+		//layer.msg("请选择资质信息");
+		//return ;
 	}
 	var type = $("#type").val(); 
 	/*if (type == 1){

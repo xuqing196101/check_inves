@@ -1,5 +1,6 @@
 package ses.dao.sms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.cs.ContractRequired;
@@ -77,5 +78,15 @@ public interface AfterSaleSerMapper {
     public List< AfterSaleSer > findAfterSaleSerByrequiredId(String requiredId);
     
     int updateAfterSaleSer(AfterSaleSer AfterSaleSer);
+    
+    /**
+     * 
+     *〈根据合同ID查询售后〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param map
+     * @return
+     */
+    List<AfterSaleSer> selectByAll(HashMap<String, Object> map);
 
 }

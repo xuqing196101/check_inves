@@ -139,7 +139,7 @@
 			function isCompare(inputName,fieldName, type){
 				$.ajax({
 					url: "${pageContext.request.contextPath}/expertAudit/getFieldContent.do",
-					data: {"field":fieldName,"type":type,"expertId":"${expertId}"},
+					data: {"field":fieldName,"type":type,"expertId":"${expert.id}"},
 					async: false,
 					success: function(response){
 						layer.tips("原值:" + response, "#" + inputName, {
@@ -254,7 +254,7 @@
 								<c:if test="${isProject eq 'project'}">
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
 										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input <c:if test="${fn:contains(conditionStr,'执业资格职称')}">style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professional','getProfessional','0');"</c:if> value="${expert.professional}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this);"/>
+											<input class="hand" <c:if test="${fn:contains(conditionStr,'执业资格职称')}">style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editPractice,'getProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professional','getProfessional','0');"</c:if> value="${expert.professional}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this);"/>
 										</div>
 									</li>
 									<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格：</span>
@@ -262,9 +262,9 @@
 			          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
 			          			<c:if test="${fn:contains(conditionStr,'执业资格')}"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
 			           	<li>
-									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">证书获取时间：</span>
+									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间：</span>
 										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input <c:if test="${fn:contains(conditionStr,'证书获取时间')}">style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editFields,'getTimeProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeProfessional','getTimeProfessional','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this);"/>
+											<input class="hand" <c:if test="${fn:contains(conditionStr,'取得执业资格时间')}">style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editPractice,'getTimeProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeProfessional','getTimeProfessional','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this);"/>
 										</div>
 									</li>
 								</c:if>

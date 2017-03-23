@@ -18,10 +18,19 @@ public class BidProductVo {
 	private Integer productNum;
 	//自报单价
 	private BigDecimal myOfferMoney;
+	//单个单价
+	private BigDecimal dealPrice;
 	//单个总价(成交竞价)
 	private BigDecimal dealMoney;
 	//备注
 	private String remark;
+	
+	public BigDecimal getDealPrice() {
+		return dealPrice;
+	}
+	public void setDealPrice(BigDecimal dealPrice) {
+		this.dealPrice = dealPrice;
+	}
 	public String getId() {
 		return id;
 	}

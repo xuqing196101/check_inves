@@ -31,7 +31,7 @@
   	select
   	<include refid="Base_Column_List" />
   	from T_BSS_CS_CONTRACT_REQUIRED
-  	where CONTRACT_ID = #{contractId,jdbcType=VARCHAR}
+  	where CONTRACT_ID = #{contractId,jdbcType=VARCHAR} and IS_DELETED = '0' 
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">

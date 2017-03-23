@@ -146,6 +146,7 @@
 				var expertId = $("#expertId").val();
 				var mat = $("#mat").val();
 				var eng = $("#eng").val();
+				var ser = $("#ser").val();
 				var engInfo = $("#engInfo").val();
 				var matCodeId = $("#matCodeId").val();
 				var engCodeId = $("#engCodeId").val();
@@ -264,7 +265,7 @@
 
 	</head>
 
-	<body onload="initTree()">
+	<body >
 		<!--面包屑导航开始-->
 		<div class="margin-top-10 breadcrumbs ">
 			<div class="container">

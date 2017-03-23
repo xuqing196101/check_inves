@@ -241,6 +241,7 @@
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
 							<th class="info">性别</th>
+							<th class="info">手机号</th>
 							<!-- <th class="info">类型</th> -->
 							<th class="info">毕业院校及专业</th>
 							<th class="info">工作单位</th>
@@ -256,6 +257,7 @@
 							<td class="tc w50" onclick="shenhe('${expert.id}');">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.relName}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>
+							<td class="tc" onclick="shenhe('${expert.id}');">${expert.mobile}</td>
 							<%--<td class="tl pl20">${expert.expertsTypeId}</td>--%>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.graduateSchool }</td>
 							<td class="tl pl20" onclick="shenhe('${expert.id}');">${expert.workUnit }</td>

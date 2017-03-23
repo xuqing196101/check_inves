@@ -164,12 +164,13 @@
 	 }
 	 
 	 function OpenFile(filePath) {
+		 var projectId = $("#contractId").val();
 			var obj = document.getElementById("TANGER_OCX");
 			obj.Menubar = true;
 			obj.Caption = "( 双击可放大 ! )"
 			if(filePath != 0){
 				obj.BeginOpenFromURL("${pageContext.request.contextPath}"
-				+"/purchaseContract/loadFile.html?filePath="+filePath,true,false, 'word.document');// 异步加载, 服务器文件路径
+				+"/purchaseContract/loadFile.html?filePath="+filePath+"&id="+projectId,true,false, 'word.document');// 异步加载, 服务器文件路径
 			} 			
 		}
 		
@@ -607,11 +608,16 @@
 	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
 	   		<input  type="hidden" name="demandSector" value="${purCon.demandSector}" >
-	   		<c:if test="${manual!=null}">
-	   		<input type="hidden" name="manualType" value="1"/>
+	   		<c:if test="${purCon.manualType!=null}">
+	   		<input type="hidden" name="manualType" value="${purCon.manualType}"/>
 	   		</c:if>
-	   		<c:if test="${manual==null}">
-	   		<input type="hidden" name="manualType" value="0"/>
+	   		<c:if test="${purCon.manualType==null}">
+		   		<c:if test="${manual!=null}">
+		   		<input type="hidden" name="manualType" value="1"/>
+		   		</c:if>
+		   		<c:if test="${manual==null}">
+		   		<input type="hidden" name="manualType" value="0"/>
+		   		</c:if>
 	   		</c:if>
 	   		<input type="hidden" name="manual" value="${manual}"/>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
@@ -636,17 +642,37 @@
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<c:if test="${manual!=null}">
+			        	<c:if test="${purCon.manualType==null}">
+				        	<c:if test="${manual!=null}">
+				        		<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" onblur="getProjectName('projectCode');">
+				        	</c:if>
+				        	<c:if test="${manual==null}">
+				        	   <input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" >
+				               <input type="hidden" name="projectName" value="${purCon.projectName}"/>
+			        		</c:if>
+			        	</c:if>
+			        	<c:if test="${purCon.manualType==1}">
 			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" onblur="getProjectName('projectCode');">
 			        	</c:if>
-			        	<c:if test="${manual==null}">
-			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" >
-			            <input type="hidden" name="projectName" value="${purCon.projectName}"/>
+			        	<c:if test="${purCon.manualType==0}">
+			        	    <input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" >
+			                <input type="hidden" name="projectName" value="${purCon.projectName}"/>
 			        	</c:if>
 			        	<div class="cue">${ERR_proCode}</div>
 	       			</div>
 				 </li>
-				 <c:if test="${manual!=null}">
+				 <c:if test="${purCon.manualType!=null}">
+					 <c:if test="${manual!=null}">
+					 <li class="col-md-3 col-sm-6 col-xs-12">
+					   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
+				        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+				        	<input class=" contract_name" name="projectName" value="${purCon.projectName}" type="text">
+				        	<div class="cue">${ERR_projectName}</div>
+		       			</div>
+					 </li>
+					 </c:if>
+				 </c:if>
+				 <c:if test="${purCon.manualType==1}">
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
@@ -960,11 +986,20 @@
             --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
+              <c:if test="${purCon.manualType!=null}">
+                <c:if test="${purCon.manualType==1}">
+	                <div class="col-md-12 col-xs-12 col-sm-12 p0">
+						<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
+						<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
+					</div>
+                </c:if>
+              </c:if>
 				<c:if test="${manual!=null}">
-				<div class="col-md-12 col-xs-12 col-sm-12 p0">
-					<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
-					<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
-				</div>
+				  <div class="col-md-12 col-xs-12 col-sm-12 p0">
+						<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
+						<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
+					</div>
+              
 				</c:if>
 				
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">

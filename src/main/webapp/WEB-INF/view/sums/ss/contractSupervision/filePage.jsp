@@ -60,6 +60,9 @@
  <div class="container content pt0">
  <div class="row magazine-page">
    <div class="col-md-12 tab-v2">
+   <div class="col-md-12 col-xs-12 col-sm-12  mt20">
+        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+      </div>
         <div class="padding-top-10">
 				<form id="myForm" action="${pageContext.request.contextPath}/purchaseContract/validAddRe.html">
 			    </div>

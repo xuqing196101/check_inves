@@ -250,9 +250,10 @@
       
      /** 保存 **/
     function save(){
+      var id = $("#orgId").val();
       var name = $("input[name='name']").val();
         $.ajax({
-              url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name,
+              url: "${pageContext.request.contextPath}/purchaseManage/verify.html?name=" + name + "&id=" +id,
               type: "post",
               dataType: "json",
               success: function(data) {

@@ -177,7 +177,7 @@
   	<include refid="Base_Column_List"/>
   	from T_BSS_CS_PURCHASE_CONTRACT
   	where IS_DELETED = '0'
-  	and status in (1,2)
+  	and status in (1,2,0)
   </select>
   
   <select id="selectAllContractByStatus" parameterType="Map" resultMap="purContractMap">
@@ -250,7 +250,7 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
-  	and status in (1,2)
+  	and status in (0,1,2)
   	order by status,CREATED_AT desc
   </select>
   <select id="selectAllContractBySupplierId" parameterType="Map" resultMap="purContractMap">
@@ -282,7 +282,7 @@
   	<if test="budgetSubjectItem != null and budgetSubjectItem !=''">
   		and BUDGET_SUBJECT_ITEM like '%'||#{budgetSubjectItem}||'%'
   	</if>
-  	and status in (1,2) and SUPPLIER_DEP_NAME=#{supplierId}
+  	and status in (0,1,2) and SUPPLIER_DEP_NAME=#{supplierId}
   	order by status
   </select>
   <select id="selectRoughContract" parameterType="Map" resultMap="purContractMap">

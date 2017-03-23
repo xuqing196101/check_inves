@@ -567,7 +567,7 @@
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
 	   		<input  type="hidden" name="demandSector" value="${purCon.demandSector}" >
 	   		<input type="hidden" name="manualType" value="${purCon.manualType}"/>
-	   		<input type="hidden" name="id" value="${id}">
+	   		<input type="hidden" name="id" value="${purCon.id}">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
 	   		<ul class="list-unstyled ul_list">
 	   			<input type="hidden" class="contract_id" name="contract_id">
