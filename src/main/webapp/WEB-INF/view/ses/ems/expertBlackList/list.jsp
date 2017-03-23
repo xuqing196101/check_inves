@@ -140,11 +140,15 @@
    window.location.href="${pageContext.request.contextPath}/expertBlacklist/expertBlackListLog.html";
    }
    
+   //重置因在IE8里面下拉框removeAttr("selected")、attr("selected", false)失效,此方法暂时不用
    function resetForm(){
-      $("#relName").attr("value","");
+      //$("#relName").attr("value","");
+      $("#relName").val("");
         //还原select下拉列表只需要这一句
       $("#punishDate option:selected").removeAttr("selected");
       $("#punishType option:selected").removeAttr("selected");
+        $("#punishDate option:selected").attr("selected", false);
+        $("#punishType option:selected").attr("selected", false);
     }
 </script>
 </head>
@@ -162,6 +166,7 @@
           <div class="headline-v2">
              <h2>专家黑名单列表</h2>
           </div>
+          
 	      <h2 class="search_detail">
 	          <form action="${pageContext.request.contextPath}/expertBlacklist/blacklist.html"  method="post" id="form1" class="mb0"> 
 	               <input type="hidden" name="page" id="page">
@@ -198,7 +203,10 @@
 					 </li>
 	                 <li>
 	                 <input type="submit" class="btn  fl  mt1 " value="查询" />
+	                 <!-- 
 	                 <button onclick="resetForm();" class="btn fl" type="button">重置</button>
+	                  -->
+	                 <input type="reset" class="btn  fl  mt1 " value="重置" />
 	                 </li>
 	             </ul>
 	             <div class="clear"></div>
