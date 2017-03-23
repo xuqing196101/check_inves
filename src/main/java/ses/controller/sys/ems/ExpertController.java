@@ -3104,12 +3104,12 @@ public class ExpertController extends BaseController {
             Category category= categoryService.selectByPrimaryKey(expertCategory.getCategoryId());
             if (category != null){
                 categories.append( category.getName());
-                categories.append("、");
+                categories.append(",");
             } else {
                 category = engCategoryService.selectByPrimaryKey(expertCategory.getCategoryId());
                 if(category != null){
                     categories.append(category.getName());
-                    categories.append("、");
+                    categories.append(",");
                 }
             }
         }
@@ -3908,7 +3908,7 @@ public class ExpertController extends BaseController {
             builder.append("</HEAD>");
             builder.append("<script type=\"text/javascript\">"); 
             builder.append("$(function() {");
-            builder.append("layer.confirm('您未登陆，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+            builder.append("layer.confirm('您未登录，请登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
             builder.append("window.top.location.href='"); 
             builder.append(basePath+"index/sign.html");  
             builder.append("';"); 
