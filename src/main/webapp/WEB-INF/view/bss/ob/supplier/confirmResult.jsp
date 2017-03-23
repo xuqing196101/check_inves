@@ -72,6 +72,11 @@
 		$("[title='theProductPrice']").each(function() {
 			productPrices.push($(this).text());
 		});
+		//先把不前的各个产品的数量存到全局的一个数组里
+		var eachProductCount = [];
+		$("[title='theProductCount']").each(function(index,element) {
+			eachProductCount.push($(this).text().trim());
+		});
 		$("input[name='confirmRatioFirst']").keyup(function(event) {
 			var currentPressKey = event.keyCode;//当前输入的字符
 			var afterInputVal = $(this).val();
@@ -91,6 +96,8 @@
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
+									alert(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									$(this).parent().find("input[name='productResultCount']").text(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
 									$(this).parent().find("input[name='productNum']").text();
 								}
 							});
@@ -311,11 +318,17 @@
 	}
 	
 	$(function() {
+		//页面加载进来计算合计金额
 		var allCount = 0;
+		var allCount2 = 0;
 		$("[title='theProductTotalPrice']").each(function(index,element) {
 			allCount += parseInt($(this).text());
 		});
+		$("[title='theProductTotalPrice2']").each(function(index,element) {
+			allCount2 += parseInt($(this).text());
+		});
 		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2));
 	});
 </script>
 </head>
@@ -404,28 +417,13 @@
 		  	<fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/>
 		  </td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
-		  <td class="tc" title="theProductPrice">${bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductPrice">${bidproduct.dealPrice }</td>
+		  <!-- 
 		  <td class="tc" title="theProductTotalPrice">${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 * bidproduct.dealMoney }</td>
+		   -->
+		  <td class="tc" title="theProductTotalPrice">${bidproduct.dealMoney }</td>
 		</tr>
 		</c:forEach>
-		<!-- 
-		<tr>
-		  <td class="tc">2</td>
-		  <td class="tc">便携式式计算机</td>
-		  <td class="tc" title="theProductCount">20</td>
-		  <td class="tc">200</td>
-		  <td class="tc" title="theProductPrice">200</td>
-		  <td class="tc" title="theProductTotalPrice">4000</td>
-		</tr>
-		<tr>
-		  <td class="tc">3</td>
-		  <td class="tc">服务器</td>
-		  <td class="tc" title="theProductCount">10</td>
-		  <td class="tc">300</td>
-		  <td class="tc" title="theProductPrice">300</td>
-		  <td class="tc" title="theProductTotalPrice">3000</td>
-		</tr>
-		 -->
 	</table>
   </div>
   </div>
@@ -458,7 +456,7 @@
 		<tr>
 		  <td class="tc"></td>
 		  <td class="tc" colspan="4">合计</td>
-		  <td class="tc" title="allProductTotalPrice2">12000</td>
+		  <td class="tc" title="allProductTotalPrice2"></td>
 		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
@@ -473,28 +471,10 @@
 		  <td class="tc">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/></td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
-		  <td class="tc" title="theProductPrice2">${bidproduct.dealMoney }</td>
-		  <td class="tc" title="theProductTotalPrice2">${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 * bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductPrice2">${bidproduct.dealPrice }</td>
+		  <td class="tc" title="theProductTotalPrice2">${bidproduct.dealMoney }</td>
 		</tr>
 		</c:forEach>
-		<!-- 
-		<tr>
-		  <td class="tc">2</td>
-		  <td class="tc">便携式式计算机</td>
-		  <td class="tc" title="theProductCount2">20</td>
-		  <td class="tc">200</td>
-		  <td class="tc" title="theProductPrice2">200</td>
-		  <td class="tc" title="theProductTotalPrice2">4000</td>
-		</tr>
-		<tr>
-		  <td class="tc">3</td>
-		  <td class="tc">服务器</td>
-		  <td class="tc" title="theProductCount2">10</td>
-		  <td class="tc">300</td>
-		  <td class="tc" title="theProductPrice2">300</td>
-		  <td class="tc" title="theProductTotalPrice2">3000</td>
-		</tr>
-		 -->
 	</table>
   </div>
   </div>
@@ -524,7 +504,7 @@
 		<tr>
 		  <td class="tc"></td>
 		  <td class="tc" colspan="4">合计</td>
-		  <td class="tc" title="allProductTotalPrice2">12000</td>
+		  <td class="tc" title="allProductTotalPrice2"></td>
 		</tr>
 		<c:forEach items="${secondConfirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
@@ -539,28 +519,10 @@
 		  <td class="tc">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/></td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
-		  <td class="tc" title="theProductPrice2">${bidproduct.dealMoney }</td>
-		  <td class="tc" title="theProductTotalPrice2">${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 * bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductPrice2">${bidproduct.dealPrice }</td>
+		  <td class="tc" title="theProductTotalPrice2">${bidproduct.dealMoney }</td>
 		</tr>
 		</c:forEach>
-		<!-- 
-		<tr>
-		  <td class="tc">2</td>
-		  <td class="tc">便携式式计算机</td>
-		  <td class="tc" title="theProductCount2">20</td>
-		  <td class="tc">200</td>
-		  <td class="tc" title="theProductPrice2">200</td>
-		  <td class="tc" title="theProductTotalPrice2">4000</td>
-		</tr>
-		<tr>
-		  <td class="tc">3</td>
-		  <td class="tc">服务器</td>
-		  <td class="tc" title="theProductCount2">10</td>
-		  <td class="tc">300</td>
-		  <td class="tc" title="theProductPrice2">300</td>
-		  <td class="tc" title="theProductTotalPrice2">3000</td>
-		</tr>
-		 -->
 	</table>
   </div>
   </div>

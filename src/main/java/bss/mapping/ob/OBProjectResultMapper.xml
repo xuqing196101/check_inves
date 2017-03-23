@@ -143,19 +143,31 @@
     from T_BSS_OB_PROJECT_RESULT
     where SUPPLIER_ID = #{id,jdbcType=VARCHAR}
   </select>
-  <!-- 根据供应商查找竞价商品 -->
+  <!-- 根据供应商和竞价标题查找竞价商品并计算出成交的单价使用排名第一的供应商  mmw-->
   <select id="selectProductBySupplierId" resultType="bss.model.ob.BidProductVo" parameterType="bss.model.ob.OBProjectResult">
-    select PRODUCT.ID id,PRODUCT.NAME productName,resultInfo.RESULTS_NUMBER productNum,resultInfo.MY_OFFER_MONEY myOfferMoney,resultInfo.REMARK remark 
-      FROM T_BSS_OB_PRODUCT product,T_BSS_OB_RESULTS_INFO resultInfo 
+    select PRODUCT.ID id,PRODUCT.NAME productName,resultInfo.RESULTS_NUMBER productNum,resultInfo.MY_OFFER_MONEY myOfferMoney,resultInfo.REMARK remark,t1.dealPrice dealPrice 
+  	  FROM T_BSS_OB_PRODUCT product,T_BSS_OB_RESULTS_INFO resultInfo,
+		(
+		SELECT T11.MY_OFFER_MONEY dealPrice,T11.PRODUCT_ID PRODUCT_ID 
+			from T_BSS_OB_RESULTS_INFO t11,T_BSS_OB_PROJECT_RESULT t22 
+				WHERE T11.PROJECT_ID=T22.PROJECT_ID AND T11.SUPPLIER_ID=T22.SUPPLIER_ID AND T22.RANKING=1
+					AND T11.PROJECT_ID=#{projectId}
+		) t1 
 		where RESULTINFO.PROJECT_ID=#{projectId} AND resultInfo.SUPPLIER_ID=#{supplierId} 
-		  AND PRODUCT.ID=RESULTINFO.PRODUCT_ID
+		  AND PRODUCT.ID=RESULTINFO.PRODUCT_ID AND T1.PRODUCT_ID=RESULTINFO.PRODUCT_ID
   </select>
   <!-- 根据供应商查找竞价商品   mmw -->
   <select id="selectResultProductBySupplierId" resultType="bss.model.ob.BidProductVo" parameterType="bss.model.ob.OBProjectResult">
-    select PRODUCT.ID id,PRODUCT.NAME productName,projectResult.RESULT_COUNT productNum,projectResult.OFFER_PRICE myOfferMoney
-  	  FROM T_BSS_OB_PRODUCT product,T_BSS_OB_PROJECT_RESULT projectResult 
+    select PRODUCT.ID id,PRODUCT.NAME productName,projectResult.RESULT_COUNT productNum,projectResult.OFFER_PRICE myOfferMoney,T1.DEALPRICE dealPrice
+  	  FROM T_BSS_OB_PRODUCT product,T_BSS_OB_PROJECT_RESULT projectResult,
+		(
+		SELECT T11.MY_OFFER_MONEY dealPrice,T11.PRODUCT_ID PRODUCT_ID 
+			from T_BSS_OB_RESULTS_INFO t11,T_BSS_OB_PROJECT_RESULT t22 
+				WHERE T11.PROJECT_ID=T22.PROJECT_ID AND T11.SUPPLIER_ID=T22.SUPPLIER_ID AND T22.RANKING=1
+					AND T11.PROJECT_ID=#{projectId}
+		) t1
 		where projectResult.PROJECT_ID=#{projectId} AND projectResult.SUPPLIER_ID=#{supplierId} 
-		  AND PRODUCT.ID=projectResult.PRODUCT_ID
+		  AND PRODUCT.ID=projectResult.PRODUCT_ID AND t1.PRODUCT_ID=PROJECTRESULT.PRODUCT_ID
   </select>
   <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
   <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
