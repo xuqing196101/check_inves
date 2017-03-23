@@ -1326,7 +1326,7 @@
                         <select name="degree" id="degree"
                                 <c:if test="${fn:contains(errorField,'最高学位')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('最高学位')"</c:if>>
-                            <option selected="selected" value="">-请选择-</option>
+                            <option selected="selected" value="0">-请选择-</option>
                             <c:forEach items="${xwList}" var="xw" varStatus="vs">
                                 <option
                                         <c:if test="${expert.degree eq xw.id}">selected="selected"</c:if>
