@@ -501,7 +501,6 @@
 				offset : [ '45%', '53%' ]
 			});
 			$("#status").val(status);
-			  //$("#supplieId").val(supplielist);
 			         $.post("${pageContext.request.contextPath}/ob_project/addProject.html",
 							$("#myForm").serialize(),
 							function(data) {
@@ -618,7 +617,7 @@
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价标题</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价标题</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="name"  value="${list.name}" name="name" type="text"  maxlength="100">
         <span class="add-on">i</span>
@@ -627,7 +626,7 @@
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">交货时间</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>交货时间</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly"
          onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  type="text">
@@ -637,7 +636,7 @@
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">交货地点</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>交货地点</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" type="text">
         <span class="add-on">i</span>
@@ -646,7 +645,7 @@
        </div>
 	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应商数</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <div class="w200">
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()">
@@ -663,7 +662,7 @@
        </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">需求单位</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="demandUnit" name="demandUnit" value="${list.demandUnit}"  maxlength="50" type="text">
         <span class="add-on">i</span>
@@ -672,7 +671,7 @@
        </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">联系人</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="contactName" name="contactName" value="${list.contactName }" maxlength="20" type="text">
         <span class="add-on">i</span>
@@ -681,7 +680,7 @@
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">联系电话</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }" maxlength="20" type="text">
         <span class="add-on">i</span>
@@ -690,7 +689,7 @@
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应比例</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应比例</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="tradedSupplier" value="" name=""  readonly="readonly" type="text">
         <span class="add-on">i</span>
@@ -698,7 +697,7 @@
        </div>
 	 </li>
 	   <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">运杂费</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
         <span class="add-on">i</span>
@@ -707,7 +706,7 @@
        </div>
 	 </li> 
 	<li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购机构</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" >
@@ -718,7 +717,7 @@
 	 </li>
 	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">采购联系电话</span>
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>采购联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="orgContactTel" name="orgContactTel" value="${list.orgContactTel }" readonly="readonly" type="text">
         <span class="add-on">i</span>
@@ -727,7 +726,7 @@
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">采购联系人</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="orgContactName" name="orgContactName" value="${list.orgContactName }"  readonly="readonly" type="text">
         <span class="add-on">i</span>
@@ -736,7 +735,7 @@
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价文件</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
         <u:upload id="project" buttonName="上传文档"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" multiple="true" auto="true" />
                 <u:show showId="project" groups="b,c,d"  businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
@@ -745,7 +744,7 @@
 	  
 
 	  <li class="col-md-12 col-sm-12 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价内容</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价内容</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
        <textarea class="col-md-12 col-sm-12 col-xs-12" style="height:100px"  name="content" title="不超过1000个字" maxlength="1000">${list.content}</textarea>
         <span class="input-tip">不能为空</span>
@@ -768,7 +767,7 @@
 		  		<th class="info" width="30%"><span class="red star_red">*</span>定型产品名称</th>
 		  		<th class="info">限价（元）</th>
 		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
-		  		<th class="info" width="30%"><span class="red star_red">*</span>备注</th>
+		  		<th class="info" width="30%">备注</th>
 			</tr>
 		  </table>
 		</div>
