@@ -12,7 +12,6 @@ import org.springframework.transaction.annotation.Transactional;
 import ses.dao.sms.SupplierHistoryMapper;
 import ses.dao.sms.SupplierTypeRelateMapper;
 import ses.model.bms.Area;
-import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -34,7 +33,6 @@ import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierService;
-import ses.util.DictionaryDataUtil;
 
 @Service(value = "supplierHistoryService")
 public class SupplierHistoryServiceImpl implements SupplierHistoryService{
@@ -570,6 +568,10 @@ public class SupplierHistoryServiceImpl implements SupplierHistoryService{
             historyInfo.setBeforeContent(supplierMatEng.getConfidentialAchievement());
             supplierHistoryMapper.insertSelective(historyInfo);
             
+            //是否有国家或军队保密工程业绩
+            historyInfo.setBeforeField("isHavingConAchi");
+            historyInfo.setBeforeContent(supplierMatEng.getIsHavingConAchi());
+            supplierHistoryMapper.insertSelective(historyInfo);
             
             //注册人员信息
             List<SupplierRegPerson> listSupplierRegPersons = supplierMatEng.getListSupplierRegPersons();

@@ -304,7 +304,7 @@ public class SupplierAuditController extends BaseSupplierController {
 		if(businessNature !=null){
 			for(int i = 0; i < businessList.size(); i++) {
 				if(businessNature.equals(businessList.get(i).getId())) {
-					String business = list.get(i).getName();
+					String business = businessList.get(i).getName();
 					supplier.setBusinessNature(business);
 				}
 			}
@@ -1005,6 +1005,21 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 			request.setAttribute("rootArea", existenceArea);
 		}
+		//保密工程业绩-退回修改前的信息
+		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModify.setmodifyType("mat_eng_page");
+			supplierModify.setListType(5);
+			List<SupplierModify> editList = supplierModifyService.selectBySupplierId(supplierModify);
+			StringBuffer fieldSecrecy = new StringBuffer();
+			for(int i = 0; i < editList.size(); i++) {
+				String beforeField = editList.get(i).getRelationId() +"_"+ editList.get(i).getBeforeField();
+				fieldSecrecy.append(beforeField + ",");
+			}
+			request.setAttribute("fieldSecrecy", fieldSecrecy);
+		}
+		
 		//注册人员-退回修改前的信息
 		if(supplier.getStatus() != null && supplier.getStatus() == 0) {
 			SupplierModify supplierModify = new SupplierModify();
@@ -2050,15 +2065,14 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		
-		//近三年内有无重大违法记录
-		if(supplierModify.getBeforeField().equals("isIllegal")){
+		//近三年内有无重大违法记录/是否有国家或军队保密工程业绩
+		if(supplierModify.getBeforeField().equals("isIllegal") || supplierModify.getBeforeField().equals("isHavingConAchi")){
 			if(supplierModify.getBeforeContent().equals("1")){
 				supplierModify.setBeforeContent("有");
 			}else{
 				supplierModify.setBeforeContent("无");
 			}
 		}
-		
 		
 		return JSON.toJSONString(supplierModify.getBeforeContent());
 	}
