@@ -5,6 +5,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
+import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -3525,7 +3526,9 @@ public class ExpertController extends BaseController {
 
     @ResponseBody
     @RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
-    public String searchCate(String typeId, String cateName, String expertId, String supplierId, String codeName) {
+    public String searchCate(String typeId, String cateName, String expertId, String supplierId, String codeName) throws Exception {
+    	
+    	cateName = (cateName == null ? null : new String(cateName.getBytes("ISO-8859-1"),"UTF-8"));
         DictionaryData typeData = DictionaryDataUtil.findById(typeId);
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
