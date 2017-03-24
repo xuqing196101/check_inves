@@ -30,10 +30,14 @@
   </select>
   
    <!-- 2.查询 -->
-  <select id="queryByList" resultMap="SupplierPqrecordResultMap">
+  <select id="queryByList" resultMap="SupplierPqrecordResultMap" parameterType="java.util.Map">
     select 
     <include refid="Base_Column_List" />
-    from T_BSS_PQIMS_SUPPLIER_PQRECORD p
+    from T_BSS_PQIMS_SUPPLIER_PQRECORD p LEFT JOIN T_SES_SMS_SUPPLIER s on p.SUPPLIER_ID = s.ID
+    where 1=1
+    <if test="supplier != null and supplier != ''">
+      AND s.SUPPLIER_NAME LIKE CONCAT(CONCAT('%', #{supplier.supplierName}), '%') 
+    </if>
     order by SUCCESSED_COUNT DESC
   </select>
   
@@ -42,7 +46,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_PQIMS_SUPPLIER_PQRECORD p LEFT JOIN T_SES_SMS_SUPPLIER s on p.SUPPLIER_ID = s.ID
-    <if test="supplier.supplierName != null and supplier.supplierName != ''">
+    <if test="supplier != null and supplier != ''">
    		where s.SUPPLIER_NAME LIKE '%'||#{supplier.supplierName}||'%'
     </if>
     order by SUCCESSED_COUNT DESC

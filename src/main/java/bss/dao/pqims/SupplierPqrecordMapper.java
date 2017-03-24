@@ -1,6 +1,7 @@
 package bss.dao.pqims;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
@@ -23,7 +24,7 @@ public interface SupplierPqrecordMapper {
 	
 	SupplierPqrecord selectByPrimaryKey(String id);
 	
-	List<SupplierPqrecord> queryByList();
+	List<SupplierPqrecord> queryByList(HashMap<String, Object> map);
 	
 	List<SupplierPqrecord> queryByName(String supplierName);
 	
