@@ -168,7 +168,19 @@
 	          });
 	        }
 	    }
-	
+		
+		//  1.竞价未开始、已流拍状态查看的是竞价信息页面
+		//	2.竞价已结束状态查看的是竞价结果页面
+		//	3.已报价、报价结束、第一轮结果待确认查看的是竞价信息+报价信息页面
+		//	4.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面
+		//	5.第二轮结果已确认查看的是第二轮结果确认页面】
+		function findIssueInfo(pId,pStatus,pRemark) {
+			// 竞价未开始、已流拍状态
+			if(pStatus == 1 || pStatus == 4){
+				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
+		    }
+			
+	    }
 </script>
 </head>
 <body>
@@ -226,7 +238,9 @@
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark}" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td>${ obProject.obProjectList[0].name }</td>
+			  <td>
+			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>
+			  </td class="tl">
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
