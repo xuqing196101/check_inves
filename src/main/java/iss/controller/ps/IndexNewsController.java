@@ -2,18 +2,16 @@
 package iss.controller.ps;
 
 import gui.ava.html.image.generator.HtmlImageGenerator;
-import iss.dao.ps.ArticleMapper;
 import iss.model.ps.Article;
 import iss.model.ps.ArticleAttachments;
 import iss.model.ps.ArticleType;
 import iss.model.ps.DownloadUser;
-import iss.model.ps.IndexEntity;
 import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 import iss.service.ps.DownloadUserService;
 import iss.service.ps.IndexNewsService;
-import iss.service.ps.SolrNewsService;
+import iss.service.ps.SearchService;
 
 import java.awt.AlphaComposite;
 import java.awt.Color;
@@ -54,6 +52,8 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
@@ -62,6 +62,7 @@ import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
+import common.utils.JdcgResult;
 import common.utils.UploadUtil;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
@@ -97,9 +98,6 @@ public class IndexNewsController extends BaseSupplierController{
 	private ArticleService articleService;
 	
 	@Autowired
-	private SolrNewsService solrNewsService;
-	
-	@Autowired
 	private ArticleAttachmentsService articleAttachmentsService;
 	
 	@Autowired
@@ -119,6 +117,10 @@ public class IndexNewsController extends BaseSupplierController{
 	
 	@Autowired
 	private ExpertService expertService;
+	
+	@Autowired
+	private SearchService searchService;
+	
 	/**
 	 * 
 	* @Title: sign
@@ -1413,6 +1415,105 @@ public class IndexNewsController extends BaseSupplierController{
 		return "iss/ps/index/index_details";
 	}
 	
+	
+	/**
+	 * 
+	* @Title: solrSearch 
+	* @Description: 全文检索方法
+	* @author SongDong
+	* @param @param model
+	* @param @param request
+	* @param @param page
+	* @param @return
+	* @param @throws Exception    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/solrSearch")
+	public String solrSearch(Model model,HttpServletRequest request,Integer page) throws Exception{
+		// 获取搜索关键字，解决get请求中文乱码
+		String conditionStr = request.getParameter("condition");
+		String condition = null;
+		if(conditionStr != null){
+			condition = new String(request.getParameter("condition").getBytes("ISO8859-1"), "UTF-8");
+		}
+		if(page == null){
+			page = 1;
+		}
+		Map<String, Object> map = searchService.search(condition, page);
+		// 回显搜索关键字
+		model.addAttribute("oldCondition", condition);
+		// 全部搜索内容
+		model.addAttribute("indexList", map.get("indexList"));
+		
+		// 总页数
+		model.addAttribute("pages", map.get("pages"));
+		// 总记录数
+		model.addAttribute("total", map.get("total"));
+		model.addAttribute("startRow", map.get("startRow"));
+		model.addAttribute("endRow", map.get("endRow"));
+		return "iss/ps/index/index_alltwo";
+		
+	}
+	
+	/**
+	 * 
+	* @Title: clearIndex 
+	* @Description: 清空索引库
+	* @author Easong
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/clearIndex")
+	@ResponseBody
+	public JdcgResult clearIndex(){
+		return searchService.clearIndex();
+	}
+	
+	/**
+	 * 
+	* @Title: deleteSignalIndex 
+	* @Description: 根据条件清除索引库
+	* @author Easong
+	* @param @param request
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value = "/deleteSignalIndex", method = RequestMethod.POST)
+	@ResponseBody
+	public JdcgResult deleteSignalIndex(HttpServletRequest request){
+		String id = request.getParameter("id");
+		if(id == null){
+			return JdcgResult.ok("您要清除的索引不存在！");
+		}
+		String[] ids = id.split(",");
+		return searchService.deleteSignalIndex(ids);
+	}
+	
+	/**
+	 * 
+	* @Title: addSignalIndex 
+	* @Description: 将指定的标题添加到索引库
+	* @author Easong
+	* @param @param request
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping(value = "/addSignalIndex", method = RequestMethod.POST)
+	@ResponseBody
+	public JdcgResult addSignalIndex(HttpServletRequest request){
+		String id = request.getParameter("id");
+		if(id == null){
+			return JdcgResult.ok("您选择的标题不存在！");
+		}
+		String[] ids = id.split(",");
+		return searchService.addSignalIndex(ids);
+	}
+	
+	
 	/**
 	 * 
 	* @Title: solrSearch
@@ -1425,9 +1526,13 @@ public class IndexNewsController extends BaseSupplierController{
 	* @param @throws Exception      
 	* @return String
 	 */
-	@RequestMapping("/solrSearch")
-	public String solrSearch(Model model,HttpServletRequest request,Integer page) throws Exception{
-		String condition = request.getParameter("condition");
+	@RequestMapping("/solrSearch1")
+	public String solrSearch1(Model model,HttpServletRequest request,Integer page) throws Exception{
+		String conditionStr = request.getParameter("condition");
+		String condition = null;
+		if(conditionStr != null){
+			condition = new String(request.getParameter("condition").getBytes("ISO8859-1"), "UTF-8");
+		}
 		if(page==null){
 			page=1;
 		}
@@ -1435,28 +1540,10 @@ public class IndexNewsController extends BaseSupplierController{
 		map.put("title", condition);
 		map.put("page", page);
 		List<Article> articleList = indexNewsService.selectAllByName(map);
+		PageInfo<Article> info = new PageInfo<Article>(articleList);
 		model.addAttribute("indexList", articleList);
 		model.addAttribute("oldCondition", condition);
-		model.addAttribute("list", new PageInfo<Article>(articleList));
-//		if(page==null){
-//			page=1;
-//		}
-//		Integer pages=0;
-//		Integer startRow=0;
-//		Integer endRow=0;
-//		Map<String, Object> map = null;
-//		if(condition!=null && !condition.equals("")){
-//			map = solrNewsService.findByIndex(condition,page,Integer.parseInt(pageSize));
-//			pages = (Integer)map.get("tdsTotal");
-//			startRow = (page-1)*Integer.parseInt(pageSize)+1;
-//			endRow = startRow+(((List<IndexEntity>)map.get("indexList")).size()-1);
-//		}
-//		model.addAttribute("total", pages);
-//		model.addAttribute("startRow", startRow);
-//		model.addAttribute("endRow", endRow);
-//		model.addAttribute("solrMap",map);
-//		model.addAttribute("oldCondition", condition);
-//		model.addAttribute("pages", Math.ceil((double)pages/Integer.parseInt(pageSize)));
+		model.addAttribute("info", info);
 		return "iss/ps/index/index_alltwo";
 	}
 	
@@ -1511,9 +1598,46 @@ public class IndexNewsController extends BaseSupplierController{
 //		}
 	}
 	
-	@RequestMapping("/init")
-	public void init(){
-		solrNewsService.initIndex();
+	/**
+	 * 后台索引库管理
+	* @Title: indexImportUI 
+	* @Description: 
+	* @author Easong
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/indexImportUI")
+	public String indexImportUI(Model model, Integer page, HttpServletRequest request){
+		if(page == null){
+			page = 1;
+		}
+		// 文章标题名称
+		String name = (String) request.getParameter("name");
+		if (name != null) {
+			name = name.trim();
+		}
+		// 是否建立索引
+		String isIndexStr = (String) request.getParameter("isIndex");
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("name", name);
+		map.put("isIndex", isIndexStr);
+		map.put("page", page);
+		List<Article> list = articleService.selectAllArticleByCondition(map);
+		// 分页
+		PageInfo<Article> info = new PageInfo<Article>(list);
+		model.addAttribute("info", info);
+		// 查询条件回显
+		model.addAttribute("name", name);
+		model.addAttribute("isIndex", isIndexStr);
+		return "iss/ps/sorl_index/solr_index";
+	}
+	
+	// 将所有文章导入索引库方法
+	@RequestMapping("importAll")
+	@ResponseBody
+	public JdcgResult importAll(){
+		return searchService.importAll();
 	}
 	
 	@RequestMapping("/showPic")

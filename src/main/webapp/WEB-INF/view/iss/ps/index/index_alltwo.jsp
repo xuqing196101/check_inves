@@ -6,27 +6,50 @@
 <jsp:include page="/index_head.jsp"></jsp:include>
 <script type="text/javascript">
 var condition = $("#k").val();
-$(function(){
-	laypage({
-	    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
-	    pages: "${list.pages}", //总页数
-	    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
-	    skip: true, //是否开启跳页
-	    total: "${list.total}",
-	    startRow: "${list.startRow}",
-	    endRow: "${list.endRow}",
-	    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
-	    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-	        var page = location.search.match(/page=(\d+)/);
-	        return page ? page[1] : 1;
-	    }(), 
-	    jump: function(e, first){ //触发分页后的回调
-	        if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		window.location.href="${pageContext.request.contextPath}/index/solrSearch.html?page="+e.curr+"&condition="+condition;
+	/* $(function(){
+		laypage({
+		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+		    pages: "${pages}", //总页数
+		    skin: '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+		    skip: true, //是否开启跳页
+		    total: "${total}",
+		    startRow: "${startRow}",
+		    endRow: "${endRow}",
+		    groups: "${pages}">=3?3:"${pages}", //连续显示分页数
+		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
+		        var page = location.search.match(/page=(\d+)/);
+		        return page ? page[1] : 1;
+		    }(), 
+		    jump: function(e, first){ //触发分页后的回调
+		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		      		window.location.href="${pageContext.request.contextPath}/index/solrSearch1.html?page="+e.curr+"&condition="+condition;
+		        }
+		    }
+		});
+	}); */
+	
+	$(function() {
+	    laypage({
+	      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
+	      pages : "${info.pages}", //总页数
+	      skin : '#2c9fA6', //加载内置皮肤，也可以直接赋值16进制颜色值，如:#c00
+	      skip : true, //是否开启跳页
+	      total : "${info.total}",
+	      startRow : "${info.startRow}",
+	      endRow : "${info.endRow}",
+	      groups : "${info.pages}" >= 3 ? 3 : "${info.pages}", //连续显示分页数
+	      curr : function() { //通过url获取当前页，也可以同上（pages）方式获取
+	        return "${info.pageNum}";
+	      }(),
+	      jump : function(e, first) { //触发分页后的回调
+	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
+	    		window.location.href="${pageContext.request.contextPath}/index/solrSearch1.html?page="+e.curr+"&condition="+condition;
 	        }
-	    }
-	});
-});
+	      }
+	    });
+	    
+	  });
+
 </script>
 </head>
 
@@ -47,28 +70,37 @@ $(function(){
                    <div class="fr mr25 f16">发布时间</div>
              </h2>
                 <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
-                <c:forEach items="${indexList}" var="i">
-	                  <%--<li>
-	                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
-	                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                  </li> 
-	                  --%><c:set value="${i.name}" var="name"></c:set>
-					<c:set value="${fn:length(name)}" var="length"></c:set>
-					<c:if test="${length>50}">
-						<li>
-						<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${fn:substring(name,0,50)}...</a>
-	                    <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+                	<%-- <c:forEach items="${indexList}" var="i">
+	                	<c:set value="${i.name}" var="name"></c:set>
+						<c:set value="${fn:length(name)}" var="length"></c:set>
+					    <li>
+						   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${i.name }</a>
+		                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
 	                    </li>
-					</c:if>
-					<c:if test="${length<=50}">
-					   <li>
-					   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${i.name }</a>
-	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
-	                   </li>
-					</c:if>
+	                </c:forEach>   --%>
+	                       
+                	<c:forEach items="${indexList}" var="i">
+	                  <%-- <li>
+		                   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self"><span class="f18 mr5">·</span>${i.name }</a>
+		                   <span class="hex pull-right"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+	                  </li>  --%>
+	                  <c:set value="${i.name}" var="name"></c:set>
+					<c:set value="${fn:length(name)}" var="length"></c:set>
+						<c:if test="${length>50}">
+							<li>
+							<a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${fn:substring(name,0,50)}...</a>
+		                    <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+		                    </li>
+						</c:if>
+						<c:if test="${length<=50}">
+						   <li>
+						   <a href="${pageContext.request.contextPath}/index/selectArticleNewsById.do?id=${i.id}" title="${i.name }" target="_self" class="col-md-10 col-sm-7 col-xs-12"><span class="f18 mr5 fl">·</span>${i.name }</a>
+		                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"><fmt:formatDate value='${i.publishedAt}' pattern="yyyy年MM月dd日 " /></span>
+		                   </li>
+						</c:if>
 	                </c:forEach>         
                 </ul>
-	     <%--<div class="fenye">
+	     	<%--<div class="fenye">
            <div class="page_box fr">
 	         <span class="pre_page page">上一页</span><span class="curr_page page">1</span><span class="page">2</span><span class="page">3</span><span class="page">4</span><span class="page">5</span><span class="page">6</span><span class="next_page page">下一页</span><span class="ml15">到</span><input type="text" class="page_input" value="1">页 <input type="submit" class="ml10 search_page" value="确 定">
 	       </div>

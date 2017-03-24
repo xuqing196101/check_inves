@@ -67,4 +67,5 @@ public interface IndexNewsService {
   List<Article> selectIndexChuFaNewsByTypeId(Map<String, Object> map);
 
   Integer selectChufaCount(Map<String, Object> countMap);
+  	
 }

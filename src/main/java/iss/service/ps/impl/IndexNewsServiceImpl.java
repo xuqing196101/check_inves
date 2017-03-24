@@ -89,4 +89,5 @@ public class IndexNewsServiceImpl implements IndexNewsService {
   public Integer selectChufaCount(Map<String, Object> countMap) {
     return indeNewsMapper.selectChufaCount(countMap);
   }
+
 }

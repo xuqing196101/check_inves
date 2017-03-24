@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iss.dao.ps.ArticleExtMapper">
+  <resultMap id="ArticleExtMapper" type="iss.model.ps.ArticleExt">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="PUBLISHED_AT" jdbcType="TIMESTAMP" property="publishedAt" />
+    <result column="IS_PIC_SHOW" property="isPicShow" />
+    <result column="POSITION" property="position" />
+    <result column="SHOW_COUNT" property="showCount" />
+    <result column="DOWNLOAD_COUNT" property="downloadCount"/>
+    <result column="STATUS" property="status" />
+    <result column="PIC" property="pic" />
+    <result column="PUBLISHED_NAME" property="publishedName" />
+    <result column="IS_INDEX" property="isIndex" />
+    <result column="TYPE" property="type" />
+    <result column="PROJECT_ID" property="projectId" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="RANGE" property="range" />
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="REASON" property="reason" />
+    <result column="SOURCE" property="source" />
+    <result column="SOURCE_LINK" property="sourceLink" />
+    
+    <result column="SUBMIT_AT" jdbcType="TIMESTAMP" property="submitAt" />
+    <result column="CANCAL_PUBLISH_AT" jdbcType="TIMESTAMP" property="cancelPublishAt" />
+    
+    <result column="SECOND_ARTICLE_TYPE_ID" property="secondArticleTypeId" />
+    <result column="THREE_ARTICLE_TYPE_ID" property="threeArticleTypeId" />
+    <result column="FOUR_ARTICLE_TYPE_ID" property="fourArticleTypeId" />
+    
+    
+    <association property="user" column="USER_ID" select="ses.dao.bms.UserMapper.selectByPrimaryKey"/>
+    <association property="articleType" column="ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
+    <association property="lastArticleType" column="LAST_ARTICLE_TYPE_ID" select="iss.dao.ps.ArticleTypeMapper.selectTypeByPrimaryKey"/>
+  </resultMap> 
+  
+  
+  
+  <resultMap extends="ArticleExtMapper" id="ArticleExtBlob" type="iss.model.ps.ArticleExt">
+    <result column="CONTENT" jdbcType="CLOB" property="content"/>
+  </resultMap>
+  
+  <resultMap extends="ArticleExtBlob" type="iss.model.ps.ArticleExt" id="ArticleExtWithAttach">
+  	<collection property="articleAttachments" ofType="iss.model.ps.ArticleAttachments"/>
+  </resultMap>
+  
+  <sql id="ArticleExt_Column_List">
+    ID, NAME, ARTICLE_TYPE_ID, PUBLISHED_AT, IS_PIC_SHOW, POSITION, USER_ID, SHOW_COUNT, DOWNLOAD_COUNT,
+    STATUS, PIC, PUBLISHED_NAME, IS_INDEX, TYPE, PROJECT_ID, CREATED_AT, UPDATED_AT,RANGE,IS_DELETED,REASON,SOURCE,SOURCE_LINK,
+    SECOND_ARTICLE_TYPE_ID,THREE_ARTICLE_TYPE_ID,FOUR_ARTICLE_TYPE_ID,LAST_ARTICLE_TYPE_ID,SUBMIT_AT,CANCAL_PUBLISH_AT
+  </sql>
+  
+  <sql id="ArticleExt_BlOB_Column_List">
+    CONTENT
+  </sql>
+  
+  <select id="selectAllArticleAddSolr" resultMap="ArticleExtBlob">
+  	select 
+    <include refid="ArticleExt_Column_List" />
+    ,
+    <include refid="ArticleExt_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE where STATUS=2 AND IS_DELETED=0
+  </select>
+  
+  
+ <update id="updateIndex"  parameterType="Map">
+  	update T_ISS_PS_ARTICLE
+  	set IS_INDEX = #{index_value}
+  	where ID = #{id}
+ </update>
+  
+</mapper>

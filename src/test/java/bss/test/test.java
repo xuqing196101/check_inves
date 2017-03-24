@@ -1,24 +1,24 @@
 package bss.test;
 
+import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 
+import org.apache.solr.client.solrj.SolrQuery;
+import org.apache.solr.client.solrj.SolrServer;
+import org.apache.solr.client.solrj.SolrServerException;
+import org.apache.solr.client.solrj.impl.HttpSolrServer;
 import org.junit.Test;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
 
-
-
-
-
-
-
-import com.alibaba.fastjson.JSON;
-
+import redis.clients.jedis.Jedis;
+import common.utils.JdcgResult;
 import bss.model.pms.PurchaseRequired;
 
 public class test {
@@ -152,5 +152,23 @@ public class test {
 			TestUser object = (TestUser) JSONObject.toBean(jsonString, TestUser.class);
 //			TestUser object = (TestUser) JSONObject
 			System.out.print(object.getAge());
+		}
+		
+		
+		@Test
+		public void testSolr() throws SolrServerException, IOException{
+			ApplicationContext context = new ClassPathXmlApplicationContext("classpath:spring-solr.xml");
+			SolrServer solr =  (SolrServer) context.getBean("solrServer");
+			// 创建查询条件
+			SolrQuery query = new SolrQuery();
+			solr.deleteByQuery("*:*");
+			solr.commit();
+		}
+		@Test
+		public void testJedis() throws SolrServerException, IOException{
+			Jedis jedis = new Jedis("192.168.17.128", 6379);
+			String string = jedis.get("a");
+			System.out.println(string);
+			jedis.close();
 		}
 }

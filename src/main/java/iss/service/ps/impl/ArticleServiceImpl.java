@@ -825,5 +825,24 @@ public class ArticleServiceImpl implements ArticleService {
       jsonObj.put("categoryNames", categoryNames);
       return jsonObj;
   }
+  	
+  		
+  /**
+	 * 
+	* @Title: selectAllArticleByCondition 
+	* @Description: 条件查询所有文章
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return List<Article>    返回类型 
+	* @throws
+	 */
+	@Override
+	public List<Article> selectAllArticleByCondition(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer) (map.get("page")),
+				Integer.parseInt(config.getString("pageSize")));
+		return articleMapper.selectAllArticleByCondition(map);
+	}
 
 }

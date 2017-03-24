@@ -127,14 +127,14 @@ function importAdd(){
                 <img src="${pageContext.request.contextPath}/public/portal/images/gpgz.png" width="100%">
               </div>
               <div class="col-md-7 col-xs-12 col-sm-7 search-block-v2 col-md-offset-5 col-sm-offset-5 col-xs-offset-0">
-                  <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch.html" method="get">
+                  <form id="form1" accept-charset="UTF-8" action="${pageContext.request.contextPath}/index/solrSearch1.html" method="get">
 				    <div style="display:none">
 				     <input name="utf8" value="✓" type="hidden">
 					</div>
                     <input id="t" name="t" value="search_products" type="hidden">
                     <div class="col-md-12 col-xs-12 col-sm-12 pull-left p0">
                       <div class="search-group">
-                        <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="" type="text">
+                        <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="Search" type="text">
                         <span class="input-group-btn">
                           <input class="btn-search" name="commit" value="搜索" type="submit">
                         </span>
