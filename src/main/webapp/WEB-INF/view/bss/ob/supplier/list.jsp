@@ -231,7 +231,7 @@
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
 			  	<c:if test="${ obProject.obProjectList[0].status == 1 }">
-			  		发布中
+			  		竞价未开始
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 }">
 			  		报价中
