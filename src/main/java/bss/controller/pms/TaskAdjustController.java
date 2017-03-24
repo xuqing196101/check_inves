@@ -1,16 +1,12 @@
 package bss.controller.pms;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.UUID;
-
-import javax.servlet.http.HttpServletRequest;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,7 +17,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.multipart.MultipartFile;
 
 import ses.dao.oms.OrgnizationMapper;
 import ses.model.bms.DictionaryData;
@@ -32,8 +27,6 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
-import ses.util.FtpUtil;
-import ses.util.PropUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
@@ -45,7 +38,6 @@ import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
 import bss.model.pms.UpdateFiled;
 import bss.model.ppms.Project;
-import bss.model.ppms.ProjectAttachments;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Task;
@@ -56,17 +48,15 @@ import bss.service.pms.PurchaseAuditService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.pms.UpdateFiledService;
-import bss.service.ppms.ProjectAttachmentsService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
+
+import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
 import common.service.UpdateHistoryService;
-
-import com.ctc.wstx.util.StringUtil;
-import com.github.pagehelper.PageInfo;
 /**
  * 
  * @Title: TaskAdjustController

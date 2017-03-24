@@ -192,7 +192,7 @@
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.id},${obProject.status}" /></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td class="tc">${ obProject.name }</td>
+			  <td class="tl">${ obProject.name }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">

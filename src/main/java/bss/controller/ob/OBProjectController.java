@@ -633,6 +633,8 @@ public class OBProjectController {
 	@RequestMapping("/findBiddingIssueInfo")
 	public String findBiddingInfo(Model model, HttpServletRequest request)
 			throws Exception {
+		// 获取查看标识--为了区别不同角色查看的信息不同
+		String flag = request.getParameter("flag");
 		// 获取标题id
 		String titleId = request.getParameter("id");
 		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(titleId);
@@ -642,6 +644,7 @@ public class OBProjectController {
 		Object object = map.get("oBProductInfoList");
 		// 获取采购机构名称
 		String orgName = (String) map.get("orgName");
+		String demandUnit = (String) map.get("demandUnit");
 		String productIds = (String) map.get("productIds");
 		List<UploadFile> uploadFiles = (List<UploadFile>) map
 				.get("uploadFiles");
@@ -671,12 +674,19 @@ public class OBProjectController {
 		}
 		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
 		bigDecimal.setScale(2);
+		// 采购机构
 		model.addAttribute("orgName", orgName);
+		// 需求单位
+		model.addAttribute("demandUnit", demandUnit);
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
 		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
+		// 供应商查看竞价未开始、已流拍状态
+		if(StringUtils.isNotEmpty(flag) && "1".equals(flag)){
+			return "bss/ob/supplier/findBiddingIssueInfo";
+		}
 		return "bss/ob/biddingSpectacular/findBiddingIssueInfo";
 	}
 

@@ -12,6 +12,7 @@
             
             var url = "${pageContext.request.contextPath}/area/listByOne.do";
             if (name) {
+            	name = encodeURI(name);
                 url = "${pageContext.request.contextPath}/area/listByOne.do?name=" + name; 
             }
             /*树的设置*/
@@ -21,14 +22,14 @@
                     enable:true,
                     url:url,
                     dataType:"json",
-                    type:"post",
+                    type:"post"
                 },
                 data:{
                     simpleData:{
                         enable:true,
                         idKey:"id",
                         pId:"pId",
-                        rootPId:0,
+                        rootPId:0
                     }
                 },
                 callback:{
@@ -36,6 +37,7 @@
                 }
             };
             treeObj=$.fn.zTree.init($("#tree"),setting,datas);
+            alert(treeObj);
         }
         
         function zTreeOnClick(event,treeId,treeNode){

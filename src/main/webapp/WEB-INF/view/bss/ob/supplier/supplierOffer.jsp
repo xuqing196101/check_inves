@@ -194,7 +194,7 @@
 				  </tr>
 				  <tr>
 				    <td class="tc"><b>需求单位</b></td>
-				    <td class="tc">${ obProject.demandUnit }</td>
+				    <td class="tc">${ orgName }</td>
 				    <td class="tc"><b>联系人：</b>${ obProject.contactName }</td>
 				    <td class="tc"><b>联系电话：</b>${ obProject.contactTel }</td>
 				  </tr>
@@ -228,7 +228,7 @@
 				     </c:if>
 				  </tr>
 				 </tbody>
-			 </table>
+		 </table>
   </div> 
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">

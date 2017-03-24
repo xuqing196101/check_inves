@@ -96,7 +96,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Override
 	public Map<String, Object> findQuoteInfo(String id) {
 		Map<String, Object> map = new HashMap<String, Object>();
-		HashMap<String, Object> selectMap = new HashMap<String, Object>();
+		Map<String, Object> selectMap = new HashMap<String, Object>();
 
 		// 根据id查询竞价信息
 		OBProject obProject = obProjectMapper.selectByPrimaryKey(id);
@@ -122,6 +122,15 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				Orgnization orgnization = list.get(0);
 				map.put("orgName", orgnization.getName());
 			}
+			// 根据需求单位id获取需求单位
+			selectMap.put("id", obProject.getDemandUnit());
+			List<Orgnization> demandUnitList = orgnizationMapper
+					.selectByPrimaryKey(selectMap);
+			if (demandUnitList != null && demandUnitList.size() > 0) {
+				Orgnization orgnization = demandUnitList.get(0);
+				map.put("demandUnit", orgnization.getName());
+			}
+			
 			// 获取成交供应商数量和参与供应商数量
 			if (obProject.getStatus() != 0) {
 				// 获取产品集合
