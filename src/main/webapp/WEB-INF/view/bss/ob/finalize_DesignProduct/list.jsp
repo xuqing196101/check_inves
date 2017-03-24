@@ -75,6 +75,12 @@
 		});
 		var ids = id.toString();
 		if(id.length > 0) {
+			for(var i=0;i<id.length;i++){
+				if($("#"+id[i]).html().replace(/\s+/g,"") == "发布"){
+					layer.msg("只能删除暂存的商品");
+					return false;
+				}
+			}
 			layer.confirm('您确定要删除吗?', {
 				title: '提示',
 				offset: ['222px', '360px'],
@@ -87,12 +93,8 @@
 					data: {
 						oBProductids: ids
 					},
-					success: function(data) {
-						if(data == 'ok'){
-							window.location.href = "${pageContext.request.contextPath }/product/list.html";
-						}else{
-							layer.msg("只能删除暂存的商品");
-						}
+					success: function() {
+						window.location.href = "${pageContext.request.contextPath }/product/list.html";
 					},
 					error: function() {
 
@@ -114,6 +116,7 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
+			if($("#"+id).html().replace(/\s+/g,"") == "暂存"){
 			layer.confirm('您确定要发布吗?', {
 				title: '提示',
 				offset: ['222px', '360px'],
@@ -126,18 +129,17 @@
 					data: {
 						id:id[0]
 					},
-					success: function(data) {
-						if(data == 'ok'){
-							window.location.href = "${pageContext.request.contextPath }/product/list.html";
-						}else{
-							layer.msg("只能发布暂存的商品");
-						}
+					success: function() {
+						window.location.href = "${pageContext.request.contextPath }/product/list.html";
 					},
 					error: function() {
 						
 					}
 				});
 			});
+		}else{
+			layer.msg("只能发布暂存的产品");
+		}
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
 				offset: ['222px', '390px'],
@@ -219,9 +221,13 @@
 						if(bool!=true){
 						 	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
 						  }else{
-						 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
-						       layer.close(index);
-						       window.location.href = "${pageContext.request.contextPath}/product/list.html";
+							  layer.confirm('上传成功', {
+								    btn: ['确定'], //按钮
+								    shade: false //不显示遮罩
+								}, function(index){
+					       			window.location.href = "${pageContext.request.contextPath}/product/list.html";
+								});
+					         
 	                 }
 	             }
 	         }); 
@@ -306,7 +312,7 @@
 		  <td>${product.code}</td>
 		  <td><a href="javascript:void(0)">${product.name}</a></td>
 		  <td class="tc" title = "${product.pointsName }">${product.smallPoints.name }</td>
-		  <td class="tc">
+		  <td class="tc" id = "${product.id }">
 		  	<c:if test="${product.status == 1}">暂存</c:if>
 		  	<c:if test="${product.status == 2}">发布</c:if>
 		  </td>

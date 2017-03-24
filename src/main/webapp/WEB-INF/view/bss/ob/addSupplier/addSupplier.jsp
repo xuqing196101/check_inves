@@ -6,7 +6,7 @@
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 		<link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
-	<title>添加供应商页面</title>
+	<title>添加质检供应商页面</title>
 	<script type="text/javascript">
 	//加载供应商
 	$(function(){
@@ -114,9 +114,9 @@
       function showMenu() {
   		var cityObj = $("#citySel4");
   		var cityOffset = $("#citySel4").offset();
-  		$("#menuContent").css({left: "1049px", top: "282px"}).slideDown("fast");
+  		$("#menuContent").css({}).slideDown("fast");
   		$("body").bind("mousedown", onBodyDown);
-  	}
+  	}//left: "1049px", top: "282px"
       function hideMenu() {
   		$("#menuContent").fadeOut("fast");
   		$("body").unbind("mousedown", onBodyDown);
@@ -127,9 +127,8 @@
   		}
   	} 
 	
-	function search(id){
-		
-		var name=$("#"+id).val();
+	function searchs(){
+		var name=$("#search").val();
 		if(name!=""){
 		 var zNodes;
 			var zTreeObj;
@@ -187,7 +186,7 @@
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
 		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">添加质检供应商</a></li><li class="active"><a href="javascript:void(0)">添加质检信息</a></li>
+		   <li class="active"><a href="javascript:void(0)">添加质检供应商</a></li><li class="active"><a href="javascript:void(0)">添加质检供应商</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -198,7 +197,7 @@
    <form action="${pageContext.request.contextPath}/obSupplier/add.html" method="post">
 	<input name = "id" value = "${obSupplier.id }" style="display: none;">
    <div>
-    <h2 class="list_title">添加质检信息</h2>
+    <h2 class="list_title">添加质检供应商</h2>
    <ul class="ul_list">
      <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>供应商名称</span>
@@ -264,10 +263,18 @@
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>产品目录</span>
 	 	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        	<input class="input_group" id="citySel4" type="text" value="${obSupplier.smallPoints.name }" onclick=" showMenu(); return false;" readonly="readonly" >
-        	<input id="categorieId4" name="smallPointsId" value="" type="hidden">
+        	<input class="input_group" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly" >
+        	<input id="categorieId4" name="smallPointsId" value="${obSupplier.smallPointsId }" type="hidden">
         	<span class="add-on">i</span>
         	<div class="cue">${errorsmallPoints }</div>
+        <!-- 目录框 -->
+		<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+			<div class="col-md-7 col-xs-8 col-sm-8 p0">
+			    <input type="text" id="search" class="fl m0">
+			</div>
+			<button class="btn ml5" type="button" onclick="searchs()">查询</button>
+			<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
+		</div>
         </div>
 	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
@@ -289,11 +296,6 @@
   </div> 
   </form>
   </div>
-  <!-- 目录框 -->
-	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<input type="text" id="search" class="fl m0">
-		<button class="btn ml5" type="button" onclick="search('search')">查询</button>
-		<ul id="treeDemo" class="ztree slect_option clear"></ul>
-	</div>
+  
 </body>
 </html>

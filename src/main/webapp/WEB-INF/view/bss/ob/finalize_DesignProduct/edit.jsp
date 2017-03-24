@@ -54,7 +54,7 @@ $(document).ready(function(){
     function showMenu() {
 		var cityObj = $("#citySel4");
 		var cityOffset = $("#citySel4").offset();
-		$("#menuContent").css({left: "417px", top: "250px"}).slideDown("fast");
+		$("#menuContent").css({}).slideDown("fast");
 
 		$("body").bind("mousedown", onBodyDown);
 	}
@@ -107,9 +107,8 @@ $(document).ready(function(){
 	  }
 	
 	//搜索
-	function search(id){
-		
-			var name=$("#"+id).val();
+	function searchs(){
+			var name=$("#search").val();
 			if(name!=""){
 		 var zNodes;
 			var zTreeObj;
@@ -225,23 +224,31 @@ $(document).ready(function(){
 						</tr>
 						<tr>
 							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
-							<td width="32%" colspan="3"><select id="orgId"
-								name="supplierId" style="width: 25.5%;" onchange="pover()">
+							<td width="32%" ><select id="orgId"
+								name="supplierId" style="width: 66%;" onchange="pover()">
 									<option value=""></option>
 							</select>
 								<div class="star_red" id="ppro">${errorProcurement }</div></td>
+								
+								<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
+							<td >
+							<div class="input-append input_group col-md-8 col-sm-12 col-xs-12 p0 m0">
+							<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0" onclick=" showMenu(); return false;" readonly> 
+							<input id="categorieId4" name="categoryId" value="${cId}" type="hidden" class="w230 mb0 border0"> 
+							<input id="categoryLevel" name="categoryLevel" value="${obProduct.productCategoryLevel}" type="hidden" class="w230 mb0 border0">
+							<div class="star_red" id="pcategory">${error_category }</div>
+							<!-- 目录框 -->
+							<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+								<div class="col-md-7 col-xs-8 col-sm-8 p0">
+								    <input type="text" id="search" class="fl m0">
+								</div>
+								<button class="btn ml5" type="button" onclick="searchs()">查询</button>
+								<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 400px;"></ul>
+							</div>
+							</div>
+							</td>
 						</tr>
-						<tr>
-							<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
-							<td colspan="3" width="82%"><input id="citySel4" name=""
-								value="${categoryName }" type="text" class="w230 mb0"
-								onclick=" showMenu(); return false;" readonly> <input
-								id="categorieId4" name="categoryId" value="${cId}" type="hidden"
-								class="w230 mb0 border0"> <input id="categoryLevel"
-								name="categoryLevel" value="${obProduct.productCategoryLevel}"
-								type="hidden" class="w230 mb0 border0">
-								<div class="star_red" id="pcategory">${error_category }</div></td>
-						</tr>
+						
 						<tr>
 							<td class="info">规格型号</td>
 							<td colspan="3">
@@ -274,11 +281,5 @@ $(document).ready(function(){
 		</div>
 	</div>
 
-	<!-- 目录框 -->
-	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<input type="text" id="search" class="fl m0">
-		<button class="btn ml5" type="button" onclick="search('search')">查询</button>
-		<ul id="treeDemo" class="ztree slect_option clear"></ul>
-	</div>
 </body>
 </html>

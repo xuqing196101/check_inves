@@ -115,7 +115,7 @@
       function showMenu() {
   		var cityObj = $("#citySel4");
   		var cityOffset = $("#citySel4").offset();
-  		$("#menuContent").css({left: "1049px", top: "290px"}).slideDown("fast");
+  		$("#menuContent").css({}).slideDown("fast");
   		$("body").bind("mousedown", onBodyDown);
   	}
       function hideMenu() {
@@ -128,9 +128,9 @@
   		}
   	} 
 	
-	function search(id){
+	function searchs(){
 		
-		var name=$("#"+id).val();
+		var name=$("#search").val();
 		if(name!=""){
 		 var zNodes;
 			var zTreeObj;
@@ -271,10 +271,19 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5 "><div class="red star_red">*</div>产品目录</span>
 	 	<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        	<input class="input_group" id="citySel4" type="text" value="${obSupplier.smallPoints.name }" onclick=" showMenu(); return false;" readonly="readonly" >
+        	<input class="input_group" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly" >
         	<input id="categorieId4" name="smallPointsId" value="${obSupplier.smallPointsId }" type="hidden">
         	<span class="add-on">i</span>
         	<div class="cue">${errorsmallPoints }</div>
+        	
+        <!-- 目录框 -->
+		<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+			<div class="col-md-7 col-xs-8 col-sm-8 p0">
+			    <input type="text" id="search" class="fl m0">
+			</div>
+			<button class="btn ml5" type="button" onclick="searchs()">查询</button>
+			<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
+		</div>
         </div>
 	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
@@ -296,11 +305,5 @@
   </form>
   </div>
   <span id="s11"></span>
-  <!-- 目录框 -->
-	<div id="menuContent" class="menuContent dw188 tree_drop">
-		<input type="text" id="search" class="fl m0">
-		<button class="btn ml5" type="button" onclick="search('search')">查询</button>
-		<ul id="treeDemo" class="ztree slect_option clear"></ul>
-	</div>
 </body>
 </html>

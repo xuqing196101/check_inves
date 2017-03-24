@@ -262,10 +262,12 @@ function fileUpload(){
 					if(bool!=true){
 					 	   layer.alert(data,{offset: ['222px', '390px'], shade:0.01});
 					  }else{
-					 	   layer.alert("上传成功",{offset: ['222px', '390px'], shade:0.01});
-					       layer.close(index);
-					       $('input:checkbox').attr('checked', false);
-					       window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html";
+						  layer.confirm('上传成功', {
+							    btn: ['确定'], //按钮
+							    shade: false //不显示遮罩
+							}, function(index){
+								window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html";
+							});
                  }
              }
          }); 

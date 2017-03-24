@@ -311,6 +311,8 @@ public class OBSupplierController {
 			oBSupplierService.insertSelective(obSupplier);
 			return "redirect:/obSupplier/supplier.do";
 		}else{
+			Category category = categoryService.findById(obSupplier.getSmallPointsId());
+			model.addAttribute("catName", category.getName());
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/addSupplier";
 		}
@@ -409,6 +411,8 @@ public class OBSupplierController {
 			oBSupplierService.updateByPrimaryKeySelective(obSupplier);
 			return "redirect:/obSupplier/supplier.do";
 		}else{
+			Category category = categoryService.findById(obSupplier.getSmallPointsId());
+			model.addAttribute("catName", category.getName());
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/editSupplier";
 		}
@@ -480,7 +484,6 @@ public class OBSupplierController {
 	@RequestMapping(value = "/upload", produces = "text/html;charset=UTF-8")
 	@ResponseBody
 	public String uploadFile(@CurrentUser User user,MultipartFile file,HttpServletRequest request) throws Exception {
-		System.out.println("sssssssssssssssssssss");
 		String fileName = file.getOriginalFilename();
 		if (!fileName.endsWith(".xls") && !fileName.endsWith(".xlsx")) {
 			return "1";

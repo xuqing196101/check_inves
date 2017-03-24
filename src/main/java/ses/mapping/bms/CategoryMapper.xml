@@ -568,8 +568,8 @@
 		FROM T_SES_BMS_CATEGORY
 		WHERE IS_PUBLISH = 0 AND IS_DELETED=0 AND PARENT_ID=#{id} ORDER BY CODE
 	</select>
-	<select id="selectByName" parameterType="String" resultMap="CateMap">
+	<select id="selectByCode" parameterType="String" resultMap="CateMap">
 	 	SELECT <include refid="Base_Column_List" /> 
-		 FROM T_SES_BMS_CATEGORY WHERE IS_DELETED = 0 AND NAME = #{name}
+		 FROM T_SES_BMS_CATEGORY WHERE IS_DELETED = 0 AND CODE = #{code}
 	</select>
 </mapper>

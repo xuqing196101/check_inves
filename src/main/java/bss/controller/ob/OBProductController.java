@@ -140,26 +140,15 @@ public class OBProductController {
 	 */
 	@RequestMapping("/delete")
 	@ResponseBody
-	public String delete(HttpServletRequest request) {
+	public void delete(HttpServletRequest request) {
 		String oBProductids = request.getParameter("oBProductids");
 		String productId = oBProductids.trim();
 		if (productId.length() != 0) {
 			String[] uniqueIds = productId.split(",");
 			for (String str : uniqueIds) {
-				OBProduct obProduct = oBProductService.selectByPrimaryKey(str);
-				int status = 0;
-				if(obProduct != null){
-					status = obProduct.getStatus();
-				}
-				if(status != 1){
-					return "no";
-				}
-			}
-			for (String str : uniqueIds) {
 				oBProductService.deleteByPrimaryKey(str);
 			}
 		}
-		return "ok";
 	}
 	/**
 	 * 
@@ -173,21 +162,13 @@ public class OBProductController {
 	 */
 	@RequestMapping("/fab")
 	@ResponseBody
-	public String fab(HttpServletRequest request,Model model) {
+	public void fab(HttpServletRequest request,Model model) {
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
-		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
-		int status = 0;
-		if(obProduct != null){
-			status = obProduct.getStatus();
-		}
-		if(status == 1){
 			oBProductService.fab(id);
-			return "ok";
-		}else{
-			return "no";
-		}
 	}
 
+	
+	
 	/**
 	 * 
 	 * Description: 页面跳转

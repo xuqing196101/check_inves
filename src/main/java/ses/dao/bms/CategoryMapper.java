@@ -281,10 +281,10 @@ public interface CategoryMapper {
 	 * 
 	 * @author  zhang shubin
 	 * @version  2017年3月21日 
-	 * @param  @param name
+	 * @param  @param code
 	 * @param  @return 
 	 * @return List<Category> 
 	 * @exception
 	 */
-	public List<Category> selectByName(String name);
+	public List<Category> selectByCode(String code);
 }

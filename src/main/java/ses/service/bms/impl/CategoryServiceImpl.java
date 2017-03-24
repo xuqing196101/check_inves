@@ -885,8 +885,8 @@ public class CategoryServiceImpl implements CategoryService {
 	}
 
 	@Override
-	public List<Category> selectByName(String name) {
-		return categoryMapper.selectByName(name);
+	public List<Category> selectByCode(String code) {
+		return categoryMapper.selectByCode(code);
 	}
 
 	
