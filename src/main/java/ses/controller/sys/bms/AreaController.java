@@ -64,7 +64,7 @@ public class AreaController {
 	 */
 	@ResponseBody
 	@RequestMapping(value="/listByOne",produces = "application/json;charset=UTF-8")
-	public String listByOne(Area area,Model model)throws Exception {
+	public String listByOne(Area area, Model model)throws Exception {
 	    return JSON.toJSON(areaService.getTreeList(area.getId(),area.getName())).toString();
 	}
 	/**
