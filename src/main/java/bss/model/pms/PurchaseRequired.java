@@ -40,7 +40,7 @@ public class PurchaseRequired {
 
   private String deliverDate;//交货期限
 
-  private String purchaseType;//购买型号
+  private String purchaseType;//购买型号采购方式
 
   private String supplier;
 
@@ -116,7 +116,17 @@ public class PurchaseRequired {
 
   private String sign;
   
-  public String getSign() {
+  private String userName;
+  
+  public String getUserName() {
+	return userName;
+}
+
+public void setUserName(String userName) {
+	this.userName = userName;
+}
+
+public String getSign() {
 	return sign;
 	}
 	

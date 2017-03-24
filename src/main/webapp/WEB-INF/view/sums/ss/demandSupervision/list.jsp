@@ -11,8 +11,10 @@
 <meta http-equiv="expires" content="0">
 <meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 <meta http-equiv="description" content="This is my page">
-<script type="text/javascript">
-
+<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
+ <script type="text/javascript">
 	/*分页  */
 	$(function(){
 		  laypage({
@@ -25,7 +27,6 @@
 			    endRow: "${list.endRow}",
 			    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			       
 			        return "${list.pageNum}";
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
@@ -83,54 +84,10 @@
 		var status = document.getElementById("status").options;
 		status[0].selected = true;
 	}
-
-	//保存
-	function save() {
-		var type = $("#type").val();
-		var info = document.getElementsByName("info");
-		var str = "";
-		for (var i = 0; i < info.length; i++) {
-			if (info[i].checked == true) {
-				str = info[i].value;
-			}
-		}
-		$
-				.ajax({
-					type : "POST",
-					dataType : "json",
-					url : "${pageContext.request.contextPath }/purchaseArchive/leadArchive.do?id="
-							+ str + "&type=" + type,
-					success : function(data) {
-						if (data == 1) {
-							layer.msg("归档成功", {
-								offset : [ '40%', '45%' ]
-							});
-							window.setTimeout(function() {
-								window.location.reload();
-							}, 1000);
-						} else {
-							var obj = new Function("return" + data)();
-							$("#errorType").html(obj.type);
-						}
-					}
-				});
-	}
-
-	//取消
-	function cancel() {
-		layer.closeAll();
-	}
-
-	//采购档案录入
-	function add() {
-		window
-				.setTimeout(
-						function() {
-							window.location.href = "${pageContext.request.contextPath }/purchaseArchive/add.html";
-						}, 500);
-	}
-
-	
+	//查看
+	function view(id,type){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id+"&type="+type;
+      }
 </script>
 </head>
 
@@ -150,23 +107,19 @@
 		<div class="headline-v2">
 			<h2>需求计划列表</h2>
 		</div>
-
-		<form id="form1" name="form1"
-			action="${pageContext.request.contextPath }/supervision/demandSupervisionList.html"
-			method="post">
-
+		<form id="form1" name="form1" action="${pageContext.request.contextPath }/supervision/demandSupervisionList.html" method="post">
 			<div class="search_detail">
 				<ul class="demand_list">
 					<li><label class="fl">需求名称：</label><span><input
-							type="text" id="name" name="name" class="" /></span></li>
+							type="text" id="planName" name="name" class="" /></span></li>
 					<li><label class="fl">产品名称：</label><span><input
-							type="text" id="GOODS_NAME" name="GOODS_NAME" class="" /></span></li>
+							type="text" id="goodsName" name="goodsName" class="" /></span></li>
 					<li><label class="fl">产品目录：</label><span><input
-							type="text" id="contractCode" name="contractCode" class="" /></span></li>
+							type="text" id="goodsType" name="goodsType" class="" /></span></li>
 					<li><label class="fl">预算金额：</label><span><input
-							type="text" id="contractCode" name="contractCode" class="" /></span></li>
+							type="text" id="budget" name="budget" class="" /></span></li>
 					<li style="width: 255px"><label class="fl">采购方式：</label> <span>
-							<select id="status" name="status">
+							<select id="purchaseType" name="status">
 								<option value="">请选择</option>
 								<option value="1">暂存</option>
 								<option value="2">审核通过</option>
@@ -175,17 +128,16 @@
 								<option value="5">已提交</option>
 						</select>
 					</span></li>
-					<li><label class="fl">预算金额：</label><span><input
-							type="text" id="contractCode" name="contractCode" class="" /></span></li>
+				
 					<li><label class="fl">填报时间：</label><span><input
-							type="text" id="contractCode" name="contractCode" class="w80" /><span
-							class="fl">到</span><input type="text" id="contractCode"
-							name="contractCode" class="w80" /></span></li>
-					<li class="fr w220 tc">
+							type="text" id="contractCode" name="contractCode" class="" /><input type="text" id="contractCode"
+							name="contractCode" class="" /></span></li>
+					
+				</ul>
+				<div class="fr w220 tc">
 						<button class="btn fr" type="submit">查询</button>
 						<button class="btn fr" type="button" onclick="resetResult()">重置</button>
-					</li>
-				</ul>
+				</div>
 			</div>
             <input type="hidden" name="page" id="page">
 			<div class="clear"></div>
@@ -204,8 +156,7 @@
 						<th>任务性质</th>
 						<th>填报人</th>
 						<th>状态</th>
-						<th>查看</th>
-
+						<th>操作</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -213,14 +164,27 @@
 						<tr class="tc">
 							<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${items.id}" /></td>
 							<td class="tc w50"  >${(status.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td>${items.planName}</td>
-							<td>${items.referenceNo}</td>
-							<td>${items.department}</td>
-							<td>${items.budget}</td>
+							<td class="tl">${items.planName}</td>
+							<td class="tl">${items.referenceNo}</td>
+							<td class="tl">${items.department}</td>
+							<td class="tr">${items.budget}</td>
 							<td>${items.goodsType}</td>
-							<td>${items.userId}</td>
-							<td>${items.status}</td>
-							<td>查看</td>
+							<td>${items.userName}</td>
+							<td>
+							<c:if test="${items.status=='1' }">
+			 		                               未提交
+			  	            </c:if> 
+			  	            <c:if test="${items.status=='4' }">
+			 		                               受理退回
+			  	             </c:if> 
+			  	             <c:if test="${items.status =='2' || items.status =='3' || items.status=='5' }">
+			 		                                 已提交
+			  	             </c:if>
+							</td>
+							<td class="tc" onclick="view('${items.id}','1')">
+							<a id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;display: block;margin: auto">
+                            </a>
+                            </td>
 						</tr>
 					</c:forEach>
 				</tbody>
@@ -228,22 +192,6 @@
 		</div>
 		<div id="pagediv" align="right"></div>
 	</div>
-
-	<ul class="list-unstyled list-flow dnone mt10" id="guidang">
-		<li class="col-md-12 ml15"><span class="span3 fl mt5"><div
-					class="red star_red">*</div>档案类型：</span> <select id="type" name="type"
-			class="w178 fl">
-				<option value="">请选择</option>
-				<option value="1">临时档案</option>
-				<option value="2">永久档案</option>
-		</select>
-			<div class="clear red" id="errorType"></div></li>
-		<div class="col-md-12 mt10 tc">
-			<button class="btn btn-windows save" type="button" onclick="save()">保存</button>
-			<button class="btn btn-windows cancel" type="button"
-				onclick="cancel()">取消</button>
-		</div>
-	</ul>
 </body>
 
 </html>

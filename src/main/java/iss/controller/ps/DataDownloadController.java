@@ -361,7 +361,7 @@ public class DataDownloadController {
 	    }
 	    Map<String,Object> indexMapper = articleService.topNews();
 	    model.addAttribute("indexMapper", indexMapper);
-		return "iss/ps/dataDownload/index_list";
+		return "iss/ps/dataDownload/template_list";
 	}
 	
 	/**
@@ -638,4 +638,75 @@ public class DataDownloadController {
 		return str;
 	}
 	
+	
+	
+	
+	/**
+	 * 
+	* @Title: getTemplateList
+	* @author zhiqiang tian
+	* @date 2017-3-22 上午10:05:08  
+	* @Description: 首页模板下载
+	* @param @param page
+	* @param @param dataDownload
+	* @param @param model
+	* @param @param request
+	* @param @return      
+	* @return String
+	 */
+	@RequestMapping("/getTemplateList")
+	public String getTemplateList(Integer page,DataDownload dataDownload,Model model,HttpServletRequest request){
+		
+		HashMap<String,Object> map = new HashMap<>();
+		if(dataDownload!=null){
+			if(dataDownload.getName()!=null && !dataDownload.getName().equals("")){
+				map.put("name", dataDownload.getName());
+			}
+		}
+		if(page==null){
+			page = 1;
+		}
+		map.put("page", page.toString());
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
+		List<DataDownload> list = dataDownloadService.findPublishedDataByCondition(map);
+		if(list.size()==0){
+			model.addAttribute("notData", "暂无数据");
+		}
+	    Integer num = 0;
+	    StringBuilder groupUpload = new StringBuilder("");
+	    StringBuilder groupShow = new StringBuilder("");
+	    for (DataDownload a : list) {
+	      num++;
+	      groupUpload = groupUpload.append("data_secret_show" + num + ",");
+	      groupShow = groupShow.append("data_secret_show" + num + ",");
+	      a.setGroupsUpload("data_secret_show" + num);
+	      a.setGroupShow("data_secret_show" + num);
+	    }
+	    String groupUploadId = "";
+	    String groupShowId = "";
+	    if (!"".equals(groupUpload.toString())) {
+	      groupUploadId = groupUpload.toString().substring(0, groupUpload.toString().length() - 1);
+	    }
+	    if (!"".equals(groupShow.toString())) {
+	      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
+	    }
+	    for (DataDownload act : list) {
+	      act.setGroupsUploadId(groupUploadId);
+	      act.setGroupShowId(groupShowId);
+	    }
+		
+		model.addAttribute("list", new PageInfo<DataDownload>(list));
+		model.addAttribute("data", dataDownload);
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		DictionaryData dataFile = new DictionaryData();
+	    dataFile.setCode("ZLFJ");
+	    List<DictionaryData> dlist = dictionaryDataServiceI.find(dataFile);
+	    if (dlist.size() > 0) {
+	      model.addAttribute("dataTypeId", dlist.get(0).getId());
+	    }
+	    Map<String,Object> indexMapper = articleService.topNews();
+	    model.addAttribute("indexMapper", indexMapper);
+		return "iss/ps/dataDownload/index_list";
+	}
 }
