@@ -245,17 +245,17 @@
 								
 							<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
 							<td >
-							<div class="input-append input_group col-md-8 col-sm-12 col-xs-12 p0 m0">
+							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
 							<input id="citySel4" name="" value="${categoryName }" type="text" class="w230 mb0" onclick=" showMenu(); return false;" readonly> 
 							<input id="categorieId4" name="categoryId" value="${cId}" type="hidden" class="w230 mb0 border0"> 
 							<input id="categoryLevel" name="categoryLevel" value="${obProduct.productCategoryLevel}" type="hidden" class="w230 mb0 border0">
 							<div class="star_red" id="pcategory">${error_category }</div>
 							<!-- 目录框 -->
-							<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
-								<div class="col-md-7 col-xs-8 col-sm-8 p0">
+							<div id="menuContent" class="menuContent col-md-8 col-xs-8 col-sm-8 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+								<div class="col-md-12 col-xs-12 col-sm-12 p0">
 								    <input type="text" id="search" class="fl m0">
+								    <img alt="" src="${pageContext.request.contextPath }/public/backend/images/view.png" style="position: absolute; right: 10px;top: 5px;" onclick="searchs()">
 								</div>
-								<button class="btn ml5" type="button" onclick="searchs()">查询</button>
 								<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 400px;"></ul>
 							</div>
 							</div>
