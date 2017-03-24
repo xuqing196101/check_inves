@@ -37,7 +37,6 @@
                 }
             };
             treeObj=$.fn.zTree.init($("#tree"),setting,datas);
-            alert(treeObj);
         }
         
         function zTreeOnClick(event,treeId,treeNode){
