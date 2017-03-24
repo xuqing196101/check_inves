@@ -55,11 +55,7 @@
 				  </tr>
 				  <tr>
 				    <td class="info"><b>运杂费</b></td>
-				    <td>
-				    	<c:if test="${ !empty obProject.transportFees }">
-					    	${ obProject.transportFees }元
-				    	</c:if>
-				    </td>
+				    <td>${ transportFees }</td>
 				    <td class="info"><b>成交供应商数</b></td>
 				    <td>
 				    	<c:if test="${obProject.qualifiedSupplier==0}">

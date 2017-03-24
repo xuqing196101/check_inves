@@ -646,6 +646,7 @@ public class OBProjectController {
 		String orgName = (String) map.get("orgName");
 		String demandUnit = (String) map.get("demandUnit");
 		String productIds = (String) map.get("productIds");
+		String transportFees = (String) map.get("transportFees");
 		List<UploadFile> uploadFiles = (List<UploadFile>) map
 				.get("uploadFiles");
 		List<OBProductInfo> oBProductInfo = null;
@@ -678,6 +679,8 @@ public class OBProjectController {
 		model.addAttribute("orgName", orgName);
 		// 需求单位
 		model.addAttribute("demandUnit", demandUnit);
+		// 运杂费
+		model.addAttribute("transportFees", transportFees);
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
