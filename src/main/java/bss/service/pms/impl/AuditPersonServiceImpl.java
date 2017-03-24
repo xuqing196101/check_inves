@@ -45,4 +45,10 @@ public class AuditPersonServiceImpl implements AuditPersonService{
 		return auditPersonMapper.findUserByCondition(map);
 	}
 
+    @Override
+    public List<AuditPerson> selectByMap(HashMap<String, Object> map) {
+        
+        return auditPersonMapper.selectByMap(map);
+    }
+
 }

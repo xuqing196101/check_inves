@@ -190,4 +190,18 @@
 		AND USER_ID = #{userId}
   </select>
   
+  <select id="selectByMap" resultMap="AuditPerson_Map" parameterType="java.util.Map">
+    SELECT 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_AUDIT_PERSON
+    where 1=1
+    <if test="auditRound != null">
+     and COLLECT_ID = #{collectId} 
+    </if>
+    <if test="type != null">
+      and TYPE = #{type}
+    </if>
+    ORDER BY CREATE_DATE ASC
+  </select>
+  
 </mapper>

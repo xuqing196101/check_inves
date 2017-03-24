@@ -17,9 +17,13 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.cs.PurchaseContract;
+import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -27,9 +31,13 @@ import bss.model.ppms.ProjectTask;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
 import bss.service.cs.PurchaseContractService;
+import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.AdvancedDetailService;
+import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -97,6 +105,18 @@ public class PlanSupervisionController {
     
     @Autowired
     private ProjectDetailService projectDetailService;
+    
+    @Autowired
+    private PurchaseManagementService managementService;
+    
+    @Autowired
+    private AuditPersonService auditPersonService;
+    
+    @Autowired
+    private AdvancedDetailService advancedDetailService;
+    
+    @Autowired
+    private AdvancedProjectService advancedProjectService;
     
     /**
      * 
@@ -507,8 +527,16 @@ public class PlanSupervisionController {
                 CollectPlan collectPlan = collectPlanService.queryById(detail.getUniqueId());
                 if(collectPlan != null){
                     User user = userService.getUserById(collectPlan.getUserId());
+                    collectPlan.setUserId(user.getRelName());
                     collectPlan.setPurchaseId(user.getOrgName());
                     model.addAttribute("collectPlan", collectPlan);
+                    
+                    
+                    map.put("collectId", collectPlan.getId());
+                    List<AuditPerson> listAuditPerson = auditPersonService.selectByMap(map);
+                    if(listAuditPerson != null && listAuditPerson.size() > 0){
+                        model.addAttribute("listAuditPerson", listAuditPerson);
+                    }
                 }
                 //项目信息
                 map.put("requiredId", detail.getId());
@@ -537,6 +565,46 @@ public class PlanSupervisionController {
                 }
             }
             
+            PurchaseRequired required = requiredService.queryById(id);
+            if(required != null){
+                Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
+                required.setOrganization(orgnization.getName());
+                required.setPurchaseType(DictionaryDataUtil.findById(required.getPurchaseType()).getName());
+                
+                List<PurchaseManagement> queryByPid = managementService.queryByPid(required.getUniqueId());
+                Orgnization org= orgnizationService.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
+                map.put("collectId", id);
+                map.put("type", "4");
+                List<AuditPerson> selectByMap = auditPersonService.selectByMap(map);
+                if(selectByMap != null && selectByMap.size() > 0){
+                    User user = userService.getUserById(selectByMap.get(0).getUserId());
+                    selectByMap.get(0).setUserId(user.getRelName());
+                    model.addAttribute("auditPerson", selectByMap.get(0).getClass());//受理人和受理时间
+                }
+                model.addAttribute("management", org.getName());//管理部门
+                model.addAttribute("required", required);//计划明细
+            }
+            
+            
+            //预研
+            AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(id);
+            if(advancedDetail != null){
+                AdvancedProject advancedProject = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
+                if(advancedProject != null){
+                    HashMap<String, Object> maps = new HashMap<>();
+                    maps.put("projectId", advancedProject.getId());
+                    List<ProjectTask> queryByNo = projectTaskService.queryByNo(map);
+                    Task task = taskService.selectById(queryByNo.get(0).getTaskId());
+                    if(task != null){
+                        model.addAttribute("task", task);//任务
+                    }
+                    model.addAttribute("advancedProject", advancedProject);//预研项目
+                }
+                model.addAttribute("advancedProjectId", advancedDetail.getAdvancedProject());//预研项目ID
+            }
+            String adviceId = DictionaryDataUtil.getId("ADVANCED_ADVICE");
+            
+            model.addAttribute("adviceId", adviceId);//预研通知书
         }
         return "sums/ss/planSupervision/overview";
     }

@@ -48,4 +48,14 @@ public interface AuditPersonService {
 	* @return int
 	 */
 	int findUserByCondition(HashMap<String,Object> map);
+	
+	/**
+	 * 
+	 *〈根据map查询〉
+	 *〈详细描述〉
+	 * @author Fengtian
+	 * @param map
+	 * @return
+	 */
+	List<AuditPerson> selectByMap(HashMap<String,Object> map);
 }

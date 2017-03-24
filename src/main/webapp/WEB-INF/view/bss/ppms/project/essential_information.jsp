@@ -561,9 +561,11 @@
                       <th class="info" width="">采购<br>数量</th>
                       <th class="info" width="8%">交货期限</th>
                       <th class="info" width="15%">供应商名称</th>
-                      <th class="info">是否申请<br>办理免税</th>
-                      <th class="info" width="8%" >物资用途<br>（进口）</th>
-                      <th class="info" width="8%" >使用单位<br>（进口）</th>
+                      <c:if test="${pack.isImport==1 }">
+                        <th class="info">是否申请<br>办理免税</th>
+                        <th class="info" width="8%" >物资用途<br>（进口）</th>
+                        <th class="info" width="8%" >使用单位<br>（进口）</th>
+                      </c:if>
                       <th class="info" width="10%">备注</th>
                     </tr>
                   </thead>
@@ -577,9 +579,11 @@
                       <td class="tc">${obj.purchaseCount}</td>
                       <td class="tl" width="8%">${obj.deliverDate}</td>
                       <td class="tl" width="15%">${obj.supplier}</td>
+                      <c:if test="${pack.isImport==1 }">
                       <td class="tc">${obj.isFreeTax}</td>
                       <td class="tl"  width="8%">${obj.goodsUse}</td>
                       <td class="tl"  width="8%">${obj.useUnit}</td>
+                      </c:if>
                       <td class="tl"  width="10%">${obj.memo}</td>
                     </tr>
                   </c:forEach>
@@ -659,7 +663,7 @@
               </form>
             </div>
           </div>
-          <div class="tab-pane fade active over_hideen" id="tab-5">
+          <div class="tab-pane fade active " id="tab-5">
             <u:upload id="upload123" groups="upload123,upload_id" multiple="true" auto="true" businessId="${project.id}" typeId="${dataId}" sysKey="2" buttonName="上传附件"/>
             <%-- <u:show showId="upload123" groups="upload123,upload_id" businessId="${project.id}" sysKey="2" typeId="${dataId}" /> --%>
             &nbsp;

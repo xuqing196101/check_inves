@@ -112,9 +112,6 @@ public class AdvancedProjectController extends BaseController {
     private ProjectTaskService projectTaskService;
     
     @Autowired
-    private FirstAuditService firstAuditService;
-    
-    @Autowired
     private ProjectService projectService;
     
     @Autowired
@@ -302,6 +299,7 @@ public class AdvancedProjectController extends BaseController {
         task.setProcurementMethod(purchaseType);
         task.setTaskNature(1);
         task.setNotDetail(0);
+        task.setCreaterId(user.getId());
         task.setOrgId(user.getOrg().getId());
         taskService.add(task);
         
