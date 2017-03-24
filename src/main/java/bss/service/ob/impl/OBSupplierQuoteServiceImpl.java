@@ -227,6 +227,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				Integer signalCountInt = obResultsInfoExt.getResultsNumber();
 				BigDecimal myOfferMoney = obResultsInfoExt.getMyOfferMoney();
 				BigDecimal signalCount = null;
+				
 				if (signalCountInt != null && myOfferMoney != null) {
 					// 单个商品的报价
 					signalCount = new BigDecimal(signalCountInt);
@@ -274,4 +275,100 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		}
 		return JdcgResult.ok("操作成功，请在报价截止时间后，查看本次中标结果！");
 	}
+
+	
+	/**
+	 * 
+	* @Title: selectQuotoInfo 
+	* @Description: 查询报价结果
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public Map<String, Object> selectQuotoInfo(Map<String, Object> mapInfo) {
+		// 获取projectId
+		String projectId = (String) mapInfo.get("projectId");
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> selectMap = new HashMap<String, Object>();
+
+		// 根据id查询竞价信息
+		OBProject obProject = obProjectMapper.selectByPrimaryKey(projectId);
+
+		if (obProject != null) {
+			// 获取竞价的上传文件项
+			String attachmentId = obProject.getAttachmentId();
+			if (attachmentId != null) {
+				String typeId = DictionaryDataUtil
+						.getId("BIDD_INFO_MANAGE_ANNEX");
+				String sysKey = String.valueOf(Constant.TENDER_SYS_KEY);
+				List<UploadFile> uploadFiles = uploadService.getFilesOther(
+						attachmentId, typeId, sysKey);
+				if (uploadFiles != null && uploadFiles.size() > 0) {
+					map.put("uploadFiles", uploadFiles);
+				}
+			}
+			// 根据采购机构id查询采购机构
+			selectMap.put("id", obProject.getOrgId());
+			List<Orgnization> list = orgnizationMapper
+					.selectByPrimaryKey(selectMap);
+			if (list != null && list.size() > 0) {
+				Orgnization orgnization = list.get(0);
+				map.put("orgName", orgnization.getName());
+			}
+			// 根据需求单位id获取需求单位
+			selectMap.put("id", obProject.getDemandUnit());
+			List<Orgnization> demandUnitList = orgnizationMapper
+					.selectByPrimaryKey(selectMap);
+			if (demandUnitList != null && demandUnitList.size() > 0) {
+				Orgnization orgnization = demandUnitList.get(0);
+				map.put("demandUnit", orgnization.getName());
+			}
+			
+			// 查询运费
+			DictionaryData dictionaryData = dictionaryDataMapper.selectByPrimaryKey(obProject.getTransportFees());
+			map.put("transportFees", dictionaryData.getName());
+			// 获取成交供应商数量和参与供应商数量
+			if (obProject.getStatus() != 0) {
+				// 获取产品集合
+				List<OBProductInfo> slist = obProductInfoMapper
+						.selectByProjectId(obProject.getId());
+				// 存储 产品id 集合
+				List<String> pidList = new ArrayList<String>();
+				if (slist != null) {
+					for (OBProductInfo obinfo : slist) {
+						pidList.add(obinfo.getProductId());
+					}
+					Map<String, Object> maps = new HashMap<String, Object>();
+					maps.put("list", pidList);
+					// 获取 成交供应商 数量
+					Integer closingSupplier = obProjectResultMapper
+							.countByStatus(obProject.getId());
+					obProject.setProductName(pidList);
+					if (closingSupplier == null) {
+						closingSupplier = 0;
+					}
+					obProject.setClosingSupplier(closingSupplier);
+					// 获取 供应商数量
+					Integer qualifiedSupplier = obSupplierMapper
+							.countByProductId2(maps);
+					if (qualifiedSupplier == null) {
+						qualifiedSupplier = 0;
+					}
+					obProject.setQualifiedSupplier(qualifiedSupplier);
+				}
+
+			}
+			// 存储报价信息
+			map.put("obProject", obProject);
+		}
+		
+		// 查询所有的商品信息
+		List<OBResultsInfo> oBResultsInfo = obResultsInfoMapper.selectQuotoInfo(mapInfo);
+		map.put("oBResultsInfo", oBResultsInfo);
+		return map;
+	}
+	
+	
 }

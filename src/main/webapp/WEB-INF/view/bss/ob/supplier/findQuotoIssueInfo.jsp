@@ -6,7 +6,7 @@
 <html>
 	<head>
 	<title>竞价信息查看页面</title>
-	
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		// 查看文件
 		function findFile(filePath){
@@ -27,7 +27,7 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)">竞价管理</a></li><li><a href="javascript:void(0)">竞价信息查看</a></li>
+		   <li><a href="javascript:void(0)">竞价管理</a></li><li><a href="javascript:void(0)">报价信息查看</a></li>
 		   </ul>
         <div class="clear"></div>
       </div>
@@ -116,19 +116,8 @@
 			  <tr>
 			    <td class="info"><b>竞价文件</b></td>
 			    <td colspan="3">
-			    	<u:show showId="project" groups="b,c,d"  delete="false" businessId="${obProject.attachmentId}" sysKey="${sysKey}" typeId="${typeId }" />
-			    	
-			    <%-- <c:if test="${ !empty uploadFiles  }">
-			    	<c:forEach items="${ uploadFiles }" var="file">
-			     		${ file.name } <button class="btn" onclick="download('${obProject.attachmentId}','2','','')"> 查看 </button>
-			     		
-			     		<br />
-			       	</c:forEach>
-			     </c:if>
-			     <c:if test="${ empty uploadFiles  }">
-			     	无
-			     </c:if> --%>
-			     </td>
+			    	<u:show showId="project" groups="b,c,d"  delete="false" businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
+			    </td>
 			  </tr>
 			 </tbody>
 		 </table>
@@ -146,24 +135,26 @@
 			  <th class="info">定型产品名称</th>
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
+			  <th class="info">自报单价</th>
 			  <th class="info">总价（元）</th>
 			  <th class="info">备注信息</th>
 			</tr>
 			</thead>
 			<tr>
 			  <td class="tc"><input type="checkbox" alt=""></td>
-			  <td class="tc" colspan="3">合计</td>
+			  <td class="tc" colspan="4">合计</td>
 			  <td class="tc">${ totalCountPriceBigDecimal }</td>
 			  <td class="tc"></td>
 			</tr>
-			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
+			<c:forEach items="${ oBResultsInfo }" var="oBResultsInfo" varStatus="vs">
 				<tr>
 				  <td class="tc"><input type="checkbox" alt=""></td>
-				  <td class="tc">${ productInfo.obProduct.name }</td>
-				  <td class="tc">${ productInfo.limitedPrice }</td>
-				  <td class="tc">${ productInfo.purchaseCount }</td>
-				  <td class="tc">${ productInfo.totalMoney }</td>
-				  <td class="tc">${ productInfo.remark }</td>
+				  <td class="tc">${ oBResultsInfo.obProduct.name }</td>
+				  <td class="tc">${ oBResultsInfo.limitPrice }</td>
+				  <td class="tc">${ oBResultsInfo.resultsNumber }</td>
+				  <td class="tc">${ oBResultsInfo.myOfferMoney }</td>
+				  <td class="tc">${ oBResultsInfo.dealMoney }</td>
+				  <td class="tc">${ oBResultsInfo.remark }</td>
 				</tr>
 			</c:forEach>
 		</table>

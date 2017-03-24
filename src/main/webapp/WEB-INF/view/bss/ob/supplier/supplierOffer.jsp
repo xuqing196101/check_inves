@@ -21,7 +21,7 @@
 			var unitPrice = $(obj).val();
 			
 			var limitedPrice = $("#"+limitedPriceId).html();
-			if(parseFloat(unitPrice) > parseFloat(limitedPrice)){
+			if(parseFloat(limitedPrice) != 0 && parseFloat(unitPrice) > parseFloat(limitedPrice)){
 				layer.msg("对不起，报价不能大于限价");
 				$("#"+id).html("");
 				$("#totalPrice").html("");
@@ -159,75 +159,95 @@
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
 		<table class="table table-bordered mt10">
-			    <tbody>
-				  <tr>
-				    <td class="tc"><b>竞价标题</b></td>
-				    <td class="tc">${ obProject.name }</td>
-				    <td class="tc"><b>交货时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>交货地点</b></td>
-				    <td class="tc">${ obProject.deliveryAddress }</td>
-				    <td class="tc"><b>成交供应商数</b></td>
-				    <td class="tc">
-				    	<c:if test="${obProject.qualifiedSupplier==0}">
-					   		0
-					  	</c:if>
-					  	<c:if test="${obProject.qualifiedSupplier==null}">
-					  		0
-					  	</c:if>
-					   	<c:if test="${obProject.qualifiedSupplier!=0}">
-					   		 ${obProject.qualifiedSupplier}
-					 	</c:if>
-				    </td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>运杂费</b></td>
-				    <td class="tc">
-				    	<c:if test="${ !empty obProject.transportFees }">
-					    	${ obProject.transportFees }元
-				    	</c:if>
-				    </td>
-				    <td class="tc"></td>
-				    <td class="tc"></td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>需求单位</b></td>
-				    <td class="tc">${ orgName }</td>
-				    <td class="tc"><b>联系人：</b>${ obProject.contactName }</td>
-				    <td class="tc"><b>联系电话：</b>${ obProject.contactTel }</td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>采购机构</b></td>
-				    <td class="tc">${ orgName }</td>
-				    <td class="tc"><b>采购联系人：</b>${ obProject.orgContactName }</td>
-				    <td class="tc"><b>联系电话：</b>${ obProject.orgContactTel }</td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>竞价开始时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				    <td class="tc"><b>竞价结束时间</b></td>
-				    <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>竞价内容</b></td>
-				    <td colspan="3">${ obProject.content }</td>
-				  </tr>
-				  <tr>
-				    <td class="tc"><b>竞价文件</b></td>
-				    <td class="tc">
-				    <c:if test="${ !empty uploadFiles  }">
-				    	<c:forEach items="${ uploadFiles }" var="file">
-				     		${ file.name } <button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
-				     		<br />
-				       	</c:forEach>
-				     </c:if>
-				     <c:if test="${ empty uploadFiles  }">
-				     	无
-				     </c:if>
-				  </tr>
-				 </tbody>
+		    <tbody>
+			  <tr>
+			    <td class="info"><b>竞价标题</b></td>
+			    <td>${ obProject.name }</td>
+			    <td class="info"><b>竞价编号</b></td>
+			    <td>${ obProject.projectNumber }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>交货地点</b></td>
+			    <td>${ obProject.deliveryAddress }</td>
+			     <td class="info"><b>交货时间</b></td>
+			    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>参与供应商数</b></td>
+			    <td>
+			    	<c:if test="${obProject.qualifiedSupplier==0}">
+				   		0
+				  	</c:if>
+				  	<c:if test="${obProject.qualifiedSupplier==null}">
+				  		0
+				  	</c:if>
+				   	<c:if test="${obProject.qualifiedSupplier!=0}">
+				   		 ${obProject.qualifiedSupplier}
+				 	</c:if>
+			    </td>
+			    <td class="info"><b>运杂费</b></td>
+			    <td>${ transportFees }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>成交供应商数</b></td>
+			    <td>
+				    <c:if test="${obProject.closingSupplier==0}">
+			   			0
+			  		</c:if>
+			  		<c:if test="${obProject.closingSupplier==null}">
+			   			0
+			  		</c:if>
+			   		<c:if test="${obProject.closingSupplier!=0}">
+			   			${obProject.closingSupplier}
+			  		</c:if>
+				</td>
+			    <td class="info"><b>采购机构</b></td>
+			    <td>${ orgName }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>需求单位</b></td>
+			    <td>${ demandUnit }</td>
+			    <td class="info"><b>采购联系人：</b></td>
+			    <td>${ obProject.orgContactName }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>需求联系人</b></td>
+			    <td>${ obProject.contactName }</td>
+			    <td class="info"><b>采购联系电话</b></td>
+			    <td>${ obProject.orgContactTel }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>需求联系电话</b></td>
+			    <td>${ obProject.contactTel }</td>
+			    <td class="info"><b></b></td>
+			    <td></td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>竞价开始时间</b></td>
+			    <td><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			    <td class="info"><b>竞价结束时间</b></td>
+			    <td><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>竞价内容</b></td>
+			    <td colspan="3">${ obProject.content }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>竞价文件</b></td>
+			    <td colspan="3">
+			    <c:if test="${ !empty uploadFiles  }">
+			    	<c:forEach items="${ uploadFiles }" var="file">
+			     		${ file.name } <button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
+			     		
+			     		<br />
+			       	</c:forEach>
+			     </c:if>
+			     <c:if test="${ empty uploadFiles  }">
+			     	无
+			     </c:if>
+			     </td>
+			  </tr>
+			 </tbody>
 		 </table>
   </div> 
   <div class="clear" ></div>
@@ -258,6 +278,8 @@
 				<tr>
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].productId" value="${ productInfo.obProduct.id }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].resultsNumber" value="${ productInfo.purchaseCount }">
+				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].limitPrice" value="${ productInfo.limitedPrice }">
+				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].remark" value="${ productInfo.remark }">
 				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc">${ productInfo.obProduct.name }</td>
 				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>

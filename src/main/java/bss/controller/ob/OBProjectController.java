@@ -686,6 +686,10 @@ public class OBProjectController {
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
 		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
+		
+		model.addAttribute("fileid", obProject.getAttachmentId());
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		// 供应商查看竞价未开始、已流拍状态
 		if(StringUtils.isNotEmpty(flag) && "1".equals(flag)){
 			return "bss/ob/supplier/findBiddingIssueInfo";

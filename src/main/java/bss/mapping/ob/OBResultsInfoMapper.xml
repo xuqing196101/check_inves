@@ -13,6 +13,8 @@
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
     <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="LIMIT_PRICE" property="limitPrice" jdbcType="DECIMAL" />
+    <association property="obProduct" column="PRODUCT_ID" select="bss.dao.ob.OBProductMapper.selectSignalByPrimaryKey"></association>
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -74,7 +76,7 @@
   </sql>
   <sql id="Base_Column_List" >
     ID, PRODUCT_ID, BIDDING_ID, RESULTS_NUMBER, MY_OFFER_MONEY, DEAL_MONEY, REMARK, CREATED_AT, 
-    UPDATED_AT, SUPPLIER_ID, PROJECT_ID
+    UPDATED_AT, SUPPLIER_ID, PROJECT_ID,LIMIT_PRICE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBResultsInfoExample" >
     select
@@ -120,11 +122,11 @@
     insert into T_BSS_OB_RESULTS_INFO (ID, PRODUCT_ID, BIDDING_ID, 
       RESULTS_NUMBER, MY_OFFER_MONEY, DEAL_MONEY, 
       REMARK, CREATED_AT, UPDATED_AT, 
-      SUPPLIER_ID, PROJECT_ID)
+      SUPPLIER_ID, PROJECT_ID,LIMIT_PRICE)
     values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{biddingId,jdbcType=VARCHAR}, 
       #{resultsNumber,jdbcType=DECIMAL}, #{myOfferMoney,jdbcType=DECIMAL}, #{dealMoney,jdbcType=DECIMAL}, 
       #{remark,jdbcType=VARCHAR}, #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, 
-      #{supplierId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR})
+      #{supplierId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR},#{limitPrice,jdbcType=DECIMAL})
   </insert>
   <insert id="insertSelective" parameterType="bss.model.ob.OBResultsInfo" >
     insert into T_BSS_OB_RESULTS_INFO
@@ -313,4 +315,11 @@
       PROJECT_ID = #{projectId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+ <select id="selectQuotoInfo" parameterType="Map" resultMap="BaseResultMap">
+	  SELECT 
+	  <include refid="Base_Column_List" />
+	  FROM T_BSS_OB_RESULTS_INFO R
+	 	WHERE R.PROJECT_ID = #{projectId}
+	   AND R.SUPPLIER_ID = #{supplierId}
+  </select>
 </mapper>

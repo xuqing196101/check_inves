@@ -147,6 +147,12 @@
 				   layer.alert("竞价已结束 ！");
 				   return;
 			   }
+			   
+			   // 如果供应商未报价则显示
+			   if(status == '5' && remark == '0'){
+				   layer.alert("对不起，您未报价不能确认结果 ！");
+				   return;
+			   }
 			   // 第二轮确认结束
 			   if(status == '5' && remark == '3'){
 				   layer.alert("您已确认结束 ！");
@@ -176,10 +182,18 @@
 		//	5.第二轮结果已确认查看的是第二轮结果确认页面】
 		function findIssueInfo(pId,pStatus,pRemark) {
 			// 竞价未开始、已流拍状态
-			if(pStatus == 1 || pStatus == 4){
+			if(pStatus == 1 || pStatus == 4 || pRemark == '0' || pRemark == '2'){
 				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
 		    }
 			
+			// 待确认状态查看的信息
+			if(pStatus == 2 && pRemark == '1'){
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
+			}
+			if(pStatus == 5 && pRemark == '1'){
+				alert();
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
+			}
 	    }
 </script>
 </head>
