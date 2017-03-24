@@ -19,8 +19,12 @@ public interface OBProjectServer {
 	 * 分页显示竞价信息
 	 */
 	List<OBProject> list(OBProject op);
-	/** ---------------竞价看板模块---------------- **/
-
+	/**
+	 * 更新竞价信息
+	 * @param project
+	 * @return
+	 */
+    int updateProject(OBProject project);  
 	/**
 	 * 
 	 * @Title: list

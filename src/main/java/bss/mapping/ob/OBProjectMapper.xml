@@ -27,6 +27,7 @@
     <result column="ORG_CONTACT_TEL" property="orgContactTel" jdbcType="VARCHAR" />
     <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
      <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
+     <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
     <association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
@@ -49,7 +50,7 @@
    <select id="selectData" parameterType="Map" resultMap="BaseResultMap">  
     select <include refid="Base_Column_List" />
     from T_BSS_OB_PROJECT 
-      	where  CREATER_ID = #{uid} 
+      	where  CREATER_ID = #{uid} and IS_DELETE=0
     <if test="name != null and  name !=''">
      and NAME like '%${name}%'
     </if>
@@ -73,13 +74,13 @@
     </if>
       	ORDER BY p.CREATED_AT DESC
   </select> -->
-  <!--- 根据参数 获取暂存竞价信息  -->  
+  <!--- 根据参数 获取 竞价信息  -->  
    <select id="selectTemporary" parameterType="Map" resultMap="ProjectResultMap">  
     select p.*,i.id as pid,i.PRODUCT_ID as PProductId,i.LIMITED_PRICE as plimitedPrice,
     i.PURCHASE_COUNT as ppurchaseCount,i.PROJECT_ID as pprojectId,i.CREATED_AT as pcreatedAt,
     i.UPDATED_AT as pupdatedAt,i.REMARK as prmark, i.CREATER_ID as pcreaterId  
     from T_BSS_OB_PROJECT p LEFT JOIN T_BSS_OB_PRODUCT_INFO i on p.id=i.PROJECT_ID
-      where  p.CREATER_ID=#{userId,jdbcType=VARCHAR}
+      where  p.CREATER_ID=#{userId,jdbcType=VARCHAR} and p.IS_DELETE=0
     and p.ID = #{id,jdbcType=VARCHAR}
       	ORDER BY p.CREATED_AT DESC
   </select> 
@@ -144,7 +145,7 @@
   <sql id="Base_Column_List" >
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
-    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,
+    STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,IS_DELETE,
      ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID,PROJECT_NUMBER
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
@@ -201,7 +202,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_OB_PROJECT
-    where 1=1
+    where IS_DELETE=0
      <if test="id!= null and id !=''">
       and name= ${name}
      </if>
@@ -212,7 +213,7 @@
     select 
     <include refid="Base_Column_List" />
     from T_BSS_OB_PROJECT
-    where STATUS!=0 and STATUS !=4 and STATUS!=3
+    where STATUS!=0 and STATUS !=4 and STATUS!=3 
      order by  CREATED_AT DESC
   </select>
   
@@ -296,6 +297,10 @@
       <if test="projectNumber != null" >
         PROJECT_NUMBER,
       </if>
+      
+      <if test="isDelete != null" >
+        IS_DELETE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -373,6 +378,9 @@
       </if>
       <if test="projectNumber != null" >
           #{projectNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="isDelete != null" >
+          #{isDelete,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -542,6 +550,9 @@
        <if test="projectNumber != null" >
          PROJECT_NUMBER= #{projectNumber,jdbcType=DECIMAL},
       </if>
+      <if test="isDelete != null" >
+         IS_DELETE= #{isDelete,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -572,7 +583,7 @@
   <select id="selectAllOBproject" parameterType="Map" resultMap="ProjectResultMap">
     select
     <include refid="Base_Column_List" />
-      from T_BSS_OB_PROJECT p where 1=1
+      from T_BSS_OB_PROJECT p where IS_DELETE=0
     <if test="userId != null and userId !=''" >
       AND CREATER_ID = #{userId}
     </if>

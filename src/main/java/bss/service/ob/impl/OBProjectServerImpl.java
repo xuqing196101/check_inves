@@ -485,7 +485,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	private void addSupplier(OBProject obProject,String uuid, int i) {
 			OBProjectSupplier supplier = null;
 			Map<String,Object> map=new HashMap<String, Object>();
-			map.put("productId", obProject.getProductName());
+			map.put("list", obProject.getProductName());
 			List<OBSupplier> supList= OBSupplierMapper.selectSupplierByID(map);
 			   for(OBSupplier os:supList){
 				   supplier = new OBProjectSupplier();
@@ -493,6 +493,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							.replace("-", ""));
 					supplier.setCreatedAt(new Date());
 					supplier.setProjectId(uuid);
+					supplier.setRemark("0");
 					supplier.setSupplierPrimaryId(os.getId());
 					if (i == 1) {
 						supplier.setUpdatedAt(new Date());
@@ -529,10 +530,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 			product.setId(uid);
 			product.setProductId(productName.get(i));
 			if (obProject.getProductMoney().size()==0) {
-				product.setLimitedPrice(new BigDecimal(0));
+				product.setLimitedPrice(null);
 			} else {
 				if(obProject.getProductMoney().get(i)=="" ){
-					product.setLimitedPrice(new BigDecimal(0));
+					product.setLimitedPrice(null);
 				}else{
 					product.setLimitedPrice(new BigDecimal(Double.valueOf(obProject
 							.getProductMoney().get(i))));
@@ -984,5 +985,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 		PageHelper.startPage((Integer) (map.get("page")),
 				Integer.parseInt(config.getString("pageSize")));
 		return OBSupplierMapper.selectSupplierDate(map);
+	}
+
+	@Override
+	public int updateProject(OBProject project) {
+		// TODO Auto-generated method stub
+		return OBprojectMapper.updateByPrimaryKeySelective(project);
 	}
 }

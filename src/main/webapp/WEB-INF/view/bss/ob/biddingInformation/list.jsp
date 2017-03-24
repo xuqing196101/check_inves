@@ -69,23 +69,79 @@
 	function create(){
 	 window.location.href = "${pageContext.request.contextPath}/ob_project/add.html";
 	}
-	/**发布竞价项目**/
+	/**编辑 **/
 	function release(){
-	  var checkID= $('input[name="chkItem"]:checked').val().trim();
-	  var status=$("#"+checkID+"status").html().trim();
+	 var id = [];
+	   $('input[name="chkItem"]:checked').each(function() {
+	   		id.push($(this).val());
+	   });
+	   if(id.length==1){
+	  var checkID= $('input[name="chkItem"]:checked').val();
+	  var status=$("#"+checkID+"status").html();
 	  if(checkID){
-	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
+	    
+	    if($.trim(status)=='暂存'){
+	     window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
+	     }else{
+	       layer.alert("请选择暂存的竞价", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		     });
+	       }
+	     }else{
+	  layer.alert("请先选择", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	    }
 	  }else{
-	  layer.alert("请选择暂存的竞价", {
+	  layer.alert("只能选择1项", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	 }
+	}
+		/**删除 **/
+	function del(){
+	  var id = [];
+	   $('input[name="chkItem"]:checked').each(function() {
+	   		id.push($(this).val());
+	   });
+	 if(id.length==1){
+	  var checkID= $('input[name="chkItem"]:checked').val();
+	  var status=$("#"+checkID+"status").html();
+	  if(checkID){
+	    if($.trim(status)=='暂存'){
+	         layer.confirm('您是否要删除?', {
+                    shade: 0.01,
+                    btn: ['是', '否'],
+                  }, function() {
+	        window.location.href ="${pageContext.request.contextPath}/ob_project/delOBProject.html?obProjectId="+checkID;
+			    });
+	     }else{
+	       layer.alert("请选择暂存的竞价", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		     });
+	     }
+	  }else{
+	  layer.alert("请先选择", {
 			offset: ['222px', '390px'],
 			shade: 0.01
 		});
 	  }
+	   }else{
+	  layer.alert("只能选择1项", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	 }
 	}
+	
 	/**发布竞价项目**/
 	function releaseHref(checkID){
 	  if(checkID){
-	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
+	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID;
 	  }else{
 	  layer.alert("请选择暂存的竞价", {
 			offset: ['222px', '390px'],
@@ -152,8 +208,9 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<!-- <button class="btn btn-windows apply" type="submit" onclick="release()">选择竞价项目</button> -->
-		<button class="btn btn-windows apply" type="submit" onclick="create()">创建竞价项目</button>
+		<button class="btn btn-windows add" type="submit" onclick="create()">创建</button>
+		<button class="btn btn-windows edit" type="submit" onclick="release()">编辑</button>
+		<button class="btn btn-windows delete" type="submit" onclick="del()">删除</button>
 	</div>   
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -220,18 +277,6 @@
 		    </c:if>
 		  
 		  </td>
-		<%--   <td class="tc"><a href="javascript:void(0)">
-		   <c:if test="${list.status==0}">
-		              暂存
-		    </c:if>
-		   <c:if test="${list.status==3}">
-		              查看结果
-		    </c:if>
-		     <c:if test="${list.status!=3 && list.status!=0}">
-		              查看供应商
-		    </c:if>
-		  </a>
-		  </td> --%>
 		</tr>
 		</c:forEach>
 		

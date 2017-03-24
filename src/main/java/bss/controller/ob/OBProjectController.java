@@ -450,7 +450,7 @@ public class OBProjectController {
 	* @throws Exception
 	*/
 	@RequestMapping(value="/editOBProject", produces="text/html;charset=UTF-8" )
-	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId){
+	public String editOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
 		if(user !=null){
 			if(StringUtils.isNotBlank(obProjectId)){
 			Map<String,Object> map=new HashMap<String, Object>();	
@@ -467,16 +467,49 @@ public class OBProjectController {
 				model.addAttribute("list", obProject);
 				model.addAttribute("listinfo", JSON.toJSONString(obProject.getObProductInfo()));
 				model.addAttribute("fileid", obProject.getAttachmentId());
+				if(StringUtils.isNotBlank(status)){
+					return "bss/ob/biddingInformation/editPublish";
+				}else{
 				if(obProject.getStatus()==0){
 					return "bss/ob/biddingInformation/publish";
 				}else{
 					return "bss/ob/biddingInformation/editPublish";
-				}
-			  }
+				 }
+			   }
+			 }
 			}
 		}
 		return "bss/ob/biddingInformation/editPublish";
 	}
+	
+	/** @Description: 更新删除 暂存的竞价信息
+	* author: YangHongLiang
+	* @param  OBProject
+	* @return     
+	* @return String     
+    * @throws IOException 
+	* @throws Exception
+	*/
+	@RequestMapping(value="/delOBProject", produces="text/html;charset=UTF-8" )
+	public String delOBProject(@CurrentUser User user,Model model, HttpServletRequest request,String obProjectId,String status){
+		if(user !=null){
+			if(StringUtils.isNotBlank(obProjectId)){
+			Map<String,Object> map=new HashMap<String, Object>();	
+			map.put("id", obProjectId);
+			map.put("userId", user.getId());
+			OBProject obProject=OBProjectServer.editOBProject(map);
+			if(obProject !=null){
+				OBProject ob=new OBProject();
+				ob.setId(obProjectId);
+				ob.setIsDelete(1);
+				 OBProjectServer.updateProject(ob);
+			 } 
+			}
+		}
+		return list(user, model, request, null, null, "");
+	}
+	
+	
 	/**
 	 * @Description:根据 供应商数量 获取相对应的成交比例
 	 * @author: YangHongLiang

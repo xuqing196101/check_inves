@@ -175,6 +175,12 @@
 	  
 	 function addTr(productId,productName,productMoney,producCount,productRemark){
 	      ++number;
+	      if(!productMoney){
+	      productMoney='';
+	      }
+	      if(!productRemark){
+	      productRemark='';
+	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
 		  "<td class=\"p0\"><select id=\"productName_"+number+"\" disabled=\"disabled\" name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
 		  "</td>"+

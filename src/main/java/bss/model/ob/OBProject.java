@@ -160,9 +160,20 @@ public class OBProject {
     /**报价截止时间字段**/
     private Date quoteEndTime;
   
-   
-    
+    /**
+     * 删除标识  0 正常 1删除
+     * @return
+     */
+    private Integer isDelete;
 	
+	public Integer getIsDelete() {
+		return isDelete;
+	}
+
+	public void setIsDelete(Integer isDelete) {
+		this.isDelete = isDelete;
+	}
+
 	public BigDecimal getProjectNumber() {
 		return projectNumber;
 	}

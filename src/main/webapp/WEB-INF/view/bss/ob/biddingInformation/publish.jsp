@@ -276,7 +276,7 @@
 	}
 	function loads(number,id){
 	$.each(productList, function(i, user) {
-		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + ">" + user.name+ "</option>");
+		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " title=\"user.name\">" + user.name+ "</option>");
 	     });
 	     $("select[id=\"productName_"+number+"\"]").select2();
 	     if(id){
@@ -287,6 +287,12 @@
 	  
 	 function addTr(productId,productName,productMoney,producCount,productRemark){
 	      ++number;
+	      if(!productMoney){
+	      productMoney='';
+	      }
+	      if(!productRemark){
+	      productRemark='';
+	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
 		  "<td class=\"p0\"><select id=\"productName_"+number+"\" onmouseover=\"showEmerge(\"productName_"+number+"\")\" onmouseout=\"closeEmerag(\"productName_"+number+"\")\" name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
 		  "</td>"+
@@ -299,18 +305,20 @@
 		loads(number,productId);
 	} 
 	//浮现框
-	function showEmerge(id){
-    $("#"+id+"").on("select2-focus", function(e) {
+	function showEmerge(){
+    $("#tradedSupplierCount").select2().on("focus", function(e) {
      alert ("focus");
-     });   //  获得焦点事件
-    
+     });    //  获得焦点事件
+     
 	}
+	showEmerge();
 	//关闭浮现框
-	function closeEmerag(id){
-	 $("#"+id+"").on("select2-blur", function(e) { 
+	function closeEmerag(){
+	 $("#tradedSupplierCount").on("blur", function(e) { 
 	 alert ("blur");
 	 });     //  失去焦点事件
 	}
+	closeEmerag();
 	
 	//导入excl 
 	function fileUpload(){
@@ -681,7 +689,7 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <div class="w200">
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()" >
-	   <option value="" >请选择</option>
+	   <option value="" >--请选择--</option>
 	   <option value="1" >1</option>
 	   <option value="2" >2</option>
 	   <option value="3">3</option>
@@ -698,7 +706,7 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
        <div class="w200">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" >
-			  <option value="">请选择</option>
+			  <option value="">--请选择--</option>
 			</select></div>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
        </div>
@@ -735,7 +743,7 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" >
-			  <option value="">请选择</option>
+			  <option value="">--请选择--</option>
 			</select></div>
 			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
        </div>
@@ -764,7 +772,7 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <div class="w200">
 			<select id="transportFees" name="transportFees"  >
-			  <option value="">请选择</option>
+			  <option value="">--请选择--</option>
 			</select></div>
         <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
        </div>
