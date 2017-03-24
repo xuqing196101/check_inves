@@ -38,7 +38,7 @@ import common.utils.JdcgResult;
  * @date 2017年3月1日 下午5:49:40
  * 
  */
-@Service("searchServiceImpl")
+@Service
 public class SearchServiceImpl implements SearchService {
 
 	private static Logger log = LoggerFactory
