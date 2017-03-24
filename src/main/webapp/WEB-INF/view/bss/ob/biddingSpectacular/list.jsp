@@ -241,7 +241,7 @@
 			  		竞价结束
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 4 }">
-			  		流拍
+			  		已流拍
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 5 }">
 			  		待确认
