@@ -128,6 +128,24 @@
 		 $("#tradedSupplierCount").select2();
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
 		 tradedCount();
+		 //加载运杂费 数据
+		 $.ajax({
+			url: "${pageContext.request.contextPath }/ob_project/transportFeesType.html",
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data) {
+					$.each(data, function(i, user) {
+					  $("#transportFees").append("<option  value=" + user.id + ">" + user.name + "</option>");
+				  });
+				} 
+			 $("#transportFees").select2();
+			 $("#transportFees").select2('val','${list.transportFees}');
+			}
+		});
+		 
+		 
 		 layer.close(index);
 	});
 	//根据下拉框信息改变 采购联系人 采购联系电话
@@ -270,15 +288,29 @@
 	 function addTr(productId,productName,productMoney,producCount,productRemark){
 	      ++number;
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\"><select id=\"productName_"+number+"\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
+		  "<td class=\"p0\"><select id=\"productName_"+number+"\" onmouseover=\"showEmerge(\"productName_"+number+"\")\" onmouseout=\"closeEmerag(\"productName_"+number+"\")\" name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
 		  "</td>"+
 		  "<td class=\"p0\"><input id=\"productMoney\" maxlength=\"10\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
+		  "  </td>"+
 		"</tr>").clone(true);   
 		//加载数据
 		loads(number,productId);
 	} 
+	//浮现框
+	function showEmerge(id){
+    $("#"+id+"").on("select2-focus", function(e) {
+     alert ("focus");
+     });   //  获得焦点事件
+    
+	}
+	//关闭浮现框
+	function closeEmerag(id){
+	 $("#"+id+"").on("select2-blur", function(e) { 
+	 alert ("blur");
+	 });     //  失去焦点事件
+	}
 	
 	//导入excl 
 	function fileUpload(){
@@ -353,32 +385,12 @@
 		     show("成交供应商数量不能为空");
 		   return;
 		  }
-		  if(isNaN(supplierCount)){
-		  $("#tradedSupplierCountErr").html("成交供应商数量必须是数字");
-		     show("成交供应商数量必须是数字");
-		   return;
-		  }
-		   if(parseInt(supplierCount)>parseInt(6)){
-		  $("#tradedSupplierCountErr").html("成交供应商数量不能大于6");
-		    show("成交供应商数量不能大于6");
-		   return;
-		  }
-		   if(parseInt(supplierCount)<parseInt(1)){
-		  $("#tradedSupplierCountErr").html("成交供应商数量不能小于1");
-		  show("成交供应商数量不能小于1");
-		   return;
-		  } 
 		   if(!$("#transportFees").val().trim()){
 		   $("#transportFeesErr").html("运杂费不能为空");
 		    show("运杂费不能为空");
 		   return;
 		  }
 		  
-		  if(isNaN($("#transportFees").val().trim())){
-		   $("#transportFeesErr").html("运杂费必须是小数");
-		    show("运杂费必须是小数");
-		   return;
-		  }
 		   if(!$("#demandUnit").val().trim()){
 		   $("#demandUnitErr").html("需求单位不能为空");
 		   show("需求单位不能为空");
@@ -602,6 +614,7 @@
 		 }
      }
 	}
+	//
 </script>
 </head>
 <body>
@@ -620,19 +633,19 @@
   <div class="container container_box">
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
-  <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}">
+  <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}" >
   <input type="hidden" id="id" name="id" value="${list.id}">
-  <input type="hidden" id="ruleId" name="ruleId" value="${ruleId}">
+  <input type="hidden" id="ruleId" name="ruleId" value="${ruleId}" >
   <!-- <input type="hidden" id="supplieId" name="supplieId" > -->
   <input type="hidden" id="suppliePrimaryId" name="suppliePrimaryId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价编号</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
         <span class="add-on">i</span>
-        <span class="input-tip">自动生成</span>
+        <span class="input-tip">保存后自动生成</span>
        </div>
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
@@ -657,7 +670,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>交货地点</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" type="text">
+        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" type="text" >
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="deliveryAddressErr">${deliveryAddressErr}</div>
@@ -667,10 +680,10 @@
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 	   <div class="w200">
-	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()">
-	   <option value=""></option>
-	   <option value="1">1</option>
-	   <option value="2">2</option>
+	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()" >
+	   <option value="" >请选择</option>
+	   <option value="1" >1</option>
+	   <option value="2" >2</option>
 	   <option value="3">3</option>
 	   <option value="4">4</option>
 	   <option value="5">5</option>
@@ -685,7 +698,7 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
        <div class="w200">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" >
-			  <option value=""></option>
+			  <option value="">请选择</option>
 			</select></div>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
        </div>
@@ -722,7 +735,7 @@
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" >
-			  <option value=""></option>
+			  <option value="">请选择</option>
 			</select></div>
 			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
        </div>
@@ -749,9 +762,10 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
-        <span class="add-on">i</span>
-         <span class="input-tip">不能为空,只可以是数字</span>
+        <div class="w200">
+			<select id="transportFees" name="transportFees"  >
+			  <option value="">请选择</option>
+			</select></div>
         <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
        </div>
 	 </li> 

@@ -38,8 +38,10 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PathUtil;
@@ -93,6 +95,9 @@ public class OBProjectController {
 	@Autowired
 	private OBRuleService OBRuleService;
 
+	@Autowired
+	private DictionaryDataServiceI dictionaryDataService;
+	
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
 
@@ -218,7 +223,22 @@ public class OBProjectController {
 			response.getWriter().close();
 		}
 	}
-
+	/**
+	 * 获取运杂费数据字典  信息 并返回页面
+	 * 
+	 * @author YangHongLiang
+	 * @throws IOException
+	 */
+	@RequestMapping(value = "/transportFeesType", produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public String getTransportFeesType(@CurrentUser User user, Model model,
+			HttpServletRequest request, HttpServletResponse response)
+			throws IOException {
+		DictionaryData data=new DictionaryData();
+		data.setKind(41);
+		List<DictionaryData> list= dictionaryDataService.find(data);
+		return JSON.toJSONString(list);
+	}
 	/**
 	 * 
 	 * @Title: biddingInfoList

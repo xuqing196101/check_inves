@@ -233,7 +233,7 @@
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
        <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12">竞价编号</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" disabled="disabled"  maxlength="100">
         <span class="add-on">i</span>

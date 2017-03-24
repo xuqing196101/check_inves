@@ -82,6 +82,17 @@
 		});
 	  }
 	}
+	/**发布竞价项目**/
+	function releaseHref(checkID){
+	  if(checkID){
+	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?obProjectId="+checkID;
+	  }else{
+	  layer.alert("请选择暂存的竞价", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	  }
+	}
 	
 	/**查询**/
 	function query(){
@@ -141,7 +152,7 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows apply" type="submit" onclick="release()">选择竞价项目</button>
+		<!-- <button class="btn btn-windows apply" type="submit" onclick="release()">选择竞价项目</button> -->
 		<button class="btn btn-windows apply" type="submit" onclick="create()">创建竞价项目</button>
 	</div>   
 	<div class="content table_box">
@@ -161,7 +172,7 @@
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 		  <td class="tc w50">${(v.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-		  <td class="tl">${list.name}</td>
+		  <td class="tl"><a onclick="releaseHref('${list.id}')" style="cursor:pointer "/> ${list.name}</a></td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		  <td class="tc">
 		  <c:if test="${list.closingSupplier==0}">
@@ -200,7 +211,7 @@
 		              竞价结束
 		    </c:if>
 		     <c:if test="${list.status==4}">
-		              流拍
+		              已流拍
 		    </c:if>
 		      <c:if test="${list.status==5}">
 		              待确认

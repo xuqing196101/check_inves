@@ -221,7 +221,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 			show = "运杂费不能为空";
 			return toJsonProject(attribute, show);
 		}
-		if (obProject.getTransportFees().toString().length() > 11) {
+		if (obProject.getTransportFees().toString().length() > 40) {
 			attribute = "transportFeesErr";
 			show = "运杂费长度过长";
 			return toJsonProject(attribute, show);
