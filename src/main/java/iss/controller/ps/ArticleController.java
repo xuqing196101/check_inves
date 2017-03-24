@@ -6,7 +6,6 @@ import iss.model.ps.ArticleType;
 import iss.service.ps.ArticleAttachmentsService;
 import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
-import iss.service.ps.SolrNewsService;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -74,9 +73,6 @@ public class ArticleController extends BaseSupplierController {
 
   @Autowired
   private ArticleAttachmentsService articleAttachmentsService;
-
-  @Autowired
-  private SolrNewsService solrNewsService;
 
   @Autowired
   private DictionaryDataServiceI dictionaryDataServiceI;
@@ -308,6 +304,9 @@ public class ArticleController extends BaseSupplierController {
       article.setCreatedAt(new Date());
       article.setUpdatedAt(new Date());
       article.setIsDeleted(0);
+      // 设置IS_INDEX【是否索引】
+      article.setIsIndex(0);
+      
       article.setShowCount(0);
       article.setDownloadCount(0);
       if (article.getStatus() == 1) {

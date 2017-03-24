@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
-
 import bss.model.ppms.AdvancedPackages;
 import bss.model.ppms.Packages;
 
@@ -478,4 +477,17 @@ public interface ArticleService {
      * @param articleId 
      */
     JSONObject cancelArtCategory(String categoryIds, String categoryNames, String articleId, String categoryId);
+    
+    
+    /**
+  	 * 
+  	* @Title: selectAllArticleByCondition 
+  	* @Description: 条件查询所有文章
+  	* @author Easong
+  	* @param @param map
+  	* @param @return    设定文件 
+  	* @return List<Article>    返回类型 
+  	* @throws
+  	 */
+  	List<Article> selectAllArticleByCondition(Map<String, Object> map);
 }

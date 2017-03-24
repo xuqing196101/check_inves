@@ -49,7 +49,7 @@
           }
         }
       }
-
+      //清除首页缓存
       function audit() {
         var id = [];
         var status = "";

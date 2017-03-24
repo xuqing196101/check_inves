@@ -309,10 +309,11 @@ public class ProjectServiceImpl implements ProjectService {
 	          jsonObj.put("isEnd", true);
 	      }
 	      List<PurchaseInfo> purchaseInfo = new ArrayList<>();
-	      if(user != null && user.getOrg() != null){
-	         //获取当前用户所属机构人员
-	         purchaseInfo = purchaseInfoMapper.findPurchaseUserList(user.getOrg().getId());
-	      }
+         //获取当前项目所属机构人员
+         String orgId = project.getPurchaseDepId();
+         if (orgId != null && !"".equals(orgId)) {
+             purchaseInfo = purchaseInfoMapper.findPurchaseUserList(orgId);
+         }
 	      jsonObj.put("users", purchaseInfo);
 	      return jsonObj;
 	  }

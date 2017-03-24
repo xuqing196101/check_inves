@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -47,8 +48,10 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.formbean.PurchaseRequiredFormBean;
+import bss.model.pms.AuditPerson;
 import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
+import bss.service.pms.AuditPersonService;
 import bss.service.pms.PurchaseDetailService;
 import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
@@ -100,6 +103,10 @@ public class PurchaseAcceptController extends BaseController{
 	
 	@Autowired
 	private UpdateHistoryService updateHistoryService;
+	
+	@Autowired
+	private AuditPersonService auditPersonService;
+	
 	/**
 	 * 
 	 * @Title: queryPlan
@@ -254,15 +261,16 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/update")
-    public String submit(PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history,String planNo){
+    public String submit(@CurrentUser User user,PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history,String planNo){
     	
     	String id="";
-    	User user = (User) request.getSession().getAttribute("loginUser");
+//    	User user = (User) request.getSession().getAttribute("loginUser");
     	if(list!=null){
     	  	List<PurchaseRequired> plist = list.getList();
     	  	id=	plist.get(0).getUserId();
     		if(plist!=null&&plist.size()>0){
     			if(reason!=null){
+    				
     				purchaseManagementService.updateStatus(planNo,3);
     				for(PurchaseRequired p:plist){
     					p.setReason(reason);
@@ -270,6 +278,13 @@ public class PurchaseAcceptController extends BaseController{
         				purchaseRequiredService.updateByPrimaryKeySelective(p);	
         			}
     			}else{
+    				AuditPerson auditPerson=new AuditPerson();
+    				auditPerson.setUserId(user.getId());
+    				auditPerson.setType(4);
+    				auditPerson.setCollectId(planNo);
+    				auditPerson.setCreateDate(new Date());
+    				auditPerson.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+    				auditPersonService.add(auditPerson);
     				purchaseManagementService.updateStatus(planNo,2);
     				for(PurchaseRequired p:plist){
     					p.setStatus(status);

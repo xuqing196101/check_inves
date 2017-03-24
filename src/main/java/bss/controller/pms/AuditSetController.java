@@ -3,9 +3,12 @@ package bss.controller.pms;
 import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
+import java.text.DecimalFormat;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -566,6 +569,9 @@ public class AuditSetController {
 //			 	        cell.setCellValue("三轮审核建议");  
 //			        }
 //	        }
+	     
+	 	DecimalFormat df = new DecimalFormat("#,###.00");
+	 	DecimalFormat dfn = new DecimalFormat("#,###");
 	     generateHeader(workbook,sheet,plan);
 //	        if(plan.getAuditTurn()==2){
 //	        	 if(plan.getStatus()==3||plan.getStatus()==5||plan.getStatus()==7||plan.getStatus()==12||plan.getStatus()==2){
@@ -585,7 +591,7 @@ public class AuditSetController {
 //	        cell.setCellValue("技术参意见"); 
 //	        cell = row.createCell(17);  
 //	        cell.setCellValue("其他建议"); 
-	        int count=2;
+	        int count=3;
 //	        PurchaseAudit purchaseAudit=new PurchaseAudit();
 			for(PurchaseDetail p:list){
 	        	row = sheet.createRow(count);
@@ -601,7 +607,7 @@ public class AuditSetController {
 		        style.setWrapText(true);
 	   	        style.setAlignment(CellStyle.ALIGN_LEFT);
 		        cell.setCellStyle(style);
-		        if(p.getPurchaseCount()==null){
+		        if(p.getSeq().matches("[\u4E00-\u9FA5]")&&!p.getSeq().contains("（")){
 		        	cell.setCellValue(p.getDepartment());
 		        }
 	   	        		
@@ -640,7 +646,7 @@ public class AuditSetController {
 	   	        if(p.getPurchaseCount()!=null){
 	   	        	double d=p.getPurchaseCount().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 	   	           
-	   	         cell.setCellValue(d);  
+	   	         cell.setCellValue(dfn.format(d));  
 	   	        }
 	   	       
 	   	        
@@ -650,7 +656,7 @@ public class AuditSetController {
 		        cell.setCellStyle(style);
 	   	        if(p.getPrice()!=null){
 		   	        double price = p.getPrice().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
-		   	        cell.setCellValue(price);
+		   	        cell.setCellValue(df.format(price));
 	   	        }
 	   	     
 	   	          
@@ -662,7 +668,7 @@ public class AuditSetController {
 	   	        if(p.getBudget()!=null){
 	   	         double budget = p.getBudget().setScale(2, BigDecimal.ROUND_HALF_UP).doubleValue();
 		   	      
-		   	        cell.setCellValue(budget); 
+		   	        cell.setCellValue(df.format(budget)); 
 	   	        }
 	   	      
 	   	        
@@ -1096,6 +1102,23 @@ public class AuditSetController {
 			 	        cell.setCellValue("三轮审核建议");  
 			        }
 	        }
+	        
+	        row = sheet.createRow(2);
+	        cell = row.createCell(3); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        cell.setCellValue("合计");
+	        
+	        cell = row.createCell(8); 
+	        style.setAlignment(HSSFCellStyle.ALIGN_CENTER);
+	        style.setWrapText(true);
+	        cell.setCellStyle(style);
+	        DecimalFormat df = new DecimalFormat("#,###.00");
+	        cell.setCellValue(df.format(plan.getBudget()));  
 		 }   
 	 
 	 
@@ -1120,4 +1143,26 @@ public class AuditSetController {
 	 }
 	 
 	 
+	 /**
+		 * 
+		* @Title: isContainChinese
+		* @Description: 判断是否是含有中文 
+		* author: Li Xiaoxiao 
+		* @param @param str
+		* @param @return     
+		* @return boolean     
+		* @throws
+		 */
+		public boolean isContainChinese(String str){
+			boolean bool=true;
+			Pattern p = Pattern.compile("[\u4e00-\u9fa5]");
+			Matcher m = p.matcher(str);
+		    if(m.find()==true&&str.contains("（")){
+		        	bool=true;
+		     }else{
+		        	bool=false;
+		    }
+			return bool;
+		}
+		
 }

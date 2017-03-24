@@ -106,7 +106,14 @@
     where ID = #{id}
   </select>
   
-  <select id="selectAllArticleToSolr" resultMap="ArticleBlob">
+  <!-- <select id="selectAllArticleToSolr" resultMap="ArticleBlob">
+  	select 
+    <include refid="Article_Column_List" />
+    ,
+    <include refid="Article_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE where status=2 and IS_DELETED=0
+  </select> -->
+  <select id="selectAllArticleAddSolr" resultMap="ArticleBlob">
   	select 
     <include refid="Article_Column_List" />
     ,
@@ -1337,6 +1344,23 @@ where
         <if test="categoryId != null">"CATEGORY_ID" = #{categoryId}</if>  
         <if test="articleId != null">and "ARTICLE_ID" = #{articleId}</if>  
     </where>
+  </select>
+  
+   <!-- 查询全部 -->
+  <select id="selectAllArticleByCondition" resultMap="ArticleWithAttach" parameterType="Map">
+  	select
+  	<include refid="Article_Column_List"/>
+  	,
+    <include refid="Article_BlOB_Column_List" />
+    from T_ISS_PS_ARTICLE
+    where IS_DELETED = 0 AND STATUS = 2
+	<if test="isIndex != null and isIndex !=''">
+	  AND IS_INDEX = #{isIndex}
+	</if>
+    <if test="name != null and name != ''">
+		 AND NAME LIKE '%${name}%'
+	</if>
+    ORDER BY CREATED_AT DESC
   </select>
   
 </mapper>

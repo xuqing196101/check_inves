@@ -155,6 +155,19 @@ public interface ArticleMapper {
 	 */
 	List<Article> selectAllArticleToSolr();
 	
+	
+	/**
+	 * 
+	* @Title: selectAllArticleAddSolr 
+	* @Description: 查询要存储的索引信息
+	* @author SongDong
+	* @param @return    设定文件 
+	* @return List<Article>    返回类型 
+	* @throws
+	 */
+	List<Article> selectAllArticleAddSolr();
+	
+	
 	/**
 	* @Title: selectArticleByName
 	* @author Shen Zhenfei 
@@ -433,4 +446,16 @@ public interface ArticleMapper {
      * @param articleCategory
      */
     void deleteArtCategory(ArticleCategory articleCategory);
+    
+    /**
+     * 后台管理索引库条件查询所有文章
+    * @Title: selectAllArticleByCondition 
+    * @Description: 
+    * @author Easong
+    * @param @param map
+    * @param @return    设定文件 
+    * @return List<Article>    返回类型 
+    * @throws
+     */
+    List<Article> selectAllArticleByCondition(Map<String, Object> map);
 }
