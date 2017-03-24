@@ -14,8 +14,8 @@
 	<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
-  function planDateil(id){
-     location.href = "${pageContext.request.contextPath}/contractSupervision/planDateil.html?id="+id+"&contractId=${contractId}";
+  function demandDateil(id,contractId){
+     location.href = "${pageContext.request.contextPath}/contractSupervision/demandDateil.html?id="+id+"&contractId=${contractId}";
     }
     </script>
   </head>
@@ -40,14 +40,14 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr>
-              <th class="info w50">序号</th>
-              <th class="info">采购计划编号</th>
-              <th class="info">采购计划名称</th>
-              <th class="info">预算总金额（万元）</th>
-              <th class="info">编制人</th>
-              <th class="info">编制时间</th>
-              <th class="info">状态</th>
-              <th class="info">查看进度</th>
+              <th class="w50">序号</th>
+              <th>需求编号</th>
+              <th>需求名称</th>
+              <th>填报人</th>
+              <th>填报时间</th>
+              <th>金额</th>
+              <th>状态</th>
+              <th>查看进度</th>
             </tr>
           </thead>
           <c:forEach items="${list}" var="obj" varStatus="vs">
@@ -57,27 +57,21 @@
                 ${obj.planNo}
               </td>
               <td class="tl pl20" width="25%">
-                <a href="javascript:void(0)" onclick="planDateil('${obj.id}');">${obj.fileName}</a>
-              </td>
-              <td class="tr pr20 w140">
-                <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
+                <a href="javascript:void(0)" onclick="demandDateil('${obj.id}','${contractId}');">${obj.planName}</a>
               </td>
               <td class="tr pr20 w140">${obj.userId}</td>
               <td class="tc">
                 <fmt:formatDate value="${obj.createdAt }" pattern="yyyy-MM-dd" />
               </td>
-              <td class="tl pl20">
-                <c:if test="${obj.status == 1}">审核轮次设置</c:if>
-                <c:if test="${obj.status == 2}">已下达</c:if>
-                <c:if test="${obj.status == 3}">第一轮审核</c:if>
-                <c:if test="${obj.status == 4}">第二轮审核人员设置</c:if>
-                <c:if test="${obj.status == 5}">第二轮审核</c:if>
-                <c:if test="${obj.status == 6}">第三轮审核人员设置</c:if>
-                <c:if test="${obj.status == 7}">第三轮审核</c:if>
-                <c:if test="${obj.status == 12}">未下达</c:if>
+    			<td class="tr pr20 w140">
+                <fmt:formatNumber>${obj.budget }</fmt:formatNumber>
               </td>
-              <td class="tc">
-                <a href="javascript:void(0)" onclick="planDateil('${obj.id}');">进入</a>
+				<td class="tc">
+                   <c:if test="${obj.status eq '1'}">未提交</c:if>
+                   <c:if test="${obj.status eq '4'}">受理退回</c:if> 
+                   <c:if test="${obj.status eq '2' || obj.status eq '3' || obj.status eq '5'}">已提交</c:if>
+                </td>              <td class="tc">
+                <a href="javascript:void(0)" onclick="demandDateil('${obj.id}','${contractId}');">进入</a>
               </td>
             </tr>
           </c:forEach>

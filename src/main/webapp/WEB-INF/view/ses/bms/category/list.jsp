@@ -257,9 +257,9 @@
 	}
     /** 重置 */
     function reset() {
-    	$("#cateId").val("");
-		$("#posId").val("");
-		$("#descId").val("");
+    	$("#param").val("");
+		$("#code").val("");
+		$("#isCreate").val("");
 		/* $("#levelId").val(""); */
 		/* $("#engLevelId").val("");
 		$("#engLevelSelect").find("option").each(function(index, element){

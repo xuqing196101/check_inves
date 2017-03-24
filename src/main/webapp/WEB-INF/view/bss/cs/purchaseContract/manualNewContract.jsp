@@ -612,7 +612,7 @@
 	   		<input type="hidden" name="isImport" value="${project.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}"/>
 	   		<input type="hidden" name="manualType" value="1"/>
-	   		<input type="hidden" name="manual" value="manual"/>
+	   		<!-- <input type="hidden" name="manual" value="manual"/> -->
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
