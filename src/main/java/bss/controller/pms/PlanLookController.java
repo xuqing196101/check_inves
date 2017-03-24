@@ -506,8 +506,9 @@ public class PlanLookController extends BaseController {
 	 */
 	@RequestMapping("/report")
 	public String report(String id,Model model){
-		CollectPlan plan = collectPlanService.queryById(id);
-		model.addAttribute("plan", plan);
+		List<PurchaseDetail> details = purchaseDetailService.getUnique(id);
+//		CollectPlan plan = collectPlanService.queryById(id);
+		model.addAttribute("details", details);
 		return "bss/pms/collect/pdf";
 	}
 	

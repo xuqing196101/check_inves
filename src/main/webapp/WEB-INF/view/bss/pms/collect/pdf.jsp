@@ -288,18 +288,28 @@
 			<table class="table table-bordered table-condensed table-hover table-striped">
 				<thead>
 					<tr>
-						<th class="info w50">序号</th>
-						<th class="info">评审内容</th>
+						<th class="info w50"><h2> 序号</h2> </th>
+						<th class="info"><h2>  评审内容 </h2></th>
 		 
 					</tr>
 				</thead>
                 <tbody>
+                <c:forEach items="${details }" var="d">
 				<tr>
-					<td class="tc w50">1</td>
-					<td class="tc w50"><textarea style="width: 650px;height: 100px;border: 0px"></textarea></td>
+					<td class="tc w50">${d.seq }  </td>
+					<td class="tc w50">
+				
+						<textarea style="width: 650px;height: 100px;border: 0px">
+							<c:if test="${d.oneAdvice!=null }">第一轮审核意见是：${d.oneAdvice}  </c:if>
+							<c:if test="${d.oneAdvice!=null }">第一轮审核意见是：${d.twoAdvice}  </c:if>
+							<c:if test="${d.oneAdvice!=null }">第一轮审核意见是：${d.threeAdvice}  </c:if>
+						</textarea>
+					
+					</td>
 	 	 
 				</tr>
-				<tr>
+				</c:forEach>
+				<!-- <tr>
 					<td class="tc w50">2 </td>
 					<td class="tc w50"><textarea style="width: 650px;height: 100px;border: 0px"></textarea></td>
 		 
@@ -322,7 +332,7 @@
 				<tr>
 					<td class="tc w50">6</td>
 					<td class="tc w50"><textarea style="width: 650px;height: 100px;border: 0px"></textarea>  </td>
-				</tr>
+				</tr> -->
 			<%-- 	<tr>
 
 					<td class="tc" colspan="16"> <input type="hidden" name="type" value="${type }">
@@ -332,8 +342,8 @@
 				</tbody>
 			</table>
 			<div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
-			  <input class="btn btn-windows save" type="button" onclick="window.print()" value="打印"> 
-			  <button class="btn btn-windows git" onclick="history.go(-1)" type="button">取消</button>
+			  <input class="btn btn-windows save" type="button" onclick="window.print()" value="下载打印"> 
+			  <button class="btn btn-windows git" onclick="history.go(-1)" type="button">返回</button>
 			</div>
 		</form>
 	</div>
