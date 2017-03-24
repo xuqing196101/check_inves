@@ -1,6 +1,7 @@
 package bss.model.pms;
 
-import org.hibernate.validator.constraints.NotEmpty;
+import java.util.Date;
+
 
 public class AuditPerson {
 	
@@ -26,7 +27,17 @@ public class AuditPerson {
     
     private String duty;
     
-    public String getDuty() {
+    private Date createDate;
+    
+    public Date getCreateDate() {
+		return createDate;
+	}
+
+	public void setCreateDate(Date createDate) {
+		this.createDate = createDate;
+	}
+
+	public String getDuty() {
 		return duty;
 	}
 
