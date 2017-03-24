@@ -145,7 +145,12 @@ public class ProjectDetailServiceImpl implements ProjectDetailService {
 
         return projectDetailMapper.selectByDemand(map);
     }
-
+    @Override
+    public List<ProjectDetail> selectByPackageId(String packageId) {
+    	HashMap<String, Object> map=new HashMap<String, Object>();
+    	map.put("packageId", packageId);
+        return projectDetailMapper.selectById(map);
+    }
 	@Override
 	public List<ProjectDetail> selectTheSubjectBySupplierId(
 			HashMap<String, Object> map, String supplierId) {

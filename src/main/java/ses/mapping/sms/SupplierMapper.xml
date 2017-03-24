@@ -1654,6 +1654,6 @@
 		SELECT
 		<include refid="Base_Column_List" />
 		FROM T_SES_SMS_SUPPLIER
-		WHERE SUPPLIER_STATUS = 1
+		WHERE SUPPLIER_STATUS = 1 AND IS_PROVISIONAL = 0
 	</select>
 </mapper>

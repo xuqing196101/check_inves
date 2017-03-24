@@ -788,7 +788,7 @@ public class PurchaseContractController extends BaseSupplierController{
 		String ids = request.getParameter("ids");
 		String dga = request.getParameter("dga");
 		String dra = request.getParameter("dra");
-		String manual = request.getParameter("manual");
+		/*String manual = request.getParameter("manual");*/
 		String supcheckid = request.getParameter("supcheckid");
 		String[] supcheckids = supcheckid.split(",");
 		Date draftGitAt = null;
@@ -829,7 +829,7 @@ public class PurchaseContractController extends BaseSupplierController{
 			model.addAttribute("requList", requList);
 			model.addAttribute("planNos", purCon.getDocumentNumber());
 			model.addAttribute("id", ids);
-			model.addAttribute("manual", manual);
+			/*model.addAttribute("manual", manual);*/
 			url = "bss/cs/purchaseContract/errContract";
 		}else{
 			if(draftGitAt!=null){
@@ -893,11 +893,11 @@ public class PurchaseContractController extends BaseSupplierController{
 				}
 			}
 			
-			if(manual!=null){
+			/*if(manual!=null){*/
 				url = "redirect:selectDraftContract.html";
-			}else{
+			/*}else{
 				url = "redirect:selectAllPuCon.html";
-			}
+			}*/
 		}
 		return url;
 	}
@@ -1288,7 +1288,9 @@ public class PurchaseContractController extends BaseSupplierController{
 					}
 				}
 			}
-			purCon.setContractReList(requList);
+			/*purCon.setContractReList(requList);*/
+			/*model.addAttribute("purCon", purCon);*/
+			model.addAttribute("requList", requList);
 			model.addAttribute("kinds", DictionaryDataUtil.find(5));
 			url = "bss/cs/purchaseContract/updateErrContract";
 		}else{

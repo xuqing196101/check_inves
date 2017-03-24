@@ -17,6 +17,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -35,13 +36,16 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
 
 import bss.model.cs.PurchaseContract;
 import bss.model.ppms.Project;
+import bss.model.ppms.Task;
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.SupplierPqrecord;
 import bss.model.pqims.Supplier_pqinfo;
@@ -515,9 +519,19 @@ public class PqInfoController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/getAllSupplierPqInfo")
-	public String getAllSupplierPqInfo(Model model,Integer page,HttpServletRequest request){
-		List<SupplierPqrecord> supplier_pqinfos = supplierPqrecordService.getAll(page==null?1:page);
-		model.addAttribute("list",new PageInfo<SupplierPqrecord>(supplier_pqinfos));
+	public String getAllSupplierPqInfo(Model model,Integer page, SupplierPqrecord supplierPqrecord, HttpServletRequest request){
+	    HashMap<String, Object> map = new HashMap<>();
+	    if(supplierPqrecord.getSupplier() != null && StringUtils.isNotBlank(supplierPqrecord.getSupplier().getSupplierName())){
+	        map.put("supplier", supplierPqrecord.getSupplier());
+	    }
+	    if(page==null){
+            page = 1;
+        }
+        map.put("page", page.toString());
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+		List<SupplierPqrecord> list = supplierPqrecordService.getAll(map);
+		model.addAttribute("info",new PageInfo<SupplierPqrecord>(list));
+		model.addAttribute("supplierPqrecord",supplierPqrecord);
 		return "bss/pqims/pqinfo/supplier_pqinfo_list";
 	}
 	

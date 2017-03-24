@@ -608,18 +608,8 @@
 	   		<input type="hidden" name="isImport" value="${purCon.isImport}">
 	   		<input type="hidden" name="supcheckid" value="${supcheckid}">
 	   		<input  type="hidden" name="demandSector" value="${purCon.demandSector}" >
-	   		<c:if test="${purCon.manualType!=null}">
 	   		<input type="hidden" name="manualType" value="${purCon.manualType}"/>
-	   		</c:if>
-	   		<c:if test="${purCon.manualType==null}">
-		   		<c:if test="${manual!=null}">
-		   		<input type="hidden" name="manualType" value="1"/>
-		   		</c:if>
-		   		<c:if test="${manual==null}">
-		   		<input type="hidden" name="manualType" value="0"/>
-		   		</c:if>
-	   		</c:if>
-	   		<input type="hidden" name="manual" value="${manual}"/>
+	   		<%-- <input type="hidden" name="manual" value="${manual}"/> --%>
 	   		<input type="hidden" id="dga" name="dga" value=""/>
 	   		<input type="hidden" id="dra" name="dra" value="">
 	   		<h2 class="f16 count_flow mt40"><i>01</i>基本信息</h2>
@@ -642,7 +632,7 @@
 				  <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目编号：</span>
 			        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        	<c:if test="${purCon.manualType==null}">
+			        	<%-- <c:if test="${purCon.manualType==null}">
 				        	<c:if test="${manual!=null}">
 				        		<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" onblur="getProjectName('projectCode');">
 				        	</c:if>
@@ -650,7 +640,7 @@
 				        	   <input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" >
 				               <input type="hidden" name="projectName" value="${purCon.projectName}"/>
 			        		</c:if>
-			        	</c:if>
+			        	</c:if> --%>
 			        	<c:if test="${purCon.manualType==1}">
 			        	<input class=" contract_name" name="projectCode" value="${purCon.projectCode}" type="text" onblur="getProjectName('projectCode');">
 			        	</c:if>
@@ -661,7 +651,7 @@
 			        	<div class="cue">${ERR_proCode}</div>
 	       			</div>
 				 </li>
-				 <c:if test="${purCon.manualType!=null}">
+				 <%-- <c:if test="${purCon.manualType==0}">
 					 <c:if test="${manual!=null}">
 					 <li class="col-md-3 col-sm-6 col-xs-12">
 					   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
@@ -671,7 +661,7 @@
 		       			</div>
 					 </li>
 					 </c:if>
-				 </c:if>
+				 </c:if> --%>
 				 <c:if test="${purCon.manualType==1}">
 				 <li class="col-md-3 col-sm-6 col-xs-12">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>项目名称：</span>
@@ -986,21 +976,14 @@
             --%></div>
             <div class="tab-pane fade " id="tab-2">
               <div class="margin-bottom-0  categories over_hideen">
-              <c:if test="${purCon.manualType!=null}">
+              
                 <c:if test="${purCon.manualType==1}">
 	                <div class="col-md-12 col-xs-12 col-sm-12 p0">
 						<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
 						<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
 					</div>
                 </c:if>
-              </c:if>
-				<c:if test="${manual!=null}">
-				  <div class="col-md-12 col-xs-12 col-sm-12 p0">
-						<input type="button" class="btn btn-windows add" onclick="openDetail()" value="添加"/>
-						<input type="button" class="btn btn-windows delete" onclick="delDetail()" value="删除"/>
-					</div>
               
-				</c:if>
 				
 					<div class="col-md-12 col-sm-12 col-xs-12 p0">
 			    	<table id="detailtable" name="proList" class="table table-bordered table-condensed table_input left_table mb0 mt10">

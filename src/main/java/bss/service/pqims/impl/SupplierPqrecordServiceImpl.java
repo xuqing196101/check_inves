@@ -5,6 +5,7 @@ package bss.service.pqims.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -39,15 +40,8 @@ public class SupplierPqrecordServiceImpl implements SupplierPqrecordService {
 	private SupplierPqrecordMapper supplierPqrecordMapper;
 	
 	@Override
-	public List<SupplierPqrecord> getAll(Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		return supplierPqrecordMapper.queryByList();
-	}
-
-	@Override
-	public List<SupplierPqrecord> selectAll() {
-		return supplierPqrecordMapper.queryByList();
+	public List<SupplierPqrecord> getAll(HashMap<String, Object> map) {
+		return supplierPqrecordMapper.queryByList(map);
 	}
 
 	
@@ -85,6 +79,13 @@ public class SupplierPqrecordServiceImpl implements SupplierPqrecordService {
 		supplierPqrecordMapper.insertSupplierId(id);
 		
 	}
+
+
+    @Override
+    public List<SupplierPqrecord> selectAll() {
+        // TODO Auto-generated method stub
+        return null;
+    }
 
 	
 }

@@ -1012,21 +1012,26 @@ public class ExcelUtil {
 	        				}
         					//验证产品目录是否存在
         					String categoryCode = cell.getRichStringCellValue().toString();
-        					if(excelUtil.categoryService.findByCode(categoryCode) < 1){
+        					if(null == excelUtil.categoryService.selectByCode(categoryCode)){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，产品目录不存在!";
         						map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
-        					}else{
-        						Category category = new Category();
-        						category.setCode(categoryCode);
-        						List<Category> categorylist = excelUtil.categoryService.readExcel(category);
-        						if(categorylist != null){
-        							obp.setSmallPointsId(categorylist.get(0).getId());
-        						}
         					}
-        				}
-        			 }
+        					List<Category> list2 = excelUtil.categoryService.selectByCode(categoryCode);
+        					HashMap<String, Object> map1 = new HashMap<String, Object>();
+        					map1.put("id", list2.get(0).getId());
+        					if(excelUtil.categoryService.findCategoryByChildren(map1).size() != 0){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，请选择目录末节点添加!";
+   	        					 map.put("errMsg", errMsg);
+   	        					 bool=false;
+   	        					 break;
+        					}
+    						if(list2 != null){
+    							obp.setSmallPointsId(list2.get(0).getId());
+    						}
+    					}
+    				}
     				/*//第五列
     				if(cell.getColumnIndex()==4){
     					if(cell.getCellType()==1){
@@ -1284,13 +1289,21 @@ public class ExcelUtil {
 		        				 break;
 	        				}
         					String str = cell.getRichStringCellValue().toString();
-        					List<Category> list2 = excelUtil.categoryService.selectByName(str);
+        					List<Category> list2 = excelUtil.categoryService.selectByCode(str);
         					if(list2.size() == 0){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，目录不存在!";
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
         					}else{
+        						HashMap<String, Object> map1 = new HashMap<String, Object>();
+        						map1.put("id", list2.get(0).getId());
+        						if(excelUtil.categoryService.findCategoryByChildren(map1).size() != 0){
+        							errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，请选择目录末节点添加!";
+   	        					 	map.put("errMsg", errMsg);
+   	        					 	bool=false;
+   	        					 	break;
+        						}
         						if(excelUtil.oBSupplierService.yzSupplierName(suId, list2.get(0).getId(), null) > 0){
         							errMsg=String.valueOf(row.getRowNum()+1)+"行H列错误，不能重复添加!";
    	        					 map.put("errMsg", errMsg);
@@ -1298,7 +1311,7 @@ public class ExcelUtil {
    		        				 break;
         						}
         					}
-        					obp.setUscc(list2.get(0).getId());
+        					obp.setSmallPointsId(list2.get(0).getId());
         					}
         				}
         		}

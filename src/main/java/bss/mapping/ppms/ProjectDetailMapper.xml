@@ -433,6 +433,13 @@
 				T_BSS_PPMS_PROJECTS_DETAIL
 			WHERE PACKAGE_ID = #{packageId}
     </select>
+    <select id="selectByPackageId" parameterType="java.lang.Object" resultType="bss.model.ppms.ProjectDetail">
+    	SELECT
+				<include refid="Base_Column_List" />
+			FROM
+				T_BSS_PPMS_PROJECTS_DETAIL
+			WHERE PACKAGE_ID = #{packageId} order by POSITION
+    </select>
     <select id="selectNotEmptyPackageOfDetail" parameterType="java.lang.Object" resultMap="BaseResultMap">
     	SELECT
 				*

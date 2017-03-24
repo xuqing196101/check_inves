@@ -125,7 +125,7 @@
 				<th class="info">甲方单位</th>
 				<th class="info">供应商</th>
 				<th class="info">状态</th>
-				<th class="info">执行情况</th>
+				<th class="info">查看</th>
 			</tr>
 		</thead>
 		<c:forEach items="${draftConList}" var="draftCon" varStatus="vs">
@@ -165,7 +165,7 @@
 				<c:if test="${draftCon.status==2}">
 					<td class="tc pointer" >正式</td>
 				</c:if>
-				<td class="tl pl20 pointer" ><div onclick="onclickDetail('${draftCon.id}');" name="p" id="p${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div></td>
+				<td class="tl pl20 pointer" ><a onclick="onclickDetail('${draftCon.id}');">进入</a></td>
 			</tr>
 		</c:forEach>
 	</table>

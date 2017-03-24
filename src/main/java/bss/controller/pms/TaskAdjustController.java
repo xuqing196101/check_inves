@@ -525,7 +525,7 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@ResponseBody
 	@RequestMapping(value = "/cancel",produces="html/text;chartset=UTF-8")
-	public String cancel(String ids){
+	public String updateCancel(String ids){
 	    if (StringUtils.isNotBlank(ids)){
 	        if (ids.contains(StaticVariables.COMMA_SPLLIT)){
 	            String [] strArray = ids.split(StaticVariables.COMMA_SPLLIT);

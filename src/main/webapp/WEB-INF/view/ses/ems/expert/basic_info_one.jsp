@@ -15,7 +15,11 @@
         session.setAttribute("tokenSession", tokenValue);
 
     %>
+    <%@ include file="/WEB-INF/view/common/validate.jsp"%>
     <script type="text/javascript">
+    	$().ready(function() {
+				$("#formExpert").validForm();
+			});
         function func123() {
             var parentId = $("#addr").val();
             $.ajax({
@@ -795,6 +799,7 @@
         });
 
         function errorMsg(auditField) {
+        	alert();
             $.ajax({
                 url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
                 data: {
@@ -811,6 +816,15 @@
         function zc() {
             layer.msg("已暂存");
         }
+        //非空判断
+        function notNull(name){
+        	var len = document.getElementById(name).value.length;
+        	if(len == null || len == 0){
+				document.getElementById("err_msg_"+name).innerHTML="不能为空";
+        	} else {
+        		document.getElementById("err_msg_"+name).innerHTML="";
+        	}
+		}
     </script>
 </head>
 
@@ -857,11 +871,12 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
                     <span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 专家姓名</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input id="relName" name="relName" value="${expert.relName}" type="text"
+                        <input onblur="notNull('relName')" id="relName" name="relName" value="${expert.relName}" type="text"
                                <c:if test="${fn:contains(errorField,'专家姓名')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('专家姓名')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空</span>
+                        <div class="cue" id="err_msg_relName"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 近期免冠彩色证件照</span>
@@ -900,10 +915,11 @@
                                 test="${fn:contains(errorField,'出生日期')}"> style="border: 1px solid #ef0000;" onmouseover="errorMsg('出生日期')"</c:if>
                                 readonly="readonly"
                                 value="<fmt:formatDate type='date' value='${expert.birthday}' dateStyle='default' pattern='yyyy-MM-dd' />"
-                                name="birthday" id="birthday" type="text"
+                                name="birthday" onblur="notNull('birthday')" id="birthday" type="text"
                                 onclick="WdatePicker({dateFmt:'yyyy-MM-dd',startDate:'1970-01-01'})"/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空，年龄不大于70周岁</span>
+                        <div class="cue" id="err_msg_birthday"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -924,35 +940,48 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 民族</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="10" value="${expert.nation}" name="nation" id="nation" type="text"
+                        <input onblur="notNull('nation')" maxlength="10" value="${expert.nation}" name="nation" id="nation" type="text"
                                <c:if test="${fn:contains(errorField,'民族')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('民族')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空，如： 汉族</span>
+                        <div class="cue" id="err_msg_nation"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 健康状态</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="10" value="${expert.healthState}" name="healthState" id="healthState"
+                        <input onblur="notNull('healthState')" maxlength="10" value="${expert.healthState}" name="healthState" id="healthState"
                                type="text"
                                <c:if test="${fn:contains(errorField,'健康状态')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('健康状态')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空，如：良好</span>
-
+						<div class="cue" id="err_msg_healthState"></div>
+                    </div>
+                </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i> 手机</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input maxlength="15" value="${user.mobile}"  name="mobile" id="mobile"
+                               type="text"
+                               <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;"
+                               onmouseover="errorMsg('手机')"</c:if>/>
+                        <span class="add-on">i</span>
+                        <span class="input-tip">11位数字</span>
                     </div>
                 </li>
 
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 居民身份证号码</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="30" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber"
+                        <input onblur="notNull('idCardNumber')" maxlength="18" value="${expert.idCardNumber}" name="idCardNumber" id="idCardNumber"
                                type="text"
                                <c:if test="${fn:contains(errorField,'居民身份证号码')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('居民身份证号码')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空，长度为15位或者18位</span>
+                        <div class="cue" id="err_msg_idCardNumber"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -988,10 +1017,14 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
-                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm">退休证书或退休证明</span></span>
+                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 
+                            <span id="sbzm">
+                            	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
+                            	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
+                            </span>
                         <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                             <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;"
-                             onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
+                             <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
+                             onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
                                 <%--图片的大小   图片的类型  --%>
                             <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                       exts="${properties['file.picture.type']}" id="expert1" maxcount="1"
@@ -1078,29 +1111,15 @@
                     </li>
                 </c:if>
 
-
-
-
-
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 手机</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="15" value="${user.mobile}"  name="mobile" id="mobile"
-                               type="text"
-                               <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;"
-                               onmouseover="errorMsg('手机')"</c:if>/>
-                        <span class="add-on">i</span>
-                        <span class="input-tip">11位数字</span>
-                    </div>
-                </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 固定电话</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="50" value="${expert.telephone}" name="telephone" id="telephone" type="text"
+                        <input onblur="notNull('telephone')" maxlength="50" value="${expert.telephone}" name="telephone" id="telephone" type="text"
                                <c:if test="${fn:contains(errorField,'固定电话')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('固定电话')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">如: 010 - 1234567</span>
+                        <div class="cue" id="err_msg_telephone"></div>
                     </div>
                 </li>
 
@@ -1119,11 +1138,12 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 个人邮箱</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="30" value="${expert.email}" name="email" id="email" type="text"
+                        <input onblur="notNull('email')" maxlength="30" value="${expert.email}" name="email" id="email" type="text"
                                <c:if test="${fn:contains(errorField,'个人邮箱')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('个人邮箱')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空，如：123@163.com</span>
+                        <div class="cue" id="err_msg_email"></div>
                     </div>
                 </li>
             </ul>
@@ -1133,11 +1153,12 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 所在单位</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="40" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text"
+                        <input onblur="notNull('workUnit')" maxlength="40" value="${expert.workUnit}" name="workUnit" id="workUnit" type="text"
                                <c:if test="${fn:contains(errorField,'所在单位')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('所在单位')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空</span>
+                        <div class="cue" id="err_msg_workUnit"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1163,23 +1184,25 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 单位地址</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
+                        <input onblur="notNull('unitAddress')" maxlength="40" value="${expert.unitAddress}" name="unitAddress" id="unitAddress"
                                type="text" placeholder="长春街道1号"
                                <c:if test="${fn:contains(errorField,'单位地址')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位地址')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空</span>
+                        <div class="cue" id="err_msg_unitAddress"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> <i
                         class="red">*</i>单位邮编</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="6" value="${expert.postCode}" name="postCode" id="postCode" type="text"
+                        <input maxlength="6" isZipCode="true" value="${expert.postCode}" name="postCode" id="postCode" type="text"
                                <c:if test="${fn:contains(errorField,'单位邮编')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('单位邮编')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">长度为6位</span>
+                        <div class="cue"> ${err_msg_postCode } </div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -1195,11 +1218,12 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 从事专业</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="20" value="${expert.major}" name="major" id="major" type="text"
+                        <input onblur="notNull('major')" maxlength="20" value="${expert.major}" name="major" id="major" type="text"
                                <c:if test="${fn:contains(errorField,'从事专业,')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('从事专业')"</c:if> />
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空</span>
+                        <div class="cue" id="err_msg_major"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
@@ -1209,10 +1233,11 @@
                                 <c:if test="${fn:contains(errorField,'从事专业起始年月')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('从事专业起始年月')"</c:if>
                                 value="<fmt:formatDate type='date' value='${expert.timeStartWork}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeStartWork" id="timeStartWork" type="text"
+                                readonly="readonly" onblur="notNull('timeStartWork')" name="timeStartWork" id="timeStartWork" type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/>
                         <span class="add-on">i</span>
                         <span class="input-tip">如：2017-03</span>
+                        <div class="cue" id="err_msg_timeStartWork"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -1224,8 +1249,9 @@
                                 <c:if test="${fn:contains(errorField,'专业技术职称')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('专业技术职称')"</c:if>
                                 maxlength="20" value="${expert.professTechTitles}"
-                                name="professTechTitles" id="professTechTitles" type="text"/>
+                                name="professTechTitles" onblur="notNull('professTechTitles')" id="professTechTitles" type="text"/>
                         <span class="add-on">i</span> <span class="input-tip">不能为空</span>
+                        <div class="cue" id="err_msg_professTechTitles"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -1257,10 +1283,11 @@
                                 <c:if test="${fn:contains(errorField,'取得技术职称时间')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('取得技术职称时间')"</c:if>
                                 value="<fmt:formatDate type='date' value='${expert.makeTechDate}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="makeTechDate" id="makeTechDate"
+                                readonly="readonly" onblur="notNull('makeTechDate')" name="makeTechDate" id="makeTechDate"
                                 type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
                             class="add-on">i</span> <span class="input-tip">如：2017-03</span>
+                            <div class="cue" id="err_msg_makeTechDate"></div>
                     </div>
                 </li>
                 <c:if test="${expert.expertsFrom eq 'ARMY'}">
@@ -1272,12 +1299,13 @@
                         class="red">*</i> 毕业院校及专业</span>
                     </c:if>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="40" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool"
+                        <input onblur="notNull('graduateSchool')" maxlength="40" value="${expert.graduateSchool}" name="graduateSchool" id="graduateSchool"
                                type="text"
                                <c:if test="${fn:contains(errorField,'毕业院校及专业')}">style="border: 1px solid #ef0000;"
                                onmouseover="errorMsg('毕业院校及专业')"</c:if>/>
                         <span class="add-on">i</span>
                         <span class="input-tip">不能为空，如：北京大学计算机专业</span>
+                        <div class="cue" id="err_msg_graduateSchool"></div>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i

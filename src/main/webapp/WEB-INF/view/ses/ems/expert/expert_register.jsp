@@ -46,7 +46,7 @@ session.setAttribute("tokenSession", tokenValue);
 			return false;
 		}
 	   if(loginName.replace(/\s/g,"").length<6){
-		   $("#spp").html("登录名由6-20位字母数字和下划线组成 ").css('color','red');
+		   $("#spp").html("登录名由6-20位字母或数字组成 ").css('color','red');
 		   flag=1;
 		   return false;
 		   
@@ -146,14 +146,14 @@ session.setAttribute("tokenSession", tokenValue);
      		 <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>用户名：</span>
 			  <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="loginName" id="loginName" placeholder="由6-20位字母和数字组成" maxlength="20" type="text" onkeyup="validataLoginName();" value="">
+		        <input name="loginName" id="loginName" placeholder="用户名由6-20位字母或数字组成" maxlength="20" type="text" onkeyup="validataLoginName();" value="">
 		        <div id="spp" class="cue"></div>
 		       </div>
 			 </li>
 		     <li class="login_item col-md-12  col-sm-12 col-xs-12">
 			   <span class="col-md-3 col-sm-12 col-xs-12 p0"><i class="red mr5">*</i>密码：</span>
 			   <div class="input-append col-md-7 col-xs-12 col-sm-12 p0 input_group">
-		        <input name="password" placeholder="密码长度为6~20位" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
+		        <input name="password" placeholder="密码由6~20位字母或数字组成" maxlength="20" id="password1" onkeyup="validataPassword();"  type="password" >
 		        <div id="pwd1" class="cue"></div>
 		       </div>
 			 </li> 

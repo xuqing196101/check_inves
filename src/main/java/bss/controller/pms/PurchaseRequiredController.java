@@ -880,7 +880,7 @@ public class PurchaseRequiredController extends BaseController{
 	    * @throws
 	     */
 	    @RequestMapping("/submit")
-	    public String submit(@CurrentUser User user,String planNo,Model model,Integer page){
+	    public String updateSubmit(@CurrentUser User user,String planNo,Model model,Integer page){
 	    	
 	    	//每页显示十条
 		    if (page == null){

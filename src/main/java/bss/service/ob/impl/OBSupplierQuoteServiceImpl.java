@@ -11,7 +11,9 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.DictionaryDataMapper;
 import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
@@ -85,6 +87,8 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Autowired
 	private OBProjectResultMapper obProjectResultMapper;
 
+	@Autowired
+	private DictionaryDataMapper dictionaryDataMapper;
 	/**
 	 * 
 	 * @Title: findQuoteInfo
@@ -131,6 +135,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				map.put("demandUnit", orgnization.getName());
 			}
 			
+			// 查询运费
+			DictionaryData dictionaryData = dictionaryDataMapper.selectByPrimaryKey(obProject.getTransportFees());
+			map.put("transportFees", dictionaryData.getName());
 			// 获取成交供应商数量和参与供应商数量
 			if (obProject.getStatus() != 0) {
 				// 获取产品集合

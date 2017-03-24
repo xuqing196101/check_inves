@@ -123,6 +123,7 @@
 					         {
 					             type: 'bar',
 					             itemStyle: {
+					            	 /**  注释的是柱状图显示渐变颜色的方式，但是在IE8下面不支持(显示)这样获取的颜色
 					                 normal: {
 					                     color: new echarts.graphic.LinearGradient(
 					                         0, 0, 0, 1,
@@ -143,6 +144,27 @@
 					                         ]
 					                     )
 					                 }
+					                 **/
+					                 normal: {
+					                     color: function(params) {
+					                            // build a color map as your need.
+					                            var colorList = [//写这么多颜色是为了各个柱子
+													'#83bff6','#83bff6','#83bff6','#83bff6','#83bff6','#83bff6','#83bff6',
+													'#83bff6','#83bff6','#83bff6','#83bff6'
+					                            ];
+					                            return colorList[params.dataIndex]
+					                        }
+					                 }//,
+					                 /** 
+					                 emphasis: {//这个先去掉
+					                     color: function(params) {
+					                            // build a color map as your need.
+					                            var colorList = [
+													'red'
+					                            ];
+					                            return colorList[params.dataIndex]
+					                        }
+					                 }**/
 					             },
 					             data: data
 					         }

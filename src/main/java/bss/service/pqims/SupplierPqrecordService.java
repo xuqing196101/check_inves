@@ -4,6 +4,7 @@
 package bss.service.pqims;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import net.sf.jsqlparser.statement.delete.Delete;
@@ -26,7 +27,7 @@ public interface SupplierPqrecordService {
 	/**
 	 * 1.获取所有
 	 */
-	List<SupplierPqrecord> getAll(Integer pageNum);
+	List<SupplierPqrecord> getAll(HashMap<String, Object> map);
 	
 	List<SupplierPqrecord> selectAll();
 	

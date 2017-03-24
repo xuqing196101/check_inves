@@ -23,6 +23,9 @@ function openProject(id,contractId){
 function openPlan(id,contractId){
 	location.href="${pageContext.request.contextPath }/contractSupervision/planList.html?id="+id+"&contractId="+contractId;
 }
+function openDemand(id,contractId){
+	location.href="${pageContext.request.contextPath }/contractSupervision/demandList.html?id="+id+"&contractId="+contractId;
+}
 </script>
 </head>
 
@@ -53,12 +56,13 @@ function openPlan(id,contractId){
 				</tr>
 				<tr>
 					<td class="h365 tc">
-					<c:forEach items="${lists}" var="obj">
+					<img alt="" onclick="openDemand('${project.id}','${contract.id}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png"> 
+					<%-- <c:forEach items="${lists}" var="obj">
 		              <p class="ml20 tl">需求部门：${obj.department}</p>
 		              <p class="ml20 tl">需求名称：${obj.planName}</p>
 		              <p class="ml20 tl">编报时间：<fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
 		              <p class="ml20 tl">联系人：${obj.userId}</p>
-		            </c:forEach>
+		            </c:forEach> --%>
 					</td>
 					<td class="h365 tc">
 					 <img alt="" onclick="openPlan('${project.id}','${contract.id}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png"> 

@@ -3,8 +3,11 @@ package sums.controller.ss;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
@@ -339,14 +342,14 @@ public class ContractSupervisionController {
 				HashMap<String, Object> hashMap=new HashMap<String, Object>();
 				Packages pack = packageService.selectByPrimaryKeyId(chp.getPackageId());
 				hashMap.put("packageId", pack.getId());
-				List<ProjectDetail> projectDetails = detailService.selectById(hashMap);
+				List<ProjectDetail> projectDetails = detailService.selectByPackageId(pack.getId());
 				if(projectDetails!=null&&projectDetails.size()>0){
 					for(ProjectDetail projectDetail:projectDetails){
 						DictionaryData type = dictionaryDataServiceI.getDictionaryData(projectDetail.getPurchaseType());
 						if(type!=null){
 					    	projectDetail.setPurchaseType(type.getName());
 					    }else{
-					    	projectDetail.setPurchaseType(type.getName());
+					    	projectDetail.setPurchaseType("");
 					    }
 					}
 				}
@@ -360,7 +363,213 @@ public class ContractSupervisionController {
 	
 	@RequestMapping(value="planList",produces="text/html;charset=UTF-8")
 	public String planList(Model model, String id,String contractId){
+		List<CollectPlan> list = new ArrayList<CollectPlan>();
+		List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
+		Set<String> set=new HashSet<String>();   
+		if(checkPass!=null&&checkPass.size()>0){
+			   for(SupplierCheckPass pass:checkPass){
+				   HashMap<String, Object> hashMap=new HashMap<String, Object>();
+				   hashMap.put("packageId", pass.getPackageId());
+					List<ProjectDetail> projectDetails = detailService.selectById(hashMap);
+					if(projectDetails!=null&&projectDetails.size()>0){
+						for(ProjectDetail projectDetail:projectDetails){
+							PurchaseDetail queryById = purchaseDetailService.queryById(projectDetail.getRequiredId());
+							if(queryById!=null){
+								set.add(queryById.getUniqueId());
+							}
+						}
+					}
+			   }
+		   }
+		Iterator<String> it=set.iterator();
+		   while (it.hasNext()) {  
+			  String str = it.next();  
+			  CollectPlan collectPlan = collectPlanService.queryById(str);
+			  list.add(collectPlan);
+			}  
+        if (list != null && list.size() > 0) {
+            for (int i = 0; i < list.size(); i++ ) {
+                try {
+                    User user = userService.getUserById(list.get(i).getUserId());
+                    list.get(i).setUserId(user.getRelName());
+                    list.get(i).setPurchaseId(user.getOrgName());
+                } catch (Exception e) {
+                	list.get(i).setUserId("");
+                }
+            }
+        }
+        model.addAttribute("list", list);
+        model.addAttribute("contractId", contractId);
 		return "sums/ss/contractSupervision/planList";
 	}
 	
+	@RequestMapping(value="planDateil",produces="text/html;charset=UTF-8")
+	public String planDateil(Model model, String id,String contractId){
+		CollectPlan collectPlan = collectPlanService.queryById(id);
+		User user = userService.getUserById(collectPlan.getUserId());
+		collectPlan.setUserId(user.getRelName());
+		List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
+		List<PurchaseDetail> details=new ArrayList<PurchaseDetail>();
+		List<PurchaseDetail> deta=new ArrayList<PurchaseDetail>();
+		if(checkPass!=null&&checkPass.size()>0){
+			   for(SupplierCheckPass pass:checkPass){
+				   HashMap<String, Object> hashMap=new HashMap<String, Object>();
+				   hashMap.put("packageId", pass.getPackageId());
+				   List<ProjectDetail> projectDetails = detailService.selectById(hashMap);
+				   if(projectDetails!=null&&projectDetails.size()>0){
+						for(ProjectDetail projectDetail:projectDetails){
+							PurchaseDetail queryById = purchaseDetailService.queryById(projectDetail.getRequiredId());
+		                    details.add(queryById);
+						}
+					}
+			   }
+			   
+			List<PurchaseDetail> pdetails = purchaseDetailService.getUnique(id);
+			deta=listdata(pdetails, details);
+            model.addAttribute("list", deta);
+            model.addAttribute("kind", DictionaryDataUtil.find(5));
+            model.addAttribute("plan", collectPlan);
+		}
+		return "sums/ss/contractSupervision/planDateil";
+	}
+	@RequestMapping(value="demandList",produces="text/html;charset=UTF-8")
+	public String demandList(Model model, String id,String contractId){
+		List<CollectPlan> list = new ArrayList<CollectPlan>();
+		List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
+		List<PurchaseDetail> details=new ArrayList<PurchaseDetail>();
+		List<PurchaseDetail> deta=new ArrayList<PurchaseDetail>();
+		List<PurchaseRequired> purchaseRequireds = new ArrayList<PurchaseRequired>();
+		Set<String> set=new HashSet<String>();   
+		if(checkPass!=null&&checkPass.size()>0){
+			   for(SupplierCheckPass pass:checkPass){
+				   HashMap<String, Object> hashMap=new HashMap<String, Object>();
+				   hashMap.put("packageId", pass.getPackageId());
+					List<ProjectDetail> projectDetails = detailService.selectById(hashMap);
+					if(projectDetails!=null&&projectDetails.size()>0){
+						for(ProjectDetail projectDetail:projectDetails){
+							PurchaseDetail queryById = purchaseDetailService.queryById(projectDetail.getRequiredId());
+							details.add(queryById);
+							if(queryById!=null){
+								set.add(queryById.getUniqueId());
+							}
+						}
+					}
+			   }
+		   }
+		Iterator<String> it=set.iterator();
+		   while (it.hasNext()) {  
+			  String str = it.next();  
+			  List<PurchaseDetail> pdetails = purchaseDetailService.getUnique(str);
+			  deta.addAll(listdata(pdetails, details));
+			}  
+        for(int i=0;i<deta.size();i++){
+        	 if("1".equals(deta.get(i).getParentId())){
+                 PurchaseRequired required = requiredService.queryById(deta.get(i).getId());
+                 purchaseRequireds.add(required);
+             } 
+        }
+        if (purchaseRequireds != null && purchaseRequireds.size() > 0) {
+            for (int i = 0; i < purchaseRequireds.size(); i++ ) {
+                try {
+                    User user = userService.getUserById(purchaseRequireds.get(i).getUserId());
+                    purchaseRequireds.get(i).setUserId(user.getRelName());
+                } catch (Exception e) {
+                	purchaseRequireds.get(i).setUserId("");
+                }
+            }
+        }
+        model.addAttribute("list", purchaseRequireds);
+        model.addAttribute("contractId", contractId);
+		return "sums/ss/contractSupervision/demandList";
+	}
+	@RequestMapping(value="demandDateil",produces="text/html;charset=UTF-8")
+	public String demandDateil(Model model, String id,String contractId){
+		 PurchaseRequired required = requiredService.queryById(id);
+		 if(required!=null){
+			 User user = userService.getUserById(required.getUserId());
+			 required.setUserId(user.getRelName());
+		 }
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		map.put("id", id);
+		List<PurchaseRequired> purchaseRequireds = requiredService.selectByParentId(map);
+		List<PurchaseRequired> data=new ArrayList<PurchaseRequired>();
+		List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
+		List<PurchaseDetail> details=new ArrayList<PurchaseDetail>();
+		Set<String> set=new HashSet<String>();   
+		if(checkPass!=null&&checkPass.size()>0){
+			   for(SupplierCheckPass pass:checkPass){
+				   HashMap<String, Object> hashMap=new HashMap<String, Object>();
+				   hashMap.put("packageId", pass.getPackageId());
+					List<ProjectDetail> projectDetails = detailService.selectById(hashMap);
+					if(projectDetails!=null&&projectDetails.size()>0){
+						for(ProjectDetail projectDetail:projectDetails){
+							PurchaseDetail queryById = purchaseDetailService.queryById(projectDetail.getRequiredId());
+							details.add(queryById);
+						}
+					}
+			   }
+		   }
+		
+		if(purchaseRequireds != null && purchaseRequireds.size() > 0&&details!=null&&details.size()>0){
+        	for(int i=0;i<purchaseRequireds.size();i++){
+        		for(int j=0;j<details.size();j++){
+        			if("1".equals(purchaseRequireds.get(i).getParentId())){
+        				data.add(purchaseRequireds.get(i));
+        			}
+        			if(purchaseRequireds.get(i).getId().equals(details.get(j).getId())){
+        				data.add(purchaseRequireds.get(i));
+        			}
+        		}
+        	}
+        }
+		
+		for (int i = 0; i < data.size() - 1; i++ ) {
+            for (int j = data.size() - 1; j > i; j-- ) {
+                if (data.get(j).getId().equals(data.get(i).getId())) {
+                	data.remove(j);
+                }
+            }
+        }
+		model.addAttribute("list", data);
+		model.addAttribute("demand", required);
+		return "sums/ss/contractSupervision/demandDateil";
+	}
+	
+	
+	public List<PurchaseDetail> listdata(List<PurchaseDetail> pdetails,List<PurchaseDetail> details){
+		List<PurchaseDetail> deta=new ArrayList<PurchaseDetail>();
+		if(pdetails != null && pdetails.size() > 0){
+        	for(int i=0;i<pdetails.size();i++){
+        		for(int j=0;j<details.size();j++){
+        			if(pdetails.get(i).getPurchaseCount()==null){
+        				deta.add(pdetails.get(i));
+        			}
+        			if(pdetails.get(i).getId().equals(details.get(j).getId())){
+        				deta.add(pdetails.get(i));
+        			}
+        		}
+        	}
+        }
+        for (int i = 0; i < deta.size() - 1; i++ ) {
+            for (int j = deta.size() - 1; j > i; j-- ) {
+                if (deta.get(j).getId().equals(deta.get(i).getId())) {
+                	deta.remove(j);
+                }
+            }
+        }
+        for(int i=0;i<deta.size();i++){
+        	if(i==0||i==1){
+        		continue;
+        	}
+        	if(i!=(deta.size()-1)){
+        		if(deta.get(i).getPurchaseCount()==null&&deta.get(i+1).getPurchaseCount()==null){
+        			deta.remove(i);
+	        	}
+        	}
+        		if(deta.get(deta.size()-1).getPurchaseCount()==null){
+        			deta.remove(deta.size()-1);
+        		}
+        }
+        return deta;
+	}
 }
