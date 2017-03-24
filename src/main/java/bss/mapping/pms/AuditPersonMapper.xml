@@ -195,7 +195,7 @@
     <include refid="Base_Column_List" />
     from T_BSS_PMS_AUDIT_PERSON
     where 1=1
-    <if test="auditRound != null">
+    <if test="collectId != null">
      and COLLECT_ID = #{collectId} 
     </if>
     <if test="type != null">

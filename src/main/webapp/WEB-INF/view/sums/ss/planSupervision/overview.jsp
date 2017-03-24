@@ -165,16 +165,16 @@
 	                  </tr>
 	                </thead>
 	                <tbody>
-	                  <tr>
-	                    <td class="tc">
-	                      <u:show showId="upload_id" businessId="${advancedProjectId}" sysKey="2" delete="false" typeId="${adviceId}" />
-	                    </td>
-	                    <td>${task.orgId}</td>
-	                    <td>${task.createrId}</td>
-	                    <td>
-	                      <fmt:formatDate value='${task.giveTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-	                    </td>
-	                  </tr>
+	                  <c:forEach items="${listAuditPerson}" var="obj" varStatus="vs">
+	                    <tr>
+	                      <td class="tc">第${(vs.index+1)}轮</td>
+	                      <td>${obj.name}</td>
+	                      <td><button class="btn" onclick="viewDemand();" type="button">查看</button> </td>
+	                      <td>
+	                        <fmt:formatDate value='${obj.createDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+	                      </td>
+	                    </tr>
+	                  </c:forEach>
 	                </tbody>
 	              </table>
               </c:when>
