@@ -7,7 +7,7 @@
     <result column="DELIVERY_DEADLINE" property="deliveryDeadline" jdbcType="TIMESTAMP" />
     <result column="DELIVERY_ADDRESS" property="deliveryAddress" jdbcType="VARCHAR" />
     <result column="TRADED_SUPPLIER_COUNT" property="tradedSupplierCount" jdbcType="DECIMAL" />
-    <result column="TRANSPORT_FEES" property="transportFees" jdbcType="DECIMAL" />
+    <result column="TRANSPORT_FEES" property="transportFees" jdbcType="VARCHAR" />
     <result column="DEMAND_UNIT" property="demandUnit" jdbcType="VARCHAR" />
     <result column="CONTACT_NAME" property="contactName" jdbcType="VARCHAR" />
     <result column="START_TIME" property="startTime" jdbcType="TIMESTAMP" />
@@ -188,7 +188,7 @@
       FORM_ID, TURNOVER_RATION, CREATED_AT, 
       UPDATED_AT,ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL)
     values (#{id,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, #{deliveryDeadline,jdbcType=TIMESTAMP}, 
-      #{deliveryAddress,jdbcType=VARCHAR}, #{tradedSupplierCount,jdbcType=DECIMAL}, #{transportFees,jdbcType=DECIMAL}, 
+      #{deliveryAddress,jdbcType=VARCHAR}, #{tradedSupplierCount,jdbcType=DECIMAL}, #{transportFees,jdbcType=VARCHAR}, 
       #{demandUnit,jdbcType=VARCHAR}, #{contactName,jdbcType=VARCHAR}, #{startTime,jdbcType=TIMESTAMP}, 
       #{endTime,jdbcType=TIMESTAMP}, #{content	,jdbcType=VARCHAR}, #{attachmentId,jdbcType=VARCHAR}, 
       #{remark,jdbcType=VARCHAR}, #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, 
@@ -314,7 +314,7 @@
         #{tradedSupplierCount,jdbcType=DECIMAL},
       </if>
       <if test="transportFees != null" >
-        #{transportFees,jdbcType=DECIMAL},
+        #{transportFees,jdbcType=VARCHAR},
       </if>
       <if test="demandUnit != null" >
         #{demandUnit,jdbcType=VARCHAR},
@@ -407,7 +407,7 @@
         TRADED_SUPPLIER_COUNT = #{record.tradedSupplierCount,jdbcType=DECIMAL},
       </if>
       <if test="record.transportFees != null" >
-        TRANSPORT_FEES = #{record.transportFees,jdbcType=DECIMAL},
+        TRANSPORT_FEES = #{record.transportFees,jdbcType=VARCHAR},
       </if>
       <if test="record.demandUnit != null" >
         DEMAND_UNIT = #{record.demandUnit,jdbcType=VARCHAR},
@@ -461,7 +461,7 @@
       DELIVERY_DEADLINE = #{record.deliveryDeadline,jdbcType=TIMESTAMP},
       DELIVERY_ADDRESS = #{record.deliveryAddress,jdbcType=VARCHAR},
       TRADED_SUPPLIER_COUNT = #{record.tradedSupplierCount,jdbcType=DECIMAL},
-      TRANSPORT_FEES = #{record.transportFees,jdbcType=DECIMAL},
+      TRANSPORT_FEES = #{record.transportFees,jdbcType=VARCHAR},
       DEMAND_UNIT = #{record.demandUnit,jdbcType=VARCHAR},
       CONTACT_NAME = #{record.contactName,jdbcType=VARCHAR},
       START_TIME = #{record.startTime,jdbcType=TIMESTAMP},
@@ -495,7 +495,7 @@
         TRADED_SUPPLIER_COUNT = #{tradedSupplierCount,jdbcType=DECIMAL},
       </if>
       <if test="transportFees != null" >
-        TRANSPORT_FEES = #{transportFees,jdbcType=DECIMAL},
+        TRANSPORT_FEES = #{transportFees,jdbcType=VARCHAR},
       </if>
       <if test="demandUnit != null" >
         DEMAND_UNIT = #{demandUnit,jdbcType=VARCHAR},
@@ -551,7 +551,7 @@
       DELIVERY_DEADLINE = #{deliveryDeadline,jdbcType=TIMESTAMP},
       DELIVERY_ADDRESS = #{deliveryAddress,jdbcType=VARCHAR},
       TRADED_SUPPLIER_COUNT = #{tradedSupplierCount,jdbcType=DECIMAL},
-      TRANSPORT_FEES = #{transportFees,jdbcType=DECIMAL},
+      TRANSPORT_FEES = #{transportFees,jdbcType=VARCHAR},
       DEMAND_UNIT = #{demandUnit,jdbcType=VARCHAR},
       CONTACT_NAME = #{contactName,jdbcType=VARCHAR},
       START_TIME = #{startTime,jdbcType=TIMESTAMP},

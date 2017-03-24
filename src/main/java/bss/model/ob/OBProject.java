@@ -42,7 +42,7 @@ public class OBProject {
     /**
      * @Fields transportFees : 运杂费
      */
-    private BigDecimal transportFees;
+    private String transportFees;
     /**
      * @Fields demandUnit : 需求单位
      */
@@ -315,11 +315,11 @@ public class OBProject {
         this.tradedSupplierCount = tradedSupplierCount;
     }
 
-    public BigDecimal getTransportFees() {
+    public String getTransportFees() {
         return transportFees;
     }
 
-    public void setTransportFees(BigDecimal transportFees) {
+    public void setTransportFees(String transportFees) {
         this.transportFees = transportFees;
     }
 
