@@ -225,7 +225,7 @@ public class CollectPlanController extends BaseController {
 		 * @throws
 		  */
     @RequestMapping("/add")
-    public String queryCollect(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType,HttpServletRequest request) {
+    public String updateCollectPlan(@CurrentUser User user,CollectPlan collectPlan,String uniqueId,String goodsType,HttpServletRequest request) {
     PurchaseRequired p = new PurchaseRequired();
     List<PurchaseRequired> list = new LinkedList<PurchaseRequired>();
     List<String> ulist=new ArrayList<String>();

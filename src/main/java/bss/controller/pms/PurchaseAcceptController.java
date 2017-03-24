@@ -261,7 +261,7 @@ public class PurchaseAcceptController extends BaseController{
     * @throws
      */
     @RequestMapping("/update")
-    public String submit(@CurrentUser User user,PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history,String planNo){
+    public String updateSubmit(@CurrentUser User user,PurchaseRequiredFormBean list,String reason,HttpServletRequest request,String status,String history,String planNo){
     	
     	String id="";
 //    	User user = (User) request.getSession().getAttribute("loginUser");
