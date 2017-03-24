@@ -54,8 +54,6 @@
 			    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  </tr>
 			  <tr>
-			    <td class="info"><b>运杂费</b></td>
-			    <td>${ transportFees }</td>
 			    <td class="info"><b>参与供应商数</b></td>
 			    <td>
 			    	<c:if test="${obProject.qualifiedSupplier==0}">
@@ -68,12 +66,12 @@
 				   		 ${obProject.qualifiedSupplier}
 				 	</c:if>
 			    </td>
+			    <td class="info"><b>运杂费</b></td>
+			    <td>${ transportFees }</td>
 			  </tr>
 			  <tr>
-			    <td class="info"><b>运杂费</b></td>
-			    <td></td>
-			    <td class="tl"><b>成交供应商数</b></td>
-			    <td class="tl">
+			    <td class="info"><b>成交供应商数</b></td>
+			    <td>
 				    <c:if test="${obProject.closingSupplier==0}">
 			   			0
 			  		</c:if>
@@ -83,19 +81,27 @@
 			   		<c:if test="${obProject.closingSupplier!=0}">
 			   			${obProject.closingSupplier}
 			  		</c:if>
-				 </td>
+				</td>
+			    <td class="info"><b>采购机构</b></td>
+			    <td>${ orgName }</td>
 			  </tr>
 			  <tr>
 			    <td class="info"><b>需求单位</b></td>
 			    <td>${ demandUnit }</td>
-			    <td class="info"><b>联系人：</b>${ obProject.contactName }</td>
-			    <td class="info"><b>联系电话：</b>${ obProject.contactTel }</td>
+			    <td class="info"><b>采购联系人：</b></td>
+			    <td>${ obProject.orgContactName }</td>
 			  </tr>
 			  <tr>
-			    <td class="info"><b>采购机构</b></td>
-			    <td>${ orgName }</td>
-			    <td class="info"><b>采购联系人：</b>${ obProject.orgContactName }</td>
-			    <td class="info"><b>联系电话：</b>${ obProject.orgContactTel }</td>
+			    <td class="info"><b>需求联系人</b></td>
+			    <td>${ obProject.contactName }</td>
+			    <td class="info"><b>采购联系电话</b></td>
+			    <td>${ obProject.orgContactTel }</td>
+			  </tr>
+			  <tr>
+			    <td class="info"><b>需求联系电话</b></td>
+			    <td>${ obProject.contactTel }</td>
+			    <td class="info"><b></b></td>
+			    <td></td>
 			  </tr>
 			  <tr>
 			    <td class="info"><b>竞价开始时间</b></td>
@@ -109,16 +115,18 @@
 			  </tr>
 			  <tr>
 			    <td class="info"><b>竞价文件</b></td>
-			    <td>
+			    <td colspan="3">
 			    <c:if test="${ !empty uploadFiles  }">
 			    	<c:forEach items="${ uploadFiles }" var="file">
 			     		${ file.name } <button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
+			     		
 			     		<br />
 			       	</c:forEach>
 			     </c:if>
 			     <c:if test="${ empty uploadFiles  }">
 			     	无
 			     </c:if>
+			     </td>
 			  </tr>
 			 </tbody>
 		 </table>
