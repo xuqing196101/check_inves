@@ -960,6 +960,17 @@
 						<div class="cue" id="err_msg_healthState"></div>
                     </div>
                 </li>
+                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
+                        class="red">*</i> 手机</span>
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input maxlength="15" value="${user.mobile}"  name="mobile" id="mobile"
+                               type="text"
+                               <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;"
+                               onmouseover="errorMsg('手机')"</c:if>/>
+                        <span class="add-on">i</span>
+                        <span class="input-tip">11位数字</span>
+                    </div>
+                </li>
 
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 居民身份证号码</span>
@@ -1006,10 +1017,14 @@
                         </div>
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
-                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> <span id="sbzm">退休证书或退休证明</span></span>
+                            class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 
+                            <span id="sbzm">
+                            	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
+                            	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
+                            </span>
                         <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
-                             <c:if test="${fn:contains(errorField,'退休证书或退休证明')}">style="border: 1px solid #ef0000;"
-                             onmouseover="errorMsg('退休证书或退休证明')"</c:if>>
+                             <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
+                             onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
                                 <%--图片的大小   图片的类型  --%>
                             <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
                                       exts="${properties['file.picture.type']}" id="expert1" maxcount="1"
@@ -1096,21 +1111,6 @@
                     </li>
                 </c:if>
 
-
-
-
-
-                <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
-                        class="red">*</i> 手机</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input maxlength="15" value="${user.mobile}"  name="mobile" id="mobile"
-                               type="text"
-                               <c:if test="${fn:contains(errorField,'手机')}">style="border: 1px solid #ef0000;"
-                               onmouseover="errorMsg('手机')"</c:if>/>
-                        <span class="add-on">i</span>
-                        <span class="input-tip">11位数字</span>
-                    </div>
-                </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 固定电话</span>
                     <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
