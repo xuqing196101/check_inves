@@ -1254,7 +1254,9 @@ public class SupplierAuditController extends BaseSupplierController {
 	        supplier.setLevelScoreProduct(SupplierLevelUtil.getScore(supplier.getId(), "PRODUCT"));
 	        supplier.setLevelScoreSales(SupplierLevelUtil.getScore(supplier.getId(), "SALES"));
 	        supplier.setLevelScoreService(SupplierLevelUtil.getScore(supplier.getId(), "SERVICE"));
-	        supplierService.updateSupplierProcurementDep(supplier);
+	        if(supplier.getProcurementDepId() != null){
+	        	supplierService.updateSupplierProcurementDep(supplier);
+	        }
 		}
 		
 		//更新待办
@@ -2793,8 +2795,10 @@ public class SupplierAuditController extends BaseSupplierController {
 	public String auditNotReason(String supplierId, Model model) {
 		Supplier supplier = supplierAuditService.supplierById(supplierId);
 		SupplierAuditNot supplierAuditNot = new SupplierAuditNot();
-		supplierAuditNot.setCreditCode(supplier.getCreditCode());
-		supplierAuditNot = supplierAuditNotService.selectByPrimaryKey(supplierAuditNot);
+		if(supplier.getCreditCode() != null){
+			supplierAuditNot.setCreditCode(supplier.getCreditCode());
+			supplierAuditNot = supplierAuditNotService.selectByPrimaryKey(supplierAuditNot);
+		}
 		if(supplierAuditNot != null) {
 			return supplierAuditNot.getReason();
 		}
