@@ -145,10 +145,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 						obp.setClosingSupplier(closingSupplier);
 						
 						// 获取  供应商数量
-						Integer qualifiedSupplier = OBSupplierMapper
-								.countByProductId2(maps);
-						if(qualifiedSupplier==null){
-							qualifiedSupplier=0;
+						List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
+						Integer qualifiedSupplier =0;
+						if(sulist!=null&&sulist.size()>0){
+							qualifiedSupplier=sulist.size();
 						}
 						obp.setQualifiedSupplier(qualifiedSupplier);
 					}
@@ -485,7 +485,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 	private void addSupplier(OBProject obProject,String uuid, int i) {
 			OBProjectSupplier supplier = null;
 			Map<String,Object> map=new HashMap<String, Object>();
-			map.put("list", obProject.getProductName());
+			map.put("productId", obProject.getProductName());
 			List<OBSupplier> supList= OBSupplierMapper.selectSupplierByID(map);
 			   for(OBSupplier os:supList){
 				   supplier = new OBProjectSupplier();
@@ -493,6 +493,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							.replace("-", ""));
 					supplier.setCreatedAt(new Date());
 					supplier.setProjectId(uuid);
+					supplier.setSupplierPrimaryId(os.getId());
 					if (i == 1) {
 						supplier.setUpdatedAt(new Date());
 					}
@@ -630,10 +631,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 		List<OBProject> list = OBprojectMapper.selectData(map);
 		if (list != null) {
 			for (OBProject obp : list) {
-				if(obp.getStatus()!=0){
+				
 				// 获取产品集合
-				List<OBProductInfo> slist = OBProductInfoMapper
-						.selectByProjectId(obp.getId());
+				List<OBProductInfo> slist = OBProductInfoMapper.selectByProjectId(obp.getId());
 				// 存储 产品id 集合
 				List<String> pidList = new ArrayList<String>();
 				if (slist != null) {
@@ -642,22 +642,20 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					Map<String, Object> maps = new HashMap<String, Object>();
 					maps.put("list", pidList);
+					Integer closingSupplier=0;
+					if(obp.getStatus()!=0){
 					// 获取 中标供应商 数量
-					Integer closingSupplier = OBProjectResultMapper.countProportion(obp.getId());
+						closingSupplier = OBProjectResultMapper.countProportion(obp.getId());
 					obp.setProductName(pidList);
-					if(closingSupplier==null){
-						closingSupplier=0;
 					}
 					obp.setClosingSupplier(closingSupplier);
-					
 					// 获取  供应商数量
-					Integer qualifiedSupplier = OBSupplierMapper
-							.countByProductId2(maps);
-					if(qualifiedSupplier==null){
-						qualifiedSupplier=0;
+					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
+					Integer qualifiedSupplier =0;
+					if(sulist!=null&&sulist.size()>0){
+						qualifiedSupplier=sulist.size();
 					}
 					obp.setQualifiedSupplier(qualifiedSupplier);
-				}
 				}
 			}
 		}

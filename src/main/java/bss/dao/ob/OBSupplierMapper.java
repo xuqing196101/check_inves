@@ -79,21 +79,6 @@ public interface OBSupplierMapper {
 
 	List<OBSupplier> selectByProductId2(@Param("productId") String productId,
 			@Param("supplierName") String supplierName,@Param("smallPointsName")String smallPointsName,@Param("smallPointsId")String smallPointsId);
-
-	/**
-	 * 
-	 * Description:  证书未过期
-	 * 
-	 * @author YangHongLoang
-	 * @version 2017年3月8日
-	 * @param @param map
-	 * @param @return
-	 * @return int
-	 * @exception
-	 */
-
-	Integer countByProductId2(Map<String, Object> map);
-
 	/**
 	 * 
 	 * Description: 查询产品对应的合格供应商数量

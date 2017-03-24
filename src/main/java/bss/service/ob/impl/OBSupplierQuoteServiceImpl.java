@@ -32,6 +32,7 @@ import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
 import bss.model.ob.OBRule;
+import bss.model.ob.OBSupplier;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
 import common.constant.Constant;
@@ -59,6 +60,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 
 	@Autowired
 	private OBProductMapper obProductMapper;
+	
+	@Autowired
+	private OBSupplierMapper OBSupplierMapper;
 
 	// 注入采购机构Mapper
 	@Autowired
@@ -140,10 +144,10 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					}
 					obProject.setClosingSupplier(closingSupplier);
 					// 获取 供应商数量
-					Integer qualifiedSupplier = obSupplierMapper
-							.countByProductId2(maps);
-					if (qualifiedSupplier == null) {
-						qualifiedSupplier = 0;
+					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
+					Integer qualifiedSupplier =0;
+					if(sulist!=null&&sulist.size()>0){
+						qualifiedSupplier=sulist.size();
 					}
 					obProject.setQualifiedSupplier(qualifiedSupplier);
 				}

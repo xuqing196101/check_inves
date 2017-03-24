@@ -161,6 +161,7 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
+		  <th class="info">竞价项目编号</th>
 		  <th class="info" width="30%">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">中标供应商数量</th>
@@ -172,6 +173,7 @@
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 		  <td class="tc w50">${(v.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+		  <td class="tl">${list.projectNumber}</td>
 		  <td class="tl"><a onclick="releaseHref('${list.id}')" style="cursor:pointer "/> ${list.name}</a></td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		  <td class="tc">
