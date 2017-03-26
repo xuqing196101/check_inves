@@ -347,7 +347,7 @@
   <!-- 去重复供应商 根据参数 获取成交供应商数量  -->
   <select id="countByStatus" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
-    where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS=1
+    where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS!=-1
   </select>
     <!-- 去重复供应商 根据参数  获取中标供应商数量  -->
   <select id="countProportion" parameterType="java.lang.String" resultType="java.lang.Integer" >
