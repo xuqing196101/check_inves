@@ -161,15 +161,26 @@
 				   layer.alert("对不起，您未报价不能确认结果 ！");
 				   return;
 			   }
-			   // 第二轮确认结束
+			   
+			   
+			   // 第一轮确认时：点击放弃按钮
 			   if(status == '5' && remark == '3'){
-				   layer.alert("您已确认结束 ！");
+				   layer.alert("您已放弃第一轮确认结果 ！");
 				   return;
 			   }
-			   // 开始确认结果
-			   if(status == '5' && remark == '1'){
+			   // 第一轮确认时：点击全接受
+			   if(remark != '5' || remark != '4'){
+				   layer.alert("第一轮确认时间未结束，不能进入第二轮！");
+				   return;
+			   }	
+			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
+			   if(status == '6' && remark == '5'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 			   }
+			   if(status == '6' && remark == '4'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+			   }
+			   
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
 	            offset: ['222px', '255px'],
@@ -307,7 +318,10 @@
 				  	流拍
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
-			  		待确认
+			  		第一轮待确认
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
+			  		第二轮待确认
 			  	</c:if>
 			  </td>
 			 <%--  <td class="tc">
