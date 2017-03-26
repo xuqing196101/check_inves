@@ -283,6 +283,7 @@
         	AND P.CREATED_AT = #{createTime}
       	</if>
       	AND P.STATUS <![CDATA[ <> ]]> 0
+      	ORDER BY P.CREATED_AT DESC
   </select>
   <update id="updateByCondition" parameterType="map" >
     UPDATE T_BSS_OB_PROJECT_SUPPLIER

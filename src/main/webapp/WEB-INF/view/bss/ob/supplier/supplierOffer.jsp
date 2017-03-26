@@ -170,16 +170,18 @@
 			<thead>
 			<tr>
 			  <th class="w30 info"><input alt="" type="checkbox"></th>
+			  <th class="info">序号</th>
 			  <th class="info">定型产品名称</th>
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
-			  <th class="info" width="10px">报价</th>
+			  <th class="info" width="10px">报价（元）</th>
 			  <th class="info">总价（元）</th>
 			  <th class="info">备注信息</th>
 			</tr>
 			</thead>
 			<tr>
 			  <td class="tc"><input type="checkbox" alt=""></td>
+			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
 			  <td class="tc" id="totalPrice"></td>
 			  <td class="tc"></td>
@@ -191,6 +193,7 @@
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].limitPrice" value="${ productInfo.limitedPrice }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].remark" value="${ productInfo.remark }">
 				  <td class="tc"><input type="checkbox" alt=""></td>
+				  <td class="tc">${ vs.index + 1 }</td>
 				  <td class="tc">${ productInfo.obProduct.name }</td>
 				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>

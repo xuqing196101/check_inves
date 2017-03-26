@@ -88,6 +88,7 @@
 		</c:forEach>
 		</tbody>
 		</table>
+		<%-- <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %> --%>
     </div>
       <!-- <div id="pagediv" align="right"></div> -->
     	<div id="pagediv" align="right"></div>

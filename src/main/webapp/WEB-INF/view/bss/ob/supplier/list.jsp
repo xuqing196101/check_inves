@@ -25,6 +25,7 @@
 	        }
 	      }
 	    });
+	    
 	  });
 	/** 全选全不选 */
 	function selectAll(){
@@ -185,12 +186,12 @@
 		//	4.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面
 		//	5.第二轮结果已确认查看的是第二轮结果确认页面】
 		function findIssueInfo(pId,pStatus,pRemark) {
-			// 竞价未开始、已流拍状态
+			// 1.竞价未开始、已流拍状态
 			if(pStatus == 1 || pStatus == 4 || pRemark == '0' || pRemark == '2'){
 				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
 		    }
 			
-			// 待确认状态查看的信息
+			// 2.待确认状态查看的信息
 			if(pStatus == 2 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
@@ -198,10 +199,17 @@
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
-			// 竞价结束
+			// 3.第一轮放弃查看的是报价信息页面
+			if(pRemark == '3'){
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?id="+pId;
+			}
+			
+			// 4.竞价结束
 			if(pStatus == 3){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
+			
+			
 	    }
 </script>
 </head>
@@ -270,6 +278,21 @@
 			  <td class="tc">
 			  	<c:if test="${ obProject.obProjectList[0].status == 1 }">
 			  		竞价未开始
+			  		<!-- 报价开始倒计时
+			  		<br />
+			  		<script type="text/javascript">
+			  			function getRTime(){
+				  			var startTime = new Date("${ obProject.obProjectList[0].startTime }").getTime();
+				  			var sysTime = new Date("sysNowTime").getTime();
+				  			var t = startTime - startTime;
+				  			if(t > 0) {
+								var h = Math.floor(t/1000/60/60%24);
+								var m = Math.floor(t/1000/60%60);
+								var s = Math.floor(t/1000%60);
+								$("#confirmCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
+							}
+			  			}
+			  		</script> -->
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 }">
 			  		报价中

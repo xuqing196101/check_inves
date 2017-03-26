@@ -115,6 +115,9 @@ public class OBSupplierQuoteController {
 		// 竞价发布时间回显
 		model.addAttribute("name", name);
 		model.addAttribute("createTimeStr", createTimeStr);
+		// 获取系统时间
+		Date date = new Date();
+		model.addAttribute("sysNowTime", date);
 		return "bss/ob/supplier/list";
 	}
 
@@ -466,9 +469,10 @@ public class OBSupplierQuoteController {
 					BigDecimal limitPrice = productInfo.getMyOfferMoney();
 					BigDecimal signalCount = null;
 					if (signalCountInt != null && limitPrice != null) {
-						/** 单个商品的总金额=现价 *采购数量 **/
+						/** 单个商品的总金额=报价 *采购数量 **/
 						signalCount = new BigDecimal(signalCountInt);
 						BigDecimal multiply = limitPrice.multiply(signalCount);
+						productInfo.setDealMoney(multiply);
 						/** 累加得到总计 **/
 						totalCountPriceBigDecimal = multiply.add(
 								new BigDecimal(Double
@@ -494,5 +498,30 @@ public class OBSupplierQuoteController {
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		}
 		return "bss/ob/supplier/findQuotoIssueInfo";
+	}
+	
+	/**
+	 * 
+	* @Title: findBiddingResult 
+	* @Description: 查询竞价结果
+	* @author Easong
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/findBiddingResult")
+	public String findBiddingResult(Model model, HttpServletRequest request){
+		// 获取标题id
+		String projectId = request.getParameter("id");
+		
+		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
+		List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(projectId);
+		List<OBProductInfo> plist=obProductInfoMapper.getProductName(projectId);
+		for(OBProjectResult s:resultList){
+			s.setProductInfo(plist);
+		}
+		model.addAttribute("selectInfoByPID", resultList);
+		model.addAttribute("plist", plist);
+		return "bss/ob/biddingSpectacular/result";
 	}
 }

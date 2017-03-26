@@ -76,6 +76,7 @@
 			<thead>
 			<tr>
 			  <th class="w30 info"><input alt="" type="checkbox"></th>
+			  <th class="info">序号</th>
 			  <th class="info">定型产品名称</th>
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
@@ -85,6 +86,7 @@
 			</thead>
 			<tr>
 			  <td class="tc"><input type="checkbox" alt=""></td>
+			  <td class="tc"></td>
 			  <td class="tc" colspan="3">合计</td>
 			  <td class="tc">${ totalCountPriceBigDecimal }</td>
 			  <td class="tc"></td>
@@ -93,6 +95,8 @@
 				<tr>
 				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name } </td>
+				  <td class="tc">${ vs.index + 1 }</td>
+				  <td class="tc">${ productInfo.obProduct.name }</td>
 				  <td class="tc">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc">${ productInfo.totalMoney }</td>
