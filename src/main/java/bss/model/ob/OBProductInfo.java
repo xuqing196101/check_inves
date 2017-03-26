@@ -34,6 +34,9 @@ public class OBProductInfo {
     
     /**单个商品的总金额=现价 *采购数量**/
 	private BigDecimal totalMoney;
+	
+	/**显示￥100,000,00样式**/
+	private String totalMoneyStr;
     
     public OBProject getObProject() {
 		return obProject;
@@ -147,6 +150,13 @@ public class OBProductInfo {
 	public void setTotalMoney(BigDecimal totalMoney) {
 		this.totalMoney = totalMoney;
 	}
-    
+
+	public String getTotalMoneyStr() {
+		return totalMoneyStr;
+	}
+
+	public void setTotalMoneyStr(String totalMoneyStr) {
+		this.totalMoneyStr = totalMoneyStr;
+	}
     
 }

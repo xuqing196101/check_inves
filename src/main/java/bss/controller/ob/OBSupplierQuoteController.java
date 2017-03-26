@@ -2,6 +2,8 @@ package bss.controller.ob;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -469,8 +471,6 @@ public class OBSupplierQuoteController {
 			Map<String, Object> map = obSupplierQuoteService.selectQuotoInfo(mapInfo);
 			// 竞价信息
 			OBProject obProject = (OBProject) map.get("obProject");
-			// 竞价商品信息
-//			Object object = map.get("oBProductInfoList");
 			// 获取采购机构名称
 			String orgName = (String) map.get("orgName");
 			// 单位
@@ -484,17 +484,24 @@ public class OBSupplierQuoteController {
 			// 报价产品信息
 			List<OBResultsInfo> oBResultsInfo  = (List<OBResultsInfo>) map.get("oBResultsInfo");
 			Double totalCountPriceBigDecimal = 0.00;
+			// 保留两位小数
+			//DecimalFormat df = new DecimalFormat("0.00");
+			NumberFormat currency = NumberFormat.getCurrencyInstance();
+			currency.setMinimumFractionDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 			/** 计算单个商品的总价以及合计金额 **/
-			for (OBResultsInfo productInfo : oBResultsInfo) {
-				if (productInfo != null) {
-					Integer signalCountInt = productInfo.getResultsNumber();
-					BigDecimal limitPrice = productInfo.getMyOfferMoney();
+			for (OBResultsInfo obResultInfo : oBResultsInfo) {
+				if (obResultInfo != null) {
+					Integer signalCountInt = obResultInfo.getResultsNumber();
+					BigDecimal myOfferMoney = obResultInfo.getMyOfferMoney();
 					BigDecimal signalCount = null;
-					if (signalCountInt != null && limitPrice != null) {
+					if (signalCountInt != null && myOfferMoney != null) {
 						/** 单个商品的总金额=报价 *采购数量 **/
 						signalCount = new BigDecimal(signalCountInt);
-						BigDecimal multiply = limitPrice.multiply(signalCount);
-						productInfo.setDealMoney(multiply);
+						BigDecimal multiply = myOfferMoney.multiply(signalCount);
+						/**显示100000样式**/
+						obResultInfo.setDealMoney(multiply);
+						/**显示￥100,000,00样式**/
+						obResultInfo.setDealMoneyStr(currency.format(multiply));
 						/** 累加得到总计 **/
 						totalCountPriceBigDecimal = multiply.add(
 								new BigDecimal(Double
@@ -503,8 +510,8 @@ public class OBSupplierQuoteController {
 					}
 				}
 			}
-			
-			
+			//String totalCountPriceBigDecimalStr = df.format(totalCountPriceBigDecimal);
+			String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 			// 采购机构
 			model.addAttribute("orgName", orgName);
 			// 需求单位
@@ -514,7 +521,7 @@ public class OBSupplierQuoteController {
 			model.addAttribute("obProject", obProject);
 			model.addAttribute("uploadFiles", uploadFiles);
 			model.addAttribute("oBResultsInfo", oBResultsInfo);
-			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal);
+			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
 			model.addAttribute("fileid", obProject.getAttachmentId());
 			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));

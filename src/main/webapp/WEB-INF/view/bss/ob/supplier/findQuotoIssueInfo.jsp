@@ -76,7 +76,7 @@
 				  <td class="tc">${ oBResultsInfo.limitPrice }</td>
 				  <td class="tc">${ oBResultsInfo.resultsNumber }</td>
 				  <td class="tc">${ oBResultsInfo.myOfferMoney }</td>
-				  <td class="tc">${ oBResultsInfo.dealMoney }</td>
+				  <td class="tc">${ oBResultsInfo.dealMoneyStr }</td>
 				  <td class="tc">${ oBResultsInfo.remark }</td>
 				</tr>
 			</c:forEach>

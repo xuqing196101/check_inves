@@ -222,11 +222,11 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		
 		// 排除同一个供应商不同的用户同时报价的情况
 		Map<String, Object> selectMap = new HashMap<String, Object>();
-		map.put("project_id", titleId);
-		map.put("supplier_id", user.getTypeId());
+		selectMap.put("project_id", titleId);
+		selectMap.put("supplier_id", user.getTypeId());
 		OBProjectSupplier selectRemarkBYPS = obProjectSupplierMapper.selectRemarkBYPS(selectMap);
 		// 其他用户已完成本次报价
-		if(selectRemarkBYPS != null && "2".equals(selectRemarkBYPS.getRemark())){
+		if(selectRemarkBYPS != null && "1".equals(selectRemarkBYPS.getRemark())){
 			return JdcgResult.ok("其他用户已完成本次报价！");
 		}
 		
