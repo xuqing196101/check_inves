@@ -344,6 +344,9 @@
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <select id="selectProportionByProject" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
+    SELECT sum(PROPORTION) from T_BSS_OB_PROJECT_RESULT WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND STATUS=1 GROUP BY SUPPLIER_ID
+  </select>
   <!-- 去重复供应商 根据参数 获取成交供应商数量  -->
   <select id="countByStatus" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
@@ -488,6 +491,9 @@
       </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
+      </if>
+      <if test="resultCount != null" >
+        RESULT_COUNT = #{resultCount,jdbcType=DECIMAL},
       </if>
       <if test="createTime != null" >
         CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},

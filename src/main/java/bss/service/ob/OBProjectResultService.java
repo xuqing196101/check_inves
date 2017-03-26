@@ -93,10 +93,11 @@ public interface OBProjectResultService {
     /**
      * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>
      * @author Ma Mingwei
+     * @param string 
      * @param obProjectResult封装的条件对象
      * @return 竞价管理-结果查询   修改了几条记录数
      */
-	public int updateInfoBySPPIdList(User user, List<OBProjectResult> projectResultList);
+	public int updateInfoBySPPIdList(User user, List<OBProjectResult> projectResultList, String confirmNum);
 	
 	/**
      * 根据标题id获取封装的供应商信息

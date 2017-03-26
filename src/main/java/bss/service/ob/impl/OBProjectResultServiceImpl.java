@@ -154,6 +154,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			if("-1".equals(confirmStatus)) {
 				productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
 			} else if("1".equals(confirmStatus)) {
+				Integer proportion2 = oBProjectResultMapper.selectProportionByProject(obProjectResult);
+				proportion2 = 100 - proportion2;
+				confirmInfoVo.setBidRatio(proportion2.toString());
 				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
 			}
 			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
@@ -201,10 +204,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>
      * @author Ma Mingwei
      * @param obProjectResult封装的条件对象
+     * @param confirmNum 当前处于第几轮的标识
      * @return 竞价管理-结果查询   修改了几条记录数
      */
 	public int updateInfoBySPPIdList(User user,
-			List<OBProjectResult> projectResultList) {
+			List<OBProjectResult> projectResultList,String confirmNum) {
 		// TODO Auto-generated method stub
 		int flag = 0;
 		Date currentDate = new Date();
@@ -212,19 +216,32 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		for(int i = 0; i < projectResultList.size();i++) {
 			projectResultList.get(i).setUpdatedAt(currentDate);
 			//在第二轮接受时进行判断，
-			if(2 == projectResultList.get(i).getStatus()) {
-				OBProject obProject = new OBProject();
-				obProject.setId(projectResultList.get(i).getProjectId());
-				String remark = "3";
-				//设置列表页面显示的操作状态判断值
-				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
-			}
+			
 			if(i == 0) {
 				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
 				flag++;
 			} else if(i > 0) {
 				oBProjectResultMapper.insert(projectResultList.get(i));
 				flag++;
+			}
+			
+			//上面修改过之后向数据库查找，查找是否所有的供应商已经此轮已经全接受并且占比总和100%
+			if("1".equals(confirmNum)) {
+				Integer getSumProportion = oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				if(100 == getSumProportion) {
+					String remark = "3";
+					OBProject obProject = new OBProject();
+					obProject.setId(projectResultList.get(i).getProjectId());
+					//设置列表页面显示的操作状态判断值
+					BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+				}
+			}
+			if("2".equals(confirmNum)) {
+				OBProject obProject = new OBProject();
+				obProject.setId(projectResultList.get(i).getProjectId());
+				String remark = "3";
+				//设置列表页面显示的操作状态判断值
+				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			}
 		}
 		return flag;

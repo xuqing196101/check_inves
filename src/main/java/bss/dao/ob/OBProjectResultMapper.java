@@ -15,6 +15,12 @@ import org.apache.ibatis.annotations.Param;
 public interface OBProjectResultMapper {
     int countByExample(OBProjectResultExample example);
     /**
+     * @author MaMingwei
+     * @param example主要传过来projectId
+     * @return 返回查找到占比值总和
+     */
+    int selectProportionByProject(OBProjectResult example);
+    /**
      *  成交供应商 数量
      * @param map
      * @return

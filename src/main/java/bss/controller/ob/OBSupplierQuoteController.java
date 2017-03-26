@@ -265,10 +265,10 @@ public class OBSupplierQuoteController {
 		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() < co.getTime()) {
 			//在第一轮中间
 			//调用service层的修改
-			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
+			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList,"1");
 		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() < so.getTime()) {
 			//在第二轮中间
-			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList);
+			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList,"2");
 		} else if(currentDate.getTime() >= so.getTime()) {
 			//在第二轮之后(直接给页面一个反馈，不走后台流程)
 			updateNum = -1;
