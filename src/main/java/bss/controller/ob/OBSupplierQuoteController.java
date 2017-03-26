@@ -214,8 +214,7 @@ public class OBSupplierQuoteController {
 		}
 		
 		// 根据供应商查询到的竞价结果信息
-		List<OBProjectResult> oBProjectResultList = oBProjectResultService
-				.selectBySupplierId(supplierId);
+		List<OBProjectResult> oBProjectResultList = oBProjectResultService.selectBySupplierId(supplierId);
 		
 		model.addAttribute("confirmStatus", confirmStatus);
 		model.addAttribute("oBProjectResultList", oBProjectResultList);

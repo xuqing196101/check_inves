@@ -505,7 +505,7 @@
    -->
    <ul class="ul_list" style="margin-top: 22px;">
    <c:if test="${confirmStatus=='-1'}">
-   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;background-color: grey;">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
   <div style="">
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
      	<h2 class="count_flow" style="margin-bottom: 32px;">
