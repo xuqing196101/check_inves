@@ -355,10 +355,10 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 					}
 					obProject.setClosingSupplier(closingSupplier);
 					// 获取 供应商数量
-					Integer qualifiedSupplier = obSupplierMapper
-							.countByProductId2(maps);
-					if (qualifiedSupplier == null) {
-						qualifiedSupplier = 0;
+					List<OBSupplier> sulist=OBSupplierMapper.selectSupplierByID(maps);
+					Integer qualifiedSupplier =0;
+					if(sulist!=null&&sulist.size()>0){
+						qualifiedSupplier=sulist.size();
 					}
 					obProject.setQualifiedSupplier(qualifiedSupplier);
 				}
