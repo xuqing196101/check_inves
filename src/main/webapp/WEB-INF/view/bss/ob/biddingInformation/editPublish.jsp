@@ -319,8 +319,6 @@
 	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   <div class="w200">
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" disabled="disabled" onchange="tradedCount()">
 	   <option value=""></option>
 	   <option value="1">1</option>
@@ -330,19 +328,14 @@
 	   <option value="5">5</option>
 	   <option value="6">6</option>
 	   </select>
-	   </div>
         <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
-       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-       <div class="w200">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" disabled="disabled" >
 			  <option value=""></option>
-			</select></div>
+			</select>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
-       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
@@ -373,13 +366,10 @@
 	  
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" disabled="disabled">
 			  <option value=""></option>
-			</select></div>
+			</select>
 			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
-       </div>
 	 </li>
 	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -439,6 +429,17 @@
 		  </table>
 		</div>
   </form>
+  <h2 class="count_flow"><i>3</i>供应商信息</h2>
+    <div class="ul_list">
+    	  <table class="table table-bordered left_table" id ="table2">
+			<tr>
+		  		<th class="info" width="30%"><span class="red star_red">*</span>供应商名称</th>
+		  		<th class="info">限价（元）</th>
+		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
+		  		<th class="info" width="30%">备注</th>
+			</tr>
+		  </table>
+		</div>
   <div class="col-md-12 clear tc mt10">
 	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
    </div>
