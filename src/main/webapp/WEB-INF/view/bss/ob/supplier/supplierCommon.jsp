@@ -1,5 +1,36 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
-<div class="ul_list">
+<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
+
+<script type="text/javascript">
+  //关闭
+	function closePrompts(){
+	layer.closeAll('tips');
+	}
+	  // 显示
+    function showPrompts(id,selectID){
+   		  if(selectID){
+   		  $.ajax({
+				url: "${pageContext.request.contextPath }/product/productType.do",
+				type: "POST",
+				data: {productId:selectID},
+				success: function(data) {
+				if(data){
+       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+       	    '#'+id, {tips: [2, '#78BA32'],time:-1});
+				}else{
+				 inder=layer.tips("", 
+       	    '#'+id, {tips: [2, '#78BA32']});
+				}
+		      },error:function(){
+		       layer.tips("错误！", 
+       	    '#'+id, {tips: [2, '#78BA32']});
+		      }
+           });
+           }
+       	}
+
+</script>
+<div class="ul_list" onmouseover="closePrompts()">
 	 <c:forEach items="${selectInfoByPID}" var="supplier" varStatus="pi">
 	 <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12">
@@ -12,14 +43,15 @@
 	  <span class="fl block">排名：</span><span>第${supplier.ranking}名</span>
 	  </div>
 	  </li>
-	  <c:if test="${supplier.status==-1}">
-	   <li class="col-md-3 col-sm-6 col-xs-12">
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	  <span class="fl block">状态：</span>
-	  <span>未中标</span>
-	  </div>
-	  </li>
-	  </c:if>
+	   	<c:if test="${supplier.status==-1}">
+	   		<li class="col-md-3 col-sm-6 col-xs-12">
+	   			<div
+	   				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	   				<span class="fl block">状态：</span>
+	   				<span>已放弃</span>
+	   			</div>
+	   		</li>
+	   	</c:if>
 	   <c:if test="${supplier.status!=-1}">
 	    <li class="col-md-3 col-sm-6 col-xs-12">
 	    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -41,18 +73,41 @@
 		<tr>
 		  <td class="tc"></td>
 		  <td class="tc" colspan="3">合计</td>
+		  <c:if test="${supplier.status!=-1}">
 		   <c:set value="${sum + supplier.resultCount*supplier.offerPrice}" var="sum" />
 		  <td class="tc">${sum}</td>
+		  </c:if> 
+		   <c:if test="${supplier.status==-1}"> 
+		    <c:forEach items="${supplier.OBResultsInfo }" var="bidproduct" varStatus="pi">
+		   <c:set value="${sum + bidproduct.dealMoney}" var="sum"  />
+		  <td class="tc" id="sum1">${sum}</td>
+		  </c:forEach>
+		  </c:if> 
 		</tr>
+		 <c:if test="${supplier.status==-1}">
+		 <c:forEach items="${supplier.OBResultsInfo }" var="bidproduct" varStatus="pi">
 		<tr>
-		 <c:forEach items="${plist }" var="bidproduct" varStatus="pi">
 		  <td class="tc">${pi.index + 1 }</td>
-		  <td class="tc" id="${supplier.id}${bidproduct.id}">${bidproduct.remark }</td>
+		  <%  String item1 =UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
+		  <td class="tc" id="${supplier.id}${bidproduct.productId}<%=item1 %>"  onmouseover="showPrompts('${supplier.id}${bidproduct.productId}<%=item1 %>', '${bidproduct.productId}')">${bidproduct.remark }</td>
+		  <td class="tc">${bidproduct.resultsNumber }</td>
+		  <td class="tc">${bidproduct.myOfferMoney }</td>
+		  <td class="tc" >${bidproduct.dealMoney}</td>
+		</tr>
+		  </c:forEach>
+		</c:if> 
+		 <c:if test="${supplier.status!=-1}">
+		<tr>
+		 <c:forEach items="${supplier.productInfo }" var="bidproduct" varStatus="pi">
+		  <td class="tc">${pi.index + 1 }</td>
+		   <%  String item2 =UUID.randomUUID().toString().toUpperCase().replace("-", ""); %>
+		  <td class="tc" id="${supplier.id}${bidproduct.productId}<%=item2 %>" onmouseover="showPrompts('${supplier.id}${bidproduct.productId}<%=item2 %>', '${bidproduct.productId}')">${bidproduct.remark }</td>
 		  </c:forEach>
 		  <td class="tc">${supplier.resultCount }</td>
 		  <td class="tc">${supplier.offerPrice }</td>
 		  <td class="tc">${supplier.resultCount*supplier.offerPrice}</td>
 		</tr>
+		</c:if> 
 	</table>
 	</ul>
 		</c:forEach>

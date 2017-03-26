@@ -121,7 +121,7 @@
   </select>
   <!--根据竞价id 查询产品名称 -->
    <select id="getProductName" resultMap="BaseResultMap" parameterType="Map" >
-    select i.PRODUCT_ID,p.name as REMARK from T_BSS_OB_PRODUCT_INFO i,T_BSS_OB_PRODUCT p
+    select distinct i.PRODUCT_ID,p.name as REMARK from T_BSS_OB_PRODUCT_INFO i,T_BSS_OB_PRODUCT p
     where i.PRODUCT_ID=p.id and  i.PROJECT_ID = #{id,jdbcType=VARCHAR}
   </select>
   

@@ -2,6 +2,8 @@ package bss.dao.ob;
 
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
+import bss.model.ob.OBResultsInfo;
+
 import java.util.List;
 import java.util.Map;
 

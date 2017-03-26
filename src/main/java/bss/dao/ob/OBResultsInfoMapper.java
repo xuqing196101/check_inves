@@ -47,4 +47,11 @@ public interface OBResultsInfoMapper {
     * @throws
      */
     List<OBResultsInfo> selectQuotoInfo(Map<String, Object> map);
+    /**
+     * 查询报价 信息
+     * @param projectId
+     * @param supplierId
+     * @return
+     */
+    List<OBResultsInfo> getProductInfo(@Param("projectId")String projectId ,@Param("supplierId")String supplierId);
 }

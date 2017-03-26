@@ -48,6 +48,8 @@ public class OBProjectResult {
 	private OBSupplier supplier;
 	//竞价产品 信息
     private List<OBProductInfo> productInfo;
+    //报价
+    private List<OBResultsInfo> OBResultsInfo;
 	/**
 	 * 供应商自报单价总和
 	 */
@@ -64,6 +66,14 @@ public class OBProjectResult {
 	private Integer countresultCount;
 
 	
+	public List<OBResultsInfo> getOBResultsInfo() {
+		return OBResultsInfo;
+	}
+
+	public void setOBResultsInfo(List<OBResultsInfo> oBResultsInfo) {
+		OBResultsInfo = oBResultsInfo;
+	}
+
 	public List<OBProductInfo> getProductInfo() {
 		return productInfo;
 	}

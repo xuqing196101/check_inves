@@ -222,11 +222,18 @@
     SELECT * from T_SES_SMS_SUPPLIER smsSupplier,T_BSS_OB_PROJECT_RESULT projectResult 
 	  WHERE PROJECTRESULT.SUPPLIER_ID=SMSSUPPLIER.id and PROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
   </select>
+  
   <!-- 根据竞价Id查询竞价结果  PSId  project supplier id mmw -->
   <select id="selectByPID" resultMap="BaseResultMap" parameterType="java.lang.String" >
-    select r.ID, r.PRODUCT_ID, r.PROJECT_ID, r.SUPPLIER_ID, r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
-     r.STATUS,r.RESULT_COUNT,s.SUPPLIER_NAME as REMARK   from T_BSS_OB_PROJECT_RESULT r , T_SES_SMS_SUPPLIER s 
-  where  r.SUPPLIER_ID=s.id and r.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+  
+  select r.PROJECT_ID,SUPPLIER_ID,r.RANKING,sum(PROPORTION) as PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
+r.STATUS,SUM(RESULT_COUNT) as RESULT_COUNT ,r.REMARK from
+(select DISTINCT r.PROJECT_ID, r.SUPPLIER_ID, r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
+r.STATUS,r.RESULT_COUNT,s.SUPPLIER_NAME as REMARK from T_BSS_OB_PROJECT_RESULT r LEFT JOIN T_SES_SMS_SUPPLIER s 
+on r.SUPPLIER_ID=s.ID
+where r.SUPPLIER_ID=s.id and r.PROJECT_ID=#{projectId,jdbcType=VARCHAR} ) r
+GROUP BY r.PROJECT_ID,SUPPLIER_ID,r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
+r.STATUS,r.RESULT_COUNT,r.REMARK
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

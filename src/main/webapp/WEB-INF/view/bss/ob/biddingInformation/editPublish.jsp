@@ -109,7 +109,6 @@
 		 });
 		 $("#tradedSupplierCount").select2();
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
-		 tradedCount();
 		  //加载运杂费 数据
 		 $.ajax({
 			url: "${pageContext.request.contextPath }/ob_project/transportFeesType.html",
@@ -185,7 +184,6 @@
 	     $("select[id=\"productName_"+number+"\"]").select2();
 	     if(id){
 		 $("#productName_"+number+"").select2('val',id); 
-	    changSelectCount(number);
 	    }
 	  } 
 	  
@@ -200,8 +198,8 @@
 		 $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
 		  "<td class=\"p0\" ><div id=\"selectDiv"+number+"\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><select id=\"productName_"+number+"\" disabled=\"disabled\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
 		  "</div></td>"+
-		  "<td class=\"p0\" id=\"t"+number+"\"><input id=\"productMoney\" maxlength=\"10\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\" id=\"t"+number+"\"><input id=\"productMoney\" maxlength=\"20\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"38\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" disabled=\"disabled\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true);   
@@ -240,22 +238,7 @@
 			offset : [ '30%', '40%' ]
 		});
 	}
-	//动态改变 比例
-	function tradedCount(){
-	var count=$("#tradedSupplierCount").val();
-	if(count){
-      $.ajax({
-				url: "${pageContext.request.contextPath }/ob_project/proportion.do",
-				type: "POST",
-				data: {
-					supplierCount: count
-				},
-				success: function(data) {
-				 $("#tradedSupplier").val(data);
-		 }
-     });
-     }
-	}
+	
 </script>
 </head>
 <body>

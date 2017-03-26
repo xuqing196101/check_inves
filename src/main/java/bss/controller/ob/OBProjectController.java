@@ -48,6 +48,7 @@ import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
@@ -55,6 +56,7 @@ import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSupplier;
 import bss.model.ob.SupplierProductVo;
@@ -109,8 +111,9 @@ public class OBProjectController {
 	// 注入竞价商品详情Mapper
 	@Autowired
 	private OBProductInfoMapper obProductInfoMapper;
-
-	
+    
+	@Autowired
+	private OBResultsInfoMapper OBResultsInfoMapper;
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
 	@Autowired
@@ -478,11 +481,16 @@ public class OBProjectController {
 				//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
 				List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(obProject.getId());
 				List<OBProductInfo> plist=obProductInfoMapper.getProductName(obProject.getId());
+				
 				for(OBProjectResult s:resultList){
-					s.setProductInfo(plist);
+					if(s.getStatus()==-1){
+				List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(obProject.getId(),s.getSupplierId());
+						s.setOBResultsInfo(infoList);
+					}else{
+						s.setProductInfo(plist);
+					}
 				}
 				model.addAttribute("selectInfoByPID", resultList);
-				model.addAttribute("plist", plist);
 				}
 				
 				if(StringUtils.isNotBlank(status)){
