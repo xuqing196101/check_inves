@@ -302,7 +302,12 @@
   
   <!-- 根据supplier_id和project_id查询所对应的竞价信息 -->
   <select id="selectRemarkBYPS" parameterType="Map" resultMap="BaseResultMap">
-  	SELECT PS.REMARK FROM  T_BSS_OB_PROJECT_SUPPLIER PS
+  	SELECT 
+  	<if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+  	FROM T_BSS_OB_PROJECT_SUPPLIER PS
  	WHERE PS.PROJECT_ID = #{project_id}
    	AND PS.SUPPLIER_ID =  #{supplier_id}
   </select>
