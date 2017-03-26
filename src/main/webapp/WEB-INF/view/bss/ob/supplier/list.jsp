@@ -136,6 +136,11 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
+			    // 竞价结束
+			   if(status == '3'){
+				   layer.alert("竞价已结束 ！");
+				   return;
+			   }
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
 				   return;
@@ -145,31 +150,53 @@
 				   layer.alert("对不起，项目已流拍 ！");
 				   return;
 			   }
-			   // 时间未到
-			   if(status != '5'){
+			   
+			     // 第一轮确认时间未到
+			   if((status != '5' && remark == '1')){
 				   layer.alert("对不起，确认时间未到不能确认结果 ！");
 				   return;
 			   }
-			   // 竞价结束
-			   if(status == '3'){
-				   layer.alert("竞价已结束 ！");
+			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
+			   if(status == '6' && remark == '5'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+			   return;
+			   }
+			   // 第二轮确认时间未到
+			   if((status != '6' && remark == '4') || (status != '5' && remark == '5')){
+				   layer.alert("对不起，确认时间未到不能确认结果 ！");
 				   return;
 			   }
+			  
 			   
 			   // 如果供应商未报价则显示
 			   if(status == '5' && remark == '0'){
 				   layer.alert("对不起，您未报价不能确认结果 ！");
 				   return;
 			   }
-			   // 第二轮确认结束
+			   //第一轮
+			    if(status == '5' && remark == '1'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+			      return;
+			   }
+			 
+			   
+			   
+			   
+			   // 第一轮确认时：点击放弃按钮
 			   if(status == '5' && remark == '3'){
-				   layer.alert("您已确认结束 ！");
+				   layer.alert("您已放弃第一轮确认结果 ！");
 				   return;
 			   }
-			   // 开始确认结果
-			   if(status == '5' && remark == '1'){
+			   // 第一轮确认时：点击全接受
+			   if(remark != '5' || remark != '4'){
+				   layer.alert("第一轮确认时间未结束，不能进入第二轮！");
+				   return;
+			   }	
+			   
+			   if(status == '6' && remark == '4'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 			   }
+			   
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
 	            offset: ['222px', '255px'],
@@ -307,7 +334,10 @@
 				  	流拍
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
-			  		待确认
+			  		第一轮待确认
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
+			  		第二轮待确认
 			  	</c:if>
 			  </td>
 			 <%--  <td class="tc">

@@ -33,6 +33,8 @@ public class OBResultsInfo {
      * 单个商品总价
      */
     private BigDecimal dealMoney;
+    
+    private String dealMoneyStr;
 
     private String remark;
 
@@ -152,6 +154,14 @@ public class OBResultsInfo {
 
 	public void setLimitPrice(BigDecimal limitPrice) {
 		this.limitPrice = limitPrice;
+	}
+
+	public String getDealMoneyStr() {
+		return dealMoneyStr;
+	}
+
+	public void setDealMoneyStr(String dealMoneyStr) {
+		this.dealMoneyStr = dealMoneyStr;
 	}
 	
 }

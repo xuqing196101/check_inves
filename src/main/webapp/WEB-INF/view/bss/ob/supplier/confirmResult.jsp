@@ -41,7 +41,7 @@
 			$("#confirmCountDown2").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown2").text("第二轮确认倒计时已经结束");
-			cancelAccept('${confirmStatus }');
+			close('${confirmStatus }');
 			clearInterval(downTimer2);
 		}
 	}
