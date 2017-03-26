@@ -96,7 +96,7 @@
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
-									alert(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									//alert(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
 									$(this).parent().find("input[name='productResultCount']").text(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
 									$(this).parent().find("input[name='productNum']").text();
 								}
@@ -260,7 +260,7 @@
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
-						layer.alert("接受失败");
+						layer.alert("第二轮接受失败");
 					}
 				});
 			}
@@ -337,6 +337,7 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
+		   <li><a href="javascript:void(0)">我的竞价项目</a></li>
 		   <li><a href="javascript:void(0)">确认结果</a></li>
 		   </ul>
         <div class="clear"></div>
@@ -345,37 +346,44 @@
     
     <!-- 表格开始    projectResult -->
     <div class="container container_box">
+    <ul class="ul_list" style="margin-top: 22px;">
+    	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
+	   		<h2>竞价结果 - 查询管理
+		    	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
+		    		竞价标题：${confirmInfoVo.quoteName }
+		    		<input type="hidden" name="quoteName" id="quoteName" value="${confirmInfoVo.quoteName }"/>
+		    		<input type="hidden" name="confirmStarttime" id="confirmStarttime" value="${confirmInfoVo.confirmStarttime }"/>
+		    		<!-- <input type="hidden" name="confirmOvertime" value="${confirmInfoVo.confirmOvertime }"/>这个放到第一轮确认时间那里 -->
+		    		<!-- <input type="hidden" name="secondOvertime" id="secondOvertime" value="${confirmInfoVo.secondOvertime }"/> 这个放到第二轮确认时间那里-->
+		    	</span>
+		    </h2>
+		    <h2 class="count_flow">排名：${confirmInfoVo.ranking }<input type="hidden" id="ranking" value="${confirmInfoVo.ranking }"/>
+		    	<span style="margin-left: 22px;">状态：</span>
+		    		<c:if test="${confirmInfoVo.ranking < 7}">
+		    		中标
+		    		</c:if>
+		    		<c:if test="${confirmInfoVo.ranking >= 7}">
+		    		未中标
+		    		</c:if>
+		    	<span style="margin-left: 22px;margin-right: 12px;">中标比例  :</span>
+		    		<input id="" name="" readonly="readonly" value="${confirmInfoVo.bidRatio }" type="text" class="tc w50">%
+		    </h2>
+		    <h2 class="count_flow">确认结束时间：
+		    	<span id="confirmOverTime">
+		    	<fmt:formatDate value="${confirmInfoVo.confirmOvertime }" pattern="yyyy-MM-dd HH:ss:mm"/>
+		    	<!-- 第一轮确认结束的时间点 -->
+		    	<input type="hidden" name="confirmOvertime" value="${confirmInfoVo.confirmOvertime }"/>
+		    	<!-- 第二轮确认结束的时间点 -->
+		    	<input type="hidden" name="secondOvertime" value="${confirmInfoVo.secondOvertime }"/>
+		    	</span>
+		    </h2>
+	 	</li>
+    </ul>
     
-    <h2>竞价结果 - 查询管理
-    	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
-    		竞价标题：${confirmInfoVo.quoteName }
-    		<input type="hidden" name="quoteName" id="quoteName" value="${confirmInfoVo.quoteName }"/>
-    		<input type="hidden" name="confirmStarttime" id="confirmStarttime" value="${confirmInfoVo.confirmStarttime }"/>
-    		<!-- <input type="hidden" name="confirmOvertime" value="${confirmInfoVo.confirmOvertime }"/>这个放到第一轮确认时间那里 -->
-    		<!-- <input type="hidden" name="secondOvertime" id="secondOvertime" value="${confirmInfoVo.secondOvertime }"/> 这个放到第二轮确认时间那里-->
-    	</span>
-    </h2>
-    <h2 class="count_flow">排名：${confirmInfoVo.ranking }<input type="hidden" id="ranking" value="${confirmInfoVo.ranking }"/>
-    	<span style="margin-left: 22px;">状态：</span>
-    		<c:if test="${confirmInfoVo.ranking < 7}">
-    		中标
-    		</c:if>
-    		<c:if test="${confirmInfoVo.ranking >= 7}">
-    		未中标
-    		</c:if>
-    	<span style="margin-left: 22px;margin-right: 12px;">中标比例  :</span>
-    		<input id="" name="" readonly="readonly" value="${confirmInfoVo.bidRatio }" type="text" class="tc w50">%
-    </h2>
-    <h2 class="count_flow">确认结束时间：
-    	<span id="confirmOverTime">
-    	<fmt:formatDate value="${confirmInfoVo.confirmOvertime }" pattern="yyyy-MM-dd HH:ss:mm"/>
-    	<!-- 第一轮确认结束的时间点 -->
-    	<input type="hidden" name="confirmOvertime" value="${confirmInfoVo.confirmOvertime }"/>
-    	<!-- 第二轮确认结束的时间点 -->
-    	<input type="hidden" name="secondOvertime" value="${confirmInfoVo.secondOvertime }"/>
-    	</span>
-    </h2>
+    
     <!--<c:if test="${confirmStatus=='-1'}"></c:if>-->
+    <ul class="ul_list" style="margin-top: 22px;">
+    	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
      <div>
      <div class="clear total f22">
      	<span class="fl block">基本数量---第一轮确认：</span>
@@ -427,10 +435,14 @@
 	</table>
   </div>
   </div>
+  </li>
+    </ul>
   <!-- 
   <c:if test="${confirmInfoVo.bidStatus=='-1' || confirmInfoVo.bidStatus==null || confirmInfoVo.bidStatus=='2'}">
   </c:if>
    -->
+   <ul class="ul_list" style="margin-top: 22px;">
+    	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
    <c:if test="${confirmStatus=='-1'}">
   <div>
      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
@@ -527,7 +539,8 @@
   </div>
   </div>
   	</c:if>
-  
+  </li>
+    </ul>
   
   <div class="star_red" style="display: none;">规则1、第一轮确认如果都按比例成交，则没有第二轮确认，如果不是按比例成交，则有第二轮确认，第一轮正在确认的时候不显示<br/>第二轮数据，只有所有供应商第一轮确认完毕后，才有第二轮确认。<br/>
 						规则2、自动生成成交比例（可修改），修改后成交数量和总价发生变化，未中标的的显示未中标，不显示成交比例，未中标的只能<br/>看到已中标明细，未中标的只有返回按钮。
