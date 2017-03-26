@@ -4,6 +4,7 @@ import java.io.UnsupportedEncodingException;
 import java.math.BigDecimal;
 import java.net.URLEncoder;
 import java.text.DecimalFormat;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -351,6 +352,7 @@ public class AuditSetController {
 			auditPerson.setIdNumber(expert.getIdNumber());
 			auditPerson.setUnitName(expert.getWorkUnit());
 			auditPerson.setUserId(expert.getId());
+			auditPerson.setCreateDate(new Date());
 			auditPersonService.add(auditPerson);
 			auditPerson.setType(1);
 			return JSON.toJSONString(auditPerson.getAuditStaff());
@@ -925,6 +927,7 @@ public class AuditSetController {
 				auditPerson2.setCollectId(collectId);
 				auditPerson2.setAuditRound(turns);
 				auditPerson2.setType(3);
+				auditPerson2.setCreateDate(new Date());
 				auditPersonService.add(auditPerson2);
 				map.put("staff", auditPerson2.getAuditStaff());
 			}

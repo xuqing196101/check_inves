@@ -11,7 +11,14 @@ public class OBResultsInfo {
      */
     private String productId;
 
+    private OBProduct obProduct;
+    
     private String biddingId;
+    
+    /**
+     * 限价
+     */
+    private BigDecimal limitPrice;
     /**
      * 单个商品采购数量
      */
@@ -130,4 +137,21 @@ public class OBResultsInfo {
     public void setProjectId(String projectId) {
         this.projectId = projectId == null ? null : projectId.trim();
     }
+
+	public OBProduct getObProduct() {
+		return obProduct;
+	}
+
+	public void setObProduct(OBProduct obProduct) {
+		this.obProduct = obProduct;
+	}
+
+	public BigDecimal getLimitPrice() {
+		return limitPrice;
+	}
+
+	public void setLimitPrice(BigDecimal limitPrice) {
+		this.limitPrice = limitPrice;
+	}
+	
 }

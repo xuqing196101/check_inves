@@ -336,12 +336,53 @@
 			            layer.msg("提交失败",{offset: '100px'});
 			          }
 	              });
+	            }else{
+	              if(data.flowType == "XMFB"){
+	                //如果是项目分包环节
+	                layer.confirm(data.msg,{
+                  shade:0.01,
+                  btn:['确定','取消'],
+                  },function(){
+                    $.ajax({
+			                url : "${pageContext.request.contextPath}/project/savePackage.html",
+			                data :{"projectId":projectId},
+			                type : "post",
+			                dataType : "json",
+			                success : function(data) {
+			                  if(data == "1") {
+			                    $.ajax({
+					                url : "${pageContext.request.contextPath}/open_bidding/submitHuanjie.html",
+					                data :{"currFlowDefineId":currFlowDefineId, "projectId":projectId},
+					                type : "post",
+					                dataType : "json",
+					                success : function(data2) {
+					                  if(data2.success) {
+					                    layer.msg("提交成功",{offset: '100px'});
+					                    jumpLoad(data2.url, projectId, currFlowDefineId);
+					                  }
+					                },
+					                error : function() {
+					                  layer.msg("提交失败",{offset: '100px'});
+					                }
+					                });
+			                  }
+			                },
+			                error : function() {
+			                  layer.msg("提交失败",{offset: '100px'});
+			                }
+			                });
+                  },function(){
+                    var index=parent.layer.getFrameIndex(window.name);
+                    parent.layer.close(index);
+                  }
+                );
+	              }
 	            }
 	          },
 	          error : function() {
 	            layer.msg("提交失败",{offset: '100px'});
 	          }
-	      })
+	      });
 	  });
    }
 </script>

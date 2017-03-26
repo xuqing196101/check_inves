@@ -4,7 +4,6 @@ import java.math.BigDecimal;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -18,25 +17,26 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
+import ses.util.DictionaryDataUtil;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
+import bss.model.ob.OBResultsInfo;
 import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
 
-import com.alibaba.fastjson.JSONArray;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
+import common.constant.Constant;
 import common.model.UploadFile;
 import common.utils.JdcgResult;
 /**
@@ -133,16 +133,30 @@ public class OBSupplierQuoteController {
 		// 获取采购机构名称
 		String orgName = (String) map.get("orgName");
 		String productIds = (String) map.get("productIds");
+		// 获取采购机构名称
+		String demandUnit = (String) map.get("demandUnit");
+		String transportFees = (String) map.get("transportFees");
 		List<UploadFile> uploadFiles = (List<UploadFile>) map.get("uploadFiles");
 		List<OBProductInfo> oBProductInfo = null;
 		if (object != null) {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
+		
+		// 采购机构
+		model.addAttribute("orgName", orgName);
+		// 需求单位
+		model.addAttribute("demandUnit", demandUnit);
+		// 运杂费
+		model.addAttribute("transportFees", transportFees);
 		model.addAttribute("orgName", orgName);
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
+		model.addAttribute("fileid", obProject.getAttachmentId());
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		
 		return "bss/ob/supplier/supplierOffer";
 	}
 
@@ -348,5 +362,80 @@ public class OBSupplierQuoteController {
 	public String saveConfirmQuoteInfo(Model model, HttpServletRequest request){
 		
 		return "";
+	}
+	
+	/**
+	 * 
+	* @Title: findQuotoIssueInfo 
+	* @Description: 查询报价后的信息
+	* @author Easong
+	* @param @param model
+	* @param @param request
+	* @param @return    设定文件 
+	* @return String    返回类型 
+	* @throws
+	 */
+	@SuppressWarnings("unchecked")
+	@RequestMapping("/findQuotoIssueInfo")
+	public String findQuotoIssueInfo(@CurrentUser User user, Model model, HttpServletRequest request){
+		// 获取标题id
+		String projectId = request.getParameter("id");
+		Map<String, Object> mapInfo = new HashMap<String, Object>();
+		if(projectId != null){
+			mapInfo.put("supplierId", user.getTypeId());
+			mapInfo.put("projectId", projectId);
+			Map<String, Object> map = obSupplierQuoteService.selectQuotoInfo(mapInfo);
+			// 竞价信息
+			OBProject obProject = (OBProject) map.get("obProject");
+			// 竞价商品信息
+			Object object = map.get("oBProductInfoList");
+			// 获取采购机构名称
+			String orgName = (String) map.get("orgName");
+			// 单位
+			String demandUnit = (String) map.get("demandUnit");
+			// 运杂费
+			String transportFees = (String) map.get("transportFees");
+			// 上传文件项
+			List<UploadFile> uploadFiles = (List<UploadFile>) map
+					.get("uploadFiles");
+			
+			// 报价产品信息
+			List<OBResultsInfo> oBResultsInfo  = (List<OBResultsInfo>) map.get("oBResultsInfo");
+			Double totalCountPriceBigDecimal = 0.00;
+			/** 计算单个商品的总价以及合计金额 **/
+			for (OBResultsInfo productInfo : oBResultsInfo) {
+				if (productInfo != null) {
+					Integer signalCountInt = productInfo.getResultsNumber();
+					BigDecimal limitPrice = productInfo.getMyOfferMoney();
+					BigDecimal signalCount = null;
+					if (signalCountInt != null && limitPrice != null) {
+						/** 单个商品的总金额=现价 *采购数量 **/
+						signalCount = new BigDecimal(signalCountInt);
+						BigDecimal multiply = limitPrice.multiply(signalCount);
+						/** 累加得到总计 **/
+						totalCountPriceBigDecimal = multiply.add(
+								new BigDecimal(Double
+										.toString(totalCountPriceBigDecimal)))
+								.doubleValue();
+					}
+				}
+			}
+			
+			
+			// 采购机构
+			model.addAttribute("orgName", orgName);
+			// 需求单位
+			model.addAttribute("demandUnit", demandUnit);
+			// 运杂费
+			model.addAttribute("transportFees", transportFees);
+			model.addAttribute("obProject", obProject);
+			model.addAttribute("uploadFiles", uploadFiles);
+			model.addAttribute("oBResultsInfo", oBResultsInfo);
+			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal);
+			model.addAttribute("fileid", obProject.getAttachmentId());
+			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		}
+		return "bss/ob/supplier/findQuotoIssueInfo";
 	}
 }

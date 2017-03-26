@@ -21,4 +21,6 @@ public interface AuditPersonMapper {
     List<AuditPerson> query(AuditPerson auditPerson);
     
     int findUserByCondition(HashMap<String,Object> map);
+    
+    List<AuditPerson> selectByMap(HashMap<String,Object> map);
 }

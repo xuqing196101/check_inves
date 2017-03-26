@@ -73,7 +73,7 @@
       <if test="duty != null">
         DUTY,
       </if>
-       <if test="cretaeDate != null">
+       <if test="createDate != null">
         CREATE_DATE,
       </if>
     </trim>
@@ -111,8 +111,8 @@
       <if test="duty != null">
         #{duty,jdbcType=VARCHAR},
       </if>
-      <if test="cretaeDate != null">
-        #{cretaeDate,jdbcType=VARCHAR},
+      <if test="createDate != null">
+        #{createDate,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
@@ -149,8 +149,8 @@
       <if test="duty != null">
         DUTY = #{duty,jdbcType=VARCHAR},
       </if>
-       <if test="cretaeDate != null">
-        CREATE_DATE = #{cretaeDate,jdbcType=VARCHAR},
+       <if test="createDate != null">
+        CREATE_DATE = #{createDate,jdbcType=VARCHAR},
       </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
@@ -167,7 +167,7 @@
       USER_ID = #{userId,jdbcType=VARCHAR},
       AUDIT_ROUND = #{auditRound,jdbcType=VARCHAR},
       DUTY = #{duty,jdbcType=VARCHAR},
-      CREATE_DATE = #{cretaeDate,jdbcType=VARCHAR},
+      CREATE_DATE = #{createDate,jdbcType=VARCHAR},
    	 where ID = #{id,jdbcType=VARCHAR}
   </update>
   
@@ -188,6 +188,20 @@
 		WHERE AUDIT_ROUND = #{auditRound}
 		AND COLLECT_ID = #{collectId}
 		AND USER_ID = #{userId}
+  </select>
+  
+  <select id="selectByMap" resultMap="AuditPerson_Map" parameterType="java.util.Map">
+    SELECT 
+    <include refid="Base_Column_List" />
+    from T_BSS_PMS_AUDIT_PERSON
+    where 1=1
+    <if test="collectId != null">
+     and COLLECT_ID = #{collectId} 
+    </if>
+    <if test="type != null">
+      and TYPE = #{type}
+    </if>
+    ORDER BY CREATE_DATE ASC
   </select>
   
 </mapper>

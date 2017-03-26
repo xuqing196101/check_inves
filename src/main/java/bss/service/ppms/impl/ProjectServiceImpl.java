@@ -11,7 +11,6 @@ import net.sf.json.JSONObject;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.apache.zookeeper.server.Request;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -20,20 +19,20 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import ses.dao.bms.UserMapper;
-import ses.dao.oms.PurchaseDepMapper;
 import ses.dao.oms.PurchaseInfoMapper;
 import ses.model.bms.User;
 import ses.model.oms.PurchaseInfo;
 import ses.util.DictionaryDataUtil;
-import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import bss.dao.ppms.FlowDefineMapper;
 import bss.dao.ppms.FlowExecuteMapper;
+import bss.dao.ppms.ProjectDetailMapper;
 import bss.dao.ppms.ProjectMapper;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Project;
+import bss.model.ppms.ProjectDetail;
 import bss.service.ppms.ProjectService;
 
 import com.github.pagehelper.PageHelper;
@@ -60,7 +59,10 @@ public class ProjectServiceImpl implements ProjectService {
 	private UserMapper userMapper;
 	
 	@Autowired
-  private PurchaseInfoMapper purchaseInfoMapper;
+	private PurchaseInfoMapper purchaseInfoMapper;
+	
+	@Autowired
+	private ProjectDetailMapper detailMapper;
 	
 	
 	
@@ -395,6 +397,37 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public JSONObject isSubmit(String projectId, String currFlowDefineId) {
         JSONObject jsonObj = new JSONObject();
+        FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        if(flowDefine != null){
+            if("项目分包".equals(flowDefine.getName())){
+                jsonObj.put("flowType", "XMFB");
+                HashMap<String, Object> map = new HashMap<>();
+                map.put("id", projectId);
+                List<ProjectDetail> details = detailMapper.selectById(map);
+                List<ProjectDetail> bottomDetails = new ArrayList<>();//底层的明细
+                for(ProjectDetail detail:details){
+                    HashMap<String,Object> detailMap = new HashMap<>();
+                    detailMap.put("id",detail.getRequiredId());
+                    detailMap.put("projectId", projectId);
+                    List<ProjectDetail> dlist = detailMapper.selectByParentId(detailMap);
+                    if(dlist.size()==1){
+                        bottomDetails.add(detail);
+                    }
+                }
+                
+                for(int i=0;i<bottomDetails.size();i++){
+                    if(bottomDetails.get(i).getPackageId()==null){
+                        jsonObj.put("success", false);
+                        jsonObj.put("msg", "项目未分包，是否默认为一包");
+                        break;
+                    }else if(i==bottomDetails.size()-1){
+                        jsonObj.put("success", true);
+                    }
+                }
+            }else{
+                jsonObj.put("success", true);
+            }
+        }
         //转竞争性谈判先不做！
         /*FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
         Project project = projectMapper.selectProjectByPrimaryKey(projectId);
@@ -420,7 +453,6 @@ public class ProjectServiceImpl implements ProjectService {
                 }
             }
         }*/
-        jsonObj.put("success", true);
         return jsonObj;
     }
 
@@ -460,6 +492,10 @@ public class ProjectServiceImpl implements ProjectService {
             flowExecute.setId(WfUtil.createUUID());
             flowExecute.setStep(flowDefine.getStep());
             flowExecuteMapper.insert(flowExecute);
+        }
+        FlowDefine flowDefine = flowDefineMapper.get(currFlowDefineId);
+        if (flowDefine != null) {
+            jsonObj.put("url", flowDefine.getUrl());
         }
         jsonObj.put("success", true);
         return jsonObj;

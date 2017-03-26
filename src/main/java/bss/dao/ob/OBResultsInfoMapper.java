@@ -2,7 +2,10 @@ package bss.dao.ob;
 
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExample;
+
 import java.util.List;
+import java.util.Map;
+
 import org.apache.ibatis.annotations.Param;
 
 public interface OBResultsInfoMapper {
@@ -32,4 +35,16 @@ public interface OBResultsInfoMapper {
      * @author YangHongLiang
      */
     List<OBResultsInfo> selectByProjectId(String projectId);
+    
+    /**
+     * 
+    * @Title: selectQuotoInfo 
+    * @Description: 查询报价结果
+    * @author Easong
+    * @param @param map
+    * @param @return    设定文件 
+    * @return List<OBResultsInfo>    返回类型 
+    * @throws
+     */
+    List<OBResultsInfo> selectQuotoInfo(Map<String, Object> map);
 }

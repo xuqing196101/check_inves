@@ -1871,6 +1871,9 @@ public class ProjectController extends BaseController {
             if(listNews.size() > 1){
                 listNew.add(projectDetail);
             }
+            if("合计".equals(projectDetail.getStand())){
+                projectDetail.setStand(null);
+            }
         }
         model.addAttribute("user", user);
         model.addAttribute("kind", DictionaryDataUtil.find(5));
@@ -2627,6 +2630,65 @@ public class ProjectController extends BaseController {
         }
         return JSON.toJSONString(flag);
     }
+    
+    /**
+     * 
+     *〈默认分一包〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param projectId
+     * @return
+     */
+    @ResponseBody
+    @RequestMapping("/savePackage")
+    public String savePackage(String projectId){
+        if(StringUtils.isNotBlank(projectId)){
+            Project project = projectService.selectById(projectId);
+            HashMap<String,Object> pack = new HashMap<String,Object>();
+            pack.put("projectId",projectId);
+            List<Packages> packList = packageService.findPackageById(pack);
+            Packages pg = new Packages();
+            pg.setName("第"+(packList.size()+1)+"包");
+            pg.setProjectId(projectId);
+            pg.setIsDeleted(0);
+            if(project.getIsImport()==1){
+                pg.setIsImport(1);
+            }else{
+                pg.setIsImport(0);
+            }
+            pg.setPurchaseType(project.getPurchaseType());
+            pg.setCreatedAt(new Date());
+            pg.setUpdatedAt(new Date());
+            packageService.insertSelective(pg);
+            List<Packages> wantPackId = packageService.findPackageById(pack);
+            HashMap<String,Object> maps = new HashMap<String,Object>();
+            maps.put("id", projectId);
+            List<ProjectDetail> detail = detailService.selectById(maps);
+            for (ProjectDetail projectDetail : detail) {
+                HashMap<String,Object> map = new HashMap<String,Object>();
+                map.put("id", projectDetail.getRequiredId());
+                map.put("projectId", projectId);
+                List<ProjectDetail> list = detailService.selectByParentId(map);
+                if(list.size()==1){
+                    projectDetail.setPackageId(wantPackId.get(wantPackId.size()-1).getId());
+                    detailService.update(projectDetail);
+                }
+            }
+            HashMap<String,Object> map = new HashMap<String,Object>();
+            map.put("packageId", wantPackId.get(wantPackId.size()-1).getId());
+            List<ProjectDetail> details = detailService.selectById(map);
+            Packages p = new Packages();
+            p.setId(wantPackId.get(wantPackId.size()-1).getId());
+            if(details.get(0).getStatus() == null || "".equals(details.get(0).getStatus()) || details.get(0).getStatus().equals("1")){
+                p.setStatus(1);
+                packageService.updateByPrimaryKeySelective(p);
+            }else{
+                p.setStatus(0);
+                packageService.updateByPrimaryKeySelective(p);
+            }
+        }
+        return "1";
+    }
 
     
     /**
@@ -3188,14 +3250,10 @@ public class ProjectController extends BaseController {
     public List<PurchaseInfo> getUserForSelect(@CurrentUser User user, String id) {
         List<PurchaseInfo> purchaseInfo = new ArrayList<>();
         if(user != null && user.getOrg() != null){
-            if("1".equals(user.getOrg().getTypeName())){
-                purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
-            }else{
-                Project project = projectService.selectById(id);
-                if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
-                    User user2 = userService.getUserById(project.getPrincipal());
-                    purchaseInfo = purchaseService.findPurchaseUserList(user2.getOrg().getId());
-                }
+          Project project = projectService.selectById(id);
+          if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
+             User user2 = userService.getUserById(project.getPrincipal());
+              purchaseInfo = purchaseService.findPurchaseUserList(user2.getOrg().getId());
             }
            
         }
