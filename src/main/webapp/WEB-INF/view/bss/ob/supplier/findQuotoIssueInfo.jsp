@@ -46,7 +46,7 @@
   <form id="productForm" name="" method="post">
   	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
-	    <h2 class="count_flow"><i>2</i>产品信息</h2>
+	    <h2 class="count_flow"><i>2</i>产品报价信息</h2>
 		<div class="content table_box">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>

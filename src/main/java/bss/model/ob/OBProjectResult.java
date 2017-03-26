@@ -4,6 +4,8 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 
+import ses.model.sms.Supplier;
+
 public class OBProjectResult {
 	private String id;
 
@@ -221,4 +223,5 @@ public class OBProjectResult {
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
+
 }

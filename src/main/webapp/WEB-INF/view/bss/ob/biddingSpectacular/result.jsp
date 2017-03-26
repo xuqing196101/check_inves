@@ -79,7 +79,7 @@
 		  		<td class="tc">${result.countOfferPrice}</td>
 		  		<td class="tc">${countOfferPricebyOne}</td>
 		  		<td class="tc">${result.countresultCount}</td>
-		  		<td class="tc">${result.countTotalAmount }</td>
+		  		<td class="tc">${countOfferPricebyOne * result.countresultCount }</td>
 		  		<td class="tc">
 		  			<c:if test="${result.status == 0}">未确认</c:if>
 		  			<c:if test="${result.status == 1}">已确认</c:if>

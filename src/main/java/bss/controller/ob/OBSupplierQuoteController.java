@@ -446,7 +446,7 @@ public class OBSupplierQuoteController {
 			// 竞价信息
 			OBProject obProject = (OBProject) map.get("obProject");
 			// 竞价商品信息
-			Object object = map.get("oBProductInfoList");
+//			Object object = map.get("oBProductInfoList");
 			// 获取采购机构名称
 			String orgName = (String) map.get("orgName");
 			// 单位
