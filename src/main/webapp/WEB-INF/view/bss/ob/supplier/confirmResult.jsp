@@ -355,63 +355,81 @@
         <div class="clear"></div>
       </div>
     </div>
-    
     <!-- 表格开始    projectResult -->
     <div class="container container_box">
-    <ul class="ul_list" style="margin-top: 22px;">
-    	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
-	   		<h2>竞价结果 - 查询管理
-		    	<span style="font-weight: lighter;font-size: 18px;padding-left: 22px;">
-		    		竞价标题：${confirmInfoVo.quoteName }
+    <h2 class="count_flow"><i>1</i><span class="count_flow">基本信息</span></h2>
+    <ul class="ul_list" >
+    	<li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+    	<h2 class="count_flow">
+ 	      <span class="font_sblck">竞价标题：</span>
+ 	      <span class="margin-left-10 font_sblck">${confirmInfoVo.quoteName }</span>
 		    		<input type="hidden" name="quoteName" id="quoteName" value="${confirmInfoVo.quoteName }"/>
 		    		<input type="hidden" name="confirmStarttime" id="confirmStarttime" value="${confirmInfoVo.confirmStarttime }"/>
 		    		<!-- <input type="hidden" name="confirmOvertime" value="${confirmInfoVo.confirmOvertime }"/>这个放到第一轮确认时间那里 -->
-		    		<!-- <input type="hidden" name="secondOvertime" id="secondOvertime" value="${confirmInfoVo.secondOvertime }"/> 这个放到第二轮确认时间那里-->
-		    	</span>
-		    </h2>
-		    <h2 class="count_flow">排名：${confirmInfoVo.ranking }<input type="hidden" id="ranking" value="${confirmInfoVo.ranking }"/>
-		    	<span style="margin-left: 22px;">状态：</span>
-		    		<c:if test="${confirmInfoVo.ranking < 7}">
-		    		中标
-		    		</c:if>
-		    		<c:if test="${confirmInfoVo.ranking >= 7}">
-		    		未中标
-		    		</c:if>
-		    	<span style="margin-left: 22px;margin-right: 12px;">中标比例  :</span>
-		    		<input id="" name="" readonly="readonly" value="${confirmInfoVo.bidRatio }" type="text" class="tc w50">%
-		    </h2>
-		    <h2 class="count_flow">确认结束时间：
-		    	<span id="confirmOverTime">
+		</h2>    		<!-- <input type="hidden" name="secondOvertime" id="secondOvertime" value="${confirmInfoVo.secondOvertime }"/> 这个放到第二轮确认时间那里-->
+      </li>
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 50%;">
+      <h2 class="count_flow">
+ 	      <span class="font_sblck">确认结束时间：</span>
+ 	      <span class="margin-left-10 font_sblck" id="confirmOverTime">
 		    	<fmt:formatDate value="${confirmInfoVo.confirmOvertime }" pattern="yyyy-MM-dd HH:ss:mm"/>
 		    	<!-- 第一轮确认结束的时间点 -->
 		    	<input type="hidden" name="confirmOvertime" value="${confirmInfoVo.confirmOvertime }"/>
 		    	<!-- 第二轮确认结束的时间点 -->
 		    	<input type="hidden" name="secondOvertime" value="${confirmInfoVo.secondOvertime }"/>
 		    	</span>
-		    </h2>
-	 	</li>
+		    	</h2>
+      </li>
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15">
+      <h2 class="count_flow">
+      <span class="font_sblck">名次：</span>  
+      <span class="margin-left-10 font_sblck">第${confirmInfoVo.ranking }名</span>  
+      </h2>
+       </li>
+       <li class="col-md-4 col-sm-6 col-xs-12 pl15"> 
+       <h2 class="count_flow">
+		   <input type="hidden" id="ranking" value="${confirmInfoVo.ranking }"/>
+		    	<span class="font_sblck">状态：</span>
+		    	<span class="margin-left-10 font_sblck">
+		    		<c:if test="${confirmInfoVo.ranking < 7}">
+		    		中标
+		    		</c:if>
+		    		<c:if test="${confirmInfoVo.ranking >= 7}">
+		    		未中标
+		    		</c:if>
+		    		</span>
+		    		</h2>
+		    		</li>
+		    		<li  class="col-md-4 col-sm-6 col-xs-12 pl15">
+		    		<h2 class="count_flow">
+		    	<span class="font_sblck">中标比例  :</span>
+		    	 <span class="margin-left-10 font_sblck">${confirmInfoVo.bidRatio }%
+		    		</span>
+		    		</h2>
+		    		</li>
     </ul>
-    
-    
     <!--<c:if test="${confirmStatus=='-1'}"></c:if>-->
-    <ul class="ul_list" style="margin-top: 22px;">
+   
+     <h2 class="count_flow"><i>2</i>第一轮确认</h2>
+    <ul class="ul_list" >
     <c:if test="${confirmStatus=='-1'}">
-    	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
-     <div>
-     <div class="clear total f22">
-     	<span class="fl block">基本数量---第一轮确认：</span>
+     <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text" class="tc w50">%
-     		<span style="padding-left: 22px;">确认倒计时：<span id="confirmCountDown"></span></span>
+     		<input class="input_group" id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text">%
      	</h2>
-     </div>
-	<div class="content table_box">
+     </li>
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+      <h2 class="count_flow">
+      <span style="margin-left: 22px;margin-right: 12px;">确认倒计时：</span>
+      <span id="confirmCountDown"></span> 
+      </h2>
+      </li>
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="w30 info">序号</th>
-		  <th class="info">产品名称</th>
+		  <th class="w30 info"  width="10%">序号</th>
+		  <th class="info" width="20%">产品名称</th>
 		  <th class="info">数量</th>
 		  <th class="info">自报单价（元）</th>
 		  <th class="info">成交单价（元）</th>
@@ -425,7 +443,7 @@
 		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc" title="theProductId">
+		  <td class="tc"  width="5%" title="theProductId">
 		  	${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
@@ -446,35 +464,37 @@
 		</tr>
 		</c:forEach>
 	</table>
-  </div>
-  </div>
-  </li>
+  
   </c:if>
   <c:if test="${confirmStatus=='1'}">
-  <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
-     <div style="">
-     <div class="clear total f22"><span class="fl block">基本数量---第一轮确认：</span>
-     	<h2 class="count_flow" style="margin-bottom: 32px;">
+<!--    <h2 class="count_flow"><i>2</i>第一轮确认</h2>
+ -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
+     	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span id="confirmRatioSpan12" style="margin-left: 12px;margin-right: 12px;">${confirmInfoVo.bidRatio }</span>%
+     	</h2>
+     	</li>
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+      <h2 class="count_flow">
      			<span style="padding-left: 22px;">第一轮确认倒计时：</span>
      			<span id="confirmCountDown12">未开始</span>
-     	</h2>
-     </div>
-	<div class="content table_box">
-    	<table class="table table-bordered">
+      </h2>
+      </li>
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+		<thead>
 		<tr>
-		  <td>序号</td>
-		  <td>产品名称</td>
-		  <td>数量</td>
-		  <td>自报单价（元）</td>
-		  <td>成交单价（元）</td>
-		  <td>成交总价（元）</td>
+		  <td class="w30 info"  width="10%">序号</td>
+		  <td class="info" width="20%">产品名称</td>
+		  <td class="info" >数量</td>
+		  <td class="info" >自报单价（元）</td>
+		  <td class="info" >成交单价（元）</td>
+		  <td class="info" >成交总价（元）</td>
 		</tr>
+		</thead>
 		<tr>
-		  <td></td>
-		  <td colspan="4">合计</td>
-		  <td title="allProductTotalPrice12"></td>
+		  <td class="tc"></td>
+		  <td  class="tc" colspan="4">合计</td>
+		  <td class="tc" title="allProductTotalPrice12"></td>
 		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
@@ -494,45 +514,47 @@
 		</tr>
 		</c:forEach>
 	</table>
-  </div>
-  </div>
-  </li>
   </c:if>
     </ul>
   <!-- 
   <c:if test="${confirmInfoVo.bidStatus=='-1' || confirmInfoVo.bidStatus==null || confirmInfoVo.bidStatus=='2'}">
   </c:if>
    -->
-   <ul class="ul_list" style="margin-top: 22px;">
+    <h2 class="count_flow"><i>3</i>第二轮确认</h2>
+   <ul class="ul_list">
    <c:if test="${confirmStatus=='-1'}">
-   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
-  <div style="">
-     <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
-     	<h2 class="count_flow" style="margin-bottom: 32px;">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+     	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<span style="margin-left: 22px;"></span>%
+     		<span style="margin-left: 22px;">0</span>%
+     	</h2>
+     	</li>
+     	
+     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+     	<h2 class="count_flow" >
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown21">未开始</span>
      	</h2>
-     </div>
-	<div class="content table_box">
-    	<table class="table table-bordered">
+     	</li>
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+    	<thead>
 		<tr>
-		  <td>序号</td>
-		  <td>产品名称</td>
-		  <td>数量</td>
-		  <td>自报单价（元）</td>
-		  <td>成交单价（元）</td>
-		  <td>成交总价（元）</td>
+		  <td class="w30 info"  width="10%">序号</td>
+		  <td class="info" width="20%">产品名称</td>
+		  <td  class="info" >数量</td>
+		  <td  class="info" >自报单价（元）</td>
+		  <td  class="info" >成交单价（元）</td>
+		  <td  class="info" >成交总价（元）</td>
 		</tr>
+		</thead>
 		<tr>
-		  <td></td>
-		  <td colspan="4">合计</td>
-		  <td title="allProductTotalPrice2"></td>
+		  <td class="tc" ></td>
+		  <td class="tc"  colspan="4">合计</td>
+		  <td class="tc"  title="allProductTotalPrice2"></td>
 		</tr>
 		<c:forEach items="${confirmInfoVo.bidProductList }" var="bidproduct" varStatus="vs">
 		<tr>
-		  <td class="tc" title="theProductId2">
+		  <td class="tc" width="5%" title="theProductId2">
 		  	${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productName }"/>
@@ -548,27 +570,26 @@
 		</tr>
 		</c:forEach>
 	</table>
-  </div>
-  </div>
-  </li>
   	</c:if>
   	<c:if test="${confirmStatus=='1'}">
-  	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
-  <div>
-     <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
-     	<h2 class="count_flow">
+  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+<!--      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
+ -->     	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
+     	</h2>
+     </li>
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+    	<h2 class="count_flow">
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2"></span>
      	</h2>
-     </div>
-	<div class="content table_box">
+     </li>
     	<table class="table table-bordered table-condensed table-hover">
 		<thead>
 		<tr>
-		  <th class="w30 info">序号</th>
-		  <th class="info">产品名称</th>
+		  <th class="w30 info" width="10%">序号</th>
+		  <th class="info" width="20%">产品名称</th>
 		  <th class="info">数量</th>
 		  <th class="info">自报单价（元）</th>
 		  <th class="info">成交单价（元）</th>
@@ -598,9 +619,6 @@
 		</tr>
 		</c:forEach>
 	</table>
-  </div>
-  </div>
-  </li>
   	</c:if>
     </ul>
   

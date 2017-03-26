@@ -20,6 +20,32 @@
 				}
 			});
 		}
+			  // 显示
+    function showPrompt(id,selectID){
+   		  if(id){
+   		  $.ajax({
+				url: "${pageContext.request.contextPath }/product/productType.do",
+				type: "POST",
+				data: {productId:id},
+				success: function(data) {
+				if(data){
+       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+       	    '#'+selectID, {tips: [2, '#78BA32'],time:-1});
+				}else{
+				 inder=layer.tips("", 
+       	    '#'+selectID, {tips: [2, '#78BA32']});
+				}
+		      },error:function(){
+		       layer.tips("错误！", 
+       	    '#'+selectID, {tips: [2, '#78BA32']});
+		      }
+           });
+           }
+       	}
+		  //关闭
+	function closePrompt(){
+	layer.closeAll('tips');
+	}
 	</script>
 </head>
 <body>
@@ -33,7 +59,7 @@
       </div>
     </div>
    <!-- 修改订列表开始-->
-   <div class="container container_box">
+   <div class="container container_box" onmouseover="closePrompt()">
    <div class="mt10">
 	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
    </div> 
@@ -44,7 +70,7 @@
      </ul>
   </div> 
   <div class="clear" ></div>
-  <form id="productForm" name="" method="post">
+  <form id="productForm" name="" method="post" >
   	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
 	    <h2 class="count_flow"><i>2</i>产品信息</h2>
@@ -69,7 +95,7 @@
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 				<tr>
 				  <td class="tc"><input type="checkbox" alt=""></td>
-				  <td class="tc">${ productInfo.obProduct.name }</td>
+				  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td >
 				  <td class="tc">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc">${ productInfo.totalMoney }</td>

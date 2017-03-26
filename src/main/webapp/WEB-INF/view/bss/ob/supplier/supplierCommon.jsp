@@ -47,7 +47,7 @@
 		<tr>
 		 <c:forEach items="${plist }" var="bidproduct" varStatus="pi">
 		  <td class="tc">${pi.index + 1 }</td>
-		  <td class="tc">${bidproduct.remark }</td>
+		  <td class="tc" id="${supplier.id}${bidproduct.id}">${bidproduct.remark }</td>
 		  </c:forEach>
 		  <td class="tc">${supplier.resultCount }</td>
 		  <td class="tc">${supplier.offerPrice }</td>

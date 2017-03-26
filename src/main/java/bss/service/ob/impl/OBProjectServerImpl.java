@@ -777,8 +777,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 								upstatus.setStatus(4);
 								upstatus.setId(op.getId());
 								upstatus.setUpdatedAt(new Date());
-								OBprojectMapper
-										.updateByPrimaryKeySelective(upstatus);
+								OBprojectMapper.updateByPrimaryKeySelective(upstatus);
 							}
 						} else {
 							// 到规定时间 如果没有竞价供应商 修改竞状态 流拍

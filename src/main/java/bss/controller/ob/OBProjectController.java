@@ -639,8 +639,7 @@ public class OBProjectController {
 		Criteria criteria = example.createCriteria();
 		criteria.andProjectIdEqualTo(id);
 		// 根据标题的id查询标题下所有的商品信息
-		List<OBProductInfo> obProductInfoList = obProductInfoMapper
-				.selectByExample(example);
+		List<OBProductInfo> obProductInfoList = obProductInfoMapper.selectByExample(example);
 		HashMap<String, Object> selectMap = new HashMap<String, Object>();
 		model.addAttribute("obProductInfoList", obProductInfoList);
 		// 根据采购机构id查询采购机构
