@@ -404,7 +404,7 @@
         ID_NUMBER,
       </if>
       <if test="officerCertNo != null and officerCertNo != ''">
-        OFFICER_CERT_NO
+        OFFICER_CERT_NO,
       </if>
       <if test="netType != null">
         NET_TYPE

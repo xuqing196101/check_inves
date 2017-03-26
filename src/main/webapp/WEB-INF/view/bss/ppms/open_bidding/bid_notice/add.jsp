@@ -18,6 +18,144 @@
             $("#a").hide();
 		}
     })  
+    
+	var treeid = null;
+	function beforeClick(treeId, treeNode) {
+		var zTree = $.fn.zTree.getZTreeObj("treeCategory");
+		zTree.checkNode(treeNode, !treeNode.checked, null, true);
+		return false;
+	}
+	
+	function zTreeBeforeCheck(treeId, treeNode) {
+      if (treeNode.isParent == true) {
+          layer.msg("请在末节点上进行操作！");
+          return false;
+        } else {
+        return true;        
+        }
+    }
+	
+	function onCheck(e, treeId, treeNode) {
+		var clickFlag;
+        if(treeNode.checked) {
+          	clickFlag = "1";
+        } else {
+          	clickFlag = "0";
+        }
+        var articleId = "${articleId}";
+        var categoryIds = $("#cId").val();
+        var categoryNames = $("#categorySel").val();
+        if(clickFlag == "1") {
+          $.ajax({
+            url: "${pageContext.request.contextPath}/article/saveArtCategory.do",
+            contentType:'application/json;charset=UTF-8',
+            async: false,
+            data: {
+              "categoryIds":categoryIds,
+              "categoryNames":encodeURI(categoryNames),
+              "articleId": articleId,
+              "categoryId": treeNode.id,
+              "type": clickFlag
+            },
+            dataType: "json",
+            success: function(data){
+            	$("#cId").val(data.categoryIds);
+        		$("#categorySel").val(data.categoryNames);
+            }
+          });
+        } else {
+          $.ajax({
+            url: "${pageContext.request.contextPath}/article/saveArtCategory.do",
+            contentType:'application/json;charset=UTF-8',
+            async: false,
+            data: {
+              "categoryIds":categoryIds,
+              "categoryNames":encodeURI(categoryNames),
+              "articleId": articleId,
+              "categoryId": treeNode.id,
+              "type": clickFlag
+            },
+            dataType: "json",
+            success: function(data){
+            	$("#cId").val(data.categoryIds);
+        		$("#categorySel").val(data.categoryNames);
+            }
+	      });
+       	}
+	}
+	
+	function showCategory(articleId) {
+		//回显勾选
+		var backCategoryIds = $("#cId").val();
+		var zTreeObj;
+		var zNodes;
+		var setting = {
+			async: {
+				autoParam: ["id"],
+				enable: true,
+				url: "${pageContext.request.contextPath}/article/categoryTree.do",
+				otherParam: {
+					"articleId": articleId,
+					"backCategoryIds":backCategoryIds,
+				},
+				dataFilter: ajaxDataFilter,
+				dataType: "json",
+				type: "get"
+			},
+			/* check: {
+				enable: true,
+				chkStyle: "checkbox",
+				chkboxType: {
+					"Y": "ps",
+					"N": "ps"
+				}, //勾选checkbox对于父子节点的关联关系  
+			}, */
+			view: {
+				dblClickExpand: false
+			},
+			data: {
+				simpleData: {
+					enable: true
+				}
+			},
+			callback: {
+				beforeClick: beforeClick,
+				onCheck: onCheck,
+				beforeCheck: zTreeBeforeCheck,
+			}
+		};
+		zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+		zTreeObj.expandAll(true); //全部展开
+		var cityObj = $("#categorySel");
+		var cityOffset = $("#categorySel").offset();
+		$("#categoryContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+		$("body").bind("mousedown", onBodyDownOrg);
+	}
+	
+	function ajaxDataFilter(treeId, parentNode, childNodes) {
+		// 判断是否为空
+		if(childNodes) {
+			// 判断如果父节点是第二级,则将查询出来的子节点全部改为isParent = false
+			if(parentNode != null && parentNode != "undefined" && parentNode.level == 1) {
+				for(var i = 0; i < childNodes.length; i++) {
+					childNodes[i].isParent += false;
+				}
+			}
+		}
+		return childNodes;
+	}
+	function hideCategory() {
+		$("#categoryContent").fadeOut("fast");
+		$("body").unbind("mousedown", onBodyDownOrg);
+	}
+	function onBodyDownOrg(event) {
+		if (!(event.target.id == "menuBtn" || event.target.id == "categorySel" || event.target.id == "categoryContent" || $(event.target).parents("#categoryContent").length>0)) {
+			hideCategory();
+		}
+	}
+    
+    
+    
   	//导入模板
     function inputTemplete(projectId){
         var iframeWin;
@@ -115,20 +253,25 @@
         } 
        
        function save(){
-       		$.ajax({
-			    type: 'post',
-			    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=0",
-			    dataType:'json',
-			    data : $('#form').serialize(),
-			    success: function(data) {
-			    	if(!data.success){
-                        layer.msg(data.message,{offset: ['220px']});
-                    }else{
-				    	//$("#is_saveNotice").val("isok");
-				        layer.msg(data.message,{offset: '222px'});
-                    }
-			    }
-			});
+       		var categoryId = $("#cId").val();
+       		if (categoryId != null && categoryId != "") {
+	       		$.ajax({
+				    type: 'post',
+				    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=0",
+				    dataType:'json',
+				    data : $('#form').serialize(),
+				    success: function(data) {
+				    	if(!data.success){
+	                        layer.msg(data.message,{offset: ['220px']});
+	                    }else{
+					    	//$("#is_saveNotice").val("isok");
+					        layer.msg(data.message,{offset: '222px'});
+	                    }
+				    }
+				});
+			} else {
+				layer.msg("请选择产品类别",{offset: '222px'});
+			}
        }
        
        $(function(){
@@ -146,9 +289,12 @@
 </head>
 
 <body>
+	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+   	</div>
 	 <form  method="post" id="form" > 
         <!-- 按钮 -->
-        <div class="fr pr15 mt10">
+        <div class="fr pr15">
 		     <%-- <input type="button" class="btn btn-windows input" onclick="inputTemplete('${projectId }')" value="模板导入"></input> --%>
 	         <!-- <input type="button" class="btn btn-windows output" onclick="exportWord()" value="导出"></input> -->
 	         <!-- <input type="button" class="btn btn-windows git" onclick="pre_view()" value="预览"></input>   -->
@@ -165,31 +311,58 @@
 	    <input type="hidden" name="lastArticleTypeId" id="articleTypeId" value="${article.lastArticleType.id}">
 	    <input type="hidden" name="id" id="articleId" value="${articleId}">
 	    <input type="hidden" name="projectId" value="${projectId}">
-		<div class="col-md-12 clear">
-			 <span class="red">*</span>公告标题：<br>
-			 <c:if test="${article.name == null && noticeType == 'purchase'}">
-			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})"><br>
-			 </c:if>
-			 <c:if test="${article.name == null && noticeType == 'win'}">
-			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${project.name}中标公示(${project.projectNumber})"><br>
-			 </c:if>
-			 <c:if test="${article.name != null}">
-			 	<input type="text" class="col-md-12 w100p" id="name" name="name" value="${article.name}"><br>
-			 </c:if>
-			 <span class="red">*</span>发布范围：<br>
-			 <div >
-	            <label class="fl margin-bottom-0"><input type="radio" name="ranges" value="0">内网</label>
-	            <label class="ml30 fl"><input type="radio" name="ranges" value="2" >内外网</label>
-	         </div><br>
-        	 <div class="mt10"><span class="red">*</span><span>公告内容：</span></div>
-			 <c:if test='${article.name == null || article.name == ""}'>
-	             <input type="hidden" id="articleContent" value='${article1.content}'>
-			 </c:if>
-			 <c:if test='${article.name != null && article.name != ""}'>
-	             <input type="hidden" id="articleContent" value='${article.content}'>
-			 </c:if>
-             <script id="editor" name="content" type="text/plain" class="ml125 w900"></script>
-
+		<ul class="clear col-md-12 col-sm-12 col-xs-12 p0 mb10">
+			<li class="col-md-12 col-sm-12 col-xs-12">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+				<div class="star_red">*</div>公告标题：</span>
+				<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+				 <c:if test="${article.name == null && noticeType == 'purchase'}">
+				 	<input type="text" id="name" name="name" value="${project.name}采购公告(${project.projectNumber})">
+				 </c:if>
+				 <c:if test="${article.name == null && noticeType == 'win'}">
+				 	<input type="text" id="name" name="name" value="${project.name}中标公示(${project.projectNumber})">
+				 </c:if>
+				 <c:if test="${article.name != null}">
+				 	<input type="text" id="name" name="name" value="${article.name}"><br>
+				 </c:if>
+			 	</div>
+			 </li>
+			 <li class="col-md-3 col-sm-6 col-xs-12 clear pl0">
+			 	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+					<div class="star_red">*</div>发布范围：
+				</span>
+				<div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
+		            <label class="fl margin-bottom-0"><input type="radio" name="ranges" value="0">内网</label>
+		            <label class="ml30 fl"><input type="radio" name="ranges" value="2" >内外网</label>
+				</div>
+			</li>
+			<li class="col-md-3 col-sm-6 col-xs-12 pl0">
+				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+					<div class="star_red">*</div>选择产品类别：
+				</span>
+				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
+					<input id="cId" name="categoryId"  type="hidden" value="${categoryIds}">
+			        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryNames}"  onclick="showCategory('${articleId}');" />
+					<div class="drop_up" onclick="showCategory('${articleId}');">
+					    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
+			        </div>
+					<div class="cue" id="ERR_category">${ERR_category}</div>
+				</div>
+			</li>
+	        <li class="col-md-12 col-sm-12 col-xs-12 pl0">
+	        	<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">
+	        		<div class="star_red">*</div>信息正文：
+	        	</span>
+				 <c:if test='${article.name == null || article.name == ""}'>
+		             <input type="hidden" id="articleContent" value='${article1.content}'>
+				 </c:if>
+				 <c:if test='${article.name != null && article.name != ""}'>
+		             <input type="hidden" id="articleContent" value='${article.content}'>
+				 </c:if>
+				 <div class="col-md-12 col-sm-12 col-xs-12 p0">
+             	 	<script id="editor" name="content" type="text/plain" class="ml125 w900 edit-posit"></script>
+			 	 </div>
+			 </li>
                           <%-- 上传附件： 
              <u:upload id="a" groups="a,c" businessId="${articleId }" multiple="true" sysKey="${sysKey }" typeId="${typeId }" auto="true" />
              <u:show  showId="b" groups="b,d,c"  businessId="${articleId }" sysKey="${sysKey }" typeId="${typeId }"/> --%>
@@ -209,7 +382,7 @@
 	                <u:upload id="e"  groups="a,c,f" multiple="true" businessId="${articleId}"  sysKey="${sysKey}" typeId="${security}" auto="true" />
                   <u:show  showId="f"  groups="b,d,f,g" businessId="${articleId}" sysKey="${sysKey}" typeId="${security}"/>
               </li>
-        </div>
+           </ul>
       </form>
       
 	<div class="dnone" id="preview">

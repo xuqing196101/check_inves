@@ -47,7 +47,7 @@
         });
       }
 
-      function goBack() {
+      function goBack1() {
         window.location.href = "${pageContext.request.contextPath }/article/auditlist.html?status=1";
       }
 
@@ -79,6 +79,7 @@
             var typeId = $("#articleTypes").select2("data").text;
             if(typeId == "工作动态") {
             	$("#second").show();
+            	$("#artCategory").hide();
             } else if(typeId == "采购公告") {
               $("#second").show();
               $("#three").show();
@@ -95,16 +96,20 @@
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+              $("#artCategory").hide();
             } else if(typeId == "网上竞价公告") {
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+              $("#artCategory").hide();
             } else if(typeId == "采购法规") {
               $("#second").show();
               $("#three").hide();
               $("#four").hide();
+              $("#artCategory").hide();
             } else if(typeId == "处罚公告") {
               $("#second").show();
+              $("#artCategory").hide();
               var secId = "${article.secondArticleTypeId}";
 	           if (secId == '114') {
 			     $("#three").show();
@@ -339,10 +344,10 @@
 	  	var range = $("#range").val();
 	  	var articleTypeId = "${articlesArticleTypeId}";
 	  	var name = "${articleName}";
-	  	var startDate = "${publishStartDate}";
-	  	var endDate = "${publishEndDate}";
+	    var startDate = null;
+	    var endDate = null;
 	  	var secondArticleTypeId = "${secondArticleTypeId}";
-	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&publishStartDate="+startDate+"&publishEndDate="+endDate+"&secondArticleTypeId="+secondArticleTypeId;
+	  	 window.location.href = "${ pageContext.request.contextPath }/article/auditlist.html?page="+curpage+"&status="+status+"&range="+range+"&articleTypeId="+articleTypeId+"&name="+name+"&secondArticleTypeId="+secondArticleTypeId;
 	  }
     </script>
   </head>
@@ -429,6 +434,12 @@
                 <label class="ml10 fl"><input type="radio" disabled="disabled" name="ranges" value="2">内外网</label>
               </div>
             </li>
+            <li class="col-md-3 col-sm-6 col-xs-12 pl15" id="artCategory">
+              <span class="ol-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>产品类别：</span>
+              <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
+                <input type="text"  disabled="disabled"  value="${categoryNames}">
+              </div>
+            </li>
             <li class="col-md-3 col-sm-6 col-xs-12">
               <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">提交时间：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 p0">
@@ -476,7 +487,7 @@
             </li>
           </ul>
           <div class="col-md-12 tc">
-            <input class="btn btn-windows back" value="返回" type="button" onclick="goBack()">
+            <input class="btn btn-windows back" value="返回" type="button" onclick="goBack();">
           </div>
         </div>
 

@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 
 import com.github.pagehelper.PageInfo;
@@ -85,7 +86,7 @@ public class FlowMangeController {
     @RequestMapping("/save")
     @ResponseBody
     public void save(FlowDefine fd, HttpServletResponse response) throws IOException{
-        try {
+       try {
             String msg = "";
             int count = 0;
             if ("".equals(fd.getName()) || fd.getName() == null) {
@@ -120,6 +121,7 @@ public class FlowMangeController {
             response.getWriter().flush();
         } catch (Exception e) {
             e.printStackTrace();
+            throw new RuntimeException();
         } finally{
             response.getWriter().close();
         }

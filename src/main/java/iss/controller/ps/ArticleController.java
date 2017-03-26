@@ -38,8 +38,9 @@ import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
-import ses.model.ems.ExpertCategory;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
@@ -82,6 +83,9 @@ public class ArticleController extends BaseSupplierController {
   
   @Autowired
   private ProjectService projectService;
+  
+  @Autowired
+  private CategoryService categoryService;
 
   private Logger logger = Logger.getLogger(LoginController.class);
 
@@ -188,7 +192,8 @@ public class ArticleController extends BaseSupplierController {
     String id = request.getParameter("id");
     String url = "";
     boolean flag = true;
-
+    //产品类别
+    String categoryIds = request.getParameter("categoryId");
     if (ValidateUtils.isNull(article.getName())) {
       model.addAttribute("ERR_name", "标题名称不能为空");
       flag = false;
@@ -258,9 +263,6 @@ public class ArticleController extends BaseSupplierController {
     // model.addAttribute("ERR_auditDoc", "请上传单位及保密委员会审核表!");
     // }
     
-    //产品类别
-    String categoryIds = request.getParameter("categoryId");
-    
     if (flag == false) {
       model.addAttribute("article", article);
       model.addAttribute("articleId", id);
@@ -283,6 +285,11 @@ public class ArticleController extends BaseSupplierController {
       List<DictionaryData> secrets = dictionaryDataServiceI.find(sj);
       if (secrets.size() > 0) {
         model.addAttribute("secretTypeId", secrets.get(0).getId());
+      }
+      if (categoryIds != null && !"".equals(categoryIds)) {
+        Category category = categoryService.findById(categoryIds);
+        model.addAttribute("categoryIds", category.getId());
+        model.addAttribute("categoryNames", category.getName());
       }
       url = "iss/ps/article/add";
     } else {
@@ -492,7 +499,8 @@ public class ArticleController extends BaseSupplierController {
     String id = request.getParameter("id");
     String url = "";
     boolean flag = true;
-
+    //产品类别
+    String categoryIds = request.getParameter("categoryId");
     if (ValidateUtils.isNull(article.getName())) {
       model.addAttribute("ERR_name", "标题名称不能为空");
       flag = false;
@@ -551,8 +559,6 @@ public class ArticleController extends BaseSupplierController {
         }
       }
     }
-    //产品类别
-    String categoryIds = request.getParameter("categoryId");
     
     if (flag == false) {
       model.addAttribute("article", article);
@@ -579,6 +585,11 @@ public class ArticleController extends BaseSupplierController {
       }
       //回显关联品目  有问题
       //articleService.backArtCategory(categoryIds, model);
+      if (categoryIds != null && !"".equals(categoryIds)) {
+        Category category = categoryService.findById(categoryIds);
+        model.addAttribute("categoryIds", category.getId());
+        model.addAttribute("categoryNames", category.getName());
+      }
       url = "iss/ps/article/edit";
     } else {
       if (ValidateUtils.isNull(article.getFourArticleTypeId())) {
@@ -861,6 +872,8 @@ public class ArticleController extends BaseSupplierController {
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
+    //查询关联品目
+    articleService.getArticleCategory(id, model);
     model.addAttribute("status", status);
     model.addAttribute("curpage", curpage);
     model.addAttribute("articleTypeId", articleTypeId);
@@ -1077,7 +1090,8 @@ public class ArticleController extends BaseSupplierController {
     if (secrets.size() > 0) {
       model.addAttribute("secretTypeId", secrets.get(0).getId());
     }
-    
+    //查询关联品目
+    articleService.getArticleCategory(id, model);
     model.addAttribute("articleName", title);
     model.addAttribute("articlesRange", range);
     model.addAttribute("articlesStatus", status);
@@ -1109,6 +1123,9 @@ public class ArticleController extends BaseSupplierController {
     article.setSubmitAt(temp.getSubmitAt());
     article.setUpdatedAt(new Date());
     String url = "";
+    //产品类别
+    String categoryIds = request.getParameter("categoryId");
+    
     if (article.getStatus() == 2) {
       article.setReason("");
       article.setStatus(2);
@@ -1213,9 +1230,6 @@ public class ArticleController extends BaseSupplierController {
         model.addAttribute("secretTypeId", secrets.get(0).getId());
       }
 
-      //产品类别
-      String categoryIds = request.getParameter("categoryId");
-      
       if (flag == false) {
         model.addAttribute("article", article);
         model.addAttribute("articleId", id);
@@ -1223,6 +1237,11 @@ public class ArticleController extends BaseSupplierController {
         model.addAttribute("list", articleList);
         //查询关联品目
         //articleService.getArticleCategory(id, model);
+        if (categoryIds != null && !"".equals(categoryIds)) {
+          Category category = categoryService.findById(categoryIds);
+          model.addAttribute("categoryIds", category.getId());
+          model.addAttribute("categoryNames", category.getName());
+        }
         url = "iss/ps/article/audit/audit";
       } else {
         article.setPublishedName(user.getRelName());
@@ -1767,9 +1786,9 @@ public class ArticleController extends BaseSupplierController {
    */
   @ResponseBody
   @RequestMapping(value = "/categoryTree", produces = "application/json;charset=UTF-8")
-  public String categoryTree(String articleId, String id, String backCategoryIds){
+  public String categoryTree(String articleId, String id, String backCategoryIds, String rootCode){
       List < CategoryTree > allCategories = new ArrayList < CategoryTree > ();
-      //回显数据库保存
+      /*//回显数据库保存
       if (id == null) {
           if (backCategoryIds != null && !"".equals(backCategoryIds)) {
             //后台校验返回时回显选中
@@ -1810,7 +1829,37 @@ public class ArticleController extends BaseSupplierController {
                 allCategories.add(ct);
               }
           }
+      }*/
+      if (rootCode != null && !"".equals(rootCode)) {
+          if (id == null) {
+            DictionaryData dictionaryData = DictionaryDataUtil.get(rootCode);
+            CategoryTree ct=new CategoryTree();
+            ct.setId(dictionaryData.getId());
+            ct.setName(dictionaryData.getName());
+            ct.setIsParent("true");
+            ct.setClassify(dictionaryData.getCode());
+            // 设置是否被选中
+            ct.setChecked(articleService.isCheckCategory(articleId, dictionaryData.getId()));
+            allCategories.add(ct);
+          } else {
+            List < Category > tempNodes = articleService.getCategoryIsPublish(id);
+            for (Category category : tempNodes) {
+              CategoryTree ct = new CategoryTree();
+              ct.setName(category.getName());
+              ct.setId(category.getId());
+              ct.setParentId(category.getParentId());
+              // 判断是否为父级节点
+              List < Category > nodesList = articleService.getCategoryIsPublish(category.getId());
+              if(nodesList != null && nodesList.size() > 0) {
+                ct.setIsParent("true");
+              }
+              // 判断是否被选中
+              ct.setChecked(articleService.isCheckCategory(articleId, category.getId()));
+              allCategories.add(ct);
+            }
+          }
       }
+      
       return JSON.toJSONString(allCategories);
   }
 

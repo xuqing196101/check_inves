@@ -22,7 +22,7 @@
 	
 	function zTreeBeforeCheck(treeId, treeNode) {
       if (treeNode.isParent == true) {
-          layer.msg("请在末节点上进行操作！");
+          layer.msg("请选择末节点");
           return false;
         } else {
         return true;        
@@ -78,9 +78,35 @@
        	}
 	}
 	
+	/*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+    
+  	  if (treeNode.isParent == true) {
+          layer.msg("请选择末节点");
+          return false;
+      }
+	  if (!treeNode.isParent) {
+	  	$("#cId").val(treeNode.id);
+        $("#categorySel").val(treeNode.name);
+	    hideCategory();
+	  }
+    }
+	
 	function showCategory(articleId) {
 		//回显勾选
-		var backCategoryIds = $("#cId").val();
+		//var backCategoryIds = $("#cId").val();
+		//栏目类型
+		var threeType = $("#threeType").select2("data").text;
+		var rootCode = null;
+		if (threeType == "进口" || threeType == "物资") {
+			rootCode = "GOODS";
+		}
+		if (threeType == "工程") {
+			rootCode = "PROJECT";
+		}
+		if (threeType == "服务") {
+			rootCode = "SERVICE";
+		}
 		var zTreeObj;
 		var zNodes;
 		var setting = {
@@ -90,20 +116,21 @@
 				url: "${pageContext.request.contextPath}/article/categoryTree.do",
 				otherParam: {
 					"articleId": articleId,
-					"backCategoryIds":backCategoryIds,
+					//"backCategoryIds":backCategoryIds,
+					"rootCode":rootCode,
 				},
 				dataFilter: ajaxDataFilter,
 				dataType: "json",
 				type: "get"
 			},
-			check: {
+			/* check: {
 				enable: true,
 				chkStyle: "checkbox",
 				chkboxType: {
 					"Y": "ps",
 					"N": "ps"
 				}, //勾选checkbox对于父子节点的关联关系  
-			},
+			}, */
 			view: {
 				dblClickExpand: false
 			},
@@ -113,9 +140,10 @@
 				}
 			},
 			callback: {
-				beforeClick: beforeClick,
+				/* beforeClick: beforeClick,
 				onCheck: onCheck,
-				beforeCheck: zTreeBeforeCheck,
+				beforeCheck: zTreeBeforeCheck, */
+				onClick:zTreeOnClick,
 			}
 		};
 		zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
@@ -181,6 +209,8 @@
 			getSencond(parentId);
 			$("#choseCategory").hide();
 			hideCategory();
+			$("#cId").val("");
+        	$("#categorySel").val("");
 		} else if (typeId == "采购公告") {
 			$("#second").show();
 			$("#three").show();
@@ -188,7 +218,6 @@
 			$("#lmsx").removeClass("tphide");
 			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
 			getSencond(parentId);
-			$("#choseCategory").show();
 		} else if (typeId == "中标公示") {
 			$("#second").show();
 			$("#three").show();
@@ -196,7 +225,6 @@
 			$("#lmsx").removeClass("tphide");
 			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
 			getSencond(parentId);
-			$("#choseCategory").show();
 		} else if (typeId == "单一来源公示") {
 			$("#second").show();
 			$("#three").show();
@@ -204,7 +232,6 @@
 			$("#lmsx").removeClass("tphide");
 			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
 			getSencond(parentId);
-			$("#choseCategory").show();
 		} else if (typeId == "商城竞价公告") {
 			$("#second").show();
 			$("#three").hide();
@@ -214,6 +241,8 @@
 			getSencond(parentId);
 			$("#choseCategory").hide();
 			hideCategory();
+			$("#cId").val("");
+        	$("#categorySel").val("");
 		} else if (typeId == "网上竞价公告") {
 			$("#second").show();
 			$("#three").hide();
@@ -223,6 +252,8 @@
 			getSencond(parentId);
 			$("#choseCategory").hide();
 			hideCategory();
+			$("#cId").val("");
+        	$("#categorySel").val("");
 		} else if (typeId == "采购法规") {
 			$("#second").show();
 			$("#three").hide();
@@ -232,6 +263,8 @@
 			getSencond(parentId);
 			$("#choseCategory").hide();
 			hideCategory();
+			$("#cId").val("");
+        	$("#categorySel").val("");
 		} else if (typeId == "处罚公告") {
 			$("#second").show();
 			$("#three").hide();
@@ -241,6 +274,8 @@
 			getSencond(parentId);
 			$("#choseCategory").hide();
 			hideCategory();
+			$("#cId").val("");
+        	$("#categorySel").val("");
 		} else {
 			$("#picNone").removeClass().addClass("col-md-6 col-sm-6 col-xs-12 mt10 dis_hide");
 			$("#second").hide();
@@ -252,6 +287,8 @@
 			$("#fourType").empty();
 			$("#choseCategory").hide();
 			hideCategory();
+			$("#cId").val("");
+        	$("#categorySel").val("");
 		}
 	}
 
@@ -311,8 +348,14 @@
 	}
 
 	function threeTypeInfo() {
+		$("#cId").val("");
+        $("#categorySel").val("");
 		$("#fourType").empty();
 		var parentId = $("#threeType").select2("val");
+		var threeTypeName = $("#threeType").select2("data").text;
+		if (threeTypeName == '进口' || threeTypeName == '物资' || threeTypeName == '工程' || threeTypeName == '服务') {
+			$("#choseCategory").show();
+		}
 		$.ajax({
 					contentType : "application/json;charset=UTF-8",
 					url : "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="
@@ -456,43 +499,50 @@
 							$("#lmsx").addClass("tphide");
 							$("#choseCategory").hide();
 							hideCategory();
+							$("#cId").val("");
+				        	$("#categorySel").val("");
 						} else if (typeId == "采购公告") {
 							$("#second").show();
 							$("#three").show();
 							$("#four").show();
-							$("#choseCategory").show();
 						} else if (typeId == "中标公示") {
 							$("#second").show();
 							$("#three").show();
 							$("#four").show();
-							$("#choseCategory").show();
 						} else if (typeId == "单一来源公示") {
 							$("#second").show();
 							$("#three").show();
 							$("#four").hide();
-							$("#choseCategory").show();
 						} else if (typeId == "商城竞价公告") {
 							$("#second").show();
 							$("#three").hide();
 							$("#four").hide();
 							$("#choseCategory").hide();
 							hideCategory();
+							$("#cId").val("");
+				        	$("#categorySel").val("");
 						} else if (typeId == "网上竞价公告") {
 							$("#second").show();
 							$("#three").hide();
 							$("#four").hide();
 							$("#choseCategory").hide();
 							hideCategory();
+							$("#cId").val("");
+				        	$("#categorySel").val("");
 						} else if (typeId == "采购法规") {
 							$("#second").show();
 							$("#three").hide();
 							$("#four").hide();
 							$("#choseCategory").hide();
 							hideCategory();
+							$("#cId").val("");
+				        	$("#categorySel").val("");
 						} else if (typeId == "处罚公告") {
 							$("#second").show();
 							$("#choseCategory").hide();
 							hideCategory();
+							$("#cId").val("");
+				        	$("#categorySel").val("");
 							var secId = "${article.secondArticleTypeId}";
 							if (secId == '114') {
 								$("#three").show();
@@ -571,14 +621,15 @@
 							});
 						}
 						$("#threeType").select2();
-						$("#threeType").select2("val",
-								"${article.threeArticleTypeId }");
+						$("#threeType").select2("val", "${article.threeArticleTypeId }");
+						var threeTypeName = $("#threeType").select2("data").text;
+						if (threeTypeName == '进口' || threeTypeName == '物资' || threeTypeName == '工程' || threeTypeName == '服务') {
+							$("#choseCategory").show();
+						}
 					}
 				});
-
 		var fparentId = "${article.threeArticleTypeId }";
-		$
-				.ajax({
+		$.ajax({
 					contentType : "application/json;charset=UTF-8",
 					url : "${pageContext.request.contextPath }/article/aritcleTypeParentId.do?parentId="
 							+ fparentId,

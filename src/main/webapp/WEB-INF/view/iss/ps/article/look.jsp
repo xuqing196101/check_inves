@@ -154,7 +154,21 @@
 		                        内外网
 		                      </c:if>
 		                    </td>
+		                    <c:if test="${categoryNames != '' && categoryNames != null}">
+			                    <td class="bggrey" width="10%">产品类别：</td>
+			                    <td width="40%">
+			                      ${categoryNames}
+			                    </td>
+		                    </c:if>
 		                  </tr>
+	                  </c:if>
+	                  <c:if test="${four != '' || four != null}">
+	                  	<c:if test="${categoryNames != '' && categoryNames != null}">
+		                    <td class="bggrey" width="10%">产品类别：</td>
+		                    <td width="40%">
+		                      ${categoryNames}
+		                    </td>
+	                    </c:if>
 	                  </c:if>
                   </c:if>
                 </tbody>
