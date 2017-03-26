@@ -158,7 +158,7 @@
    <div class="star_red">提示：报价一旦提交将不能修改，请谨慎提交！</div>
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
   </div> 
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">

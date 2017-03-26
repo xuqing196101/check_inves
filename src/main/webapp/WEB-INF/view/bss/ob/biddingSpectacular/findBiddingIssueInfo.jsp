@@ -97,9 +97,8 @@
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
 				<tr>
 				  <td class="tc"><input type="checkbox" alt=""></td>
-				  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td >
 				  <td class="tc">${ vs.index+1 }</td>
-				  <td class="tc">${ productInfo.obProduct.name }</td>
+				  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td >
 				  <td class="tc">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc">${ productInfo.totalMoney }</td>

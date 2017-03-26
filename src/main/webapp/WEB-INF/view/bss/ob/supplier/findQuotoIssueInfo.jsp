@@ -40,7 +40,7 @@
    </div> 
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
   </div> 
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">
