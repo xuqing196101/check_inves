@@ -47,9 +47,9 @@
 	}
 	//占比下调,返回对应占比后数量@param 值
 	function getDownRatioVal(passVal,beforeRatio,afterRatio) {
-		var br = parseInt(beforeRatio)/100;
-		var ar = parseInt(afterRatio)/100;
-		return Math.ceil((parseInt(passVal) / br) * ar);
+		var br = parseDouble(beforeRatio)/100;
+		var ar = parseDouble(afterRatio)/100;
+		return Math.ceil((parseDouble(passVal) / br) * ar);
 	}
 	//定义当前标题的全局(无论第一、二轮)变量
 	
@@ -109,7 +109,9 @@
 					} else {
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
+						alert(changeRatioCounts[index]+"  f "+afterInputVal);
+							//var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
+							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
