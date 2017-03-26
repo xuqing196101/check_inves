@@ -1,12 +1,12 @@
 <%@ page language="java" import="java.util.*" pageEncoding="UTF-8"%>
 <%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 <!DOCTYPE HTML>
 <html>
 	<head>
-		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>供应商报价页面</title>
-	
+	<%@ include file="/WEB-INF/view/common.jsp" %>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<script type="text/javascript">
 		var ids = [];
 		$(function(){
@@ -158,97 +158,7 @@
    <div class="star_red">提示：报价一旦提交将不能修改，请谨慎提交！</div>
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-		<table class="table table-bordered mt10">
-		    <tbody>
-			  <tr>
-			    <td class="info"><b>竞价标题</b></td>
-			    <td>${ obProject.name }</td>
-			    <td class="info"><b>竞价编号</b></td>
-			    <td>${ obProject.projectNumber }</td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>交货地点</b></td>
-			    <td>${ obProject.deliveryAddress }</td>
-			     <td class="info"><b>交货时间</b></td>
-			    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>参与供应商数</b></td>
-			    <td>
-			    	<c:if test="${obProject.qualifiedSupplier==0}">
-				   		0
-				  	</c:if>
-				  	<c:if test="${obProject.qualifiedSupplier==null}">
-				  		0
-				  	</c:if>
-				   	<c:if test="${obProject.qualifiedSupplier!=0}">
-				   		 ${obProject.qualifiedSupplier}
-				 	</c:if>
-			    </td>
-			    <td class="info"><b>运杂费</b></td>
-			    <td>${ transportFees }</td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>成交供应商数</b></td>
-			    <td>
-				    <c:if test="${obProject.closingSupplier==0}">
-			   			0
-			  		</c:if>
-			  		<c:if test="${obProject.closingSupplier==null}">
-			   			0
-			  		</c:if>
-			   		<c:if test="${obProject.closingSupplier!=0}">
-			   			${obProject.closingSupplier}
-			  		</c:if>
-				</td>
-			    <td class="info"><b>采购机构</b></td>
-			    <td>${ orgName }</td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>需求单位</b></td>
-			    <td>${ demandUnit }</td>
-			    <td class="info"><b>采购联系人：</b></td>
-			    <td>${ obProject.orgContactName }</td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>需求联系人</b></td>
-			    <td>${ obProject.contactName }</td>
-			    <td class="info"><b>采购联系电话</b></td>
-			    <td>${ obProject.orgContactTel }</td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>需求联系电话</b></td>
-			    <td>${ obProject.contactTel }</td>
-			    <td class="info"><b></b></td>
-			    <td></td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>竞价开始时间</b></td>
-			    <td><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			    <td class="info"><b>竞价结束时间</b></td>
-			    <td><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>竞价内容</b></td>
-			    <td colspan="3">${ obProject.content }</td>
-			  </tr>
-			  <tr>
-			    <td class="info"><b>竞价文件</b></td>
-			    <td colspan="3">
-			    <c:if test="${ !empty uploadFiles  }">
-			    	<c:forEach items="${ uploadFiles }" var="file">
-			     		${ file.name } <button class="btn" onclick="download('${file.id}','2','','')"> 查看 </button>
-			     		
-			     		<br />
-			       	</c:forEach>
-			     </c:if>
-			     <c:if test="${ empty uploadFiles  }">
-			     	无
-			     </c:if>
-			     </td>
-			  </tr>
-			 </tbody>
-		 </table>
+		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
   </div> 
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">

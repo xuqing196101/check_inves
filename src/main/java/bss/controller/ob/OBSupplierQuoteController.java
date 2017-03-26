@@ -153,6 +153,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
+		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
