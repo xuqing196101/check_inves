@@ -21,7 +21,7 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
 	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/ob_project/biddingInfoList.do?page=" + e.curr;
+	      		location.href = "${pageContext.request.contextPath }/ob_project/biddingInfoList.do?name=${ name }&&startTime=${ startTimeStr }&&endTime=${ endTimeStr }&&page=" + e.curr;
 	        }
 	      }
 	    });
@@ -112,7 +112,7 @@
 				   return;
 			   }
 			   if(status == '1' || status == '2' || status == '4' || status == '5'){
-			   	   // 查看结果
+			   	   // 查看竞价信息
 				   window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?id="+valueArr[0];
 			   }
 	       } else if(id.length > 1) {
@@ -156,11 +156,11 @@
 	      </li>
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
-	    	 <input name="startTime" value="${ startTime }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
+	    	 <input name="startTime" value="${ startTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li>
     	  <li>
 	    	<label class="fl">竞价结束时间：</label>
-			<input name="endTime" value="${ endTime }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
+			<input name="endTime" value="${ endTimeStr }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
 	    	<button type="reset" class="btn fl mt1 ml5">重置</button>  	
@@ -196,31 +196,7 @@
 			  <td class="tc"><fmt:formatDate value="${ obProject.startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.endTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
-				<%-- <c:if test="${ !empty obProject.tradedSupplierCount }">
-					<a href="javascript:;">${ obProject.tradedSupplierCount }</a>
-				</c:if>
-				<c:if test="${ empty obProject.tradedSupplierCount }">
-					0
-				</c:if> --%>
-				<c:if test="${obProject.qualifiedSupplier==0}">
-			   		0
-			  	</c:if>
-			  	<c:if test="${obProject.qualifiedSupplier==null}">
-			  		0
-			  	</c:if>
-			   	<c:if test="${obProject.qualifiedSupplier!=0}">
-			   		 <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}">${obProject.qualifiedSupplier}</a>
-			 	</c:if>
-				
-			  </td>
-			  <td class="tc">
-			  	<%-- <c:if test="${ !empty obProject.qualifiedSupplier }">
-			  	    <a href="javascript:;">${ obProject.qualifiedSupplier  }</a>
-			  	</c:if>
-			  	<c:if test="${empty obProject.qualifiedSupplier }">
-			  		0
-			  	</c:if> --%>
-			  	<c:if test="${obProject.closingSupplier==0}">
+				<c:if test="${obProject.closingSupplier==0}">
 		   			0
 		  		</c:if>
 		  		<c:if test="${obProject.closingSupplier==null}">
@@ -229,6 +205,17 @@
 		   		<c:if test="${obProject.closingSupplier!=0}">
 		   			<a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}&result=1">${obProject.closingSupplier}</a>
 		  		</c:if>
+			  </td>
+			  <td class="tc">
+			  	<c:if test="${obProject.qualifiedSupplier==0}">
+			   		0
+			  	</c:if>
+			  	<c:if test="${obProject.qualifiedSupplier==null}">
+			  		0
+			  	</c:if>
+			   	<c:if test="${obProject.qualifiedSupplier!=0}">
+			   		 <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}">${obProject.qualifiedSupplier}</a>
+			 	</c:if>
 			  </td>
 			  <td class="tc">
 			  	<c:if test="${ obProject.status == 1 }">

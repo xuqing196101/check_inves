@@ -21,7 +21,7 @@
 	      }(),
 	      jump : function(e, first) { //触发分页后的回调
 	    	if(!first){ //一定要加此判断，否则初始时会无限刷新
-	      		location.href = "${pageContext.request.contextPath }/supplierQuote/list.do?page=" + e.curr;
+	      		location.href = "${pageContext.request.contextPath }/supplierQuote/list.do?name=${ name }&&createTime=${ createTimeStr }&&page=" + e.curr;
 	        }
 	      }
 	    });
@@ -242,6 +242,7 @@
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
 		  <th class="info">竞价标题</th>
+		  <th class="info">竞价项目编号</th>
 		  <th class="info">报价开始时间</th>
 		  <th class="info">报价截止时间</th>
 		  <th class="info">状态</th>
@@ -255,6 +256,7 @@
 			  <td>
 			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>
 			  </td class="tl">
+			  <td class="tc">${ obProject.obProjectList[0].projectNumber }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
