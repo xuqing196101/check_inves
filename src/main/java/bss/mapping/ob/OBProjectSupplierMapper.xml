@@ -308,8 +308,8 @@
     </if>
     <include refid="Base_Column_List" />
   	FROM T_BSS_OB_PROJECT_SUPPLIER PS
- 	WHERE PS.PROJECT_ID = #{project_id}
-   	AND PS.SUPPLIER_ID =  #{supplier_id}
+ 	WHERE PS.PROJECT_ID = #{project_id,jdbcType=VARCHAR}
+   	AND PS.SUPPLIER_ID =  #{supplier_id,jdbcType=VARCHAR}
   </select>
   
 </mapper>

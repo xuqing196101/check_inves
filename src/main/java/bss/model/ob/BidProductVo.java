@@ -67,4 +67,12 @@ public class BidProductVo {
 	public void setRemark(String remark) {
 		this.remark = remark;
 	}
+	@Override
+	public String toString() {
+		return "BidProductVo [id=" + id + ", productName=" + productName
+				+ ", productNum=" + productNum + ", myOfferMoney="
+				+ myOfferMoney + ", dealPrice=" + dealPrice + ", dealMoney="
+				+ dealMoney + ", remark=" + remark + "]";
+	}
+	
 }

@@ -27,6 +27,12 @@ public interface OBProjectResultMapper {
      */
     Integer countByStatus(@Param("projectId")String projectId); 
     /**
+     * 获取确认供应商
+     * @param projectId
+     * @return
+     */
+    int getCountSupplier(@Param("projectId")String projectId);
+    /**
      * 获取 结果供应商
      * @param projectId
      * @return

@@ -213,7 +213,7 @@ public class OBSupplierQuoteController {
 		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
 		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
 		
-		//这是第一轮显示的数据，由于尽管是第二轮这个依然要显示
+		//这是第一轮显示的数据，由于尽管是第二轮这个依然要显示bidProductList
 		//状态为-1，也就是默认时，查找的第一轮的信息，第一、二轮都要显示的
 		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult,"-1");
 		//根据状态有选择的查询
@@ -388,12 +388,12 @@ public class OBSupplierQuoteController {
 		/** 计算单个商品的总价以及合计金额 **/
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
-				Integer signalCountInt = productInfo.getPurchaseCount();
+				BigDecimal signalCountInt = productInfo.getPurchaseCount();
 				BigDecimal limitPrice = productInfo.getLimitedPrice();
 				BigDecimal signalCount = null;
 				if (signalCountInt != null && limitPrice != null) {
 					/** 单个商品的总金额=现价 *采购数量 **/
-					signalCount = new BigDecimal(signalCountInt);
+					signalCount = signalCountInt;
 					BigDecimal multiply = limitPrice.multiply(signalCount);
 					productInfo.setTotalMoney(multiply);
 					/** 累加得到总计 **/

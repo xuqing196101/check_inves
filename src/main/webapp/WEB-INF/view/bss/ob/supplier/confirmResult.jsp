@@ -22,6 +22,7 @@
 			$("#confirmCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown").text("第一轮确认倒计时已经结束");
+			close('${confirmStatus }');
 			clearInterval(downTimer);
 		}
 	}
@@ -40,6 +41,7 @@
 			$("#confirmCountDown2").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown2").text("第二轮确认倒计时已经结束");
+			cancelAccept('${confirmStatus }');
 			clearInterval(downTimer2);
 		}
 	}
@@ -218,13 +220,13 @@
 	
 	//点击接受按钮调用的方法
 	function confirmAccept() {
+	    
 		layer.confirm('您确定接受吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
 			layer.close(index);
 			var currentConfirmStatus = $("#currentConfirmStatus").val();
-			if(currentConfirmStatus == "-1") {
+			  if(currentConfirmStatus == "-1") {
 				var projectResultList = [];
 				var oBProjectResult = {};
-				
 				$("[title='theProductId']").each(function(index,element) {
 					oBProjectResult.projectId = "${projectId}";
 					oBProjectResult.supplierId = "${supplierId}";
@@ -278,6 +280,7 @@
 			}
 			
 		});
+			 
 		//url saveConfirmQuoteInfo
 	}
 	//点击放弃按钮调用此方法
@@ -326,8 +329,45 @@
 			});
 		}
 		
-		//url saveConfirmQuoteInfo
 	}
+	//点击放弃按钮调用此方法
+	function close(confirmStatus) {
+		var projectResult = {};
+		var closeLayerIndex = 0;
+		if(confirmStatus == "-1") {
+				$.ajax({
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					type:"post",
+					dataType:"text",
+					data:{
+						"projectId" : "${projectId}",
+						"confirmStatus" : confirmStatus
+					},
+					success:function(data){
+						window.history.go(-1);
+					},
+					error : function(data) {
+					}
+				});
+		} else if(confirmStatus == "1") {
+				$.ajax({
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					type:"post",
+					dataType:"text",
+					data:{
+						"projectId" : "${projectId}",
+						"confirmStatus" : confirmStatus
+					},
+					success:function(data){
+						window.history.go(-1);
+					},
+					error : function(data) {
+					}
+				});
+		}
+		
+	}
+	
 	
 	$(function() {
 		//页面加载进来计算合计金额
@@ -413,13 +453,13 @@
      <h2 class="count_flow"><i>2</i>第一轮确认</h2>
     <ul class="ul_list" >
     <c:if test="${confirmStatus=='-1'}">
-     <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 30%;">
+     <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<input class="input_group" id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text">%
      	</h2>
      </li>
-      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 70%;">
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
       <h2 class="count_flow">
       <span style="margin-left: 22px;margin-right: 12px;">确认倒计时：</span>
       <span id="confirmCountDown"></span> 
@@ -468,13 +508,13 @@
   </c:if>
   <c:if test="${confirmStatus=='1'}">
 <!--    <h2 class="count_flow"><i>2</i>第一轮确认</h2>
- -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 30%;">
+ -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span id="confirmRatioSpan12" style="margin-left: 12px;margin-right: 12px;">${confirmInfoVo.bidRatio }</span>%
      	</h2>
      	</li>
-      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 70%;">
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
       <h2 class="count_flow">
      			<span style="padding-left: 22px;">第一轮确认倒计时：</span>
      			<span id="confirmCountDown12">未开始</span>
@@ -523,14 +563,14 @@
     <h2 class="count_flow"><i>3</i>第二轮确认</h2>
    <ul class="ul_list">
    <c:if test="${confirmStatus=='-1'}">
-   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 30%;">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span style="margin-left: 22px;">0</span>%
      	</h2>
      	</li>
      	
-     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 70%;">
+     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
      	<h2 class="count_flow" >
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown21">未开始</span>
@@ -572,14 +612,14 @@
 	</table>
   	</c:if>
   	<c:if test="${confirmStatus=='1'}">
-  	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 30%">
+  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 <!--      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
  -->     	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      	</h2>
      </li>
-     <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 70%;">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
     	<h2 class="count_flow">
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2"></span>

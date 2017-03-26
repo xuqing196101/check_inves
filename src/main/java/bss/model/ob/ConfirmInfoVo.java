@@ -109,5 +109,16 @@ public class ConfirmInfoVo {
 	public void setProductList(List<OBProduct> productList) {
 		this.productList = productList;
 	}
+	@Override
+	public String toString() {
+		return "ConfirmInfoVo [quoteName=" + quoteName + ", ranking=" + ranking
+				+ ", bidStatus=" + bidStatus + ", bidRatio=" + bidRatio
+				+ ", confirmStarttime=" + confirmStarttime
+				+ ", confirmOvertime=" + confirmOvertime + ", secondOvertime="
+				+ secondOvertime + ", confirmTime=" + confirmTime
+				+ ", confirmTimeSecond=" + confirmTimeSecond + ", quoteTime="
+				+ quoteTime + ", productList=" + productList
+				+ ", bidProductList=" + bidProductList + "]";
+	}
 	
 }

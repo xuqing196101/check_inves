@@ -12,7 +12,7 @@ public class OBProductInfo {
     
     private BigDecimal limitedPrice;
 
-    private Integer purchaseCount;
+    private BigDecimal purchaseCount;
 
     private String projectId;
 
@@ -92,11 +92,11 @@ public class OBProductInfo {
         this.limitedPrice = limitedPrice;
     }
 
-    public Integer getPurchaseCount() {
+    public BigDecimal getPurchaseCount() {
         return purchaseCount;
     }
 
-    public void setPurchaseCount(Integer purchaseCount) {
+    public void setPurchaseCount(BigDecimal purchaseCount) {
         this.purchaseCount = purchaseCount;
     }
 

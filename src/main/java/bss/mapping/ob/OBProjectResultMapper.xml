@@ -149,9 +149,9 @@
 		SELECT T11.MY_OFFER_MONEY dealPrice,T11.PRODUCT_ID PRODUCT_ID 
 			from T_BSS_OB_RESULTS_INFO t11,T_BSS_OB_PROJECT_RESULT t22 
 				WHERE T11.PROJECT_ID=T22.PROJECT_ID AND T11.SUPPLIER_ID=T22.SUPPLIER_ID AND T22.RANKING=1
-					AND T11.PROJECT_ID=#{projectId}
+					AND T11.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 		) t1 
-		where RESULTINFO.PROJECT_ID=#{projectId} AND resultInfo.SUPPLIER_ID=#{supplierId} 
+		where RESULTINFO.PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND resultInfo.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} 
 		  AND PRODUCT.ID=RESULTINFO.PRODUCT_ID AND T1.PRODUCT_ID=RESULTINFO.PRODUCT_ID
   </select>
   <!-- 根据供应商查找竞价商品   mmw -->
@@ -162,15 +162,15 @@
 		SELECT T11.MY_OFFER_MONEY dealPrice,T11.PRODUCT_ID PRODUCT_ID 
 			from T_BSS_OB_RESULTS_INFO t11,T_BSS_OB_PROJECT_RESULT t22 
 				WHERE T11.PROJECT_ID=T22.PROJECT_ID AND T11.SUPPLIER_ID=T22.SUPPLIER_ID AND T22.RANKING=1
-					AND T11.PROJECT_ID=#{projectId}
+					AND T11.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 		) t1
-		where projectResult.PROJECT_ID=#{projectId} AND projectResult.SUPPLIER_ID=#{supplierId} 
+		where projectResult.PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND projectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} 
 		  AND PRODUCT.ID=projectResult.PRODUCT_ID AND t1.PRODUCT_ID=PROJECTRESULT.PRODUCT_ID
   </select>
   <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
   <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
     select status from T_BSS_OB_PROJECT_RESULT 
-    WHERE PROJECT_ID=#{projectId} AND SUPPLIER_ID=#{supplierId} 
+    WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} 
     GROUP BY STATUS
   </select>
   
@@ -205,7 +205,7 @@
     FROM 
     	T_BSS_OB_PROJECT_RESULT 
     WHERE 
-    	PROJECT_ID = #{supplierId}
+    	PROJECT_ID = #{supplierId,jdbcType=VARCHAR}
 	GROUP BY 
 		SUPPLIER_ID,RANKING,STATUS 
 	ORDER BY 
@@ -358,10 +358,15 @@ r.STATUS,r.RESULT_COUNT,r.REMARK
   <select id="selectProportionByProject" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
     SELECT sum(PROPORTION) from T_BSS_OB_PROJECT_RESULT WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND STATUS=1 GROUP BY SUPPLIER_ID
   </select>
-  <!-- 去重复供应商 根据参数 获取成交供应商数量  -->
+  <!-- 去重复供应商 根据参数 获取确认供应商数量  -->
   <select id="countByStatus" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
     where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS!=-1
+  </select>
+  <!-- 去重复供应商 根据参数 获取成交供应商数量  -->
+  <select id="getCountSupplier" parameterType="java.lang.String" resultType="java.lang.Integer" >
+    select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT
+    where PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and STATUS=1
   </select>
     <!-- 去重复供应商 根据参数  获取中标供应商数量  -->
   <select id="countProportion" parameterType="java.lang.String" resultType="java.lang.Integer" >

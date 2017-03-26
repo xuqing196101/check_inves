@@ -235,18 +235,33 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			//上面修改过之后向数据库查找，查找是否所有的供应商已经此轮已经全接受并且占比总和100%
 			if("1".equals(confirmNum)) {
 				Integer getSumProportion = oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				String remark=null;
+				//全部接受
 				if(100 == getSumProportion) {
-					String remark = "4";
-					OBProject obProject = new OBProject();
-					obProject.setId(projectResultList.get(i).getProjectId());
-					//设置列表页面显示的操作状态判断值
-					BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+					 remark = "4";
 				}
-			}
-			if("2".equals(confirmNum)) {
+				//比例接受 
+				if(100 > getSumProportion && getSumProportion>0){
+					 remark = "5";
+				}
 				OBProject obProject = new OBProject();
 				obProject.setId(projectResultList.get(i).getProjectId());
-				String remark = "42";
+				//设置列表页面显示的操作状态判断值
+				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+			}
+			if("2".equals(confirmNum)) {
+				Integer getSumProportion = oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				String remark=null;
+				//全部接受
+				if(100 == getSumProportion){
+					 remark = "42";
+				}
+				//比例接受
+				if(100 > getSumProportion && getSumProportion>0){
+					 remark = "52";
+				}
+				OBProject obProject = new OBProject();
+				obProject.setId(projectResultList.get(i).getProjectId());
 				//设置列表页面显示的操作状态判断值
 				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			}

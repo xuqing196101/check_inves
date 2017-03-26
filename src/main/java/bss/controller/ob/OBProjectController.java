@@ -715,12 +715,12 @@ public class OBProjectController {
 		/** 计算单个商品的总价以及合计金额 **/
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
-				Integer signalCountInt = productInfo.getPurchaseCount();
+				BigDecimal signalCountInt = productInfo.getPurchaseCount();
 				BigDecimal limitPrice = productInfo.getLimitedPrice();
 				BigDecimal signalCount = null;
 				if (signalCountInt != null && limitPrice != null) {
 					/** 单个商品的总金额=现价 *采购数量 **/
-					signalCount = new BigDecimal(signalCountInt);
+					signalCount = signalCountInt;
 					BigDecimal multiply = limitPrice.multiply(signalCount);
 					productInfo.setTotalMoney(multiply);
 					/** 累加得到总计 **/

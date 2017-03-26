@@ -273,7 +273,10 @@
 		              已流拍
 		    </c:if>
 		      <c:if test="${list.status==5}">
-		              待确认
+		              第一轮待确认
+		    </c:if>
+		     <c:if test="${list.status==6}">
+		              第二轮待确认
 		    </c:if>
 		  
 		  </td>

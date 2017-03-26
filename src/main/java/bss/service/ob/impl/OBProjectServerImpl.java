@@ -550,13 +550,12 @@ public class OBProjectServerImpl implements OBProjectServer {
 				
 			}
 			if (obProject.getProductCount().size()==0) {
-				product.setPurchaseCount(0);
+				product.setPurchaseCount(new BigDecimal(0));
 			} else {
 				if(obProject.getProductCount().get(i)==""){
-					product.setPurchaseCount(0);
+					product.setPurchaseCount(new BigDecimal(0));
 				}else{
-					product.setPurchaseCount(Integer.valueOf(obProject
-							.getProductCount().get(i)));
+					product.setPurchaseCount(new BigDecimal(obProject.getProductCount().get(i)));
 				}
 				
 			}
@@ -790,20 +789,65 @@ public class OBProjectServerImpl implements OBProjectServer {
 						}
 					}
 					break;
-				case 5:// 待确认
-					//开始时间 加 报价时间 加确定时间 加二轮确定时间
-					 Date date=DateUtils.getAddDate(op.getStartTime(), confirmTime);
-					 date=DateUtils.getAddDate(date, quoteTime);
-					 date=DateUtils.getAddDate(date, confirmTimeSecond);
+				case 5:// 第一轮待确认
+					//开始时间 加 报价时间 加确定时间 
 					Date startDate=new Date();
-					
 					// 根据竞价id 获取 是否 在规定的时间内 参与报价
 					int compareDate1 = DateUtils.compareDate(startDate, op.getEndTime());
 					// 比较 竞价信息 如果等于1 那么是竞价确认结束的时间
 					if (compareDate1 > -1) {
 						// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
-						List<OBProjectResult> prlist = OBProjectResultMapper
-								.selectNotSuppler(op.getId(),null,null);
+						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
+						// 临时存储交易比例
+						int temp = 0;
+						//确认 成交数量
+						int closingSupplier=0;
+						if (prlist != null && prlist.size()>0) {
+							for (int i = 0; i < prlist.size(); i++) {
+								String proportionString = prlist.get(i)
+										.getProportion();
+								if (proportionString == null || proportionString == "") {
+									proportionString = "0";
+								}
+								// 累加交易比例
+								if (prlist.get(i).getStatus() == 1) {
+									closingSupplier++;
+									temp = temp + Integer.valueOf(proportionString);
+								}
+							}
+						}
+						// 根据状态竞价中 修改竞价结束时间
+						OBProject upstatus = new OBProject();
+						if(closingSupplier==0){
+							// 流拍
+							upstatus.setStatus(4);
+						}else{
+						
+					     if(temp<100 && temp>0){
+					    	 //竞价二轮 待确认
+								upstatus.setStatus(6);
+								//竞价结束时间 加上 二轮结束时间
+								upstatus.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
+							} else if (temp == 0) {
+								// 流拍
+								upstatus.setStatus(4);
+							} else {
+								// 竞价结束
+								upstatus.setStatus(3);
+							}
+						}
+						upstatus.setId(op.getId());
+						upstatus.setUpdatedAt(new Date());
+						OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+					  }
+					break;
+				case 6://第二次待确认
+					//开始时间 加 报价时间  二轮确定时间
+					int compareDate2 = DateUtils.compareDate(new Date(), op.getEndTime());
+					// 比较 竞价信息 如果等于1 那么是竞价确认结束的时间
+					if (compareDate2 > -1) {
+						// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
+						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
 						// 临时存储交易比例
 						int temp = 0;
 						if (prlist != null && prlist.size()>0) {
@@ -816,17 +860,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 								// 累加交易比例
 								if (prlist.get(i).getStatus() == 1) {
 									temp = temp + Integer.valueOf(proportionString);
-									/*OBProjectResult rsult = new OBProjectResult();
-									rsult.setStatus(0);
-									rsult.setSupplierId(prlist.get(i)
-											.getSupplierId());
-									rsult.setProjectId(prlist.get(i)
-											.getProjectId());
-									rsult.setId(prlist.get(i).getId());
-									// 更新 超过时间没有 确认报价的供应商
-									OBProjectResultMapper
-											.updateByPrimaryKeySelective(rsult);
-									*/
 								}
 							}
 						}
@@ -837,23 +870,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 						}
 						// 根据状态竞价中 修改竞价结束时间
 						OBProject upstatus = new OBProject();
-					     if(temp<100){
-					    	
-					    	 if(DateUtils.compareDate(date,startDate)!=-1){
-					    	 //竞价二轮 待确认
-								upstatus.setStatus(5);
-								//竞价结束时间 加上 二轮结束时间
-								upstatus.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
-								}else{
-									//判断供应商成交量是否到达
-									if(closingSupplier>=op.getTradedSupplierCount()){
-										// 竞价结束
-										upstatus.setStatus(3);
-									}else{
-										// 流拍
-										upstatus.setStatus(4);
-									}
-								}
+						if(temp<100 && temp>0){
+							if(closingSupplier<op.getTradedSupplierCount()){
+								// 流拍
+								upstatus.setStatus(4);
+							  }else{
+								// 竞价结束
+								upstatus.setStatus(3);
+							  }
 							} else if (temp == 0) {
 								// 流拍
 								upstatus.setStatus(4);
