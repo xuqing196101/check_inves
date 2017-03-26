@@ -25,7 +25,7 @@
    <div>
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
-		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
   </div> 
 	<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">
 	 <h2 class="count_flow"><i>2</i>供应商信息</h2>
