@@ -19,6 +19,9 @@
     </div>
     <!-- 修改订列表开始-->
    <div class="container container_box">
+   <div class="mt10">
+	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   </div>
    <div>
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
