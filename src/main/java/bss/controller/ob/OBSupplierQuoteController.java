@@ -311,16 +311,16 @@ public class OBSupplierQuoteController {
 		OBProjectResult oBProjectResult = new OBProjectResult();
 		//把此供应商的状态都改为0，表示放弃
 		oBProjectResult.setSupplierId(supplierId);
-		oBProjectResult.setSupplierId(projectId);
+		oBProjectResult.setProjectId(projectId);
 		
 		int uptResult = 0;
 		//第一轮就选择放弃
-		if("-1" == confirmStatus) {
+		if("-1".equals(confirmStatus)) {
 			oBProjectResult.setStatus(0);
 			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"-1");
 		}
 		//第二轮选择放弃
-		if("1" == confirmStatus) {
+		if("1".equals(confirmStatus)) {
 			oBProjectResult.setStatus(1);
 			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"1");
 		}

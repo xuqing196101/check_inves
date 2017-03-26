@@ -196,6 +196,13 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			user.setTypeId(record.getSupplierId());
 			String remark = "3";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+		} else if("-1".equals(confirmStatus)) {
+			OBProject obProject = new OBProject();
+			obProject.setId(record.getProjectId());
+			User user = new User();
+			user.setTypeId(record.getSupplierId());
+			String remark = "3";
+			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 		}
 		return oBProjectResultMapper.updateBySupplierId(record);
 	}
