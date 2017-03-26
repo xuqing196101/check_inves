@@ -429,11 +429,11 @@
 		<thead>
 		<tr>
 		  <th class="w30 info"  width="10%">序号</th>
-		  <th class="info" width="20%">产品名称</th>
-		  <th class="info">数量</th>
-		  <th class="info">自报单价（元）</th>
-		  <th class="info">成交单价（元）</th>
-		  <th class="info">成交总价（元）</th>
+		  <th class="tc" width="20%">产品名称</th>
+		  <th class="tc">数量</th>
+		  <th class="tc">自报单价（元）</th>
+		  <th class="tc">成交单价（元）</th>
+		  <th class="tc">成交总价（元）</th>
 		</tr>
 		</thead>
 		<tr>
@@ -484,11 +484,11 @@
 		<thead>
 		<tr>
 		  <td class="w30 info"  width="10%">序号</td>
-		  <td class="info" width="20%">产品名称</td>
-		  <td class="info" >数量</td>
-		  <td class="info" >自报单价（元）</td>
-		  <td class="info" >成交单价（元）</td>
-		  <td class="info" >成交总价（元）</td>
+		  <td class="tc" width="20%">产品名称</td>
+		  <td class="tc" >数量</td>
+		  <td class="tc" >自报单价（元）</td>
+		  <td class="tc" >成交单价（元）</td>
+		  <td class="tc" >成交总价（元）</td>
 		</tr>
 		</thead>
 		<tr>
@@ -540,11 +540,11 @@
     	<thead>
 		<tr>
 		  <td class="w30 info"  width="10%">序号</td>
-		  <td class="info" width="20%">产品名称</td>
-		  <td  class="info" >数量</td>
-		  <td  class="info" >自报单价（元）</td>
-		  <td  class="info" >成交单价（元）</td>
-		  <td  class="info" >成交总价（元）</td>
+		  <td class="tc" width="20%">产品名称</td>
+		  <td  class="tc" >数量</td>
+		  <td  class="tc" >自报单价（元）</td>
+		  <td  class="tc" >成交单价（元）</td>
+		  <td  class="tc" >成交总价（元）</td>
 		</tr>
 		</thead>
 		<tr>
@@ -589,11 +589,11 @@
 		<thead>
 		<tr>
 		  <th class="w30 info" width="10%">序号</th>
-		  <th class="info" width="20%">产品名称</th>
-		  <th class="info">数量</th>
-		  <th class="info">自报单价（元）</th>
-		  <th class="info">成交单价（元）</th>
-		  <th class="info">成交总价（元）</th>
+		  <th class="tc" width="20%">产品名称</th>
+		  <th class="tc">数量</th>
+		  <th class="tc">自报单价（元）</th>
+		  <th class="tc">成交单价（元）</th>
+		  <th class="tc">成交总价（元）</th>
 		</tr>
 		</thead>
 		<tr>

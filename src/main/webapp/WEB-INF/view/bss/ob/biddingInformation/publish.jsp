@@ -719,7 +719,6 @@
        <div class="cue" id="fileUploadErr">${fileUploadErr}</div>
        </div>
 	 </li> 
-	  
 
 	  <li class="col-md-12 col-sm-12 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价内容</span>
