@@ -290,8 +290,8 @@ public class OBProjectController {
 		// 将查询信息封装到model域中
 		model.addAttribute("info", info);
 		model.addAttribute("name", name);
-		model.addAttribute("startTime", startTimeStr);
-		model.addAttribute("endTime", endTimeStr);
+		model.addAttribute("startTimeStr", startTimeStr);
+		model.addAttribute("endTimeStr", endTimeStr);
 		return "bss/ob/biddingSpectacular/list";
 
 	}
@@ -722,6 +722,7 @@ public class OBProjectController {
 		model.addAttribute("uploadFiles", uploadFiles);
 		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
 		
+		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
