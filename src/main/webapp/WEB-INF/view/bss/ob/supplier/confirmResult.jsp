@@ -413,13 +413,13 @@
      <h2 class="count_flow"><i>2</i>第一轮确认</h2>
     <ul class="ul_list" >
     <c:if test="${confirmStatus=='-1'}">
-     <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+     <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 30%;">
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<input class="input_group" id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text">%
      	</h2>
      </li>
-      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 70%;">
       <h2 class="count_flow">
       <span style="margin-left: 22px;margin-right: 12px;">确认倒计时：</span>
       <span id="confirmCountDown"></span> 
@@ -523,14 +523,14 @@
     <h2 class="count_flow"><i>3</i>第二轮确认</h2>
    <ul class="ul_list">
    <c:if test="${confirmStatus=='-1'}">
-   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 30%;">
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span style="margin-left: 22px;">0</span>%
      	</h2>
      	</li>
      	
-     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
+     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 70%;">
      	<h2 class="count_flow" >
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown21">未开始</span>
