@@ -63,7 +63,7 @@
 		if(passStatus == "-1") {
 			var downTimer = setInterval(getRTime,1000);
 		} else if(passStatus == "1") {
-			$("#confirmCountDown").text("第一轮确认已经结束");
+			$("#confirmCountDown12").text("第一轮确认已经结束");
 			var downTimer2 = setInterval(getRTime2,1000);
 		}
 		
@@ -71,14 +71,22 @@
 		var currentVal = $("input[name='confirmRatioFirst']").val();
 		//第二轮占比的初始值
 		var currentSecondVal = $("input[name='confirmRatioSecond']").val();
-		
+		//下面加上"2"的占比表示第二轮的数据变量
 		var changeRatioCounts = [];
 		$("[title='theProductCount']").each(function(index,element) {
 			changeRatioCounts.push($(this).text());
 		});
+		var changeRatioCounts2 = [];
+		$("[title='theProductCount2']").each(function(index,element) {
+			changeRatioCounts2.push($(this).text().trim());
+		});
 		var productPrices = [];
 		$("[title='theProductPrice']").each(function() {
 			productPrices.push($(this).text());
+		});
+		var productPrices2 = [];
+		$("[title='theProductPrice2']").each(function() {
+			productPrices2.push($(this).text());
 		});
 		//先把不前的各个产品的数量存到全局的一个数组里
 		var eachProductCount = [];
@@ -138,18 +146,19 @@
 						layer.alert("占比不能为0");
 					} else {
 						var allCount = 0;
-						$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],currentSecondVal,afterInputVal);
-							$(this).text((afterCount * productPrices[index]).toFixed(2));
-							$("[title='theProductCount']").each(function(indexPc,element) {
+						//第二轮占比改动，调动下面的数据
+						$("[title='theProductTotalPrice2']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts2[index],currentSecondVal,afterInputVal);
+							$(this).text((afterCount * productPrices2[index]).toFixed(2));
+							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
 									$(this).parent().find("input[name='productNum']").text();
 								}
 							});
-							allCount += afterCount * productPrices[index];
+							allCount += afterCount * productPrices2[index];
 						});
-						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
 					}
 				} else if(currentPressKey == 13 || currentPressKey == 18) {
 					//删除键和回车，放行
@@ -193,12 +202,12 @@
 	    var d = date.getDate();    
 	    d = d < 10 ? ('0' + d) : d;  
 	    var h = date.getHours();  
-	    var minute = date.getMinutes();    
-	    minute = minute < 10 ? ('0' + minute) : minute;  
+	    var minute = date.getMinutes();
+	    minute = minute < 10 ? ('0' + minute) : minute;
 	    var second = date.getSeconds();  
-	    second = second < 10 ? ('0' + second) : second;  
+	    second = second < 10 ? ('0' + second) : second;
 	      
-	    return y+"-"+m+"-"+d+" "+h+":"+minute+":"+second;  
+	    return y+"-"+m+"-"+d+" "+h+":"+minute+":"+second;
 	}
 	//后台传过来的时间调用此方法转换
 	confirmStarttime = getTaskTime(confirmStarttime);
@@ -442,12 +451,12 @@
   </li>
   </c:if>
   <c:if test="${confirmStatus=='1'}">
-  <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;background-color: grey;">
+  <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
      <div style="">
      <div class="clear total f22"><span class="fl block">基本数量---第一轮确认：</span>
      	<h2 class="count_flow" style="margin-bottom: 32px;">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<span style="margin-left: 22px;"></span>%
+     		<span id="confirmRatioSpan12" style="margin-left: 12px;margin-right: 12px;">${confirmInfoVo.bidRatio }</span>%
      			<span style="padding-left: 22px;">第一轮确认倒计时：</span>
      			<span id="confirmCountDown12">未开始</span>
      	</h2>
@@ -532,10 +541,10 @@
 		  	<input type="hidden" name="productResultCount" value=""/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
-		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/></td>
+		  <td class="tc" title="theProductCount21"><fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/></td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
-		  <td class="tc" title="theProductPrice2">${bidproduct.dealPrice }</td>
-		  <td class="tc" title="theProductTotalPrice2">${bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductPrice21">${bidproduct.dealPrice }</td>
+		  <td class="tc" title="theProductTotalPrice21">${bidproduct.dealMoney }</td>
 		</tr>
 		</c:forEach>
 	</table>
@@ -582,10 +591,10 @@
 		  	<input type="hidden" name="productResultCount" value="${bidproduct.productNum }"/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
-		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/></td>
+		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100) }"/></td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc" title="theProductPrice2">${bidproduct.dealPrice }</td>
-		  <td class="tc" title="theProductTotalPrice2">${bidproduct.dealMoney }</td>
+		  <td class="tc" title="theProductTotalPrice2">${(bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100)) * bidproduct.dealPrice }</td>
 		</tr>
 		</c:forEach>
 	</table>
