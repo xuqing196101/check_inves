@@ -201,7 +201,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			obProject.setId(record.getProjectId());
 			User user = new User();
 			user.setTypeId(record.getSupplierId());
-			String remark = "3";
+			String remark = "32";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 		}
 		return oBProjectResultMapper.updateBySupplierId(record);
@@ -236,7 +236,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			if("1".equals(confirmNum)) {
 				Integer getSumProportion = oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
 				if(100 == getSumProportion) {
-					String remark = "3";
+					String remark = "4";
 					OBProject obProject = new OBProject();
 					obProject.setId(projectResultList.get(i).getProjectId());
 					//设置列表页面显示的操作状态判断值
@@ -246,7 +246,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			if("2".equals(confirmNum)) {
 				OBProject obProject = new OBProject();
 				obProject.setId(projectResultList.get(i).getProjectId());
-				String remark = "3";
+				String remark = "42";
 				//设置列表页面显示的操作状态判断值
 				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			}

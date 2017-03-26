@@ -468,13 +468,13 @@
   </c:if>
   <c:if test="${confirmStatus=='1'}">
 <!--    <h2 class="count_flow"><i>2</i>第一轮确认</h2>
- -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
+ -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 30%;">
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span id="confirmRatioSpan12" style="margin-left: 12px;margin-right: 12px;">${confirmInfoVo.bidRatio }</span>%
      	</h2>
      	</li>
-      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 70%;">
       <h2 class="count_flow">
      			<span style="padding-left: 22px;">第一轮确认倒计时：</span>
      			<span id="confirmCountDown12">未开始</span>
@@ -523,14 +523,14 @@
     <h2 class="count_flow"><i>3</i>第二轮确认</h2>
    <ul class="ul_list">
    <c:if test="${confirmStatus=='-1'}">
-   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span style="margin-left: 22px;">0</span>%
      	</h2>
      	</li>
      	
-     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 100%;">
      	<h2 class="count_flow" >
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown21">未开始</span>
@@ -572,14 +572,14 @@
 	</table>
   	</c:if>
   	<c:if test="${confirmStatus=='1'}">
-  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+  	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 30%">
 <!--      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
  -->     	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
      	</h2>
      </li>
-     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 70%;">
     	<h2 class="count_flow">
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2"></span>
