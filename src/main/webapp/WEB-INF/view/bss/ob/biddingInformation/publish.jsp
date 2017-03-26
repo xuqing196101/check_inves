@@ -125,8 +125,8 @@
 				} 
 			}
 		 });
-		 $("#tradedSupplierCount").select2();
-		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
+		  $("#tradedSupplierCount").select2();
+		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}'); 
 		 tradedCount();
 		 //加载运杂费 数据
 		 $.ajax({
@@ -176,78 +176,11 @@
 	//根据定型产品更新 
 	function changSelectCount(){
 	 if(productList){
-	 	//changSupplier();
 	 	gysCount();
 	  }else{
 	   $("#gys_count").text(0);
 	  }
 	}
-	function changSupplier(){
-	     //存储选中的产品id
-	     var ds=[];
-			//获取选中全部的产品id
-			$('*[name="productName"]').each(function(){
-			  if($(this).val()){
-		      ds.push($(this).val());
-			  }
-		  });
-		  
-		  
-		  //存储 list;
-		  var list=[];
-		  var dslength=ds.length;
-		  //根据选中的 产品id获取 获取供应商
-		  if(dslength>0){
-		    //遍历 选中产品id
-		  for(var i=0;i<ds.length;i++) { 
-		    var temp=ds[i];
-		    //便利选中产品 获取选中产品集合
-		   	$.each(productList, function(i, user) {
-		   	   if(temp==user.id){
-		   	   if(user.obSupplierList){
-		   	   $.each(user.obSupplierList, function(i, user) {
-		   	     list.push(user.supplierId);
-	    	     });
-		   	    }
-		   	   }
-		     });
-		   }
-		    //并集供应商数量 有可能是多个
-		   var union=0;
-		 if(dslength==1){
-		 union=list.length;
-		 }else{
-		  var tempArray=[];
-		   for(var i=0;i<list.length;i++){
-		   var count=1;
-		      var  templist=list[i];
-		      for(var j=0;j<list.length;j++){
-		      if(i!=j){
-		        //循环比较并集供应商数量
-		        if(templist==list[j]){
-		          count++;
-		        };
-		        }
-		      };
-		        if(count==dslength){
-		        //如果相等的数量 等于选中产品的数据 那么就是并集 存储
-		        tempArray.push(templist);
-		        }
-		     }; 
-			supplielist=[];
-		    //去重复
-              for(var i = 0; i < tempArray.length-1; i++){    //从数组第二项开始循环遍历此数组  
-                if(supplielist.indexOf(tempArray[i]) == -1){  
-                    supplielist.push(tempArray[i]);  
-                  }
-                }  
-   					union= supplielist.length;
-		   }
-		    $("#gys_count").text(union);
-		  }
-	
-	}
-	
 		// 弹出导入框
 	var index;
 	function uploadExcl(){
@@ -276,9 +209,9 @@
 	}
 	function loads(number,id){
 	$.each(productList, function(i, user) {
-		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " title=\"user.name\">" + user.name+ "</option>");
+		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + ">" + user.name+ "</option>");
 	     });
-	     $("select[id=\"productName_"+number+"\"]").select2();
+	     $("select[id=\"productName_"+number+"\"]").select2(); 
 	     if(id){
 		 $("#productName_"+number+"").select2('val',id); 
 	    changSelectCount(number);
@@ -294,9 +227,9 @@
 	      productRemark='';
 	      }
 		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\"><select id=\"productName_"+number+"\" onmouseover=\"showEmerge(\"productName_"+number+"\")\" onmouseout=\"closeEmerag(\"productName_"+number+"\")\" name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
-		  "</td>"+
-		  "<td class=\"p0\"><input id=\"productMoney\" maxlength=\"10\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\" ><div id=\"selectDiv"+number+"\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><select id=\"productName_"+number+"\"   name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
+		  "</div></td>"+
+		  "<td class=\"p0\" id=\"t"+number+"\"><input id=\"productMoney\" maxlength=\"10\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
@@ -304,22 +237,33 @@
 		//加载数据
 		loads(number,productId);
 	} 
-	//浮现框
-	function showEmerge(){
-    $("#tradedSupplierCount").select2().on("focus", function(e) {
-     alert ("focus");
-     });    //  获得焦点事件
-     
+	  //关闭
+	function closePrompt(){
+	layer.closeAll('tips');
 	}
-	showEmerge();
-	//关闭浮现框
-	function closeEmerag(){
-	 $("#tradedSupplierCount").on("blur", function(e) { 
-	 alert ("blur");
-	 });     //  失去焦点事件
-	}
-	closeEmerag();
-	
+	  // 显示
+    function showPrompt(id,selectID){
+   		 var productId=$("#"+selectID).val();
+   		  if(productId){
+   		  $.ajax({
+				url: "${pageContext.request.contextPath }/product/productType.do",
+				type: "POST",
+				data: {productId:productId},
+				success: function(data) {
+				if(data){
+       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+       	    '#'+id, {tips: [2, '#78BA32'],time:-1});
+				}else{
+				 inder=layer.tips("", 
+       	    '#'+id, {tips: [2, '#78BA32']});
+				}
+		      },error:function(){
+		       layer.tips("错误！", 
+       	    '#'+id, {tips: [2, '#78BA32']});
+		      }
+           });
+           }
+       	}
 	//导入excl 
 	function fileUpload(){
 	 $.ajaxFileUpload ({
@@ -622,7 +566,6 @@
 		 }
      }
 	}
-	//
 </script>
 </head>
 <body>
@@ -686,30 +629,24 @@
 	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   <div class="w200">
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()" >
-	   <option value="" >--请选择--</option>
-	   <option value="1" >1</option>
+	   <option value="">--请选择--</option>
+	   <option value="1">1</option>
 	   <option value="2" >2</option>
-	   <option value="3">3</option>
-	   <option value="4">4</option>
-	   <option value="5">5</option>
+	   <option value="3" >3</option>
+	   <option value="4" >4</option>
+	   <option value="5" >5</option>
 	   <option value="6">6</option>
 	   </select>
-	   </div>
         <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
-       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-       <div class="w200">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" >
 			  <option value="">--请选择--</option>
 			</select></div>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
-       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
@@ -740,15 +677,11 @@
 	  
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" >
 			  <option value="">--请选择--</option>
-			</select></div>
+			</select>
 			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
-       </div>
 	 </li>
-	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>采购联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -769,13 +702,10 @@
 	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <div class="w200">
 			<select id="transportFees" name="transportFees"  >
 			  <option value="">--请选择--</option>
-			</select></div>
+			</select>
         <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
-       </div>
 	 </li> 
 	 
 	  <li class="col-md-3 col-sm-6 col-xs-12">

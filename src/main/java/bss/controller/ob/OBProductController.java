@@ -13,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.apache.commons.io.FileUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.http.HttpHeaders;
@@ -149,6 +150,24 @@ public class OBProductController {
 				oBProductService.deleteByPrimaryKey(str);
 			}
 		}
+	}
+	/**
+	 * 
+	 * Description: 获取产品 类型 和型号
+	 * 
+	 * @author Yanghongliang
+	 * @param @param request
+	 * @return void
+	 * @exception
+	 */
+	@RequestMapping("/productType")
+	@ResponseBody
+	public OBProduct productType(HttpServletRequest request,String productId,Model model) {
+		OBProduct obp=null;
+		if (StringUtils.isNotBlank(productId)) {
+			obp=  oBProductService.selectByPrimaryKey(productId);
+		}
+		return obp;
 	}
 	/**
 	 * 

@@ -102,14 +102,30 @@
           var temp=eval(plists);
   		  $.each( temp, function(i, value) {
 		    addTr(value.productId,value.productId,value.limitedPrice,value.purchaseCount,value.remark);
-		  }) ; 
-		  }
-				} 
-			}
+		      }) ; 
+		     }
+			} 
+		   }
 		 });
 		 $("#tradedSupplierCount").select2();
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
 		 tradedCount();
+		  //加载运杂费 数据
+		 $.ajax({
+			url: "${pageContext.request.contextPath }/ob_project/transportFeesType.html",
+			contentType: "application/json;charset=UTF-8",
+			dataType: "json", //返回格式为json
+			type: "POST", //请求方式           
+			success: function(data) {
+				if (data) {
+					$.each(data, function(i, user) {
+					  $("#transportFees").append("<option  value=" + user.id + ">" + user.name + "</option>");
+				  });
+				} 
+			 $("#transportFees").select2();
+			 $("#transportFees").select2('val','${list.transportFees}');
+			}
+		});
 		 layer.close(index);
 	});
 	//根据下拉框信息改变 采购联系人 采购联系电话
@@ -181,17 +197,44 @@
 	      if(!productRemark){
 	      productRemark='';
 	      }
-		   $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
-		  "<td class=\"p0\"><select id=\"productName_"+number+"\" disabled=\"disabled\" name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
-		  "</td>"+
-		  "<td class=\"p0\"><input id=\"productMoney\" maxlength=\"10\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		 $("#table2").append("<tr><td class=\"tc w30\"><input onclick=\"check()\" type=\"checkbox\" name=\"productId\" id=\"productId\" value=\""+productId+"\" /></td>"+
+		  "<td class=\"p0\" ><div id=\"selectDiv"+number+"\" onmouseover='showPrompt(\"selectDiv"+number+"\",\"productName_"+number+"\")'  onmouseout=\"closePrompt()\" onblur=\"closePrompt()\" name=\"selectDiv\"><select id=\"productName_"+number+"\" disabled=\"disabled\"  name=\"productName\" onchange=\"changSelectCount("+number+")\" ><option value=\"\"></option></select>"+
+		  "</div></td>"+
+		  "<td class=\"p0\" id=\"t"+number+"\"><input id=\"productMoney\" maxlength=\"10\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"4\" disabled=\"disabled\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" disabled=\"disabled\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\"></td>"+
+		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" disabled=\"disabled\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
+		  "  </td>"+
 		"</tr>").clone(true);   
 		//加载数据
 		loads(number,productId);
 	} 
-	
+		  //关闭
+	function closePrompt(){
+	layer.closeAll('tips');
+	}
+	  // 显示
+    function showPrompt(id,selectID){
+   		 var productId=$("#"+selectID).val();
+   		  if(productId){
+   		  $.ajax({
+				url: "${pageContext.request.contextPath }/product/productType.do",
+				type: "POST",
+				data: {productId:productId},
+				success: function(data) {
+				if(data){
+       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+       	    '#'+id, {tips: [2, '#78BA32'],time:-1});
+				}else{
+				 inder=layer.tips("", 
+       	    '#'+id, {tips: [2, '#78BA32']});
+				}
+		      },error:function(){
+		       layer.tips("错误！", 
+       	    '#'+id, {tips: [2, '#78BA32']});
+		      }
+           });
+           }
+       	}
 	function show(content) {
 		layer.alert(content, {
 			offset : [ '30%', '40%' ]
@@ -357,15 +400,13 @@
         <div class="cue" id="orgContactNameErr">${orgContactNameErr}</div>
        </div>
 	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
+	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="transportFees" name="transportFees" value="${list.transportFees}" disabled="disabled" onkeyup="this.value=this.value.replace(/\D/g,'')"  onafterpaste="this.value=this.value.replace(/\D/g,'')" maxlength="10" type="text">
-        <span class="add-on">i</span>
-         <span class="input-tip">不能为空,只可以是数字</span>
+			<select id="transportFees" name="transportFees"  disabled="disabled">
+			  <option value="">--请选择--</option>
+			</select>
         <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
-       </div>
-	 </li> 
+	 </li>  
 	 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>

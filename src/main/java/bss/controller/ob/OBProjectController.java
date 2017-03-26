@@ -145,6 +145,8 @@ public class OBProjectController {
 			List<OBProject> list = OBProjectServer.List(map);
 			PageInfo<OBProject> info = new PageInfo<OBProject>(list);
 			model.addAttribute("info", info);
+			model.addAttribute("name",name);
+			model.addAttribute("startTime",startTime);
 		}
 		return "bss/ob/biddingInformation/list";
 	}
