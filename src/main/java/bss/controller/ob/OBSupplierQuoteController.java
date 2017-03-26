@@ -11,6 +11,8 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
+import net.sf.json.util.NewBeanInstanceStrategy;
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -122,6 +124,7 @@ public class OBSupplierQuoteController {
 	}
 
 	/**
+	 * @throws ParseException 
 	 * 
 	 * @Title: beginQuoteInfo
 	 * @Description: 供应商开始竞价
@@ -134,9 +137,22 @@ public class OBSupplierQuoteController {
 	 */
 	@SuppressWarnings("unchecked")
 	@RequestMapping("/beginQuoteInfo")
-	public String beginQuoteInfo(Model model, HttpServletRequest request) {
+	public String beginQuoteInfo(Model model, HttpServletRequest request) throws ParseException {
+		// 获取报价截止时间
+		String quotoEndTimeMillStr = request.getParameter("quotoEndTimeMill");
+		Long quotoEndTimeMill = null;
+		if(StringUtils.isNotEmpty(quotoEndTimeMillStr)){
+			quotoEndTimeMill = Long.parseLong(quotoEndTimeMillStr);
+		}
 		// 获取标题id
 		String titleId = request.getParameter("id");
+		// 获取报价截止时间
+		String quotoEndTimeStr = request.getParameter("quotoEndTime");
+		DateFormat dateFormat = new SimpleDateFormat();
+		if(StringUtils.isNotEmpty(quotoEndTimeStr)){
+			Date date = dateFormat.parse(quotoEndTimeStr);
+			System.out.println(date);
+		}
 		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(titleId);
 		// 竞价信息
 		OBProject obProject = (OBProject) map.get("obProject");
@@ -169,6 +185,12 @@ public class OBSupplierQuoteController {
 		model.addAttribute("fileid", obProject.getAttachmentId());
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		
+		// 获取当前系统时间毫秒数
+		long sysCurrentTime = new Date().getTime();
+		// 获取报价倒计时毫秒值
+		Long beginQuotoTime = quotoEndTimeMill - sysCurrentTime;
+		model.addAttribute("beginQuotoTime", beginQuotoTime);
 		
 		return "bss/ob/supplier/supplierOffer";
 	}

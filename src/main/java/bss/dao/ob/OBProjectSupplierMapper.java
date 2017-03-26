@@ -55,4 +55,16 @@ public interface OBProjectSupplierMapper {
 	List<OBProjectSupplier> selectSupplierOBprojectList(Map<String, Object> map);
     
 	int updateByCondition(Map<String, Object> map);
+	
+	/**
+	 * 
+	* @Title: selectRemarkBYPS 
+	* @Description: 根据supplier_id和project_id查询所对应的竞价信息
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @return OBProjectSupplier    返回类型 
+	* @throws
+	 */
+	OBProjectSupplier selectRemarkBYPS(Map<String, Object> map);
 }

@@ -7,11 +7,34 @@
 	<%@ include file="/WEB-INF/view/common.jsp" %>
 	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
+	
 	<script type="text/javascript">
+		var t = ${beginQuotoTime};
+		var afterTime = t;
+		function getRTime(){
+			if(t > 0){
+				afterTime = afterTime - 1000;
+				if(afterTime > 0) {
+					var d = Math.floor(afterTime/1000/60/60/24);
+					var h = Math.floor(afterTime/1000/60/60%24);
+					var m = Math.floor(afterTime/1000/60%60);
+					var s = Math.floor(afterTime/1000%60);
+					$("#quotoCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
+				} else {
+					$("#quotoCountDown").text("报价时间已结束");
+					clearInterval(downTimer);
+				}
+			}else{
+				$("#quotoCountDown").text("报价时间已结束");
+				clearInterval(downTimer);
+			}
+		}
 		var ids = [];
 		$(function(){
 			var idsStr = '${productIds}';
 			ids = idsStr.split(",");
+			// 报价倒计时
+			var downTimer = setInterval(getRTime, 1000);
 		})
 		
 		function totalPrice(obj,id,limitedPriceId){
@@ -164,7 +187,8 @@
   <form id="productForm" name="" method="post">
   	<input type="hidden" name="titleId" value="${ obProject.id }">
 	  <div>
-	    <h2 class="count_flow"><i>2</i>产品信息</h2>
+	    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">报价时间倒计时：</font>
+	    <span style="color: red" id="quotoCountDown"></span></h2>
 		<div class="content table_box">
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>

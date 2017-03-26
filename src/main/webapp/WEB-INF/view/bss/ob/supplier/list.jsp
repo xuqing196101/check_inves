@@ -81,6 +81,9 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
+			   var quotoEndTime = valueArr[3];
+			   // 得到报价截止的毫秒数
+			   var quotoEndTimeMill = (new Date(quotoEndTime)).getTime();
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
 				   return;
@@ -108,7 +111,7 @@
 			   }
 			   // 开始报价
 			   if(status == '2'){
-				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0];
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/beginQuoteInfo.html?id="+valueArr[0]+"&&quotoEndTimeMill="+quotoEndTimeMill;
 			   }
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
@@ -267,7 +270,7 @@
 		</thead>
 		<c:forEach items="${ info.list }" var="obProject" varStatus="vs">
 			<tr>
-			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark}" /></td>
+			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark},<fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/>"</td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td>
 			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>

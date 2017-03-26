@@ -30,6 +30,7 @@ import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectExample;
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
@@ -218,6 +219,17 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		if (user == null) {
 			return JdcgResult.ok("请先登录!");
 		}
+		
+		// 排除同一个供应商不同的用户同时报价的情况
+		Map<String, Object> selectMap = new HashMap<String, Object>();
+		map.put("project_id", titleId);
+		map.put("supplier_id", user.getTypeId());
+		OBProjectSupplier selectRemarkBYPS = obProjectSupplierMapper.selectRemarkBYPS(selectMap);
+		// 其他用户已完成本次报价
+		if(selectRemarkBYPS != null && "2".equals(selectRemarkBYPS.getRemark())){
+			return JdcgResult.ok("其他用户已完成本次报价！");
+		}
+		
 		if (obResultInfoList != null) {
 			List<OBResultsInfoExt> obResultsInfoExtList = obResultInfoList
 					.getObResultsInfoExt();
