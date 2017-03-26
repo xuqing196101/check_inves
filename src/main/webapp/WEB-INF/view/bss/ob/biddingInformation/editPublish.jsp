@@ -269,9 +269,11 @@
         <div class="clear"></div>
       </div>
     </div>
-    <div class="tab-content">
     <!-- 修改订列表开始-->
   <div class="container container_box">
+  <div class="mt10">
+	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   </div>
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
   <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}">
@@ -417,7 +419,7 @@
 	 </li>
 	 </ul>
 	<h2 class="count_flow"><i>2</i>产品信息</h2>
-	 <div class="ul_list">
+	 <div class="ul_list" onmouseover="closePrompt()">
     	  <table class="table table-bordered left_table" id ="table2">
 			<tr>
 		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -428,18 +430,11 @@
 			</tr>
 		  </table>
 		</div>
+		<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">
+	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
+	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
+		</c:if>
   </form>
-  <h2 class="count_flow"><i>3</i>供应商信息</h2>
-    <div class="ul_list">
-    	  <table class="table table-bordered left_table" id ="table2">
-			<tr>
-		  		<th class="info" width="30%"><span class="red star_red">*</span>供应商名称</th>
-		  		<th class="info">限价（元）</th>
-		  		<th class="info"><span class="red star_red">*</span>采购数量</th>
-		  		<th class="info" width="30%">备注</th>
-			</tr>
-		  </table>
-		</div>
   <div class="col-md-12 clear tc mt10">
 	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>
    </div>

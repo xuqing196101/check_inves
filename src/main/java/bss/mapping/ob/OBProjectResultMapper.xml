@@ -32,7 +32,6 @@
     <association property="supplier" column="SUPPLIER_ID"
 			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
   </resultMap>
-  
   <!-- 确认页面视图信息映射 -->
   <resultMap id="confirmInfoVo" type="bss.model.ob.ConfirmInfoVo" >
     <result column="quoteName" property="quoteName" jdbcType="VARCHAR" />
@@ -44,7 +43,6 @@
     <result column="QUOTETIME" property="quoteTime" jdbcType="DECIMAL" />
     <result column="COUNTTOTAL_AMOUNT" property="confirmOvertime" jdbcType="DECIMAL" />
   </resultMap>
-  
   <!-- 竞价结果查询  视图信息映射-->
   <resultMap id="supplierProductVo" type="bss.model.ob.SupplierProductVo" >
     <result column="supplierName" property="supplierName" jdbcType="VARCHAR" />
@@ -222,7 +220,13 @@
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
   <select id="selectInfoByPID" resultMap="confirmInfoVo" parameterType="java.lang.String" >
     SELECT * from T_SES_SMS_SUPPLIER smsSupplier,T_BSS_OB_PROJECT_RESULT projectResult 
-	  WHERE PROJECTRESULT.SUPPLIER_ID=SMSSUPPLIER.id and PROJECTRESULT.PRODUCT_ID=#{projectId,jdbcType=VARCHAR}
+	  WHERE PROJECTRESULT.SUPPLIER_ID=SMSSUPPLIER.id and PROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+  </select>
+  <!-- 根据竞价Id查询竞价结果  PSId  project supplier id mmw -->
+  <select id="selectByPID" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select r.ID, r.PRODUCT_ID, r.PROJECT_ID, r.SUPPLIER_ID, r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
+     r.STATUS,r.RESULT_COUNT,s.SUPPLIER_NAME as REMARK   from T_BSS_OB_PROJECT_RESULT r , T_SES_SMS_SUPPLIER s 
+  where  r.SUPPLIER_ID=s.id and r.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >

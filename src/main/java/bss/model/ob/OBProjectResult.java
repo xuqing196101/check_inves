@@ -2,6 +2,7 @@ package bss.model.ob;
 
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 public class OBProjectResult {
 	private String id;
@@ -43,7 +44,8 @@ public class OBProjectResult {
 	private Integer resultCount;
 
 	private OBSupplier supplier;
-
+	//竞价产品 信息
+    private List<OBProductInfo> productInfo;
 	/**
 	 * 供应商自报单价总和
 	 */
@@ -58,6 +60,15 @@ public class OBProjectResult {
 	 * 成交数量总和
 	 */
 	private Integer countresultCount;
+
+	
+	public List<OBProductInfo> getProductInfo() {
+		return productInfo;
+	}
+
+	public void setProductInfo(List<OBProductInfo> productInfo) {
+		this.productInfo = productInfo;
+	}
 
 	public Integer getCountOfferPrice() {
 		return countOfferPrice;

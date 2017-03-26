@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
+import bss.dao.ob.OBProductInfoMapper;
+import bss.dao.ob.OBProjectResultMapper;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
@@ -59,6 +61,13 @@ public class OBSupplierQuoteController {
 
 	@Autowired
 	private OBProjectResultService oBProjectResultService;
+	
+	// 注入竞价商品详情Mapper
+	@Autowired
+	private OBProductInfoMapper obProductInfoMapper;
+		
+	@Autowired
+	private OBProjectResultMapper OBProjectResultMapper;
 
 	/**
 	 * @throws ParseException
@@ -336,20 +345,68 @@ public class OBSupplierQuoteController {
 			@CurrentUser User user,
 			HttpServletRequest request,
 			String projectId){
-		if (projectId == null || "".equals(projectId)) {
-			// 这个目前做测试用
-			projectId = "DDE523291D694F5B8CC084EC2DFDBFF9";
+		if(StringUtils.isNotBlank(projectId)){
+		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(projectId);
+		// 竞价信息
+		OBProject obProject = (OBProject) map.get("obProject");
+		// 竞价商品信息
+		Object object = map.get("oBProductInfoList");
+		// 获取采购机构名称
+		String orgName = (String) map.get("orgName");
+		String demandUnit = (String) map.get("demandUnit");
+		String productIds = (String) map.get("productIds");
+		String transportFees = (String) map.get("transportFees");
+		List<OBProductInfo> oBProductInfo = null;
+		if (object != null) {
+			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
-		String supplierId = user.getTypeId();
-		//查找这个标题id的标题信息
-		OBProject obProject = obProjectServer.selectByPrimaryKey(projectId);
+		Double totalCountPriceBigDecimal = 0.00;
+		/** 计算单个商品的总价以及合计金额 **/
+		for (OBProductInfo productInfo : oBProductInfo) {
+			if (productInfo != null) {
+				Integer signalCountInt = productInfo.getPurchaseCount();
+				BigDecimal limitPrice = productInfo.getLimitedPrice();
+				BigDecimal signalCount = null;
+				if (signalCountInt != null && limitPrice != null) {
+					/** 单个商品的总金额=现价 *采购数量 **/
+					signalCount = new BigDecimal(signalCountInt);
+					BigDecimal multiply = limitPrice.multiply(signalCount);
+					productInfo.setTotalMoney(multiply);
+					/** 累加得到总计 **/
+					totalCountPriceBigDecimal = multiply.add(
+							new BigDecimal(Double
+									.toString(totalCountPriceBigDecimal)))
+							.doubleValue();
+				}
+			}
+		}
+		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
+		bigDecimal.setScale(2);
+		// 采购机构
+		model.addAttribute("orgName", orgName);
+		// 需求单位
+		model.addAttribute("demandUnit", demandUnit);
+		// 运杂费
+		model.addAttribute("transportFees", transportFees);
+		model.addAttribute("obProject", obProject);
+		model.addAttribute("oBProductInfoList", oBProductInfo);
+		model.addAttribute("productIds", productIds);
+		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
+		
+		// 封装文件下载项
+		model.addAttribute("fileid", obProject.getAttachmentId());
+		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		
 		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-		List<SupplierProductVo> selectInfoByPID = oBProjectResultService.selectInfoByPID(projectId, supplierId);
-		
-		model.addAttribute("selectInfoByPID", selectInfoByPID);
-		model.addAttribute("obProject", obProject);
-		
+		List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(obProject.getId());
+		List<OBProductInfo> plist=obProductInfoMapper.getProductName(obProject.getId());
+		for(OBProjectResult s:resultList){
+			s.setProductInfo(plist);
+		}
+		model.addAttribute("selectInfoByPID", resultList);
+		model.addAttribute("plist", plist);
+		}
 		return "bss/ob/supplier/queryBiddingResults";
 	}
 	

@@ -1,5 +1,6 @@
 package bss.model.ob;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 /**
@@ -20,8 +21,19 @@ public class SupplierProductVo {
 	private Integer ranking;
 	//供应商成交比例
 	private String dealQuote;
+	//供应商 状态
+	private Integer status;
 	//对应的产品信息列表
 	private List<BidProductVo> productList;
+	
+	
+	public Integer getStatus() {
+		return status;
+	}
+
+	public void setStatus(Integer status) {
+		this.status = status;
+	}
 
 	public String getSupplierId() {
 		return supplierId;
