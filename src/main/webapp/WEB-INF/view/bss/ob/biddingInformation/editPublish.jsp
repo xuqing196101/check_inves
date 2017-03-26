@@ -269,9 +269,11 @@
         <div class="clear"></div>
       </div>
     </div>
-    <div class="tab-content">
     <!-- 修改订列表开始-->
   <div class="container container_box">
+  <div class="mt10">
+	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   </div>
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
   <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}">
@@ -319,8 +321,6 @@
 	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   <div class="w200">
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" disabled="disabled" onchange="tradedCount()">
 	   <option value=""></option>
 	   <option value="1">1</option>
@@ -330,19 +330,14 @@
 	   <option value="5">5</option>
 	   <option value="6">6</option>
 	   </select>
-	   </div>
         <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
-       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-       <div class="w200">
 			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" disabled="disabled" >
 			  <option value=""></option>
-			</select></div>
+			</select>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
-       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
@@ -373,13 +368,10 @@
 	  
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <div class="w200">
 			<select id="orgId" name="orgId" onchange="changSelect()" disabled="disabled">
 			  <option value=""></option>
-			</select></div>
+			</select>
 			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
-       </div>
 	 </li>
 	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
@@ -427,7 +419,7 @@
 	 </li>
 	 </ul>
 	<h2 class="count_flow"><i>2</i>产品信息</h2>
-	 <div class="ul_list">
+	 <div class="ul_list" onmouseover="closePrompt()">
     	  <table class="table table-bordered left_table" id ="table2">
 			<tr>
 		  		<th class="w50 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
@@ -438,6 +430,10 @@
 			</tr>
 		  </table>
 		</div>
+		<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">
+	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
+	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
+		</c:if>
   </form>
   <div class="col-md-12 clear tc mt10">
 	<button class="btn btn-windows back mb20" type="button" onclick="history.go(-1)">返回</button>

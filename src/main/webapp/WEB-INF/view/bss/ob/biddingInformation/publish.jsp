@@ -582,6 +582,9 @@
     <div class="tab-content">
     <!-- 修改订列表开始-->
   <div class="container container_box">
+  <div class="mt10">
+	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+   </div>
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
   <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}" >

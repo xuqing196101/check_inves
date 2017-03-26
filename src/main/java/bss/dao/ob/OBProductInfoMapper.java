@@ -38,6 +38,13 @@ public interface OBProductInfoMapper {
      * 根据竞价id 获取数据
      */
     List<OBProductInfo> selectByProjectId(String id);
+    /**
+     * 获取产品 名称
+     * @author Yanghongliang
+     * @param projectId
+     * @return
+     */
+    List<OBProductInfo> getProductName(@Param("id")String projectId);
     
     /**
      * 

@@ -39,7 +39,9 @@
    </div> 
    <div>
     <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
+    <ul class="ul_list">
 		<%@ include file="/WEB-INF/view/bss/ob/biddingSpectacular/biddingInfoCommon.jsp" %>
+     </ul>
   </div> 
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">
