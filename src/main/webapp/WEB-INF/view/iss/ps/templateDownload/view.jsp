@@ -20,7 +20,7 @@
 						<a href="#">信息服务</a>
 					</li>
 					<li>
-						<a href="#">资料下载管理</a>
+						<a href="#">采购模板管理</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -41,7 +41,7 @@
 								<table class="table table-bordered">
 									<tbody>
 										<tr>
-											<td class="bggrey " width="10%">资料名称：</td>
+											<td class="bggrey " width="10%">采购模板名称：</td>
 											<td colspan="3">${data.name }</td>
 											<%--<td class="bggrey " width="10%">发布范围：</td>
 											<td width="40%">

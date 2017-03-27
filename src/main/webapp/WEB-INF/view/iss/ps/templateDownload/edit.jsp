@@ -44,7 +44,7 @@
 						<a href="#">信息服务</a>
 					</li>
 					<li>
-						<a href="#">模板管理</a>
+						<a href="#">采购模板管理</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -54,11 +54,11 @@
 		<div class="container container_box">
 			<form action="${pageContext.request.contextPath }/dataDownload/editData.html" method="post" id="form">
 				<input type="hidden" name="id" value="${data.id }"/>
-				<h2 class="list_title">修改模板</h2>
+				<h2 class="list_title">修改采购模板</h2>
 				
 					<ul class="ul_list mb20">
 						<li class="col-md-12 col-sm-6 col-xs-12 pl15">
-              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>模板名称：</span>
+              <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><div class="star_red">*</div>采购模板名称：</span>
               <div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
                 <input id="name" name="name" value="${data.name }" type="text">
                 <span class="add-on">i</span>

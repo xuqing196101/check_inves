@@ -303,7 +303,7 @@
 						<a href="#">信息服务</a>
 					</li>
 					<li>
-						<a href="#">模板管理</a>
+						<a href="#">采购模板管理</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -311,7 +311,7 @@
 		</div>
 		<div class="container">
 			<div class="headline-v2">
-				<h2>模板列表</h2>
+				<h2>采购模板列表</h2>
 			</div>
 			
 				<form action="${pageContext.request.contextPath }/templateDownload/getList.html" method="post" id="form">
@@ -319,7 +319,7 @@
 					<h2 class="search_detail">
 						<ul class="demand_list">
 				    	<li>
-					    	<label class="fl">模板名称：</label><span><input type="text" id="name" name="name" value="${dataDownload.name }"/></span>
+					    	<label class="fl">采购模板名称：</label><span><input type="text" id="name" name="name" value="${dataDownload.name }"/></span>
 					    </li>
 					    <button type="submit" class="btn fl mt1">查询</button>
 					    <button type="button" onclick="resetResult()" class="btn fl mt1">重置</button>
@@ -343,7 +343,7 @@
 						<tr class="info">
 							<th class="w30"><input type="checkbox" id="selectAll" onclick="selectAll()" /></th>
 							<th class="w50">序号</th>
-							<th class="w300">资料名称</th>
+							<th class="w300">采购模板名称</th>
 							<th class="w180">发布时间</th>
 							<th class="w180">创建时间</th>
 							<th class="w110">状态</th>
