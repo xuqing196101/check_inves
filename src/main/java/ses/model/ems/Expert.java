@@ -89,7 +89,17 @@ public class Expert extends ExpertHistory implements Serializable {
     /**需要申请回避的情况*/
     private String avoidanceSituation;
     
-    public String getEmail() {
+    private String companyAddress;
+    
+    public String getCompanyAddress() {
+		return companyAddress;
+	}
+
+	public void setCompanyAddress(String companyAddress) {
+		this.companyAddress = companyAddress;
+	}
+
+	public String getEmail() {
         return email;
     }
 
