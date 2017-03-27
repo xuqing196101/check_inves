@@ -185,7 +185,7 @@ public class ContractSupervisionController {
 			model.addAttribute("project",project);
 		}
 		 // 根据项目ID查询中间表，然后查询采购计划表
-        HashMap<String, Object> map = new HashMap<>();
+        /*HashMap<String, Object> map = new HashMap<>();
         map.put("projectId", project.getId());
         //采购计划
         List<CollectPlan> list = new ArrayList<CollectPlan>();
@@ -233,7 +233,7 @@ public class ContractSupervisionController {
            
         }
         model.addAttribute("list", list);
-        model.addAttribute("lists", list2);
+        model.addAttribute("lists", list2);*/
 		return "sums/ss/contractSupervision/contractSupervision";
 	}
 	@RequestMapping(value="/filePage",produces = "text/html;charset=UTF-8")
@@ -307,56 +307,62 @@ public class ContractSupervisionController {
 	@SuppressWarnings("unused")
 	@RequestMapping(value="projectDateil",produces="text/html;charset=UTF-8")
 	public String projectList(Model model, String id,String contractId){
-		Project project = projectService.selectById(id);
-		User user = userService.getUserById(project.getAppointMan());
-		List<PurchaseOrg> list = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
-		DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(project.getStatus());
-		if(dictionaryData!=null){
-			project.setStatus(dictionaryData.getName());
-		}else{
-			project.setStatus("");
-		}
-		if(user!=null){
-			project.setAppointMan(user.getRelName());
-		}else{
-			project.setAppointMan("");
-		}
-		String orgs="";
-		if(list!=null&&list.size()>0){
-			
-			for(PurchaseOrg org:list){
-				Orgnization orgnization = orgnizationServiceI.findByCategoryId(org.getOrgId());
-				orgs+=orgnization.getName()+",";
-			}
-		}
-		if(orgs.length()>0){
-			orgs=orgs.substring(0, orgs.length()-1);
-		}
-		model.addAttribute("org",orgs);
-		model.addAttribute("project",project);
-		List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
 		List<Packages> packages=null;
-		if(checkPass!=null&&checkPass.size()>0){
-			packages=new ArrayList<Packages>();
-			for(SupplierCheckPass chp:checkPass){
-				HashMap<String, Object> hashMap=new HashMap<String, Object>();
-				Packages pack = packageService.selectByPrimaryKeyId(chp.getPackageId());
-				hashMap.put("packageId", pack.getId());
-				List<ProjectDetail> projectDetails = detailService.selectByPackageId(pack.getId());
-				if(projectDetails!=null&&projectDetails.size()>0){
-					for(ProjectDetail projectDetail:projectDetails){
-						DictionaryData type = dictionaryDataServiceI.getDictionaryData(projectDetail.getPurchaseType());
-						if(type!=null){
-					    	projectDetail.setPurchaseType(type.getName());
-					    }else{
-					    	projectDetail.setPurchaseType("");
-					    }
-					}
+		Project project = projectService.selectById(id);
+		if(project!=null){
+			User user = userService.getUserById(project.getAppointMan());
+			if(user!=null){
+				project.setAppointMan(user.getRelName());
+			}else{
+				project.setAppointMan("");
+			}
+			List<PurchaseOrg> list = purchaseOrgnizationServiceI.getByPurchaseDepId(user.getOrg().getId());
+			DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(project.getStatus());
+			if(dictionaryData!=null){
+				project.setStatus(dictionaryData.getName());
+			}else{
+				project.setStatus("");
+			}
+			
+			String orgs="";
+			if(list!=null&&list.size()>0){
+				
+				for(PurchaseOrg org:list){
+					Orgnization orgnization = orgnizationServiceI.findByCategoryId(org.getOrgId());
+					orgs+=orgnization.getName()+",";
 				}
-				pack.setProjectDetails(projectDetails);
-				packages.add(pack);
+			}
+			if(orgs.length()>0){
+				orgs=orgs.substring(0, orgs.length()-1);
+			}
+			model.addAttribute("org",orgs);
+			model.addAttribute("project",project);
+			List<SupplierCheckPass> checkPass = supplierCheckPassService.getByContractId(contractId);
+			
+			if(checkPass!=null&&checkPass.size()>0){
+				packages=new ArrayList<Packages>();
+				for(SupplierCheckPass chp:checkPass){
+					HashMap<String, Object> hashMap=new HashMap<String, Object>();
+					Packages pack = packageService.selectByPrimaryKeyId(chp.getPackageId());
+					hashMap.put("packageId", pack.getId());
+					List<ProjectDetail> projectDetails = detailService.selectByPackageId(pack.getId());
+					if(projectDetails!=null&&projectDetails.size()>0){
+						for(ProjectDetail projectDetail:projectDetails){
+							DictionaryData type = dictionaryDataServiceI.getDictionaryData(projectDetail.getPurchaseType());
+							if(type!=null){
+						    	projectDetail.setPurchaseType(type.getName());
+						    }else{
+						    	projectDetail.setPurchaseType("");
+						    }
+						}
+					}
+					pack.setProjectDetails(projectDetails);
+					packages.add(pack);
+				}
 			}
 		}
+		
+		
 		model.addAttribute("listPackages",packages);
 		return "sums/ss/contractSupervision/projectdateil";
 	}
@@ -534,7 +540,12 @@ public class ContractSupervisionController {
 		model.addAttribute("demand", required);
 		return "sums/ss/contractSupervision/demandDateil";
 	}
-	
+	@RequestMapping(value="projectView",produces="text/html;charset=UTF-8")
+	public String projectView(Model model, String id){
+		
+		
+		return "sums/ss/contractSupervision/projectView";
+	}
 	
 	public List<PurchaseDetail> listdata(List<PurchaseDetail> pdetails,List<PurchaseDetail> details){
 		List<PurchaseDetail> deta=new ArrayList<PurchaseDetail>();
