@@ -134,7 +134,7 @@ function importAdd(){
                     <input id="t" name="t" value="search_products" type="hidden">
                     <div class="col-md-12 col-xs-12 col-sm-12 pull-left p0">
                       <div class="search-group">
-                        <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="Search" type="text">
+                        <input class="search-input" id="k" name="condition" value="${oldCondition}" placeholder="搜索" type="text">
                         <span class="input-group-btn">
                           <input class="btn-search" name="commit" value="搜索" type="submit">
                         </span>

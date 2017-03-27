@@ -174,7 +174,7 @@
 				   return;
 			   }
 			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
-			   if(status == '6' && remark == '5'){
+			   if((status == '6' && remark == '5') || (status == '6' && remark == '4')){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 			   	   return;
 			   }
