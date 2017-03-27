@@ -78,8 +78,8 @@
 		//提交
 		if (flag == "1") {
 			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
-			alert("招标文件已提交");
+			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_采购文件.doc", "MyFile");
+			alert("采购文件已提交");
 			$("#handle").attr("class","dnone");
 			$("#audit_file_add").attr("class","dnone");
 			$("#audit_file_view").removeAttr("class","dnone");
@@ -90,9 +90,9 @@
 		if (flag == "0") {
 			//参数说明
 			//1.url	2.后台接收的文件的变量	3.可选参数(为空)		4.文件名		5.form表单的ID
-			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_招标文件.doc", "MyFile");
-			//obj.ShowTipMessage("提示","招标文件已上传至服务器");
-			alert("招标文件已暂存");
+			obj.SaveToURL("${pageContext.request.contextPath}/open_bidding/saveBidFile.html?projectId="+projectId+"&flowDefineId="+flowDefineId+"&flag="+flag, "ntko", "", projectName+"_采购文件.doc", "MyFile");
+			//obj.ShowTipMessage("提示","采购文件已上传至服务器");
+			alert("采购文件已暂存");
 		}
 	}
 	function closeFile(){
@@ -190,7 +190,7 @@
         window.location.href = "${pageContext.request.contextPath}/Auditbidding/purchaseFile.html?projectId="+projectId; */
     	var obj = document.getElementById("TANGER_OCX");
     	
-    	obj.SaveToLocal("E:\\招标文件.doc",false,true);
+    	obj.SaveToLocal("E:\\采购文件.doc",false,true);
     
     }
 </script>
@@ -331,15 +331,15 @@ function getTaskTime(strDate) {
 			 </li>
 			 <li class="active">
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
-			     03、招标文件
+			     03、采购文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
 			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
 			     03、竞谈文件
@@ -369,15 +369,15 @@ function getTaskTime(strDate) {
 		 </li>
 		 <li class="active">
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId }" >
-		         03、招标文件
+		         03、采购文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
 			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
 			     03、竞谈文件

@@ -46,15 +46,15 @@
 			 </li>
 			 <li>
 			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
-			     03、招标文件
+			     03、采购文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
 			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
 			     03、竞谈文件
@@ -73,7 +73,7 @@
     <div class="headline-v2">
      <h2>
              审核结果：
-	 <c:if test="${project.confirmFile == 0}">招标文件未提交</c:if>
+	 <c:if test="${project.confirmFile == 0}">采购文件未提交</c:if>
 	 <c:if test="${project.confirmFile == 1}">暂无审核结果</c:if>
 	 <c:if test="${project.confirmFile == 2}">审核退回</c:if>
 	 <c:if test="${project.confirmFile == 3}">审核通过</c:if>
@@ -84,21 +84,21 @@
 	<div class="p01 container ">${reasons.pcReason}
 		<div class="clear mt10">
 			<span class="fl"><b>采购管理部门审核意见附件:</b></span>
-		    <u:show  showId="e" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
+		    <u:show  showId="e" delete="flase" businessId="${project.id}" sysKey="${sysKey}" typeId="${pcTypeId}"/>
 		</div>
 	</div>
 	<h2 onclick="ycDiv(this,'2')" class="count_flow spread hand">事业部门意见</h2>
 	<div class="p02 container ">${reasons.causeReason}
 		<div class="clear mt10">
 			<span class="fl"><b>事业部门审核意见附件:</b></span>
-		    <u:show  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
+		    <u:show delete="flase"  showId="y" businessId="${project.id}" sysKey="${sysKey}" typeId="${causeTypeId}"/>
 		</div>
 	</div>
 	<h2 onclick="ycDiv(this,'3')" class="count_flow spread hand">财务部门意见</h2>
 	<div class="p03 container">${reasons.financeReason}
 		<div class="clear mt10">
 			<span class="fl"><b>财务部门审核意见附件:</b></span>
-		    <u:show  showId="o" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
+		    <u:show  showId="o" delete="flase" businessId="${project.id}" sysKey="${sysKey}" typeId="${financeTypeId}"/>
 		</div>
 	</div>
 	<h2 onclick="ycDiv(this,'4')" class="count_flow spread hand">最终意见</h2>

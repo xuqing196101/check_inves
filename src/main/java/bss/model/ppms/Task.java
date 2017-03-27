@@ -17,7 +17,7 @@ public class Task {
 	@NotBlank(message = "计划编号不能为空") 
     private String documentNumber;
 
-    private Date giveTime;
+    private Date giveTime; //下达时间
     
     private Integer status;
     
@@ -31,13 +31,13 @@ public class Task {
     
     private Date year;
     
-    private Date acceptTime;
+    private Date acceptTime; //受领时间
     
     private String collectId;
     
     private String passWord;
     
-    private Integer taskNature;
+    private Integer taskNature; //任务性质
     
     private String orgId; //采购管理部门
     
@@ -45,7 +45,9 @@ public class Task {
     
     private Integer notDetail;
     
-    private String createrId; //创建人
+    private String createrId; //下达人
+    
+    private String userId; //受领人
 
 	public Task(String id) {
 		super();
@@ -207,6 +209,14 @@ public class Task {
 
     public void setCreaterId(String createrId) {
         this.createrId = createrId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
     
 }

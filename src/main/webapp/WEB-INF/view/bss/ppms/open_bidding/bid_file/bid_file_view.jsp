@@ -48,15 +48,15 @@
 		 </li>
 		 <li>
 		   <a  href="${pageContext.request.contextPath}/open_bidding/bidFileView.html?id=${projectId}&flowDefineId=${flowDefineId }" >
-		         03、招标文件
+		         03、采购文件
 		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'XJCG' }">
 			     03、询价文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、招标文件
+			     03、采购文件
 			     </c:if>
 			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
 			     03、竞谈文件

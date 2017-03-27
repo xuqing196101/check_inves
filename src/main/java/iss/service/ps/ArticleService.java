@@ -490,4 +490,6 @@ public interface ArticleService {
   	* @throws
   	 */
   	List<Article> selectAllArticleByCondition(Map<String, Object> map);
+
+    void searchCategory(List<CategoryTree> jList, String name, String rootCode);
 }

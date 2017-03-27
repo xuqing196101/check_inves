@@ -21,6 +21,7 @@
     <result property="orgId" column="ORG_ID" />
     <result property="notDetail" column="NOT_DETAIL" />
     <result property="createrId" column="CREATER_ID" />
+    <result property="userId" column="USER_ID" />
   </resultMap>
   
   <resultMap type="bss.model.ppms.Task" id="ProjectResultMap" extends="BaseResultMap">  
@@ -33,7 +34,7 @@
   
   <sql id="Base_Column_List">
     ID, NAME, PURCHASE_ID, DOCUMENT_NUMBER, GIVE_TIME,STATUS,PROCUREMENT_METHOD,PURCHASE_REQUIRED_ID,IS_DELETED,
-    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE,NOT_DETAIL,ORG_ID,CREATER_ID
+    MATERIALS_TYPE,YEAR,ACCEPT_TIME,COLLECT_ID,PASS_WORD,TASK_NATURE,NOT_DETAIL,ORG_ID,CREATER_ID,USER_ID
   </sql>
   <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -309,6 +310,9 @@
       <if test="createrId != null">
         CREATER_ID,
       </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -365,6 +369,9 @@
       <if test="createrId != null">
         #{createrId},
       </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
     </trim>
   </insert>
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ppms.Task">
@@ -420,6 +427,9 @@
       </if>
       <if test="createrId != null">
         CREATER_ID = #{createrId},
+      </if>
+      <if test="userId != null">
+        USER_ID = #{userId},
       </if>
     </set>
     where ID = #{id}

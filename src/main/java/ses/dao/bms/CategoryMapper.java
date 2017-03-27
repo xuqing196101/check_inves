@@ -287,4 +287,6 @@ public interface CategoryMapper {
 	 * @exception
 	 */
 	public List<Category> selectByCode(String code);
+	
+	public List<Category> listByKeywordIsPublish(HashMap<String, Object> map);
 }

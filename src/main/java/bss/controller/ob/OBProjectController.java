@@ -713,8 +713,8 @@ public class OBProjectController {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
 		Double totalCountPriceBigDecimal = 0.00;
-		NumberFormat currency = NumberFormat.getCurrencyInstance();
-		currency.setMinimumFractionDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+		NumberFormat currency = NumberFormat.getNumberInstance();
+		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 		/** 计算单个商品的总价以及合计金额 **/
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {

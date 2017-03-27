@@ -84,9 +84,25 @@
        	}
 	}
 	
+	/*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+    
+  	  if (treeNode.isParent == true) {
+          layer.msg("请选择末节点");
+          return false;
+      }
+	  if (!treeNode.isParent) {
+	  	$("#cId").val(treeNode.id);
+        $("#categorySel").val(treeNode.name);
+	    hideCategory();
+	  }
+    }
+	
 	function showCategory(articleId) {
 		//回显勾选
-		var backCategoryIds = $("#cId").val();
+		//var backCategoryIds = $("#cId").val();
+		//栏目类型
+		var rootCode = "${rootCode}";
 		var zTreeObj;
 		var zNodes;
 		var setting = {
@@ -96,7 +112,8 @@
 				url: "${pageContext.request.contextPath}/article/categoryTree.do",
 				otherParam: {
 					"articleId": articleId,
-					"backCategoryIds":backCategoryIds,
+					//"backCategoryIds":backCategoryIds,
+					"rootCode":rootCode,
 				},
 				dataFilter: ajaxDataFilter,
 				dataType: "json",
@@ -119,9 +136,10 @@
 				}
 			},
 			callback: {
-				beforeClick: beforeClick,
+				/* beforeClick: beforeClick,
 				onCheck: onCheck,
-				beforeCheck: zTreeBeforeCheck,
+				beforeCheck: zTreeBeforeCheck, */
+				onClick:zTreeOnClick,
 			}
 		};
 		zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
@@ -285,12 +303,75 @@
 			}
 		});
         
+        function searchs(articleId){
+		var rootCode = "${rootCode}";
+		var name=$("#search").val();
+		if(name!=""){
+		 	var zNodes;
+			var zTreeObj;
+			var setting = {
+				async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/article/categoryTree.do",
+						otherParam: {
+							"articleId": articleId,
+							"rootCode":rootCode,
+						},
+						dataFilter: ajaxDataFilter,
+						dataType: "json",
+						type: "get"
+					},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick:zTreeOnClick,
+				}
+			};
+			// 加载中的菊花图标
+			var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/article/searchCategory.do",
+				data: { "name" : encodeURI(name), "rootCode" : rootCode},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 1) {
+						layer.msg("没有符合查询条件的产品类别信息！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					
+					layer.close(loading);
+					
+				}
+			});
+		}else{
+			showCategory();
+		}
+	}
     </script>
 </head>
 
 <body>
-	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-		<ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+   	<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
+		<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+		    <div class="w100p">
+		    	<input type="text" id="search" class="fl m0">
+			      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs('${articleId}')">
+		    </div>
+		    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+		</div>
    	</div>
 	 <form  method="post" id="form" > 
         <!-- 按钮 -->
@@ -341,7 +422,7 @@
 					<div class="star_red">*</div>选择产品类别：
 				</span>
 				<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 col-lg-12 p0">
-					<input id="cId" name="categoryId"  type="hidden" value="${categoryIds}">
+					<input id="cId" name="categoryIds"  type="hidden" value="${categoryIds}">
 			        <input id="categorySel"  type="text" name="categoryName" readonly value="${categoryNames}"  onclick="showCategory('${articleId}');" />
 					<div class="drop_up" onclick="showCategory('${articleId}');">
 					    <img src="${pageContext.request.contextPath}/public/backend/images/down.png" />
@@ -431,7 +512,7 @@
         //需要ready后执行，否则可能报错
        // ue.setContent("<h1>欢迎使用UEditor！</h1>");
         ue.setContent(content);
-        ue.setHeight(270);
+        ue.setHeight(200);
     });
     </script>
 </body>

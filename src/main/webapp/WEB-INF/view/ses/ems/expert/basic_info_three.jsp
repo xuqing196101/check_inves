@@ -220,8 +220,8 @@
                 <c:forEach items="${allPurList}" var="org1" varStatus="vs">
                     <c:if test="${org1.cityId eq expert.address}">
                         <tr>
-                            <td class="tc"><input type="radio" value="${org1.id}" onclick="checkDep(this)"
-                                    <c:if test="${org1.provinceId==currSupplier.purchaseDepId}"> checked='checked' </c:if> />
+                            <td class="tc"><input  name="procurementDepId" type="radio" value="${org1.id}" onclick="checkDep(this)"
+                                    <c:if test="${org1.id==expert.purchaseDepId}"> checked='checked' </c:if> />
                             </td>
                             <td class="tc">${vs.index + 1}</td>
                             <td class="tc">${org1.shortName}</td>
@@ -237,7 +237,7 @@
             <table class="table table-bordered table-condensed table-hover table-striped">
                 <thead>
                 <tr>
-                    <th class="info w30"><input type="radio" disabled="disabled"></th>
+                    <th class="info w30"><input   type="radio" disabled="disabled"></th>
                     <th class="info w50">序号</th>
                     <th class="info w300">采购机构</th>
                     <th class="info w150">地点</th>

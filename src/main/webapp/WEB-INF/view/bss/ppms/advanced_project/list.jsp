@@ -78,7 +78,6 @@
         });
         var status = $("input[name='chkItem']:checked").parents("tr").find("td").eq(6).find("input").val();
         status = $.trim(status);
-        alert(status);
         if(id.length == 1) {
           /* if(status == "YLX_DFB" || status == "YFB_DSS") {
             $.ajax({

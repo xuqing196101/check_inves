@@ -486,6 +486,12 @@ public class OpenBiddingController {
   @RequestMapping("/bidNotice")
   public String bidNotice(@CurrentUser User user, String projectId, Model model, String flowDefineId){
     Project project = projectService.selectById(projectId);
+    if (project != null) {
+        DictionaryData dictionaryData = DictionaryDataUtil.findById(project.getPlanType());
+        if (dictionaryData != null) {
+          model.addAttribute("rootCode", dictionaryData.getCode());
+        }
+    }
     String id = DictionaryDataUtil.getId("DYLY");
     if(project.getPurchaseType().equals(id)){
       return makeNotices(user, projectId, PURCHASE_NOTICE, model, flowDefineId);
@@ -625,7 +631,8 @@ public class OpenBiddingController {
         if (PURCHASE_NOTICE.equals(noticeType)) {
           model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
         }
-
+        //查询关联品目
+        articelService.getArticleCategory(articles.get(0).getId(), model);
         return "bss/ppms/open_bidding/bid_notice/view";
       } else {
         //暂存或退回状态
@@ -638,6 +645,8 @@ public class OpenBiddingController {
         model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
+        //查询关联品目
+        articelService.getArticleCategory(articles.get(0).getId(), model);
         return "bss/ppms/open_bidding/bid_notice/add";
       }
     } else {
@@ -660,7 +669,8 @@ public class OpenBiddingController {
       model.addAttribute("flowDefineId", flowDefineId);
       model.addAttribute("articleId", articleId);
       model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-
+      //查询关联品目
+      articelService.getArticleCategory(articleId, model);
       return "bss/ppms/open_bidding/bid_notice/add";
     }
   }
@@ -675,6 +685,13 @@ public class OpenBiddingController {
    */
   @RequestMapping("/winNotice")
   public String winNotice(String projectId, Model model, String flowDefineId){
+    Project project = projectService.selectById(projectId);
+    if (project != null) {
+        DictionaryData dictionaryData = DictionaryDataUtil.findById(project.getPlanType());
+        if (dictionaryData != null) {
+          model.addAttribute("rootCode", dictionaryData.getCode());
+        }
+    }
     return makeNotice(projectId, WIN_NOTICE, model, flowDefineId);
   }
 
@@ -737,6 +754,8 @@ public class OpenBiddingController {
         return jsonData;
       }
       if (count == 0) {
+        String categoryIds = request.getParameter("categoryIds");
+        articelService.saveArtCategory(article.getId(), categoryIds);
         User currUser = (User) request.getSession().getAttribute("loginUser");
         article.setUser(currUser);
         Timestamp ts = new Timestamp(new Date().getTime());
@@ -2673,7 +2692,8 @@ public class OpenBiddingController {
         if (PURCHASE_NOTICE.equals(noticeType)) {
           model.addAttribute("typeId_examine", DictionaryDataUtil.getId("PROJECT_BID_ADUIT"));
         }
-
+        //查询关联品目
+        articelService.getArticleCategory(articles.get(0).getId(), model);
         return "bss/ppms/open_bidding/bid_notice/view";
       } else {
         //暂存或退回状态
@@ -2686,6 +2706,8 @@ public class OpenBiddingController {
         model.addAttribute("typeId", DictionaryDataUtil.getId("GGWJ"));
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("security", DictionaryDataUtil.getId("SECURITY_COMMITTEE"));
+        //查询关联品目
+        articelService.getArticleCategory(articles.get(0).getId(), model);
         return "bss/ppms/open_bidding/bid_notice/add";
       }
     } else {
@@ -2708,7 +2730,8 @@ public class OpenBiddingController {
       model.addAttribute("flowDefineId", flowDefineId);
       model.addAttribute("articleId", articleId);
       model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
-
+      //查询关联品目
+      articelService.getArticleCategory(articleId, model);
       return "bss/ppms/open_bidding/bid_notice/add";
     }
   }

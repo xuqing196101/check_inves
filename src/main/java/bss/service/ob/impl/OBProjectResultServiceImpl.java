@@ -4,6 +4,7 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -300,5 +301,23 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		}
 		return spVo;
 	}
+
+	/**
+	 * 
+	* @Title: findSupplierUnBidding 
+	* @Description: 查询未中标的供应商
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public List<OBProjectResult> findSupplierUnBidding(Map<String, Object> map) {
+		return oBProjectResultMapper.findSupplierUnBidding(map);
+		
+	}
+	
+	
+	
 
 }

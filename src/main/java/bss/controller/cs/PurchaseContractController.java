@@ -870,27 +870,30 @@ public class PurchaseContractController extends BaseSupplierController{
 					contractRequiredService.insertSelective(conRequ);
 				}
 			}
-			if(pur!=null){
-				String supchid = pur.getSupplierCheckIds();
-				if(supchid!=null&&!"".equals(supchid)){
-					String[] supchids = supchid.split(",");
-					for(String supid:supchids){
+			if(purCon.getManualType()!=1){
+				if(pur!=null){
+					String supchid = pur.getSupplierCheckIds();
+					if(supchid!=null&&!"".equals(supchid)){
+						String[] supchids = supchid.split(",");
+						for(String supid:supchids){
+							SupplierCheckPass sup = new SupplierCheckPass();
+							sup.setId(supid);
+							sup.setIsCreateContract(1);
+							sup.setContractId(purCon.getId());
+							supplierCheckPassService.update(sup);
+						}
+					}
+					
+				}else{
+					for(String supchid:supcheckids){
 						SupplierCheckPass sup = new SupplierCheckPass();
-						sup.setId(supid);
+						sup.setId(supchid);
 						sup.setIsCreateContract(1);
 						sup.setContractId(purCon.getId());
 						supplierCheckPassService.update(sup);
 					}
 				}
 				
-			}else{
-				for(String supchid:supcheckids){
-					SupplierCheckPass sup = new SupplierCheckPass();
-					sup.setId(supchid);
-					sup.setIsCreateContract(1);
-					sup.setContractId(purCon.getId());
-					supplierCheckPassService.update(sup);
-				}
 			}
 			
 			/*if(manual!=null){*/
@@ -2354,12 +2357,15 @@ public class PurchaseContractController extends BaseSupplierController{
             if(datas.size()>0){
                 model.addAttribute("attachtypeId", datas.get(0).getId());
             }
-            for(String supchid:supcheckids){
-                SupplierCheckPass sup = new SupplierCheckPass();
-                sup.setId(supchid);
-                sup.setIsCreateContract(1);
-                supplierCheckPassService.update(sup);
+            if(purCon.getManualType()!=1){
+            	for(String supchid:supcheckids){
+                    SupplierCheckPass sup = new SupplierCheckPass();
+                    sup.setId(supchid);
+                    sup.setIsCreateContract(1);
+                    supplierCheckPassService.update(sup);
+                }
             }
+            
             model.addAttribute("id", id);
             model.addAttribute("supckid", supcheckid);
             url = "bss/cs/purchaseContract/transFormaTional";

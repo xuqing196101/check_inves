@@ -14,8 +14,8 @@
 	<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
 	<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
   <script type="text/javascript">
-  function view(id,type){
-      window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id+"&type="+type;
+  function projectView(id){
+      window.location.href = "${pageContext.request.contextPath}/contractSupervision/projectView.html?id="+id;
     }
     </script>
   </head>
@@ -105,7 +105,7 @@
 			       <td>${detail.deliverDate}</td>
 			       <td>${detail.purchaseType}</td>
 			       <td>${detail.supplier}</td>
-			       <td><div name="p"  class="easyui-progressbar" data-options="value:60" style="width:80px;"></div></td>
+			       <td><div name="p" onclick="projectView('${detail.id}');"  class="easyui-progressbar" data-options="value:60" style="width:80px;"></div></td>
 			    </tr>
 			 
 			 </c:forEach>

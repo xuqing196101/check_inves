@@ -27,9 +27,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.pqims.PqInfo;
 import bss.model.pqims.SupplierPqrecord;
+import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pqims.SupplierPqrecordService;
 
@@ -69,9 +71,11 @@ public class AfterSaleSerController extends BaseSupplierController{
 	@Autowired
     private SupplierPqrecordService supplierPqrecordService;
 	
+	@Autowired
+    private ContractRequiredService contractRequiredService;
 	
 
-	/**
+	/**ContractRequiredService
      * 
      *〈简述〉
      *〈详细描述〉
@@ -147,9 +151,16 @@ public class AfterSaleSerController extends BaseSupplierController{
 	@ResponseBody
 	public void createAllCommonContract(HttpServletRequest request,HttpServletResponse response, String supplierId) throws Exception{
 		HashMap<String, Object> map=new HashMap<String, Object>();
-		/*map.put("supplierDepName", value)*/
 		List<PurchaseContract> selectDraftContract = purchaseContractService.selectAllContract();
 		super.writeJson(response, selectDraftContract);
+
+	}
+	@RequestMapping(value="/getProduct",produces = "text/html; charset=utf-8")
+	@ResponseBody
+	public void createAllCommonProduct(HttpServletRequest request,HttpServletResponse response, String id) throws Exception{
+		HashMap<String, Object> map=new HashMap<String, Object>();
+		List<ContractRequired> selectConRequeByContractId = contractRequiredService.selectConRequeByContractId(id);
+		super.writeJson(response, selectConRequeByContractId);
 
 	}
 	

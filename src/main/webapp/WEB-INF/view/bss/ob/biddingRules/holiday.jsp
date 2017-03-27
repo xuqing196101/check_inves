@@ -202,7 +202,7 @@
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tc"><fmt:formatDate value="${ obspecialdate.specialDate }" pattern="yyyy-MM-dd"/></td>
 			  <td class="tc">${ obspecialdate.createrName }</td>
-			  <td class="tc"><fmt:formatDate value="${ obspecialdate.createdAt }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
+			  <td class="tc"><fmt:formatDate value="${ obspecialdate.createdAt }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc">
 				<c:if test="${ obspecialdate.dateType=='1' }">
 					上班

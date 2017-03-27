@@ -2495,6 +2495,7 @@ public class ExpertController extends BaseController {
         HttpServletRequest request, HttpServletResponse response) throws Exception {
         // 根据编号查询专家信息
         Expert expert = service.selectByPrimaryKey(id);
+        
         // 文件存储地址
         String filePath = request.getSession().getServletContext()
             .getRealPath("/WEB-INF/upload_file/");
@@ -3090,7 +3091,7 @@ public class ExpertController extends BaseController {
         /** 用于组装word页面需要的数据 */
         Map<String, Object> dataMap = new HashMap<String, Object>();
         dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
-        String purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId()).getName();
+        String purchaseDep = purchaseOrgnizationService.selectPurchaseById(expert.getPurchaseDepId()).getShortName();
         dataMap.put("purchaseDep", purchaseDep);
         dataMap.put("reportTime", new Date());
         String sex = expert.getGender();
@@ -3118,11 +3119,14 @@ public class ExpertController extends BaseController {
         if(area != null) {
             String province = areaServiceI.listById(area.getParentId()).getName();
             String city = area.getName();
-            expert.setUnitAddress(province + city);  //具体街道   expert.getUnitAddress()
+            String pc=province + city;
+            expert.setCompanyAddress(pc); 
+            expert.setUnitAddress(pc+expert.getUnitAddress());  //具体街道   expert.getUnitAddress()
         }
         dataMap.put("unitAddress", expert.getUnitAddress() == null ? "" : expert.getUnitAddress());
         dataMap.put("postCode", expert.getPostCode() == null ? "" : expert.getPostCode());
         dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
+        dataMap.put("companyAddress", expert.getCompanyAddress() == null ? "" : expert.getCompanyAddress());
         dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
         DictionaryData idType = dictionaryDataServiceI.getDictionaryData(expert.getIdType());
         if (idType != null) {

@@ -251,7 +251,7 @@ public class TackController extends BaseController{
 	 */
 	@RequestMapping("/startTask")
 	@ResponseBody
-	public void startTask(String id, HttpServletRequest request){
+	public void startTask(@CurrentUser User user, String id, HttpServletRequest request){
 	    if(id != null){
 	        String[] ide = id.split(",");
 	        for (int i = 0; i < ide.length; i++) {
@@ -271,8 +271,6 @@ public class TackController extends BaseController{
                          purchaseRequired.setDetailStatus(1);
                          purchaseDetailService.updateByPrimaryKeySelective(purchaseRequired);
                      }
-                     task.setAcceptTime(new Date());
-                     taskservice.update(task);
 	             }else{
 	                 HashMap<String, Object> map1 = new HashMap<>();
 	                 map1.put("taskId", task.getId());
@@ -283,7 +281,9 @@ public class TackController extends BaseController{
 	                     advancedProjectService.update(project);
 	                 }
 	             }
-	            
+	             task.setAcceptTime(new Date());
+	             task.setUserId(user.getId());
+                 taskservice.update(task);
 	        }
 	    }
 	}
