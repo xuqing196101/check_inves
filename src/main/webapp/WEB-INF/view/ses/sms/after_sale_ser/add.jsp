@@ -108,8 +108,6 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				  			 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>合同编号：</span>
 			       			 <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        			<!-- <select id="contractCodes" name="contractCode" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeSupplierDep()">
-                				</select> -->
                 				<input class="easyui-combobox" name="contractCode" id="contractCode" data-options="valueField:'id',textField:'code',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
 			        			<script>
 				    $('#contractCode').combobox({  
@@ -124,18 +122,24 @@
 				        },
 				        onSelect: function (org) { 
 				        $("#contractAmount").val(org.money);
-				        	
+				        $('#product').combobox({  
+					        prompt:'',  
+					        required:false,  
+					        url: "${pageContext.request.contextPath }/after_sale_ser/getProduct.do?id="+org.id,  
+					        editable:true,  
+					        hasDownArrow:true,  
+					        filter: function(L, row){  
+					            var opts = $(this).combobox('options');  
+					            return row[opts.textField].indexOf(L) == 0;  
+					        }
+					    });  
 				        }
 				    });  
 				 </script>
 			        			<div class="cue">${ERR_contract_code}</div>
-			        		<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 产品名称</span>
+			        		<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red">*</span> 产品名称</span>
 										<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-										<select required name="product" id="productId" <c:if test="${fn:contains(audit,'product')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('product')"</c:if>>
-											<c:forEach items="${company }" var="obj">
-												<option value="${obj.id }" <c:if test="${obj.id==currSupplier.product }">selected="selected"</c:if> >${obj.name }</option>
-											</c:forEach>
-										</select>
+										<input class="easyui-combobox" name="product" id="product" data-options="valueField:'id',textField:'goodsName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
 									</div>
 	       					</div>
 						 </li> 
@@ -180,7 +184,7 @@
 							</div>
 						</li>
 						<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
-									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('billCert')"</c:if>><i class="red">*</i> 产品使用说明或用户操作手册</span>
+									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('billCert')"</c:if>><span class="star_red">*</span>产品使用说明或用户操作手册</span>
 									<div class="col-md-6 col-sm-12 col-xs-12 p0">
 										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
 										<u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
