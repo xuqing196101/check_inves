@@ -66,5 +66,10 @@ public interface ExpertCategoryMapper {
 	List<ExpertCategory> selectListByExpertId1(String expertId, String typeId);
 
 	List<ExpertCategory> findEnginId(Map<String, Object> map);
+	
+	
+	
+	List<ExpertCategory> getCategory(@Param("expertId")String expertId, @Param("categoryId")String categoryId,@Param("typeId")String typeId );
+	
 
 }

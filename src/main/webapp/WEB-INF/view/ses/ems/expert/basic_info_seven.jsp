@@ -94,17 +94,17 @@
             //此处是对选中专家进行校验
             if (isIs) {
             	
-            	var checklists = document.getElementsByName("chkItem_1");
-				if (checklists[1].checked) {
-					if (!$("#professional").val()) {
-	                    layer.msg("请填写执业资格职称 !");
-	                    return false;
-	                }
-	                if (!$("#timeProfessional").val()) {
-	                    layer.msg("请填写获取专家证书的时间 !");
-	                    return false;
-	                }
-				}
+//             	var checklists = document.getElementsByName("chkItem_1");
+// 				if (checklists[1].checked) {
+// 					if (!$("#professional").val()) {
+// 	                    layer.msg("请填写执业资格职称 !");
+// 	                    return false;
+// 	                }
+// 	                if (!$("#timeProfessional").val()) {
+// 	                    layer.msg("请填写获取专家证书的时间 !");
+// 	                    return false;
+// 	                }
+// 				}
                 var asx = mmm();
 
                 /*if (!$("#professTechTitles").val()) {
@@ -351,7 +351,7 @@
                                 onmouseover="errorMsg('执业资格职称')"</c:if>
                                 maxlength="20" value="${expert.professional}"
                                 name="professional" id="professional" type="text"/>
-                        <span class="add-on">i</span> <span class="input-tip">不能为空</span>
+                        <span class="add-on">i</span> <span class="input-tip"></span>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span

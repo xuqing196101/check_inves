@@ -115,4 +115,17 @@
         </if>
 	</delete>
   
+  <!--根据专家ID，品目ID类型查询  -->
+    <select id="getCategory" resultMap="BaseResultMap">
+    select 
+    <include refid="baseExpertSql"/>
+    from T_SES_EMS_EXPERT_CATEGORY
+      where EXPERT_ID = #{expertId}
+    <if test="categoryId != null">
+      and CATEGORY_ID = #{categoryId}
+    </if>
+    <if test="typeId != null">
+      and TYPE_ID = #{typeId}
+    </if>
+  </select>
 </mapper>

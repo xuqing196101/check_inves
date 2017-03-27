@@ -662,7 +662,50 @@ public class ExpertController extends BaseController {
             //遍历循环只要存在一个父节点相同的就不删除，否则删除
             
             Category cate1 = categoryService.findById(categoryId);
-            Category cata11 = engCategoryService.selectByPrimaryKey(categoryId);
+           
+            String parentId = cate1.getParentId(); 
+            
+            while(true){
+           	 
+//              没有同级节点删除父级节点
+               boolean bool = sameCategory(expertId,parentId,typeId);
+               if(bool==false){
+  	        	   Category category = categoryService.findById(parentId);
+  	        	   List<ExpertCategory> bySupplierIdCategoryId = expertCategoryService.getListCategory(expertId, category.getId(), typeId);
+  	        	   if(bySupplierIdCategoryId!=null&&bySupplierIdCategoryId.size()>0){
+  	        		   map.put("categoryId", category.getId());
+  	        		   expertCategoryService.deleteByMap(map);
+  	                   parentId = category.getParentId();
+  	        	   }else{
+  	        		   break  ;
+  	        	   }
+  	           }else{
+  	        	   break  ;
+  	           } 
+              }  
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+           /* Category cata11 = engCategoryService.selectByPrimaryKey(categoryId);
             if (cate1 != null || cata11 != null) {
             	List<Category> treeList = new ArrayList<Category>();
             	String parentId1 = (cate1 != null ? cate1.getParentId() : cata11.getParentId());
@@ -783,7 +826,7 @@ public class ExpertController extends BaseController {
             		}
             	}
 			}
-            
+            */
             
 
 //            // 0代表删除
@@ -4054,4 +4097,30 @@ public class ExpertController extends BaseController {
         }
         return imgInfo;
     }
+    
+    
+    
+    
+	//查询专家品目中间表是否还有同级
+	public boolean sameCategory(String expertId,String categoryId,String typeId){
+		boolean bool=false;
+//		  Map<String, Object> param = new HashMap<String, Object>();
+//          param.put("supplier
+          List<ExpertCategory> allCategory = expertCategoryService.getListByExpertId(expertId, typeId);
+          for (ExpertCategory category : allCategory) {
+              Category node = categoryService.findById(category.getCategoryId());
+              if (node != null) {
+                  if (categoryId.equals(node.getParentId())) {
+                    	  bool = true;
+                          break;
+//                      }
+                  }
+              }
+          }
+          
+          
+		return bool;
+	}
+	
+	
 }

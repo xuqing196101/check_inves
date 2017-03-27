@@ -83,5 +83,10 @@ public interface ExpertCategoryService {
 	List<ExpertCategory> findEnginId(String expertId, String engin_type);
 
 	List<ExpertCategory> selectListByExpertId(String expertId);
+	
+    List<ExpertCategory> getListCategory(String expertId,String categoryId, String typeId);
+	
+	
+	
 
 }

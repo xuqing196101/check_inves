@@ -213,6 +213,12 @@ public class ExpertCategoryServiceImpl implements ExpertCategoryService {
     	map.put("engin_type", engin_type);
     	return mapper.findEnginId(map);
     }
+
+	@Override
+	public List<ExpertCategory> getListCategory(String expertId, String categoryId, String typeId) {
+		 
+		return mapper.getCategory(expertId, categoryId, typeId);
+	}
 	
 	
 }
