@@ -106,7 +106,7 @@
 	    <li><a href="javascript:void(0)">首页</a></li>
 		<li><a href="javascript:void(0)">保障作业系统</a></li>
 		<li><a href="javascript:void(0)">采购项目管理</a></li>
-		<li class="active"><a href="javascript:void(0)">招标文件审核</a></li>
+		<li class="active"><a href="javascript:void(0)">采购文件审核</a></li>
 	  </ul>
 	  <div class="clear"></div>
     </div>

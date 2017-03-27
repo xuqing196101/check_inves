@@ -1241,11 +1241,12 @@ public class IndexNewsController extends BaseSupplierController{
 	@RequestMapping("/downloadDetailsImage")
 	public void downloadDetailsImage(HttpServletRequest request,HttpServletResponse response){
 		String id = request.getParameter("id");
-		String filePath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
+		String filePath = PropUtil.getProperty("file.noticePic.base") + "/glistening";
+		//String filePath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
 		String targerPath2 = filePath+"/"+id+".jpg";
 		InputStream fis = null;
 		try {
-			File file = new File(targerPath2);
+			      File file = new File(targerPath2);
             response.setContentType("image/*");
             fis = new BufferedInputStream(new FileInputStream(file));  
             OutputStream toClient = new BufferedOutputStream(response.getOutputStream());
@@ -1295,11 +1296,15 @@ public class IndexNewsController extends BaseSupplierController{
 		
 		if ("1".equals(ipAddressType)) {
       //外网
-		  String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
-		  String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";
-  		/*String filePathFile = filePath+"/"+article.getId()+".png";*/
+		  /*String filePath = request.getSession().getServletContext().getRealPath("/")+"/zanpic";
+		  String glisteningPath = request.getSession().getServletContext().getRealPath("/")+"/glistening";*/
+		  String filePath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "zanpic";
+      String glisteningPath = PropUtil.getProperty("file.noticePic.base")+ File.separator + "glistening";
+		  /*String filePathFile = filePath+"/"+article.getId()+".png";*/
   		File glisteningFile = new File(glisteningPath+"/"+articleDetail.getId()+".jpg");
-		  String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
+  		UploadUtil.createDir(filePath);
+      UploadUtil.createDir(glisteningPath);
+  		String proWaterPath = request.getSession().getServletContext().getRealPath("/")+"/proWatermark/shuiyin.png";
 		  File stagingFile = new File(filePath);
 		  File glisFile = new File(glisteningPath);
 		  

@@ -224,10 +224,12 @@
         
         //提交
         function publish(){
-        	var articleId = $("#articleId").val();
-        	var saveStatus = $("#is_saveNotice").val();
-        	var noticeType = $("#noticeType").val();
-        	var flowDefineId = $("#flowDefineId").val();
+        	var categoryId = $("#cId").val();
+       		if (categoryId != null && categoryId != "") {
+	        	var articleId = $("#articleId").val();
+	        	var saveStatus = $("#is_saveNotice").val();
+	        	var noticeType = $("#noticeType").val();
+	        	var flowDefineId = $("#flowDefineId").val();
         		 $.ajax({
 					    type: 'post',
 					    url: "${pageContext.request.contextPath}/open_bidding/saveBidNotice.do?flag=1",
@@ -250,8 +252,10 @@
 		                error: function(result){
 		                    layer.msg("提交失败",{offset: ['220px']});
 		                }
-						}); 
-
+				}); 
+			} else {
+				layer.msg("请选择产品类别",{offset: '222px'});
+			}
 	        	 /* var iframeWin;
 	            layer.open({
 	              type: 2, //page层
