@@ -822,7 +822,7 @@ function importAdd(){
 	      <a href="javascript:void(0);">
 	  <% } %>
 	    <div class="col-md-12 col-xs-12 col-sm-12 tc"><img src="${pageContext.request.contextPath}/public/portal/images/mb_pic.png" width="80%" height="80%;"/></div>
-		<div class="tc f18 mt20 pt10 clear">模板下载</div>
+		<div class="tc f18 mt20 pt10 clear">采购模板</div>
 	  </a>
 	 </div>
 	 <div class="col-md-2 col-sm-4 col-xs-6 mt60">
