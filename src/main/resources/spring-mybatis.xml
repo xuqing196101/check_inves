@@ -113,7 +113,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 	<!-- 拦截器方式配置事物 -->
 	<tx:advice id="transactionAdvice" transaction-manager="transactionManager">
 		<tx:attributes>
-		<!-- 	<tx:method name="add*" propagation="REQUIRED" />
+			<tx:method name="add*" propagation="REQUIRED" />
 			<tx:method name="append*" propagation="REQUIRED" />
 			<tx:method name="insert*" propagation="REQUIRED" />
 			<tx:method name="save*" propagation="REQUIRED" />
@@ -123,8 +123,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 			<tx:method name="delete*" propagation="REQUIRED" />
 			<tx:method name="remove*" propagation="REQUIRED" />
 			<tx:method name="repair" propagation="REQUIRED" />
-			<tx:method name="delAndRepair" propagation="REQUIRED" /> -->
-			<tx:method name="*" propagation="REQUIRED" />
+			<tx:method name="delAndRepair" propagation="REQUIRED" />
 
 			<tx:method name="get*" propagation="SUPPORTS" />
 			<tx:method name="find*" propagation="SUPPORTS" />
@@ -132,7 +131,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 			<tx:method name="search*" propagation="SUPPORTS" />
 			<tx:method name="datagrid*" propagation="SUPPORTS" />
 
-			<!-- <tx:method name="*" propagation="SUPPORTS" /> -->
+			<tx:method name="*" propagation="SUPPORTS" />
 		</tx:attributes>
 	</tx:advice>
 	<aop:config>
