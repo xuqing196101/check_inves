@@ -66,8 +66,8 @@
         //提交
         if(flag == "1") {
           //1.url 2.后台接收的文件的变量  3.可选参数(为空)    4.文件名   5.form表单的ID
-          obj.SaveToURL("${pageContext.request.contextPath}/Adopen_bidding/saveBidFile.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&flag=" + flag, "ntko", "", projectName + "_招标文件.doc", "MyFile");
-          alert("招标文件已提交");
+          obj.SaveToURL("${pageContext.request.contextPath}/Adopen_bidding/saveBidFile.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&flag=" + flag, "ntko", "", projectName + "_采购文件.doc", "MyFile");
+          alert("采购文件已提交");
           $("#handle").attr("class", "dnone");
           $("#audit_file_add").attr("class", "dnone");
           $("#audit_file_view").removeAttr("class", "dnone");
@@ -78,9 +78,9 @@
         if(flag == "0") {
           //参数说明
           //1.url 2.后台接收的文件的变量  3.可选参数(为空)    4.文件名   5.form表单的ID
-          obj.SaveToURL("${pageContext.request.contextPath}/Adopen_bidding/saveBidFile.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&flag=" + flag, "ntko", "", projectName + "_招标文件.doc", "MyFile");
+          obj.SaveToURL("${pageContext.request.contextPath}/Adopen_bidding/saveBidFile.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&flag=" + flag, "ntko", "", projectName + "_采购文件.doc", "MyFile");
           //obj.ShowTipMessage("提示","招标文件已上传至服务器");
-          alert("招标文件已暂存");
+          alert("采购文件已暂存");
         }
 
       }
@@ -177,7 +177,7 @@
               <a href="javascript:void(0)">采购项目管理</a>
             </li>
             <li class="active">
-              <a href="javascript:void(0)">招标文件审核</a>
+              <a href="javascript:void(0)">采购文件审核</a>
             </li>
           </ul>
           <div class="clear"></div>
@@ -200,9 +200,12 @@
               </li>
               <li class="active">
                 <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}">
-                  03、招标文件
+                  03、采购文件
                 </a>
               </li>
+              <li>
+			         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+			       </li>
             </c:if>
             <c:if test="${ope == 'view' }">
               <li>
@@ -215,10 +218,13 @@
               </li>
               <li class="active">
                 <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFileView.html?id=${project.id}&flowDefineId=${flowDefineId}">
-                  03、招标文件
+                  03、采购文件
                 </a>
                 <i></i>
               </li>
+              <li>
+               <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+             </li>
               <li>
                 <c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
                   <a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>

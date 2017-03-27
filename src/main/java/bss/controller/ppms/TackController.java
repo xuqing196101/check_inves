@@ -278,6 +278,7 @@ public class TackController extends BaseController{
 	                 if(projectTask != null && projectTask.size()>0){
 	                     AdvancedProject project = advancedProjectService.selectById(projectTask.get(0).getProjectId());
 	                     project.setStatus(DictionaryDataUtil.getId("YJLX"));
+	                     project.setAppointMan(user.getId());
 	                     advancedProjectService.update(project);
 	                 }
 	             }
@@ -985,6 +986,7 @@ public class TackController extends BaseController{
             project.setIsRehearse(0);
             project.setIsProvisional(advancedProject.getIsProvisional());
             project.setPlanType(advancedProject.getPlanType());
+            project.setAppointMan(advancedProject.getAppointMan());
             projectService.add(project);
             
             advancedProject.setStatus(DictionaryDataUtil.getId("YYYBYY"));

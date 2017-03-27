@@ -237,13 +237,14 @@ public class AuditBiddingController extends BaseController {
      * @return
      */
     @RequestMapping("/viewAudit")
-    public String viewAudit(HttpServletRequest request, String projectId, Model model, String flowDefineId){
+    public String viewAudit(HttpServletRequest request, String projectId, Model model, String type, String flowDefineId){
         Project project = projectService.selectById(projectId);
         model.addAttribute("project", project);
         model.addAttribute("flowDefineId", flowDefineId);
         model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
         model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
         model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+        model.addAttribute("type", type); //从监管系统跳转过来的
         //采购管理部门审核意见附件
         model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
         //事业部门审核意见附件

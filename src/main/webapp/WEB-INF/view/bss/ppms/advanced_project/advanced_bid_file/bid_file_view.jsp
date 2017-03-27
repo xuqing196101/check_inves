@@ -38,36 +38,19 @@
 		   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${projectId}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
          <i></i>
        </li>
-       
-       <%-- <li >
-         <a  href="${pageContext.request.contextPath}/firstAudit/toPackageFirstAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >02、符合性关联</a>
-         <i></i>                
-       </li> --%>
          <li>
          <a  href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${projectId}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
          <i></i>
        </li>
        <li class="active">
          <a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
-           03、招标文件
-		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、招标文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     03、询价文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、招标文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     03、竞谈文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'DYLY' }">
-			     03、单一来源文件
-			     </c:if> --%>
+           03、采购文件
 		   </a>
 		   <i></i>
 		 </li>
+		 <li>
+         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+     </li>
 		 <li>
 		    <c:if test="${project.confirmFile == 0 || project.confirmFile==null}"><a onclick="confirmOk(this,'${projectId}');" id="queren">05、确认</a></c:if>
 		    <c:if test="${project.confirmFile == 1 }"><a>05、已确认</a></c:if>

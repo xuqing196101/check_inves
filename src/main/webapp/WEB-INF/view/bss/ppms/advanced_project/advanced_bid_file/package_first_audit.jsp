@@ -86,7 +86,7 @@
 							 </li>
 							 <li>
 							   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}" >
-							     03、招标文件
+							     03、采购文件
 							     <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
 							     03、招标文件
 							     </c:if>
@@ -104,6 +104,9 @@
 							     </c:if> --%>
 							   </a>
 							 </li>
+							 <li>
+				         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+				       </li>
 						   </ul>
 						 </div>
 						 <div class="tab-content clear step_cont">

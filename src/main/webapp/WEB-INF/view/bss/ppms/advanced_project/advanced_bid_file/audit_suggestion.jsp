@@ -34,44 +34,27 @@
 </head>
 
 <body>
-    <c:if test="${type != '1'}">
   	<div class="col-md-12 p0">
 	   <ul class="flow_step">
 		     <li>
-			   <a  href="${pageContext.request.contextPath}/firstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
+			   <a  href="${pageContext.request.contextPath}/adFirstAudit/toAdd.html?projectId=${project.id}&flowDefineId=${flowDefineId}" >01、资格性和符合性审查</a>
 			   <i></i>
 			 </li>
 		     <li>
-			   <a  href="${pageContext.request.contextPath}/intelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
+			   <a  href="${pageContext.request.contextPath}/adIntelligentScore/packageList.html?projectId=${project.id}&flowDefineId=${flowDefineId}">02、经济和技术评审细则</a>
 			   <i></i>
 			 </li>
 			 <li>
-			   <a  href="${pageContext.request.contextPath}/open_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
+			   <a  href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${project.id}&flowDefineId=${flowDefineId}" >
 			     03、采购文件
-		         <%-- <c:if test="${project.dictionary.code eq 'GKZB' }">
-			     03、采购文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'XJCG' }">
-			     03、询价文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'YQZB' }">
-			     03、采购文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'JZXTP' }">
-			     03、竞谈文件
-			     </c:if>
-			     <c:if test="${project.dictionary.code eq 'DYLY' }">
-			     03、单一来源文件
-			     </c:if> --%>
 			   </a>
 			   <i></i>
 			 </li>
 			 <li class="active">
-			   <a  href="${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+			   <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
 			 </li>
 		</ul>
 	 </div>
-	 </c:if>
     <div class="headline-v2">
      <h2>
              审核结果：

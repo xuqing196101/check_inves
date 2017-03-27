@@ -450,22 +450,24 @@ public class PqInfoController extends BaseSupplierController{
 		List<PqInfo> pqInfos = pqInfoService.getAll(page==null?1:page);
 		int i = 0;
 		for (PqInfo pqInfo : pqInfos) {
-			String projectId = pqInfo.getContract().getProjectId();
-			Project project = projectService.selectById(projectId);
-			if(project!=null){
-				String purchaseDepName = project.getPurchaseDepId();
-				HashMap<String, Object> map = new HashMap<>();
-		        map.put("typeName", "1");
-		        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
-		        for(int j=0;j<orgnizations.size();j++){
-		        	if(purchaseDepName.equals(orgnizations.get(j).getId())){
-		        		pqInfo.getContract().setPurchaseDepName(orgnizations.get(j).getName());
-		        		pqInfos.set(i, pqInfo);
-						i++;
-						break;
-		        	}
-		        }
-			}
+		    if(pqInfo.getContract() != null && StringUtils.isNotBlank(pqInfo.getContract().getProjectId())){
+		        String projectId = pqInfo.getContract().getProjectId();
+	            Project project = projectService.selectById(projectId);
+	            if(project!=null){
+	                String purchaseDepName = project.getPurchaseDepId();
+	                HashMap<String, Object> map = new HashMap<>();
+	                map.put("typeName", "1");
+	                List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+	                for(int j=0;j<orgnizations.size();j++){
+	                    if(purchaseDepName.equals(orgnizations.get(j).getId())){
+	                        pqInfo.getContract().setPurchaseDepName(orgnizations.get(j).getName());
+	                        pqInfos.set(i, pqInfo);
+	                        i++;
+	                        break;
+	                    }
+	                }
+	            }
+		    }
 		}
 		model.addAttribute("list",new PageInfo<PqInfo>(pqInfos));
 		return "bss/pqims/pqinfo/resultList";
