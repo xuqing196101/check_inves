@@ -2217,7 +2217,7 @@ a.news_more{
     text-align: center;
     font-weight: normal;
     display: block;
-    z-index:10000;
+    z-index:1;
     background:url(../images/report_round.png) no-repeat center; 
 }
 
@@ -2979,4 +2979,14 @@ h2.list_title{
  .list_new li span.hex{
 	display: block;
 	text-align: right;
+}
+@media (min-width:800px) and (max-width:1023px){
+.service_btns .f18{
+	font-size:14px;
+}
+}
+@media (min-width:800px){
+.service_btns{
+	width:14.28%;
+}
 }
