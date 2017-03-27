@@ -173,6 +173,15 @@
 				   layer.alert("对不起，确认时间未到不能确认结果 ！");
 				   return;
 			   }
+			   
+			   // 第一轮确认后，第二轮未开始
+			   if((status != '5' && remark == '5')){
+				   layer.alert("第一轮已确认 ！");
+				   return;
+			   }
+			   
+			   
+			   
 			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
 			   if((status == '6' && remark == '5') || (status == '6' && remark == '4')){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
@@ -191,8 +200,8 @@
 			   }
 			   //第一轮
 			   if(status == '5' && remark == '1'){
-				   /* $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
-						if (data.data == 0) {
+				   $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
+						if (data.data == '0') {
 							layer.confirm("对不起，你未中标",{
 								btn:['确定']
 							},function(){
@@ -203,7 +212,7 @@
 						}else{
 							window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 						}
-					}); */
+					});
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 				   return;
 			   }
@@ -213,11 +222,6 @@
 				   layer.alert("您已放弃第一轮确认结果 ！");
 				   return;
 			   }
-			   // 第一轮确认时：点击全接受
-			  /*  if(remark != '5' || remark != '4'){
-				   layer.alert("第一轮确认时间未结束，不能进入第二轮！");
-				   return;
-			   } */	
 			   
 			   if(status == '6' && remark == '4'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
@@ -266,7 +270,7 @@
 			}
 			
 			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第一轮放弃是查看的第一轮确认的结果
-			if((pStatus == 5 && pRemark == '4') || (pStatus == 5 && pRemark == '5') || pRemark == '6' || (pStatus == 6 && pRemark == '32')){
+			if((pStatus == 5 && pRemark == '4') || (pStatus == 5 && pRemark == '5') || (pStatus == 6 && pRemark == '5') || (pStatus == 6 && pRemark == '32')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
 			
@@ -362,7 +366,7 @@
 			  	</c:if>
 			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '1'}">
-			  		第一轮待确认
+			  		结果待确认(第一轮)
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '4'}">
 			  		第一轮已确认
@@ -375,7 +379,7 @@
 			  	</c:if>
 			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
-			  		第二轮待确认
+			  		结果待确认(第二轮)
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '42'}">
 			  		第二轮已确认
