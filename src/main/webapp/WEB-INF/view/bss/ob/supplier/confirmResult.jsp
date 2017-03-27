@@ -109,7 +109,7 @@
 					} else {
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-						alert(changeRatioCounts[index]+"  f "+afterInputVal);
+// 						alert(changeRatioCounts[index]+"  f "+afterInputVal);
 							//var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
 							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
