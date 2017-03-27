@@ -106,7 +106,7 @@ public class AfterSaleSerController extends BaseSupplierController{
         /*List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(page==null?1:page);
         model.addAttribute("list",new PageInfo<AfterSaleSer>(AfterSaleSers));*/
         model.addAttribute("type", type);
-        return "ses/sms/after_sale_ser/list";
+        return "ses/sms/after_sale_ser/listj";
     }
 	
 	/**
