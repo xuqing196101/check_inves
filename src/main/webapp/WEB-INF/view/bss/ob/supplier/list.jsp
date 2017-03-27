@@ -253,7 +253,7 @@
 			}
 			
 			// 3.第一轮放弃查看的是报价信息页面
-			if(pRemark == '3'){
+			if(pStatus == 5 && pRemark == '3'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?id="+pId;
 			}
 			
@@ -262,6 +262,15 @@
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
 			
+			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第一轮放弃是查看的第一轮确认的结果
+			if((pStatus == 5 && pRemark == '4') || (pStatus == 5 && pRemark == '5') || pRemark == '6' || (pStatus == 6 && pRemark == '32')){
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
+			}
+			
+			// 6.第二轮结果已确认查看的是第二轮结果确认页面
+			if((pStatus == 6 && pRemark == '42') || (pStatus == 6 && pRemark == '52')){
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
+			}
 	    }
 </script>
 </head>
@@ -348,17 +357,28 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 4 }">
 				  	流拍
 			  	</c:if>
+			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '1'}">
 			  		第一轮待确认
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '4'}">
+			  		第一轮已确认
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '5'}">
+			  		第一轮已确认
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '3'}">
 			  		您已放弃确认结果(第一轮)
 			  	</c:if>
+			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
 			  		第二轮待确认
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '5'}">
-			  		第二轮待确认
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '42'}">
+			  		第二轮已确认
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '52'}">
+			  		第二轮已确认
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '32'}">
 			  		您已放弃确认结果(第二轮)
