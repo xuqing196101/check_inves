@@ -153,8 +153,8 @@
 			   var remark = valueArr[2];
 			   
 			   // 确认结果前做报价判断
-			   if(status == 1 || status == 2){
-				   layer.alert("对不起，请先完成报价 ！");
+			   if(status == 2 && remark == 1){
+				   layer.alert("已报价，请等待确认结果 ！");
 				   return;
 			   }
 			   
@@ -191,18 +191,21 @@
 			   }
 			   //第一轮
 			   if(status == '5' && remark == '1'){
-				   $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
+				   /* $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
 						if (data.data == 0) {
 							layer.confirm("对不起，你未中标",{
 								btn:['确定']
 							},function(){
 								query();
+								return;
 								}
 							)
 						}else{
 							window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 						}
-					});
+					}); */
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+				   return;
 			   }
 			 
 			   // 第一轮确认时：点击放弃按钮
@@ -211,10 +214,10 @@
 				   return;
 			   }
 			   // 第一轮确认时：点击全接受
-			   if(remark != '5' || remark != '4'){
+			  /*  if(remark != '5' || remark != '4'){
 				   layer.alert("第一轮确认时间未结束，不能进入第二轮！");
 				   return;
-			   }	
+			   } */	
 			   
 			   if(status == '6' && remark == '4'){
 				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];

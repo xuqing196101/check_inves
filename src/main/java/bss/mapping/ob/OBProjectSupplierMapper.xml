@@ -301,7 +301,7 @@
   </update>
   
   <!-- 根据supplier_id和project_id查询所对应的竞价信息 -->
-  <select id="findSupplierUnBidding" parameterType="Map" resultMap="BaseResultMap">
+  <select id="selectRemarkBYPS" parameterType="Map" resultMap="BaseResultMap">
   	SELECT 
   	<if test="distinct" >
       distinct
@@ -311,5 +311,7 @@
  	WHERE PS.PROJECT_ID = #{project_id,jdbcType=VARCHAR}
    	AND PS.SUPPLIER_ID = #{supplier_id,jdbcType=VARCHAR}
   </select>
+  
+  
   
 </mapper>
