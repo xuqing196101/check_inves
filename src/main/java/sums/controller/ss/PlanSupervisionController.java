@@ -529,6 +529,11 @@ public class PlanSupervisionController {
                     User user = userService.getUserById(collectPlan.getUserId());
                     collectPlan.setUserId(user.getRelName());
                     collectPlan.setPurchaseId(user.getOrgName());
+                    
+                    Task task = taskService.selectByCollectId(collectPlan.getId());
+                    if(task != null){
+                        collectPlan.setUpdatedAt(task.getGiveTime());
+                    }
                     model.addAttribute("collectPlan", collectPlan);
                     
                     
@@ -537,7 +542,20 @@ public class PlanSupervisionController {
                     if(listAuditPerson != null && listAuditPerson.size() > 0){
                         model.addAttribute("listAuditPerson", listAuditPerson);
                     }
+                    
                 }
+                
+                
+                //任务信息
+                Task task = taskService.selectByCollectId(detail.getUniqueId());
+                if(task != null){
+                    Orgnization org = orgnizationService.getOrgByPrimaryKey(task.getPurchaseId());
+                    /*User user = userService.getUserById(task.getUserId());
+                    task.setUserId(user.getRelName());*/
+                    task.setPurchaseId(org.getName());
+                    model.addAttribute("task", task);
+                }
+                
                 //项目信息
                 map.put("requiredId", detail.getId());
                 List<ProjectDetail> selectById = projectDetailService.selectById(map);
@@ -548,6 +566,7 @@ public class PlanSupervisionController {
                     Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
                     project.setPurchaseDepName(org.getName());
                     project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
+                    model.addAttribute("uploadId", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS")); //项目审批文件
                     model.addAttribute("project", project);
                 }
                 
@@ -586,7 +605,7 @@ public class PlanSupervisionController {
             }
             
             
-            //预研
+            //预研信息
             AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(id);
             if(advancedDetail != null){
                 AdvancedProject advancedProject = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
