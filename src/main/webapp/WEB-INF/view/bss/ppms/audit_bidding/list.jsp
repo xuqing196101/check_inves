@@ -114,7 +114,7 @@
   <!-- 录入采购计划开始-->
   <div class="container">
     <div class="headline-v2">
-	  <h2>招标文件审核</h2>
+	  <h2>采购文件审核</h2>
 	</div>
 	<!-- 项目戳开始 -->
     <h2 class="search_detail">
