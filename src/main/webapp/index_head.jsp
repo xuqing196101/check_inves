@@ -816,7 +816,7 @@ function importAdd(){
 	 </div>
 	  <div class="col-md-2 col-sm-4 col-xs-6 mt60">
 	  <% if (ipAddressType != null && ipAddressType.equals("0")){ %>
-	       <a href="${pageContext.request.contextPath }/dataDownload/getTemplateList.html">
+	       <a href="${pageContext.request.contextPath }/templateDownload/getIndexList.html">
 	  <% } %>
 	  <% if (ipAddressType != null && ipAddressType.equals("1")){ %>
 	      <a href="javascript:void(0);">

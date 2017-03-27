@@ -3,10 +3,9 @@
  */
 package iss.controller.ps;
 
-
-import iss.model.ps.DataDownload;
+import iss.model.ps.TemplateDownload;
 import iss.service.ps.ArticleService;
-import iss.service.ps.DataDownloadService;
+import iss.service.ps.TemplateDownloadService;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -37,17 +36,17 @@ import common.model.UploadFile;
 import common.service.UploadService;
 
 /**
- * @Title:DataDownloadController
- * @Description: 资料下载控制类
- * @author ZhaoBo
+ * @Title:TemplateDownloadController
+ * @Description: 模板下载控制类
+ * @author tianzhiqiang
  * @date 2017-1-5上午10:01:56
  */
 @Controller
-@RequestMapping("/dataDownload")
-public class DataDownloadController {
-	/** 资料下载service */
+@RequestMapping("/templateDownload")
+public class TemplateDownloadController {
+	/** 模板下载service */
 	@Autowired
-	private DataDownloadService dataDownloadService;
+	private TemplateDownloadService TemplateDownloadService;
 	
 	/** 数据字典service */
 	@Autowired
@@ -64,22 +63,22 @@ public class DataDownloadController {
 	/**
 	 * 
 	* @Title: getList
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午5:07:33  
-	* @Description: 资料下载列表 
+	* @Description: 模板下载列表 
 	* @param @param page
-	* @param @param dataDownload
+	* @param @param TemplateDownload
 	* @param @param model
 	* @param @param request
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/getList")
-	public String getList(Integer page,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String getList(Integer page,TemplateDownload templateDownload,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<>();
-		if(dataDownload!=null){
-			if(dataDownload.getName()!=null && !dataDownload.getName().equals("")){
-				map.put("name", dataDownload.getName());
+		if(templateDownload!=null){
+			if(templateDownload.getName()!=null && !templateDownload.getName().equals("")){
+				map.put("name", templateDownload.getName());
 			}
 		}
 		if(page==null){
@@ -88,12 +87,12 @@ public class DataDownloadController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
-		List<DataDownload> list = dataDownloadService.findDataByCondition(map);
+		List<TemplateDownload> list = TemplateDownloadService.findDataByCondition(map);
 		
 	    Integer num = 0;
 	    StringBuilder groupUpload = new StringBuilder("");
 	    StringBuilder groupShow = new StringBuilder("");
-	    for (DataDownload a : list) {
+	    for (TemplateDownload a : list) {
 	      num++;
 	      groupUpload = groupUpload.append("data_secret_show" + num + ",");
 	      groupShow = groupShow.append("data_secret_show" + num + ",");
@@ -108,13 +107,13 @@ public class DataDownloadController {
 	    if (!"".equals(groupShow.toString())) {
 	      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
 	    }
-	    for (DataDownload act : list) {
+	    for (TemplateDownload act : list) {
 	      act.setGroupsUploadId(groupUploadId);
 	      act.setGroupShowId(groupShowId);
 	    }
 		
 		
-		model.addAttribute("list", new PageInfo<DataDownload>(list));
+		model.addAttribute("list", new PageInfo<TemplateDownload>(list));
 		model.addAttribute("name", request.getParameter("name"));
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		DictionaryData dataFile = new DictionaryData();
@@ -123,13 +122,13 @@ public class DataDownloadController {
 	    if (dlist.size() > 0) {
 	      model.addAttribute("dataTypeId", dlist.get(0).getId());
 	    }
-		return "iss/ps/dataDownload/list";
+		return "iss/ps/templateDownload/list";
 	}
 	
 	/**
 	 * 
 	* @Title: add
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午5:07:49  
 	* @Description: 新增 
 	* @param @return      
@@ -146,31 +145,31 @@ public class DataDownloadController {
 	    if (list.size() > 0) {
 	      model.addAttribute("dataTypeId", list.get(0).getId());
 	    }
-		return "iss/ps/dataDownload/add";
+		return "iss/ps/templateDownload/add";
 	}
 	
 	/**
 	 * 
 	* @Title: save
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午9:52:53  
-	* @Description: 保存资料 
-	* @param @param dataDownload
+	* @Description: 保存模板
+	* @param @param TemplateDownload
 	* @param @param model
 	* @param @param request
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/save")
-	public String save(@CurrentUser User user,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String save(@CurrentUser User user,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		boolean flag = true;
-		if(dataDownload!=null){
-			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
+		if(TemplateDownload!=null){
+			if(TemplateDownload.getName()==null||TemplateDownload.getName().equals("")){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
+				model.addAttribute("ERR_name", "模板名称不能为空");
+			}else if(TemplateDownload.getName()!=null&&TemplateDownload.getName().length()>200){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
+				model.addAttribute("ERR_name", "模板名称不能超过200个文字");
 			}
 		}
 //		String ipAddress = null;
@@ -196,24 +195,24 @@ public class DataDownloadController {
 		    if (list.size() > 0) {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
-		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("data", TemplateDownload);
 		    //model.addAttribute("ipAddressType", ipAddress);
-			return "iss/ps/dataDownload/add";
+			return "iss/ps/templateDownload/add";
 		}
-		//dataDownload.setIpAddressType(Integer.parseInt(ipAddressType[0]));
-		dataDownload.setCreatedAt(new Date());
-		dataDownload.setIsDeleted(0);
-		dataDownload.setStatus(1);
-		dataDownload.setUpdatedAt(new Date());
-		dataDownload.setUserId(user.getId());
-		dataDownloadService.insertSelective(dataDownload);
+		//TemplateDownload.setIpAddressType(Integer.parseInt(ipAddressType[0]));
+		TemplateDownload.setCreatedAt(new Date());
+		TemplateDownload.setIsDeleted(0);
+		TemplateDownload.setStatus(1);
+		TemplateDownload.setUpdatedAt(new Date());
+		TemplateDownload.setUserId(user.getId());
+		TemplateDownloadService.insertSelective(TemplateDownload);
 		return "redirect:getList.html";
 	}
 	
 	/**
 	 * 
 	* @Title: view
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午9:44:53  
 	* @Description: 查看 
 	* @param @return      
@@ -222,8 +221,8 @@ public class DataDownloadController {
 	@RequestMapping("/view")
 	public String view(Model model,HttpServletRequest request){
 		String id = request.getParameter("id");
-		DataDownload dataDownload = dataDownloadService.selectByPrimaryKey(id);
-		model.addAttribute("data", dataDownload);
+		TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(id);
+		model.addAttribute("data", TemplateDownload);
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		DictionaryData dataFile = new DictionaryData();
 	    dataFile.setCode("ZLFJ");
@@ -231,23 +230,23 @@ public class DataDownloadController {
 	    if (list.size() > 0) {
 	      model.addAttribute("dataTypeId", list.get(0).getId());
 	    }
-		return "iss/ps/dataDownload/view";
+		return "iss/ps/templateDownload/view";
 	}
 	
 	/**
 	 * 
 	* @Title: judgeEdit
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 下午12:45:31  
-	* @Description: 判断资料能不能修改 
+	* @Description: 判断模板能不能修改 
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/judgeEdit")
 	@ResponseBody
 	public String judgeEdit(HttpServletRequest request){
-		DataDownload dataDownload = dataDownloadService.selectByPrimaryKey(request.getParameter("id"));
-		if(dataDownload.getStatus()==2||dataDownload.getStatus()==3){
+		TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(request.getParameter("id"));
+		if(TemplateDownload.getStatus()==2||TemplateDownload.getStatus()==3){
 			return "0";
 		}else{
 			return "1";
@@ -257,9 +256,9 @@ public class DataDownloadController {
 	/**
 	 * 
 	* @Title: edit
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午9:50:06  
-	* @Description: 修改资料 
+	* @Description: 修改模板
 	* @param @return      
 	* @return String
 	 */
@@ -273,17 +272,17 @@ public class DataDownloadController {
 	      model.addAttribute("dataTypeId", list.get(0).getId());
 	    }
 		String id = request.getParameter("id");
-		DataDownload dataDownload = dataDownloadService.selectByPrimaryKey(id);
-		model.addAttribute("data", dataDownload);
-		return "iss/ps/dataDownload/edit";
+		TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(id);
+		model.addAttribute("data", TemplateDownload);
+		return "iss/ps/templateDownload/edit";
 	}
 	
 	/**
 	 * 
 	* @Title: deleteById
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午10:36:51  
-	* @Description: 删除资料 
+	* @Description: 删除模板
 	* @param       
 	* @return void
 	 */
@@ -292,29 +291,29 @@ public class DataDownloadController {
 	public void deleteById(HttpServletRequest request){
 		String[] id = request.getParameter("id").split(",");
 		for(int i=0;i<id.length;i++){
-			dataDownloadService.deleteByPrimaryKey(id[i]);
+			TemplateDownloadService.deleteByPrimaryKey(id[i]);
 		}
 	}
 	
 	/**
 	 * 
 	* @Title: getIndexList
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 上午10:05:08  
-	* @Description: 首页展示资料 
+	* @Description: 首页展示模板
 	* @param @param page
-	* @param @param dataDownload
+	* @param @param TemplateDownload
 	* @param @param model
 	* @param @param request
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/getIndexList")
-	public String getIndexList(Integer page,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String getIndexList(Integer page,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<>();
-		if(dataDownload!=null){
-			if(dataDownload.getName()!=null && !dataDownload.getName().equals("")){
-				map.put("name", dataDownload.getName());
+		if(TemplateDownload!=null){
+			if(TemplateDownload.getName()!=null && !TemplateDownload.getName().equals("")){
+				map.put("name", TemplateDownload.getName());
 			}
 		}
 		if(page==null){
@@ -323,14 +322,14 @@ public class DataDownloadController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
-		List<DataDownload> list = dataDownloadService.findPublishedDataByCondition(map);
+		List<TemplateDownload> list = TemplateDownloadService.findPublishedDataByCondition(map);
 		if(list.size()==0){
 			model.addAttribute("notData", "暂无数据");
 		}
 	    Integer num = 0;
 	    StringBuilder groupUpload = new StringBuilder("");
 	    StringBuilder groupShow = new StringBuilder("");
-	    for (DataDownload a : list) {
+	    for (TemplateDownload a : list) {
 	      num++;
 	      groupUpload = groupUpload.append("data_secret_show" + num + ",");
 	      groupShow = groupShow.append("data_secret_show" + num + ",");
@@ -345,13 +344,13 @@ public class DataDownloadController {
 	    if (!"".equals(groupShow.toString())) {
 	      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
 	    }
-	    for (DataDownload act : list) {
+	    for (TemplateDownload act : list) {
 	      act.setGroupsUploadId(groupUploadId);
 	      act.setGroupShowId(groupShowId);
 	    }
 		
-		model.addAttribute("list", new PageInfo<DataDownload>(list));
-		model.addAttribute("data", dataDownload);
+		model.addAttribute("list", new PageInfo<TemplateDownload>(list));
+		model.addAttribute("data", TemplateDownload);
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		DictionaryData dataFile = new DictionaryData();
 	    dataFile.setCode("ZLFJ");
@@ -361,28 +360,28 @@ public class DataDownloadController {
 	    }
 	    Map<String,Object> indexMapper = articleService.topNews();
 	    model.addAttribute("indexMapper", indexMapper);
-		return "iss/ps/dataDownload/template_list";
+		return "iss/ps/templateDownload/template_list";
 	}
 	
 	/**
 	 * 
 	* @Title: publish
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 上午10:43:27  
 	* @Description: 发布 
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/publish")
-	public String publish(@CurrentUser User user,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String publish(@CurrentUser User user,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		boolean flag = true;
-		if(dataDownload!=null){
-			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
+		if(TemplateDownload!=null){
+			if(TemplateDownload.getName()==null||TemplateDownload.getName().equals("")){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
+				model.addAttribute("ERR_name", "模板名称不能为空");
+			}else if(TemplateDownload.getName()!=null&&TemplateDownload.getName().length()>200){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
+				model.addAttribute("ERR_name", "模板名称不能超过200个文字");
 			}
 		}
 //		String ipAddress = null;
@@ -408,26 +407,26 @@ public class DataDownloadController {
 		    if (list.size() > 0) {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
-		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("data", TemplateDownload);
 		    //model.addAttribute("ipAddressType", ipAddress);
-			return "iss/ps/dataDownload/add";
+			return "iss/ps/templateDownload/add";
 		}
-		dataDownload.setCreatedAt(new Date());
-		dataDownload.setPublishAt(new Date());
-		dataDownload.setIsDeleted(0);
-		dataDownload.setStatus(2);
-		dataDownload.setUpdatedAt(new Date());
-		dataDownload.setUserId(user.getId());
-		dataDownloadService.insertSelective(dataDownload);
+		TemplateDownload.setCreatedAt(new Date());
+		TemplateDownload.setPublishAt(new Date());
+		TemplateDownload.setIsDeleted(0);
+		TemplateDownload.setStatus(2);
+		TemplateDownload.setUpdatedAt(new Date());
+		TemplateDownload.setUserId(user.getId());
+		TemplateDownloadService.insertSelective(TemplateDownload);
 		return "redirect:getList.html";
 	}
 	
 	/**
 	 * 
 	* @Title: publishData
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 下午12:09:24  
-	* @Description: 发布资料 
+	* @Description: 发布模板
 	* @param @param request      
 	* @return void
 	 */
@@ -436,19 +435,19 @@ public class DataDownloadController {
 	public void publishData(HttpServletRequest request){
 		String[] id = request.getParameter("id").split(",");
 		for(int i=0;i<id.length;i++){
-			DataDownload dataDownload = new DataDownload();
-			dataDownload.setId(id[i]);
-			dataDownload.setStatus(2);
-			dataDownload.setUpdatedAt(new Date());
-			dataDownload.setPublishAt(new Date());
-			dataDownloadService.updateByPrimaryKeySelective(dataDownload);
+			TemplateDownload TemplateDownload = new TemplateDownload();
+			TemplateDownload.setId(id[i]);
+			TemplateDownload.setStatus(2);
+			TemplateDownload.setUpdatedAt(new Date());
+			TemplateDownload.setPublishAt(new Date());
+			TemplateDownloadService.updateByPrimaryKeySelective(TemplateDownload);
 		}
 	}
 	
 	/**
 	 * 
 	* @Title: publishCancel
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 下午12:14:14  
 	* @Description: 取消发布判断 
 	* @param       
@@ -459,10 +458,10 @@ public class DataDownloadController {
 	public String publishCancel(HttpServletRequest request){
 		String str = null;
 		String[] id = request.getParameter("id").split(",");
-		List<DataDownload> list = new ArrayList<>();
+		List<TemplateDownload> list = new ArrayList<>();
 		for(int i=0;i<id.length;i++){
-			DataDownload dataDownload = dataDownloadService.selectByPrimaryKey(id[i]);
-			list.add(dataDownload);
+			TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(id[i]);
+			list.add(TemplateDownload);
 		}
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getStatus()==1||list.get(i).getStatus()==3){
@@ -478,9 +477,9 @@ public class DataDownloadController {
 	/**
 	 * 
 	* @Title: cancelPublish
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 下午12:23:23  
-	* @Description: 取消发布资料 
+	* @Description: 取消发布模板
 	* @param @param request      
 	* @return void
 	 */
@@ -489,37 +488,37 @@ public class DataDownloadController {
 	public void cancelPublish(HttpServletRequest request){
 		String[] id = request.getParameter("id").split(",");
 		for(int i=0;i<id.length;i++){
-			DataDownload dataDownload = new DataDownload();
-			dataDownload.setId(id[i]);
-			dataDownload.setUpdatedAt(new Date());
-			dataDownload.setStatus(3);
-			dataDownload.setPublishAt(null);
-			dataDownloadService.updateByPrimaryKeySelective(dataDownload);
+			TemplateDownload TemplateDownload = new TemplateDownload();
+			TemplateDownload.setId(id[i]);
+			TemplateDownload.setUpdatedAt(new Date());
+			TemplateDownload.setStatus(3);
+			TemplateDownload.setPublishAt(null);
+			TemplateDownloadService.updateByPrimaryKeySelective(TemplateDownload);
 		}
 	}
 	
 	/**
 	 * 
 	* @Title: editData
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-5 下午9:52:53  
-	* @Description: 修改并暂存资料 
-	* @param @param dataDownload
+	* @Description: 修改并暂存模板
+	* @param @param TemplateDownload
 	* @param @param model
 	* @param @param request
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/editData")
-	public String editData(@CurrentUser User user,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String editData(@CurrentUser User user,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		boolean flag = true;
-		if(dataDownload!=null){
-			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
+		if(TemplateDownload!=null){
+			if(TemplateDownload.getName()==null||TemplateDownload.getName().equals("")){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
+				model.addAttribute("ERR_name", "模板名称不能为空");
+			}else if(TemplateDownload.getName()!=null&&TemplateDownload.getName().length()>200){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
+				model.addAttribute("ERR_name", "模板名称不能超过200个文字");
 			}
 		}
 		//String ipAddress = null;
@@ -545,34 +544,34 @@ public class DataDownloadController {
 		    if (list.size() > 0) {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
-		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("data", TemplateDownload);
 		    //model.addAttribute("ipAddressType", ipAddress);
-			return "iss/ps/dataDownload/edit";
+			return "iss/ps/templateDownload/edit";
 		}
-		dataDownload.setUpdatedAt(new Date());
-		dataDownloadService.updateByPrimaryKeySelective(dataDownload);
+		TemplateDownload.setUpdatedAt(new Date());
+		TemplateDownloadService.updateByPrimaryKeySelective(TemplateDownload);
 		return "redirect:getList.html";
 	}
 	
 	/**
 	 * 
 	* @Title: editPublish
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-6 上午10:43:27  
-	* @Description: 修改资料页面发布 
+	* @Description: 修改模板页面发布 
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/editPublish")
-	public String editPublish(@CurrentUser User user,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String editPublish(@CurrentUser User user,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		boolean flag = true;
-		if(dataDownload!=null){
-			if(dataDownload.getName()==null||dataDownload.getName().equals("")){
+		if(TemplateDownload!=null){
+			if(TemplateDownload.getName()==null||TemplateDownload.getName().equals("")){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能为空");
-			}else if(dataDownload.getName()!=null&&dataDownload.getName().length()>200){
+				model.addAttribute("ERR_name", "模板名称不能为空");
+			}else if(TemplateDownload.getName()!=null&&TemplateDownload.getName().length()>200){
 				flag = false;
-				model.addAttribute("ERR_name", "资料名称不能超过200个文字");
+				model.addAttribute("ERR_name", "模板名称不能超过200个文字");
 			}
 		}
 //		String ipAddress = null;
@@ -597,21 +596,21 @@ public class DataDownloadController {
 		    if (list.size() > 0) {
 		      model.addAttribute("dataTypeId", list.get(0).getId());
 		    }
-		    model.addAttribute("data", dataDownload);
+		    model.addAttribute("data", TemplateDownload);
 		    //model.addAttribute("ipAddressType", ipAddress);
-			return "iss/ps/dataDownload/edit";
+			return "iss/ps/templateDownload/edit";
 		}
-		dataDownload.setPublishAt(new Date());
-		dataDownload.setStatus(2);
-		dataDownload.setUpdatedAt(new Date());
-		dataDownloadService.updateByPrimaryKeySelective(dataDownload);
+		TemplateDownload.setPublishAt(new Date());
+		TemplateDownload.setStatus(2);
+		TemplateDownload.setUpdatedAt(new Date());
+		TemplateDownloadService.updateByPrimaryKeySelective(TemplateDownload);
 		return "redirect:getList.html";
 	}
 	
 	/**
 	 * 
 	* @Title: judgeDelete
-	* @author ZhaoBo
+	* @author tianzhiqiang
 	* @date 2017-1-8 下午8:24:55  
 	* @Description: 判断能不能删除 
 	* @param @return      
@@ -622,10 +621,10 @@ public class DataDownloadController {
 	public String judgeDelete(HttpServletRequest request){
 		String str = null;
 		String[] id = request.getParameter("id").split(",");
-		List<DataDownload> list = new ArrayList<>();
+		List<TemplateDownload> list = new ArrayList<>();
 		for(int i=0;i<id.length;i++){
-			DataDownload dataDownload = dataDownloadService.selectByPrimaryKey(id[i]);
-			list.add(dataDownload);
+			TemplateDownload TemplateDownload = TemplateDownloadService.selectByPrimaryKey(id[i]);
+			list.add(TemplateDownload);
 		}
 		for(int i=0;i<list.size();i++){
 			if(list.get(i).getStatus()==2){
@@ -648,19 +647,19 @@ public class DataDownloadController {
 	* @date 2017-3-22 上午10:05:08  
 	* @Description: 首页模板下载
 	* @param @param page
-	* @param @param dataDownload
+	* @param @param TemplateDownload
 	* @param @param model
 	* @param @param request
 	* @param @return      
 	* @return String
 	 */
 	@RequestMapping("/getTemplateList")
-	public String getTemplateList(Integer page,DataDownload dataDownload,Model model,HttpServletRequest request){
+	public String getTemplateList(Integer page,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		
 		HashMap<String,Object> map = new HashMap<>();
-		if(dataDownload!=null){
-			if(dataDownload.getName()!=null && !dataDownload.getName().equals("")){
-				map.put("name", dataDownload.getName());
+		if(TemplateDownload!=null){
+			if(TemplateDownload.getName()!=null && !TemplateDownload.getName().equals("")){
+				map.put("name", TemplateDownload.getName());
 			}
 		}
 		if(page==null){
@@ -669,14 +668,14 @@ public class DataDownloadController {
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSizeArticle")));
-		List<DataDownload> list = dataDownloadService.findPublishedDataByCondition(map);
+		List<TemplateDownload> list = TemplateDownloadService.findPublishedDataByCondition(map);
 		if(list.size()==0){
 			model.addAttribute("notData", "暂无数据");
 		}
 	    Integer num = 0;
 	    StringBuilder groupUpload = new StringBuilder("");
 	    StringBuilder groupShow = new StringBuilder("");
-	    for (DataDownload a : list) {
+	    for (TemplateDownload a : list) {
 	      num++;
 	      groupUpload = groupUpload.append("data_secret_show" + num + ",");
 	      groupShow = groupShow.append("data_secret_show" + num + ",");
@@ -691,13 +690,13 @@ public class DataDownloadController {
 	    if (!"".equals(groupShow.toString())) {
 	      groupShowId = groupShow.toString().substring(0, groupShow.toString().length() - 1);
 	    }
-	    for (DataDownload act : list) {
+	    for (TemplateDownload act : list) {
 	      act.setGroupsUploadId(groupUploadId);
 	      act.setGroupShowId(groupShowId);
 	    }
 		
-		model.addAttribute("list", new PageInfo<DataDownload>(list));
-		model.addAttribute("data", dataDownload);
+		model.addAttribute("list", new PageInfo<TemplateDownload>(list));
+		model.addAttribute("data", TemplateDownload);
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		DictionaryData dataFile = new DictionaryData();
 	    dataFile.setCode("ZLFJ");
@@ -707,6 +706,6 @@ public class DataDownloadController {
 	    }
 	    Map<String,Object> indexMapper = articleService.topNews();
 	    model.addAttribute("indexMapper", indexMapper);
-		return "iss/ps/dataDownload/index_list";
+		return "iss/ps/templateDownload/index_list";
 	}
 }

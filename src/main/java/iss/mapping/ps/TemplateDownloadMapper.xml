@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="iss.dao.ps.TemplateDownloadMapper">
+  <resultMap id="BaseResultMap" type="iss.model.ps.TemplateDownload">
+    <id column="ID" property="id" />
+    <result column="NAME" property="name" />
+    <result column="IP_ADDRESS_TYPE" property="ipAddressType"/>
+    <result column="IS_DELETED" property="isDeleted" />
+    <result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
+    <result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+    <result column="USER_ID" property="userId"/>
+    <result column="PUBLISH_AT" jdbcType="TIMESTAMP" property="publishAt" />
+    <result column="STATUS" property="status"/>
+  </resultMap>
+  
+  <sql id="Base_Column_List">
+    ID, NAME, IP_ADDRESS_TYPE, IS_DELETED，CREATED_AT, UPDATED_AT,USER_ID,PUBLISH_AT,STATUS
+  </sql>
+  
+  <!-- 根据id查询资料 -->
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_ISS_PS_TEMPLATE_DOWNLOAD
+    where ID = #{id}
+  </select>
+  
+  <!-- 根据条件查询 -->
+  <select id="findDataByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM T_ISS_PS_TEMPLATE_DOWNLOAD 
+  	WHERE IS_DELETED = 0
+  	<if test="name != null and name !=''">
+	      AND NAME LIKE '%'||#{name}||'%'
+	  </if>
+	  ORDER BY CREATED_AT DESC
+  </select>
+  
+  <!-- 已发布的根据条件查询 -->
+  <select id="findPublishedDataByCondition" parameterType="java.util.Map" resultMap="BaseResultMap">
+  	SELECT
+  	<include refid="Base_Column_List" />
+  	FROM T_ISS_PS_TEMPLATE_DOWNLOAD 
+  	WHERE IS_DELETED = 0
+  	<if test="name != null and name !=''">
+	      AND NAME LIKE '%'||#{name}||'%'
+	  </if>
+	  AND STATUS = 2
+	  ORDER BY CREATED_AT DESC
+  </select>
+  
+  <!-- 根据id删除资料 -->
+  <delete id="deleteByPrimaryKey" parameterType="Object">
+    UPDATE T_ISS_PS_TEMPLATE_DOWNLOAD SET IS_DELETED=1
+    WHERE ID = #{id}
+  </delete>
+  
+  <!-- 根据条件新增 -->
+  <insert id="insertSelective" parameterType="iss.model.ps.TemplateDownload">
+    insert into T_ISS_PS_TEMPLATE_DOWNLOAD
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="ipAddressType != null">
+        IP_ADDRESS_TYPE,
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="userId != null">
+        USER_ID,
+      </if>
+      <if test="publishAt != null">
+        PUBLISH_AT,
+      </if>
+      <if test="status != null">
+        STATUS,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="ipAddressType != null">
+        #{ipAddressType},
+      </if>
+      <if test="isDeleted != null">
+        #{isDeleted},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        #{userId},
+      </if>
+      <if test="publishAt != null">
+        #{publishAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        #{status},
+      </if>
+    </trim>
+  </insert>
+  
+  <!-- 根据条件修资料信息 -->
+  <update id="updateByPrimaryKeySelective" parameterType="iss.model.ps.TemplateDownload">
+    update T_ISS_PS_TEMPLATE_DOWNLOAD
+    <set>
+      <if test="name != null">
+        NAME = #{name},
+      </if>
+      <if test="ipAddressType != null">
+        IP_ADDRESS_TYPE = #{ipAddressType},
+      </if>
+      <if test="isDeleted != null">
+        IS_DELETED  = #{isDeleted},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="userId != null">
+        USER_ID  = #{userId},
+      </if>
+      <if test="publishAt != null">
+        PUBLISH_AT  = #{publishAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="status != null">
+        STATUS  = #{status},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>

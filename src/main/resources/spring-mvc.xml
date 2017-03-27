@@ -72,7 +72,7 @@
 			<mvc:exclude-mapping path="/index/sign.*" />			
 			<mvc:exclude-mapping path="/login/login.*" />
 			<mvc:exclude-mapping path="/dataDownload/getIndexList.*" />
-			<mvc:exclude-mapping path="/dataDownload/getTemplateList.*" />
+			<mvc:exclude-mapping path="/templateDownload/getIndexList.*" />
 			
 			
 <!-- 			专家注册 -->

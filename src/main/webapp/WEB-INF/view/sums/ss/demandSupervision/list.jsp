@@ -86,8 +86,13 @@
 	}
 	//查看
 	function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id+"&type="+type;
-      }
+		if(type==1){
+			 window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id="+id+"&type="+type;
+		}
+        if(type==2){
+        	window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id="+id+"&type="+type;
+        }
+	}
 </script>
 </head>
 
@@ -164,7 +169,9 @@
 						<tr class="tc">
 							<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${items.id}" /></td>
 							<td class="tc w50"  >${(status.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
-							<td class="tl">${items.planName}</td>
+							<td class="tl">
+							<a href="javascript:void(0)" onclick="view('${items.id}',2);" >${items.planName}</a>
+							</td>
 							<td class="tl">${items.referenceNo}</td>
 							<td class="tl">${items.department}</td>
 							<td class="tr">${items.budget}</td>
@@ -181,9 +188,8 @@
 			 		                                 已提交
 			  	             </c:if>
 							</td>
-							<td class="tc" onclick="view('${items.id}','1')">
-							<a id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;display: block;margin: auto">
-                            </a>
+							<td class="tc" >
+							<a href="javascript:void(0)" onclick="view('${items.id}',1);"  >查看</a>
                             </td>
 						</tr>
 					</c:forEach>
