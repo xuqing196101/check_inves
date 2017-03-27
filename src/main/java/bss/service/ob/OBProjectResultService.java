@@ -1,6 +1,7 @@
 package bss.service.ob;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -104,4 +105,16 @@ public interface OBProjectResultService {
      * @author Ma Mingwei
      */
     List<SupplierProductVo> selectInfoByPID(String projectID, String supplierID);
+    
+    /**
+     * 
+    * @Title: findSupplierUnBidding 
+    * @Description: 查询未中标的供应商
+    * @author Easong
+    * @param @param map
+    * @param @return    设定文件 
+    * @return List<OBProjectResult>    返回类型 
+    * @throws
+     */
+    List<OBProjectResult> findSupplierUnBidding(Map<String, Object> map);
 }

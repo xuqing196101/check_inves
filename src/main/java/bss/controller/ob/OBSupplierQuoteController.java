@@ -387,6 +387,8 @@ public class OBSupplierQuoteController {
 			oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
 		}
 		Double totalCountPriceBigDecimal = 0.00;
+		NumberFormat currency = NumberFormat.getNumberInstance();
+		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 		/** 计算单个商品的总价以及合计金额 **/
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
@@ -398,6 +400,10 @@ public class OBSupplierQuoteController {
 					signalCount = signalCountInt;
 					BigDecimal multiply = limitPrice.multiply(signalCount);
 					productInfo.setTotalMoney(multiply);
+					/**显示100000样式**/
+					productInfo.setTotalMoney(multiply);
+					/**显示￥100,000,00样式**/
+					productInfo.setTotalMoneyStr(currency.format(multiply));
 					/** 累加得到总计 **/
 					totalCountPriceBigDecimal = multiply.add(
 							new BigDecimal(Double
@@ -406,8 +412,7 @@ public class OBSupplierQuoteController {
 				}
 			}
 		}
-		BigDecimal bigDecimal = new BigDecimal(totalCountPriceBigDecimal);
-		bigDecimal.setScale(2);
+		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
@@ -417,7 +422,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
-		model.addAttribute("totalCountPriceBigDecimal", bigDecimal.toString());
+		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
@@ -486,8 +491,8 @@ public class OBSupplierQuoteController {
 			Double totalCountPriceBigDecimal = 0.00;
 			// 保留两位小数
 			//DecimalFormat df = new DecimalFormat("0.00");
-			NumberFormat currency = NumberFormat.getCurrencyInstance();
-			currency.setMinimumFractionDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+			NumberFormat currency = NumberFormat.getNumberInstance();
+			currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 			/** 计算单个商品的总价以及合计金额 **/
 			for (OBResultsInfo obResultInfo : oBResultsInfo) {
 				if (obResultInfo != null) {
@@ -552,5 +557,35 @@ public class OBSupplierQuoteController {
 		model.addAttribute("selectInfoByPID", resultList);
 		model.addAttribute("plist", plist);
 		return "bss/ob/biddingSpectacular/result";
+	}
+	
+	
+
+	/**
+	 * 
+	* @Title: findSupplierUnBidding 
+	* @Description: 查询未中标的供应商
+	* @author Easong
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
+	@RequestMapping("/findSupplierUnBidding")
+	@ResponseBody
+	public JdcgResult findSupplierUnBidding(@CurrentUser User user, HttpServletRequest request){
+		String projectId = request.getParameter("projectId");
+		// 获取供应商的id
+		if(user == null){
+			return JdcgResult.ok("请先登录!");
+		}
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("supplier_id", user.getTypeId());
+		map.put("project_id", projectId);
+		List<OBProjectResult> list = oBProjectResultService.findSupplierUnBidding(map);
+		OBProjectResult obProjectResult = null;
+		if(list != null && list.size() > 0){
+			obProjectResult = list.get(0);
+		}
+		return JdcgResult.ok(obProjectResult.getRemark());
 	}
 }

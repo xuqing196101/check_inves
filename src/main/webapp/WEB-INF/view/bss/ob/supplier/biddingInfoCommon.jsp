@@ -18,15 +18,7 @@
 	    <td>${ transportFees }</td>
 	    <td class="info"><b>成交供应商数</b></td>
 	    <td>
-		   <c:if test="${obProject.qualifiedSupplier==0}">
-		   		0
-		  	</c:if>
-		  	<c:if test="${obProject.qualifiedSupplier==null}">
-		  		0
-		  	</c:if>
-		   	<c:if test="${obProject.qualifiedSupplier!=0}">
-		   		 ${obProject.qualifiedSupplier}
-		 	</c:if>
+		  ${ obProject.tradedSupplierCount }
 		</td>
 	  </tr>
 	  <tr>

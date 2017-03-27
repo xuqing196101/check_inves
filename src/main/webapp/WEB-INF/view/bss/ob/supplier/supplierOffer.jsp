@@ -53,7 +53,7 @@
 			// 判断单价输入是否为空
 			if(unitPrice != ''){
 				if(! /^-?\d+$/.test(unitPrice) && ! /^-?\d+\.?\d{0,2}$/.test(unitPrice)){
-					layer.msg("请输入整数或两位小数");
+					layer.msg("请输入整数或保留两位小数");
 					$("#"+id).html("");
 					$("#totalPrice").html("");
 					calTotalPrice();
@@ -113,7 +113,7 @@
 				var id = ids[i];
 				var signalPrice = parseInt($("#"+id).html());
 				if(isNaN(signalPrice)){
-					layer.msg("输入格式错误或者输入信息不全");
+					layer.msg("请输入整数或两位小数");
 					return;
 				}
 			}

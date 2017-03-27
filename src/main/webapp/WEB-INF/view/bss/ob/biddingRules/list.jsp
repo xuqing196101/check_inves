@@ -263,7 +263,7 @@
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tc">${obRule.name}</td>
 			  <td class="tc">${obRule.intervalWorkday}</td>
-			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:ss:mm"/></td>
+			  <td class="tc"><fmt:formatDate value="${obRule.definiteTime}" pattern="HH:mm:ss"/></td>
 			  <td class="tc">${obRule.quoteTime}</td>
 			  <td class="tc">${obRule.confirmTime}</td>
 			  <td class="tc">${obRule.confirmTimeSecond}</td>

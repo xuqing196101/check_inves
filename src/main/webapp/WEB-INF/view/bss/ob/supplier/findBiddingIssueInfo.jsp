@@ -88,7 +88,11 @@
 			  <td class="tc"><input type="checkbox" alt=""></td>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="3">合计</td>
-			  <td class="tc">${ totalCountPriceBigDecimal }</td>
+			  <td class="tc">
+			  	<c:if test="${ totalCountPriceBigDecimal != '00' }">
+			  		${ totalCountPriceBigDecimal }
+			  	</c:if>
+			  </td>
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
