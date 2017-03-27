@@ -189,19 +189,20 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * <p>Description 把此供应商的状态都改为0，表示放弃</p>
      * @author Ma Mingwei
      * @param obProjectResult封装的条件对象
+     * @param -1 第一轮 1 第二轮
      * @return 竞价管理-结果查询 
      */
 	@Override
 	public int updateBySupplierId(OBProjectResult record, String confirmStatus) {
 		// TODO Auto-generated method stub
-		if("1".equals(confirmStatus)) {
+		if("-1".equals(confirmStatus)) {
 			OBProject obProject = new OBProject();
 			obProject.setId(record.getProjectId());
 			User user = new User();
 			user.setTypeId(record.getSupplierId());
 			String remark = "3";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
-		} else if("-1".equals(confirmStatus)) {
+		} else if("1".equals(confirmStatus)) {
 			OBProject obProject = new OBProject();
 			obProject.setId(record.getProjectId());
 			User user = new User();
