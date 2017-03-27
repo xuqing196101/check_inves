@@ -234,4 +234,20 @@ public class OBProjectResult {
 		this.updatedAt = updatedAt;
 	}
 
+	@Override
+	public String toString() {
+		return "OBProjectResult [id=" + id + ", productId=" + productId
+				+ ", projectId=" + projectId + ", supplierId=" + supplierId
+				+ ", ranking=" + ranking + ", proportion=" + proportion
+				+ ", offerPrice=" + offerPrice + ", totalAmount=" + totalAmount
+				+ ", createTime=" + createTime + ", status=" + status
+				+ ", createrId=" + createrId + ", remark=" + remark
+				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
+				+ ", resultCount=" + resultCount + ", supplier=" + supplier
+				+ ", productInfo=" + productInfo + ", OBResultsInfo="
+				+ OBResultsInfo + ", countOfferPrice=" + countOfferPrice
+				+ ", countTotalAmount=" + countTotalAmount
+				+ ", countresultCount=" + countresultCount + "]";
+	}
+
 }

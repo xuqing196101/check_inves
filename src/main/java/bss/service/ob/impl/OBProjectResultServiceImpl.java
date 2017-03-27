@@ -39,7 +39,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	private OBProjectResultMapper oBProjectResultMapper;
 	
 	@Autowired
-	OBProjectSupplierMapper mapper;
+	private OBProjectSupplierMapper mapper;
 	@Override
 	public int countByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
@@ -154,8 +154,12 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			if("-1".equals(confirmStatus)) {
 				productList = oBProjectResultMapper.selectProductBySupplierId(obProjectResult);
 			} else if("1".equals(confirmStatus)) {
-				Integer proportion2 = oBProjectResultMapper.selectProportionByProject(obProjectResult);
-				proportion2 = 100 - proportion2;
+				OBProjectResult item=oBProjectResultMapper.selectProportionByProject(obProjectResult);
+				 if(item.getProportion()==null){
+					 item.setProportion("0");
+				 }
+				Integer proportion2 =Integer.valueOf(item.getProportion());
+				proportion2 = 100 - (proportion2);
 				confirmInfoVo.setBidRatio(proportion2.toString());
 				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
 			}
@@ -234,7 +238,14 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			
 			//上面修改过之后向数据库查找，查找是否所有的供应商已经此轮已经全接受并且占比总和100%
 			if("1".equals(confirmNum)) {
-				Integer getSumProportion = oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				OBProjectResult item=oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				 if(item.getProportion()==null){
+					 item.setProportion("0");
+				 }
+				Integer getSumProportion = Integer.valueOf(item.getProportion());
+				if(getSumProportion==null){
+					getSumProportion=0;
+				}
 				String remark=null;
 				//全部接受
 				if(100 == getSumProportion) {
@@ -250,7 +261,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			}
 			if("2".equals(confirmNum)) {
-				Integer getSumProportion = oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				OBProjectResult item=oBProjectResultMapper.selectProportionByProject(projectResultList.get(i));
+				 if(item.getProportion()==null){
+					 item.setProportion("0");
+				 }
+				Integer getSumProportion = Integer.valueOf(item.getProportion());
 				String remark=null;
 				//全部接受
 				if(100 == getSumProportion){

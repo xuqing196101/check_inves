@@ -47,9 +47,9 @@
 	}
 	//占比下调,返回对应占比后数量@param 值
 	function getDownRatioVal(passVal,beforeRatio,afterRatio) {
-		var br = parseDouble(beforeRatio)/100;
-		var ar = parseDouble(afterRatio)/100;
-		return Math.ceil((parseDouble(passVal) / br) * ar);
+		var br = parseFloat(beforeRatio)/100;
+		var ar = parseFloat(afterRatio)/100;
+		return Math.ceil((parseFloat(passVal) / br) * ar);
 	}
 	//定义当前标题的全局(无论第一、二轮)变量
 	
@@ -73,6 +73,8 @@
 		var currentVal = $("input[name='confirmRatioFirst']").val();
 		//第二轮占比的初始值
 		var currentSecondVal = $("input[name='confirmRatioSecond']").val();
+		
+		alert(currentVal+" currentSecondVal  "+currentSecondVal);
 		//下面加上"2"的占比表示第二轮的数据变量
 		var changeRatioCounts = [];
 		$("[title='theProductCount']").each(function(index,element) {
@@ -100,16 +102,17 @@
 			var afterInputVal = $(this).val();
 			if(passStatus == "-1") {
 				if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
-					if(parseInt(afterInputVal) > parseInt(currentVal)) {
+					/* if(parseInt(afterInputVal) > parseInt(currentVal)) {
 						$(this).val(currentVal);
 						layer.alert("占比只能下调");
-					} else if(parseInt(afterInputVal) == 0) {
+					} else */ 
+					if(parseInt(afterInputVal) == 0) {
 						$(this).val(currentVal);
 						layer.alert("占比不能为0");
 					} else {
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-						alert(changeRatioCounts[index]+"  f "+afterInputVal);
+						//alert(changeRatioCounts[index]+"  f "+afterInputVal);
 							//var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
 							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
@@ -455,13 +458,13 @@
      <h2 class="count_flow"><i>2</i>第一轮确认</h2>
     <ul class="ul_list" >
     <c:if test="${confirmStatus=='-1'}">
-     <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+     <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 50%">
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<input class="input_group" id="" name="confirmRatioFirst" value="${confirmInfoVo.bidRatio }" type="text">%
      	</h2>
      </li>
-      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 50%">
       <h2 class="count_flow">
       <span style="margin-left: 22px;margin-right: 12px;">确认倒计时：</span>
       <span id="confirmCountDown"></span> 
@@ -495,7 +498,8 @@
 		  </td>
 		  <td class="tc" title="theProductName">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount">
-		  	<fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/>
+		  ${bidproduct.productNum}
+		  	<%-- <fmt:formatNumber type="number" value="${(bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100 }"/> --%>
 		  </td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc" title="theProductPrice">${bidproduct.dealPrice }</td>
@@ -510,13 +514,14 @@
   </c:if>
   <c:if test="${confirmStatus=='1'}">
 <!--    <h2 class="count_flow"><i>2</i>第一轮确认</h2>
- -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" >
+ -->  <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span id="confirmRatioSpan12" style="margin-left: 12px;margin-right: 12px;">${confirmInfoVo.bidRatio }</span>%
+     		
      	</h2>
      	</li>
-      <li class="col-md-4 col-sm-6 col-xs-12 pl15" >
+      <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 50%">
       <h2 class="count_flow">
      			<span style="padding-left: 22px;">第一轮确认倒计时：</span>
      			<span id="confirmCountDown12">未开始</span>
@@ -565,14 +570,14 @@
     <h2 class="count_flow"><i>3</i>第二轮确认</h2>
    <ul class="ul_list">
    <c:if test="${confirmStatus=='-1'}">
-   <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+   <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
      	<h2 class="count_flow" >
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<span style="margin-left: 22px;">0</span>%
      	</h2>
      	</li>
      	
-     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+     	 <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
      	<h2 class="count_flow" >
      			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown21">未开始</span>
@@ -614,16 +619,17 @@
 	</table>
   	</c:if>
   	<c:if test="${confirmStatus=='1'}">
-  	<li class="col-md-3 col-sm-6 col-xs-12 pl15">
+  	<li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
 <!--      <div class="clear total f22"><span class="fl block">基本数量---第二轮确认：</span>
  -->     	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
-     		<input id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" class="tc w50">%
+     		<input  class="input_group" id="" name="confirmRatioSecond" value="${secondConfirmInfoVo.bidRatio }" type="text" >%
+     		
      	</h2>
      </li>
-     <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+     <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
     	<h2 class="count_flow">
-     			<span style="padding-left: 22px;">第二轮确认倒计时：</span>
+     			<span style="margin-left: 22px;margin-right: 12px;">第二轮确认倒计时：</span>
      			<span id="confirmCountDown2"></span>
      	</h2>
      </li>
@@ -654,7 +660,10 @@
 		  	<input type="hidden" name="productResultCount" value="${bidproduct.productNum }"/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
-		  <td class="tc" title="theProductCount2"><fmt:formatNumber type="number" value="${bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100) }"/></td>
+		  <td class="tc" title="theProductCount2">
+		  ${bidproduct.productNum }
+		  <%-- <fmt:formatNumber type="number" value="${bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100) }"/> --%>
+		  </td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc" title="theProductPrice2">${bidproduct.dealPrice }</td>
 		  <td class="tc" title="theProductTotalPrice2">${(bidproduct.productNum - ((bidproduct.productNum * confirmInfoVo.bidRatio - bidproduct.productNum * confirmInfoVo.bidRatio % 100) / 100)) * bidproduct.dealPrice }</td>

@@ -158,5 +158,18 @@ public class OBProductInfo {
 	public void setTotalMoneyStr(String totalMoneyStr) {
 		this.totalMoneyStr = totalMoneyStr;
 	}
+
+	@Override
+	public String toString() {
+		return "OBProductInfo [id=" + id + ", productId=" + productId
+				+ ", obProduct=" + obProduct + ", limitedPrice=" + limitedPrice
+				+ ", purchaseCount=" + purchaseCount + ", projectId="
+				+ projectId + ", createdAt=" + createdAt + ", updatedAt="
+				+ updatedAt + ", remark=" + remark + ", createrId=" + createrId
+				+ ", obProject=" + obProject + ", closingSupplier="
+				+ closingSupplier + ", qualifiedSupplier=" + qualifiedSupplier
+				+ ", totalMoney=" + totalMoney + ", totalMoneyStr="
+				+ totalMoneyStr + "]";
+	}
     
 }

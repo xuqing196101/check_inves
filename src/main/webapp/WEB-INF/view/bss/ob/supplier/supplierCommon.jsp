@@ -28,7 +28,12 @@
            });
            }
        	}
-
+    function format (num,id) {
+    if(num){
+     var content=  (num.toFixed(2) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+     $("#"+id).html(content);
+    }
+    }
 </script>
 <div class="ul_list" onmouseover="closePrompts()">
 	 <c:forEach items="${selectInfoByPID}" var="supplier" varStatus="pi">
@@ -75,12 +80,12 @@
 		  <td class="tc" colspan="3">合计</td>
 		  <c:if test="${supplier.status!=-1}">
 		   <c:set value="${sum + supplier.resultCount*supplier.offerPrice}" var="sum" />
-		  <td class="tc">${sum}</td>
+		  <td class="tc" id="sum2" onload="format('${sum}','sum2')">${sum}</td>
 		  </c:if> 
 		   <c:if test="${supplier.status==-1}"> 
 		    <c:forEach items="${supplier.OBResultsInfo }" var="bidproduct" varStatus="pi">
 		   <c:set value="${sum + bidproduct.dealMoney}" var="sum"  />
-		  <td class="tc" id="sum1">${sum}</td>
+		  <td class="tc" id="sum1" onload="format('${sum}','sum1')">${sum}</td>
 		  </c:forEach>
 		  </c:if> 
 		</tr>
@@ -92,7 +97,7 @@
 		  <td class="tc" id="${supplier.id}${bidproduct.productId}<%=item1 %>"  onmouseover="showPrompts('${supplier.id}${bidproduct.productId}<%=item1 %>', '${bidproduct.productId}')">${bidproduct.remark }</td>
 		  <td class="tc">${bidproduct.resultsNumber }</td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
-		  <td class="tc" >${bidproduct.dealMoney}</td>
+		  <td class="tc" ><span id="dealMoney" onclick="format('${bidproduct.dealMoney}','dealMoney')">${bidproduct.dealMoney}</span></td>
 		</tr>
 		  </c:forEach>
 		</c:if> 
@@ -105,7 +110,7 @@
 		  </c:forEach>
 		  <td class="tc">${supplier.resultCount }</td>
 		  <td class="tc">${supplier.offerPrice }</td>
-		  <td class="tc">${supplier.resultCount*supplier.offerPrice}</td>
+		  <td class="tc" id="offerPrice" onclick="format('${supplier.resultCount*supplier.offerPrice}','offerPrice')">${supplier.resultCount*supplier.offerPrice}</td>
 		</tr>
 		</c:if> 
 	</table>

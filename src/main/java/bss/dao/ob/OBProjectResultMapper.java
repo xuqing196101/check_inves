@@ -19,7 +19,7 @@ public interface OBProjectResultMapper {
      * @param example主要传过来projectId
      * @return 返回查找到占比值总和
      */
-    int selectProportionByProject(OBProjectResult example);
+    OBProjectResult selectProportionByProject(OBProjectResult example);
     /**
      *  成交供应商 数量
      * @param map
@@ -138,6 +138,14 @@ public interface OBProjectResultMapper {
      * @return 竞价管理-结果查询 页面信息封装对象
      */
     ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
+    
+    /**
+     * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
+     * @author Ma Mingwei
+     * @param obProjectResult  封装的条件对象
+     * @return 竞价管理-结果查询 页面信息封装对象
+     */
+    ConfirmInfoVo selectInfoByPSIds(OBProjectResult obProjectResult);
     
     /**
      * <p>Description 把此供应商的状态都改为0，表示放弃</p>

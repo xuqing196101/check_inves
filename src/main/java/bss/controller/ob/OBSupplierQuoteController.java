@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletRequest;
 import net.sf.json.util.NewBeanInstanceStrategy;
 
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -215,14 +216,18 @@ public class OBSupplierQuoteController {
 		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
 		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
 		
+		
 		//这是第一轮显示的数据，由于尽管是第二轮这个依然要显示bidProductList
 		//状态为-1，也就是默认时，查找的第一轮的信息，第一、二轮都要显示的
-		ConfirmInfoVo confirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult,"-1");
+		ConfirmInfoVo confirmInfoVo= new  ConfirmInfoVo();
+		ConfirmInfoVo confirmInfoVo1 = oBProjectResultService.selectInfoByPSId(oBProjectResult,"-1");
+		BeanUtils.copyProperties(confirmInfoVo1, confirmInfoVo);
+		confirmInfoVo1 = null;
 		//根据状态有选择的查询
 		if("1".equals(confirmStatus)) {
 			//第一轮接受，参加第二轮的操作
-			ConfirmInfoVo secondConfirmInfoVo = oBProjectResultService.selectInfoByPSId(oBProjectResult,confirmStatus);
-			model.addAttribute("secondConfirmInfoVo", secondConfirmInfoVo);
+			confirmInfoVo1= oBProjectResultService.selectInfoByPSId(oBProjectResult,confirmStatus);
+			model.addAttribute("secondConfirmInfoVo", confirmInfoVo1);
 		}
 		if("0".equals(confirmStatus)) {
 			//第一轮放弃，参加第二轮时的操作	这个需求暂时无，不走这一步

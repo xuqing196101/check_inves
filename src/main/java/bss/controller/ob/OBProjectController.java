@@ -483,7 +483,6 @@ public class OBProjectController {
 				//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
 				List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(obProject.getId());
 				List<OBProductInfo> plist=obProductInfoMapper.getProductName(obProject.getId());
-				
 				for(OBProjectResult s:resultList){
 					if(s.getStatus()==-1){
 				List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(obProject.getId(),s.getSupplierId());

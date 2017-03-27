@@ -136,6 +136,11 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
+			    // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
+			   if(status == '6' && remark == '5'){
+				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+			   return;
+			   }
 			    // 竞价结束
 			   if(status == '3'){
 				   layer.alert("竞价已结束 ！");
@@ -156,11 +161,7 @@
 				   layer.alert("对不起，确认时间未到不能确认结果 ！");
 				   return;
 			   }
-			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
-			   if(status == '6' && remark == '5'){
-				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-			   return;
-			   }
+			  
 			   // 第二轮确认时间未到
 			   if((status != '6' && remark == '4') || (status != '5' && remark == '5')){
 				   layer.alert("对不起，确认时间未到不能确认结果 ！");

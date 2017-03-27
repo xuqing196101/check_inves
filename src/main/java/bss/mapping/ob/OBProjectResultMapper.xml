@@ -213,9 +213,28 @@
   </select>
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
   <select id="selectInfoByPSId" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
-    SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,OBPROJECT.START_TIME CONFIRMOVERTIME,ruleTable.CONFIRM_TIME confirmTime,ruleTable.CONFIRM_TIME_SECOND confirmTimeSecond,ruleTable.QUOTE_TIME quoteTime 
-	  FROM T_BSS_OB_PROJECT obProject,T_BSS_OB_PROJECT_RESULT obProjectResult,(select QUOTE_TIME,CONFIRM_TIME,CONFIRM_TIME_SECOND from T_BSS_OB_RULE where id=(select DISTINCT RULE_ID FROM T_BSS_OB_PROJECT WHERE id=#{projectId,jdbcType=VARCHAR})) ruleTable
-		WHERE obProjectResult.PROJECT_ID=obProject.ID AND obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND OBPROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+    SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,
+    OBPROJECT.START_TIME CONFIRMOVERTIME,ruleTable.CONFIRM_TIME confirmTime,
+    ruleTable.CONFIRM_TIME_SECOND confirmTimeSecond,ruleTable.QUOTE_TIME quoteTime 
+	  FROM T_BSS_OB_PROJECT obProject,T_BSS_OB_PROJECT_RESULT obProjectResult,
+	  (select QUOTE_TIME,CONFIRM_TIME,CONFIRM_TIME_SECOND from T_BSS_OB_RULE 
+	  where id=(select DISTINCT RULE_ID FROM T_BSS_OB_PROJECT WHERE id=#{projectId,jdbcType=VARCHAR})) ruleTable
+		WHERE obProjectResult.PROJECT_ID=obProject.ID AND 
+		obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND 
+		OBPROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+  </select>
+  
+   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
+  <select id="selectInfoByPSIds" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
+    SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,
+    OBPROJECT.START_TIME CONFIRMOVERTIME,ruleTable.CONFIRM_TIME confirmTime,
+    ruleTable.CONFIRM_TIME_SECOND confirmTimeSecond,ruleTable.QUOTE_TIME quoteTime 
+	  FROM T_BSS_OB_PROJECT obProject,T_BSS_OB_PROJECT_RESULT obProjectResult,
+	  (select QUOTE_TIME,CONFIRM_TIME,CONFIRM_TIME_SECOND from T_BSS_OB_RULE 
+	  where id=(select DISTINCT RULE_ID FROM T_BSS_OB_PROJECT WHERE id=#{projectId,jdbcType=VARCHAR})) ruleTable
+		WHERE obProjectResult.PROJECT_ID=obProject.ID AND 
+		obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND 
+		OBPROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
   </select>
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
   <select id="selectInfoByPID" resultMap="confirmInfoVo" parameterType="java.lang.String" >
@@ -355,8 +374,11 @@ r.STATUS,r.RESULT_COUNT,r.REMARK
       <include refid="Example_Where_Clause" />
     </if>
   </select>
-  <select id="selectProportionByProject" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
-    SELECT sum(PROPORTION) from T_BSS_OB_PROJECT_RESULT WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND STATUS=1 GROUP BY SUPPLIER_ID
+  <select id="selectProportionByProject" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectResult" >
+    SELECT sum(PROPORTION) as PROPORTION,SUPPLIER_ID from T_BSS_OB_PROJECT_RESULT 
+    WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND STATUS=1 
+     and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+    GROUP BY SUPPLIER_ID
   </select>
   <!-- 去重复供应商 根据参数 获取确认供应商数量  -->
   <select id="countByStatus" parameterType="java.lang.String" resultType="java.lang.Integer" >
