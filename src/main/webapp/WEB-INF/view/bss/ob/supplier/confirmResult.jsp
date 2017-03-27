@@ -74,7 +74,6 @@
 		//第二轮占比的初始值
 		var currentSecondVal = $("input[name='confirmRatioSecond']").val();
 		
-		alert(currentVal+" currentSecondVal  "+currentSecondVal);
 		//下面加上"2"的占比表示第二轮的数据变量
 		var changeRatioCounts = [];
 		$("[title='theProductCount']").each(function(index,element) {
@@ -102,10 +101,10 @@
 			var afterInputVal = $(this).val();
 			if(passStatus == "-1") {
 				if(currentPressKey >= 48 && currentPressKey <= 57 || currentPressKey == 8) {
-					/* if(parseInt(afterInputVal) > parseInt(currentVal)) {
+					 if(parseInt(afterInputVal) > parseInt(currentVal)) {
 						$(this).val(currentVal);
 						layer.alert("占比只能下调");
-					} else */ 
+					} else  
 					if(parseInt(afterInputVal) == 0) {
 						$(this).val(currentVal);
 						layer.alert("占比不能为0");

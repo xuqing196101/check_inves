@@ -224,18 +224,25 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		// TODO Auto-generated method stub
 		int flag = 0;
 		Date currentDate = new Date();
-		
 		for(int i = 0; i < projectResultList.size();i++) {
 			projectResultList.get(i).setUpdatedAt(currentDate);
 			//在第二轮接受时进行判断，
+			//是否接受的状态： -1默认		0表示不接受	1表示第一轮接受		2表示第二轮接受		第二轮放弃状态仍为1
+			if(projectResultList.get(i).getStatus()==2 ){
+				oBProjectResultMapper.insert(projectResultList.get(i));
+				flag++;
+			}else{
+				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
+				flag++;
+			}
 			
-			if(i == 0) {
+			/*if(i == 0) {
 				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
 				flag++;
 			} else if(i > 0) {
-				oBProjectResultMapper.insert(projectResultList.get(i));
+				//oBProjectResultMapper.insert(projectResultList.get(i));
 				flag++;
-			}
+			}*/
 			
 			//上面修改过之后向数据库查找，查找是否所有的供应商已经此轮已经全接受并且占比总和100%
 			if("1".equals(confirmNum)) {
