@@ -512,7 +512,7 @@
         //需要ready后执行，否则可能报错
        // ue.setContent("<h1>欢迎使用UEditor！</h1>");
         ue.setContent(content);
-        ue.setHeight(270);
+        ue.setHeight(200);
     });
     </script>
 </body>
