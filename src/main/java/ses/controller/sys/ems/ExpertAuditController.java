@@ -243,7 +243,9 @@ public class ExpertAuditController {
 		//最高学位
 		if(expert.getDegree() != null) {
 			DictionaryData degree = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
-			model.addAttribute("degree", degree.getName());
+			if(degree != null){
+				model.addAttribute("degree", degree.getName());
+			}
 		}
 		// 货物类型数据字典
 		List < DictionaryData > hwList = DictionaryDataUtil.find(8);
