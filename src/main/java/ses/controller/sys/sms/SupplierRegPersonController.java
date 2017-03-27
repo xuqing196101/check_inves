@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.DictionaryData;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierRegPerson;
+import ses.service.bms.AreaServiceI;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierRegPersonService;
 import ses.service.sms.SupplierService;
@@ -24,6 +25,7 @@ import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 
 import com.alibaba.fastjson.JSON;
+
 import common.constant.Constant;
 @Controller
 @Scope("prototype")
@@ -36,6 +38,9 @@ public class SupplierRegPersonController extends BaseController{
 	private SupplierRegPersonService supplierRegPersonService;
 	@Autowired
 	private DictionaryDataServiceI dictionaryDataServiceI;
+	
+	@Autowired
+	private AreaServiceI areaService;
 	
 	@RequestMapping(value = "add_reg_person")
 	public String addRegPerson(Model model, String matEngId, String supplierId) {
@@ -91,6 +96,7 @@ public class SupplierRegPersonController extends BaseController{
         //初始化供应商注册附件类型
         model.addAttribute("supplierDictionaryData", dictionaryDataServiceI.getSupplierDictionary());
         model.addAttribute("sysKey",  Constant.SUPPLIER_SYS_KEY);
+        model.addAttribute("rootArea", areaService.findRootArea());
 		return "ses/sms/supplier_register/supplier_type";	
 	}
 	
