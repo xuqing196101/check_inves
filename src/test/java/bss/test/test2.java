@@ -6,6 +6,8 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
 import java.math.BigDecimal;
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
@@ -20,7 +22,9 @@ import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.junit.Test;
+import org.springframework.security.authentication.encoding.Md5PasswordEncoder;
 
+import ses.model.bms.User;
 import bss.model.pms.PurchaseRequired;
 
 public class test2 {
@@ -257,5 +261,58 @@ public class test2 {
         }  
     } 
 
+	@Test
+	public void quchong(){
+		List<User> list=new ArrayList<User>();
+		User u=new User();
+		u.setLoginName("1");
+		
+		User u2=new User();
+		u2.setLoginName("2");
+		 
+		list.add(u2);
+		list.add(u);
+		List<User> list2=new ArrayList<User>();
+		User u3=new User();
+		u3.setLoginName("2");
+//		list2.add("a");
+//		list2.add("c");
+		list2.add(u3);
+//		Map<String,Object> map=new HashMap<String,Object>();
+		for(User us:list2){
+			if(list.contains(us)){
+				System.out.println("ss");
+			}
+		}
+		
+		System.out.println(list.size());
+		
+		   
+//		list.
+//		map.put(  "1", list);
+		
+	}
+	
+	
+	 
+	@Test
+	public void resetpassowoord(){
+		
+		 String randomCode = "";
+		  Md5PasswordEncoder md5 = new Md5PasswordEncoder();
+          // false 表示：生成32位的Hex版, 这也是encodeHashAsBase64的, Acegi 默认配置; true 表示：生成24位的Base64版
+          md5.setEncodeHashAsBase64(false);
+          String pwd = md5.encodePassword("123456", "ZK35bihnlMddCAK");
+		
+          System.out.println(pwd);
+	}
+	
+	@Test
+	public void split(){
+		double d = 1212312334.5678;
+		DecimalFormat df = new DecimalFormat("#,###.00");
+		 
+		System.out.println(df.format(d));
+	}
 
 }
