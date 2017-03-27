@@ -1883,4 +1883,13 @@ public class ArticleController extends BaseSupplierController {
         return jsonObj.toString();
     }
   
+    @ResponseBody
+    @RequestMapping(value = "/searchCategory")
+    public String searchCategory(String name, String rootCode) throws UnsupportedEncodingException{
+        List<CategoryTree> jList = new ArrayList<CategoryTree>();
+        name = URLDecoder.decode(name,"UTF-8");
+        articleService.searchCategory(jList, name, rootCode);
+        
+        return JSON.toJSONString(jList);
+    }
 }

@@ -176,6 +176,74 @@
 		}
 	}
 
+	function searchs(articleId){
+		var threeType = $("#threeType").select2("data").text;
+		var rootCode = null;
+		if (threeType == "进口" || threeType == "物资") {
+			rootCode = "GOODS";
+		}
+		if (threeType == "工程") {
+			rootCode = "PROJECT";
+		}
+		if (threeType == "服务") {
+			rootCode = "SERVICE";
+		}
+		var name=$("#search").val();
+		if(name!=""){
+		 	var zNodes;
+			var zTreeObj;
+			var setting = {
+				async: {
+						autoParam: ["id"],
+						enable: true,
+						url: "${pageContext.request.contextPath}/article/categoryTree.do",
+						otherParam: {
+							"articleId": articleId,
+							"rootCode":rootCode,
+						},
+						dataFilter: ajaxDataFilter,
+						dataType: "json",
+						type: "get"
+					},
+				view: {
+					dblClickExpand: false
+				},
+				data: {
+					simpleData: {
+						enable: true
+					}
+				},
+				callback: {
+					onClick:zTreeOnClick,
+				}
+			};
+			// 加载中的菊花图标
+			var loading = layer.load(1);
+			
+			$.ajax({
+				url: "${pageContext.request.contextPath}/article/searchCategory.do",
+				data: { "name" : encodeURI(name), "rootCode" : rootCode},
+				async: false,
+				dataType: "json",
+				success: function(data){
+					if (data.length == 1) {
+						layer.msg("没有符合查询条件的产品类别信息！");
+					} else {
+						zNodes = data;
+						zTreeObj = $.fn.zTree.init($("#treeCategory"), setting, zNodes);
+						zTreeObj.expandAll(true);//全部展开
+					}
+					// 关闭加载中的菊花图标
+					
+					layer.close(loading);
+					
+				}
+			});
+		}else{
+			showCategory();
+		}
+	}
+
 	function cheClick(id, name) {
 		$("#articleTypeId").val(id);
 		$("#articleTypeName").val(name);
@@ -348,6 +416,7 @@
 	}
 
 	function threeTypeInfo() {
+		hideCategory();
 		$("#cId").val("");
         $("#categorySel").val("");
 		$("#fourType").empty();
@@ -718,7 +787,13 @@
 
 	<div class="container container_box">
 		<div id="categoryContent" class="categoryContent" style="display:none; position: absolute;left:0px; top:0px; z-index:999;">
-			<ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+			<div class=" input_group col-md-3 col-sm-6 col-xs-12 col-lg-12 p0">
+			    <div class="w100p">
+			    	<input type="text" id="search" class="fl m0">
+				      <img alt="" style="position:absolute; top:8px;right:10px;" src="${pageContext.request.contextPath }/public/backend/images/view.png"  onclick="searchs('${articleId}')">
+			    </div>
+			    <ul id="treeCategory" class="ztree" style="margin-top:0;"></ul>
+			</div>
 	   	</div>
 		<form id="myform"
 			action="${pageContext.request.contextPath }/article/save.html"

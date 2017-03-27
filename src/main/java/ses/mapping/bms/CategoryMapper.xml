@@ -572,4 +572,18 @@
 	 	SELECT <include refid="Base_Column_List" /> 
 		 FROM T_SES_BMS_CATEGORY WHERE IS_DELETED = 0 AND CODE = #{code}
 	</select>
+	
+	<!-- 根据关键字查出公开的品目名称 -->
+	<select id="listByKeywordIsPublish" parameterType="Map" resultMap="CateMap">
+		select
+		<include refid="Base_Column_List" />
+		from T_SES_BMS_CATEGORY
+		where IS_DELETED=0 and NAME like '%'||#{name}||'%'
+		<if test="isPublish != null">
+			and IS_PUBLISH = #{isPublish}
+		</if>
+		<if test="parentId != null">
+			and PARENT_ID= #{parentId}
+		</if>
+	</select>
 </mapper>
