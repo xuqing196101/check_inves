@@ -64,6 +64,15 @@ public interface AfterSaleSerMapper {
 	 * @return:
 	 */
     int deleteByPrimaryKey(String id);
+    /**
+     * 
+     * @Title: queryByCount
+     * @author LiChenHao 
+     * @Description:查询记录数
+     * @param:     
+     * @return:
+     */
+    Integer queryByCount(String id);
     
     /**
      *〈简述〉

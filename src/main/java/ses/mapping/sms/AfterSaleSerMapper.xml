@@ -244,4 +244,13 @@
     </if> 
   </select>
   
+  <!-- 列表总数 -->
+  <select id="queryByCount" resultType="java.lang.Integer" parameterType="Object">
+    select count(1) 
+    from T_SES_SMS_AFTER_SALE_SERVICE p inner JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
+    LEFT JOIN T_SES_SMS_SUPPLIER s on c.SUPPLIER_DEP_NAME = s.ID
+    where s.ID = #{id}
+    
+  </select>
+  
 </mapper>

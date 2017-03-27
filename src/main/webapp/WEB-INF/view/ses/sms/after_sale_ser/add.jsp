@@ -9,6 +9,9 @@
 
 	<head>
 	<%@ include file="../../../common.jsp"%>
+	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
 		<script type="text/javascript">
 			var parentId;
 			var addressId = "${is.address}";
@@ -102,57 +105,38 @@
 			        <h2 class="list_title">售后服务新增</h2> 
 					<ul class="ul_list">
 					
-					<%--  <li class="col-md-3 col-sm-6 col-xs-12">
-									<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 合同编号</span>
-									<div class="col-md-12 col-xs-12 col-sm-12 select_common p0">
-										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="root_area_select_id" onchange="loadChildren(this)" <c:if test="${fn:contains(audit,'contractCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contractCode')"</c:if>>
-												<option value="">请选择</option>
-												<c:forEach items="${contractCode }" var="contractCode">
-													<c:if test="${contractCode.id==area.parentId }">
-														<option value="${contractCode.id }" selected="selected">${contractCode.name }</option>
-													</c:if>
-													<c:if test="${contractCode.id!=area.parentId }">
-														<option value="${contractCode.id }">${contractCode.name }</option>
-													</c:if>
-												</c:forEach>
-											</select>
-										</div>
-										<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 产品名称</span>
-										<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-											<select id="children_area_select_id" name="contractCode" <c:if test="${fn:contains(audit,'contractCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contractCode')"</c:if>>
-												<c:forEach items="${product }" var="product">
-													<c:if test="${product.id==currSupplier.contractCode }">
-														<option value="${product.id }" selected="selected">${product.name }</option>
-													</c:if>
-													<c:if test="${product.id!=currSupplier.contractCode }">
-														<option value="${product.id }">${product.name }</option>
-													</c:if>
-												</c:forEach>
-											</select>
-										</div>
-										<div class="cue"> ${ERR_contract_code } </div>
-									</div>
-								</li>  --%>
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				  			 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>合同编号：</span>
 			       			 <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-			        			<select id="contractCodes" name="contractCode" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeSupplierDep()">
-                				</select>
+			        			<!-- <select id="contractCodes" name="contractCode" class="select col-md-12 col-sm-12 col-xs-12 p0" onchange="changeSupplierDep()">
+                				</select> -->
+                				<input class="easyui-combobox" name="contractCode" id="contractCode" data-options="valueField:'id',textField:'code',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
+			        			<script>
+				    $('#contractCode').combobox({  
+				        prompt:'',  
+				        required:false,  
+				        url: "${pageContext.request.contextPath }/after_sale_ser/getContract.do",  
+				        editable:true,  
+				        hasDownArrow:true,  
+				        filter: function(L, row){  
+				            var opts = $(this).combobox('options');  
+				            return row[opts.textField].indexOf(L) == 0;  
+				        },
+				        onSelect: function (org) { 
+				        $("#contractAmount").val(org.money);
+				        	
+				        }
+				    });  
+				 </script>
 			        			<div class="cue">${ERR_contract_code}</div>
 			        		<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 产品名称</span>
-								<div class="col-md-5 col-xs-5 col-sm-5 mr5 p0">
-										<select id="children_area_select_id" name="contractCode" <c:if test="${fn:contains(audit,'contractCode')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('contractCode')"</c:if>>
-												<c:forEach items="${product }" var="product">
-													<c:if test="${product.id==currSupplier.contractCode }">
-														<option value="${product.id }" selected="selected">${product.name }</option>
-													</c:if>
-													<c:if test="${product.id!=currSupplier.contractCode }">
-														<option value="${product.id }">${product.name }</option>
-													</c:if>
-												</c:forEach>
-											</select>
-										</div>
+										<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
+										<select required name="product" id="productId" <c:if test="${fn:contains(audit,'product')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('product')"</c:if>>
+											<c:forEach items="${company }" var="obj">
+												<option value="${obj.id }" <c:if test="${obj.id==currSupplier.product }">selected="selected"</c:if> >${obj.name }</option>
+											</c:forEach>
+										</select>
+									</div>
 	       					</div>
 						 </li> 
 						 

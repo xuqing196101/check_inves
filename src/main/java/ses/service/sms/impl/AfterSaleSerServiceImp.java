@@ -68,6 +68,13 @@ public class AfterSaleSerServiceImp implements AfterSaleSerService {
 	        }
 		
 	}
+	/**
+	 * 查询模板条数
+	 */
+	@Override
+	public Integer queryByConut(String id) {
+		return afterSaleSerMapper.queryByCount(id);
+	}
 
 	@Override
 	public List<AfterSaleSer> findAfterSaleSer() {

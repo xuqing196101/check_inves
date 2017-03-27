@@ -2,9 +2,9 @@ package ses.service.sms;
 
 import java.util.HashMap;
 import java.util.List;
-
 import java.math.BigDecimal;
 import java.util.List;
+
 import ses.model.sms.AfterSaleSer;
 
 
@@ -39,6 +39,10 @@ public interface AfterSaleSerService {
 	 * 6.根据主键删除模板
 	 */
 	public void delete(String id);
+	/**
+	 * 7.查询模板条数
+	 */
+	Integer queryByConut(String id);
     
     /**
      *〈简述〉
