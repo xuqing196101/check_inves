@@ -535,12 +535,12 @@
 				<tr id="${checkpass.id}">
 					<c:if test="${view != 1}">
 						<td class="tc opinter"><c:if
-								test="${checkpass.isDeleted == 0}"></c:if>
+								test="${checkpass.isDeleted == 0 }">
 
 								<input onclick="check('${checkpass.id}');"
 									id="rela${checkpass.id}" type="checkbox" name="chkItem" class="${checkpass.supplier.id}"
 									value="${checkpass.id}" />
-
+								</c:if>
 							</td>
 					</c:if>
 					<td class="opinter" title="${checkpass.supplier.supplierName }">
