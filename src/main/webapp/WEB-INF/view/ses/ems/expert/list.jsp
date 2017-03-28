@@ -253,7 +253,7 @@
           <label class="fl">专家类型：</label>
           <span class="fl">
             <select name="expertsTypeId" id="expertsTypeId" class="">
-              <option selected="selected"  value=''>-请选择-</option>
+              <option selected="selected"  value=''>全部</option>
               <c:forEach items="${expTypeList}" var="exp">
                 <option <c:if test="${expert.expertsTypeId == exp.id}">selected</c:if> value="${exp.id}">${exp.name}</option>
               </c:forEach>          
@@ -264,8 +264,9 @@
         <label class="fl">审核状态：</label>
         <span class="fl">
           <select name="status" id="status" class="">
-             <option selected="selected" value=''>-请选择-</option>
-             <option <c:if test="${expert.status =='0' or expert.status == null}">selected</c:if> value="0">待初审</option>
+             <option selected="selected" value=''>全部</option>
+             <option <c:if test="${expert.status =='-1' }">selected</c:if> value="-1">暂存</option>
+             <option <c:if test="${expert.status =='0' }">selected</c:if> value="0">待初审</option>
              <option <c:if test="${expert.status =='1' }">selected</c:if> value="1">初审通过</option>
              <option <c:if test="${expert.status =='2' }">selected</c:if> value="2">初审未通过</option>
              <option <c:if test="${expert.status =='3' }">selected</c:if> value="3">退回修改</option>
@@ -322,6 +323,9 @@
 								<fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM" />
 							</td> --%>
 							<td class="tc" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
+							<c:if test="${e.status eq '-1' and e.isSubmit eq '0'}">
+								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">暂存</span></td>
+							</c:if>
 							<c:if test="${e.status eq '0' }">
 								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
 							</c:if>
