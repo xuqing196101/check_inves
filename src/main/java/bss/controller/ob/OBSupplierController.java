@@ -311,8 +311,12 @@ public class OBSupplierController {
 			oBSupplierService.insertSelective(obSupplier);
 			return "redirect:/obSupplier/supplier.do";
 		}else{
-			Category category = categoryService.findById(obSupplier.getSmallPointsId());
-			model.addAttribute("catName", category.getName());
+			if(obSupplier.getSmallPointsId() != null){
+				Category category = categoryService.findById(obSupplier.getSmallPointsId());
+				if(category != null){
+					model.addAttribute("catName", category.getName());
+				}
+			}
 			model.addAttribute("obSupplier", obSupplier);
 			return "bss/ob/addSupplier/addSupplier";
 		}

@@ -1170,14 +1170,15 @@ public class ExcelUtil {
 		        				 break;
 	        				}
         					String supplierName = cell.getRichStringCellValue().toString();
-        					Supplier supplier = excelUtil.supplierService.selByName(supplierName);
+        					List<Supplier> listsupplier = excelUtil.supplierService.selByName(supplierName);
         					//验证供应商是否存在
-        					if(supplier == null){
+        					if(listsupplier == null){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商不存在!";
         						map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
         					}
+        					Supplier supplier = listsupplier.get(0);
         					uscc = supplier.getCreditCode();
         					suId = supplier.getId();
         					obp.setSupplierId(supplier.getId());

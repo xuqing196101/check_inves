@@ -304,7 +304,7 @@ public interface SupplierService {
     * @return Supplier 
     * @exception
     */
-   Supplier selByName(String supplierName);
+   List<Supplier> selByName(String supplierName);
    
    /**
     * 
