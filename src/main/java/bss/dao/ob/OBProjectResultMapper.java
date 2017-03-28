@@ -16,6 +16,13 @@ public interface OBProjectResultMapper {
     int countByExample(OBProjectResultExample example);
     /**
      * @author MaMingwei
+     * @description 根据供应商和标题的ID查询总条数
+     * @param example主要传过来projectId和供应商ID
+     * @return 返回总条数
+     */
+    int countByPSID(OBProjectResult example);
+    /**
+     * @author MaMingwei
      * @param example主要传过来projectId
      * @return 返回查找到占比值总和
      */
