@@ -152,6 +152,12 @@
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
 			   
+			   // 报价时间还未开始
+			   if(status == '1'){
+				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
+				   return;
+			   }
+			   
 			   // 确认结果前做报价判断
 			   if(status == 2 && remark == 1){
 				   layer.alert("已报价，请等待确认结果 ！");
@@ -202,9 +208,11 @@
 			   if(status == '5' && remark == '1'){
 				   $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
 						if (data.data == '0') {
+							$("#"+valueArr[0]).html("未中标");
 							layer.confirm("对不起，你未中标",{
 								btn:['确定']
 							},function(){
+								$("#"+valueArr[0]).html("未中标");
 								query();
 								return;
 								}
@@ -342,16 +350,16 @@
 			  <td class="tc">${ obProject.obProjectList[0].projectNumber }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
-			  <td class="tc">
+			  <td class="tc" id=${ obProject.obProjectList[0].id }>
 			  	<c:if test="${ obProject.obProjectList[0].status == 1 }">
 			  		竞价未开始
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
 			  		报价中
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status != 4  && obProject.remark == '2'}">
+			  	<%-- <c:if test="${ obProject.obProjectList[0].status != 4  && obProject.remark == '2'}">
 			  		未中标
-			  	</c:if>
+			  	</c:if> --%>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '1'}">
 			  		已报价待确认
 			  	</c:if>
