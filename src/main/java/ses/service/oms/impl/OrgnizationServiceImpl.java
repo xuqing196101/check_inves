@@ -824,7 +824,7 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
         return flag;
     }
     /**
-     *  获取全部可用的采购机构信息 实现服务接口
+     *  获取全部可用的采购机构信息和需求 实现服务接口
      *  @author YangHongLiang
      *  @return JSON
      */

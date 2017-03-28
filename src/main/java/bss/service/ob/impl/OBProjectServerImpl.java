@@ -703,8 +703,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 					// 判断 竞价结束时间 是否已到
 					int compare = DateUtils.compareDate(new Date(),
 							op.getStartTime());
-					// 比较 竞价信息 如果等于1 那么是竞价 开始的时间
-					if (compare > -1) {
+					// 比较 竞价信息 如果不等于 -1  那么说明是该竞价 处于竞价中
+					if (compare != -1) {
 						// 根据状态竞价中
 						OBProject upstatus = new OBProject();
 						upstatus.setStatus(2);
