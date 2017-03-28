@@ -107,11 +107,15 @@
   </select>  
   
     <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
-	select sum(MY_OFFER_MONEY)as MY_OFFER_MONEY
+<!-- 	select sum(MY_OFFER_MONEY)as MY_OFFER_MONEY
 	,SUPPLIER_ID,PRODUCT_ID from T_BSS_OB_RESULTS_INFO
-	where PROJECT_ID = #{id,jdbcType=VARCHAR}
+	where PROJECT_ID = 
 	GROUP BY SUPPLIER_ID,PRODUCT_ID,CREATED_AT
-	ORDER BY MY_OFFER_MONEY ASC,CREATED_AT ASC
+	ORDER BY MY_OFFER_MONEY ASC,CREATED_AT ASC -->
+select DISTINCT SUPPLIER_ID from(select  SUPPLIER_ID from T_BSS_OB_RESULTS_INFO
+	where PROJECT_ID = #{id,jdbcType=VARCHAR}
+ GROUP BY SUPPLIER_ID
+	ORDER BY sum(MY_OFFER_MONEY) ASC,CREATED_AT ASC)
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_RESULTS_INFO

@@ -721,8 +721,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 					if (compareDate == 1) {
 						// 说明 已发布 的竞价信息 已经超过 报价 时间
 						List<OBResultsInfo> obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
-						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
-						if(prlist==null && prlist.size()==0){
 						// 判断 是否有竞价供应商
 						if (obresultsList != null && obresultsList.size() > 0) {
 						//判读报价数量是否 达到竞价成交供应商数量
@@ -789,7 +787,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 							OBprojectMapper
 									.updateByPrimaryKeySelective(upstatus);
 						 }
-					  }
 					}
 					break;
 				case 5:// 第一轮待确认
