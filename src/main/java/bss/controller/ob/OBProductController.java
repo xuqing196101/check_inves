@@ -587,6 +587,33 @@ public class OBProductController {
 	
 	/**
 	 * 
+	 * Description: 产品目录下载
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月28日 
+	 * @param  @param request
+	 * @param  @param filename
+	 * @param  @return
+	 * @param  @throws IOException 
+	 * @return ResponseEntity<byte[]> 
+	 * @exception
+	 */
+	@RequestMapping("/downloadCategory")
+	public ResponseEntity<byte[]> downloadCategory(HttpServletRequest request,
+			String filename) throws IOException {
+		String path = PathUtil.getWebRoot() + "excel/产品分类目录下载.xlsx";
+		File file = new File(path);
+		HttpHeaders headers = new HttpHeaders();
+		String fileName = new String("产品分类目录下载.xlsx".getBytes("UTF-8"),
+				"iso-8859-1");// 为了解决中文名称乱码问题
+		headers.setContentDispositionFormData("attachment", fileName);
+		headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+		return new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),
+				headers, HttpStatus.OK);
+	}
+	
+	/**
+	 * 
 	 * Description: 导入excel
 	 * 
 	 * @author  zhang shubin
