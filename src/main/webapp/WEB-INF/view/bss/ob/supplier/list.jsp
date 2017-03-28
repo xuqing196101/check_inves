@@ -100,7 +100,7 @@
 			   }
 			   
 			   if(status == '2' && remark == '1'){
-				   layer.alert("已报价，请等待确认结果 ！");
+				   layer.alert("确认时间未到，请等待确认结果 ！");
 				   return;
 			   }
 			   if(status == '2' && remark == '2'){
@@ -159,7 +159,11 @@
 			   }
 			   
 			   // 确认结果前做报价判断
-			   if(status == 2 && remark == 1){
+			   if(status == 2 && remark == '0'){
+				   layer.alert("对不起，您还未参与报价！");
+				   return;
+			   }
+			   if(status == 2 && remark == '1'){
 				   layer.alert("已报价，请等待确认结果 ！");
 				   return;
 			   }
@@ -386,9 +390,9 @@
 			  		已报价待确认
 			  	</c:if>
 			  	
-			  	<c:if test="${obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
+			  	<%-- <c:if test="${obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
 			  		未报价
-			  	</c:if>
+			  	</c:if> --%>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '0'}">
 			  		未报价
 			  	</c:if>
