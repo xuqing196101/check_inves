@@ -688,9 +688,11 @@ function importAdd(){
         </div>
          <div class="job-content col-md-12 col-sm-12 col-xs-12">
          
-         <c:choose>
-                	<c:when test="${expertList!=null }">
-                		  
+		    <div class="categories zhuanjia_list">
+               <ul class="p0_10 list-unstyled">
+             
+               <c:choose>
+            <c:when test="${expertList!=null }">
          <table class="table table-bordered " >
         <thead>
           <tr >
@@ -701,12 +703,10 @@ function importAdd(){
 			</thead>
 			<tbody>
 			<c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" > 
-					                
 			<tr>
 			<td>${item.relName }</td>
 			<td class="tc">编号111111</td>
 			<td class="tc"> <c:choose>
-			  
                 <%-- <c:when test="${item.status == 0}">
 						          未审核
 						    </c:when>
@@ -735,14 +735,14 @@ function importAdd(){
 				 </c:forEach> 
 				</tbody>
 				</table>
-         
-
                 	</c:when>
                 	<c:otherwise>
                 		<li class="tc">暂无数据</li>
                 	</c:otherwise>
-                </c:choose>         
-			
+                </c:choose>   
+         
+			 </ul>
+			</div>
 		  </div>
 	  </div>
 	  
