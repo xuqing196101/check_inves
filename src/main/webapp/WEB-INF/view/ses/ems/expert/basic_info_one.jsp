@@ -702,7 +702,6 @@
                 cache: false,
                 async: false,
                 success: function (data) {
-                  alert(data);
                     if (data) {
                         layer.msg(data);
                         flag = false;
@@ -799,7 +798,6 @@
         });
 
         function errorMsg(auditField) {
-        	alert();
             $.ajax({
                 url: "${pageContext.request.contextPath}/expert/findAuditReason.do",
                 data: {
