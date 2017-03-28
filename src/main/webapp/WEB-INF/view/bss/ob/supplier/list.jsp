@@ -387,7 +387,7 @@
 			  		未中标
 			  	</c:if> --%>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '1'}">
-			  		已报价待确认
+			  		已报价
 			  	</c:if>
 			  	
 			  	<%-- <c:if test="${obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
@@ -399,7 +399,9 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '0'}">
 			  		未报价
 			  	</c:if>
-			  	
+			  	 	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '2'}">
+			  		未报价
+			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
 			  		竞价结束
 			  	</c:if>
@@ -419,8 +421,7 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '3'}">
 			  		您已放弃确认结果(第一轮)
 			  	</c:if>
-			  	
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '32' && obProject.remark != '0'} ">
 			  		结果待确认(第二轮)
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '42'}">

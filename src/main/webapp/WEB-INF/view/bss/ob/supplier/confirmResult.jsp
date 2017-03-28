@@ -22,13 +22,13 @@
 			$("#confirmCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown").text("第一轮确认倒计时已经结束");
-			close('${confirmStatus }');
+			//close('${confirmStatus }');
 			clearInterval(downTimer);
 		}
 	}
 	function getRTime2(){
 		var getOverTime = $("#confirmOverTime").text();
-		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
+		var EndTime= new Date("${confirmInfoVo.secondOvertime}"); //截止时间
 		var sysNowTime = new Date("${sysCurrentTime}");//后台传过来的系统的当前时间
 		var clientNowTime = new Date();//这个客户端的当前时间，暂时不用
 		//var t = EndTime.getTime() - sysNowTime.getTime();
@@ -41,7 +41,7 @@
 			$("#confirmCountDown2").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown2").text("第二轮确认倒计时已经结束");
-			close('${confirmStatus }');
+			//close('${confirmStatus }');
 			clearInterval(downTimer2);
 		}
 	}
