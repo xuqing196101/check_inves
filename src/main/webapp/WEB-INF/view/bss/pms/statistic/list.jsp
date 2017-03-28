@@ -182,7 +182,7 @@
 					         }
 					     ]
 					 };
-					 
+					 $("#funsionCharts_div_id").html("");
 					 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 						myChart.setOption(option);
 						myChart.hideLoading(); 
@@ -235,6 +235,7 @@
 							        }
 							    ]
 							};
+						$("#funsionCharts_div_id").html("");
 						var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 						myChart.setOption(option);
 						myChart.hideLoading();  
@@ -288,6 +289,7 @@
 							    },
 							    series:data.line
 							};
+						$("#funsionCharts_div_id").html("");
 					 	 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 							myChart.setOption(option);
 							myChart.hideLoading();
