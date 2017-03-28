@@ -220,7 +220,6 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 */
 	@RequestMapping("/edit")
 	public String edit(HttpServletRequest request,Model model,String id){
-		
 		model.addAttribute("afterSaleSer",afterSaleSerService.get(id));
 		model.addAttribute("afterSaleSerID",id);
 		DictionaryData dd=new DictionaryData();
@@ -242,14 +241,14 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,@RequestParam("date") String dateString,
-			@Valid AfterSaleSer afterSaleSer,BindingResult result,Model model,String contractCode){
+		public String update(HttpServletRequest request, AfterSaleSer afterSaleSer,Model model,String contractCode){
 		Boolean flag = true;
 		String url = "";
 			
-		if(contractCode==null || contractCode.equals("")){
+		if(contractCode==null || "".equals(contractCode)){
 			flag = false;
 			model.addAttribute("ERR_contract_code","请输入合同编号");
+			model.addAttribute("contractCode",contractCode);
 		}else{
 			PurchaseContract pc=purchaseContractService.selectByCode(contractCode);
 			if (pc==null) {
@@ -281,7 +280,10 @@ public class AfterSaleSerController extends BaseSupplierController{
 			
 			url="ses/sms/after_sale_ser/edit";
 		}else{
+			afterSaleSer.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+			afterSaleSerService.add(afterSaleSer);
 			
+			url="redirect:list.html";
 		}
 		return url;
 	}
@@ -315,8 +317,8 @@ public class AfterSaleSerController extends BaseSupplierController{
 		String[] id=ids.split(",");
 		/*for (String str : id) {
 			AfterSaleSer afterSaleSer = afterSaleSerService.get(str);
-			String supplierId = afterSaleSerService.get(str).getContract().getSupplier().getId();
-			String supplierName = afterSaleSerService.get(str).getContract().getSupplier().getSupplierName();
+			 String supplierId = afterSaleSerService.get(str).getContractCode().getSupplier().getId();
+			String supplierName = afterSaleSerService.get(str).getContractCode().getSupplier().getSupplierName();
 			afterSaleSerService.delete(str);
 			int count = afterSaleSerService.queryByConut(supplierId);
 			if (count == 0) {
@@ -325,7 +327,7 @@ public class AfterSaleSerController extends BaseSupplierController{
 			}else {
 			     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
 			     if (supplierPqrecord==null) {
-			    	 Supplier supplier = afterSaleSer.getContract().getSupplier();
+			    	 Supplier supplier = afterSaleSer.getContractCode().getSupplier();
 			    	 supplier.setSupplierName(supplierName);
 					 supplierPqrecord.setSupplier(supplier);
 			    	 supplierPqrecordService.add(supplierPqrecord);
