@@ -35,7 +35,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+				//offset : '300px',//注释掉，会默认都在中间，测试IE8也正常显示
 			});
 			return;
 		}
