@@ -12,7 +12,7 @@
 		}
 		
 		/* 分页 */
-		$(function() {
+		/* $(function() {
 		    laypage({
 		      cont : $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		      pages : "${info.pages}", //总页数
@@ -31,7 +31,7 @@
 		        }
 		      }
 		    });
-		  });
+		  }); */
 		
 	</script>
 </head>
@@ -54,44 +54,53 @@
 	</div> 
 	<!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<span><font size="3">供应商确认中标数量总量为${chengjiao}，预定采购数量为${count}，剩余采购数量为${count-chengjiao}.</font></span>
+		<span><font size="3">供应商确认中标比例为<c:if test="${turnoverRation == null }">0</c:if>%，未中标比例为${100 - turnoverRation }%.</font></span>
 		<button class="btn btn-windows print" onclick="printResult()">打印结果</button>
 	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-	</div>   
-	<div class="content table_box">
-    	<table class="table table-bordered table-condensed table-hover table-striped">
-		<thead>
-		<tr>
-		  <th class="w50 info">名次</th>
-		  <th class="info">供应商名称</th>
-		  <th class="info">自报单价（元）</th>
-		  <th class="info">成交单价（元）</th>
-		  <th class="info">成交数量</th>
-		  <th class="info">成交总价（元）</th>
-		  <th class="info">操作状态</th>
-		</tr>
-		</thead>
-		<tbody>
-		<c:forEach items="${info.list }" var="result" varStatus="vs">
+	</div>
+	
+	<div>
+	  <h2 class="count_flow"><i>1</i>产品信息</h2>
+	   <ul class="ul_list">
+		<div class="content table_box">
+	    	<table class="table table-bordered table-condensed table-hover table-striped">
+			<thead>
 			<tr>
-		  		<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-		  		<td class="tc">${result.supplier.supplier.supplierName }</td>
-		  		<td class="tc">${result.countOfferPrice}</td>
-		  		<td class="tc">${countOfferPricebyOne}</td>
-		  		<td class="tc">${result.countresultCount}</td>
-		  		<td class="tc">${countOfferPricebyOne * result.countresultCount }</td>
-		  		<td class="tc">
-		  			<c:if test="${result.status == 0}">未确认</c:if>
-		  			<c:if test="${result.status == 1}">已确认</c:if>
-		  		</td>
+			  <th class="w50 info">序号</th>
+			  <th class="info">定型产品名称</th>
+			  <th class="info">限价（元）</th>
+			  <th class="info">采购数量</th>
+			  <th class="info">总价（元）</th>
+			  <th class="info">备注信息</th>
 			</tr>
-		</c:forEach>
-		</tbody>
+			</thead>
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="3">合计</td>
+			  <td class="tc">
+			  	<c:if test="${ totalCountPriceBigDecimal != '00' }">
+			  		${ totalCountPriceBigDecimal }
+			  	</c:if>
+			  </td>
+			  <td class="tc"></td>
+			</tr>
+			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
+				<tr>
+				  <td class="tc">${ vs.index + 1 }</td>
+				  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name } </td>
+				  <td class="tc">${ productInfo.limitedPrice }</td>
+				  <td class="tc">${ productInfo.purchaseCount }</td>
+				  <td class="tc">${ productInfo.totalMoneyStr }</td>
+				  <td class="tc">${ productInfo.remark }</td>
+				</tr>
+			</c:forEach>
 		</table>
+	  </div>
+	  </ul>
+	 </div>
+	 <h2 class="count_flow"><i>2</i>报价信息</h2>
 		<%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
-    </div>
       <!-- <div id="pagediv" align="right"></div> -->
-    	<div id="pagediv" align="right"></div>
    </div>
 </body>
 </html>

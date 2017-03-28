@@ -318,38 +318,135 @@ public class OBProjectController {
 	 * @return String 返回类型
 	 * @throws
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/findBiddingResult")
-	public String findBiddingResult(Model model, HttpServletRequest request,
-			Integer page) {
-		if (page == null) {
-			page = 1;
-		}
+	public String findBiddingResult(Model model, HttpServletRequest request) {
 		// 获取竞价标题的id
-		String id = request.getParameter("id") == null ? "" : request
-				.getParameter("id");
-		List<OBProjectResult> list = oBProjectResultService.selectByProjectId(
-				id, page);
-		PageInfo<OBProjectResult> info = new PageInfo<>(list);
-		model.addAttribute("info", info);
-		OBProject obProject = OBProjectServer.selectByPrimaryKey(id);
-		Integer countOfferPricebyOne = 0;
-		if (list != null && list.size() > 0) {
-			OBProjectResult obProjectResult = list.get(0);
-			countOfferPricebyOne = obProjectResult.getCountOfferPrice();
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+		OBProject obProject22 = OBProjectServer.selectByPrimaryKey(id);
+		if(obProject22 != null){
+			model.addAttribute("projectName", obProject22.getName());
+			model.addAttribute("turnoverRation", obProject22.getTurnoverRation());
+			
 		}
-		if(obProject != null){
+		/*if(obProject != null){
 			model.addAttribute("projectName", obProject.getName());
 		}
-		model.addAttribute("countOfferPricebyOne", countOfferPricebyOne);
-		int count = OBProductInfo.selectCount(id);
-		int chengjiao = 0;
-		for (OBProjectResult obProjectResult : list) {
-			chengjiao += obProjectResult.getCountresultCount();
-		}
-		model.addAttribute("count", count);
-		model.addAttribute("chengjiao", chengjiao);
 		// 竞价标题id
 		model.addAttribute("titleId", id);
+		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
+		List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(id);
+		List<OBProductInfo> plist=obProductInfoMapper.getProductName(id);
+		for(OBProjectResult s:resultList){
+			if(s.getStatus()==-1){
+		List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(id,s.getSupplierId());
+				s.setOBResultsInfo(infoList);
+			}else{
+				s.setProductInfo(plist);
+			}
+		}
+		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(id);
+		
+		List<OBProductInfo> oBProductInfo = null;
+		oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
+		Double totalCountPriceBigDecimal = 0.00;
+		NumberFormat currency = NumberFormat.getNumberInstance();
+		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+		*//** 计算单个商品的总价以及合计金额 **//*
+		for (OBProductInfo productInfo : oBProductInfo) {
+			if (productInfo != null) {
+				BigDecimal signalCountInt = productInfo.getPurchaseCount();
+				BigDecimal limitPrice = productInfo.getLimitedPrice();
+				BigDecimal signalCount = null;
+				if (signalCountInt != null && limitPrice != null) {
+					*//** 单个商品的总金额=现价 *采购数量 **//*
+					signalCount = signalCountInt;
+					BigDecimal multiply = limitPrice.multiply(signalCount);
+					productInfo.setTotalMoney(multiply);
+					*//**显示100000样式**//*
+					productInfo.setTotalMoney(multiply);
+					*//**显示￥100,000,00样式**//*
+					productInfo.setTotalMoneyStr(currency.format(multiply));
+					*//** 累加得到总计 **//*
+					totalCountPriceBigDecimal = multiply.add(
+							new BigDecimal(Double
+									.toString(totalCountPriceBigDecimal)))
+							.doubleValue();
+				}
+			}
+		}
+		model.addAttribute("oBProductInfoList", oBProductInfo);
+		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
+		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
+		
+		model.addAttribute("selectInfoByPID", resultList);*/
+		if(StringUtils.isNotBlank(id)){
+			Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(id);
+			// 竞价信息
+			OBProject obProject = (OBProject) map.get("obProject");
+			// 竞价商品信息
+			Object object = map.get("oBProductInfoList");
+			// 获取采购机构名称
+			String orgName = (String) map.get("orgName");
+			String demandUnit = (String) map.get("demandUnit");
+			String productIds = (String) map.get("productIds");
+			String transportFees = (String) map.get("transportFees");
+			List<OBProductInfo> oBProductInfo = null;
+			if (object != null) {
+				oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
+			}
+			Double totalCountPriceBigDecimal = 0.00;
+			NumberFormat currency = NumberFormat.getNumberInstance();
+			currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+			/** 计算单个商品的总价以及合计金额 **/
+			for (OBProductInfo productInfo : oBProductInfo) {
+				if (productInfo != null) {
+					BigDecimal signalCountInt = productInfo.getPurchaseCount();
+					BigDecimal limitPrice = productInfo.getLimitedPrice();
+					BigDecimal signalCount = null;
+					if (signalCountInt != null && limitPrice != null) {
+						/** 单个商品的总金额=现价 *采购数量 **/
+						signalCount = signalCountInt;
+						BigDecimal multiply = limitPrice.multiply(signalCount);
+						productInfo.setTotalMoney(multiply);
+						/**显示100000样式**/
+						productInfo.setTotalMoney(multiply);
+						/**显示￥100,000,00样式**/
+						productInfo.setTotalMoneyStr(currency.format(multiply));
+						/** 累加得到总计 **/
+						totalCountPriceBigDecimal = multiply.add(
+								new BigDecimal(Double
+										.toString(totalCountPriceBigDecimal)))
+								.doubleValue();
+					}
+				}
+			}
+			String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
+			// 采购机构
+			model.addAttribute("orgName", orgName);
+			// 需求单位
+			model.addAttribute("demandUnit", demandUnit);
+			// 运杂费
+			model.addAttribute("transportFees", transportFees);
+			model.addAttribute("obProject", obProject);
+			model.addAttribute("oBProductInfoList", oBProductInfo);
+			model.addAttribute("productIds", productIds);
+			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
+			
+			// 封装文件下载项
+			/*model.addAttribute("fileid", obProject.getAttachmentId());
+			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));*/
+			
+			//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
+			List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(id);
+			List<OBProductInfo> plist=obProductInfoMapper.getProductName(id);
+			for(OBProjectResult s:resultList){
+				s.setProductInfo(plist);
+			}
+			model.addAttribute("selectInfoByPID", resultList);
+			model.addAttribute("plist", plist);
+			}
 		return "bss/ob/biddingSpectacular/result";
 	}
 

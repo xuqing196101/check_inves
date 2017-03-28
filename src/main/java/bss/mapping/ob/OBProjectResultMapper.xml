@@ -252,7 +252,7 @@ r.STATUS,r.RESULT_COUNT,s.SUPPLIER_NAME as REMARK from T_BSS_OB_PROJECT_RESULT r
 on r.SUPPLIER_ID=s.ID
 where r.SUPPLIER_ID=s.id and r.PROJECT_ID=#{projectId,jdbcType=VARCHAR} ) r
 GROUP BY r.PROJECT_ID,SUPPLIER_ID,r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
-r.STATUS,r.RESULT_COUNT,r.REMARK
+r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
