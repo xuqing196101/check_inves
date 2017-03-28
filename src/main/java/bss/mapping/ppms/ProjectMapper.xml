@@ -1453,11 +1453,13 @@
       </if>
       <if test=" (purchaseDepId != null and purchaseDepId != '' ) or ( principal != null and principal != '')">
        and ( PURCHASE_DEP_ID in (${purchaseDepId}) or principal = #{principal}) 
-       and (
-       <foreach collection="statusArray" item="ay" separator="or" >
-          STATUS like '%${ay}%'
-       </foreach> 
-       )
+       <if test="statusArray != null">
+	       and (
+		       <foreach collection="statusArray" item="ay" separator="or" >
+		          STATUS like '%${ay}%'
+		       </foreach> 
+	       )
+       </if>
       </if>
       and (CONFIRM_FILE = 1 or CONFIRM_FILE = 2 or CONFIRM_FILE = 3 or CONFIRM_FILE = 4)
       ORDER BY APPROVAL_TIME DESC

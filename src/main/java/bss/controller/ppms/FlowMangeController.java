@@ -101,6 +101,14 @@ public class FlowMangeController {
                 }
                 count ++;
             } 
+            if (fd.getCode() == null || "".equals(fd.getCode())) {
+                if (count > 0) {
+                    msg += "、流程编码";
+                } else {
+                    msg += "请填写流程编码";
+                }
+                count ++;
+            }
             if (count > 0) {
                 response.setContentType("text/html;charset=utf-8");
                 response.getWriter().print(

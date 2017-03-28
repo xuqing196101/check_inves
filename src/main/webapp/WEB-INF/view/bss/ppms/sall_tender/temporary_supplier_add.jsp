@@ -207,8 +207,8 @@ function sumbits(){
 <!--      </li>  -->
    </ul>
    </div>
-  <div  class="col-md-12">
-   <div class="col-md-6" align="center">
+  <div  class="">
+   <div class="" align="center">
       <button class="btn btn-windows save"  type="button" onclick="sumbits();">保存</button>
       <button class="btn btn-windows back" type="button" onclick="onback();">返回</button>
 	</div>

@@ -73,7 +73,7 @@
 			var currPage = ${list.pageNum};
 			layer.open({
 			  type: 2, //page层
-			  area: ['500px', '300px'],
+			  area: ['500px', '350px'],
 			  title: '修改流程环节',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -110,7 +110,7 @@
 		var typeId = $("#typeId").val();
 		layer.open({
 			  type: 2, //page层
-			  area: ['500px', '300px'],
+			  area: ['500px', '350px'],
 			  title: '新增流程环节',
 			  closeBtn: 1,
 			  shade:0.01, //遮罩透明度
@@ -181,6 +181,7 @@
 						</th>
 						<th class="info w50">序号</th>
 						<th class="info">流程名称</th>
+						<th class="info">流程编码</th>
 						<th class="info">实施步骤</th>
 						<th class="info">URL</th>
 					</tr>
@@ -195,6 +196,8 @@
 						<td class="tc opinter" >${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 
 						<td class="tc opinter" >${fd.name}</td>
+
+					    <td class="tc opinter" >${fd.code}</td>
 
 						<td class="tc opinter" >${fd.step}</td>
 						

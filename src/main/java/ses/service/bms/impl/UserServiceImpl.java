@@ -321,6 +321,13 @@ public class UserServiceImpl implements UserServiceI {
 	public List<User> selectByArmyLocal(String userId) {
 		return userMapper.selectByArmyLocal(userId);
 	}
+
+  @Override
+  public List<User> findUserRoleOther(User user, int pageNum) {
+    PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
+    List<User> users = userMapper.findUserRoleOther(user);
+    return users;
+  }
 	  
   
     
