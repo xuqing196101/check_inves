@@ -129,6 +129,8 @@
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}'); 
 		 tradedCount();
 		 //加载运杂费 数据
+			 $("#transportFees").select2();
+				var id='';
 		 $.ajax({
 			url: "${pageContext.request.contextPath }/ob_project/transportFeesType.html",
 			contentType: "application/json;charset=UTF-8",
@@ -138,12 +140,19 @@
 				if (data) {
 					$.each(data, function(i, user) {
 					  $("#transportFees").append("<option  value=" + user.id + ">" + user.name + "</option>");
+					  if(i=1){
+					   id=user.id;
+					  }
 				  });
 				} 
-			 $("#transportFees").select2();
-			 $("#transportFees").select2('val','${list.transportFees}');
 			}
 		});
+		var fees='${list.transportFees}';
+		if(fees){
+			 $("#transportFees").select2('val','${list.transportFees}');
+		}else{
+		     $("#transportFees").select2('val',id );
+		}
 		 
 		 
 		 layer.close(index);
@@ -706,7 +715,6 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
 			<select id="transportFees" name="transportFees"  >
-			  <option value="">--请选择--</option>
 			</select>
         <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
 	 </li> 
