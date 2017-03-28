@@ -878,7 +878,7 @@
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 近期免冠彩色证件照</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'近期免冠彩色证件照')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('近期免冠彩色证件照')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -984,7 +984,7 @@
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 身份证复印件（正反面）</span>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'居民身份证')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('居民身份证')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -1020,7 +1020,7 @@
                             	<c:if test="${expert.coverNote eq '1'}">缴纳社会保险证明</c:if>
                             	<c:if test="${expert.coverNote eq '2'}">退休证书或退休证明</c:if>
                             </span>
-                        <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                        <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                              <c:if test="${fn:contains(errorField,'缴纳社会保险证明')}">style="border: 1px solid #ef0000;"
                              onmouseover="errorMsg('缴纳社会保险证明')"</c:if>>
                                 <%--图片的大小   图片的类型  --%>
@@ -1060,8 +1060,9 @@
                                    <c:if test="${fn:contains(errorField,'证件号码')}">style="border: 1px solid #ef0000;"
                                    onmouseover="errorMsg('证件号码')"</c:if>/>
                             <c:if test="${fn:contains(errorField,'证件号码')}">
-                                <span class="add-on"
-                                      style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span>
+                                <!-- <span class="add-on"
+                                      style="color: red; border-right: 1px solid #ef0000; border-top: 1px solid #ef0000; border-bottom:  1px solid #ef0000;">×</span> -->
+                                      <span class="add-on">i</span>
                             </c:if>
                             <c:if test="${!fn:contains(errorField,'证件号码')}">
                                 <span class="add-on">i</span>
@@ -1071,7 +1072,7 @@
                     </li>
                     <li class="col-md-3 col-sm-6 col-xs-12"><span
                             class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i class="red">*</i> 军队人员身份证件</span>
-                        <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                        <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                              <c:if test="${fn:contains(errorField,'军队人员身份证件')}">style="border: 1px solid #ef0000;"
                              onmouseover="errorMsg('军队人员身份证件')"</c:if>>
                             <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -1256,7 +1257,7 @@
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 专业技术职称证书</span>
                     <div
-                            class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                            class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                             <c:if test="${fn:contains(errorField,'专业技术职称证书')}">style="border: 1px solid #ef0000;"
                             onmouseover="errorMsg('专业技术职称证书')"</c:if>>
                         <u:upload
@@ -1330,7 +1331,7 @@
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 毕业证书</span>
                     </c:if>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'毕业证书')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('毕业证书')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -1367,7 +1368,7 @@
                     <c:if test="${expert.expertsFrom eq 'LOCAL'}">
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 学位证书</span>
                     </c:if>
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'学位证书')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('学位证书')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -1387,7 +1388,7 @@
                      </div>
                  </li>--%>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 参加工作时间</span>
-                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                    <div class="input-append  col-sm-12 col-xs-12 col-md-12 p0">
                         <input
                                 <c:if test="${fn:contains(errorField,'参加工作时间')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('参加工作时间')"</c:if> readonly="readonly"
@@ -1427,7 +1428,7 @@
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i
                         class="red">*</i> 推荐信</span>
                     <div
-                            class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                            class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                             <c:if test="${fn:contains(errorField,'推荐信')}">style="border: 1px solid #ef0000;"
                             onmouseover="errorMsg('推荐信')"</c:if>>
                         <u:upload
@@ -1466,7 +1467,7 @@
                 <!-- 专业学术成果 -->
 	            <li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"> 获奖证书</span></li>
                 <div class="padding-top-10 clear">
-                    <div class="input-append h30 input_group col-sm-12 col-xs-12 col-md-12 p0"
+                    <div class="input-append h30  col-sm-12 col-xs-12 col-md-12 p0"
                          <c:if test="${fn:contains(errorField,'获奖证书')}">style="border: 1px solid #ef0000;"
                          onmouseover="errorMsg('获奖证书')"</c:if>>
                         <u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}"
