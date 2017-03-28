@@ -295,4 +295,5 @@ public interface PurchaseContractService {
     List<PurchaseContract> selectAllContractByCode(Map<String, Object> map);
     
     List<PurchaseContract> selectAllContractBySupplierId(Map<String, Object> map);
+    List<PurchaseContract> selectAllContractBySupplier(Map<String, Object> map);
 }

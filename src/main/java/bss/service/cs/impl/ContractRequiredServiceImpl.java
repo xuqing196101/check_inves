@@ -38,7 +38,7 @@ public class ContractRequiredServiceImpl implements ContractRequiredService {
 	@Override
 	public ContractRequired selectConRequByPrimaryKey(String id) {
 		// TODO Auto-generated method stub
-		return null;
+		return contractRequiredMapper.selectConRequByPrimaryKey(id);
 	}
 
 	@Override

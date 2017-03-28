@@ -256,4 +256,13 @@ public interface UserMapper {
 	 * @exception IOException
 	 */
 	List<User> selectByArmyLocal(String id);
+
+  /**
+   *〈简述〉根据角色查询供应商/专家/代理供应商用户
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param user
+   * @return
+   */
+  List<User> findUserRoleOther(User user);
 }

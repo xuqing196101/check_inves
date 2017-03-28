@@ -54,7 +54,7 @@
 	</div> 
 	<!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<span><font size="3">供应商确认中标比例为<c:if test="${turnoverRation == null }">0</c:if>%，未中标比例为${100 - turnoverRation }%.</font></span>
+		<span><font size="3">供应商确认中标比例为${totalProportion }%，未中标比例为${100 - totalProportion }%.</font></span>
 		<button class="btn btn-windows print" onclick="printResult()">打印结果</button>
 	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 	</div>

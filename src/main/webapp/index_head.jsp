@@ -689,16 +689,14 @@ function importAdd(){
          <div class="job-content col-md-12 col-sm-12 col-xs-12">
          
 		    <div class="categories zhuanjia_list">
-               <ul class="p0_10 list-unstyled">
-             
                <c:choose>
             <c:when test="${expertList!=null }">
          <table class="table table-bordered " >
         <thead>
           <tr >
-			<th class="tc">专家名称</th>
-			<th class="tc w100">编号</th>
-			<th class="tc w80">状态</th>
+			<th class="tc info" width="55%">专家名称</th>
+			<th class="tc info" width="25%">编号</th>
+			<th class="tc info" width="20%">状态</th>
 			</tr>
 			</thead>
 			<tbody>
@@ -740,8 +738,6 @@ function importAdd(){
                 		<li class="tc">暂无数据</li>
                 	</c:otherwise>
                 </c:choose>   
-         
-			 </ul>
 			</div>
 		  </div>
 	  </div>

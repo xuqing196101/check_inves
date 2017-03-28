@@ -5,7 +5,9 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
     
-    <title>采购需求管理</title>  
+    <title>采购需求管理</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 
  
 <script type="text/javascript" src="${pageContext.request.contextPath}/public/functionchar/fusionCharts_evaluation/js/FusionCharts.js"></script>
@@ -23,6 +25,16 @@
   
   /*分页  */
   $(function(){
+	  
+	  if (!window.console || !console.firebug){
+		    var names = ["log", "debug", "info", "warn", "error", "assert", "dir", "dirxml", "group", "groupEnd", "time", "timeEnd", "count", "trace", "profile", "profileEnd"];
+
+		    window.console = {};
+		    for (var i = 0; i < names.length; ++i)
+		        window.console[names[i]] = function() {}
+		}
+	  
+	  
 	  laypage({
 		    cont: $("#pagediv"), //容器。值支持id名、原生dom对象，jquery对象,
 		    pages: "${info.pages}", //总页数
@@ -170,7 +182,7 @@
 					         }
 					     ]
 					 };
-					 
+					 $("#funsionCharts_div_id").html("");
 					 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 						myChart.setOption(option);
 						myChart.hideLoading(); 
@@ -223,6 +235,7 @@
 							        }
 							    ]
 							};
+						$("#funsionCharts_div_id").html("");
 						var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 						myChart.setOption(option);
 						myChart.hideLoading();  
@@ -276,6 +289,7 @@
 							    },
 							    series:data.line
 							};
+						$("#funsionCharts_div_id").html("");
 					 	 var myChart = echarts.init(document.getElementById("funsionCharts_div_id"));
 							myChart.setOption(option);
 							myChart.hideLoading();

@@ -5,9 +5,13 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
+			//Ma Mingwei
+			function trim(str){ //删除左右两端的空格
+				return str.replace(/(^\s*)|(\s*$)/g, "");
+			}
 			//生成考卷方法
 			function generatePaper() {
-				var paperNo = $("#paperNo").val().trim();
+				var paperNo = trim($("#paperNo").val());
 				if(paperNo == null || paperNo == "") {
 					layer.alert("请输入考试编号", {
 						offset: ['30%', '40%']

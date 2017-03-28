@@ -635,6 +635,33 @@
 	    ORDER BY CREATED_AT DESC
   </select>
   
+  <!-- 查询用户（关联角色）所有角色 -->
+  <select id="findUserRoleOther" resultMap="UserBaseMap" parameterType="Object">
+	SELECT
+		*
+		FROM
+			T_SES_BMS_USER u
+		INNER JOIN (
+			SELECT
+				ID,
+				wm_concat (DISTINCT(roleName)) AS roleNames ,wm_concat (DISTINCT(roleId)) AS roleId
+			FROM
+				(
+					SELECT
+						u. ID,
+	                    T2.ROLE_ID as roleId,
+						t3.NAME AS roleName
+					FROM
+						T_SES_BMS_USER u
+						LEFT JOIN T_SES_BMS_USER_ROLE T2 ON u. ID = T2.USER_ID
+		      			LEFT JOIN T_SES_BMS_ROLE t3 on T2.ROLE_ID = t3.ID
+				)
+			GROUP BY ID
+		) t4 ON u. ID = t4. ID
+		 <include refid="Example_Where_Clause"/>
+	    ORDER BY CREATED_AT DESC
+  </select>
+  
   <!-- 9.根据不为空的条件查询用户信息（包含角色信息） -->  
   <select id="selectUser" parameterType="Object" resultMap="UserResultMap">  
       SELECT

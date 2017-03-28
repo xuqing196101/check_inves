@@ -1,6 +1,7 @@
 package ses.model.sms;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 import bss.model.cs.PurchaseContract;
@@ -60,16 +61,28 @@ public class AfterSaleSer implements Serializable{
     
 	/** 技术参数 **/
     private String technicalParameters;
-   
-    /** 合同实体类*/
-    private PurchaseContract contract;
     
-    public PurchaseContract getContract() {
-		return contract;
+    /**合同编号**/
+    private String contractCode;
+    
+    
+    private BigDecimal money;
+   
+    
+	public BigDecimal getMoney() {
+		return money;
 	}
 
-	public void setContract(PurchaseContract contract) {
-		this.contract = contract;
+	public void setMoney(BigDecimal money) {
+		this.money = money;
+	}
+
+	public String getContractCode() {
+		return contractCode;
+	}
+
+	public void setContractCode(String contractCode) {
+		this.contractCode = contractCode;
 	}
 
 	public String getTechnicalParameters() {

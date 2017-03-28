@@ -326,60 +326,7 @@ public class OBProjectController {
 		OBProject obProject22 = OBProjectServer.selectByPrimaryKey(id);
 		if(obProject22 != null){
 			model.addAttribute("projectName", obProject22.getName());
-			model.addAttribute("turnoverRation", obProject22.getTurnoverRation());
-			
 		}
-		/*if(obProject != null){
-			model.addAttribute("projectName", obProject.getName());
-		}
-		// 竞价标题id
-		model.addAttribute("titleId", id);
-		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-		List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(id);
-		List<OBProductInfo> plist=obProductInfoMapper.getProductName(id);
-		for(OBProjectResult s:resultList){
-			if(s.getStatus()==-1){
-		List<OBResultsInfo> infoList=OBResultsInfoMapper.getProductInfo(id,s.getSupplierId());
-				s.setOBResultsInfo(infoList);
-			}else{
-				s.setProductInfo(plist);
-			}
-		}
-		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(id);
-		
-		List<OBProductInfo> oBProductInfo = null;
-		oBProductInfo = (List<OBProductInfo>) map.get("oBProductInfoList");
-		Double totalCountPriceBigDecimal = 0.00;
-		NumberFormat currency = NumberFormat.getNumberInstance();
-		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
-		*//** 计算单个商品的总价以及合计金额 **//*
-		for (OBProductInfo productInfo : oBProductInfo) {
-			if (productInfo != null) {
-				BigDecimal signalCountInt = productInfo.getPurchaseCount();
-				BigDecimal limitPrice = productInfo.getLimitedPrice();
-				BigDecimal signalCount = null;
-				if (signalCountInt != null && limitPrice != null) {
-					*//** 单个商品的总金额=现价 *采购数量 **//*
-					signalCount = signalCountInt;
-					BigDecimal multiply = limitPrice.multiply(signalCount);
-					productInfo.setTotalMoney(multiply);
-					*//**显示100000样式**//*
-					productInfo.setTotalMoney(multiply);
-					*//**显示￥100,000,00样式**//*
-					productInfo.setTotalMoneyStr(currency.format(multiply));
-					*//** 累加得到总计 **//*
-					totalCountPriceBigDecimal = multiply.add(
-							new BigDecimal(Double
-									.toString(totalCountPriceBigDecimal)))
-							.doubleValue();
-				}
-			}
-		}
-		model.addAttribute("oBProductInfoList", oBProductInfo);
-		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
-		
-		model.addAttribute("selectInfoByPID", resultList);*/
 		if(StringUtils.isNotBlank(id)){
 			Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(id);
 			// 竞价信息
@@ -445,6 +392,13 @@ public class OBProjectController {
 				s.setProductInfo(plist);
 			}
 			model.addAttribute("selectInfoByPID", resultList);
+			Integer totalProportion = 0;
+			for (int i = 0; i < resultList.size(); i++) {
+				if(resultList.get(i).getStatus() == 1 || resultList.get(i).getStatus() == 2){
+					totalProportion += Integer.parseInt(resultList.get(i).getProportion());
+				}
+			}
+			model.addAttribute("totalProportion", totalProportion);
 			model.addAttribute("plist", plist);
 			}
 		return "bss/ob/biddingSpectacular/result";
