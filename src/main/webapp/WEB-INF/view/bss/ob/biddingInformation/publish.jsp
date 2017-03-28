@@ -490,7 +490,7 @@
 									  var tempContext="";
 									    if(name=="pName"){
 									    tempContext=getSelectName(context);
-									    context="该产品["+tempContext+"]的成交供应商数量不得超过该产品注册的供应商数量的1/4";
+									    context="成交供应商数量不得超过该产品注册的供应商数量的1/4";
 									     $("#buttonErr").html(context);
 									    }else if(name=="catalog"){
 									      tempContext=getSelectName(context);
