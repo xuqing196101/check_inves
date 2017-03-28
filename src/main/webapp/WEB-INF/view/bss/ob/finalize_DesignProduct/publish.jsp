@@ -19,7 +19,10 @@
 			success: function(data) {
 				if (data) {
 					$.each(data, function(i, org) {
-						$("#orgId").append("<option  value=" + org.id + ">" + org.shortName + "</option>");
+						//采购
+						if(org.typeName==1){
+							$("#orgId").append("<option  value=" + org.id + ">" + org.shortName + "</option>");
+						 }
 					});
 				} 
 			 $("#orgId").select2();
