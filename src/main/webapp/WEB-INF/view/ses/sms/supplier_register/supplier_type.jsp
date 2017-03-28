@@ -192,10 +192,12 @@
 			}
 		});
 		$("#businessScope").val(areaIds);
+		
+		var formData=$("#save_pro_form_id").children().not($("input[value='']")).serialize();  
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
-					type : "post",
-					data : $("#save_pro_form_id").serializeArray(),
+					type : "post",  
+					data : formData,
 					contextType : "application/x-www-form-urlencoded",
 					success : function(msg) {
 						var data = msg.split(",");
