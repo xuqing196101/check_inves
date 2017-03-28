@@ -10,7 +10,7 @@
 		var size = $(checkbox).size();
 		if (size != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+				//offset : '300px',//注释掉，让显示的位置默认居中，IE8显示也方便看到
 			});
 			return;
 		}
@@ -24,7 +24,7 @@
 		var size = $(checkbox).size();
 		if (size != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+				//offset : '300px',
 			});
 			return;
 		}
@@ -37,7 +37,7 @@
 			console.info(status);
 			if (status == "fail") {
 				layer.msg("只能启用一条记录 !", {
-					offset : '300px',
+					//offset : '300px',
 				});
 				return;
 			} else {
@@ -52,7 +52,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (!checkbox.size()) {
 			layer.msg("请至少勾选一条记录 !", {
-				offset : '200px'
+				//offset : '200px'
 			});
 			return;
 		}

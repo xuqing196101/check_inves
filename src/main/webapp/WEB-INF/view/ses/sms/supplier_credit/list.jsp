@@ -48,7 +48,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+				//offset : '300px',//注释掉方便提示框在IE8也显示
 			});
 			return;
 		}
@@ -84,7 +84,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() != 1) {
 			layer.msg("请勾选一条记录 !", {
-				offset : '300px',
+				//offset : '300px',//当然注释掉，IE8、火狐都能方便显示
 			});
 			return;
 		}
@@ -104,7 +104,7 @@
 		var checkbox = $("input[name='checkbox']:checked");
 		if (checkbox.size() == 0) {
 			layer.msg("请至少勾选一条记录 !", {
-				offset : '200px',
+				//offset : '200px',//、
 			});
 			return;
 		}
