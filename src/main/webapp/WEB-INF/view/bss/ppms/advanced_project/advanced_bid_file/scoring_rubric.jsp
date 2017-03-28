@@ -154,9 +154,12 @@
           </li>
           <li>
             <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}">
-              03、招标文件
+              03、采购文件
             </a>
           </li>
+          <li>
+		         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+		       </li>
         </c:if>
         <c:if test="${ope == 'view' }">
           <li>
@@ -169,10 +172,13 @@
           </li>
           <li>
             <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFileView.html?id=${projectId}&flowDefineId=${flowDefineId}">
-              03、招标文件
+              03、采购文件
             </a>
             <i></i>
           </li>
+          <li>
+             <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+           </li>
           <li>
             <c:if test="${project.confirmFile == 0 || project.confirmFile==null}">
               <a onclick="confirmOk(this,'${projectId}','${flowDefineId }');" id="queren">05、确认</a>

@@ -214,9 +214,12 @@
         </li>
         <li>
           <a href="${pageContext.request.contextPath}/Adopen_bidding/bidFile.html?id=${projectId}&flowDefineId=${flowDefineId}">
-            03、招标文件
+            03、采购文件
           </a>
         </li>
+        <li>
+         <a  href="${pageContext.request.contextPath}/AdAuditbidding/viewAudit.html?projectId=${project.id}&flowDefineId=${flowDefineId}">04、审核意见</a>
+       </li>
       </ul>
     </div>
     <h2 class="list_title">拟制符合性审查项</h2>

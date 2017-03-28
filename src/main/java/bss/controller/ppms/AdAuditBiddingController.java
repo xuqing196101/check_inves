@@ -32,6 +32,7 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import bss.controller.base.BaseController;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.Project;
 import bss.model.ppms.Reason;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
@@ -224,6 +225,32 @@ public class AdAuditBiddingController extends BaseController {
   }
 
 
-
+  /**
+   *〈简述〉查看招标文件审核意见
+   *〈详细描述〉
+   * @author Ye MaoLin
+   * @param request
+   * @param projectId
+   * @param model
+   * @param flowDefineId
+   * @return
+   */
+  @RequestMapping("/viewAudit")
+  public String viewAudit(HttpServletRequest request, String projectId, String type, Model model, String flowDefineId){
+      AdvancedProject project = projectService.selectById(projectId);
+      model.addAttribute("project", project);
+      model.addAttribute("flowDefineId", flowDefineId);
+      model.addAttribute("reasons", JSON.parseObject(project.getAuditReason(), Reason.class));
+      model.addAttribute("pStatus",DictionaryDataUtil.findById(project.getStatus()).getCode());
+      model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
+      model.addAttribute("type", type); //从监管系统跳转过来的
+      //采购管理部门审核意见附件
+      model.addAttribute("pcTypeId", DictionaryDataUtil.getId("PC_REASON"));
+      //事业部门审核意见附件
+      model.addAttribute("causeTypeId", DictionaryDataUtil.getId("CAUSE_REASON"));
+      //财务部门审核意见附件
+      model.addAttribute("financeTypeId", DictionaryDataUtil.getId("FINANCE_REASON"));
+      return "bss/ppms/advanced_project/advanced_bid_file/audit_suggestion";
+  }
 
 }

@@ -100,7 +100,7 @@
 			   }
 			   
 			   if(status == '2' && remark == '1'){
-				   layer.alert("已报价，请等待确认 ！");
+				   layer.alert("已报价，请等待确认结果 ！");
 				   return;
 			   }
 			   if(status == '2' && remark == '2'){
@@ -355,9 +355,17 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '1'}">
 			  		已报价待确认
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '2'}">
+			  	
+			  	<c:if test="${obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
 			  		未报价
 			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '0'}">
+			  		未报价
+			  	</c:if>
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '0'}">
+			  		未报价
+			  	</c:if>
+			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
 			  		竞价结束
 			  	</c:if>
@@ -388,7 +396,7 @@
 			  		第二轮已确认
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '32'}">
-			  		您已放弃确认结果(第二轮)
+			  		放弃确认(第二轮)
 			  	</c:if>
 			  </td>
 			 <%--  <td class="tc">

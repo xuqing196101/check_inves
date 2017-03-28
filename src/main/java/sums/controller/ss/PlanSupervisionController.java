@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.cs.PurchaseContract;
@@ -28,6 +29,7 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
+import bss.model.ppms.Reason;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
 import bss.service.cs.PurchaseContractService;
@@ -46,6 +48,9 @@ import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 
 import common.annotation.CurrentUser;
+import common.constant.Constant;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
@@ -117,6 +122,9 @@ public class PlanSupervisionController {
     
     @Autowired
     private AdvancedProjectService advancedProjectService;
+    
+    @Autowired
+    private UploadService uploadService;
     
     /**
      * 
@@ -567,7 +575,19 @@ public class PlanSupervisionController {
                     project.setPurchaseDepName(org.getName());
                     project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
                     model.addAttribute("uploadId", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS")); //项目审批文件
+                    //判断是否上传招标文件
+                    String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                    List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
+                    if(files != null && files.size() > 0){
+                        model.addAttribute("fileId", files.get(0).getId());
+                        model.addAttribute("fileName", files.get(0).getName());
+                    }
+                   /* String jsonReason = project.getAuditReason();
+                    if (jsonReason != null && !"".equals(jsonReason)) {
+                        model.addAttribute("reasons", JSON.parseObject(jsonReason, Reason.class));
+                    }*/
                     model.addAttribute("project", project);
+                    model.addAttribute("status", "0");
                 }
                 
             }
@@ -618,6 +638,7 @@ public class PlanSupervisionController {
                         model.addAttribute("task", task);//任务
                     }
                     model.addAttribute("advancedProject", advancedProject);//预研项目
+                    model.addAttribute("status","1");
                 }
                 model.addAttribute("advancedProjectId", advancedDetail.getAdvancedProject());//预研项目ID
             }
@@ -625,6 +646,15 @@ public class PlanSupervisionController {
             
             model.addAttribute("adviceId", adviceId);//预研通知书
         }
+        
+        List<Object> number = new ArrayList<Object>();
+        char num = 'A';
+        for (int i=0; i < 26; i++){
+            number.add(num);
+            num ++;
+        }
+        model.addAttribute("number", number.size());
+        
         return "sums/ss/planSupervision/overview";
     }
     

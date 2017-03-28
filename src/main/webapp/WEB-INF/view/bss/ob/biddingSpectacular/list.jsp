@@ -78,13 +78,15 @@
 		   if(id.length == 1) {
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
+			   /* ================================================================================================= */
+			   status = 3;
 			   if(status != '3'){
 				   layer.alert("竞价结束才可以查看结果!");
 				   return;
 			   }
 			   if(status == '3'){
 			   	   // 查看结果
-				  window.location.href="${pageContext.request.contextPath}/supplierQuote/findBiddingResult.html?id="+valueArr[0];
+				  window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingResult.html?id="+valueArr[0];
 			   }
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {

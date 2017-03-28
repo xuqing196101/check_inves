@@ -128,6 +128,8 @@ public class AdvancedProject {
     
     private String[] statusArray;//状态集合
     
+    private String appointMan; // 立项人
+    
     
     public AdvancedProject(String id) {
         super();
@@ -603,5 +605,12 @@ public class AdvancedProject {
         this.statusArray = statusArray;
     }
 
-    
+    public String getAppointMan() {
+        return appointMan;
+    }
+
+    public void setAppointMan(String appointMan) {
+        this.appointMan = appointMan;
+    }
+
 }

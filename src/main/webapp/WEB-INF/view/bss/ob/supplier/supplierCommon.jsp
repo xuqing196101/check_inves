@@ -48,26 +48,29 @@
 	  <span class="fl block">排名：</span><span>第${supplier.ranking}名</span>
 	  </div>
 	  </li>
-	   	<c:if test="${supplier.status==-1}">
-	   		<li class="col-md-3 col-sm-6 col-xs-12">
-	   			<div
-	   				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	   				<span class="fl block">状态：</span>
-	   				<span>已放弃</span>
-	   			</div>
-	   		</li>
-	   	</c:if>
-	   <c:if test="${supplier.status!=-1}">
-	    <li class="col-md-3 col-sm-6 col-xs-12">
+	  <li class="col-md-3 col-sm-6 col-xs-12">
 	    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	  <span class="fl block">成交比例：</span><span>${supplier.proportion}%</span>
-	  </div>
+	  		<span class="fl block">成交比例：</span><span>
+	  		<c:if test="${supplier.status == -1 || supplier.status == 0}">0%</c:if>
+	  		<c:if test="${supplier.status == 1 || supplier.status == 2 }">${supplier.proportion}%</c:if></span>
+	  	</div>
 	  </li>
-	  </c:if>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+  			<div
+  				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+  				<span class="fl block">状态：</span>
+  				<span>
+					<c:if test="${supplier.status == -1}">未确认，已放弃</c:if>
+					<c:if test="${supplier.status == 0}">未接受，已放弃</c:if>
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">已接受</c:if>
+				</span>
+  			</div>
+	   </li>
+
     	<table class="table table-bordered table-condensed table-hover table-striped">
 		<thead>
 		<tr>
-		  <th class="w30 info">序号</th>
+		  <th class="w50 info">序号</th>
 		  <th class="info" width="30%">产品名称</th>
 		  <th class="info">数量</th>
 		  <th class="info">自报单价（元）</th>
