@@ -574,7 +574,7 @@
 								"<div class='col-md-12 col-xs-12 col-sm-12 p0 mb25 h30'>" +
 								"	<input type='button' onclick='increaseAddress(this)' class='btn list_btn' value='十'/>" +
 								"	<input type='button' onclick='delAddress(this)' class='btn list_btn' value='一'/>" +
-								"	<input type='hidden' name='addressList[" + ind + "].id' value='" + id + "' />" +
+								"	<input type='hidden'  value='" + id + "' />" +
 								"</div></li>"
 							);
 							ind++;
@@ -729,8 +729,10 @@
 			function check(obj){
 				var ch=$(obj).is(":checked");
 				if(ch){
+					$(obj).val("1");
 					$("#expireDate").attr("disabled","disabled");
 				}else{
+					$(obj).val("0");
 					$("#expireDate").removeAttr("disabled","disabled");
 				}
 			}
