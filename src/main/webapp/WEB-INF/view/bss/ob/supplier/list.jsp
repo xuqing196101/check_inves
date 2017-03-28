@@ -180,24 +180,35 @@
 				   return;
 			   }
 			   
+			   //-------------------------第一 轮----------------//
 			   // 第一轮确认后，第二轮未开始
-			   if((status != '5' && remark == '5')){
+			   if((status == '5' && remark == '5') || (status == '5' && remark == '4')){
 				   layer.alert("第一轮已确认 ！");
 				   return;
 			   }
-			   
-			   
-			   
 			   // 第二轮开始确认结果，改比接受或者全接受状态都有可能进入第二轮
-			   if((status == '6' && remark == '5') || (status == '6' && remark == '4')){
-				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-			   	   return;
+			   if(remark == '3'){
+				   layer.alert("对不起，第一轮已放弃不能进入第二轮确认 ！");
+				   return;
+			   }else{
+				   if((status == '6' && remark == '5') || (status == '6' && remark == '4')){
+					   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+				   	   return;
+				   }
 			   }
 			   // 第二轮确认时间未到
-			   if((status != '6' && remark == '4') || (status != '5' && remark == '5')){
-				   layer.alert("对不起，确认时间未到不能确认结果 ！");
+			   if((status != '6' && remark == '4') || (status != '6' && remark == '5')){
+				   layer.alert("对不起，第二轮确认时间未到不能确认结果 ！");
 				   return;
 			   }
+			   
+			   //-------------------------第二轮----------------//
+			   // 第一轮确认后，第二轮未开始
+			   if((status == '6' && remark == '42') || (status == '6' && remark == '52')){
+				   layer.alert("第二轮已确认，请您等待竞价结束 ！");
+				   return;
+			   }
+			   
 			   
 			   // 如果供应商未报价则显示
 			   if(status == '5' && remark == '0'){
@@ -213,27 +224,38 @@
 								btn:['确定']
 							},function(){
 								$("#"+valueArr[0]).html("未中标");
-								query();
-								return;
+									query();
+									return;
 								}
 							)
 						}else{
 							window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+							return;
 						}
 					});
-				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-				   return;
+					window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+					return;
 			   }
 			 
+			   //-------------------------放弃情况提示----------------//
 			   // 第一轮确认时：点击放弃按钮
-			   if(status == '5' && remark == '3'){
+			  /*  if(status == '5' && remark == '3'){
 				   layer.alert("您已放弃第一轮确认结果 ！");
 				   return;
 			   }
-			   
-			   if(status == '6' && remark == '4'){
-				   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+			   if(remark == '3'){
+				   layer.alert("您已放弃第一轮确认结果 ！");
+				   return;
 			   }
+			   if(status == '6' && remark == '32'){
+				   layer.alert("您已放弃第二轮确认结果 ！");
+				   return;
+			   }
+			   if(remark == '32'){
+				   layer.alert("您已放弃第二轮确认结果 ！");
+				   return;
+			   } */
+			   //-------------------------------------------------//
 			   
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {
@@ -278,7 +300,7 @@
 			}
 			
 			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第一轮放弃是查看的第一轮确认的结果
-			if((pStatus == 5 && pRemark == '4') || (pStatus == 5 && pRemark == '5') || (pStatus == 6 && pRemark == '5') || (pStatus == 6 && pRemark == '32')){
+			if((pStatus == 5 && pRemark == '4') || (pStatus == 5 && pRemark == '5') || (pStatus == 5 && pRemark == '32') || (pStatus == 6 && pRemark == '5') || (pStatus == 6 && pRemark == '32')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
 			
