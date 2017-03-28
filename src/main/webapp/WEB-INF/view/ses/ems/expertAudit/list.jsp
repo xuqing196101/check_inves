@@ -137,7 +137,7 @@
 			  	 					}
 			  	 	     });
 			  		}else{
-			  			layer.alert("请选择入库的专家！",{offset : '100px'});
+			  			layer.alert("请选择初审通过的专家！",{offset : '100px'});
 			     	}
 			  		}else{
 			  			layer.msg("请选择专家 !", {offset: '100px',});
