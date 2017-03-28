@@ -3,6 +3,7 @@ package ses.service.sms.impl;
 import java.sql.Timestamp;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -24,9 +25,9 @@ public class AfterSaleSerServiceImp implements AfterSaleSerService {
     private AfterSaleSerMapper afterSaleSerMapper;
 
 	@Override
-	public List<AfterSaleSer> getAll(Integer pageNum) {
+	public List<AfterSaleSer> getAll(Map<String, Object> map) {
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
 		return afterSaleSerMapper.queryByList();
 	}
 

@@ -178,7 +178,7 @@
 							<th class="info">合同编号</th>
               				<th class="info">产品名称</th>
               				<th class="info">技术参数</th>
-             				<th class="info">合同金额（元）</th>
+             				<th class="info">合同金额（万元）</th>
 						</tr>
 					</thead>
 					<tbody id="black_tbody_id">
@@ -189,13 +189,13 @@
 				
 							<td class="tc pointer" onclick="show('${AfterSaleSer.id}')">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 				
-							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.contract.code}</td>
+							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.contractCode}</td>
 				
-							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.product.name}</td>
+							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.requiredId}</td>
 			
 							<td class="tl pl20 pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.technicalParameters}</td>
 			
-							<td class="tc pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.contract.amount}</td>
+							<td class="tc pointer" onclick="show('${AfterSaleSer.id}')">${AfterSaleSer.money}</td>
 				
 						</tr>
 						</c:forEach>

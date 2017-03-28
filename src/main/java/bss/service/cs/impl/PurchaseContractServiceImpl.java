@@ -554,4 +554,10 @@ public class PurchaseContractServiceImpl implements PurchaseContractService {
 		return purchaseContractMapper.selectAllContractBySupplierId(map);
 		
 	}
+
+	@Override
+	public List<PurchaseContract> selectAllContractBySupplier(
+			Map<String, Object> map) {
+		return purchaseContractMapper.selectFormalContract(map);
+	}
 }

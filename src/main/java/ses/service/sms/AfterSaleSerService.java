@@ -2,6 +2,7 @@ package ses.service.sms;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.math.BigDecimal;
 import java.util.List;
 
@@ -14,7 +15,7 @@ public interface AfterSaleSerService {
 	/**
 	 * 1.获取所有模板对象
 	 */
-	List<AfterSaleSer> getAll(Integer pageNum);
+	List<AfterSaleSer> getAll(Map<String, Object> map);
 	/**
 	 * 2.添加模板
 	 */
