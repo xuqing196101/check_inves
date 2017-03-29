@@ -15,6 +15,7 @@
 		<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
 		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		<result column="CONFIRM_TIME" jdbcType="TIMESTAMP" property="confirmTime" />
 		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL"
 			property="isCreateContract" />
 		<result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
@@ -234,6 +235,9 @@
 			</if>
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+			</if>
+			<if test="confirmTime != null">
+				CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
 			</if>
 			<if test="isCreateContract != null">
 				IS_CREATE_CONTRACT = #{isCreateContract},

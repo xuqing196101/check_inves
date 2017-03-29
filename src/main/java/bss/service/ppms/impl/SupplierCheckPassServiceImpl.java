@@ -239,6 +239,9 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 			SupplierCheckPass record = new SupplierCheckPass();
 			record.setId(pids[i]);
 			record.setIsWonBid((short)1);
+			Date cDate = new Date();//把当前时间作为操作人确定中标供应商的时间
+			record.setConfirmTime(cDate);
+			record.setUpdatedAt(cDate);
 			if(priceRatios.length > (i + 1)) {
 			}
 			record.setPriceRatio(priceRatios[i]);

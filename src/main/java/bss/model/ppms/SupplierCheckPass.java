@@ -123,6 +123,13 @@ public class SupplierCheckPass {
    * </pre>
    */
   private Date updatedAt;
+  
+  /**操作者确认中标供应商的时间点
+   * <pre>
+   * 表字段 : T_BSS_PPMS_SUPPLIER_CHECK_PASS.CONFIRM_TIME
+   * </pre>
+   */
+  private Date confirmTime;
 
   /**
    * <pre>
@@ -497,6 +504,14 @@ public class SupplierCheckPass {
   public void setIsDeleted(Integer isDeleted) {
     this.isDeleted = isDeleted;
   }
+
+public Date getConfirmTime() {
+	return confirmTime;
+}
+
+public void setConfirmTime(Date confirmTime) {
+	this.confirmTime = confirmTime;
+}
   
   
 }
