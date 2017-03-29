@@ -47,7 +47,7 @@
         <result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
         <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
         <result column="PURCHASE_DEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
-        <result column="STATUS" jdbcType="CHAR" property="status" />
+        <result column="STATUS" property="status" />
         <result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
         <result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
         <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
@@ -135,7 +135,7 @@
         select
         <include refid="Base_Column_List" />
         from T_SES_EMS_EXPERT
-        where 1=1 and IS_DELETE = 1
+        where 1=1 and IS_DELETE = 0
         <if test="relName != null and relName !=''">
             AND REAL_NAME like #{relName}
         </if>
@@ -191,7 +191,7 @@
             and EXPERTS_TYPE_ID= #{expertsTypeId,jdbcType=VARCHAR}
         </if>
         <if test="status!=null">
-            and STATUS = #{status,jdbcType=DECIMAL}
+            and STATUS = #{status}
         </if>
     </select>
 
@@ -259,7 +259,7 @@
         #{atDuty,jdbcType=VARCHAR},
         #{expertsTypeId,jdbcType=VARCHAR},
         #{purchaseDepId,jdbcType=DECIMAL},
-        #{status,jdbcType=CHAR},
+        #{status},
         #{isBlack,jdbcType=CHAR},
         #{honestyScore,jdbcType=DECIMAL},
         #{relName,jdbcType=VARCHAR},
@@ -567,7 +567,7 @@
                 #{purchaseDepId,jdbcType=DECIMAL},
             </if>
             <if test="status != null">
-                #{status,jdbcType=CHAR},
+                #{status},
             </if>
             <if test="isBlack != null">
                 #{isBlack,jdbcType=CHAR},
@@ -733,7 +733,7 @@
                 PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
             </if>
             <if test="status != null">
-                STATUS = #{status,jdbcType=CHAR},
+                STATUS = #{status},
             </if>
             <if test="isBlack != null">
                 IS_BLACK = #{isBlack,jdbcType=CHAR},
@@ -901,7 +901,7 @@
                 PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
             </if>
             <if test="status != null and status != '0'">
-                STATUS = #{status,jdbcType=CHAR},
+                STATUS = #{status},
             </if>
             <if test="isBlack != null and isBlack != '0'">
                 IS_BLACK = #{isBlack,jdbcType=CHAR},

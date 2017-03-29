@@ -90,15 +90,25 @@
 					     	offset : '100px',
 					     });
 					     return;
-					 } */
+					 } */ 
 					$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
 							data: {"supplierId" : id},
 							success: function(result) {
 							
 								if(result == "" || result == null){
-									$("input[name='supplierId']").val(id);
-									$("#shenhe_form_id").submit();
+									layer.alert('点击审核项,弹出不通过理由框！', {
+										title: '审核操作说明：',
+										skin: 'layui-layer-molv', //样式类名
+										closeBtn: 0,
+										offset: '100px',
+										shift: 4 //动画类型
+									},
+										function(){
+											$("input[name='supplierId']").val(id);
+											$("#shenhe_form_id").submit();
+									});
+									
 								}else{
 									layer.alert (result, {
 											title: '上次未通过审核的原因：',

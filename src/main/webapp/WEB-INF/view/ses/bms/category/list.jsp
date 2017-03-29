@@ -7,11 +7,13 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
- <title>产品目录管理</title>   
+ <title>产品目录管理</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <script type="text/javascript">
 	var treeid = null , nodeName=null, level = null, typesObj = null;
 	var datas;
-	 $(document).ready(function(){  
+	 $(document).ready(function(){
 		 ztreeInit();
 	      var treeObj = $.fn.zTree.getZTreeObj("ztree");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
@@ -453,7 +455,6 @@
 		  layer.msg(nodes[0].name + '不能被编辑');
 		  return;
 	  }
-	  
 	  var msg = determine('edit');
 	  if (msg != null){
 		  if (msg != "ok"){
@@ -740,12 +741,10 @@
 	});
  }
  function searchM() {
-	 
 	 var param = $("#param").val();
 	 var isCreate=$("#isCreate").val();
 	 var code=$("#code").val();
 	 if((param!=null&&param!="")||(isCreate!=null&&isCreate!="")||(code!=null&&code!="")){
-		 
 		 var zNodes;
 			var zTreeObj;
 			var setting = {
@@ -851,7 +850,7 @@
 
      <div class="col-md-3 col-sm-4 col-xs-12">
   	   <div class="tag-box tag-box-v3 mt15">
-	 	 <div><ul id="ztree" class="ztree s_ztree"></ul></div>
+	 	 <ul id="ztree" class="ztree s_ztree"></ul>
 	   </div>
      </div>
      <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
@@ -974,10 +973,10 @@
            		</tr> --%>
            	    <tr>
        	    	  <td class='info'>图片</td>
-       	    	  <td>
+       	    	  <td><!-- cnjewfn start -->
        	    		<div id="uploadBtnId" class="dis_none">
        	    		  <u:upload  id="uploadId"   businessId="${id}" multiple="true" exts="png,jpeg,jpg,bmp,gif"  auto="true" sysKey="2"/>
-       	    		</div>
+       	    		</div><!-- cnjewfn end -->
        	    		<div id="showFileId" class="picShow">
        	    		  <u:show showId="fileId" businessId="${id}" sysKey="2"/>
        	    		</div>
