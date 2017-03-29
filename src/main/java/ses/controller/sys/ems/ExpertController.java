@@ -3349,7 +3349,14 @@ public class ExpertController extends BaseController {
         // 最高学历
         expert.setHightEducation(dictionaryDataServiceI.getDictionaryData(expert.getHightEducation()).getName());
         // 最高学位
-        expert.setDegree(dictionaryDataServiceI.getDictionaryData(expert.getDegree()).getName());
+        if(expert.getDegree()!=null){
+        	  DictionaryData data = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+              if(data!=null){
+              	expert.setDegree(dictionaryDataServiceI.getDictionaryData(expert.getDegree()).getName());
+              }
+        }
+      
+        
         // 军队人员身份证件类型
         String idType = expert.getIdType();
         if(idType != null) {
@@ -3839,8 +3846,11 @@ public class ExpertController extends BaseController {
         for (String typeId : split) {
           if(typeId.equals(DictionaryDataUtil.getId("PROJECT")) || typeId.equals(DictionaryDataUtil.getId("GOODS_PROJECT"))) {
             items.addAll(expertCategoryService.getListByExpertId(expertId,DictionaryDataUtil.getId("ENG_INFO_ID")));
-          }
+           } 
+        	
           items.addAll(expertCategoryService.getListByExpertId(expertId,typeId));
+        
+         
         }  
       }
 

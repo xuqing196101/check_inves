@@ -376,12 +376,15 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("rootArea", areaService.findRootArea());
 			List<Qualification> findList = qualificationService.findList(null, null, 4);
 			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplierItem.getSupplierId());
-			for(SupplierPorjectQua qua:supplierQua){
-				Qualification q=new Qualification();
-				q.setId(qua.getName());
-				q.setName(qua.getName());
-				findList.add(q);
+			if(supplierQua!=null&&supplierQua.size()>0){
+				for(SupplierPorjectQua qua:supplierQua){
+					Qualification q=new Qualification();
+					q.setId(qua.getName());
+					q.setName(qua.getName());
+					findList.add(q);
+				}
 			}
+			
 			
 			model.addAttribute("typeList", findList);
 			return "ses/sms/supplier_register/supplier_type";
@@ -590,10 +593,10 @@ public class SupplierItemController extends BaseController {
 					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
 						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
 						if(certEng != null && certEng.size() > 0) {
-							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
-							if(level != null) {
+//							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
+//							if(level != null) {
 								cateTree.setFileId(certEng.get(0).getId());
-							}
+//							}
 						}
 					}
 					allTreeList.add(cateTree);
