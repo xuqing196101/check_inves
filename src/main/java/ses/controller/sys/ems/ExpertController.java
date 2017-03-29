@@ -3582,7 +3582,6 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
     public String searchCate(String typeId, String cateName, String expertId, String supplierId, String codeName) throws Exception {
     	
-    	cateName = (cateName == null ? null : new String(cateName.getBytes("ISO-8859-1"),"UTF-8"));
         DictionaryData typeData = DictionaryDataUtil.findById(typeId);
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目

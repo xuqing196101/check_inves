@@ -101,6 +101,7 @@ public class ExpertServiceImpl implements ExpertService {
 		//诚信分数初始化
 		record.setHonestyScore(0);
 		record.setUpdatedAt(new Date());
+		record.setStatus("-1");
 		return mapper.insertSelective(record);
 	}
 
