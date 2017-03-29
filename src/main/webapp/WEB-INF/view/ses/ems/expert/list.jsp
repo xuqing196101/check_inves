@@ -267,7 +267,7 @@
 		<!-- 我的订单页面开始-->
 		<div class="container">
 			<div class="headline-v2">
-				<h2>评标专家列表</h2>
+				<h2>专家列表</h2>
 			</div>
 			<h2 class="search_detail">  
    		<form action="${pageContext.request.contextPath}/expert/findAllExpert.html"  method="post" id="formSearch"  class="mb0"> 
@@ -323,8 +323,8 @@
      	 </li>
 		  </ul>
 		  <div class="col-md-12 clear tc mt10">
-			  <input class="btn  mt1"  value="查询" type="submit">
-	      <input class="btn   mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
+			  <input class="btn mt1"  value="查询" type="submit">
+	      <input class="btn mt1" id="button" onclick="clearSearch();" value="重置" type="reset">
 	    </div>  
     </form>
    </h2>
@@ -344,6 +344,7 @@
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">专家姓名</th>
+							<th class="info">用户名</th>
 							<th class="info w50">性别</th>
 							<th class="info">类别</th>
 							<th class="info">毕业院校及专业</th>
@@ -357,6 +358,7 @@
 							<td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.relName}</td>
+							<td class="tl pl20" onclick="view('${e.id}');">${e.loginName}</td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.gender}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.expertsTypeId}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.graduateSchool }</td>
