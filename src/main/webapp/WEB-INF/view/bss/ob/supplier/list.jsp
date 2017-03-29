@@ -228,7 +228,6 @@
 								btn:['确定']
 							},function(){
 								$("#"+valueArr[0]).html("未中标");
-									query();
 									return;
 								}
 							)
@@ -239,6 +238,15 @@
 					});
 					window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 					return;
+				  /*  $.ajax({
+						url: "${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do",
+						contentType: "application/json;charset=UTF-8",
+						dataType: "json", //返回格式为json
+						type: "POST", //请求方式           
+						success: function(data) {
+							
+						}
+					}); */
 			   }
 			 
 			   //-------------------------放弃情况提示----------------//
@@ -387,7 +395,7 @@
 			  		未中标
 			  	</c:if> --%>
 			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '1'}">
-			  		已报价
+			  		已报价待确认
 			  	</c:if>
 			  	
 			  	<%-- <c:if test="${obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
@@ -399,9 +407,7 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '0'}">
 			  		未报价
 			  	</c:if>
-			  	 	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '2'}">
-			  		未报价
-			  	</c:if>
+			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
 			  		竞价结束
 			  	</c:if>
@@ -419,9 +425,10 @@
 			  		第一轮已确认
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '3'}">
-			  		您已放弃确认结果(第一轮)
+			  		放弃确认(第一轮)
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '32' && obProject.remark != '0'} ">
+			  	
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
 			  		结果待确认(第二轮)
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '42'}">

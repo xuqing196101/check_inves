@@ -118,7 +118,9 @@
 				}
 			}
 			
-			layer.confirm('您确认要提交吗？', {
+			// 获取供应商报价总金额--提交前的提示信息里面需要的数据
+			var quotoTotalPrice = $("#totalPrice").html;
+			layer.confirm("本次报价总金额为："+quotoTotalPrice+"您确认要提交吗？", {
 			    btn: ['确定','取消'], //按钮
 			    shade: false //不显示遮罩
 			}, function(index){
@@ -209,7 +211,7 @@
 			  <td class="tc"><input type="checkbox" alt=""></td>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc" id="totalPrice"></td>
+			  <td class="tc"><input type="text" name="quotoTotalPrice" id="totalPrice" value="" /></td>
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
