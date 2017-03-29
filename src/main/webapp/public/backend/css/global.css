@@ -1193,9 +1193,13 @@ table .input_group .add-on{
 .yomi{
 	font-size:6.0em;
 }
+.time_animations{
+	height:100%;
+}
 .announce{
 	background: url("../images/time.png") no-repeat top center;
-	background-size:100%;
+	background-size:cover;
+	height: 100%;
 }
 .kb_title{
 	margin-bottom:35px;

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML>
 
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+<html class=" js cssanimations csstransitions time_animations" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
 <%@ include file="/WEB-INF/view/common.jsp"%>
