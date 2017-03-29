@@ -453,27 +453,27 @@
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PRODUCT')}">
 									<c:set value="${liCount+1}" var="liCount"/>
 									<li id="li_id_1" class="active" onclick="loadTab('PRODUCT','tree_ul_id_1',1);">
-										<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型品目信息</a>
+										<a aria-expanded="true" href="#tab-1" data-toggle="tab" id="a_id_1">物资-生产型产品类别信息</a>
 										<input type="hidden" id="tree_ul_id_1_name" value="mat_serve_page">
 									</li>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SALES')}">
 									<li id="li_id_2" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadTab('SALES','tree_ul_id_2',2);">
-										<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_2">物资-销售型品目信息</a>
+										<a aria-expanded="false" href="#tab-2" data-toggle="tab" id="a_id_2">物资-销售型产品类别信息</a>
 										<input type="hidden" id="tree_ul_id_2_name" value="item_sell_page">
 									</li>
 									<c:set value="${liCount+1}" var="liCount"/>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'PROJECT')}">
 									<li id="li_id_3" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadTab('PROJECT','tree_ul_id_3',null);">
-										<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_3">工程品目信息</a>
+										<a aria-expanded="false" href="#tab-3" data-toggle="tab" id="a_id_3">工程产品类别信息</a>
 										<input type="hidden" id="tree_ul_id_3_name" value="item_eng_page">
 									</li>
 									<c:set value="${liCount+1}" var="liCount"/>
 								</c:if>
 								<c:if test="${fn:contains(currSupplier.supplierTypeIds, 'SERVICE')}">
 									<li id="li_id_4" class='<c:if test="${liCount == 0}">active</c:if>' onclick="loadTab('SERVICE','tree_ul_id_4',null);">
-										<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务品目信息</a>
+										<a aria-expanded="false" href="#tab-4" data-toggle="tab" id="a_id_4">服务产品类别信息</a>
 										<input type="hidden" id="tree_ul_id_4_name" value="item_serve_page">
 									</li>
 									<c:set value="${liCount+1}" var="liCount"/>

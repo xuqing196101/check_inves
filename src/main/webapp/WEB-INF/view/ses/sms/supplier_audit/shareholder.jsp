@@ -256,7 +256,7 @@
             <input name="supplierStatus" value="${supplierStatus}" type="hidden">
         </form>
         <ul class="ul_list count_flow">
-        	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，出资金额前十位的信息，但出资比例应高于50%）</h5>
+        	<h5>出资人（股东）信息 （说明：出资人（股东）多于10人的，可以列出出资金额前十位的信息，但所列的出资比例应高于50%）</h5>
           <table class="table table-bordered table-condensed table-hover">
             <thead>
 		          <tr>
