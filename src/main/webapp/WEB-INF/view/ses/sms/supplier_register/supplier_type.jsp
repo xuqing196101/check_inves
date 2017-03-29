@@ -183,7 +183,9 @@
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
 		});
+	
 		$("input[name='supplierTypeIds']").val(id);
+		var types=$("#supplierTypes").val();
 		// 保存工程地址附件信息
 		var areaIds = "";
 		$("#areaSelect").find("option").each(function(i, element){
@@ -193,11 +195,20 @@
 		});
 		$("#businessScope").val(areaIds);
 		
-		var formData=$("#save_pro_form_id").children().not($("input[value='']")).serialize();  
+		// var formData=$("form[id='save_pro_form_id']").children().not($("input[value='']")).serialize();  
+		 
+		 $("#save_pro_form_id").find("input").each(function(){ 
+			 var elem = $(this); 
+			 if (elem.prop("name") != null&&elem.prop("name") != "") { 
+				 if(elem.val()==""){ 
+			 		elem.removeAttr("name"); 
+			 	} 
+			 	}   
+			});
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",  
-					data : formData,
+					data : $("#save_pro_form_id").serialize(),
 					contextType : "application/x-www-form-urlencoded",
 					success : function(msg) {
 						var data = msg.split(",");
@@ -2159,7 +2170,8 @@
 									<%-- </c:if> --%>
 
 								</div>
-								<input name="supplierTypeIds" type="hidden" /> <input
+								<input name="supplierTypeIds" type="hidden" value="" /> <input
+								 
 									type="hidden" value="${currSupplier.supplierTypeIds }"
 									id="supplierTypes">
 							</div>
