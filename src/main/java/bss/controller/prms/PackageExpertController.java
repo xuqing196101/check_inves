@@ -178,10 +178,13 @@ public class PackageExpertController {
         model.addAttribute("project", project);
         model.addAttribute("flowDefineId", flowDefineId);
         //专家类型
-        model.addAttribute("ddList", expExtractRecordService.ddList());
-        model.addAttribute("ddJson", JSON.toJSONString(expExtractRecordService.ddList()));
+        List<DictionaryData>  dd1 = expExtractRecordService.ddList();
+        model.addAttribute("ddList", dd1);
+        String ddJson = JSON.toJSONString(dd1);
+        model.addAttribute("ddJson", ddJson);
         //评审类型
-        model.addAttribute("reviewTypes" , DictionaryDataUtil.find(23));
+        List<DictionaryData>  dd2 = DictionaryDataUtil.find(23);
+        model.addAttribute("reviewTypes" , dd2);
         //查询该项目下专家是否签到
         Map<String, Object> map2 = new HashMap<String, Object>();
         map2.put("projectId", projectId);
