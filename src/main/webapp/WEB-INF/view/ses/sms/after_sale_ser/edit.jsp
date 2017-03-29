@@ -100,7 +100,8 @@
 		</div>
 
 		<div class="container container_box ">
-			<sf:form action="${pageContext.request.contextPath}/after_sale_ser/save.html" method="post">
+			<sf:form action="${pageContext.request.contextPath}/after_sale_ser/update.html" method="post">
+			<input type="hidden" id="id" name="id" value="${after.id}">
 				<div>
 			        <h2 class="list_title">售后服务修改</h2> 
 					<ul class="ul_list">
@@ -108,7 +109,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				  			 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>合同编号：</span>
 			       			 <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-                				<input class="easyui-combobox" name="contractCode" id="contractCode" data-options="valueField:'code',textField:'code',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
+                				<input class="easyui-combobox" name="contractCode" id="contractCode" data-options="valueField:'code',textField:'code',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" value="${contractCode}" style="width: 100%;height: 29px"/>
 			        			<script>
 				    $('#contractCode').combobox({  
 				        prompt:'',  
@@ -116,7 +117,6 @@
 				        url: "${pageContext.request.contextPath }/after_sale_ser/getContract.do",  
 				        editable:true,  
 				        hasDownArrow:true,  
-				        value:'${contractCode}',
 				        filter: function(L, row){  
 				            var opts = $(this).combobox('options');  
 				            return row[opts.textField].indexOf(L) == 0;  
@@ -140,7 +140,7 @@
 			        			<div class="cue">${ERR_contract_code}</div>
 			        		<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red">*</span> 产品名称</span>
 										<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-										<input class="easyui-combobox" name="requiredId" id="product" data-options="valueField:'id',textField:'goodsName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
+										<input class="easyui-combobox" name="requiredId" id="product" data-options="valueField:'id',textField:'goodsName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" value="${afterSaleSer.requiredId}"  style="width: 100%;height: 29px"/>
 									</div>
 	       					</div>
 						 </li> 
@@ -148,7 +148,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12">
 			   				<span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">合同金额：</span>
 			   				<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0">
-			   		  			<input class="span5 projectType" type="text" id="contractAmount" name="contract.amount" readonly="readonly" value="">
+			   		  			<input class="span5 projectType" type="text" id="contractAmount" name="" readonly="readonly" value="${afterSaleSer.money}">
 		       		  			<span class="add-on">i</span>
 								<span class="input-tip">填写合同编号合同信息自动生成</span>
 			 	    		</div>

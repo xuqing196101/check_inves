@@ -205,8 +205,8 @@
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},
       </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+      <if test="updateAt != null">
+        UPDATED_AT = #{updateAt},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},

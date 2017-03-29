@@ -88,7 +88,6 @@ public class AfterSaleSerController extends BaseSupplierController{
      * @author Administrator
      * @param model
      * @param code 合同编号
-     * @param type 类型 1：从质检那边进来的只能查看不能有别的操作
      * @param page
      * @return
      */
@@ -141,6 +140,9 @@ public class AfterSaleSerController extends BaseSupplierController{
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		map.put("supplierDepName", user.getTypeId());
 		List<PurchaseContract> selectDraftContract = purchaseContractService.selectAllContractBySupplier(map);
+		/*for(){
+			
+		}*/
 		super.writeJson(response, selectDraftContract);
 
 	}
@@ -178,11 +180,12 @@ public class AfterSaleSerController extends BaseSupplierController{
 				flag = false;
 				model.addAttribute("ERR_contract_code","合同编号不存在");
 			}
+			model.addAttribute("contractCode",contractCode);
 		}
-		/*if(afterSaleSer.getAddress() == null) {
+		if(afterSaleSer.getRequiredId() == null) {
 			flag = false;
-			model.addAttribute("ERR_address", "产品名称不能为空!");
-		}*/
+			model.addAttribute("ERR_requiredId", "产品名称不能为空!");
+		}
 		if(afterSaleSer.getAddress() == null) {
 			flag = false;
 			model.addAttribute("ERR_address", "全国售后地址不能为空!");
@@ -229,6 +232,14 @@ public class AfterSaleSerController extends BaseSupplierController{
 		if(datas.size()>0){
 			model.addAttribute("attachtypeId", datas.get(0).getId());
 		}
+		AfterSaleSer afterSaleSer = afterSaleSerService.get(id);
+		 ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(afterSaleSer.getRequiredId());
+		 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
+		 afterSaleSer.setContractCode(selectById.getCode());
+		 afterSaleSer.setMoney(selectById.getMoney());
+		 afterSaleSer.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
+		model.addAttribute("after", afterSaleSer);
+		 model.addAttribute("contractCode", selectById.getCode());
 		return "ses/sms/after_sale_ser/edit";
 	}
 	
@@ -255,11 +266,12 @@ public class AfterSaleSerController extends BaseSupplierController{
 				flag = false;
 				model.addAttribute("ERR_contract_code","合同编号不存在");
 			}
+			model.addAttribute("contractCode",contractCode);
 		}
-		/*if(afterSaleSer.getAddress() == null) {
+		if(afterSaleSer.getRequiredId() == null) {
 			flag = false;
-			model.addAttribute("ERR_address", "产品名称不能为空!");
-		}*/
+			model.addAttribute("ERR_requiredId", "产品名称不能为空!");
+		}
 		if(afterSaleSer.getAddress() == null) {
 			flag = false;
 			model.addAttribute("ERR_address", "全国售后地址不能为空!");
@@ -280,8 +292,7 @@ public class AfterSaleSerController extends BaseSupplierController{
 			
 			url="ses/sms/after_sale_ser/edit";
 		}else{
-			afterSaleSer.setId(UUID.randomUUID().toString().replaceAll("-", ""));
-			afterSaleSerService.add(afterSaleSer);
+			afterSaleSerService.update(afterSaleSer);
 			
 			url="redirect:list.html";
 		}
@@ -314,10 +325,10 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 */
 	@RequestMapping("/delete")
 	public String delete(String ids){
-		String[] id=ids.split(",");
-		/*for (String str : id) {
+		/*String[] id=ids.split(",");
+		for (String str : id) {
 			AfterSaleSer afterSaleSer = afterSaleSerService.get(str);
-			 String supplierId = afterSaleSerService.get(str).getContractCode().getSupplier().getId();
+			String supplierId = afterSaleSerService.get(str).getContractCode().getSupplier().getId();
 			String supplierName = afterSaleSerService.get(str).getContractCode().getSupplier().getSupplierName();
 			afterSaleSerService.delete(str);
 			int count = afterSaleSerService.queryByConut(supplierId);

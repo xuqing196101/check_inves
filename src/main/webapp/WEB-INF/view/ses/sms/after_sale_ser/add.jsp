@@ -9,6 +9,7 @@
 
 	<head>
 	<%@ include file="../../../common.jsp"%>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
 	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
 <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
 <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
@@ -108,7 +109,7 @@
 						<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				  			 <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="star_red">*</span>合同编号：</span>
 			       			 <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-                				<input class="easyui-combobox" name="contractCode" id="contractCode" data-options="valueField:'code',textField:'code',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
+                				<input class="easyui-combobox" name="contractCode" id="contractCode" data-options="valueField:'code',textField:'code',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" value="${contractCode}"  style="width: 100%;height: 29px"/>
 			        			<script>
 				    $('#contractCode').combobox({  
 				        prompt:'',  
@@ -116,7 +117,6 @@
 				        url: "${pageContext.request.contextPath }/after_sale_ser/getContract.do",  
 				        editable:true,  
 				        hasDownArrow:true,  
-				        value:'${contractCode}',
 				        filter: function(L, row){  
 				            var opts = $(this).combobox('options');  
 				            return row[opts.textField].indexOf(L) == 0;  
@@ -140,7 +140,7 @@
 			        			<div class="cue">${ERR_contract_code}</div>
 			        		<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><span class="star_red">*</span> 产品名称</span>
 										<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
-										<input class="easyui-combobox" name="requiredId" id="product" data-options="valueField:'id',textField:'goodsName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100"  style="width: 100%;height: 29px"/>
+										<input class="easyui-combobox" name="requiredId" id="product" data-options="valueField:'id',textField:'goodsName',panelHeight:'auto',panelMaxHeight:200,panelMinHeight:100" value="${afterSaleSer.requiredId}" style="width: 100%;height: 29px"/>
 									</div>
 	       					</div>
 						 </li> 
@@ -186,11 +186,11 @@
 						</li>
 						<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('billCert')"</c:if>><span class="star_red">*</span>产品使用说明或用户操作手册</span>
-									<div class="col-md-6 col-sm-12 col-xs-12 p0">
-										<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="billcert_up" multiple="true" groups="taxcert_up,billcert_up,curitycert_up,bearchcert_up,business_up,bearchcert_up_up,identity_down_up,bank_up,fina_0_pro_up,fina_1_pro_up,fina_2_pro_up,fina_0_audit_up,fina_1_audit_up,fina_2_audit_up,fina_0_lia_up,fina_1_lia_up,fina_2_lia_up,fina_0_cash_up,fina_1_cash_up,fina_2_cash_up,fina_0_change_up,fina_1_change_up,fina_2_change_up" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" auto="true" />
-										<u:show showId="billcert_show" groups="taxcert_show,billcert_show,curitycert_show,bearchcert_show,business_show,bearchcert_up_show,identity_down_show,bank_show,fina_0_pro,fina_1_pro,fina_2_pro,fina_0_audit,fina_1_audit,fina_2_audit,fina_0_lia,fina_1_lia,fina_2_lia,fina_0_cash,fina_1_cash,fina_2_cash,fina_0_change,fina_1_change,fina_2_change" businessId="${currSupplier.id}" sysKey="${sysKey}" typeId="${supplierDictionaryData.supplierBillCert}" />
-										<div class="cue"> ${err_bil } </div>
-									</div>
+									<div class="input-append input_group col-sm-12 col-xs-12 p0 ">
+				        				<u:upload id="post_attach_up" businessId="${complaint.id }" sysKey="2" typeId="47" multiple="true" auto="true" />
+										<u:show showId="post_attach_show" businessId="${complaint.id }" sysKey="2" typeId="47"/>
+				     					<div class="cue" id = ""></div>
+				     				</div>
 								</li>
 					</ul>
 				</div>
