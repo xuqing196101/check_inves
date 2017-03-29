@@ -314,6 +314,7 @@
                         } else {
                             updateStepNumber("seven");
                         }*/
+                      //  alert("测试");
                         window.location.href = "${pageContext.request.contextPath}/expert/toAddBasicInfo.html?userId=${userId}";
                     }
                 });
@@ -358,6 +359,12 @@
     }
     var checkDep = function (dom) {
         $("#purchaseDepId").val($(dom).val());
+        $.ajax({
+            url: "${pageContext.request.contextPath}/expert/zanCun.do",
+            data: $("#formExpert").serialize(),
+            type: "post",
+            async: true,
+        });
         isClick = true;
     }
     var updateStepNumber = function (stepNumber) {

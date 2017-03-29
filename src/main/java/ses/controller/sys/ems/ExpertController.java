@@ -3837,24 +3837,25 @@ public class ExpertController extends BaseController {
      */
     public  List<ExpertCategory> getCategoriesTxt(String expertId) {
       // 查询已选中的节点信息
-      List<ExpertCategory> items = new ArrayList<ExpertCategory>();
+//      List<ExpertCategory> items = new ArrayList<ExpertCategory>();
       
-      Expert selectByPrimaryKey = service.selectByPrimaryKey(expertId);
-      String expertsTypeId = selectByPrimaryKey.getExpertsTypeId();
-      if(expertsTypeId != null && !"".equals(expertsTypeId)){
-        String[] split = expertsTypeId.split(",");
-        for (String typeId : split) {
-          if(typeId.equals(DictionaryDataUtil.getId("PROJECT")) || typeId.equals(DictionaryDataUtil.getId("GOODS_PROJECT"))) {
-            items.addAll(expertCategoryService.getListByExpertId(expertId,DictionaryDataUtil.getId("ENG_INFO_ID")));
-           } 
-        	
-          items.addAll(expertCategoryService.getListByExpertId(expertId,typeId));
-        
-         
-        }  
-      }
-
+//      Expert selectByPrimaryKey = service.selectByPrimaryKey(expertId);
+//      String expertsTypeId = selectByPrimaryKey.getExpertsTypeId();
+//      if(expertsTypeId != null && !"".equals(expertsTypeId)){
+//        String[] split = expertsTypeId.split(",");
+//        for (String typeId : split) {
+//          if(typeId.equals(DictionaryDataUtil.getId("PROJECT")) || typeId.equals(DictionaryDataUtil.getId("GOODS_PROJECT"))) {
+//            items.addAll(expertCategoryService.getListByExpertId(expertId,DictionaryDataUtil.getId("ENG_INFO_ID")));
+//           } 
+//        	
+//          items.addAll(expertCategoryService.getListByExpertId(expertId,typeId));
+//        
+//         
+//        }  
+//      }
+//
       List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+       List<ExpertCategory> items = expertCategoryService.findByExpertId(expertId);
       for (ExpertCategory expertCategory : items) {
         if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
           Category data = categoryService.findById(expertCategory.getCategoryId());
