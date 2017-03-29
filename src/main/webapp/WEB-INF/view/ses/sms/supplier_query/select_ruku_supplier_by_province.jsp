@@ -449,6 +449,7 @@
 						<tr>
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
+							<th class="info">用户名</th>
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
 							<!-- <th class="info">供应商级别</th> -->
@@ -466,6 +467,7 @@
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=5&supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
 								</td>
+								<td class="">${list.loginName }</td>
 								<td class="">${list.contactName }</td>
 								<td class="tc">${list.mobile }</td>
 								<%-- <td class="tc">${list.level }</td> --%>

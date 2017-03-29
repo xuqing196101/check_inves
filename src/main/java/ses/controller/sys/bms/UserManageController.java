@@ -1081,4 +1081,30 @@ public class UserManageController extends BaseController{
     } 
     return "ses/bms/user/view";
 	}
+	
+	
+	 /**
+	  * @Title: setPassword
+	  * @author XuQing 
+	  * @date 2017-3-29 下午4:53:10  
+	  * @Description:重置密码（专家列表，供应商查询）
+	  * @param @param model
+	  * @param @param user
+	  * @param @return      
+	  * @return String
+	  */
+	  @RequestMapping(value = "/setPassword", produces = "text/html;charset=UTF-8")
+	  @ResponseBody
+	  public String setPassword(Model model, User user){
+	      List<User> queryByList = userService.queryByList(user);
+	      if (queryByList != null && queryByList.size() != 0){
+	    	  String id = queryByList.get(0).getId();
+	    	  user.setId(id);
+	    	  user.setPassword("123456");
+	    	  userService.resetPwd(user);
+	      }else{
+	        return JSON.toJSONString("error");
+	      }
+	    return JSON.toJSONString("sccuess");
+	  }
 }

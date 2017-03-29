@@ -174,12 +174,12 @@
 			}
 			//诚信登记
 			function creadible() {
-				var str = $(":radio:checked").val();
-				if(str == null) {
+				var id = $(":radio:checked").val();
+				if(id == null) {
 					layer.msg("请选择专家！", {offset: '100px'});
 				} else {
-					var id = str.split(",");
-					if(id[1] == "4" || id[1] == "5" || id[1] == "6" || id[1] == "7" || id[1] == "8") {
+					var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim();
+					if(state == "复审通过" || state == "复审未通过" || state == "待复查" || state == "复查通过" || state == "复查未通过") {
 						index = layer.open({
 							type: 2, //page层
 							area: ['700px', '440px'],
@@ -189,7 +189,7 @@
 							shift: 1, //0-6的动画形式，-1不开启
 							offset: ['5px', '300px'],
 							shadeClose: true,
-							content: "${pageContext.request.contextPath}/credible/findAll.html?id=" + id[0],
+							content: "${pageContext.request.contextPath}/credible/findAll.html?id=" + id,
 								//数组第二项即吸附元素选择器或者DOM $('#openWindow')
 						});
 					} else {
@@ -198,6 +198,48 @@
 
 				}
 			}
+			
+			/**重置密码*/
+	 		function resetPwd(){
+ 	   		var id = $(":radio:checked").val();
+        if(id !=null){
+     	  	$.ajax({
+	          url: "${pageContext.request.contextPath}/user/setPassword.do",
+	          data: {"typeId":id},
+	          type: "post",
+	          dataType: "json",
+	          success: function(data){
+	      	    if("sccuess" == data){
+	              layer.alert("重置成功！默认密码：123456",{offset: '100px'});
+	                 }else{
+	               	   layer.msg("重置失败！",{offset: '100px'});
+	                 }
+	               }
+            	});
+        	}else{
+            layer.msg("请选择专家！",{offset: '100px'});
+        	}
+	 		}
+	 		
+	 		//禁用F12键及右键
+	  		function click(e) {
+				if (document.layers) {
+						if (e.which == 3) {
+						oncontextmenu='return false';
+						}
+					}
+				}
+				if (document.layers) {
+					document.captureEvents(Event.MOUSEDOWN);
+				}
+				document.onmousedown=click;
+				document.oncontextmenu = new Function("return false;");
+				document.onkeydown =document.onkeyup = document.onkeypress=function(){ 
+					if(window.event.keyCode == 123) { 
+						window.event.returnValue=false;
+						return(false); 
+					} 
+				};
 		</script>
 	</head>
 
@@ -292,6 +334,7 @@
 				<button class="btn btn-windows delete" type="button" onclick="dell();">删除</button>
 			  <button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>--%>
 				<button class="btn btn-windows git" type="button" onclick="creadible();">诚信登记</button>
+				<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
 			</div>
 
 			<div class="content table_box">
@@ -305,63 +348,62 @@
 							<th class="info">类别</th>
 							<th class="info">毕业院校及专业</th>
 							<th class="info">手机</th>
-							<!-- <th class="info w80">日期</th> -->
 							<th class="info">积分</th>
 							<th class="info">审核状态</th>
 						</tr>
 					</thead>
 					<c:forEach items="${result.list }" var="e" varStatus="vs">
 						<tr class="pointer">
-							<td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id },${e.status}"></td>
+							<td class="tc w30"><input type="radio" name="check" id="checked" alt="" value="${e.id }"></td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc w50">${(vs.index+1)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.relName}</td>
 							<td class="tc w50" onclick="view('${e.id}');" class="tc">${e.gender}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.expertsTypeId}</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.graduateSchool }</td>
 							<td class="tl pl20" onclick="view('${e.id}');">${e.mobile }</td>
-							<%-- <td class="tc w80" onclick="view('${e.id}');" class="tc">
-								<fmt:formatDate type='date' value='${e.createdAt }' dateStyle="default" pattern="yyyy-MM" />
-							</td> --%>
 							<td class="tc" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
-							<c:if test="${e.status eq '-1' and e.isSubmit eq '0'}">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">暂存</span></td>
-							</c:if>
-							<c:if test="${e.status eq '0' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待初审</span></td>
-							</c:if>
-							<c:if test="${e.status eq '1' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">初审通过</span></td>
-							</c:if>
-							<c:if test="${e.status eq '2' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">初审未通过</span></td>
-							</c:if>
-							<c:if test="${e.status eq '3' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">退回修改</span></td>
-							</c:if>
-							<%-- <c:if test="${e.status eq '1' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
-							</c:if> --%>
-							<c:if test="${e.status eq '4' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复审通过</span></td>
-							</c:if>
-							<c:if test="${e.status eq '5' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复审未通过 </span></td>
-							</c:if>
-							<c:if test="${e.status eq '6' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复查</span></td>
-							</c:if>
-							<c:if test="${e.status eq '7' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-u">复查通过</span></td>
-							</c:if>
-							<c:if test="${e.status eq '8' }">
-								<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">复查未通过 </span></td>
-							</c:if>
+							<td onclick="view('${e.id}');" class="tc" id="${e.id}">
+								<c:if test="${e.status eq '-1' and e.isSubmit eq '0'}">
+									<span class="label rounded-2x label-dark">暂存</span>
+								</c:if>
+								<c:if test="${e.status eq '0' }">
+									<span class="label rounded-2x label-dark">待初审</span>
+								</c:if>
+								<c:if test="${e.status eq '1' }">
+									<span class="label rounded-2x label-u">初审通过</span>
+								</c:if>
+								<c:if test="${e.status eq '2' }">
+									<span class="label rounded-2x label-dark">初审未通过</span>
+								</c:if>
+								<c:if test="${e.status eq '3' }">
+									<span class="label rounded-2x label-dark">退回修改</span>
+								</c:if>
+								<%-- <c:if test="${e.status eq '1' }">
+									<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
+								</c:if> --%>
+								<c:if test="${e.status eq '4' }">
+									<span class="label rounded-2x label-u">复审通过</span>
+								</c:if>
+								<c:if test="${e.status eq '5' }">
+									<span class="label rounded-2x label-dark">复审未通过</span>
+								</c:if>
+								<c:if test="${e.status eq '6' }">
+									<span class="label rounded-2x label-dark">待复查</span>
+								</c:if>
+								<c:if test="${e.status eq '7' }">
+									<span class="label rounded-2x label-u">复查通过</span>
+								</c:if>
+								<c:if test="${e.status eq '8' }">
+									<span class="label rounded-2x label-dark">复查未通过</span>
+								</c:if>
+							</td>
 						</tr>
 					</c:forEach>
 				</table>
 				<div id="pagediv" align="right"></div>
 			</div>
 		</div>
+		
 	</body>
 
 </html>

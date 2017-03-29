@@ -307,22 +307,15 @@
 			
 		//撤销
    	function cancellation(){
-   		var id;
-   		var str;
-			$('input[name="chkItem"]:checked').each(function(){ 
-				str = $(this).val();
-				id = str.split(",");
-			});
-			/* var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim(); */
-			
+   		var id = $(":radio:checked").val();
+			var state = $("#" + id + "").parents("tr").find("td").eq(10).text().trim();
    		if(id != null){
-   			
-   			if(id[1] == "0" || id[1] == "2"){
+   			if(state == "待审核" || state== "审核退回修改"){
    			layer.confirm('您确定要注销吗?', {title:'提示！',offset: ['200px']}, function(index){
    	 			layer.close(index);
    	 			$.ajax({
    	 				url:"${pageContext.request.contextPath}/supplierQuery/cancellation.html",
-   	 				data:"supplierId=" + id[0],
+   	 				data:"supplierId=" + id,
    	 				type:"post",
    	 	      	success:function(){
    	 	       		layer.msg("注销成功!",{offset : '100px'});
@@ -363,6 +356,29 @@
 					return(false); 
 				} 
 			};
+			
+			
+			/**重置密码*/
+	 		function resetPwd(){
+ 	   		var id = $(":radio:checked").val();
+        if(id !=null){
+     	  	$.ajax({
+	          url: "${pageContext.request.contextPath}/user/setPassword.do",
+	          data: {"typeId":id},
+	          type: "post",
+	          dataType: "json",
+	          success: function(data){
+	      	    if("sccuess" == data){
+	              layer.alert("重置成功！默认密码：123456",{offset: '100px'});
+	                 }else{
+	               	   layer.msg("重置失败！",{offset: '100px'});
+	                 }
+	               }
+            	});
+        	}else{
+            layer.msg("请选择专家！",{offset: '100px'});
+        	}
+	 		}
 		</script>
 	</head>
 	<!--面包屑导航开始-->
@@ -506,7 +522,11 @@
 						</div>
 					</c:otherwise>
 				</c:choose>
-			
+			<div class="col-md-12 pl20 mt10">
+				<button class="btn btn-windows edit" type="button" onclick="resetPwd()">重置密码</button>
+				<button class="btn btn-windows delete" type="button" onclick="cancellation();">注销</button>
+			</div>
+
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
@@ -514,6 +534,7 @@
 							<th class="info w50">选择</th>
 							<th class="info w50">序号</th>
 							<th class="info">供应商名称</th>
+							<th class="info">用户名</th>
 							<th class="info">联系人</th>
 							<th class="info">手机号</th>
 							<th class="info">地区</th>
@@ -527,11 +548,12 @@
 					<tbody>
 						<c:forEach items="${listSupplier.list }" var="list" varStatus="vs">
 							<tr>
-								<td class="tc w30"><input type="radio" value="${list.id },${list.status}" name="chkItem"  id="${list.id}"></td>
+								<td class="tc w30"><input type="radio" value="${list.id }" name="chkItem"  id="${list.id}"></td>
 								<td class="tc">${(vs.count)+(listSupplier.pageNum-1)*(listSupplier.pageSize)}</td>
 								<td>
 									<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?supplierId=${list.id}&sign=${sign}">${list.supplierName }</a>
 								</td>
+								<td class="">${list.loginName }</td>
 								<td class="">${list.contactName }</td>
 								<%-- <td class="tc">${list.level }</td> --%>
 								<td class="tc">${list.mobile }</td>

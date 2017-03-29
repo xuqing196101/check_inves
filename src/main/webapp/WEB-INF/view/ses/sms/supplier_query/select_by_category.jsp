@@ -280,6 +280,7 @@
 									<tr>
 										<th class="info w50">序号</th>
 										<th class="info">供应商名称</th>
+										<th class="info">用户名</th>
 										<th class="info">联系人</th>
 										<th class="info">供应商类别</th>
 										<th class="info">供应商状态</th>
@@ -294,6 +295,7 @@
 											<td class="pl20">
 												<a href="${pageContext.request.contextPath}/supplierQuery/essential.html?judge=2&supplierId=${list.id}">${list.supplierName }</a>
 											</td>
+											<td class="">${list.loginName }</td>
 											<td class="tc">${list.contactName}</td>
 											<td class="tl pl20">${list.supplierType }</td>
 											<td class="tc">
