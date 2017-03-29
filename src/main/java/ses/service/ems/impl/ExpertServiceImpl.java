@@ -46,6 +46,7 @@ import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.service.bms.RoleServiceI;
 import ses.service.ems.ExpertService;
+import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
 import ses.util.ValidateUtils;
 import ses.util.WfUtil;
@@ -833,10 +834,10 @@ public class ExpertServiceImpl implements ExpertService {
      */
 	@Override
 	public List<Expert> findExpertAuditList(Expert expert, Integer pageNum) {
-		PropertiesUtil config = new PropertiesUtil("config.properties");
-		if(pageNum != null){
-			PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
-		}
+		/*PropertiesUtil config = new PropertiesUtil("config.properties");
+		
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));*/
+		PageHelper.startPage(pageNum,Integer.parseInt(PropUtil.getProperty("pageSize")));
 		
 		//条件查询
 		String relName = expert.getRelName();
