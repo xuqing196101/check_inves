@@ -75,13 +75,12 @@
     }
 	
     function intiTree(){
-  	  /* 加载目录信息 */
+    	/* 加载目录信息 */
   		var datas;
   		var setting={
   				   async:{
   							autoParam:["id"],
   							enable:true,
-  							url:"${pageContext.request.contextPath}/category/createtreeById.do",
   							otherParam:{"otherParam":"zTreeAsyncTest"},  
   							dataType:"json",
   							type:"get",
@@ -107,9 +106,22 @@
   					   view:{
   					        selectedMulti: false,
   					        showTitle: false,
+  					         showLine: true
   					   },
   		         };
-  	    $.fn.zTree.init($("#treeDemo"),setting,datas);
+  		$.ajax({
+			url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
+			async: false,
+			dataType: "json",
+			success: function(data){
+				if (data.length == 1) {
+					layer.msg("没有符合查询条件的产品类别信息！");
+				} else {
+					zNodes = data;
+					zTreeObj = $.fn.zTree.init($("#treeDemo"),setting,zNodes);
+				}
+			}
+		});
     }
    
       function showMenu() {
@@ -129,35 +141,48 @@
   	} 
 	
 	function searchs(){
-		
 		var name=$("#search").val();
 		if(name!=""){
 		 var zNodes;
 			var zTreeObj;
-			var setting = {
-					async:{
-						autoParam:["id"],
-						enable:true,
-						url: "${pageContext.request.contextPath}/category/createtreeById.do"
-					},
-				data : {
-					simpleData : {
-						enable : true,
-						idKey: "id",
-						pIdKey: "parentId",
-					}
-				},
-				callback: {
-					onClick: zTreeOnClick
-				},view: {
-					showLine: true
-				}
-			};
+			var datas;
+	  		var setting={
+	  				   async:{
+	  							autoParam:["id"],
+	  							enable:true,
+	  							otherParam:{"otherParam":"zTreeAsyncTest"},  
+	  							dataType:"json",
+	  							type:"get",
+	  						},
+	  						callback:{
+	  					    	onClick:zTreeOnClick,//点击节点触发的事件
+	  		       			    
+	  					    }, 
+	  						data:{
+	  							keep:{
+	  								parent:true
+	  							},
+	  							key:{
+	  								title:"title"
+	  							},
+	  							simpleData:{
+	  								enable:true,
+	  								idKey:"id",
+	  								pIdKey:"pId",
+	  								rootPId:"0",
+	  							}
+	  					    },
+	  					   view:{
+	  					        selectedMulti: false,
+	  					        showTitle: false,
+	  					         showLine: true
+	  					   },
+	  		         };
 			// 加载中的菊花图标
 			 var loading = layer.load(1);
 			
 				$.ajax({
-					url: "${pageContext.request.contextPath}/category/createtreeById.do",
+					url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
 					data: { "name" : encodeURI(name)},
 					async: false,
 					dataType: "json",
@@ -170,14 +195,13 @@
 							zTreeObj.expandAll(true);//全部展开
 						}
 						// 关闭加载中的菊花图标
-						
 						layer.close(loading);
 						
 					}
 				});
 		}else{
 			intiTree();
-		}
+		} 
 	}
 	
 	function ss(){

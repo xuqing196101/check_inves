@@ -2,6 +2,7 @@ package bss.controller.ob;
 
 import java.io.File;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -14,7 +15,10 @@ import java.util.UUID;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+
+import net.sf.json.JSONArray;
 
 import org.apache.commons.io.FileUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,12 +33,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
+import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
+import ses.model.bms.CategoryTree;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.sms.Supplier;
 import ses.service.bms.CategoryService;
+import ses.service.bms.DictionaryDataServiceI;
 import ses.service.sms.SupplierService;
 import ses.util.PathUtil;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
@@ -42,6 +51,7 @@ import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.annotation.CurrentUser;
 import common.model.UploadFile;
 
@@ -58,7 +68,7 @@ import common.model.UploadFile;
 @Controller
 @Scope("prototype")
 @RequestMapping("/obSupplier")
-public class OBSupplierController {
+public class OBSupplierController  {
 
 	@Autowired
 	private OBSupplierService oBSupplierService;
@@ -71,6 +81,9 @@ public class OBSupplierController {
 	
 	@Autowired
 	private CategoryService categoryService;
+	
+    @Autowired
+    private DictionaryDataServiceI dictionaryDataServiceI;
 
 	/**
 	 * 
@@ -331,6 +344,10 @@ public class OBSupplierController {
 		String id = request.getParameter("suppid") == null ? "" : request.getParameter("suppid");
 		OBSupplier obSupplier = oBSupplierService.selectByPrimaryKey(id);
 		model.addAttribute("obSupplier", obSupplier);
+		if(obSupplier != null){
+			Category category = categoryService.findById(obSupplier.getSmallPointsId());
+			model.addAttribute("catName", category.getName());
+		}
 		return "bss/ob/addSupplier/editSupplier";
 	}
 	
@@ -569,14 +586,45 @@ public class OBSupplierController {
      */
     @ResponseBody
     @RequestMapping(value="/createtreeByproduct", produces = "application/json;charset=utf-8")
-    public String createtreeById(Category category,String name){
-    	List<String> list=new ArrayList<String>();
-		Set<String> set=new HashSet<String>();
-		for(int i=0;i<list.size();i++){
-			set.add(list.get(i));
-		}
-		  
-		Iterator it=set.iterator();
+    public String createtreeById(HttpServletResponse response, Category category,String name){
+    	List<CategoryTree> jList=new ArrayList<CategoryTree>();
+    	if((name!=null&&!"".equals(name))){
+			try {
+				if(name!=null&&!"".equals(name)){
+					name=java.net.URLDecoder.decode(name, "UTF-8");
+				}	
+			} catch (UnsupportedEncodingException e) {
+				e.printStackTrace();
+			}
+    	}
+		DictionaryData data=new DictionaryData();
+        data.setKind(6);
+        List<DictionaryData> listByPage = dictionaryDataServiceI.listByPage(data, 1);
+        for (DictionaryData dictionaryData : listByPage) {
+        	if(dictionaryData.getName().equals("物资")){
+            CategoryTree ct=new CategoryTree();
+            ct.setId(dictionaryData.getId());
+            ct.setName(dictionaryData.getName());
+            ct.setIsParent("true");
+            ct.setClassify(dictionaryData.getCode());
+            jList.add(ct);
+        	}
+        }
+	       
+    	List<OBProduct> list = oBProductService.selectAllAmallPointsId(name == null ? null : name.trim());
+    	Set<String> set=new HashSet<String>();
+    	if(list!=null&&list.size()>0){
+    		for(int i=0;i<list.size();i++){
+    			if(list.get(i)!=null){
+    				if(list.get(i).getSmallPointsId() != null&& !"".equals(list.get(i).getSmallPointsId())){
+        				set.add(list.get(i).getSmallPointsId());
+        			}
+    			}
+    			
+    		}
+    	}
+		
+		Iterator<String> it=set.iterator();
 		Set<Category> categories=new HashSet<Category>();
 		while(it.hasNext()){
 			HashMap<String,Object> map=new HashMap<String, Object>();
@@ -586,7 +634,26 @@ public class OBSupplierController {
 				categories.add(catego.get(j));
 			}
 		}
-		return "";
+		
+        for(Category cate:categories){
+            List<Category> cList=categoryService.findTreeByPidPublish(cate.getId());
+            CategoryTree ct=new CategoryTree();
+            if(!cList.isEmpty()){
+                ct.setIsParent("true");
+            }else{
+                ct.setIsParent("false");
+            }
+            
+            ct.setId(cate.getId());
+            ct.setName(cate.getName());
+            ct.setpId(cate.getParentId());
+            ct.setKind(cate.getKind());
+            ct.setStatus(cate.getStatus());
+            jList.add(ct);
+        }
+
+		JSONArray res=JSONArray.fromObject(jList);
+        return res.toString();
 	}
 
 }
