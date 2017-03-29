@@ -1296,7 +1296,7 @@
       <include refid="Base_Column_List" />
       FROM
         T_BSS_PPMS_PROJECTS
-      WHERE 1=1 and IS_REHEARSE = 0
+      WHERE 1=1 and IS_REHEARSE = 0 and STATUS != '4'
       
       <if test="purchaseDepId != null and purchaseDepId != ''">
         and  PURCHASE_DEP_ID = #{purchaseDepId}

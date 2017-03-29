@@ -11,26 +11,6 @@
   </head>
 
   <body>
-    <!--面包屑导航开始-->
-    <div class="margin-top-10 breadcrumbs ">
-      <div class="container">
-        <ul class="breadcrumb margin-left-0">
-          <li>
-            <a href="javascript:void(0)">首页</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">业务监管系统</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">采购业务监督</a>
-          </li>
-          <li class="active">
-            <a href="javascript:void(0)">采购计划监督</a>
-          </li>
-        </ul>
-        <div class="clear"></div>
-      </div>
-    </div>
     <div class="clear">
       <div class="over_hideen">
         <h2>包名:<span class="f15 blue">${packages.name}</span></h2>

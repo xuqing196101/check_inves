@@ -54,6 +54,28 @@
           content: '${pageContext.request.contextPath}/planSupervision/viewSell.html?packageId=' + id + '&type=' + type,
         });
       }
+      
+      /** 开标 **/
+      function bid(id) {
+        layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+          title: '查看开标',
+          shade: 0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          shadeClose: true,
+          content: '${pageContext.request.contextPath}/planSupervision/bidAnnouncement.html?packageId=' + id,
+        });
+      }
+      
+      function openPrint(projectId,packageId){
+		    window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId="+packageId+"&projectId="+projectId, "打印检查汇总表");
+		  }
+		  
+		  function openPrints(projectId,packageId){
+		    window.open("${pageContext.request.contextPath}/packageExpert/expertConsult.html?packageId="+packageId+"&projectId="+projectId+"&flag=1", "评审汇总表");
+		  }
 
       function OpenFile(fileId) {
         setTimeout(open_file(fileId), 5000);
@@ -751,6 +773,92 @@
                 </tr>
                 <tr>
                   <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
+                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
+                  <td></td>
+                  <td>
+                    <fmt:formatDate value='${project.bidDate}' pattern='yyyy年MM月dd日  HH:mm:ss'/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            
+            <h2 class="count_flow"><i>14</i>采购项目评审</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">文件名称</th>
+                  <th class="info">查看评审专家打分表</th>
+                  <th class="info">查看汇总表</th>
+                  <th class="info">评审时间</th>
+                </tr>
+                <tr>
+                  <td>资格性符合性检查</td>
+                  <td>
+                    <c:forEach items="${experts}" var="obj" varStatus="vs">
+                      <c:set value="${vs.index}" var="index"></c:set>
+                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}" target="view_window">${experts[index].relName}</a>
+                    </c:forEach>
+                  </td>
+                  <td class="tc"><button class="btn" onclick="openPrint('${project.id}','${packageId}')" type="button">查看</button></td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>技术商务评分（审查）</td>
+                  <td>
+                    <c:forEach items="${experts}" var="obj" varStatus="vs">
+                      <c:set value="${vs.index}" var="index"></c:set>
+                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}&auditType=1" target="view_window">${experts[index].relName}</a>
+                    </c:forEach>
+                  </td>
+                  <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>专家评审报告</td>
+                  <td>
+                    <c:forEach items="${expertIdList}" var="obj" varStatus="vs">
+                      <c:if test="${obj.isGroupLeader == 1}">组长:${obj.expertId}</c:if>
+                    </c:forEach>
+                  </td>
+                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>15</i>中标公示发布</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">中标公示名称</th>
+                  <th class="info">编制人</th>
+                  <th class="info">编制时间</th>
+                </tr>
+                <tr>
+                  <td>${articleList.name}</td>
+                  <td>${articleList.userId}</td>
+                  <td>
+                    <fmt:formatDate value='${articleList.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>16</i>中标供应商确定</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">中标供应商名称</th>
+                  <th class="info">评分排序</th>
+                  <th class="info">操作人</th>
+                  <th class="info">确定时间</th>
+                </tr>
+                <tr>
+                  <td></td>
                   <td></td>
                   <td></td>
                   <td>
