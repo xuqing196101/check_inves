@@ -374,6 +374,11 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <include refid="Example_Where_Clause" />
     </if>
   </select>
+  <!-- 根据供应商和标题的ID查询总条数 mmw -->
+  <select id="countByPSID" parameterType="bss.model.ob.OBProjectResult" resultType="java.lang.Integer" >
+    select count(*) from T_BSS_OB_PROJECT_RESULT
+    WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+  </select>
   <select id="selectProportionByProject" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectResult" >
     SELECT sum(PROPORTION) as PROPORTION,SUPPLIER_ID from T_BSS_OB_PROJECT_RESULT 
     WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND STATUS=1 

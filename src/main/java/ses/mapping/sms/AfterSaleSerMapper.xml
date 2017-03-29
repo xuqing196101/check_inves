@@ -8,7 +8,7 @@
 	    <result column="MOBILE" property="mobile"/>
 	    <result column="IS_AFTER_SUPPORT" property="isAfterSupport"/>
 	    <result column="CREATED_AT" property="createdAt"/>
-	    <result column="UPDATED_AT" property="updatedAt"/>
+	    <result column="UPDATED_AT" property="updateAt"/>
 	    <result column="IS_DELETED" property="isDeleted"/>
 	    <result column="REQUIRED_ID" property="requiredId"/>
 	    <result column="PROPOSER" property="proposer"/>
@@ -96,7 +96,7 @@
 			<if test="createdAt != null">
 				CREATED_AT,
 			</if>
-			<if test="updatedAt != null">
+			<if test="updateAt != null">
 				UPDATED_AT,
 			</if>
 			<if test="isDeleted != null">
@@ -140,7 +140,7 @@
 			<if test="createdAt != null">
 				#{createdAt},
 			</if>
-			<if test="updatedAt != null">
+			<if test="updateAt != null">
 				#{updatedAt},
 			</if>
 			<if test="isDeleted != null">

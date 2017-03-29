@@ -717,8 +717,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 						// 根据竞价id 获取 是否 在规定的时间内 参与报价
 					int compareDate = DateUtils.compareDate(new Date(),
 							op.getEndTime());
-					// 比较 竞价信息 如果等于1 那么是竞价 报价结束的时间
-					if (compareDate > -1) {
+					// 比较 竞价信息 如果等于1  那么是竞价 报价结束的时间
+					if (compareDate == 1) {
 						// 说明 已发布 的竞价信息 已经超过 报价 时间
 						List<OBResultsInfo> obresultsList = OBResultsInfoMapper.selectByProjectId(op.getId());
 						// 判断 是否有竞价供应商
@@ -786,7 +786,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							upstatus.setUpdatedAt(new Date());
 							OBprojectMapper
 									.updateByPrimaryKeySelective(upstatus);
-						}
+						 }
 					}
 					break;
 				case 5:// 第一轮待确认
@@ -795,7 +795,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					// 根据竞价id 获取 是否 在规定的时间内 参与报价
 					int compareDate1 = DateUtils.compareDate(startDate, op.getEndTime());
 					// 比较 竞价信息 如果等于1 那么是竞价确认结束的时间
-					if (compareDate1 > -1) {
+					if (compareDate1  == 1) {
 						// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
 						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
 						// 临时存储交易比例
@@ -845,7 +845,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 					//开始时间 加 报价时间  二轮确定时间
 					int compareDate2 = DateUtils.compareDate(new Date(), op.getEndTime());
 					// 比较 竞价信息 如果等于1 那么是竞价确认结束的时间
-					if (compareDate2 > -1) {
+					if (compareDate2 == 1) {
 						// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
 						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
 						// 临时存储交易比例

@@ -21,6 +21,11 @@ public class FlowDefine {
      * @Fields name : 名称
      */
     private String name;
+    
+    /**
+     * @Fields code : 编码
+     */
+    private String code;
 
     /**
      * @Fields step : 步骤
@@ -127,6 +132,14 @@ public class FlowDefine {
 
     public void setStatus(Integer status) {
         this.status = status;
+    }
+
+    public String getCode() {
+      return code;
+    }
+
+    public void setCode(String code) {
+      this.code = code;
     }
     
 }

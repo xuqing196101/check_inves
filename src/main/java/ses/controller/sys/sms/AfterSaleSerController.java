@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.annotation.Resource;
@@ -38,12 +39,16 @@ import bss.service.pqims.SupplierPqrecordService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
+import common.annotation.CurrentUser;
 import common.constant.Constant;
 import ses.dao.sms.AfterSaleSerMapper;
 import ses.model.bms.DictionaryData;
+import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.sms.AfterSaleSer;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
+import ses.service.oms.OrgnizationServiceI;
 import ses.service.sms.AfterSaleSerService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -73,7 +78,8 @@ public class AfterSaleSerController extends BaseSupplierController{
 	
 	@Autowired
     private ContractRequiredService contractRequiredService;
-	
+    @Autowired
+    private OrgnizationServiceI orgnizationServiceI;
 
 	/**ContractRequiredService
      * 
@@ -88,44 +94,24 @@ public class AfterSaleSerController extends BaseSupplierController{
      */
     @RequestMapping(value="/list")
     public String getAll(Model model, String code, String type, Integer page){
-        HashMap<String, Object> map = new HashMap<>();
-        if(StringUtils.isNotBlank(code)){
-            PurchaseContract purchaseCon = purchaseContractService.selectByCode(code);
-            if(purchaseCon != null){
-                map.put("purchaseCon", purchaseCon);
-            }
-            if(page == null){
-                page = 1;
-            }
-            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
-            List<AfterSaleSer> selectByAll = afterSaleSerService.selectByAll(map);
-            if(selectByAll != null && selectByAll.size() > 0){
-                model.addAttribute("list", new PageInfo<AfterSaleSer>(selectByAll));
-            }
+    	if(page==null){
+            page=1;
         }
-        /*List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(page==null?1:page);
-        model.addAttribute("list",new PageInfo<AfterSaleSer>(AfterSaleSers));*/
-        model.addAttribute("type", type);
+        Map<String,Object> map = new HashMap<String, Object>();
+        map.put("page", page);
+    	 List<AfterSaleSer> AfterSaleSers = afterSaleSerService.getAll(map);
+    	 for(AfterSaleSer after:AfterSaleSers){
+    		 ContractRequired selectConRequByPrimaryKey = contractRequiredService.selectConRequByPrimaryKey(after.getRequiredId());
+    		 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
+    		 after.setContractCode(selectById.getCode());
+    		 after.setMoney(selectById.getMoney());
+    		 after.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
+    	 }
+    	 PageInfo<AfterSaleSer> list = new PageInfo<AfterSaleSer>(AfterSaleSers);
+    	 model.addAttribute("list", list);
         return "ses/sms/after_sale_ser/list";
     }
 	
-	/**
-	 * 
-	 * @Title: add
-	 * @author LiChenHao  
-	 * @Description:新增售后服务信息
-	 * @param:     
-	 * @return:
-	 *//*
-	@RequestMapping(value = "/add")
-	public String add(Model model, AfterSaleSer afterSaleSer) {
-		String id = afterSaleSer.getId();
-		if (id != null && !"".equals(id)) {
-			afterSaleSer = afterSaleSerService.get(id);
-			model.addAttribute("AfterSaleSer",afterSaleSer);
-		}
-		return "ses/sms/after_sales_ser/add";
-	}*/
 	/**
 	 * 
 	 * @Title: add
@@ -149,9 +135,12 @@ public class AfterSaleSerController extends BaseSupplierController{
 	}
 	@RequestMapping(value="/getContract",produces = "text/html; charset=utf-8")
 	@ResponseBody
-	public void createAllCommonContract(HttpServletRequest request,HttpServletResponse response, String supplierId) throws Exception{
+	public void createAllCommonContract(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response, String supplierId) throws Exception{
+		/*Orgnization findByCategoryId = orgnizationServiceI.findByCategoryId(user.getOrg().getId());*/
+		System.out.println(user);
 		HashMap<String, Object> map=new HashMap<String, Object>();
-		List<PurchaseContract> selectDraftContract = purchaseContractService.selectAllContract();
+		map.put("supplierDepName", user.getTypeId());
+		List<PurchaseContract> selectDraftContract = purchaseContractService.selectAllContractBySupplier(map);
 		super.writeJson(response, selectDraftContract);
 
 	}
@@ -173,23 +162,21 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 * @return:
 	 */
 	@SuppressWarnings("null")
-	@RequestMapping("/save")
-	public String save(HttpServletRequest request,@RequestParam("dateString") String dateString,
-			@Valid AfterSaleSer afterSaleSer,BindingResult result,Model model){
+	@RequestMapping(value="/save",produces = "text/html; charset=utf-8")
+	public String save(HttpServletRequest request, AfterSaleSer afterSaleSer,Model model,String contractCode){
 		
 		Boolean flag = true;
 		String url = "";
 			
-		if(afterSaleSer.getContract().getCode()==null || afterSaleSer.getContract().getCode().equals("")){
+		if(contractCode==null || "".equals(contractCode)){
 			flag = false;
 			model.addAttribute("ERR_contract_code","请输入合同编号");
+			model.addAttribute("contractCode",contractCode);
 		}else{
-			PurchaseContract pc=purchaseContractService.selectByCode(afterSaleSer.getContract().getCode());
+			PurchaseContract pc=purchaseContractService.selectByCode(contractCode);
 			if (pc==null) {
 				flag = false;
 				model.addAttribute("ERR_contract_code","合同编号不存在");
-			}else{
-				afterSaleSer.setContract(pc);
 			}
 		}
 		/*if(afterSaleSer.getAddress() == null) {
@@ -216,7 +203,10 @@ public class AfterSaleSerController extends BaseSupplierController{
 			
 			url="ses/sms/after_sale_ser/add";
 		}else{
+			afterSaleSer.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+			afterSaleSerService.add(afterSaleSer);
 			
+			url="redirect:list.html";
 		}
 		return url;
 	}
@@ -230,7 +220,6 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 */
 	@RequestMapping("/edit")
 	public String edit(HttpServletRequest request,Model model,String id){
-		
 		model.addAttribute("afterSaleSer",afterSaleSerService.get(id));
 		model.addAttribute("afterSaleSerID",id);
 		DictionaryData dd=new DictionaryData();
@@ -252,21 +241,19 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 * @return:
 	 */
 	@RequestMapping("/update")
-	public String update(HttpServletRequest request,@RequestParam("date") String dateString,
-			@Valid AfterSaleSer afterSaleSer,BindingResult result,Model model){
+		public String update(HttpServletRequest request, AfterSaleSer afterSaleSer,Model model,String contractCode){
 		Boolean flag = true;
 		String url = "";
 			
-		if(afterSaleSer.getContract().getCode()==null || afterSaleSer.getContract().getCode().equals("")){
+		if(contractCode==null || "".equals(contractCode)){
 			flag = false;
 			model.addAttribute("ERR_contract_code","请输入合同编号");
+			model.addAttribute("contractCode",contractCode);
 		}else{
-			PurchaseContract pc=purchaseContractService.selectByCode(afterSaleSer.getContract().getCode());
+			PurchaseContract pc=purchaseContractService.selectByCode(contractCode);
 			if (pc==null) {
 				flag = false;
 				model.addAttribute("ERR_contract_code","合同编号不存在");
-			}else{
-				afterSaleSer.setContract(pc);
 			}
 		}
 		/*if(afterSaleSer.getAddress() == null) {
@@ -293,7 +280,10 @@ public class AfterSaleSerController extends BaseSupplierController{
 			
 			url="ses/sms/after_sale_ser/edit";
 		}else{
+			afterSaleSer.setId(UUID.randomUUID().toString().replaceAll("-", ""));
+			afterSaleSerService.add(afterSaleSer);
 			
+			url="redirect:list.html";
 		}
 		return url;
 	}
@@ -309,7 +299,7 @@ public class AfterSaleSerController extends BaseSupplierController{
 	@RequestMapping("/view")
 	public String view(Model model,String id){
 		AfterSaleSer afterSaleSer = afterSaleSerService.get(id);
-		afterSaleSer.getContract().setPurchaseType(DictionaryDataUtil.findById(afterSaleSer.getContract().getPurchaseType()).getName());
+		//afterSaleSer.getContract().setPurchaseType(DictionaryDataUtil.findById(afterSaleSer.getContract().getPurchaseType()).getName());
 		model.addAttribute("afterSaleSer",afterSaleSer);
 		return "ses/sms/after_sale_ser/show";
 	}
@@ -325,10 +315,10 @@ public class AfterSaleSerController extends BaseSupplierController{
 	@RequestMapping("/delete")
 	public String delete(String ids){
 		String[] id=ids.split(",");
-		for (String str : id) {
+		/*for (String str : id) {
 			AfterSaleSer afterSaleSer = afterSaleSerService.get(str);
-			String supplierId = afterSaleSerService.get(str).getContract().getSupplier().getId();
-			String supplierName = afterSaleSerService.get(str).getContract().getSupplier().getSupplierName();
+			 String supplierId = afterSaleSerService.get(str).getContractCode().getSupplier().getId();
+			String supplierName = afterSaleSerService.get(str).getContractCode().getSupplier().getSupplierName();
 			afterSaleSerService.delete(str);
 			int count = afterSaleSerService.queryByConut(supplierId);
 			if (count == 0) {
@@ -337,7 +327,7 @@ public class AfterSaleSerController extends BaseSupplierController{
 			}else {
 			     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
 			     if (supplierPqrecord==null) {
-			    	 Supplier supplier = afterSaleSer.getContract().getSupplier();
+			    	 Supplier supplier = afterSaleSer.getContractCode().getSupplier();
 			    	 supplier.setSupplierName(supplierName);
 					 supplierPqrecord.setSupplier(supplier);
 			    	 supplierPqrecordService.add(supplierPqrecord);
@@ -345,8 +335,8 @@ public class AfterSaleSerController extends BaseSupplierController{
 			     supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
 			     supplierPqrecordService.update(supplierPqrecord);
 			}
-		}
-		return "redirect:getAll.html";
+		}*/
+		return "redirect:list.html";
 	}
 	@RequestMapping(value = "update_status")
 	public String updateAfterSaleSer(AfterSaleSer AfterSaleSer) {

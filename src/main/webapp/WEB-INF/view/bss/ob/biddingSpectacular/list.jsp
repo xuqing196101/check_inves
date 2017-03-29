@@ -63,7 +63,7 @@
 		   }
 	}
 	
-	<!--搜索-->
+	//<!--搜索-->
 	function query(){
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/ob_project/biddingInfoList.html");
 		$("#queryForm").submit();
@@ -78,8 +78,6 @@
 		   if(id.length == 1) {
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
-			   /* ================================================================================================= */
-			   status = 3;
 			   if(status != '3'){
 				   layer.alert("竞价结束才可以查看结果!");
 				   return;

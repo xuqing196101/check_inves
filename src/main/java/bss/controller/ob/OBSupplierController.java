@@ -5,8 +5,11 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Pattern;
 
@@ -39,7 +42,6 @@ import bss.util.ExcelUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
-
 import common.annotation.CurrentUser;
 import common.model.UploadFile;
 
@@ -553,4 +555,38 @@ public class OBSupplierController {
 		}
 		return "";
 	}
+	
+    /**
+     * 
+     * Description: 根据id查询目录树
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月17日 
+     * @param  @param category
+     * @param  @return 
+     * @return String 
+     * @exception
+     */
+    @ResponseBody
+    @RequestMapping(value="/createtreeByproduct", produces = "application/json;charset=utf-8")
+    public String createtreeById(Category category,String name){
+    	List<String> list=new ArrayList<String>();
+		Set<String> set=new HashSet<String>();
+		for(int i=0;i<list.size();i++){
+			set.add(list.get(i));
+		}
+		  
+		Iterator it=set.iterator();
+		Set<Category> categories=new HashSet<Category>();
+		while(it.hasNext()){
+			HashMap<String,Object> map=new HashMap<String, Object>();
+			map.put("id", it.next());
+			List<Category> catego = categoryService.findCategoryByParentNode(map);
+			for(int j=0;j<catego.size();j++){
+				categories.add(catego.get(j));
+			}
+		}
+		return "";
+	}
+
 }

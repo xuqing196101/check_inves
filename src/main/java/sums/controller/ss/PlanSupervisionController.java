@@ -1,5 +1,9 @@
 package sums.controller.ss;
 
+import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -25,11 +29,14 @@ import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Reason;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
 import bss.service.cs.PurchaseContractService;
@@ -40,10 +47,12 @@ import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 
@@ -56,8 +65,11 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierExtracts;
 import ses.service.bms.UserServiceI;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 
 /**
@@ -125,6 +137,21 @@ public class PlanSupervisionController {
     
     @Autowired
     private UploadService uploadService;
+    
+    @Autowired
+    private FlowMangeService flowMangeService;
+    
+    @Autowired
+    private ArticleTypeService articelTypeService;
+    
+    @Autowired
+    private ArticleService articleService;
+    
+    @Autowired
+    private SaleTenderService saleTenderService;
+    
+    @Autowired
+    private SupplierService supplierService;
     
     /**
      * 
@@ -582,12 +609,50 @@ public class PlanSupervisionController {
                         model.addAttribute("fileId", files.get(0).getId());
                         model.addAttribute("fileName", files.get(0).getName());
                     }
-                   /* String jsonReason = project.getAuditReason();
-                    if (jsonReason != null && !"".equals(jsonReason)) {
-                        model.addAttribute("reasons", JSON.parseObject(jsonReason, Reason.class));
-                    }*/
+                    //获取采购文件的编制人
+                    FlowDefine define = new FlowDefine();
+                    define.setPurchaseTypeId(project.getPurchaseType());
+                    define.setStep(3);
+                    List<FlowDefine> find = flowMangeService.find(define);
+                    FlowExecute execute = new FlowExecute();
+                    execute.setProjectId(project.getId());
+                    execute.setFlowDefineId(find.get(0).getId());
+                    execute.setStatus(1);
+                    List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                    if(findFlowExecute != null && findFlowExecute.size() > 0){
+                        model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
+                    } else {
+                        execute.setStatus(3);
+                        List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                        if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                            model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                        } else {
+                            execute.setStatus(2);
+                            List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                            if(executes != null && executes.size() > 0){
+                                model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                            }
+                        }
+                    }
+                    
+                    
+                    //获取采购公告
+                    Article article = new Article();
+                    article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+                    article.setProjectId(project.getId());
+                    List<Article> articles = articleService.selectArticleByProjectId(article);
+                    if(articles != null && articles.size() > 0){
+                        User user2 = userService.getUserById(articles.get(0).getUser().getId());
+                        articles.get(0).setUserId(user2.getRelName());
+                        model.addAttribute("articles",articles.get(0));
+                    }
+                    
+                    
+                    
+                    
                     model.addAttribute("project", project);
                     model.addAttribute("status", "0");
+                    model.addAttribute("packageId", selectById.get(0).getPackageId());
                 }
                 
             }
@@ -656,6 +721,45 @@ public class PlanSupervisionController {
         model.addAttribute("number", number.size());
         
         return "sums/ss/planSupervision/overview";
+    }
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param packageId
+     * @param type 1 跳转文件发售 2 跳转投标记录
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewSell")
+    public String viewSell(String packageId, String type, Model model){
+        if(StringUtils.isNotBlank(packageId)){
+            String fileId = DictionaryDataUtil.getId("OPEN_FILE");
+            Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packageId);
+            List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+            for (SaleTender saleTender2 : saleTenderList) {
+                Supplier supplier = supplierService.selectById(saleTender2.getSuppliers().getId());
+                supplier.setProSupFile(saleTender2.getId());
+                supplier.setIsturnUp(saleTender2.getIsTurnUp().toString());
+                List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), fileId,  Constant.SUPPLIER_SYS_KEY.toString());
+                if (blist != null && blist.size() > 0) {
+                    supplier.setBidFileName(blist.get(0).getName());
+                    supplier.setBidFileId(blist.get(0).getId());
+                  }
+            }
+            packages.setSaleTenderList(saleTenderList);
+            model.addAttribute("packages", packages);
+        }
+        if(StringUtils.isNotBlank(type) && "1".equals(type)){
+            return "sums/ss/planSupervision/viewSell";
+        }else{
+            return "sums/ss/planSupervision/viewSupplier";
+        }
+        
     }
     
     

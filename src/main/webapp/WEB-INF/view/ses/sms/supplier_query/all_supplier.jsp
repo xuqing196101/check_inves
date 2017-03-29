@@ -422,7 +422,7 @@
 							<li>
 	            	<label class="fl">企业性质:</label>
 		            <select name="businessType" id="businessType" class="w220">
-		              <option value=''>-请选择-</option>
+		              <option value=''>全部</option>
 		              <c:forEach items="${businessType}" var="list">
 		              	<option <c:if test="${supplier.businessType eq list.id }">selected</c:if> value="${list.id }">${list.name }</option>
 		              </c:forEach>
@@ -447,7 +447,7 @@
 							<li>
 								<label class="fl">供应商状态：</label>
 								<select id="status" name="status" class="w220">
-									<option selected="selected" value=''>-请选择-</option>
+									<option selected="selected" value=''>全部</option>
 									<option value="-1">暂存</option>
 									<option value="0">待审核</option>
 									<option value="1">审核通过</option>

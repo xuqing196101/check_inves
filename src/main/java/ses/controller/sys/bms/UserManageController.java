@@ -1007,22 +1007,33 @@ public class UserManageController extends BaseController{
 	@RequestMapping("/listByRole")
 	public String listByRole(Model model, User user, String rId, Integer page){
   	  if (rId != null && !"".equals(rId)) {
+  	    Role role0 = roleService.get(rId);
+  	    String roleCode = null;
+  	    if (role0 != null) {
+            roleCode = role0.getCode();
+        }
   	    user.setRoleId(rId);
   	    List<String> rIds = new ArrayList<String>();
   	    rIds.add(rId);
         user.setRoleIdList(rIds);
+        List<User> users = new ArrayList<User>();
+        if ("SUPPLIER_R".equals(roleCode) || "EXPERT_R".equals(roleCode) || "IMPORT_AGENT_R".equals(roleCode)) {
+            users = userService.findUserRoleOther(user, page == null ? 1 : page);
+        } else {
+            users = userService.findUserRole(user, page == null ? 1 : page);
+        }
+        Role role = new Role();
+        List<Role> roles = roleService.find(role);
+        for (User u : users) {
+          List<Role> roles2 = roleService.selectByUserId(u.getId());
+          u.setRoles(roles2);
+        }
+        model.addAttribute("roles", roles);
+        model.addAttribute("list", new PageInfo<User>(users));
+        model.addAttribute("user", user);
+        model.addAttribute("rid", rId);
       }
-      List<User> users = userService.findUserRole(user, page == null ? 1 : page);
-      Role role = new Role();
-      List<Role> roles = roleService.find(role);
-      for (User u : users) {
-        List<Role> roles2 = roleService.selectByUserId(u.getId());
-        u.setRoles(roles2);
-      }
-      model.addAttribute("roles", roles);
-      model.addAttribute("list", new PageInfo<User>(users));
-      model.addAttribute("user", user);
-      model.addAttribute("rid", rId);
+  	  
       return "ses/bms/role/user_list";
 	}
 	

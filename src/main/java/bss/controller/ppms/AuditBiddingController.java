@@ -97,7 +97,7 @@ public class AuditBiddingController extends BaseController {
   public String list(@CurrentUser User user,Integer page,Model model,Project project){
     //采购机构信息
     PurchaseDep purchaseDep = purchaseOrgnizationService.selectByOrgId(user.getOrg().getId());
-    project.setStatusArray(new String[]{DictionaryDataUtil.getId("ZBWJYTJ"),DictionaryDataUtil.getId("NZPFBZ"),DictionaryDataUtil.getId("ZBWJYTG"),DictionaryDataUtil.getId("ZBWJXGBB")});
+    project.setStatusArray(null);
     //拿到当前的采购机构获取到组织机构
     List<PurchaseOrg> listOrg = purchaseOrgnizationService.getOrg(purchaseDep.getOrgId());
     String org = "";

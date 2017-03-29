@@ -687,17 +687,24 @@ function importAdd(){
          <h2>专家名录<a href="#" class="fr f14">更多>></a></h2>
         </div>
          <div class="job-content col-md-12 col-sm-12 col-xs-12">
+         
 		    <div class="categories zhuanjia_list">
-               <ul class="p0_10 list-unstyled">
-             <c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" >  
-              <li>
-              <div style="float:left;text-align: left;width:60%">
-              <c:out value="${item.relName}"></c:out>
-              </div>
-             
-              <div style="float:right;text-align: left;width:30%;white-space:nowrap;">
-              <c:choose>
-			  
+               <c:choose>
+            <c:when test="${expertList!=null }">
+         <table class="table table-bordered " >
+        <thead>
+          <tr >
+			<th class="tc info" width="55%">专家名称</th>
+			<th class="tc info" width="25%">编号</th>
+			<th class="tc info" width="20%">状态</th>
+			</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" > 
+			<tr>
+			<td>${item.relName }</td>
+			<td class="tc">编号111111</td>
+			<td class="tc"> <c:choose>
                 <%-- <c:when test="${item.status == 0}">
 						          未审核
 						    </c:when>
@@ -719,22 +726,18 @@ function importAdd(){
 						    <c:when test="${item.status eq '7'}">
 						        复查通过
 						    </c:when>
-			    
 						    <c:otherwise>
-						   
 						    </c:otherwise>
-                </c:choose>
-              
-              </div></li>
-              
-             
-              
-              
-              </c:forEach> 
-              
-               
-         
-			 </ul>
+                </c:choose></td>
+				</tr>
+				 </c:forEach> 
+				</tbody>
+				</table>
+                	</c:when>
+                	<c:otherwise>
+                		<li class="tc">暂无数据</li>
+                	</c:otherwise>
+                </c:choose>   
 			</div>
 		  </div>
 	  </div>
