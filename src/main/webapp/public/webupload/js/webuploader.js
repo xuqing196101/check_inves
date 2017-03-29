@@ -1002,7 +1002,6 @@
             });
     
             type = type || getFirstKey( factories );
-    
             if ( !type ) {
                 throw new Error('Runtime Error');
             }

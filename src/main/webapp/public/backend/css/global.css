@@ -1033,6 +1033,7 @@ li:first-child {
 }
 
 .s_ztree{
+	width: 100% !important;
 	height: 400px !important;
 	overflow-y:auto !important;
 }
