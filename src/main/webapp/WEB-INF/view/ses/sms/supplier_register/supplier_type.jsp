@@ -194,17 +194,6 @@
 			}
 		});
 		$("#businessScope").val(areaIds);
-		
-		// var formData=$("form[id='save_pro_form_id']").children().not($("input[value='']")).serialize();  
-		 
-		 $("#save_pro_form_id").find("input").each(function(){ 
-			 var elem = $(this); 
-			 if (elem.prop("name") != null&&elem.prop("name") != "") { 
-				 if(elem.val()==""){ 
-			 		elem.removeAttr("name"); 
-			 	} 
-			 	}   
-			});
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
 					type : "post",  
