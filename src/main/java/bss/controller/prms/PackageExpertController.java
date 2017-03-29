@@ -3312,6 +3312,7 @@ public class PackageExpertController {
         response.getWriter().flush();
       } catch (Exception e) {
         e.printStackTrace();
+        throw new RuntimeException();
       } finally {
         response.getWriter().close();
       }

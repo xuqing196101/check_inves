@@ -131,12 +131,12 @@
 		<!-- 我的页面开始-->
 		<div class="">
 			<!-- 表格开始-->
-			<div class="col-md-12 pl20 mt10" id="batch_upload">
+			<%-- <div class="col-md-12 pl20 mt10" id="batch_upload">
 			<c:if test="${flag == false}">
-				 <u:upload id="flUpload" exts="txt,rar,zip,doc,docx" businessId="1234567890-1234567890-1234567890" multiple="true" buttonName="批量上传"  groups="${supplierList[0].groupsUploadId}" auto="true" typeId="${typeId}" sysKey="${sysKey}"/> 
+				 <u:upload id="flUpload" exts="txt,rar,zip,doc,docx,pdf" businessId="1234567890-1234567890-1234567890" multiple="true" buttonName="批量上传"  groups="${supplierList[0].groupsUploadId}" auto="true" typeId="${typeId}" sysKey="${sysKey}"/> 
 				 <u:show showId="flshow" groups="${supplierList[0].groupShowId}" businessId="1234567890-1234567890-1234567890" sysKey="${sysKey}" typeId="${typeId}" />
 			</c:if>
-			</div>
+			</div> --%>
 
 			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
@@ -175,11 +175,11 @@
 							    <c:if test="${flag == false}">
 							    	<div id="upload_tag_${vs.index+1}">
 										<c:if test="${fn:length(supplierList) > 1}">
-											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" multiple="true" groups="${list.groupsUploadId}" buttonName="上传附件" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 											<u:show showId="${list.groupShow}" groups="${list.groupShowId}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
 									  	</c:if>
 									  	<c:if test="${fn:length(supplierList) == 1}">
-											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+											<u:upload id="${list.groupsUpload}" exts="txt,rar,zip,doc,docx,pdf" businessId="${list.proSupFile}" buttonName="上传附件" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 											<u:show showId="${list.groupShow}" businessId="${list.proSupFile}" sysKey="${sysKey}" typeId="${typeId}" />
 									  	</c:if>
 							    	</div>
