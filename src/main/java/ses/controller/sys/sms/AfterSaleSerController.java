@@ -135,7 +135,6 @@ public class AfterSaleSerController extends BaseSupplierController{
 	@RequestMapping(value="/getContract",produces = "text/html; charset=utf-8")
 	@ResponseBody
 	public void createAllCommonContract(@CurrentUser User user,HttpServletRequest request,HttpServletResponse response, String supplierId) throws Exception{
-		/*Orgnization findByCategoryId = orgnizationServiceI.findByCategoryId(user.getOrg().getId());*/
 		System.out.println(user);
 		HashMap<String, Object> map=new HashMap<String, Object>();
 		map.put("supplierDepName", user.getTypeId());
@@ -237,7 +236,6 @@ public class AfterSaleSerController extends BaseSupplierController{
 		 PurchaseContract selectById = purchaseContractService.selectById(selectConRequByPrimaryKey.getContractId());
 		 afterSaleSer.setContractCode(selectById.getCode());
 		 afterSaleSer.setMoney(selectById.getMoney());
-		 afterSaleSer.setRequiredId(selectConRequByPrimaryKey.getGoodsName());
 		model.addAttribute("after", afterSaleSer);
 		 model.addAttribute("contractCode", selectById.getCode());
 		return "ses/sms/after_sale_ser/edit";

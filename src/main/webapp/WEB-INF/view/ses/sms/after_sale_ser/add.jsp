@@ -187,8 +187,8 @@
 						<li id="bill_li_id" class="col-md-6 col-sm-12 col-xs-12 mb25">
 									<span class="col-md-5 col-sm-12 col-xs-12 padding-left-5 w250" <c:if test="${fn:contains(audit,'billCert')}">style="border: 1px solid #ef0000;" onmouseover="errorMsg('billCert')"</c:if>><span class="star_red">*</span>产品使用说明或用户操作手册</span>
 									<div class="input-append input_group col-sm-12 col-xs-12 p0 ">
-				        				<u:upload id="post_attach_up" businessId="${afterSaleSeruid }" sysKey="2" typeId="60" multiple="true" auto="true" />
-										<u:show showId="post_attach_show" businessId="${afterSaleSeruid }" sysKey="2" typeId="60"/>
+				        				<u:upload id="post_attach_up" businessId="${afterSaleSerId }" sysKey="2" typeId="70" multiple="true" auto="true" />
+										<u:show showId="post_attach_show" businessId="${afterSaleSerId }" sysKey="2" typeId="70"/>
 				     					<div class="cue" id = ""></div>
 				     				</div>
 								</li>
