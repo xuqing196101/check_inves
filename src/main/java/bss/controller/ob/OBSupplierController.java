@@ -33,7 +33,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
-import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
 import ses.model.bms.DictionaryData;
@@ -54,6 +53,7 @@ import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
 import common.model.UploadFile;
+import common.utils.JdcgResult;
 
 /**
  * 
@@ -655,5 +655,4 @@ public class OBSupplierController  {
 		JSONArray res=JSONArray.fromObject(jList);
         return res.toString();
 	}
-
 }

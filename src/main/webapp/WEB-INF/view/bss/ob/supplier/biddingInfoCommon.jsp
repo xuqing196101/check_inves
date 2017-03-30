@@ -2,9 +2,9 @@
 <table class="table table-bordered mt10">
     <tbody>
 	  <tr>
-	    <td class="info"><b>项目编号</b></td>
+	    <td class="info"><b>竞价项目编号</b></td>
 	    <td>${ obProject.projectNumber }</td>
-	    <td class="info"><b>竞价标题</b></td>
+	    <td class="info"><b>竞价项目名称</b></td>
 	    <td>${ obProject.name }</td>
 	  </tr>
 	  <tr>
@@ -14,12 +14,25 @@
 	    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 	  </tr>
 	  <tr>
-	    <td class="info"><b>运杂费</b></td>
-	    <td>${ transportFees }</td>
 	    <td class="info"><b>成交供应商数</b></td>
 	    <td>
-		  ${ obProject.tradedSupplierCount }
+		    ${ obProject.tradedSupplierCount }
 		</td>
+		<td colspan="2"></td>
+	  </tr>
+	  <tr>
+	    <td class="info"><b>运杂费</b></td>
+	    <td>${ transportFees }</td>
+	    <c:if test="">
+		    <td colspan="2"></td>
+	    </c:if>
+	    <c:if test="${ empty obProject.transportFeesPrice }">
+		    <td colspan="2"></td>
+	    </c:if>
+	    <c:if test="${ !empty obProject.transportFeesPrice }">
+		    <td class="info"><b>运杂费用（元）</b></td>
+		    <td>${obProject.transportFeesPrice}</td>
+	    </c:if>
 	  </tr>
 	  <tr>
 	    <td class="info"><b>需求单位</b></td>

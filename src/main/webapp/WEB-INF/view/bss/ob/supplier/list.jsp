@@ -69,6 +69,19 @@
 		$("#queryForm").submit();
 	}
 	
+	var sysDate;
+	// 页面加载完毕倒计时
+	$(function(){
+		// 获取系统当前时间
+		$.ajax({
+			url:"${pageContext.request.contextPath}/supplierQuote/getSysTime.do",
+			type: "POST",
+			success:function(data){
+				sysDate = data;
+			}
+		});
+	});
+	
 	
 	
 	// 开始报价
@@ -100,7 +113,7 @@
 			   }
 			   
 			   if(status == '2' && remark == '1'){
-				   layer.alert("确认时间未到，请等待确认结果 ！");
+				   layer.alert("已报价，请等待确认结果 ！");
 				   return;
 			   }
 			   if(status == '2' && remark == '2'){
@@ -165,7 +178,7 @@
 				   return;
 			   }
 			   if(status == 2 && remark == '1'){
-				   layer.alert("已报价，请等待确认结果 ！");
+				   layer.alert("确认时间未到，请等待确认结果 ！");
 				   return;
 			   }
 			   
@@ -442,27 +455,6 @@
 			  		放弃确认(第二轮)
 			  	</c:if>
 			  </td>
-			 <%--  <td class="tc">
-			  	<c:if test="${ obProject.status == 1 && '1' eq obProject.remark}">
-			  		报价等待中...
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 2 && '2' eq obProject.remark}">
-				  	报价
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 2 && '3' eq obProject.remark}">
-				  	已报价待确认
-			  	</c:if>
-			  	<!-- 供应商报价失效情况 -->
-			  	<c:if test="${ obProject.status == 3 && '5' eq obProject.remark}">
-				  	未报价
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 3 && '6' eq obProject.remark}">
-				  	确认结果
-			  	</c:if>
-			  	<c:if test="${ obProject.status == 2 && '6' eq obProject.remark}">
-				  	重新刷新页面
-			  	</c:if>
-			  </td> --%>
 			</tr>
 		</c:forEach>
 	</table>

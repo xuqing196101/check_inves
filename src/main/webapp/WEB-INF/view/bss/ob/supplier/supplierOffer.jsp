@@ -46,6 +46,7 @@
 			var limitedPrice = $("#"+limitedPriceId).html();
 			if(parseFloat(limitedPrice) != 0 && parseFloat(unitPrice) > parseFloat(limitedPrice)){
 				layer.msg("对不起，报价不能大于限价");
+				$(obj).val("");
 				$("#"+id).html("");
 				$("#totalPrice").html("");
 				return;
@@ -119,15 +120,16 @@
 			}
 			
 			// 获取供应商报价总金额--提交前的提示信息里面需要的数据
-			var quotoTotalPrice = $("#totalPrice").html;
-			layer.confirm("本次报价总金额为："+quotoTotalPrice+"您确认要提交吗？", {
+			var quotoTotalPrice = $("#totalPrice").html();
+			layer.confirm("本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+quotoTotalPrice+" 元</span></b>，是否确认提交？", {
 			    btn: ['确定','取消'], //按钮
 			    shade: false //不显示遮罩
 			}, function(index){
+				$("#showQuotoTotalPrice").val(quotoTotalPrice);
 			    layer.close(index);
-				$.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
+			    $.post("${pageContext.request.contextPath}/supplierQuote/saveQuoteInfo.do", $("#productForm").serialize(), function(data) {
 					if (data.status == 200) {
-						layer.confirm(data.data,{
+						layer.confirm("操作成功，请等待确认结果！本次竞价项目您的报价总金额为 <b><span style='color:red;font-size:16px'>"+data.data+" 元</span></b>,请在报价截止时间后，查看本次中标结果！",{
 							btn:['确定']
 						},function(){
 								window.location.href="${pageContext.request.contextPath}/supplierQuote/list.html";
@@ -190,6 +192,7 @@
   <div class="clear" ></div>
   <form id="productForm" name="" method="post">
   	<input type="hidden" name="titleId" value="${ obProject.id }">
+  	 <input type="hidden" id="showQuotoTotalPrice" name="showQuotoTotalPrice" value="">
 	  <div>
 	    <h2 class="count_flow"><i>2</i>产品信息 <font style="margin-left: 15px">报价时间倒计时：</font>
 	    <span style="color: red" id="quotoCountDown"></span></h2>
@@ -211,7 +214,7 @@
 			  <td class="tc"><input type="checkbox" alt=""></td>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc"><input type="text" name="quotoTotalPrice" id="totalPrice" value="" /></td>
+			  <td class="tc"><span name="quotoTotalPrice" id="totalPrice"></span></td>
 			  <td class="tc"></td>
 			</tr>
 			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
