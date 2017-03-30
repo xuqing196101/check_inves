@@ -23,18 +23,19 @@ $(function() {
       }(),
       jump : function(e, first) { //触发分页后的回调
     	 if(!first) { //一定要加此判断，否则初始时会无限刷新
-              $("#page").val(e.curr);
-              $("#form1").submit();
-            }
+			$("#page").val(e.curr);
+    	 	var obProjectId = $("#obProjectId").val();
+    	 	var result = $("#result").val();
+    	 	var status = $("#st option:selected").val();
+    	 	window.location.href = "${pageContext.request.contextPath}/ob_project/supplierList.html?page=" + e.curr +"&&obProjectId="+obProjectId+"&&result="+result+"&&status="+status;
+		}
       }
     });
   });
 
 //重置
 function resetQuery() {
-	var prodid = $("#prodid").val();
 	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
-	window.location.href = "${pageContext.request.contextPath}/obSupplier/supplier.html?prodid="+prodid;
 }
 
 /** 全选全不选 */
@@ -122,7 +123,7 @@ function openViewDIvs(id){
 	     </li>
 		<li>
 			<label class="fl">供应商证书状态：</label>
-			<select class="w178" name = "status">
+			<select class="w178" name = "status" id = "st">
 				<option value="0" <c:if test="${'0'==status}">selected="selected"</c:if>>-请选择-</option>
 	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
 	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
@@ -146,7 +147,7 @@ function openViewDIvs(id){
 		<th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
 		  <th class="info">供应商名称</th>
-		  <th class="info">产品名称</th>
+		  <th class="info">产品目录（末节点）</th>
 		  <th class="info">证书有效期至</th>
 		  <th class="info">资质证书内容</th>
 		  <th class="info">是否过期</th>
@@ -157,7 +158,7 @@ function openViewDIvs(id){
 				<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${supplier.id }" /></td>
 				<td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 				<td class="tl">${supplier.supplier.supplierName }</td>
-				<td class="tl">${supplier.remark }</td>
+				<td class="tc" title = "${supplier.pointsName }">${supplier.smallPoints.name }</td>
 				<td class="tc">
 					<fmt:formatDate value="${supplier.certValidPeriod }" pattern="yyyy-MM-dd" /> 
 				</td>

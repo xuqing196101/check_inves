@@ -40,9 +40,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.Category;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
 import ses.model.oms.Orgnization;
+import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -52,6 +54,7 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
+import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
@@ -68,6 +71,7 @@ import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBRuleService;
 import bss.service.ob.OBSupplierQuoteService;
+import bss.service.ob.OBSupplierService;
 import bss.util.CheckUtil;
 import bss.util.ExcelUtil;
 
@@ -95,6 +99,9 @@ public class OBProjectController {
 
 	@Autowired
 	private OBProjectServer OBProjectServer;
+	
+	@Autowired
+	private OBSupplierService obSupplierService;
 
 	@Autowired
 	private OrgnizationServiceI orgnizationService;
@@ -109,6 +116,9 @@ public class OBProjectController {
 
 	@Autowired
 	private OBProductInfoServer OBProductInfo;
+	
+	@Autowired
+	private CategoryService categoryService;
 
 	// 注入竞价商品详情Mapper
 	@Autowired
@@ -177,6 +187,7 @@ public class OBProjectController {
 			if (page == null) {
 				page = 1;
 			}
+			String ss = request.getParameter("obProjectId");
 			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
 					 name, status,result);
 			model.addAttribute("info", new PageInfo<OBSupplier>(lists));
@@ -184,6 +195,81 @@ public class OBProjectController {
 			model.addAttribute("name",name);
 			model.addAttribute("status",status);
 			model.addAttribute("result",result);
+			if(lists != null){
+				for (OBSupplier obSupplier : lists) {
+					String id = obSupplier.getSmallPointsId();
+					if(id != null){
+						HashMap<String, Object> map = new HashMap<String, Object>();
+						map.put("id", id);
+						List<Category> clist = categoryService.findCategoryByParentNode(map);
+						String str = "";
+						for (Category category : clist) {
+							if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
+								str += category.getName() +"/";
+							}
+							
+						}
+						str+=obSupplier.getSmallPoints().getName();
+						obSupplier.setPointsName(str);
+					}
+				}
+			}
+		}
+		return "bss/ob/biddingInformation/supplierlist";
+	}
+	
+	/**
+	 * 
+	 * Description: 报价供应商列表
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月30日 
+	 * @param  @param user
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @param page
+	 * @param  @param obProjectId
+	 * @param  @param name
+	 * @param  @param status
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping(value = "/offerSupplierList", produces = "text/html;charset=UTF-8")
+	public String offerSupplierList(Model model,
+			HttpServletRequest request, Integer page,String obProjectId,
+			String name,Integer status) {
+			if (page == null) {
+				page = 1;
+			}
+			Map<String, Object> map1 = new HashMap<String, Object>();
+			map1.put("page", page);
+			map1.put("supplierName", name);
+			map1.put("projectId", obProjectId);
+			map1.put("status", status);
+			List<OBSupplier> list = obSupplierService.selOfferSupplier(map1);
+			model.addAttribute("info", new PageInfo<OBSupplier>(list));
+			model.addAttribute("obProjectId",obProjectId);
+			model.addAttribute("name",name);
+			model.addAttribute("status",status);
+			if(list != null){
+				for (OBSupplier obSupplier : list) {
+					String id = obSupplier.getSmallPointsId();
+					if(id != null){
+						HashMap<String, Object> map = new HashMap<String, Object>();
+						map.put("id", id);
+						List<Category> clist = categoryService.findCategoryByParentNode(map);
+						String str = "";
+						for (Category category : clist) {
+							if(!obSupplier.getSmallPoints().getName().equals(category.getName())){
+								str += category.getName() +"/";
+							}
+							
+						}
+						str+=obSupplier.getSmallPoints().getName();
+						obSupplier.setPointsName(str);
+					}
+				}
 		}
 		return "bss/ob/biddingInformation/supplierlist";
 	}

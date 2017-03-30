@@ -389,7 +389,19 @@
 		});
 		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
 		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
-	}); 
+	});
+	
+	/* 显示规则 */
+	function showRule(){
+		var sh = $("#rule").css("display");
+		if(sh == "block"){
+			$("#serr").css("right","0px");
+			$("#rule").css("display","none");
+		}else{
+			$("#serr").css("right","210px");
+			$("#rule").css("display","block");
+		}
+	}
 </script>
 </head>
 <body>
@@ -597,6 +609,18 @@
   <input type="hidden" value=" ${confirmStatus }" id="currentConfirmStatus"/>
   <button class="btn" onclick="cancelAccept(' confirmStatus }')">放弃</button>
   </div>
+  
+  <div class="rule_search" id = "serr" onclick = "showRule()">
+  	<a href="javaScript:void(0);">查看规则</a>     
+ 	<div class="rule_desc" id = "rule" style="display: none;"> 
+  		<h4 class="red">规则说明：</h4>
+  		<p>1、按所有供应商报价的总价，按基准法计算成交价；</p>
+  		<p>2、所有成交供应商的产品成交单价都按第一名执行：</p>
+  		<p>3、确认分为两轮确认，第一轮确认基本成交数量（所有供应商同步进行），第二轮确认追加成交数量，从第一名开始，
+  		如果第一名不要的部分，给第二名，依次排序。不成交数量打印出来显示。</p>
+  	</div>
+  </div>
+  
   </div>
 </body>
 </html>

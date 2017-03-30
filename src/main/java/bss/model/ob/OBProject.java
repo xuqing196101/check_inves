@@ -157,7 +157,17 @@ public class OBProject {
     //合格供应商数量
     private Integer qualifiedSupplier;
     
-    /**报价截止时间字段**/
+    private Integer offerSupplierNumber;
+    
+    public Integer getOfferSupplierNumber() {
+		return offerSupplierNumber;
+	}
+
+	public void setOfferSupplierNumber(Integer offerSupplierNumber) {
+		this.offerSupplierNumber = offerSupplierNumber;
+	}
+
+	/**报价截止时间字段**/
     private Date quoteEndTime;
   
     /**

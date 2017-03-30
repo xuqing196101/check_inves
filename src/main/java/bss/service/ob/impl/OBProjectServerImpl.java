@@ -657,6 +657,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					obp.setQualifiedSupplier(qualifiedSupplier);
 				}
+				Integer nn = OBprojectMapper.selOfferSupplierNum(obp.getId());
+				obp.setOfferSupplierNumber(nn);
 			}
 		}
 		return list;
@@ -1004,9 +1006,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 			map.put("name", name);
 		}
 		PropertiesUtil config = new PropertiesUtil("config.properties");
-		PageHelper.startPage((Integer) (map.get("page")),
-				Integer.parseInt(config.getString("pageSize")));
-		return OBSupplierMapper.selectSupplierDate(map);
+		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		List<OBSupplier> lists = OBSupplierMapper.selectSupplierDate(map);
+		return lists;
 	}
 
 	@Override
