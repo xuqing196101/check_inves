@@ -226,7 +226,7 @@ public class OBSupplierQuoteController {
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		model.addAttribute("sysCurrentTime", new Date());
 	 	model.addAttribute("result", result);
-	 	model.addAttribute("confirmStatus", 1);
+	 	model.addAttribute("confirmStatus", confirmStatus);
 	/*	supplierId = user.getTypeId();
 		//把供应商id和标题id封装在oBProjectResult对象里
 		OBProjectResult oBProjectResult = new OBProjectResult();
