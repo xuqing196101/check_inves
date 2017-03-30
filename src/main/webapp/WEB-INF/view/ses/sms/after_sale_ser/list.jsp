@@ -77,7 +77,7 @@
 		}else if(id.length>1){
 			layer.alert("只能选择一个",{offset: ['222px', '390px'], shade:0.01});
 		}else{
-			layer.alert("请选择需要修改的质检报告",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择需要修改的售后服务",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function del(){
@@ -91,7 +91,7 @@
 				window.location.href="${pageContext.request.contextPath}/after_sale_ser/delete.html?ids="+ids;
 			});
 		}else{
-			layer.alert("请选择要删除的质检报告",{offset: ['222px', '390px'], shade:0.01});
+			layer.alert("请选择要删除的售后服务",{offset: ['222px', '390px'], shade:0.01});
 		}
     }
     function add(){

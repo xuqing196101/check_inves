@@ -28,10 +28,10 @@
     where ID = #{id,jdbcType=VARCHAR}
   </delete>
   <insert id="insert" parameterType="bss.model.ob.OBResultSubtabulation" >
-    insert into T_BSS_OB_RESULT_SUBTABULATION (ID,PRODUCT_ID, PROJECT_RESULT_ID, RESULT_NUMBER, 
+    insert into T_BSS_OB_RESULT_SUBTABULATION (ID, PROJECT_RESULT_ID, RESULT_NUMBER, 
       DEAL_MONEY, TOTAL_MONEY, CREATED_AT, 
       UPDATED_AT)
-    values (#{id,jdbcType=VARCHAR},#{productId,jdbcType=VARCHAR}, #{projectResultId,jdbcType=VARCHAR}, #{resultNumber,jdbcType=DECIMAL}, 
+    values (#{id,jdbcType=VARCHAR}, #{projectResultId,jdbcType=VARCHAR}, #{resultNumber,jdbcType=DECIMAL}, 
       #{dealMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, 
       #{updatedAt,jdbcType=TIMESTAMP})
   </insert>

@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <!DOCTYPE HTML>
 
-<html class=" js cssanimations csstransitions" lang="en"><!--<![endif]--><head>
+<html class=" js cssanimations csstransitions time_animations" lang="en"><!--<![endif]--><head>
 <meta http-equiv="content-type" content="text/html; charset=UTF-8">
 
 <%@ include file="/WEB-INF/view/common.jsp"%>
@@ -181,9 +181,9 @@
 	   <div class="col-md-12 col-sm-12 col-xs-12">项目名称：${project.name}</div>
 	   <div class="col-md-12 col-sm-12 col-xs-12">项目编号：${project.projectNumber}</div>
    </div>
-   <div class="kaibiao_time col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2">
+   <div class="kaibiao_time time_mt col-md-6 col-sm-8 col-xs-10 col-md-offset-4 col-sm-offset-2">
        <span id="showH" class="col-md-12 col-sm-12 col-xs-12 kb_title"><span class="time">距离</span>开标时间还有：</span>
-       <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12"></div>
+       <div  id="showTime" class="col-md-12 col-xs-12 col-sm-12 yomi_time"></div>
    </div>
     <div id="showDiv" class="clear hide">
 	  <input type="hidden" id ="projectId" value="${project.id}" />

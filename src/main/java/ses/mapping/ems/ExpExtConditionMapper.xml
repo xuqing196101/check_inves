@@ -210,7 +210,7 @@
 				#{addressReason,jdbcType=VARCHAR},
 			</if>
 			  <if test="categoryName != null">
-        CATEGORY_NAME = #{categoryName,jdbcType=VARCHAR},
+         		#{categoryName,jdbcType=VARCHAR},
       </if>
          <if test="expertsQualification != null">
         EXPERTS_QUALIFICATION = #{expertsQualification,jdbcType=VARCHAR},

@@ -109,6 +109,8 @@ public class PurchaseContract {
 	private Date createdAt;//创建时间
 
 	private Date updatedAt;//修改时间
+	
+	private Date formalAt;//正式合同生成时间
 
 	private Integer isDeleted;//是否删除
 
@@ -709,6 +711,14 @@ public class PurchaseContract {
     public void setAfterSaleSers(List<AfterSaleSer> afterSaleSers) {
         this.afterSaleSers = afterSaleSers;
     }
+
+	public Date getFormalAt() {
+		return formalAt;
+	}
+
+	public void setFormalAt(Date formalAt) {
+		this.formalAt = formalAt;
+	}
 	
 	
 }

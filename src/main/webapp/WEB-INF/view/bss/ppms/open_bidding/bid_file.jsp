@@ -238,13 +238,10 @@
                 <td class="tc w30">${vs.count}</td>
                 <td class="tc">${p.name}</td>
                 <td class="tc">
-                	<c:if test="${project.confirmFile != 1 && p.isEditFirst == 0}">
+                	<c:if test="${p.isEditFirst == 0}">
                 		未维护
                 	</c:if>
-                	<c:if test="${project.confirmFile != 1 && p.isEditFirst == 1}">
-                		已维护
-                	</c:if>
-                	<c:if test="${project.confirmFile == 1}">
+                	<c:if test="${p.isEditFirst == 1}">
                 		已维护
                 	</c:if>
                 </td>

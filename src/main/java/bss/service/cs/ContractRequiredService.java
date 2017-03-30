@@ -118,4 +118,5 @@ public interface ContractRequiredService {
      * @return: List<ContractRequired>
      */
     List<ContractRequired> findContractRequiredByConId(String ids);
+    List<ContractRequired> selectConRequByDetailId(String id);
 }

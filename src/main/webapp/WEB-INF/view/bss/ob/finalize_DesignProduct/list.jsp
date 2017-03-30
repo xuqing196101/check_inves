@@ -233,7 +233,9 @@
 	         }); 
 	     }
 	
-	
+	function downCategory(){
+		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
+	}
 	
 	
 	</script>
@@ -290,6 +292,7 @@
 		<button class="btn btn-windows apply" type="button" onclick="fb()">发布</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载EXCEL模板</button>
 		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">导入EXCEL</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="downCategory()">下载产品目录</button>
 	</div>   
 	<div class="content table_box">
 	

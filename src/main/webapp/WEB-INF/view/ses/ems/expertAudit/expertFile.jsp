@@ -114,7 +114,7 @@
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">专家类别</a><i></i>
 						</li>
 						<li onclick="jump('product')">
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a><i></i>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a><i></i>
 						</li>
 						<li class="active">
 							<a aria-expanded="false" href="#tab-1" data-toggle="tab">附件</a><i></i>

@@ -35,7 +35,6 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Supplier;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -54,6 +53,7 @@ import ses.util.WordUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
+import common.constant.StaticVariables;
 
 /**
  * <p>Title:ExpertAuditController </p>
@@ -115,6 +115,10 @@ public class ExpertAuditController {
 	 */
 	@RequestMapping("/list")
 	public String expertAuditList(Expert expert, Model model, Integer pageNum, HttpServletRequest request) {
+		if(pageNum == null) {
+			pageNum = StaticVariables.DEFAULT_PAGE;
+		}
+		
 		if(expert.getSign() == null) {
 			Integer signs = (Integer) request.getSession().getAttribute("signs");
 			expert.setSign(signs);
@@ -129,7 +133,16 @@ public class ExpertAuditController {
 			PurchaseDep depId = purchaseOrgnizationService.selectByOrgId(orgId);
 			expert.setPurchaseDepId(depId.getId());	
 		}
-		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum == null ? 1 : pageNum);
+		/*List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum == null ? 0 : pageNum);*/
+		
+		
+		//查询列表
+		List < Expert > expertList = expertService.findExpertAuditList(expert, pageNum);
+		PageInfo< Expert > result = new PageInfo < Expert > (expertList);
+		
+		model.addAttribute("result",result);
+		model.addAttribute("expertList", expertList);
+				
 		// 筛选,只有指定机构的人可以看到
 		/*List<Expert> expertList = new ArrayList<Expert>();
 
@@ -173,9 +186,6 @@ public class ExpertAuditController {
                 exp.setExpertsTypeId("");
             }
         }*/
-
-		model.addAttribute("result", new PageInfo < Expert > (expertList));
-		model.addAttribute("expertList", expertList);
 
 		//初审复审标识（1初审，2复审，3复查）
 		model.addAttribute("sign", expert.getSign());

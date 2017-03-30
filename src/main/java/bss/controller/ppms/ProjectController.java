@@ -1956,15 +1956,15 @@ public class ProjectController extends BaseController {
             model.addAttribute("lists", detail);
             return "bss/ppms/project/editDetail";
         }
-        if(project.getName().length()>20){
-            model.addAttribute("ERR_name", "字符过长");
+        if(project.getName().length()>80){
+            model.addAttribute("ERR_name", "项目名称长度过长");
             model.addAttribute("project", project);
             model.addAttribute("kind", DictionaryDataUtil.find(5));
             model.addAttribute("lists", detail);
             return "bss/ppms/project/editDetail";
         }
-        if(project.getProjectNumber().length()>20){
-            model.addAttribute("ERR_projectNumber", "字符过长");
+        if(project.getProjectNumber().length()>30){
+            model.addAttribute("ERR_projectNumber", "项目编号过长");
             model.addAttribute("project", project);
             model.addAttribute("kind", DictionaryDataUtil.find(5));
             model.addAttribute("lists", detail);
@@ -3250,12 +3250,16 @@ public class ProjectController extends BaseController {
     public List<PurchaseInfo> getUserForSelect(@CurrentUser User user, String id) {
         List<PurchaseInfo> purchaseInfo = new ArrayList<>();
         if(user != null && user.getOrg() != null){
-          Project project = projectService.selectById(id);
-          if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
-             User user2 = userService.getUserById(project.getPrincipal());
-              purchaseInfo = purchaseService.findPurchaseUserList(user2.getOrg().getId());
-            }
-           
+          Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(user.getOrg().getId());
+          if("1".equals(orgnization.getTypeName())){
+              purchaseInfo = purchaseService.findPurchaseUserList(user.getOrg().getId());
+          }else{
+              Project project = projectService.selectById(id);
+              if(project != null && StringUtils.isNotBlank(project.getPrincipal())){
+                 User user2 = userService.getUserById(project.getPrincipal());
+                  purchaseInfo = purchaseService.findPurchaseUserList(user2.getOrg().getId());
+              }
+          }
         }
         return purchaseInfo;
     }

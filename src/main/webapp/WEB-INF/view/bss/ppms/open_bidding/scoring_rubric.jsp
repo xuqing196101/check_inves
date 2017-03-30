@@ -240,10 +240,10 @@
 								<td class="tc w50">${vs.index+1 }</td>
 								<td class="tc">${p.name}</td>
 								<td class="tc">
-								<c:if test="${p.isEditSecond == 0 and project.confirmFile != 1}">
+								<c:if test="${p.isEditSecond == 0}">
 										请选择评分办法
 								</c:if>
-								<c:if test="${p.isEditSecond == 1 and project.confirmFile != 1}">
+								<c:if test="${p.isEditSecond == 1}">
 										已维护
 								</c:if>
 								<c:if test="${p.isEditSecond == 2}">

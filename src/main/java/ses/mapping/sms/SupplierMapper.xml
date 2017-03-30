@@ -811,6 +811,10 @@
 				BUSINESS_START_DATE =
 				#{businessStartDate,jdbcType=TIMESTAMP},
 			</if>
+			<if test="businessStartDate == null">
+				BUSINESS_START_DATE ='',
+			</if>
+			
 			<if test="businessEndDate != null">
 				BUSINESS_END_DATE =
 				#{businessEndDate,jdbcType=TIMESTAMP},

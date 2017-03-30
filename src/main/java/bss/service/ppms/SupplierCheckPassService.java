@@ -128,4 +128,5 @@ public interface SupplierCheckPassService {
    */
   void changeSupplierWonTheBidding(String packageId, String priceRatios);
   List<SupplierCheckPass> getByContractId(String contractId);
+  List<SupplierCheckPass> selectPackageIdWonBid(String packageId);
 }

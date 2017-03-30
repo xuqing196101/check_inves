@@ -7,7 +7,7 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
-    
+
     <script type="text/javascript">
       function viewDemand() {
         layer.open({
@@ -27,143 +27,176 @@
         var a = "2";
         openViewDIv(projectId, id, a, null, null);
       }
-      
-      
+
       function audit(id, type) {
-        /* layer.open({
+        layer.open({
           type: 2, //page层
-          area: ['800px', '800px'],
-          title: '请上传更改附件',
+          area: ['800px', '500px'],
+          title: '查看审核意见',
           shade: 0.01, //遮罩透明度
           moveType: 1, //拖拽风格，0是默认，1是传统拖动
           shift: 1, //0-6的动画形式，-1不开启
           shadeClose: true,
-          content: "${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=" + id + "&type=" + type;
-        }); */
-        window.location.href = "${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=" + id + "&type=" + type;
+          content: '${pageContext.request.contextPath}/Auditbidding/viewAudit.html?projectId=' + id + '&type=' + type
+        });
       }
       
+      /** 文件发售 **/
+      function sell(id,type) {
+        layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+          title: '查看文件发售',
+          shade: 0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          shadeClose: true,
+          content: '${pageContext.request.contextPath}/planSupervision/viewSell.html?packageId=' + id + '&type=' + type,
+        });
+      }
       
-      function OpenFile(fileId) {
-		    setTimeout(open_file(fileId),5000);
+      /** 开标 **/
+      function bid(id) {
+        layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+          title: '查看开标',
+          shade: 0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          shadeClose: true,
+          content: '${pageContext.request.contextPath}/planSupervision/bidAnnouncement.html?packageId=' + id,
+        });
+      }
+      
+      function openPrint(projectId,packageId){
+		    window.open("${pageContext.request.contextPath}/packageExpert/openPrint.html?packageId="+packageId+"&projectId="+projectId, "打印检查汇总表");
 		  }
 		  
-		  function open_file(fileId) {
-		    var obj = document.getElementById("TANGER_OCX");
-		    obj.Menubar = true;
-		    obj.Caption = "( 双击可放大 ! )";
-		    if(fileId != '0'){
-		      obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId="+fileId, true, false, 'word.document');// 异步加载, 服务器文件路径
-		    } else{
-		      var filePath = "${filePath}";
-		      if (filePath != null && filePath != undefined && filePath != ""){
-		      obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+filePath, true, false, 'word.document');// 异步加载, 服务器文件路径
-		      }
-		    }
+		  function openPrints(projectId,packageId){
+		    window.open("${pageContext.request.contextPath}/packageExpert/expertConsult.html?packageId="+packageId+"&projectId="+projectId+"&flag=1", "评审汇总表");
 		  }
+
+      function OpenFile(fileId) {
+        setTimeout(open_file(fileId), 5000);
+      }
+
+      function open_file(fileId) {
+        var obj = document.getElementById("TANGER_OCX");
+        obj.Menubar = true;
+        obj.Caption = "( 双击可放大 ! )";
+        if(fileId != '0') {
+          obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/loadFile.html?fileId=" + fileId, true, false, 'word.document'); // 异步加载, 服务器文件路径
+        } else {
+          var filePath = "${filePath}";
+          if(filePath != null && filePath != undefined && filePath != "") {
+            obj.BeginOpenFromURL("${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath=" + filePath, true, false, 'word.document'); // 异步加载, 服务器文件路径
+          }
+        }
+      }
     </script>
-    
-    
+
     <!-- 打开文档后调用  -->
-    <script type="text/javascript"  for="TANGER_OCX" event="OnDocumentOpened(a,b)">
-        //声明控件
-		    var obj = document.getElementById("TANGER_OCX");
-				// 转换日期格式  如果是CST 日期  转换 GMT 日期
-				function getTaskTime(strDate) { 
-				    if(null==strDate || ""==strDate){  
-				        return "";  
-				    }
-				    if(strDate.indexOf("GMT")>0){
-				      return new Date(strDate).Format("yyyy年MMdd日hh时mm分");
-				    }
-				    var dateStr=strDate.trim().split(" ");  
-				    var strGMT = dateStr[0]+" "+dateStr[1]+" "+dateStr[2]+" "+dateStr[5]+" "+dateStr[3]+" GMT+0800";  
-				    var date = new Date(Date.parse(strGMT));  
-				    var y = date.getFullYear();  
-				    var m = date.getMonth() + 1;    
-				    m = m < 10 ? ('0' + m) : m;  
-				    var d = date.getDate();    
-				    d = d < 10 ? ('0' + d) : d;  
-				    var h = date.getHours();  
-				    var minute = date.getMinutes();    
-				    minute = minute < 10 ? ('0' + minute) : minute;  
-				    var second = date.getSeconds();  
-				    second = second < 10 ? ('0' + second) : second;  
-				    return y+"年"+m+"月"+d+"日"+h+"时"+minute+"分";  
-				};  
-				       //通用方法 判断是否存在 存在则行
-				  function replaceContent(begin,end,date) {
-				     if(obj.ActiveDocument.Bookmarks.Exists(begin) && obj.ActiveDocument.Bookmarks.Exists(end)){
-				    obj.ActiveDocument.Range(ActiveDocument.Bookmarks(begin).Range.End,ActiveDocument.Bookmarks(end).Range.End).Select();
-				    obj.ActiveDocument.Application.Selection.Editors.Add(-1);//增加可编辑区域
-				    obj.ActiveDocument.Application.Selection.TypeText(date);
-				    obj.ActiveDocument.Bookmarks.Add(end);
-				     }
-				  }
-				    function loadWord(begin,end,url){
-				      obj.ActiveDocument.Range(ActiveDocument.Bookmarks(begin).Range.End,ActiveDocument.Bookmarks(end).Range.Start).Select();
-				    obj.ActiveDocument.Application.Selection.Editors.Add(-1);//增加可编辑区域
-				    obj.AddTemplateFromURL(url, false, true);
-				      
-				    }
-				  /**
-				   * ntko 控件加载玩之后调用
-				   * **/
-				  $(function() {
-				    // 组合word文档
-				    var marks = obj.ActiveDocument.Bookmarks;//获取所有的书签
-				    var filePath = "${filePath}";
-				    if (filePath != null && filePath != "") {
-				      var pathArray = filePath.split(",");
-				      if (pathArray.length > 1) {
-				        //项目名称
-				        replaceContent("SYS_1", "SYS_1_1", "${project.name}");
-				        //项目编号
-				        replaceContent("SYS_2", "SYS_2_2", "${project.projectNumber}");
-				        //招标人
-				        replaceContent("SYS_3", "SYS_3_1", "${project.sectorOfDemand}");
-				        //项目名称
-				        replaceContent("SYS_20171200", "SYS_20171201", "${project.name}");
-				        //项目编号
-				        replaceContent("SYS_20171202", "SYS_20171203", "${project.projectNumber}");
-				        //投标截止时间
-				        replaceContent("SYS_20171204", "SYS_20171205", "${project.deadline}");
-				        // 投标地点
-				        replaceContent("SYS_20171206", "SYS_20171207", "${project.bidAddress}");
-				        // 开标时间
-				        replaceContent("SYS_20171208", "SYS_20171209", "${project.bidDate}");
-				        //开标地点
-				        replaceContent("SYS_20171210", "SYS_20171211", "${project.bidAddress}");
-				        //招标人
-				        replaceContent("SYS_20171212", "SYS_20171213", "${project.sectorOfDemand}");
-				        //招标人
-				        replaceContent("SYS_20171214", "SYS_20171215", "${project.sectorOfDemand}");
-				        //招标人
-				        replaceContent("SYS_20171216", "SYS_20171217", "${project.sectorOfDemand}");
-				
-				        //定位定义标签位置
-				        loadWord("DW_TWO_TWO", "DW_TWO_THREE", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+ pathArray[1]);
-				        loadWord("DW_THREE_2", "DW_THREE_3", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath="+ pathArray[0]);
-				        obj.ActiveDocument.DeleteAllEditableRanges(-1);//取消编辑
-				      }
-				    }
-				    for ( var i = 1; i <= marks.Count; i++) {
-				      // 判读 标签 可编辑
-				      if (marks(i).Name.indexOf("EDITOR") == 0) {
-				        obj.ActiveDocument.Bookmarks(marks(i).Name).Range.Select();//选取书签区域保护
-				        obj.ActiveDocument.Application.Selection.Editors.Add(-1);//增加可编辑区域
-				        //添加 内容标识显示
-				        obj.ActiveDocument.ActiveWindow.View.ShadeEditableRanges = true;
-				        obj.ActiveDocument.ActiveWindow.View.ShowBookmarks = true;
-				      }
-				    }
-				    if (obj.ActiveDocument.ProtectionType == -1) {
-				      obj.ActiveDocument.Protect(3);//实现文档保护
-				    }
-				    obj.ActiveDocument.Bookmarks("OLE_LINK_TOP").Select();
-				
-				  });
-		</script>
+    <script type="text/javascript" for="TANGER_OCX" event="OnDocumentOpened(a,b)">
+      //声明控件
+      var obj = document.getElementById("TANGER_OCX");
+      // 转换日期格式  如果是CST 日期  转换 GMT 日期
+      function getTaskTime(strDate) {
+        if(null == strDate || "" == strDate) {
+          return "";
+        }
+        if(strDate.indexOf("GMT") > 0) {
+          return new Date(strDate).Format("yyyy年MMdd日hh时mm分");
+        }
+        var dateStr = strDate.trim().split(" ");
+        var strGMT = dateStr[0] + " " + dateStr[1] + " " + dateStr[2] + " " + dateStr[5] + " " + dateStr[3] + " GMT+0800";
+        var date = new Date(Date.parse(strGMT));
+        var y = date.getFullYear();
+        var m = date.getMonth() + 1;
+        m = m < 10 ? ('0' + m) : m;
+        var d = date.getDate();
+        d = d < 10 ? ('0' + d) : d;
+        var h = date.getHours();
+        var minute = date.getMinutes();
+        minute = minute < 10 ? ('0' + minute) : minute;
+        var second = date.getSeconds();
+        second = second < 10 ? ('0' + second) : second;
+        return y + "年" + m + "月" + d + "日" + h + "时" + minute + "分";
+      };
+      //通用方法 判断是否存在 存在则行
+      function replaceContent(begin, end, date) {
+        if(obj.ActiveDocument.Bookmarks.Exists(begin) && obj.ActiveDocument.Bookmarks.Exists(end)) {
+          obj.ActiveDocument.Range(ActiveDocument.Bookmarks(begin).Range.End, ActiveDocument.Bookmarks(end).Range.End).Select();
+          obj.ActiveDocument.Application.Selection.Editors.Add(-1); //增加可编辑区域
+          obj.ActiveDocument.Application.Selection.TypeText(date);
+          obj.ActiveDocument.Bookmarks.Add(end);
+        }
+      }
+
+      function loadWord(begin, end, url) {
+        obj.ActiveDocument.Range(ActiveDocument.Bookmarks(begin).Range.End, ActiveDocument.Bookmarks(end).Range.Start).Select();
+        obj.ActiveDocument.Application.Selection.Editors.Add(-1); //增加可编辑区域
+        obj.AddTemplateFromURL(url, false, true);
+
+      }
+      /**
+       * ntko 控件加载玩之后调用
+       * **/
+      $(function() {
+        // 组合word文档
+        var marks = obj.ActiveDocument.Bookmarks; //获取所有的书签
+        var filePath = "${filePath}";
+        if(filePath != null && filePath != "") {
+          var pathArray = filePath.split(",");
+          if(pathArray.length > 1) {
+            //项目名称
+            replaceContent("SYS_1", "SYS_1_1", "${project.name}");
+            //项目编号
+            replaceContent("SYS_2", "SYS_2_2", "${project.projectNumber}");
+            //招标人
+            replaceContent("SYS_3", "SYS_3_1", "${project.sectorOfDemand}");
+            //项目名称
+            replaceContent("SYS_20171200", "SYS_20171201", "${project.name}");
+            //项目编号
+            replaceContent("SYS_20171202", "SYS_20171203", "${project.projectNumber}");
+            //投标截止时间
+            replaceContent("SYS_20171204", "SYS_20171205", "${project.deadline}");
+            // 投标地点
+            replaceContent("SYS_20171206", "SYS_20171207", "${project.bidAddress}");
+            // 开标时间
+            replaceContent("SYS_20171208", "SYS_20171209", "${project.bidDate}");
+            //开标地点
+            replaceContent("SYS_20171210", "SYS_20171211", "${project.bidAddress}");
+            //招标人
+            replaceContent("SYS_20171212", "SYS_20171213", "${project.sectorOfDemand}");
+            //招标人
+            replaceContent("SYS_20171214", "SYS_20171215", "${project.sectorOfDemand}");
+            //招标人
+            replaceContent("SYS_20171216", "SYS_20171217", "${project.sectorOfDemand}");
+
+            //定位定义标签位置
+            loadWord("DW_TWO_TWO", "DW_TWO_THREE", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath=" + pathArray[1]);
+            loadWord("DW_THREE_2", "DW_THREE_3", "${pageContext.request.contextPath}/open_bidding/downloadFile.html?filePath=" + pathArray[0]);
+            obj.ActiveDocument.DeleteAllEditableRanges(-1); //取消编辑
+          }
+        }
+        for(var i = 1; i <= marks.Count; i++) {
+          // 判读 标签 可编辑
+          if(marks(i).Name.indexOf("EDITOR") == 0) {
+            obj.ActiveDocument.Bookmarks(marks(i).Name).Range.Select(); //选取书签区域保护
+            obj.ActiveDocument.Application.Selection.Editors.Add(-1); //增加可编辑区域
+            //添加 内容标识显示
+            obj.ActiveDocument.ActiveWindow.View.ShadeEditableRanges = true;
+            obj.ActiveDocument.ActiveWindow.View.ShowBookmarks = true;
+          }
+        }
+        if(obj.ActiveDocument.ProtectionType == -1) {
+          obj.ActiveDocument.Protect(3); //实现文档保护
+        }
+        obj.ActiveDocument.Bookmarks("OLE_LINK_TOP").Select();
+
+      });
+    </script>
 
     <body>
       <!--面包屑导航开始-->
@@ -238,7 +271,7 @@
                   <a href="javascript:void(0);">
                     <p class="tip_main">采购需求编报</p>
                     <p class="tip_time">
-                      <fmt:formatDate value='${purchaseRequired.createdAt}' pattern='yyyy-MM-dd  HH:mm:ss' />
+                      <fmt:formatDate value='${purchaseRequired.createdAt}' pattern='yyyy-MM-dd' />
                     </p>
                   </a>
                 </div>
@@ -389,7 +422,7 @@
                 <div class="tip_line col-md-5 col-sm-3 col-xs-4"></div>
                 <div class="tip_down col-xs-offset-6"></div>
               </div>
-              
+
               <div class="flow_tips col-md-2 col-sm-2 col-xs-12">
                 <div class="col-md-7 col-sm-9 col-xs-12 tip_btn">
                   <a href="javascript:void(0);">
@@ -448,14 +481,14 @@
 
           </div>
         </div>
-        <c:set var="flag" value="0"/>
-        <c:forEach begin="1"  end="${number}" var="aa" varStatus="vas">
-          <c:set var="count" value="${count+1}"/>
+        <c:set var="flag" value="0" />
+        <c:forEach begin="1" end="${number}" var="aa" varStatus="vas">
+          <c:set var="count" value="${count+1}" />
         </c:forEach>
         <div class="padding-top-10 clear">
           <h2 class="count_flow"><i>3</i>进度详情</h2>
           <ul class="ul_list">
-            <h2 class="count_flow"><i>${flag}</i>采购需求编报</h2>
+            <h2 class="count_flow"><i>1</i>采购需求编报</h2>
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
@@ -474,8 +507,8 @@
                 </tr>
               </tbody>
             </table>
-  
-            <h2 class="count_flow"><i>${flag}</i>采购需求受理</h2>
+
+            <h2 class="count_flow"><i>2</i>采购需求受理</h2>
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
@@ -496,7 +529,7 @@
             </table>
 
             <c:if test="${advancedProject != null}">
-            <h2 class="count_flow"><i>${flag}</i>预研任务下达</h2>
+              <h2 class="count_flow"><i>3</i>预研任务下达</h2>
               <table class="table table-bordered mt10">
                 <tbody>
                   <tr>
@@ -521,6 +554,7 @@
 
             <c:choose>
               <c:when test="${listAuditPerson != null}">
+                <h2 class="count_flow"><i>4</i>采购计划审核</h2>
                 <table class="table table-bordered mt10">
                   <thead>
                     <tr>
@@ -549,6 +583,7 @@
               </c:otherwise>
             </c:choose>
 
+            <h2 class="count_flow"><i>5</i>采购计划下达</h2>
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
@@ -570,6 +605,7 @@
               </tbody>
             </table>
 
+            <h2 class="count_flow"><i>6</i>采购任务受领</h2>
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
@@ -594,6 +630,8 @@
               </tbody>
             </table>
 
+
+            <h2 class="count_flow"><i>7</i>采购项目立项</h2>
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
@@ -605,22 +643,22 @@
                   <th class="info">立项时间</th>
                 </tr>
                 <tr>
-                      <td>${project.name}</td>
-		                  <td class="tc"><button class="btn" onclick="viewUpload('${uploadId}');" type="button">查看</button></td>
-		                  <td>${project.purchaseDepName}</td>
-		                  <td>
-		                    <c:if test="${status eq '0'}">正常</c:if>
-		                    <c:if test="${status eq '1'}">预研</c:if>
-		                  </td>
-		                  <td>${project.appointMan}</td>
-		                  <td>
-		                    <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
-		                  </td>
+                  <td>${project.name}</td>
+                  <td class="tc"><button class="btn" onclick="viewUpload('${uploadId}');" type="button">查看</button></td>
+                  <td>${project.purchaseDepName}</td>
+                  <td>
+                    <c:if test="${status eq '0'}">正常</c:if>
+                    <c:if test="${status eq '1'}">预研</c:if>
+                  </td>
+                  <td>${project.appointMan}</td>
+                  <td>
+                    <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
                 </tr>
               </tbody>
             </table>
-            
-            
+
+            <h2 class="count_flow"><i>8</i>采购文件编报</h2>
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
@@ -631,8 +669,10 @@
                   <th class="info">意见批复时间</th>
                 </tr>
                 <tr>
-                  <td><a href="javascript:void(0)" onclick="OpenFile('${fileId}')">${fileName}</a></td>
-                  <td class="tc"></td>
+                  <td>
+                    <a href="javascript:void(0)" onclick="OpenFile('${fileId}')">${fileName}</a>
+                  </td>
+                  <td class="tc">${operatorName}</td>
                   <td>
                     <fmt:formatDate value='${project.approvalTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
@@ -643,6 +683,185 @@
                   </td>
                   <td>
                     <fmt:formatDate value='${project.replyTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>9</i>采购公告发布</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">公告名称</th>
+                  <th class="info">编制人</th>
+                  <th class="info">编制时间</th>
+                </tr>
+                <tr>
+                  <td>${articles.name}</td>
+                  <td>${articles.userId}</td>
+                  <td>
+                    <fmt:formatDate value='${articles.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>10</i>供应商抽取</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">抽取记录</th>
+                  <th class="info">抽取人</th>
+                  <th class="info">监督人</th>
+                  <th class="info">编制时间</th>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>11</i>采购文件发售</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">文件发售记录</th>
+                  <th class="info">操作人</th>
+                  <th class="info">发售时间</th>
+                </tr>
+                <tr>
+                  <td class="tc"><button class="btn" onclick="sell('${packageId}','1')" type="button">查看</button></td>
+                  <td></td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>12</i>评审专家抽取</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">抽取记录</th>
+                  <th class="info">抽取人</th>
+                  <th class="info">监督人</th>
+                  <th class="info">抽取时间</th>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            
+            <h2 class="count_flow"><i>13</i>开标</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">投标记录</th>
+                  <th class="info">开标一览表</th>
+                  <th class="info">开标人</th>
+                  <th class="info">开标时间</th>
+                </tr>
+                <tr>
+                  <td class="tc"><button class="btn" onclick="sell('${packageId}','2')" type="button">查看</button></td>
+                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
+                  <td></td>
+                  <td>
+                    <fmt:formatDate value='${project.bidDate}' pattern='yyyy年MM月dd日  HH:mm:ss'/>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            
+            <h2 class="count_flow"><i>14</i>采购项目评审</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">文件名称</th>
+                  <th class="info">查看评审专家打分表</th>
+                  <th class="info">查看汇总表</th>
+                  <th class="info">评审时间</th>
+                </tr>
+                <tr>
+                  <td>资格性符合性检查</td>
+                  <td>
+                    <c:forEach items="${experts}" var="obj" varStatus="vs">
+                      <c:set value="${vs.index}" var="index"></c:set>
+                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}" target="view_window">${experts[index].relName}</a>
+                    </c:forEach>
+                  </td>
+                  <td class="tc"><button class="btn" onclick="openPrint('${project.id}','${packageId}')" type="button">查看</button></td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>技术商务评分（审查）</td>
+                  <td>
+                    <c:forEach items="${experts}" var="obj" varStatus="vs">
+                      <c:set value="${vs.index}" var="index"></c:set>
+                      <a href="${pageContext.request.contextPath}/packageExpert/printView.html?projectId=${project.id}&packageId=${packageId}&expertId=${experts[index].id}&auditType=1" target="view_window">${experts[index].relName}</a>
+                    </c:forEach>
+                  </td>
+                  <td class="tc"><button class="btn" onclick="openPrints('${project.id}','${packageId}')" type="button">查看</button></td>
+                  <td>
+                  </td>
+                </tr>
+                <tr>
+                  <td>专家评审报告</td>
+                  <td>
+                    <c:forEach items="${expertIdList}" var="obj" varStatus="vs">
+                      <c:if test="${obj.isGroupLeader == 1}">组长:${obj.expertId}</c:if>
+                    </c:forEach>
+                  </td>
+                  <td class="tc"><button class="btn" onclick="bid('${packageId}')" type="button">查看</button></td>
+                  <td>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>15</i>中标公示发布</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">中标公示名称</th>
+                  <th class="info">编制人</th>
+                  <th class="info">编制时间</th>
+                </tr>
+                <tr>
+                  <td>${articleList.name}</td>
+                  <td>${articleList.userId}</td>
+                  <td>
+                    <fmt:formatDate value='${articleList.createdAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            
+            <h2 class="count_flow"><i>16</i>中标供应商确定</h2>
+            <table class="table table-bordered mt10">
+              <tbody>
+                <tr>
+                  <th class="info">中标供应商名称</th>
+                  <th class="info">评分排序</th>
+                  <th class="info">操作人</th>
+                  <th class="info">确定时间</th>
+                </tr>
+                <tr>
+                  <td></td>
+                  <td></td>
+                  <td></td>
+                  <td>
                   </td>
                 </tr>
               </tbody>

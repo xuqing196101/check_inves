@@ -183,7 +183,9 @@
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
 		});
+	
 		$("input[name='supplierTypeIds']").val(id);
+		var types=$("#supplierTypes").val();
 		// 保存工程地址附件信息
 		var areaIds = "";
 		$("#areaSelect").find("option").each(function(i, element){
@@ -194,8 +196,8 @@
 		$("#businessScope").val(areaIds);
 		$.ajax({
 					url : "${pageContext.request.contextPath}/supplier/saveSupplierType.do",
-					type : "post",
-					data : $("#save_pro_form_id").serializeArray(),
+					type : "post",  
+					data : $("#save_pro_form_id").serialize(),
 					contextType : "application/x-www-form-urlencoded",
 					success : function(msg) {
 						var data = msg.split(",");
@@ -2157,7 +2159,8 @@
 									<%-- </c:if> --%>
 
 								</div>
-								<input name="supplierTypeIds" type="hidden" /> <input
+								<input name="supplierTypeIds" type="hidden" value="" /> <input
+								 
 									type="hidden" value="${currSupplier.supplierTypeIds }"
 									id="supplierTypes">
 							</div>

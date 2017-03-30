@@ -132,7 +132,8 @@ public class OBResultSubtabulation {
 		this.projectId = projectId;
 	}
 
-	public String getId() {
+
+    public String getId() {
         return id;
     }
 

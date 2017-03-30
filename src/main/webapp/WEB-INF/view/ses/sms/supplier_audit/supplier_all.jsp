@@ -29,6 +29,11 @@
 						}
 					});
 				});
+				
+				//Ma Mingwei
+				function trim(str){ //删除左右两端的空格
+					return str.replace(/(^\s*)|(\s*$)/g, "");
+				}
 			
 				/** 全选全不选 */
 				function selectAll() {
@@ -75,7 +80,8 @@
 						}
 						var id = $(":radio:checked").val();
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
 					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
@@ -90,15 +96,25 @@
 					     	offset : '100px',
 					     });
 					     return;
-					 } */
+					 } */ 
 					$.ajax({
 							url: "${pageContext.request.contextPath}/supplierAudit/auditNotReason.do",
 							data: {"supplierId" : id},
 							success: function(result) {
 							
 								if(result == "" || result == null){
-									$("input[name='supplierId']").val(id);
-									$("#shenhe_form_id").submit();
+									layer.alert('点击审核项,弹出不通过理由框！', {
+										title: '审核操作说明：',
+										skin: 'layui-layer-molv', //样式类名
+										closeBtn: 0,
+										offset: '100px',
+										shift: 4 //动画类型
+									},
+										function(){
+											$("input[name='supplierId']").val(id);
+											$("#shenhe_form_id").submit();
+									});
+									
 								}else{
 									layer.alert (result, {
 											title: '上次未通过审核的原因：',
@@ -146,16 +162,20 @@
 				//重置搜索栏
 				function resetForm() {
 					$("input[name='supplierName']").val("");
-					//还原select下拉列表只需要这一句
-					$("#status option:selected").removeAttr("selected");
-					$("#businessType option:selected").removeAttr("selected");
+					//还原select下拉列表只需要这一句-//但是这一句话不支持IE8即
+					//$("#status option:selected").removeAttr("selected");
+					//$("#businessType option:selected").removeAttr("selected");
+					//都改成js代码,测试IE8也行的通
+					document.getElementById("status")[1].selected = true;
+					document.getElementById("businessType")[0].selected = true;
 					$("#form1").submit();
 				}
 				
 				//发布
 				function publish(){
 			  	var id = $(":radio:checked").val();
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					state = trim(state);
 					if(id != null){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
 			  	 			$.ajax({
@@ -268,20 +288,20 @@
       <li class="fl">
 	      <label class="fl">状态：</label> 
 	      <select name="status" class="w178" id="status">
-	        <option value="">-请选择-</option>
+	        <option value="">全部</option>
         	<c:if test="${sign eq '1' }">
-        		<option <c:if test="${state == 0 or state == null}">selected</c:if> value="0">待审核</option>
+        		<option <c:if test="${state == 0 }">selected</c:if> value="0">待审核</option>
             <option <c:if test="${state == 1 }">selected</c:if> value="1">审核通过 </option>
             <option <c:if test="${state == 2 }">selected</c:if> value="2">审核退回</option>
             <option <c:if test="${state == 3 }">selected</c:if> value="3">审核未通过</option>
         	</c:if>
         	<c:if test="${sign eq '2' }">
-        		<option <c:if test="${state == 4 or state == null}">selected</c:if> value="4">待复核</option>
+        		<option <c:if test="${state == 4 }">selected</c:if> value="4">待复核</option>
             <option <c:if test="${state == 5 }">selected</c:if> value="5">复核通过</option>
             <option <c:if test="${state == 6 }">selected</c:if> value="6">复核未通过 </option>
         	</c:if>
         	<c:if test="${sign eq '3' }">
-        	  <option <c:if test="${state == 5 or state == null}">selected</c:if> value="5">待考察</option>
+        	  <option <c:if test="${state == 5 }">selected</c:if> value="5">待考察</option>
         		<option <c:if test="${state == 7 }">selected</c:if> value="7">合格</option>
              <option <c:if test="${state == 8 }">selected</c:if> value="8">不合格</option>
         	</c:if>

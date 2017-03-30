@@ -3349,7 +3349,14 @@ public class ExpertController extends BaseController {
         // 最高学历
         expert.setHightEducation(dictionaryDataServiceI.getDictionaryData(expert.getHightEducation()).getName());
         // 最高学位
-        expert.setDegree(dictionaryDataServiceI.getDictionaryData(expert.getDegree()).getName());
+        if(expert.getDegree()!=null){
+        	  DictionaryData data = dictionaryDataServiceI.getDictionaryData(expert.getDegree());
+              if(data!=null){
+              	expert.setDegree(dictionaryDataServiceI.getDictionaryData(expert.getDegree()).getName());
+              }
+        }
+      
+        
         // 军队人员身份证件类型
         String idType = expert.getIdType();
         if(idType != null) {
@@ -3575,7 +3582,6 @@ public class ExpertController extends BaseController {
     @RequestMapping(value = "/searchCate", produces = "application/json;charset=utf-8")
     public String searchCate(String typeId, String cateName, String expertId, String supplierId, String codeName) throws Exception {
     	
-    	cateName = (cateName == null ? null : new String(cateName.getBytes("ISO-8859-1"),"UTF-8"));
         DictionaryData typeData = DictionaryDataUtil.findById(typeId);
         if (typeData != null && typeData.getCode().equals("ENG_INFO_ID")) {
             // 查询出所有满足条件的品目
@@ -3830,21 +3836,25 @@ public class ExpertController extends BaseController {
      */
     public  List<ExpertCategory> getCategoriesTxt(String expertId) {
       // 查询已选中的节点信息
-      List<ExpertCategory> items = new ArrayList<ExpertCategory>();
+//      List<ExpertCategory> items = new ArrayList<ExpertCategory>();
       
-      Expert selectByPrimaryKey = service.selectByPrimaryKey(expertId);
-      String expertsTypeId = selectByPrimaryKey.getExpertsTypeId();
-      if(expertsTypeId != null && !"".equals(expertsTypeId)){
-        String[] split = expertsTypeId.split(",");
-        for (String typeId : split) {
-          if(typeId.equals(DictionaryDataUtil.getId("PROJECT")) || typeId.equals(DictionaryDataUtil.getId("GOODS_PROJECT"))) {
-            items.addAll(expertCategoryService.getListByExpertId(expertId,DictionaryDataUtil.getId("ENG_INFO_ID")));
-          }
-          items.addAll(expertCategoryService.getListByExpertId(expertId,typeId));
-        }  
-      }
-
+//      Expert selectByPrimaryKey = service.selectByPrimaryKey(expertId);
+//      String expertsTypeId = selectByPrimaryKey.getExpertsTypeId();
+//      if(expertsTypeId != null && !"".equals(expertsTypeId)){
+//        String[] split = expertsTypeId.split(",");
+//        for (String typeId : split) {
+//          if(typeId.equals(DictionaryDataUtil.getId("PROJECT")) || typeId.equals(DictionaryDataUtil.getId("GOODS_PROJECT"))) {
+//            items.addAll(expertCategoryService.getListByExpertId(expertId,DictionaryDataUtil.getId("ENG_INFO_ID")));
+//           } 
+//        	
+//          items.addAll(expertCategoryService.getListByExpertId(expertId,typeId));
+//        
+//         
+//        }  
+//      }
+//
       List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+       List<ExpertCategory> items = expertCategoryService.findByExpertId(expertId);
       for (ExpertCategory expertCategory : items) {
         if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
           Category data = categoryService.findById(expertCategory.getCategoryId());

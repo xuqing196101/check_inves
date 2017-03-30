@@ -210,6 +210,9 @@ public class Expert extends ExpertHistory implements Serializable {
     //是否发布 0 未公开 1 已公开
     private Integer isPublish = 0;
     
+    //用户名
+    private String loginName;
+    
     public String getStepNumber() {
         return stepNumber;
     }
@@ -664,6 +667,14 @@ public class Expert extends ExpertHistory implements Serializable {
 
 	public void setIsPublish(Integer isPublish) {
 		this.isPublish = isPublish;
+	}
+
+	public String getLoginName() {
+		return loginName;
+	}
+
+	public void setLoginName(String loginName) {
+		this.loginName = loginName;
 	}
 
     

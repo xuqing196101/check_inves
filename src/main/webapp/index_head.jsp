@@ -663,86 +663,86 @@ function importAdd(){
       <!-- End 专家 -->
 
       <!-- 投诉 -->
-        <li class="dropdown other tousu_li mega-menu-fullwidth">
+    <li class="dropdown other tousu_li mega-menu-fullwidth">
           <a class="dropdown-toggle " data-toggle="dropdown" href="javascript:void(0);"><i class="tousu nav_icon"></i>评审专家</a>
-	<!--评审专家鼠标移动开始-->
-		 <div class="drop_next dropdown-menu" >
-	   <div class="row magazine-page clear">
-	<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
-	 <div class="drop_main">
-	  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
-	     <%-- <% if (environment != null && environment.equals("0")){ %>
-	        <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	     <% } %>
-	     <% if (environment != null && environment.equals("1")){ %>
-	        <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-	     <% } %> --%>
-	     <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
-		   评审专家注册
-		 <i></i>
-		</a>	  
+			<!--评审鼠标移动开始-->
+		  <div class="drop_next dropdown-menu" >
+		   <div class="row magazine-page clear">
+			<div class="col-md-12 col-sm-12 col-xs-12 drop_hover"  id="drop-4">
+			 <div class="drop_main">
+			  <div class="col-md-2 col-xs-2 col-sm-2 mt20 supp_login">
+	    		 <%-- <% if (environment != null && environment.equals("0")){ %>
+	    		    <a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+	   			  <% } %>
+	    		 <% if (environment != null && environment.equals("1")){ %>
+	    		    <a onclick="expertRegisterTip();" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+	    		 <% } %> --%>
+	     		<a href="${pageContext.request.contextPath}/expert/toRegisterNotice.html" class="col-md-offset-4 col-sm-offset-0 col-xs-offset-0">
+				   评审专家注册
+				 <i></i>
+				</a>	  
+	 		  </div>
+	 		  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
+			   <div class="headline-v2">
+     		    <h2>专家名录<a href="#" class="fr f14">更多>></a></h2>
+     		   </div>
+     		   <div class="job-content col-md-12 col-sm-12 col-xs-12">
+		    		<div class="categories zhuanjia_list">
+             		 <c:choose>
+           			   <c:when test="${expertList!=null }">
+         				<table class="table table-bordered " >
+       					 <thead>
+         					 <tr >
+								<th class="tc info" width="55%">专家名称</th>
+								<th class="tc info" width="25%">编号</th>
+								<th class="tc info" width="20%">状态</th>
+							 </tr>
+						 </thead>
+				     	 <tbody>
+							<c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" > 
+								<tr>
+									<td>${item.relName }</td>
+									<td class="tc">编号111111</td>
+									<td class="tc"> <c:choose>
+          						      <%-- <c:when test="${item.status == 0}">
+										          未审核
+									    </c:when>
+									     <c:when test="${item.status == 1}">
+											初审通过
+										 </c:when>
+									     <c:when test="${item.status == 2}">
+						       				 初审未通过
+						   				 </c:when>
+						   				 <c:when test="${item.status == 3}">
+						       				 退回修改
+						  				 </c:when>
+						   				 <c:when test="${item.status == 4}">
+						 					    待复审
+						  			     </c:when> --%>
+						  			     <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+						     		  	   复审通过
+						  			     </c:when>
+						  			     <c:when test="${item.status eq '7'}">
+						     			   复查通过
+						 			     </c:when>
+						   			    <c:otherwise>
+								       </c:otherwise>
+               					     </c:choose>
+               				      </td>
+								</tr>
+							 </c:forEach> 
+							</tbody>
+						  </table>
+                		</c:when>
+                		<c:otherwise>
+                			暂无数据
+                		</c:otherwise>
+               		</c:choose>   
+					</div>
+		  		</div>
+		
 	  </div>
-	  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
-	   <div class="headline-v2">
-         <h2>专家名录<a href="#" class="fr f14">更多>></a></h2>
-        </div>
-         <div class="job-content col-md-12 col-sm-12 col-xs-12">
-         
-		    <div class="categories zhuanjia_list">
-               <c:choose>
-            <c:when test="${expertList!=null }">
-         <table class="table table-bordered " >
-        <thead>
-          <tr >
-			<th class="tc info" width="55%">专家名称</th>
-			<th class="tc info" width="25%">编号</th>
-			<th class="tc info" width="20%">状态</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" > 
-			<tr>
-			<td>${item.relName }</td>
-			<td class="tc">编号111111</td>
-			<td class="tc"> <c:choose>
-                <%-- <c:when test="${item.status == 0}">
-						          未审核
-						    </c:when>
-						     <c:when test="${item.status == 1}">
-						          初审通过
-						    </c:when>
-						    <c:when test="${item.status == 2}">
-						           初审未通过
-						    </c:when>
-						    <c:when test="${item.status == 3}">
-						        退回修改
-						    </c:when>
-						   <c:when test="${item.status == 4}">
-						        待复审
-						    </c:when> --%>
-						    <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
-						        复审通过
-						    </c:when>
-						    <c:when test="${item.status eq '7'}">
-						        复查通过
-						    </c:when>
-						    <c:otherwise>
-						    </c:otherwise>
-                </c:choose></td>
-				</tr>
-				 </c:forEach> 
-				</tbody>
-				</table>
-                	</c:when>
-                	<c:otherwise>
-                		<li class="tc">暂无数据</li>
-                	</c:otherwise>
-                </c:choose>   
-			</div>
-		  </div>
-	  </div>
-	  
-		<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
+	    	<div class="login_box job-content col-md-5 col-sm-5 col-xs-12 mt10">
 		 <h2 class="f17 bgwhite">
 		 <ul class="list-unstyled login_tab">
 		  <li class="active fl"><a aria-expanded="true" href="#tab-39" data-toggle="tab">诚信记录</a></li>
@@ -774,6 +774,7 @@ function importAdd(){
 	  </div>
 	</div>
    </div>
+	
    </div>
    </div>
         </li>

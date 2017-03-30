@@ -73,4 +73,9 @@ public class OBProductServiceImpl implements OBProductService {
 		oBProductMapper.fab(id);
 	}
 
+	@Override
+	public List<OBProduct> selectAllAmallPointsId(String name) {
+		return oBProductMapper.selectAllAmallPointsId(name);
+	}
+
 }

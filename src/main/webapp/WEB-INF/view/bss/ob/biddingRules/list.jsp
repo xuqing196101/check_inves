@@ -176,7 +176,7 @@
       }
 	
 	
-	<!--搜索-->
+	//<!--搜索-->
 	function query(){
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/ruleList.html");
 		$("#queryForm").submit();

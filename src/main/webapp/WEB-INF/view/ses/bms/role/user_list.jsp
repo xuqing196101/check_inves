@@ -97,13 +97,13 @@
 					<tr>
 					  <td class="tc">${(vs.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 					  <td class="tl pl20" ><a href="#" onclick="view('${user.id}');">${user.loginName}</a></td>
-					  <td class="tc">${user.relName}</td>
+					  <td class="tc w150">${user.relName}</td>
 					  <td class="tl pl20">
 					  	<c:if test="${user.org != null }">${user.org.name}</c:if>
 					  	<c:if test="${user.org == null }">${user.orgName}</c:if>
 					  </td>
 					  <td class="tc">${user.mobile}</td>
-					  <td class="tc">
+					  <td class="tc w150">
 					  	<c:set var="roleCode" value=""/>
 					  	<c:forEach items="${user.roles}" var="r" varStatus="vs">
 			        		<c:if test="${vs.index == 0 }">

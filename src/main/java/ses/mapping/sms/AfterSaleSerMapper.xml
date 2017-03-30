@@ -55,8 +55,8 @@
 	
 	<!-- 根据id删除 -->
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String">
-    delete from T_SES_SMS_AFTER_SALE_SERVICE
-    where ID = #{id}
+    UPDATE T_SES_SMS_AFTER_SALE_SERVICE SET IS_DELETED=1
+    WHERE ID = #{id}
   </delete>
 	
 	<!-- 插入数据 -->
@@ -205,8 +205,8 @@
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},
       </if>
-      <if test="updatedAt != null">
-        UPDATED_AT = #{updatedAt},
+      <if test="updateAt != null">
+        UPDATED_AT = #{updateAt},
       </if>
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},

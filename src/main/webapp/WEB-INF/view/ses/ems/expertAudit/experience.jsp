@@ -156,7 +156,7 @@
 							<i></i>
 						</li>
 						<li onclick="jump('product')" >
-							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品目录</a>
+							<a aria-expanded="false" href="#tab-1" data-toggle="tab">产品类别</a>
 							<i></i>
 						</li>
 						<li onclick="jump('expertFile')" >

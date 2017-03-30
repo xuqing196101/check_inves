@@ -14,11 +14,12 @@
     <result column="DELIVER_DATE" jdbcType="VARCHAR" property="deliverDate" />
     <result column="MEMO" jdbcType="VARCHAR" property="memo" />
     <result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
+    <result column="DETAIL_ID" jdbcType="VARCHAR" property="detailId" />
     <result column="IS_DELETED" jdbcType="DECIMAL" property="isDeleted" />
   </resultMap>
   <sql id="Base_Column_List">
     ID, PLAN_NO, GOODS_NAME, BRAND, STAND, ITEM, PURCHASE_COUNT, PRICE, AMOUNT, DELIVER_DATE, 
-    MEMO, CONTRACT_ID,IS_DELETED
+    MEMO, CONTRACT_ID,IS_DELETED,DETAIL_ID
   </sql>
   <select id="selectConRequByPrimaryKey" parameterType="java.lang.String" resultMap="ConRequ">
     select 
@@ -26,7 +27,12 @@
     from T_BSS_CS_CONTRACT_REQUIRED
     where ID = #{id,jdbcType=VARCHAR}
   </select>
-  
+  <select id="selectConRequByDetailId" parameterType="java.lang.String" resultMap="ConRequ">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_CS_CONTRACT_REQUIRED
+    where DETAIL_ID = #{id}
+  </select>
   <select id="selectConRequeByContractId" parameterType="java.lang.String" resultMap="ConRequ">
   	select
   	<include refid="Base_Column_List" />
@@ -48,13 +54,13 @@
     insert into T_BSS_CS_CONTRACT_REQUIRED (ID, PLAN_NO, GOODS_NAME, 
       BRAND, STAND, ITEM, 
       PURCHASE_COUNT, PRICE, AMOUNT, 
-      DELIVER_DATE, MEMO, CONTRACT_ID,IS_DELETED
+      DELIVER_DATE, MEMO, CONTRACT_ID,IS_DELETED,DETAIL_ID
       )
     values (#{id,jdbcType=VARCHAR}, #{planNo,jdbcType=VARCHAR}, #{goodsName,jdbcType=VARCHAR}, 
       #{brand,jdbcType=VARCHAR}, #{stand,jdbcType=VARCHAR}, #{item,jdbcType=VARCHAR}, 
       #{purchaseCount,jdbcType=DECIMAL}, #{price,jdbcType=DECIMAL}, #{amount,jdbcType=DECIMAL}, 
       #{deliverDate,jdbcType=VARCHAR}, #{memo,jdbcType=VARCHAR}, #{purchaseContract.id,jdbcType=VARCHAR},
-      #{isDeleted}
+      #{isDeleted},#{detailId}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.ContractRequired">
@@ -102,6 +108,9 @@
       <if test="isDeleted != null">
         IS_DELETED,
       </if>
+      <if test="detailId != null">
+        DETAIL_ID,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -142,6 +151,9 @@
       </if>
       <if test="isDeleted != null">
         #{isDeleted},
+      </if>
+      <if test="detailId != null">
+        #{detailId},
       </if>
     </trim>
   </insert>
@@ -184,6 +196,9 @@
       <if test="isDeleted != null">
         IS_DELETED = #{isDeleted},
       </if>
+      <if test="detailId != null">
+        DETAIL_ID=#{detailId},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -200,7 +215,8 @@
       DELIVER_DATE = #{deliverDate,jdbcType=VARCHAR},
       MEMO = #{memo,jdbcType=VARCHAR},
       CONTRACT_ID = #{contractId,jdbcType=VARCHAR},
-      IS_DELETED = #{isDeleted}
+      IS_DELETED = #{isDeleted},
+      DETAIL_ID=#{detailId},
     where ID = #{id,jdbcType=VARCHAR}
   </update>
 	

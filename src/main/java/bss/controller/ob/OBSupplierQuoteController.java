@@ -278,6 +278,19 @@ public class OBSupplierQuoteController {
 		return "bss/ob/supplier/confirmResult";
 	}
 
+	/**
+	 * 
+	* @Title: saveQuoteInfo 
+	* @Description: 开始报价，保存报价信息
+	* @author Easong
+	* @param @param user
+	* @param @param obResultsInfoExt
+	* @param @param model
+	* @param @param request
+	* @param @return    设定文件 
+	* @return JdcgResult    返回类型 
+	* @throws
+	 */
 	@RequestMapping("/saveQuoteInfo")
 	@ResponseBody
 	public JdcgResult saveQuoteInfo(@CurrentUser User user,

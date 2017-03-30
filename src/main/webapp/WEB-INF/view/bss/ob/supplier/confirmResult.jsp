@@ -477,7 +477,7 @@
       <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 50%">
       <h2 class="count_flow">
       <span style="margin-left: 22px;margin-right: 12px;">确认倒计时：</span>
-      <span id="confirmCountDown"></span> 
+      <span style="color: red" id="confirmCountDown"></span> 
       </h2>
       </li>
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -546,7 +546,7 @@
      <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
     	<h2 class="count_flow">
      			<span style="margin-left: 22px;margin-right: 12px;">第二轮确认倒计时：</span>
-     			<span id="confirmCountDown2"></span>
+     			<span style="color: red" id="confirmCountDown2"></span>
      	</h2>
      </li>
     	<table class="table table-bordered table-condensed table-hover">

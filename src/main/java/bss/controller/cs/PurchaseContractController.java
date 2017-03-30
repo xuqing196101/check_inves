@@ -2069,6 +2069,7 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         if(flag){
             purCon.setUpdatedAt(new Date());
+            purCon.setFormalAt(new Date());
             List<ContractRequired> requList = contractRequiredService.selectConRequeByContractId(purCon.getId());
             PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
             purchaseContractService.updateByPrimaryKeySelective(purCon);
@@ -2134,6 +2135,7 @@ public class PurchaseContractController extends BaseSupplierController{
         }
         if(flag){
             purCon.setUpdatedAt(new Date());
+            purCon.setFormalAt(new Date());
             PurchaseContract pur = purchaseContractService.selectById(purCon.getId());
             purchaseContractService.updateByPrimaryKeySelective(purCon);
             appraisalContractService.insertPurchaseContract(pur);

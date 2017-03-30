@@ -93,5 +93,18 @@ public interface OBProductMapper {
 	 * @exception
 	 */
 	void fab(String id);
+	
+	/**
+	 * 
+	 * Description: 查询所有的末节点
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月29日 
+	 * @param  @param name
+	 * @param  @return 
+	 * @return List<OBProduct> 
+	 * @exception
+	 */
+	List<OBProduct> selectAllAmallPointsId(@Param("name")String name);
     
 }

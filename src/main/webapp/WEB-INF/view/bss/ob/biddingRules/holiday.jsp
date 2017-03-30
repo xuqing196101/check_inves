@@ -130,7 +130,7 @@
 		window.location.href="${pageContext.request.contextPath}/obrule/createSpecialdateUI.html";
 	}
 	
-	<!--搜索-->
+	//!--搜索-->
 	function query(){
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/holidayList.html");
 		$("#queryForm").submit();

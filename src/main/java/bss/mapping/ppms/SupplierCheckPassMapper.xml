@@ -15,6 +15,7 @@
 		<result column="IS_SEND_NOTICE" jdbcType="DECIMAL" property="isSendNotice" />
 		<result column="CREATED_AT" jdbcType="TIMESTAMP" property="createdAt" />
 		<result column="UPDATED_AT" jdbcType="TIMESTAMP" property="updatedAt" />
+		<result column="CONFIRM_TIME" jdbcType="TIMESTAMP" property="confirmTime" />
 		<result column="IS_CREATE_CONTRACT" jdbcType="DECIMAL"
 			property="isCreateContract" />
 		<result column="CONTRACT_ID" jdbcType="VARCHAR" property="contractId" />
@@ -235,6 +236,9 @@
 			<if test="updatedAt != null">
 				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
+			<if test="confirmTime != null">
+				CONFIRM_TIME = #{confirmTime,jdbcType=TIMESTAMP},
+			</if>
 			<if test="isCreateContract != null">
 				IS_CREATE_CONTRACT = #{isCreateContract},
 			</if>
@@ -441,4 +445,15 @@
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
 		WHERE  cp.CONTRACT_ID=#{contractId} and cp.IS_DELETED=0 and cp.IS_WON_BID =1
 	</select>
+	<select id="selectPackageIdWonBid" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+        <include refid="Base_Column_List" /> 
+        FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+		WHERE 
+		cp.IS_WON_BID=1 AND 
+		cp.IS_DELETED=0 and 
+		cp.PACKAGE_ID = #{packageId}
+	</select>
+	
 </mapper>

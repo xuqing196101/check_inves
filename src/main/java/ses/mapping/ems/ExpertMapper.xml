@@ -47,7 +47,7 @@
         <result column="AT_DUTY" jdbcType="VARCHAR" property="atDuty" />
         <result column="EXPERTS_TYPE_ID" jdbcType="VARCHAR" property="expertsTypeId" />
         <result column="PURCHASE_DEP_ID" jdbcType="VARCHAR" property="purchaseDepId" />
-        <result column="STATUS" jdbcType="CHAR" property="status" />
+        <result column="STATUS" property="status" />
         <result column="IS_BLACK" jdbcType="CHAR" property="isBlack" />
         <result column="HONESTY_SCORE" jdbcType="DECIMAL" property="honestyScore" />
         <result column="REAL_NAME" jdbcType="VARCHAR" property="relName" />
@@ -133,29 +133,34 @@
     <!-- 查询所有专家 可条件查询 -->
     <select id="selectAllExpert" resultMap="BaseResultMap">
         select
-        <include refid="Base_Column_List" />
-        from T_SES_EMS_EXPERT
-        where 1=1 and IS_DELETE = 1
+        	T1.*,
+        	T2.LOGIN_NAME AS loginName
+        from
+        	T_SES_EMS_EXPERT t1
+				LEFT JOIN
+					T_SES_BMS_USER t2
+				ON
+					T1.ID = T2.TYPE_ID
+        where 1=1 and IS_DELETE = 0
         <if test="relName != null and relName !=''">
-            AND REAL_NAME like #{relName}
+            AND T1.REAL_NAME like #{relName}
         </if>
         <if test="mobile != null and mobile !=''">
-            AND MOBILE like #{mobile}
+            AND T1.MOBILE like #{mobile}
         </if>
         <if test="expertsFrom != null and expertsFrom !=''">
-            AND EXPERTS_FROM = '${expertsFrom}'
+            AND T1.EXPERTS_FROM = '${expertsFrom}'
         </if>
         <if test="status != null and status !=''">
-            AND STATUS = '${status}'
+            AND T1.STATUS = '${status}'
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
-            AND instr( EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
+            AND instr(T1.EXPERTS_TYPE_ID, '${expertsTypeId}' )>0
         </if>
-        
-         <if test="isPublish != null and isPublish !=''">
-            AND IS_PUBLISH = '${isPublish}'
+        <if test="isPublish != null and isPublish !=''">
+            AND T1.IS_PUBLISH = '${isPublish}'
         </if>
-        ORDER BY STATUS ASC, CREATED_AT DESC
+        ORDER BY T1.STATUS ASC, T1.CREATED_AT DESC
     </select>
     <!-- 查询复审列表的专家 -->
     <select id="selectSecondAuditExpert" resultMap="BaseResultMap">
@@ -191,7 +196,7 @@
             and EXPERTS_TYPE_ID= #{expertsTypeId,jdbcType=VARCHAR}
         </if>
         <if test="status!=null">
-            and STATUS = #{status,jdbcType=DECIMAL}
+            and STATUS = #{status}
         </if>
     </select>
 
@@ -259,7 +264,7 @@
         #{atDuty,jdbcType=VARCHAR},
         #{expertsTypeId,jdbcType=VARCHAR},
         #{purchaseDepId,jdbcType=DECIMAL},
-        #{status,jdbcType=CHAR},
+        #{status},
         #{isBlack,jdbcType=CHAR},
         #{honestyScore,jdbcType=DECIMAL},
         #{relName,jdbcType=VARCHAR},
@@ -567,7 +572,7 @@
                 #{purchaseDepId,jdbcType=DECIMAL},
             </if>
             <if test="status != null">
-                #{status,jdbcType=CHAR},
+                #{status},
             </if>
             <if test="isBlack != null">
                 #{isBlack,jdbcType=CHAR},
@@ -733,7 +738,7 @@
                 PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
             </if>
             <if test="status != null">
-                STATUS = #{status,jdbcType=CHAR},
+                STATUS = #{status},
             </if>
             <if test="isBlack != null">
                 IS_BLACK = #{isBlack,jdbcType=CHAR},
@@ -901,7 +906,7 @@
                 PURCHASE_DEP_ID = #{purchaseDepId,jdbcType=DECIMAL},
             </if>
             <if test="status != null and status != '0'">
-                STATUS = #{status,jdbcType=CHAR},
+                STATUS = #{status},
             </if>
             <if test="isBlack != null and isBlack != '0'">
                 IS_BLACK = #{isBlack,jdbcType=CHAR},

@@ -126,4 +126,6 @@ public interface ContractRequiredMapper {
      * @return: List<ContractRequired>
      */
     List<ContractRequired> findByMap(Map<String, Object> param);
+     
+     List<ContractRequired> selectConRequByDetailId(String id);
 }

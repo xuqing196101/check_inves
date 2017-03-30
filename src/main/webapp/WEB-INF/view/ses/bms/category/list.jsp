@@ -7,11 +7,15 @@
 <%@ include file="/WEB-INF/view/common/webupload.jsp" %>
 <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet">
 <script src="${pageContext.request.contextPath }/public/select2/js/select2_locale_zh-CN.js"></script>
- <title>产品目录管理</title>   
+ <title>产品目录管理</title>
+ <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+ <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 <script type="text/javascript">
 	var treeid = null , nodeName=null, level = null, typesObj = null;
 	var datas;
-	 $(document).ready(function(){  
+	/**把这个注释的文档就绪函数放到本页面的最下边，因为本页面中有图片上传webuploader组件，影响IE8加载页面
+	 **即在IE8下页面是不算加载成功，则导致文档就绪函数没有加载---MaMingwei
+	 $(document).ready(function(){
 		 ztreeInit();
 	      var treeObj = $.fn.zTree.getZTreeObj("ztree");
 	      var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
@@ -22,7 +26,7 @@
 	       }
 	    //初始化类型
 		typesObj = initTypes();
-	 }); 
+	 }); **/
 	 function ztreeInit(){
 		 var setting={
 				   async:{
@@ -191,7 +195,7 @@
     	$("#parentNameId").attr("readonly","readonly");
 		if (treeid==null) {
 			layer.msg("请选择一个节点");
-			return;		
+			return;
 		}else{
     	    var zTree = $.fn.zTree.getZTreeObj("ztree");
 			nodes = zTree.getSelectedNodes();
@@ -250,6 +254,11 @@
 				$("#parentNameId").val(node.name);
 				$("#uploadBtnId").removeClass("dis_none");
 				$("#btnIds").show();
+				$("#posIdTr").show();
+				$("#cateIdTr").show();
+				$("#parentNIdTr").show();
+				$("#uploadBtnIdTr").show();
+				$("#descIdTr").show();
 				$("#operaId").val('add');
 				
 			} 
@@ -453,7 +462,6 @@
 		  layer.msg(nodes[0].name + '不能被编辑');
 		  return;
 	  }
-	  
 	  var msg = determine('edit');
 	  if (msg != null){
 		  if (msg != "ok"){
@@ -469,6 +477,11 @@
 	  $("#fileId_showdel").val("true");
 	  $("#uploadBtnId").removeClass("dis_none");
       $("#btnIds").show();
+      $("#posIdTr").show();
+      $("#cateIdTr").show();
+      $("#parentNIdTr").show();
+      $("#uploadBtnIdTr").show();
+      $("#descIdTr").show();
       $("#uploadBtnId").show();
       update(nodes[0]);
 	}
@@ -740,12 +753,10 @@
 	});
  }
  function searchM() {
-	 
 	 var param = $("#param").val();
 	 var isCreate=$("#isCreate").val();
 	 var code=$("#code").val();
 	 if((param!=null&&param!="")||(isCreate!=null&&isCreate!="")||(code!=null&&code!="")){
-		 
 		 var zNodes;
 			var zTreeObj;
 			var setting = {
@@ -851,7 +862,7 @@
 
      <div class="col-md-3 col-sm-4 col-xs-12">
   	   <div class="tag-box tag-box-v3 mt15">
-	 	 <div><ul id="ztree" class="ztree s_ztree"></ul></div>
+	 	 <ul id="ztree" class="ztree s_ztree"></ul>
 	   </div>
      </div>
      <div class=" tag-box tag-box-v3 mt15 col-md-9 col-sm-8 col-xs-12">
@@ -871,45 +882,45 @@
        		<input type="hidden" id="isProject" name="isProjectCate" />
             <table id="result"  class="table table-bordered table-condensedb" >
            	  <tbody>
-           	 	<tr>
+           	 	<tr id="parentNameIdTr" class="dnone">
        			  <td class='info'>上级目录<span class="red">*</span></td>
        			  <td id="parentNId">
        			      <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
        		    	  <input  id="parentNameId" type="text" name="parentNameId"/>
        		    	  <span class="add-on">i</span>
-       		    	</div>
-       		    	  <span id="parentNIds" class="red clear span_style" />
+       		    	  </div>
+       		    	  <span id="parentNIds" class="red clear span_style"></span>
        			  </td>
            		</tr>
-           		<tr>
+           		<tr id="cateIdTr" class="dnone">
            		  <td class='info'>品目名称<span class="red">*</span></td>
            		  <td id="cateTdId">
        		        <div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id="cateNameId" >
        		    	  <input id="cateId" type="text" name='name'/>
        		    	  <span class="add-on">i</span>
        		    	</div>
-       		    	  <span id="cateTipsId" class="red clear span_style" />
+       		    	  <span id="cateTipsId" class="red clear span_style"></span>
            		  </td>
            		</tr>
-           		<tr>
+           		<tr id="posIdTr" class="dnone">
        			  <td class='info'>编码<span class="red">*</span></td>
        			  <td id="posTdId">
        				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" id ="posNameId">
        				  <input  id="posId" type="text" name='code'/>
        				  <span class="add-on">i</span>
        				</div>
-       				  <span id="posTipsId" class="red clear span_style" />
+       				  <span id="posTipsId" class="red clear span_style"></span>
        		      </td>
            	    </tr>
            	    <tr id="generaQuaTr" class="dnone">
        			  <td class='info'>通用资质要求</td>
        			  <td>
-       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0" >
+       				<div class="input_group col-md-6 col-sm-6 col-xs-12 p0"  id="cateNameId">
        				  <input id="generalIQuaId" type="hidden" name="generalQuaIds" />
        				  <input id="generalIQuaName" readonly="readonly" type="text" name='generalQuaNames' onclick="openLayer(1);"/>
        				  <span class="add-on">i</span>
        				</div>
-       				  <span id="posTipsId" class="red clear span_style" />
+       				  <span id="posTipsId" class="red clear span_style"></span>
        		      </td>
            	    </tr>
            	    <tr id="typeTrId">
@@ -927,7 +938,7 @@
        				  <input id="profileIQuaName" onmouseover="viewIQua();" onmouseout="viewIQua();" readonly="readonly" type="text" name='profileQuaNames' onclick="openLayer(2);" />
        				  <span class="add-on">i</span>
        				</div>
-       				  <span id="posTipsId" class="red clear span_style" />
+       				  <span id="posTipsId" class="red clear span_style"></span>
        		      </td>
            	    </tr>
            	    <tr id="profileQuaTr_sales" class="dnone"> 
@@ -938,7 +949,7 @@
        				  <input id="profileSalesName" onmouseover="viewSales();" onmouseout="viewSales();" readonly="readonly" type="text" name='profileSalesNames' onclick="openLayer(3);" />
        				  <span class="add-on">i</span>
        				</div>
-       				  <span id="posTipsId" class="red clear span_style" />
+       				  <span id="posTipsId" class="red clear span_style"></span>
        		      </td>
            	    </tr>
            	    <tr>
@@ -972,18 +983,18 @@
        		    	<span id="engLevelTipsId" class="red clear span_style" />
            		  </td>
            		</tr> --%>
-           	    <tr>
+           	    <tr id="uploadBtnIdTr">
        	    	  <td class='info'>图片</td>
-       	    	  <td>
+       	    	  <td><!-- cnjewfn start -->
        	    		<div id="uploadBtnId" class="dis_none">
        	    		  <u:upload  id="uploadId"   businessId="${id}" multiple="true" exts="png,jpeg,jpg,bmp,gif"  auto="true" sysKey="2"/>
-       	    		</div>
+       	    		</div><!-- cnjewfn end -->
        	    		<div id="showFileId" class="picShow">
        	    		  <u:show showId="fileId" businessId="${id}" sysKey="2"/>
        	    		</div>
        	    	  </td>
            	    </tr>
-           	    <tr>
+           	    <tr id="descIdTr" class="dnone">
        	          <td class='info'>描述</td>
        	          <td id="descTdId">
        	        	<textarea name='description' class="col-md-10 col-sm-10 col-xs-12 h80 textArea_resizeB"   id="descId"></textarea>
@@ -1109,4 +1120,16 @@
       </div>
 	</div>
 </body>
+<script type="text/javascript">
+	 ztreeInit();
+     var treeObj = $.fn.zTree.getZTreeObj("ztree");
+     var nodes =  treeObj.transformToArray(treeObj.getNodes()); 
+     for(var i=0 ;i<nodes.length;i++){
+	     if (nodes[i].status==1) {
+			 check==true;
+	      }
+      }
+   //初始化类型
+	typesObj = initTypes();
+</script>
 </html>

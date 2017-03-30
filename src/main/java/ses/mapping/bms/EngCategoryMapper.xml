@@ -465,7 +465,7 @@
 		<if test="param1 != null">
 			AND NAME like '%${param1}%'
 		</if> 
-		<if test="param1 != null">
+		<if test="param2 != null">
 			AND CODE like '%${param2}%'
 		</if> 
 	</select>

@@ -43,7 +43,7 @@
 					}
 					var id = $(":radio:checked").val();
 				}
-				var state = $("#" + id + "").parent("tr").find("td").eq(7).text();//.trim();
+				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
 				/* var isExtract = $("#" + id + "_isExtract").text(); */
 				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "初审退回" || state == "复查通过" || state == "复查未通过" || state == "复审通过" || state == "复审未通过") {
@@ -79,7 +79,7 @@
 				}
 
 				var id = $(":radio:checked").val();
-				var state = $("#" + id + "").parent("tr").find("td").eq(7).text();//.trim();
+				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
 				if(state == "待初审" || state == "待复审" || state == "待复查" || state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
 					layer.msg("请选择未通过审核的专家 !", {
@@ -100,7 +100,7 @@
 				//还原select下拉列表只需要这一句
 				//$("#status option:selected").removeAttr("selected");
 				//这里下标1，写的定值，当然可以根据需要得到加载页面过来的值
-				document.getElementById('status')[1].selected = true;
+				document.getElementById('status')[0].selected = true;
 				$("#formSearch").submit();
 			}
 			
@@ -108,7 +108,7 @@
 				//发布
 				function publish(){
 			  	var id = $(":radio:checked").val();
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
 					state = trim(state);
 					if(id != null){
 			  			if(state == "复审通过" || state == "待复查" || state == "复查通过" || state == "复查未通过"){
@@ -137,7 +137,7 @@
 			  	 					}
 			  	 	     });
 			  		}else{
-			  			layer.alert("请选择初审通过的专家！",{offset : '100px'});
+			  			layer.alert("请选择复审通过的专家！",{offset : '100px'});
 			     	}
 			  		}else{
 			  			layer.msg("请选择专家 !", {offset: '100px',});
@@ -213,18 +213,18 @@
 							<select name="status" class="w178" id="status">
 								<option value="">全部</option>
 								<c:if test="${sign == 1}">
-									<option <c:if test="${state eq '0' or state == null}">selected</c:if> value="0">待初审</option>
+									<option <c:if test="${state eq '0'}">selected</c:if> value="0">待初审</option>
 									<option <c:if test="${state eq '1'}">selected</c:if> value="1">初审通过</option>
 									<option <c:if test="${state eq '3'}">selected</c:if> value="3">退回修改</option>
 									<option <c:if test="${state eq '2'}">selected</c:if> value="2">初审未通过</option>
 								</c:if>
 								<c:if test="${sign == 2}">
-									<option <c:if test="${state eq '1' or state == null}">selected</c:if> value="1">待复审</option>
+									<option <c:if test="${state eq '1'}">selected</c:if> value="1">待复审</option>
 									<option <c:if test="${state eq '4'}">selected</c:if> value="4">复审通过</option>
 									<option <c:if test="${state eq '5'}">selected</c:if> value="5">复审未通过</option>
 								</c:if>
 								<c:if test="${sign == 3}">
-									<option <c:if test="${state eq '6' or state == null}">selected</c:if> value="5">待复查</option>
+									<option <c:if test="${state eq '6'}">selected</c:if> value="5">待复查</option>
 									<option <c:if test="${state eq '7'}">selected</c:if> value="7">复查通过</option>
 									<option <c:if test="${state eq '8'}">selected</c:if> value="8">复查未通过</option>
 								</c:if>

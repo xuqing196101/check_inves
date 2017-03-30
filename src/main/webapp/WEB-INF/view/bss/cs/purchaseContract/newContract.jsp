@@ -931,7 +931,7 @@
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 					    <c:forEach items="${reque.subjectList}" var="subject" varStatus="vss">
 						<tr>
-							<td class="tc w50">${(vss.index+1)}</td>
+							<td class="tc w50">${(vss.index+1)} <input type="hidden" name="proList[${(vs.index)}].detailId" value="${subject.detailId}" /></td>
 							<td class="tc ">${reque.serialNumber}<input type="hidden" name="proList[${(vs.index)}].planNo" value="${reque.serialNumber}" /></td>
 							<td class="tc ">${subject.goodsName}<input type="hidden" name="proList[${(vs.index)}].goodsName" value="${subject.goodsName}" /></td>
 							<td class="tc">${subject.stand}<input type="hidden" name="proList[${(vs.index)}].stand" value="${subject.stand}" /></td>

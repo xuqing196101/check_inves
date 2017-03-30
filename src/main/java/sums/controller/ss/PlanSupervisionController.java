@@ -1,11 +1,21 @@
 package sums.controller.ss;
 
+import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+
+import java.math.BigDecimal;
+import java.sql.Timestamp;
+import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +24,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import bss.model.cs.PurchaseContract;
@@ -25,13 +34,18 @@ import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
 import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
 import bss.model.ppms.Reason;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.model.prms.PackageExpert;
+import bss.model.prms.ReviewProgress;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
@@ -40,12 +54,16 @@ import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+import bss.service.prms.PackageExpertService;
+import bss.service.prms.ReviewProgressService;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
@@ -55,9 +73,16 @@ import common.service.UploadService;
 import ses.model.bms.DictionaryData;
 import ses.model.bms.Role;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
 import ses.model.oms.Orgnization;
+import ses.model.sms.Quote;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierExtracts;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
+import ses.service.sms.SupplierQuoteService;
+import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 
 /**
@@ -125,6 +150,33 @@ public class PlanSupervisionController {
     
     @Autowired
     private UploadService uploadService;
+    
+    @Autowired
+    private FlowMangeService flowMangeService;
+    
+    @Autowired
+    private ArticleTypeService articelTypeService;
+    
+    @Autowired
+    private ArticleService articleService;
+    
+    @Autowired
+    private SaleTenderService saleTenderService;
+    
+    @Autowired
+    private SupplierService supplierService;
+    
+    @Autowired
+    private SupplierQuoteService supplierQuoteService;
+    
+    @Autowired
+    private ReviewProgressService reviewProgressService;
+    
+    @Autowired
+    private PackageExpertService packageExpertService;
+    
+    @Autowired
+    private ExpertService expertService;
     
     /**
      * 
@@ -582,12 +634,72 @@ public class PlanSupervisionController {
                         model.addAttribute("fileId", files.get(0).getId());
                         model.addAttribute("fileName", files.get(0).getName());
                     }
-                   /* String jsonReason = project.getAuditReason();
-                    if (jsonReason != null && !"".equals(jsonReason)) {
-                        model.addAttribute("reasons", JSON.parseObject(jsonReason, Reason.class));
-                    }*/
+                    //获取采购文件的编制人
+                    FlowDefine define = new FlowDefine();
+                    define.setPurchaseTypeId(project.getPurchaseType());
+                    define.setStep(3);
+                    List<FlowDefine> find = flowMangeService.find(define);
+                    FlowExecute execute = new FlowExecute();
+                    execute.setProjectId(project.getId());
+                    execute.setFlowDefineId(find.get(0).getId());
+                    execute.setStatus(1);
+                    List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                    if(findFlowExecute != null && findFlowExecute.size() > 0){
+                        model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
+                    } else {
+                        execute.setStatus(3);
+                        List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                        if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                            model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                        } else {
+                            execute.setStatus(2);
+                            List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                            if(executes != null && executes.size() > 0){
+                                model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                            }
+                        }
+                    }
+                    
+                    
+                    //获取采购公告
+                    Article article = new Article();
+                    article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+                    article.setProjectId(project.getId());
+                    List<Article> articles = articleService.selectArticleByProjectId(article);
+                    if(articles != null && articles.size() > 0){
+                        User user2 = userService.getUserById(articles.get(0).getUser().getId());
+                        articles.get(0).setUserId(user2.getRelName());
+                        model.addAttribute("articles",articles.get(0));
+                    }
+                    
+                    //获取中标公示
+                    Article article2 = new Article();
+                    article2.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+                    article2.setProjectId(project.getId());
+                    List<Article> articleList= articleService.selectArticleByProjectId(article2);
+                    if(articleList != null && articleList.size() > 0){
+                        User user2 = userService.getUserById(articleList.get(0).getUser().getId());
+                        articleList.get(0).setUserId(user2.getRelName());
+                        model.addAttribute("articleList",articleList.get(0));
+                    }
+                    
+                    //资格性符合性检查
+                    Map<String, Object> packageExpertmap = new HashMap<String, Object>();
+                    packageExpertmap.put("packageId", selectById.get(0).getPackageId());
+                    packageExpertmap.put("projectId", project.getId());
+                    //查询专家
+                    List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+                    List<Expert> experts = new ArrayList<Expert>();
+                    for (PackageExpert packageExpert : expertIdList) {
+                        Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+                        packageExpert.setExpertId(expert.getRelName());
+                        experts.add(expert);
+                    }
+                    model.addAttribute("expertIdList", expertIdList);
+                    model.addAttribute("experts", experts);
                     model.addAttribute("project", project);
                     model.addAttribute("status", "0");
+                    model.addAttribute("packageId", selectById.get(0).getPackageId());
                 }
                 
             }
@@ -658,6 +770,354 @@ public class PlanSupervisionController {
         return "sums/ss/planSupervision/overview";
     }
     
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param packageId
+     * @param type 1 跳转文件发售 2 跳转投标记录
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewSell")
+    public String viewSell(String packageId, String type, Model model){
+        if(StringUtils.isNotBlank(packageId)){
+            String fileId = DictionaryDataUtil.getId("OPEN_FILE");
+            Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packageId);
+            List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+            for (SaleTender saleTender2 : saleTenderList) {
+                Supplier supplier = supplierService.selectById(saleTender2.getSuppliers().getId());
+                supplier.setProSupFile(saleTender2.getId());
+                supplier.setIsturnUp(saleTender2.getIsTurnUp().toString());
+                List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), fileId,  Constant.SUPPLIER_SYS_KEY.toString());
+                if (blist != null && blist.size() > 0) {
+                    supplier.setBidFileName(blist.get(0).getName());
+                    supplier.setBidFileId(blist.get(0).getId());
+                  }
+            }
+            packages.setSaleTenderList(saleTenderList);
+            model.addAttribute("packages", packages);
+        }
+        if(StringUtils.isNotBlank(type) && "1".equals(type)){
+            return "sums/ss/planSupervision/viewSell";
+        }else{
+            return "sums/ss/planSupervision/viewSupplier";
+        }
+        
+    }
+    
+    
+    /**
+     * 
+     *〈查看唱标〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @param model
+     * @return
+     */
+    @RequestMapping("/bidAnnouncement")
+    public String bidAnnouncement(String packageId, Model model){
+        if(StringUtils.isNotBlank(packageId)){
+            SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packageId);
+            saleTender.setStatusBid((short)2);
+            saleTender.setStatusBond((short)2);
+            saleTender.setIsTurnUp(0);
+            List<SaleTender> stList = saleTenderService.find(saleTender);
+            if(stList != null && stList.size() > 0){
+                Quote quote = new Quote();
+                quote.setPackageId(packageId);
+                quote.setSupplierId(stList.get(0).getSupplierId());
+                List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                if (allQuote != null && allQuote.size() > 0) {
+                  if (allQuote.get(0).getQuotePrice() == null) {
+                    return "redirect:changtotal.html?packageId=" + packageId;
+                  } else {
+                    return "redirect:changmingxi.html?packageId=" + packageId;
+                  }
+                }
+            }
+        }
+        return null;
+    }
+    
+    /**
+     * 
+     *〈查看唱总价〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param packageId
+     * @param model
+     * @return
+     * @throws ParseException
+     */
+    @RequestMapping("/changtotal")
+    public String changtotal(String packageId, Model model) throws ParseException{
+        if(StringUtils.isNotBlank(packageId)){
+            Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            Project project = projectService.selectById(packages.getProjectId());
+            DictionaryData dictionaryData = null;
+            if (project != null && project.getPurchaseType() != null ){
+                dictionaryData = DictionaryDataUtil.findById(project.getPurchaseType());
+            }
+            HashMap<String, Object> map = new HashMap<>();
+            //这里用这个是因为hashMap是无序的
+            TreeMap<String ,List<SaleTender>> treeMap = new TreeMap<String ,List<SaleTender>>();
+            SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packageId);
+            saleTender.setStatusBid((short)2);
+            saleTender.setStatusBond((short)2);
+            saleTender.setIsTurnUp(0);
+            List<SaleTender> stList = saleTenderService.find(saleTender);
+            
+            map.put("packageId", packageId);
+            List<ProjectDetail> details = projectDetailService.selectById(map);
+            BigDecimal projectBudget = BigDecimal.ZERO;
+            for (ProjectDetail projectDetail : details) {
+                projectBudget = projectBudget.add(new BigDecimal(projectDetail.getBudget()));
+            }
+            
+            Quote quote1 = new Quote();
+            Quote quote2 = new Quote();
+            quote1.setPackageId(packageId);
+            List<Date> listDate1 = supplierQuoteService.selectQuoteCount(quote1);
+            
+            List<Quote> listQuotebyPackage1 = new ArrayList<Quote>();
+            if (listDate1 != null && listDate1.size() > 1) {
+              //给第二次报价的数据查到
+              if ("JZXTP".equals(dictionaryData.getCode()) || "DYLY".equals(dictionaryData.getCode())) {
+                quote2.setPackageId(packageId);
+                quote2.setCreatedAt(new Timestamp(listDate1.get(listDate1.size()-1).getTime()));
+                listQuotebyPackage1 = supplierQuoteService.selectQuoteHistoryList(quote2);
+              }
+            }
+            
+            for (SaleTender tender : stList) {
+                Quote quote = new Quote();
+                quote.setPackageId(packageId);
+                quote.setSupplierId(saleTender.getSupplierId());
+                if (listDate1 != null && listDate1.size() > 0) {
+                  quote.setCreatedAt(new Timestamp(listDate1.get(0).getTime()));
+                }
+                if ("0".equals(saleTender.getIsRemoved())) {
+                    tender.setIsRemoved("正常");
+                }
+                if ("2".equals(saleTender.getIsRemoved())) {
+                    tender.setIsRemoved("放弃报价");
+                }
+                
+                List<Quote> allQuote = supplierQuoteService.getAllQuote(quote, 1);
+                if(allQuote != null && allQuote.size() > 0){
+                    for (Quote conditionQuote : allQuote) {
+                        if (conditionQuote.getSupplierId().equals(tender.getSuppliers().getId()) &&
+                            conditionQuote.getProjectId().equals(tender.getProject().getId()) && tender.getPackages().equals(conditionQuote.getPackageId())) {
+                            for (Quote qp : listQuotebyPackage1) {
+                                if (qp.getPackageId().equals(conditionQuote.getPackageId()) && qp.getSupplierId().equals(conditionQuote.getSupplierId())) {
+                                    conditionQuote.setTotal(qp.getTotal());
+                                    conditionQuote.setQuotePrice(qp.getQuotePrice());
+                                    conditionQuote.setRemark(qp.getRemark());
+                                    conditionQuote.setDeliveryTime(qp.getDeliveryTime());
+                                }
+                            }
+                            tender.setTotal(conditionQuote.getTotal());
+                            tender.setDeliveryTime(conditionQuote.getDeliveryTime());
+                            tender.setIsTurnUp(conditionQuote.getIsTurnUp());
+                            tender.setQuoteId(conditionQuote.getId());
+                            break;
+                        }
+                    }
+                
+                }
+            }
+            
+            if (stList != null && stList.size() > 0) {
+                treeMap.put(packages.getName()+"|"+projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP), stList);
+            }
+            model.addAttribute("treeMap", treeMap);
+        }
+        return "sums/ss/planSupervision/view_chang_total";
+    }
+    
+    /**
+     * 
+     *〈查看唱明细〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param packageId
+     * @param model
+     * @return
+     * @throws ParseException 
+     */
+    @RequestMapping("/changmingxi")
+    public String changmingxi(String packageId, Model model) throws ParseException{
+        if(StringUtils.isNotBlank(packageId)){
+            Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            Project project = projectService.selectById(packages.getProjectId());
+            DictionaryData dd = null;
+            if (project != null && project.getPurchaseType() != null ){
+              dd = DictionaryDataUtil.findById(project.getPurchaseType());
+            }
+            
+            Quote quote = new Quote();
+            Quote quote1 = new Quote();
+            Quote quote2 = new Quote();
+            quote2.setPackageId(packageId);
+            List<Date> listDate =  supplierQuoteService.selectQuoteCount(quote2);
+            List<Quote> listQuotebyPackage = new ArrayList<Quote>();
+            if (listDate != null && listDate.size() > 1) {
+                if ("JZXTP".equals(dd.getCode()) || "DYLY".equals(dd.getCode())) {
+                  quote1.setPackageId(packageId);
+                  quote1.setCreatedAt(new Timestamp(listDate.get(listDate.size()-1).getTime()));
+                  listQuotebyPackage = supplierQuoteService.selectQuoteHistoryList(quote1);
+                } 
+            }
+            if (listDate != null && listDate.size() > 0) {
+                quote.setCreatedAt(new Timestamp(listDate.get(0).getTime()));
+            }
+            quote.setPackageId(packageId);
+            List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
+            List<Supplier> suList = setField(listQuote);
+            packages.setSuList(suList);
+            BigDecimal projectBudget = BigDecimal.ZERO;
+            if (packages.getSuList() != null && packages.getSuList().size() > 0) {
+              for (Quote q : packages.getSuList().get(0).getQuoteList()) {
+                if (q.getProjectDetail() != null) {
+                  projectBudget = projectBudget.add(new BigDecimal(q.getProjectDetail().getBudget()));
+                }
+              }
+            }
+            //项目预算
+            packages.setProjectBudget(projectBudget.setScale(4, BigDecimal.ROUND_HALF_UP));
+            setNewQuote(listQuote, listQuotebyPackage);
+            model.addAttribute("packages", packages);
+        }
+        return "sums/ss/planSupervision/view_changbiao";
+    }
+    
+    
+    /**
+     * 
+     *〈简述〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param packageId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/toFirstAudit")
+    public String toFirstAudit(String packageId, Model model){
+        if(StringUtils.isNotBlank(packageId)){
+            Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            if(packages != null){
+                Project project = projectService.selectById(packages.getId());
+                List<ReviewProgress> reviewProgressList = new ArrayList<ReviewProgress>();
+                Map<String, Object> map = new HashMap<String, Object>();
+                map.put("projectId", project.getId());
+                map.put("packageId", packageId);
+                //查询该包有没有评审进度数据
+                List<ReviewProgress> rplist = reviewProgressService.selectByMap(map);
+                // 查询包关联专家实体
+                List<PackageExpert> selectList = packageExpertService.selectList(map);
+                map.put("isAudit", 1);
+                // 查询包下提交评审的专家
+                List<PackageExpert> selectList2 = packageExpertService.selectList(map);
+                
+                if (rplist == null || rplist.size() <= 0) {
+                    //如果该包进度不存在
+                    ReviewProgress reviewProgress = new ReviewProgress();
+                    reviewProgress.setAuditStatus("0");
+                    reviewProgress.setFirstAuditProgress(0.00);
+                    reviewProgress.setPackageId(packages.getId());
+                    reviewProgress.setPackageName(packages.getName());
+                    reviewProgress.setProjectId(project.getId());
+                    reviewProgress.setScoreProgress(0.00);
+                    reviewProgress.setTotalProgress(0.00);
+                    reviewProgress.setIsGather(0);
+                    reviewProgress.setFinishNum(0);
+                    reviewProgress.setNoFinishNum(selectList.size());
+                    reviewProgressList.add(reviewProgress);
+                } else {
+                    ReviewProgress reviewProgress = rplist.get(0);
+                    if (selectList2 != null && selectList2.size() > 0) {
+                        reviewProgress.setFinishNum(selectList2.size());
+                        reviewProgress.setNoFinishNum(selectList.size() - selectList2.size());
+                    } else {
+                        reviewProgress.setFinishNum(0);
+                        reviewProgress.setNoFinishNum(selectList.size());
+                    }
+                    reviewProgressList.add(reviewProgress);
+                }
+                // 进度
+                model.addAttribute("reviewProgressList", reviewProgressList);
+            }
+        }
+        return null;
+    }
+    
+    
+    //给每个包的供应商，和物资明细赋值
+    public List<Supplier> setField(List<Quote> listQuote) {
+      List<Supplier> suList1 = new ArrayList<Supplier>();
+      List<Supplier> suList2 = new ArrayList<Supplier>();
+      for (Quote quoteSupplier : listQuote) {
+        if (suList1.size() > 0) {
+          suList1.add(quoteSupplier.getSupplier());
+        } else {
+          suList1.add(quoteSupplier.getSupplier());
+        }
+      }
+      //去重
+      for (int i = 0; i < suList1.size(); i++) {
+        if (i == 0) {
+          suList2.add(suList1.get(i));
+        } else {
+          if (!suList2.contains(suList1.get(i))) {
+            suList2.add(suList1.get(i));
+          }
+        }
+      }
+
+      for (Supplier sup : suList2) {
+        List<Quote> quoteList = new ArrayList<Quote>();
+        for (Quote quote1 : listQuote) {
+          if (quote1.getSupplier().getId().equals(sup.getId())) {
+            if (quoteList.size() > 0) {
+              for (Quote quote2 : quoteList) {
+                if (quote2.getProjectDetail().getId().equals(quote1.getProjectDetail().getId())) {
+                  continue;
+                } else {
+                  quoteList.add(quote1);
+                  break;
+                }
+              }
+            } else {
+              quoteList.add(quote1);
+            }
+          }
+        }
+        //每个供应商的明细
+        sup.setQuoteList(quoteList);
+      }
+      return suList2;
+    }
+    
+    
+    public void setNewQuote(List<Quote> listQuote, List<Quote> listQuotebyPackage) {
+        for (Quote q : listQuote) {
+          for (Quote qp : listQuotebyPackage) {
+            if (qp.getPackageId().equals(q.getPackageId()) && qp.getSupplierId().equals(q.getSupplierId()) && qp.getProductId().equals(q.getProductId())) {
+                q.setTotal(qp.getTotal());
+                q.setQuotePrice(qp.getQuotePrice());
+                q.setRemark(qp.getRemark());
+                q.setDeliveryTime(qp.getDeliveryTime());
+            }
+          }
+        }
+      }
     
     /**
      * 

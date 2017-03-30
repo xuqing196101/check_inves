@@ -59,6 +59,7 @@
     <result column="SUPPLIER_CHECK_IDS" jdbcType="VARCHAR" property="supplierCheckIds"/>
     <result column="PROJECT_CODE" jdbcType="VARCHAR" property="projectCode"/> 
     <result column="MANUAL_TYPE" jdbcType="DECIMAL" property="manualType"/>
+    <result column="FORMAL_AT" jdbcType="TIMESTAMP" property="formalAt" />
     <association property="supplier" column="SUPPLIER_DEP_NAME" select="ses.dao.sms.SupplierMapper.selectOne"/>
   </resultMap>
   
@@ -75,7 +76,7 @@
     SUPPLIER_UNITPOST_CODE, SUPPLIER_BANK, SUPPLIER_BANK_ACCOUNT, SUPPLIER_BANK_NAME,SUPPLIER_PUR_ID,PROJECT_NAME,
     IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,DRAFT_GIT_AT,DRAFT_REVIEWED_AT,
     FORMAL_GIT_AT,FORMAL_REVIEWED_AT,IS_IMPORT,IS_DECLARE,PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,
-    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE
+    BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,SUPPLIER_CHECK_IDS,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT
   </sql>
   <sql id="PurCon_BlOB_Column_List">
   	CONTENT
@@ -383,7 +384,7 @@
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,
       DRAFT_GIT_AT,DRAFT_REVIEWED_AT,FORMAL_GIT_AT,FORMAL_REVIEWED_AT
       CONTENT,PROJECT_NAME,IS_APPEAL,APPROVE_PIC,CREATED_AT,UPDATED_AT,IS_DELETED,CONTRACT_TYPE,IS_IMPORT,IS_DECLARE,
-      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,PROJECT_CODE,MANUAL_TYPE
+      PURCHASE_TYPE,PROJECT_ID,FINALLY_CLOSED,BING_DEP_NAME,BING_CONTACT,BING_CONTACT_TELEPHONE,BING_CONTACT_ADDRESS,BING_UNITPOST_CODE,PROJECT_CODE,MANUAL_TYPE,FORMAL_AT
       )
     values (#{id,jdbcType=VARCHAR}, #{code,jdbcType=VARCHAR}, #{name,jdbcType=VARCHAR}, 
       #{money,jdbcType=DECIMAL}, #{demandSector,jdbcType=VARCHAR}, #{budget,jdbcType=DECIMAL}, 
@@ -400,7 +401,7 @@
       #{supplierPurId,jdbcType=VARCHAR},#{content},#{projectName},#{appeal},#{approvePic},#{createdAt,jdbcType=TIMESTAMP},#{updatedAt,jdbcType=TIMESTAMP},#{isDeleted},
       #{contractType},#{draftGitAt,jdbcType=TIMESTAMP},#{draftReviewedAt,jdbcType=TIMESTAMP},#{formalGitAt,jdbcType=TIMESTAMP},#{formalReviewedAt,jdbcType=TIMESTAMP},
       #{contractType},#{isImport},#{isDeclare},#{purchaseType},#{projectId}.#{finallyClosed},
-      #{bingDepName},#{bingContact},#{bingContactTelephone},#{bingContactAddress},#{bingUnitpostCode},#{projectCode,jdbcType=VARCHAR},#{manualType}
+      #{bingDepName},#{bingContact},#{bingContactTelephone},#{bingContactAddress},#{bingUnitpostCode},#{projectCode,jdbcType=VARCHAR},#{manualType},#{formalAt,jdbcType=TIMESTAMP}
       )
   </insert>
   <insert id="insertSelective" parameterType="bss.model.cs.PurchaseContract">
@@ -580,7 +581,9 @@
       <if test="manualType != null">
         MANUAL_TYPE,
       </if>
-      
+      <if test="formalAt != null">
+        FORMAL_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -757,7 +760,9 @@
       <if test="manualType != null">
         #{manualType},
       </if>
-      
+       <if test="formalAt != null">
+        #{formalAt,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   
@@ -935,7 +940,9 @@
       <if test="manualType != null">
         MANUAL_TYPE,
       </if>
-     
+      <if test="formalAt != null">
+        FORMAL_AT,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
       <if test="id != null">
@@ -1109,7 +1116,9 @@
       <if test="manualType != null">
         #{manualType},
       </if>
-     
+     <if test="formalAt != null">
+        #{formalAt,jdbcType=TIMESTAMP},
+      </if>
     </trim>
   </insert>
   
@@ -1279,9 +1288,11 @@
         PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
       </if>
       <if test="manualType != null">
-        MANUAL_TYPE = #{manualType}
+        MANUAL_TYPE = #{manualType},
       </if>
-     
+     <if test="formalAt != null">
+        FORMAL_AT=#{formalAt,jdbcType=TIMESTAMP}
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -1342,7 +1353,8 @@
       BING_CONTACT_ADDRESS = ${bingContactAddress},
       BING_UNITPOST_CODE = ${bingUnitpostCode},
       PROJECT_CODE = #{projectCode,jdbcType=VARCHAR},
-      MANUAL_TYPE = #{manualType}
+      MANUAL_TYPE = #{manualType},
+      FORMAL_AT=#{formalAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
