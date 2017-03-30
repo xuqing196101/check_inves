@@ -400,57 +400,59 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 1 }">
 			  		竞价未开始
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
-			  		报价中
+			  	<c:if test="${ obProject.obProjectList[0].status == 2 }">
+			  		<c:choose>
+						<c:when test="${obProject.remark == '0'}">
+							报价中
+						</c:when>
+						<c:when test="${obProject.remark == '1'}">
+							已报价待确认
+						</c:when>
+					</c:choose>
 			  	</c:if>
-			  	<%-- <c:if test="${ obProject.obProjectList[0].status != 4  && obProject.remark == '2'}">
-			  		未中标
-			  	</c:if> --%>
-			  	<c:if test="${ obProject.obProjectList[0].status == 2 && obProject.remark == '1'}">
-			  		已报价待确认
-			  	</c:if>
-			  	
-			  	<%-- <c:if test="${obProject.obProjectList[0].status == 2 && obProject.remark == '0'}">
-			  		未报价
-			  	</c:if> --%>
-			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '0'}">
-			  		未报价
-			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '0'}">
-			  		未报价
-			  	</c:if>
-			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
 			  		竞价结束
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 4 }">
 				  	流拍
 			  	</c:if>
-			  	
-			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '1'}">
-			  		结果待确认(第一轮)
+			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
+			  		<c:choose>
+						<c:when test="${obProject.remark == '0'}">
+							未报价
+						</c:when>
+						<c:when test="${obProject.remark == '1'}">
+							结果待确认(第一轮)
+						</c:when>
+						<c:when test="${obProject.remark == '3'}">
+							放弃确认(第一轮)
+						</c:when>
+						<c:when test="${obProject.remark == '4'}">
+							第一轮已确认
+						</c:when>
+						<c:when test="${obProject.remark == '5'}">
+							第一轮已确认
+						</c:when>
+					</c:choose>
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '4'}">
-			  		第一轮已确认
-			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '5'}">
-			  		第一轮已确认
-			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 5 && obProject.remark == '3'}">
-			  		放弃确认(第一轮)
-			  	</c:if>
-			  	
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '42' && obProject.remark != '52' && obProject.remark != '32' }">
-			  		结果待确认(第二轮)
-			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '42'}">
-			  		第二轮已确认
-			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '52'}">
-			  		第二轮已确认
-			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '32'}">
-			  		放弃确认(第二轮)
+			  	<c:if test="${ obProject.obProjectList[0].status == 6}">
+			  		<c:choose>
+						<c:when test="${obProject.remark == '0'}">
+							未报价
+						</c:when>
+						<c:when test="${obProject.remark == '42'}">
+							第二轮已确认
+						</c:when>
+						<c:when test="${obProject.remark == '52'}">
+							第二轮已确认
+						</c:when>
+						<c:when test="${obProject.remark == '32'}">
+							放弃确认(第二轮)
+						</c:when>
+						<c:otherwise>
+							结果待确认(第二轮)
+						</c:otherwise>
+					</c:choose>
 			  	</c:if>
 			  </td>
 			</tr>
