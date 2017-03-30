@@ -29,6 +29,11 @@
 						}
 					});
 				});
+				
+				//Ma Mingwei
+				function trim(str){ //删除左右两端的空格
+					return str.replace(/(^\s*)|(\s*$)/g, "");
+				}
 			
 				/** 全选全不选 */
 				function selectAll() {
@@ -75,7 +80,8 @@
 						}
 						var id = $(":radio:checked").val();
 					}
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					state = trim(state);
 					/* var state = $("#"+id+"").text().trim(); */
 					var isExtract = $("#" + id + "_isExtract").text();
 					if(state == "审核通过" || state == "审核退回" || state == "审核未通过" || state == "复核通过" || state == "复核未通过" || state == "合格" || state == "不合格") {
@@ -156,16 +162,20 @@
 				//重置搜索栏
 				function resetForm() {
 					$("input[name='supplierName']").val("");
-					//还原select下拉列表只需要这一句
-					$("#status option:selected").removeAttr("selected");
-					$("#businessType option:selected").removeAttr("selected");
+					//还原select下拉列表只需要这一句-//但是这一句话不支持IE8即
+					//$("#status option:selected").removeAttr("selected");
+					//$("#businessType option:selected").removeAttr("selected");
+					//都改成js代码,测试IE8也行的通
+					document.getElementById("status")[1].selected = true;
+					document.getElementById("businessType")[0].selected = true;
 					$("#form1").submit();
 				}
 				
 				//发布
 				function publish(){
 			  	var id = $(":radio:checked").val();
-					var state = $("#" + id + "").parents("tr").find("td").eq(7).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(7).text();//.trim();
+					state = trim(state);
 					if(id != null){
 			  			if(state != "待审核" && state != "审核退回" && state != "审核未通过"){
 			  	 			$.ajax({
