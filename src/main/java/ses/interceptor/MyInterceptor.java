@@ -87,7 +87,7 @@ public class MyInterceptor implements HandlerInterceptor {
 				builder.append("</HEAD>");
 				builder.append("<script type=\"text/javascript\">"); 
 				builder.append("$(function() {");
-				builder.append("layer.confirm('登录超时，请重新登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: '30px',shade:0.01 },function(){");  
+				builder.append("layer.confirm('登录超时，请重新登录！',{ btn: ['确定'],title:'提示',area : '240px',offset: ['30%' , '40%'],shade:0.01 },function(){");  
 				builder.append("window.top.location.href='"); 
 				builder.append(basePath+"index/sign.html");  
 				builder.append("';"); 
