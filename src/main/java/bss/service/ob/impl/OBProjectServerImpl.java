@@ -74,6 +74,9 @@ public class OBProjectServerImpl implements OBProjectServer {
 
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
+	
+	@Autowired
+	private OBProjectRuleMapper OBProjectRuleMapper;
 	/**
 	 * 上传附件
 	 */
@@ -728,10 +731,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if (getOBProject != null) {
 			// 获取当前 默认规则
 			for (OBProject op : getOBProject) {
-				OBRule obRule = OBRuleMapper.selectByPrimaryKey(op.getRuleId());
+				OBProjectRule obRule = OBProjectRuleMapper.selectByPrimaryKey(op.getId());
 				if(obRule!=null){
-					
-				
 				 //获取报价时间
 				 int quoteTime=obRule.getQuoteTime();
 				 //确认时间

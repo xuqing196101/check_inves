@@ -10,7 +10,7 @@
 	 var loadPageTime = new Date();
 	 function getRTime(){
 		var getOverTime = $("#confirmOverTime").text();
-		var EndTime= new Date("${confirmInfoVo.confirmOvertime}"); //截止时间
+		var EndTime= new Date("${result.confirmOvertime}"); //截止时间
 		var sysNowTime = new Date("${sysCurrentTime}");//后台传过来的系统的当前时间
 		var clientNowTime = new Date();
 		var t = (EndTime.getTime() - sysNowTime.getTime()) - (clientNowTime.getTime() - loadPageTime.getTime());
@@ -22,13 +22,13 @@
 			$("#confirmCountDown").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown").text("第一轮确认倒计时已经结束");
-			//close('${confirmStatus }');
+			close('${confirmStatus }');
 			clearInterval(downTimer);
 		}
 	}
 	function getRTime2(){
 		var getOverTime = $("#confirmOverTime").text();
-		var EndTime= new Date("${confirmInfoVo.secondOvertime}"); //截止时间
+		var EndTime= new Date("${result.secondOvertime}"); //截止时间
 		var sysNowTime = new Date("${sysCurrentTime}");//后台传过来的系统的当前时间
 		var clientNowTime = new Date();//这个客户端的当前时间，暂时不用
 		//var t = EndTime.getTime() - sysNowTime.getTime();
@@ -41,7 +41,7 @@
 			$("#confirmCountDown2").text(d + "天" + h + "时" + m + "分" + s + "秒");
 		} else {
 			$("#confirmCountDown2").text("第二轮确认倒计时已经结束");
-			//close('${confirmStatus }');
+			close('${confirmStatus }');
 			clearInterval(downTimer2);
 		}
 	} 
@@ -227,6 +227,10 @@
 	 function confirmAccept() {
 		layer.confirm('您确定接受吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
 			layer.close(index);
+			var inde = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
 			var currentConfirmStatus = $("#currentConfirmStatus").val();
 			  if(parseInt(currentConfirmStatus) == 1) {
 				var projectResultList = [];
@@ -250,9 +254,11 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+					layer.close(inde);
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
+					layer.close(inde);
 						layer.alert("第一轮接受失败");
 					}
 				});
@@ -277,9 +283,11 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+					layer.close(inde);
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
+					layer.close(inde);
 						layer.alert("第二轮接受失败");
 					}
 				});
@@ -291,9 +299,13 @@
 	function cancelAccept(confirmStatus) {
 		var projectResult = {};
 		var closeLayerIndex = 0;
-		if(confirmStatus == 1) {
 			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
 				layer.close(index);
+				var inde = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
+		if(confirmStatus == 1) {
 				$.ajax({
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
 					type:"post",
@@ -305,16 +317,15 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+					layer.close(inde);
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
+					layer.close(inde);
 						layer.alert("第一轮放弃失败");
 					}
 				});
-			});
 		} else if(confirmStatus == 2) {
-			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
-				layer.close(index);
 				$.ajax({
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
 					type:"post",
@@ -326,54 +337,72 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+					layer.close(inde);
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
+					layer.close(inde);
 						layer.alert("第二轮放弃失败");
 					}
 				});
+				}
 			});
-		}
 		
 	}
 	//点击放弃按钮调用此方法
-	/*function close(confirmStatus) {
-		var projectResult = {};
+	function close(confirmStatus) {
+			var projectResult = {};
 		var closeLayerIndex = 0;
-		if(confirmStatus == "-1") {
+			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
+				layer.close(index);
+		var inde = layer.load(0, {
+				shade : [ 0.1, '#fff' ],
+				offset : [ '45%', '53%' ]
+			});
+		if(confirmStatus == 1) {
 				$.ajax({
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
 					type:"post",
 					dataType:"text",
 					data:{
-						"projectId" : "${projectId}",
-						"confirmStatus" : confirmStatus
+						"projectId" : "${result.projectId}",
+						"confirmStatus" : confirmStatus,
+						"supplierId":"${result.supplierId}",
+						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
-						window.history.go(-1);
+					layer.close(inde);
+						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
+					layer.close(inde);
+						layer.alert("第一轮放弃失败");
 					}
 				});
-		} else if(confirmStatus == "1") {
+		} else if(confirmStatus == 2) {
 				$.ajax({
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
 					type:"post",
 					dataType:"text",
 					data:{
-						"projectId" : "${projectId}",
-						"confirmStatus" : confirmStatus
+						"projectId" : "${result.projectId}",
+						"confirmStatus" : confirmStatus,
+						"supplierId":"${result.supplierId}",
+						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
-						window.history.go(-1);
+					layer.close(inde);
+						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
+					layer.close(inde);
+						layer.alert("第二轮放弃失败");
 					}
 				});
-		}
-		
+				}
+			});
 	}
-	 */
+	
 	
 	$(function() {
 		//页面加载进来计算合计金额
@@ -431,12 +460,17 @@
       <h2 class="count_flow">
  	      <span class="font_sblck">确认结束时间：</span>
  	      <span class="margin-left-10 font_sblck" id="confirmOverTime">
- 	       ${confirmInfoVo.confirmOvertime }
+ 	      <c:if test="${confirmStatus==1 }">
+ 	       <fmt:formatDate value='${result.confirmOvertime}' pattern='yyyy-MM-dd HH:mm:ss'/>
+ 	      </c:if>
+ 	      <c:if test="${confirmStatus==2 }">
+ 	      <fmt:formatDate value='${result.secondOvertime}' pattern='yyyy-MM-dd HH:mm:ss'/>
+ 	      </c:if>
 		    	<%-- <fmt:formatDate value="" pattern="yyyy-MM-dd HH:ss:mm"/> --%>
 		    	<!-- 第一轮确认结束的时间点 -->
-		    	<input type="hidden" name="confirmOvertime" value="${result.confirmStarttime}"/>
+		    	<input type="hidden" name="confirmOvertime" value="${result.confirmOvertime}"/>
 		    	<!-- 第二轮确认结束的时间点 -->
-		    	<input type="hidden" name="secondOvertime" value=" ${confirmInfoVo.secondOvertime }"/>
+		    	<input type="hidden" name="secondOvertime" value=" ${result.secondOvertime }"/>
 		    	</span>
 		    	</h2>
       </li>
@@ -486,8 +520,13 @@
      </li>
       <li class="col-md-4 col-sm-6 col-xs-12 pl15" style="width: 50%">
       <h2 class="count_flow">
-      <span style="margin-left: 22px;margin-right: 12px;">确认倒计时：</span>
+      <span style="margin-left: 22px;margin-right: 12px;">第一轮确认倒计时：</span>
+      <c:if test="${confirmStatus==1}">
       <span style="color: red" id="confirmCountDown"></span> 
+      </c:if>
+      <c:if test="${confirmStatus==2}">
+                    第一轮确认倒计时已经结束
+      </c:if>
       </h2>
       </li>
     	<table class="table table-bordered table-condensed table-hover table-striped">
@@ -556,7 +595,12 @@
      <li class="col-md-3 col-sm-6 col-xs-12 pl15" style="width: 50%">
     	<h2 class="count_flow">
      			<span style="margin-left: 22px;margin-right: 12px;">第二轮确认倒计时：</span>
-     			<span style="color: red" id="confirmCountDown2"></span>
+     			<c:if test="${confirmStatus==1}">
+     			未开始
+      			</c:if>
+     			 <c:if test="${confirmStatus==2}">
+      			<span style="color: red" id="confirmCountDown2"></span> 
+      			</c:if>
      	</h2>
      </li>
     	<table class="table table-bordered table-condensed table-hover">

@@ -16,6 +16,7 @@ import ses.util.PropertiesUtil;
 import com.github.pagehelper.PageHelper;
 
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultSubtabulationMapper;
 import bss.dao.ob.OBResultsInfoMapper;
@@ -25,6 +26,7 @@ import bss.model.ob.OBProduct;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
@@ -58,6 +60,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	
 	@Autowired
 	private OBResultSubtabulationMapper OBResultSubtabulationMapper;
+	
+	@Autowired
+	private OBProjectRuleMapper OBProjectRuleMapper;
 	@Override
 	public int countByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
@@ -210,8 +215,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @return 竞价管理-结果查询 
      */
 	@Override
-	public int updateBySupplierId(String projectId,String supplierId, String confirmStatus,String projectResultId) {
+	public boolean updateBySupplierId(String projectId,String supplierId, String confirmStatus,String projectResultId) {
 		// TODO Auto-generated method stub
+		boolean boo=false;
 		//第一轮 放弃
 		if("1".equals(confirmStatus)) {
 			OBProjectResult obpro=new OBProjectResult();
@@ -227,6 +233,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			user.setTypeId(supplierId);
 			String remark = "3";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+			boo=true;
 			
 		} else if("2".equals(confirmStatus)) {
 			String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
@@ -242,8 +249,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			user.setTypeId(supplierId);
 			String remark = "32";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
+			boo=true;
 		}
-		return 0;
+		return boo;
 	}
 
 	/**
@@ -426,16 +434,20 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		     }
 		    }
 		  }
+		OBProjectRule rule= OBProjectRuleMapper.selectByPrimaryKey(projectId);
+		//第一轮确定时间
+		int time= rule.getConfirmTime();
+		//第二轮确定时间
+		int secoud=rule.getConfirmTimeSecond();
 		//报价信息
+		int quote=rule.getQuoteTime();
+		
 		info.setOBResultsInfo(or);
 		//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
-		 Date date=new Date();
-		 info.setConfirmStarttime(date);
-		 date= DateUtils.getAddDate(date, 2000);
-		 info.setConfirmOvertime(date);
-		 date= DateUtils.getAddDate(date, 2000);
+		Date date=DateUtils.getAddDate(info.getConfirmStarttime(),quote);
+		 info.setConfirmOvertime(DateUtils.getAddDate(date,time));
+		 date= DateUtils.getAddDate(info.getConfirmOvertime(),secoud);
 		 info.setSecondOvertime(date);
-		 
 		}
 		return info;
 	}
@@ -445,6 +457,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public String updateResult(User user,List<OBResultSubtabulation> projectResultList,String acceptNum) {
 		// TODO Auto-generated method stub
+		String reslt="";
 		 if(projectResultList!=null){
 			 String uuid = UUID.randomUUID().toString().toUpperCase()
 					 .replace("-", "");
@@ -507,8 +520,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 					 }
 					 //插入附表 产品结果
 			 }
+			 reslt="成功";
+		 }else{
+			 reslt="参数错误！";
 		 }
-		return "";
+		return reslt;
 	}
 	
 	

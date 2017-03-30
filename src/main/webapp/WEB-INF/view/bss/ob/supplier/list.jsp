@@ -159,6 +159,8 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
+			   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
+				   	   return;
 			   // 报价时间还未开始
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");

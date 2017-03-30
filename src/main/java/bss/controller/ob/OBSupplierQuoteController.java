@@ -210,13 +210,17 @@ public class OBSupplierQuoteController {
 	@RequestMapping("/confirmResult")
 	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
-		
 		supplierId = user.getTypeId();
 		String confirmStatus="";
 		OBProjectResult oBProjectResult=new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
-		String status= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		String status=null;
+		try {
+			status= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
 		if(status.equals("1")){
 			confirmStatus="2";
 		}else if(status.equals("-1")){
@@ -320,10 +324,10 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping(value="uptConfirmAccept")
 	@ResponseBody
-	public String uptConfirmQuoteInfoAccept(@CurrentUser User user,@RequestBody List<OBResultSubtabulation> projectResultList,
+	public JdcgResult uptConfirmQuoteInfoAccept(@CurrentUser User user,@RequestBody List<OBResultSubtabulation> projectResultList,
 			Model model,HttpServletRequest request) throws ParseException{
 		String acceptNum = request.getParameter("acceptNum");
-		String updateNum = null;
+		int type = 0;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		//获取页面传过来的时间（这个时间点并不准确到实际操作，只是根据前面竞价开始时间加上规则计算出来的）
 		String confirmStarttime = request.getParameter("confirmStarttime");//确认开始字符串
@@ -332,81 +336,100 @@ public class OBSupplierQuoteController {
 		Date co = sdf.parse(confirmOvertime);
 		String secondOvertime = request.getParameter("secondOvertime");//第二轮确认结束
 		Date so = sdf.parse(secondOvertime);
-		updateNum  = oBProjectResultService.updateResult(user,projectResultList,acceptNum);
-		
-		
 		//获取当前的时间
-		/*Date currentDate = new Date();
+		Date currentDate = new Date();
 		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() < co.getTime()) {
 			//在第一轮中间
-			//调用service层的修改
-			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList,"1");
+			type=1;
 		} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() < so.getTime()) {
 			//在第二轮中间
-			updateNum = oBProjectResultService.updateInfoBySPPIdList(user,projectResultList,"2");
+			type=2;
 		} else if(currentDate.getTime() >= so.getTime()) {
 			//在第二轮之后(直接给页面一个反馈，不走后台流程)
-			updateNum = -1;
-		}*/
-		
-		String updateFlag = "yes";
-		/*if(updateNum > 0) {
-			updateFlag = "yes";
-		} else if(updateNum == -1) {
-			updateFlag = "error";
-		}*/
-		return updateFlag;
+			type = -1;
+		}
+		JdcgResult jdcgResult=new JdcgResult();
+		if(type==-1){
+			jdcgResult.setStatus(0);
+			jdcgResult.setMsg("确定时间超出,不能确定");
+		}else{
+			oBProjectResultService.updateResult(user,projectResultList,acceptNum);
+			if(type==1){
+				jdcgResult.setStatus(1);
+				jdcgResult.setMsg("第一轮确定成功");
+			}else if(type==2){
+				jdcgResult.setStatus(1);
+				jdcgResult.setMsg("第二轮确定成功");
+			}else{
+				jdcgResult.setStatus(0);
+				jdcgResult.setMsg("确定错误");
+			}
+		}
+		return jdcgResult;
 	}
-	
 	/**
 	 * @description 确认结果页面   点击放弃,后台针对传过来的信息执行修改
 	 * @param model
 	 * @param request
 	 * @return string ajax返回执行状态
 	 * @author Ma Mingwei
+	 * @throws ParseException 
 	 */
 	@RequestMapping("uptConfirmDrop")
 	@ResponseBody
-	public String uptConfirmQuoteInfoDrop(@CurrentUser User user,
-			String projectId,
-			Model model,
-			String projectResultId,
-			String roundNum,
-			String supplierId,
-			String confirmStatus,//当前正处于的未操作的状态
-			HttpServletRequest request){
+	public JdcgResult uptConfirmQuoteInfoDrop(@CurrentUser User user,
+			String projectId,Model model,
+			String projectResultId,String roundNum,
+			String supplierId,String confirmStatus,//当前正处于的未操作的状态
+			HttpServletRequest request) throws ParseException{
 		int uptResult = 0;
-		  if(user!=null){
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+		//获取页面传过来的时间（这个时间点并不准确到实际操作，只是根据前面竞价开始时间加上规则计算出来的）
+				String confirmStarttime = request.getParameter("confirmStarttime");//确认开始字符串
+				Date cs = sdf.parse(confirmStarttime);//new Date(confirmStarttime)这个过时了
+				String confirmOvertime = request.getParameter("confirmOvertime");//第一轮确认结束
+				Date co = sdf.parse(confirmOvertime);
+				String secondOvertime = request.getParameter("secondOvertime");//第二轮确认结束
+				Date so = sdf.parse(secondOvertime);
+				//获取当前的时间
+				Date currentDate = new Date();
+				if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() < co.getTime()) {
+					//在第一轮中间
+					uptResult=1;
+				} else if(currentDate.getTime() >= co.getTime() && currentDate.getTime() < so.getTime()) {
+					//在第二轮中间
+					uptResult=2;
+				} else if(currentDate.getTime() >= so.getTime()) {
+					//在第二轮之后(直接给页面一个反馈，不走后台流程)
+					uptResult = -1;
+				}
+				JdcgResult jdcgResult=new JdcgResult();
+		    if(user!=null){
 			   if(StringUtils.isNotBlank(supplierId)){
 				   if(supplierId.equals(user.getTypeId())){
-					 uptResult = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus,projectResultId);
-					   
+						if(uptResult==-1){
+							jdcgResult.setStatus(0);
+							jdcgResult.setMsg("确定时间超出,不能放弃");
+						}else{
+							 boolean boo = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus,projectResultId);
+							 if(uptResult==1){
+								jdcgResult.setStatus(boo==false?1:2);
+								jdcgResult.setMsg("第一轮放弃成功");
+							}else if(uptResult==2){
+								jdcgResult.setStatus(boo==false?1:2);
+								jdcgResult.setMsg("第二轮放弃成功");
+							}else{
+								jdcgResult.setStatus(0);
+								jdcgResult.setMsg("放弃错误");
+							}
+						}
 				   }
 			   }else{
-				   System.out.println("供应商不能为空");
+				   jdcgResult.setStatus(0);
+				jdcgResult.setMsg("供应商数据为空");
 			   }
 		  }
-		/*OBProjectResult oBProjectResult = new OBProjectResult();
-		//把此供应商的状态都改为0，表示放弃
-		oBProjectResult.setSupplierId(supplierId);
-		oBProjectResult.setProjectId(projectId);
-		
-		//第一轮就选择放弃
-		if("-1".equals(confirmStatus)) {
-			oBProjectResult.setStatus(0);
-			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"-1");
-		}
-		//第二轮选择放弃
-		if("1".equals(confirmStatus)) {
-			oBProjectResult.setStatus(1);
-			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"1");
-		}
-		*/
-		String resFlag = "fail";
-		/*if(uptResult > 0) {*/
-			resFlag = "success";
-		//}
-		return resFlag;
+		return jdcgResult;
 	}
 	
 	/**
