@@ -3,6 +3,8 @@ package bss.model.ob;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import ses.model.sms.Supplier;
+
 /**
  * 
 * @ClassName: OBResultSubtabulation 
@@ -73,8 +75,34 @@ public class OBResultSubtabulation {
      */
     private String productId;
     
+    /*
+     * 供应商
+     */
+    private Supplier supplier;
+    
+    /**
+     * 产品
+     */
+    private OBProduct product;
+    
+    
+	public Supplier getSupplier() {
+		return supplier;
+	}
 
-    public Integer getRanking() {
+	public void setSupplier(Supplier supplier) {
+		this.supplier = supplier;
+	}
+
+	public OBProduct getProduct() {
+		return product;
+	}
+
+	public void setProduct(OBProduct product) {
+		this.product = product;
+	}
+
+	public Integer getRanking() {
 		return ranking;
 	}
 

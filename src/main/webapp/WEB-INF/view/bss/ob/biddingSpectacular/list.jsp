@@ -84,7 +84,7 @@
 			   }
 			   if(status == '3'){
 			   	   // 查看结果
-				  window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingResult.html?id="+valueArr[0];
+				  window.location.href="${pageContext.request.contextPath}/ob_project/selInfo.html?id="+valueArr[0];
 			   }
 	       } else if(id.length > 1) {
 	          layer.alert("只能选择一个", {

@@ -13,6 +13,10 @@
       <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <association property="supplier" column="SUPPLIER_ID"
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
+	<association property="product" column="PRODUCT_ID"
+			select="bss.dao.ob.OBProductMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List" >
     ID, PROJECT_RESULT_ID,PRODUCT_ID, RESULT_NUMBER, DEAL_MONEY, TOTAL_MONEY, CREATED_AT, UPDATED_AT
@@ -146,4 +150,12 @@
       PRODUCT_ID = #{productId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
+  
+  <!-- 根据竞价信息id查询 -->
+  <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
+  	SELECT DISTINCT
+    <include refid="Base_Column_List" />
+    FROM T_BSS_OB_RESULT_SUBTABULATION
+    WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
 </mapper>

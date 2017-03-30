@@ -61,6 +61,7 @@ import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSupplier;
@@ -69,6 +70,7 @@ import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProductInfoServer;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBResultSubtabulationService;
 import bss.service.ob.OBRuleService;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.service.ob.OBSupplierService;
@@ -136,6 +138,9 @@ public class OBProjectController {
 	
 	@Autowired
 	private OBRuleMapper OBRuleMapper;
+	
+	@Autowired
+	private OBResultSubtabulationService obResultSubtabulationService;
 
 	
 	/***
@@ -901,5 +906,43 @@ public class OBProjectController {
 		}
 		return "bss/ob/biddingSpectacular/findBiddingIssueInfo";
 	}
-
+	
+    /**
+     * 
+     * Description: 查询竞价信息结果
+     * 
+     * @author  zhang shubin
+     * @version  2017年3月30日 
+     * @param  @param model
+     * @param  @param request
+     * @param  @return 
+     * @return String 
+     * @exception
+     */
+    @RequestMapping("selInfo")
+    public String selInfo(Model model, HttpServletRequest request){
+    	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
+    	List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(projectId);
+    	Integer countProportion = 0;
+    	if(list != null){
+    		for (OBResultSubtabulation obr : list) {
+    			if(obr != null){
+    				OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
+    				if(projectResult != null){
+    					countProportion += Integer.parseInt(projectResult.getProportion());
+    					obr.setProportion(Integer.parseInt(projectResult.getProportion()));
+    					obr.setStatus(projectResult.getStatus());
+    					obr.setRanking(projectResult.getRanking());
+    				}
+    			}
+        	}
+    	}
+    	String projectName = OBProjectServer.selectByPrimaryKey(projectId).getName();
+    	model.addAttribute("list", list);
+    	model.addAttribute("countProportion",countProportion);
+    	model.addAttribute("projectName",projectName);
+    	model.addAttribute("size",list.size());
+    	return "bss/ob/biddingSpectacular/result";
+    }
+	
 }

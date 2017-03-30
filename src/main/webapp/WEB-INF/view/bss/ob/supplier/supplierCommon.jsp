@@ -36,11 +36,14 @@
     }
 </script>
 <div class="ul_list" onmouseover="closePrompts()">
-	 <c:forEach items="${selectInfoByPID}" var="supplier" varStatus="pi">
+<c:if test="${size == 0 }">
+	<h2 class="count_flow">无报价信息</h2>
+</c:if>
+	 <c:forEach items="${list}" var="supplier" varStatus="pi">
 	 <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-	  <span class="fl block">供应商名称：${supplier.remark}</span>
+	  <span class="fl block">供应商名称：${supplier.supplier.supplierName}</span>
 	   </div>
 	  </li>
 	   <li class="col-md-3 col-sm-6 col-xs-12">
