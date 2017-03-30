@@ -78,7 +78,7 @@ public interface OBProjectResultService {
 	 * @param projectId
 	 * @return
 	 */
-	ConfirmInfoVo selectSupplierDate(String supplierId,String projectId);
+	ConfirmInfoVo selectSupplierDate(String supplierId,String projectId,String status);
 	
 	/**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>

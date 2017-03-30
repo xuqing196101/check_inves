@@ -271,14 +271,12 @@
 					oBProjectResult.status = 2;
 					projectResultList.push(oBProjectResult);
 				});
-				
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime,
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					data : JSON.stringify(projectResultList),
-					dataType : "json",
 					contentType:"application/json",
-					success : function(obj) {//第二轮接受
+					success : function(obj) {//第一轮接受
 						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
@@ -288,14 +286,12 @@
 			}
 			
 		});
-			 
-		//url saveConfirmQuoteInfo
 	}
 	//点击放弃按钮调用此方法
 	function cancelAccept(confirmStatus) {
 		var projectResult = {};
 		var closeLayerIndex = 0;
-		if(confirmStatus == "1") {
+		if(confirmStatus == 1) {
 			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
 				layer.close(index);
 				$.ajax({
@@ -309,14 +305,14 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
-						window.history.go(-1);
+						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
 						layer.alert("第一轮放弃失败");
 					}
 				});
 			});
-		} else if(confirmStatus == "2") {
+		} else if(confirmStatus == 2) {
 			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
 				layer.close(index);
 				$.ajax({
@@ -330,7 +326,7 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
-						window.history.go(-1);
+						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
 						layer.alert("第二轮放弃失败");
@@ -549,10 +545,10 @@
      	<h2 class="count_flow">
      		<span style="margin-left: 22px;margin-right: 12px;">确认成交</span>
      		<c:if test="${confirmStatus=='1'}">
-     		<span id="confirmRatioSecond" style="margin-left: 12px;margin-right: 12px;">${result.firstRatio }</span>%
+     		<span id="confirmRatioSecond" style="margin-left: 12px;margin-right: 12px;">0</span>%
      		</c:if>
      		<c:if test="${confirmStatus=='2'}">
-     		<input class="input_group" id="" name="confirmRatioSecond" value="${result.firstRatio }" type="text">%
+     		<input class="input_group" id="" name="confirmRatioSecond" value="${result.secondRatio }" type="text">%
      		</c:if>
      		
      	</h2>
@@ -603,9 +599,6 @@
   <%-- 	</c:if> --%>
     </ul>
   
-  <div class="star_red" style="display: none;">规则1、第一轮确认如果都按比例成交，则没有第二轮确认，如果不是按比例成交，则有第二轮确认，第一轮正在确认的时候不显示<br/>第二轮数据，只有所有供应商第一轮确认完毕后，才有第二轮确认。<br/>
-						规则2、自动生成成交比例（可修改），修改后成交数量和总价发生变化，未中标的的显示未中标，不显示成交比例，未中标的只能<br/>看到已中标明细，未中标的只有返回按钮。
-  </div>
   <div class="col-md-12 clear tc mt10">
   <button class="btn" onclick="confirmAccept('${confirmStatus }')">接受</button>
   <input type="hidden" value=" ${confirmStatus }" id="currentConfirmStatus"/>

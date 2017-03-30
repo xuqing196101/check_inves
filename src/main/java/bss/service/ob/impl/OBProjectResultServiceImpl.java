@@ -398,11 +398,20 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      */
 	@Override
 	public ConfirmInfoVo selectSupplierDate(String supplierId,
-			String projectId) {
+			String projectId,String status) {
 		// TODO Auto-generated method stub
 		//获取竞价结果 基础信息
 		ConfirmInfoVo info= oBProjectResultMapper.getBasic(projectId, supplierId);
 		if(info!=null){
+			if(status.equals("2")){
+			String	propo= oBProjectResultMapper.getProportionSum(projectId);
+				if(propo==null){
+					propo="0";
+				}else{
+					info.setSecondRatio(100-Integer.parseInt(propo));
+				}
+			}
+			//第二轮 剩余 比例
 		//产品 报价  信息
 		List<OBResultsInfo> or=OBResultsInfoMapper.getProductInfo(projectId, supplierId);
 		// 获取 竞价金额 成交金额
@@ -499,7 +508,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 					 //插入附表 产品结果
 			 }
 		 }
-		return null;
+		return "";
 	}
 	
 	

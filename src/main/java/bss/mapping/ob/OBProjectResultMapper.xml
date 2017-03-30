@@ -375,6 +375,12 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
      and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
     GROUP BY SUPPLIER_ID
   </select>
+  <!-- 获取全部成交 的比例总后和-->
+  <select id="getProportionSum" resultType="java.lang.String" parameterType="java.lang.String" >
+    SELECT SUM(PROPORTION) as PROPORTION from T_BSS_OB_PROJECT_RESULT 
+    WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND STATUS=1 
+  </select>
+  
   <!-- 去重复供应商 根据参数 获取确认供应商数量  -->
   <select id="countByStatus" parameterType="java.lang.String" resultType="java.lang.Integer" >
     select count(DISTINCT SUPPLIER_ID) from T_BSS_OB_PROJECT_RESULT

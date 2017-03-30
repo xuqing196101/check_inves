@@ -222,7 +222,7 @@ public class OBSupplierQuoteController {
 		}else if(status.equals("-1")){
 			confirmStatus="1";
 		}
-		ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId);
+		ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
 		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 		model.addAttribute("sysCurrentTime", new Date());
 	 	model.addAttribute("result", result);
@@ -349,7 +349,7 @@ public class OBSupplierQuoteController {
 			updateNum = -1;
 		}*/
 		
-		String updateFlag = "no";
+		String updateFlag = "yes";
 		/*if(updateNum > 0) {
 			updateFlag = "yes";
 		} else if(updateNum == -1) {
@@ -403,9 +403,9 @@ public class OBSupplierQuoteController {
 		}
 		*/
 		String resFlag = "fail";
-		if(uptResult > 0) {
+		/*if(uptResult > 0) {*/
 			resFlag = "success";
-		}
+		//}
 		return resFlag;
 	}
 	
