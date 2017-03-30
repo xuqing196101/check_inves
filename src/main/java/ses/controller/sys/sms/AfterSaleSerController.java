@@ -325,28 +325,10 @@ public class AfterSaleSerController extends BaseSupplierController{
 	 */
 	@RequestMapping("/delete")
 	public String delete(String ids){
-		/*String[] id=ids.split(",");
-		for (String str : id) {
-			AfterSaleSer afterSaleSer = afterSaleSerService.get(str);
-			String supplierId = afterSaleSerService.get(str).getContractCode().getSupplier().getId();
-			String supplierName = afterSaleSerService.get(str).getContractCode().getSupplier().getSupplierName();
-			afterSaleSerService.delete(str);
-			int count = afterSaleSerService.queryByConut(supplierId);
-			if (count == 0) {
-				SupplierPqrecord sPqrecord = supplierPqrecordService.selectByName(supplierName);
-				supplierPqrecordService.delete(sPqrecord.getId());
-			}else {
-			     SupplierPqrecord supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
-			     if (supplierPqrecord==null) {
-			    	 Supplier supplier = afterSaleSer.getContractCode().getSupplier();
-			    	 supplier.setSupplierName(supplierName);
-					 supplierPqrecord.setSupplier(supplier);
-			    	 supplierPqrecordService.add(supplierPqrecord);
-			     }
-			     supplierPqrecord = supplierPqrecordService.selectByName(supplierName);
-			     supplierPqrecordService.update(supplierPqrecord);
-			}
-		}*/
+		String[] id=ids.split(",");
+		for(int i=0;i<id.length;i++){
+			afterSaleSerService.delete(id[i]);
+		}
 		return "redirect:list.html";
 	}
 	@RequestMapping(value = "update_status")
