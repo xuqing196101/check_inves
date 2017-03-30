@@ -1,6 +1,7 @@
 package bss.service.ob.impl;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -11,8 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
-import org.apache.commons.fileupload.FileUpload;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,14 +24,17 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
+import bss.dao.ob.OBSpecialDateMapper;
 import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
@@ -47,7 +51,6 @@ import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
 import common.utils.DateUtils;
-import bss.dao.ob.OBSpecialDateMapper;
 
 /**
  * 竞价信息管理接口实现
@@ -89,6 +92,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	private OBSpecialDateMapper OBSpecialDateMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
+	
+	// 注入竞价规则子表
+	@Autowired
+	private OBProjectRuleMapper obProjectRuleMapper;
 	// 定义 竞价控制类型
 	private int type = 2;
 
@@ -325,23 +332,61 @@ public class OBProjectServerImpl implements OBProjectServer {
 		if(!verify.equals("success")){
 			return verify;
 		}
+		// 生成ID
+		String uuid = UUID.randomUUID().toString().toUpperCase()
+				.replace("-", "");
+				
 		// 默认规则
-		 OBRule obr = OBRuleMapper.selectByPrimaryKey(obProject.getRuleId());
-		 if(obr ==null){
-				show = "发布竞价请先设置默认规则";
-		    return toJsonProject("attribute", show);
-		 }
-		
+		// 暂存修改的时候使用的是子表中的规则
 		// 获取间隔日
-		int intervalWorkday = obr.getIntervalWorkday();
+		int intervalWorkday = 0;
 		// 获取竞价开始 时间忽略年月日
-		Date definiteTime = obr.getDefiniteTime();
+		Date definiteTime = null;
 		// 获取报价时间
-		int quoteTime = obr.getQuoteTime();
+		int quoteTime = 0;
 		// 确认时间
-		int confirmTime = obr.getConfirmTime();
+		int confirmTime;
 		// 第二轮 确认时间
-		int confirmTimeSecond = obr.getConfirmTimeSecond();
+		int confirmTimeSecond;
+		// 父表规则
+		OBRule obr = null;
+		// 子表负责
+		OBProjectRule obProjectRule = null;
+		// 编辑页面时  以及暂存后发布 调用的规则  
+		if((obProject.getStatus() == 0 && StringUtils.isNotEmpty(obProject.getId()))
+				|| (obProject.getStatus() == 1 && StringUtils.isNotEmpty(obProject.getId()))){
+			obProjectRule = obProjectRuleMapper.selectByPrimaryKey(obProject.getId());
+			if(obProjectRule == null){
+				show = "发布竞价请先设置默认规则";
+				return toJsonProject("attribute", show);
+			}
+			intervalWorkday = obProjectRule.getIntervalWorkday();
+			definiteTime = obProjectRule.getDefiniteTime();
+			quoteTime = obProjectRule.getQuoteTime();
+			confirmTime = obProjectRule.getConfirmTime();
+			confirmTimeSecond = obProjectRule.getConfirmTimeSecond();
+		}
+		// 暂存时或发布时调用的规则
+		if((obProject.getStatus() == 0 && StringUtils.isEmpty(obProject.getId()))
+		|| (obProject.getStatus() == 1 && StringUtils.isEmpty(obProject.getId()))){
+			obr = OBRuleMapper.selectByPrimaryKey(obProject.getRuleId());
+			if(obr ==null){
+				show = "发布竞价请先设置默认规则";
+				return toJsonProject("attribute", show);
+			}
+			// 将竞价规则copy到子表中--获取通过竞价的ID
+			OBProjectRule obProjectRules = new OBProjectRule();
+			BeanUtils.copyProperties(obr, obProjectRules);
+			// 设置竞价子表的ID为竞价的ID
+			obProjectRules.setId(uuid);
+			// 将竞价规则存入子表中
+			obProjectRuleMapper.insert(obProjectRules);
+			intervalWorkday = obr.getIntervalWorkday();
+			definiteTime = obr.getDefiniteTime();
+			quoteTime = obr.getQuoteTime();
+			confirmTime = obr.getConfirmTime();
+			confirmTimeSecond = obr.getConfirmTimeSecond();
+		}
 		// 获取当前日期
 		Date date = new Date();
 		// 1.当前时间加上间隔日
@@ -368,10 +413,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 		// 获取竞价结束时间 竞价开始时间+ 报价
 		Date endDate = DateUtils.getAddDate(startdate, quoteTime);
-
-		// 生成ID
-		String uuid = UUID.randomUUID().toString().toUpperCase()
-				.replace("-", "");
 		obProject.setCreatedAt(date);
 		obProject.setCreaterId(userid);
 		obProject.setStartTime(startdate);

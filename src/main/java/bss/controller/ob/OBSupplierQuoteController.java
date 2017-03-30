@@ -298,13 +298,15 @@ public class OBSupplierQuoteController {
 			HttpServletRequest request) {
 		// 获取竞价标题
 		String titleId = request.getParameter("titleId");
-		
+		// 获取报价总金额，回显数据使用
+		String showQuotoTotalPriceStr = request.getParameter("showQuotoTotalPrice");
 		HashMap<String, Object> map = new HashMap<String, Object>();
 		map.put("titleId", titleId);
 		// 封装当前用户信息
 		map.put("user", user);
 		// 供应商报价信息
 		map.put("obResultsInfoExtList", obResultsInfoExt);
+		map.put("showQuotoTotalPriceStr", showQuotoTotalPriceStr);
 		return obSupplierQuoteService.saveQuoteInfo(map);
 	}
 	
@@ -640,4 +642,22 @@ public class OBSupplierQuoteController {
 		}
 		return JdcgResult.ok(remarkString);
 	}
+	
+	/**
+     * 
+    * @Title: getSysTime 
+    * @Description: 获取当前系统时间
+    * @author Easong
+    * @param @return    设定文件 
+    * @return Long    返回类型 
+    * @throws
+     */
+    @RequestMapping("/getSysTime")
+    @ResponseBody()
+    public Long getSysTime(){
+    	// 获取当前系统时间  毫米值
+    	Date date = new Date();
+    	long sysDate = date.getTime();
+    	return sysDate;
+    }
 }

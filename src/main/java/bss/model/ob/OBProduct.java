@@ -42,8 +42,10 @@ public class OBProduct {
 	// 产品类别等级
 	private Integer productCategoryLevel;
 
+	// 产品规格型号
 	private String standardModel;
 
+	// 质量技术标准
 	private String qualityTechnicalStandard;
 
 	private String remark;

@@ -212,6 +212,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 	@Override
 	public JdcgResult saveQuoteInfo(Map<String, Object> map) {
 		String titleId = (String) map.get("titleId");
+		String showQuotoTotalPriceStr = (String) map.get("showQuotoTotalPriceStr");
 		// 获取用户
 		User user = (User) map.get("user");
 		OBResultInfoList obResultInfoList = (OBResultInfoList) map
@@ -289,7 +290,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				obResultsInfoMapper.insert(obResultsInfo);
 			}
 		}
-		return JdcgResult.ok("操作成功，请在报价截止时间后，查看本次中标结果！");
+		return JdcgResult.ok(showQuotoTotalPriceStr);
 	}
 
 	

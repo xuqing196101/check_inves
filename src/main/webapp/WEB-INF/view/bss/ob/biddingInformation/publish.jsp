@@ -9,6 +9,8 @@
 	    <script type="text/javascript" src="${pageContext.request.contextPath}/public/upload/ajaxfileupload.js"></script>
 	<title>发布竞价信息页面</title>
 <script type="text/javascript">
+	// 获取乙方包干使用运杂费
+
 	  var number=10000001;
 	  //选择数量
 	  var suppCount=0;
@@ -73,6 +75,20 @@
 	var list=null;
 	//定义产品集合
 	var productList=null;
+	
+	function changeTransportFees(obj){
+		var transportFeesStr = $("#transportFees option:selected").val();
+		if(transportFeesStr == 'c4684513be9c65c5e8fb923f9ae14e88'){
+			$("#transportFeesPriceLi").css("display","block");
+			$("#transportFeesPriceErr").html("");
+			$("#transportFeesPrice").val("");
+		}else{
+			$("#transportFeesPriceLi").css("display","none");
+			$("#transportFeesPriceErr").html("");
+			$("#transportFeesPrice").val("");
+		}
+	}
+	
 	//加载采购机构 下拉数据
 	$(function(){
 	 var index = layer.load(0, {
@@ -129,8 +145,8 @@
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}'); 
 		 tradedCount();
 		 //加载运杂费 数据
-			 $("#transportFees").select2();
-				var id='';
+		$("#transportFees").select2();
+			var id='';
 		 $.ajax({
 			url: "${pageContext.request.contextPath }/ob_project/transportFeesType.html",
 			contentType: "application/json;charset=UTF-8",
@@ -144,16 +160,20 @@
 					   id=user.id;
 					  }
 				  });
-				} 
+				}
+			 $("#transportFees").select2();
+			 $("#transportFees").select2('val','${list.transportFees}');
+			 $("#transportFees").select2({
+			        minimumResultsForSearch: -1
+			 });
 			}
 		});
-		var fees='${list.transportFees}';
-		if(fees){
-			 $("#transportFees").select2('val','${list.transportFees}');
-		}else{
+		/* var fees='${list.transportFees}';
+		if(fees){ */
+		$("#transportFees").select2('val','${list.transportFees}');
+		/* }else{
 		     $("#transportFees").select2('val',id );
-		}
-		 
+		} */
 		 
 		 layer.close(index);
 	});
@@ -248,7 +268,7 @@
 	} 
 	  //关闭
 	function closePrompt(){
-	layer.closeAll('tips');
+		layer.closeAll('tips');
 	}
 	  // 显示
     function showPrompt(id,selectID){
@@ -326,10 +346,17 @@
 		  $("#endTimeErr").html("");
 		  $("#contentErr").html("");
 		  $("#buttonErr").html("");
+		  $("#transportFeesPriceErr").html("");
 		   var name=$("#name").val().trim();
 		   if(!name){
-		   $("#nameErr").html("竞价标题不能为空");
-		     show("竞价标题不能为空");
+		   $("#nameErr").html("竞价项目名称不能为空");
+		     show("竞价项目名称不能为空");
+		   return;
+		  }
+		   var supplierCount=$("#tradedSupplierCount").val().trim();
+		   if(!supplierCount){
+		   $("#tradedSupplierCountErr").html("成交供应商数量不能为空");
+		     show("成交供应商数量不能为空");
 		   return;
 		  }
 		   if(!$("#deliveryDeadline").val().trim()){
@@ -342,32 +369,62 @@
 		     show("交货地点不能为空");
 		   return;
 		  }
-		  var supplierCount=$("#tradedSupplierCount").val().trim();
-		    if(!supplierCount){
-		   $("#tradedSupplierCountErr").html("成交供应商数量不能为空");
-		     show("成交供应商数量不能为空");
-		   return;
-		  }
-		   if(!$("#transportFees").val().trim()){
-		   $("#transportFeesErr").html("运杂费不能为空");
-		    show("运杂费不能为空");
-		   return;
-		  }
-		  
 		   if(!$("#demandUnit").val().trim()){
-		   $("#demandUnitErr").html("需求单位不能为空");
-		   show("需求单位不能为空");
-		   return;
-		  }
+			   $("#demandUnitErr").html("需求单位不能为空");
+			   show("需求单位不能为空");
+			   return;
+		   }
 		   if(!$("#contactName").val().trim()){
-		   $("#contactNameErr").html("联系人不能为空");
-		   show("联系人不能为空");
-		   return;
-		  } if(!$("#contactTel").val().trim()){
-		   $("#contactTelErr").html("联系人电话不能为空");
-		   show("联系人电话不能为空");
+			   $("#contactNameErr").html("联系人不能为空");
+			   show("联系人不能为空");
+			   return;
+			}
+		   if(!$("#contactTel").val().trim()){
+			   $("#contactTelErr").html("联系人电话不能为空");
+			   show("联系人电话不能为空");
+			   return;
+			}
+		   
+		  if(!$("#transportFees").val().trim()){
+		   $("#transportFeesErr").html("运杂费支付方式不能为空");
+		    show("运杂费支付方式不能为空");
 		   return;
 		  }
+		   
+		  // 验证运杂费输入
+		  var transportFeesPriceLiStyle = $("#transportFeesPriceLi").css("display");
+		  if(transportFeesPriceLiStyle == 'block'){
+			  // 获取输入的价格
+			  var transportFeesPrice = $("#transportFeesPrice").val().trim();
+			  if(!transportFeesPrice){
+			   $("#transportFeesPriceErr").html("运杂费金额不能为空");
+			    show("运杂费金额不能为空");
+			   	return;
+			  }
+			  if(transportFeesPrice.substr(0,1) == '0'){
+				  $("#transportFeesPriceErr").html("运杂费不能以0开头且最低输入为1元");
+				  show("运杂费不能以0开头且最低输入为1元");
+				  return;
+			  }
+			  var priceArr = transportFeesPrice.split(".");
+			  if((priceArr.length - 1) > 1){
+				  $("#transportFeesPriceErr").html("运杂费输入格式不正确");
+				  show("运杂费输入格式不正确");
+				  return;
+			  }
+			  if(priceArr[1] == ''){
+				  $("#transportFeesPriceErr").html("运杂费输入格式不正确");
+				  show("运杂费输入格式不正确");
+				  return;
+			  }
+			  if( ! /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/.test(transportFeesPrice)){
+				  $("#transportFeesPriceErr").html("运杂费输入格式不正确(保留两位小数)");
+				  show("运杂费输入格式不正确(保留两位小数)");
+				  return;
+			  }
+			  
+		   }
+		  
 		  if(!$("#orgId").val().trim()){
 		   $("#orgIdErr").html("采购机构不能为空");
 		   show("采购机构不能为空");
@@ -526,6 +583,11 @@
 	//动态改变 比例
 	function tradedCount(){
 	var count=$("#tradedSupplierCount").val();
+	// 如果未选择则置为空
+	if(count == ''){
+		$("#tradedSupplier").val("");
+		return;
+	}
 	if(count){
       $.ajax({
 				url: "${pageContext.request.contextPath }/ob_project/proportion.do",
@@ -605,16 +667,16 @@
   <input type="hidden" id="suppliePrimaryId" name="suppliePrimaryId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
-       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
-        <span class="add-on">i</span>
-        <span class="input-tip">保存后自动生成</span>
-       </div>
-	 </li>
+       <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
+		   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
+	        <span class="add-on">i</span>
+	        <span class="input-tip">保存后自动生成</span>
+	       </div>
+	 	</li> --%>
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价名称</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目名称</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
         <input class="input_group" id="name"  value="${list.name}" name="name" type="text"  maxlength="100">
         <span class="add-on">i</span>
@@ -622,25 +684,6 @@
         <div class="cue" id="nameErr">${nameErr}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>交货时间</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly"
-         onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  type="text">
-        <span class="add-on">i</span>
-         <span class="input-tip">不能为空</span>
-        <div class="cue" id="deliveryDeadlineErr">${deliveryDeadlineErr}</div>
-       </div>
-	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>交货地点</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" type="text" >
-        <span class="add-on">i</span>
-        <span class="input-tip">不能为空</span>
-        <div class="cue" id="deliveryAddressErr">${deliveryAddressErr}</div>
-       </div>
-	 </li> 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
 	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" onchange="tradedCount()" >
@@ -653,6 +696,41 @@
 	   <option value="6">6</option>
 	   </select>
         <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
+	 </li>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商成交比例</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="tradedSupplier" value="" name=""  readonly="readonly" type="text">
+        <span class="add-on">i</span>
+        <span class="input-tip">自动获取</span>
+       </div>
+	 </li>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>交货时间</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly"
+         onclick="WdatePicker({minDate:'%y-%M-{%d}',dateFmt:'yyyy-MM-dd HH:mm:ss'})"  type="text">
+        <span class="add-on">i</span>
+         <span class="input-tip">不能为空</span>
+        <div class="cue" id="deliveryDeadlineErr">${deliveryDeadlineErr}</div>
+       </div>
+	 </li>
+	 <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
+		   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
+	        <span class="add-on">i</span>
+	        <span class="input-tip">保存后自动生成</span>
+	       </div>
+	 	</li> --%>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>交货地点</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" type="text" >
+        <span class="add-on">i</span>
+        <span class="input-tip">不能为空</span>
+        <div class="cue" id="deliveryAddressErr">${deliveryAddressErr}</div>
+       </div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
@@ -680,15 +758,23 @@
         <div class="cue" id="contactTelErr">${contactTelErr}</div>
        </div>
 	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应比例</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="tradedSupplier" value="" name=""  readonly="readonly" type="text">
-        <span class="add-on">i</span>
-        <span class="input-tip">自动获取</span>
-       </div>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费支付方式</span>
+			<select id="transportFees" name="transportFees" onchange="changeTransportFees(this)" >
+				<option value="">--请选择--</option>
+			</select>
+        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
 	 </li>
-	  
+	
+	 <li id="transportFeesPriceLi" style="display: none" class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费金额(元)</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			<input class="input_group" id="transportFeesPrice" value="${ list.transportFeesPrice }" name="transportFeesPrice" onkeyup="this.value=this.value.replace(/[^\d.]/g, '')"  onafterpaste="this.value=this.value.replace(/[^\d.]/g, '')" type="text">
+	        <span class="add-on">i</span>
+	        <span class="input-tip">不能为空,最低输入一元</span>
+	        <div class="cue" id="transportFeesPriceErr">${transportFeesPriceErr}</div>
+        </div>
+	 </li>
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
 			<select id="orgId" name="orgId" onchange="changSelect()" >
@@ -714,12 +800,6 @@
         <div class="cue" id="orgContactNameErr">${orgContactNameErr}</div>
        </div>
 	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
-			<select id="transportFees" name="transportFees"  >
-			</select>
-        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
-	 </li> 
 	 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
@@ -782,4 +862,13 @@
     </div>
 </div>
 </body>
+	<script type="text/javascript">
+		$(function(){
+			// 乙方包干使用价格显示
+			var transportFees = ${list.transportFeesPrice};
+			if(transportFees != null){
+				$("#transportFeesPriceLi").css("display","block");
+			}
+		});
+	</script>
 </html>

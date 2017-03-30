@@ -56,6 +56,7 @@
 	//定义产品集合
 	var productList=null;
 	//加载采购机构 下拉数据
+	
 	$(function(){
 	 var index = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
@@ -109,6 +110,9 @@
 		 });
 		 $("#tradedSupplierCount").select2();
 		 $("#tradedSupplierCount").select2('val','${list.tradedSupplierCount}');
+		 // 供应商成交比例数据回显
+		 tradedCount();
+		 
 		  //加载运杂费 数据
 		 $.ajax({
 			url: "${pageContext.request.contextPath }/ob_project/transportFeesType.html",
@@ -125,8 +129,35 @@
 			 $("#transportFees").select2('val','${list.transportFees}');
 			}
 		});
-		 layer.close(index);
+		// 获取乙方包干使用运杂费
+		/* if(transportFees != null){
+			$("#transportFeesPriceLi").css("display","block");
+		} */
+		layer.close(index);
 	});
+	
+	//动态改变 比例--数据回显
+	function tradedCount(){
+	var count=$("#tradedSupplierCount").val();
+	// 如果未选择则置为空
+	if(count == ''){
+		$("#tradedSupplier").val("");
+		return;
+	}
+	if(count){
+      $.ajax({
+				url: "${pageContext.request.contextPath }/ob_project/proportion.do",
+				type: "POST",
+				data: {
+					supplierCount: count
+				},
+				success: function(data) {
+				 $("#tradedSupplier").val(data);
+		 }
+     });
+     }
+	}
+	
 	//根据下拉框信息改变 采购联系人 采购联系电话
 	function changSelect(){
 	   if(list){
@@ -267,66 +298,84 @@
   <input type="hidden" id="suppliePrimaryId" name="suppliePrimaryId" >
      <h2 class="count_flow"><i>1</i>竞价基本信息</h2>
      <ul class="ul_list">
-       <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" disabled="disabled"  maxlength="100">
-        <span class="add-on">i</span>
-        <span class="input-tip">自动生成</span>
-       </div>
-	 </li>
+       <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
+		   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
+	        <span class="add-on">i</span>
+	        <span class="input-tip">保存后自动生成</span>
+	       </div>
+	 	</li> --%>
 	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价名称</span>
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目名称</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="name"  value="${list.name}" name="name" type="text" disabled="disabled" maxlength="100">
+        <input class="input_group" id="name" disabled="disabled"  value="${list.name}" name="name" type="text"  maxlength="100">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="nameErr">${nameErr}</div>
        </div>
 	 </li>
 	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
+	   <select class="input_group" id="tradedSupplierCount" disabled="disabled" name="tradedSupplierCount" onchange="tradedCount()" >
+	   <option value="">--请选择--</option>
+	   <option value="1">1</option>
+	   <option value="2" >2</option>
+	   <option value="3" >3</option>
+	   <option value="4" >4</option>
+	   <option value="5" >5</option>
+	   <option value="6">6</option>
+	   </select>
+        <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
+	 </li>
+	 </li>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">供应商成交比例</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="tradedSupplier" value="" name=""  disabled="disabled" type="text">
+        <span class="add-on">i</span>
+        <span class="input-tip">自动获取</span>
+       </div>
+	 </li>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>交货时间</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" maxlength="19" disabled="disabled" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly"
+        <input class="input_group" name="deliveryDeadline" id="deliveryDeadline" disabled="disabled" maxlength="19" value="<fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:ss:mm"/>"  readonly="readonly"
          onclick="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss'})"  type="text">
         <span class="add-on">i</span>
          <span class="input-tip">不能为空</span>
         <div class="cue" id="deliveryDeadlineErr">${deliveryDeadlineErr}</div>
        </div>
 	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
+	 <%-- <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+		   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号(保存后生成)</span>
+		   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" readonly="readonly"  maxlength="100">
+	        <span class="add-on">i</span>
+	        <span class="input-tip">保存后自动生成</span>
+	       </div>
+	 	</li> --%>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>交货地点</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" maxlength="150" name="deliveryAddress" disabled="disabled" type="text">
+        <input class="input_group" id="deliveryAddress" value="${list.deliveryAddress }" disabled="disabled" maxlength="150" name="deliveryAddress" type="text" >
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="deliveryAddressErr">${deliveryAddressErr}</div>
        </div>
 	 </li> 
-	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>成交供应商数</span>
-	   <select class="input_group" id="tradedSupplierCount" name="tradedSupplierCount" disabled="disabled" onchange="tradedCount()">
-	   <option value=""></option>
-	   <option value="1">1</option>
-	   <option value="2">2</option>
-	   <option value="3">3</option>
-	   <option value="4">4</option>
-	   <option value="5">5</option>
-	   <option value="6">6</option>
-	   </select>
-        <div class="cue" id="tradedSupplierCountErr">${tradedSupplierCountErr}</div>
-	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>需求单位</span>
-			<select id="demandUnit" name="demandUnit" onchange="changDemandUnit()" disabled="disabled" >
-			  <option value=""></option>
-			</select>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+			<select id="demandUnit" name="demandUnit" disabled="disabled" onchange="changDemandUnit()" >
+			  <option value="">--请选择--</option>
+			</select></div>
         <div class="cue" id="demandUnitErr">${demandUnitErr}</div>
 	 </li> 
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName" disabled="disabled" value="${list.contactName }" maxlength="20" type="text">
+        <input class="input_group" id="contactName" name="contactName" disabled="disabled" readonly="readonly" value="${list.contactName }" maxlength="20" type="text">
         <span class="add-on">i</span>
            <span class="input-tip">不能为空</span>
         <div class="cue" id="contactNameErr">${contactNameErr}</div>
@@ -335,33 +384,40 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }" disabled="disabled" maxlength="20" type="text">
+        <input class="input_group" id="contactTel" name="contactTel" disabled="disabled" value="${list.contactTel }" readonly="readonly" maxlength="20" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="contactTelErr">${contactTelErr}</div>
        </div>
 	 </li>
-	  <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5">成交供应比例</span>
-	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="tradedSupplier" value="" name=""  disabled="disabled" type="text">
-        <span class="add-on">i</span>
-        <span class="input-tip">自动获取</span>
-       </div>
+	 <li class="col-md-3 col-sm-6 col-xs-12">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费支付方式</span>
+			<select id="transportFees" name="transportFees" disabled="disabled" >
+			</select>
+        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
 	 </li>
-	  
+	 <c:if test="${ !empty list.transportFeesPrice }">
+		 <li id="transportFeesPriceLi" class="col-md-3 col-sm-6 col-xs-12">
+		   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费金额(元)</span>
+		   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+				<input class="input_group" id="transportFeesPrice" disabled="disabled" name="transportFeesPrice" value="${ list.transportFeesPrice }" onkeyup="this.value=this.value.replace(/[^\d.]/g, '')"  onafterpaste="this.value=this.value.replace(/[^\d.]/g, '')" type="text">
+		        <span class="add-on">i</span>
+		        <span class="input-tip"></span>
+		        <div class="cue" id="transportFeesPriceErr">${transportFeesPriceErr}</div>
+	        </div>
+		 </li> 
+	 </c:if>
 	<li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购机构</span>
-			<select id="orgId" name="orgId" onchange="changSelect()" disabled="disabled">
-			  <option value=""></option>
+			<select id="orgId" name="orgId" onchange="changSelect()" disabled="disabled" >
+			  <option value="">--请选择--</option>
 			</select>
 			 <div class="cue" id="orgIdErr">${orgIdErr}</div>
 	 </li>
-	 
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>采购联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="orgContactTel" name="orgContactTel" value="${list.orgContactTel }" disabled="disabled" type="text">
+        <input class="input_group" id="orgContactTel" name="orgContactTel" disabled="disabled" value="${list.orgContactTel }" readonly="readonly" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空,只可以是数字</span>
         <div class="cue" id="orgContactTelErr">${orgContactTelErr}</div>
@@ -370,28 +426,27 @@
 	 <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>采购联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="orgContactName" name="orgContactName" value="${list.orgContactName }"  disabled="disabled" type="text">
+        <input class="input_group" id="orgContactName" name="orgContactName" disabled="disabled" value="${list.orgContactName }"  readonly="readonly" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="orgContactNameErr">${orgContactNameErr}</div>
        </div>
 	 </li>
-	 <li class="col-md-3 col-sm-6 col-xs-12">
-	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费(元)</span>
-			<select id="transportFees" name="transportFees"  disabled="disabled">
-			  <option value="">--请选择--</option>
-			</select>
-        <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
-	 </li>  
-	 
+	  <li class="col-md-3 col-sm-6 col-xs-12 pl15">
+	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价项目编号</span>
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+        <input class="input_group" id="number"  value="${list.projectNumber}" name="number" type="text" disabled="disabled"  maxlength="100">
+        <span class="add-on">i</span>
+        <span class="input-tip">自动生成</span>
+       </div>
+	 </li>
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价文件</span>
 	   <div class="col-md-12 col-sm-12 col-xs-12 p0">
-                <u:show showId="project" groups="b,c,d"  delete="false" businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
+            <u:show showId="project" groups="b,c,d"  delete="false" businessId="${fileid}" sysKey="${sysKey}" typeId="${typeId }" />
        <div class="cue" id="fileUploadErr">${fileUploadErr}</div>
        </div>
-	 </li> 
-	  
+	 </li>
 
 	  <li class="col-md-12 col-sm-12 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>竞价内容</span>

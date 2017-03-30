@@ -28,6 +28,7 @@
     <result column="RULE_ID" property="ruleId" jdbcType="VARCHAR" />
      <result column="PROJECT_NUMBER" property="projectNumber" jdbcType="DECIMAL" />
      <result column="IS_DELETE" property="isDelete" jdbcType="DECIMAL" />
+     <result column="TRANSPORT_FEES_PRICE" property="transportFeesPrice" jdbcType="DECIMAL" />
     <association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
@@ -146,7 +147,7 @@
     ID, NAME, DELIVERY_DEADLINE, DELIVERY_ADDRESS, TRADED_SUPPLIER_COUNT, TRANSPORT_FEES, 
     DEMAND_UNIT, CONTACT_NAME, START_TIME, END_TIME, CONTENT	, ATTACHMENT_ID, REMARK, 
     STATUS, CREATER_ID, FORM_ID, TURNOVER_RATION, CREATED_AT, UPDATED_AT,IS_DELETE,
-     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID,PROJECT_NUMBER
+     ORG_ID,ORG_CONTACT_TEL,ORG_CONTACT_NAME,CONTACT_TEL,RULE_ID,PROJECT_NUMBER,TRANSPORT_FEES_PRICE
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectExample" >
     select
@@ -301,6 +302,9 @@
       <if test="isDelete != null" >
         IS_DELETE,
       </if>
+      <if test="transportFeesPrice != null" >
+        TRANSPORT_FEES_PRICE,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -381,6 +385,9 @@
       </if>
       <if test="isDelete != null" >
           #{isDelete,jdbcType=DECIMAL},
+      </if>
+      <if test="transportFeesPrice != null" >
+          #{transportFeesPrice,jdbcType=DECIMAL},
       </if>
     </trim>
   </insert>
@@ -553,6 +560,9 @@
       <if test="isDelete != null" >
          IS_DELETE= #{isDelete,jdbcType=DECIMAL},
       </if>
+      <if test="transportFeesPrice != null" >
+         TRANSPORT_FEES_PRICE= #{transportFeesPrice,jdbcType=DECIMAL},
+      </if>
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
@@ -574,6 +584,7 @@
       CREATER_ID = #{createrId,jdbcType=VARCHAR},
       FORM_ID = #{formId,jdbcType=VARCHAR},
       TURNOVER_RATION = #{turnoverRation,jdbcType=DECIMAL},
+      TRANSPORT_FEES_PRICE = #{transportFeesPrice,jdbcType=DECIMAL},
       CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
       UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP}
     where ID = #{id,jdbcType=VARCHAR}

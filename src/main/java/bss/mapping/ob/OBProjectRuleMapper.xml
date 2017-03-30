@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bss.dao.ob.OBProjectRuleMapper" >
+  <resultMap id="BaseResultMap" type="bss.model.ob.OBProjectRule" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="INTERVAL_WORKDAY" property="intervalWorkday" jdbcType="DECIMAL" />
+    <result column="DEFINITE_TIME" property="definiteTime" jdbcType="TIMESTAMP" />
+    <result column="QUOTE_TIME" property="quoteTime" jdbcType="DECIMAL" />
+    <result column="CONFIRM_TIME" property="confirmTime" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
+    <result column="REMARK" property="remark" jdbcType="VARCHAR" />
+    <result column="BIDING_COUNT" property="bidingCount" jdbcType="DECIMAL" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+    <result column="NAME" property="name" jdbcType="VARCHAR" />
+    <result column="CONFIRM_TIME_SECOND" property="confirmTimeSecond" jdbcType="DECIMAL" />
+    <result column="LEAST_SUPPLIER_NUM" property="leastSupplierNum" jdbcType="DECIMAL" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, INTERVAL_WORKDAY, DEFINITE_TIME, QUOTE_TIME, CONFIRM_TIME, STATUS, CREATER_ID, 
+    REMARK, BIDING_COUNT, CREATED_AT, UPDATED_AT, NAME, CONFIRM_TIME_SECOND, LEAST_SUPPLIER_NUM
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_PROJECT_RULE
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BSS_OB_PROJECT_RULE
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.ob.OBProjectRule" >
+    insert into T_BSS_OB_PROJECT_RULE (ID, INTERVAL_WORKDAY, DEFINITE_TIME, 
+      QUOTE_TIME, CONFIRM_TIME, STATUS, 
+      CREATER_ID, REMARK, BIDING_COUNT, 
+      CREATED_AT, UPDATED_AT, NAME, 
+      CONFIRM_TIME_SECOND, LEAST_SUPPLIER_NUM)
+    values (#{id,jdbcType=VARCHAR}, #{intervalWorkday,jdbcType=DECIMAL}, #{definiteTime,jdbcType=TIMESTAMP}, 
+      #{quoteTime,jdbcType=DECIMAL}, #{confirmTime,jdbcType=DECIMAL}, #{status,jdbcType=DECIMAL}, 
+      #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, #{bidingCount,jdbcType=DECIMAL}, 
+      #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP}, #{name,jdbcType=VARCHAR}, 
+      #{confirmTimeSecond,jdbcType=DECIMAL}, #{leastSupplierNum,jdbcType=DECIMAL})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ob.OBProjectRule" >
+    insert into T_BSS_OB_PROJECT_RULE
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="intervalWorkday != null" >
+        INTERVAL_WORKDAY,
+      </if>
+      <if test="definiteTime != null" >
+        DEFINITE_TIME,
+      </if>
+      <if test="quoteTime != null" >
+        QUOTE_TIME,
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME,
+      </if>
+      <if test="status != null" >
+        STATUS,
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID,
+      </if>
+      <if test="remark != null" >
+        REMARK,
+      </if>
+      <if test="bidingCount != null" >
+        BIDING_COUNT,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="name != null" >
+        NAME,
+      </if>
+      <if test="confirmTimeSecond != null" >
+        CONFIRM_TIME_SECOND,
+      </if>
+      <if test="leastSupplierNum != null" >
+        LEAST_SUPPLIER_NUM,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+      <if test="intervalWorkday != null" >
+        #{intervalWorkday,jdbcType=DECIMAL},
+      </if>
+      <if test="definiteTime != null" >
+        #{definiteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quoteTime != null" >
+        #{quoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTime != null" >
+        #{confirmTime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createrId != null" >
+        #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="bidingCount != null" >
+        #{bidingCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTimeSecond != null" >
+        #{confirmTimeSecond,jdbcType=DECIMAL},
+      </if>
+      <if test="leastSupplierNum != null" >
+        #{leastSupplierNum,jdbcType=DECIMAL},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBProjectRule" >
+    update T_BSS_OB_PROJECT_RULE
+    <set >
+      <if test="intervalWorkday != null" >
+        INTERVAL_WORKDAY = #{intervalWorkday,jdbcType=DECIMAL},
+      </if>
+      <if test="definiteTime != null" >
+        DEFINITE_TIME = #{definiteTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="quoteTime != null" >
+        QUOTE_TIME = #{quoteTime,jdbcType=DECIMAL},
+      </if>
+      <if test="confirmTime != null" >
+        CONFIRM_TIME = #{confirmTime,jdbcType=DECIMAL},
+      </if>
+      <if test="status != null" >
+        STATUS = #{status,jdbcType=DECIMAL},
+      </if>
+      <if test="createrId != null" >
+        CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      </if>
+      <if test="remark != null" >
+        REMARK = #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="bidingCount != null" >
+        BIDING_COUNT = #{bidingCount,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="name != null" >
+        NAME = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="confirmTimeSecond != null" >
+        CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL},
+      </if>
+      <if test="leastSupplierNum != null" >
+        LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBProjectRule" >
+    update T_BSS_OB_PROJECT_RULE
+    set INTERVAL_WORKDAY = #{intervalWorkday,jdbcType=DECIMAL},
+      DEFINITE_TIME = #{definiteTime,jdbcType=TIMESTAMP},
+      QUOTE_TIME = #{quoteTime,jdbcType=DECIMAL},
+      CONFIRM_TIME = #{confirmTime,jdbcType=DECIMAL},
+      STATUS = #{status,jdbcType=DECIMAL},
+      CREATER_ID = #{createrId,jdbcType=VARCHAR},
+      REMARK = #{remark,jdbcType=VARCHAR},
+      BIDING_COUNT = #{bidingCount,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      NAME = #{name,jdbcType=VARCHAR},
+      CONFIRM_TIME_SECOND = #{confirmTimeSecond,jdbcType=DECIMAL},
+      LEAST_SUPPLIER_NUM = #{leastSupplierNum,jdbcType=DECIMAL}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>
