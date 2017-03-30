@@ -962,6 +962,7 @@ public class TackController extends BaseController{
             Task task = taskservice.selectById(taskId);
             task.setStatus(task2.getStatus());
             task.setNotDetail(1);
+            task.setAcceptTime(new Date());
             taskservice.update(task);
             taskservice.softDelete(task2.getId());
             

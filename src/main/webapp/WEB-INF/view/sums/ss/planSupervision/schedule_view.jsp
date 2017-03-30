@@ -74,7 +74,7 @@
 	          </td>
           </c:if>
           <c:if test="${listContract != null}">
-	          <td class="h365 tc">
+	          <td class="h365 tc" onclick="view('${collectPlan.id}','4')">
 	            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
 	            <%-- <c:forEach items="${listContract}" var="obj">
 	              <p class="ml20 tl">合同名称：${obj.name}</p>
@@ -83,18 +83,6 @@
 	          </td>
           </c:if>
         </tr>
-        <%-- <tr>
-          <td class="h50 tc"></td>
-          <td class="h50 tc">
-            <p class="ml20 tl">采购管理部门：${collectPlan.purchaseId}</p>
-            <p class="ml20 tl">计划名称：${collectPlan.fileName}</p>
-            <p class="ml20 tl">计划编号：${collectPlan.planNo}</p>
-            <p class="ml20 tl">计划下达时间：<fmt:formatDate type='date' value='${collectPlan.orderAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
-            <p class="ml20 tl">联系人：${collectPlan.userId}</p>
-          </td>
-          <td class="h50 tc"></td>
-          <td class="h50 tc"></td>
-        </tr> --%>
       </tbody>
     </table>
     </div>

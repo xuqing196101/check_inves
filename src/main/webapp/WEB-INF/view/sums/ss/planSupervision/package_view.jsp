@@ -42,6 +42,10 @@
           };
         };
       }
+      
+      function view(id) {
+        window.location.href = "${pageContext.request.contextPath}/planSupervision/overview.html?id=" + id;
+      }
     </script>
   </head>
 
@@ -128,7 +132,7 @@
                         <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
                         <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
                       </td>
-                      <td class="tc">
+                      <td class="tc" onclick="view('${obj.id}')">
                         <div id="p" class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
                       </td>
                     </tr>

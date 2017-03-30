@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
@@ -36,6 +37,7 @@ import bss.model.ppms.AdvancedDetail;
 import bss.model.ppms.AdvancedProject;
 import bss.model.ppms.FlowDefine;
 import bss.model.ppms.FlowExecute;
+import bss.model.ppms.NegotiationReport;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
@@ -44,8 +46,10 @@ import bss.model.ppms.Reason;
 import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.model.pqims.PqInfo;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewProgress;
+import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
@@ -55,6 +59,7 @@ import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedProjectService;
 import bss.service.ppms.FlowMangeService;
+import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
@@ -62,6 +67,7 @@ import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+import bss.service.pqims.PqInfoService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 
@@ -170,13 +176,20 @@ public class PlanSupervisionController {
     private SupplierQuoteService supplierQuoteService;
     
     @Autowired
-    private ReviewProgressService reviewProgressService;
-    
-    @Autowired
     private PackageExpertService packageExpertService;
     
     @Autowired
     private ExpertService expertService;
+    
+    @Autowired
+    private NegotiationReportService reportService;
+    
+    @Autowired
+    private ContractRequiredService contractRequiredService;
+    
+    @Autowired
+    private PqInfoService pqInfoService;
+    
     
     /**
      * 
@@ -426,6 +439,32 @@ public class PlanSupervisionController {
                                 }
                             }
                         }
+                        if(listContract != null && listContract.size() > 0){
+                            for (PurchaseContract pur : listContract) {
+                                Supplier su = null;
+                                Orgnization org = null;
+                                if(pur.getSupplierDepName()!=null){
+                                    su = supplierService.selectOne(pur.getSupplierDepName());
+                                }
+                                if(pur.getPurchaseDepName()!=null){
+                                    org = orgnizationService.getOrgByPrimaryKey(pur.getPurchaseDepName());
+                                }
+                                if(org!=null){
+                                    if(org.getName()==null){
+                                        pur.setShowDemandSector("");
+                                    }else{
+                                        pur.setShowDemandSector(org.getName());
+                                    }
+                                }
+                                if(su!=null){
+                                    if(su.getSupplierName()!=null){
+                                        pur.setShowSupplierDepName(su.getSupplierName());
+                                    }else{
+                                        pur.setShowSupplierDepName("");
+                                    }
+                                }
+                            }
+                        }
                         model.addAttribute("listContract", listContract);
                         model.addAttribute("listProject", listProject);
                         model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
@@ -446,7 +485,7 @@ public class PlanSupervisionController {
         }else if(StringUtils.isNotBlank(type) && "3".equals(type)){
             return "sums/ss/planSupervision/project_view";
         }else if(StringUtils.isNotBlank(type) && "4".equals(type)){
-            
+            return "sums/ss/planSupervision/contract_view";
         }
         return null;
     }
@@ -537,6 +576,7 @@ public class PlanSupervisionController {
                     List<ProjectDetail> details = projectDetailService.selectByParentId(maps);
                     map.put("projectId", id);
                     List<Packages> packages = packageService.findByID(map);
+                    List<Packages> lists = new ArrayList<Packages>();
                     //判断有没有分包，没有分包进else
                     if(packages != null && packages.size() > 0){
                         for (Packages packages2 : packages) {
@@ -552,11 +592,11 @@ public class PlanSupervisionController {
                             }
                         }
                         for (int i = 0; i < packages.size(); i++ ) {
-                            if(packages.get(i).getProjectDetails().size() < 1){
-                                packages.remove(i);
+                            if(packages.get(i).getProjectDetails().size() > 1){
+                                lists.add(packages.get(i));
                             }
                         }
-                        model.addAttribute("packages", packages);
+                        model.addAttribute("packages", lists);
                     }else{
                         model.addAttribute("details", details);
                     }
@@ -580,7 +620,14 @@ public class PlanSupervisionController {
     @RequestMapping("/overview")
     public String overview(String id, Model model){
         if(StringUtils.isNotBlank(id)){
-            PurchaseDetail detail = detailService.queryById(id);
+            ProjectDetail projectDetail = projectDetailService.selectByPrimaryKey(id);
+            PurchaseDetail detail = null;
+            if(projectDetail != null){
+                detail = detailService.queryById(projectDetail.getRequiredId());
+            }else{
+                detail = detailService.queryById(id);
+            }
+            
             if(detail != null){
                 HashMap<String, Object> map = new HashMap<>();
                 //计划信息
@@ -621,85 +668,144 @@ public class PlanSupervisionController {
                 List<ProjectDetail> selectById = projectDetailService.selectById(map);
                 if(selectById != null && selectById.size() > 0){
                     Project project = projectService.selectById(selectById.get(0).getProject().getId());
-                    User user = userService.getUserById(project.getAppointMan());
-                    project.setAppointMan(user.getRelName());
-                    Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
-                    project.setPurchaseDepName(org.getName());
-                    project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
-                    model.addAttribute("uploadId", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS")); //项目审批文件
-                    //判断是否上传招标文件
-                    String typeId = DictionaryDataUtil.getId("PROJECT_BID");
-                    List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
-                    if(files != null && files.size() > 0){
-                        model.addAttribute("fileId", files.get(0).getId());
-                        model.addAttribute("fileName", files.get(0).getName());
-                    }
-                    //获取采购文件的编制人
-                    FlowDefine define = new FlowDefine();
-                    define.setPurchaseTypeId(project.getPurchaseType());
-                    define.setStep(3);
-                    List<FlowDefine> find = flowMangeService.find(define);
-                    FlowExecute execute = new FlowExecute();
-                    execute.setProjectId(project.getId());
-                    execute.setFlowDefineId(find.get(0).getId());
-                    execute.setStatus(1);
-                    List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
-                    if(findFlowExecute != null && findFlowExecute.size() > 0){
-                        model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
-                    } else {
-                        execute.setStatus(3);
-                        List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
-                        if(findFlowExecutes != null && findFlowExecutes.size() > 0){
-                            model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                    if(project != null){
+                        if(StringUtils.isNotBlank(project.getAppointMan())){
+                            User user = userService.getUserById(project.getAppointMan());
+                            project.setAppointMan(user.getRelName());
+                        }
+                        Orgnization org = orgnizationService.getOrgByPrimaryKey(project.getPurchaseDepId());
+                        project.setPurchaseDepName(org.getName());
+                        project.setStatus(DictionaryDataUtil.findById(project.getStatus()).getName());
+                        model.addAttribute("uploadId", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS")); //项目审批文件
+                        //判断是否上传招标文件
+                        String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+                        List<UploadFile> files = uploadService.getFilesOther(project.getId(), typeId, Constant.TENDER_SYS_KEY+"");
+                        if(files != null && files.size() > 0){
+                            model.addAttribute("fileId", files.get(0).getId());
+                            model.addAttribute("fileName", files.get(0).getName());
+                        }
+                        //获取采购文件的编制人
+                        FlowDefine define = new FlowDefine();
+                        define.setPurchaseTypeId(project.getPurchaseType());
+                        define.setStep(3);
+                        List<FlowDefine> find = flowMangeService.find(define);
+                        FlowExecute execute = new FlowExecute();
+                        execute.setProjectId(project.getId());
+                        execute.setFlowDefineId(find.get(0).getId());
+                        execute.setStatus(1);
+                        List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                        if(findFlowExecute != null && findFlowExecute.size() > 0){
+                            model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
                         } else {
-                            execute.setStatus(2);
-                            List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
-                            if(executes != null && executes.size() > 0){
-                                model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                            execute.setStatus(3);
+                            List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                            if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                                model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                            } else {
+                                execute.setStatus(2);
+                                List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                                if(executes != null && executes.size() > 0){
+                                    model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                                }
                             }
                         }
+                        
+                        //获取发售标书的操作人
+                        
+                        
+                        
+                        //获取采购公告
+                        Article article = new Article();
+                        article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+                        article.setProjectId(project.getId());
+                        List<Article> articles = articleService.selectArticleByProjectId(article);
+                        if(articles != null && articles.size() > 0){
+                            User user2 = userService.getUserById(articles.get(0).getUser().getId());
+                            articles.get(0).setUserId(user2.getRelName());
+                            model.addAttribute("articles",articles.get(0));
+                        }
+                        
+                        //获取中标公示
+                        Article article2 = new Article();
+                        article2.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+                        article2.setProjectId(project.getId());
+                        List<Article> articleList= articleService.selectArticleByProjectId(article2);
+                        if(articleList != null && articleList.size() > 0){
+                            User user2 = userService.getUserById(articleList.get(0).getUser().getId());
+                            articleList.get(0).setUserId(user2.getRelName());
+                            model.addAttribute("articleList",articleList.get(0));
+                        }
+                        
+                        //资格性符合性检查
+                        Map<String, Object> packageExpertmap = new HashMap<String, Object>();
+                        packageExpertmap.put("packageId", selectById.get(0).getPackageId());
+                        packageExpertmap.put("projectId", project.getId());
+                        //查询专家
+                        List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+                        List<Expert> experts = new ArrayList<Expert>();
+                        for (PackageExpert packageExpert : expertIdList) {
+                            Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+                            packageExpert.setExpertId(expert.getRelName());
+                            experts.add(expert);
+                        }
+                        if("DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                            model.addAttribute("DYLY", "1");
+                        }
+                        
+                        //确认中标供应商
+                        SupplierCheckPass pass = new SupplierCheckPass();
+                        pass.setPackageId(selectById.get(0).getPackageId());
+                        pass.setIsWonBid((short)1);
+                        pass.setProjectId(project.getId());
+                        List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(pass);
+                        if(listCheckPass != null && listCheckPass.size() > 0){
+                            for (SupplierCheckPass supplierCheckPass : listCheckPass) {
+                                Supplier supplier = supplierService.selectById(supplierCheckPass.getSupplier().getId());
+                                supplierCheckPass.setSupplierId(supplier.getName());
+                            }
+                            model.addAttribute("listCheckPass", listCheckPass);
+                        }
+                        
+                        
+                        //合同信息
+                        List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(selectById.get(0).getId());
+                        if(contractRequireds!=null&&contractRequireds.size()>0){
+                            PurchaseContract purchaseContract = contractService.selectById(contractRequireds.get(0).getContractId());
+                            if(purchaseContract.getPurchaseDepName()!=null){
+                                Orgnization org1 = orgnizationService.getOrgByPrimaryKey(purchaseContract.getPurchaseDepName());
+                                if(org1!=null){
+                                    purchaseContract.setPurchaseDepName(org1.getName());
+                                    purchaseContract.setPurchaseBankAccount_string(org1.getFax());
+                                }else{
+                                    purchaseContract.setPurchaseDepName("");
+                                }
+                                
+                            }
+                            if(purchaseContract.getSupplierDepName()!=null){
+                                 Supplier supplier = supplierService.selectById(purchaseContract.getSupplierDepName());
+                                 if(supplier!=null){
+                                     purchaseContract.setSupplierDepName(supplier.getSupplierName());
+                                     purchaseContract.setSupplierBankAccount_string(supplier.getContactFax());
+                                 }else{
+                                     purchaseContract.setSupplierDepName("");
+                                 }
+                                 
+                            }
+                            PqInfo pqInfo = new PqInfo();
+                            pqInfo.setContract(purchaseContract);
+                            List<PqInfo> selectByCondition = pqInfoService.selectByCondition(pqInfo, 0);
+                            if(selectByCondition != null && selectByCondition.size() > 0){
+                                model.addAttribute("PqInfo", selectByCondition.get(0).getClass());
+                            }
+                            model.addAttribute("purchaseContract", purchaseContract);
+                        }          
+
+                        model.addAttribute("expertIdList", expertIdList);
+                        model.addAttribute("experts", experts);
+                        model.addAttribute("project", project);
+                        model.addAttribute("status", "0");
+                        model.addAttribute("packageId", selectById.get(0).getPackageId());
                     }
-                    
-                    
-                    //获取采购公告
-                    Article article = new Article();
-                    article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
-                    article.setProjectId(project.getId());
-                    List<Article> articles = articleService.selectArticleByProjectId(article);
-                    if(articles != null && articles.size() > 0){
-                        User user2 = userService.getUserById(articles.get(0).getUser().getId());
-                        articles.get(0).setUserId(user2.getRelName());
-                        model.addAttribute("articles",articles.get(0));
-                    }
-                    
-                    //获取中标公示
-                    Article article2 = new Article();
-                    article2.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
-                    article2.setProjectId(project.getId());
-                    List<Article> articleList= articleService.selectArticleByProjectId(article2);
-                    if(articleList != null && articleList.size() > 0){
-                        User user2 = userService.getUserById(articleList.get(0).getUser().getId());
-                        articleList.get(0).setUserId(user2.getRelName());
-                        model.addAttribute("articleList",articleList.get(0));
-                    }
-                    
-                    //资格性符合性检查
-                    Map<String, Object> packageExpertmap = new HashMap<String, Object>();
-                    packageExpertmap.put("packageId", selectById.get(0).getPackageId());
-                    packageExpertmap.put("projectId", project.getId());
-                    //查询专家
-                    List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
-                    List<Expert> experts = new ArrayList<Expert>();
-                    for (PackageExpert packageExpert : expertIdList) {
-                        Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
-                        packageExpert.setExpertId(expert.getRelName());
-                        experts.add(expert);
-                    }
-                    model.addAttribute("expertIdList", expertIdList);
-                    model.addAttribute("experts", experts);
-                    model.addAttribute("project", project);
-                    model.addAttribute("status", "0");
-                    model.addAttribute("packageId", selectById.get(0).getPackageId());
                 }
                 
             }
@@ -759,13 +865,7 @@ public class PlanSupervisionController {
             model.addAttribute("adviceId", adviceId);//预研通知书
         }
         
-        List<Object> number = new ArrayList<Object>();
-        char num = 'A';
-        for (int i=0; i < 26; i++){
-            number.add(num);
-            num ++;
-        }
-        model.addAttribute("number", number.size());
+        model.addAttribute("number", "1");
         
         return "sums/ss/planSupervision/overview";
     }
@@ -998,66 +1098,47 @@ public class PlanSupervisionController {
         return "sums/ss/planSupervision/view_changbiao";
     }
     
-    
     /**
      * 
-     *〈简述〉
+     *〈查看单一来源谈判记录〉
      *〈详细描述〉
-     * @author Administrator
+     * @author FengTian
      * @param packageId
      * @param model
      * @return
      */
-    @RequestMapping("/toFirstAudit")
-    public String toFirstAudit(String packageId, Model model){
+    @RequestMapping("/report")
+    public String report(String packageId, Model model){
         if(StringUtils.isNotBlank(packageId)){
-            Packages packages = packageService.selectByPrimaryKeyId(packageId);
-            if(packages != null){
-                Project project = projectService.selectById(packages.getId());
-                List<ReviewProgress> reviewProgressList = new ArrayList<ReviewProgress>();
-                Map<String, Object> map = new HashMap<String, Object>();
-                map.put("projectId", project.getId());
-                map.put("packageId", packageId);
-                //查询该包有没有评审进度数据
-                List<ReviewProgress> rplist = reviewProgressService.selectByMap(map);
-                // 查询包关联专家实体
-                List<PackageExpert> selectList = packageExpertService.selectList(map);
-                map.put("isAudit", 1);
-                // 查询包下提交评审的专家
-                List<PackageExpert> selectList2 = packageExpertService.selectList(map);
-                
-                if (rplist == null || rplist.size() <= 0) {
-                    //如果该包进度不存在
-                    ReviewProgress reviewProgress = new ReviewProgress();
-                    reviewProgress.setAuditStatus("0");
-                    reviewProgress.setFirstAuditProgress(0.00);
-                    reviewProgress.setPackageId(packages.getId());
-                    reviewProgress.setPackageName(packages.getName());
-                    reviewProgress.setProjectId(project.getId());
-                    reviewProgress.setScoreProgress(0.00);
-                    reviewProgress.setTotalProgress(0.00);
-                    reviewProgress.setIsGather(0);
-                    reviewProgress.setFinishNum(0);
-                    reviewProgress.setNoFinishNum(selectList.size());
-                    reviewProgressList.add(reviewProgress);
-                } else {
-                    ReviewProgress reviewProgress = rplist.get(0);
-                    if (selectList2 != null && selectList2.size() > 0) {
-                        reviewProgress.setFinishNum(selectList2.size());
-                        reviewProgress.setNoFinishNum(selectList.size() - selectList2.size());
-                    } else {
-                        reviewProgress.setFinishNum(0);
-                        reviewProgress.setNoFinishNum(selectList.size());
-                    }
-                    reviewProgressList.add(reviewProgress);
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("packageId", packageId);
+            List<PackageExpert> expertSigneds = packageExpertService.selectList(map); 
+            if(expertSigneds != null && expertSigneds.size() > 0){
+                Packages packages = packageService.selectByPrimaryKeyId(packageId);
+                Project project = projectService.selectById(packages.getProjectId());
+                NegotiationReport report =  reportService.selectByPackageId(packageId);
+                SupplierCheckPass checkPass = new SupplierCheckPass();
+                checkPass.setIsWonBid((short)1);
+                checkPass.setPackageId(packageId);
+                List<SupplierCheckPass> listCheckPass = checkPassService.listCheckPass(checkPass);
+                if(listCheckPass != null && listCheckPass.size() > 0){
+                  packages.setSupplierList(listCheckPass);
+                }else{
+                  packages.setSupplierList(new ArrayList<SupplierCheckPass>());
                 }
-                // 进度
-                model.addAttribute("reviewProgressList", reviewProgressList);
+
+                if (report != null) {
+                  packages.setNegotiationReport(report);
+                }else{
+                  packages.setNegotiationReport(new NegotiationReport());
+                }
+                model.addAttribute("packages", packages);
+                model.addAttribute("project", project);
+                model.addAttribute("expertSigneds", expertSigneds);
             }
         }
-        return null;
+        return "sums/ss/planSupervision/negotiation_report";
     }
-    
     
     //给每个包的供应商，和物资明细赋值
     public List<Supplier> setField(List<Quote> listQuote) {

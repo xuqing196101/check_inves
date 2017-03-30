@@ -302,6 +302,9 @@
      <if test="contract.name != null and contract.name != ''">
         c.NAME LIKE '%'||#{contract.name}||'%' AND
      </if>
+     <if test="contract != null">
+        and p.CONTRACT_ID = #{contract.id} 
+      </if>
      p.ID IS NOT NULL
      ORDER BY p.CREATED_AT DESC
   </select>
