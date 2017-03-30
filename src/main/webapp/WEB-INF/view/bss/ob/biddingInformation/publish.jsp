@@ -255,6 +255,7 @@
    		 var productId=$("#"+selectID).val();
    		  if(productId){
    		  $.ajax({
+   				async: false,
 				url: "${pageContext.request.contextPath }/product/productType.do",
 				type: "POST",
 				data: {productId:productId},

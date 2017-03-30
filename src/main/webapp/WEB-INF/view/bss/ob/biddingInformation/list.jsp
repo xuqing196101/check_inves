@@ -221,8 +221,8 @@
 		  <th class="info">竞价项目编号</th>
 		  <th class="info" width="30%">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
-		  <th class="info">中标供应商数量</th>
-		  <th class="info">供应商数量</th>
+		  <th class="info">中标供应商</th>
+		  <th class="info">报价供应商</th>
 		  <th class="info">竞价状态</th>
 		</tr>
 		</thead>
@@ -244,15 +244,16 @@
 		   <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${list.id}&result=1">${list.closingSupplier}</a>
 		  </c:if>
 		  </td>
+		  
 		  <td class="tc">
-		   <c:if test="${list.qualifiedSupplier==0}">
+		   <c:if test="${list.offerSupplierNumber==0}">
 		   0
 		  </c:if>
-		  <c:if test="${list.qualifiedSupplier==null}">
+		  <c:if test="${list.offerSupplierNumber==null}">
 		   0
 		  </c:if>
-		   <c:if test="${list.qualifiedSupplier!=0}">
-		    <a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${list.id}">${list.qualifiedSupplier}</a>
+		   <c:if test="${list.offerSupplierNumber != null && list.offerSupplierNumber != 0}">
+		    <a href="${pageContext.request.contextPath}/ob_project/offerSupplierList.html?obProjectId=${list.id}">${list.offerSupplierNumber}</a>
 		  </c:if>
 		  
 		  </td>

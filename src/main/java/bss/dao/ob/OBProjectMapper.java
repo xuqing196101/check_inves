@@ -66,4 +66,17 @@ public interface OBProjectMapper {
 	 * 根据id 获取暂存的信息
 	 */
 	OBProject selectTemporary(Map<String,Object> map);
+	
+	/**
+	 * 
+	 * Description: 查询报价供应商的数量
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月30日 
+	 * @param  @param id
+	 * @param  @return 
+	 * @return Integer 
+	 * @exception
+	 */
+	Integer selOfferSupplierNum(@Param("id") String id);
 }

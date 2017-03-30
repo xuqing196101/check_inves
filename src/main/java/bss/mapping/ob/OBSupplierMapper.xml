@@ -198,10 +198,10 @@
 	<!-- 根据产品 查询供应商列表 -->
 	<select id="selectSupplierDate" resultMap="BaseResultMap" parameterType="Map">
 	SELECT  s.ID,
-		 s.SUPPLIER_ID,s.PRODUCT_ID,s.CERT_VALID_PERIOD,p.NAME as REMARK
+		 s.SUPPLIER_ID,s.PRODUCT_ID,s.CERT_VALID_PERIOD,p.NAME as REMARK,s.SMALL_POINTS_ID
 		FROM T_BSS_OB_SUPPLIER s,T_BSS_OB_PRODUCT p 
-		WHERE s.IS_DELETED = 0 and s.SMALL_POINTS_ID=p.SMALL_POINTS_ID and p.SMALL_POINTS_ID is not null
-	<!-- 大于当前日期  未过期 -->
+		WHERE s.IS_DELETED = 0 and p.IS_DELETED = 0 and s.SMALL_POINTS_ID=p.SMALL_POINTS_ID and p.SMALL_POINTS_ID is not null
+		<!-- 大于当前日期  未过期 -->
 		<if test="notDate != null and notDate != ''">
 		AND s.CERT_VALID_PERIOD &gt; SYSDATE
 		</if>
@@ -209,7 +209,7 @@
 		<if test="inDate != null and inDate != ''">
 		AND s.CERT_VALID_PERIOD &lt; SYSDATE
 		</if>
-		 <if test="name != null and name != ''">
+		<if test="name != null and name != ''">
 		AND  s.SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME = #{name,jdbcType=VARCHAR})
 		</if> 
 		<if test="result != null and result != ''">
@@ -596,4 +596,26 @@
 		SELECT COUNT(*) FROM T_SES_BMS_ATTACHMENT WHERE BUSINESS_ID = #{id,jdbcType=VARCHAR} AND IS_DELETED = 0
 	</select>
 	
+	<!-- 查询报价供应商信息 -->
+	<select id="selOfferSupplier" resultMap="BaseResultMap" parameterType="Map">
+		SELECT
+			<include refid="Base_Column_List" />
+		FROM T_BSS_OB_SUPPLIER
+		WHERE IS_DELETED = 0 AND ID IN (
+			SELECT SUPPLIER_ID ID FROM T_BSS_OB_RESULTS_INFO WHERE MY_OFFER_MONEY IS NOT NULL 
+  			<if test="projectId != null and projectId != ''">
+  				AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  			</if> )
+  		<if test="supplierName != null and supplierName != ''">
+			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+		</if>
+		<!-- 过期 -->
+  		<if test="status == 1">
+  			CERT_VALID_PERIOD &lt; SYSDATE
+  		</if>
+		<!-- 未过期 -->
+  		<if test="status == 2">
+  			CERT_VALID_PERIOD &gt; SYSDATE
+  		</if>
+	</select>
 </mapper>

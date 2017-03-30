@@ -604,4 +604,15 @@
 	CREATED_AT DESC
   </select>
   
+  <!-- 报价供应商的数量 -->
+  <select id="selOfferSupplierNum" resultType="Integer" parameterType="String">
+  	SELECT 
+  		COUNT(SUPPLIER_ID) FROM T_BSS_OB_RESULTS_INFO WHERE MY_OFFER_MONEY IS NOT NULL 
+  		<if test="id != null and id != ''">
+  			AND PROJECT_ID = #{id,jdbcType=VARCHAR} 
+  		</if>
+  		GROUP BY PROJECT_ID
+  </select>
+  
+  
 </mapper>

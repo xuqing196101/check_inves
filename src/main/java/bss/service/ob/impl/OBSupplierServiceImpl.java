@@ -1,6 +1,7 @@
 package bss.service.ob.impl;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -81,5 +82,14 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 	public List<UploadFile> findBybusinessId(String businessId, Integer key) {
 		String tableName = Constant.fileSystem.get(key);
 		return fileDao.findBybusinessId(businessId, tableName);
+	}
+
+	@Override
+	public List<OBSupplier> selOfferSupplier(Map<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)map.get("page"),
+				Integer.parseInt(config.getString("pageSize")));
+		List<OBSupplier> list = oBSupplierMapper.selOfferSupplier(map);
+		return list;
 	}
 }

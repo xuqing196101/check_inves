@@ -1,11 +1,11 @@
 package bss.service.ob;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
 import common.model.UploadFile;
-
 import bss.model.ob.OBSupplier;
 
 /**
@@ -137,5 +137,18 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	List<UploadFile> findBybusinessId(String businessId,Integer key);
+	
+	/**
+	 * 
+	 * Description: 查询报价供应商
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月30日 
+	 * @param  @param map
+	 * @param  @return 
+	 * @return List<OBSupplier> 
+	 * @exception
+	 */
+	List<OBSupplier> selOfferSupplier(Map<String,Object> map);
 
 }

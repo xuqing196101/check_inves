@@ -158,4 +158,17 @@ public interface OBSupplierMapper {
 	 * @return
 	 */
 	int countProductId(String productId);
+	
+	/**
+	 * 
+	 * Description: 查询报价供应商
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年3月30日 
+	 * @param  @param map
+	 * @param  @return 
+	 * @return List<OBSupplier> 
+	 * @exception
+	 */
+	List<OBSupplier> selOfferSupplier(Map<String,Object> map);
 }
