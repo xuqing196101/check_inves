@@ -5,6 +5,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -16,19 +17,27 @@ import com.github.pagehelper.PageHelper;
 
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
+import bss.dao.ob.OBResultSubtabulationMapper;
+import bss.dao.ob.OBResultsInfoMapper;
 import bss.model.ob.BidProductVo;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.OBResultSubtabulation;
+import bss.model.ob.OBResultsInfo;
+import bss.model.ob.OBRule;
 import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
 import bss.util.BiddingStateUtil;
 import common.annotation.CurrentUser;
+import common.utils.DateUtils;
+import bss.dao.ob.OBRuleMapper;
 /**
  * 
  * @author Ma Mingwei
+ * @param <OBRuleMapper>
  * @description 主要负责存储竞价结果信息
  * @method 没注释的是自动继承过来
  *
@@ -41,6 +50,14 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	
 	@Autowired
 	private OBProjectSupplierMapper mapper;
+	@Autowired
+	private OBRuleMapper OBRuleMapper;
+	
+	@Autowired
+	private OBResultsInfoMapper OBResultsInfoMapper;
+	
+	@Autowired
+	private OBResultSubtabulationMapper OBResultSubtabulationMapper;
 	@Override
 	public int countByExample(OBProjectResultExample example) {
 		// TODO Auto-generated method stub
@@ -149,7 +166,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		// TODO Auto-generated method stub
 		ConfirmInfoVo confirmInfoVo = oBProjectResultMapper.selectInfoByPSId(obProjectResult);
 		
-		if(confirmInfoVo != null) {
+		/*if(confirmInfoVo != null) {
 			//根据confirmStatus当前的状态进行查询显示的是第一轮还是第二轮
 			List<BidProductVo> productList = null;
 			if("-1".equals(confirmStatus)) {
@@ -161,7 +178,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				 }
 				Integer proportion2 =Integer.valueOf(item.getProportion());
 				proportion2 = 100 - (proportion2);
-				confirmInfoVo.setBidRatio(proportion2.toString());
+				confirmInfoVo.setBidRatio(proportion2);
 				productList = oBProjectResultMapper.selectResultProductBySupplierId(obProjectResult);
 			}
 			//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
@@ -174,8 +191,8 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			gc.add(Calendar.MINUTE, confirmInfoVo.getConfirmTimeSecond().intValue());
 			confirmInfoVo.setSecondOvertime(gc.getTime());
 			
-			confirmInfoVo.setBidProductList(productList);
-		}
+			confirmInfoVo.setBidProductList(productList);*/
+		//}
 		return confirmInfoVo;
 	}
 
@@ -193,24 +210,34 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @return 竞价管理-结果查询 
      */
 	@Override
-	public int updateBySupplierId(OBProjectResult record, String confirmStatus) {
+	public int updateBySupplierId(String projectId,String supplierId, String confirmStatus) {
 		// TODO Auto-generated method stub
-		if("-1".equals(confirmStatus)) {
+		//第一轮 放弃
+		if("1".equals(confirmStatus)) {
+			OBProjectResult obpro=new OBProjectResult();
+			obpro.setProjectId(projectId);
+			obpro.setSupplierId(supplierId);
+			obpro.setStatus(0);
+			oBProjectResultMapper.updateByPrimaryKeySelective(obpro);
+			
 			OBProject obProject = new OBProject();
-			obProject.setId(record.getProjectId());
+			obProject.setId(projectId);
 			User user = new User();
-			user.setTypeId(record.getSupplierId());
+			user.setTypeId(supplierId);
 			String remark = "3";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
-		} else if("1".equals(confirmStatus)) {
+			
+		} else if("2".equals(confirmStatus)) {
+			oBProjectResultMapper.selectByPrimaryKey(supplierId);
+			// 第二轮 放弃
 			OBProject obProject = new OBProject();
-			obProject.setId(record.getProjectId());
+			obProject.setId(projectId);
 			User user = new User();
-			user.setTypeId(record.getSupplierId());
+			user.setTypeId(supplierId);
 			String remark = "32";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 		}
-		return oBProjectResultMapper.updateBySupplierId(record);
+		return 0;
 	}
 
 	/**
@@ -250,10 +277,32 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 						oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
 						flag++;
 					} else if(i > 0) {
-						oBProjectResultMapper.insert(projectResultList.get(i));
+						if(projectResultList.get(i).getStatus()==2 ){
+							String uuid = UUID.randomUUID().toString().toUpperCase()
+									.replace("-", "");
+							projectResultList.get(i).setId(uuid);
+							oBProjectResultMapper.insert(projectResultList.get(i));
+						}
+						
+//						oBProjectResultMapper.insert(projectResultList.get(i));
 						flag++;
 					}
 				}
+				
+				/*if(countByPSID > 1) {
+					oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
+				} else {
+					if(i == 0) {
+						oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
+						flag++;
+					} else if(i > 0) {
+						String uuid = UUID.randomUUID().toString().toUpperCase()
+								.replace("-", "");
+						projectResultList.get(i).setId(uuid);
+						oBProjectResultMapper.insert(projectResultList.get(i));
+						flag++;
+					}
+				}*/
 			} else {//这个else主要针对2状态
 				oBProjectResultMapper.updateInfoBySPPId(projectResultList.get(i));
 				flag++;
@@ -337,6 +386,114 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	public List<OBProjectResult> findSupplierUnBidding(Map<String, Object> map) {
 		return oBProjectResultMapper.findSupplierUnBidding(map);
 		
+	}
+    /***
+     * 实现 供应商 竞价结果 页面数据
+     */
+	@Override
+	public ConfirmInfoVo selectSupplierDate(String supplierId,
+			String projectId) {
+		// TODO Auto-generated method stub
+		//获取竞价结果 基础信息
+		ConfirmInfoVo info= oBProjectResultMapper.getBasic(projectId, supplierId);
+		if(info!=null){
+		//产品 报价  信息
+		List<OBResultsInfo> or=OBResultsInfoMapper.getProductInfo(projectId, supplierId);
+		// 获取 竞价金额 成交金额
+		List<OBResultsInfo> obinfoList=OBResultsInfoMapper.getDealMoney(projectId);
+		 //封装 竞价的成交 金额
+		if(or!=null&&or.size()>0){
+		for(OBResultsInfo ifo: or){
+			for(OBResultsInfo in:obinfoList){
+				if(ifo.getProductId().equals(in.getProductId())){
+					ifo.setDealMoney(in.getMyOfferMoney());
+				}
+		     }
+		    }
+		  }
+		//报价信息
+		info.setOBResultsInfo(or);
+		//取到的只是一个竞价的开始时间，下面依次根据取到规则的时间段设置确认各个段的时间值
+		 Date date=new Date();
+		 info.setConfirmStarttime(date);
+		 date= DateUtils.getAddDate(date, 2000);
+		 info.setConfirmOvertime(date);
+		 date= DateUtils.getAddDate(date, 2000);
+		 info.setSecondOvertime(date);
+		 
+		}
+		return info;
+	}
+    /**
+     * 实现  接受 更新供应商结果 数据
+     */
+	@Override
+	public String updateResult(User user,List<OBResultSubtabulation> projectResultList,String acceptNum) {
+		// TODO Auto-generated method stub
+		 if(projectResultList!=null){
+			 String uuid = UUID.randomUUID().toString().toUpperCase()
+					 .replace("-", "");
+			 if(acceptNum.equals("1")&& projectResultList.get(0).getStatus()==1){
+				//封装 更新 结果表
+				 OBProjectResult obresulit=new OBProjectResult();
+				 obresulit.setUpdatedAt(new Date());
+				 obresulit.setId(projectResultList.get(0).getProjectResultId());
+				 obresulit.setProportion(projectResultList.get(0).getProportion()+"");
+				 obresulit.setStatus(projectResultList.get(0).getStatus());
+				 oBProjectResultMapper.updateByPrimaryKeySelective(obresulit);
+				 //更新状态 第一轮 接受
+				 OBProject obProject = new OBProject();
+				 obProject.setId(projectResultList.get(0).getProjectId());
+				 User users = new User();
+				 user.setTypeId(projectResultList.get(0).getSupplierId());
+				 String remark = "4";
+				 BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
+				 
+			 }else{
+				//封装 插入第二轮 结果表
+				 OBProjectResult obresulit=new OBProjectResult();
+				 obresulit.setId(uuid);
+				 obresulit.setProjectId(projectResultList.get(0).getProjectId());
+				 obresulit.setSupplierId(projectResultList.get(0).getSupplierId());
+				 obresulit.setCreatedAt(new Date());
+				 obresulit.setStatus(1);
+				 obresulit.setRanking(projectResultList.get(0).getRanking());
+				 obresulit.setProportion(projectResultList.get(0).getProportion()+"");
+				 oBProjectResultMapper.insertSelective(obresulit);
+				 //更新状态 第二轮 接受
+				 OBProject obProject = new OBProject();
+				 obProject.setId(projectResultList.get(0).getProjectId());
+				 User users = new User();
+				 user.setTypeId(projectResultList.get(0).getSupplierId());
+				 String remark = "42";
+				 BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
+			 }
+			 Date date=new Date();
+			 for(OBResultSubtabulation or:projectResultList){
+					 //第一轮
+				 String uui = UUID.randomUUID().toString().toUpperCase()
+						 .replace("-", "");
+					 if(acceptNum.equals("1")){
+						 if(or.getStatus()==1){
+					 or.setCreatedAt(date);
+					 or.setId(uui);
+					 or.setTotalMoney(or.getDealMoney().multiply(or.getResultNumber()));
+					OBResultSubtabulationMapper.insertSelective(or);
+						 }
+					 }else{
+						 if(or.getStatus()==2){
+						//第二轮
+						 or.setId(uui);
+						 or.setCreatedAt(date);
+						 or.setProjectResultId(uuid);
+						 or.setTotalMoney(or.getDealMoney().multiply(or.getResultNumber()));
+						 OBResultSubtabulationMapper.insertSelective(or);
+						 }
+					 }
+					 //插入附表 产品结果
+			 }
+		 }
+		return null;
 	}
 	
 	

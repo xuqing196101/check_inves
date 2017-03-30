@@ -3,6 +3,7 @@ package bss.dao.ob;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExample;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Map;
 
@@ -35,7 +36,12 @@ public interface OBResultsInfoMapper {
      * @author YangHongLiang
      */
     List<OBResultsInfo> selectByProjectId(String projectId);
-    
+    /**
+     * 根据竞价id 获取竞价成交金额
+     * @param projectId
+     * @return
+     */
+    List<OBResultsInfo> getDealMoney(@Param("projectId")String projectId);
     /**
      * 
     * @Title: selectQuotoInfo 

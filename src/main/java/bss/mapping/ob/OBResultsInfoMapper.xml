@@ -100,11 +100,20 @@
   </select>
     <!-- 根据 供应商id 竞价id 获取报价信息 -->
   <select id="getProductInfo" resultMap="BaseResultMap" parameterType="Map" >
-   select DISTINCT i.id, i.MY_OFFER_MONEY,i.DEAL_MONEY,i.PRODUCT_ID,i.RESULTS_NUMBER,p.name as REMARK,
+   select DISTINCT i.id, i.MY_OFFER_MONEY,i.DEAL_MONEY,i.PRODUCT_ID,i.RESULTS_NUMBER,p.name as productName,
    i.SUPPLIER_ID from T_BSS_OB_RESULTS_INFO i,T_BSS_OB_PRODUCT p
     where i.PRODUCT_ID=p.id and  i.PROJECT_ID = #{projectId,jdbcType=VARCHAR}
      and i.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
   </select>  
+   <!-- 根据 竞价id 获取竞价 成交金额 -->
+  <select id="getDealMoney" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   select i.MY_OFFER_MONEY,i.PRODUCT_ID,SUPPLIER_ID from T_BSS_OB_RESULTS_INFO i 
+where i.PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and
+ i.SUPPLIER_ID=(select SUPPLIER_ID from 
+(select SUPPLIER_ID from T_BSS_OB_PROJECT_RESULT s where s.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and s.RANKING=1
+ORDER BY CREATED_AT) where rownum=1) 
+   
+ </select>
   
     <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String" >
 <!-- 	select sum(MY_OFFER_MONEY)as MY_OFFER_MONEY
@@ -112,10 +121,10 @@
 	where PROJECT_ID = 
 	GROUP BY SUPPLIER_ID,PRODUCT_ID,CREATED_AT
 	ORDER BY MY_OFFER_MONEY ASC,CREATED_AT ASC -->
-select DISTINCT SUPPLIER_ID from(select  SUPPLIER_ID from T_BSS_OB_RESULTS_INFO
+    select * from(select  SUPPLIER_ID,sum(DEAL_MONEY) as DEAL_MONEY,CREATED_AT from T_BSS_OB_RESULTS_INFO
 	where PROJECT_ID = #{id,jdbcType=VARCHAR}
- GROUP BY SUPPLIER_ID
-	ORDER BY sum(MY_OFFER_MONEY) ASC,CREATED_AT ASC)
+    GROUP BY SUPPLIER_ID,CREATED_AT)s
+	ORDER BY s.DEAL_MONEY ASC,s.CREATED_AT ASC
   </select>
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
     delete from T_BSS_OB_RESULTS_INFO

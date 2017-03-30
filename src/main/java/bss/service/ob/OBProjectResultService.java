@@ -9,6 +9,7 @@ import bss.model.ob.BidProductVo;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectResultExample;
+import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.SupplierProductVo;
 import common.annotation.CurrentUser;
 import ses.model.bms.User;
@@ -70,6 +71,14 @@ public interface OBProjectResultService {
      * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
      */
 	String selectSupplierStatus(OBProjectResult oBProjectResult);
+	/**
+	 * 封装供应商 竞价结果 页面数据 
+	 * @author Yanghongliang
+	 * @param supplierId
+	 * @param projectId
+	 * @return
+	 */
+	ConfirmInfoVo selectSupplierDate(String supplierId,String projectId);
 	
 	/**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
@@ -89,7 +98,7 @@ public interface OBProjectResultService {
      * @param obProjectResult封装的条件对象
      * @return 竞价管理-结果查询 
      */
-    int updateBySupplierId(OBProjectResult record, String confirmStatus);
+    int updateBySupplierId(String projectId,String supplierId, String confirmStatus);
     
     /**
      * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>
@@ -99,7 +108,14 @@ public interface OBProjectResultService {
      * @return 竞价管理-结果查询   修改了几条记录数
      */
 	public int updateInfoBySPPIdList(User user, List<OBProjectResult> projectResultList, String confirmNum);
-	
+	/**
+	 * 更新 供应商结果 数据
+	 * @author YanghongLiang
+	 * @param user
+	 * @param projectResultList
+	 * @return
+	 */
+	String updateResult(User user,List<OBResultSubtabulation> projectResultList,String acceptNum);
 	/**
      * 根据标题id获取封装的供应商信息
      * @author Ma Mingwei

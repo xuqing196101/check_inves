@@ -9,10 +9,7 @@ import ses.model.sms.Supplier;
 public class OBProjectResult {
 	private String id;
 
-	//产品ID
-	private String productId;
-
-	//竞价标题ID
+	//竞价ID
 	private String projectId;
 
 	//供应商ID
@@ -23,13 +20,8 @@ public class OBProjectResult {
 
 	//成交比例
 	private String proportion;
-
-	//供应商提供的报价
-	private BigDecimal offerPrice;
-
+    //总额
 	private BigDecimal totalAmount;
-
-	private Date createTime;
 
 	//是否接受的状态： -1默认		0表示不接受	1表示第一轮接受		2表示第二轮接受		第二轮放弃状态仍为1
 	private Integer status;
@@ -41,9 +33,6 @@ public class OBProjectResult {
 	private Date createdAt;
 
 	private Date updatedAt;
-
-	//竞价结果数量
-	private Integer resultCount;
 
 	private OBSupplier supplier;
 	//竞价产品 信息
@@ -66,6 +55,14 @@ public class OBProjectResult {
 	private Integer countresultCount;
 
 	
+	public String getProjectId() {
+		return projectId;
+	}
+
+	public void setProjectId(String projectId) {
+		this.projectId = projectId;
+	}
+
 	public List<OBResultsInfo> getOBResultsInfo() {
 		return OBResultsInfo;
 	}
@@ -114,36 +111,12 @@ public class OBProjectResult {
 		this.supplier = supplier;
 	}
 
-	public Integer getResultCount() {
-		return resultCount;
-	}
-
-	public void setResultCount(Integer resultCount) {
-		this.resultCount = resultCount;
-	}
-
 	public String getId() {
 		return id;
 	}
 
 	public void setId(String id) {
 		this.id = id == null ? null : id.trim();
-	}
-
-	public String getProductId() {
-		return productId;
-	}
-
-	public void setProductId(String productId) {
-		this.productId = productId == null ? null : productId.trim();
-	}
-
-	public String getProjectId() {
-		return projectId;
-	}
-
-	public void setProjectId(String projectId) {
-		this.projectId = projectId == null ? null : projectId.trim();
 	}
 
 	public String getSupplierId() {
@@ -170,13 +143,6 @@ public class OBProjectResult {
 		this.proportion = proportion == null ? null : proportion.trim();
 	}
 
-	public BigDecimal getOfferPrice() {
-		return offerPrice;
-	}
-
-	public void setOfferPrice(BigDecimal offerPrice) {
-		this.offerPrice = offerPrice;
-	}
 
 	public BigDecimal getTotalAmount() {
 		return totalAmount;
@@ -186,13 +152,6 @@ public class OBProjectResult {
 		this.totalAmount = totalAmount;
 	}
 
-	public Date getCreateTime() {
-		return createTime;
-	}
-
-	public void setCreateTime(Date createTime) {
-		this.createTime = createTime;
-	}
 
 	public Integer getStatus() {
 		return status;
@@ -236,18 +195,18 @@ public class OBProjectResult {
 
 	@Override
 	public String toString() {
-		return "OBProjectResult [id=" + id + ", productId=" + productId
-				+ ", projectId=" + projectId + ", supplierId=" + supplierId
-				+ ", ranking=" + ranking + ", proportion=" + proportion
-				+ ", offerPrice=" + offerPrice + ", totalAmount=" + totalAmount
-				+ ", createTime=" + createTime + ", status=" + status
-				+ ", createrId=" + createrId + ", remark=" + remark
-				+ ", createdAt=" + createdAt + ", updatedAt=" + updatedAt
-				+ ", resultCount=" + resultCount + ", supplier=" + supplier
+		return "OBProjectResult [id=" + id + ", projectId=" + projectId
+				+ ", supplierId=" + supplierId + ", ranking=" + ranking
+				+ ", proportion=" + proportion + ", totalAmount=" + totalAmount
+				+ ", status=" + status + ", createrId=" + createrId
+				+ ", remark=" + remark + ", createdAt=" + createdAt
+				+ ", updatedAt=" + updatedAt + ", supplier=" + supplier
 				+ ", productInfo=" + productInfo + ", OBResultsInfo="
 				+ OBResultsInfo + ", countOfferPrice=" + countOfferPrice
 				+ ", countTotalAmount=" + countTotalAmount
 				+ ", countresultCount=" + countresultCount + "]";
 	}
+
+	
 
 }

@@ -145,6 +145,13 @@ public interface OBProjectResultMapper {
      * @return 竞价管理-结果查询 页面信息封装对象
      */
     ConfirmInfoVo selectInfoByPSId(OBProjectResult obProjectResult);
+    /**
+     * 获取竞价结果 基础信息
+     * @param projectId
+     * @param supplierId
+     * @return
+     */
+    ConfirmInfoVo getBasic(@Param("projectId")String projectId,@Param("supplierId")String supplierId);
     
     /**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
@@ -181,4 +188,12 @@ public interface OBProjectResultMapper {
     * @throws
      */
     List<OBProjectResult> findSupplierUnBidding(Map<String, Object> map);
+    /**
+     * 查询结果 页面数据
+     * @author Yanghongliang
+     * @param projectId
+     * @param supplierId
+     * @return
+     */
+    List<OBProjectResult> selectSupplierDate(@Param("projectId")String projectId,@Param("supplierId")String supplierId);
 }

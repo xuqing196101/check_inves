@@ -10,6 +10,10 @@ public class OBResultsInfo {
      * 定型产品ID
      */
     private String productId;
+    /**
+     * 自定义 产品 名称
+     * */
+    private String productName;
 
     private OBProduct obProduct;
     
@@ -52,7 +56,17 @@ public class OBResultsInfo {
      */
     private String projectId;
 
-    public String getId() {
+    
+    
+    public String getProductName() {
+		return productName;
+	}
+
+	public void setProductName(String productName) {
+		this.productName = productName;
+	}
+
+	public String getId() {
         return id;
     }
 
@@ -162,6 +176,18 @@ public class OBResultsInfo {
 
 	public void setDealMoneyStr(String dealMoneyStr) {
 		this.dealMoneyStr = dealMoneyStr;
+	}
+
+	@Override
+	public String toString() {
+		return "OBResultsInfo [id=" + id + ", productId=" + productId
+				+ ", productName=" + productName + ", obProduct=" + obProduct
+				+ ", biddingId=" + biddingId + ", limitPrice=" + limitPrice
+				+ ", resultsNumber=" + resultsNumber + ", myOfferMoney="
+				+ myOfferMoney + ", dealMoney=" + dealMoney + ", dealMoneyStr="
+				+ dealMoneyStr + ", remark=" + remark + ", createdAt="
+				+ createdAt + ", updatedAt=" + updatedAt + ", supplierId="
+				+ supplierId + ", projectId=" + projectId + "]";
 	}
 	
 }

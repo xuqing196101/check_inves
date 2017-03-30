@@ -87,7 +87,7 @@ public class DateUtils {
      * 根据 两个 日期 比较大 小
      * @param smdate
      * @param bdate
-     * @return 1 DATE1 小  2 DATE1 大  0相等
+     * @return 1 DATE1 小  -1 DATE1 大  0相等
      */
     public static int compareDate(Date dt1, Date dt2) {
 		try {

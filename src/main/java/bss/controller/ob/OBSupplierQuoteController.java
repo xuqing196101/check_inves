@@ -34,6 +34,7 @@ import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
+import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.SupplierProductVo;
 import bss.service.ob.OBProjectResultService;
@@ -204,11 +205,29 @@ public class OBSupplierQuoteController {
 	 * @param supplierId 供应商id
 	 * @description 点击确认结果
 	 * @return string 视图页面
+	 * @throws ParseException 
 	 */
 	@RequestMapping("/confirmResult")
 	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
-			String supplierId, String projectId) {
+			String supplierId, String projectId) throws ParseException {
+		
 		supplierId = user.getTypeId();
+		String confirmStatus="";
+		OBProjectResult oBProjectResult=new OBProjectResult();
+		oBProjectResult.setProjectId(projectId);
+		oBProjectResult.setSupplierId(supplierId);
+		String status= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		if(status.equals("1")){
+			confirmStatus="2";
+		}else if(status.equals("-1")){
+			confirmStatus="1";
+		}
+		ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId);
+		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+		model.addAttribute("sysCurrentTime", new Date());
+	 	model.addAttribute("result", result);
+	 	model.addAttribute("confirmStatus", 1);
+	/*	supplierId = user.getTypeId();
 		//把供应商id和标题id封装在oBProjectResult对象里
 		OBProjectResult oBProjectResult = new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
@@ -254,7 +273,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("projectId", projectId);
 		model.addAttribute("sysCurrentTime", sysCurrentTime);
 		model.addAttribute("supplierId", supplierId);
-		model.addAttribute("confirmInfoVo", confirmInfoVo);
+		model.addAttribute("confirmInfoVo", confirmInfoVo);*/
 
 		return "bss/ob/supplier/confirmResult";
 	}
@@ -286,12 +305,10 @@ public class OBSupplierQuoteController {
 	 */
 	@RequestMapping(value="uptConfirmAccept")
 	@ResponseBody
-	public String uptConfirmQuoteInfoAccept(@CurrentUser User user,
-			@RequestBody List<OBProjectResult> projectResultList,
-			Model model,
-			HttpServletRequest request) throws ParseException{
+	public String uptConfirmQuoteInfoAccept(@CurrentUser User user,@RequestBody List<OBResultSubtabulation> projectResultList,
+			Model model,HttpServletRequest request) throws ParseException{
 		String acceptNum = request.getParameter("acceptNum");
-		int updateNum = 0;//定义接受的数字
+		String updateNum = null;
 		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
 		//获取页面传过来的时间（这个时间点并不准确到实际操作，只是根据前面竞价开始时间加上规则计算出来的）
 		String confirmStarttime = request.getParameter("confirmStarttime");//确认开始字符串
@@ -300,8 +317,11 @@ public class OBSupplierQuoteController {
 		Date co = sdf.parse(confirmOvertime);
 		String secondOvertime = request.getParameter("secondOvertime");//第二轮确认结束
 		Date so = sdf.parse(secondOvertime);
+		updateNum  = oBProjectResultService.updateResult(user,projectResultList,acceptNum);
+		
+		
 		//获取当前的时间
-		Date currentDate = new Date();
+		/*Date currentDate = new Date();
 		if(currentDate.getTime() >= cs.getTime() && currentDate.getTime() < co.getTime()) {
 			//在第一轮中间
 			//调用service层的修改
@@ -312,14 +332,14 @@ public class OBSupplierQuoteController {
 		} else if(currentDate.getTime() >= so.getTime()) {
 			//在第二轮之后(直接给页面一个反馈，不走后台流程)
 			updateNum = -1;
-		}
+		}*/
 		
 		String updateFlag = "no";
-		if(updateNum > 0) {
+		/*if(updateNum > 0) {
 			updateFlag = "yes";
 		} else if(updateNum == -1) {
 			updateFlag = "error";
-		}
+		}*/
 		return updateFlag;
 	}
 	
@@ -336,16 +356,25 @@ public class OBSupplierQuoteController {
 			String projectId,
 			Model model,
 			String roundNum,
+			String supplierId,
 			String confirmStatus,//当前正处于的未操作的状态
 			HttpServletRequest request){
-		String supplierId = user.getTypeId();//"2E7A7EAC566343379640DDAB5A35123F";//user.getId();
-		
-		OBProjectResult oBProjectResult = new OBProjectResult();
+		int uptResult = 0;
+		  if(user!=null){
+			   if(StringUtils.isNotBlank(supplierId)){
+				   if(supplierId.equals(user.getTypeId())){
+					 uptResult = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus);
+					   
+				   }
+			   }else{
+				   System.out.println("供应商不能为空");
+			   }
+		  }
+		/*OBProjectResult oBProjectResult = new OBProjectResult();
 		//把此供应商的状态都改为0，表示放弃
 		oBProjectResult.setSupplierId(supplierId);
 		oBProjectResult.setProjectId(projectId);
 		
-		int uptResult = 0;
 		//第一轮就选择放弃
 		if("-1".equals(confirmStatus)) {
 			oBProjectResult.setStatus(0);
@@ -356,7 +385,7 @@ public class OBSupplierQuoteController {
 			oBProjectResult.setStatus(1);
 			uptResult = oBProjectResultService.updateBySupplierId(oBProjectResult,"1");
 		}
-		
+		*/
 		String resFlag = "fail";
 		if(uptResult > 0) {
 			resFlag = "success";

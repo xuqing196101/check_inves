@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="bss.dao.ob.OBResultSubtabulationMapper" >
+  <resultMap id="BaseResultMap" type="bss.model.ob.OBResultSubtabulation" >
+    <id column="ID" property="id" jdbcType="VARCHAR" />
+    <result column="PROJECT_RESULT_ID" property="projectResultId" jdbcType="VARCHAR" />
+    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+    <result column="RESULT_NUMBER" property="resultNumber" jdbcType="DECIMAL" />
+    <result column="DEAL_MONEY" property="dealMoney" jdbcType="DECIMAL" />
+    <result column="MY_OFFER_MONEY" property="myOfferMoney" jdbcType="DECIMAL" />
+     <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="TOTAL_MONEY" property="totalMoney" jdbcType="DECIMAL" />
+      <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
+    <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
+    <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List" >
+    ID, PROJECT_RESULT_ID,PRODUCT_ID, RESULT_NUMBER, DEAL_MONEY, TOTAL_MONEY, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_OB_RESULT_SUBTABULATION
+    where ID = #{id,jdbcType=VARCHAR}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
+    delete from T_BSS_OB_RESULT_SUBTABULATION
+    where ID = #{id,jdbcType=VARCHAR}
+  </delete>
+  <insert id="insert" parameterType="bss.model.ob.OBResultSubtabulation" >
+    insert into T_BSS_OB_RESULT_SUBTABULATION (ID,PRODUCT_ID, PROJECT_RESULT_ID, RESULT_NUMBER, 
+      DEAL_MONEY, TOTAL_MONEY, CREATED_AT, 
+      UPDATED_AT)
+    values (#{id,jdbcType=VARCHAR},#{productId,jdbcType=VARCHAR}, #{projectResultId,jdbcType=VARCHAR}, #{resultNumber,jdbcType=DECIMAL}, 
+      #{dealMoney,jdbcType=DECIMAL}, #{totalMoney,jdbcType=DECIMAL}, #{createdAt,jdbcType=TIMESTAMP}, 
+      #{updatedAt,jdbcType=TIMESTAMP})
+  </insert>
+  <insert id="insertSelective" parameterType="bss.model.ob.OBResultSubtabulation" >
+    insert into T_BSS_OB_RESULT_SUBTABULATION
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="productId != null" >
+        PRODUCT_ID,
+      </if>
+      <if test="projectResultId != null" >
+        PROJECT_RESULT_ID,
+      </if>
+      <if test="resultNumber != null" >
+        RESULT_NUMBER,
+      </if>
+      <if test="dealMoney != null" >
+        DEAL_MONEY,
+      </if>
+      <if test="totalMoney != null" >
+        TOTAL_MONEY,
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT,
+      </if>
+      <if test="myOfferMoney != null" >
+        MY_OFFER_MONEY,
+      </if>
+      <if test="supplierId != null" >
+        SUPPLIER_ID,
+      </if>
+      <if test="projectId != null" >
+        PROJECT_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=VARCHAR},
+      </if>
+       <if test="productId != null" >
+         #{productId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectResultId != null" >
+        #{projectResultId,jdbcType=VARCHAR},
+      </if>
+      <if test="resultNumber != null" >
+        #{resultNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="dealMoney != null" >
+        #{dealMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMoney != null" >
+        #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="myOfferMoney != null" >
+       #{myOfferMoney,jdbcType=DECIMAL},
+      </if>
+       <if test="supplierId != null" >
+         #{supplierId,jdbcType=VARCHAR},
+      </if>
+      <if test="projectId != null" >
+         #{projectId,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBResultSubtabulation" >
+    update T_BSS_OB_RESULT_SUBTABULATION
+    <set >
+      <if test="projectResultId != null" >
+        PROJECT_RESULT_ID = #{projectResultId,jdbcType=VARCHAR},
+      </if>
+      <if test="resultNumber != null" >
+        RESULT_NUMBER = #{resultNumber,jdbcType=DECIMAL},
+      </if>
+      <if test="dealMoney != null" >
+        DEAL_MONEY = #{dealMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="totalMoney != null" >
+        TOTAL_MONEY = #{totalMoney,jdbcType=DECIMAL},
+      </if>
+      <if test="createdAt != null" >
+        CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updatedAt != null" >
+        UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      </if>
+       <if test="productId != null" >
+         #{PRODUCT_ID,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBResultSubtabulation" >
+    update T_BSS_OB_RESULT_SUBTABULATION
+    set PROJECT_RESULT_ID = #{projectResultId,jdbcType=VARCHAR},
+      RESULT_NUMBER = #{resultNumber,jdbcType=DECIMAL},
+      DEAL_MONEY = #{dealMoney,jdbcType=DECIMAL},
+      TOTAL_MONEY = #{totalMoney,jdbcType=DECIMAL},
+      CREATED_AT = #{createdAt,jdbcType=TIMESTAMP},
+      UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
+      PRODUCT_ID = #{productId,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=VARCHAR}
+  </update>
+</mapper>

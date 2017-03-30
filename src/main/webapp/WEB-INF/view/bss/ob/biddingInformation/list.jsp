@@ -190,7 +190,7 @@
          <input type="hidden" name="projectId" id="projectId"/>
     	<ul class="demand_list">
     	  <li>
-	    	<label class="fl">竞价标题：</label>
+	    	<label class="fl">竞价项目名称：</label>
 	    	  <input id="name" name="name" value="${name }" type="text" maxlength="180" class="w230 mb0">
 	      </li>
     	  <li>
@@ -218,8 +218,8 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
+		  <th class="info" width="30%">竞价项目名称</th>
 		  <th class="info">竞价项目编号</th>
-		  <th class="info" width="30%">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">中标供应商数量</th>
 		  <th class="info">供应商数量</th>
@@ -230,8 +230,8 @@
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${list.id}" /></td>
 		  <td class="tc w50">${(v.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-		  <td class="tl">${list.projectNumber}</td>
 		  <td class="tl"><a onclick="releaseHref('${list.id}')" style="cursor:pointer "/> ${list.name}</a></td>
+		  <td class="tl">${list.projectNumber}</td>
 		  <td class="tc"><fmt:formatDate value="${list.startTime}" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 		  <td class="tc">
 		  <c:if test="${list.closingSupplier==0}">

@@ -3,45 +3,38 @@
 <mapper namespace="bss.dao.ob.OBProjectResultMapper" >
   <resultMap id="BaseResultMap" type="bss.model.ob.OBProjectResult" >
     <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
     <result column="PROJECT_ID" property="projectId" jdbcType="VARCHAR" />
     <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
     <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
     <result column="PROPORTION" property="proportion" jdbcType="VARCHAR" />
-    <result column="OFFER_PRICE" property="offerPrice" jdbcType="DECIMAL" />
     <result column="TOTAL_AMOUNT" property="totalAmount" jdbcType="DECIMAL" />
-    <result column="CREATE_TIME" property="createTime" jdbcType="TIMESTAMP" />
     <result column="STATUS" property="status" jdbcType="DECIMAL" />
     <result column="CREATER_ID" property="createrId" jdbcType="VARCHAR" />
     <result column="REMARK" property="remark" jdbcType="VARCHAR" />
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
-    <result column="RESULT_COUNT" property="resultCount" jdbcType="DECIMAL"/>
     <association property="supplier" column="SUPPLIER_ID"
 			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
   </resultMap>
   
-  <resultMap id="CountMap" type="bss.model.ob.OBProjectResult" >
-    <id column="ID" property="id" jdbcType="VARCHAR" />
-    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
-    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
-    <result column="STATUS" property="status" jdbcType="DECIMAL" />
-    <result column="COUNTOFFER_PRICE" property="countOfferPrice" jdbcType="DECIMAL" />
-    <result column="COUNTTOTAL_AMOUNT" property="countTotalAmount" jdbcType="DECIMAL" />
-    <result column="COUNTRESULT_COUNT" property="countresultCount" jdbcType="DECIMAL" />
-    <association property="supplier" column="SUPPLIER_ID"
-			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
-  </resultMap>
-  <!-- 确认页面视图信息映射 -->
+  <!-- 定义  供应商 查询 结果 信息 -->
   <resultMap id="confirmInfoVo" type="bss.model.ob.ConfirmInfoVo" >
+    <result column="projectId" property="projectId" jdbcType="VARCHAR" />
     <result column="quoteName" property="quoteName" jdbcType="VARCHAR" />
-    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
-    <result column="STATUS" property="bidStatus" jdbcType="DECIMAL" />
-    <result column="COUNTOFFER_PRICE" property="bidRatio" jdbcType="DECIMAL" />
-    <result column="CONFIRMTIME" property="confirmTime" jdbcType="DECIMAL" />
-    <result column="CONFIRMTIMESECOND" property="confirmTimeSecond" jdbcType="DECIMAL" />
-    <result column="QUOTETIME" property="quoteTime" jdbcType="DECIMAL" />
-    <result column="COUNTTOTAL_AMOUNT" property="confirmOvertime" jdbcType="DECIMAL" />
+    <result column="ranking" property="ranking" jdbcType="DECIMAL" />
+    <result column="bidRatio" property="bidRatio" jdbcType="DECIMAL" />
+    <result column="bidStatus" property="bidStatus" jdbcType="VARCHAR" />
+    <result column="resultId" property="resultId" jdbcType="VARCHAR" />
+  </resultMap>
+  <!-- 定义 查询 确定结果页面 一个供应商 对应多个产品 -->
+  <resultMap id="BaseResulItem" type="bss.model.ob.OBProjectResult" extends="BaseResultMap" >
+    <collection property="OBResultsInfo" ofType="bss.model.ob.OBResultsInfo">
+     <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR"/>
+     <result column="productName" property="productName" jdbcType="VARCHAR"/>
+      <result column="MY_OFFER_MONEY" property="myOfferMoney" jdbcType="DECIMAL"/>
+      <result column="RESULTS_NUMBER" property="resultsNumber" jdbcType="DECIMAL"/>
+       <result column="LIMIT_PRICE" property="limitPrice" jdbcType="DECIMAL"/>
+    </collection>
   </resultMap>
   <!-- 竞价结果查询  视图信息映射-->
   <resultMap id="supplierProductVo" type="bss.model.ob.SupplierProductVo" >
@@ -109,8 +102,8 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    ID, PRODUCT_ID, PROJECT_ID, SUPPLIER_ID, RANKING, PROPORTION, OFFER_PRICE, TOTAL_AMOUNT, 
-    CREATE_TIME, STATUS, CREATER_ID, REMARK, CREATED_AT, UPDATED_AT
+    ID, PROJECT_ID, SUPPLIER_ID, RANKING, PROPORTION,  TOTAL_AMOUNT, 
+     STATUS, CREATER_ID, REMARK, CREATED_AT, UPDATED_AT
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectResultExample" >
     select
@@ -126,8 +119,14 @@
       order by ${orderByClause}
     </if>
   </select>
-  
-  
+  <!-- 查询 确定 结果 数据 -->
+  <select id="selectSupplierDate" resultMap="BaseResulItem" parameterType="java.lang.String" >
+    select p.*,t.NAME as productName,i.* from T_BSS_OB_PROJECT_RESULT p,T_BSS_OB_RESULTS_INFO i,
+    T_BSS_OB_PRODUCT t 
+  where p.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+  and p.SUPPLIER_ID=#{supplierId} and p.PROJECT_ID=i.PROJECT_ID and i.SUPPLIER_ID=p.SUPPLIER_ID 
+   and t.id=i.PRODUCT_ID
+  </select>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
@@ -146,26 +145,26 @@
     select PRODUCT.ID id,PRODUCT.NAME productName,resultInfo.RESULTS_NUMBER productNum,resultInfo.MY_OFFER_MONEY myOfferMoney,resultInfo.REMARK remark,t1.dealPrice dealPrice 
   	  FROM T_BSS_OB_PRODUCT product,T_BSS_OB_RESULTS_INFO resultInfo,
 		(
-		SELECT T11.MY_OFFER_MONEY dealPrice,T11.PRODUCT_ID PRODUCT_ID 
+		SELECT T11.MY_OFFER_MONEY dealPrice 
 			from T_BSS_OB_RESULTS_INFO t11,T_BSS_OB_PROJECT_RESULT t22 
 				WHERE T11.PROJECT_ID=T22.PROJECT_ID AND T11.SUPPLIER_ID=T22.SUPPLIER_ID AND T22.RANKING=1
 					AND T11.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 		) t1 
 		where RESULTINFO.PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND resultInfo.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} 
-		  AND PRODUCT.ID=RESULTINFO.PRODUCT_ID AND T1.PRODUCT_ID=RESULTINFO.PRODUCT_ID
+		   
   </select>
   <!-- 根据供应商查找竞价商品   mmw -->
   <select id="selectResultProductBySupplierId" resultType="bss.model.ob.BidProductVo" parameterType="bss.model.ob.OBProjectResult">
-    select PRODUCT.ID id,PRODUCT.NAME productName,projectResult.RESULT_COUNT productNum,projectResult.OFFER_PRICE myOfferMoney,T1.DEALPRICE dealPrice
+    select PRODUCT.ID id,PRODUCT.NAME productName,T1.DEALPRICE dealPrice
   	  FROM T_BSS_OB_PRODUCT product,T_BSS_OB_PROJECT_RESULT projectResult,
 		(
-		SELECT T11.MY_OFFER_MONEY dealPrice,T11.PRODUCT_ID PRODUCT_ID 
+		SELECT T11.MY_OFFER_MONEY dealPrice
 			from T_BSS_OB_RESULTS_INFO t11,T_BSS_OB_PROJECT_RESULT t22 
 				WHERE T11.PROJECT_ID=T22.PROJECT_ID AND T11.SUPPLIER_ID=T22.SUPPLIER_ID AND T22.RANKING=1
 					AND T11.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
 		) t1
 		where projectResult.PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND projectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} 
-		  AND PRODUCT.ID=projectResult.PRODUCT_ID AND t1.PRODUCT_ID=PROJECTRESULT.PRODUCT_ID
+		   
   </select>
   <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
   <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
@@ -197,11 +196,20 @@
     GROUP BY RANKING,SUPPLIER_ID,PROJECT_ID
     HAVING COUNT(RANKING)>2
   </select>
-  
-  <!-- 根据竞价信息ID查询竞价结果信息 -->
-  <select id="selectByProjectId" resultMap="CountMap" parameterType="java.lang.String" >
+  <!-- 查询供应商结果 基本信息 -->
+  <select id="getBasic" resultMap="confirmInfoVo" parameterType="java.lang.String">
+  select p.name as quoteName ,p.id as projectId,r.SUPPLIER_ID as supplierId ,r.ranking,r.proportion as firstRatio,
+  r.status as bidStatus,p.start_time as confirmStarttime,r.id as resultId from T_BSS_OB_PROJECT p LEFT JOIN 
+  (select * from (select *  from T_BSS_OB_PROJECT_RESULT where PROJECT_ID =#{projectId,jdbcType=VARCHAR} 
+  and SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+  ORDER BY CREATED_AT) where  rownum=1) r 
+  on p.id=r.PROJECT_ID 
+  where p.id =#{projectId,jdbcType=VARCHAR} and r.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR}
+  </select>
+   <!-- 根据竞价信息ID查询竞价结果信息 -->
+ <!-- <select id="selectByProjectId" resultMap="CountMap" parameterType="java.lang.String" >
     SELECT 
-    	SUM(OFFER_PRICE) COUNTOFFER_PRICE,SUM(TOTAL_AMOUNT) COUNTTOTAL_AMOUNT,SUM(RESULT_COUNT) COUNTRESULT_COUNT,SUPPLIER_ID,RANKING,STATUS 
+    	SUM(TOTAL_AMOUNT) COUNTTOTAL_AMOUNT,SUPPLIER_ID,RANKING,STATUS 
     FROM 
     	T_BSS_OB_PROJECT_RESULT 
     WHERE 
@@ -210,9 +218,9 @@
 		SUPPLIER_ID,RANKING,STATUS 
 	ORDER BY 
 		RANKING
-  </select>
+  </select> -->
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
-  <select id="selectInfoByPSId" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
+<!--   <select id="selectInfoByPSId" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
     SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,
     OBPROJECT.START_TIME CONFIRMOVERTIME,ruleTable.CONFIRM_TIME confirmTime,
     ruleTable.CONFIRM_TIME_SECOND confirmTimeSecond,ruleTable.QUOTE_TIME quoteTime 
@@ -222,10 +230,10 @@
 		WHERE obProjectResult.PROJECT_ID=obProject.ID AND 
 		obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND 
 		OBPROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
-  </select>
+  </select> -->
   
    <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
-  <select id="selectInfoByPSIds" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
+ <!--  <select id="selectInfoByPSIds" resultMap="confirmInfoVo" parameterType="bss.model.ob.OBProjectResult" >
     SELECT distinct obProject.NAME QUOTENAME,obProjectResult.RANKING RANKING,obProjectResult.PROPORTION bidRatio,
     OBPROJECT.START_TIME CONFIRMOVERTIME,ruleTable.CONFIRM_TIME confirmTime,
     ruleTable.CONFIRM_TIME_SECOND confirmTimeSecond,ruleTable.QUOTE_TIME quoteTime 
@@ -235,24 +243,24 @@
 		WHERE obProjectResult.PROJECT_ID=obProject.ID AND 
 		obProjectResult.SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} AND 
 		OBPROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
-  </select>
+  </select> -->
   <!-- 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id mmw -->
-  <select id="selectInfoByPID" resultMap="confirmInfoVo" parameterType="java.lang.String" >
+ <!--  <select id="selectInfoByPID" resultMap="confirmInfoVo" parameterType="java.lang.String" >
     SELECT * from T_SES_SMS_SUPPLIER smsSupplier,T_BSS_OB_PROJECT_RESULT projectResult 
 	  WHERE PROJECTRESULT.SUPPLIER_ID=SMSSUPPLIER.id and PROJECTRESULT.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
-  </select>
+  </select> -->
   
   <!-- 根据竞价Id查询竞价结果  PSId  project supplier id mmw -->
   <select id="selectByPID" resultMap="BaseResultMap" parameterType="java.lang.String" >
   
-  select r.PROJECT_ID,SUPPLIER_ID,r.RANKING,sum(PROPORTION) as PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
-r.STATUS,SUM(RESULT_COUNT) as RESULT_COUNT ,r.REMARK from
-(select DISTINCT r.PROJECT_ID, r.SUPPLIER_ID, r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
-r.STATUS,r.RESULT_COUNT,s.SUPPLIER_NAME as REMARK from T_BSS_OB_PROJECT_RESULT r LEFT JOIN T_SES_SMS_SUPPLIER s 
+  select r.PROJECT_ID,SUPPLIER_ID,r.RANKING,sum(PROPORTION) as PROPORTION, r.TOTAL_AMOUNT, 
+r.STATUS ,r.REMARK from
+(select DISTINCT r.PROJECT_ID, r.SUPPLIER_ID, r.RANKING, r.PROPORTION, r.TOTAL_AMOUNT, 
+r.STATUS,s.SUPPLIER_NAME as REMARK from T_BSS_OB_PROJECT_RESULT r LEFT JOIN T_SES_SMS_SUPPLIER s 
 on r.SUPPLIER_ID=s.ID
 where r.SUPPLIER_ID=s.id and r.PROJECT_ID=#{projectId,jdbcType=VARCHAR} ) r
-GROUP BY r.PROJECT_ID,SUPPLIER_ID,r.RANKING, r.PROPORTION, r.OFFER_PRICE, r.TOTAL_AMOUNT, 
-r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
+GROUP BY r.PROJECT_ID,SUPPLIER_ID,r.RANKING, r.PROPORTION, r.TOTAL_AMOUNT, 
+r.STATUS,r.REMARK ORDER BY r.RANKING
   </select>
   
   <delete id="deleteByPrimaryKey" parameterType="java.lang.String" >
@@ -266,14 +274,14 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
     </if>
   </delete>
   <insert id="insert" parameterType="bss.model.ob.OBProjectResult" >
-    insert into T_BSS_OB_PROJECT_RESULT (ID, PRODUCT_ID, PROJECT_ID, 
+    insert into T_BSS_OB_PROJECT_RESULT (ID, PROJECT_ID, 
       SUPPLIER_ID, RANKING, PROPORTION, 
-      OFFER_PRICE, TOTAL_AMOUNT, CREATE_TIME, 
+       TOTAL_AMOUNT,
       STATUS, CREATER_ID, REMARK, 
       CREATED_AT, UPDATED_AT)
-    values (#{id,jdbcType=VARCHAR}, #{productId,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
+    values (#{id,jdbcType=VARCHAR}, #{projectId,jdbcType=VARCHAR}, 
       #{supplierId,jdbcType=VARCHAR}, #{ranking,jdbcType=DECIMAL}, #{proportion,jdbcType=VARCHAR}, 
-      #{offerPrice,jdbcType=DECIMAL}, #{totalAmount,jdbcType=DECIMAL}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{totalAmount,jdbcType=DECIMAL},  
       #{status,jdbcType=DECIMAL}, #{createrId,jdbcType=VARCHAR}, #{remark,jdbcType=VARCHAR}, 
       #{createdAt,jdbcType=TIMESTAMP}, #{updatedAt,jdbcType=TIMESTAMP})
   </insert>
@@ -283,10 +291,7 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="id != null" >
         ID,
       </if>
-      <if test="productId != null" >
-        PRODUCT_ID,
-      </if>
-      <if test="projectId != null" >
+        <if test="projectId != null" >
         PROJECT_ID,
       </if>
       <if test="supplierId != null" >
@@ -298,14 +303,8 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="proportion != null" >
         PROPORTION,
       </if>
-      <if test="offerPrice != null" >
-        OFFER_PRICE,
-      </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT,
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME,
       </if>
       <if test="status != null" >
         STATUS,
@@ -327,9 +326,6 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="id != null" >
         #{id,jdbcType=VARCHAR},
       </if>
-      <if test="productId != null" >
-        #{productId,jdbcType=VARCHAR},
-      </if>
       <if test="projectId != null" >
         #{projectId,jdbcType=VARCHAR},
       </if>
@@ -342,14 +338,8 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="proportion != null" >
         #{proportion,jdbcType=VARCHAR},
       </if>
-      <if test="offerPrice != null" >
-        #{offerPrice,jdbcType=DECIMAL},
-      </if>
       <if test="totalAmount != null" >
         #{totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         #{status,jdbcType=DECIMAL},
@@ -407,9 +397,6 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="record.id != null" >
         ID = #{record.id,jdbcType=VARCHAR},
       </if>
-      <if test="record.productId != null" >
-        PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
-      </if>
       <if test="record.projectId != null" >
         PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
       </if>
@@ -422,14 +409,8 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="record.proportion != null" >
         PROPORTION = #{record.proportion,jdbcType=VARCHAR},
       </if>
-      <if test="record.offerPrice != null" >
-        OFFER_PRICE = #{record.offerPrice,jdbcType=DECIMAL},
-      </if>
       <if test="record.totalAmount != null" >
         TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="record.createTime != null" >
-        CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="record.status != null" >
         STATUS = #{record.status,jdbcType=DECIMAL},
@@ -454,14 +435,11 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
   <update id="updateByExample" parameterType="map" >
     update T_BSS_OB_PROJECT_RESULT
     set ID = #{record.id,jdbcType=VARCHAR},
-      PRODUCT_ID = #{record.productId,jdbcType=VARCHAR},
       PROJECT_ID = #{record.projectId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{record.supplierId,jdbcType=VARCHAR},
       RANKING = #{record.ranking,jdbcType=DECIMAL},
       PROPORTION = #{record.proportion,jdbcType=VARCHAR},
-      OFFER_PRICE = #{record.offerPrice,jdbcType=DECIMAL},
       TOTAL_AMOUNT = #{record.totalAmount,jdbcType=DECIMAL},
-      CREATE_TIME = #{record.createTime,jdbcType=TIMESTAMP},
       STATUS = #{record.status,jdbcType=DECIMAL},
       CREATER_ID = #{record.createrId,jdbcType=VARCHAR},
       REMARK = #{record.remark,jdbcType=VARCHAR},
@@ -474,9 +452,6 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
   <update id="updateByPrimaryKeySelective" parameterType="bss.model.ob.OBProjectResult" >
     update T_BSS_OB_PROJECT_RESULT
     <set >
-      <if test="productId != null" >
-        PRODUCT_ID = #{productId,jdbcType=VARCHAR},
-      </if>
       <if test="projectId != null" >
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       </if>
@@ -489,14 +464,8 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="proportion != null" >
         PROPORTION = #{proportion,jdbcType=VARCHAR},
       </if>
-      <if test="offerPrice != null" >
-        OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
-      </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=DECIMAL},
@@ -516,7 +485,7 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
     </set>
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  <!-- 根据供应商Id、产品Id和竞价标题Id修改	SPPId supplierId、productId和projectId  -->
+  <!-- 根据供应商Id、产品Id和竞价标题Id修改	SPPId supplierId、和projectId  -->
   <update id="updateInfoBySPPId" parameterType="bss.model.ob.OBProjectResult" >
     update T_BSS_OB_PROJECT_RESULT
     <set >
@@ -526,20 +495,8 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="proportion != null" >
         PROPORTION = #{proportion,jdbcType=VARCHAR},
       </if>
-      <if test="productId != null" >
-        PRODUCT_ID = #{productId,jdbcType=VARCHAR},
-      </if>
-      <if test="offerPrice != null" >
-        OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
-      </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="resultCount != null" >
-        RESULT_COUNT = #{resultCount,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=DECIMAL},
@@ -562,9 +519,6 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
   <update id="updateBySupplierId" parameterType="bss.model.ob.OBProjectResult" >
     update T_BSS_OB_PROJECT_RESULT
     <set >
-      <if test="productId != null" >
-        PRODUCT_ID = #{productId,jdbcType=VARCHAR},
-      </if>
       <if test="projectId != null" >
         PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       </if>
@@ -577,14 +531,8 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
       <if test="proportion != null" >
         PROPORTION = #{proportion,jdbcType=VARCHAR},
       </if>
-      <if test="offerPrice != null" >
-        OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
-      </if>
       <if test="totalAmount != null" >
         TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
-      </if>
-      <if test="createTime != null" >
-        CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       </if>
       <if test="status != null" >
         STATUS = #{status,jdbcType=DECIMAL},
@@ -606,14 +554,12 @@ r.STATUS,r.RESULT_COUNT,r.REMARK ORDER BY r.RANKING
   </update>
   <update id="updateByPrimaryKey" parameterType="bss.model.ob.OBProjectResult" >
     update T_BSS_OB_PROJECT_RESULT
-    set PRODUCT_ID = #{productId,jdbcType=VARCHAR},
+    set 
       PROJECT_ID = #{projectId,jdbcType=VARCHAR},
       SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR},
       RANKING = #{ranking,jdbcType=DECIMAL},
       PROPORTION = #{proportion,jdbcType=VARCHAR},
-      OFFER_PRICE = #{offerPrice,jdbcType=DECIMAL},
       TOTAL_AMOUNT = #{totalAmount,jdbcType=DECIMAL},
-      CREATE_TIME = #{createTime,jdbcType=TIMESTAMP},
       STATUS = #{status,jdbcType=DECIMAL},
       CREATER_ID = #{createrId,jdbcType=VARCHAR},
       REMARK = #{remark,jdbcType=VARCHAR},

@@ -749,7 +749,6 @@ public class OBProjectServerImpl implements OBProjectServer {
 								rsult.setSupplierId(obresultsList.get(i)
 										.getSupplierId());
 								rsult.setProjectId(op.getId());
-								rsult.setUpdatedAt(new Date());
 								rsult.setId(uuid);
 								rsult.setCreatedAt(new Date());
 								 if(rk.length>i){
