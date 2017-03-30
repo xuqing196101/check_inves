@@ -71,7 +71,13 @@
 					 		tempSave();
 							$("input[name='flag']").val("2");
 							sessionStorage.formE=JSON.stringify($("#items_info_form_id").serializeArray());
-							$("#items_info_form_id").submit();
+							var flag=isAptitue();
+							if(flag==true){
+								$("#items_info_form_id").submit();
+							}else{
+								layer.alert("请完善工作资质证书信息！");
+							}
+							
 					 	}
 					}
 				});
@@ -172,6 +178,17 @@
 				tempSave();
 			}
 			
+			function isAptitue(){
+				var flag=true;
+				$("input[type='text']").each(function() {
+							if ($(this).val() == "") {
+								flag = false;
+							}
+						});
+				return flag;
+				
+			}
+			
 			// 控制其它等级的显示和影藏
 			function disLevel(obj){
 				if ($(obj).val() == "其它") {
@@ -265,7 +282,7 @@
 														<c:forEach items="${obj.list }" var="quaPro">
 															<c:set value="${prolength+1}" var="prolength"></c:set>
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,quaPro.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${quaPro.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="pUp${prolength}" multiple="true" buttonName="${quaPro.name}" groups="${saleUp}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="pShow${prolength}" groups="${saleShow}" businessId="${quaPro.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 															</div>
@@ -293,7 +310,7 @@
 														<c:forEach items="${sale.list }" var="saua">
 															<c:set value="${length+1}" var="length"></c:set>
 															<div class="mr5 fl" <c:if test="${fn:contains(audit,saua.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${saua.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="saleUp${length}" multiple="true" buttonName="${saua.name}" groups="${saleUp}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="saleShow${length}" groups="${saleShow}" businessId="${saua.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 															</div>
@@ -380,7 +397,7 @@
 														<c:forEach items="${server.list }" var="ser">
 															<c:set value="${slength+1}" var="slength"></c:set>
 															<div class="fl mr5" <c:if test="${fn:contains(audit,ser.flag)}">style="border: 1px solid red;" onmouseover="errorMsg('${ser.flag}','aptitude_page')"</c:if>>
-																<u:upload singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
+																<u:upload singleFileSize="300" exts="${properties['file.picture.type']}" id="serverUp${slength}" multiple="true" buttonName="${ser.name}" groups="${saleUp}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" auto="true" />
 																<div class="clear"></div>
 																<u:show showId="serverShow${slength}" groups="${saleShow}" businessId="${ser.flag}" sysKey="${sysKey}" typeId="${typeId}" />
 															</div>

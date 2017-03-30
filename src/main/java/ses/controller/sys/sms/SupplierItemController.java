@@ -375,7 +375,7 @@ public class SupplierItemController extends BaseController {
 			model.addAttribute("sysKey", Constant.SUPPLIER_SYS_KEY);
 			model.addAttribute("rootArea", areaService.findRootArea());
 			List<Qualification> findList = qualificationService.findList(null, null, 4);
-			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplierItem.getSupplierId());
+			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, supplier.getId());
 			if(supplierQua!=null&&supplierQua.size()>0){
 				for(SupplierPorjectQua qua:supplierQua){
 					Qualification q=new Qualification();

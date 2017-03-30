@@ -372,6 +372,7 @@
           var id = $("#" + treeId + "-value").val();
           $.ajax({
             url: "${pageContext.request.contextPath}/expert/searchCate.do",
+            type:"post",
             data: {
               "typeId": id,
               "cateName": cateName,
