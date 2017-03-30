@@ -656,15 +656,15 @@ public class OBSupplierQuoteController {
 		map.put("project_id", projectId);
 		List<OBProjectResult> list = oBProjectResultService.findSupplierUnBidding(map);
 		OBProjectResult obProjectResult = null;
-		String remarkString = null;
+		String proportion = null;
 		if(list != null && list.size() > 0){
 			obProjectResult = list.get(0);
-			remarkString = obProjectResult.getRemark();
-			if(StringUtils.isEmpty(remarkString)){
-				remarkString = "0";
+			proportion = obProjectResult.getProportion();
+			if(StringUtils.isEmpty(proportion)){
+				proportion = "0";
 			}
 		}
-		return JdcgResult.ok(remarkString);
+		return JdcgResult.ok(proportion);
 	}
 	
 	/**

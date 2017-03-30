@@ -159,8 +159,6 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
-			   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-				   	   return;
 			   // 报价时间还未开始
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
@@ -231,13 +229,14 @@
 				   return;
 			   }
 			   //第一轮
-			   if(status == '5' && remark == '1'){
+			   if(status == '4' && remark == '1'){
 				   $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
 						if (data.data == '0') {
 							$("#"+valueArr[0]).html("未中标");
 							layer.confirm("对不起，你未中标",{
 								btn:['确定']
-							},function(){
+							},function(index){
+								layer.close(index);
 								$("#"+valueArr[0]).html("未中标");
 									return;
 								}
@@ -247,17 +246,6 @@
 							return;
 						}
 					});
-					window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-					return;
-				  /*  $.ajax({
-						url: "${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do",
-						contentType: "application/json;charset=UTF-8",
-						dataType: "json", //返回格式为json
-						type: "POST", //请求方式           
-						success: function(data) {
-							
-						}
-					}); */
 			   }
 			 
 			   //-------------------------放弃情况提示----------------//

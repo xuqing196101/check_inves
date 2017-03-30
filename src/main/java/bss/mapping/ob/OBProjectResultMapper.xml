@@ -574,17 +574,17 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
     where ID = #{id,jdbcType=VARCHAR}
   </update>
   
-  <!-- 根据supplier_id和project_id查询所对应的竞价信息 -->
+  <!-- 根据supplier_id和project_id查询供应商未中标的信息 -->
   <select id="findSupplierUnBidding" parameterType="Map" resultMap="BaseResultMap">
-  	SELECT
-   	SUM(PR.PROPORTION) AS REMARK,
-   	PR.PROJECT_ID AS PROJECT_ID, 
-   	PR.SUPPLIER_ID AS SUPPLIER_ID
-  	FROM T_BSS_OB_PROJECT_RESULT PR
- 	WHERE PR.PROJECT_ID = #{project_id,jdbcType=VARCHAR}
+    SELECT 
+    PR.PROJECT_ID AS PROJECT_ID,
+    PR.SUPPLIER_ID AS SUPPLIER_ID,
+    PR.RANKING AS RANKING,
+    PR.PROPORTION AS PROPORTION
+    FROM T_BSS_OB_PROJECT_RESULT PR
+    WHERE PR.PROJECT_ID = #{project_id,jdbcType=VARCHAR}
     AND PR.SUPPLIER_ID = #{supplier_id,jdbcType=VARCHAR}
- 	GROUP BY PR.PROJECT_ID, PR.SUPPLIER_ID
-	HAVING SUM(PR.PROPORTION) = 0
+    AND PR.STATUS = '-1'
   </select>
   
 </mapper>
