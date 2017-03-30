@@ -1190,9 +1190,19 @@ table .input_group .add-on{
     font-size: 19px;
     overflow: hidden;
 }
+.time_mt.kaibiao_time{
+	line-height: 56px;
+	padding-top: 35px;
+	font-size: 14px;
+	margin-bottom: 20px;
+}
+.time_mt.kaibiao_time .time{
+	font-size:40px;
+}
 .yomi{
 	font-size:6.0em;
 }
+
 .time_animations{
 	height:100%;
 }
