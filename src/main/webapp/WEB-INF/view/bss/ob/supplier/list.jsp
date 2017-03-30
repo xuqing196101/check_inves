@@ -112,24 +112,19 @@
 				   return;
 			   }
 			   
-			   if(status == '2' && remark == '1'){
-				   layer.alert("已报价，请等待确认结果 ！");
-				   return;
+			   if(status == '2'){
+				   if(remark == '1'){
+					   layer.alert("已报价，请等待确认结果 ！");
+					   return;
+				   }
+				   if(remark == '2'){
+					   layer.alert("对不起，您未在规定的时间内完成报价！");
+					   return;
+				   }
 			   }
-			   if(status == '2' && remark == '2'){
-				   layer.alert("对不起，您未在规定的时间内完成报价！");
-				   return;
-			   }
+			   
 			   if(status == '5' && remark == '1'){
 				   layer.alert("报价已结束，请您确认结果 ！");
-				   return;
-			   }
-			   if(status == '3' && remark == '5'){
-				   layer.alert("报价时间结束 ！");
-				   return;
-			   }
-			   if(status == '2' && remark == '6'){
-				   layer.alert("请重新刷新页面 ！");
 				   return;
 			   }
 			   // 报价时间已结束
@@ -171,15 +166,16 @@
 			   }
 			   
 			   // 确认结果前做报价判断
-			   if(status == 2 && remark == '0'){
-				   layer.alert("对不起，您还未参与报价！");
-				   return;
+			   if(status == 2){
+				   if(remark == '0'){
+					   layer.alert("对不起，您还未参与报价！");
+					   return;
+				   }
+				   if(remark == '1'){
+					   layer.alert("确认时间未到，请等待确认结果 ！");
+					   return;
+				   }
 			   }
-			   if(status == 2 && remark == '1'){
-				   layer.alert("确认时间未到，请等待确认结果 ！");
-				   return;
-			   }
-			   
 			   // 竞价结束
 			   if(status == '3'){
 				   layer.alert("竞价已结束 ！");
@@ -190,6 +186,7 @@
 				   layer.alert("对不起，项目已流拍 ！");
 				   return;
 			   }
+			   
 			   // 第一轮确认时间未到
 			   if((status != '5' && remark == '1')){
 				   layer.alert("对不起，确认时间未到不能确认结果 ！");

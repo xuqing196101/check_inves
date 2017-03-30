@@ -21,6 +21,7 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProductMapper;
 import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBSupplierMapper;
@@ -29,19 +30,16 @@ import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
-import bss.model.ob.OBProjectExample;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBResultsInfoExt;
-import bss.model.ob.OBRule;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.UploadService;
-import common.utils.DateUtils;
 import common.utils.JdcgResult;
 
 /**
@@ -90,6 +88,9 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 
 	@Autowired
 	private DictionaryDataMapper dictionaryDataMapper;
+	
+	@Autowired
+	private OBProjectRuleMapper obProjectRuleMapper;
 	/**
 	 * 
 	 * @Title: findQuoteInfo
@@ -266,7 +267,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				if (obProject != null) {
 					// 获取报价截止时间
 					Date quoteEndTime = BiddingStateUtil
-							.getQuoteEndTime(obProject);
+							.getQuoteEndTime(obProject,obProjectRuleMapper);
 					int compareTo = BiddingStateUtil.compareTo(new Date(),
 							quoteEndTime);
 					// 报价时间截止
