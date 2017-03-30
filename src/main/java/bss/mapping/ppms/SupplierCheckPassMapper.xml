@@ -445,4 +445,15 @@
 		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
 		WHERE  cp.CONTRACT_ID=#{contractId} and cp.IS_DELETED=0 and cp.IS_WON_BID =1
 	</select>
+	<select id="selectPackageIdWonBid" parameterType="java.lang.String"
+		resultMap="BaseResultMap">
+		SELECT
+        <include refid="Base_Column_List" /> 
+        FROM T_BSS_PPMS_SUPPLIER_CHECK_PASS cp
+		WHERE 
+		cp.IS_WON_BID=1 AND 
+		cp.IS_DELETED=0 and 
+		cp.PACKAGE_ID = #{packageId}
+	</select>
+	
 </mapper>

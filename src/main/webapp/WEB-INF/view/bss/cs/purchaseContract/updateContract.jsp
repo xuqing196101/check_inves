@@ -951,7 +951,7 @@
 					<c:forEach items="${requList}" var="reque" varStatus="vs">
 						<tr>
 							<td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="" /></td>
-				<td class="tc w50">${(vs.index+1)}</td>
+				<td class="tc w50">${(vs.index+1)}<input type="hidden" name="proList[${(vs.index)}].detailId" value="${reque.detailId}" /></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].planNo" readonly="readonly" value="${reque.planNo}" class="w50 tc"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].goodsName" readonly="readonly" value="${reque.goodsName}" class="tl pl20"/></td>
 				<td class="tc"><input type="text" name="proList[${(vs.index)}].brand" readonly="readonly" value="${reque.brand}" class="tl pl20"/></td>

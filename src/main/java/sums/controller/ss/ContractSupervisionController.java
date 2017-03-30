@@ -1,5 +1,9 @@
 package sums.controller.ss;
 
+import iss.model.ps.Article;
+import iss.service.ps.ArticleService;
+import iss.service.ps.ArticleTypeService;
+
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -9,6 +13,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
@@ -19,11 +24,13 @@ import com.github.pagehelper.PageInfo;
 
 import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseOrg;
 import ses.model.sms.Supplier;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.UserServiceI;
+import ses.service.ems.ExpertService;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierService;
@@ -31,26 +38,41 @@ import ses.util.DictionaryDataUtil;
 import ses.util.ValidateUtils;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
+import bss.model.pms.AuditPerson;
 import bss.model.pms.CollectPlan;
 import bss.model.pms.PurchaseDetail;
+import bss.model.pms.PurchaseManagement;
 import bss.model.pms.PurchaseRequired;
+import bss.model.ppms.AdvancedDetail;
+import bss.model.ppms.AdvancedProject;
+import bss.model.ppms.FlowDefine;
+import bss.model.ppms.FlowExecute;
 import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.ProjectTask;
+import bss.model.ppms.SaleTender;
 import bss.model.ppms.SupplierCheckPass;
 import bss.model.ppms.Task;
+import bss.model.prms.PackageExpert;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
+import bss.service.pms.AuditPersonService;
 import bss.service.pms.CollectPlanService;
 import bss.service.pms.PurchaseDetailService;
+import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
+import bss.service.ppms.AdvancedDetailService;
+import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
+import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
+import bss.service.prms.PackageExpertService;
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -103,6 +125,27 @@ public class ContractSupervisionController {
     private PackageService packageService;
     @Autowired
     private ProjectDetailService detailService;
+    @Autowired
+    private PurchaseManagementService managementService;
+    @Autowired
+    private AuditPersonService auditPersonService;
+    @Autowired
+    private AdvancedDetailService advancedDetailService;
+    @Autowired
+    private AdvancedProjectService advancedProjectService;
+    @Autowired
+    private FlowMangeService flowMangeService;
+    @Autowired
+    private ArticleService articleService;
+    @Autowired
+    private ArticleTypeService articelTypeService;
+    @Autowired
+    private SaleTenderService saleTenderService;
+    @Autowired
+    private PackageExpertService packageExpertService;
+    
+    @Autowired
+    private ExpertService expertService;
 	@RequestMapping(value="/list",produces = "text/html;charset=UTF-8")
     public String list(Model model, @CurrentUser User user,PurchaseContract purCon,Integer page){
 		if(page==null){
@@ -540,12 +583,296 @@ public class ContractSupervisionController {
 		model.addAttribute("demand", required);
 		return "sums/ss/contractSupervision/demandDateil";
 	}
+	@SuppressWarnings("unused")
 	@RequestMapping(value="projectView",produces="text/html;charset=UTF-8")
 	public String projectView(Model model, String id){
 		
+		long begindate=System.currentTimeMillis();
+		ProjectDetail projectDetail = detailService.selectByPrimaryKey(id);
+		//需求编报
+		PurchaseRequired purchaseRequired=null;
+		//需求受理
+		AuditPerson auditPerson=null;
+		//预研任务
+		Task task=null;
+		//采购计划审核
+		List<AuditPerson> auditPersonsList=null;
+		//采购计划任务下达
+		CollectPlan collectPlans=null;
+		//采购任务受领
+		Task pltask=null;
 		
+		//项目立项
+		Project project=null;
+		
+		
+		if(projectDetail!=null){
+			PurchaseDetail purchaseDetail = purchaseDetailService.queryById(projectDetail.getRequiredId());
+			if(purchaseDetail!=null){
+				HashMap<String, Object> map=new HashMap<String, Object>();
+				map.put("id", purchaseDetail.getId());
+				List<PurchaseRequired> purchaseRequireds= requiredService.selectByParent(map);
+				if(purchaseRequireds!=null&&purchaseRequireds.size()>0){
+					for(PurchaseRequired prd:purchaseRequireds){
+						if("1".equals(prd.getParentId())){
+							purchaseRequired=prd;
+							if(purchaseRequired!=null){
+								 User user = userService.getUserById(purchaseRequired.getUserId());
+								 purchaseRequired.setUserId(user.getRelName());
+							 }
+						}
+						
+					}
+				}
+			}
+		}
+		//需求受理
+		if(purchaseRequired!=null){
+			List<PurchaseManagement> queryByPid = managementService.queryByPid(purchaseRequired.getUniqueId());
+            Orgnization org= orgnizationServiceI.getOrgByPrimaryKey(queryByPid.get(0).getManagementId());
+            model.addAttribute("org", org);//需求受理管理部门
+            HashMap<String, Object> map=new HashMap<String, Object>();
+			map.put("collectId",purchaseRequired.getId());
+			map.put("type",4);
+			List<AuditPerson> auditPersons = auditPersonService.selectByMap(map);
+			if(auditPersons!=null&&auditPersons.size()>0){
+				 User user = userService.getUserById(auditPersons.get(0).getUserId());
+				 auditPersons.get(0).setUserId(user.getRelName());
+				 auditPerson=auditPersons.get(0);
+                 
+			}
+		}
+		//预研任务
+		if(purchaseRequired!=null){
+		    PurchaseDetail purchaseDetail = purchaseDetailService.queryById(projectDetail.getRequiredId());
+			AdvancedDetail advancedDetail = advancedDetailService.selectByRequiredId(purchaseDetail.getId());
+	        if(advancedDetail != null){
+	            AdvancedProject advancedProject = advancedProjectService.selectById(advancedDetail.getAdvancedProject());
+	            if(advancedProject != null){
+	                HashMap<String, Object> map = new HashMap<>();
+	                map.put("projectId", advancedProject.getId());
+	                List<ProjectTask> queryByNo = projectTaskService.queryByNo(map);
+	                Task tasks = taskService.selectById(queryByNo.get(0).getTaskId());
+	                if(task != null){
+	                	task=tasks;
+	                }
+	                model.addAttribute("advancedProject", advancedProject);//预研项目
+	            }
+	            model.addAttribute("advancedProjectId", advancedDetail.getAdvancedProject());//预研项目ID
+	        }
+	        String adviceId = DictionaryDataUtil.getId("ADVANCED_ADVICE");
+	        model.addAttribute("adviceId", adviceId);//预研通知书
+		}
+		//采购计划审核
+		if(purchaseRequired!=null){
+			 PurchaseDetail purchaseDetail = purchaseDetailService.queryById(projectDetail.getRequiredId());
+			 CollectPlan collectPlan = collectPlanService.queryById(purchaseDetail.getUniqueId());
+			 if(collectPlan != null){
+                 User user = userService.getUserById(collectPlan.getUserId());
+                 collectPlan.setUserId(user.getRelName());
+                 collectPlan.setPurchaseId(user.getOrgName());
+                 Task tasks = taskService.selectByCollectId(collectPlan.getId());
+                 if(tasks != null){
+                     collectPlan.setUpdatedAt(tasks.getGiveTime());
+                 }
+                 collectPlans=collectPlan;
+                 HashMap<String, Object> map=new HashMap<String, Object>();
+                 map.put("collectId", collectPlan.getId());
+                 List<AuditPerson> listAuditPersons = auditPersonService.selectByMap(map);
+                 if(listAuditPersons != null && listAuditPersons.size() > 0){
+                	 auditPersonsList=listAuditPersons;
+                 }
+                 
+             }
+		}
+		
+		//采购任务受领
+		
+		if(purchaseRequired!=null){
+			 PurchaseDetail purchaseDetail = purchaseDetailService.queryById(projectDetail.getRequiredId());
+             Task tasks = taskService.selectByCollectId(purchaseDetail.getUniqueId());
+	        if(tasks != null){
+	            Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(tasks.getPurchaseId());
+	            /*User user = userService.getUserById(task.getUserId());
+	            task.setUserId(user.getRelName());*/
+	            tasks.setPurchaseId(org.getName());
+	            pltask=tasks;
+	        }
+		}
+		
+		//采购计划审核
+		if(purchaseRequired!=null){
+			Project projects = projectService.selectById(projectDetail.getProject().getId());
+            if(projects!=null){
+            	User user = userService.getUserById(projects.getAppointMan());
+            	projects.setAppointMan(user.getRelName());
+                Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(projects.getPurchaseDepId());
+                projects.setPurchaseDepName(org.getName());
+                projects.setStatus(DictionaryDataUtil.findById(projects.getStatus()).getName());
+            }
+            model.addAttribute("uploadId", DictionaryDataUtil.getId("PROJECT_APPROVAL_DOCUMENTS")); //项目审批文件
+          //判断是否上传招标文件
+            String typeId = DictionaryDataUtil.getId("PROJECT_BID");
+            List<UploadFile> files = uploadService.getFilesOther(projects.getId(), typeId, Constant.TENDER_SYS_KEY+"");
+            if(files != null && files.size() > 0){
+                model.addAttribute("fileId", files.get(0).getId());
+                model.addAttribute("fileName", files.get(0).getName());
+            }
+          //获取采购文件的编制人
+            FlowDefine define = new FlowDefine();
+            define.setPurchaseTypeId(projects.getPurchaseType());
+            define.setStep(3);
+            List<FlowDefine> find = flowMangeService.find(define);
+            FlowExecute execute = new FlowExecute();
+            execute.setProjectId(projects.getId());
+            execute.setFlowDefineId(find.get(0).getId());
+            execute.setStatus(1);
+            List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+            if(findFlowExecute != null && findFlowExecute.size() > 0){
+                model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
+            } else {
+                execute.setStatus(3);
+                List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                    model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                } else {
+                    execute.setStatus(2);
+                    List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                    if(executes != null && executes.size() > 0){
+                        model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                    }
+                }
+            }
+            
+            //获取采购公告
+            Article article = new Article();
+            article.setArticleType(articelTypeService.selectArticleTypeByCode("purchase_notice"));
+            article.setProjectId(projects.getId());
+            List<Article> articles = articleService.selectArticleByProjectId(article);
+            if(articles != null && articles.size() > 0){
+                User user2 = userService.getUserById(articles.get(0).getUser().getId());
+                articles.get(0).setUserId(user2.getRelName());
+                model.addAttribute("articles",articles.get(0));
+            }
+            
+          //资格性符合性检查
+            Map<String, Object> packageExpertmap = new HashMap<String, Object>();
+            packageExpertmap.put("packageId",projectDetail.getPackageId());
+            packageExpertmap.put("projectId", projects.getId());
+            //查询专家
+            List<PackageExpert> expertIdList = packageExpertService.selectList(packageExpertmap);
+            List<Expert> experts = new ArrayList<Expert>();
+            for (PackageExpert packageExpert : expertIdList) {
+                Expert expert = expertService.selectByPrimaryKey(packageExpert.getExpertId());
+                packageExpert.setExpertId(expert.getRelName());
+                experts.add(expert);
+            }
+            model.addAttribute("expertIdList", expertIdList);
+            model.addAttribute("experts", experts);
+            model.addAttribute("project", project);
+            model.addAttribute("status", "0");
+            model.addAttribute("packageId", projectDetail.getPackageId());//包id
+            project=projects;
+		}
+		
+		
+		//合同
+		if(projectDetail!=null){
+			List<ContractRequired> contractRequireds = contractRequiredService.selectConRequByDetailId(projectDetail.getId());
+			if(contractRequireds!=null&&contractRequireds.size()>0){
+				PurchaseContract purchaseContract = purchaseContractService.selectById(contractRequireds.get(0).getContractId());
+				if(purchaseContract.getPurchaseDepName()!=null){
+					Orgnization org = orgnizationServiceI.getOrgByPrimaryKey(purchaseContract.getPurchaseDepName());
+					if(org!=null){
+						purchaseContract.setPurchaseDepName(org.getName());
+						purchaseContract.setPurchaseBankAccount_string(org.getFax());
+					}else{
+						purchaseContract.setPurchaseDepName("");
+					}
+					
+				}
+				if(purchaseContract.getSupplierDepName()!=null){
+					 Supplier supplier = supplierService.selectById(purchaseContract.getSupplierDepName());
+					 if(supplier!=null){
+						 purchaseContract.setSupplierDepName(supplier.getSupplierName());
+						 purchaseContract.setSupplierBankAccount_string(supplier.getContactFax());
+					 }else{
+						 purchaseContract.setSupplierDepName("");
+					 }
+					 
+				}
+				model.addAttribute("purchaseContract", purchaseContract);
+			}
+		}
+		//中标供应商
+		
+		if(projectDetail!=null){
+			List<SupplierCheckPass> supplierCheckPasss = supplierCheckPassService.selectPackageIdWonBid(projectDetail.getPackageId());
+			if(supplierCheckPasss!=null&&supplierCheckPasss.size()>0){
+				for(SupplierCheckPass pass:supplierCheckPasss){
+					Supplier supplier = supplierService.selectById(pass.getSupplierId());
+					if(supplier!=null){
+						pass.setSupplier(supplier);
+					}
+				}
+			}
+			model.addAttribute("pass", supplierCheckPasss);
+			
+		}
+		
+		//获取中标公示
+		if(projectDetail!=null){
+	        Article article2 = new Article();
+	        article2.setArticleType(articelTypeService.selectArticleTypeByCode("success_notice"));
+	        article2.setProjectId(projectDetail.getProject().getId());
+	        List<Article> articleList= articleService.selectArticleByProjectId(article2);
+	        if(articleList != null && articleList.size() > 0){
+	            User user2 = userService.getUserById(articleList.get(0).getUser().getId());
+	            articleList.get(0).setUserId(user2.getRelName());
+	            model.addAttribute("articleList",articleList.get(0));
+	        }
+		}
+		model.addAttribute("purchaseRequired", purchaseRequired);//需求编报
+		model.addAttribute("auditPerson", auditPerson);//需求受理
+		model.addAttribute("task", task);//任务
+		model.addAttribute("listAuditPerson", auditPersonsList);//采购计划审核
+		model.addAttribute("collectPlan", collectPlans);//采购计划任务下达
+		model.addAttribute("collectPlan", collectPlans);//采购计划任务下达
+		model.addAttribute("pltask", pltask);//采购计划任务下达
+		 model.addAttribute("project", project);//采购项目立项
+		 long enddate=System.currentTimeMillis();
+		 System.out.println((enddate-begindate)/1000+"-=-=-=-=-");
 		return "sums/ss/contractSupervision/projectView";
 	}
+	
+	@RequestMapping("/viewSell")
+    public String viewSell(String packageId, String type, Model model){
+        if(StringUtils.isNotBlank(packageId)){
+            String fileId = DictionaryDataUtil.getId("OPEN_FILE");
+            Packages packages = packageService.selectByPrimaryKeyId(packageId);
+            SaleTender saleTender = new SaleTender();
+            saleTender.setPackages(packageId);
+            List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+            for (SaleTender saleTender2 : saleTenderList) {
+                Supplier supplier = supplierService.selectById(saleTender2.getSuppliers().getId());
+                supplier.setProSupFile(saleTender2.getId());
+                supplier.setIsturnUp(saleTender2.getIsTurnUp().toString());
+                List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), fileId,  Constant.SUPPLIER_SYS_KEY.toString());
+                if (blist != null && blist.size() > 0) {
+                    supplier.setBidFileName(blist.get(0).getName());
+                    supplier.setBidFileId(blist.get(0).getId());
+                  }
+            }
+            packages.setSaleTenderList(saleTenderList);
+            model.addAttribute("packages", packages);
+        }
+        if(StringUtils.isNotBlank(type) && "1".equals(type)){
+            return "sums/ss/contractSupervision/viewSell";
+        }else{
+            return "sums/ss/contractSupervision/viewSupplier";
+        }
+        
+    }
 	
 	public List<PurchaseDetail> listdata(List<PurchaseDetail> pdetails,List<PurchaseDetail> details){
 		List<PurchaseDetail> deta=new ArrayList<PurchaseDetail>();

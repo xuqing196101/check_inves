@@ -252,4 +252,8 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 	public List<SupplierCheckPass> getByContractId(String contractId){
 		return checkPassMapper.getByContractId(contractId);
 	}
+	@Override
+	public List<SupplierCheckPass> selectPackageIdWonBid(String packageId) {
+		return checkPassMapper.selectPackageIdWonBid(packageId);
+	}
 }

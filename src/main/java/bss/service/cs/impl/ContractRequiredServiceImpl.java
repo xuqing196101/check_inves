@@ -78,4 +78,9 @@ public class ContractRequiredServiceImpl implements ContractRequiredService {
 		param.put("ids", ids.split(","));
 		return contractRequiredMapper.findByMap(param);
 	}
+
+	@Override
+	public List<ContractRequired> selectConRequByDetailId(String id) {
+		return contractRequiredMapper.selectConRequByDetailId(id);
+	}
 }

@@ -35,6 +35,7 @@ public class ContractRequired {
     
     private Integer isDeleted;
 
+    private String detailId;
     public String getPurchaseCount_string() {
 		return purchaseCount_string;
 	}
@@ -163,4 +164,13 @@ public class ContractRequired {
 	public void setContractId(String contractId) {
 		this.contractId = contractId;
 	}
+
+	public String getDetailId() {
+		return detailId;
+	}
+
+	public void setDetailId(String detailId) {
+		this.detailId = detailId;
+	}
+	
 }
