@@ -98,7 +98,7 @@ public interface OBProjectResultService {
      * @param obProjectResult封装的条件对象
      * @return 竞价管理-结果查询 
      */
-    int updateBySupplierId(String projectId,String supplierId, String confirmStatus);
+    int updateBySupplierId(String projectId,String supplierId, String confirmStatus,String projectResultId);
     
     /**
      * <p>Description 根据供应商Id、产品Id和竞价标题Id修改此条信息	SPPId supplierId、productId和projectId</p>

@@ -305,7 +305,8 @@
 					data:{
 						"projectId" : "${result.projectId}",
 						"confirmStatus" : confirmStatus,
-						"supplierId":"${result.supplierId}"
+						"supplierId":"${result.supplierId}",
+						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
 						window.history.go(-1);
@@ -325,7 +326,8 @@
 					data:{
 						"projectId" : "${result.projectId}",
 						"confirmStatus" : confirmStatus,
-						"supplierId":"${result.supplierId}"
+						"supplierId":"${result.supplierId}",
+						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
 						window.history.go(-1);
@@ -607,7 +609,7 @@
   <div class="col-md-12 clear tc mt10">
   <button class="btn" onclick="confirmAccept('${confirmStatus }')">接受</button>
   <input type="hidden" value=" ${confirmStatus }" id="currentConfirmStatus"/>
-  <button class="btn" onclick="cancelAccept(' confirmStatus }')">放弃</button>
+  <button class="btn" onclick="cancelAccept('${confirmStatus }')">放弃</button>
   </div>
   
   <div class="rule_search" id = "serr" onclick = "showRule()">

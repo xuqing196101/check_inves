@@ -210,7 +210,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
      * @return 竞价管理-结果查询 
      */
 	@Override
-	public int updateBySupplierId(String projectId,String supplierId, String confirmStatus) {
+	public int updateBySupplierId(String projectId,String supplierId, String confirmStatus,String projectResultId) {
 		// TODO Auto-generated method stub
 		//第一轮 放弃
 		if("1".equals(confirmStatus)) {
@@ -218,6 +218,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			obpro.setProjectId(projectId);
 			obpro.setSupplierId(supplierId);
 			obpro.setStatus(0);
+			obpro.setId(projectResultId);
 			oBProjectResultMapper.updateByPrimaryKeySelective(obpro);
 			
 			OBProject obProject = new OBProject();
@@ -228,7 +229,12 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			
 		} else if("2".equals(confirmStatus)) {
-			oBProjectResultMapper.selectByPrimaryKey(supplierId);
+			String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+			OBProjectResult result= oBProjectResultMapper.selectByPrimaryKey(projectResultId);
+			result.setId(uuid);
+			result.setStatus(0);
+			result.setCreatedAt(new Date());
+			oBProjectResultMapper.insertSelective(result);
 			// 第二轮 放弃
 			OBProject obProject = new OBProject();
 			obProject.setId(projectId);

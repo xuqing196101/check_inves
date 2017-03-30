@@ -368,6 +368,7 @@ public class OBSupplierQuoteController {
 	public String uptConfirmQuoteInfoDrop(@CurrentUser User user,
 			String projectId,
 			Model model,
+			String projectResultId,
 			String roundNum,
 			String supplierId,
 			String confirmStatus,//当前正处于的未操作的状态
@@ -376,7 +377,7 @@ public class OBSupplierQuoteController {
 		  if(user!=null){
 			   if(StringUtils.isNotBlank(supplierId)){
 				   if(supplierId.equals(user.getTypeId())){
-					 uptResult = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus);
+					 uptResult = oBProjectResultService.updateBySupplierId(projectId,supplierId, confirmStatus,projectResultId);
 					   
 				   }
 			   }else{
