@@ -178,7 +178,8 @@
 				if(id == null) {
 					layer.msg("请选择专家！", {offset: '100px'});
 				} else {
-					var state = $("#" + id + "").parents("tr").find("td").eq(8).text().trim();
+					var state = $("#" + id + "").parents("tr").find("td").eq(9).text().trim();
+					alert(state);
 					if(state == "复审通过" || state == "复审未通过" || state == "待复查" || state == "复查通过" || state == "复查未通过") {
 						index = layer.open({
 							type: 2, //page层
