@@ -229,7 +229,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 		OBProjectSupplier selectRemarkBYPS = obProjectSupplierMapper.selectRemarkBYPS(selectMap);
 		// 其他用户已完成本次报价
 		if(selectRemarkBYPS != null && "1".equals(selectRemarkBYPS.getRemark())){
-			return JdcgResult.ok("其他用户已完成本次报价！");
+			return JdcgResult.build(500, "其他用户已完成本次报价！");
 		}
 		
 		if (obResultInfoList != null) {
@@ -277,7 +277,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 						String remark = "2";
 						BiddingStateUtil.updateRemark(obProjectSupplierMapper,
 								obProject, user, remark);
-						return JdcgResult.ok("抱歉，报价时间已结束，未完成本次报价！");
+						return JdcgResult.build(500, "抱歉，报价时间已结束，未完成本次报价！");
 					}
 					// systemDate < biddingTime
 					if (compareTo == 1) {
