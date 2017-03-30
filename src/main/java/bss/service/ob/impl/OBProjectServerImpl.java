@@ -1005,7 +1005,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 				List<OBProject> obProject = obProjectSupplier.getObProjectList();
 				if (obProject != null && obProject.size() > 0) {
 					// 调用封装报价截止时间方法
-					obProject.get(0).setQuoteEndTime(BiddingStateUtil.getQuoteEndTime(obProject.get(0)));
+					obProject.get(0).setQuoteEndTime(BiddingStateUtil.getQuoteEndTime(obProject.get(0),obProjectRuleMapper));
 				}
 			}
 		}

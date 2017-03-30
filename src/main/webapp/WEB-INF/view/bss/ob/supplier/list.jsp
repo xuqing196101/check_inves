@@ -164,8 +164,6 @@
 			   var valueArr = id[0].split(',');
 			   var status = valueArr[1];
 			   var remark = valueArr[2];
-			   /*  window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-				   	   return; */
 			   // 报价时间还未开始
 			   if(status == '1'){
 				   layer.alert("对不起，报价时间还未开始，请您等待 ！");
@@ -442,7 +440,7 @@
 			  		放弃确认(第一轮)
 			  	</c:if>
 			  	
-			  	<c:if test="${ obProject.obProjectList[0].status == 6 }">
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '42' && obProject.remark != '52' && obProject.remark != '32' }">
 			  		结果待确认(第二轮)
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark == '42'}">

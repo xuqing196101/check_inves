@@ -231,7 +231,10 @@
 			  		已流拍
 			  	</c:if>
 			  	<c:if test="${ obProject.status == 5 }">
-			  		待确认
+			  		待确认(第一轮)
+			  	</c:if>
+			  	<c:if test="${ obProject.status == 6 }">
+			  		待确认(第二轮)
 			  	</c:if>
 			  </td>
 			  <%-- <td class="tc">

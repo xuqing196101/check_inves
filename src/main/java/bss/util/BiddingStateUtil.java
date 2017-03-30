@@ -9,8 +9,10 @@ import java.util.Map;
 import ses.model.bms.User;
 import common.utils.DateUtils;
 import bss.dao.ob.OBProjectMapper;
+import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.model.ob.OBProject;
+import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBRule;
 
 /**
@@ -40,9 +42,9 @@ public class BiddingStateUtil {
 				// 发布中(status == 1)状态判断
 				if (obProject != null) {
 					// 获取当前竞价信息的状态
-					Date quoteEndTime = getQuoteEndTime(obProject);
+					//Date quoteEndTime = getQuoteEndTime(obProject,obProjectRuleMapper);
 					// 页面回显报价截止时间
-					obProject.setQuoteEndTime(quoteEndTime);
+					//obProject.setQuoteEndTime(quoteEndTime);
 
 					// 【竞价中】--【已报价待确认结果状态的判断】
 					/*
@@ -186,16 +188,17 @@ public class BiddingStateUtil {
 	 * @return Date 返回类型
 	 * @throws
 	 */
-	public static Date getQuoteEndTime(OBProject obProject) {
+	public static Date getQuoteEndTime(OBProject obProject,OBProjectRuleMapper obProjectRuleMapper) {
 		// 获取竞价开始时间
 		Date startTime = obProject.getStartTime();
+		// 获取竞价规则子表规则
+		OBProjectRule obProjectRule = obProjectRuleMapper.selectByPrimaryKey(obProject.getId());
 		// 获取报价结束时间
-		OBRule obRule = obProject.getObRule();
 		Date quoteEndTime = null;
 		// 获取报价时间
 		Integer quoteTime = null;
-		if (obRule != null) {
-			quoteTime = obRule.getQuoteTime();
+		if (obProjectRule != null) {
+			quoteTime = obProjectRule.getQuoteTime();
 			if (quoteTime != null) {
 				// 报价开始时间到报价结束时间(竞价开始时间加上报价时间)
 				quoteEndTime = DateUtils.getAddDate(startTime, quoteTime);
