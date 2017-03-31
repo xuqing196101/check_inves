@@ -491,6 +491,9 @@
 		var objVal = $obj.val();
 		var objTitleValue = $obj.attr("title");
 		var currentStatus = 0;
+		var ids = [];
+		var priceRatios = [];
+		
 		for(var i = 0;i < objTitleValue.length;i++) {
 			if(objTitleValue.charAt(i) > 0 && objTitleValue.charAt(i) < 10) {
 				currentStatus = parseInt(objTitleValue.substr(i,objTitleValue.length));
@@ -520,11 +523,25 @@
 						$(this).val(parseInt($(this).val()) + diffCount);
 					}
 				}
+				//把checkpassId和当前占比存到上面定义的变量
+				priceRatios.push($(this).val());
+				ids.push($(this).parent().parent().find("input[class='checkpassId']").val());
+			});
+			$.ajax({
+				type : "POST",
+				dataType : "text",
+				//traditional: true,
+				url : "${pageContext.request.contextPath }/winningSupplier/changeRatioByCheckpassId.do?ids=" + ids + "&priceRatios=" + priceRatios,
+				success : function(data) {
+				},
+				error : function(data) {
+				}
 			});
 		} else {
 			layer.alert("请输入小于当前数的值");
 			$obj.val(tempTextValue);
 		}
+		
 	}
 	
 	function priceRatioFocus(obj) {
@@ -721,6 +738,7 @@
 					</c:if> -->
 					<td class="opinter" title="${checkpass.supplier.supplierName }">
 						<input type="hidden" class="supplierId" value="${checkpass.supplier.id }"/>
+						<input type="hidden" class="checkpassId" value="${checkpass.id}"/>
 						<span onclick="ycDiv(this,'${checkpass.id}')"
 						class="count_flow shrink hand"></span> <c:choose>
 							<c:when test="${fn:length(checkpass.supplier.supplierName) >10}">
@@ -754,12 +772,14 @@
 						<!-- 
 						<input type="text" name="singQuote" id="singQuote" class="singQuote${(vs.index+1)}" value="${checkpass.wonPrice }" />
 						 点击生成-->
-						  ${checkpass.money}
+						  <fmt:formatNumber type="number" value="${checkpass.money}" pattern="0.0000" maxFractionDigits="4"/>
 						</td>
 					</c:if>
 					<c:if test="${quote==1 }">
-						<td class="tc opinter" id="singQuote">${checkpass.totalPrice*checkpass.priceRatio }
-							<input type="hidden" class="singQuote${(vs.index+1)}" name="singQuote" id="singQuotehhide">
+						<td class="tc opinter" id="singQuote">
+							<!-- ${checkpass.totalPrice*checkpass.priceRatio }
+							<input type="hidden" class="singQuote${(vs.index+1)}" name="singQuote" id="singQuotehhide"> -->
+							<fmt:formatNumber type="number" value="${checkpass.money}" pattern="0.0000" maxFractionDigits="4"/>
 						</td>
 					</c:if>
 
@@ -867,10 +887,11 @@
 
 		</table>
 		<div class="col-md-12 tc">
+			<!-- 
 			<c:if test="${quote == 0 }">
 			<button class="btn btn-windows add" onclick="ratioPrice()"
 				type="button">生成总价</button>
-			</c:if>
+			</c:if> -->
 			<button class="btn btn-windows back" onclick="history.go(-1)"
 				type="button">返回</button>
 		</div>

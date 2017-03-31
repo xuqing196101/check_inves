@@ -14,6 +14,7 @@ import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import ses.model.bms.DictionaryData;
@@ -348,6 +349,21 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("detailList", detailList);
 
     return "bss/ppms/winning_supplier/supplier_list";
+  }
+  /**
+   * 
+   *〈简述〉获取包下所有供应商信息
+   *〈详细描述〉
+   * @author Ma Mingwei
+   * @param ids checkpassId的一个字符串组
+   * @param priceRatios 传过来的占比的一个字符串组
+   * @return 路径---确认供应商页面
+   */
+  @RequestMapping("/changeRatioByCheckpassId")
+  public String changeRatioByCheckpassId(String ids, String priceRatios){
+	  //String idsStr = ids.toString();
+	  checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
+	  return "success";
   }
   
   /**
