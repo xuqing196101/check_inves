@@ -40,7 +40,7 @@
 <c:if test="${size == 0 }">
 	<h2 class="count_flow">无报价信息</h2>
 </c:if>
-	 <c:forEach items="${list}" var="supplier" varStatus="pi">
+	 <c:forEach items="${listres}" var="supplier" varStatus="pi">
 	 <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
@@ -126,7 +126,7 @@
 		
 		<!-- 成交的 -->
 		<c:if test="${supplier.status == 1 || supplier.status == 2}">
-		<c:forEach items="${listres}" var="product" varStatus="va">
+		<c:forEach items="${listres}" var="product">
 			<c:if test="${product.supplierId == supplier.supplierId}">
 				<c:set value="${ total + product.dealMoney * product.resultNumber }" var = "total" ></c:set>
 			</c:if>
@@ -140,14 +140,16 @@
 			</tr>
 			<c:forEach items="${listres}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
-					<td class="tc">${va.index+1 }</td>
-			  		<td class="tc">${product.product.name }</td>
-			  		<td class="tc">${product.resultNumber }</td>
-					<td class="tc">${product.myOfferMoney }</td>
-			  		<td class="tc">${product.dealMoney }</td>
-			  		<td class="tc">
+					<tr>
+						<td class="tc">${va.index+1 }</td>
+			  			<td class="tc">${product.product.name }</td>
+			  			<td class="tc">${product.resultNumber }</td>
+						<td class="tc">${product.myOfferMoney }</td>
+			  			<td class="tc">${product.dealMoney }</td>
+			  			<td class="tc">
 			  			<fmt:formatNumber value='${product.dealMoney * product.resultNumber }' pattern='#,##,###.00'/>
-			  		</td>
+			  			</td>
+			  		</tr>
 				</c:if>
 			</c:forEach>
 		</c:if>
@@ -161,12 +163,14 @@
 			</tr>
 			<c:forEach items="${listres}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
+				<tr>
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc">${product.product.name }</td>
 			  		<td class="tc"></td>
 					<td class="tc"></td>
 			  		<td class="tc"></td>
 			  		<td class="tc"></td>
+			  	</tr>
 				</c:if>
 			</c:forEach>
 		</c:if>
@@ -180,12 +184,14 @@
 			</tr>
 			<c:forEach items="${listres}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
+				<tr>
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc">${product.product.name }</td>
 			  		<td class="tc"></td>
 					<td class="tc">${product.myOfferMoney }</td>
 			  		<td class="tc"></td>
 			  		<td class="tc"></td>
+			  	</tr>
 				</c:if>
 			</c:forEach>
 		</c:if>
