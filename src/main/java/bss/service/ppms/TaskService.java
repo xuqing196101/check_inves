@@ -98,4 +98,6 @@ public interface TaskService {
 	 List<Task> listByProjectTask(HashMap<String,Object> map);
 	 
 	 Task selectByCollectId(String id);
+	 
+	 List<Task> listBycollect(HashMap<String, Object> map);
 }

@@ -44,44 +44,22 @@
         <tr>
           <td class="w350 tc">采购需求</td>
           <td class="w350 tc">采购计划</td>
-          <c:if test="${listProject != null}">
           <td class="w350 tc">采购项目</td>
-          </c:if>
-          <c:if test="${listContract != null}">
           <td class="w350 tc">采购合同</td>
-          </c:if>
         </tr>
         <tr>
           <td class="h365 tc" onclick="view('${collectPlan.id}','1')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-            <%-- <c:forEach items="${listRequired}" var="obj">
-              <p class="ml20 tl">需求部门：${obj.department}</p>
-              <p class="ml20 tl">需求名称：${obj.planName}</p>
-              <p class="ml20 tl">编报时间：<fmt:formatDate type='date' value='${obj.createdAt}' pattern=" yyyy-MM-dd HH:mm:ss " /></p>
-              <p class="ml20 tl">联系人：${obj.userId}</p>
-            </c:forEach> --%>
           </td>
           <td class="h365 tc" onclick="view('${collectPlan.id}','2')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
           </td>
-          <c:if test="${listProject != null}">
-	          <td class="h365 tc" onclick="view('${collectPlan.id}','3')">
-	            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-	            <%-- <c:forEach items="${listProject}" var="obj">
-		            <p class="ml20 tl">项目名称：${obj.name}</p>
-		            <p class="ml20 tl">项目编号：${obj.projectNumber}</p>
-	            </c:forEach> --%>
-	          </td>
-          </c:if>
-          <c:if test="${listContract != null}">
-	          <td class="h365 tc" onclick="view('${collectPlan.id}','4')">
-	            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
-	            <%-- <c:forEach items="${listContract}" var="obj">
-	              <p class="ml20 tl">合同名称：${obj.name}</p>
-                <p class="ml20 tl">合同编号：${obj.code}</p>
-	            </c:forEach> --%>
-	          </td>
-          </c:if>
+	        <td class="h365 tc" onclick="view('${collectPlan.id}','3')">
+	          <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+	        </td>
+	        <td class="h365 tc" onclick="view('${collectPlan.id}','4')">
+	          <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+	        </td>
         </tr>
       </tbody>
     </table>

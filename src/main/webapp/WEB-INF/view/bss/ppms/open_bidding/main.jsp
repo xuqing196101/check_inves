@@ -82,7 +82,12 @@
 	}); 
 	
 	function back(){
-		location.href = '${pageContext.request.contextPath}/project/list.html';
+	  var type = "${type}";
+	  if(type == '1'){
+	    location.href = '${pageContext.request.contextPath}/project/projectByAll.html';
+	  }else{
+	    location.href = '${pageContext.request.contextPath}/project/list.html';
+	  }
 	}
 	
 	function jumpLoad(url, projectId, flowDefineId){

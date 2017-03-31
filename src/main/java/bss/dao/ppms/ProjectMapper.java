@@ -30,7 +30,7 @@ public interface ProjectMapper {
      */
     List<Project> selectProjectByAudit(Project project);
     
-    List<Project> selectByList(Project project);
+    List<Project> selectByList(HashMap<String,Object> map);
     
     List<Project> verifyByProject(Project project);
     

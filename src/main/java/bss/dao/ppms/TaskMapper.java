@@ -26,6 +26,8 @@ public interface TaskMapper {
     
     List<Task> likeByName(HashMap<String, Object> map);
     
+    List<Task> listBycollect(HashMap<String, Object> map);
+    
     void updateByPrimaryKeySelective(Task record);
 
     void updateByPrimaryKey(Task record);

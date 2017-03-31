@@ -365,6 +365,48 @@ public class ProjectController extends BaseController {
         return "bss/ppms/project/project_list";
     }
     
+    /**
+     * 
+     *〈不管谁登陆，查看所有〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param project
+     * @param page
+     * @param model
+     * @return
+     */
+    @RequestMapping("/projectByAll")
+    public String projectByAll(Project project,Integer page, Model model){
+        HashMap<String,Object> map = new HashMap<String,Object>();
+        if(project.getName() !=null && !project.getName().equals("")){
+            map.put("name", project.getName());
+        }
+        if(project.getProjectNumber() != null && !project.getProjectNumber().equals("")){
+            map.put("projectNumber", project.getProjectNumber());
+        }
+        if(project.getStatus() != null && !project.getStatus().equals("")){
+            map.put("status", project.getStatus());
+        }
+        if(page==null){
+            page = 1;
+        }
+        PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+        List<Project> list = projectService.lists(map);
+        for (int i = 0; i < list.size(); i++ ) {
+            try {
+                User contractor = userService.getUserById(list.get(i).getPrincipal());
+                list.get(i).setProjectContractor(contractor.getRelName());
+            } catch (Exception e) {
+                list.get(i).setProjectContractor("");
+            }
+            model.addAttribute("info", new PageInfo<Project>(list));
+        }
+        model.addAttribute("kind", DictionaryDataUtil.find(5));//获取数据字典数据
+        model.addAttribute("status", DictionaryDataUtil.find(2));//获取数据字典数据
+        model.addAttribute("projects", project);
+        return "bss/ppms/project/project_all";
+    }
+    
     
     /**
      * @Title: add
@@ -2818,7 +2860,7 @@ public class ProjectController extends BaseController {
      * @exception IOException
      */
     @RequestMapping("/excute")
-    public String execute(String id, Model model, Integer page) {
+    public String execute(String id, Model model, Integer page, String type) {
         Project project = projectService.selectById(id);
         String id2 = DictionaryDataUtil.getId("JYLX");
         if(id2.equals(project.getStatus())){
@@ -2827,6 +2869,7 @@ public class ProjectController extends BaseController {
         }
         model.addAttribute("project", project);
         model.addAttribute("page", page);
+        model.addAttribute("type", type);
         HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), id);
         model.addAttribute("fds", map.get("fds"));
         model.addAttribute("url", map.get("url"));

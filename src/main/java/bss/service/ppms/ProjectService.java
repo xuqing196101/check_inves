@@ -76,7 +76,7 @@ public interface ProjectService {
      */
     List<Project> list(Integer page,Project project);
 
-    List<Project> lists(Integer page,Project project);
+    List<Project> lists(HashMap<String,Object> map);
 
     List<Project> selectSuccessProject(Map<String,Object> map);
 

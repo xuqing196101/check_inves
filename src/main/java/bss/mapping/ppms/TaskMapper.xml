@@ -136,6 +136,17 @@
      ORDER BY GIVE_TIME DESC, STATUS ASC
   </select>
   
+  
+  <select id="listBycollect" resultType="bss.model.ppms.Task" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_TASK
+    where IS_DELETED = 0 
+     <if test="collectId != null">
+       and  COLLECT_ID = #{collectId}
+     </if>
+  </select>
+  
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">
     select 
     *
@@ -174,6 +185,9 @@
        <if test="taskNature != null">
         and TASK_NATURE = #{taskNature}
       </if>
+      <if test="collectId != null">
+       and  COLLECT_ID = #{collectId}
+     </if>
      ORDER BY STATUS,GIVE_TIME DESC
   </select>
   <select id="verifyByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">

@@ -263,23 +263,6 @@
     where ID = #{id,jdbcType=VARCHAR}
   </select>
   
-  <select id="selectByList" parameterType="bss.model.ppms.Project" resultMap="BaseResultMap">
-    select 
-    <include refid="Base_Column_List" />
-    from T_BSS_PPMS_PROJECTS
-    where 1=1 and IS_REHEARSE = 1 and IS_PROVISIONAL=0
-     <if test="name != null and name != ''">
-       and NAME like '%${name}%'
-      </if>
-       <if test="projectNumber != null and projectNumber != ''">
-       and PROJECT_NUMBER like '%${projectNumber}%'
-      </if>
-      <if test="status != null">
-       and STATUS like '%${status}%'
-      </if>
-      ORDER BY CREATED_AT DESC
-  </select>
-  
   <!-- 查看成功的项目 -->
   <select id="selectSuccessProject" parameterType="Map" resultMap="BaseResultMap">
     select 
@@ -1391,6 +1374,23 @@
       </if>
       ORDER BY p.CREATED_AT DESC
   </select> 
+  
+  <select id="selectByList" parameterType="java.util.Map" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_BSS_PPMS_PROJECTS
+    where 1=1 and STATUS != '4'
+     <if test="name != null and name != ''">
+       and NAME like '%${name}%'
+      </if>
+       <if test="projectNumber != null and projectNumber != ''">
+       and PROJECT_NUMBER like '%${projectNumber}%'
+      </if>
+      <if test="status != null">
+       and STATUS like '%${status}%'
+      </if>
+      ORDER BY CREATED_AT DESC
+  </select>
   
   <!-- 需求部门登录 -->
    <select id="selectByDemand" parameterType="java.util.Map" resultMap="BaseResultMap">

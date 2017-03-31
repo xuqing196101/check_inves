@@ -112,5 +112,11 @@ public class TaskServiceImpl implements TaskService {
         return taskMapper.selectByCollectId(id);
     }
 
+    @Override
+    public List<Task> listBycollect(HashMap<String, Object> map) {
+
+        return taskMapper.listBycollect(map);
+    }
+
 
 }
