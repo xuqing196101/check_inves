@@ -34,6 +34,9 @@ import com.alibaba.fastjson.JSON;
 
 
 
+
+
+
 import common.annotation.CurrentUser;
 import common.constant.Constant;
 import common.model.UploadFile;
@@ -43,12 +46,15 @@ import bss.model.ppms.Packages;
 import bss.model.ppms.Project;
 import bss.model.ppms.ProjectDetail;
 import bss.model.ppms.SupplierCheckPass;
+import bss.model.ppms.theSubject;
 import bss.service.ppms.AduitQuotaService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.PackageService;
 import bss.service.ppms.ProjectDetailService;
 import bss.service.ppms.ProjectService;
 import bss.service.ppms.SupplierCheckPassService;
+import bss.service.ppms.theSubjectService;
+import bss.service.ppms.impl.theSubjectServiceImpl;
 
 /**
  * @Description: 中标供应商
@@ -102,6 +108,8 @@ public class WinningSupplierController extends BaseController {
   
   @Autowired
   private ProjectService projectService;
+	@Autowired
+	private theSubjectService theSubjectService;
 
   /**
    * 文件上传
@@ -270,6 +278,23 @@ public class WinningSupplierController extends BaseController {
     for (SupplierCheckPass supplierCheckPass : listSupplierCheckPass) {
       //查询报价历史记录
       if(supplierCheckPass != null && supplierCheckPass.getSupplier() != null ){
+    	  HashMap<String, Object> map=new HashMap<String, Object>();
+    	  map.put("supplierId", supplierCheckPass.getSupplierId());
+    	  map.put("packageId", supplierCheckPass.getPackageId());
+    	  List<theSubject> theSubjects = theSubjectService.selectBysupplierIdAndPackagesId(map);
+    	  if(theSubjects!=null&&theSubjects.size()>0){
+    		  BigDecimal totalAmount = new BigDecimal(0+"");
+    		  for(theSubject thesub:theSubjects){
+    			  Double sum= thesub.getPurchaseCount()==null?0.0:Double.parseDouble(thesub.getPurchaseCount());
+    			  BigDecimal price=thesub.getUnitPrice()==null?new BigDecimal(0):thesub.getUnitPrice();
+    			  BigDecimal sumB = new BigDecimal(Double.toString(sum));  
+    			  BigDecimal multiply = sumB.multiply(new BigDecimal(price+""));
+    			  totalAmount=totalAmount.add(new BigDecimal(multiply+""));
+    		  }
+    		  totalAmount=totalAmount.multiply(new BigDecimal(supplierCheckPass.getPriceRatio()+""));
+    		  totalAmount=totalAmount.divide(new BigDecimal(1000000+""));
+    		  supplierCheckPass.setMoney(totalAmount);
+    	  }
         Quote quote = new Quote();
         quote.setPackageId(packageId);
         quote.setSupplierId(supplierCheckPass.getSupplier().getId());

@@ -1,5 +1,6 @@
 package bss.service.ppms;
 
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.theSubject;
@@ -42,5 +43,6 @@ public interface theSubjectService  {
    */
   public void insertList(List<theSubject> list);
   
+  public List<theSubject> selectBysupplierIdAndPackagesId(HashMap<String, Object> map);
   
 }

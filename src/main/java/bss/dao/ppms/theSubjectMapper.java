@@ -52,5 +52,6 @@ public interface theSubjectMapper {
       * @return
       */
      List<theSubject> selectBySupplierId(HashMap<String,Object> map);
+     public List<theSubject> selectBysupplierIdAndPackagesId(HashMap<String, Object> map);
 
 }

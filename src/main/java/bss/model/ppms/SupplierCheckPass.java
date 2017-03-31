@@ -138,6 +138,9 @@ public class SupplierCheckPass {
    */
   private String contractId;
 
+  
+  
+  private BigDecimal money;
   /**
    * <pre>
    * 获取：null
@@ -511,6 +514,14 @@ public Date getConfirmTime() {
 
 public void setConfirmTime(Date confirmTime) {
 	this.confirmTime = confirmTime;
+}
+
+public BigDecimal getMoney() {
+	return money;
+}
+
+public void setMoney(BigDecimal money) {
+	this.money = money;
 }
   
   

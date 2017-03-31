@@ -1,5 +1,6 @@
 package bss.service.ppms.impl;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -49,5 +50,11 @@ public class theSubjectServiceImpl implements theSubjectService {
   public void insertList(List<theSubject> list) {
     theSubjectMapper.insertList(list);
   }
+
+@Override
+public List<theSubject> selectBysupplierIdAndPackagesId(HashMap<String, Object> map) {
+	return theSubjectMapper.selectBysupplierIdAndPackagesId(map);
+	
+}
 
 }

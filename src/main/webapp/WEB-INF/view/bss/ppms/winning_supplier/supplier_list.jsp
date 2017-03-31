@@ -749,10 +749,12 @@
 						<input type="text" class="forChangeRatio${(vs.index+1)}" onfocus="priceRatioFocus(this)" onchange="priceRatioConfirm(this)" title="unchanged${(vs.index+1) }" style="width: 32px;height: 26px;text-align: center;border: none;margin-top: 8px;" readonly="readonly" value="${checkpass.priceRatio}"/>
 					</td>
 					<c:if test="${quote==0 }">
+					   
 						<td class="tc opinter">
 						<!-- 
 						<input type="text" name="singQuote" id="singQuote" class="singQuote${(vs.index+1)}" value="${checkpass.wonPrice }" />
-						 -->点击生成
+						 点击生成-->
+						  ${checkpass.money}
 						</td>
 					</c:if>
 					<c:if test="${quote==1 }">
@@ -832,6 +834,8 @@
 									</c:if> 
 								</tr>-->
 								<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
+								
+								<c:if test="${subject.supplierId==detail.supplier }">
 								<tr class="tc ">
 									<td>${s.index + 1 }
 									</td>
@@ -852,6 +856,7 @@
 									</td>
 									 -->
 								</tr>
+								</c:if>
 								</c:forEach>
 							</c:forEach>
 						</table>
