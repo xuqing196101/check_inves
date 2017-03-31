@@ -351,11 +351,7 @@
 			});
 		if(confirmStatus == 1) {
 				$.ajax({
-<<<<<<< Updated upstream
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
-=======
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do?confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
->>>>>>> Stashed changes
 					type:"post",
 					dataType:"text",
 					data:{
@@ -375,11 +371,7 @@
 				});
 		} else if(confirmStatus == 2) {
 				$.ajax({
-<<<<<<< Updated upstream
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
-=======
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do?confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
->>>>>>> Stashed changes
 					type:"post",
 					dataType:"text",
 					data:{
