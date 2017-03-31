@@ -96,7 +96,7 @@
             <a href="javascript:void(0)">采购项目管理</a>
           </li>
           <li class="active">
-            <a href="javascript:void(0)">立项管理</a>
+            <a href="javascript:void(0)">项目查看</a>
           </li>
         </ul>
         <div class="clear"></div>
@@ -105,7 +105,7 @@
     <!-- 录入采购计划开始-->
     <div class="container">
       <div class="headline-v2">
-        <h2>实施列表</h2>
+        <h2>采购项目列表</h2>
       </div>
       <!-- 项目戳开始 -->
       <h2 class="search_detail">
@@ -145,9 +145,6 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr class="info">
-              <th class="w30">
-                <input type="checkbox" id="checkAll" onclick="selectAll()" />
-              </th>
               <th class="w50">序号</th>
               <th>项目名称</th>
               <th>项目编号</th>
@@ -160,9 +157,6 @@
           <tbody id="tbody_id">
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
               <tr class="pointer">
-                <td class="tc w30">
-                  <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
-                </td>
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.name}</td>
                 <td class="tl pl20" onclick="view('${obj.id}','1')">${obj.projectNumber}</td>
