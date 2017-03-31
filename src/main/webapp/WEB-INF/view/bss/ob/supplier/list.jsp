@@ -98,12 +98,13 @@
 		// 定时执行
 		setInterval(function() {
 			sysDate = sysDate + 1000;
-			var sysDates = parseInt(sysDate / 1000);
-			var time = timeArray.indexOf(sysDate);
-			$("#bbb").val(sysDates);
-			if(time != -1){
+			var sysDateInt = sysDate / 1000;
+			var sysDates = sysDateInt.toString();
+			var time = timeArray.indexOf(sysDates);
+			if(times != -1){
 				reloadPage();
 			}
+			$("#bbb").val(sysDates);
        	},1000);
 		
 		function reloadPage(){
@@ -480,9 +481,9 @@
 						<c:when test="${obProject.remark == '32'}">
 							放弃确认(第二轮)
 						</c:when>
-						<c:when test="${obProject.remark == '4'}">
+						<%-- <c:when test="${obProject.remark == '4'}">
 							待结束
-						</c:when>
+						</c:when> --%>
 						<c:otherwise>
 							结果待确认(第二轮)
 						</c:otherwise>
