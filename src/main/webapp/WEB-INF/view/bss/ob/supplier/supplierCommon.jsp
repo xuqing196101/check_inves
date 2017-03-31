@@ -144,10 +144,14 @@
 						<td class="tc">${va.index+1 }</td>
 			  			<td class="tc">${product.product.name }</td>
 			  			<td class="tc">${product.resultNumber }</td>
-						<td class="tc">${product.myOfferMoney }</td>
-			  			<td class="tc">${product.dealMoney }</td>
+						<td class="tc">
+							<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+						</td>
 			  			<td class="tc">
-			  			<fmt:formatNumber value='${product.dealMoney * product.resultNumber }' pattern='#,##,###.00'/>
+			  				<fmt:formatNumber value='${product.dealMoney }' pattern='#,##,###.00'/>
+			  			</td>
+			  			<td class="tc">
+			  				<fmt:formatNumber value='${product.dealMoney * product.resultNumber }' pattern='#,##,###.00'/>
 			  			</td>
 			  		</tr>
 				</c:if>
@@ -188,7 +192,9 @@
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc">${product.product.name }</td>
 			  		<td class="tc"></td>
-					<td class="tc">${product.myOfferMoney }</td>
+					<td class="tc">
+						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+					</td>
 			  		<td class="tc"></td>
 			  		<td class="tc"></td>
 			  	</tr>
