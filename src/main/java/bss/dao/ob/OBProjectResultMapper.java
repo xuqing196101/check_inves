@@ -59,6 +59,18 @@ public interface OBProjectResultMapper {
      */
     List<OBProjectResult> getStatus(@Param("projectId")String projectId);
     /**
+     * 获取供应商 结果人数
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> selectSupplierPeo(@Param("projectId")String projectId);
+    /**
+     * 获取 确认的总比例
+     * @param projectId
+     * @return
+     */
+    OBProjectResult getAllProportion(@Param("projectId")String projectId);
+    /**
      *  中标供应商 数量
      * @param map
      * @return

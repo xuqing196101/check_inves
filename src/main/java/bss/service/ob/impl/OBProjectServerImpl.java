@@ -78,6 +78,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 	
 	@Autowired
 	private OBProjectRuleMapper OBProjectRuleMapper;
+	@Autowired
+	private OBProjectSupplierMapper mapper;
 	/**
 	 * 上传附件
 	 */
@@ -800,6 +802,16 @@ public class OBProjectServerImpl implements OBProjectServer {
 									 proportion=rk[i];
 								 }else{
 									 proportion=0 ;
+								 }
+								 if(proportion==0){
+									 //第一轮 未中标
+							    	OBProject obProject = new OBProject();
+									obProject.setId(op.getId());
+									User users = new User();
+									users.setTypeId(obresultsList.get(i)
+											.getSupplierId());
+									String remark = "666";
+									BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
 								 }
 								rsult.setProportion(String.valueOf(proportion));
 								// 将 参与报价的供应商 插入到结果数据中

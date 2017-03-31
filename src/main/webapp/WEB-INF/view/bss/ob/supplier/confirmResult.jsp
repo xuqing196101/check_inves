@@ -283,7 +283,7 @@
 					oBProjectResult.ranking = "${result.ranking}";
 					oBProjectResult.projectResultId="${result.resultId}";
 					oBProjectResult.proportion = $("input[name='confirmRatioFirst']").val();
-					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.productId = $(this).find("input[name='productName']").val();
 					oBProjectResult.resultNumber = $(this).find("input[name='productResultsNumber']").val();
 					oBProjectResult.myOfferMoney = $(this).find("input[name='productMyOfferMoney']").val();
 					oBProjectResult.dealMoney = $(this).find("input[name='productDealMoney']").val();
@@ -296,8 +296,8 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
 					layer.close(inde);
@@ -312,7 +312,7 @@
 					oBProjectResult.supplierId = "${result.supplierId}";
 					oBProjectResult.ranking = "${result.ranking}";
 					oBProjectResult.proportion = $("input[name='confirmRatioSecond']").val();
-					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.productId = $(this).find("input[name='productName']").val();
 					oBProjectResult.resultNumber = $(this).find("input[name='productResultsNumber']").val();
 					oBProjectResult.myOfferMoney = $(this).find("input[name='productMyOfferMoney']").val();
 					oBProjectResult.dealMoney = $(this).find("input[name='productDealMoney']").val();
@@ -325,8 +325,8 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
 					layer.close(inde);
@@ -359,12 +359,12 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
-					layer.close(inde);
 						layer.alert("第一轮放弃失败");
+					layer.close(inde);
 					}
 				});
 		} else if(confirmStatus == 2) {
@@ -379,12 +379,12 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
-					layer.close(inde);
 						layer.alert("第二轮放弃失败");
+					layer.close(inde);
 					}
 				});
 				}
@@ -395,8 +395,6 @@
 	function close(confirmStatus) {
 			var projectResult = {};
 		var closeLayerIndex = 0;
-			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
-				layer.close(index);
 		var inde = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]
@@ -413,8 +411,8 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
 					layer.close(inde);
@@ -433,8 +431,8 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
 					layer.close(inde);
@@ -442,8 +440,7 @@
 					}
 				});
 				}
-			});
-	}
+	   }
 	
 	/* 显示规则 */
 	function showRule(){
