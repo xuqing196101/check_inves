@@ -229,7 +229,7 @@ public class WinningSupplierController extends BaseController {
    * @return 路径
    */
   @RequestMapping("/packageSupplier")
-  public String selectpackage(Model model,String passquote, String pid, String packageId,String ids, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
+  public String selectpackage(String inputSubjectBtn, Model model,String passquote, String pid, String packageId,String ids, String priceRatios, String flowDefineId,String projectId,HttpServletRequest sq,Integer view){
 	  //将传过来前面判断好的唱总价还是明细放到model中，在下个页面进行判断
 	  if(passquote != null) {
 		  model.addAttribute("passquote", passquote);
@@ -309,6 +309,7 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("flowDefineId", flowDefineId);
     model.addAttribute("projectId", projectId);
     model.addAttribute("packageId", packageId);
+    model.addAttribute("inputSubjectBtn", inputSubjectBtn);
     model.addAttribute("pid", pid);
     model.addAttribute("view", view);
 

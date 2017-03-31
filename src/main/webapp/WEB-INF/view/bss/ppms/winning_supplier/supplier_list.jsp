@@ -782,8 +782,8 @@
 							<fmt:formatNumber type="number" value="${checkpass.money}" pattern="0.0000" maxFractionDigits="4"/>
 						</td>
 					</c:if>
-
-					<td class="tc opinter"><button class="btn btn-windows add"
+					
+					<td class="tc opinter"><button class="btn btn-windows add" <c:if test="${inputSubjectBtn=='no' }">disabled='disabled'</c:if>
 							onclick="InputBD(this);" type="button">录入标的</button></td>
 				</tr>
 				<tr class="tc hide">

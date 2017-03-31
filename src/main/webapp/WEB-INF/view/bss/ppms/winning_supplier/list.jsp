@@ -64,7 +64,7 @@
       });
       packageId = packageId.substring(0,packageId.length - 1);
       //window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + id + "&&flowDefineId=${flowDefineId}&&projectId=${projectId}&&view=1";
-      window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?pid=" + id + "&&flowDefineId=${flowDefineId}&&priceRatios=priceRatios&&projectId=${projectId}&&view=1&&packageId="+packageId;
+      window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?inputSubjectBtn=no&pid=" + id + "&&flowDefineId=${flowDefineId}&&priceRatios=priceRatios&&projectId=${projectId}&&view=1&&packageId="+packageId;
     }
 
     /** 确认中标供应商  */

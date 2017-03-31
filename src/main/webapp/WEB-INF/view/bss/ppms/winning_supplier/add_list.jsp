@@ -237,7 +237,7 @@
 									btn:['确定']
 								},
 								function() {
-									window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?packageId=" + "${packageId}" + "&&flowDefineId=${flowDefineId}&&pid=${pid}&&projectId=${projectId}&&priceRatios=priceRatios";
+									window.location.href = "${pageContext.request.contextPath}/winningSupplier/packageSupplier.html?inputSubjectBtn=no&packageId=" + "${packageId}" + "&&flowDefineId=${flowDefineId}&&pid=${pid}&&projectId=${projectId}&&priceRatios=priceRatios";
 								}
 							);
 						},
