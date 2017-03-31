@@ -835,7 +835,7 @@
 								</tr>-->
 								<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
 								
-								<c:if test="${subject.supplierId==detail.supplier }">
+								<c:if test="${subject.supplierId==checkpass.supplier.id }">
 								<tr class="tc ">
 									<td>${s.index + 1 }
 									</td>
