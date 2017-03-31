@@ -667,7 +667,6 @@ public class OBProjectController {
 			    	}
 					model.addAttribute("list", list);
 					model.addAttribute("countProportion",countProportion);
-					model.addAttribute("projectName",projectName);
 					model.addAttribute("size",list.size());
 				}
 				if(StringUtils.isNotBlank(status)){
