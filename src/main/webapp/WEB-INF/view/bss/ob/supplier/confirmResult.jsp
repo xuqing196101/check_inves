@@ -296,8 +296,9 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+						layer.alert(obj.data);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
-					layer.close(inde);
+						layer.close(inde);
 					},
 					error : function(obj) {
 					layer.close(inde);

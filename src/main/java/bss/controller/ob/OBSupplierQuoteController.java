@@ -14,6 +14,8 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -223,7 +225,7 @@ public class OBSupplierQuoteController {
 	 * @return string 视图页面
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value="/checkConfirmResult",produces = "text/html;charset=UTF-8")
+	@RequestMapping(value="/checkConfirmResult")
 	@ResponseBody
 	public JdcgResult checkConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
@@ -335,7 +337,7 @@ public class OBSupplierQuoteController {
 			 jdcg.setMsg("第一轮未中标");
 		 }else if(confirmStatus=="6"){
 			 jdcg.setStatus(6);
-			 jdcg.setMsg("竞价已结束");
+			 jdcg.setMsg("待结束");
 		 }else{
 			 jdcg.setStatus(0);
 			 jdcg.setMsg("错误");
@@ -520,24 +522,18 @@ public class OBSupplierQuoteController {
 			//在第二轮之后(直接给页面一个反馈，不走后台流程)
 			type = -1;
 		}
-		JdcgResult jdcgResult=new JdcgResult();
 		if(type==-1){
-			jdcgResult.setStatus(0);
-			jdcgResult.setMsg("确定时间超出,不能确定");
+			return JdcgResult.build(0, "确定时间超出,不能确定");
 		}else{
 			oBProjectResultService.updateResult(user,projectResultList,acceptNum);
 			if(type==1){
-				jdcgResult.setStatus(1);
-				jdcgResult.setMsg("第一轮确定成功");
+				return JdcgResult.build(1, "第一轮确定成功");
 			}else if(type==2){
-				jdcgResult.setStatus(1);
-				jdcgResult.setMsg("第二轮确定成功");
+				return JdcgResult.build(1, "第二轮确定成功");
 			}else{
-				jdcgResult.setStatus(0);
-				jdcgResult.setMsg("确定错误");
+				return JdcgResult.build(0, "确定错误");
 			}
 		}
-		return jdcgResult;
 	}
 	/**
 	 * @description 确认结果页面   点击放弃,后台针对传过来的信息执行修改

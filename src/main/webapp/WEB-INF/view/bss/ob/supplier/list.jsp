@@ -281,13 +281,16 @@
 			   			   if(data.status == 0){
 			   					layer.alert(data.msg);
 			   			   }
+			   			   if(data.status == 6){
+			   					layer.alert(data.msg);
+			   			   }
 			   		   }
 			   	   });
 			   }
 			   
 			   // 确认结果
 			   function confirmResult(){
-				   window.location.href = "${pageContext.request.contextPath}/supplierQuote/confirmResult.html";
+				   window.location.href = "${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
 			   }
 			   //-------------------------放弃情况提示----------------//
 			   // 第一轮确认时：点击放弃按钮
@@ -476,6 +479,9 @@
 						</c:when>
 						<c:when test="${obProject.remark == '32'}">
 							放弃确认(第二轮)
+						</c:when>
+						<c:when test="${obProject.remark == '4'}">
+							待结束
 						</c:when>
 						<c:otherwise>
 							结果待确认(第二轮)
