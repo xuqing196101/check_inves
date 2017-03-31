@@ -610,7 +610,7 @@
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
-			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR},
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
 		<!-- 过期 -->
   		<if test="status == 1">

@@ -251,7 +251,7 @@ public class OBProjectController {
 			String smallPointsId = null;
 			if(obProjectId != null){
 				List<OBProjectSupplier> listps = obProjectSupplierMapper.selByProjectId(obProjectId);
-				if(listps != null){
+				if(listps != null && listps.size() > 0){
 					smallPointsId = listps.get(0).getSupplierPrimaryId();
 				}
 			}
@@ -260,6 +260,7 @@ public class OBProjectController {
 			model.addAttribute("info", new PageInfo<OBSupplier>(list));
 			model.addAttribute("obProjectId",obProjectId);
 			model.addAttribute("name",name);
+			model.addAttribute("obProjectId",obProjectId);
 			model.addAttribute("status",status);
 			if(list != null){
 				for (OBSupplier obSupplier : list) {
