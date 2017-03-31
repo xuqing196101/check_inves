@@ -207,5 +207,6 @@ public interface PackageService {
      * @return
      */
     List<Packages> listExtRelate(String projectId);
+    List<Packages> selectByProjectKey(HashMap<String,Object> map);
 
 }

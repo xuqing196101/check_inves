@@ -738,7 +738,12 @@ function openPrints(projectId,packageId){
 									<td><button class="btn" onclick="sell('${packageId}','1')"
 											type="button">查看</button></td>
 									<td></td>
-									<td></td>
+									<td>
+									   ${begin}
+									   <c:if test="${end!=null}">
+									      -${end}
+									   </c:if>
+									</td>
 								</tr>
 							</tbody>
 						</table>
@@ -781,7 +786,7 @@ function openPrints(projectId,packageId){
 								<tr>
 									<th width="30%" class="info">投标记录</th>
 									<th width="25%" class="info">开标一览表</th>
-									<th width="25%" class="info">开标人人</th>
+									<th width="25%" class="info">开标人</th>
 									<th width="20%" class="info">开标时间</th>
 								</tr>
 							</thead>
@@ -904,7 +909,7 @@ function openPrints(projectId,packageId){
 									  </td>
 									<td></td>
 									<td></td>
-									<td></td>
+									<td><fmt:formatDate value="${s.confirmTime}" pattern="yyyy-MM-dd HH:mm:ss"/>  </td>
 								</tr>
 								 </c:forEach>
 							</tbody>

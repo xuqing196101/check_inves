@@ -39,42 +39,6 @@
 	  });
 
 
-  	/** 全选全不选 */
-	function selectAll(){
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		   if(checkAll.checked){
-			   for(var i=0;i<checklist.length;i++)
-			   {
-			      checklist[i].checked = true;
-			   } 
-			 }else{
-			  for(var j=0;j<checklist.length;j++)
-			  {
-			     checklist[j].checked = false;
-			  }
-		 	}
-		}
-	
-	/** 单选 */
-	function check(){
-		 var count=0;
-		 var checklist = document.getElementsByName ("chkItem");
-		 var checkAll = document.getElementById("checkAll");
-		 for(var i=0;i<checklist.length;i++){
-			   if(checklist[i].checked == false){
-				   checkAll.checked = false;
-				   break;
-			   }
-			   for(var j=0;j<checklist.length;j++){
-					 if(checklist[j].checked == true){
-						   checkAll.checked = true;
-						   count++;
-					   }
-				 }
-		   }
-	}
-
 	//重置
 	function resetResult() {
 		$("#name").val("");
@@ -85,13 +49,8 @@
 		status[0].selected = true;
 	}
 	//查看
-	function view(id,type){
-		if(type==1){
-			 window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id="+id+"&type="+type;
-		}
-        if(type==2){
-        	window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id="+id+"&type="+type;
-        }
+	function view(id){
+	   window.location.href = "${pageContext.request.contextPath}/supervision/demandSupervisionView.html?id="+id;
 	}
 </script>
 </head>
@@ -112,47 +71,47 @@
 		<div class="headline-v2">
 			<h2>需求计划列表</h2>
 		</div>
-		<form id="form1" name="form1" action="${pageContext.request.contextPath }/supervision/demandSupervisionList.html" method="post">
-			<div class="search_detail">
-				<ul class="demand_list">
-					<li><label class="fl">需求名称：</label><span><input
-							type="text" id="planName" name="name" class="" /></span></li>
-					<li><label class="fl">产品名称：</label><span><input
-							type="text" id="goodsName" name="goodsName" class="" /></span></li>
-					<li><label class="fl">产品目录：</label><span><input
-							type="text" id="goodsType" name="goodsType" class="" /></span></li>
-					<li><label class="fl">预算金额：</label><span><input
-							type="text" id="budget" name="budget" class="" /></span></li>
-					<li style="width: 255px"><label class="fl">采购方式：</label> <span>
-							<select id="purchaseType" name="status">
-								<option value="">请选择</option>
-								<option value="1">暂存</option>
-								<option value="2">审核通过</option>
-								<option value="3">审核不通过</option>
-								<option value="4">已归档</option>
-								<option value="5">已提交</option>
-						</select>
-					</span></li>
-				
-					<li><label class="fl">填报时间：</label><span><input
-							type="text" id="contractCode" name="contractCode" class="" /><input type="text" id="contractCode"
-							name="contractCode" class="" /></span></li>
-					
-				</ul>
-				<div class="fr w220 tc">
-						<button class="btn fr" type="submit">查询</button>
-						<button class="btn fr" type="button" onclick="resetResult()">重置</button>
-				</div>
-			</div>
-            <input type="hidden" name="page" id="page">
-			<div class="clear"></div>
-		</form>
+		<%-- <h2 class="search_detail">
+      <form id="add_form" action="${pageContext.request.contextPath }/planSupervision/list.html" class="mb0" method="post" >
+        <input type="hidden" name="page" id="page">
+        <ul class="demand_list">
+          <li>
+            <label class="fl">采购计划名称：</label>
+            <span><input type="text" name="fileName" value="${collectPlan.fileName}"/></span>
+          </li>
+               
+          <li>
+            <label class="fl">采购金额：</label>
+            <span><input type="text" name="budget" value="${collectPlan.budget}"/> </span>
+          </li>
+          
+          <li>
+            <label class="fl">状态：</label>
+            <span>
+              <select name="status">
+                <option selected="selected" value="">请选择</option>
+                <option value="1" <c:if test="${collectPlan.status=='1'}"> selected</c:if> >审核轮次设置</option>
+		            <option value="3" <c:if test="${collectPlan.status=='3'}"> selected</c:if> > 第一轮审核</option>
+		            <option value="4" <c:if test="${collectPlan.status=='4'}"> selected</c:if> > 第二轮审核人员设置</option>
+		            <option value="5" <c:if test="${collectPlan.status=='5'}"> selected</c:if> > 第二轮审核</option>
+		            <option value="6" <c:if test="${collectPlan.status=='6'}"> selected</c:if> > 第三轮审核人员设置</option>
+		            <option value="7" <c:if test="${collectPlan.status=='7'}"> selected</c:if> > 第三轮审核</option>
+		            <option value="8" <c:if test="${collectPlan.status=='8'}"> selected</c:if> > 审核结束</option>
+		            <option value="12" <c:if test="${collectPlan.status=='12'}"> selected</c:if> > 未下达</option>
+		            <option value="2" <c:if test="${collectPlan.status=='2'}"> selected</c:if> > 已下达</option>
+              </select>
+            </span>
+          </li>       
+        </ul>
+        <input class="btn fl mt1" type="submit" value="查询" /> 
+        <input class="btn fl mt1" type="button" value="重置" onclick="resetQuery()"  /> 
+      </form>
+    </h2> --%>
 
 		<div class="content table_box">
 			<table class="table table-bordered table-condensed table-hover">
 				<thead>
 					<tr class="info">
-						<th class="w50"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 						<th class="w50">序号</th>
 						<th>需求计划名称</th>
 						<th>需求计划文号</th>
@@ -167,7 +126,6 @@
 				<tbody>
 					<c:forEach items="${list.list}" var="items" varStatus="status">
 						<tr class="tc">
-							<td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${items.id}" /></td>
 							<td class="tc w50"  >${(status.index+1)+(list.pageNum-1)*(list.pageSize)}</td>
 							<td class="tl">
 							<a href="javascript:void(0)" onclick="view('${items.id}',2);" >${items.planName}</a>
@@ -189,7 +147,7 @@
 			  	             </c:if>
 							</td>
 							<td class="tc" >
-							<a href="javascript:void(0)" onclick="view('${items.id}',1);"  >查看</a>
+							<a href="javascript:void(0)" onclick="view('${items.id}');"  >查看</a>
                             </td>
 						</tr>
 					</c:forEach>

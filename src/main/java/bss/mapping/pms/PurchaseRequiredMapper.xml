@@ -703,6 +703,7 @@
 			<if test="userId != null">
 				 and USER_ID = #{userId}
 			</if>
+			
 		</where>
 	<!-- 	<if test="status== 1">
 			ORDER BY decode(STATUS,'1',1,'4',2,'2',3,'3',4,'5',5), CREATED_AT DESC

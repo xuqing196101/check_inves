@@ -7,8 +7,17 @@
   <head>
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewOver.html?id="+id+"&type="+type;
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewOver.html?projectId="+id;
+      }
+      function contractList(id){
+    	  window.location.href = "${pageContext.request.contextPath}/projectSupervision/contractList.html?projectId="+id;
+      }
+      function planList(id){
+    	  window.location.href = "${pageContext.request.contextPath}/projectSupervision/planList.html?projectId="+id;
+      }
+      function demandList(id){
+    	  window.location.href = "${pageContext.request.contextPath}/projectSupervision/demandList.html?projectId="+id;
       }
     </script>
   </head>
@@ -38,9 +47,6 @@
     <div class="headline-v2">
       <h2>进度列表</h2>
     </div>
-    <div class="col-md-12 pl20 mt10">
-      <button class="btn btn-windows apply" onclick="view('${project.id}','0');" type="button">查看任务汇总</button>
-    </div>
     <div class="content table_box">
     <table class="table table-bordered">
       <tbody>
@@ -52,7 +58,7 @@
           
         </tr>
         <tr>
-          <td class="h365 tc" onclick="view('${project.id}','1')">
+          <td class="h365 tc" onclick="demandList('${projectId}')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
             <%-- <c:forEach items="${lists}" var="obj">
               <p class="ml20 tl">需求部门：${obj.department}</p>
@@ -61,7 +67,7 @@
               <p class="ml20 tl">联系人：${obj.userId}</p>
             </c:forEach> --%>
           </td>
-          <td class="h365 tc" onclick="view('${project.id}','2')">
+          <td class="h365 tc" onclick="planList('${projectId}')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
             <%-- <c:forEach items="${list}" var="obj">
 	            <p class="ml20 tl">采购管理部门：${obj.purchaseId}</p>
@@ -71,22 +77,12 @@
 	            <p class="ml20 tl">联系人：${obj.userId}</p>
             </c:forEach> --%>
           </td>
-          <td class="h365 tc"  onclick="view('${project.id}','3')">
+          <td class="h365 tc"  onclick="view('${projectId}')">
             <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
           </td>
           <td class="h365 tc">
-            <img alt="" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
+            <img alt="" onclick="contractList('${projectId}')" src="${pageContext.request.contextPath}/public/backend/images/u43.png">
           </td>
-          
-        </tr>
-        <tr>
-          <td class="h50 tc"></td>
-          <td class="h50 tc"></td>
-          <td class="h50 tc">
-            <p class="ml20 tl">项目名称：${project.name}</p>
-            <p class="ml20 tl">项目编号：${project.projectNumber}</p>
-          </td>
-          <td class="h50 tc"></td>
           
         </tr>
 

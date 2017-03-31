@@ -2,8 +2,10 @@ package sums.controller.ss;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -77,7 +79,8 @@ public class DemandSupervisionController extends BaseController{
     
     @Autowired
     private CollectPlanService collectPlanService;
-
+    @Autowired
+    private PurchaseDetailService purchaseDetailService;
 	/**
 	 * 
 	 * 〈简述〉 〈需求列表〉
@@ -126,12 +129,13 @@ public class DemandSupervisionController extends BaseController{
      */
     @RequestMapping("/demandSupervisionView")
     public String view(String id, String type, Model model) {
-    	PurchaseRequired purchaseRequired=new PurchaseRequired() ;
+    	/*PurchaseRequired purchaseRequired=new PurchaseRequired() ;
 		if (id != null) {
 			purchaseRequired = purchaseRequiredService.queryById(id);
 		}
        
-		model.addAttribute("purchaseRequired", purchaseRequired);
+		model.addAttribute("purchaseRequired", purchaseRequired);*/
+		model.addAttribute("requiredId", id);
     	return "sums/ss/demandSupervision/demand_view";
     }
     
@@ -145,13 +149,67 @@ public class DemandSupervisionController extends BaseController{
      * @param model
      * @return
      */
-    @RequestMapping("/demandDetailList")
-    public String viewDetailList(String id,String type, Model model){
-    	
-		List<PurchaseRequired> list = purchaseRequiredService.getUnique(purchaseRequiredService.queryById(id).getUniqueId());
-		model.addAttribute("list", list);
-        return "sums/ss/demandSupervision/demand_detail_list";
+    @RequestMapping("/demandDetail")
+    public String demandDetail(String requiredId,String type, Model model){
+    	PurchaseRequired required = purchaseRequiredService.queryById(requiredId);
+    	if(required!=null){
+			 User user = userService.getUserById(required.getUserId());
+			 required.setUserId(user.getRelName());
+		 }
+    	HashMap<String, Object> map=new HashMap<String, Object>();
+    	map.put("id", required.getId());
+    	List<PurchaseRequired> data=purchaseRequiredService.selectByParentId(map);
+    	model.addAttribute("list", data);
+		model.addAttribute("demand", required);
+		return "sums/ss/contractSupervision/demandDateil";
     }
     
-
+    
+    @RequestMapping("/planDetail")
+    public String planDetail(String requiredId,String type, Model model){
+    	CollectPlan collectPlan=null;
+    	List<PurchaseDetail> details=new ArrayList<PurchaseDetail>();
+    	PurchaseRequired required = purchaseRequiredService.queryById(requiredId);
+    	HashMap<String, Object> map=new HashMap<String, Object>();
+    	map.put("id", required.getId());
+    	List<PurchaseRequired> datas=purchaseRequiredService.selectByParentId(map);
+    	Set<String> set=new HashSet<String>();
+    	if(datas!=null&&datas.size()>0){
+    		for(PurchaseRequired data:datas){
+    			PurchaseDetail queryById = purchaseDetailService.queryById(data.getId());
+    			if(queryById!=null){
+    				set.add(queryById.getUniqueId());
+    				details.add(queryById);
+    			}
+    		}
+    	}
+    	if(set.size()>0){
+    		collectPlan = collectPlanService.queryById(set.iterator().next());
+    		User user = userService.getUserById(collectPlan.getUserId());
+    		collectPlan.setUserId(user.getRelName());
+    	}
+    	 model.addAttribute("list", details);
+         model.addAttribute("kind", DictionaryDataUtil.find(5));
+         model.addAttribute("plan", collectPlan);
+    	return "sums/ss/contractSupervision/planDateil";
+    }
+    
+    @RequestMapping("/projectDetail")
+    public String projectDetail(String requiredId,String type, Model model){
+    	HashMap<String, Object> map=new HashMap<String, Object>();
+    	map.put("id", requiredId);
+    	List<PurchaseRequired> datas=purchaseRequiredService.selectByParentId(map);
+    	if(datas!=null&&datas.size()>0){
+    		for(PurchaseRequired data:datas){
+    			PurchaseDetail queryById = purchaseDetailService.queryById(data.getId());
+    			if(queryById!=null){//requiredId
+    				//List<ProjectDetail> projectDetails = detailService.queryUnique (queryById);
+    				
+    				
+    			}
+    		}
+    	}
+    	
+    	return "";
+    }
 }

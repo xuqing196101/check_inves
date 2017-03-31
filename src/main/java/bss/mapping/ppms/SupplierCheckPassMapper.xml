@@ -69,7 +69,7 @@
 		cp.TOTAL_SCORE, cp.PACKAGE_ID,
 		cp.IS_WON_BID,
 		cp.IS_SEND_NOTICE, cp.CREATED_AT,
-		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT,cp.PRICE_RATIO,cp.WON_PRICE,cp.CONTRACT_ID,cp.IS_DELETED
+		cp.UPDATED_AT,cp.IS_CREATE_CONTRACT,cp.PRICE_RATIO,cp.WON_PRICE,cp.CONTRACT_ID,cp.IS_DELETED,cp.CONFIRM_TIME
 	</sql>
 	<select id="selectByPrimaryKey" parameterType="java.lang.String"
 		resultMap="BaseResultMap">

@@ -40,40 +40,7 @@
         
       });
 
-      /** 全选全不选 */
-      function selectAll() {
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
-        if(checkAll.checked) {
-          for(var i = 0; i < checklist.length; i++) {
-            checklist[i].checked = true;
-          }
-        } else {
-          for(var j = 0; j < checklist.length; j++) {
-            checklist[j].checked = false;
-          }
-        }
-      }
-
-      /** 单选 */
-      function check() {
-        var count = 0;
-        var checklist = document.getElementsByName("chkItem");
-        var checkAll = document.getElementById("checkAll");
-        for(var i = 0; i < checklist.length; i++) {
-          if(checklist[i].checked == false) {
-            checkAll.checked = false;
-            break;
-          }
-          for(var j = 0; j < checklist.length; j++) {
-            if(checklist[j].checked == true) {
-              checkAll.checked = true;
-              count++;
-            }
-          }
-        }
-      }
-
+      
 
       //重置
       function clearSearch() {
@@ -85,8 +52,8 @@
       
       
       
-      function view(id,type){
-        window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id+"&type="+type;
+      function view(id){
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/view.html?id="+id;
       }
       
     </script>
@@ -170,9 +137,7 @@
         <table class="table table-bordered table-condensed table-hover table-striped">
           <thead>
             <tr class="info">
-              <th class="w30">
-                <input type="checkbox" id="checkAll" onclick="selectAll()" />
-              </th>
+              
               <th class="w50">序号</th>
               <th>项目名称</th>
               <th>项目编号</th>
@@ -187,9 +152,7 @@
           <tbody id="tbody_id">
             <c:forEach items="${info.list}" var="obj" varStatus="vs">
               <tr class="pointer">
-                <td class="tc w30">
-                  <input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()">
-                </td>
+                
                 <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
                 <td class="tl pl20">
                   <a href="javascript:void(0)" onclick="view('${obj.id}','0');">${obj.name}</a>
@@ -213,7 +176,7 @@
                   </c:forEach>
                 </td>
                 <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}','1');">进入</a>
+                  <a href="javascript:void(0)" onclick="view('${obj.id}');">进入</a>
                 </td>
               </tr>
             </c:forEach>

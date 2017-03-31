@@ -197,5 +197,11 @@ public List<Packages> supplierCheckPa(String projectId) {
     return packageMapper.supplierCheckPa(projectId);
 }
 
+@Override
+public List<Packages> selectByProjectKey(HashMap<String, Object> map) {
+	// TODO Auto-generated method stub
+	return packageMapper.selectByPrimaryKey(map);
+}
+
 }
 

@@ -5,13 +5,17 @@ import iss.service.ps.ArticleService;
 import iss.service.ps.ArticleTypeService;
 
 import java.math.BigDecimal;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -801,7 +805,7 @@ public class ContractSupervisionController {
 					 }
 					 
 				}
-				model.addAttribute("purchaseContract", purchaseContract);
+				model.addAttribute("purchaseContract", purchaseContract);//合同
 			}
 		}
 		//中标供应商
@@ -831,7 +835,43 @@ public class ContractSupervisionController {
 	            articleList.get(0).setUserId(user2.getRelName());
 	            model.addAttribute("articleList",articleList.get(0));
 	        }
+	      //采购文件发售
+	        Packages packages = getPackages(projectDetail.getPackageId());
+	        List<SaleTender> saleTenderList = packages.getSaleTenderList();
+	        Set<Long> set=new TreeSet();
+	        for(SaleTender saleTender:saleTenderList){
+	        	if(saleTender.getCreatedAt()!=null&&!"".equals(saleTender.getCreatedAt())){
+	        		Date createdAt = saleTender.getCreatedAt();
+	        		try {
+						long simp=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(createdAt)).getTime();
+						set.add(simp);
+	        		 } catch (ParseException e) {
+						e.printStackTrace();
+					}
+	        	}
+	        }
+	        if(set!=null&&set.size()>0){
+	        	Iterator it=set.iterator();
+	        	if(set.size()==1){
+	        		model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));//需求编报
+	        	}else{
+	        		int sun=0;
+	        		while (it.hasNext()) {
+						if(sun==0){
+							model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
+						}
+						if(sun==(set.size()-1)){
+							model.addAttribute("end", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
+						}
+						sun++;
+					}
+	        	}
+	        	
+	        	
+	        }
 		}
+		
+		
 		model.addAttribute("purchaseRequired", purchaseRequired);//需求编报
 		model.addAttribute("auditPerson", auditPerson);//需求受理
 		model.addAttribute("task", task);//任务
@@ -839,17 +879,18 @@ public class ContractSupervisionController {
 		model.addAttribute("collectPlan", collectPlans);//采购计划任务下达
 		model.addAttribute("collectPlan", collectPlans);//采购计划任务下达
 		model.addAttribute("pltask", pltask);//采购计划任务下达
-		 model.addAttribute("project", project);//采购项目立项
-		 long enddate=System.currentTimeMillis();
-		 System.out.println((enddate-begindate)/1000+"-=-=-=-=-");
+		model.addAttribute("project", project);//采购项目立项
+		long enddate=System.currentTimeMillis();
+		System.out.println((enddate-begindate)/1000+"-=-=-=-=-");
 		return "sums/ss/contractSupervision/projectView";
 	}
 	
-	@RequestMapping("/viewSell")
-    public String viewSell(String packageId, String type, Model model){
-        if(StringUtils.isNotBlank(packageId)){
+	
+	public Packages getPackages(String packageId){
+		Packages packages=null;
+		if(StringUtils.isNotBlank(packageId)){
+			packages= packageService.selectByPrimaryKeyId(packageId);
             String fileId = DictionaryDataUtil.getId("OPEN_FILE");
-            Packages packages = packageService.selectByPrimaryKeyId(packageId);
             SaleTender saleTender = new SaleTender();
             saleTender.setPackages(packageId);
             List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
@@ -864,8 +905,13 @@ public class ContractSupervisionController {
                   }
             }
             packages.setSaleTenderList(saleTenderList);
-            model.addAttribute("packages", packages);
         }
+		return  packages;
+	}
+	@RequestMapping("/viewSell")
+    public String viewSell(String packageId, String type, Model model){
+		    Packages packages = getPackages(packageId);
+            model.addAttribute("packages", packages);
         if(StringUtils.isNotBlank(type) && "1".equals(type)){
             return "sums/ss/contractSupervision/viewSell";
         }else{
@@ -896,8 +942,11 @@ public class ContractSupervisionController {
             }
         }
         for(int i=0;i<deta.size();i++){
-        	if(i==0||i==1){
+        	if(i==0){
         		continue;
+        	}
+        	if(i==1&&deta.get(i+1).getPurchaseCount()==null){
+        		deta.remove(i);
         	}
         	if(i!=(deta.size()-1)){
         		if(deta.get(i).getPurchaseCount()==null&&deta.get(i+1).getPurchaseCount()==null){

@@ -446,7 +446,7 @@
 			FROM
 				T_BSS_PPMS_PROJECTS_DETAIL
 			WHERE
-				PACKAGE_ID IS NOT NULL
+				1=1
 			AND PROJECT_ID = #{projectId}
     </select>
     <select id="findHavePackageIdDetail" parameterType="java.util.Map" resultMap="BaseResultMap">

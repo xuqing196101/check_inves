@@ -1,104 +1,123 @@
 <%@ page language="java" import="java.util.*" pageEncoding="utf-8"%>
-<%@ include file ="/WEB-INF/view/common/tags.jsp" %>
-
-<!DOCTYPE HTML>
+<%@ include file="/WEB-INF/view/common/tags.jsp" %>
+<!DOCTYPE HTML >
 <html>
-
   <head>
-    <%@ include file="/WEB-INF/view/common.jsp"%>
-    <script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
-    <link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
-    <script type="text/javascript">
+  	<jsp:include page="/WEB-INF/view/common.jsp"/>
+    <title>项目列表</title>  
+	<meta http-equiv="pragma" content="no-cache">
+	<meta http-equiv="cache-control" content="no-cache">
+	<meta http-equiv="expires" content="0">    
+	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
+	<meta http-equiv="description" content="This is my page">
+	<script src="${pageContext.request.contextPath}/public/easyui/jquery.easyui.min.js"></script>
+	<link href="${pageContext.request.contextPath}/public/easyui/themes/icon.css" media="screen" rel="stylesheet" type="text/css">
+	<link href="${pageContext.request.contextPath}/public/easyui/themes/default/easyui.css" media="screen" rel="stylesheet" type="text/css">
+  <script type="text/javascript">
+  function projectView(id){
+      window.location.href = "${pageContext.request.contextPath}/contractSupervision/projectView.html?id="+id;
+    }
     </script>
   </head>
-
+  
   <body>
-    <!--面包屑导航开始-->
-    <div class="margin-top-10 breadcrumbs ">
+	<!--面包屑导航开始-->
+   <div class="margin-top-10 breadcrumbs ">
       <div class="container">
-        <ul class="breadcrumb margin-left-0">
-          <li>
-            <a href="javascript:void(0)">首页</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">业务监管系统</a>
-          </li>
-          <li>
-            <a href="javascript:void(0)">采购业务监督</a>
-          </li>
-          <li class="active">
-            <a href="javascript:void(0)">采购项目监督</a>
-          </li>
-        </ul>
-        <div class="clear"></div>
-      </div>
-    </div>
-    <div class="container">
-      <div class="headline-v2">
-        <h2>项目明细</h2>
-      </div>
-      <div class="col-md-12 pl20 mt10">
-        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
-      </div>
-      <div class="content table_box">
-        <c:if test="${list != null}">
-          <table class="table table-bordered table-condensed table-hover table-striped">
-            <thead>
-              <tr class="info">
-                <th class="w50">序号</th>
-                <th class="info goodsname">物资类别<br/>及名称</th>
-                <th class="info stand">规格型号</th>
-                <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
-                <th class="info item">计量<br/>单位</th>
-                <th class="info purchasecount">采购<br/>数量</th>
-                <th class="info deliverdate">交货<br/>期限</th>
-                <th class="info purchasetype">采购方式</th>
-                <th class="info purchasename">供应商名称</th>
-                <th class="info">进度</th>
+		   <ul class="breadcrumb margin-left-0">
+		   <li><a href="#"> 首页</a></li><li><a href="#">业务监管系统</a></li><li><a href="#">采购业务监督</a></li><li><a href="#">采购合同监督</a></li>
+		   </ul>
+		<div class="clear"></div>
+	  </div>
+   </div>
+  <div class="container">
+   <div class="headline-v2">
+        <h2>项目信息
+	    </h2>
+   </div> 
+<!-- 项目戳开始 -->
+    
+   <div class="container container_box">
+      <div>
+        <h2 class="count_flow"><i>1</i>项目基本信息</h2>
+        <ul class="ul_list">
+          <table class="table table-bordered mt10">
+            <tbody>
+              <tr>
+                <td width="25%" class="info">项目名称：</td>
+                <td width="25%">${project.name}</td>
+                <td width="25%" class="info">项目编号：</td>
+                <td width="25%">${project.projectNumber}</td>
               </tr>
-            </thead>
-            <tbody id="tbody_id">
-              <c:forEach items="${details}" var="obj" varStatus="vs">
-                <tr class="pointer">
-                  <td class="tc w50">${obj.serialNumber}</td>
-                  <td title="${obj.goodsName}" class="tl pl20">
-                    <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
-                    <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
-                  </td>
-                  <td title="${obj.stand}" class="tl pl20">
-                    <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
-                    <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
-                  </td>
-                  <td title="${obj.qualitStand}" class="tl pl20">
-                    <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
-                    <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
-                  </td>
-                  <td title="${obj.item}" class="tl pl20">
-                    <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
-                    <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
-                  </td>
-                  <td class="tl pl20">${obj.purchaseCount}</td>
-                  <td class="tl pl20">${obj.deliverDate}</td>
-                  <td class="tl pl20">
-                    <c:forEach items="${kind}" var="kind">
-                      <c:if test="${kind.id == obj.purchaseType}">${kind.name}</c:if>
-                    </c:forEach>
-                  </td>
-                  <td title="${obj.supplier}" class="tl pl20">
-                    <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
-                    <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
-                  </td>
-                  <td class="tc">
-                    <div class="easyui-progressbar" data-options="value:60" style="width:80px;"></div>
-                  </td>
-                </tr>
-              </c:forEach>
+              <tr>
+                <td width="25%" class="info">采购管理部门：</td>
+                <td width="25%">${org}</td>
+                <td width="25%" class="info">项目状态：</td>
+                <td width="25%">${project.status}</td>
+              </tr>
+              <tr>
+                <td width="25%" class="info">创建人：</td>
+                <td width="25%">${project.appointMan}</td>
+                <td width="25%" class="info">创建日期：</td>
+                <td width="25%" colspan="3">
+                  <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
+                </td>
+              </tr>
             </tbody>
           </table>
-        </c:if>
+        </ul>
+      </div>
+      <div class="padding-top-10 clear">
+        <h2 class="count_flow"><i>2</i>项目明细</h2>
+        <c:forEach items="${project.packagesList}" var="list" varStatus="vs">
+          
+          <h2 class="count_flow" >
+            <span class="f14 blue">${list.name}</span>
+          </h2>
+          
+          <table id="detailtable" class="table table-striped table-bordered table-hover">
+			 <thead>
+				<tr>
+				 <td class="info w50">序号</td>
+				 <td class="info tc">编号</td>
+				 <td class="info tc">物资名称</td>
+				 <td class="info tc">规格型号</td>
+				 <td class="info tc">计量单位</td>
+				 <td class="info tc">采购数量</td>
+				 <td class="info tc">单价</td>
+				 <td class="info tc">预算金额</td>
+				 <td class="info tc">交货日期</td>
+				 <td class="info tc">采购方式</td>
+				 <td class="info tc">供应商名称</td>
+				 <td class="info tc">进度</td>
+				</tr>
+			 </thead>
+			 <c:forEach items="${list.projectDetails}" var="detail" varStatus="vt">
+			    <tr>
+			       <td class="tr pr20 pointer">${vt.index+1}</td>
+			       <td class="tr pr20 pointer">${detail.serialNumber}</td>
+			       <td>${detail.goodsName}</td>
+			       <td>${detail.stand}</td>
+			       <td>${detail.item}</td>
+			       <td class="tr">${detail.purchaseCount}</td>
+			       <td class="tr">${detail.price}</td>
+			       <td class="tr">${detail.budget}</td>
+			       <td>${detail.deliverDate}</td>
+			       <td>${detail.purchaseType}</td>
+			       <td>${detail.supplier}</td>
+			       <td><div name="p" onclick="projectView('${detail.id}');"  class="easyui-progressbar" data-options="value:60" style="width:80px;"></div></td>
+			    </tr>
+			 
+			 </c:forEach>
+		   </table>
+          
+        </c:forEach>
       </div>
     </div>
-  </body>
-
+  <div class="col-md-12 col-xs-12 col-sm-12 tc mt20">
+        <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
+      </div>
+   </div>
+   
+</body>
 </html>
