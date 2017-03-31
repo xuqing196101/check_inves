@@ -285,10 +285,14 @@ public class OBProjectController {
 			HttpServletRequest request) {
 		// 获取当前 默认规则
 		 OBRule obRule = OBRuleMapper.selectByStatus();
+		 if(obRule==null){
+			 model.addAttribute("supplierCount",null);
+		 }else{
+			 model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
+		 }
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
-		model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
 		model.addAttribute("ruleId",obRule.getId());
 		model.addAttribute("fileid", uuid);
 		model.addAttribute("userId", user.getId());
