@@ -152,7 +152,7 @@
 		     <li class="col-md-3 col-sm-6 col-xs-12">
 			   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>竞价开始时间：</span>
 			   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0" id="supplierselect">
-				    <input type="text" name="definiteTime"  value='<fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:ss:mm"/>' id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
+				    <input type="text" name="definiteTime"  value='<fmt:formatDate value="${ obRule.definiteTime }" pattern="HH:mm:ss"/>' id="d242" onfocus="WdatePicker({skin:'whyGreen',dateFmt:'H:mm:ss'})" class="Wdate"/>
 					<div class="cue"><span><font id="definiteTimeErr" style="color: red"></font></span></div>
 		       </div>
 			 </li> 

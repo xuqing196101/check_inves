@@ -292,13 +292,13 @@
 				});
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.do?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
 						layer.alert(obj.data);
-						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 						layer.close(inde);
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
 					layer.close(inde);
@@ -322,12 +322,13 @@
 				});
 				$.ajax({
 					type : "post",
-					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.html?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
+					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.do?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+						alert();
+						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
-					layer.close(inde);
 					},
 					error : function(obj) {
 					layer.close(inde);

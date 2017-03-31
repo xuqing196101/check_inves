@@ -496,7 +496,7 @@ public class OBSupplierQuoteController {
 	 * @author Ma Mingwei	//,method=RequestMethod.POST
 	 * @throws ParseException 
 	 */
-	@RequestMapping(value="uptConfirmAccept")
+	@RequestMapping(value="/uptConfirmAccept")
 	@ResponseBody
 	public JdcgResult uptConfirmQuoteInfoAccept(@CurrentUser User user,@RequestBody List<OBResultSubtabulation> projectResultList,
 			Model model,HttpServletRequest request) throws ParseException{

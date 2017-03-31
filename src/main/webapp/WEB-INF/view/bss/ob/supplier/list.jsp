@@ -98,10 +98,10 @@
 		// 定时执行
 		setInterval(function() {
 			sysDate = sysDate + 1000;
-			var sysDateInt = sysDate / 1000;
+			var sysDateInt = parseInt(sysDate / 1000);
 			var sysDates = sysDateInt.toString();
-			var time = timeArray.indexOf(sysDates);
-			if(times != -1){
+			var times = $.inArray(sysDates, timeArray);
+			if(times >= '0'){
 				reloadPage();
 			}
 			$("#bbb").val(sysDates);
