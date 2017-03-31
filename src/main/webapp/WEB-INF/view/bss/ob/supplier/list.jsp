@@ -340,12 +340,15 @@
 			if(pStatus == 2 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
+			if(pRemark == '666'){
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
+			}
 			if(pStatus == 5 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
 			// 3.第一轮放弃查看的是报价信息页面
-			if((pStatus == 5 && pRemark == '3') || pRemark == '666'){
+			if((pStatus == 5 && pRemark == '3')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?id="+pId;
 			}
 			
@@ -445,6 +448,10 @@
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
 			  		竞价结束
 			  	</c:if>
+			  	<c:if test="${ obProject.remark == '666' && obProject.obProjectList[0].status != 3}">
+				  	未中标
+			  	</c:if>
+			  	
 			  	<c:if test="${ obProject.obProjectList[0].status == 4 }">
 				  	流拍
 			  	</c:if>
@@ -467,7 +474,7 @@
 						</c:when>
 					</c:choose>
 			  	</c:if>
-			  	<c:if test="${ obProject.obProjectList[0].status == 6}">
+			  	<c:if test="${ obProject.obProjectList[0].status == 6 && obProject.remark != '666'}">
 			  		<c:choose>
 						<c:when test="${obProject.remark == '0'}">
 							未报价
@@ -488,9 +495,6 @@
 							结果待确认(第二轮)
 						</c:otherwise>
 					</c:choose>
-			  	</c:if>
-			  	<c:if test="${ obProject.remark == '666' }">
-				  	未中标
 			  	</c:if>
 			  </td>
 			</tr>
