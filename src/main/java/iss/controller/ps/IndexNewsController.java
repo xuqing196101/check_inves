@@ -847,21 +847,6 @@ public class IndexNewsController extends BaseSupplierController{
 		//设置是否弹窗
 		model.addAttribute("isPopup", true);
 		
-		
-		
-		//专家名录
-		Map<String, Object> eMap = new HashMap<String, Object>();
-		Expert expert=new Expert();
-		expert.setIsPublish(1);
-        List<Expert> expertList = expertService.selectAllExpert(10, expert);
-        model.addAttribute("expertList", expertList);
-       
-		//供应商名录
-        Map<String, Object> sMap = new HashMap<String, Object>();
-        sMap.put("IS_PUBLISH", 1);
-        List<Supplier> supplierList = suppService.query(sMap);
-		model.addAttribute("supplierList", supplierList);
-		
 		return "iss/ps/index/index";
 	};
 	
