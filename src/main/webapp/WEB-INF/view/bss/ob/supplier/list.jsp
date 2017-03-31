@@ -443,6 +443,9 @@
 						<c:when test="${obProject.remark == '1'}">
 							已报价待确认
 						</c:when>
+						<c:when test="${obProject.remark == '2'}">
+							未报价
+						</c:when>
 					</c:choose>
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 3 }">
@@ -457,7 +460,7 @@
 			  	</c:if>
 			  	<c:if test="${ obProject.obProjectList[0].status == 5 }">
 			  		<c:choose>
-						<c:when test="${obProject.remark == '0'}">
+						<c:when test="${obProject.remark == '0' || obProject.remark == '5'}">
 							未报价
 						</c:when>
 						<c:when test="${obProject.remark == '1'}">
