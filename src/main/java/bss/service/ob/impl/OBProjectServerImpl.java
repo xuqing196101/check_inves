@@ -479,12 +479,12 @@ public class OBProjectServerImpl implements OBProjectServer {
     		 }
 		}
     	 List<OBProduct> productList= OBProductMapper.selectInId(productName);
-    	 return verifyCatalog(productList);
+    	 return checkCatalog(productList);
      }
      /***
       *  验证 该产品的是否属于同一个目录 如果不属于那么不能发布竞价
       */
-     private String verifyCatalog(List<OBProduct> productList){
+     public String checkCatalog(List<OBProduct> productList){
     	 //外循环
     	 OBProduct abroad=null;
     	 //内循环
@@ -1095,5 +1095,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 	public int updateProject(OBProject project) {
 		// TODO Auto-generated method stub
 		return OBprojectMapper.updateByPrimaryKeySelective(project);
+	}
+	 /***
+     *  验证 该产品的是否属于同一个目录 如果不属于那么不能发布竞价
+     */
+	@Override
+	public String verifyCatalog(java.util.List<String> productList) {
+		// TODO Auto-generated method stub
+		List<OBProduct> productLs= OBProductMapper.selectInId(productList);
+		return checkCatalog(productLs);
 	}
 }

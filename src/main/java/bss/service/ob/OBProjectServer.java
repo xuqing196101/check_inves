@@ -76,6 +76,14 @@ public interface OBProjectServer {
 	 * @return
 	 */
 	OBProject editOBProject(Map<String,Object> map);
+	
+	/**
+	 * 验证 产品 是否在同一目录下
+	 * @author YangHongLiang
+	 * @param productList
+	 * @return
+	 */
+	 String verifyCatalog(List<String> productList);
 
 	/**
 	 * 

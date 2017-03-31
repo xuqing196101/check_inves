@@ -606,7 +606,8 @@
 	    //获取选中全部的产品id
 	   $('*[name="productName"]').each(function(){
 			if($(this).val()){
-		      productid.push($(this).val());
+			var id=$(this).val();
+		      productid.push(id);
 			  }
 		  });
 		  
@@ -632,6 +633,22 @@
    		 	     }else{
    		 	      $("#gys_count").text(0);
    		 	     }
+				}
+		      }
+           });
+            $.ajax({
+				url: "${pageContext.request.contextPath }/ob_project/checkCatalog.do",
+				type: "POST",
+				contentType:"application/json",
+				data: JSON.stringify(productid),
+				success: function(data) {
+				if(data){
+				var json = JSON.parse(data);
+				var name = json.attributeName;
+				var context = json.show;
+				tempContext=getSelectName(context);
+				 context="产品:"+tempContext+"不属于同一个目录";
+				  $("#buttonErr").html(context);
 				}
 		      }
            });

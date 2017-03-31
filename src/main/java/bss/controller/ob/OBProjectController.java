@@ -30,6 +30,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
@@ -49,6 +50,7 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
@@ -585,7 +587,19 @@ public class OBProjectController {
 				 }
 			 return jdcg;
 	}
-	
+	/**
+	 * 动态验证 产品 是否在同一目录 下
+	 * @author YangHongliang
+	 * @param request
+	 * @param response
+	 * @param productid
+	 * @return
+	 */
+	@RequestMapping("checkCatalog")
+	@ResponseBody
+	public String checkCatalog(HttpServletRequest request, HttpServletResponse response,@RequestBody List<String> productid){
+	  return OBProjectServer.verifyCatalog(productid);
+	}
 	/** @Description: 编辑暂存的竞价信息
 	* author: YangHongLiang
 	* @param  OBProject
