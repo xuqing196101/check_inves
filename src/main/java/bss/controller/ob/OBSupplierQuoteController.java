@@ -263,7 +263,7 @@ public class OBSupplierQuoteController {
 			  List<OBProjectResult> peolist= OBProjectResultMapper.selectSupplierPeo(projectId);
 			  if(peolist!=null){
 				  //判断供应商接受的成交数 未达到  竞价成交供应商数量 
-			  if(project.getTradedSupplierCount()>peolist.size()){
+			  if(project.getTradedSupplierCount()>=peolist.size()){
 				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
 				  if(obpro.getProportion().equals("100")){
 					  confirmStatus="6";
@@ -391,7 +391,7 @@ public class OBSupplierQuoteController {
 			  List<OBProjectResult> peolist= OBProjectResultMapper.selectSupplierPeo(projectId);
 			  if(peolist!=null){
 				  //判断供应商接受的成交数 未达到  竞价成交供应商数量 
-			  if(project.getTradedSupplierCount()>peolist.size()){
+			  if(project.getTradedSupplierCount()>=peolist.size()){
 				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
 				  if(obpro.getProportion().equals("100")){
 					  confirmStatus="6";
