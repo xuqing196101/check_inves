@@ -42,6 +42,7 @@ import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -200,15 +201,18 @@ public class OBSupplierQuoteController {
 		return "bss/ob/supplier/supplierOffer";
 	}
 	/**
-	 * @author Yanghongliang
+	 * @author Ma Mingwei
+	 * @param model 
 	 * @param supplierId 供应商id
-	 * @description 验证竞价是否可进入第二轮
-	 * @return JdcgResult
+	 * @description 点击确认结果
+	 * @return string 视图页面
+	 * @throws ParseException 
 	 */
-	@RequestMapping("/checkConfirmResult")
+	@RequestMapping(value="/confirmResult",produces = "text/html;charset=UTF-8")
 	@ResponseBody
-	public JdcgResult checkConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
-			String supplierId, String projectId){
+	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
+			String supplierId, String projectId) throws ParseException {
+		supplierId = user.getTypeId();
 		String confirmStatus="";
 		OBProjectResult oBProjectResult=new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
@@ -252,61 +256,11 @@ public class OBSupplierQuoteController {
 				 }else{
 					 confirmStatus="3";
 				 }
-			 }
-		  }
+			  }
+		    }
 		  }
 		 }else{
 			 confirmStatus="4";
-		 }
-		JdcgResult jdcg=new JdcgResult();
-		 if(confirmStatus=="1"){
-			 jdcg.setStatus(1);
-			 jdcg.setMsg("第一轮");
-		 }else   if(confirmStatus=="2"){
-			 jdcg.setStatus(2);
-			 jdcg.setMsg("第二轮");
-		 }else  if(confirmStatus=="3"){
-			 jdcg.setStatus(3);
-			 jdcg.setMsg("第二轮已操作");
-		 }else if(confirmStatus=="4"){
-			 jdcg.setStatus(4);
-			 jdcg.setMsg("时间已结束");
-		 }else{
-			 jdcg.setStatus(0);
-			 jdcg.setMsg("错误");
-		 }
-		return jdcg;
-	}
-	/**
-	 * @author Ma Mingwei
-	 * @param model 
-	 * @param supplierId 供应商id
-	 * @description 点击确认结果
-	 * @return string 视图页面
-	 * @throws ParseException 
-	 */
-	@RequestMapping("/confirmResult")
-	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
-			String supplierId, String projectId) throws ParseException {
-		supplierId = user.getTypeId();
-		String confirmStatus="";
-		OBProjectResult oBProjectResult=new OBProjectResult();
-		oBProjectResult.setProjectId(projectId);
-		oBProjectResult.setSupplierId(supplierId);
-		 List<OBProjectResult>	getList= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
-		 
-		 if(getList!=null && getList.size()==1){
-			 //必须一条数据 状态是-1 表示第一轮
-		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
-		    	 //第一轮
-			  confirmStatus="1";
-		     }else if(getList.get(0).getStatus()==1){
-		    	 //标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
-		    	 confirmStatus="2";
-		     }
-		  }else if(getList!=null && getList.size()==2){
-			  //已经操作过第二轮
-			  confirmStatus="3";
 		 }
 		  if(confirmStatus=="2"){
 			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
@@ -329,13 +283,31 @@ public class OBSupplierQuoteController {
 				 }
 			 }
 		  }
-		 if(confirmStatus!="3"){
+		 if(confirmStatus=="1"||confirmStatus=="2"){
 		  ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
 			model.addAttribute("sysCurrentTime", new Date());
 		 	model.addAttribute("result", result);
 		 	model.addAttribute("confirmStatus", confirmStatus);
+		 	return "forward:resources/bss/ob/supplier/confirmResult";
 		  }
-		return "bss/ob/supplier/confirmResult";
+		 JdcgResult jdcg=new JdcgResult();
+		 if(confirmStatus=="1"){
+			 jdcg.setStatus(1);
+			 jdcg.setMsg("第一轮");
+		 }else   if(confirmStatus=="2"){
+			 jdcg.setStatus(2);
+			 jdcg.setMsg("第二轮");
+		 }else  if(confirmStatus=="3"){
+			 jdcg.setStatus(3);
+			 jdcg.setMsg("第二轮已操作");
+		 }else if(confirmStatus=="4"){
+			 jdcg.setStatus(4);
+			 jdcg.setMsg("时间已结束");
+		 }else{
+			 jdcg.setStatus(0);
+			 jdcg.setMsg("错误");
+		 }
+		return JSON.toJSONString(jdcg);
 	}
 
 	/**
