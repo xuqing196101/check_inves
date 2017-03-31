@@ -101,8 +101,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 
 	@Override
 	public OBProjectResult selectByPrimaryKey(String id) {
-		// TODO Auto-generated method stub
-		return null;
+		return oBProjectResultMapper.selectByPrimaryKey(id);
 	}
 
 	@Override

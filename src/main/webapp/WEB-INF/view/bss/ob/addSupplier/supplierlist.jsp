@@ -272,6 +272,13 @@ function fileUpload(){
              }
          }); 
      }
+     
+     
+	/* 下载目录 */
+	function downCategory(){
+		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
+	}
+
 </script>
 </head>
 <body>
@@ -325,6 +332,7 @@ function fileUpload(){
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载EXCEL模板</button>
 		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">导入EXCEL</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="downCategory()">下载产品目录</button>
 	</div>
 	<div class="content table_box">
     	<table class="table table-bordered table-condensed table-hover table-striped">

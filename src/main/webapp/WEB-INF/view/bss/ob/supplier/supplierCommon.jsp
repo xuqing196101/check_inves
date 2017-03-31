@@ -30,10 +30,10 @@
            }
        	}
     function format (num,id) {
-    if(num){
-     var content=  (num.toFixed(2) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
-     $("#"+id).html(content);
-    }
+    	if(num){
+     		var content=  (num.toFixed(2) + '').replace(/\d{1,3}(?=(\d{3})+(\.\d*)?$)/g, '$&,');
+     		$("#"+id).html(content);
+    	}
     }
 </script>
 <div class="ul_list" onmouseover="closePrompts()">
@@ -93,7 +93,7 @@
 		   <c:if test="${supplier.status==-1}"> 
 		    <c:forEach items="${supplier.OBResultsInfo }" var="bidproduct" varStatus="pi">
 		   <c:set value="${sum + bidproduct.dealMoney}" var="sum"  />
-		  <td class="tc" id="sum1" onload="format('${sum}','sum1')">${sum}</td>
+		  <td class="tc" id="sum1" format('${sum}','sum1')">${sum}</td>
 		  </c:forEach>
 		  </c:if> 
 		</tr>
@@ -126,10 +126,17 @@
 		
 		<!-- 成交的 -->
 		<c:if test="${supplier.status == 1 || supplier.status == 2}">
+		<c:forEach items="${list}" var="product" varStatus="va">
+			<c:if test="${product.supplierId == supplier.supplierId}">
+				<c:set value="${ total + product.dealMoney * product.resultNumber }" var = "total" ></c:set>
+			</c:if>
+		</c:forEach>
 			<tr>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc"></td>
+			  <td class="tc">
+			  	<fmt:formatNumber value='${total }' pattern='#,##,###.00'/>
+			  </td>
 			</tr>
 			<c:forEach items="${list}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
@@ -138,7 +145,9 @@
 			  		<td class="tc">${product.resultNumber }</td>
 					<td class="tc">${product.myOfferMoney }</td>
 			  		<td class="tc">${product.dealMoney }</td>
-			  		<td class="tc">${product.dealMoney * product.resultNumber }</td>
+			  		<td class="tc">
+			  			<fmt:formatNumber value='${product.dealMoney * product.resultNumber }' pattern='#,##,###.00'/>
+			  		</td>
 				</c:if>
 			</c:forEach>
 		</c:if>

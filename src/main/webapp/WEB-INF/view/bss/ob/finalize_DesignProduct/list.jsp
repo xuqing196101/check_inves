@@ -233,6 +233,7 @@
 	         }); 
 	     }
 	
+	/* 下载目录 */
 	function downCategory(){
 		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
 	}

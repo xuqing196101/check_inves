@@ -35,7 +35,7 @@
 		<button class="btn btn-windows print" onclick="printResult()">打印结果</button>
 	    <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
 	</div>
-	 <h2 class="count_flow">报价信息</h2>
+	<h2 class="count_flow">报价信息</h2>
 		<%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
       <!-- <div id="pagediv" align="right"></div> -->
    </div>

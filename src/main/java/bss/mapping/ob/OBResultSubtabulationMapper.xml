@@ -19,7 +19,7 @@
 			select="bss.dao.ob.OBProductMapper.selectByPrimaryKey" />
   </resultMap>
   <sql id="Base_Column_List" >
-    ID, PROJECT_RESULT_ID,PRODUCT_ID, RESULT_NUMBER, DEAL_MONEY, TOTAL_MONEY, CREATED_AT, UPDATED_AT
+    ID,PROJECT_RESULT_ID, PROJECT_RESULT_ID,PRODUCT_ID, RESULT_NUMBER, DEAL_MONEY, TOTAL_MONEY, CREATED_AT, UPDATED_AT
   </sql>
   <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
@@ -153,8 +153,7 @@
   
   <!-- 根据竞价信息id查询 -->
   <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	SELECT DISTINCT
-    <include refid="Base_Column_List" />
+  	SELECT DISTINCT *
     FROM T_BSS_OB_RESULT_SUBTABULATION
     WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>

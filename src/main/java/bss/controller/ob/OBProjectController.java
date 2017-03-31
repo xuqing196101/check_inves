@@ -640,7 +640,30 @@ public class OBProjectController {
 				}
 				model.addAttribute("selectInfoByPID", resultList);
 				}
-				
+				//查询参与的供应商
+				if(obProjectId != null){
+					List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(obProjectId);
+					Integer countProportion = 0;
+					if(list != null){
+						for (OBResultSubtabulation obr : list) {
+							if(obr != null){
+								OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
+								if(projectResult != null){
+									countProportion += Integer.parseInt(projectResult.getProportion());
+									obr.setProportion(Integer.parseInt(projectResult.getProportion()));
+									obr.setStatus(projectResult.getStatus());
+									obr.setRanking(projectResult.getRanking());
+								}
+							}
+						}
+					}
+					String projectName = OBProjectServer.selectByPrimaryKey(obProjectId).getName();
+					Collections.sort(list);
+					model.addAttribute("list", list);
+					model.addAttribute("countProportion",countProportion);
+					model.addAttribute("projectName",projectName);
+					model.addAttribute("size",list.size());
+				}
 				if(StringUtils.isNotBlank(status)){
 					return "bss/ob/biddingInformation/editPublish";
 				}else{
