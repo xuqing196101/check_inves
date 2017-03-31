@@ -31,6 +31,9 @@ public class ExpertAudit implements Serializable{
     private String auditField;
     //审批内容
     private String auditContent;
+    
+    private String auditFieldId;
+    
     public String getId() {
         return id;
     }
@@ -117,7 +120,7 @@ public class ExpertAudit implements Serializable{
 		return auditField;
 	}
 
-	public void setAuditField(String auditField) {
+	public void audit(String auditField) {
 		this.auditField = auditField;
 	}
 
@@ -127,6 +130,18 @@ public class ExpertAudit implements Serializable{
 
 	public void setAuditContent(String auditContent) {
 		this.auditContent = auditContent;
+	}
+
+	public String getAuditFieldId() {
+		return auditFieldId;
+	}
+
+	public void setAuditFieldId(String auditFieldId) {
+		this.auditFieldId = auditFieldId;
+	}
+
+	public void setAuditField(String auditField) {
+		this.auditField = auditField;
 	}
     
     

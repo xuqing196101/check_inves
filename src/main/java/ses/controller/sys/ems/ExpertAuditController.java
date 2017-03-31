@@ -7,6 +7,7 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -24,6 +25,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import ses.dao.ems.ExpertField;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
 import ses.model.bms.CategoryTree;
@@ -1308,7 +1310,6 @@ public class ExpertAuditController {
 		dataMap.put("idCardNumber", expert.getIdCardNumber() == null ? "" : expert.getIdCardNumber());
 		dataMap.put("workUnit", expert.getWorkUnit() == null ? "" : expert.getWorkUnit());
 		dataMap.put("birthday", expert.getBirthday() == null ? "" : new SimpleDateFormat("yyyy-MM-dd").format(expert.getBirthday()));
-		dataMap.put("atDuty", expert.getAtDuty() == null ? "" : expert.getAtDuty());
 		DictionaryData expertsForm = dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom());
 		if(expertsForm != null) {
 			dataMap.put("expertsFrom", expertsForm.getName() == null ? "" : expertsForm.getName());
@@ -1319,17 +1320,100 @@ public class ExpertAuditController {
 		for(String typeId: expert.getExpertsTypeId().split(",")) {
 			expertType.append(dictionaryDataServiceI.getDictionaryData(typeId).getName() + "、");
 		}
+		dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
+		dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional ());
+		
 		String expertsType = expertType.toString().substring(0, expertType.length() - 1);
 		dataMap.put("expertsTypeId", expertsType);
+		
+		
+		//最终意见
+		dataMap.put("reason", "无");
+		
+		// 获取专家类别id
+        List < String > expertTypeId = new ArrayList < String > ();
+        List < String > allTypeId = new ArrayList < String > ();
+        for(String id: expert.getExpertsTypeId().split(",")) {
+        	allTypeId.add(id);
+        	expertTypeId.add(id);
+        }
+        a: for(int i = 0; i < allTypeId.size(); i++) {
+            DictionaryData dictionaryData = dictionaryDataServiceI.getDictionaryData(allTypeId.get(i));
+            /*if(dictionaryData != null && dictionaryData.getKind() == 19) {
+				allTypeId.remove(i);
+				continue a;
+			};*/
+            
+            expertTypeId.add(dictionaryData.getId().toString());
+        }
+        
 
-		//未通过审核的字段
-		List < ExpertAudit > reasonsList = expertAuditService.getListByExpertId(expert.getId());
-		dataMap.put("reasonsList", reasonsList);
-
-		boolean idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true;
-		if(!reasonsList.isEmpty()) {
-			for(ExpertAudit e: reasonsList) {
-				if(e.getAuditField().equals("居民身份证")) {
+        List<SupplierCateTree> itemsListAll = new ArrayList<SupplierCateTree>();
+        for(String typeId : expertTypeId){
+        	List<SupplierCateTree> itemsList = this.getItems(expert.getId(), typeId, null, null);
+        	for(SupplierCateTree c : itemsList){
+        		itemsListAll.add(c);
+        	}
+        }		
+		
+        StringBuffer items = new StringBuffer();
+        for(SupplierCateTree cateTree : itemsListAll ){
+        	String rootNode = cateTree.getRootNode();
+        	String firstNode = cateTree.getFirstNode();
+        	String secondNode = cateTree.getSecondNode();
+        	String thirdNode = cateTree.getThirdNode();
+        	if(firstNode !=	null){
+        		items.append(rootNode + "—" + firstNode); 
+        	}
+        	if(secondNode != null){
+        		items.append("—" + secondNode); 
+        	}
+        	if(thirdNode != null){
+        		items.append("—" + thirdNode); 
+        	}
+        	cateTree.setRootNode(items.toString());
+        	items.delete(0, items.length());
+        }
+        
+        List < ExpertAudit > reasonsList = new ArrayList<ExpertAudit>();
+    	for(SupplierCateTree cateTree : itemsListAll ){
+    		ExpertAudit expertAudit = new ExpertAudit();
+    		expertAudit.setExpertId(expert.getId());
+    		expertAudit.setIsHistory("1");
+    		expertAudit.setAuditField(cateTree.getItemsId());
+    		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
+    		ExpertAudit expertAudit1 = new ExpertAudit();
+    		if(reasonsItemsList !=null && reasonsItemsList.size() > 0){
+    			for(ExpertAudit audit :reasonsItemsList){
+    				expertAudit1.setAuditField(cateTree.getRootNode());
+        			String content = audit.getAuditReason();
+        			expertAudit1.setAuditReason("不通过。原因：" + content);
+    			}
+    		}else{
+    			expertAudit1.setAuditField(cateTree.getRootNode());
+    			expertAudit1.setAuditReason("通过");
+    		}
+    		reasonsList.add(expertAudit1);
+    		
+    	}
+    	ExpertAudit audit0 = new ExpertAudit();
+    	
+    	audit0.setExpertId(expert.getId());
+    	audit0.setIsHistory("2");
+    	List < ExpertAudit > basicList = expertAuditService.selectFailByExpertId(audit0);
+		
+		boolean recentPhotos = true, idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true , professionalFile = true;
+		if(!basicList.isEmpty()) {
+			for(ExpertAudit e: basicList) {
+				if(e.getAuditField().equals("近期免冠彩色证件照")) {
+					dataMap.put("recentPhotos", "否");
+					recentPhotos = false;
+					break;
+				}
+			}
+			
+			for(ExpertAudit e: basicList) {
+				if(e.getAuditField().equals("身份证复印件（正反面）:")) {
 					dataMap.put("idCard", "否");
 					idCard = false;
 					break;
@@ -1337,7 +1421,7 @@ public class ExpertAuditController {
 			}
 
 			if(expertsForm.getName().equals("军队") && expert.getExpertsFrom() != null) {
-				for(ExpertAudit e: reasonsList) {
+				for(ExpertAudit e: basicList) {
 					if(e.getAuditField().equals("军队人员身份证件")) {
 						dataMap.put("armyIdCard", "否");
 						armyIdCard = false;
@@ -1348,16 +1432,24 @@ public class ExpertAuditController {
 				dataMap.put("armyIdCard", "无");
 				armyIdCard = false;
 			}
-
-			for(ExpertAudit e: reasonsList) {
-				if(e.getAuditField().equals("技术职称/执业资格证书")) {
+			
+			for(ExpertAudit e: basicList) {
+				if(e.getAuditField().equals("专业技术资格证书")) {
 					dataMap.put("qualification", "否");
 					qualification = false;
 					break;
 				}
 			}
+			
+			for(ExpertAudit e: basicList) {
+				if(e.getAuditField().equals("执业资格")) {
+					dataMap.put("professionalFile", "否");
+					professionalFile = false;
+					break;
+				}
+			}
 
-			for(ExpertAudit e: reasonsList) {
+			for(ExpertAudit e: basicList) {
 				if(e.getAuditField().equals("学位证书")) {
 					dataMap.put("academicDegree", "否");
 					academicDegree = false;
@@ -1365,7 +1457,7 @@ public class ExpertAuditController {
 				}
 			}
 			if(expertsForm.getName().equals("地方") && expert.getExpertsFrom() != null) {
-				for(ExpertAudit e: reasonsList) {
+				for(ExpertAudit e: basicList) {
 					if(e.getAuditField().equals("社保证明")) {
 						dataMap.put("coverNote", "否");
 						coverNote = false;
@@ -1381,11 +1473,17 @@ public class ExpertAuditController {
 		if(idCard) {
 			dataMap.put("idCard", "是");
 		}
+		if(recentPhotos) {
+			dataMap.put("recentPhotos", "是");
+		}
 		if(armyIdCard) {
 			dataMap.put("armyIdCard", "是");
 		}
 		if(qualification) {
 			dataMap.put("qualification", "是");
+		}
+		if(professionalFile) {
+			dataMap.put("professionalFile", "是");
 		}
 		if(academicDegree) {
 			dataMap.put("academicDegree", "是");
@@ -1393,10 +1491,62 @@ public class ExpertAuditController {
 		if(coverNote) {
 			dataMap.put("coverNote", "是");
 		}
-
+		
+		
+		
+		//获取属性值
+		ExpertField expertField = new ExpertField();
+		Field[] fields = expertField.getClass().getDeclaredFields(); 
+		List < String > list = new ArrayList<>();
+		for(int i=0; i<fields.length; i++){
+			fields[i].setAccessible(true);
+			Object str = fields[i].get(expertField);
+			list.add(str.toString());
+		}
+		ExpertAudit expertAudit2 = new ExpertAudit();
+		expertAudit2.setExpertId(expert.getId());
+		expertAudit2.setIsHistory("2");
+    	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
+		StringBuffer buff = new StringBuffer();
+		
+		for(ExpertAudit a : basicFileList){
+			buff.append(a.getAuditField() + ",");
+		}
+		
+		
+		for(String str : list){
+			expertAudit2.setExpertId(expert.getId());
+			expertAudit2.setIsHistory("2");
+			expertAudit2.setAuditField(str);
+	    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
+	    	ExpertAudit expertAuditMap = new ExpertAudit();
+			if(basicFileList1 !=null && basicFileList1.size() > 0){
+				for(int i=0; i<basicFileList1.size(); i++){
+					if(buff.toString().contains(str)){
+						expertAuditMap.setAuditField(str);
+		    			String content = basicFileList1.get(0).getAuditContent();
+		    			expertAuditMap.setAuditReason("不通过。原因：" + content);
+		    			break;
+					}
+				}
+			}else{
+				expertAuditMap.setAuditField(str);
+				expertAuditMap.setAuditReason("通过");
+			}
+			reasonsList.add(expertAuditMap);
+		}
+		
+		dataMap.put("reasonsList", reasonsList);
+		
 		String fileName = new String(("军队采购评审专家入库审核表.doc").getBytes("UTF-8"), "UTF-8");
 		/** 生成word 返回文件名 */
-		String newFileName = WordUtil.createWord(dataMap, "expertAudit.ftl", fileName, request);
+		/*
+		 //初审表
+		 String newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);*/
+		//复查表
+		String newFileName = WordUtil.createWord(dataMap, "expertTwoAudit.ftl", fileName, request);
+		
+		
 		return newFileName;
 	}
 	
@@ -1424,4 +1574,80 @@ public class ExpertAuditController {
 		}
 		return JSON.toJSONString(msg);
 	}
+	
+	
+	public List<SupplierCateTree> getItems(String expertId, String typeId, Model model, Integer pageNum) {
+		String code = DictionaryDataUtil.findById(typeId).getCode();
+        String flag = null;
+        if (code != null && code.equals("GOODS_PROJECT")) {
+            code = "PROJECT";
+            typeId = DictionaryDataUtil.getId("PROJECT");
+        }
+        if (code.equals("ENG_INFO_ID")) {
+            flag = "ENG_INFO";
+        }
+        // 查询已选中的节点信息
+        List<ExpertCategory> items = expertCategoryService.getListByExpertId(expertId, typeId, pageNum == null ? 1 : pageNum);
+        List<ExpertCategory> expertItems = new ArrayList<ExpertCategory>();
+        int count=0;
+        for (ExpertCategory expertCategory : items) {
+        	count++;
+        	System.out.println(count);
+            if (!DictionaryDataUtil.findById(expertCategory.getTypeId()).getCode().equals("ENG_INFO_ID")) {
+                Category data = categoryService.findById(expertCategory.getCategoryId());
+                List<Category> findPublishTree = categoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
+                    expertItems.add(expertCategory);
+                }
+            } else {
+                Category data = engCategoryService.findById(expertCategory.getCategoryId());
+                List<Category> findPublishTree = engCategoryService.findPublishTree(expertCategory.getCategoryId(), null);
+                if (findPublishTree.size() == 0) {
+                    expertItems.add(expertCategory);
+                } else if (data != null && data.getCode().length() == 7) {
+                    expertItems.add(expertCategory);
+                }
+            }
+        }
+        List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
+        for(ExpertCategory item: expertItems) {
+            String categoryId = item.getCategoryId();
+            SupplierCateTree cateTree = getTreeListByCategoryId(categoryId, flag);
+            if(cateTree != null && cateTree.getRootNode() != null) {
+                cateTree.setItemsId(categoryId);
+                allTreeList.add(cateTree);
+            }
+        }
+        for(SupplierCateTree cate: allTreeList) {
+            cate.setRootNode(cate.getRootNode() == null ? "" : cate.getRootNode());
+            cate.setFirstNode(cate.getFirstNode() == null ? "" : cate.getFirstNode());
+            cate.setSecondNode(cate.getSecondNode() == null ? "" : cate.getSecondNode());
+            cate.setThirdNode(cate.getThirdNode() == null ? "" : cate.getThirdNode());
+            cate.setFourthNode(cate.getFourthNode() == null ? "" : cate.getFourthNode());
+            cate.setRootNode(cate.getRootNode());
+        }
+        return allTreeList;
+	}
+	
+	public static void main(String[] args) throws IllegalArgumentException, IllegalAccessException {
+		/*ExpertField expertField = new ExpertField();
+		Field[] fields = expertField.getClass().getDeclaredFields(); 
+		for(int i=0; i<fields.length; i++){
+			fields[i].setAccessible(true);
+			System.out.println(fields[i].get(expertField));
+		}
+		*/
+		ExpertField expertField = new ExpertField();
+		Field[] fields = expertField.getClass().getDeclaredFields(); 
+		List < String > list = new ArrayList<>();
+		for(int i=0; i<fields.length; i++){
+			fields[i].setAccessible(true);
+			Object str = fields[i].get(expertField);
+			System.out.println(str.toString());
+		}
+		
+	}
+
 }

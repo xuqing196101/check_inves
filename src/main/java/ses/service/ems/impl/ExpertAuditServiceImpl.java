@@ -251,4 +251,9 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		// TODO Auto-generated method stub
 		return mapper.findConditionPassExpert(expertAudit);
 	}
+	
+	@Override
+	public List<ExpertAudit> selectbyAuditType(ExpertAudit expertAudit){
+		return mapper.selectbyAuditType(expertAudit);
+	}
 }

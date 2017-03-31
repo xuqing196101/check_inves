@@ -173,5 +173,6 @@ public interface ExpertAuditService {
      */
 	List<ExpertAudit> getListByExpert(ExpertAudit expertAudit);
     
+	List<ExpertAudit> selectbyAuditType(ExpertAudit expertAudit);
     
 }

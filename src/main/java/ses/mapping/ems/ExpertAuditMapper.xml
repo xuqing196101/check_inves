@@ -227,7 +227,26 @@
     <if test="auditField != '' and auditField != null">
     	and AUDIT_FIELD = #{auditField}
     </if>
+    <if test="isHistory !=null ">
+    	and IS_HISTORY = #{isHistory}
+    </if>
   </select>
+  
+  <select id="selectbyAuditType" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    	*
+    from 
+    	T_SES_EMS_EXPERT_AUDIT
+    where 
+    	EXPERT_ID = #{expertId}
+    <if test="isHistory !=null ">
+    	and IS_HISTORY = #{isHistory}
+    </if>
+    <if test="auditField != '' and auditField != null">
+    	and AUDIT_FIELD = #{auditField}
+    </if>
+  </select>
+  
   
   <update id="updateIsDeleteByExpertId">
   	delete

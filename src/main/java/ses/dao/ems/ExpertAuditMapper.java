@@ -135,4 +135,7 @@ public interface ExpertAuditMapper {
      * @Description:根据expertAudit封装的条件查询列表
      */
 	List<ExpertAudit> findConditionPassExpert(ExpertAudit expertAudit);
+	
+	
+	List<ExpertAudit> selectbyAuditType(ExpertAudit expertAudit);
 }
