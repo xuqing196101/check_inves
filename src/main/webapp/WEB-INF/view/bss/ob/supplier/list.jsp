@@ -229,11 +229,11 @@
 				   return;
 			   }
 			   //第一轮
-			   if(status == '4' && remark == '1'){
+			   if(status == '5' && remark == '1'){
 				   $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
 						if (data.data == '0') {
 							$("#"+valueArr[0]).html("未中标");
-							layer.confirm("对不起，你未中标",{
+							layer.confirm("对不起，您未中标",{
 								btn:['确定']
 							},function(index){
 								layer.close(index);
