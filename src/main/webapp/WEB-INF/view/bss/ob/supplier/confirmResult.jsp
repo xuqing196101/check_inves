@@ -57,7 +57,6 @@
 	var confirmOvertime = "${result.confirmOvertime }";
 	var secondOvertime = "${result.secondOvertime }";
 	var sysCurrentTime = "${sysCurrentTime }"; 
-	var changeRatioCounts = [];
 	var downTimer;
 	var downTimer2;
 	$(function() {
@@ -113,7 +112,7 @@
 					} else {
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
+							var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -178,6 +177,49 @@
 				layer.alert("已经在第一轮,不能修改第二轮的数据");
 			}
 		});
+		
+		
+		//页面加载进来计算合计金额
+		 var allCount = 0;
+		var allCount2 = 0;
+		if(passStatus==1){
+		$("[title='theProductTotalPrice']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts[index],100,currentVal);
+							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$("[title='theProductCount']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productResultsCount']").val(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
+								}
+							});
+							allCount += afterCount * productPrices[index];
+						});
+						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+			}else if(passStatus==2){
+		//第二轮占比改动，调动下面的数据
+						$("[title='theProductTotalPrice2']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts2[index],100,currentSecondVal);
+							$(this).text((afterCount * productPrices2[index]).toFixed(2));
+							$("[title='theProductCount2']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productResultsCount']").val(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
+								}
+							});
+							allCount += afterCount * productPrices2[index];
+						});
+						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
+			}
+		$("[title='theProductTotalPrice']").each(function(index,element) {
+			allCount += parseFloat($(this).text());
+		});
+		$("[title='theProductTotalPrice2']").each(function(index,element) {
+			allCount2 += parseInt($(this).text());
+		});
+		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
 	});
 	
 	
@@ -402,21 +444,6 @@
 				}
 			});
 	}
-	
-	
-	$(function() {
-		//页面加载进来计算合计金额
-		 var allCount = 0;
-		var allCount2 = 0;
-		$("[title='theProductTotalPrice']").each(function(index,element) {
-			allCount += parseFloat($(this).text());
-		});
-		$("[title='theProductTotalPrice2']").each(function(index,element) {
-			allCount2 += parseInt($(this).text());
-		});
-		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
-		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
-	});
 	
 	/* 显示规则 */
 	function showRule(){
