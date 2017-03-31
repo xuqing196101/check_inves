@@ -616,13 +616,18 @@
   </select>
   
   <!-- 报价供应商的数量 -->
-  <select id="selOfferSupplierNum" resultType="Integer" parameterType="String">
-  	SELECT 
-  		COUNT(SUPPLIER_ID) FROM T_BSS_OB_RESULTS_INFO WHERE MY_OFFER_MONEY IS NOT NULL 
-  		<if test="id != null and id != ''">
-  			AND PROJECT_ID = #{id,jdbcType=VARCHAR} 
-  		</if>
-  		GROUP BY PROJECT_ID
+  <select id="selOfferSupplierNum" resultType="Integer">
+  		SELECT
+			COUNT(ID)
+		FROM T_BSS_OB_SUPPLIER
+		WHERE IS_DELETED = 0 AND SUPPLIER_ID IN (
+			SELECT SUPPLIER_ID ID FROM T_BSS_OB_RESULTS_INFO WHERE MY_OFFER_MONEY IS NOT NULL 
+  			<if test="projectId != null and projectId != ''">
+  				AND PROJECT_ID = #{id,jdbcType=VARCHAR}
+  			</if> )
+		<if test="smallPointsId != null and smallPointsId != ''">
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
+		</if>
   </select>
   
   

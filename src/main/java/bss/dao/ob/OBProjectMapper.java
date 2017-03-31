@@ -78,5 +78,5 @@ public interface OBProjectMapper {
 	 * @return Integer 
 	 * @exception
 	 */
-	Integer selOfferSupplierNum(@Param("id") String id);
+	Integer selOfferSupplierNum(@Param("id") String id,@Param("smallPointsId") String smallPointsId);
 }

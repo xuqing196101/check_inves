@@ -705,7 +705,14 @@ public class OBProjectServerImpl implements OBProjectServer {
 					}
 					obp.setQualifiedSupplier(qualifiedSupplier);
 				}
-				Integer nn = OBprojectMapper.selOfferSupplierNum(obp.getId());
+				String smallPointsId = null;
+				if(obp.getId() != null){
+					List<OBProjectSupplier> listps = obProjectSupplierMapper.selByProjectId(obp.getId());
+					if(listps != null && listps.size() > 0){
+						smallPointsId = listps.get(0).getSupplierPrimaryId();
+					}
+				}
+				Integer nn = OBprojectMapper.selOfferSupplierNum(obp.getId(),smallPointsId);
 				obp.setOfferSupplierNumber(nn);
 			}
 		}

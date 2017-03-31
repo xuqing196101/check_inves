@@ -601,7 +601,7 @@
 		SELECT
 			<include refid="Base_Column_List" />
 		FROM T_BSS_OB_SUPPLIER
-		WHERE IS_DELETED = 0 AND ID IN (
+		WHERE IS_DELETED = 0 AND SUPPLIER_ID IN (
 			SELECT SUPPLIER_ID ID FROM T_BSS_OB_RESULTS_INFO WHERE MY_OFFER_MONEY IS NOT NULL 
   			<if test="projectId != null and projectId != ''">
   				AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
