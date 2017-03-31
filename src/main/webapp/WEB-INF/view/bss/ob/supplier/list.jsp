@@ -101,9 +101,9 @@
 			var sysDateInt = parseInt(sysDate / 1000);
 			var times = $.inArray(sysDateInt, timeArray);
 			if(times >= 0){
+				// 刷新页面
 				reloadPage();
 			}
-			$("#bbb").val(sysDateInt);
        	},1000);
 		
 		function reloadPage(){
@@ -345,7 +345,7 @@
 			}
 			
 			// 3.第一轮放弃查看的是报价信息页面
-			if(pStatus == 5 && pRemark == '3'){
+			if((pStatus == 5 && pRemark == '3') || pRemark == '666'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?id="+pId;
 			}
 			
@@ -363,6 +363,7 @@
 			if((pStatus == 6 && pRemark == '42') || (pStatus == 6 && pRemark == '52')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
+			
 	    }
 </script>
 </head>
@@ -499,7 +500,5 @@
       <div id="pagediv" align="right"></div>
    </div>
    
-   <input id="aaa" type="text" />
-   <input id="bbb" type="text" />
 </body> 
 </html>
