@@ -541,7 +541,8 @@ public class OBProjectServerImpl implements OBProjectServer {
 					supplier.setCreatedAt(new Date());
 					supplier.setProjectId(uuid);
 					supplier.setRemark("0");
-					supplier.setSupplierPrimaryId(os.getId());
+					// 存储 目录
+					supplier.setSupplierPrimaryId(os.getSmallPointsId());
 					if (i == 1) {
 						supplier.setUpdatedAt(new Date());
 					}

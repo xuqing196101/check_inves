@@ -185,7 +185,7 @@
 	</select>
 	<!--查询 供应商 id -->
 	<select id="selectSupplierByID" resultMap="BaseResultItemMap" parameterType="Map">
- 	SELECT DISTINCT s.supplier_id
+ 	SELECT DISTINCT s.supplier_id,s.SMALL_POINTS_ID 
 		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID
 		WHERE <!-- s.CERT_VALID_PERIOD > SYSDATE AND -->
 		s.IS_DELETED = 0
