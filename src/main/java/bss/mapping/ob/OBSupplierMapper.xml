@@ -405,7 +405,7 @@
 				#{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="smallPointsId != null">
-				#{smallPointsId,jdbcType=TIMESTAMP},
+				#{smallPointsId,jdbcType=VARCHAR},
 			</if>
 		</trim>
 	</insert>
@@ -551,7 +551,7 @@
 				UPDATED_AT = #{updatedAt,jdbcType=TIMESTAMP},
 			</if>
 			<if test="smallPointsId != null">
-				SMALL_POINTS_ID = #{smallPointsId,jdbcType=TIMESTAMP},
+				SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR},
 			</if>
 		</set>
 		where ID = #{id,jdbcType=VARCHAR}
@@ -608,6 +608,9 @@
   			</if> )
   		<if test="supplierName != null and supplierName != ''">
 			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+		</if>
+		<if test="smallPointsId != null and smallPointsId != ''">
+			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR},
 		</if>
 		<!-- 过期 -->
   		<if test="status == 1">

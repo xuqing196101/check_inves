@@ -310,5 +310,12 @@
   </select>
   
   
+  <select id="selByProjectId" parameterType="String" resultMap="BaseResultMap">
+  	SELECT 
+    <include refid="Base_Column_List" />
+  	FROM T_BSS_OB_PROJECT_SUPPLIER
+ 	WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  </select>
+  
   
 </mapper>

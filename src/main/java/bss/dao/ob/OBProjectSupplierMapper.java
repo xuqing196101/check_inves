@@ -67,4 +67,7 @@ public interface OBProjectSupplierMapper {
 	* @throws
 	 */
 	OBProjectSupplier selectRemarkBYPS(Map<String, Object> map);
+	
+	
+	List<OBProjectSupplier> selByProjectId(@Param("projectId") String projectId);
 }

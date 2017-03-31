@@ -30,7 +30,9 @@ public class OBProjectSupplier {
 
     /**备注**/
     private String remark;
-    /**供应商主键id**/
+    
+    
+    /**目录末节点id**/
     private String supplierPrimaryId;
 
     public String getSupplierPrimaryId() {

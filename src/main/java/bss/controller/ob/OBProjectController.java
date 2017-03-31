@@ -48,6 +48,7 @@ import ses.util.PathUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectSupplierMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
 import bss.model.ob.OBProduct;
@@ -56,6 +57,7 @@ import bss.model.ob.OBProductInfoExample;
 import bss.model.ob.OBProductInfoExample.Criteria;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
+import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
@@ -135,7 +137,8 @@ public class OBProjectController {
 	@Autowired
 	private OBResultSubtabulationService obResultSubtabulationService;
 
-	
+	@Autowired
+	private OBProjectSupplierMapper obProjectSupplierMapper;
 	/***
 	 * 获取竞价信息跳转 list页
 	 * 
@@ -245,6 +248,14 @@ public class OBProjectController {
 			map1.put("supplierName", name);
 			map1.put("projectId", obProjectId);
 			map1.put("status", status);
+			String smallPointsId = null;
+			if(obProjectId != null){
+				List<OBProjectSupplier> listps = obProjectSupplierMapper.selByProjectId(obProjectId);
+				if(listps != null){
+					smallPointsId = listps.get(0).getSupplierPrimaryId();
+				}
+			}
+			map1.put("smallPointsId", smallPointsId);
 			List<OBSupplier> list = obSupplierService.selOfferSupplier(map1);
 			model.addAttribute("info", new PageInfo<OBSupplier>(list));
 			model.addAttribute("obProjectId",obProjectId);
