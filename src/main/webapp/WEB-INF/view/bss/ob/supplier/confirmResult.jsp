@@ -325,8 +325,8 @@
 					url : "${pageContext.request.contextPath}/supplierQuote/uptConfirmAccept.do?acceptNum=${confirmStatus}&confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
-					success : function(obj) {//第一轮接受
-						alert();
+					success : function(obj) {//第二轮接受
+					layer.alert(obj.msg);
 						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
@@ -351,7 +351,11 @@
 			});
 		if(confirmStatus == 1) {
 				$.ajax({
+<<<<<<< Updated upstream
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
+=======
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do?confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
+>>>>>>> Stashed changes
 					type:"post",
 					dataType:"text",
 					data:{
@@ -371,7 +375,11 @@
 				});
 		} else if(confirmStatus == 2) {
 				$.ajax({
+<<<<<<< Updated upstream
 					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
+=======
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do?confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
+>>>>>>> Stashed changes
 					type:"post",
 					dataType:"text",
 					data:{

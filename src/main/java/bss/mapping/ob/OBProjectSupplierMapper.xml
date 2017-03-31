@@ -153,6 +153,10 @@
       <if test="remark != null" >
         REMARK,
       </if>
+      <if test="supplierPrimaryId != null" >
+        SUPPLIER_PRIMARY_ID,
+      </if>
+      
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -172,6 +176,9 @@
       </if>
       <if test="remark != null" >
         #{remark,jdbcType=VARCHAR},
+      </if>
+      <if test="supplierPrimaryId != null" >
+        #{supplierPrimaryId,jdbcType=VARCHAR},
       </if>
     </trim>
   </insert>
