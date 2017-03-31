@@ -86,6 +86,7 @@
 			// 获取第二轮确认时间
 			timeArray.push(ele.secondConfirmTime/1000);
 		})
+		$("#aaa").val(timeArray);
 		// 获取系统当前时间
 		$.ajax({
 			url:"${pageContext.request.contextPath}/supplierQuote/getSysTime.do",
@@ -97,13 +98,18 @@
 		// 定时执行
 		setInterval(function() {
 			sysDate = sysDate + 1000;
-			var sysDateS = sysDate / 1000;
-			var time = timeArray.indexOf(sysDateS);
-			if(time > -1){
-				// 刷新页面
-				window.location.reload();
+			var sysDates = parseInt(sysDate / 1000);
+			var time = timeArray.indexOf(sysDate);
+			$("#bbb").val(sysDates);
+			if(time != -1){
+				reloadPage();
 			}
        	},1000);
+		
+		function reloadPage(){
+			// 刷新页面
+			window.location.reload();
+		}
 
 	});
 	
@@ -226,11 +232,6 @@
 			   if(remark == '3'){
 				   layer.alert("对不起，第一轮已放弃不能进入第二轮确认 ！");
 				   return;
-			   }else{
-				   if((status == '6' && remark == '5') || (status == '6' && remark == '4')){
-					   window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-				   	   return;
-				   }
 			   }
 			   // 第二轮确认时间未到
 			   if((status != '6' && remark == '4') || (status != '6' && remark == '5')){
@@ -251,26 +252,43 @@
 				   layer.alert("对不起，您未报价不能确认结果 ！");
 				   return;
 			   }
-			   //第一轮
-			   if(status == '5' && remark == '1'){
-				   $.post("${pageContext.request.contextPath}/supplierQuote/findSupplierUnBidding.do", {"projectId":valueArr[0]}, function(data) {
-						if (data.data == '0') {
-							$("#"+valueArr[0]).html("未中标");
-							layer.confirm("对不起，您未中标",{
-								btn:['确定']
-							},function(index){
-								layer.close(index);
-								$("#"+valueArr[0]).html("未中标");
-									return;
-								}
-							)
-						}else{
-							window.location.href="${pageContext.request.contextPath}/supplierQuote/confirmResult.html?projectId="+valueArr[0];
-							return;
-						}
-					});
+			   //未中标状态
+			   if(remark == '666'){
+				   layer.alert("对不起，本次竞价项目您未中标 ！");
+				   return;
 			   }
-			 
+			   
+			   // 确认结果
+			   if((status == '5' && remark == '1') || (status == '6' && remark == '5') || (status == '6' && remark == '4')){
+			   	   $.ajax({
+			   		   type:'POST',
+			   		   url:'${pageContext.request.contextPath}/supplierQuote/checkConfirmResult.do',
+			   		   data:{projectId:valueArr[0]},
+			   		   dataType:'json',
+			   		   success:function(data){
+			   			   if(data.status == 1 || data.status == 2){
+			   					confirmResult();
+			   			   }
+			   			   if(data.status == 3){
+			   					layer.alert(data.msg);
+			   			   }
+			   			   if(data.status == 4){
+			   					layer.alert(data.msg);
+			   			   }
+			   			   if(data.status == 5){
+			   					layer.alert(data.msg);
+			   			   }
+			   			   if(data.status == 0){
+			   					layer.alert(data.msg);
+			   			   }
+			   		   }
+			   	   });
+			   }
+			   
+			   // 确认结果
+			   function confirmResult(){
+				   window.location.href = "${pageContext.request.contextPath}/supplierQuote/confirmResult.html";
+			   }
 			   //-------------------------放弃情况提示----------------//
 			   // 第一轮确认时：点击放弃按钮
 			  /*  if(status == '5' && remark == '3'){
@@ -464,6 +482,9 @@
 						</c:otherwise>
 					</c:choose>
 			  	</c:if>
+			  	<c:if test="${ obProject.remark == '666' }">
+				  	未中标
+			  	</c:if>
 			  </td>
 			</tr>
 		</c:forEach>
@@ -471,5 +492,8 @@
    </div>
       <div id="pagediv" align="right"></div>
    </div>
+   
+   <input id="aaa" type="text" />
+   <input id="bbb" type="text" />
 </body> 
 </html>

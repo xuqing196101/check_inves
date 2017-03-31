@@ -114,7 +114,7 @@
 				var id = ids[i];
 				var signalPrice = parseInt($("#"+id).html());
 				if(isNaN(signalPrice)){
-					layer.msg("请输入整数或两位小数");
+					layer.msg("请输入报价(整数或保留两位小数)");
 					return;
 				}
 			}
