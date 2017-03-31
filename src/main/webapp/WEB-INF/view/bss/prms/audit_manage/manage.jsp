@@ -35,7 +35,7 @@
 	  
 	  //加载页面
 	  function loadPage(id,url){
-	  	alert(id+"--"+url);
+	  	$.ajaxSetup({cache:false});
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
@@ -44,6 +44,7 @@
 	  
 	  //加载页面,不知道为什么不能一个方法调用。。
 	  function loadPageOne(id,url){
+	  	$.ajaxSetup({cache:false}); 
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
@@ -56,36 +57,42 @@
 	  	$("#"+id).load(path);
 	  } */
 	  function loadPageThree(id,url){
+	  	$.ajaxSetup({cache:false}); 
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 	  	$("#"+id).load(path);
 	  }
 	  function loadPageFour(id,url){
+	  	$.ajaxSetup({cache:false}); 
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 	  	$("#"+id).load(path);
 	  }
 	  function loadPageFive(id,url){
+	  	$.ajaxSetup({cache:false}); 
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 	  	$("#"+id).load(path);
 	  }
 	  function loadPageSix(id,url){
+	  	$.ajaxSetup({cache:false}); 
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 	  	$("#"+id).load(path);
 	  }
 	  function loadPageSeven(id,url){
+	  	$.ajaxSetup({cache:false}); 
 		var projectId = $("#projectId").val();
 	  	var flowDefineId = $("#flowDefineId").val();
 		var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 		$("#"+id).load(path);
 	  }
 	  function loadPageEight(id,url){
+	  	$.ajaxSetup({cache:false}); 
 		var projectId = $("#projectId").val();
 	  	var flowDefineId = $("#flowDefineId").val();
 		var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
@@ -95,6 +102,7 @@
 	  
 	  //页面默认加载第一页内容
 	  $(function() { 
+	  	$.ajaxSetup({cache:false});
 	  	var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/packageExpert/assignedExpert.html?projectId="+projectId+"&flowDefineId="+flowDefineId;

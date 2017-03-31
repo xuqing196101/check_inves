@@ -15,17 +15,18 @@
 </head>
 
 <script type="text/javascript">
-$(function idType(){
-
-    $("#idType").find("option[value='${expert.idType}']").attr("selected",true);
-    $("#expertsTypeId").find("option[value='${expert.expertsTypeId}']").attr("selected",true);
-
-});
+	$(function idType(){
+	
+	    $("#idType").find("option[value='${expert.idType}']").attr("selected",true);
+	    $("#expertsTypeId").find("option[value='${expert.expertsTypeId}']").attr("selected",true);
+	
+	});
  
-function sumbits(){
-	   var formData = $("#form").serialize();
-	      formData = decodeURIComponent(formData, true);
-	$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do",encodeURI(encodeURI(formData)));
+	function sumbits(){
+		var formData = $("#form").serialize();
+	    formData = decodeURIComponent(formData, true);
+	    $.ajaxSetup({cache:false});
+		$("#tab-1").load("${pageContext.request.contextPath}/ExpExtract/AddtemporaryExpert.do",encodeURI(encodeURI(formData)));
 	}
 </script>
 
