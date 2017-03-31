@@ -296,7 +296,7 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
-						layer.alert(obj.data);
+						layer.alert(obj.msg);
 						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
@@ -351,7 +351,7 @@
 			});
 		if(confirmStatus == 1) {
 				$.ajax({
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
 					type:"post",
 					dataType:"text",
 					data:{
@@ -371,7 +371,7 @@
 				});
 		} else if(confirmStatus == 2) {
 				$.ajax({
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
 					type:"post",
 					dataType:"text",
 					data:{
@@ -403,7 +403,7 @@
 			});
 		if(confirmStatus == 1) {
 				$.ajax({
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
 					type:"post",
 					dataType:"text",
 					data:{
@@ -423,7 +423,7 @@
 				});
 		} else if(confirmStatus == 2) {
 				$.ajax({
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.html",
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
 					type:"post",
 					dataType:"text",
 					data:{

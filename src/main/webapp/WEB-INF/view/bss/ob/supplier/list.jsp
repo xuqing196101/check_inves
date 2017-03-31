@@ -99,12 +99,11 @@
 		setInterval(function() {
 			sysDate = sysDate + 1000;
 			var sysDateInt = parseInt(sysDate / 1000);
-			var sysDates = sysDateInt.toString();
-			var times = $.inArray(sysDates, timeArray);
-			if(times >= '0'){
+			var times = $.inArray(sysDateInt, timeArray);
+			if(times >= 0){
 				reloadPage();
 			}
-			$("#bbb").val(sysDates);
+			$("#bbb").val(sysDateInt);
        	},1000);
 		
 		function reloadPage(){
