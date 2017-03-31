@@ -71,7 +71,7 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
    		  <c:forEach items="${extensions.supplierList}" var="supplier" varStatus="vs">
    		          <c:if test="${supplier.packages eq pack.id}">
 	                <th width="180" style="background-color:#f7f7f7;border: 1px solid #ddd;padding: 5px 10px;">
-	   		      ${supplier.suppliers.supplierName}额父亲为父亲额我父亲
+	   		      ${supplier.suppliers.supplierName}
 	   		        </th>
                   </c:if>	   		    		    
    		  </c:forEach>
