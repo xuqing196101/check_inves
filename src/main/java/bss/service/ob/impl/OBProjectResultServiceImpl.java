@@ -460,7 +460,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				 OBProject obProject = new OBProject();
 				 obProject.setId(projectResultList.get(0).getProjectId());
 				 User users = new User();
-				 user.setTypeId(projectResultList.get(0).getSupplierId());
+				 users.setTypeId(projectResultList.get(0).getSupplierId());
 				 String remark = "4";
 				 BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
 				 
@@ -479,7 +479,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				 OBProject obProject = new OBProject();
 				 obProject.setId(projectResultList.get(0).getProjectId());
 				 User users = new User();
-				 user.setTypeId(projectResultList.get(0).getSupplierId());
+				 users.setTypeId(projectResultList.get(0).getSupplierId());
 				 String remark = "42";
 				 BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
 			 }
