@@ -754,7 +754,7 @@
 						<!-- 
 						<input type="text" name="singQuote" id="singQuote" class="singQuote${(vs.index+1)}" value="${checkpass.wonPrice }" />
 						 点击生成-->
-						  ${checkpass.money}
+						 <fmt:formatNumber type="number" value="${checkpass.money}" pattern="0.0000" maxFractionDigits="4"/>
 						</td>
 					</c:if>
 					<c:if test="${quote==1 }">
@@ -867,10 +867,11 @@
 
 		</table>
 		<div class="col-md-12 tc">
+			<!-- 这个生成总价按钮去掉了，让后台传过来直接显示
 			<c:if test="${quote == 0 }">
 			<button class="btn btn-windows add" onclick="ratioPrice()"
 				type="button">生成总价</button>
-			</c:if>
+			</c:if> -->
 			<button class="btn btn-windows back" onclick="history.go(-1)"
 				type="button">返回</button>
 		</div>
