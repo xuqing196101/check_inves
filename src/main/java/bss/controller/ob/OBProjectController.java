@@ -657,8 +657,14 @@ public class OBProjectController {
 							}
 						}
 					}
-					String projectName = OBProjectServer.selectByPrimaryKey(obProjectId).getName();
-					Collections.sort(list);
+					OBProject obProjectww = OBProjectServer.selectByPrimaryKey(obProjectId);
+			    	if(obProjectww != null){
+			    		String projectName = obProjectww.getName();
+			    		model.addAttribute("projectName",projectName);
+			    	}
+			    	if(list != null){
+			    		Collections.sort(list);
+			    	}
 					model.addAttribute("list", list);
 					model.addAttribute("countProportion",countProportion);
 					model.addAttribute("projectName",projectName);
@@ -965,11 +971,16 @@ public class OBProjectController {
     			}
         	}
     	}
-    	String projectName = OBProjectServer.selectByPrimaryKey(projectId).getName();
-    	Collections.sort(list);
+    	OBProject obProject = OBProjectServer.selectByPrimaryKey(projectId);
+    	if(obProject != null){
+    		String projectName = obProject.getName();
+    		model.addAttribute("projectName",projectName);
+    	}
+    	if(list != null){
+    		Collections.sort(list);
+    	}
     	model.addAttribute("list", list);
     	model.addAttribute("countProportion",countProportion);
-    	model.addAttribute("projectName",projectName);
     	model.addAttribute("size",list.size());
     	return "bss/ob/biddingSpectacular/result";
     }
