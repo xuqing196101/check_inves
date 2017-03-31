@@ -125,6 +125,7 @@ http://www.springframework.org/schema/aop/spring-aop-3.0.xsd
 			<tx:method name="repair" propagation="REQUIRED" />
 			<tx:method name="delAndRepair" propagation="REQUIRED" />
 			<tx:method name="endSignIn" propagation="REQUIRED" />
+			<tx:method name="importSupplierInfo" propagation="REQUIRED" />
 
 			<tx:method name="get*" propagation="SUPPORTS" />
 			<tx:method name="find*" propagation="SUPPORTS" />
