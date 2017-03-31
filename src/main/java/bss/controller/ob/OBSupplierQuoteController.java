@@ -2,7 +2,6 @@ package bss.controller.ob;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,10 +12,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.util.NewBeanInstanceStrategy;
+
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,7 +25,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
-import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProductInfo;
@@ -37,7 +34,7 @@ import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
-import bss.model.ob.SupplierProductVo;
+import bss.model.ob.OBRuleTimeInterval;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
@@ -90,6 +87,7 @@ public class OBSupplierQuoteController {
 	 * @return String 返回类型
 	 * @throws
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/list")
 	public String list(@CurrentUser User user, Model model, HttpServletRequest request, Integer page)
 			throws ParseException {
@@ -116,8 +114,22 @@ public class OBSupplierQuoteController {
 		map.put("name", name);
 		map.put("createTime", createTime);
 		map.put("remark", remark);
-		List<OBProjectSupplier> oBProjectSupplier = obProjectServer.selectSupplierOBproject(map);
-		PageInfo<OBProjectSupplier> info = new PageInfo<OBProjectSupplier>(oBProjectSupplier);
+		// 调用Service方法
+		Map<String, Object> selectSupplierOBproject = obProjectServer.selectSupplierOBproject(map);
+		List<OBProjectSupplier> oBProjectSupplier = null;
+		List<OBRuleTimeInterval> timeList = null;
+		PageInfo<OBProjectSupplier> info = null;
+		if(selectSupplierOBproject != null){
+			// // 存储报价列表信息
+			oBProjectSupplier = (List<OBProjectSupplier>) selectSupplierOBproject.get("obProjectList");
+			info = new PageInfo<OBProjectSupplier>(oBProjectSupplier);
+			// 封装竞价各段时间的信息
+			timeList = (List<OBRuleTimeInterval>) selectSupplierOBproject.get("timeList");
+		}
+		// 将竞价信息转成json
+		String timeListObject = JSON.toJSONString(timeList);
+		model.addAttribute("timeListObject", timeListObject);
+		
 		// 将查询出的数据存入到model域中
 		model.addAttribute("info", info);
 		// 竞价发布时间回显
@@ -467,6 +479,7 @@ public class OBSupplierQuoteController {
 	 * @param request 	projectId--竞价标题id
 	 * @return string 视图页面
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("queryBiddingResult")
 	public String queryBiddingResult(Model model,
 			@CurrentUser User user,

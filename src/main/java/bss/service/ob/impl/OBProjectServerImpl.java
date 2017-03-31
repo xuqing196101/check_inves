@@ -38,6 +38,7 @@ import bss.model.ob.OBProjectRule;
 import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
+import bss.model.ob.OBRuleTimeInterval;
 import bss.model.ob.OBSpecialDate;
 import bss.model.ob.OBSupplier;
 import bss.service.ob.OBProjectServer;
@@ -988,7 +989,11 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 * @param @return 设定文件
 	 */
 	@Override
-	public List<OBProjectSupplier> selectSupplierOBproject(Map<String, Object> map) {
+	public Map<String, Object> selectSupplierOBproject(Map<String, Object> map) {
+		
+		// 定义Map集合用来存储竞价列表的信息
+		Map<String, Object> supplierQuotoList = new HashMap<String, Object>();
+		
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage((Integer) (map.get("page")),
 				Integer.parseInt(config.getString("pageSize")));
@@ -1001,16 +1006,49 @@ public class OBProjectServerImpl implements OBProjectServer {
 		List<OBProjectSupplier> obProjectList = obProjectSupplierMapper
 				.selectSupplierOBprojectList(map);
 		// 遍历得到竞价项目信息
+		// 定义集合用来封装竞价各段时间的信息
+		List<OBRuleTimeInterval> timeList = new ArrayList<OBRuleTimeInterval>();
 		if (obProjectList != null && obProjectList.size() > 0) {
 			for (OBProjectSupplier obProjectSupplier : obProjectList) {
 				List<OBProject> obProject = obProjectSupplier.getObProjectList();
 				if (obProject != null && obProject.size() > 0) {
+					Date quoteEndTime = BiddingStateUtil.getQuoteEndTime(obProject.get(0),obProjectRuleMapper);
 					// 调用封装报价截止时间方法
-					obProject.get(0).setQuoteEndTime(BiddingStateUtil.getQuoteEndTime(obProject.get(0),obProjectRuleMapper));
+					obProject.get(0).setQuoteEndTime(quoteEndTime);
+					
+					// 查询每个竞价信息对应的竞价规则
+					OBProjectRule obProjectRule = obProjectRuleMapper.selectByPrimaryKey(obProject.get(0).getId());
+					// 创建竞价时间段对象
+					OBRuleTimeInterval obRuleTimeInterval = new OBRuleTimeInterval();
+					// 设置报价开始时间
+					obRuleTimeInterval.setQuotoTimeDate(obProject.get(0).getStartTime());
+					// 设置报价结束时间
+					obRuleTimeInterval.setEndQuotoTimeDate(quoteEndTime);
+					
+					// 设置第一轮确认时间
+					// 第一轮确认时间=报价结束时间+第一轮确认时间
+					Integer confirmTimeInt = obProjectRule.getConfirmTime();
+					Date confirmTime = DateUtils.getAddDate(quoteEndTime, confirmTimeInt);
+					obRuleTimeInterval.setConfirmTime(confirmTime);
+					
+					// 设置第二轮确认时间
+					// 第二轮确认时间=第一轮确认时间+第二轮确认时间
+					Integer confirmTimeSecondInt = obProjectRule.getConfirmTimeSecond();
+					Date secondConfirmTime = DateUtils.getAddDate(confirmTime, confirmTimeSecondInt);
+					obRuleTimeInterval.setSecondConfirmTime(secondConfirmTime);
+					// 设置竞价项目ID
+					obRuleTimeInterval.setProjectId(obProject.get(0).getId());
+					
+					// 将时间段信息存储到集合中
+					timeList.add(obRuleTimeInterval);
 				}
 			}
 		}
-		return obProjectList;
+		// 存储报价列表信息
+		supplierQuotoList.put("obProjectList", obProjectList);
+		// 存储时间段信息
+		supplierQuotoList.put("timeList", timeList);
+		return supplierQuotoList;
 
 	}
     /**

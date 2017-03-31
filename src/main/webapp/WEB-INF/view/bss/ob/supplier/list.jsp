@@ -72,6 +72,20 @@
 	var sysDate;
 	// 页面加载完毕倒计时
 	$(function(){
+		// 获取当前页面各个时间段信息
+		var timeArray = [];
+		var timeListObject = ${timeListObject};
+		// 遍历获取当前页面时间段
+		$.each(timeListObject,function(index,ele){
+			// 获取报价开始时间
+			timeArray.push(ele.quotoTimeDate/1000);
+			// 获取报价结束时间
+			timeArray.push(ele.endQuotoTimeDate/1000);
+			// 获取第一轮确认时间
+			timeArray.push(ele.confirmTime/1000);
+			// 获取第二轮确认时间
+			timeArray.push(ele.secondConfirmTime/1000);
+		})
 		// 获取系统当前时间
 		$.ajax({
 			url:"${pageContext.request.contextPath}/supplierQuote/getSysTime.do",
@@ -80,9 +94,18 @@
 				sysDate = data;
 			}
 		});
+		// 定时执行
+		setInterval(function() {
+			sysDate = sysDate + 1000;
+			var sysDateS = sysDate / 1000;
+			var time = timeArray.indexOf(sysDateS);
+			if(time > -1){
+				// 刷新页面
+				window.location.reload();
+			}
+       	},1000);
+
 	});
-	
-	
 	
 	// 开始报价
 	function beginQuote() {
@@ -448,6 +471,5 @@
    </div>
       <div id="pagediv" align="right"></div>
    </div>
-
-</body>
+</body> 
 </html>

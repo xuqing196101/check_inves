@@ -117,7 +117,7 @@ public interface OBProjectServer {
 	* @return List<OBProject>    返回类型 
 	* @throws
 	 */
-	List<OBProjectSupplier> selectSupplierOBproject(Map<String,Object> map);
+	Map<String, Object> selectSupplierOBproject(Map<String,Object> map);
 
 	/**
 	 * 
