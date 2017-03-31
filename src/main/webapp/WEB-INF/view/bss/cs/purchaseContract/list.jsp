@@ -10,8 +10,6 @@
 	<meta http-equiv="expires" content="0">    
 	<meta http-equiv="keywords" content="keyword1,keyword2,keyword3">
 	<meta http-equiv="description" content="This is my page">
-	  <script src="${pageContext.request.contextPath}/public/layer/layer.js"></script>
-	  <script src="${pageContext.request.contextPath}/public/laypage-v1.3/laypage/laypage.js"></script>
   <script type="text/javascript">
   $(function(){
 	  var status = "${isCreate}";
@@ -26,15 +24,16 @@
 		    endRow: "${list.endRow}",
 		    groups: "${list.pages}">=3?3:"${list.pages}", //连续显示分页数
 		    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-		        var page = location.search.match(/page=(\d+)/);
-		        return page ? page[1] : 1;
+		    	return "${list.pageNum}";
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
-		        	var projectName = $("#projectName").val();
+		        	$("#page").val(e.curr);
+            		$("#form1").submit();
+		        	/* var projectName = $("#projectName").val();
 		      		var projectCode = $("#projectCode").val();
 		      		var purchaseDep = $("#purchaseDep").val();
-		      		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep+"&page="+e.curr;
+		      		window.location.href="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html?projectName="+projectName+"&projectCode="+projectCode+"&purchaseDep="+purchaseDep+"&page="+e.curr; */
 		        }
 		    }
 		});
@@ -286,24 +285,27 @@
    </div> 
 <!-- 项目戳开始 -->
      <div class="search_detail">
+     <form action="${pageContext.request.contextPath}/purchaseContract/selectAllPuCon.html" id="form1" method="post" class="mb0">
+		       		<input type="hidden" name="page" id="page">
     	<ul class="demand_list">
-          <li class="fl pl20"><label class="fl">采购项目名称：</label><span><input type="text" value="${projectName }" id="projectName" class=""/></span></li>
-	      <li class="fl pl50"><label class="fl">采购项目编号：</label><span><input type="text" value="${projectCode }" id="projectCode" class=""/></span></li>
-	      <li class="fl pl50"><label class="fl">采购机构：</label><span><input type="text" value="${purchaseDep }" id="purchaseDep" class=""/></span></li>
+    		
+          <li class="fl pl20"><label class="fl">采购项目名称：</label><span><input type="text" name="projectName" value="${projectName }" id="projectName" class=""/></span></li>
+	      <li class="fl pl50"><label class="fl">采购项目编号：</label><span><input type="text" name="projectCode" value="${projectCode }" id="projectCode" class=""/></span></li>
+	      <%-- <li class="fl pl50"><label class="fl">采购机构：</label><span><input type="text" value="purchaseDep" value="${purchaseDep }" id="purchaseDep" class=""/></span></li> --%>
 	      <li class="fl pl20"><label class="fl">采购项目状态：</label><span>
-	      	<select id="isCreate" name="isCreateContract" class="mb0 mt5 w178">
+	      	<select id="isCreate"  name="isCreate" class="mb0 mt5 w178">
 	      		<option value="">--请选择--</option>
-	      		<option value="2">暂存</option>
 	      		<option value="0">未生成</option>
 	      		<option value="1">已生成</option>
 	      	</select>
-	      </span></li>	
+	      </span></li>
     	</ul>
 	      <div class="col-md-12 col-sm-12 col-xs-12 tc">
 	    	<button type="button" onclick="query()" class="btn">查询</button>
 	    	<button type="reset" onclick="reset()" class="btn">重置</button>
 	      </div>  
     	  <div class="clear"></div>
+    	</form>
      </div>
     <div class="col-md-12 pl20 mt10">
 		<button class="btn" onclick="createContract()">生成</button>
@@ -330,7 +332,41 @@
 				<th class="info">状态</th>
 			</tr>
 		</thead>
-		<c:forEach items="${packageList}" var="pack" varStatus="vs">
+		<c:forEach items="${listpass}" var="pass" varStatus="vs">
+		<tr>
+				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pass.packages.id}" /></td>
+				<td class="tnone">${pass.supplierId}</td>
+				<td class="tnone">${pass.id}</td>
+				<td class="tnone">${pass.isCreateContract}</td>
+				<td class="tnone">${pass.packages.wonPrice}</td>
+				<td class="tc pointer">${(vs.index+1)}</td>
+				<c:set value="${pass.project.name}" var="name"></c:set>
+				<c:set value="${fn:length(name)}" var="length"></c:set>
+				<c:if test="${length>10}">
+					<td class="tl pl20 pointer" title="${name}">${fn:substring(name,0,10)}...</td>
+				</c:if>
+				<c:if test="${length<=10}">
+					<td class="tl pl20 pointer" title="${name}">${name}</td>
+				</c:if>
+				<c:set value="${pass.project.projectNumber}" var="code"></c:set>
+				<c:set value="${fn:length(code)}" var="length"></c:set>
+				<c:if test="${length>10}">
+					<td class=" tl pl20 pointer" title="${code}" >${fn:substring(code,0,10)}...</td>
+				</c:if>
+				<c:if test="${length<=10}">
+					<td class=" tl pl20 pointer" title="${code}">${code}</td>
+				</c:if>
+				<td class="tc pointer">${pass.packages.name}</td>
+				<td class="tr pr20 pointer">${pass.packages.wonPrice}</td>
+				<td class="tl pl20 pointer">${pass.supplier.supplierName}</td>
+				<td class="tc pointer">${pass.project.purchaseDep.depName}</td>
+				<td class="tc">
+					<%-- <c:if test="${pass.isCreateContract==2}">暂存</c:if> --%>
+					<c:if test="${pass.isCreateContract==1}">已生成</c:if>
+					<c:if test="${pass.isCreateContract!=1}">未生成</c:if>
+				</td>
+		</c:forEach>
+		<%-- <c:forEach items="${listpass.list}" var="pack" varStatus="vs">
 			<tr>
 				<td class="tc pointer"><input onclick="check()" type="checkbox" name="chkItem" value="${pack.id}" /></td>
 				<td class="tnone">${pack.supplierId}</td>
@@ -364,7 +400,7 @@
 					<c:if test="${pack.isCreateContract==0}">未生成</c:if>
 				</td>
 			</tr>
-		</c:forEach>
+		</c:forEach> --%>
 	</table>
     </div>
    <div id="pagediv" align="right"></div>

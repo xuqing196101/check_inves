@@ -11,6 +11,7 @@ import org.springframework.transaction.annotation.Transactional;
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
+import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierBranchMapper;
@@ -45,6 +46,7 @@ import ses.model.sms.SupplierItem;
 import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
+import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierStockholder;
@@ -146,6 +148,8 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     @Autowired
     private SupplierModifyMapper supplierModifyMapper;
     
+    @Autowired
+    private UserMapper userMapper;
     
     /**
      * 
@@ -261,7 +265,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     		   if(supplier.getSupplierMatEng().getListSupplierAptitutes().size()>0){
     			   for(SupplierAptitute sb:supplier.getSupplierMatEng().getListSupplierAptitutes()){
-    				   supplierAptituteMapper.insertSelective(sb);
+    				   SupplierAptitute ap = supplierAptituteMapper.selectByPrimaryKey(sb.getId());
+    				   if(ap==null){
+    					   supplierAptituteMapper.insertSelective(sb);
+    				   }
+    				   
     			   }
     		   }
     		   if(supplier.getSupplierMatEng().getListSupplierCertEngs().size()>0){
@@ -290,7 +298,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   }
     	   }
     	   if(supplier.getSupplierMatSe()!=null){
-    		   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
+    		   SupplierMatServe serve = supplierMatServeMapper.selectByPrimaryKey(supplier.getSupplierMatSe().getId());
+    		   if(serve==null){
+    			   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
+    		   }else if(serve!=null){
+    			   supplierMatServeMapper.updateByPrimaryKey(supplier.getSupplierMatSe());
+    		   }
+    		   
 			   if(supplier.getSupplierMatSe().getListSupplierCertSes().size()>0){
 				  for(SupplierCertServe sc:supplier.getSupplierMatSe().getListSupplierCertSes()){
 //					  if(sc.getFileList().size()>0){
@@ -299,8 +313,11 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 // 	    	    			   fileUploadMapper.insertFile(uf);
 // 	    	    		   }
 // 		   				}
+					  SupplierCertServe certServe = supplierCertServeMapper.selectByPrimaryKey(sc.getId());
+					  if(certServe==null){
+						  supplierCertServeMapper.insertSelective(sc); 
+					  }
 					  
-					  supplierCertServeMapper.insertSelective(sc);
 				  } 
 			   }
 		   }
@@ -312,7 +329,13 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
 //	    	    			   fileUploadMapper.insertFile(uf);
 //	    	    		   }
 //		   				}
-    			   supplierItemMapper.insertSelective(st);
+    			   SupplierItem item = supplierItemMapper.selectByPrimaryKey(st.getId());
+    			   if(item==null){
+    				   supplierItemMapper.insertSelective(st);
+    			   }else if(item!=null){
+    				   supplierItemMapper.updateByPrimaryKeySelective(item);
+    			   }
+    			   
     		   }
     	   }
     	   
@@ -325,17 +348,26 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     	   
     	   if(supplier.getHistorys().size()>0){
     		   for(SupplierHistory sh:supplier.getHistorys()){
-    			   supplierHistoryMapper.insertSelective(sh);
+//    			   supplierHistoryMapper.insertSelective(sh);
     		   }
     	   }
     	   if(supplier.getModifys().size()>0){
     		   for(SupplierModify sh:supplier.getModifys()){
-    			   supplierModifyMapper.insertSelective(sh);
+//    			   supplierModifyMapper.insertSelective(sh);
     		   }
     	   }
-    	   
-           saveUser(supplier.getUser());
-           saveSupplier(supplier);
+    	   User us = userMapper.queryById(supplier.getUser().getId());  
+    	   if(us==null){
+    		   saveUser(supplier.getUser()); 
+    	   }
+           
+           Supplier supp = supplierSerice.selectById(supplier.getId());
+           if(supp==null){
+        	   saveSupplier(supplier);
+           }else{
+//        	   supplierSerice.u
+           }
+          
     	  }
        }
        synchRecordService.importNewSupplierRecord(new Integer(list.size()).toString());

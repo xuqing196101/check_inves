@@ -4,14 +4,16 @@ import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.LinkedList;
 import java.util.List;
 
 import ses.model.bms.Area;
 import ses.model.bms.CategoryParameter;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.bms.Userrole;
 import ses.util.MyAnnotation;
 import bss.model.ppms.ProjectDetail;
-
 import common.model.UploadFile;
 
 /**
@@ -675,8 +677,28 @@ public class Supplier implements Serializable {
     
     private List<SupplierModify> modifys=new ArrayList<SupplierModify>();
     
-    public List<SupplierModify> getModifys() {
+    private  List<Todos> todoList=new LinkedList<Todos>();
+    
+    private  List<Userrole> userRoles=new LinkedList<Userrole>();
+    
+    public List<Userrole> getUserRoles() {
+		return userRoles;
+	}
+
+	public void setUserRoles(List<Userrole> userRoles) {
+		this.userRoles = userRoles;
+	}
+
+	public List<SupplierModify> getModifys() {
 		return modifys;
+	}
+
+	public List<Todos> getTodoList() {
+		return todoList;
+	}
+
+	public void setTodoList(List<Todos> todoList) {
+		this.todoList = todoList;
 	}
 
 	public void setModifys(List<SupplierModify> modifys) {

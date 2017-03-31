@@ -167,12 +167,29 @@
 		   
   </select>
   <!-- 查找符合当前竞标的供应商在 竞价结果表 中的status mmw-->
-  <select id="selectSupplierStatus" resultType="java.lang.String" parameterType="bss.model.ob.OBProjectResult" >
-    select status from T_BSS_OB_PROJECT_RESULT 
+  <select id="selectSupplierStatus" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProjectResult" >
+    select status,RANKING,COUNT(SUPPLIER_ID) as REMARK,SUM(PROPORTION) as PROPORTION from T_BSS_OB_PROJECT_RESULT 
     WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID=#{supplierId,jdbcType=VARCHAR} 
-    GROUP BY STATUS
+    GROUP BY STATUS,RANKING
   </select>
-  
+   <!-- 查找 确认的供应商人数-->
+  <select id="selectSupplierPeo" resultMap="BaseResultMap" parameterType="java.lang.String" >
+     select count(SUPPLIER_ID) as REMARK from T_BSS_OB_PROJECT_RESULT where PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+     and STATUS=1
+     GROUP BY SUPPLIER_ID
+  </select>
+   <!-- 查找 确认的供应商总比例-->
+  <select id="getAllProportion" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select SUM(PROPORTION) as PROPORTION from T_BSS_OB_PROJECT_RESULT 
+    WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR}  and status=1 
+  </select>
+   <!-- 查找参与竞价 全部状态-->
+  <select id="getStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
+   select RANKING,COUNT(SUPPLIER_ID) as REMARK ,SUPPLIER_ID from T_BSS_OB_PROJECT_RESULT 
+    WHERE PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+    GROUP BY RANKING,SUPPLIER_ID
+ORDER BY RANKING
+  </select>
    <!-- 根据竞价 id查 的供应商信息结果信息 -->
   <select id="selectNotSuppler" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

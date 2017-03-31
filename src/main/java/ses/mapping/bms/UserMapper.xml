@@ -904,4 +904,23 @@
 		    AND
 		    r.CODE != 'SUPPLIER_R'
     </select>
+    
+    
+    <select id="queryByUserId" resultMap="ses.model.bms.Userrole">
+    select ur.USER_ID as userId ,ur.ROLE_ID as roleId from  T_SES_BMS_USER_ROLE  ur
+	    where 1=1
+	    <if test="userId !=null">
+	     ur.USER_ID =#{userId}
+	    </if>
+	    <if test="roleId !=null">
+	     ur.ROLE_ID =#{roleId}
+	    </if>
+    </select>
+    
+    <select id="queryById" resultMap="UserBaseMap">
+    select <include refid="Base_Column_List"/>
+     from T_SES_BMS_USER
+      where ID=#{id}
+    </select>
+    
 </mapper>

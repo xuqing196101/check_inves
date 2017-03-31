@@ -171,6 +171,10 @@
   		<taglib-uri>/tld/auth</taglib-uri>
   		<taglib-location>/WEB-INF/tlds/auth.tld</taglib-location>
   	</taglib>
+  	<taglib>
+  		<taglib-uri>www.plap.cn/functions</taglib-uri>
+  		<taglib-location>/WEB-INF/tlds/issData.tld</taglib-location>
+  	</taglib>
   </jsp-config>
   <servlet>
   	<servlet-name>uploadInit</servlet-name> 

@@ -57,7 +57,6 @@
 	var confirmOvertime = "${result.confirmOvertime }";
 	var secondOvertime = "${result.secondOvertime }";
 	var sysCurrentTime = "${sysCurrentTime }"; 
-	var changeRatioCounts = [];
 	var downTimer;
 	var downTimer2;
 	$(function() {
@@ -113,7 +112,7 @@
 					} else {
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
+							var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -178,6 +177,49 @@
 				layer.alert("已经在第一轮,不能修改第二轮的数据");
 			}
 		});
+		
+		
+		//页面加载进来计算合计金额
+		 var allCount = 0;
+		var allCount2 = 0;
+		if(passStatus==1){
+		$("[title='theProductTotalPrice']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts[index],100,currentVal);
+							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$("[title='theProductCount']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productResultsCount']").val(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
+								}
+							});
+							allCount += afterCount * productPrices[index];
+						});
+						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+			}else if(passStatus==2){
+		//第二轮占比改动，调动下面的数据
+						$("[title='theProductTotalPrice2']").each(function(index,element) {
+							var afterCount = getDownRatioVal(changeRatioCounts2[index],100,currentSecondVal);
+							$(this).text((afterCount * productPrices2[index]).toFixed(2));
+							$("[title='theProductCount2']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productResultsCount']").val(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
+								}
+							});
+							allCount += afterCount * productPrices2[index];
+						});
+						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
+			}
+		$("[title='theProductTotalPrice']").each(function(index,element) {
+			allCount += parseFloat($(this).text());
+		});
+		$("[title='theProductTotalPrice2']").each(function(index,element) {
+			allCount2 += parseInt($(this).text());
+		});
+		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
 	});
 	
 	
@@ -241,7 +283,7 @@
 					oBProjectResult.ranking = "${result.ranking}";
 					oBProjectResult.projectResultId="${result.resultId}";
 					oBProjectResult.proportion = $("input[name='confirmRatioFirst']").val();
-					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.productId = $(this).find("input[name='productName']").val();
 					oBProjectResult.resultNumber = $(this).find("input[name='productResultsNumber']").val();
 					oBProjectResult.myOfferMoney = $(this).find("input[name='productMyOfferMoney']").val();
 					oBProjectResult.dealMoney = $(this).find("input[name='productDealMoney']").val();
@@ -254,8 +296,8 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
 					layer.close(inde);
@@ -270,7 +312,7 @@
 					oBProjectResult.supplierId = "${result.supplierId}";
 					oBProjectResult.ranking = "${result.ranking}";
 					oBProjectResult.proportion = $("input[name='confirmRatioSecond']").val();
-					oBProjectResult.productId = $(this).find("input[name='productId']").val();
+					oBProjectResult.productId = $(this).find("input[name='productName']").val();
 					oBProjectResult.resultNumber = $(this).find("input[name='productResultsNumber']").val();
 					oBProjectResult.myOfferMoney = $(this).find("input[name='productMyOfferMoney']").val();
 					oBProjectResult.dealMoney = $(this).find("input[name='productDealMoney']").val();
@@ -283,8 +325,8 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(obj) {
 					layer.close(inde);
@@ -317,12 +359,12 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
-					layer.close(inde);
 						layer.alert("第一轮放弃失败");
+					layer.close(inde);
 					}
 				});
 		} else if(confirmStatus == 2) {
@@ -337,12 +379,12 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
-					layer.close(inde);
 						layer.alert("第二轮放弃失败");
+					layer.close(inde);
 					}
 				});
 				}
@@ -353,8 +395,6 @@
 	function close(confirmStatus) {
 			var projectResult = {};
 		var closeLayerIndex = 0;
-			layer.confirm('您确定要放弃吗?', {title:'提示',offset: ['222px','500px'],shade:0.01}, function(index){
-				layer.close(index);
 		var inde = layer.load(0, {
 				shade : [ 0.1, '#fff' ],
 				offset : [ '45%', '53%' ]
@@ -371,8 +411,8 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
 					layer.close(inde);
@@ -391,8 +431,8 @@
 						"projectResultId":"${result.resultId}"
 					},
 					success:function(data){
+						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					layer.close(inde);
-						location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
 					error : function(data) {
 					layer.close(inde);
@@ -400,23 +440,7 @@
 					}
 				});
 				}
-			});
-	}
-	
-	
-	$(function() {
-		//页面加载进来计算合计金额
-		 var allCount = 0;
-		var allCount2 = 0;
-		$("[title='theProductTotalPrice']").each(function(index,element) {
-			allCount += parseFloat($(this).text());
-		});
-		$("[title='theProductTotalPrice2']").each(function(index,element) {
-			allCount2 += parseInt($(this).text());
-		});
-		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
-		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
-	});
+	   }
 	
 	/* 显示规则 */
 	function showRule(){

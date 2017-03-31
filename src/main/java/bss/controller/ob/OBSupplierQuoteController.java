@@ -2,7 +2,6 @@ package bss.controller.ob;
 
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -13,10 +12,9 @@ import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 
-import net.sf.json.util.NewBeanInstanceStrategy;
+
 
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -28,6 +26,7 @@ import ses.model.bms.User;
 import ses.util.DictionaryDataUtil;
 import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
+import bss.dao.ob.OBProjectSupplierMapper;
 import bss.model.ob.ConfirmInfoVo;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
@@ -36,11 +35,13 @@ import bss.model.ob.OBProjectSupplier;
 import bss.model.ob.OBResultInfoList;
 import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
-import bss.model.ob.SupplierProductVo;
+import bss.model.ob.OBRuleTimeInterval;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
 import bss.service.ob.OBSupplierQuoteService;
+import bss.util.BiddingStateUtil;
 
+import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.annotation.CurrentUser;
@@ -74,7 +75,8 @@ public class OBSupplierQuoteController {
 		
 	@Autowired
 	private OBProjectResultMapper OBProjectResultMapper;
-
+	@Autowired
+	private OBProjectSupplierMapper mapper;
 	/**
 	 * @throws ParseException
 	 * 
@@ -88,6 +90,7 @@ public class OBSupplierQuoteController {
 	 * @return String 返回类型
 	 * @throws
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("/list")
 	public String list(@CurrentUser User user, Model model, HttpServletRequest request, Integer page)
 			throws ParseException {
@@ -114,8 +117,22 @@ public class OBSupplierQuoteController {
 		map.put("name", name);
 		map.put("createTime", createTime);
 		map.put("remark", remark);
-		List<OBProjectSupplier> oBProjectSupplier = obProjectServer.selectSupplierOBproject(map);
-		PageInfo<OBProjectSupplier> info = new PageInfo<OBProjectSupplier>(oBProjectSupplier);
+		// 调用Service方法
+		Map<String, Object> selectSupplierOBproject = obProjectServer.selectSupplierOBproject(map);
+		List<OBProjectSupplier> oBProjectSupplier = null;
+		List<OBRuleTimeInterval> timeList = null;
+		PageInfo<OBProjectSupplier> info = null;
+		if(selectSupplierOBproject != null){
+			// // 存储报价列表信息
+			oBProjectSupplier = (List<OBProjectSupplier>) selectSupplierOBproject.get("obProjectList");
+			info = new PageInfo<OBProjectSupplier>(oBProjectSupplier);
+			// 封装竞价各段时间的信息
+			timeList = (List<OBRuleTimeInterval>) selectSupplierOBproject.get("timeList");
+		}
+		// 将竞价信息转成json
+		String timeListObject = JSON.toJSONString(timeList);
+		model.addAttribute("timeListObject", timeListObject);
+		
 		// 将查询出的数据存入到model域中
 		model.addAttribute("info", info);
 		// 竞价发布时间回显
@@ -198,7 +215,135 @@ public class OBSupplierQuoteController {
 		
 		return "bss/ob/supplier/supplierOffer";
 	}
-
+	/**
+	 * @author Ma Mingwei
+	 * @param model 
+	 * @param supplierId 供应商id
+	 * @description 验证
+	 * @return string 视图页面
+	 * @throws ParseException 
+	 */
+	@RequestMapping(value="/checkConfirmResult",produces = "text/html;charset=UTF-8")
+	@ResponseBody
+	public JdcgResult checkConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
+			String supplierId, String projectId) throws ParseException {
+		supplierId = user.getTypeId();
+		String confirmStatus="";
+		OBProjectResult oBProjectResult=new OBProjectResult();
+		oBProjectResult.setProjectId(projectId);
+		oBProjectResult.setSupplierId(supplierId);
+		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
+		 if(project!=null){
+			 //竞价结束时间 和当前时间比较
+		  if(project.getEndTime().getTime()<new Date().getTime()){
+			  confirmStatus="4";
+		  }else{
+		 List<OBProjectResult>	getList= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		 if(getList!=null && getList.size()==1){
+			 //必须一条数据 状态是-1 表示第一轮
+		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
+		    	if(getList.get(0).getProportion().equals("0")){
+		    		//未中标
+					confirmStatus="5";
+		    	}else{
+		    		//第一轮
+		    		confirmStatus="1";
+		    	}
+		     }else if(getList.get(0).getStatus()==1){
+		    	 //标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
+		    	 confirmStatus="2";
+		     }
+		  }else if(getList!=null && getList.size()==2){
+			  //已经操作过第二轮
+			  confirmStatus="3";
+		 }
+		  if(confirmStatus=="2"){
+			  List<OBProjectResult> peolist= OBProjectResultMapper.selectSupplierPeo(projectId);
+			  if(peolist!=null){
+				  //判断供应商接受的成交数 未达到  竞价成交供应商数量 
+			  if(project.getTradedSupplierCount()>peolist.size()){
+				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
+				  if(obpro.getProportion().equals("100")){
+					  confirmStatus="6";
+				  	}else{
+			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
+			 OBProjectResult result=null;
+			 for(OBProjectResult obp:rankingList){
+				  if(obp.getSupplierId().equals(supplierId)){
+					  result=obp;
+					  break;
+				  }
+			 }
+			 if(result.getRanking()==1){
+				 confirmStatus="2";
+			 }else{
+				 int indexof=rankingList.indexOf(result);
+				 OBProjectResult result1=rankingList.get(indexof-1);
+				 if(result1.getRemark().equals("2")){
+					 confirmStatus="2";
+				 }else{
+					 confirmStatus="3";
+				}
+			   }
+			   }
+			  }else{
+				  // 结束
+				  confirmStatus="6";
+			  }
+		     }
+		    }
+		  }
+		 }else{
+			 confirmStatus="4";
+		 }
+		  if(confirmStatus=="2"){
+			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
+			 OBProjectResult result=null;
+			 for(OBProjectResult obp:rankingList){
+				  if(obp.getSupplierId().equals(supplierId)){
+					  result=obp;
+					  break;
+				  }
+			 }
+			 if(result.getRanking()==1){
+				 confirmStatus="2";
+			 }else{
+				 int indexof=rankingList.indexOf(result);
+				 OBProjectResult result1=rankingList.get(indexof-1);
+				 if(result1.getRemark().equals("2")){
+					 confirmStatus="2";
+				 }else{
+					 confirmStatus="3";
+				 }
+			 }
+		  }
+		 JdcgResult jdcg=new JdcgResult();
+		 if(confirmStatus=="1"){
+			 jdcg.setStatus(1);
+			 jdcg.setMsg("第一轮");
+		 }else   if(confirmStatus=="2"){
+			 jdcg.setStatus(2);
+			 jdcg.setMsg("第二轮");
+		 }else  if(confirmStatus=="3"){
+			 jdcg.setStatus(3);
+			 jdcg.setMsg("第二轮已操作");
+		 }else if(confirmStatus=="4"){
+			 jdcg.setStatus(4);
+			 jdcg.setMsg("时间已结束");
+		 }else if(confirmStatus=="5") {
+			 jdcg.setStatus(5);
+			 jdcg.setMsg("第一轮未中标");
+		 }else if(confirmStatus=="6"){
+			 jdcg.setStatus(6);
+			 jdcg.setMsg("竞价已结束");
+		 }else{
+			 jdcg.setStatus(0);
+			 jdcg.setMsg("错误");
+		 }
+		return jdcg;
+	}
+	
+	
 	/**
 	 * @author Ma Mingwei
 	 * @param model 
@@ -207,7 +352,7 @@ public class OBSupplierQuoteController {
 	 * @return string 视图页面
 	 * @throws ParseException 
 	 */
-	@RequestMapping("/confirmResult")
+	@RequestMapping(value="/confirmResult",produces = "text/html;charset=UTF-8")
 	public String quoteConfirmResult(@CurrentUser User user, Model model, HttpServletRequest request,
 			String supplierId, String projectId) throws ParseException {
 		supplierId = user.getTypeId();
@@ -215,71 +360,98 @@ public class OBSupplierQuoteController {
 		OBProjectResult oBProjectResult=new OBProjectResult();
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
-		String status=null;
-		try {
-			status= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
-		} catch (Exception e) {
-			// TODO: handle exception
-		}
-		if(status.equals("1")){
-			confirmStatus="2";
-		}else if(status.equals("-1")){
-			confirmStatus="1";
-		}
-		ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
-		SimpleDateFormat sdf=new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-		model.addAttribute("sysCurrentTime", new Date());
-	 	model.addAttribute("result", result);
-	 	model.addAttribute("confirmStatus", confirmStatus);
-	/*	supplierId = user.getTypeId();
-		//把供应商id和标题id封装在oBProjectResult对象里
-		OBProjectResult oBProjectResult = new OBProjectResult();
-		oBProjectResult.setProjectId(projectId);
-		oBProjectResult.setSupplierId(supplierId);
-		//先查找一下符合当前竞标的供应商在 竞价结果表 中的status
-		String confirmStatus = oBProjectResultService.selectSupplierStatus(oBProjectResult);
-		
-		
-		//这是第一轮显示的数据，由于尽管是第二轮这个依然要显示bidProductList
-		//状态为-1，也就是默认时，查找的第一轮的信息，第一、二轮都要显示的
-		ConfirmInfoVo confirmInfoVo= new  ConfirmInfoVo();
-		ConfirmInfoVo confirmInfoVo1 = oBProjectResultService.selectInfoByPSId(oBProjectResult,"-1");
-		BeanUtils.copyProperties(confirmInfoVo1, confirmInfoVo);
-		confirmInfoVo1 = null;
-		//根据状态有选择的查询
-		if("1".equals(confirmStatus)) {
-			//第一轮接受，参加第二轮的操作
-			confirmInfoVo1= oBProjectResultService.selectInfoByPSId(oBProjectResult,confirmStatus);
-			model.addAttribute("secondConfirmInfoVo", confirmInfoVo1);
-		}
-		if("0".equals(confirmStatus)) {
-			//第一轮放弃，参加第二轮时的操作	这个需求暂时无，不走这一步
-			
-		}
-		//获取当前(在猫上运行，就是猫的)时间,（用此时间和当前标题的各个时间段比对）
-		Date sysCurrentTime = new Date();
-		
-		double allProductPrice = 0;
-		if(confirmInfoVo != null) {
-			for(int i = 0;i < confirmInfoVo.getBidProductList().size();i++) {
-				Double dealMoney = confirmInfoVo.getBidProductList().get(i).getMyOfferMoney().doubleValue() * confirmInfoVo.getBidProductList().get(i).getProductNum().doubleValue();
-				confirmInfoVo.getBidProductList().get(i).setDealMoney(new BigDecimal(dealMoney));
-				allProductPrice += dealMoney;
-			}
-		}
-		
-		// 根据供应商查询到的竞价结果信息
-		List<OBProjectResult> oBProjectResultList = oBProjectResultService.selectBySupplierId(supplierId);
-		
-		model.addAttribute("confirmStatus", confirmStatus);
-		model.addAttribute("oBProjectResultList", oBProjectResultList);
-		model.addAttribute("allProductPrice", allProductPrice);
-		model.addAttribute("projectId", projectId);
-		model.addAttribute("sysCurrentTime", sysCurrentTime);
-		model.addAttribute("supplierId", supplierId);
-		model.addAttribute("confirmInfoVo", confirmInfoVo);*/
-
-		return "bss/ob/supplier/confirmResult";
+		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
+		 if(project!=null){
+			 //竞价结束时间 和当前时间比较
+		  if(project.getEndTime().getTime()<new Date().getTime()){
+			  confirmStatus="4";
+		  }else{
+		 List<OBProjectResult>	getList= OBProjectResultMapper.selectSupplierStatus(oBProjectResult);
+		 if(getList!=null && getList.size()==1){
+			 //必须一条数据 状态是-1 表示第一轮
+		    if(getList.get(0).getStatus()==-1 && getList.get(0).getRemark().equals("1")){
+		    	if(getList.get(0).getProportion().equals("0")){
+		    		//未中标
+					confirmStatus="5";
+		    	}else{
+		    		//第一轮
+		    		confirmStatus="1";
+		    	}
+		     }else if(getList.get(0).getStatus()==1){
+		    	 //标识第一轮 接受 如果竞价未完成 100% 可参加 第二轮
+		    	 confirmStatus="2";
+		     }
+		  }else if(getList!=null && getList.size()==2){
+			  //已经操作过第二轮
+			  confirmStatus="3";
+		 }
+		  if(confirmStatus=="2"){
+			  List<OBProjectResult> peolist= OBProjectResultMapper.selectSupplierPeo(projectId);
+			  if(peolist!=null){
+				  //判断供应商接受的成交数 未达到  竞价成交供应商数量 
+			  if(project.getTradedSupplierCount()>peolist.size()){
+				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
+				  if(obpro.getProportion().equals("100")){
+					  confirmStatus="6";
+				  	}else{
+			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
+			 OBProjectResult result=null;
+			 for(OBProjectResult obp:rankingList){
+				  if(obp.getSupplierId().equals(supplierId)){
+					  result=obp;
+					  break;
+				  }
+			 }
+			 if(result.getRanking()==1){
+				 confirmStatus="2";
+			 }else{
+				 int indexof=rankingList.indexOf(result);
+				 OBProjectResult result1=rankingList.get(indexof-1);
+				 if(result1.getRemark().equals("2")){
+					 confirmStatus="2";
+				 }else{
+					 confirmStatus="3";
+				}
+			   }
+			   }
+			  }else{
+				  // 结束
+				  confirmStatus="6";
+			  }
+		     }
+		    }
+		  }
+		 }else{
+			 confirmStatus="4";
+		 }
+		  if(confirmStatus=="2"){
+			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
+			 OBProjectResult result=null;
+			 for(OBProjectResult obp:rankingList){
+				  if(obp.getSupplierId().equals(supplierId)){
+					  result=obp;
+					  break;
+				  }
+			 }
+			 if(result.getRanking()==1){
+				 confirmStatus="2";
+			 }else{
+				 int indexof=rankingList.indexOf(result);
+				 OBProjectResult result1=rankingList.get(indexof-1);
+				 if(result1.getRemark().equals("2")){
+					 confirmStatus="2";
+				 }else{
+					 confirmStatus="3";
+				 }
+			 }
+		  }
+		 if(confirmStatus=="1"||confirmStatus=="2"){
+		  ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
+			model.addAttribute("sysCurrentTime", new Date());
+		 	model.addAttribute("result", result);
+		 	model.addAttribute("confirmStatus", confirmStatus);
+		  }
+		 return "/bss/ob/supplier/confirmResult";
 	}
 
 	/**
@@ -439,6 +611,7 @@ public class OBSupplierQuoteController {
 	 * @param request 	projectId--竞价标题id
 	 * @return string 视图页面
 	 */
+	@SuppressWarnings("unchecked")
 	@RequestMapping("queryBiddingResult")
 	public String queryBiddingResult(Model model,
 			@CurrentUser User user,

@@ -1,6 +1,7 @@
 package bss.service.ppms;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import bss.model.ppms.Packages;
@@ -129,4 +130,5 @@ public interface SupplierCheckPassService {
   void changeSupplierWonTheBidding(String packageId, String priceRatios);
   List<SupplierCheckPass> getByContractId(String contractId);
   List<SupplierCheckPass> selectPackageIdWonBid(String packageId);
+  List<SupplierCheckPass> listsupplier(HashMap<String, Object> map);
 }

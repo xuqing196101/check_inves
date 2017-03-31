@@ -4,6 +4,8 @@ package ses.dao.bms;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.bms.Todos;
 
 public interface TodosMapper {
@@ -103,6 +105,18 @@ public interface TodosMapper {
    * @return
    */
   List<Todos> listUrlTodo(Todos todos);
+  /**
+   * 
+  * @Title: getTodos
+  * @Description: 根据推送人ID查询对应的代办
+  * author: Li Xiaoxiao 
+  * @param @param userId
+  * @param @return     
+  * @return List<Todos>     
+  * @throws
+   */
+  List<Todos> getTodos(@Param("userId")String userId);
+  
 	
 	
 }

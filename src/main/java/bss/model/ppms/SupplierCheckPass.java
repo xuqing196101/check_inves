@@ -8,6 +8,11 @@ import ses.model.sms.Supplier;
 
 public class SupplierCheckPass {
 
+	
+	
+	private Project project;
+	private Packages packages;
+
   /**
    * 是否刪除
    */
@@ -522,6 +527,22 @@ public BigDecimal getMoney() {
 
 public void setMoney(BigDecimal money) {
 	this.money = money;
+}
+
+public Project getProject() {
+	return project;
+}
+
+public void setProject(Project project) {
+	this.project = project;
+}
+
+public Packages getPackages() {
+	return packages;
+}
+
+public void setPackages(Packages packages) {
+	this.packages = packages;
 }
   
   

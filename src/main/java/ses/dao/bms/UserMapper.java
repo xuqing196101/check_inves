@@ -265,4 +265,30 @@ public interface UserMapper {
    * @return
    */
   List<User> findUserRoleOther(User user);
+  
+  
+  /**
+   * 
+  * @Title: queryByUserId
+  * @Description: 根据userID查询对应关联表
+  * author: Li Xiaoxiao 
+  * @param @param sserId
+  * @param @return     
+  * @return List<Userrole>     
+  * @throws
+   */
+  List<Userrole> queryByUserId(@Param("userId")String userId,@Param("roleId")String roleId);
+  
+  /**
+   * 
+  * @Title: queryById
+  * @Description: 根据ID查询是否存在
+  * author: Li Xiaoxiao 
+  * @param @param id
+  * @param @return     
+  * @return User     
+  * @throws
+   */
+  User queryById(@Param("id")String id);
+  
 }
