@@ -187,8 +187,8 @@
 	<select id="selectSupplierByID" resultMap="BaseResultItemMap" parameterType="Map">
  	SELECT DISTINCT s.supplier_id
 		FROM T_BSS_OB_SUPPLIER s LEFT JOIN T_BSS_OB_PRODUCT p on  s.SMALL_POINTS_ID=p.SMALL_POINTS_ID
-		WHERE s.CERT_VALID_PERIOD > SYSDATE
-		AND s.IS_DELETED = 0
+		WHERE <!-- s.CERT_VALID_PERIOD > SYSDATE AND -->
+		s.IS_DELETED = 0
 		AND p.ID IN 
       <foreach item="item" index="index" collection="list" open="(" separator="," close=")">  
    	     #{item}  

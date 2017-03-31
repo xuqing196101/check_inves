@@ -285,10 +285,14 @@ public class OBProjectController {
 			HttpServletRequest request) {
 		// 获取当前 默认规则
 		 OBRule obRule = OBRuleMapper.selectByStatus();
+		 if(obRule==null){
+			 model.addAttribute("supplierCount",null);
+		 }else{
+			 model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
+		 }
 		// 生成ID
 		String uuid = UUID.randomUUID().toString().toUpperCase()
 				.replace("-", "");
-		model.addAttribute("supplierCount",obRule.getLeastSupplierNum());
 		model.addAttribute("ruleId",obRule.getId());
 		model.addAttribute("fileid", uuid);
 		model.addAttribute("userId", user.getId());
@@ -640,7 +644,35 @@ public class OBProjectController {
 				}
 				model.addAttribute("selectInfoByPID", resultList);
 				}
-				
+				//查询参与的供应商
+				if(obProjectId != null){
+					List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(obProjectId);
+					Integer countProportion = 0;
+					if(list != null){
+						for (OBResultSubtabulation obr : list) {
+							if(obr != null){
+								OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
+								if(projectResult != null){
+									countProportion += Integer.parseInt(projectResult.getProportion());
+									obr.setProportion(Integer.parseInt(projectResult.getProportion()));
+									obr.setStatus(projectResult.getStatus());
+									obr.setRanking(projectResult.getRanking());
+								}
+							}
+						}
+					}
+					OBProject obProjectww = OBProjectServer.selectByPrimaryKey(obProjectId);
+			    	if(obProjectww != null){
+			    		String projectName = obProjectww.getName();
+			    		model.addAttribute("projectName",projectName);
+			    	}
+			    	if(list != null){
+			    		Collections.sort(list);
+			    	}
+					model.addAttribute("listres", list);
+					model.addAttribute("countProportion",countProportion);
+					model.addAttribute("size",list.size());
+				}
 				if(StringUtils.isNotBlank(status)){
 					return "bss/ob/biddingInformation/editPublish";
 				}else{
@@ -942,11 +974,16 @@ public class OBProjectController {
     			}
         	}
     	}
-    	String projectName = OBProjectServer.selectByPrimaryKey(projectId).getName();
-    	Collections.sort(list);
-    	model.addAttribute("list", list);
+    	OBProject obProject = OBProjectServer.selectByPrimaryKey(projectId);
+    	if(obProject != null){
+    		String projectName = obProject.getName();
+    		model.addAttribute("projectName",projectName);
+    	}
+    	if(list != null){
+    		Collections.sort(list);
+    	}
+    	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
-    	model.addAttribute("projectName",projectName);
     	model.addAttribute("size",list.size());
     	return "bss/ob/biddingSpectacular/result";
     }

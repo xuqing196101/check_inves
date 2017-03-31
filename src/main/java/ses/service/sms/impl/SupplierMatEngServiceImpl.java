@@ -130,7 +130,12 @@ public class SupplierMatEngServiceImpl implements SupplierMatEngService {
                 		SupplierPorjectQua projectQua=new SupplierPorjectQua();
                 		projectQua.setName(aptituteBean.getCertType());
                 		projectQua.setSupplierId(supplier.getId());
-                		projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+                		if(aptituteBean.getAptituteLevel()==null){
+                			projectQua.setCertLevel("");
+                		}
+                		if(aptituteBean.getAptituteLevel()!=null){
+                			projectQua.setCertLevel(aptituteBean.getAptituteLevel());
+                		}
                 		supplierPorjectQuaMapper.updateBysupplierIdAndName(projectQua);
                 	}
                 }

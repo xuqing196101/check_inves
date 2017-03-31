@@ -1244,8 +1244,14 @@ public class ExpExtractRecordController extends BaseController {
     expExtractRecordService.addTemporaryExpert(expert, projectId,packageId, loginName, loginPwd,sq);
     //修改状态
     flowMangeService.flowExe(sq, flowDefineId, projectId, 2);
-
-    return  "redirect:/packageExpert/assignedExpert.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId;
+    String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    StringBuffer sb = new StringBuffer();  
+    Random random = new Random();  
+    for (int i = 0; i < 15; i++) {  
+        sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));  
+    }
+    String randomCode = sb.toString();
+    return  "redirect:/packageExpert/assignedExpert.html?projectId=" + projectId + "&flowDefineId=" + flowDefineId + "&randomCode = " + randomCode;
   }
 
 

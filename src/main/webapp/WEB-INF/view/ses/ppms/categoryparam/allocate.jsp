@@ -218,6 +218,7 @@
 	
 	/** 分配 */
 	function assigned(orgId, cateId ,cateName){
+		cateName=escape(encodeURIComponent(cateName))
 		$.ajax({
     		type:"post",
     		url:"${pageContext.request.contextPath}/categoryparam/assigned.do?orgId= "+ orgId + "&cateId=" +cateId + "&cateName= "+ cateName ,

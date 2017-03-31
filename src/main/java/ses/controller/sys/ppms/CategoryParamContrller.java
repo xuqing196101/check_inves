@@ -4,6 +4,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -864,7 +865,12 @@ public class CategoryParamContrller extends BaseSupplierController {
         
         String orgIds = request.getParameter("orgId");
         String cateIds = request.getParameter("cateId");
-        String cateNames = EncodingTool.encodeStr(request.getParameter("cateName"));
+       String cateNames="";
+        try {
+        	cateNames=java.net.URLDecoder.decode(request.getParameter("cateName"),"UTF-8");
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		}
       
         return cateAssignService.assigned(orgIds, cateIds, cateNames);
         

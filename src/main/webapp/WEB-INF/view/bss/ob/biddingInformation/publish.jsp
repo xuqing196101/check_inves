@@ -602,6 +602,7 @@
 	}
 	// 动态获取供应商 数量
 	function gysCount(){
+	 $("#buttonErr").html("");
 	  var productid=[];
 	    //获取选中全部的产品id
 	   $('*[name="productName"]').each(function(){
