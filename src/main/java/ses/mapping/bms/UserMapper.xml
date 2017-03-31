@@ -906,7 +906,7 @@
     </select>
     
     
-    <select id="queryByUserId" resultMap="ses.model.bms.Userrole">
+    <select id="queryByUserId" resultType="ses.model.bms.Userrole">
     select ur.USER_ID as userId ,ur.ROLE_ID as roleId from  T_SES_BMS_USER_ROLE  ur
 	    where 1=1
 	    <if test="userId !=null">
