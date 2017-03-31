@@ -19,6 +19,9 @@ public class Orgnization implements Serializable {
 	@Length(min=1,max=50,message="长度不可超过50")
     private String name;
 
+    /**
+     * @Fields typeName : 0:需求部门 1:采购机构 2:管理部门
+     */
     private String typeName;
     
     private String address;

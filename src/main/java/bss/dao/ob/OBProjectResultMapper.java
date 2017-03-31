@@ -53,6 +53,24 @@ public interface OBProjectResultMapper {
      */
     List<OBProjectResult> selectByPID(@Param("projectId")String projectId);
     /**
+     * 获取竞价参与 全部排名
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> getStatus(@Param("projectId")String projectId);
+    /**
+     * 获取供应商 结果人数
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> selectSupplierPeo(@Param("projectId")String projectId);
+    /**
+     * 获取 确认的总比例
+     * @param projectId
+     * @return
+     */
+    OBProjectResult getAllProportion(@Param("projectId")String projectId);
+    /**
      *  中标供应商 数量
      * @param map
      * @return
@@ -126,7 +144,7 @@ public interface OBProjectResultMapper {
      * @return 查找到的状态
      * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
      */
-	String selectSupplierStatus(OBProjectResult oBProjectResult);
+	List<OBProjectResult> selectSupplierStatus(OBProjectResult oBProjectResult);
     /**
      * 获取未确认 的供应商数据
      * @author Yanghongliang

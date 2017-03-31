@@ -370,7 +370,7 @@
 			and pc.PROJECT_NUMBER like '%'||#{projectCode}||'%'
 		</if>
 		<if test="purchaseDep != null and purchaseDep != ''">
-			and pc.PURCHASE_DEP_NAME like '%'||#{purchaseDep}||'%'
+			and pc.PURCHASE_DEP_ID like '%'||#{purchaseDep}||'%'
 		</if>
 		) and pa.id = ch.package_id
 		and ch.is_won_bid = 1

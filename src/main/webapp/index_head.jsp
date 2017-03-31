@@ -2,6 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib uri="http://www.plap.cn/functions" prefix="my" %>  
 <!DOCTYPE html>
 <!--[if IE 8]> <html lang="en" class="ie8"> <![endif]-->
 <!--[if IE 9]> <html lang="en" class="ie9"> <![endif]-->
@@ -548,14 +549,24 @@ function importAdd(){
          <div class="job-content col-md-12">
 		    <div class="categories">
              <ul class="p0_10 list-unstyled">
-             <c:forEach items="${supplierList}" var="item" begin="0" end="9" step="1" varStatus="status" >  
-              <li>
-              <div style="float:left;text-align: left;width:60%">
-              <c:out value="${item.supplierName}"></c:out>
-              </div>
-             
-              <div style="float:right;text-align: left;width:30%;white-space:nowrap;">
-              <c:choose>
+            
+             <c:choose>
+            <c:when test="${my:getSupplierList()!=null }">
+         <table class="table table-bordered " >
+        <thead>
+          <tr >
+			<th class="tc info" width="55%">供应商名称</th>
+			<th class="tc info" width="25%">编号</th>
+			<th class="tc info" width="20%">状态</th>
+			</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="6" step="1" varStatus="status" > 
+			<tr>
+			<td>${item.supplierName }</td>
+			<td class="tc"></td>
+			<td class="tc"> 
+			 <c:choose>
 						    <%-- <c:when test="${item.status == -1}">
 						           未未提交审核
 						    </c:when>
@@ -593,15 +604,16 @@ function importAdd(){
 						          无状态
 						    </c:otherwise>
                </c:choose>
-              
-              </div></li>
-              
-             
-              
-              
-              </c:forEach> 
-              
-               
+                </td>
+				</tr>
+				 </c:forEach> 
+				</tbody>
+				</table>
+                	</c:when>
+                	<c:otherwise>
+                		<li class="tc">暂无数据</li>
+                	</c:otherwise>
+                </c:choose>   
          
 			 </ul>
 			</div>
@@ -689,7 +701,7 @@ function importAdd(){
      		   <div class="job-content col-md-12 col-sm-12 col-xs-12">
 		    		<div class="categories zhuanjia_list">
              		 <c:choose>
-           			   <c:when test="${expertList!=null }">
+           			   <c:when test="${my:getExpertList()!=null }">
          				<table class="table table-bordered " >
        					 <thead>
          					 <tr >
@@ -699,10 +711,10 @@ function importAdd(){
 							 </tr>
 						 </thead>
 				     	 <tbody>
-							<c:forEach items="${expertList}" var="item" begin="0" end="9" step="1" varStatus="status" > 
+							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="6" step="1" varStatus="status" > 
 								<tr>
 									<td>${item.relName }</td>
-									<td class="tc">编号111111</td>
+									<td class="tc"></td>
 									<td class="tc"> <c:choose>
           						      <%-- <c:when test="${item.status == 0}">
 										          未审核

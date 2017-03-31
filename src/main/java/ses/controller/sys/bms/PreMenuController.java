@@ -350,8 +350,8 @@ public class PreMenuController {
 	 * @return String
 	 * @exception IOException
 	 */
-	@RequestMapping("/edit")
-	private String edit(Model model, String id){
+  @RequestMapping("/edit")
+  public String edit(Model model, String id){
 		PreMenu menu = preMenuService.get(id);
 		model.addAttribute("menu",menu);
 		return "ses/bms/menu/edit";
@@ -369,7 +369,7 @@ public class PreMenuController {
 	 * @exception IOException
 	 */
 	@RequestMapping("/update")
-	private void update(HttpServletResponse response, HttpServletRequest request, PreMenu menu) throws IOException{
+	public void update(HttpServletResponse response, HttpServletRequest request, PreMenu menu) throws IOException{
 		try {
 			if ("".equals(menu.getName()) || menu.getName() == null) {
 				String msg = "请填写名称";

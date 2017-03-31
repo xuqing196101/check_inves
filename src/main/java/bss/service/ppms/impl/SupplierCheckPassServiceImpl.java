@@ -8,6 +8,8 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
@@ -255,5 +257,12 @@ public class SupplierCheckPassServiceImpl implements SupplierCheckPassService {
 	@Override
 	public List<SupplierCheckPass> selectPackageIdWonBid(String packageId) {
 		return checkPassMapper.selectPackageIdWonBid(packageId);
+	}
+
+	@Override
+	public List<SupplierCheckPass> listsupplier(HashMap<String, Object> map) {
+		PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage((Integer)(map.get("page")),Integer.parseInt(config.getString("pageSize")));
+		return checkPassMapper.listsupplier(map);
 	}
 }

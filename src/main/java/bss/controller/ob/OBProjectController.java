@@ -4,23 +4,19 @@ import java.io.File;
 import java.io.IOException;
 import java.math.BigDecimal;
 import java.text.DateFormat;
-import java.text.DecimalFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
-import net.sf.json.JSONObject;
 
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -54,7 +50,6 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBResultsInfoMapper;
 import bss.dao.ob.OBRuleMapper;
-import bss.dao.ob.OBSupplierMapper;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProductInfoExample;
@@ -65,7 +60,6 @@ import bss.model.ob.OBResultSubtabulation;
 import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRule;
 import bss.model.ob.OBSupplier;
-import bss.model.ob.SupplierProductVo;
 import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProductInfoServer;
 import bss.service.ob.OBProjectResultService;
@@ -80,7 +74,6 @@ import bss.util.ExcelUtil;
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
-import com.google.gson.Gson;
 
 import common.annotation.CurrentUser;
 import common.constant.Constant;
@@ -594,7 +587,19 @@ public class OBProjectController {
 				 }
 			 return jdcg;
 	}
-	
+	/**
+	 * 动态验证 产品 是否在同一目录 下
+	 * @author YangHongliang
+	 * @param request
+	 * @param response
+	 * @param productid
+	 * @return
+	 */
+	@RequestMapping("checkCatalog")
+	@ResponseBody
+	public String checkCatalog(HttpServletRequest request, HttpServletResponse response,@RequestBody List<String> productid){
+	  return OBProjectServer.verifyCatalog(productid);
+	}
 	/** @Description: 编辑暂存的竞价信息
 	* author: YangHongLiang
 	* @param  OBProject
@@ -938,6 +943,7 @@ public class OBProjectController {
         	}
     	}
     	String projectName = OBProjectServer.selectByPrimaryKey(projectId).getName();
+    	Collections.sort(list);
     	model.addAttribute("list", list);
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("projectName",projectName);

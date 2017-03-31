@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertTitleMapper">
+	<resultMap id="BaseResultMap" type="ses.model.ems.ExpertTitle">
+    	<id column="ID" property="id"/>
+    	<result column="QUALIFCATION_TITLE" property="qualifcationTitle"/>
+    	<result column="GET_TITLE_TIME" property="getTitleTime"/>
+	    <result column="CREATED_AT" property="createdAt"/>
+	    <result column="UPDATED_AT" property="updatedAt"/>
+	    <result column="STATUS" property="status"/>
+  	</resultMap>
+  	
+  	<!-- 表名 -->
+	<sql id="Tabel_Name">
+    	T_SES_EMS_EXPERT_TITLE
+	</sql>
+	
+	<!-- 表中所有列 -->
+  	<sql id="Base_Column_List">
+    	ID,QUALIFCATION_TITLE,GET_TITLE_TIME,CREATED_AT,UPDATED_AT,STATUS
+  	</sql>
+  	
+  	<!-- 根据主键查询 -->
+  	<select id="selectByPrimaryKey" resultMap="BaseResultMap">
+		SELECT
+		<include refid="Base_Column_List"/>
+		FROM T_SES_EMS_EXPERT_TITLE
+		WHERE ID = #{id}
+  	</select>
+  	
+  	<!-- 插入数据 -->
+  <insert id="insert" parameterType="ses.model.ems.ExpertTitle">
+ 	
+    insert into T_SES_SMS_AFTER_SALE_SERVICE (ID,QUALIFCATION_TITLE,GET_TITLE_TIME,
+    	CREATED_AT,UPDATED_AT,STATUS)
+    values (#{id},#{qualifcationTitle},#{getTitleTime},#{createdAt}, 
+      #{updatedAt}, #{status},)
+  </insert>
+	 
+	 <!-- 新增一条不为空记录 -->
+  	<insert id="insertSelective" parameterType="ses.model.ems.ExpertTitle">
+		INSERT INTO T_SES_SMS_AFTER_SALE_SERVICE
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				ID,
+			</if>
+			<if test="qualifcationTitle != null">
+				QUALIFCATION_TITLE,
+			</if>
+			<if test="getTitleTime != null">
+				GET_TITLE_TIME,
+			</if>
+			<if test="createdAt != null">
+				CREATED_AT,
+			</if>
+			<if test="updatedAt != null">
+				UPDATED_AT,
+			</if>
+			<if test="status != null">
+				STATUS,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="id != null">
+				#{id},
+			</if>
+			<if test="qualifcationTitle != null">
+				#{qualifcationTitle},
+			</if>
+			<if test="getTitleTime != null">
+				#{isAfterSupport},
+			</if>
+			<if test="createdAt != null">
+				#{createdAt},
+			</if>
+			<if test="updatedAt != null">
+				#{updatedAt},
+			</if>
+			<if test="status != null">
+				#{status},
+			</if>
+		</trim>
+  	</insert>
+  	
+  	<!-- 更新数据 -->
+  <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpertTitle">
+    update T_SES_EMS_EXPERT_TITLE
+    set QUALIFCATION_TITLE = #{qualifcationTitle},
+      GET_TITLE_TIME = #{getTitleTime},
+      CREATED_AT = #{createdAt},
+      UPDATED_AT = #{updatedAt},
+      STATUS = #{status},
+    where ID = #{id}
+  </update>
+  
+  <!--根据更新不为空数据 -->
+  <update id="updateByPrimaryKeySelective" parameterType="ses.model.ems.ExpertTitle">
+    update T_SES_EMS_EXPERT_TITLE
+    <set>
+      <if test="qualifcationTitle != null">
+        QUALIFCATION_TITLE = #{qualifcationTitle},
+      </if>
+      <if test="getTitleTime != null">
+        GET_TITLE_TIME = #{getTitleTime},
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT = #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT = #{updatedAt},
+      </if>
+      <if test="status != null">
+        STATUS = #{status},
+      </if>
+    </set>
+    where ID = #{id}
+  </update>
+</mapper>

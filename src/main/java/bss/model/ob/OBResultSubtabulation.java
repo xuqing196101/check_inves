@@ -13,7 +13,7 @@ import ses.model.sms.Supplier;
 * @date 2017年3月28日 下午8:15:10 
 *
  */
-public class OBResultSubtabulation {
+public class OBResultSubtabulation implements Comparable<OBResultSubtabulation>{
 	//比例
 	private Integer proportion;
 	//状态
@@ -216,17 +216,125 @@ public class OBResultSubtabulation {
     public void setUpdatedAt(Date updatedAt) {
         this.updatedAt = updatedAt;
     }
+	
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result
+				+ ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result
+				+ ((dealMoney == null) ? 0 : dealMoney.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result
+				+ ((myOfferMoney == null) ? 0 : myOfferMoney.hashCode());
+		result = prime * result
+				+ ((productId == null) ? 0 : productId.hashCode());
+		result = prime * result
+				+ ((projectId == null) ? 0 : projectId.hashCode());
+		result = prime * result
+				+ ((projectResultId == null) ? 0 : projectResultId.hashCode());
+		result = prime * result
+				+ ((proportion == null) ? 0 : proportion.hashCode());
+		result = prime * result + ((ranking == null) ? 0 : ranking.hashCode());
+		result = prime * result
+				+ ((resultNumber == null) ? 0 : resultNumber.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		result = prime * result
+				+ ((supplierId == null) ? 0 : supplierId.hashCode());
+		result = prime * result
+				+ ((totalMoney == null) ? 0 : totalMoney.hashCode());
+		result = prime * result
+				+ ((updatedAt == null) ? 0 : updatedAt.hashCode());
+		return result;
+	}
 
 	@Override
-	public String toString() {
-		return "OBResultSubtabulation [proportion=" + proportion + ", status="
-				+ status + ", ranking=" + ranking + ", id=" + id
-				+ ", projectResultId=" + projectResultId + ", resultNumber="
-				+ resultNumber + ", dealMoney=" + dealMoney + ", totalMoney="
-				+ totalMoney + ", createdAt=" + createdAt + ", updatedAt="
-				+ updatedAt + ", myOfferMoney=" + myOfferMoney
-				+ ", supplierId=" + supplierId + ", projectId=" + projectId
-				+ ", productId=" + productId + "]";
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		OBResultSubtabulation other = (OBResultSubtabulation) obj;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
+		if (dealMoney == null) {
+			if (other.dealMoney != null)
+				return false;
+		} else if (!dealMoney.equals(other.dealMoney))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (myOfferMoney == null) {
+			if (other.myOfferMoney != null)
+				return false;
+		} else if (!myOfferMoney.equals(other.myOfferMoney))
+			return false;
+		if (productId == null) {
+			if (other.productId != null)
+				return false;
+		} else if (!productId.equals(other.productId))
+			return false;
+		if (projectId == null) {
+			if (other.projectId != null)
+				return false;
+		} else if (!projectId.equals(other.projectId))
+			return false;
+		if (projectResultId == null) {
+			if (other.projectResultId != null)
+				return false;
+		} else if (!projectResultId.equals(other.projectResultId))
+			return false;
+		if (proportion == null) {
+			if (other.proportion != null)
+				return false;
+		} else if (!proportion.equals(other.proportion))
+			return false;
+		if (ranking == null) {
+			if (other.ranking != null)
+				return false;
+		} else if (!ranking.equals(other.ranking))
+			return false;
+		if (resultNumber == null) {
+			if (other.resultNumber != null)
+				return false;
+		} else if (!resultNumber.equals(other.resultNumber))
+			return false;
+		if (status == null) {
+			if (other.status != null)
+				return false;
+		} else if (!status.equals(other.status))
+			return false;
+		if (supplierId == null) {
+			if (other.supplierId != null)
+				return false;
+		} else if (!supplierId.equals(other.supplierId))
+			return false;
+		if (totalMoney == null) {
+			if (other.totalMoney != null)
+				return false;
+		} else if (!totalMoney.equals(other.totalMoney))
+			return false;
+		if (updatedAt == null) {
+			if (other.updatedAt != null)
+				return false;
+		} else if (!updatedAt.equals(other.updatedAt))
+			return false;
+		return true;
+	}
+
+	@Override
+	public int compareTo(OBResultSubtabulation o) {
+		 int i = this.getRanking() - o.getRanking();//按照排名进行排序
+	     return i;  
 	}
     
 }

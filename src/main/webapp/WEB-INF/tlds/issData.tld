@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>  
+<!-- 自定义jstl标签库
+@author tianzhiqiang
+@date 2017-3-30 15:50:22
+ -->
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"  
+  xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"  
+  xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"  
+  version="2.0">  
+     
+  <description>my functions library</description>  
+  <display-name>my functions</display-name>  
+  <tlib-version>1.0</tlib-version>  
+  <short-name>my</short-name>  
+  <uri>http://www.plap.cn/functions</uri>  
+   <!-- 测试方法 -->
+  <function>  
+    <name>sayHello</name>  
+    <function-class>iss.bean.IssData</function-class>  
+    <function-signature>java.lang.String sayHello(java.lang.String)</function-signature>  
+  </function>  
+ <!-- 首页专家名录 -->
+  <function>
+      <name>getExpertList</name>
+      <function-class>iss.bean.IssData</function-class>
+      <function-signature>java.util.List getExpertList()</function-signature>
+      <example>${my.getExpertList()}</example>
+  </function>
+  <!-- 首页供应商名录 -->
+  <function>
+      <name>getSupplierList</name>
+      <function-class>iss.bean.IssData</function-class>
+      <function-signature>java.util.List getSupplierList()</function-signature>
+      <example>${my.getSupplierList()}</example>
+  </function>
+</taglib> 
+
+

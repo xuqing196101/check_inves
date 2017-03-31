@@ -149,18 +149,6 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	}
 
 	/**
-     * @author MaMingwei
-     * @param oBProjectResult
-     * @return 查找到的状态
-     * @description 查找符合当前竞标的供应商在 竞价结果表 中的status
-     */
-	@Override
-	public String selectSupplierStatus(OBProjectResult oBProjectResult) {
-		
-		return oBProjectResultMapper.selectSupplierStatus(oBProjectResult);
-	}
-
-	/**
      * <p>Description 根据竞价Id和供应商Id查询竞价结果  PSId  project supplier id</p>
      * @author Ma Mingwei
      * @param obProjectResult
@@ -526,8 +514,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		 }
 		return reslt;
 	}
-	
-	
-	
+
+	@Override
+	public String selectSupplierStatus(OBProjectResult oBProjectResult) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 
 }
