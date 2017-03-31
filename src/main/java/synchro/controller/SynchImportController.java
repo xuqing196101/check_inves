@@ -170,17 +170,11 @@ public class SynchImportController {
                 }
                 for (File f : files){
                     if (f.getName().contains(FileUtils.C_SUPPLIER_FILENAME)){
-                    	Date date = supplierService.addDate(new Date(), 3, -1);
-                    	SimpleDateFormat sdf=new SimpleDateFormat("yyyyMMdd");
-                    	String format = sdf.format(date);
-                     	String path = PropUtil.getProperty("file.base.path") + PropUtil.getProperty("file.supplier.system.path")+"/"+format;
-                     	String newPath = PropUtil.getProperty("file.sync.base")+"/"+format;
-                     	FileUtil.copyFolder(path, newPath);
                     	innerSupplierService.importSupplierInfo(f);
                     	
                     }
                     if (f.getName().contains(FileUtils.C_ATTACH_FILENAME)){
-                        attachService.importAttach(f);
+                        attachService.importSupplierAttach(f);
                     }
                     if (f.isDirectory()){
                         if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){
@@ -199,10 +193,9 @@ public class SynchImportController {
                 for (File f : files){
                     if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
                     	innerExpertService.readNewExpertInfo(f);
-                    	
                     }
                     if (f.getName().contains(FileUtils.C_EXPERT_FILENAME)){
-                        attachService.importAttach(f);
+                        attachService.importExpertAttach(f);
                     }
                     if (f.isDirectory()){
                         if (f.getName().equals(Constant.ATTACH_FILE_TENDER)){

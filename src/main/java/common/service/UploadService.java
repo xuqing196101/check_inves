@@ -218,5 +218,17 @@ public interface UploadService {
     public Integer findCountById(String id, Integer tenderSysKey);
 
 	public List queryImage(String string, String id);
+	
+	/**
+	 * 
+	* @Title: substrBusniessI
+	* @Description: 查询供应商附件
+	* author: Li Xiaoxiao 
+	* @param @param businessId
+	* @param @return     
+	* @return List<UploadFile>     
+	* @throws
+	 */
+	public List<UploadFile> substrBusniessI(String businessId);
 
 }

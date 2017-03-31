@@ -2367,8 +2367,11 @@ public class SupplierController extends BaseSupplierController {
 		List < SupplierItem > itemsList = supplierItemService.findCategoryList(supplierId, supplierTypeId, pageNum == null ? 1 : pageNum);
 		for(SupplierItem item: itemsList) {
 			Category cate = categoryService.findById(item.getCategoryId());
-			cate.setId(item.getId());
-			category.add(cate);
+			if(cate!=null){
+				cate.setId(item.getId());
+				category.add(cate);
+			}
+			
 		}
 		// 查询品目合同信息
 		List < ContractBean > contract = supplierService.getContract(category);

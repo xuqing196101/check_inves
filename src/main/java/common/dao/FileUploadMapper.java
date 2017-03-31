@@ -166,4 +166,19 @@ public interface FileUploadMapper {
     void deleteByBusinessId(@Param("businessId")String businessId);
 
 	List queryImage(Map<String, Object> map);
+	
+	
+	
+	
+	/**
+	 * 
+	* @Title: substr
+	* @Description:截取字符窜查询
+	* author: Li Xiaoxiao 
+	* @param @param businessId
+	* @param @return     
+	* @return List<UploadFile>     
+	* @throws
+	 */
+    List<UploadFile> substrBusinessId(@Param("businessId")String businessId);
 }

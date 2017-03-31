@@ -667,6 +667,10 @@ public class UploadServiceImpl implements UploadService {
         }
         return new ArrayList<UploadFile>();
     }
+	@Override
+	public List<UploadFile> substrBusniessI(String businessId) {
+		return uploadDao.substrBusinessId(businessId);
+	}
 
     
     

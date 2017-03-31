@@ -408,6 +408,9 @@ public class ExpertController extends BaseController {
         int flag = 0;
         // 暂存 或退回后重新填写
         Expert expert = service.selectByPrimaryKey(typeId);
+        if(expert.getCoverNote()==null){
+        	expert.setCoverNote("2");
+        }
         model.addAttribute("expert", expert);
         String stepNumber;
         if("".equals(expert.getStepNumber()) || expert.getStepNumber() == null) {

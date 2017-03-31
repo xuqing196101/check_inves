@@ -197,5 +197,16 @@
   <delete id="deleteByBusinessId" >
     delete from T_SES_SMS_SUPPLIER_ATTACHMENT where   BUSINESS_ID = #{businessId}
   </delete>
-  
+ 
+ 
+ <select id="substrBusinessId"   resultMap="BaseResultMap_File">
+     SELECT 
+     <include refid="BASE_FILE_LIST" />
+     FROM
+	T_SES_SMS_SUPPLIER_ATTACHMENT
+	WHERE
+		SUBSTR (BUSINESS_ID, 0, 32) = #{businessId}
+ 	AND IS_DELETED = 0
+  </select>
+ 
 </mapper>

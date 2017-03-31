@@ -1012,7 +1012,6 @@
 						}
 					
 						if(enterWay == "addBtn") {
-							alert("add");
 							if(flag_certGrade == 0) {
 								easyuiData[0].selected = true;
 							}

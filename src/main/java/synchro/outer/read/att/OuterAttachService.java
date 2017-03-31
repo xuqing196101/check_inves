@@ -21,4 +21,24 @@ public interface OuterAttachService {
      * @author myc
      */
     public void importAttach(final File file);
+    /**
+     * 
+    * @Title: importSupplierAttach
+    * @Description: 导入供应商附件 
+    * author: Li Xiaoxiao 
+    * @param @param file     
+    * @return void     
+    * @throws
+     */
+    public void importSupplierAttach(final File file);
+    /**
+     * 
+    * @Title: importExpertAttach
+    * @Description: 导入转件附件
+    * author: Li Xiaoxiao 
+    * @param @param file     
+    * @return void     
+    * @throws
+     */
+    public void importExpertAttach(final File file);
 }
