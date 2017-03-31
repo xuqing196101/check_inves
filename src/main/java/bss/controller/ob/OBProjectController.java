@@ -669,7 +669,7 @@ public class OBProjectController {
 			    	if(list != null){
 			    		Collections.sort(list);
 			    	}
-					model.addAttribute("list", list);
+					model.addAttribute("listres", list);
 					model.addAttribute("countProportion",countProportion);
 					model.addAttribute("size",list.size());
 				}
@@ -982,7 +982,7 @@ public class OBProjectController {
     	if(list != null){
     		Collections.sort(list);
     	}
-    	model.addAttribute("list", list);
+    	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());
     	return "bss/ob/biddingSpectacular/result";

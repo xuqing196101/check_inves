@@ -126,7 +126,7 @@
 		
 		<!-- 成交的 -->
 		<c:if test="${supplier.status == 1 || supplier.status == 2}">
-		<c:forEach items="${list}" var="product" varStatus="va">
+		<c:forEach items="${listres}" var="product" varStatus="va">
 			<c:if test="${product.supplierId == supplier.supplierId}">
 				<c:set value="${ total + product.dealMoney * product.resultNumber }" var = "total" ></c:set>
 			</c:if>
@@ -138,7 +138,7 @@
 			  	<fmt:formatNumber value='${total }' pattern='#,##,###.00'/>
 			  </td>
 			</tr>
-			<c:forEach items="${list}" var="product" varStatus="va">
+			<c:forEach items="${listres}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc">${product.product.name }</td>
@@ -159,7 +159,7 @@
 			  <td class="tc" colspan="4">合计</td>
 			  <td class="tc"></td>
 			</tr>
-			<c:forEach items="${list}" var="product" varStatus="va">
+			<c:forEach items="${listres}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc">${product.product.name }</td>
@@ -178,7 +178,7 @@
 			  <td class="tc" colspan="4">合计</td>
 			  <td class="tc"></td>
 			</tr>
-			<c:forEach items="${list}" var="product" varStatus="va">
+			<c:forEach items="${listres}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
 					<td class="tc">${va.index+1 }</td>
 			  		<td class="tc">${product.product.name }</td>
