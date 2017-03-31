@@ -10,12 +10,8 @@ import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.alibaba.fastjson.JSON;
-
-import common.constant.Constant;
-import common.dao.FileUploadMapper;
-import common.model.UploadFile;
-import common.service.UploadService;
+import ses.dao.bms.TodosMapper;
+import ses.dao.bms.UserMapper;
 import ses.dao.sms.SupplierAfterSaleDepMapper;
 import ses.dao.sms.SupplierAptituteMapper;
 import ses.dao.sms.SupplierCertEngMapper;
@@ -27,7 +23,9 @@ import ses.dao.sms.SupplierModifyMapper;
 import ses.dao.sms.SupplierRegPersonMapper;
 import ses.formbean.ContractBean;
 import ses.model.bms.Category;
+import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.bms.Userrole;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -63,6 +61,12 @@ import synchro.outer.back.service.supplier.OuterSupplierService;
 import synchro.service.SynchRecordService;
 import synchro.util.FileUtils;
 import synchro.util.OperAttachment;
+
+import com.alibaba.fastjson.JSON;
+import common.constant.Constant;
+import common.dao.FileUploadMapper;
+import common.model.UploadFile;
+import common.service.UploadService;
 
 /**
  * 
@@ -175,6 +179,11 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
     @Autowired
 	private CategoryService categoryService;
     
+    @Autowired
+    private TodosMapper todosMapper;
+    
+    @Autowired
+    private UserMapper userMapper;
     /**
      * 
      * @see synchro.outer.back.service.supplier.OuterSupplierService#exportCommitSupplier(java.lang.String, java.lang.String, java.util.Date)
@@ -201,6 +210,11 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
         List<SupplierCertServe> listSupplierCertSes = new ArrayList<SupplierCertServe>();
         List < Category > category = new ArrayList < Category > ();
         for (Supplier supp : list){
+        	   //代办导入
+           List<Todos> todos = todosMapper.getTodos(supp.getUser().getId());
+           List<Userrole> userRoles = userMapper.queryByUserId(supp.getUser().getId(), null);
+           supp.setUserRoles(userRoles);
+            supp.setTodoList(todos);
             List<UploadFile> fileList = uploadService.substrBusniessI(supp.getId());
             attachList.addAll(fileList);
             listSupplierFinances.addAll(supp.getListSupplierFinances());
@@ -275,8 +289,7 @@ public class OuterSupplierServiceImpl implements OuterSupplierService{
 //	    	  List<UploadFile> fileList = uploadService.findBybusinessId(con.getId(), Constant.SUPPLIER_SYS_KEY);
 //	          attachList.addAll(fileList);
 //	      }
-        
-        
+     
         if (list != null && list.size() > 0){
             FileUtils.writeFile(FileUtils.getNewSupperBackUpFile(),JSON.toJSONString(list));
             String basePath = FileUtils.attachExportPath(Constant.SUPPLIER_SYS_KEY);

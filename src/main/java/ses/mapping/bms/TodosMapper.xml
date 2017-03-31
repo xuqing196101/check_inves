@@ -333,4 +333,13 @@
 			AND IS_FINISH = #{isFinish}
 		</if>
 	</select>
+	
+	<select id="getTodos" resultMap="BaseResultMap">
+		<include refid="Base_Column_List" />
+		FROM
+		T_SES_BMS_TODOS where  SENDER_ID=#{userId} and  UNDO_TYPE=1
+	
+	</select>
+	
+	
 </mapper>
