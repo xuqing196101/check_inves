@@ -278,7 +278,6 @@
    				async: false,
 				url: "${pageContext.request.contextPath }/product/productType.do",
 				type: "POST",
-				async: false,
 				data: {productId:productId},
 				success: function(data) {
 				if(data){

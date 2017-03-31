@@ -12,6 +12,7 @@
    		  $.ajax({
 				url: "${pageContext.request.contextPath }/product/productType.do",
 				type: "POST",
+				async: false,
 				data: {productId:selectID},
 				success: function(data) {
 				if(data){
@@ -77,13 +78,14 @@
 		  <th class="info" width="30%">产品名称</th>
 		  <th class="info">数量</th>
 		  <th class="info">自报单价（元）</th>
+		  <th class="info">成交单价（元）</th>
 		  <th class="info">成交总价（元）</th>
 		</tr>
 		</thead>
-		<c:set value="0" var="sum" />
+		<%-- <c:set value="0" var="sum" />
 		<tr>
 		  <td class="tc"></td>
-		  <td class="tc" colspan="3">合计</td>
+		  <td class="tc" colspan="4">合计</td>
 		  <c:if test="${supplier.status!=-1}">
 		   <c:set value="${sum + supplier.resultCount*supplier.offerPrice}" var="sum" />
 		  <td class="tc" id="sum2" onload="format('${sum}','sum2')">${sum}</td>
@@ -103,6 +105,7 @@
 		  <td class="tc" id="${supplier.id}${bidproduct.productId}<%=item1 %>"  onmouseover="showPrompts('${supplier.id}${bidproduct.productId}<%=item1 %>', '${bidproduct.productId}')">${bidproduct.remark }</td>
 		  <td class="tc">${bidproduct.resultsNumber }</td>
 		  <td class="tc">${bidproduct.myOfferMoney }</td>
+		  <td class="tc">${bidproduct.myOfferMoney }</td>
 		  <td class="tc" ><span id="dealMoney" onclick="format('${bidproduct.dealMoney}','dealMoney')">${bidproduct.dealMoney}</span></td>
 		</tr>
 		  </c:forEach>
@@ -116,9 +119,67 @@
 		  </c:forEach>
 		  <td class="tc">${supplier.resultCount }</td>
 		  <td class="tc">${supplier.offerPrice }</td>
+		  <td class="tc">${bidproduct.dealMoney }</td>
 		  <td class="tc" id="offerPrice" onclick="format('${supplier.resultCount*supplier.offerPrice}','offerPrice')">${supplier.resultCount*supplier.offerPrice}</td>
 		</tr>
-		</c:if> 
+		</c:if>  --%>
+		
+		<!-- 成交的 -->
+		<c:if test="${supplier.status == 1 || supplier.status == 2}">
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc"></td>
+			</tr>
+			<c:forEach items="${list}" var="product" varStatus="va">
+				<c:if test="${product.supplierId == supplier.supplierId}">
+					<td class="tc">${va.index+1 }</td>
+			  		<td class="tc">${product.product.name }</td>
+			  		<td class="tc">${product.resultNumber }</td>
+					<td class="tc">${product.myOfferMoney }</td>
+			  		<td class="tc">${product.dealMoney }</td>
+			  		<td class="tc">${product.dealMoney * product.resultNumber }</td>
+				</c:if>
+			</c:forEach>
+		</c:if>
+		
+		<!-- 放弃的 -->
+		<c:if test="${supplier.status == -1}">
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc"></td>
+			</tr>
+			<c:forEach items="${list}" var="product" varStatus="va">
+				<c:if test="${product.supplierId == supplier.supplierId}">
+					<td class="tc">${va.index+1 }</td>
+			  		<td class="tc">${product.product.name }</td>
+			  		<td class="tc"></td>
+					<td class="tc"></td>
+			  		<td class="tc"></td>
+			  		<td class="tc"></td>
+				</c:if>
+			</c:forEach>
+		</c:if>
+		
+		<!--  -->
+		<c:if test="${supplier.status == 0}">
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc"></td>
+			</tr>
+			<c:forEach items="${list}" var="product" varStatus="va">
+				<c:if test="${product.supplierId == supplier.supplierId}">
+					<td class="tc">${va.index+1 }</td>
+			  		<td class="tc">${product.product.name }</td>
+			  		<td class="tc"></td>
+					<td class="tc">${product.myOfferMoney }</td>
+			  		<td class="tc"></td>
+			  		<td class="tc"></td>
+				</c:if>
+			</c:forEach>
+		</c:if>
 	</table>
 	</ul>
 		</c:forEach>
