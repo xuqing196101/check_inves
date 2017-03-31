@@ -403,7 +403,40 @@
 		CP.ID
 
 	</select>
+<!-- @author Ma Mingwei -->
+	<select id="listsupplier" parameterType="Map"
+		resultMap="BaseResultMap">
 
+		SELECT
+		<include refid="Base_Column_List" />
+		FROM
+		T_BSS_PPMS_SUPPLIER_CHECK_PASS cp,
+		T_BSS_PPMS_PROJECTS TP
+		WHERE cp.PROJECT_ID=TP.ID
+		<if test="isWonBid !=null and isWonBid !='' ">
+			AND CP.IS_WON_BID = #{isWonBid}
+		</if>
+        <if test="purchaseDepId !=null and purchaseDepId !='' ">
+			AND TP.PURCHASE_DEP_ID = #{purchaseDepId}
+		</if>
+		<if test="projectName !=null and projectName !='' ">
+			AND TP.name like '%'||#{projectName}||'%'
+		</if>
+		<if test="projectCode !=null and projectCode !='' ">
+			AND TP.project_Number like '%'||#{projectCode}||'%'
+		</if>
+		<if test="isCreateContract !=null and isCreateContract !='' ">
+		   <if test="isCreateContract ==0 ">
+		    AND CP.IS_CREATE_CONTRACT is null 
+		   </if>
+			<if test="isCreateContract ==1 ">
+			AND CP.IS_CREATE_CONTRACT=#{isCreateContract}
+			</if>
+			
+		</if>
+		ORDER BY CP.IS_CREATE_CONTRACT 
+
+	</select>
 	<!-- 关联包 -->
 	<select id="getByCheckPass" parameterType="java.lang.String"
 		resultMap="BaseResultMap">

@@ -146,6 +146,66 @@ public class PurchaseContractController extends BaseSupplierController{
 	public String selectAllPurchaseContract(@CurrentUser User user,Model model,Integer page,HttpServletRequest request) throws Exception{
 		String projectName = request.getParameter("projectName");
 		String projectCode = request.getParameter("projectCode");
+		String isCreate = request.getParameter("isCreate");
+		String purchaseDep = request.getParameter("purchaseDep");
+		SupplierCheckPass checkPass=new SupplierCheckPass();
+		checkPass.setIsWonBid((short)1);
+		if(page==null){
+			page=1;
+		}
+		HashMap<String, Object> hashMap=new HashMap<String, Object>();
+		hashMap.put("isWonBid", (short)1);
+		hashMap.put("projectName", projectName);
+		hashMap.put("projectCode", projectCode);
+		
+		hashMap.put("isCreateContract", isCreate);
+		hashMap.put("page", page);
+		
+		List<SupplierCheckPass> listpass=new ArrayList<SupplierCheckPass>();
+		Orgnization or = user.getOrg();
+		if(or!=null){
+			if(or.getTypeName().equals("1")){
+				hashMap.put("purchaseDepId", or.getId());
+				List<SupplierCheckPass> listCheckPassBD = supplierCheckPassService.listsupplier(hashMap);
+				if(listCheckPassBD!=null&&listCheckPassBD.size()>0){
+				for(SupplierCheckPass pass:listCheckPassBD){
+					Project project = projectService.selectById(pass.getProjectId());
+					Packages packages = packageService.selectByPrimaryKeyId(pass.getPackageId());
+					Supplier supplier = supplierService.selectOne(pass.getSupplierId());
+					pass.setProject(project);
+					pass.setPackages(packages);
+					pass.setSupplier(supplier);
+					listpass.add(pass);
+						
+				}
+			   }
+			}
+			if(or.getTypeName().equals("2")){
+				
+				List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(or.getId());
+				
+				if(list!=null&&list.size()>0){
+					for(PurchaseOrg po:list){
+						hashMap.put("purchaseDepId", po.getPurchaseDepId());
+						List<SupplierCheckPass> listCheckPassBD = supplierCheckPassService.listsupplier(hashMap);
+						if(listCheckPassBD!=null&&listCheckPassBD.size()>0){
+							for(SupplierCheckPass pass:listCheckPassBD){
+								Project project = projectService.selectById(pass.getProjectId());
+								Packages packages = packageService.selectByPrimaryKeyId(pass.getPackageId());
+								Supplier supplier = supplierService.selectOne(pass.getSupplierId());
+								pass.setProject(project);
+								pass.setPackages(packages);
+								pass.setSupplier(supplier);
+								listpass.add(pass);
+									
+							}
+						   }
+					}
+				}
+			}
+		}
+		/*String projectName = request.getParameter("projectName");
+		String projectCode = request.getParameter("projectCode");
 		String purchaseDep = request.getParameter("purchaseDep");
 		String isCreate = request.getParameter("isCreate");
 		if(page==null){
@@ -155,97 +215,39 @@ public class PurchaseContractController extends BaseSupplierController{
 		Map<String,Object> map = new HashMap<String, Object>();
 		map.put("projectName", projectName);
 		map.put("projectCode", projectCode);
-		map.put("purchaseDep", purchaseDep);
+		
 		map.put("isCreateContract", isCreate);
 		map.put("page", page);
 		Orgnization or = user.getOrg();
-		List<Role> roleList = roleService.selectByUserId(user.getId());
-		boolean roleflag = false;
-		for(Role rol:roleList){
-			if(rol.getCode().equals("PURCHASE_R")){
-				roleflag = true;
-			}
+		List<Packages> packLists = new ArrayList<Packages>();
+		if(or.getTypeName().equals("1")){
+			map.put("purchaseDep", or.getId());
+			packList = packageService.selectAllByIsWon(map);
 		}
-		if(roleflag){
-		packList = packageService.selectAllByIsWon(map);
+		if(or.getTypeName().equals("2")){
+			List<PurchaseOrg> list = purchaseOrgnizationServiceI.get(user.getOrg().getId());
+		}
 		model.addAttribute("list", new PageInfo<Packages>(packList));
 		ArrayList<Packages> pacList = new ArrayList<Packages>();
-		
-//		boolean isRole = false;
-//		for(Role r:roleList){
-//			if(r.getCode().equals("PURCHASE_ORG_R")||r.getCode().equals("ADMIN_R")){
-//				isRole = true;
-//			}
-//		}
-//		if(isRole){
-			for(Packages pa:packList){
-				boolean flag = true;
-				Project project = projectService.selectById(pa.getProjectId());
-				Supplier supplier = supplierService.selectOne(pa.getSupplierId());
-				if(or.getTypeName().equals("0")){
-					if(!or.getDepId().equals(project.getPurchaseDep().getId())){
-						flag = false;
-					}
-				}
-//					||or.getTypeName().equals("1")&&or.getDepId().equals(project.getPurchaseDep().getId())
-//					||or.getTypeName().equals("2")&&or.getId().equals(project.getSectorOfDemand())){
-					pa.setProject(project);
-					pa.setSupplier(supplier);
-//					SupplierCheckPass sucp = new SupplierCheckPass();
-//					sucp.setPackageId(pa.getId());
-//					sucp.setIsWonBid((short)1);
-//					List<SupplierCheckPass> suList = supplierCheckPassService.listCheckPass(sucp);
-//	//				String supplierNames = "";
-//					for(SupplierCheckPass su:suList){
-//						if(su.getIsCreateContract()==0){
-//							Supplier su1 = supplierService.selectOne(su.getSupplierId());
-//							su.setSupplier(su1);
-//							if(su.getSupplier()!=null){
-//								Packages pack = new Packages();
-//		//						supplierNames+=su.getSupplier().getSupplierName()+",";
-//		//						supplierNames+=su.getSupplier().getSupplierName();
-//								pack.setSupplier(su.getSupplier());
-//								pack.setProject(project);
-//								pack.setName(pa.getName());
-//								pack.setId(pa.getId());
-//								pack.setSupplierCheckPassId(su.getId());
-//								pacList.add(pack);
-//							}
-//						}
-//					}
-//				}
-			}
+		for(Packages pa:packList){
+		   boolean flag = true;
+		   Project project = projectService.selectById(pa.getProjectId());
+		   Supplier supplier = supplierService.selectOne(pa.getSupplierId());
+		   pa.setProject(project);
+		   pa.setSupplier(supplier);
 		}
-//		}else{
-//			model.addAttribute("list", new PageInfo<Packages>(pacList));
-//		}
-//		List<Project> projectList = projectService.selectSuccessProject(map);
-//		List<Project> proList = new ArrayList<Project>();
-//		for(Project pro:projectList){
-//			HashMap<String,Object> proMap = new HashMap<String, Object>();
-//			proMap.put("projectId", pro.getId());
-//			List<Packages> packagesList = packageService.findPackageById(proMap);
-//			List<Packages> packList = new ArrayList<Packages>();
-//			for(Packages pack:packagesList){
-//				SupplierCheckPass supch = new SupplierCheckPass();
-//				supch.setPackageId(pack.getId());
-//				supch.setIsWonBid((short)1);
-//				List<SupplierCheckPass> chList = supplierCheckPassService.listCheckPass(supch);
-//				List<Supplier> suList = new ArrayList<Supplier>();
-//				for(SupplierCheckPass sucp:chList){
-//					suList.add(sucp.getSupplier());
-//				}
-//				pack.setSuppList(suList);
-//				packList.add(pack);
-//			}
-//			pro.setPackagesList(packList);
-//			proList.add(pro);
-//		}
 		model.addAttribute("packageList", packList);
 		model.addAttribute("projectName", projectName);
 		model.addAttribute("projectCode", projectCode);
 		model.addAttribute("purchaseDep", purchaseDep);
+		model.addAttribute("isCreate", isCreate);*/
+	    PageInfo<SupplierCheckPass> list = new PageInfo<SupplierCheckPass>(listpass);
+	    model.addAttribute("projectName", projectName);
+		model.addAttribute("projectCode", projectCode);
+		model.addAttribute("purchaseDep", purchaseDep);
 		model.addAttribute("isCreate", isCreate);
+	    model.addAttribute("list",list);
+		model.addAttribute("listpass", listpass);
 		return "bss/cs/purchaseContract/list";
 	}
 	
