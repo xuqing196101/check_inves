@@ -74,6 +74,7 @@
 	$(function(){
 		// 获取当前页面各个时间段信息
 		var timeArray = [];
+		var projectArr = [];
 		var timeListObject = ${timeListObject};
 		// 遍历获取当前页面时间段
 		$.each(timeListObject,function(index,ele){
@@ -268,20 +269,7 @@
 			   		   success:function(data){
 			   			   if(data.status == 1 || data.status == 2){
 			   					confirmResult();
-			   			   }
-			   			   if(data.status == 3){
-			   					layer.alert(data.msg);
-			   			   }
-			   			   if(data.status == 4){
-			   					layer.alert(data.msg);
-			   			   }
-			   			   if(data.status == 5){
-			   					layer.alert(data.msg);
-			   			   }
-			   			   if(data.status == 0){
-			   					layer.alert(data.msg);
-			   			   }
-			   			   if(data.status == 6){
+			   			   }else{
 			   					layer.alert(data.msg);
 			   			   }
 			   		   }
@@ -336,7 +324,7 @@
 				window.location.href="${pageContext.request.contextPath}/ob_project/findBiddingIssueInfo.html?flag=1&id="+pId;  
 		    }
 			
-			// 2.待确认状态查看的信息
+			// 2.待确认状态查看的信息--未中标状态--已报价待确认
 			if(pStatus == 2 && pRemark == '1'){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
@@ -348,8 +336,8 @@
 			}
 			
 			// 3.第一轮放弃查看的是报价信息页面
-			if((pStatus == 5 && pRemark == '3')){
-				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?id="+pId;
+			if((pStatus == 5 && pRemark == '3') || (pStatus == 6 && pRemark == '3')){
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?id="+pId; 
 			}
 			
 			// 4.竞价结束和流拍
@@ -357,8 +345,8 @@
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
 			
-			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第一轮放弃是查看的第一轮确认的结果
-			if((pStatus == 5 && pRemark == '4') || (pStatus == 5 && pRemark == '5') || (pStatus == 5 && pRemark == '32') || (pStatus == 6 && pRemark == '5') || (pStatus == 6 && pRemark == '32')){
+			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第二轮放弃是查看的第一轮确认的结果
+			if((pStatus == 5 && pRemark == '4') || (pStatus == 6 && pRemark == '32')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
 			

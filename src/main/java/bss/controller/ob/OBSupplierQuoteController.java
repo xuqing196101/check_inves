@@ -5,12 +5,15 @@ import java.text.DateFormat;
 import java.text.NumberFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+
+
 
 
 
@@ -40,6 +43,7 @@ import bss.model.ob.OBResultsInfo;
 import bss.model.ob.OBRuleTimeInterval;
 import bss.service.ob.OBProjectResultService;
 import bss.service.ob.OBProjectServer;
+import bss.service.ob.OBResultSubtabulationService;
 import bss.service.ob.OBSupplierQuoteService;
 import bss.util.BiddingStateUtil;
 
@@ -79,6 +83,15 @@ public class OBSupplierQuoteController {
 	private OBProjectResultMapper OBProjectResultMapper;
 	@Autowired
 	private OBProjectSupplierMapper mapper;
+	
+	// 出入结果Service
+	@Autowired
+	private OBResultSubtabulationService obResultSubtabulationService;
+	// 注入竞价项目Service
+	@Autowired
+	private OBProjectServer OBProjectServer;
+	
+	
 	/**
 	 * @throws ParseException
 	 * 
@@ -626,6 +639,8 @@ public class OBSupplierQuoteController {
 			String projectId){
 		if(StringUtils.isNotBlank(projectId)){
 		Map<String, Object> map = obSupplierQuoteService.findQuoteInfo(projectId);
+		
+		/**********************竞价信息****************************/
 		// 竞价信息
 		OBProject obProject = (OBProject) map.get("obProject");
 		// 竞价商品信息
@@ -682,14 +697,46 @@ public class OBSupplierQuoteController {
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 		model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 		
+		/**********************竞价信息结束****************************/
 		//查找 参与这个标题的供应商(里面封装有供应商所竞价的商品部分信息)
-		List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(obProject.getId());
+		/*List<OBProjectResult> resultList=OBProjectResultMapper.selectByPID(obProject.getId());
 		List<OBProductInfo> plist=obProductInfoMapper.getProductName(obProject.getId());
 		for(OBProjectResult s:resultList){
 			s.setProductInfo(plist);
-		}
-		model.addAttribute("selectInfoByPID", resultList);
-		model.addAttribute("plist", plist);
+		}*/
+		
+		
+		/**************************页面底层供应商信息*************************/
+		// 页面底层供应商信息
+		List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(projectId);
+    	Integer countProportion = 0;
+    	if(list != null){
+    		for (OBResultSubtabulation obr : list) {
+    			if(obr != null){
+    				OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
+    				if(projectResult != null){
+    					countProportion += Integer.parseInt(projectResult.getProportion());
+    					obr.setProportion(Integer.parseInt(projectResult.getProportion()));
+    					obr.setStatus(projectResult.getStatus());
+    					obr.setRanking(projectResult.getRanking());
+    				}
+    			}
+        	}
+    	}
+    	OBProject obProjectC = OBProjectServer.selectByPrimaryKey(projectId);
+    	if(obProjectC != null){
+    		String projectName = obProjectC.getName();
+    		model.addAttribute("projectName",projectName);
+    	}
+    	if(list != null){
+    		Collections.sort(list);
+    	}
+    	model.addAttribute("listres", list);
+    	model.addAttribute("countProportion",countProportion);
+    	model.addAttribute("size",list.size());
+    	
+    	/**************************页面底层供应商信息结束*************************/
+		
 		}
 		return "bss/ob/supplier/queryBiddingResults";
 	}

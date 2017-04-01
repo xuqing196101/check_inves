@@ -69,10 +69,6 @@
   
 	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
 	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
-<%-- 	<c:if test="${selectInfoByPID!=null and selectInfoByPID.size()>0}">
-	 <h2 class="count_flow"><i>3</i>供应商信息</h2>
-	   <%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
-	</c:if> --%>
   </div>
  </div>
 </body>
