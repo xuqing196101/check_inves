@@ -29,13 +29,13 @@
 	      $(this).attr("readonly", "readonly");
 	      });
 	      
-	      layer.alert('点击审核项,弹出不通过理由框！', {
+	      /* layer.alert('点击审核项,弹出不通过理由框！', {
 					title: '审核操作说明：',
 					skin: 'layui-layer-molv', //样式类名
 					closeBtn: 0,
 					offset: '100px',
 					shift: 4 //动画类型
-				});
+				}); */
 	      
 	    });
 		</script>

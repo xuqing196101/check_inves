@@ -351,7 +351,7 @@
 				<div class="col-md-12 pl20 mt10">
 					<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
 					<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
-					<c:if test="${sign == 2}">
+					<c:if test="${sign == 2 or sign == 3}">
 						<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
 					</c:if>
 					<!-- 表格开始-->

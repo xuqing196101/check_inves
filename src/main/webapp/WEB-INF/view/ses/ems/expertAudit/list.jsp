@@ -59,9 +59,18 @@
 					});
 					return;
 				} */
-				$("input[name='expertId']").val(id);
-				$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
-				$("#form_id").submit();
+				layer.alert('点击审核项,弹出不通过理由框！', {
+					title: '审核操作说明：',
+					skin: 'layui-layer-molv', //样式类名
+					closeBtn: 0,
+					offset: '100px',
+					shift: 4 //动画类型
+				},
+					function(){
+					$("input[name='expertId']").val(id);
+					$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/basicInfo.html");
+					$("#form_id").submit();
+				});
 			}
 			//Ma Mingwei
 			function trim(str){ //删除左右两端的空格
