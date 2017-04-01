@@ -257,6 +257,7 @@ public class OBSupplierQuoteController {
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
 		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
+		int ranking=0;
 		 if(project!=null){
 			 //竞价结束时间 和当前时间比较
 		  if(project.getEndTime().getTime()<new Date().getTime()){
@@ -282,70 +283,27 @@ public class OBSupplierQuoteController {
 			  confirmStatus="3";
 		 }
 		  if(confirmStatus=="2"){
-			  List<OBProjectResult> peolist= OBProjectResultMapper.selectSupplierPeo(projectId);
-			  if(peolist!=null){
-				  //判断供应商接受的成交数 未达到  竞价成交供应商数量 
-			  if(project.getTradedSupplierCount()>=peolist.size()){
-				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
-				  if(obpro.getProportion().equals("100")){
-					  //成交总额已完成
-					  confirmStatus="7";
-				  	}else{
-			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
-			 OBProjectResult result=null;
-			 for(OBProjectResult obp:rankingList){
-				  if(obp.getSupplierId().equals(supplierId)){
-					  result=obp;
-					  break;
-				  }
-			 }
-			 if(result.getRanking()==1){
-				 confirmStatus="2";
-			 }else{
-				 int indexof=rankingList.indexOf(result);
-				 OBProjectResult result1=rankingList.get(indexof-1);
-				 if(result1.getRemark().equals("2")){
-					 confirmStatus="2";
-				 }else{
-					 //顺推 前一名第二轮未确定
-					 confirmStatus="8";
+			  //获取 可以进行第一轮 供应商
+			  List< OBProjectResult> obresultsList = OBProjectResultMapper.getSecond(projectId);
+			  if(obresultsList!=null){
+				  OBProjectResult result=obresultsList.get(0);
+				  if(result.getSupplierId().equals(supplierId)){
+					  confirmStatus="2";
+				  }else{
+					  //顺推 前一名第二轮未确定
+						 ranking=result.getRanking();
+						 confirmStatus="8";
 				}
-			   }
-			   }
-			  }else{
-				  // 成交供应商数量已到达上限，请耐心等待
-				  confirmStatus="6";
-			  }
 		     }else{
-		    	 //数据错误
-		    	 confirmStatus="0";
+		    	 //第二轮 已经结束
+		    	 confirmStatus="7";
 		     }
 		    }
 		  }
 		 }else{
 			 confirmStatus="4";
 		 }
-		  if(confirmStatus=="2"){
-			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
-			 OBProjectResult result=null;
-			 for(OBProjectResult obp:rankingList){
-				  if(obp.getSupplierId().equals(supplierId)){
-					  result=obp;
-					  break;
-				  }
-			 }
-			 if(result.getRanking()==1){
-				 confirmStatus="2";
-			 }else{
-				 int indexof=rankingList.indexOf(result);
-				 OBProjectResult result1=rankingList.get(indexof-1);
-				 if(result1.getRemark().equals("2")){
-					 confirmStatus="2";
-				 }else{
-					 confirmStatus="3";
-				 }
-			 }
-		  }
+		 
 		 JdcgResult jdcg=new JdcgResult();
 		 if(confirmStatus=="1"){
 			 jdcg.setStatus(1);
@@ -362,15 +320,12 @@ public class OBSupplierQuoteController {
 		 }else if(confirmStatus=="5") {
 			 jdcg.setStatus(5);
 			 jdcg.setMsg("第一轮未中标");
-		 }else if(confirmStatus=="6"){
-			 jdcg.setStatus(6);
-			 jdcg.setMsg("成交供应商数量已到达上限");
 		 }else if(confirmStatus=="7"){
 			 jdcg.setStatus(7);
 			 jdcg.setMsg("竞价已完成");
 		 }else if(confirmStatus=="8"){
 			 jdcg.setStatus(8);
-			 jdcg.setMsg("当前上一名第二轮未确定");
+			 jdcg.setMsg("您是第"+ranking+"名,第"+(ranking-1)+"名第二轮未确定,请耐心等候");
 		 }else{
 			 jdcg.setStatus(0);
 			 jdcg.setMsg("错误");

@@ -28,6 +28,13 @@ public interface OBProjectResultMapper {
      */
     OBProjectResult selectProportionByProject(OBProjectResult example);
     /**
+     * 全部状态 和现实 状态
+     * @author YangHongLiang
+     * @param projectId
+     * @return
+     */
+    List<OBProjectResult> getSecond(String projectId);
+    /**
      * 获取成交的比例
      * @author Yanghongliang
      * @param projectId

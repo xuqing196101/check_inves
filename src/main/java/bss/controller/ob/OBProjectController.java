@@ -152,9 +152,15 @@ public class OBProjectController {
 			HttpServletRequest request, Integer page, Date startTime,
 			String name) {
 		if (user != null) {
+			
 			if (page == null) {
 				page = 1;
 			}
+			String orgId=null;
+			if(user.getOrg().getTypeName().equals("0")){
+				orgId=user.getOrg().getTypeName();
+			}
+			model.addAttribute("orgId", orgId);
 			Map<String, Object> map = new HashMap<String, Object>();
 			map.put("page", page);
 			map.put("uid", user.getId());
@@ -168,7 +174,7 @@ public class OBProjectController {
 			model.addAttribute("info", info);
 			model.addAttribute("name",name);
 			model.addAttribute("startTime",startTime);
-		}
+			 }
 		return "bss/ob/biddingInformation/list";
 	}
 	/***
@@ -295,6 +301,13 @@ public class OBProjectController {
 	@RequestMapping("/add")
 	public String addBidding(@CurrentUser User user, Model model,
 			HttpServletRequest request) {
+       if(user!=null){
+			String orgId=null;
+		//需求部门
+	   if(user.getOrg().getTypeName().equals("0")){
+			orgId=user.getOrg().getId();
+		model.addAttribute("type", 2);
+		model.addAttribute("orgId", orgId);
 		// 获取当前 默认规则
 		 OBRule obRule = OBRuleMapper.selectByStatus();
 		 if(obRule==null){
@@ -312,6 +325,8 @@ public class OBProjectController {
 		// 标识 竞价附件
 		model.addAttribute("typeId",
 				DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+		 }
+		}
 		return "bss/ob/biddingInformation/publish";
 	}
 
@@ -569,9 +584,12 @@ public class OBProjectController {
 	@ResponseBody
 	public String addProject(@CurrentUser User user, OBProject obProject,
 			HttpServletRequest request, String fileid) {
-		String msg = "";
+		String msg = null;
 		if (user != null) {
+			// 判断当前登录人是否是需求部门 
+			  if(user.getOrg().getTypeName().equals("0")){
 			msg = OBProjectServer.saveProject(obProject, user.getId(), fileid);
+			  }
 		}
 		return msg;
 
@@ -641,6 +659,12 @@ public class OBProjectController {
 			map.put("userId", user.getId());
 			OBProject obProject=OBProjectServer.editOBProject(map);
 			if(obProject !=null){
+				String orgId=null;
+				//需求部门
+				if(user.getOrg().getTypeName().equals("0")){
+					orgId=user.getOrg().getId();
+				}
+				model.addAttribute("orgId", orgId);
 				// 生成ID
 				model.addAttribute("ruleId", obProject.getRuleId());
 				model.addAttribute("userId", user.getId());
@@ -694,17 +718,21 @@ public class OBProjectController {
 					model.addAttribute("size",list.size());
 				}
 				if(StringUtils.isNotBlank(status)){
+					model.addAttribute("type", "1");
 					return "bss/ob/biddingInformation/editPublish";
 				}else{
 				if(obProject.getStatus()==0){
+					model.addAttribute("type", "2");
 					return "bss/ob/biddingInformation/publish";
 				}else{
+					model.addAttribute("type", "1");
 					return "bss/ob/biddingInformation/editPublish";
 				 }
 			   }
 			 }
 			}
 		}
+		model.addAttribute("type", "1");
 		return "bss/ob/biddingInformation/editPublish";
 	}
 	

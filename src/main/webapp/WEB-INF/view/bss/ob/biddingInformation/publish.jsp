@@ -117,7 +117,13 @@
 			 $("#orgId").select2();
 			 $("#orgId").select2('val','${list.orgId}');
 			  $("#demandUnit").select2();
-			 $("#demandUnit").select2('val','${list.demandUnit}');
+			  var type='${type}';
+			  if(type=='1'){
+			   $("#demandUnit").select2('val','${list.demandUnit}');
+			  }else if(type=='2'){
+			     $("#demandUnit").select2('val','${orgId}');
+			     changDemandUnit();
+			  }
 			}
 		});
 		
@@ -203,9 +209,11 @@
 	 //存储选中的产品的全部供应商id
      var supplielist=[];
 	//根据定型产品更新 
-	function changSelectCount(){
+	function changSelectCount(number){
 	 if(productList){
 	 	gysCount();
+	  $("#orgId").select2('val',productList[0].procurementId);
+	  changSelect();
 	  }else{
 	   $("#gys_count").text(0);
 	  }
@@ -238,7 +246,7 @@
 	}
 	function loads(number,id){
 	$.each(productList, function(i, user) {
-		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + ">" + user.name+ "</option>");
+		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " >" + user.name+ "</option>");
 	     });
 	     $("select[id=\"productName_"+number+"\"]").select2(); 
 	     if(id){
@@ -672,9 +680,6 @@
     <div class="tab-content">
     <!-- 修改订列表开始-->
   <div class="container container_box">
-  <div class="mt10">
-	   <button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-   </div>
   <form id="myForm" action="" method="post" class="mb0">
   <input type="hidden" id="status" name="status">
   <input type="hidden" id="attachmentId" name="attachmentId" value="${fileid}" >
@@ -760,7 +765,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>联系人</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactName" name="contactName" readonly="readonly" value="${list.contactName }" maxlength="20" type="text">
+        <input class="input_group" id="contactName" name="contactName"  value="${list.contactName }" maxlength="20" type="text">
         <span class="add-on">i</span>
            <span class="input-tip">不能为空</span>
         <div class="cue" id="contactNameErr">${contactNameErr}</div>
@@ -769,7 +774,7 @@
 	  <li class="col-md-3 col-sm-6 col-xs-12">
 	   <span class="col-md-12 col-sm-12 col-xs-12 padding-left-5"><span class="red">*</span>联系电话</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
-        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }" readonly="readonly" maxlength="20" type="text">
+        <input class="input_group" id="contactTel" name="contactTel" value="${list.contactTel }"  maxlength="20" type="text">
         <span class="add-on">i</span>
         <span class="input-tip">不能为空</span>
         <div class="cue" id="contactTelErr">${contactTelErr}</div>
@@ -882,7 +887,7 @@
 	<script type="text/javascript">
 		$(function(){
 			// 乙方包干使用价格显示
-			var transportFees = ${list.transportFeesPrice};
+			var transportFees = '${list.transportFeesPrice}';
 			if(transportFees != null){
 				$("#transportFeesPriceLi").css("display","block");
 			}

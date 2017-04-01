@@ -217,6 +217,15 @@
     GROUP BY RANKING,SUPPLIER_ID
 ORDER BY RANKING
   </select>
+    <!-- 查找参与竞价  全部状态 和现实 状态-->
+  <select id="getSecond" resultMap="BaseResultMap" parameterType="java.lang.String" >
+    select r.RANKING,COUNT(r.SUPPLIER_ID) as REMARK ,r.SUPPLIER_ID,s.REMARK as a from T_BSS_OB_PROJECT_RESULT r,T_BSS_OB_PROJECT_SUPPLIER s
+    WHERE r.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and r.PROJECT_ID=s.PROJECT_ID and r.SUPPLIER_ID =s.SUPPLIER_ID
+     and (s.REMARK !=42 or s.REMARK!=3) 
+      GROUP BY r.RANKING,r.SUPPLIER_ID,s.REMARK 
+     HAVING COUNT(r.SUPPLIER_ID)=1
+      ORDER BY r.RANKING
+  </select>
    <!-- 根据竞价 id查 的供应商信息结果信息 -->
   <select id="selectNotSuppler" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 

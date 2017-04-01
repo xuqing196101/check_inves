@@ -47,7 +47,6 @@ import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
-
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -910,7 +909,53 @@ public class OBProjectServerImpl implements OBProjectServer {
 					int compareDate2 = DateUtils.compareDate(new Date(), op.getEndTime());
 					// 比较 竞价信息 如果等于1 那么是竞价确认结束的时间
 					if (compareDate2 == 1) {
-						// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
+						OBProject project=new OBProject();
+						//获取比例是否完成
+						String proportion= OBProjectResultMapper.getProportionSum(op.getId());
+						if(!proportion.equals("100")){
+						//获取 结果全部信息  接受42 放弃32
+						List< OBProjectResult> obresultsList = OBProjectResultMapper.getSecond(op.getId());
+						if(obresultsList!=null){
+						  OBProjectResult result=obresultsList.get(0);
+						  //修改 状态 第二轮 未选择 默认放弃
+						  OBProject obProject = new OBProject();
+							obProject.setId(op.getId());
+							User users = new User();
+							users.setTypeId(result.getSupplierId());
+							String remark = "32";
+							BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
+							if(obresultsList.size()>1){
+							//如果 集合不是最后一条数据 那么 结束时间 在加上 第二轮确定时间
+								project.setEndTime(DateUtils.getAddDate(op.getEndTime(), confirmTimeSecond));
+							}else{
+								//判断竞价 成交供应商是否满足 竞价供应商成交数量
+								Integer closingSupplier = OBProjectResultMapper.countByStatus(op.getId());
+								//成交供应商 必须大于等于 竞价成交供应商数量
+								if(closingSupplier>=op.getTradedSupplierCount()){
+									project.setStatus(3);
+								}else{
+									//修改竞价状态
+									project.setStatus(4);
+								}
+							}
+						  }else{
+							//判断竞价 成交供应商是否满足 竞价供应商成交数量
+								Integer closingSupplier = OBProjectResultMapper.countByStatus(op.getId());
+								//成交供应商 必须大于等于 竞价成交供应商数量
+								if(closingSupplier>=op.getTradedSupplierCount()){
+									project.setStatus(3);
+								}else{
+									//修改竞价状态
+									project.setStatus(4);
+							  }
+						  }
+					 }else{
+						//修改竞价状态结束 
+						 project.setStatus(3);
+					}
+						project.setId(op.getId());
+						OBprojectMapper.updateByPrimaryKeySelective(project);
+						/*// 说明 已发布 的竞价信息 已经超过 确认 时间 获取全部参与报价的供应商 数据
 						List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(op.getId(),null,null);
 						// 临时存储交易比例
 						int temp = 0;
@@ -929,6 +974,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 						}
 						//获取供应商成交数量
 						Integer closingSupplier = OBProjectResultMapper.countByStatus(op.getId());
+						
 						if(closingSupplier==null){
 							closingSupplier=0;
 						}
@@ -951,7 +997,7 @@ public class OBProjectServerImpl implements OBProjectServer {
 							}
 						upstatus.setId(op.getId());
 						upstatus.setUpdatedAt(new Date());
-						OBprojectMapper.updateByPrimaryKeySelective(upstatus);
+						OBprojectMapper.updateByPrimaryKeySelective(upstatus);*/
 					  }
 					break;
 				}
