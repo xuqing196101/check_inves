@@ -23,6 +23,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -816,37 +817,32 @@ public class OBSupplierQuoteController {
 				 * 	：第一轮确认结果获取的是按时间正序排序的第一条记录
 				 * 	：第二轮确认结果是按时间倒序排序的第一条记录	
 				 * **/
+				OBProjectResult findConfirmResult = null;
+				OBProjectResult findConfirmResultSecond = null;
+				String confirmFirstTotalFigureStr = null;
+				String confirmSecondTotalFigureStr = null;
 				if(FIRST_CONFIRM.equals(confirmFlag)){
 					// 第一轮结果确认信息
 					map.put("orderWay", "ASC");
+					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
+					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
 				}
 				
 				if(SECOND_CONFIRM.equals(confirmFlag)){
-					// 第二轮结果确认信息
+					// 第二轮结果确认信息--既显示第一轮有显示第二轮
+					map.put("orderWay", "ASC");
+					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
+					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
+					// 第二轮
 					map.put("orderWay", "DESC");
+					findConfirmResultSecond = oBProjectResultService.findConfirmResult(resultMap);
+					confirmSecondTotalFigureStr = getTotalFigure(findConfirmResultSecond);
+					// 封装数据
+					model.addAttribute("confirmResultSecond", findConfirmResultSecond);
+					model.addAttribute("confirmSecondTotalFigureStr", confirmSecondTotalFigureStr);
 				}
 				
-				OBProjectResult findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
-				// 定义第一轮成交总价
-				Double confirmFirstTotalFigure = 0.00;
-				if(findConfirmResult != null){
-					List<OBResultSubtabulation> obResultSubtabulationList = findConfirmResult.getObResultSubtabulation();
-					if(obResultSubtabulationList != null && obResultSubtabulationList.size() > 0){
-						for (OBResultSubtabulation obResultSubtabulation : obResultSubtabulationList) {
-							// 获取单件商品的成交总价
-							BigDecimal dealMoney = obResultSubtabulation.getTotalMoney();
-							// 计算成交总价
-							/**计算成交总价 = 单件商品的成交总价 相加**/
-							/** 累加得到总计 **/
-							confirmFirstTotalFigure = dealMoney.add(
-									new BigDecimal(Double
-											.toString(confirmFirstTotalFigure)))
-									.doubleValue();
-							
-						}
-					}
-				}
-				String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
+				
 				model.addAttribute("confirmResult", findConfirmResult);
 				model.addAttribute("confirmFirstTotalFigureStr", confirmFirstTotalFigureStr);
 				model.addAttribute("confirmFlag", confirmFlag);
@@ -856,6 +852,32 @@ public class OBSupplierQuoteController {
 			
 		}
 		return "bss/ob/supplier/findQuotoIssueInfo";
+	}
+	
+	
+	public String getTotalFigure(OBProjectResult findConfirmResult){
+		NumberFormat currency = NumberFormat.getNumberInstance();
+		// 定义第一轮成交总价
+		Double confirmFirstTotalFigure = 0.00;
+		if(findConfirmResult != null){
+			List<OBResultSubtabulation> obResultSubtabulationList = findConfirmResult.getObResultSubtabulation();
+			if(obResultSubtabulationList != null && obResultSubtabulationList.size() > 0){
+				for (OBResultSubtabulation obResultSubtabulation : obResultSubtabulationList) {
+					// 获取单件商品的成交总价
+					BigDecimal dealMoney = obResultSubtabulation.getTotalMoney();
+					// 计算成交总价
+					/**计算成交总价 = 单件商品的成交总价 相加**/
+					/** 累加得到总计 **/
+					confirmFirstTotalFigure = dealMoney.add(
+							new BigDecimal(Double
+									.toString(confirmFirstTotalFigure)))
+							.doubleValue();
+					
+				}
+			}
+		}
+		String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
+		return confirmFirstTotalFigureStr;
 	}
 	
 	/**
