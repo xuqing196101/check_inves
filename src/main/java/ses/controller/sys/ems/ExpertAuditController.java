@@ -1415,7 +1415,7 @@ public class ExpertAuditController {
     	}
     	
     	/**
-    	 * 比较附件时候通过审核(初审和复查才有附件信息)
+    	 * 比较附件那些通过审核(初审和复查才有附件信息)
     	 */
     	if(tableType.equals("1") || tableType.equals("3")){
     		ExpertAudit audit0 = new ExpertAudit();
@@ -1516,7 +1516,7 @@ public class ExpertAuditController {
     	
 
 		/**
-		 * ExpertField类的获取属性值
+		 * 获取ExpertField类的属性值
 		 */
 		ExpertField expertField = new ExpertField();
 		Field[] fields = expertField.getClass().getDeclaredFields(); 

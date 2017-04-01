@@ -183,14 +183,16 @@ public class SupplierQueryController extends BaseSupplierController {
      * @return String
      */
     @RequestMapping("/highmaps")
-    public String highmaps(Supplier sup, Model model, Integer status, Integer judge, String supplierTypeIds
-                           , String supplierType, String categoryNames, String categoryIds){
+    public String highmaps(Supplier sup, Model model, Integer status, Integer judge, String supplierTypeIds, String supplierType, String categoryNames, String categoryIds){
         /*if (judge != null){
             status = judge;
         }
         if (status != null){
             sup.setStatus(status);
         }*/
+    	
+    	
+    	
         if (categoryIds != null && !"".equals(categoryIds)){
             List<String> listCategoryIds = Arrays.asList(categoryIds.split(","));
             sup.setItem(listCategoryIds);

@@ -1175,7 +1175,7 @@
 		<include refid="Base_Column_List" />
 		FROM t_ses_sms_supplier
 		WHERE
-		1=1
+		IS_PROVISIONAL = '0'
 		<if test="procurementDepId !=null">
 			and PROCUREMENT_DEP_ID = #{procurementDepId}
 		</if>
@@ -1249,7 +1249,7 @@
 			)
 		WHERE
 			1 = 1
-		AND SUPPLIER_NAME IS NOT NULL
+		<!-- AND SUPPLIER_NAME IS NOT NULL -->
 		<if test="supplierName != null and supplierName !=''">
 			and SUPPLIER_NAME like '%${supplierName}%'
 		</if>
@@ -1279,6 +1279,9 @@
 		</if>
 		<if test="mobile != null and mobile !=''">
 			and MOBILE like '%${mobile}%'
+		</if>
+		<if test="isProvisional != null">
+			and IS_PROVISIONAL = #{isProvisional}
 		</if>
 		<!-- <if test="address != null and address !=''"> and ADDRESS like '%${address}%' 
 			</if> -->

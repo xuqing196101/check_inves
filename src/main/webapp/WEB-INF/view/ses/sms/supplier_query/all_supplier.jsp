@@ -32,6 +32,7 @@
 				$("#supplierType").val('');
 				$("#categoryIds").val('');
 				$("#supplierTypeIds").val('');
+				$("#isProvisional").val('');
 				window.location.href = "${pageContext.request.contextPath}/supplierQuery/highmaps.html";
 			}
 			$(function() {
@@ -473,11 +474,20 @@
 								<span class="f13">至</span>
 								<input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})" />
 							</li>
+							<li>
+	            	<label class="fl">临时供应商:</label>
+		            <select name="isProvisional" id="isProvisional" class="w220">
+		              <option value=''>全部</option>
+		              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
+		              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
+		            </select>
+	         	  </li>
 						</ul>
 		        <div class="col-md-12 clear tc mt10">
 	            <button type="button" onclick="submit()" class="btn">查询</button>
 	            <button type="button" onclick="chongzhi()" class="btn">重置</button> 
             </div>
+            
             <div class="clear"></div>
 		     </form>
 		     

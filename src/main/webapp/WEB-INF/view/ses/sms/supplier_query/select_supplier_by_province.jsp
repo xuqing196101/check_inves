@@ -45,6 +45,7 @@
 				$("#supplierTypeIds").val('');
 				$("#category").val('');
 				$("#supplierType").val('');
+				$("#isProvisional").val('');
 				$("#status option:selected").removeAttr("selected");
 				$("#address option:selected").removeAttr("selected");
 				$("#businessType option:selected").removeAttr("selected");
@@ -500,6 +501,14 @@
 	            <input id="endDate" name="endDate" value='<fmt:formatDate value="${supplier.endDate }" pattern="YYYY-MM-dd"/>' class="Wdate w100 fl" type="text" onFocus="WdatePicker({minDate:'#F{$dp.$D(\'startDate\')}'})"/>
 	            </span>
 	          </li>
+	          <li>
+            	<label class="fl">临时供应商:</label>
+	            <select name="isProvisional" id="isProvisional" class="w220">
+	              <option value=''>全部</option>
+	              <option value='1' <c:if test="${supplier.isProvisional eq '1' }">selected</c:if>>是</option>
+	              <option value='0' <c:if test="${supplier.isProvisional eq '0' }">selected</c:if>>否</option>
+	            </select>
+	         	</li>
 	        </ul>
 	          <div class="col-md-12 clear tc mt10">
             	<button type="button" onclick="submit()" class="btn">查询</button>
@@ -564,13 +573,14 @@
 								<td class="">${list.supplierType }</td>
 								<td class="tc">${list.businessType }</td>
 								<td class="tc">
+									<c:if test="${list.status==5 and list.isProvisional == 1 }"><span class="label rounded-2x label-dark">临时</span></c:if>
 									<c:if test="${list.status==-1 }"><span class="label rounded-2x label-dark">暂存</span></c:if>
 									<c:if test="${list.status==0 }"><span class="label rounded-2x label-dark">待审核</span></c:if>
 									<c:if test="${list.status==1 }"><span class="label rounded-2x label-u">审核通过</span></c:if>
 									<c:if test="${list.status==2 }"><span class="label rounded-2x label-dark">审核退回修改</span></c:if>
 									<c:if test="${list.status==3 }"><span class="label rounded-2x label-dark">审核未通过</span></c:if>
 									<c:if test="${list.status==4 }"><span class="label rounded-2x label-dark">待复核</span></c:if>
-									<c:if test="${list.status==5 }"><span class="label rounded-2x label-u">复核通过</span></c:if>
+									<c:if test="${list.status==5 and list.isProvisional == 0}"><span class="label rounded-2x label-u">复核通过</span></c:if>
 									<c:if test="${list.status==6 }"><span class="label rounded-2x label-dark">复核未通过</span></c:if>
 									<c:if test="${list.status==7 }"><span class="label rounded-2x label-dark">待考察</span></c:if>
 									<c:if test="${list.status==8 }"><span class="label rounded-2x label-u">考察合格</span></c:if>

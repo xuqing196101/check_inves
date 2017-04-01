@@ -24,7 +24,7 @@
          $("#buhege").attr("disabled", true);
        }
        if(num != 0){
-         $("#tongguo").attr("disabled", true);
+        /*  $("#tongguo").attr("disabled", true); */
          $("#hege").attr("disabled", true);
          };
        });
