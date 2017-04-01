@@ -66,7 +66,7 @@
 				      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 				      type:"post",
 				      dataType:"json",
-				      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+				      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1",
 					    success:function(result){
 				        result = eval("(" + result + ")");
 				        if(result.msg == "fail"){
@@ -102,7 +102,7 @@
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
-					      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField,
+					      data:"suggestType=one"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1",
 					      success:function(result){
 					        result = eval("(" + result + ")");
 					        if(result.msg == "fail"){

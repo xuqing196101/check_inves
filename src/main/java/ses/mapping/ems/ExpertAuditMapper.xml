@@ -9,14 +9,14 @@
     <result column="AUDIT_REASON" jdbcType="VARCHAR" property="auditReason" />
     <result column="AUDIT_RESULT" jdbcType="VARCHAR" property="auditResult" />
     <result column="AUDIT_AT" property="auditAt" jdbcType="TIMESTAMP"/>
-    <result column="IS_HISTORY" jdbcType="VARCHAR" property="isHistory" />
+    <result column="TYPE" jdbcType="VARCHAR" property="type" />
     <result column="IS_DELETE" jdbcType="DECIMAL" property="isDelete" />
     <result column="SUGGEST_TYPE" jdbcType="VARCHAR" property="suggestType" />
     <result column="AUDIT_FIELD" jdbcType="VARCHAR" property="auditField" />
     <result column="AUDIT_CONTENT" jdbcType="VARCHAR" property="auditContent" />
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, IS_HISTORY
+    ID, EXPERT_ID, AUDIT_USER_ID, AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE
   </sql>
   <!-- 根据专家id查询 -->
   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
@@ -68,11 +68,11 @@
   <insert id="insert" parameterType="ses.model.ems.ExpertAudit">
     insert into T_SES_EMS_EXPERT_AUDIT (ID, EXPERT_ID, AUDIT_USER_ID, 
       AUDIT_USER_NAME, AUDIT_REASON, AUDIT_RESULT, 
-      AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, IS_HISTORY
+      AUDIT_AT, IS_DELETE, SUGGEST_TYPE, AUDIT_FIELD, AUDIT_CONTENT, TYPE
       )
     values (#{id}, #{expertId}, #{auditUserId}, 
       #{auditUserName}, #{auditReason}, #{auditResult}, 
-      #{auditAt,jdbcType=TIMESTAMP}, #{isDelete}, #{suggestType}, #{auditField}, #{auditContent}, #{isHistory}
+      #{auditAt,jdbcType=TIMESTAMP}, #{isDelete}, #{suggestType}, #{auditField}, #{auditContent}, #{type}
       )
   </insert>
   
@@ -113,8 +113,8 @@
       <if test="auditContent != null">
         AUDIT_CONTENT,
       </if>
-      <if test="isHistory != null">
-        IS_HISTORY,
+      <if test="type != null">
+        TYPE,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -151,8 +151,8 @@
       <if test="auditContent != null">
         #{auditContent},
       </if>
-      <if test="isHistory != null">
-        #{isHistory},
+      <if test="type != null">
+        #{type},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
@@ -192,8 +192,8 @@
       <if test="auditContent != null">
         AUDIT_CONTENT = #{auditContent},
       </if>
-      <if test="isHistory != null">
-        IS_HISTORY = #{isHistory},
+      <if test="type != null">
+        TYPE = #{type},
       </if>
     </set>
     where ID = #{id}
@@ -206,7 +206,7 @@
       AUDIT_REASON = #{auditReason},
       AUDIT_RESULT = #{auditResult},
       AUDIT_AT = #{auditAt,jdbcType=TIMESTAMP},
-      IS_HISTORY = #{isHistory},
+      TYPE = #{type},
       IS_DELETE = #{isDelete}
       SUGGEST_TYPE = #{suggestType},
       AUDIT_FIELD = #{auditField},
@@ -227,8 +227,8 @@
     <if test="auditField != '' and auditField != null">
     	and AUDIT_FIELD = #{auditField}
     </if>
-    <if test="isHistory !=null ">
-    	and IS_HISTORY = #{isHistory}
+    <if test="type !=null ">
+    	and TYPE = #{type}
     </if>
   </select>
   
@@ -239,8 +239,8 @@
     	T_SES_EMS_EXPERT_AUDIT
     where 
     	EXPERT_ID = #{expertId}
-    <if test="isHistory !=null ">
-    	and IS_HISTORY = #{isHistory}
+    <if test="type !=null ">
+    	and TYPE = #{type}
     </if>
     <if test="auditField != '' and auditField != null">
     	and AUDIT_FIELD = #{auditField}

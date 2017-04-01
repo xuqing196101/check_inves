@@ -484,7 +484,7 @@
 
 			//下一步
 			function nextStep(url) {
-				var action = "${pageContext.request.contextPath}/supplierAudit/items.html";
+				var action = "${pageContext.request.contextPath}/supplierAudit/aptitude.html";
 				$("#form_id").attr("action", action);
 				$("#form_id").submit();
 			}

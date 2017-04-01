@@ -20,7 +20,7 @@ public class ExpertAudit implements Serializable{
     //审核结果；0未审核，1通过，2未通过,3退回修改
     private String auditResult;
     //是否为历史数据 0否  1是
-    private String isHistory;
+    private String type;
     //审核时间
     private Date auditAt;
     //是否删除0否  1是
@@ -90,12 +90,12 @@ public class ExpertAudit implements Serializable{
         this.auditAt = auditAt;
     }
 
-    public String getIsHistory() {
-        return isHistory;
+    public String gettype() {
+        return type;
     }
 
-    public void setIsHistory(String isHistory) {
-        this.isHistory = isHistory == null ? null : isHistory.trim();
+    public void settype(String type) {
+        this.type = type == null ? null : type.trim();
     }
 
     

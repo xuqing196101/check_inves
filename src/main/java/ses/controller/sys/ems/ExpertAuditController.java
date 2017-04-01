@@ -7,7 +7,6 @@ import java.lang.reflect.Method;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -1366,6 +1365,9 @@ public class ExpertAuditController {
         	}
         }		
 		
+        /**
+         * 拼接产品
+         */
         StringBuffer items = new StringBuffer();
         for(SupplierCateTree cateTree : itemsListAll ){
         	String rootNode = cateTree.getRootNode();
@@ -1385,14 +1387,19 @@ public class ExpertAuditController {
         	items.delete(0, items.length());
         }
         
+        /**
+         * 比较勾选的产品是否通过审核
+         */
         List < ExpertAudit > reasonsList = new ArrayList<ExpertAudit>();
     	for(SupplierCateTree cateTree : itemsListAll ){
+    		//查询未通过审核的产品
     		ExpertAudit expertAudit = new ExpertAudit();
     		expertAudit.setExpertId(expert.getId());
-    		expertAudit.setIsHistory("1");
+    		expertAudit.settype("2");
     		expertAudit.setAuditField(cateTree.getItemsId());
     		List < ExpertAudit > reasonsItemsList = expertAuditService.selectbyAuditType(expertAudit);
     		ExpertAudit expertAudit1 = new ExpertAudit();
+    		//比较
     		if(reasonsItemsList !=null && reasonsItemsList.size() > 0){
     			for(ExpertAudit audit :reasonsItemsList){
     				expertAudit1.setAuditField(cateTree.getRootNode());
@@ -1407,11 +1414,13 @@ public class ExpertAuditController {
     		
     	}
     	
-    	//初审和复查才有附件信息
+    	/**
+    	 * 比较附件时候通过审核(初审和复查才有附件信息)
+    	 */
     	if(tableType.equals("1") || tableType.equals("3")){
     		ExpertAudit audit0 = new ExpertAudit();
         	audit0.setExpertId(expert.getId());
-        	audit0.setIsHistory("2");
+        	audit0.settype("1");
         	List < ExpertAudit > basicList = expertAuditService.selectFailByExpertId(audit0);
 
     		boolean recentPhotos = true, idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true , professionalFile = true;
@@ -1506,7 +1515,9 @@ public class ExpertAuditController {
     	}
     	
 
-		//获取属性值
+		/**
+		 * ExpertField类的获取属性值
+		 */
 		ExpertField expertField = new ExpertField();
 		Field[] fields = expertField.getClass().getDeclaredFields(); 
 		List < String > list = new ArrayList<>();
@@ -1515,9 +1526,12 @@ public class ExpertAuditController {
 			Object str = fields[i].get(expertField);
 			list.add(str.toString());
 		}
+		/**
+		 * 拼接未通过审核的字段
+		 */
 		ExpertAudit expertAudit2 = new ExpertAudit();
 		expertAudit2.setExpertId(expert.getId());
-		expertAudit2.setIsHistory("2");
+		expertAudit2.settype("1");
     	List < ExpertAudit > basicFileList = expertAuditService.selectbyAuditType(expertAudit2);
 		StringBuffer buff = new StringBuffer();
 		
@@ -1525,10 +1539,12 @@ public class ExpertAuditController {
 			buff.append(a.getAuditField() + ",");
 		}
 		
-		
+		/**
+		 * 比较字段是否通过审核
+		 */
 		for(String str : list){
 			expertAudit2.setExpertId(expert.getId());
-			expertAudit2.setIsHistory("2");
+			expertAudit2.settype("1");
 			expertAudit2.setAuditField(str);
 	    	List < ExpertAudit > basicFileList1 = expertAuditService.selectbyAuditType(expertAudit2);
 	    	ExpertAudit expertAuditMap = new ExpertAudit();
@@ -1551,7 +1567,9 @@ public class ExpertAuditController {
 		dataMap.put("reasonsList", reasonsList);
 		
 		
-		//复审
+		/**
+		 * 专家签字模块（获取勾选的专家）复审
+		 */
 		if(tableType.equals("2")){
 			Expertsignature expertsignature = new Expertsignature();
 			List<Expertsignature> expertList= new ArrayList<Expertsignature>();

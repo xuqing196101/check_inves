@@ -112,6 +112,7 @@
 									},
 										function(){
 											$("input[name='supplierId']").val(id);
+											$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
 											$("#shenhe_form_id").submit();
 									});
 									
@@ -125,6 +126,7 @@
 										},
 										function(){
 											$("input[name='supplierId']").val(id);
+											$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/essential.html");
 											$("#shenhe_form_id").submit();
 									});
 								}
@@ -351,8 +353,8 @@
 					<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
 					<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
 					<!-- 表格开始-->
-					<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载</a>
-					<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载</a>
+					<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载考察记录表</a>
+					<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">
@@ -403,7 +405,7 @@
 					<div id="pagediv" align="right"></div>
 				</div>
 			</div>
-			<form id="shenhe_form_id" action="${pageContext.request.contextPath}/supplierAudit/essential.html" method="post">
+			<form id="shenhe_form_id" action="" method="post">
 				<input name="supplierId" type="hidden"/>
 				<input type="hidden" name="sign" value="${sign}">
 				<input type="hidden" name="tableType">
