@@ -36,6 +36,7 @@
 	} */
 	
 function sumbits(){
+		$.ajaxSetup({cache:false});
 		var formData = $("#form").serialize();
 	    formData = decodeURIComponent(formData, true);
 	  $("#tab-1").load("${pageContext.request.contextPath}/SupplierExtracts/AddtemporarySupplier.do",encodeURI(encodeURI(formData)));
@@ -44,6 +45,7 @@ function sumbits(){
 	  
 	/**返回*/
 	function onback(){
+			$.ajaxSetup({cache:false});
 		  var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId}&ix=${ix}';
 	         $("#tab-1").load(path);
 	}	

@@ -138,7 +138,6 @@
 			</c:if>
 			</div> --%>
 
-			<div class="content table_box">
 				<table class="table table-bordered table-condensed table-hover table-striped">
 					<thead>
 						<tr>
@@ -153,7 +152,7 @@
 						<c:if test="${not empty list.packageName}">
 							<tr>
 							<td class="tc">${vs.index+1}</td>
-							<td class="tl">${list.supplierName}</td>
+							<td class="tl w300">${list.supplierName}</td>
 							<td class="tl">${list.packageName }</td>
 							<td class="tc">
 								<c:if test="${empty list.isturnUp}">
@@ -199,7 +198,6 @@
 				<input class="btn btn-windows save" value="提交" type="button" onclick="updateSaleTender()">
 				</c:if>
 			</div>
-		</div>
 	</body>
 
 </html>

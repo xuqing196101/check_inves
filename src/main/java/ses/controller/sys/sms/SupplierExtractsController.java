@@ -1134,8 +1134,14 @@ public class SupplierExtractsController extends BaseController {
 
 
     expExtractRecordService.addTemporaryExpert(supplier, projectId,packageId, loginName, loginPwd,sq);
-
-    return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId+"&ix="+ix;
+    String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    StringBuffer sb = new StringBuffer();  
+    Random random = new Random();  
+    for (int i = 0; i < 15; i++) {  
+        sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));  
+    }
+    String randomCode = sb.toString();
+    return  "redirect:/saleTender/view.html?projectId=" + projectId + "&&flowDefineId=" + flowDefineId + "&ix=" + ix + "&randomCode=" + randomCode;
   }
 
 

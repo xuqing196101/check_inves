@@ -41,6 +41,7 @@
 		    }(), 
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
+		        	$.ajaxSetup({cache:false});
 		        	var path="${pageContext.request.contextPath}/saleTender/showSupplier.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&page"+e.curr;
 		            $("#tab-1").load(path);
 		        }
@@ -84,6 +85,7 @@
 	
 	/**查詢*/
 	function query(){
+			$.ajaxSetup({cache:false});
 		  var path="${pageContext.request.contextPath}/saleTender/showSupplier.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val();
           $("#tab-1").load(path);
 	}

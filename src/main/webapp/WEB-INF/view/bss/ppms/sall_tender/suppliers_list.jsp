@@ -38,6 +38,7 @@
         }(),
         jump: function(e, first) { //触发分页后的回调
           if(!first) { //一定要加此判断，否则初始时会无限刷新
+          	  $.ajaxSetup({cache:false});
               var packages = "${packId }";
               var projectId = "${projectId }";
         	    var path="${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&page="+e.curr+"&ix=${ix}"+"&selectValue="+$("#hiddenValue").val();
@@ -54,6 +55,7 @@
     
     /**查詢*/
     function query(){
+    	$.ajaxSetup({cache:false});
         var packages = "${packId }";
         var projectId = "${projectId }";
         var path="${pageContext.request.contextPath}/saleTender/showAllSuppliers.html?packId=" + packages + "&projectId=" + projectId+"&supplierName="+$("#supplierName").val()+"&ix=${ix}";
@@ -96,6 +98,7 @@
       if(kind == 'DYLY'){
         if(id.length == 1){
          var path = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + id.toString() + "&packages=" + packages + "&projectId=" + projectId+"&ix=${ix}";
+        $.ajaxSetup({cache:false});
          $("#tab-1").load(path);
         }else{
           layer.alert("只能选择一个供应商", {
@@ -106,6 +109,7 @@
       }else{
     	 var idstr = $("#hiddenValue").val();
     	  var path  = "${pageContext.request.contextPath}/saleTender/saveSupplier.html?ids=" + idstr + "&packages=" + packages + "&projectId=" + projectId + "&ix=${ix}";
+        $.ajaxSetup({cache:false});
         $("#tab-1").load(path);
       }
       
@@ -175,6 +179,7 @@
     }
     
     function goBack(){
+    	$.ajaxSetup({cache:false});
     	var path = '${pageContext.request.contextPath}/saleTender/view.html?projectId=${projectId }&ix=${ix}';
     	   $("#tab-1").load(path);
     }

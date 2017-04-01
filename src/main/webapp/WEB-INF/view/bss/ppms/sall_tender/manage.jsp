@@ -14,12 +14,14 @@
     <meta name="author" content="">
     <script type="text/javascript">
       function loadPageFirst(id,url){
+      	$.ajaxSetup({cache:false});
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
 	  	$("#"+id).load(path);
 	  }
 	  function loadPageSecond(id,url){
+	  	$.ajaxSetup({cache:false});
 	    var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/"+url+"?projectId="+projectId+"&flowDefineId="+flowDefineId;
@@ -28,6 +30,7 @@
 	  
 	  //页面默认加载第一页内容
 	  $(function() { 
+	  	$.ajaxSetup({cache:false});
 	  	var projectId = $("#projectId").val();
   	    var flowDefineId = $("#flowDefineId").val();
 	  	var path = "${pageContext.request.contextPath}/saleTender/view.html?projectId="+projectId+"&flowDefineId="+flowDefineId;

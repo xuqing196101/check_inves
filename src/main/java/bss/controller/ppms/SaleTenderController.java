@@ -11,6 +11,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Random;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -516,7 +517,7 @@ public String save(String ids,String packages,String status,HttpServletRequest s
 @RequestMapping("/saveSupplier")
 public String saveSupplier(String ids,String packages,String status,HttpServletRequest sq,String projectId,String ix){
   User attribute = (User) sq.getSession().getAttribute("loginUser");
-  if (attribute != null){
+  if (attribute != null && ids != null && !"".equals(ids)){
     List<String> listIds=Arrays.asList(ids.split(","));
     for(String str:listIds){
       saleTenderService.insert(new SaleTender(projectId, (short)2, str, (short)2, attribute.getId(),packages));
@@ -524,7 +525,14 @@ public String saveSupplier(String ids,String packages,String status,HttpServletR
     Project project = projectService.selectById(projectId);
     projectService.updateStatus(project, "FSBSZ");
   }
-  return "redirect:view.html?projectId="+projectId+"&ix="+ix;
+  String ALLCHAR = "0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+  StringBuffer sb = new StringBuffer();  
+  Random random = new Random();  
+  for (int i = 0; i < 15; i++) {  
+      sb.append(ALLCHAR.charAt(random.nextInt(ALLCHAR.length())));  
+  }
+  String randomCode = sb.toString();
+  return "redirect:view.html?projectId="+projectId+"&ix="+ix+"&randomCode="+randomCode;
 }
 
 /**
