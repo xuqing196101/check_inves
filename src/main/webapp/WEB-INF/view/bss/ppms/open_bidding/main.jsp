@@ -413,29 +413,30 @@
                       <div class="col-md-3 md-margin-bottom-40" id="show_tree_div">
 	                     <ul class="btn_list" id="menu">
 	                       <c:forEach items="${fds}" var="fd">
-	                       	  	<c:choose> 
-								  <c:when test="${fd.status == 4}">   
-								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
-		                       			<a class="son-menu">${fd.name }</a>
-		                       		</li>  
-								  </c:when> 
-								  <c:when test="${fd.status == 1}">
+								  <!-- 已执行 -->
+								  <c:if test="${fd.status == 1}">
 		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
-								  </c:when> 
-								  <c:when test="${fd.status == 2}">
+								  </c:if> 
+								  <!-- 执行中 -->
+								  <c:if test="${fd.status == 2}">
 		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
 		                       		</li> 
-								  </c:when>
-								  <c:otherwise>   
-								    <%-- <li  onclick="tips(${fd.step})"> --%>
-								    <li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+								  </c:if>
+								  <!-- 环节结束，不可在操作 -->
+								  <c:if test="${fd.status == 3}">
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
 		                       			<a class="son-menu">${fd.name }</a>
-		                       		</li>  
-								  </c:otherwise> 
-								</c:choose>
+		                       		</li> 
+								  </c:if>
+								  <!-- 未执行 -->
+								  <c:if test="${fd.status == 0}">
+		                       		<li onclick="jumpLoad('${fd.url}','${project.id }','${fd.id}')" <c:if test="${fd.step == 1}">class="active"</c:if>>
+		                       			<a class="son-menu">${fd.name }</a>
+		                       		</li> 
+								  </c:if>
 	                       </c:forEach>
 						 </ul>
 					  </div>

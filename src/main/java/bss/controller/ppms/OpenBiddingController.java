@@ -1910,7 +1910,16 @@ public class OpenBiddingController {
       List<Quote> listQuote=supplierQuoteService.selectQuoteHistoryList(quote);
       List<Supplier> suList = setField(listQuote);
       //每个包有几个供应商
-      pk.setSuList(suList);
+      List<Supplier> suListNew = new ArrayList<Supplier>();
+      for (Supplier supplier : suList) {
+          Supplier sup = new Supplier();
+          sup.setId(supplier.getId());
+          sup.setSupplierName(supplier.getSupplierName());
+          sup.setQuoteList(supplier.getQuoteList());
+          suListNew.add(sup);
+      }
+      //每个包有几个供应商
+      pk.setSuList(suListNew);
       BigDecimal projectBudget = BigDecimal.ZERO;
       if (pk.getSuList() != null && pk.getSuList().size() > 0) {
         for (Quote q : pk.getSuList().get(0).getQuoteList()) {

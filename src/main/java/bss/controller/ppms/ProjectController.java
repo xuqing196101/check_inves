@@ -2870,75 +2870,13 @@ public class ProjectController extends BaseController {
         model.addAttribute("project", project);
         model.addAttribute("page", page);
         model.addAttribute("type", type);
-        HashMap<String, Object> map = (HashMap<String, Object>)getFlowDefine(project.getPurchaseType(), id);
+        HashMap<String, Object> map = projectService.getFlowDefine(project.getPurchaseType(), id);
         model.addAttribute("fds", map.get("fds"));
         model.addAttribute("url", map.get("url"));
         System.out.println(map.get("url"));
         return "bss/ppms/open_bidding/main";
     }
 
-    /**
-     *〈简述〉根据采购方式获取流程环节list
-     *〈详细描述〉
-     * @author Ye MaoLin
-     * @param code 采购方式编码
-     * @return 流程环节
-     */
-    public Map<String, Object> getFlowDefine(String purchaseTypeId, String projectId){
-        HashMap<String, Object> map = new HashMap<String, Object>();
-        FlowDefine fd = new FlowDefine();
-        fd.setPurchaseTypeId(purchaseTypeId);
-        //该采购方式定义的流程环节
-        List<FlowDefine> fds = flowMangeService.find(fd);
-        //该项目已执行的流程环节
-        FlowExecute flowExecute = new FlowExecute();
-        flowExecute.setProjectId(projectId);
-        List<FlowExecute> flowExecutes = flowMangeService.findFlowExecute(flowExecute);
-        //如果项目已开始实施执行
-        if (flowExecutes != null && flowExecutes.size() > 0) {
-            for (FlowDefine flowDefine : fds) {
-                //将要执行的步骤
-                Integer willStep = flowExecutes.get(0).getStep()+1;
-                flowExecute.setFlowDefineId(flowDefine.getId());
-                //获取该项目该环节的执行情况
-                List<FlowExecute> flowExecutes2 = flowMangeService.findFlowExecute(flowExecute);
-                if (flowExecutes2 != null && flowExecutes2.size() > 0) {
-                    Integer s = flowExecutes2.get(0).getStatus();
-                    if (s == 1) {
-                        //已执行状态
-                        flowDefine.setStatus(1);
-                    } else if (s == 2) {
-                        //执行中状态
-                        flowDefine.setStatus(2);
-                    }
-                } else {
-                    if (flowDefine.getStep() == willStep) {
-                        //将要执行状态
-                        flowDefine.setStatus(4);
-                       // map.put("url", flowDefine.getUrl()+"?projectId="+projectId+"&flowDefineId="+flowDefine.getId());
-                    } else {
-                        //未执行状态
-                        flowDefine.setStatus(3);
-                    }
-                }
-            }
-            if (flowExecutes.get(0).getStep() == fds.size()) {
-                fds.get(fds.size()-1).setStatus(4);
-               // map.put("url", fds.get(fds.size()-1).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(fds.size()-1).getId());
-            }
-        } else {
-            //默认第一个为将要执行状态
-            fds.get(0).setStatus(4);
-           // map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
-        }
-        /*if (map.get("url") == null || "".equals(map.get("url"))) {
-            fds.get(0).setStatus(4);
-            map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
-        }*/
-        map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
-        map.put("fds", fds);
-        return map;
-    }
       
     /**
      * 

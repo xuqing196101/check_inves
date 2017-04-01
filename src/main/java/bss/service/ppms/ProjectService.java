@@ -201,4 +201,14 @@ public interface ProjectService {
      */
     List<Project> selectProjectByAudit(Integer i, Project project);
     
+    /**
+     *〈简述〉获取当前项目流程环节
+     *〈详细描述〉
+     * @author Ye MaoLin
+     * @param purchaseType
+     * @param id
+     * @return
+     */
+    HashMap<String, Object> getFlowDefine(String purchaseType, String id);
+    
 }
