@@ -230,7 +230,22 @@
 						} 
 					};
 			  	
-		
+			//下载
+			function downloadTable(str) {
+				var size = $(":radio:checked").size();
+				if(!size) {
+					layer.msg("请选供应商 !", {
+						offset: '100px',
+					});
+					return;
+				}
+
+				var id = $(":radio:checked").val();
+				$("input[name='supplierId']").val(id);
+				$("input[name='tableType']").val(str);
+				$("#shenhe_form_id").attr("action", "${pageContext.request.contextPath}/supplierAudit/downloadTable.html");
+				$("#shenhe_form_id").submit();
+			}
 			</script>
 		</head>
 
@@ -332,9 +347,12 @@
     </h2>
 				<!-- 表格开始-->
 				<div class="col-md-12 pl20 mt10">
-						<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
-						<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
-						<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
+					<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
+					<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
+					<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
+					<!-- 表格开始-->
+					<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载</a>
+					<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载</a>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">
@@ -386,8 +404,9 @@
 				</div>
 			</div>
 			<form id="shenhe_form_id" action="${pageContext.request.contextPath}/supplierAudit/essential.html" method="post">
-				<input name="supplierId" type="hidden" />
+				<input name="supplierId" type="hidden"/>
 				<input type="hidden" name="sign" value="${sign}">
+				<input type="hidden" name="tableType">
 			</form>
 		</body>
 

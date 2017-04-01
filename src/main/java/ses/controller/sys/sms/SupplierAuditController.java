@@ -2,19 +2,23 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
+import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
+import ses.dao.ems.ExpertField;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -31,7 +36,10 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
+import ses.model.ems.Expert;
+import ses.model.ems.ExpertAudit;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Expertsignature;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -54,6 +62,7 @@ import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
 import ses.model.sms.SupplierRegPerson;
+import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
 import ses.model.sms.SupplierTypeRelate;
 import ses.service.bms.AreaServiceI;
@@ -76,6 +85,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.SupplierLevelUtil;
+import ses.util.WordUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -2828,5 +2838,111 @@ public class SupplierAuditController extends BaseSupplierController {
 			msg = "no";
 		}
 		return JSON.toJSONString(msg);
+	}
+	
+	
+	/**
+	 * @Title: downloadTable
+	 * @author XuQing 
+	 * @date 2017-4-1 上午11:22:15  
+	 * @Description:生成word
+	 * @param @param expertId
+	 * @param @param request
+	 * @param @param response
+	 * @param @param tableType
+	 * @param @return
+	 * @param @throws Exception      
+	 * @return ResponseEntity<byte[]>
+	 */
+	@RequestMapping("downloadTable")
+	public ResponseEntity < byte[] > downloadTable(String supplierId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
+		// 根据编号查询专家信息
+		Supplier supplier = supplierAuditService.supplierById(supplierId);
+		// 文件存储地址
+		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
+		// 文件名称
+		String fileName = createWordMethod(supplier, request, tableType);
+		// 下载后的文件名
+		String downFileName = "";
+		if(tableType.equals("1")){
+			downFileName = new String("军队供应商实地考察记录表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+		}
+		if(tableType.equals("2")){
+			downFileName = new String("军队供应商实地考察廉政意见函.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+		}
+		
+		response.setContentType("application/x-download");
+		return supplierAuditService.downloadFile(fileName, filePath, downFileName);
+	}
+	
+	/**
+	 * @Title: createWordMethod
+	 * @author XuQing 
+	 * @date 2016-12-27 下午2:34:36  
+	 * @Description:生成word
+	 * @param @param expert
+	 * @param @param request
+	 * @param @return
+	 * @param @throws Exception      
+	 * @return String
+	 */
+	private String createWordMethod(Supplier supplier, HttpServletRequest request, String tableType) throws Exception {
+		/** 用于组装word页面需要的数据 */
+		Map < String, Object > dataMap = new HashMap < String, Object > ();
+		if(tableType.equals("1")){
+			//供应商名称
+			dataMap.put("supplierName", supplier.getSupplierName() == null ? "" : supplier.getSupplierName());
+			//办公地址
+			dataMap.put("address", supplier.getContactAddress() == null ? "" : supplier.getContactAddress());
+			//办公地址
+			dataMap.put("officeAddress", "");
+			//生产或经营场所详细地址
+			dataMap.put("detailAddress", supplier.getDetailAddress() == null ? "" : supplier.getDetailAddress());
+			//实地考察时间
+			Date date = new Date();
+		    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
+			dataMap.put("date", format.format(date));
+			
+			//生产或经营场所详细地址
+			List < Area > privnce = areaService.findRootArea();
+			List < SupplierAddress > supplierAddress = supplierAddressService.queryBySupplierId(supplier.getId());
+			for(Area a: privnce) {
+				for(SupplierAddress s: supplierAddress) {
+					if(a.getId().equals(s.getParentId())) {
+						s.setParentName(a.getName());
+					}
+				}
+			}
+			dataMap.put("supplierAddress", supplierAddress);
+			
+			
+			//考察组成员
+			SupplierSignature supplierSignature = new SupplierSignature();
+			List<SupplierSignature> supplierList= new ArrayList<SupplierSignature>();
+			supplierSignature.setName("张三");
+			supplierSignature.setCompany("阳光");
+			supplierSignature.setJob("JAVA");
+			supplierList.add(supplierSignature);
+			dataMap.put("supplierList", supplierList);
+		}
+		
+		
+		if(tableType.equals("2")){
+			dataMap.put("num", 1);
+			dataMap.put("name", "张三，李四");
+		}
+		
+		/** 生成word 返回文件名 */
+		String newFileName = "";
+		String fileName = "";		
+		if(tableType.equals("1")){
+			newFileName = WordUtil.createWord(dataMap, "supplierInspection.ftl", fileName, request);
+			fileName = new String(("军队供应商实地考察记录表.doc").getBytes("UTF-8"), "UTF-8");
+		}
+		if(tableType.equals("2")){
+			newFileName = WordUtil.createWord(dataMap, "supplierOpinionLetter.ftl", fileName, request);
+			fileName = new String(("军队供应商实地考察廉政意见函.doc").getBytes("UTF-8"), "UTF-8");
+		}
+		return newFileName;
 	}
 }

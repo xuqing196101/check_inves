@@ -330,5 +330,17 @@ public interface SupplierAuditService {
      * @return void
      */
     void deleteBySupplierId(String supplierId);
-
+    
+    /**
+     * @Title: downloadFile
+     * @author XuQing 
+     * @date 2017-4-1 上午11:23:57  
+     * @Description:word下载
+     * @param @param fileName
+     * @param @param filePath
+     * @param @param downFileName
+     * @param @return      
+     * @return ResponseEntity<byte[]>
+     */
+    ResponseEntity<byte[]> downloadFile(String fileName, String filePath, String downFileName); 
 } 

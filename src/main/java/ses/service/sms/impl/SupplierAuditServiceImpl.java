@@ -698,6 +698,32 @@ public class SupplierAuditServiceImpl implements SupplierAuditService {
 	}
 
 	
-	
+	 /**
+     * 
+      * @Title: downloadFile
+      * @author ShaoYangYang
+      * @date 2017年4月1日 下午2:07:23  
+      * @Description: TODO 文件下载
+      * @param @param fileName 文件名
+      * @param @param filePath 文件地址
+      * @param @param downFileName 下载文件名
+      * @param @return      
+      * @return ResponseEntity<byte[]>
+     */
+	@Override
+    public ResponseEntity<byte[]> downloadFile(String fileName,String filePath,String downFileName){
+    	 try {
+			File file=new File(filePath+"/"+fileName);  
+			    HttpHeaders headers = new HttpHeaders(); 
+			    headers.setContentDispositionFormData("attachment", downFileName);   
+			    headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);   
+			    ResponseEntity<byte[]> entity = new ResponseEntity<byte[]>(FileUtils.readFileToByteArray(file),headers, HttpStatus.OK); 
+			    file.delete();
+			    return entity;
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+    }
 	
 }
