@@ -485,6 +485,9 @@
 						<c:when test="${obProject.remark == '32'}">
 							放弃确认(第二轮)
 						</c:when>
+						<c:when test="${obProject.remark == '3'}">
+							放弃确认(第一轮)
+						</c:when>
 						<%-- <c:when test="${obProject.remark == '4'}">
 							待结束
 						</c:when> --%>
