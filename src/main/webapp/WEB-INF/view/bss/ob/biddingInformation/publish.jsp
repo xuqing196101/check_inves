@@ -788,7 +788,7 @@
         <div class="cue" id="transportFeesErr">${transportFeesErr}</div>
 	 </li>
 	
-	 <li id="transportFeesPriceLi" style="display: none" class="col-md-3 col-sm-6 col-xs-12">
+	 <li id="transportFeesPriceLi" class="col-md-3 col-sm-6 col-xs-12" style="display:none;">
 	   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><span class="red">*</span>运杂费金额(元)</span>
 	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
 			<input class="input_group" id="transportFeesPrice" value="${ list.transportFeesPrice }" name="transportFeesPrice" onkeyup="this.value=this.value.replace(/[^\d.]/g, '')"  onafterpaste="this.value=this.value.replace(/[^\d.]/g, '')" type="text">
@@ -888,7 +888,7 @@
 		$(function(){
 			// 乙方包干使用价格显示
 			var transportFees = '${list.transportFeesPrice}';
-			if(transportFees != null){
+			if(transportFees){
 				$("#transportFeesPriceLi").css("display","block");
 			}
 		});

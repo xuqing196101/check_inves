@@ -358,7 +358,7 @@
 			
 			// 6.第二轮结果已确认查看的是第二轮结果确认页面
 			if((pStatus == 6 && pRemark == '42')){
-				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?flag=secondConfirm&&id="+pId;
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?flag=secondConfirm&&id="+pId;
 			}
 			
 	    }
