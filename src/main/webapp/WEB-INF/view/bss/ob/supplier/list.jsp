@@ -260,6 +260,11 @@
 				   return;
 			   }
 			   
+			   if(status == '6' && remark == '32'){
+				   layer.alert("您已放弃第二轮确认结果 ！");
+				   return;
+			   }
+			   
 			   // 确认结果
 			   if((status == '5' && remark == '1') || (status == '6' && remark == '5') || (status == '6' && remark == '4')){
 			   	   $.ajax({

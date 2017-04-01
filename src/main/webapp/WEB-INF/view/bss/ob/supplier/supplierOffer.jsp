@@ -254,7 +254,6 @@
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].resultsNumber" value="${ productInfo.purchaseCount }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].limitPrice" value="${ productInfo.limitedPrice }">
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].remark" value="${ productInfo.remark }">
-				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc">${ vs.index + 1 }</td>
 				  <td class="tc" id="t_${productInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td>
 				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>
