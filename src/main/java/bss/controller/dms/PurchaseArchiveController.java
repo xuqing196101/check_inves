@@ -83,7 +83,7 @@ public class PurchaseArchiveController extends BaseSupplierController{
 	@RequestMapping("/archiveList")
 	public String archiveList(Model model,HttpServletRequest request,Integer page){
 		HashMap<String,Object> map = new HashMap<String,Object>();
-		//request.getParameter 前端页面跳转传过来的值
+		
 		String name = request.getParameter("name");
 		if(name!=null&&!name.equals("")){
 			map.put("name", name);
@@ -246,8 +246,27 @@ public class PurchaseArchiveController extends BaseSupplierController{
 		map.put("page", page.toString());
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
+		//查询预备表里的所有数据
 		List<ProbationaryArchive> contract = probationaryArchiveService.selectAll(map);
-		model.addAttribute("contract", new PageInfo<ProbationaryArchive>(contract));
+		//
+		List<ProbationaryArchive> result= new ArrayList<ProbationaryArchive>();
+		for(int j=0;j<contract.size();j++){
+			result.add(contract.get(j));
+		}
+		List<PurchaseArchive> archive = purchaseArchiveService.selectArchiveList(null);
+		if(archive.size()!=0){
+			for(int j=0;j<contract.size();j++){
+				ProbationaryArchive obj = contract.get(j);
+				String id = obj.getId();
+				for(int i=0;i<archive.size();i++){
+					if(id.equals(archive.get(i).getPurchaseContractId())){
+						result.remove(contract.get(j));			
+					}
+				}
+			}
+		}
+							
+		model.addAttribute("contract", new PageInfo<ProbationaryArchive>(result));
 		model.addAttribute("kind", DictionaryDataUtil.find(5));
 		return "bss/dms/purchaseArchive/add";
 	}
