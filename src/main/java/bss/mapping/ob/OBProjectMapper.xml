@@ -623,7 +623,7 @@
 		WHERE IS_DELETED = 0 AND SUPPLIER_ID IN (
 			SELECT SUPPLIER_ID ID FROM T_BSS_OB_RESULTS_INFO WHERE MY_OFFER_MONEY IS NOT NULL 
   			<if test="projectId != null and projectId != ''">
-  				AND PROJECT_ID = #{id,jdbcType=VARCHAR}
+  				AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   			</if> )
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
