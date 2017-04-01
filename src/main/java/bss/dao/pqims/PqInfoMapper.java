@@ -1,6 +1,7 @@
 package bss.dao.pqims;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.sms.Supplier;
@@ -182,4 +183,6 @@ public interface PqInfoMapper {
      * @return:
      */
     String queryPath(String id);
+    
+    List<PqInfo> selectByContract(HashMap<String, Object> map);
 }

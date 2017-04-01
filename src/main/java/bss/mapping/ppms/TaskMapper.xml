@@ -137,7 +137,7 @@
   </select>
   
   
-  <select id="listBycollect" resultType="bss.model.ppms.Task" parameterType="java.util.Map">
+  <select id="listBycollect" resultMap="BaseResultMap" parameterType="java.util.Map">
     select
     <include refid="Base_Column_List" />
     from T_BSS_PPMS_TASK
@@ -145,6 +145,9 @@
      <if test="collectId != null">
        and  COLLECT_ID = #{collectId}
      </if>
+     <if test="purchaseId != null">
+       and PURCHASE_ID = #{purchaseId}
+      </if>
   </select>
   
     <select id="likeByTask" parameterType="bss.model.ppms.Task" resultMap="BaseResultMap">

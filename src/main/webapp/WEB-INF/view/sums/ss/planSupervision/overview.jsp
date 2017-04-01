@@ -96,6 +96,19 @@
           content: '${pageContext.request.contextPath}/pqinfo/view.html?id=' + id,
         });
       }
+      
+      function viewAuditPerson(id,type) {
+        layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+          title: '查看审核意见',
+          shade: 0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          shadeClose: true,
+          content: '${pageContext.request.contextPath}/planSupervision/viewAuditPerson.html?id=' + id + '&type=' + type,
+        });
+      }
 
       function OpenFile(fileId) {
         setTimeout(open_file(fileId), 5000);
@@ -256,35 +269,35 @@
             <table class="table table-bordered mt10">
               <tbody>
                 <tr>
-                  <td width="25%" class="info">项目名称：</td>
+                  <td width="10%" class="info">项目名称：</td>
                   <td width="25%">${project.name}</td>
-                  <td width="25%" class="info">项目编号：</td>
+                  <td width="10%" class="info">项目编号：</td>
                   <td width="25%">${project.projectNumber}</td>
                 </tr>
                 <tr>
-                  <td width="25%" class="info">计划名称：</td>
+                  <td width="10%" class="info">计划名称：</td>
                   <td width="25%">${collectPlan.fileName}</td>
-                  <td width="25%" class="info">计划编号：</td>
+                  <td width="10%" class="info">计划编号：</td>
                   <td width="25%">${collectPlan.planNo}</td>
                 </tr>
                 <tr>
-                  <td width="25%" class="info">需求部门：</td>
-                  <td width="25%">${collectPlan.department}</td>
-                  <td width="25%" class="info">采购管理部门：</td>
+                  <td width="10%" class="info">需求部门：</td>
+                  <td width="25%">${detail.department}</td>
+                  <td width="10%" class="info">采购管理部门：</td>
                   <td width="25%">${collectPlan.purchaseId}</td>
                 </tr>
                 <tr>
-                  <td width="25%" class="info">项目状态：</td>
+                  <td width="10%" class="info">项目状态：</td>
                   <td width="25%">${project.status}</td>
-                  <td width="25%" class="info">创建人：</td>
+                  <td width="10%" class="info">创建人：</td>
                   <td width="25%">${project.appointMan}</td>
                 </tr>
                 <tr>
-                  <td width="25%" class="info">创建日期：</td>
+                  <td width="10%" class="info">创建日期：</td>
                   <td width="25%">
                     <fmt:formatDate value='${project.createAt}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                   </td>
-                  <td width="25%" class="info"></td>
+                  <td width="10%" class="info"></td>
                   <td width="25%"></td>
                 </tr>
               </tbody>
@@ -671,7 +684,7 @@
                         <tr>
                           <td class="tc">第${(vs.index+1)}轮</td>
                           <td>${obj.name}</td>
-                          <td><button class="btn" onclick="viewDemand();" type="button">查看</button> </td>
+                          <td class="tc"><button class="btn" onclick="viewAuditPerson('${detailId}','${(vs.index+1)}');" type="button">查看</button> </td>
                           <td>
                             <fmt:formatDate value='${obj.createDate}' pattern='yyyy年MM月dd日  HH:mm:ss' />
                           </td>
