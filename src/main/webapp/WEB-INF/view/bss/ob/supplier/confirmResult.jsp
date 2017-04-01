@@ -126,7 +126,7 @@
 					}else{
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
+							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
 							
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
@@ -173,7 +173,7 @@
 						var allCount = 0;
 						//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
-							var afterCount = getfloor(changeRatioCounts2[index],currentSecondVal,afterInputVal);
+							var afterCount = getfloor(changeRatioCounts2[index],100,afterInputVal);
 							$(this).text((afterCount * productPrices2[index]).toFixed(2));
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
