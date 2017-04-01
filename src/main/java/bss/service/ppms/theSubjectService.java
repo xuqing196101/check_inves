@@ -44,5 +44,6 @@ public interface theSubjectService  {
   public void insertList(List<theSubject> list);
   
   public List<theSubject> selectBysupplierIdAndPackagesId(HashMap<String, Object> map);
+  public List<theSubject> selectByPackagesId(String packagesId);
   
 }

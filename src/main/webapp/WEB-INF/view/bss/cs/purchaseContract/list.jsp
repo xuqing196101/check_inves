@@ -359,7 +359,7 @@
 				<td class="tc pointer">${pass.packages.name}</td>
 				<td class="tr pr20 pointer">${pass.packages.wonPrice}</td>
 				<td class="tl pl20 pointer">${pass.supplier.supplierName}</td>
-				<td class="tc pointer">${pass.project.purchaseDep.depName}</td>
+				<td class="tc pointer">${pass.purchaseDep}</td>
 				<td class="tc">
 					<%-- <c:if test="${pass.isCreateContract==2}">暂存</c:if> --%>
 					<c:if test="${pass.isCreateContract==1}">已生成</c:if>

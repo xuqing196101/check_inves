@@ -42,6 +42,15 @@
 		where SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR} and 
 		PACKAGE_ID=#{packageId,jdbcType=VARCHAR}
 	</select>
+	
+	<select id="selectByPackagesId" parameterType="String"
+		resultMap="BaseResultMap">
+		<!-- @mbggenerated -->
+		select
+		<include refid="Base_Column_List" />
+		from T_BSS_PPMS_THE_SUBJECT
+		where PACKAGE_ID=#{packageId,jdbcType=VARCHAR}
+	</select>
 
 	<select id="selectById" parameterType="java.util.Map" resultMap="BaseResultMap">
 		select

@@ -57,4 +57,9 @@ public List<theSubject> selectBysupplierIdAndPackagesId(HashMap<String, Object> 
 	
 }
 
+@Override
+public List<theSubject> selectByPackagesId(String packagesId) {
+	return theSubjectMapper.selectByPackagesId(packagesId);
+}
+
 }

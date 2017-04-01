@@ -12,6 +12,8 @@ public class SupplierCheckPass {
 	
 	private Project project;
 	private Packages packages;
+	private String purchaseDep;
+	private List<theSubject> subjects;
 
   /**
    * 是否刪除
@@ -543,6 +545,22 @@ public Packages getPackages() {
 
 public void setPackages(Packages packages) {
 	this.packages = packages;
+}
+
+public String getPurchaseDep() {
+	return purchaseDep;
+}
+
+public void setPurchaseDep(String purchaseDep) {
+	this.purchaseDep = purchaseDep;
+}
+
+public List<theSubject> getSubjects() {
+	return subjects;
+}
+
+public void setSubjects(List<theSubject> subjects) {
+	this.subjects = subjects;
 }
   
   

@@ -4,6 +4,7 @@
 package bss.controller.ppms;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -28,6 +29,7 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropUtil;
 
 import com.alibaba.fastjson.JSON;
+
 
 
 
@@ -286,16 +288,21 @@ public class WinningSupplierController extends BaseController {
     	  if(theSubjects!=null&&theSubjects.size()>0){
     		  BigDecimal totalAmount = new BigDecimal(0+"");
     		  for(theSubject thesub:theSubjects){
-    			  Double sum= thesub.getPurchaseCount()==null?0.0:Double.parseDouble(thesub.getPurchaseCount());
-    			  BigDecimal price=thesub.getUnitPrice()==null?new BigDecimal(0):thesub.getUnitPrice();
-    			  BigDecimal sumB = new BigDecimal(Double.toString(sum));  
-    			  BigDecimal multiply = sumB.multiply(new BigDecimal(price+""));
-    			  totalAmount=totalAmount.add(new BigDecimal(multiply+""));
+    			  if(thesub.getDetailId()!=null){
+    				  Double sum= thesub.getPurchaseCount()==null?0.0:Double.parseDouble(thesub.getPurchaseCount());
+        			  BigDecimal price=thesub.getUnitPrice()==null?new BigDecimal(0):thesub.getUnitPrice();
+        			  BigDecimal sumB = new BigDecimal(Double.toString(sum));  
+        			  BigDecimal multiply = sumB.multiply(new BigDecimal(price+""));
+        			  totalAmount=totalAmount.add(new BigDecimal(multiply+""));
+    			  }
+    			  
     		  }
-    		  totalAmount=totalAmount.multiply(new BigDecimal(supplierCheckPass.getPriceRatio()+""));
-    		  totalAmount=totalAmount.divide(new BigDecimal(1000000+""));
+    		  /*totalAmount=totalAmount.multiply(new BigDecimal(supplierCheckPass.getPriceRatio()+""));*/
+    		  totalAmount=totalAmount.divide(new BigDecimal(10000+""));
     		  supplierCheckPass.setMoney(totalAmount);
+    		  supplierCheckPass.setSubjects(theSubjects);
     	  }
+    	  
         Quote quote = new Quote();
         quote.setPackageId(packageId);
         quote.setSupplierId(supplierCheckPass.getSupplier().getId());
@@ -312,6 +319,7 @@ public class WinningSupplierController extends BaseController {
     model.addAttribute("inputSubjectBtn", inputSubjectBtn);
     model.addAttribute("pid", pid);
     model.addAttribute("view", view);
+   
 
     //获取已有中标供应商的包组
     String[] packcount = checkPassService.selectWonBid(projectId);
@@ -346,27 +354,82 @@ public class WinningSupplierController extends BaseController {
     map.put("packageId", pid);
     
     //查询到包下面的明细条数
-    List<ProjectDetail> detailList = detailService.selectById(map);
+    /*List<ProjectDetail> detailList = detailService.selectById(map);
+    model.addAttribute("detailList", detailList);*/
+   List<theSubject> detailList = theSubjectService.selectByPackagesId(pid);
     model.addAttribute("detailList", detailList);
-
     return "bss/ppms/winning_supplier/supplier_list";
+  }
+  @RequestMapping("/changeRatioNull")
+  public String changeRatioNull(String ids,Model model,String packageId, String flowDefineId,String projectId,Integer view){
+	  
+	    String[] id=ids.split(",");
+	    SupplierCheckPass checkPass=null;
+	    for(int i=0;i<id.length;i++){
+	    	SupplierCheckPass pass = checkPassService.findByPrimaryKey(id[i]);
+	    	if(pass!=null){
+	    		checkPass=new SupplierCheckPass();
+	    		checkPass.setId(id[i]);
+	    		checkPass.setIsWonBid((short)0);
+	    		checkPass.setPriceRatio("");
+	    		packageId=pass.getPackageId();
+	    		checkPassService.update(checkPass);
+	    	}
+	    }
+	    model.addAttribute("flowDefineId", flowDefineId);
+	    model.addAttribute("projectId", projectId);
+	    model.addAttribute("packageId", packageId);
+	    model.addAttribute("view", view);
+	  return "redirect:confirmSupplier.html";
+	  
   }
   /**
    * 
-   *〈简述〉获取包下所有供应商信息
+   *〈简述〉判断占比数量是否为小数
    *〈详细描述〉
    * @author Ma Mingwei
    * @param ids checkpassId的一个字符串组
    * @param priceRatios 传过来的占比的一个字符串组
    * @return 路径---确认供应商页面
    */
+  @ResponseBody
   @RequestMapping("/changeRatioByCheckpassId")
   public String changeRatioByCheckpassId(String ids, String priceRatios){
 	  //String idsStr = ids.toString();
-	  checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
-	  return "success";
+	  String[] id=ids.split(",");
+	  String[] pRatios=priceRatios.split(",");
+	  Boolean bool=true;
+	  for(int i=0;i<id.length;i++){
+		  SupplierCheckPass supplierCheckPass = checkPassService.findByPrimaryKey(id[i]);
+		  List<ProjectDetail> projectDetails = detailService.selectByPackageId(supplierCheckPass.getPackageId());
+		  if(projectDetails!=null&&projectDetails.size()>0){
+			  for(ProjectDetail  pd:projectDetails){
+				  BigDecimal flg=new BigDecimal(pd.getPurchaseCount()+"");
+				  BigDecimal pRa=new BigDecimal(pRatios[i]);
+				  BigDecimal multiply = flg.multiply(pRa);
+				  BigDecimal divide = multiply.divide(new BigDecimal("100"));
+				  if((divide+"").indexOf(".")>0){
+					  bool=false;
+				  }
+			  }
+		  }
+		  
+	  }
+	 /* checkPassService.changeSupplierWonTheBidding(ids,priceRatios);*/
+	  if(bool==false){
+		  return "no";
+	  }else{
+		  return "ok";
+	  }
+	  
+	 
   }
-  
+  @ResponseBody
+  @RequestMapping("/changeRatio")
+  public String changeRatio(String ids, String priceRatios){
+	  checkPassService.changeSupplierWonTheBidding(ids,priceRatios);
+	  return "ok";
+  }
   /**
    * 
    *〈简述〉获取包下所有供应商信息
@@ -900,7 +963,7 @@ public class WinningSupplierController extends BaseController {
    * @return
    */
   @RequestMapping("/inputList")
-  public String inputList(Model model,String quote, String supplierId, String packageId,String projectId,String pid){
+  public String inputList(Model model,String quote, String supplierId, String packageId,String projectId,String pid,String passId){
 	model.addAttribute("supplierId", supplierId);
     model.addAttribute("packageId", packageId);
     model.addAttribute("projectId", projectId);
@@ -910,7 +973,9 @@ public class WinningSupplierController extends BaseController {
     HashMap<String,Object> map = new HashMap<>();
     map.put("packageId", pid);
     List<ProjectDetail> detailList = detailService.selectById(map);
+    SupplierCheckPass findByPrimaryKey = checkPassService.findByPrimaryKey(passId);
     model.addAttribute("detailList", detailList);
+    model.addAttribute("pass", findByPrimaryKey);
     return "bss/ppms/winning_supplier/add_list";
   }
   

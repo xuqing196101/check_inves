@@ -498,6 +498,9 @@
 			}
 		});
 	}
+	function hrefGO(){
+		location.href="${pageContext.request.contextPath}/winningSupplier/selectSupplier.do?projectId=${projectId}&&flowDefineId=${flowDefineId}";
+	}
 </script>
 
 <body>
@@ -572,7 +575,7 @@
 			</c:forEach>
 		</table>
 		<div class="col-md-12 tc">
-			<button class="btn btn-windows back" onclick="history.go(-1)"
+			<button class="btn btn-windows back" onclick="hrefGO();"
 				type="button">返回</button>
 		</div>
 	</div>

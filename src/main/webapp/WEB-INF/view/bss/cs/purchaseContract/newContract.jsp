@@ -701,7 +701,7 @@
 				 </li>
 				 <div class="clear"></div>
 			 </ul>
-	   		<h2 class="f16 count_flow mt40"><i>02</i>信息</h2>
+	   		<h2 class="f16 count_flow mt40"><i>02</i>甲方信息</h2>
 			 <ul class="list-unstyled ul_list">
 	    		 <li class="col-md-3 col-sm-6 col-xs-12 pl15">
 				   <span class="col-md-12 padding-left-5 col-sm-12 col-xs-12"><div class="red star_red">*</div>甲方单位：</span>

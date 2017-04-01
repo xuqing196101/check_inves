@@ -172,9 +172,11 @@ public class PurchaseContractController extends BaseSupplierController{
 					Project project = projectService.selectById(pass.getProjectId());
 					Packages packages = packageService.selectByPrimaryKeyId(pass.getPackageId());
 					Supplier supplier = supplierService.selectOne(pass.getSupplierId());
+					Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(project.getPurchaseDepId());
 					pass.setProject(project);
 					pass.setPackages(packages);
 					pass.setSupplier(supplier);
+					pass.setPurchaseDep(orgnization.getName());
 					listpass.add(pass);
 						
 				}
@@ -193,9 +195,11 @@ public class PurchaseContractController extends BaseSupplierController{
 								Project project = projectService.selectById(pass.getProjectId());
 								Packages packages = packageService.selectByPrimaryKeyId(pass.getPackageId());
 								Supplier supplier = supplierService.selectOne(pass.getSupplierId());
+								Orgnization orgnization = orgnizationServiceI.getOrgByPrimaryKey(project.getPurchaseDepId());
 								pass.setProject(project);
 								pass.setPackages(packages);
 								pass.setSupplier(supplier);
+								pass.setPurchaseDep(orgnization.getName());
 								listpass.add(pass);
 									
 							}

@@ -308,14 +308,14 @@
 					<td><input type="text" name="item" readonly="readonly"
 						value="${detail.item }"></td>
 					<td id="purchaseCount"><input type="text" name="purchaseCount"
-						value="${detail.purchaseCount}" readonly="readonly"></td>
+						value="<fmt:formatNumber type="number" value="${detail.purchaseCount*pass.priceRatio/100}" pattern="0.00" maxFractionDigits="2"/>" readonly="readonly"></td>
 					<td>
-					<c:if test="${quote == 0 }">
+					<%-- <c:if test="${quote == 0 }"> --%>
 					<input type="text" name='unitPrice' value="" onkeyup="this.value=this.value.replace(/\D/g,'')">
-					</c:if>
+					<%-- </c:if>
 					<c:if test="${quote == 1 }">
 					<input type="text" name='unitPrice' value="${detail.price}" readonly="readonly"/>
-					</c:if>
+					</c:if> --%>
 					</td>
 				</tr>
 				<!-- 

@@ -527,16 +527,19 @@
 				priceRatios.push($(this).val());
 				ids.push($(this).parent().parent().find("input[class='checkpassId']").val());
 			});
-			$.ajax({
+			/* $.ajax({
 				type : "POST",
 				dataType : "text",
 				//traditional: true,
 				url : "${pageContext.request.contextPath }/winningSupplier/changeRatioByCheckpassId.do?ids=" + ids + "&priceRatios=" + priceRatios,
 				success : function(data) {
+					if(data=="no"){
+						layer.alert("成交数量将会出现小数，是否确定此占比分配？");
+					}
 				},
 				error : function(data) {
 				}
-			});
+			}); */
 		} else {
 			layer.alert("请输入小于当前数的值");
 			$obj.val(tempTextValue);
@@ -550,8 +553,9 @@
 
 	//录入表的
 	function InputBD(obj) {
+		var passId=$(obj).parent().parent().attr("id");
 		var supplierId = $(obj).parent().parent().find(".supplierId").val();
-		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&quote=${quote}&pid=${pid}&supplierId=" + supplierId;
+		window.location.href = "${pageContext.request.contextPath}/winningSupplier/inputList.do?projectId=${projectId}&packageId=${packageId}&quote=${quote}&pid=${pid}&supplierId=" + supplierId+"&passId="+passId;
 	}
 	//关联选中
 	function associateSelected(id, obj, index) {
@@ -687,6 +691,64 @@
 		});
 		
 	}
+	
+	function paddIdAndRation(passId,ratio){
+		$.ajax({
+			type : "POST",
+			dataType : "text",
+			//traditional: true,
+			url : "${pageContext.request.contextPath }/winningSupplier/changeRatio.do?ids=" + passId + "&priceRatios=" + ratio,
+			success : function(data) {
+				if(data=="ok"){
+					layer.alert("保存占比成功");
+				}
+			}
+		})
+	}
+	function SaveRatio(){
+
+		var trids=document.getElementsByName("trId");
+		var passId="";
+		var ratio="";
+		for(var i=0;i<trids.length;i++){
+			passId+=trids[i].id+",";
+			if("${view}"==1){
+				ratio+=trids[i].children[5].children[0].value+",";
+			}else{
+				ratio+=trids[i].children[4].children[0].value+",";
+			}
+		}
+		passId=passId.substring(0,passId.length-1);
+		ratio=ratio.substring(0,ratio.length-1);
+		$.ajax({
+			type : "POST",
+			dataType : "text",
+			//traditional: true,
+			url : "${pageContext.request.contextPath }/winningSupplier/changeRatioByCheckpassId.do?ids=" + passId + "&priceRatios=" + ratio,
+			success : function(data) {
+				if(data=="no"){
+					layer.confirm('成交数量将会出现小数，是否确定此占比分配？', {
+						  btn: ['确认','取消'] 
+						}, function(){
+							paddIdAndRation(passId,ratio);
+						});
+				}else{
+					paddIdAndRation(passId,ratio);
+				}
+			},
+			error : function(data) {
+			}
+		});
+	}
+	function hrefGo(){
+		var trids=document.getElementsByName("trId");
+		var passId="";
+		for(var i=0;i<trids.length;i++){
+			passId+=trids[i].id+",";
+		}
+		passId=passId.substring(0,passId.length-1);
+		location.href="${pageContext.request.contextPath }/winningSupplier/changeRatioNull.do?ids=" + passId+"&projectId=${projectId}&flowDefineId=${flowDefineId}";
+	}
 </script>
 
 <body>
@@ -724,7 +786,10 @@
 			</thead>
 			<c:forEach items="${supplierCheckPass}" var="checkpass"
 				varStatus="vs">
-				<tr id="${checkpass.id}">
+			  <c:if test="${checkpass.subjects!=null}">
+			     <c:set value="ok" var="flg"></c:set>
+			  </c:if>
+				<tr id="${checkpass.id}" name="trId">
 					<!-- 
 					<c:if test="${view != 1}">
 						<td class="tc opinter"><c:if
@@ -782,8 +847,9 @@
 							<fmt:formatNumber type="number" value="${checkpass.money}" pattern="0.0000" maxFractionDigits="4"/>
 						</td>
 					</c:if>
-					
-					<td class="tc opinter"><button class="btn btn-windows add" <c:if test="${inputSubjectBtn=='no' }">disabled='disabled'</c:if>
+					<%-- <c:if test="${inputSubjectBtn=='no' }">disabled='disabled'</c:if> --%>
+					<td class="tc opinter"><button class="btn btn-windows add" 
+					<c:if test="${checkpass.subjects!=null}">disabled='disabled'</c:if>
 							onclick="InputBD(this);" type="button">录入标的</button></td>
 				</tr>
 				<tr class="tc hide">
@@ -804,7 +870,7 @@
 									<th>报价（万元）</th>
 								</c:if> -->
 							</tr>
-							<c:forEach items="${detailList }" var="detail" varStatus="p">
+							<c:forEach items="${detailList }" var="subject" varStatus="p">
 								<!--
 								<tr name="detail${checkpass.id}"
 									id="${checkpass.id}${detail.id}" class="tc hide">
@@ -853,11 +919,11 @@
 											</c:forEach></td>
 									</c:if> 
 								</tr>-->
-								<c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
-								
+								<%-- <c:forEach items="${detail.subjectList }" var="subject" varStatus="s">
+								 --%>
 								<c:if test="${subject.supplierId==checkpass.supplier.id }">
 								<tr class="tc ">
-									<td>${s.index + 1 }
+									<td>${p.index + 1 }
 									</td>
 									<td>${subject.goodsName }
 									</td>
@@ -877,7 +943,7 @@
 									 -->
 								</tr>
 								</c:if>
-								</c:forEach>
+								<%-- </c:forEach> --%>
 							</c:forEach>
 						</table>
 					</td>
@@ -892,7 +958,17 @@
 			<button class="btn btn-windows add" onclick="ratioPrice()"
 				type="button">生成总价</button>
 			</c:if> -->
-			<button class="btn btn-windows back" onclick="history.go(-1)"
+			<button class="btn btn-windows add" onclick="SaveRatio()"
+            <c:if test="${flg=='ok'}">
+			disabled='disabled'
+			</c:if>
+				type="button">保存占比</button>
+			
+			
+			<button class="btn btn-windows back"  onclick="hrefGo();"
+				<c:if test="${flg=='ok'}">
+					disabled='disabled'
+				</c:if>
 				type="button">返回</button>
 		</div>
 	</div>
