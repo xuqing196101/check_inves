@@ -45,12 +45,21 @@
 			clearInterval(downTimer2);
 		}
 	} 
-	//占比下调,返回对应占比后数量@param 值
+	//占比下调,返回对应占比后数量@param 值 向上取整
 	function getDownRatioVal(passVal,beforeRatio,afterRatio) {
-		var br = parseFloat(beforeRatio)/100;
-		var ar = parseFloat(afterRatio)/100;
-		return Math.ceil((parseFloat(passVal) / br) * ar);
+	/* 	var br = parseInt(beforeRatio)/100;
+		var ar = parseInt(afterRatio)/100;
+		return Math.ceil((parseInt(passVal) / br) * ar); */
+		return Math.ceil(parseFloat(passVal) * parseFloat(afterRatio) / parseFloat(beforeRatio)); 
 	}
+	//占比下调, 值 向下取整
+	function getfloor(passVal,beforeRatio,afterRatio) {
+	/* 	var br = parseInt(beforeRatio)/100;
+		var ar = parseInt(afterRatio)/100;
+		return Math.ceil((parseInt(passVal) / br) * ar); */
+		return Math.floor(parseFloat(passVal) * parseFloat(afterRatio) / parseFloat(beforeRatio)); 
+	}
+	
 	//定义当前标题的全局(无论第一、二轮)变量
 	
  	var confirmStarttime = "${result.confirmStarttime }";
@@ -108,11 +117,17 @@
 					} else  
 					if(parseInt(afterInputVal) == 0) {
 						$(this).val(currentVal);
+						firstInit(currentVal,changeRatioCounts,productPrices,eachProductCount);
 						layer.alert("占比不能为0");
-					} else {
+					} else if(!afterInputVal){
+					   $(this).val(currentVal);
+					   firstInit(currentVal,changeRatioCounts,productPrices,eachProductCount);
+						layer.alert("占比不能为空");
+					}else{
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
 							var afterCount = getDownRatioVal(changeRatioCounts[index],currentVal,afterInputVal);
+							
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -148,12 +163,17 @@
 						layer.alert("占比只能下调");
 					} else if(parseInt(afterInputVal) == 0) {
 						$(this).val(currentSecondVal);
+						secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
 						layer.alert("占比不能为0");
+					 } else if(!afterInputVal){
+					 secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+					   $(this).val(currentVal);
+						layer.alert("占比不能为空");
 					} else {
 						var allCount = 0;
 						//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts2[index],currentSecondVal,afterInputVal);
+							var afterCount = getfloor(changeRatioCounts2[index],currentSecondVal,afterInputVal);
 							$(this).text((afterCount * productPrices2[index]).toFixed(2));
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -190,24 +210,27 @@
 		  First=$("#confirmRatioFirst").text();
 		}
 		if(First){
-		$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],100,First);
-							$(this).text((afterCount * productPrices[index]).toFixed(2));
-							$("[title='theProductCount']").each(function(indexPc,element) {
-								if(index == indexPc) {
-									$(this).text(afterCount);
-									$(this).parent().find("input[name='productResultsCount']").val(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
-									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
-								}
-							});
-							allCount += afterCount * productPrices[index];
-						});
-						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+		//初始化 第一轮
+		firstInit(First,changeRatioCounts,productPrices,eachProductCount);
 			}
 			if(passStatus==2){
-		//第二轮占比改动，调动下面的数据
+			//初始化 第二轮
+			secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
+			}	
+		$("[title='theProductTotalPrice']").each(function(index,element) {
+			allCount += parseFloat($(this).text());
+		});
+		$("[title='theProductTotalPrice2']").each(function(index,element) {
+			allCount2 += parseInt($(this).text());
+		});
+		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
+	});
+	//第二轮初始化
+	function secoundInit(currentSecondVal,changeRatioCounts2,productPrices2,eachProductCount){
+	//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts2[index],100,currentSecondVal);
+							var afterCount = getfloor(changeRatioCounts2[index],100,currentSecondVal);
 							$(this).text((afterCount * productPrices2[index]).toFixed(2));
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -219,18 +242,24 @@
 							allCount += afterCount * productPrices2[index];
 						});
 						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
-			}	
+			}
+	//第一轮初始化
+	function firstInit(first,changeRatioCounts,productPrices,eachProductCount){
+	  var allCount=0;
 		$("[title='theProductTotalPrice']").each(function(index,element) {
-			allCount += parseFloat($(this).text());
-		});
-		$("[title='theProductTotalPrice2']").each(function(index,element) {
-			allCount2 += parseInt($(this).text());
-		});
-		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
-		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
-	});
-	
-	
+							var afterCount = getDownRatioVal(changeRatioCounts[index],100,first);
+							$(this).text((afterCount * productPrices[index]).toFixed(2));
+							$("[title='theProductCount']").each(function(indexPc,element) {
+								if(index == indexPc) {
+									$(this).text(afterCount);
+									$(this).parent().find("input[name='productResultsCount']").val(parseInt(eachProductCount[indexPc]) - parseInt(afterCount));
+									$(this).parent().find("input[name='productResultsNumber']").val(afterCount); 
+								}
+							});
+							allCount += afterCount * productPrices[index];
+						});
+						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
+	}
 	
 	//这个暂时不用
 	var formatDateTime = function (date) {
@@ -411,7 +440,7 @@
 			});
 		if(confirmStatus == 1) {
 				$.ajax({
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do?confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					type:"post",
 					dataType:"text",
 					data:{
@@ -431,7 +460,7 @@
 				});
 		} else if(confirmStatus == 2) {
 				$.ajax({
-					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do",
+					url:"${pageContext.request.contextPath}/supplierQuote/uptConfirmDrop.do?confirmStarttime="+confirmStarttime+"&confirmOvertime="+confirmOvertime+"&secondOvertime="+secondOvertime, 
 					type:"post",
 					dataType:"text",
 					data:{
@@ -583,6 +612,7 @@
 		<tr>
 		  <td class="tc"  width="5%" title="theProductId">
 		  	${vs.index + 1 }
+		  	<input type="hidden" name="ResultsNumber" value="${bidproduct.resultsNumber }"/>
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
 		  	<input type="hidden" name="productResultsCount" value=""/>
