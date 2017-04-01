@@ -53,8 +53,20 @@ public class OBProjectResult {
 	 * 成交数量总和
 	 */
 	private Integer countresultCount;
-
 	
+	/**
+	 * 供应商总成交比例
+	 */
+	private Integer countSupplierProportion;
+	
+	public Integer getCountSupplierProportion() {
+		return countSupplierProportion;
+	}
+
+	public void setCountSupplierProportion(Integer countSupplierProportion) {
+		this.countSupplierProportion = countSupplierProportion;
+	}
+
 	public String getProjectId() {
 		return projectId;
 	}

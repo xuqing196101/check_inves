@@ -37,10 +37,19 @@
     </collection>
   </resultMap>
   <!-- 竞价结果查询  视图信息映射-->
-  <resultMap id="supplierProductVo" type="bss.model.ob.SupplierProductVo" >
+  <resultMap id="supplierProductVo" type="bss.model.ob.OBProjectResult" >
     <result column="supplierName" property="supplierName" jdbcType="VARCHAR" />
     <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
     <result column="dealQuote" property="dealQuote" jdbcType="DECIMAL" />
+  </resultMap>
+ 
+ 
+  <!-- 竞价结果信息查询  zhang-->
+  <resultMap id="supplierOfferInfoV" type="bss.model.ob.OBProjectResult" >
+    <result column="SUPPLIER_ID" property="supplierId" jdbcType="VARCHAR" />
+    <result column="RANKING" property="ranking" jdbcType="DECIMAL" />
+    <result column="STATUS" property="status" jdbcType="DECIMAL" />
+    <result column="NN" property="countSupplierProportion" jdbcType="DECIMAL" />
   </resultMap>
   
   <sql id="Example_Where_Clause" >
@@ -604,4 +613,13 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
     AND PR.STATUS = '-1'
   </select>
   
+  
+  <select id="selByProjectId" resultMap="supplierOfferInfoV" parameterType="String">
+  	SELECT 
+  		SUPPLIER_ID,RANKING,SUM(PROPORTION) NN,STATUS
+  	FROM T_BSS_OB_PROJECT_RESULT 
+  	WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+  	GROUP BY SUPPLIER_ID,RANKING,STATUS
+  	
+  </select>
 </mapper>

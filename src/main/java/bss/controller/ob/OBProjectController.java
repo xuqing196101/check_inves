@@ -984,12 +984,20 @@ public class OBProjectController {
     	if(list != null){
     		for (OBResultSubtabulation obr : list) {
     			if(obr != null){
-    				OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
-    				if(projectResult != null){
-    					countProportion += Integer.parseInt(projectResult.getProportion());
-    					obr.setProportion(Integer.parseInt(projectResult.getProportion()));
-    					obr.setStatus(projectResult.getStatus());
-    					obr.setRanking(projectResult.getRanking());
+    				List<OBProjectResult> suli = oBProjectResultService.selByProjectId(projectId);
+    				if(suli != null && suli.size() > 0){
+    					for (OBProjectResult obProjectResult : suli) {
+    						if(obProjectResult != null){
+    							if(obProjectResult.getSupplierId() != null){
+    								if(obProjectResult.getSupplierId().equals(obr.getSupplierId())){
+            							countProportion += obProjectResult.getCountSupplierProportion();
+            							obr.setProportion(obProjectResult.getCountSupplierProportion());
+            							obr.setStatus(obProjectResult.getStatus());
+            	    					obr.setRanking(obProjectResult.getRanking());
+            						}
+    							}
+    						}
+    					}
     				}
     			}
         	}

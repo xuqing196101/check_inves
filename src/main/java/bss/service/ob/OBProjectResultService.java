@@ -133,4 +133,17 @@ public interface OBProjectResultService {
     * @throws
      */
     List<OBProjectResult> findSupplierUnBidding(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 分组查询竞价结果信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月1日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selByProjectId(@Param("projectId") String projectId);
 }

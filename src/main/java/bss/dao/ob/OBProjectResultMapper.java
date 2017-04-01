@@ -221,4 +221,20 @@ public interface OBProjectResultMapper {
      * @return
      */
     List<OBProjectResult> selectSupplierDate(@Param("projectId")String projectId,@Param("supplierId")String supplierId);
+
+    
+    /**
+     * 
+     * Description: 分组查询竞价结果信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月1日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selByProjectId(@Param("projectId") String projectId);
+
+
 }
