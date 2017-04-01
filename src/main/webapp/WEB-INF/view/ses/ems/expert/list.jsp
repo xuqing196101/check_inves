@@ -366,6 +366,9 @@
 							<td class="tl pl20" onclick="view('${e.id}');">${e.mobile }</td>
 							<td class="tc" onclick="view('${e.id}');" class="tc">${e.honestyScore }</td>
 							<td onclick="view('${e.id}');" class="tc" id="${e.id}">
+								<c:if test="${e.status eq '4' and e.isProvisional eq '1'}">
+									<span class="label rounded-2x label-dark">临时</span>
+								</c:if>
 								<c:if test="${e.status eq '-1' and e.isSubmit eq '0'}">
 									<span class="label rounded-2x label-dark">暂存</span>
 								</c:if>
@@ -384,7 +387,7 @@
 								<%-- <c:if test="${e.status eq '1' }">
 									<td onclick="view('${e.id}');" class="tc"><span class="label rounded-2x label-dark">待复审</span></td>
 								</c:if> --%>
-								<c:if test="${e.status eq '4' }">
+								<c:if test="${e.status eq '4' and e.isProvisional eq '0'}">
 									<span class="label rounded-2x label-u">复审通过</span>
 								</c:if>
 								<c:if test="${e.status eq '5' }">

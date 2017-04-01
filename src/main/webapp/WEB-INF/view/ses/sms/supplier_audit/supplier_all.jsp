@@ -351,10 +351,14 @@
 				<div class="col-md-12 pl20 mt10">
 					<c:if test="${sign == 1 || sign == 2}"><button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button></c:if>
 					<c:if test="${sign == 3}"><button class="btn btn-windows check" type="button" onclick="shenhe();">考察</button></c:if>
-					<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
+					<c:if test="${sign == 2}">
+						<button class="btn btn-windows apply" type="button" onclick="publish();">发布</button>
+					</c:if>
 					<!-- 表格开始-->
-					<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载考察记录表</a>
-					<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
+					<c:if test="${sign == 3}">
+						<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载考察记录表</a>
+						<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载意见函</a>
+					</c:if>
 				</div>
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover hand">

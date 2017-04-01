@@ -239,7 +239,9 @@
 			<!-- 表格开始-->
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
-				<a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
+				<c:if test="${sign == 2 or sign == 3}">
+					<a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
+				</c:if>
 				<c:if test="${sign == 1 }">
 					<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载初审表</a>
 				</c:if>

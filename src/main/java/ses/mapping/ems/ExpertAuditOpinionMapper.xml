@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertAuditOpinionMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExpertAuditOpinion">
+    <id column="ID"  property="id" />
+    <result column="EXPERT_ID"  property="expertId" />
+    <result column="OPINION"  property="opinion" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EXPERT_ID, OPINION, CREATED_AT, UPDATED_AT
+  </sql>
+  <select id="selectByPrimaryKey" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_AUDIT_OPINION
+    where EXPERT_ID = #{expertId}
+  </select>
+
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
+    insert into T_SES_EMS_EXPERT_AUDIT_OPINION
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="opinion != null">
+        OPINION,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
+      </if>
+      <if test="opinion != null">
+        #{opinion},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+  </insert>
+</mapper>

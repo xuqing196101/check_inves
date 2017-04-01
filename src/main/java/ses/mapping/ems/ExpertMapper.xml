@@ -152,6 +152,9 @@
             AND T1.EXPERTS_FROM = '${expertsFrom}'
         </if>
         <if test="status != null and status !=''">
+        	<if test="status == 4">
+        		AND IS_PROVISIONAL = '0'
+        	</if>
             AND T1.STATUS = '${status}'
         </if>
         <if test="expertsTypeId != null and expertsTypeId !=''">
@@ -1172,6 +1175,7 @@
             AND (STATUS = '6' OR STATUS = '7' OR STATUS = '8'))
         </if>
         )
+        AND IS_PROVISIONAL = '0'
         <if test="relName != null and relName !=''">
             AND REAL_NAME LIKE #{relName}
         </if>

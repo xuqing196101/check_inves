@@ -1266,6 +1266,9 @@
 			AND BUSINESS_TYPE =#{businessType}
 		</if>
 		<if test="status != null">
+			<if test="status == 5">
+				and IS_PROVISIONAL = '0'
+			</if>
 			and SUPPLIER_STATUS = #{status}
 		</if>
 		<if test="judge == 5">
