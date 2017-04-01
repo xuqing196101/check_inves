@@ -35,7 +35,7 @@ public interface ProbationaryArchiveServiceI {
 	* @Description: 更新预备档案 
 	* @param @param probationaryArchive
 	* @param @return      
-	* @return int
+	* @return 
 	 */
 	int updateByPrimaryKeySelective(ProbationaryArchive probationaryArchive);
 	

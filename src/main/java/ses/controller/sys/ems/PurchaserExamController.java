@@ -1619,27 +1619,30 @@ public class PurchaserExamController extends BaseSupplierController{
 		List<ExamPaperUser> reference = examPaperUserService.findAll();
 		for(int i=0;i<reference.size();i++){
 			ExamPaperUser paperUser = reference.get(i);
+			//试卷id
 			String paperId = paperUser.getPaperId();
 			ExamPaper examPaper = examPaperService.selectByPrimaryKey(paperId);
-		    Date offTime = examPaper.getOffTime();
-		    if(new Date().getTime()>offTime.getTime()){
-		    	if(paperUser.getIsDo()==0){
-		    		ExamUserScore examUserScore = new ExamUserScore();
-		    		examUserScore.setCreatedAt(new Date());
-		    		examUserScore.setUpdatedAt(new Date());
-					examUserScore.setUserType(2);
-					examUserScore.setUserId(paperUser.getUserId());
-					examUserScore.setScore("0");
-					examUserScore.setIsMax(1);
-					examUserScore.setPaperId(paperUser.getPaperId());
-					examUserScore.setStatus("不及格");
-					examUserScoreService.insertSelective(examUserScore);
-					ExamPaperUser paperOfUser = new ExamPaperUser();
-					paperOfUser.setId(paperUser.getId());
-					paperOfUser.setIsDo(2);
-					paperOfUser.setUpdatedAt(new Date());
-					examPaperUserService.updateByPrimaryKeySelective(paperOfUser);
-		    	}
+		    if(examPaper !=null){
+				Date offTime = examPaper.getOffTime();
+			    if(new Date().getTime()>offTime.getTime()){
+			    	if(paperUser.getIsDo()==0){
+			    		ExamUserScore examUserScore = new ExamUserScore();
+			    		examUserScore.setCreatedAt(new Date());
+			    		examUserScore.setUpdatedAt(new Date());
+						examUserScore.setUserType(2);
+						examUserScore.setUserId(paperUser.getUserId());
+						examUserScore.setScore("0");
+						examUserScore.setIsMax(1);
+						examUserScore.setPaperId(paperUser.getPaperId());
+						examUserScore.setStatus("不及格");
+						examUserScoreService.insertSelective(examUserScore);
+						ExamPaperUser paperOfUser = new ExamPaperUser();
+						paperOfUser.setId(paperUser.getId());
+						paperOfUser.setIsDo(2);
+						paperOfUser.setUpdatedAt(new Date());
+						examPaperUserService.updateByPrimaryKeySelective(paperOfUser);
+			    	}
+			    }
 		    }
 		}
 		HashMap<String,Object> map = new HashMap<String,Object>();
@@ -1658,7 +1661,8 @@ public class PurchaserExamController extends BaseSupplierController{
 		if(page==null){
 			page = 1;
 		}
-		map.put("page", page.toString());
+		map.put("page", page.toString()); 
+		//获取配置文件的信息 分页的
 		PropertiesUtil config = new PropertiesUtil("config.properties");
 		PageHelper.startPage(page,Integer.parseInt(config.getString("pageSize")));
 		List<ExamUserScore> purchaserResultList = examUserScoreService.selectPurchaserResultByCondition(map);

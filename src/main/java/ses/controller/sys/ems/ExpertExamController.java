@@ -131,7 +131,7 @@ public class ExpertExamController extends BaseSupplierController{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String questionTypeId = request.getParameter("questionTypeId");
 		String topic = request.getParameter("topic");
-		map.put("kind", 0);
+		map.put("kind", "0");
 		if(questionTypeId !=null && !questionTypeId.equals("")){
 			map.put("questionTypeId", Integer.parseInt(questionTypeId));
 		}
@@ -156,7 +156,7 @@ public class ExpertExamController extends BaseSupplierController{
 	 * @Title: searchComExpPool
 	 * @author ZhaoBo
 	 * @date 2016-9-7 上午11:02:26  
-	 * @Description: 查询商务类专家题库 
+	 * @Description: 查询商务类专家题库  经济类专家题库
 	 * @param @param model
 	 * @param @return      
 	 * @return String
@@ -166,7 +166,7 @@ public class ExpertExamController extends BaseSupplierController{
 		HashMap<String,Object> map = new HashMap<String,Object>();
 		String questionTypeId = request.getParameter("questionTypeId");
 		String topic = request.getParameter("topic");
-		map.put("kind", 1);
+		map.put("kind", "1");
 		if(questionTypeId !=null && !questionTypeId.equals("")){
 			map.put("questionTypeId", Integer.parseInt(questionTypeId));
 		}

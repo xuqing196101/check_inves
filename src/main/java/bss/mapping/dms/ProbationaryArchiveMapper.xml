@@ -207,6 +207,6 @@
 	    <include refid="Base_Column_List" />
 	    FROM T_BSS_DMS_PROBATIONARY_ARCHIVE
 	    ORDER BY
-	    	CREATED_AT DESC
+	    CREATED_AT DESC
 	</select>
 </mapper>
