@@ -20,6 +20,9 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
+
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -34,6 +37,7 @@ import bss.dao.ob.OBProductInfoMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
 import bss.model.ob.ConfirmInfoVo;
+import bss.model.ob.OBProduct;
 import bss.model.ob.OBProductInfo;
 import bss.model.ob.OBProject;
 import bss.model.ob.OBProjectResult;
@@ -779,8 +783,14 @@ public class OBSupplierQuoteController {
 		String confirmFlag = request.getParameter("flag");
 		
 		Map<String, Object> mapInfo = new HashMap<String, Object>();
+		
+		// 获取供应商ID
+		String typeIdString = null;
+		if(user != null){
+			typeIdString = user.getTypeId();
+		}
 		if(projectId != null){
-			mapInfo.put("supplierId", user.getTypeId());
+			mapInfo.put("supplierId", typeIdString);
 			mapInfo.put("projectId", projectId);
 			Map<String, Object> map = obSupplierQuoteService.selectQuotoInfo(mapInfo);
 			// 竞价信息
@@ -841,20 +851,54 @@ public class OBSupplierQuoteController {
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 			
 			
+			Map<String, Object> resultMap = new HashMap<String, Object>();
+			resultMap.put("projectId", projectId);
+			resultMap.put("supplierId", typeIdString);
+			// 定义
 			/***********************************第一轮结果确认信息****************************/
-			if(FIRST_CONFIRM.equals(confirmFlag)){
+			if(FIRST_CONFIRM.equals(confirmFlag) || SECOND_CONFIRM.equals(confirmFlag)){
+				/** 获取第一轮、第二轮的排序标识 
+				 * 	：第一轮确认结果获取的是按时间正序排序的第一条记录
+				 * 	：第二轮确认结果是按时间倒序排序的第一条记录	
+				 * **/
+				if(FIRST_CONFIRM.equals(confirmFlag)){
+					// 第一轮结果确认信息
+					map.put("orderWay", "ASC");
+				}
 				
+				if(SECOND_CONFIRM.equals(confirmFlag)){
+					// 第二轮结果确认信息
+					map.put("orderWay", "DESC");
+				}
+				
+				OBProjectResult findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
+				// 定义第一轮成交总价
+				Double confirmFirstTotalFigure = 0.00;
+				if(findConfirmResult != null){
+					List<OBResultSubtabulation> obResultSubtabulationList = findConfirmResult.getObResultSubtabulation();
+					if(obResultSubtabulationList != null && obResultSubtabulationList.size() > 0){
+						for (OBResultSubtabulation obResultSubtabulation : obResultSubtabulationList) {
+							// 获取单件商品的成交总价
+							BigDecimal dealMoney = obResultSubtabulation.getTotalMoney();
+							// 计算成交总价
+							/**计算成交总价 = 单件商品的成交总价 相加**/
+							/** 累加得到总计 **/
+							confirmFirstTotalFigure = dealMoney.add(
+									new BigDecimal(Double
+											.toString(confirmFirstTotalFigure)))
+									.doubleValue();
+							
+						}
+					}
+				}
+				String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
+				model.addAttribute("confirmResult", findConfirmResult);
+				model.addAttribute("confirmFirstTotalFigureStr", confirmFirstTotalFigureStr);
+				model.addAttribute("confirmFlag", confirmFlag);
 			}
 			
 			/***********************************第一轮结果确认信息结束****************************/
 			
-			
-			/***********************************第一轮结果确认信息****************************/
-			if(SECOND_CONFIRM.equals(confirmFlag)){
-				
-			}
-			
-			/***********************************第一轮结果确认信息结束****************************/
 		}
 		return "bss/ob/supplier/findQuotoIssueInfo";
 	}

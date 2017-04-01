@@ -55,7 +55,7 @@
     <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)">提供单价</a></li><li><a href="javascript:void(0)">报价信息查看</a></li>
+		   <li><a href="javascript:void(0)">提供单价</a></li><li><a href="javascript:void(0)">信息查看</a></li>
 		   </ul>
         <div class="clear"></div>
       </div>
@@ -79,6 +79,18 @@
 	  		<%@ include file="/WEB-INF/view/bss/ob/supplier/findQuotoIssueInfoCommon.jsp" %>
 	  </div>	 
   </form>
+  
+  <!-- 第一轮确认结果信息 -->
+ 	<c:if test="${ confirmFlag=='firstConfirm' }">
+    	<h2 class="count_flow"><i>3</i>第一轮确认结果信息</h2>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/resultIssueInfoCommon.jsp" %>
+  	</div>
+	</c:if>	
+  <!-- 第而轮确认结果信息 -->
+ 	<c:if test="${ confirmFlag=='secondConfirm' }">
+    	<h2 class="count_flow"><i>4</i>第二轮确认结果信息</h2>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/resultIssueInfoCommon.jsp" %>
+	</c:if>	
  </div>
 </body>
 </html>

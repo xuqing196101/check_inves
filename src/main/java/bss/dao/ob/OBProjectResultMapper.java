@@ -236,5 +236,16 @@ public interface OBProjectResultMapper {
      */
     List<OBProjectResult> selByProjectId(@Param("projectId") String projectId);
 
-
+    
+    /**
+     * 
+    * @Title: findConfirmResult 
+    * @Description: 查询 确定第一，第二轮确认结果
+    * @author Easong
+    * @param @param map
+    * @param @return    设定文件 
+    * @return List<OBProjectResult>    返回类型 
+    * @throws
+     */
+    List<OBProjectResult> findConfirmResult(Map<String, Object> map);
 }
