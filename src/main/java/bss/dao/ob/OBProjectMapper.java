@@ -61,7 +61,7 @@ public interface OBProjectMapper {
 	 * 获取竞价信息 不是暂存 和 结束竞价 
 	 * @author yangHongLiang
 	 */
-	List<OBProject> selectByStatus(String projectId);
+	List<OBProject> selectByStatus(@Param("id")String projectId);
 	/**
 	 * 根据id 获取暂存的信息
 	 */
