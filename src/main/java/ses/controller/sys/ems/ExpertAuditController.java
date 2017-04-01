@@ -37,6 +37,7 @@ import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.model.oms.PurchaseDep;
+import ses.model.sms.Expertsignature;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
@@ -1276,15 +1277,24 @@ public class ExpertAuditController {
 	 * @return ResponseEntity<byte[]>
 	 */
 	@RequestMapping("download")
-	public ResponseEntity < byte[] > download(String expertId, HttpServletRequest request, HttpServletResponse response) throws Exception {
+	public ResponseEntity < byte[] > download(String expertId, HttpServletRequest request, HttpServletResponse response, String tableType) throws Exception {
 		// 根据编号查询专家信息
 		Expert expert = service.selectByPrimaryKey(expertId);
 		// 文件存储地址
 		String filePath = request.getSession().getServletContext().getRealPath("/WEB-INF/upload_file/");
 		// 文件名称
-		String fileName = createWordMethod(expert, request);
+		String fileName = createWordMethod(expert, request, tableType);
 		// 下载后的文件名
-		String downFileName = new String("军队采购评审专家入库审核表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+		String downFileName = "";
+		if(tableType.equals("1")){
+			downFileName = new String("军队采购评审专家入库初审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+		}
+		if(tableType.equals("2")){
+			downFileName = new String("军队采购评审专家入库复审表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+		}
+		if(tableType.equals("3")){
+			downFileName = new String("军队采购评审专家入库复查表.doc".getBytes("UTF-8"), "iso-8859-1"); // 为了解决中文名称乱码问题
+		}
 		response.setContentType("application/x-download");
 		return service.downloadFile(fileName, filePath, downFileName);
 	}
@@ -1300,7 +1310,7 @@ public class ExpertAuditController {
 	 * @param @throws Exception      
 	 * @return String
 	 */
-	private String createWordMethod(Expert expert, HttpServletRequest request) throws Exception {
+	private String createWordMethod(Expert expert, HttpServletRequest request, String tableType) throws Exception {
 		/** 用于组装word页面需要的数据 */
 		Map < String, Object > dataMap = new HashMap < String, Object > ();
 		dataMap.put("relName", expert.getRelName() == null ? "" : expert.getRelName());
@@ -1396,104 +1406,106 @@ public class ExpertAuditController {
     		reasonsList.add(expertAudit1);
     		
     	}
-    	ExpertAudit audit0 = new ExpertAudit();
     	
-    	audit0.setExpertId(expert.getId());
-    	audit0.setIsHistory("2");
-    	List < ExpertAudit > basicList = expertAuditService.selectFailByExpertId(audit0);
-		
-		boolean recentPhotos = true, idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true , professionalFile = true;
-		if(!basicList.isEmpty()) {
-			for(ExpertAudit e: basicList) {
-				if(e.getAuditField().equals("近期免冠彩色证件照")) {
-					dataMap.put("recentPhotos", "否");
-					recentPhotos = false;
-					break;
-				}
-			}
-			
-			for(ExpertAudit e: basicList) {
-				if(e.getAuditField().equals("身份证复印件（正反面）:")) {
-					dataMap.put("idCard", "否");
-					idCard = false;
-					break;
-				}
-			}
+    	//初审和复查才有附件信息
+    	if(tableType.equals("1") || tableType.equals("3")){
+    		ExpertAudit audit0 = new ExpertAudit();
+        	audit0.setExpertId(expert.getId());
+        	audit0.setIsHistory("2");
+        	List < ExpertAudit > basicList = expertAuditService.selectFailByExpertId(audit0);
 
-			if(expertsForm.getName().equals("军队") && expert.getExpertsFrom() != null) {
-				for(ExpertAudit e: basicList) {
-					if(e.getAuditField().equals("军队人员身份证件")) {
-						dataMap.put("armyIdCard", "否");
-						armyIdCard = false;
-						break;
-					}
-				}
-			} else {
-				dataMap.put("armyIdCard", "无");
-				armyIdCard = false;
-			}
-			
-			for(ExpertAudit e: basicList) {
-				if(e.getAuditField().equals("专业技术资格证书")) {
-					dataMap.put("qualification", "否");
-					qualification = false;
-					break;
-				}
-			}
-			
-			for(ExpertAudit e: basicList) {
-				if(e.getAuditField().equals("执业资格")) {
-					dataMap.put("professionalFile", "否");
-					professionalFile = false;
-					break;
-				}
-			}
+    		boolean recentPhotos = true, idCard = true, armyIdCard = true, qualification = true, academicDegree = true, coverNote = true , professionalFile = true;
+    		if(!basicList.isEmpty()) {
+    			for(ExpertAudit e: basicList) {
+    				if(e.getAuditField().equals("近期免冠彩色证件照")) {
+    					dataMap.put("recentPhotos", "否");
+    					recentPhotos = false;
+    					break;
+    				}
+    			}
+    			
+    			for(ExpertAudit e: basicList) {
+    				if(e.getAuditField().equals("身份证复印件（正反面）:")) {
+    					dataMap.put("idCard", "否");
+    					idCard = false;
+    					break;
+    				}
+    			}
 
-			for(ExpertAudit e: basicList) {
-				if(e.getAuditField().equals("学位证书")) {
-					dataMap.put("academicDegree", "否");
-					academicDegree = false;
-					break;
-				}
-			}
-			if(expertsForm.getName().equals("地方") && expert.getExpertsFrom() != null) {
-				for(ExpertAudit e: basicList) {
-					if(e.getAuditField().equals("社保证明")) {
-						dataMap.put("coverNote", "否");
-						coverNote = false;
-						break;
-					}
-				}
-			} else {
-				dataMap.put("coverNote", "无");
-				coverNote = false;
-			}
-		}
+    			if(expertsForm.getName().equals("军队") && expert.getExpertsFrom() != null) {
+    				for(ExpertAudit e: basicList) {
+    					if(e.getAuditField().equals("军队人员身份证件")) {
+    						dataMap.put("armyIdCard", "否");
+    						armyIdCard = false;
+    						break;
+    					}
+    				}
+    			} else {
+    				dataMap.put("armyIdCard", "无");
+    				armyIdCard = false;
+    			}
+    			
+    			for(ExpertAudit e: basicList) {
+    				if(e.getAuditField().equals("专业技术资格证书")) {
+    					dataMap.put("qualification", "否");
+    					qualification = false;
+    					break;
+    				}
+    			}
+    			
+    			for(ExpertAudit e: basicList) {
+    				if(e.getAuditField().equals("执业资格")) {
+    					dataMap.put("professionalFile", "否");
+    					professionalFile = false;
+    					break;
+    				}
+    			}
 
-		if(idCard) {
-			dataMap.put("idCard", "是");
-		}
-		if(recentPhotos) {
-			dataMap.put("recentPhotos", "是");
-		}
-		if(armyIdCard) {
-			dataMap.put("armyIdCard", "是");
-		}
-		if(qualification) {
-			dataMap.put("qualification", "是");
-		}
-		if(professionalFile) {
-			dataMap.put("professionalFile", "是");
-		}
-		if(academicDegree) {
-			dataMap.put("academicDegree", "是");
-		}
-		if(coverNote) {
-			dataMap.put("coverNote", "是");
-		}
-		
-		
-		
+    			for(ExpertAudit e: basicList) {
+    				if(e.getAuditField().equals("学位证书")) {
+    					dataMap.put("academicDegree", "否");
+    					academicDegree = false;
+    					break;
+    				}
+    			}
+    			if(expertsForm.getName().equals("地方") && expert.getExpertsFrom() != null) {
+    				for(ExpertAudit e: basicList) {
+    					if(e.getAuditField().equals("社保证明")) {
+    						dataMap.put("coverNote", "否");
+    						coverNote = false;
+    						break;
+    					}
+    				}
+    			} else {
+    				dataMap.put("coverNote", "无");
+    				coverNote = false;
+    			}
+    		}
+
+    		if(idCard) {
+    			dataMap.put("idCard", "是");
+    		}
+    		if(recentPhotos) {
+    			dataMap.put("recentPhotos", "是");
+    		}
+    		if(armyIdCard) {
+    			dataMap.put("armyIdCard", "是");
+    		}
+    		if(qualification) {
+    			dataMap.put("qualification", "是");
+    		}
+    		if(professionalFile) {
+    			dataMap.put("professionalFile", "是");
+    		}
+    		if(academicDegree) {
+    			dataMap.put("academicDegree", "是");
+    		}
+    		if(coverNote) {
+    			dataMap.put("coverNote", "是");
+    		}
+    	}
+    	
+
 		//获取属性值
 		ExpertField expertField = new ExpertField();
 		Field[] fields = expertField.getClass().getDeclaredFields(); 
@@ -1538,14 +1550,42 @@ public class ExpertAuditController {
 		
 		dataMap.put("reasonsList", reasonsList);
 		
-		String fileName = new String(("军队采购评审专家入库审核表.doc").getBytes("UTF-8"), "UTF-8");
-		/** 生成word 返回文件名 */
-		/*
-		 //初审表
-		 String newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);*/
-		//复查表
-		String newFileName = WordUtil.createWord(dataMap, "expertTwoAudit.ftl", fileName, request);
 		
+		//复审
+		if(tableType.equals("2")){
+			Expertsignature expertsignature = new Expertsignature();
+			List<Expertsignature> expertList= new ArrayList<Expertsignature>();
+			expertsignature.setName("张三");
+			expertsignature.setCompany("阳光");
+			expertsignature.setJob("JAVA");
+			expertList.add(expertsignature);
+			
+			dataMap.put("expertList", expertList);
+			
+			//日期
+			Date date = new Date();
+		    SimpleDateFormat format = new SimpleDateFormat("yyyy 年 MM 月 dd 日");
+		    String da = format.format(date);
+			dataMap.put("date", da);
+		}
+		
+		
+		
+		/** 生成word 返回文件名 */
+		String newFileName = "";
+		String fileName = "";
+		if(tableType.equals("1")){
+			newFileName = WordUtil.createWord(dataMap, "expertOneAudit.ftl", fileName, request);
+			fileName = new String(("军队采购评审专家入库初审表.doc").getBytes("UTF-8"), "UTF-8");
+		}
+		if(tableType.equals("2")){
+			newFileName = WordUtil.createWord(dataMap, "expertTwoAudit.ftl", fileName, request);
+			fileName = new String(("军队采购评审专家入库复审表.doc").getBytes("UTF-8"), "UTF-8");
+		}
+		if(tableType.equals("3")){
+			newFileName = WordUtil.createWord(dataMap, "expertThreeAudit.ftl", fileName, request);
+			fileName = new String(("军队采购评审专家入库复查表.doc").getBytes("UTF-8"), "UTF-8");
+		}
 		
 		return newFileName;
 	}

@@ -768,7 +768,9 @@
 			<if test="status != null">
 				and STATUS = #{status}
 			</if>
-			
+			<if test="fileId != null">
+        and FILE_ID = #{fileId}
+      </if>
 			<if test="department != null">
          and DEPARTMENT = #{department}
       </if>

@@ -275,6 +275,16 @@
     
   </select>
   
+  <select id="selectByContract" resultMap="PqInfoResultMap" parameterType="java.util.Map">
+    select
+    <include refid="Base_Column_List" />
+    from T_BSS_PQIMS_PQINFO
+    where 1=1
+    <if test="contract != null">
+      and CONTRACT_ID = #{contract.id} 
+    </if>
+  </select>
+  
   <!-- 8.查询列表(查询不为空的字段，不带关联集合) -->
   <select id="queryByList" resultMap="PqInfoResultMap" parameterType="Object">
     select
@@ -288,8 +298,7 @@
     select 
     *
     from T_BSS_PQIMS_PQINFO p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
-        where 
-    
+        where 1=1
 	 <if test="conclusion != null and conclusion !='-请选择-'">
         p.CONCLUSION=#{conclusion} AND
      </if>

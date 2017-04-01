@@ -257,7 +257,7 @@
 										</td>
 										<td class="tc" onclick="show('${p.id}');">${p.postCode}</td>
 										<td class="tl pl20" onclick="show('${p.id}');">${p.areaName}${p.address}</td>
-										<td class="tc" onclick="show('${p.id}');">${p.businessRange}</td>
+										<td width="250px" onclick="show('${p.id}');">${p.businessRange}</td>
 										<td class="tl pl20" onclick="show('${p.id}');">${p.quaCode}</td>
 										<td class="tc" onclick="show('${p.id}');">
 										  <c:if test="${p.quaLevel == '1'}">

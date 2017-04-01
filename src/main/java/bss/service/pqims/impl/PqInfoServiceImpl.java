@@ -5,6 +5,7 @@ package bss.service.pqims.impl;
 
 import java.math.BigDecimal;
 import java.sql.Timestamp;
+import java.util.HashMap;
 import java.util.List;
 
 import javax.annotation.Resource;
@@ -142,5 +143,11 @@ public class PqInfoServiceImpl implements PqInfoService {
 	public String queryPath(String id) {
 		return pqInfoMapper.queryPath(id);
 	}
+
+    @Override
+    public List<PqInfo> selectByContract(HashMap<String, Object> map) {
+        
+        return pqInfoMapper.selectByContract(map);
+    }
 
 }

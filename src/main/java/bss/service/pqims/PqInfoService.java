@@ -4,6 +4,7 @@
 package bss.service.pqims;
 
 import java.math.BigDecimal;
+import java.util.HashMap;
 import java.util.List;
 
 import ses.model.sms.Supplier;
@@ -84,4 +85,6 @@ public interface PqInfoService {
 	 * 13.查询；图片路径
 	 */
 	String queryPath(String id);
+	
+	List<PqInfo> selectByContract(HashMap<String, Object> map);
 }

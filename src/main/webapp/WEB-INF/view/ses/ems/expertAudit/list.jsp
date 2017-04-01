@@ -69,7 +69,7 @@
 			}
 
 			//下载
-			function downloadTable() {
+			function downloadTable(str) {
 				var size = $(":radio:checked").size();
 				if(!size) {
 					layer.msg("请选择专家 !", {
@@ -81,13 +81,13 @@
 				var id = $(":radio:checked").val();
 				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
-				if(state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
+				/* if(state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
 					layer.msg("请选择未通过审核的专家 !", {
 						offset: '100px',
 					});
 					return;
-				}
-
+				} */
+				$("input[name='tableType']").val(str);
 				$("input[name='expertId']").val(id);
 				$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
 				$("#form_id").submit();
@@ -199,6 +199,7 @@
 				<form id="form_id" action="${pageContext.request.contextPath}/expertAudit/basicInfo.html" method="post">
 					<input name="expertId" type="hidden" />
 					<input name="sign" type="hidden" value="${sign }"/>
+					<input name="tableType" type="hidden" value=""/>
 				</form>
 				<form action="${pageContext.request.contextPath}/expertAudit/list.html" method="post" id="formSearch" class="mb0">
 					<input type="hidden" name="pageNum" id="pageNum">
@@ -239,7 +240,15 @@
 			<div class="col-md-12 pl20 mt10">
 				<button class="btn btn-windows check" type="button" onclick="shenhe();">审核</button>
 				<a class="btn btn-windows apply" onclick='publish()' type="button">发布</a>
-				<a class="btn btn-windows input" onclick='downloadTable()' href="javascript:void(0)">下载</a>
+				<c:if test="${sign == 1 }">
+					<a class="btn btn-windows input" onclick='downloadTable(1)' href="javascript:void(0)">下载初审表</a>
+				</c:if>
+				<c:if test="${sign == 2 }">
+					<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载复审表</a>
+				</c:if>
+				<c:if test="${sign == 3 }">
+					<a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载复查表</a>
+				</c:if>
 			</div>
 
 			<div class="content table_box">

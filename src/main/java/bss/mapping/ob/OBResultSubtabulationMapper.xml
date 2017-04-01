@@ -153,7 +153,8 @@
   
   <!-- 根据竞价信息id查询 -->
   <select id="selectByProjectId" resultMap="BaseResultMap" parameterType="java.lang.String">
-  	SELECT DISTINCT *
+  	SELECT DISTINCT
+  		*
     FROM T_BSS_OB_RESULT_SUBTABULATION
     WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>

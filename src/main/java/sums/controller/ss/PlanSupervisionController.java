@@ -595,13 +595,16 @@ public class PlanSupervisionController {
                 
                 
                 //任务信息
-                Task task = taskService.selectByCollectId(detail.getUniqueId());
-                if(task != null){
-                    Orgnization org = orgnizationService.getOrgByPrimaryKey(task.getPurchaseId());
+                HashMap<String, Object> taskMap = new HashMap<>();
+                taskMap.put("collectId", detail.getUniqueId());
+                taskMap.put("purchaseId", detail.getOrganization());
+                List<Task> task = taskService.listBycollect(taskMap);
+                if(task != null && task.size() > 0){
+                    Orgnization org = orgnizationService.getOrgByPrimaryKey(task.get(0).getPurchaseId());
                     /*User user = userService.getUserById(task.getUserId());
                     task.setUserId(user.getRelName());*/
-                    task.setPurchaseId(org.getName());
-                    model.addAttribute("task", task);
+                    task.get(0).setPurchaseId(org.getName());
+                    model.addAttribute("task", task.get(0));
                 }
                 
                 //项目信息
@@ -702,7 +705,7 @@ public class PlanSupervisionController {
                         if(listCheckPass != null && listCheckPass.size() > 0){
                             for (SupplierCheckPass supplierCheckPass : listCheckPass) {
                                 Supplier supplier = supplierService.selectById(supplierCheckPass.getSupplier().getId());
-                                supplierCheckPass.setSupplierId(supplier.getName());
+                                supplierCheckPass.setSupplierId(supplier.getSupplierName());
                             }
                             model.addAttribute("listCheckPass", listCheckPass);
                         }
@@ -732,9 +735,9 @@ public class PlanSupervisionController {
                                  }
                                  
                             }
-                            PqInfo pqInfo = new PqInfo();
-                            pqInfo.setContract(purchaseContract);
-                            List<PqInfo> selectByCondition = pqInfoService.selectByCondition(pqInfo, 0);
+                            HashMap<String, Object> mapPq = new HashMap<>();
+                            mapPq.put("contract", purchaseContract);
+                            List<PqInfo> selectByCondition = pqInfoService.selectByContract(mapPq);
                             if(selectByCondition != null && selectByCondition.size() > 0){
                                 model.addAttribute("PqInfo", selectByCondition.get(0).getClass());
                             }
@@ -752,7 +755,7 @@ public class PlanSupervisionController {
             }
             
             HashMap<String, Object> map = new HashMap<>();
-            map.put("id", id);
+            map.put("id", detail.getId());
             List<PurchaseRequired> requireds = requiredService.selectByParent(map);
             for (PurchaseRequired purchaseRequired : requireds) {
                 if("1".equals(purchaseRequired.getParentId())){
@@ -763,7 +766,7 @@ public class PlanSupervisionController {
                 }
             }
             
-            PurchaseRequired required = requiredService.queryById(id);
+            PurchaseRequired required = requiredService.queryById(detail.getId());
             if(required != null){
                 Orgnization orgnization = orgnizationService.getOrgByPrimaryKey(required.getOrganization());
                 required.setOrganization(orgnization.getName());
@@ -804,6 +807,8 @@ public class PlanSupervisionController {
             String adviceId = DictionaryDataUtil.getId("ADVANCED_ADVICE");
             
             model.addAttribute("adviceId", adviceId);//预研通知书
+            model.addAttribute("detailId", id);
+            model.addAttribute("detail", detail);
         }
         
         model.addAttribute("number", "1");
@@ -1079,6 +1084,34 @@ public class PlanSupervisionController {
             }
         }
         return "sums/ss/planSupervision/negotiation_report";
+    }
+    
+    
+    /**
+     * 
+     *〈获取采购计划审核意见〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @param type
+     * @param model
+     * @return
+     */
+    @RequestMapping("/viewAuditPerson")
+    public String viewAuditPerson(String id, String type, Model model){
+        if(StringUtils.isNotBlank(id)){
+            PurchaseDetail detail = detailService.queryById(id);
+            if(detail != null){
+                if(StringUtils.isNotBlank(type) && "1".equals(type)){
+                    model.addAttribute("advice", detail.getOneAdvice());
+                } else if (StringUtils.isNotBlank(type) && "2".equals(type)){
+                    model.addAttribute("advice", detail.getTwoAdvice());
+                } else if (StringUtils.isNotBlank(type) && "3".equals(type)){
+                    model.addAttribute("advice", detail.getThreeAdvice());
+                }
+            }
+        }
+        return "sums/ss/planSupervision/viewAuditPerson";
     }
     
     //给每个包的供应商，和物资明细赋值

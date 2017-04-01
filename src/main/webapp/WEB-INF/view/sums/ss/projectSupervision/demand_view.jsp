@@ -70,7 +70,7 @@
                    <c:if test="${obj.status eq '2' || obj.status eq '3' || obj.status eq '5'}">已提交</c:if>
                 </td>
                 <td class="tc">
-                  <a href="javascript:void(0)" onclick="view('${obj.id}','0');">查看</a>
+                  <a href="javascript:void(0)" onclick="view('${obj.uniqueId}','0');">查看</a>
                 </td>
               </tr>
             </c:forEach>

@@ -156,6 +156,7 @@
 			  		</tr>
 				</c:if>
 			</c:forEach>
+			<c:set value="0" var = "total" ></c:set>
 		</c:if>
 		
 		<!-- 放弃的 -->
