@@ -1832,7 +1832,11 @@ public class OpenBiddingController {
         if (saleTender.getPackages().indexOf(pk.getId()) != -1 && saleTender.getIsTurnUp() != null && saleTender.getIsTurnUp() == 0) {
           Supplier supplier = supplierService.get(saleTender.getSuppliers().getId());
           supplier.setPdList(detailList);
-          suList.add(supplier);
+          Supplier supplierNew = new Supplier();
+          supplierNew.setSupplierName(supplier.getSupplierName());
+          supplierNew.setId(supplier.getId());
+          supplierNew.setPdList(detailList);
+          suList.add(supplierNew);
         }
       }
       pk.setSuList(suList);
