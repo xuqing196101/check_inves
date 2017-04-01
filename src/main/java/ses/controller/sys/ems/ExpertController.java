@@ -108,6 +108,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
+import bss.util.FileUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -3106,8 +3107,15 @@ public class ExpertController extends BaseController {
         /** 注入service */
         List<UploadFile> listImage = uploadService.queryImage("50", expert.getId());
         if (listImage != null && listImage.size() > 0) {
-        	String finalPath = PropUtil.getProperty("file.base.path");
-        	dataMap.put("image", getImageStr(listImage.get(0).getPath()));
+//        	String path = listImage.get(0).getPath();
+//        String realpath	=request.getSession().getServletContext().getRealPath("/"); 
+//        
+//	        File file = new File(path);
+//	        System.out.println(realpath+"=============================");
+//        	FileUtil.fileStash(file, realpath, "expertPic", request);
+//        	dataMap.put("image", realpath);
+           String gen=	 request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] ;
+        	dataMap.put("image", gen+listImage.get(0).getPath());
 		}
         String faceId = expert.getPoliticsStatus();
         DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
@@ -3207,7 +3215,7 @@ public class ExpertController extends BaseController {
         String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
             "UTF-8");
         /** 生成word 返回文件名 */
-        String newFileName = WordUtil.createWord(dataMap, "expert.ftl",
+        String newFileName = WordUtil.createWord(dataMap, "expert2.ftl",
             fileName, request);
         return newFileName;
     }

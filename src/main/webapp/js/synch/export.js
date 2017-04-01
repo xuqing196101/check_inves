@@ -118,7 +118,10 @@ function synchExport(){
 		data:{'startTime' : startTime,'endTime': endTime,'synchType': dataType.toString()},
 		success:function(res){
 			if (res.success){
+				layer.msg("导出成功");
 				list(1);
+			}else{
+				layer.msg("导出失败");
 			}
 		}
 	});
