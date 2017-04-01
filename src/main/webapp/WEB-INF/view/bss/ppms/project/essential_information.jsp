@@ -541,11 +541,11 @@
                     </tr>
                   </tbody>
                 </table>
-                <div class="col-md-12 tc mt20">
-                  <button class="btn btn-windows git" type="button" id="saveCheck" onclick="checkDate();">保存</button>
-                </div>
               </div>
             </form>
+            <div class="col-md-12 tc mt20">
+                  <button class="btn btn-windows git" type="button" id="saveCheck" onclick="checkDate();">保存</button>
+                </div>
           </div>
           <div class="tab-pane fade " id="tab-2">
             <table class="table table-bordered table-condensed mt5">

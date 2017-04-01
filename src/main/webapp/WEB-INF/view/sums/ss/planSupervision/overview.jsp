@@ -109,6 +109,19 @@
           content: '${pageContext.request.contextPath}/planSupervision/viewAuditPerson.html?id=' + id + '&type=' + type,
         });
       }
+      
+      function graded(id,packageId) {
+        layer.open({
+          type: 2, //page层
+          area: ['1000px', '500px'],
+          title: '查看供应商评分排序',
+          shade: 0.01, //遮罩透明度
+          moveType: 1, //拖拽风格，0是默认，1是传统拖动
+          shift: 1, //0-6的动画形式，-1不开启
+          shadeClose: true,
+          content: '${pageContext.request.contextPath}/planSupervision/graded.html?id=' + id + '&packageId=' + packageId,
+        });
+      }
 
       function OpenFile(fileId) {
         setTimeout(open_file(fileId), 5000);
@@ -860,6 +873,10 @@
                     <td class="tc"><button class="btn" onclick="sell('${packageId}','1')" type="button">查看</button></td>
                     <td></td>
                     <td>
+	                    ${begin}
+	                     <c:if test="${end!=null}">
+	                        -${end}
+	                     </c:if>
                     </td>
                   </tr>
                 </tbody>
@@ -988,7 +1005,7 @@
                   <c:forEach items="${listCheckPass}" var="obj" varStatus="vs">
                     <tr>
                       <td>${obj.supplierId}</td>
-                      <td></td>
+                      <td class="tc"><button class="btn" onclick="graded('${obj.supplier.id}','${packageId}')" type="button">查看</button></td>
                       <td></td>
                       <td>
                         <fmt:formatDate value='${obj.confirmTime}' pattern='yyyy年MM月dd日  HH:mm:ss' />

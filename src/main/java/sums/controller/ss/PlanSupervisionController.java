@@ -7,15 +7,19 @@ import iss.service.ps.ArticleTypeService;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
 import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.TreeMap;
+import java.util.TreeSet;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +30,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.formbean.Jzjf;
 import bss.model.cs.ContractRequired;
 import bss.model.cs.PurchaseContract;
 import bss.model.pms.AuditPerson;
@@ -58,6 +63,7 @@ import bss.service.pms.PurchaseManagementService;
 import bss.service.pms.PurchaseRequiredService;
 import bss.service.ppms.AdvancedDetailService;
 import bss.service.ppms.AdvancedProjectService;
+import bss.service.ppms.BidMethodService;
 import bss.service.ppms.FlowMangeService;
 import bss.service.ppms.NegotiationReportService;
 import bss.service.ppms.PackageService;
@@ -189,6 +195,9 @@ public class PlanSupervisionController {
     
     @Autowired
     private PqInfoService pqInfoService;
+    
+    @Autowired 
+    private BidMethodService bidMethodService; 
     
     
     /**
@@ -680,6 +689,40 @@ public class PlanSupervisionController {
                             model.addAttribute("articleList",articleList.get(0));
                         }
                         
+                        //文件发售时间
+                        SaleTender saleTender = new SaleTender();
+                        saleTender.setPackages(selectById.get(0).getPackageId());
+                        List<SaleTender> saleTenderList = saleTenderService.getPackegeSupplier(saleTender);
+                        TreeSet<Long> set = new TreeSet<Long>();
+                        for (SaleTender saleTender2 : saleTenderList) {
+                            if(saleTender2.getCreatedAt() != null){
+                                Date createdAt = saleTender2.getCreatedAt();
+                                try {
+                                    long simp=new SimpleDateFormat("yyyy-MM-dd").parse(new SimpleDateFormat("yyyy-MM-dd").format(createdAt)).getTime();
+                                    set.add(simp);
+                                 } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+                        if(set != null && set.size() > 0){
+                            Iterator it = set.iterator();
+                            if(set.size()==1){
+                                model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));//需求编报
+                            }else{
+                                int sun=0;
+                                while (it.hasNext()) {
+                                    if(sun==0){
+                                        model.addAttribute("begin", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
+                                    }
+                                    if(sun==(set.size()-1)){
+                                        model.addAttribute("end", new SimpleDateFormat("yyyy-MM-dd").format(it.next()));
+                                    }
+                                    sun++;
+                                }
+                            }
+                        }
+                        
                         //资格性符合性检查
                         Map<String, Object> packageExpertmap = new HashMap<String, Object>();
                         packageExpertmap.put("packageId", selectById.get(0).getPackageId());
@@ -837,7 +880,9 @@ public class PlanSupervisionController {
             for (SaleTender saleTender2 : saleTenderList) {
                 Supplier supplier = supplierService.selectById(saleTender2.getSuppliers().getId());
                 supplier.setProSupFile(saleTender2.getId());
-                supplier.setIsturnUp(saleTender2.getIsTurnUp().toString());
+                if(saleTender2.getIsTurnUp() != null){
+                    supplier.setIsturnUp(saleTender2.getIsTurnUp().toString());
+                }
                 List<UploadFile> blist = uploadService.getFilesOther(supplier.getProSupFile(), fileId,  Constant.SUPPLIER_SYS_KEY.toString());
                 if (blist != null && blist.size() > 0) {
                     supplier.setBidFileName(blist.get(0).getName());
@@ -1112,6 +1157,74 @@ public class PlanSupervisionController {
             }
         }
         return "sums/ss/planSupervision/viewAuditPerson";
+    }
+    
+    /**
+     * 
+     *〈查看中标供应商评分排序〉
+     *〈详细描述〉
+     * @author FengTian
+     * @param id
+     * @param packageId
+     * @param model
+     * @return
+     */
+    @RequestMapping("/graded")
+    public String graded(String id, String packageId, Model model){
+        if(StringUtils.isNotBlank(id) && StringUtils.isNotBlank(packageId)){
+            Packages pack = packageService.selectByPrimaryKeyId(packageId);
+            Supplier supplier = new Supplier();
+            supplier.setId(id);
+            SaleTender saleTender = new SaleTender();
+            saleTender.setSuppliers(supplier);
+            saleTender.setPackages(packageId);
+            saleTender.setIsFirstPass(1);
+            saleTender.setIsRemoved("0");
+            saleTender.setIsTurnUp(0);
+            List<SaleTender> findByCon = saleTenderService.findByCon(saleTender);
+            List<SaleTender> suppList = new ArrayList<SaleTender>();
+            if(findByCon != null && findByCon.size() > 0){
+                String methodCode = bidMethodService.getMethod(pack.getProjectId(), findByCon.get(0).getPackages());
+                if (methodCode != null && !"".equals(methodCode)) {
+                    if (("PBFF_JZJF".equals(methodCode))) {
+                        net.sf.json.JSONObject obj = net.sf.json.JSONObject.fromObject(findByCon.get(0).getReviewResult());
+                        Jzjf jzjf = (Jzjf) net.sf.json.JSONObject.toBean(obj,Jzjf.class);
+                        findByCon.get(0).setJzjf(jzjf);
+                    }
+                    if (!"OPEN_ZHPFF".equals(methodCode)) {
+                        BigDecimal pass = new BigDecimal(100);
+                        //合格的供应商
+                        if (findByCon.get(0).getEconomicScore() != null && findByCon.get(0).getTechnologyScore() != null && findByCon.get(0).getEconomicScore().compareTo(pass) == 0 && findByCon.get(0).getTechnologyScore().compareTo(pass) == 0) {
+                            suppList.add(findByCon.get(0));
+                        }
+                    } else {
+                        suppList.add(findByCon.get(0));
+                    }
+                    
+                    HashMap<String, Object> map = new HashMap<String, Object>();
+                    map.put("packageId", pack.getId());
+                    List<PackageExpert> selectList = packageExpertService.selectList(map);
+                    // 将专家进行排序,先经济,后技术
+                    List<PackageExpert> expertList = new ArrayList<PackageExpert>();
+                    for (PackageExpert packageExpert : selectList) {
+                        DictionaryData findById = DictionaryDataUtil.findById(packageExpert.getReviewTypeId());
+                        if (findById != null && "ECONOMY".equals(findById.getCode())) {
+                            expertList.add(packageExpert);
+                        }
+                    }
+                    for (PackageExpert exp : selectList) {
+                        DictionaryData data = DictionaryDataUtil.findById(exp.getReviewTypeId());
+                        if (data != null && "TECHNOLOGY".equals(data.getCode())) {
+                            expertList.add(exp);
+                        }
+                    }
+                    
+                }
+                model.addAttribute("methodCode", methodCode);
+            }
+            model.addAttribute("supplier", suppList.get(0));
+        }
+        return "sums/ss/planSupervision/view_graded";
     }
     
     //给每个包的供应商，和物资明细赋值

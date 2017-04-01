@@ -2,6 +2,8 @@ package sums.controller.ss;
 
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
@@ -490,81 +492,37 @@ public class ProjectSupervisionController {
     	}
     	model.addAttribute("project",project);
     	 return "sums/ss/projectSupervision/project_detail";
-    	
-    	/*
+    }
+    
+    
+    @RequestMapping("/viewPack")
+    public String viewPack(String projectId, Model model){
         if(StringUtils.isNotBlank(projectId)){
-            //项目明细
             HashMap<String, Object> map = new HashMap<>();
             map.put("id", projectId);
-            List<ProjectDetail> details = detailService.selectById(map);
-            HashMap<String, Object> st = new HashMap<>();
-            if(details != null && details.size() > 0){
-                for (int i = 0; i < details.size(); i++ ) {
-                    st.put("id", details.get(i).getRequiredId());
-                    st.put("projectId", projectId);
-                    List<ProjectDetail> list = detailService.selectByParentId(st);
-                    if(list.size() > 1){
-                        details.get(i).setPurchaseType(null);
-                    }
-                }
-                rank(details, projectId);
-                model.addAttribute("details", details);
-            }
-            model.addAttribute("kind", DictionaryDataUtil.find(5));
-            
-            
-            HashMap<String, Object> maps = new HashMap<>();
-            maps.put("projectId", projectId);
-            List<ProjectTask> projectTasks = projectTaskService.queryByNo(maps);
-            List<CollectPlan> listCollect = new ArrayList<>();
-            List<PurchaseRequired> listRequired = new ArrayList<>();
-            if(projectTasks != null && projectTasks.size() > 0){
-                for (ProjectTask projectTask : projectTasks) {
-                    Task task = taskService.selectById(projectTask.getTaskId());
-                    if(task != null){
-                        //采购计划列表
-                        CollectPlan collectPlan = collectPlanService.queryById(task.getCollectId());
-                        if(collectPlan != null){
-                            User user = userService.getUserById(collectPlan.getUserId());
-                            collectPlan.setUserId(user.getRelName());
-                            listCollect.add(collectPlan);
-                        }
-                        
-                        //需求计划列表
-                        HashSet<String> set = new HashSet<>();
-                        List<PurchaseDetail> details2 = purchaseDetailService.getUnique(task.getCollectId());
-                        for (PurchaseDetail detail : details2) { 
-                            set.add(detail.getFileId());
-                        }
-                        for (String string : set) {
-                            maps.put("fileId", string);
-                            List<PurchaseRequired> details3 = requiredService.getByMap(maps);
-                            if(details3 != null && details3.size() > 0){
-                                for (PurchaseRequired purchaseRequired : details3) {
-                                    if("1".equals(purchaseRequired.getParentId())){
-                                        User user = userService.getUserById(purchaseRequired.getUserId());
-                                        purchaseRequired.setUserId(user.getRelName());
-                                        listRequired.add(purchaseRequired);
-                                        break;
-                                    }
-                                }
+            List<ProjectDetail> selectById = detailService.selectById(map);
+            if(selectById != null && selectById.size() > 0){
+                map.put("projectId", projectId);
+                List<Packages> packages = packageService.findByID(map);
+                //判断有没有分包，没有分包进else
+                if(packages != null && packages.size() > 0){
+                    for (Packages packages2 : packages) {
+                        List<ProjectDetail> list = new ArrayList<ProjectDetail>();
+                        for (int i = 0; i < selectById.size(); i++ ) {
+                            if(packages2.getId().equals(selectById.get(i).getPackageId())){
+                                DictionaryData findById = DictionaryDataUtil.findById(selectById.get(i).getPurchaseType());
+                                selectById.get(i).setPurchaseType(findById.getName());
+                                list.add(selectById.get(i));
                             }
+                            sort(list);//进行排序
+                            packages2.setProjectDetails(list);
                         }
                     }
+                    model.addAttribute("packages", packages);
                 }
             }
-            model.addAttribute("listRequired", listRequired);
-            model.addAttribute("list", listCollect);
         }
-        if(StringUtils.isNotBlank(type) && "1".equals(type)){
-            return "sums/ss/projectSupervision/demand_view";
-        }
-        if(StringUtils.isNotBlank(type) && "2".equals(type)){
-            return "sums/ss/projectSupervision/plan_view";
-        }
-        if(StringUtils.isNotBlank(type) && "3".equals(type)){
-            return "sums/ss/projectSupervision/project_detail";
-        }*/
+        return "sums/ss/planSupervision/package_view";
     }
     
     /**
@@ -721,6 +679,23 @@ public class ProjectSupervisionController {
                 }
             }
         }
+    }
+    
+    /**
+     * 
+     *〈项目重新排序〉
+     *〈详细描述〉
+     * @author Administrator
+     * @param list
+     */
+    public void sort(List<ProjectDetail> list){
+        Collections.sort(list, new Comparator<ProjectDetail>(){
+           @Override
+           public int compare(ProjectDetail o1, ProjectDetail o2) {
+              Integer i = o1.getPosition() - o2.getPosition();
+              return i;
+           }
+        });
     }
     
     /**
