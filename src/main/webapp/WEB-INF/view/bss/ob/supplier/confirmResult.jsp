@@ -182,9 +182,16 @@
 		//页面加载进来计算合计金额
 		 var allCount = 0;
 		var allCount2 = 0;
+		var First;
+		var second=0;
 		if(passStatus==1){
+		   First=$("[name='confirmRatioFirst']").val();
+		}else if(passStatus==2){
+		  First=$("#confirmRatioFirst").text();
+		}
+		if(First){
 		$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],100,currentVal);
+							var afterCount = getDownRatioVal(changeRatioCounts[index],100,First);
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
 								if(index == indexPc) {
@@ -196,7 +203,8 @@
 							allCount += afterCount * productPrices[index];
 						});
 						$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
-			}else if(passStatus==2){
+			}
+			if(passStatus==2){
 		//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
 							var afterCount = getDownRatioVal(changeRatioCounts2[index],100,currentSecondVal);
@@ -211,7 +219,7 @@
 							allCount += afterCount * productPrices2[index];
 						});
 						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
-			}
+			 }	
 		$("[title='theProductTotalPrice']").each(function(index,element) {
 			allCount += parseFloat($(this).text());
 		});
@@ -576,11 +584,11 @@
 		  <td class="tc"  width="5%" title="theProductId">
 		  	${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
-		  	<input type="hidden" name="productName" value=" ${bidproduct.productId }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
 		  	<input type="hidden" name="productResultsCount" value=" "/>
-		  	<input type="hidden" name="productResultsNumber" value=" ${bidproduct.resultsNumber }"/>
-		  	<input type="hidden" name="productMyOfferMoney" value=" ${bidproduct.myOfferMoney }"/>
-		  	<input type="hidden" name="productDealMoney" value=" ${bidproduct.dealMoney }"/>
+		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>
+		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
+		  	<input type="hidden" name="productDealMoney" value="${bidproduct.dealMoney }"/>
 		  </td>
 		  <td class="tc" title="theProductName">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount">
@@ -650,10 +658,10 @@
 		  <td class="tc" title="theProductId2" width="5%">
 		  	 ${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
-		  	<input type="hidden" name="productName" value=" ${bidproduct.productId }"/>
-		  	<input type="hidden" name="productResultsNumber" value=" ${bidproduct.resultsNumber }"/>
-		  	<input type="hidden" name="productMyOfferMoney" value=" ${bidproduct.myOfferMoney }"/>
-		  	<input type="hidden" name="productDealMoney" value=" ${bidproduct.dealMoney }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
+		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>
+		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
+		  	<input type="hidden" name="productDealMoney" value="${bidproduct.dealMoney }"/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount2">
