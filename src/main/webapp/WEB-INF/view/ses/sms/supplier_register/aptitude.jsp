@@ -75,7 +75,7 @@
 							if(flag==true){
 								$("#items_info_form_id").submit();
 							}else{
-								layer.alert("请完善工作资质证书信息！");
+								layer.alert("请完善工程资质证书信息！");
 							}
 							
 					 	}
