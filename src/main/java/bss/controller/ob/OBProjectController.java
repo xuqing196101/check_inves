@@ -281,7 +281,7 @@ public class OBProjectController {
 					}
 				}
 		}
-		return "bss/ob/biddingInformation/supplierlist";
+		return "bss/ob/biddingInformation/offerSupplier";
 	}
 
 	/**

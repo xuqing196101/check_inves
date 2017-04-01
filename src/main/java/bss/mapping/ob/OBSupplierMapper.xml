@@ -607,18 +607,18 @@
   				AND PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   			</if> )
   		<if test="supplierName != null and supplierName != ''">
-			AND SUPPLIER_ID IN (SELECT ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%${supplierName}%')
+			AND SUPPLIER_ID IN (SELECT ID SUPPLIER_ID FROM T_SES_SMS_SUPPLIER WHERE SUPPLIER_NAME LIKE '%'||#{supplierName}||'%' )
 		</if>
 		<if test="smallPointsId != null and smallPointsId != ''">
 			AND SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR}
 		</if>
 		<!-- 过期 -->
   		<if test="status == 1">
-  			CERT_VALID_PERIOD &lt; SYSDATE
+  			AND CERT_VALID_PERIOD &lt; SYSDATE
   		</if>
 		<!-- 未过期 -->
   		<if test="status == 2">
-  			CERT_VALID_PERIOD &gt; SYSDATE
+  			AND CERT_VALID_PERIOD &gt; SYSDATE
   		</if>
 	</select>
 </mapper>
