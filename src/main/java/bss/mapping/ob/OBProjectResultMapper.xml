@@ -52,6 +52,24 @@
     <result column="NN" property="countSupplierProportion" jdbcType="DECIMAL" />
   </resultMap>
   
+  <!-- 定义 查询 确定第一，第二轮确认结果 -->
+  <resultMap id="BaseConfirmResultQuery" type="bss.model.ob.OBProjectResult" extends="BaseResultMap" >
+    <collection property="obResultSubtabulation" ofType="bss.model.ob.OBResultSubtabulation">
+	    <result column="PRODUCT_ID" property="productId" jdbcType="VARCHAR" />
+	    <!-- 竞价结果数量 -->
+	    <result column="RESULT_NUMBER" property="resultNumber" jdbcType="DECIMAL" />
+	    <!-- 成交单价 -->
+	    <result column="DEAL_MONEY" property="dealMoney" jdbcType="DECIMAL" />
+	    <!-- 自报单价 -->
+	    <result column="MY_OFFER_MONEY" property="myOfferMoney" jdbcType="DECIMAL" />
+	    <result column="TOTAL_MONEY" property="totalMoney" jdbcType="DECIMAL" />
+	    <!-- <association property="supplier" column="SUPPLIER_ID"
+				select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" /> -->
+		<association property="product" column="PRODUCT_ID"
+				select="bss.dao.ob.OBProductMapper.selectByPrimaryKey" />
+    </collection>
+  </resultMap>
+  
   <sql id="Example_Where_Clause" >
     <where >
       <foreach collection="oredCriteria" item="criteria" separator="or" >
@@ -622,4 +640,26 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
   	GROUP BY SUPPLIER_ID,RANKING,STATUS
   	
   </select>
+  <!-- 结果查询(第一轮确认的结果) -->
+  <select id="findConfirmResult" parameterType="Map" resultMap="BaseConfirmResultQuery">
+  	SELECT I.*, S.*
+	  FROM (SELECT *
+	          FROM (SELECT *
+	                  FROM T_BSS_OB_PROJECT_RESULT
+	                 WHERE PROJECT_ID = #{projectId}
+	                   AND SUPPLIER_ID = #{supplierId}
+	                 ORDER BY 
+	                  <if test="orderWay != null and orderWay != ''" >
+				       	#{orderWay}
+				      </if>
+	                 CREATED_AT) I
+	         WHERE ROWNUM = 1) I,
+	       T_BSS_OB_RESULT_SUBTABULATION S,
+	       T_BSS_OB_PRODUCT TP
+	 WHERE I.PROJECT_ID = S.PROJECT_ID
+	   AND I.SUPPLIER_ID = S.SUPPLIER_ID
+	   AND I.ID = S.PROJECT_RESULT_ID
+	   AND S.PRODUCT_ID = TP.ID
+  </select>
+  
 </mapper>

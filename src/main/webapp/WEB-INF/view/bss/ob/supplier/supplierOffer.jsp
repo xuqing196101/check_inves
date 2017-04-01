@@ -137,7 +137,12 @@
 						) 
 					}
 					if(data.status == 500){
-						layer.alert(data.msg);
+						layer.confirm(data.msg,{
+							btn:['确定']
+						},function(){
+								window.location.href="${pageContext.request.contextPath}/supplierQuote/list.html";
+							}
+						) 
 					}
 				});
 			});
@@ -228,7 +233,6 @@
 	    	<table class="table table-bordered table-condensed table-hover table-striped">
 			<thead>
 			<tr>
-			  <th class="w30 info"><input alt="" type="checkbox"></th>
 			  <th class="info">序号</th>
 			  <th class="info">定型产品名称</th>
 			  <th class="info">限价（元）</th>
@@ -239,7 +243,6 @@
 			</tr>
 			</thead>
 			<tr>
-			  <td class="tc"><input type="checkbox" alt=""></td>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
 			  <td class="tc"><span name="quotoTotalPrice" id="totalPrice"></span></td>

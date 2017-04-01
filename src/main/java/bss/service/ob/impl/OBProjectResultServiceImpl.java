@@ -53,7 +53,7 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Autowired
 	private OBProjectSupplierMapper mapper;
 	@Autowired
-	private OBRuleMapper OBRuleMapper;
+	private OBRuleMapper OBRuleMapper; 
 	
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
@@ -523,6 +523,26 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	@Override
 	public List<OBProjectResult> selByProjectId(String projectId) {
 		return oBProjectResultMapper.selByProjectId(projectId);
+	}
+	/**
+	 * 
+	* @Title: findConfirmResult 
+	* @Description: 查询 确定第一，第二轮确认结果
+	* @author Easong
+	* @param @param map
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public OBProjectResult findConfirmResult(Map<String, Object> map) {
+		// 调用查询确认结果方法
+		List<OBProjectResult> list = oBProjectResultMapper.findConfirmResult(map);
+		OBProjectResult obProjectResult = null;
+		if(list != null && list.size() > 0){
+			obProjectResult = list.get(0);
+			
+		}
+		return obProjectResult;
 	}
 
 }

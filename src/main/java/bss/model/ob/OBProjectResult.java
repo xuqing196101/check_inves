@@ -39,6 +39,9 @@ public class OBProjectResult {
     private List<OBProductInfo> productInfo;
     //报价
     private List<OBResultsInfo> OBResultsInfo;
+    
+    // 结果表子表OBResultSubtabulation
+    private List<OBResultSubtabulation> obResultSubtabulation;
 	/**
 	 * 供应商自报单价总和
 	 */
@@ -219,6 +222,17 @@ public class OBProjectResult {
 				+ ", countresultCount=" + countresultCount + "]";
 	}
 
+	public List<OBResultSubtabulation> getObResultSubtabulation() {
+		return obResultSubtabulation;
+	}
+
+	public void setObResultSubtabulation(
+			List<OBResultSubtabulation> obResultSubtabulation) {
+		this.obResultSubtabulation = obResultSubtabulation;
+	}
+
+	
+	
 	
 
 }
