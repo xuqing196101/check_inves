@@ -136,7 +136,7 @@ public class ExpertAuditServiceImpl implements ExpertAuditService {
 		if(expertAuditList!=null && expertAuditList.size()>0){
 			for (ExpertAudit expertAudit : expertAuditList) {
 				//修改状态为历史状态
-				expertAudit.setIsHistory("1");
+//				expertAudit.setIsHistory("1");
 				mapper.updateByPrimaryKeySelective(expertAudit);
 			}
 		}

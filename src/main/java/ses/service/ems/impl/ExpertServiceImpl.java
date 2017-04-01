@@ -740,7 +740,7 @@ public class ExpertServiceImpl implements ExpertService {
         for (ExpertAudit expertAudit : auditList) {
           //修改之前的审核信息为删除 和历史状态
           expertAudit.setIsDelete(1);
-          expertAudit.setIsHistory("1");
+//          expertAudit.setIsHistory("1");
           expertAuditMapper.updateByPrimaryKeySelective(expertAudit);
         }
       }
