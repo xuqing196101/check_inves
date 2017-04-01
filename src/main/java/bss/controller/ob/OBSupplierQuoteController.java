@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletRequest;
 
 
 
+
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -91,6 +92,10 @@ public class OBSupplierQuoteController {
 	@Autowired
 	private OBProjectServer OBProjectServer;
 	
+	// 第一轮结果确认
+	private static final String FIRST_CONFIRM = "firstConfirm";
+	// 第二轮结果确认
+	private static final String SECOND_CONFIRM = "secondConfirm";
 	
 	/**
 	 * @throws ParseException
@@ -769,6 +774,10 @@ public class OBSupplierQuoteController {
 	public String findQuotoIssueInfo(@CurrentUser User user, Model model, HttpServletRequest request){
 		// 获取标题id
 		String projectId = request.getParameter("id");
+		
+		// 获取第一轮确认结果标识
+		String confirmFlag = request.getParameter("flag");
+		
 		Map<String, Object> mapInfo = new HashMap<String, Object>();
 		if(projectId != null){
 			mapInfo.put("supplierId", user.getTypeId());
@@ -830,6 +839,22 @@ public class OBSupplierQuoteController {
 			model.addAttribute("fileid", obProject.getAttachmentId());
 			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
+			
+			
+			/***********************************第一轮结果确认信息****************************/
+			if(FIRST_CONFIRM.equals(confirmFlag)){
+				
+			}
+			
+			/***********************************第一轮结果确认信息结束****************************/
+			
+			
+			/***********************************第一轮结果确认信息****************************/
+			if(SECOND_CONFIRM.equals(confirmFlag)){
+				
+			}
+			
+			/***********************************第一轮结果确认信息结束****************************/
 		}
 		return "bss/ob/supplier/findQuotoIssueInfo";
 	}

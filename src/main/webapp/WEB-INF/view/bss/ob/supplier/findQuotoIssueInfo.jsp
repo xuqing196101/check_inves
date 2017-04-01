@@ -21,6 +21,33 @@
 				}
 			});
 		}
+		
+		function showPrompt(id,selectID){
+	 		  if(id){
+	 		  $.ajax({
+					async: false,
+					url: "${pageContext.request.contextPath }/product/productType.do",
+					type: "POST",
+					data: {productId:id},
+					success: function(data) {
+					if(data){
+			       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+			       	    '#'+selectID, {tips: [2, '#78BA32'],time:-1});
+							}else{
+							 inder=layer.tips("", 
+			       	    '#'+selectID, {tips: [2, '#78BA32']});
+							}
+					      },error:function(){
+					       layer.tips("错误！", 
+			       	    '#'+selectID, {tips: [2, '#78BA32']});
+					}
+	         });
+	     }
+	 	}
+		  //关闭
+		function closePrompt(){
+			layer.closeAll('tips');
+		}
 	</script>
 </head>
 <body>

@@ -6,6 +6,35 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 	<title>供应商报价页面</title>
+	<script type="text/javascript">
+		function showPrompt(id,selectID){
+	 		  if(id){
+	 		  $.ajax({
+					async: false,
+					url: "${pageContext.request.contextPath }/product/productType.do",
+					type: "POST",
+					data: {productId:id},
+					success: function(data) {
+					if(data){
+			       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+			       	    '#'+selectID, {tips: [2, '#78BA32'],time:-1});
+							}else{
+							 inder=layer.tips("", 
+			       	    '#'+selectID, {tips: [2, '#78BA32']});
+							}
+					      },error:function(){
+					       layer.tips("错误！", 
+			       	    '#'+selectID, {tips: [2, '#78BA32']});
+					}
+	         });
+	     }
+	 	}
+		  //关闭
+		function closePrompt(){
+			layer.closeAll('tips');
+		}
+	</script>
+	
 </head>
 <body>
 <!--面包屑导航开始-->
@@ -29,7 +58,7 @@
   </div>
   <div>
 	 <h2 class="count_flow"><i>2</i>产品信息</h2>
-	   <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfo.jsp" %>
+	   <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfoCommon.jsp" %>
 	 </div>
   
 	 <h2 class="count_flow"><i>3</i>供应商信息</h2>

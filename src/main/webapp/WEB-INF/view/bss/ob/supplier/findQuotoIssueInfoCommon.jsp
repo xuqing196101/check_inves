@@ -25,7 +25,7 @@
 				<tr>
 				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc">${ vs.index + 1 }</td>
-				  <td class="tc">${ oBResultsInfo.obProduct.name }</td>
+				  <td class="tc" id="t_${oBResultsInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ oBResultsInfo.obProduct.id }', 't_${oBResultsInfo.id}')">${ oBResultsInfo.obProduct.name }</td>
 				  <td class="tc">${ oBResultsInfo.limitPrice }</td>
 				  <td class="tc">${ oBResultsInfo.resultsNumber }</td>
 				  <td class="tc">${ oBResultsInfo.myOfferMoney }</td>

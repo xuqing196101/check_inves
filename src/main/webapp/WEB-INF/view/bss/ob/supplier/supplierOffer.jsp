@@ -167,6 +167,34 @@
 				}
 			});
 		}
+		
+		// 产品信息规格和参数 
+		function showPrompt(id,selectID){
+	 		  if(id){
+	 		  $.ajax({
+					async: false,
+					url: "${pageContext.request.contextPath }/product/productType.do",
+					type: "POST",
+					data: {productId:id},
+					success: function(data) {
+					if(data){
+			       	  layer.tips("产品规格型号："+data.standardModel+"<br/>"+"质量技术标准："+data.qualityTechnicalStandard, 
+			       	    '#'+selectID, {tips: [2, '#78BA32'],time:-1});
+							}else{
+							 inder=layer.tips("", 
+			       	    '#'+selectID, {tips: [2, '#78BA32']});
+							}
+					      },error:function(){
+					       layer.tips("错误！", 
+			       	    '#'+selectID, {tips: [2, '#78BA32']});
+					}
+	         });
+	     }
+	 	}
+		  //关闭
+		function closePrompt(){
+			layer.closeAll('tips');
+		}
 	</script>
 </head>
 <body>
@@ -225,7 +253,7 @@
 				  <input type="hidden" name="obResultsInfoExt[${ vs.index }].remark" value="${ productInfo.remark }">
 				  <td class="tc"><input type="checkbox" alt=""></td>
 				  <td class="tc">${ vs.index + 1 }</td>
-				  <td class="tc">${ productInfo.obProduct.name }</td>
+				  <td class="tc" id="t_${productInfo.id}" onmouseout="closePrompt()" onmouseover="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name }</td>
 				  <td class="tc" id="${ vs.index }">${ productInfo.limitedPrice }</td>
 				  <td class="tc">${ productInfo.purchaseCount }</td>
 				  <td class="tc" width="3px"><input id="" data-count="${ productInfo.purchaseCount }" name="obResultsInfoExt[${ vs.index }].myOfferMoney" onkeyup="totalPrice(this,'${productInfo.obProduct.id}','${ vs.index }')" type="text" class="w230 mb0 border0" /></td>

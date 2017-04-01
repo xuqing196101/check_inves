@@ -109,6 +109,7 @@
 		
 		function reloadPage(){
 			// 刷新页面
+			layer.msg("自动刷新页面");
 			window.location.reload();
 		}
 
@@ -347,7 +348,7 @@
 			
 			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第二轮放弃是查看的第一轮确认的结果
 			if((pStatus == 5 && pRemark == '4') (pStatus == 6 && pRemark == '4') || (pStatus == 6 && pRemark == '32')){
-				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?flag=firstConfirm&&projectId="+pId;
 			}
 			
 			// 6.第二轮结果已确认查看的是第二轮结果确认页面
