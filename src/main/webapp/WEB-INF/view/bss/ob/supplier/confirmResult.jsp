@@ -333,7 +333,6 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
-						layer.alert(obj.msg);
 						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
@@ -363,7 +362,6 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第二轮接受
-					layer.alert(obj.msg);
 						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},

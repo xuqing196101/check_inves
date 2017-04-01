@@ -352,6 +352,7 @@ public class OBSupplierQuoteController {
 		oBProjectResult.setProjectId(projectId);
 		oBProjectResult.setSupplierId(supplierId);
 		OBProject project=obProjectServer.selectByPrimaryKey(projectId);
+		int ranking=0;
 		 if(project!=null){
 			 //竞价结束时间 和当前时间比较
 		  if(project.getEndTime().getTime()<new Date().getTime()){
@@ -377,65 +378,29 @@ public class OBSupplierQuoteController {
 			  confirmStatus="3";
 		 }
 		  if(confirmStatus=="2"){
-			  List<OBProjectResult> peolist= OBProjectResultMapper.selectSupplierPeo(projectId);
-			  if(peolist!=null){
-				  //判断供应商接受的成交数 未达到  竞价成交供应商数量 
-			  if(project.getTradedSupplierCount()>=peolist.size()){
-				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
-				  if(obpro.getProportion().equals("100")){
-					  confirmStatus="6";
-				  	}else{
-			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
-			 OBProjectResult result=null;
-			 for(OBProjectResult obp:rankingList){
-				  if(obp.getSupplierId().equals(supplierId)){
-					  result=obp;
-					  break;
-				  }
-			 }
-			 if(result.getRanking()==1){
-				 confirmStatus="2";
-			 }else{
-				 int indexof=rankingList.indexOf(result);
-				 OBProjectResult result1=rankingList.get(indexof-1);
-				 if(result1.getRemark().equals("2")){
-					 confirmStatus="2";
-				 }else{
-					 confirmStatus="3";
+			  //获取 可以进行第一轮 供应商
+			  List< OBProjectResult> obresultsList = OBProjectResultMapper.getSecond(projectId);
+			  if(obresultsList!=null){
+				  OBProjectResult result=obresultsList.get(0);
+				  if(result.getSupplierId().equals(supplierId)){
+					  confirmStatus="2";
+				  }else{
+					  //顺推 前一名第二轮未确定
+						 ranking=result.getRanking();
+						 confirmStatus="8";
 				}
-			   }
-			   }
-			  }else{
-				  // 结束
-				  confirmStatus="6";
-			  }
+		     }else{
+		    	 //第二轮 已经结束
+		    	 confirmStatus="7";
 		     }
 		    }
 		  }
 		 }else{
 			 confirmStatus="4";
 		 }
-		  if(confirmStatus=="2"){
-			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
-			 OBProjectResult result=null;
-			 for(OBProjectResult obp:rankingList){
-				  if(obp.getSupplierId().equals(supplierId)){
-					  result=obp;
-					  break;
-				  }
-			 }
-			 if(result.getRanking()==1){
-				 confirmStatus="2";
-			 }else{
-				 int indexof=rankingList.indexOf(result);
-				 OBProjectResult result1=rankingList.get(indexof-1);
-				 if(result1.getRemark().equals("2")){
-					 confirmStatus="2";
-				 }else{
-					 confirmStatus="3";
-				 }
-			 }
-		  }
+		
+		
+		
 		 if(confirmStatus=="1"||confirmStatus=="2"){
 		  ConfirmInfoVo result=oBProjectResultService.selectSupplierDate(supplierId,projectId,confirmStatus);
 			model.addAttribute("sysCurrentTime", new Date());

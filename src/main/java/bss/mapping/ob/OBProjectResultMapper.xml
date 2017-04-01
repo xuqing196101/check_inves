@@ -221,7 +221,7 @@ ORDER BY RANKING
   <select id="getSecond" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select r.RANKING,COUNT(r.SUPPLIER_ID) as REMARK ,r.SUPPLIER_ID,s.REMARK as a from T_BSS_OB_PROJECT_RESULT r,T_BSS_OB_PROJECT_SUPPLIER s
     WHERE r.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and r.PROJECT_ID=s.PROJECT_ID and r.SUPPLIER_ID =s.SUPPLIER_ID
-     and (s.REMARK !=42 or s.REMARK!=3) 
+     and (s.REMARK !=42 and s.REMARK!=3 and s.REMARK != '32') 
       GROUP BY r.RANKING,r.SUPPLIER_ID,s.REMARK 
      HAVING COUNT(r.SUPPLIER_ID)=1
       ORDER BY r.RANKING
