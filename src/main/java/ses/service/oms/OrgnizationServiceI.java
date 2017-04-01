@@ -181,4 +181,5 @@ public interface OrgnizationServiceI {
      */
     Orgnization selectByShortName(String shortName);
 
+    String selectById(String id);
 }

@@ -96,6 +96,18 @@ public interface OBProductMapper {
 	
 	/**
 	 * 
+	 * Description: 撤回发布
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月1日 
+	 * @param  @param id 
+	 * @return void 
+	 * @exception
+	 */
+	void chfab(String id);
+	
+	/**
+	 * 
 	 * Description: 查询所有的末节点
 	 * 
 	 * @author  zhang shubin

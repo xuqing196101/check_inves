@@ -1018,6 +1018,13 @@ public class ExcelUtil {
 	        					 bool=false;
 		        				 break;
         					}
+        					List<Category> selectByCode = excelUtil.categoryService.selectByCode(categoryCode);
+        					if(selectByCode.get(0).getIsPublish() != 0){
+        						errMsg=String.valueOf(row.getRowNum()+1)+"行D列错误，只能添加已开放的目录!";
+        						map.put("errMsg", errMsg);
+	        					 bool=false;
+		        				 break;
+        					}
         					List<Category> list2 = excelUtil.categoryService.selectByCode(categoryCode);
         					HashMap<String, Object> map1 = new HashMap<String, Object>();
         					map1.put("id", list2.get(0).getId());

@@ -101,7 +101,7 @@ function download(bid){
 function resetQuery() {
 	var prodid = $("#prodid").val();
 	$("#form1").find(":input").not(":button,:submit,:reset,:hidden").val("").removeAttr("checked").removeAttr("selected");
-	window.location.href = "${pageContext.request.contextPath}/product/supplier.html?status=2&&prodid="+prodid;
+	window.location.href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId="+prodid;
 }
 </script>
 </head>
@@ -127,6 +127,14 @@ function resetQuery() {
 	    	<label class="fl">供应商名称：</label>
 			<input type="text" id="" class="" name = "supplierName" value="${supplierName }"/>
 	     </li>
+	     <li>
+			<label class="fl">供应商证书状态：</label>
+			<select class="w178" name = "status">
+				<option value="0">-请选择-</option>
+	    	    <option value="1" <c:if test="${'1'==status}">selected="selected"</c:if>>已过期</option>
+	    	    <option value="2" <c:if test="${'2'==status}">selected="selected"</c:if>>未过期</option>
+			</select>
+		</li>
 		<button type="submit" class="btn">查询</button>
 		<button type="reset" class="btn" onclick="resetQuery()">重置</button>  	
 		</ul>

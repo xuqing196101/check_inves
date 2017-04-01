@@ -28,6 +28,7 @@ $(function() {
         }
       }
     });
+    intiTree();
   });
 
 //重置
@@ -278,6 +279,96 @@ function fileUpload(){
 	function downCategory(){
 		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
 	}
+	
+	
+	/* 目录树 */
+	/** 判断是否为根节点 */
+    function isRoot(node){
+    	if (node.pId == 0){
+    		return true;
+    	} 
+    	return false;
+    }
+ 
+ /*点击事件*/
+    function zTreeOnClick(event,treeId,treeNode){
+  	  if (isRoot(treeNode)){
+  		  layer.msg("不可选择根节点");
+  		  return;
+  	  }
+	  if(!treeNode.isParent) {
+		  $("#citySel4").val(treeNode.name);
+          $("#categorieId4").val(treeNode.id);
+          hideMenu();
+	  }
+    }
+	
+    function intiTree(){
+  	  /* 加载目录信息 */
+  		var datas;
+  		var setting={
+  				   async:{
+  							autoParam:["id"],
+  							enable:true,
+  							otherParam:{"otherParam":"zTreeAsyncTest"},  
+  							dataType:"json",
+  							type:"get",
+  						},
+  						callback:{
+  					    	onClick:zTreeOnClick,//点击节点触发的事件
+  		       			    
+  					    }, 
+  						data:{
+  							keep:{
+  								parent:true
+  							},
+  							key:{
+  								title:"title"
+  							},
+  							simpleData:{
+  								enable:true,
+  								idKey:"id",
+  								pIdKey:"pId",
+  								rootPId:"0",
+  							}
+  					    },
+  					   view:{
+  					        selectedMulti: false,
+  					        showTitle: false,
+  					         showLine: true
+  					   },
+  		         };
+  		$.ajax({
+			url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
+			async: false,
+			dataType: "json",
+			success: function(data){
+				if (data.length == 1) {
+					layer.msg("没有符合查询条件的产品类别信息！");
+				} else {
+					zNodes = data;
+					zTreeObj = $.fn.zTree.init($("#treeDemo"),setting,zNodes);
+				}
+			}
+		});
+  	    
+    }
+   
+      function showMenu() {
+  		var cityObj = $("#citySel4");
+  		var cityOffset = $("#citySel4").offset();
+  		$("#menuContent").css({}).slideDown("fast");
+  		$("body").bind("mousedown", onBodyDown);
+  	}//left: "1049px", top: "282px"
+      function hideMenu() {
+  		$("#menuContent").fadeOut("fast");
+  		$("body").unbind("mousedown", onBodyDown);
+  	}
+  	function onBodyDown(event) {
+  		if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+  			hideMenu();
+  		}
+  	}
 
 </script>
 </head>
@@ -308,7 +399,12 @@ function fileUpload(){
 	     </li>
 	     <li>
 	    	<label class="fl">产品目录：</label>
-			<input type="text" id="" class="" name = "smallPointsName" value="${smallPointsName }"/>
+        		<input class="input_group" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly" >
+        		<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
+        		<!-- 目录框 -->
+				<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+					<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
+				</div>
 	     </li>
 		<li>
 			<label class="fl">供应商证书状态：</label>
@@ -330,8 +426,8 @@ function fileUpload(){
 		<button class="btn btn-windows add" type="button" onclick = "window.location.href = '${pageContext.request.contextPath }/obSupplier/addSupplieri.html'">添加</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
-		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载EXCEL模板</button>
-		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">导入EXCEL</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载批量导入模板</button>
+		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">批量导入</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="downCategory()">下载产品目录</button>
 	</div>
 	<div class="content table_box">

@@ -486,10 +486,18 @@
     WHERE ID = #{id,jdbcType=VARCHAR}
   </update>
   
+  
+  <!-- 撤回发布 -->
+  <update id="chfab" parameterType="String">
+  	UPDATE T_BSS_OB_PRODUCT
+    SET STATUS = 3
+    WHERE ID = #{id,jdbcType=VARCHAR}
+  </update>
+  
   <select id = "selectAllAmallPointsId" resultMap="BaseResultMap" parameterType="String">
   	SELECT DISTINCT SMALL_POINTS_ID
   	FROM T_BSS_OB_PRODUCT
-  	WHERE IS_DELETED = 0 AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0
+  	WHERE IS_DELETED = 0 AND STATUS = 2 AND SMALL_POINTS_ID IN (SELECT ID FROM T_SES_BMS_CATEGORY WHERE IS_PUBLISH = 0 AND IS_DELETED = 0
   	<if test="name != null">
   		AND NAME LIKE '%'||#{name}||'%' 
   	</if> )

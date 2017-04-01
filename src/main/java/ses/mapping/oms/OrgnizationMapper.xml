@@ -909,4 +909,12 @@
       WHERE 
       SHORT_NAME = #{shortName} AND IS_DELETED=0
 	</select>
+	
+ 	<select id="selectById" parameterType="String" resultType="String">
+	  SELECT 
+      	SHORT_NAME
+      FROM T_SES_OMS_ORG
+      WHERE 
+      ID = #{id}
+	</select>
 </mapper>

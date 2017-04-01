@@ -72,6 +72,11 @@ public class OBProductServiceImpl implements OBProductService {
 	public void fab(String id) {
 		oBProductMapper.fab(id);
 	}
+	
+	@Override
+	public void chfab(String id) {
+		oBProductMapper.chfab(id);
+	}
 
 	@Override
 	public List<OBProduct> selectAllAmallPointsId(String name) {

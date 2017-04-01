@@ -28,6 +28,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import ses.model.bms.Category;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.service.bms.CategoryService;
 import ses.service.oms.OrgnizationServiceI;
@@ -76,7 +77,6 @@ public class OBProductController {
 	@Autowired
 	private OrgnizationServiceI orgnizationService;
 	
-
 	/**
 	 * 
 	 * Description: 列表查询
@@ -185,6 +185,24 @@ public class OBProductController {
 		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
 			oBProductService.fab(id);
 	}
+	
+	/**
+	 * 
+	 * Description: 撤回发布
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月1日 
+	 * @param  @param request
+	 * @param  @param model 
+	 * @return void 
+	 * @exception
+	 */
+	@RequestMapping("/chfab")
+	@ResponseBody
+	public void chfab(HttpServletRequest request,Model model) {
+		String id = request.getParameter("id") == null ? "" : request.getParameter("id");
+			oBProductService.chfab(id);
+	}
 
 	
 	
@@ -268,9 +286,10 @@ public class OBProductController {
 			page = 1;
 		}
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
+		Integer status = request.getParameter("status") == null ? 0 : Integer.parseInt(request.getParameter("status"));
 		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-				0,supplierName,null,smallPointsId);
+				status,supplierName,null,smallPointsId);
 		if(list != null){
 			for (OBSupplier obSupplier : list) {
 				String id = obSupplier.getSmallPointsId();
@@ -292,6 +311,7 @@ public class OBProductController {
 		}
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
+		model.addAttribute("status", status);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
 		return "bss/ob/finalize_DesignProduct/qualifiedSupplierlist";
@@ -703,5 +723,47 @@ public class OBProductController {
 		return jsonString;
 	}
 
+	/**
+	 * 
+	 * Description: 查看产品信息
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月1日 
+	 * @param  @param model
+	 * @param  @param request
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("/view")
+	public String view(Model model, HttpServletRequest request){
+		String id = request.getParameter("productId") == null ? "" : request
+				.getParameter("productId");
+		OBProduct obProduct = oBProductService.selectByPrimaryKey(id);
+		if(obProduct != null){
+			Category category = categoryService.findById(obProduct.getSmallPointsId());
+			model.addAttribute("orgName", orgnizationService.selectById(obProduct.getProcurementId()));
+			if(category != null){
+				String name = category.getName();
+				model.addAttribute("categoryName", name);
+			}
+			String sid = obProduct.getSmallPointsId();
+				if(sid != null){
+					HashMap<String, Object> map1 = new HashMap<String, Object>();
+					map1.put("id", sid);
+					List<Category> clist = categoryService.findCategoryByParentNode(map1);
+					String str = "";
+					for (Category categorys : clist) {
+						if(!obProduct.getSmallPoints().getName().equals(categorys.getName())){
+							str += categorys.getName() +"/";
+						}
+					}
+					str+=obProduct.getSmallPoints().getName();
+					obProduct.setPointsName(str);
+				}
+			}
+		model.addAttribute("obProduct", obProduct);
+		return "bss/ob/finalize_DesignProduct/view";
+	}
 
 }

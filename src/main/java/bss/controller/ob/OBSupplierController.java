@@ -157,9 +157,9 @@ public class OBSupplierController  {
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
 		String supplierName = request.getParameter("supplierName") == null ? "" : request.getParameter("supplierName");
-		String smallPointsName = request.getParameter("smallPointsName") == null ? "" : request.getParameter("smallPointsName");
+		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
 		List<OBSupplier> list = oBSupplierService.selectByProductId(null, page,
-				status,supplierName,smallPointsName,null);
+				status,supplierName,null,smallPointsId);
 		if(list != null){
 			for (OBSupplier obSupplier : list) {
 				String id = obSupplier.getSmallPointsId();
@@ -179,11 +179,15 @@ public class OBSupplierController  {
 				}
 			}
 		}
+		Category cl = categoryService.findById(smallPointsId);
+		if(cl != null){
+			model.addAttribute("catName", cl.getName());
+		}
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("status", status);
 		model.addAttribute("supplierName", supplierName);
-		model.addAttribute("smallPointsName", smallPointsName);
+		model.addAttribute("smallPointsId", smallPointsId);
 		return "bss/ob/addSupplier/supplierlist";
 	}
 

@@ -235,4 +235,6 @@ public interface OrgnizationMapper {
      * @exception
      */
     Orgnization selectByShortName(String shortName);
+    
+    String selectById(@Param("id") String id);
 }

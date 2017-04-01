@@ -77,7 +77,7 @@
 		if(id.length > 0) {
 			for(var i=0;i<id.length;i++){
 				if($("#"+id[i]).html().replace(/\s+/g,"") == "发布"){
-					layer.msg("只能删除暂存的商品");
+					layer.msg("不能删除已发布的产品");
 					return false;
 				}
 			}
@@ -116,7 +116,7 @@
 			id.push($(this).val());
 		});
 		if(id.length == 1) {
-			if($("#"+id).html().replace(/\s+/g,"") == "暂存"){
+			if($("#"+id).html().replace(/\s+/g,"") == "暂存" || $("#"+id).html().replace(/\s+/g,"") == "已撤回"){
 			layer.confirm('您确定要发布吗?', {
 				title: '提示',
 				offset: ['222px', '360px'],
@@ -138,7 +138,7 @@
 				});
 			});
 		}else{
-			layer.msg("只能发布暂存的产品");
+			layer.msg("不能发布已发布过的产品");
 		}
 		} else if(id.length > 1) {
 			layer.alert("只能选择一个", {
@@ -147,6 +147,50 @@
 			});
 		} else {
 			layer.alert("请选择需要发布的产品", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		}
+	}
+	
+	/* 撤回发布 */
+	function chfb() {
+		var id = [];
+		$('input[name="chkItem"]:checked').each(function() {
+			id.push($(this).val());
+		});
+		if(id.length == 1) {
+			if($("#"+id).html().replace(/\s+/g,"") == "已发布" ){
+			layer.confirm('您确定要撤回吗?', {
+				title: '提示',
+				offset: ['222px', '360px'],
+				shade: 0.01
+			}, function(index) {
+				layer.close(index);
+				$.ajax({
+					url: "${pageContext.request.contextPath }/product/chfab.html",
+					type: "post",
+					data: {
+						id:id[0]
+					},
+					success: function() {
+						window.location.href = "${pageContext.request.contextPath }/product/list.html";
+					},
+					error: function() {
+						
+					}
+				});
+			});
+		}else{
+			layer.msg("只能撤回已发布的产品");
+		}
+		} else if(id.length > 1) {
+			layer.alert("只能选择一个", {
+				offset: ['222px', '390px'],
+				shade: 0.01
+			});
+		} else {
+			layer.alert("请选择需要撤回的产品", {
 				offset: ['222px', '390px'],
 				shade: 0.01
 			});
@@ -262,6 +306,10 @@
     <div class="search_detail">
        <form action="${pageContext.request.contextPath}/product/list.html" method="post" class="mb0" id = "form1">
     	<ul class="demand_list">
+    	<li>
+	    	<label class="fl">产品名称：</label>
+			<input type="text" id="topic" class="" name = "name" value="${productExample.name }"/>
+	      </li>
     	  <li>
 	    	<label class="fl">产品代码：</label>
 			<input type="text" id="topic" class="" name = "code" value="${productExample.code }"/>
@@ -269,15 +317,12 @@
     	  <li>
 	    	<label class="fl">产品状态：</label>
 	    	  <select class="w178" name="status">
-	    	    <option></option>
+	    	    <option value="0">全部</option>
 	    	    <option value="1" <c:if test="${'1'==productExample.status}">selected="selected"</c:if>>暂存</option>
-	    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>发布</option>
+	    	    <option value="2" <c:if test="${'2'==productExample.status}">selected="selected"</c:if>>已发布</option>
+	    	    <option value="3" <c:if test="${'3'==productExample.status}">selected="selected"</c:if>>已撤回</option>
 	    	  </select>
 	      </li>
-    	  <li>
-	    	<label class="fl">产品名称：</label>
-			<input type="text" id="topic" class="" name = "name" value="${productExample.name }"/>
-	      </li> 
 	    	<input class="btn fl mt1" type="submit" value="查询" /> 
 	    	<input class="btn fl mt1" type="button" onclick="resetQuery()" value="重置"/>	
     	</ul>
@@ -291,8 +336,9 @@
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn btn-windows apply" type="button" onclick="fb()">发布</button>
-		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载EXCEL模板</button>
-		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">导入EXCEL</button>
+		<button class="btn btn-windows withdraw" type="button" onclick="chfb()">撤回发布</button>
+		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载批量导入模板</button>
+		<button class="btn btn-windows btn btn-windows output" type="button" onclick="upload()">批量导入</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="downCategory()">下载产品目录</button>
 	</div>   
 	<div class="content table_box">
@@ -302,8 +348,8 @@
 		<tr>
 		  <th class="w30 info"><input id="checkAll" type="checkbox" onclick="selectAll()" /></th>
 		  <th class="w50 info">序号</th>
-		  <th class="info">产品代码</th>
 		  <th class="info">产品名称</th>
+		  <th class="info">产品代码</th>
 		  <th class="info">产品目录（末节点）</th>
 		  <th class="info">产品状态</th>
 		  <th class="info">合格供应商数量</th>
@@ -313,12 +359,13 @@
 		<tr>
 		  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${product.id }" /></td>
 		  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+		  <td><a href="${pageContext.request.contextPath }/product/view.html?productId=${product.id }">${product.name}</a></td>
 		  <td>${product.code}</td>
-		  <td><a href="javascript:void(0)">${product.name}</a></td>
 		  <td class="tc" title = "${product.pointsName }">${product.smallPoints.name }</td>
 		  <td class="tc" id = "${product.id }">
 		  	<c:if test="${product.status == 1}">暂存</c:if>
-		  	<c:if test="${product.status == 2}">发布</c:if>
+		  	<c:if test="${product.status == 2}">已发布</c:if>
+		  	<c:if test="${product.status == 3}">已撤回</c:if>
 		  </td>
 		  <td class="tc"><a href = "${pageContext.request.contextPath}/product/supplier.html?smallPointsId=${product.smallPointsId }">
 		  	<c:forEach items="${numlist }" var="num">

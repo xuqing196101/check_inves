@@ -847,4 +847,9 @@ public class OrgnizationServiceImpl implements OrgnizationServiceI{
 	public Orgnization selectByShortName(String shortName) {
 		return orgniztionMapper.selectByShortName(shortName);
 	}
+
+	@Override
+	public String selectById(String id) {
+		return orgniztionMapper.selectById(id);
+	}
 }
