@@ -95,7 +95,7 @@
 		});
 	    }
 	  }else{
-	  layer.alert("只能选择1项", {
+	  layer.alert("请选择1项", {
 			offset: ['222px', '390px'],
 			shade: 0.01
 		});
@@ -131,7 +131,7 @@
 		});
 	  }
 	   }else{
-	  layer.alert("只能选择1项", {
+	  layer.alert("请选择1项", {
 			offset: ['222px', '390px'],
 			shade: 0.01
 		});

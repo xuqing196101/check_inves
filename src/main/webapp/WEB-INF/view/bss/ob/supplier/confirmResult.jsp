@@ -219,7 +219,7 @@
 							allCount += afterCount * productPrices2[index];
 						});
 						$("[title='allProductTotalPrice2']").text(allCount.toFixed(2));
-			 }	
+			}	
 		$("[title='theProductTotalPrice']").each(function(index,element) {
 			allCount += parseFloat($(this).text());
 		});
@@ -585,7 +585,7 @@
 		  	${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
-		  	<input type="hidden" name="productResultsCount" value=" "/>
+		  	<input type="hidden" name="productResultsCount" value=""/>
 		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>
 		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
 		  	<input type="hidden" name="productDealMoney" value="${bidproduct.dealMoney }"/>
@@ -658,10 +658,10 @@
 		  <td class="tc" title="theProductId2" width="5%">
 		  	 ${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
-		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
-		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>
-		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
-		  	<input type="hidden" name="productDealMoney" value="${bidproduct.dealMoney }"/>
+		  	<input type="hidden" name="productName" value=" ${bidproduct.productId }"/>
+		  	<input type="hidden" name="productResultsNumber" value=" ${bidproduct.resultsNumber }"/>
+		  	<input type="hidden" name="productMyOfferMoney" value=" ${bidproduct.myOfferMoney }"/>
+		  	<input type="hidden" name="productDealMoney" value=" ${bidproduct.dealMoney }"/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>
 		  <td class="tc" title="theProductCount2">
