@@ -21,6 +21,6 @@ public class OBProjectTask {
 	 * 定时处理 竞价信息 业务逻辑
 	 */
 	public void handleOBProject(){
-		OBProjectServer.changeStatus();
+		OBProjectServer.changeStatus(null);
 	}
 }

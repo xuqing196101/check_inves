@@ -405,7 +405,15 @@ public class OBProjectController {
 		return "bss/ob/biddingSpectacular/list";
 
 	}
-
+	/**
+	 * 更新一个竞价信息的业务逻辑
+	 * @param request
+	 * @param projectId
+	 */
+	@RequestMapping("/changeStatus")
+    public void changeStatus( HttpServletRequest request,String projectId){
+		OBProjectServer.changeStatus(projectId);
+    }
 	/**
 	 * 
 	 * @Title: findBiddingResult

@@ -210,11 +210,14 @@
      order by  CREATED_AT DESC
   </select>
   <!--  不是暂存 和结束 的竞价数据-->
-  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="bss.model.ob.OBProject" >
+  <select id="selectByStatus" resultMap="BaseResultMap" parameterType="java.lang.String" >
     select 
     <include refid="Base_Column_List" />
     from T_BSS_OB_PROJECT
     where STATUS!=0 OR STATUS !=4 OR STATUS!=3 
+    <if test="id !=null and id!=''">
+    and ID=#{id,jdbcType=VARCHAR}
+    </if>
      order by  CREATED_AT DESC
   </select>
   

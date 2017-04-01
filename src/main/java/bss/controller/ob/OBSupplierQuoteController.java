@@ -266,7 +266,8 @@ public class OBSupplierQuoteController {
 			  if(project.getTradedSupplierCount()>=peolist.size()){
 				  OBProjectResult obpro=  OBProjectResultMapper.getAllProportion(projectId);
 				  if(obpro.getProportion().equals("100")){
-					  confirmStatus="6";
+					  //成交总额已完成
+					  confirmStatus="7";
 				  	}else{
 			 List<OBProjectResult> rankingList= OBProjectResultMapper.getStatus(projectId);
 			 OBProjectResult result=null;
@@ -284,14 +285,18 @@ public class OBSupplierQuoteController {
 				 if(result1.getRemark().equals("2")){
 					 confirmStatus="2";
 				 }else{
-					 confirmStatus="3";
+					 //顺推 前一名第二轮未确定
+					 confirmStatus="8";
 				}
 			   }
 			   }
 			  }else{
-				  // 结束
+				  // 成交供应商数量已到达上限，请耐心等待
 				  confirmStatus="6";
 			  }
+		     }else{
+		    	 //数据错误
+		    	 confirmStatus="0";
 		     }
 		    }
 		  }
@@ -337,7 +342,13 @@ public class OBSupplierQuoteController {
 			 jdcg.setMsg("第一轮未中标");
 		 }else if(confirmStatus=="6"){
 			 jdcg.setStatus(6);
-			 jdcg.setMsg("待结束");
+			 jdcg.setMsg("成交供应商数量已到达上限");
+		 }else if(confirmStatus=="7"){
+			 jdcg.setStatus(7);
+			 jdcg.setMsg("竞价已完成");
+		 }else if(confirmStatus=="8"){
+			 jdcg.setStatus(8);
+			 jdcg.setMsg("当前上一名第二轮未确定");
 		 }else{
 			 jdcg.setStatus(0);
 			 jdcg.setMsg("错误");

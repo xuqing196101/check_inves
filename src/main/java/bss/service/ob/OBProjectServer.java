@@ -106,7 +106,7 @@ public interface OBProjectServer {
 	 * @param @param id
 	 * @exception
 	 */
-	void changeStatus();
+	void changeStatus(String projectId);
 	/**
 	 * 
 	 * 获取 并集 供应商

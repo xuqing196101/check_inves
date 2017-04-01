@@ -735,10 +735,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	 */
 
 	@Override
-	public void changeStatus() {
+	public void changeStatus(String projectId) {
 		// TODO Auto-generated method stub
 		// 1.获取 不是暂存 和结束 的竞价数据
-		List<OBProject> getOBProject = OBprojectMapper.selectByStatus();
+		List<OBProject> getOBProject = OBprojectMapper.selectByStatus(projectId);
 		if (getOBProject != null) {
 			// 获取当前 默认规则
 			for (OBProject op : getOBProject) {
