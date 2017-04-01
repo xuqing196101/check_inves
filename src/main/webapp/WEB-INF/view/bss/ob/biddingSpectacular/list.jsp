@@ -128,6 +128,12 @@
 	        }
 	    }
 	
+		//重置按钮事件  
+	    function resetAll(){
+	        $("#name").val("");  
+	        $("#startTime").val("");  
+	        $("#endTime").val("");
+	    } 
 </script>
 </head>
 <body>
@@ -152,18 +158,18 @@
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价标题：</label>
-			<input name="name" value="${ name }" type="text" id="topic" class=""/>
+			<input id="name" name="name" value="${ name }" type="text" id="topic" class=""/>
 	      </li>
     	  <li>
 	    	<label class="fl">竞价开始时间：</label>
-	    	 <input name="startTime" value="${ startTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
+	    	 <input id="startTime" name="startTime" value="${ startTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({maxDate:'#F{$dp.$D(\'d18\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li>
     	  <li>
 	    	<label class="fl">竞价结束时间：</label>
-			<input name="endTime" value="${ endTimeStr }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
+			<input id="endTime" name="endTime" value="${ endTimeStr }" class="Wdate" type="text" id="d18" onfocus="WdatePicker({minDate:'#F{$dp.$D(\'d17\')}',dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
-	    	<button type="reset" class="btn fl mt1 ml5">重置</button>  	
+	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>

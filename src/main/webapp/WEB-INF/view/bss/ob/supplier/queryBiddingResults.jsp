@@ -28,43 +28,8 @@
 		<%@ include file="/WEB-INF/view/bss/ob/supplier/biddingInfoCommon.jsp" %>
   </div>
   <div>
-	  <h2 class="count_flow"><i>2</i>产品信息</h2>
-	   <ul class="ul_list">
-		<div class="content table_box">
-	    	<table class="table table-bordered table-condensed table-hover table-striped">
-			<thead>
-			<tr>
-			  <th class="w30 info">序号</th>
-			  <th class="info">定型产品名称</th>
-			  <th class="info">限价（元）</th>
-			  <th class="info">采购数量</th>
-			  <th class="info">总价（元）</th>
-			  <th class="info">备注信息</th>
-			</tr>
-			</thead>
-			<tr>
-			  <td class="tc"></td>
-			  <td class="tc" colspan="3">合计</td>
-			  <td class="tc">
-			  	<c:if test="${ totalCountPriceBigDecimal != '00' }">
-			  		${ totalCountPriceBigDecimal }
-			  	</c:if>
-			  </td>
-			  <td class="tc"></td>
-			</tr>
-			<c:forEach items="${ oBProductInfoList }" var="productInfo" varStatus="vs">
-				<tr>
-				  <td class="tc">${ vs.index + 1 }</td>
-				  <td class="tc" id="t_${productInfo.id}" onmousemove="showPrompt('${ productInfo.obProduct.id }', 't_${productInfo.id}')">${ productInfo.obProduct.name } </td>
-				  <td class="tc">${ productInfo.limitedPrice }</td>
-				  <td class="tc">${ productInfo.purchaseCount }</td>
-				  <td class="tc">${ productInfo.totalMoneyStr }</td>
-				  <td class="tc">${ productInfo.remark }</td>
-				</tr>
-			</c:forEach>
-		</table>
-	  </div>
-	  </ul>
+	 <h2 class="count_flow"><i>2</i>产品信息</h2>
+	   <%@ include file="/WEB-INF/view/bss/ob/supplier/productIssueInfo.jsp" %>
 	 </div>
   
 	 <h2 class="count_flow"><i>3</i>供应商信息</h2>

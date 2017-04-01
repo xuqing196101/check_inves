@@ -37,7 +37,6 @@
 	</div>
 	<h2 class="count_flow">报价信息</h2>
 		<%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
-      <!-- <div id="pagediv" align="right"></div> -->
    </div>
 </body>
 </html>

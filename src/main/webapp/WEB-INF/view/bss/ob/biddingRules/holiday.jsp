@@ -135,6 +135,12 @@
 		$("#queryForm").attr("action","${pageContext.request.contextPath}/obrule/holidayList.html");
 		$("#queryForm").submit();
 	}
+	
+	//重置按钮事件  
+    function resetAll(){
+        $("#specialDate").val("");  
+        $("#dateType").val("");  
+    }
 </script>
 </head>
 <body>
@@ -160,18 +166,18 @@
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">设置日期：</label>
-			<input name="specialDate" value="${ specialDateStr }" class="Wdate" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
+			<input id="specialDate" name="specialDate" value="${ specialDateStr }" class="Wdate" type="text" id="d17" onfocus="WdatePicker({firstDayOfWeek:1})"/>
 	      </li>
     	  <li>
 	    	<label class="fl">类型：</label>
-	    	  <select name="dateType" class="w178">
+	    	  <select id="dateType" name="dateType" class="w178">
 	    	    <option value="">--请选择--</option>
 	    	    <option value="1" <c:if test="${'1' eq dateType}">selected</c:if>>上班</option>
 	    	    <option value="0" <c:if test="${'0' eq dateType}">selected</c:if>>放假</option>
 	    	  </select>
 	      </li>
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
-	    	<button type="reset" class="btn fl ml5 mt1">重置</button>  	
+	    	<button onclick="resetAll()" class="btn fl ml5 mt1">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>

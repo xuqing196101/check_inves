@@ -346,7 +346,7 @@
 			}
 			
 			// 5.第一轮结果已确认、第二轮结果待确认查看的是第一轮结果确认页面  --第二轮放弃是查看的第一轮确认的结果
-			if((pStatus == 5 && pRemark == '4') || (pStatus == 6 && pRemark == '32')){
+			if((pStatus == 5 && pRemark == '4') (pStatus == 6 && pRemark == '4') || (pStatus == 6 && pRemark == '32')){
 				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?projectId="+pId;
 			}
 			

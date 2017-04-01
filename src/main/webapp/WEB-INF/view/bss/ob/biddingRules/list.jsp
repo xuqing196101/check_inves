@@ -185,6 +185,13 @@
 	function createOBRules(){
 		window.location.href="${pageContext.request.contextPath}/obrule/addRuleUI.html";
 	}
+	
+	//重置按钮事件  
+    function resetAll(){
+        $("#name").val("");  
+        $("#quoteTime").val("");  
+        $("#intervalWorkday").val("");
+    }
 </script>
 </head>
 <body>
@@ -210,7 +217,7 @@
     	<ul class="demand_list">
     	  <li>
 	    	<label class="fl">竞价规则名称：</label>
-			<input name="name" type="text" value="${name}"/>
+			<input id="name" name="name" type="text" value="${ name }"/>
 	      </li>
     	  <li>
 	    	<label class="fl">报价时间（分钟）：</label>
@@ -226,7 +233,7 @@
 			<input name="intervalWorkday" id="intervalWorkday" type="text" value="${ intervalWorkday }"/>
 	      </li> 
 	    	<button type="button" onclick="query()" class="btn fl mt1">查询</button>
-	    	<button type="reset" class="btn fl mt1 ml5">重置</button>  	
+	    	<button onclick="resetAll()" class="btn fl mt1 ml5">重置</button>  	
     	</ul>
     	  <div class="clear"></div>
        </form>
