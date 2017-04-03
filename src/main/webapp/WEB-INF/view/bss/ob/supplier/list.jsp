@@ -260,6 +260,11 @@
 				   return;
 			   }
 			   
+			   if(status == '6' && remark == '32'){
+				   layer.alert("您已放弃第二轮确认结果 ！");
+				   return;
+			   }
+			   
 			   // 确认结果
 			   if((status == '5' && remark == '1') || (status == '6' && remark == '5') || (status == '6' && remark == '4')){
 			   	   $.ajax({
@@ -353,7 +358,7 @@
 			
 			// 6.第二轮结果已确认查看的是第二轮结果确认页面
 			if((pStatus == 6 && pRemark == '42')){
-				window.location.href="${pageContext.request.contextPath}/supplierQuote/queryBiddingResult.html?flag=secondConfirm&&id="+pId;
+				window.location.href="${pageContext.request.contextPath}/supplierQuote/findQuotoIssueInfo.html?flag=secondConfirm&&id="+pId;
 			}
 			
 	    }
@@ -479,6 +484,9 @@
 						</c:when>
 						<c:when test="${obProject.remark == '32'}">
 							放弃确认(第二轮)
+						</c:when>
+						<c:when test="${obProject.remark == '3'}">
+							放弃确认(第一轮)
 						</c:when>
 						<%-- <c:when test="${obProject.remark == '4'}">
 							待结束

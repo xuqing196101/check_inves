@@ -1179,7 +1179,7 @@ public class ExcelUtil {
         					String supplierName = cell.getRichStringCellValue().toString();
         					List<Supplier> listsupplier = excelUtil.supplierService.selByName(supplierName);
         					//验证供应商是否存在
-        					if(listsupplier == null){
+        					if(listsupplier == null || listsupplier.size() < 1){
         						errMsg=String.valueOf(row.getRowNum()+1)+"行A列错误，供应商不存在!";
         						map.put("errMsg", errMsg);
 	        					 bool=false;

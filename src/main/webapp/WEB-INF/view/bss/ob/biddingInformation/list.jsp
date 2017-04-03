@@ -67,10 +67,20 @@
 	
 	//创建竞价项目
 	function create(){
+	 var orgid='${orgId}';
+	   if(orgid=='0'){
 	 window.location.href = "${pageContext.request.contextPath}/ob_project/add.html";
+	 }else{
+	 layer.alert("您不是需求部门不能创建", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	 }
 	}
 	/**编辑 **/
 	function release(){
+	 var orgid='${orgId}';
+	   if(orgid=='0'){
 	 var id = [];
 	   $('input[name="chkItem"]:checked').each(function() {
 	   		id.push($(this).val());
@@ -100,9 +110,17 @@
 			shade: 0.01
 		});
 	 }
+	 }else{
+	  layer.alert("您不是需求部门不能编辑", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	 }
 	}
 		/**删除 **/
 	function del(){
+	 var orgid='${orgId}';
+	   if(orgid=='0'){
 	  var id = [];
 	   $('input[name="chkItem"]:checked').each(function() {
 	   		id.push($(this).val());
@@ -136,14 +154,28 @@
 			shade: 0.01
 		});
 	 }
+	 }else{
+	 layer.alert("您不是需求部门不能删除", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	 }
 	}
 	
 	/**发布竞价项目**/
 	function releaseHref(checkID){
+	   var orgid='${orgId}';
+	   if(orgid=='0'){
 	  if(checkID){
 	   window.location.href ="${pageContext.request.contextPath}/ob_project/editOBProject.html?status=1&obProjectId="+checkID;
 	  }else{
 	  layer.alert("请选择暂存的竞价", {
+			offset: ['222px', '390px'],
+			shade: 0.01
+		});
+	   }
+	  }else{
+	   layer.alert("您不是需求部门不能创建", {
 			offset: ['222px', '390px'],
 			shade: 0.01
 		});

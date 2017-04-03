@@ -412,14 +412,14 @@
       PURCHASE_ID = #{purchaseId,jdbcType=VARCHAR}
     where ID = #{id,jdbcType=VARCHAR}
   </update>
-  	<select id="selectByParentId"  resultMap="BaseResultMap">
+  	<select id="selectByParentId"  resultMap="BaseResultMap" flushCache="true">
   		SELECT
 				*
 			FROM
 				(select * from T_BSS_PPMS_PROJECTS_DETAIL where PROJECT_ID = #{projectId})
 			START WITH REQUIRED_ID = #{id} CONNECT BY PRIOR REQUIRED_ID = PARENT_ID
     </select>
-    <select id="selectByParent"  resultMap="BaseResultMap">
+    <select id="selectByParent"  resultMap="BaseResultMap" flushCache="true">
       SELECT
 				*
 			FROM

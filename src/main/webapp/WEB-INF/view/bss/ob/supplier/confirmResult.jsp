@@ -144,10 +144,12 @@
 				} else if(currentPressKey == 13 || currentPressKey == 18) {
 					//删除键和回车，放行
 				} else {
+				firstInit(currentVal,changeRatioCounts,productPrices,eachProductCount);
 					$(this).val(currentVal);
 					layer.alert("请输入合法数字");
 				}
 			} else {
+			firstInit(currentVal,changeRatioCounts,productPrices,eachProductCount);
 				$(this).val(currentVal);
 				layer.alert("已经在第二轮,不能修改第一轮的数据");
 			}
@@ -189,10 +191,12 @@
 				} else if(currentPressKey == 13 || currentPressKey == 18) {
 					//删除键和回车，放行
 				} else {
+				secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
 					$(this).val(currentSecondVal);
 					layer.alert("请输入合法数字");
 				}
 			} else {
+			secoundInit(currentSecondVal, changeRatioCounts2, productPrices2, eachProductCount);
 				$(this).val(currentSecondVal);
 				layer.alert("已经在第一轮,不能修改第二轮的数据");
 			}
@@ -333,7 +337,6 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第一轮接受
-						layer.alert(obj.msg);
 						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
@@ -363,7 +366,6 @@
 					data : JSON.stringify(projectResultList),
 					contentType:"application/json",
 					success : function(obj) {//第二轮接受
-					layer.alert(obj.msg);
 						layer.close(inde);
 						window.location.href = "${pageContext.request.contextPath}/supplierQuote/list.html";
 					},
@@ -688,9 +690,9 @@
 		  <td class="tc" title="theProductId2" width="5%">
 		  	 ${vs.index + 1 }
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
-		  	<input type="hidden" name="productName" value=" ${bidproduct.productId }"/>
-		  	<input type="hidden" name="productResultsNumber" value=" ${bidproduct.resultsNumber }"/>
-		  	<input type="hidden" name="productMyOfferMoney" value=" ${bidproduct.myOfferMoney }"/>
+		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
+		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>
+		  	<input type="hidden" name="productMyOfferMoney" value="${bidproduct.myOfferMoney }"/>
 		  	<input type="hidden" name="productDealMoney" value=" ${bidproduct.dealMoney }"/>
 		  </td>
 		  <td class="tc">${bidproduct.productName }</td>

@@ -8,7 +8,7 @@
     <%@ include file="/WEB-INF/view/common.jsp"%>
     <script type="text/javascript">
       function view(id){
-        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewOver.html?projectId="+id;
+        window.location.href = "${pageContext.request.contextPath}/projectSupervision/viewPack.html?projectId="+id;
       }
       function contractList(id){
     	  window.location.href = "${pageContext.request.contextPath}/projectSupervision/contractList.html?projectId="+id;

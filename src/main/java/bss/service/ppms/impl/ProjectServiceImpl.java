@@ -518,4 +518,39 @@ public class ProjectServiceImpl implements ProjectService {
         return lists;
     }
 
+    @Override
+    public HashMap<String, Object> getFlowDefine(String purchaseTypeId, String projectId) {
+        HashMap<String, Object> map = new HashMap<String, Object>();
+        FlowDefine fd = new FlowDefine();
+        fd.setPurchaseTypeId(purchaseTypeId);
+        //该采购方式定义的流程环节
+        List<FlowDefine> fds = flowDefineMapper.findList(fd);
+        for (FlowDefine flowDefine : fds) {
+            FlowExecute flowExecute = new FlowExecute();
+            flowExecute.setProjectId(projectId);
+            flowExecute.setFlowDefineId(flowDefine.getId());
+            //获取该项目该环节的执行情况
+            List<FlowExecute> flowExecutes2 = flowExecuteMapper.findExecuted(flowExecute);
+            if (flowExecutes2 != null && flowExecutes2.size() > 0) {
+                Integer s = flowExecutes2.get(0).getStatus();
+                if (s == 1) {
+                    //已执行状态
+                    flowDefine.setStatus(1);
+                } else if (s == 2) {
+                    //执行中状态
+                    flowDefine.setStatus(2);
+                }else if (s == 3) {
+                    //当前环节结束
+                    flowDefine.setStatus(3);
+                }
+            } else {
+                //未执行状态
+                flowDefine.setStatus(0);
+            }
+        }
+        map.put("url", fds.get(0).getUrl()+"?projectId="+projectId+"&flowDefineId="+fds.get(0).getId());
+        map.put("fds", fds);
+        return map;
+    }
+
   }

@@ -88,8 +88,10 @@
 	</c:if>	
   <!-- 第而轮确认结果信息 -->
  	<c:if test="${ confirmFlag=='secondConfirm' }">
-    	<h2 class="count_flow"><i>4</i>第二轮确认结果信息</h2>
+ 		<h2 class="count_flow"><i>3</i>第一轮确认结果信息</h2>
 		<%@ include file="/WEB-INF/view/bss/ob/supplier/resultIssueInfoCommon.jsp" %>
+    	<h2 class="count_flow"><i>4</i>第二轮确认结果信息</h2>
+		<%@ include file="/WEB-INF/view/bss/ob/supplier/secondResultIssueInfoCommon.jsp" %>
 	</c:if>	
  </div>
 </body>

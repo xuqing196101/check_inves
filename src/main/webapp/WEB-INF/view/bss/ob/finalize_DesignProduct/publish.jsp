@@ -239,13 +239,12 @@
 						</tr>
 						<tr>
 							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
-							<td width="32%"><select id="orgId"
+							<td width="32%">
+							<select id="orgId"
 								name="supplierId" style="width: 66%;" onchange="pover()">
 									<option value=""></option>
-							</select> 
+							</select>
 								<div class="star_red" id="ppro"></div></td>
-								
-								
 							<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
 							<td >
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">

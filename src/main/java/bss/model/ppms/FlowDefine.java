@@ -58,7 +58,7 @@ public class FlowDefine {
     private String purchaseTypeId;
     
     /**
-     * @Fields status : 1:已执行，2：执行中，3：未执行，4：将要执行
+     * @Fields status : 0:未执行，1:已执行，2：执行中，3：环节结束（不可再操作），4：将要执行
      */
     private Integer status;
 
