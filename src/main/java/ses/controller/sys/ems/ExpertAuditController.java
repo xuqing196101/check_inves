@@ -33,16 +33,20 @@ import ses.model.bms.Todos;
 import ses.model.bms.User;
 import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
+import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
 import ses.model.ems.ExpertHistory;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Expertsignature;
+import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierCateTree;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.EngCategoryService;
 import ses.service.bms.TodosService;
+import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
@@ -102,6 +106,9 @@ public class ExpertAuditController {
 	 */
 	@Autowired
 	private AreaServiceI areaService;
+	
+	@Autowired
+	private ExpertAuditOpinionService expertAuditOpinionService;
 
 	/**
 	 * @Title: expertAuditList
@@ -1335,9 +1342,15 @@ public class ExpertAuditController {
 		String expertsType = expertType.toString().substring(0, expertType.length() - 1);
 		dataMap.put("expertsTypeId", expertsType);
 		
-		
-		//最终意见
-		dataMap.put("reason", "无");
+		//获取最终意见
+		ExpertAuditOpinion expertAuditOpinion = new ExpertAuditOpinion();
+		expertAuditOpinion.setExpertId(expert.getId());
+		expertAuditOpinion = expertAuditOpinionService.selectByPrimaryKey(expertAuditOpinion);
+		if(expertAuditOpinion != null){
+			dataMap.put("reason", expertAuditOpinion.getOpinion() == null ? "无" : expertAuditOpinion.getOpinion());
+		}else{
+			dataMap.put("reason", "无");
+		}
 		
 		// 获取专家类别id
         List < String > expertTypeId = new ArrayList < String > ();
@@ -1706,6 +1719,21 @@ public class ExpertAuditController {
 			System.out.println(str.toString());
 		}
 		
+	}
+	
+	/**
+	 * @Title: auditOpinion
+	 * @author XuQing 
+	 * @date 2017-4-3 下午12:18:11  
+	 * @Description:
+	 * @param @param supplierAuditNot      
+	 * @return void
+	 */
+	@RequestMapping(value = "/auditOpinion")
+	@ResponseBody
+	public void auditOpinion(ExpertAuditOpinion expertAuditOpinion) {
+		expertAuditOpinion.setCreatedAt(new Date());
+		expertAuditOpinionService.insertSelective(expertAuditOpinion);
 	}
 
 }

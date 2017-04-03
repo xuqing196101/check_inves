@@ -3,16 +3,17 @@ package ses.model.ems;
 import java.util.Date;
 
 public class ExpertAuditOpinion {
-	private String ID;
+	private String id;
 	private String expertId;
 	private String opinion;
 	private Date updatedAt;
 	private Date createdAt;
-	public String getID() {
-		return ID;
+	
+	public String getId() {
+		return id;
 	}
-	public void setID(String iD) {
-		ID = iD;
+	public void setId(String id) {
+		this.id = id;
 	}
 	public String getExpertId() {
 		return expertId;

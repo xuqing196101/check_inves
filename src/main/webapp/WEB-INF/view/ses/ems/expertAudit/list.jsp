@@ -90,16 +90,17 @@
 				var id = $(":radio:checked").val();
 				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
-				/* if(state == "初审通过" || state == "退回修改" || state == "初审退回" || state == "复审通过" || state == "复查通过") {
-					layer.msg("请选择未通过审核的专家 !", {
+				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "复审通过" || state == "复审未通过" || state == "复查通过" || state == "复查未通过") {
+					$("input[name='tableType']").val(str);
+					$("input[name='expertId']").val(id);
+					$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
+					$("#form_id").submit();
+				}else{
+					layer.msg("请选择审核过的专家 !", {
 						offset: '100px',
 					});
-					return;
-				} */
-				$("input[name='tableType']").val(str);
-				$("input[name='expertId']").val(id);
-				$("#form_id").attr("action", "${pageContext.request.contextPath}/expertAudit/download.html");
-				$("#form_id").submit();
+				}
+				
 			}
 
 			//重置搜索栏

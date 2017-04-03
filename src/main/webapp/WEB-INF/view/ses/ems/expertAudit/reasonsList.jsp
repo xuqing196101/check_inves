@@ -26,11 +26,32 @@
 
 			//提交审核
 			function shenhe(status) {
+			var expertId = $("input[name='expertId']").val();
+			
 				if(status == 3){
 					updateStepNumber("one");
 				}
-				$("#status").val(status);
-				$("#form_shenhe").submit();
+				if(status == 2 || status == 3 || status == 5 || status == 7 || status == 8){
+					var index = layer.prompt({
+						title: '请填写最终意见：',
+						formType: 2,
+						offset: '100px',
+						}, function(text) {
+							$.ajax({
+								url: "${pageContext.request.contextPath}/expertAudit/auditOpinion.html",
+								data: {"opinion" : text , "expertId" : expertId},
+								success: function() {
+									//提交审核
+									$("#status").val(status);
+									$("#form_shenhe").submit();
+								}
+						});
+					});
+				}else{
+					//提交审核
+					$("#status").val(status);
+					$("#form_shenhe").submit();
+				}
 			}
 			
 			function updateStepNumber(stepNumber){

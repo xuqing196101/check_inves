@@ -18,6 +18,7 @@
     <include refid="Base_Column_List" />
     from T_SES_EMS_EXPERT_AUDIT_OPINION
     where EXPERT_ID = #{expertId}
+    AND CREATED_AT = ( SELECT MAX(CREATED_AT) FROM T_SES_EMS_EXPERT_AUDIT_OPINION )
   </select>
 
   <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
