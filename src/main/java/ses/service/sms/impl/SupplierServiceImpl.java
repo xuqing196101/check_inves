@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.github.pagehelper.PageHelper;
+
 import ses.dao.bms.AreaMapper;
 import ses.dao.bms.CategoryMapper;
 import ses.dao.bms.CategoryQuaMapper;
@@ -86,6 +88,7 @@ import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
 import ses.util.Encrypt;
 import ses.util.PropUtil;
+import ses.util.PropertiesUtil;
 import ses.util.WfUtil;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -703,6 +706,12 @@ public class SupplierServiceImpl implements SupplierService {
         return map;
     }
 
+    public List<Supplier> query(Integer pageNum,Map<String,Object> map) {
+    	PropertiesUtil config = new PropertiesUtil("config.properties");
+		PageHelper.startPage(pageNum,Integer.parseInt(config.getString("pageSize")));
+    	return supplierMapper.query(map);
+    }
+    
     public List<Supplier> query(Map<String,Object> map) {
         return supplierMapper.query(map);
     }

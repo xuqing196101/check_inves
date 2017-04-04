@@ -140,6 +140,8 @@ public interface SupplierService {
    * @throws
     */
    public List<Supplier> query(Map<String,Object> map);
+   
+   public List<Supplier> query(Integer pageNum,Map<String,Object> map);
     
    public Date addDate(Date baseDate, int type, int num) ;
    /**

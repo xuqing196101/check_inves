@@ -57,12 +57,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.github.pagehelper.PageInfo;
 
+import bss.model.pms.PurchaseRequired;
 import common.constant.Constant;
 import common.model.UploadFile;
 import common.service.DownloadService;
 import common.service.UploadService;
 import common.utils.CommonStringUtil;
 import common.utils.JdcgResult;
+import common.utils.RequestTool;
 import common.utils.UploadUtil;
 import ses.controller.sys.sms.BaseSupplierController;
 import ses.model.bms.DictionaryData;
@@ -75,6 +77,7 @@ import ses.service.sms.SupplierService;
 import ses.util.FtpUtil;
 import ses.util.PropUtil;
 import ses.util.PropertiesUtil;
+import synchro.util.SpringBeanUtil;
 
 
 /*
@@ -107,16 +110,7 @@ public class IndexNewsController extends BaseSupplierController{
 	private DictionaryDataServiceI dictionaryDataServiceI;
 	
 	@Autowired
-	private UploadService uploadService;
-	
-	@Autowired
-	private DownloadService downloadService;
-	
-	@Autowired
-	private SupplierService suppService;
-	
-	@Autowired
-	private ExpertService expertService;
+	private UploadService uploadService;	
 	
 	@Autowired
 	private SearchService searchService;
@@ -1768,5 +1762,70 @@ public class IndexNewsController extends BaseSupplierController{
     model.addAttribute("indexMapper", indexMapper);
     return "iss/ps/index/index_chufa_two";
   }
+	
+	/**
+	 * 
+	* @Title: selectsumByDirectory
+	* @author tianzhiqiang 
+	* @date 2017-4-1 下午1:22:28  
+	* @Description: 专家名录、供应商名录更多页面 
+	* @param @param id
+	* @param @param model
+	* @param @return
+	* @param @throws Exception      
+	* @return String
+	 */
+	@RequestMapping(value = "/selectsumByDirectory", produces = "text/html;charset=UTF-8")
+	public String selectsumByDirectory(Model model,Integer page,HttpServletRequest request) throws Exception{
+		String act=request.getParameter("act");
+		//供应商名录
+		if("0".equals(act)){
+			SupplierService suppService=SpringBeanUtil.getBean(SupplierService.class);
+	        Map<String, Object> sMap = new HashMap<String, Object>();
+	        //只显示公开的
+	        sMap.put("IS_PUBLISH", 1);
+	      //处理查询参数
+			String supplierName=RequestTool.getParam(request,"supplierName","");
+			if(!"".equals(supplierName)){
+				sMap.put("supplierName", supplierName);
+				model.addAttribute("supplierName", supplierName );
+			}
+			String status=RequestTool.getParam(request,"status","");
+			if(!"".equals(status)){
+				sMap.put("status", status);
+				model.addAttribute("status", status );
+			}
+	        List<Supplier> list = suppService.query(page == null ? 1 : page,sMap);
+	        //return supplierList;
+	        //model.addAttribute("supplierList", supplierList);
+	        model.addAttribute("list",  new PageInfo<Supplier>(list));
+	        return "iss/ps/index/sumByPubSupplier";
+		}
+		else {//专家名录 ：1
+			Expert expert=new Expert();
+			//处理查询参数
+			String relName=RequestTool.getParam(request,"relName","");
+			if(!"".equals(relName)){
+				expert.setRelName(relName);
+				model.addAttribute("relName", relName );
+			}
+			String status=RequestTool.getParam(request,"status","");
+			if(!"".equals(status)){
+				expert.setStatus(status);
+				model.addAttribute("status", status );
+			}
+			
+			ExpertService expertService=SpringBeanUtil.getBean(ExpertService.class);
+			 //只显示公开的
+			expert.setIsPublish(1);
+			//分页
+	        List<Expert> list = expertService.selectAllExpert(page == null ? 1 : page, expert);
+	        model.addAttribute("list",  new PageInfo<Expert>(list));
+	        return "iss/ps/index/sumByPubExpert";
+		}
+
+	}
+	
+	
 	
 }

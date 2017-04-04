@@ -66,7 +66,9 @@
 			<mvc:exclude-mapping path="/browser/download.*" />
 			<mvc:exclude-mapping path="/browser/ntkoDownload.*" />
 			<mvc:exclude-mapping path="/park/getIndex.*" />
-			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />	
+			<mvc:exclude-mapping path="/userInfo/loginInfo.*" />
+			<mvc:exclude-mapping path="/index/selectsumByDirectory.*" />
+				
 
 <!-- 			首页登录 -->
 			<mvc:exclude-mapping path="/index/sign.*" />			

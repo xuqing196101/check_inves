@@ -544,14 +544,14 @@ function importAdd(){
 	       </div>
 	  <div class="col-md-5 col-sm-5 col-xs-10 mt10">
 	   <div class="headline-v2">
-         <h2>供应商名录<a  href="" class="fr f14">更多>></a></h2>
+         <h2>供应商名录<a  href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=0" class="fr f14">更多>></a></h2>
         </div>
          <div class="job-content col-md-12">
 		    <div class="categories">
              <ul class="p0_10 list-unstyled">
             
              <c:choose>
-            <c:when test="${my:getSupplierList()!=null }">
+            <c:when test="${!empty my:getSupplierList()}">
          <table class="table table-bordered " >
         <thead>
           <tr >
@@ -561,7 +561,7 @@ function importAdd(){
 			</tr>
 			</thead>
 			<tbody>
-			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="6" step="1" varStatus="status" > 
+			<c:forEach items="${my:getSupplierList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
 			<tr>
 			<td>${item.supplierName }</td>
 			<td class="tc"></td>
@@ -696,12 +696,12 @@ function importAdd(){
 	 		  </div>
 	 		  <div class="col-md-5 col-sm-5 col-xs-10 mt10 ">
 			   <div class="headline-v2">
-     		    <h2>专家名录<a href="#" class="fr f14">更多>></a></h2>
+     		    <h2>专家名录<a href="${pageContext.request.contextPath}/index/selectsumByDirectory.html?act=1" class="fr f14">更多>></a></h2>
      		   </div>
      		   <div class="job-content col-md-12 col-sm-12 col-xs-12">
 		    		<div class="categories zhuanjia_list">
              		 <c:choose>
-           			   <c:when test="${my:getExpertList()!=null }">
+           			   <c:when test="${!empty my:getExpertList()}">
          				<table class="table table-bordered " >
        					 <thead>
          					 <tr >
@@ -711,7 +711,7 @@ function importAdd(){
 							 </tr>
 						 </thead>
 				     	 <tbody>
-							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="6" step="1" varStatus="status" > 
+							<c:forEach items="${my:getExpertList()}" var="item" begin="0" end="5" step="1" varStatus="status" > 
 								<tr>
 									<td>${item.relName }</td>
 									<td class="tc"></td>

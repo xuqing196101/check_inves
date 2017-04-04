@@ -45,23 +45,23 @@
             <table class="table table-bordered mt10">
             <tbody>
               <tr>
-                <td width="25%" class="info">需求名称：</td>
-                <td width="25%">${demand.planName}</td>
-                <td width="25%" class="info">需求编号：</td>
-                <td width="25%">${demand.planNo}</td>
+                <td width="15%" class="info">需求名称：</td>
+                <td width="35%">${demand.planName}</td>
+                <td width="15%" class="info">需求编号：</td>
+                <td width="35%">${demand.planNo}</td>
               </tr>
               <tr>
-                <td width="25%" class="info">需求状态：</td>
+                <td width="15%" class="info">需求状态：</td>
                 <td width="25%">
                   <c:if test="${demand.status eq '1'}">未提交</c:if>
                   <c:if test="${demand.status eq '4'}">受理退回</c:if> 
                   <c:if test="${demand.status eq '2' || demand.status eq '3' || demand.status eq '5'}">已提交</c:if>
                  </td>
-                 <td width="25%" class="info">创建人：</td>
+                 <td width="15%" class="info">创建人：</td>
                 <td width="25%">${demand.userId}</td>
               </tr>
               <tr>
-                <td width="25%" class="info">创建日期：</td>
+                <td width="15%" class="info">创建日期：</td>
                 <td width="25%" colspan="3">
                   <fmt:formatDate value='${demand.createdAt}' pattern='yyyy-MM-dd HH:mm:ss' />
                 </td>
@@ -113,17 +113,17 @@
               <thead>
                 <tr class="info">
                   <th class="w50">序号</th>
-                  <th class="info goodsname">物资类别<br/>及名称</th>
-                  <th class="info stand">规格型号</th>
-                  <th class="info qualitstand">质量技术标准<br/>(技术参数)</th>
+                  <th class="info " width="10%">物资类别及名称</th>
+                  <th class="info ">规格型号</th>
+                  <th class="info " width="15%">质量技术标准<br/>(技术参数)</th>
                   <th class="info item">计量<br/>单位</th>
-                  <th class="info purchasecount">采购<br/>数量</th>
-                  <th class="info w150">单价<br/>（元）</th>
-                  <th class="info w150">预算金额<br/>（万元）</th>
-                  <th class="info deliverdate">交货<br/>期限</th>
-                  <th class="info purchasetype">采购方式</th>
-                  <th class="info purchasename">供应商名称</th>
-                  <th class="info">进度</th>
+                  <th class="info ">采购<br/>数量</th>
+                  <th class="info w80">单价<br/>（元）</th>
+                  <th class="info w120" >预算<br/>金额<br/>（万元）</th>
+                  <th class="info " width="10%" >交货期限</th>
+                  <th class="info " width="8%">采购方式</th>
+                  <th class="info " width="10%">供应商名称</th>
+                  <th class="info ">进度</th>
                 </tr>
               </thead>
               <tbody id="tbody_id">
@@ -131,20 +131,16 @@
                   <tr class="pointer">
                     <td class="tc w50">${obj.seq}</td>
                     <td title="${obj.goodsName}" class="tl pl20">
-                      <c:if test="${fn:length (obj.goodsName) > 8}">${fn:substring(obj.goodsName,0,7)}...</c:if>
-                      <c:if test="${fn:length(obj.goodsName) <= 8}">${obj.goodsName}</c:if>
+                      ${obj.goodsName}
                     </td>
                     <td title="${obj.stand}" class="tl pl20">
-                      <c:if test="${fn:length (obj.stand) > 8}">${fn:substring(obj.stand,0,7)}...</c:if>
-                      <c:if test="${fn:length(obj.stand) <= 8}">${obj.stand}</c:if>
+                      ${obj.stand}
                     </td>
                     <td title="${obj.qualitStand}" class="tl pl20">
-                      <c:if test="${fn:length (obj.qualitStand) > 8}">${fn:substring(obj.qualitStand,0,7)}...</c:if>
-                      <c:if test="${fn:length(obj.qualitStand) <= 8}">${obj.qualitStand}</c:if>
+                      ${obj.qualitStand}
                     </td>
                     <td title="${obj.item}" class="tl pl20">
-                      <c:if test="${fn:length (obj.item) > 8}">${fn:substring(obj.item,0,7)}...</c:if>
-                      <c:if test="${fn:length(obj.item) <= 8}">${obj.item}</c:if>
+                     ${obj.item}
                     </td>
                     <td class="tl pl20">${obj.purchaseCount}</td>
                     <td class="tr pr20">${obj.price}</td>
@@ -156,8 +152,7 @@
 		                  </c:forEach>
                     </td>
                     <td title="${obj.supplier}" class="tl pl20">
-                      <c:if test="${fn:length (obj.supplier) > 8}">${fn:substring(obj.supplier,0,7)}...</c:if>
-                      <c:if test="${fn:length(obj.supplier) <= 8}">${obj.supplier}</c:if>
+                      ${obj.supplier}
                     </td>
                     <td class="tc" onclick="view('${obj.id}')">
                       <c:if test="${obj.price != null}">

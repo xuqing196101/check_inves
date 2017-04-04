@@ -1542,6 +1542,9 @@
 		from T_SES_SMS_SUPPLIER
 		<where>
 			1=1
+			<if test="supplierName != null and supplierName !=''">
+			    and SUPPLIER_NAME like '%${supplierName}%'
+		    </if>
 			<if test="mobile != null">
 				and MOBILE = #{mobile}
 			</if>
@@ -1556,6 +1559,9 @@
 			</if>
 			<if test="IS_PUBLISH != null">
 				and IS_PUBLISH = #{IS_PUBLISH}
+			</if>
+			<if test="status != null and status != ''">
+				and SUPPLIER_STATUS in (${status})
 			</if>
 		</where>
 
