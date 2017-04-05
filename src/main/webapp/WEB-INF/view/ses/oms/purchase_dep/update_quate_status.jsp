@@ -32,8 +32,11 @@
 				        data : $("#formID").serialize(),
 				        success: function(data) {
 				        	if(data == 'ok'){
+				        	  layer.msg("修改成功");
 				        		parent.updateStatus(quaStatus,str);
 				        		cancel();
+				        	} else {
+				        	   layer.msg("原因说明不能为空");
 				        	}
 				        }
 			   		 });  

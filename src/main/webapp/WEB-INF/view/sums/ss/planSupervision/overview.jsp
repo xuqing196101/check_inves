@@ -871,7 +871,7 @@
                   </tr>
                   <tr>
                     <td class="tc"><button class="btn" onclick="sell('${packageId}','1')" type="button">查看</button></td>
-                    <td></td>
+                    <td>${operatorNames}</td>
                     <td>
 	                    ${begin}
 	                     <c:if test="${end!=null}">

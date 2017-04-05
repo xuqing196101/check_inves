@@ -27,6 +27,7 @@ import ses.service.bms.DictionaryDataServiceI;
 import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
+import ses.util.PropUtil;
 import bss.controller.base.BaseController;
 import bss.dao.pms.PurchaseRequiredMapper;
 import bss.formbean.AuditParamBean;
@@ -53,6 +54,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.ProjectTaskService;
 import bss.service.ppms.TaskService;
 
+import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import common.annotation.CurrentUser;
 import common.constant.StaticVariables;
@@ -138,15 +140,34 @@ public class TaskAdjustController extends BaseController{
 	 */
 	@RequestMapping("/list")
 	public String list(@CurrentUser User user,Model model,Task task,Integer page){
-		task.setPurchaseId(user.getOrg().getId());
-		task.setTaskNature(0);
-		List<Task> list = taskService.listAll(page== null ? 1: page,task);
-		PageInfo<Task> info = new PageInfo<Task>(list);
-		model.addAttribute("info", info);
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("typeName", "2");
-        List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
-        model.addAttribute("list2",orgnizations);
+	    if(user != null && user.getOrg() != null){
+	        HashMap<String, Object> map1 = new HashMap<>();
+            if(task.getName() !=null && !task.getName().equals("")){
+                map1.put("name", task.getName());
+            }
+            if(task.getDocumentNumber() != null && !task.getDocumentNumber().equals("")){
+                map1.put("documentNumber", task.getDocumentNumber());
+            }
+            if(task.getStatus() !=null){
+                map1.put("status", task.getStatus());
+            }
+            if(task.getTaskNature() != null){
+                map1.put("taskNature", task.getTaskNature());
+            }
+            map1.put("userId", user.getId());
+            if(page==null){
+                page = 1;
+            }
+            map1.put("page", page.toString());
+            PageHelper.startPage(page,Integer.parseInt(PropUtil.getProperty("pageSizeArticle")));
+            List<Task> list = taskService.likeByName(map1);
+            model.addAttribute("info", new PageInfo<Task>(list));
+            
+            HashMap<String, Object> map = new HashMap<>();
+            map.put("typeName", "2");
+            List<Orgnization> orgnizations = orgnizationService.findOrgnizationList(map);
+            model.addAttribute("list2",orgnizations);
+	    }
 		return "bss/pms/taskadjust/planlist";
 		
 	}

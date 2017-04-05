@@ -300,21 +300,17 @@
     from T_BSS_PQIMS_PQINFO p LEFT JOIN T_BSS_CS_PURCHASE_CONTRACT c on p.CONTRACT_ID = c.id
         where 1=1
 	 <if test="conclusion != null and conclusion !='-请选择-'">
-        p.CONCLUSION=#{conclusion} AND
+       AND p.CONCLUSION=#{conclusion} 
      </if>
      <if test="type != null and type !='-请选择-'">
-        p.TYPE=#{type} AND
+       AND p.TYPE=#{type} 
      </if>
      <if test="contract.code != null and contract.code != ''">
-        c.CODE LIKE '%'||#{contract.code}||'%' AND
+       AND c.CODE LIKE '%'||#{contract.code}||'%' 
      </if>
      <if test="contract.name != null and contract.name != ''">
-        c.NAME LIKE '%'||#{contract.name}||'%' AND
+      AND  c.NAME LIKE '%'||#{contract.name}||'%' 
      </if>
-     <if test="contract != null">
-        and p.CONTRACT_ID = #{contract.id} 
-      </if>
-     p.ID IS NOT NULL
      ORDER BY p.CREATED_AT DESC
   </select>
   

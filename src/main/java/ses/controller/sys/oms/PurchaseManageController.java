@@ -1013,6 +1013,7 @@ public class PurchaseManageController {
 		List<PurchaseDep> oList = purchaseOrgnizationServiceI.findPurchaseDepList(condtionmap);
 		model.addAttribute("list", new PageInfo<PurchaseDep>(oList));
 		model.addAttribute("purchaseDep", purchaseDep);
+		model.addAttribute("kind", DictionaryDataUtil.find(26));//获取数据字典数据
 		//logger.info(JSON.toJSONStringWithDateFormat(oList,"yyyy-MM-dd HH:mm:ss"));
 		return "ses/oms/purchase_dep/purchasedep_map_detail_list";
 	}

@@ -155,7 +155,12 @@
       window.location.href = "${pageContext.request.contextPath}/task/view.html?id=" + id;
     }
 	
-	
+	function clearSearch() {
+        $("#name").attr("value", "");
+        $("#documentNumber").attr("value", "");
+        //还原select下拉列表只需要这一句
+        $("#status option:selected").removeAttr("selected");
+      }
   </script>
   </head>
   
@@ -180,11 +185,6 @@
     <form id="form1" action="${pageContext.request.contextPath}/adjust/list.html" method="post" class="mb0">
     <input type="hidden" name="page" id="page">
     <ul class="demand_list">
-      <%--<li>
-        <label class="fl">需求部门：</label>
-        <span><input type="text" name="name" id="purchaseRequiredId" value="${task.name}" /></span>
-      </li>
-          --%>
           <li>
             <label class="fl">采购任务名称：</label>
             <span><input type="text" name="name" id="name" value="${task.name}" /></span>
@@ -232,7 +232,6 @@
             </tr>
           </thead>
           <c:forEach items="${info.list}" var="obj" varStatus="vs">
-            <c:if test="${orgId eq obj.purchaseId}"></c:if>
             <tr class="pointer">
               <td class="tc w30"><input type="checkbox" value="${obj.id }" name="chkItem" onclick="check()"></td>
               <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
