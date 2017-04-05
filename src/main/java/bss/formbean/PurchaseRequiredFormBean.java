@@ -2,6 +2,8 @@ package bss.formbean;
 
 import java.util.List;
 
+import ses.model.ems.ExpertSignature;
+
 import bss.model.pms.PurchaseAudit;
 import bss.model.pms.PurchaseDetail;
 import bss.model.pms.PurchaseRequired;
@@ -29,6 +31,7 @@ public class PurchaseRequiredFormBean {
 	
 	private List<PurchaseDetail> listDetail;
 	
+	private List<ExpertSignature> expertSignatureList;
 	
 	public List<PurchaseRequired> getList() {
 		return list;
@@ -76,6 +79,14 @@ public class PurchaseRequiredFormBean {
 
 	public void setListDetail(List<PurchaseDetail> listDetail) {
 		this.listDetail = listDetail;
+	}
+
+	public List<ExpertSignature> getExpertSignatureList() {
+		return expertSignatureList;
+	}
+
+	public void setExpertSignatureList(List<ExpertSignature> expertSignatureList) {
+		this.expertSignatureList = expertSignatureList;
 	}
     
     

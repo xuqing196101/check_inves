@@ -175,6 +175,20 @@
 							return(false); 
 						} 
 					};
+					
+					
+			function tianjia() {
+		    	layer.open({
+		      	type : 2,
+		        title : '选择专家',
+		        // skin : 'layui-layer-rim', //加上边框
+		        area : [ '800px', '500px' ], //宽高
+		        offset : '80px',
+		        scrollbar : false,
+		        content : '${pageContext.request.contextPath}/expertAudit/signature.html', //url
+		        closeBtn : 1, //不显示关闭按钮
+		      });
+		  };
 		</script>
 
 	</head>
@@ -257,6 +271,7 @@
 				</c:if>
 				<c:if test="${sign == 2 }">
 					<a class="btn btn-windows input" onclick='downloadTable(2)' href="javascript:void(0)">下载复审表</a>
+					<button class="btn btn-windows check" type="button" onclick="tianjia();">添加</button>
 				</c:if>
 				<c:if test="${sign == 3 }">
 					<a class="btn btn-windows input" onclick='downloadTable(3)' href="javascript:void(0)">下载复查表</a>
@@ -283,7 +298,7 @@
 					</thead>
 					<c:forEach items="${expertList}" var="expert" varStatus="vs">
 						<tr>
-							<td class="tc w40"><input name="id" type="radio" value="${expert.id}"></td>
+							<td class="tc w40"><input name="id" type="checkbox" value="${expert.id}"></td>
 							<td class="tc w50" onclick="shenhe('${expert.id}');">${(vs.count)+(result.pageNum-1)*(result.pageSize)}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.relName}</td>
 							<td class="tc" onclick="shenhe('${expert.id}');">${expert.sex}</td>

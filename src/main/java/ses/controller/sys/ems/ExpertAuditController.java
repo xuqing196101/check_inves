@@ -63,6 +63,8 @@ import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
 
+import bss.formbean.PurchaseRequiredFormBean;
+
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 import common.constant.Constant;
@@ -1851,12 +1853,12 @@ public class ExpertAuditController {
 	 * @return void
 	 */
 	@RequestMapping(value = "/signature")
-	public void signature(String[] ids, String expertId, Model model) {
-		Expert expert = new Expert();
-		expert.setStatus("1");
-		expert.setId(expertId);
-		expertSignatureService.insertSelective(ids, expertId);
-		this.updateStatus(expert, null, null);
+	public String signature(String[] ids, String expertId, Model model) {
+		 return "ses/ems/expertAudit/add_auditpersonnel";
 	}
     
+	@RequestMapping(value = "/saveSignature")
+	public void saveSignature(PurchaseRequiredFormBean purchaseRequiredFormBean) {
+		System.out.println(purchaseRequiredFormBean);
+	}
 }
