@@ -135,4 +135,16 @@ public interface OBProjectServer {
 	 */
 	List<OBSupplier>  supplierList (Integer page,String projectid,
 			String name,String status,String result);
+	
+	/**
+	 * 
+	* @Title: findBiddingInfo 
+	* @Description: 根据主键查询竞价信息
+	* @author Easong
+	* @param @param projectId
+	* @param @return    设定文件 
+	* @return OBProject    返回类型 
+	* @throws
+	 */
+	Map<String, Object> findBiddingInfo(String projectId);
 }

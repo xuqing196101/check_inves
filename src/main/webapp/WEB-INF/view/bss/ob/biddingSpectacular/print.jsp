@@ -13,7 +13,7 @@
 
 <body>
 <div class="container">
-<table  class="table table-bordered">
+<%-- <table  class="table table-bordered">
 		<tbody>
 			<tr>
 				<td class="tc" colspan="6" align="center"><br/>${ obProject.name }<br/>竞价结果信息表<br/><br/></td>
@@ -83,11 +83,66 @@
 				<td align="center" colspan="6">供应商确认中标数量总量为${chengjiao}，预定采购数量为${count}，剩余采购数量为${count-chengjiao}.</td>
 			</tr>
 			</tbody>
-		   </table>
-		   </div>
-		   <div class="col-md-12 clear tc mt10">
-	    	<button class="btn btn-windows print" onclick="printWord()">打印</button>
-	    	<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
-	    </div>
+		   </table> --%>
+	  <table class="table table-bordered mt10">
+	    <tbody>
+	      <tr>
+			<td class="tc" colspan="6" align="center"><br/><b>${ obProject.name }</b><br/>竞价结果信息表<br/><br/></td>
+		  </tr> 
+		  <tr>
+		    <td class="info"><b>竞价项目编号</b></td>
+		    <td>${ obProject.projectNumber }</td>
+		    <td class="info"><b>竞价项目名称</b></td>
+		    <td>${ obProject.name }</td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>交货地点</b></td>
+		    <td>${ obProject.deliveryAddress }</td>
+		     <td class="info"><b>交货时间</b></td>
+		    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>运杂费</b></td>
+		    <td>${ transportFees }</td>
+		    <c:if test="">
+			    <td colspan="2"></td>
+		    </c:if>
+		    <c:if test="${ empty obProject.transportFeesPrice }">
+			    <td colspan="2"></td>
+		    </c:if>
+		    <c:if test="${ !empty obProject.transportFeesPrice }">
+			    <td class="info"><b>运杂费用（元）</b></td>
+			    <td>${obProject.transportFeesPrice}</td>
+		    </c:if>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>需求单位</b></td>
+		    <td>${ demandUnit }</td>
+		    <td class="info"><b>采购机构</b></td>
+		    <td>${ orgName }</td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>需求联系人</b></td>
+		    <td>${ obProject.contactName }</td>
+		    <td class="info"><b>采购联系人：</b></td>
+		    <td>${ obProject.orgContactName }</td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>需求联系电话</b></td>
+		    <td>${ obProject.contactTel }</td>
+		    <td class="info"><b>采购联系电话</b></td>
+		    <td>${ obProject.orgContactTel }</td>
+		  </tr>
+		</tbody>
+	</table>
+	<%@ include file ="/WEB-INF/view/bss/ob/supplier/supplierCommon.jsp" %>
+	<div align="center">
+		<span><font size="3">供应商确认中标比例为<b>${countProportion }%</b>，未中标比例为<b>${100 - countProportion }%</b>.</font></span>
+	</div>
+	</div>
+	   <div class="col-md-12 clear tc mt10">
+    	<button class="btn btn-windows print" onclick="printWord()">打印</button>
+    	<button class="btn btn-windows back" type="button" onclick="history.go(-1)">返回</button>
+    </div>
 </body>
 </html>

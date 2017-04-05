@@ -171,7 +171,7 @@ public class OBSupplierQuoteServiceImpl implements OBSupplierQuoteService {
 				}
 
 			}
-			// 存储报价信息
+			// 存储竞价信息
 			map.put("obProject", obProject);
 		}
 		// 根据标题id查询该标题下发布的产品信息

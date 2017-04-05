@@ -188,8 +188,8 @@
 		  <th class="info">竞价标题</th>
 		  <th class="info">竞价开始时间</th>
 		  <th class="info">竞价结束时间</th>
-		  <th class="info">成交供应商数量</th>
-		  <th class="info">参与供应商数量</th>
+		  <th class="info">成交供应商</th>
+		  <th class="info">参与供应商</th>
 		  <th class="info">竞价状态</th>
 		  <!-- <th class="info">操作</th> -->
 		</tr>

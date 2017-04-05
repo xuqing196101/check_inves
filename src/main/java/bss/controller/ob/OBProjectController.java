@@ -866,12 +866,28 @@ public class OBProjectController {
 		if (page == null) {
 			page = 1;
 		}
-		// 获取打印结果表示
+		// 获取打印结果标识
 		String print = request.getParameter("print");
 		// 获取竞价标题的id
-		String id = request.getParameter("id") == null ? "" : request
+		String projectId = request.getParameter("id") == null ? "" : request
 				.getParameter("id");
-		List<OBProjectResult> list = oBProjectResultService.selectByProjectId(
+		
+		Map<String, Object> map = OBProjectServer.findBiddingInfo(projectId);
+		/*************************************竞价信息****************************************/
+		OBProject obProject = (OBProject) map.get("obProject");
+		// 获取采购机构名称
+		String orgName = (String) map.get("orgName");
+		String demandUnit = (String) map.get("demandUnit");
+		String transportFees = (String) map.get("transportFees");
+		
+		// 采购机构
+		model.addAttribute("orgName", orgName);
+		// 需求单位
+		model.addAttribute("demandUnit", demandUnit);
+		// 运杂费
+		model.addAttribute("transportFees", transportFees);
+		model.addAttribute("obProject", obProject);
+		/*List<OBProjectResult> list = oBProjectResultService.selectByProjectId(
 				id, page);
 		PageInfo<OBProjectResult> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
@@ -903,7 +919,39 @@ public class OBProjectController {
 			chengjiao += obProjectResult.getCountresultCount();
 		}
 		model.addAttribute("count", count);
-		model.addAttribute("chengjiao", chengjiao);
+		model.addAttribute("chengjiao", chengjiao);*/
+		
+		/*************************************竞价结果信息****************************************/
+		List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
+    	Integer countProportion = 0;
+    	BigDecimal million = new BigDecimal(10000);
+    	if(list != null && list.size() > 0){
+    		for (OBProjectResult obProjectResult : list) {
+				if(obProjectResult != null){
+					if(obProjectResult.getStatus() == 1){
+						List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
+						if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
+							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
+								if(obResultSubtabulation2 != null){
+									obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
+								}
+							}
+						}
+						obProjectResult.setObResultSubtabulation(obResultSubtabulation);
+						countProportion += Integer.parseInt(obProjectResult.getProportion());
+					}else{
+						List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
+						obProjectResult.setOBResultsInfo(listinf);
+					}
+				}
+			}
+    	}
+    	
+    	model.addAttribute("listres", list);
+    	model.addAttribute("countProportion",countProportion);
+    	model.addAttribute("size",list.size());
+		model.addAttribute("projectId",projectId);
+		
 		if (StringUtils.isNotEmpty(print)) {
 			// 打印结果页面
 			return "bss/ob/biddingSpectacular/expert_word_print";
@@ -1049,6 +1097,7 @@ public class OBProjectController {
     	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());
+		model.addAttribute("projectId",projectId);
     	return "bss/ob/biddingSpectacular/result";
     }
 	

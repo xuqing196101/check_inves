@@ -8,7 +8,7 @@
 	
 	<script type="text/javascript">
 		function printResult(){
-			window.location.href="${pageContext.request.contextPath}/ob_project/printResult.html?id="+'${titleId}';
+			window.location.href="${pageContext.request.contextPath}/ob_project/printResult.html?id=${projectId}";
 		}
 	</script>
 </head>
