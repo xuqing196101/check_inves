@@ -2,7 +2,6 @@ package ses.controller.sys.sms;
 
 import java.io.File;
 import java.io.IOException;
-import java.lang.reflect.Field;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -27,7 +26,6 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
-import ses.dao.ems.ExpertField;
 import ses.formbean.QualificationBean;
 import ses.model.bms.Area;
 import ses.model.bms.Category;
@@ -36,10 +34,7 @@ import ses.model.bms.DictionaryData;
 import ses.model.bms.Qualification;
 import ses.model.bms.Todos;
 import ses.model.bms.User;
-import ses.model.ems.Expert;
-import ses.model.ems.ExpertAudit;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Expertsignature;
 import ses.model.sms.Supplier;
 import ses.model.sms.SupplierAddress;
 import ses.model.sms.SupplierAfterSaleDep;
@@ -61,6 +56,7 @@ import ses.model.sms.SupplierMatPro;
 import ses.model.sms.SupplierMatSell;
 import ses.model.sms.SupplierMatServe;
 import ses.model.sms.SupplierModify;
+import ses.model.sms.SupplierPorjectQua;
 import ses.model.sms.SupplierRegPerson;
 import ses.model.sms.SupplierSignature;
 import ses.model.sms.SupplierStockholder;
@@ -72,13 +68,16 @@ import ses.service.bms.QualificationService;
 import ses.service.bms.TodosService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditNotService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierHistoryService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierModifyService;
+import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
 import ses.service.sms.SupplierTypeRelateService;
 import ses.util.DictionaryDataUtil;
@@ -181,6 +180,15 @@ public class SupplierAuditController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierCertEngService supplierCertEngService;
+	
+	@Autowired
+	private  SupplierMatEngService supplierMatEngService;
+	
+	@Autowired
+	private SupplierAptituteService supplierAptituteService;
+	
+	@Autowired
+	private SupplierPorjectQuaService supplierPorjectQuaService;
 	/**
 	 * @Title: daiBan
 	 * @author Xu Qing
@@ -1732,11 +1740,25 @@ public class SupplierAuditController extends BaseSupplierController {
 				}
 			}
 		}
+
 		// 工程类等级
 		if(item != null) {
 			// 等级
 			if(item != null && item.getLevel() != null) {
-				cateTree.setLevel(DictionaryDataUtil.findById(item.getLevel()));
+				DictionaryData data = DictionaryDataUtil.findById(item.getLevel());
+				if(data!=null){
+					cateTree.setLevel(data);
+				}else{
+					List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(item.getQualificationType(), item.getSupplierId());
+					   if(projectData!=null&&projectData.size()>0){
+				        	DictionaryData dd=new DictionaryData();
+				        	dd.setId(projectData.get(0).getCertLevel());
+				        	dd.setName(projectData.get(0).getCertLevel());
+				        	cateTree.setLevel(dd); 
+				        }
+					   
+				}
+				
 			}
 			// 证书编号
 			if(item != null && item.getCertCode() != null) {
@@ -1746,6 +1768,11 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(item != null && item.getQualificationType() != null) {
 				cateTree.setQualificationType(item.getQualificationType());
 			}
+			if(item != null && item.getProfessType()!= null) {
+				cateTree.setProName(item.getProfessType());
+			}
+			
+			
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
@@ -1754,9 +1781,16 @@ public class SupplierAuditController extends BaseSupplierController {
 			if(type != null && type.size() > 0 && type.get(0).getList() != null && type.get(0).getList().size() > 0) {
 				typeList = type.get(0).getList();
 			}
+			List<SupplierPorjectQua> supplierQua = supplierPorjectQuaService.queryByNameAndSupplierId(null, item.getSupplierId());
+			for(SupplierPorjectQua qua:supplierQua){
+				Qualification q=new Qualification();
+				q.setId(qua.getName());
+				q.setName(qua.getName());
+				typeList.add(q);
+			}
+			
 			cateTree.setTypeList(typeList);
 		}
-		
 		return cateTree;
 	}
 	
@@ -2206,6 +2240,7 @@ public class SupplierAuditController extends BaseSupplierController {
 			}
 		}
 		if(isEng) {
+			SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
 			List < SupplierItem > listSupplierItems = getProject(supplierId, "PROJECT");
 			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 			for(SupplierItem item: listSupplierItems) {
@@ -2215,13 +2250,17 @@ public class SupplierAuditController extends BaseSupplierController {
 					cateTree.setItemsId(item.getId());
 					cateTree.setDiyLevel(item.getDiyLevel());
 					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supplierId);
+					if(cateTree!=null&&cateTree.getProName()!=null){
+						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+//						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
 						if(certEng != null && certEng.size() > 0) {
-							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supplierId).getSupplierMatEng().getId());
-							if(level != null) {
+//							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
+//							if(level != null) {
 								cateTree.setFileId(certEng.get(0).getId());
-							}
-						}
+//							}
+						}	
+					}
+					
 					}
 					allTreeList.add(cateTree);
 				}

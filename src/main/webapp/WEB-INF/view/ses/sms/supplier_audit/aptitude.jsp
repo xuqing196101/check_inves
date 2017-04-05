@@ -380,6 +380,7 @@
 									      <th class="info tc">中类</th>
 									      <th class="info tc">资质类型</th>
 									      <th class="info tc">证书编号</th>
+									      <th class="info tc">专业类别</th>
 									      <th class="info tc">资质等级</th>
 									     	<th class="info tc">证书图片</th>
 									     	<th class="info tc">操作</th>
@@ -397,12 +398,12 @@
 										     	</c:forEach>
 										    </td>
 								      	<td>${cate.certCode}</td>
+								      	<td>${cate.proName}</td>
 								      	<td>${cate.level.name}</td>
 								      	<td><u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false"/></td>
 								      	<td class="tc w50">
 													<a id="${cate.itemsId}_hidden" onclick="reasonProject('${cate.itemsId}','${cate.secondNode }','工程-${cate.secondNode}');"><c:if test="${!fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png'></c:if>  <c:if test="${fn:contains(passedField,cate.itemsId)}"><img src='${pageContext.request.contextPath}/public/backend/images/light_icon.png' class="hidden"></c:if></a>
 													<p id="${cate.itemsId}_show"><img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></p>
-													
 													<c:if test="${fn:contains(passedField,cate.itemsId)}">
 														<img style="padding-left: 20px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'>
 													</c:if>
