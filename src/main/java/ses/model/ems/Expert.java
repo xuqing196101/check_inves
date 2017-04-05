@@ -1,6 +1,7 @@
 package ses.model.ems;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -91,7 +92,18 @@ public class Expert extends ExpertHistory implements Serializable {
     
     private String companyAddress;
     
-    public String getCompanyAddress() {
+    private List<ExpertTitle> titles=new ArrayList<ExpertTitle>();
+    
+    
+    public List<ExpertTitle> getTitles() {
+		return titles;
+	}
+
+	public void setTitles(List<ExpertTitle> titles) {
+		this.titles = titles;
+	}
+
+	public String getCompanyAddress() {
 		return companyAddress;
 	}
 

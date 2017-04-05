@@ -3,6 +3,8 @@ package ses.model.ems;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 public class ExpertTitle implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
@@ -14,16 +16,27 @@ public class ExpertTitle implements Serializable{
 	private String qualifcationTitle;
 	
 	/** 取得职称时间 **/
-	private Date  getTitleTime;
+	 @DateTimeFormat(pattern="yyyy-MM")
+	private Date  titleTime;
 	
 	/** 创建时间 **/
     private Date createdAt;
     
     /** 修改时间 **/
-    private Date updateAt; 
+    private Date updatedAt; 
     
     /** 状态**/
     private String status;
+
+    private String expertId;
+    
+	public String getExpertId() {
+		return expertId;
+	}
+
+	public void setExpertId(String expertId) {
+		this.expertId = expertId;
+	}
 
 	public String getId() {
 		return id;
@@ -41,12 +54,12 @@ public class ExpertTitle implements Serializable{
 		this.qualifcationTitle = qualifcationTitle;
 	}
 
-	public Date getGetTitleTime() {
-		return getTitleTime;
+	public Date getTitleTime() {
+		return titleTime;
 	}
 
-	public void setGetTitleTime(Date getTitleTime) {
-		this.getTitleTime = getTitleTime;
+	public void setTitleTime(Date titleTime) {
+		this.titleTime = titleTime;
 	}
 
 	public Date getCreatedAt() {
@@ -57,12 +70,12 @@ public class ExpertTitle implements Serializable{
 		this.createdAt = createdAt;
 	}
 
-	public Date getUpdateAt() {
-		return updateAt;
+	public Date getUpdatedAt() {
+		return updatedAt;
 	}
 
-	public void setUpdateAt(Date updateAt) {
-		this.updateAt = updateAt;
+	public void setUpdatedAt(Date updatedAt) {
+		this.updatedAt = updatedAt;
 	}
 
 	public String getStatus() {

@@ -4,10 +4,12 @@
 	<resultMap id="BaseResultMap" type="ses.model.ems.ExpertTitle">
     	<id column="ID" property="id"/>
     	<result column="QUALIFCATION_TITLE" property="qualifcationTitle"/>
-    	<result column="GET_TITLE_TIME" property="getTitleTime"/>
+    	<result column="GET_TITLE_TIME" property="titleTime"/>
 	    <result column="CREATED_AT" property="createdAt"/>
 	    <result column="UPDATED_AT" property="updatedAt"/>
 	    <result column="STATUS" property="status"/>
+	    <result column="EXPERT_ID" property="expertId"/>
+	    
   	</resultMap>
   	
   	<!-- 表名 -->
@@ -17,7 +19,7 @@
 	
 	<!-- 表中所有列 -->
   	<sql id="Base_Column_List">
-    	ID,QUALIFCATION_TITLE,GET_TITLE_TIME,CREATED_AT,UPDATED_AT,STATUS
+    	ID,QUALIFCATION_TITLE,GET_TITLE_TIME,CREATED_AT,UPDATED_AT,STATUS,EXPERT_ID
   	</sql>
   	
   	<!-- 根据主键查询 -->
@@ -31,15 +33,15 @@
   	<!-- 插入数据 -->
   <insert id="insert" parameterType="ses.model.ems.ExpertTitle">
  	
-    insert into T_SES_SMS_AFTER_SALE_SERVICE (ID,QUALIFCATION_TITLE,GET_TITLE_TIME,
-    	CREATED_AT,UPDATED_AT,STATUS)
-    values (#{id},#{qualifcationTitle},#{getTitleTime},#{createdAt}, 
-      #{updatedAt}, #{status},)
+    insert into T_SES_EMS_EXPERT_TITLE (ID,QUALIFCATION_TITLE,GET_TITLE_TIME,
+    	CREATED_AT,UPDATED_AT,STATUS,EXPERT_ID)
+    values (#{id},#{qualifcationTitle},#{titleTime},#{createdAt}, 
+      #{updatedAt}, #{status},#{expertId})
   </insert>
 	 
 	 <!-- 新增一条不为空记录 -->
   	<insert id="insertSelective" parameterType="ses.model.ems.ExpertTitle">
-		INSERT INTO T_SES_SMS_AFTER_SALE_SERVICE
+		INSERT INTO T_SES_EMS_EXPERT_TITLE
 		<trim prefix="(" suffix=")" suffixOverrides=",">
 			<if test="id != null">
 				ID,
@@ -47,7 +49,7 @@
 			<if test="qualifcationTitle != null">
 				QUALIFCATION_TITLE,
 			</if>
-			<if test="getTitleTime != null">
+			<if test="titleTime != null">
 				GET_TITLE_TIME,
 			</if>
 			<if test="createdAt != null">
@@ -59,6 +61,9 @@
 			<if test="status != null">
 				STATUS,
 			</if>
+			<if test="expertId != null">
+				EXPERT_ID,
+			</if>
 		</trim>
 		<trim prefix="values (" suffix=")" suffixOverrides=",">
 			<if test="id != null">
@@ -67,8 +72,8 @@
 			<if test="qualifcationTitle != null">
 				#{qualifcationTitle},
 			</if>
-			<if test="getTitleTime != null">
-				#{isAfterSupport},
+			<if test="titleTime != null">
+				#{titleTime},
 			</if>
 			<if test="createdAt != null">
 				#{createdAt},
@@ -79,6 +84,9 @@
 			<if test="status != null">
 				#{status},
 			</if>
+			<if test="expertId != null">
+				#{expertId},
+			</if>
 		</trim>
   	</insert>
   	
@@ -86,10 +94,11 @@
   <update id="updateByPrimaryKey" parameterType="ses.model.ems.ExpertTitle">
     update T_SES_EMS_EXPERT_TITLE
     set QUALIFCATION_TITLE = #{qualifcationTitle},
-      GET_TITLE_TIME = #{getTitleTime},
+      GET_TITLE_TIME = #{titleTime},
       CREATED_AT = #{createdAt},
       UPDATED_AT = #{updatedAt},
       STATUS = #{status},
+      EXPERT_ID = #{expertId},
     where ID = #{id}
   </update>
   
@@ -100,8 +109,8 @@
       <if test="qualifcationTitle != null">
         QUALIFCATION_TITLE = #{qualifcationTitle},
       </if>
-      <if test="getTitleTime != null">
-        GET_TITLE_TIME = #{getTitleTime},
+      <if test="titleTime != null">
+        GET_TITLE_TIME = #{titleTime},
       </if>
       <if test="createdAt != null">
         CREATED_AT = #{createdAt},
@@ -112,7 +121,24 @@
       <if test="status != null">
         STATUS = #{status},
       </if>
+       <if test="expertId != null">
+        EXPERT_ID = #{expertId},
+      </if>
     </set>
     where ID = #{id}
   </update>
+  
+  
+  <!--根据专家ID查询  -->
+  <select id="queryByExpertId" resultMap="BaseResultMap">
+    select <include refid="Base_Column_List"/>
+    from  T_SES_EMS_EXPERT_TITLE  where  EXPERT_ID = #{expertId}
+  
+  </select>
+  
+  <delete id="deleteById">
+  delete from T_SES_EMS_EXPERT_TITLE  where  ID = #{id}
+  
+  </delete>
+  
 </mapper>

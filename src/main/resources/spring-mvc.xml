@@ -165,6 +165,8 @@
 			
 			<!-- 定型产品 -->
 			<mvc:exclude-mapping path="/product/selPurchaseDepbyId.*" /> 
+			<!-- 前天搜索-->
+			<mvc:exclude-mapping path="/index/solrSearch1.*" />
 			
 			<bean class="ses.interceptor.MyInterceptor"></bean>
 		</mvc:interceptor>

@@ -19,6 +19,7 @@
         var isIs;
         function submitformExpert() {
             getChildren();
+            tempSave();
             $.ajax({
                 url: "${pageContext.request.contextPath}/expert/zanCun.do",
                 data: $("#formExpert").serialize(),
@@ -232,31 +233,50 @@
             }
 
 
+        	$("input[name='chkItem_1']:checked").each(function() {
+        		var val=$(this).parent().text();
+            	if(val.trim()=="工程技术"){	
+            	 if ($(this).prop("checked")) {
+                     init_web_upload();
+                       $("#tab_div").attr("class", "container");
+                 }  
+            	}
+    		});
+        	
+        	$("input[name='chkItem_2']:checked").each(function() {
+        		var val=$(this).parent().text();
+        		
+            	if(val.trim()=="工程经济"){	
+            	
+            	 if ($(this).prop("checked")) {
+                     init_web_upload();
+                       $("#tab_div").attr("class", "container");
+                 } 
+            	}
+    		});
+        	
+        	
 //绑定工程技术的切换事件
-            isIs = bja.some(function (item, index, array) {
+         /*    isIs = bja.some(function (item, index, array) {
                 return item == "3EC64C63FE15422EA100F58A4A872F4A"
-            });
-            if (isIs) {
+            }); */
+       /*      if (isIs) {
                 init_web_upload();
-                //$("#zyzg").show();
                 $("#tab_div").attr("class", "container");
                 
             } else {
               $("#tab_div").attr("class", "container opacity_0");
-                //$("#zyzg").hide();
             }
             $(checklist1[1]).change(function () {
                 if ($(this).prop("checked")) {
                     isIs = true;
                     init_web_upload();
                       $("#tab_div").attr("class", "container");
-                    //$("#zyzg").show();
                 } else {
                     isIs = false;
-                    // $("#zyzg").hide();
                        $("#tab_div").attr("class", "container opacity_0");
                 }
-            })
+            }) */
         });
 
         function errorMsg(auditField) {
@@ -275,6 +295,86 @@
 
         function zc() {
             layer.msg("已暂存");
+        }
+        function checks(obj){
+        	var flag=true;
+        	$("input[name='chkItem_1']").each(function() {
+        		var val=$(this).parent().text();
+            	if(val.trim()=="工程技术"){	
+            	 if ($(this).prop("checked")) {
+                     init_web_upload();
+                       $("#tab_div").attr("class", "container");
+                 }else {
+                	 flag=false;
+                        $("#tab_div").attr("class", "container opacity_0");
+                 }
+            	}
+    		});
+        	
+        	if(flag==false){
+        		 $("input[name='chkItem_2']").each(function() {
+             		var val=$(this).parent().text();
+             		
+                 	if(val.trim()=="工程经济"){	
+                 	 if ($(this).prop("checked")) {
+                          init_web_upload();
+                            $("#tab_div").attr("class", "container");
+                      } else {
+                             $("#tab_div").attr("class", "container opacity_0");
+                      }
+                 	}
+         		}); 
+        	}
+        	 
+        	
+        }
+        
+        function addPractice(){
+        	var detailRow = $("#production_div").find("li");
+			var index = (detailRow.length+1)/4-1;
+			var id=$("#id").val();
+			$.ajax({
+				url: "${pageContext.request.contextPath}/expert/practice.do",
+				type: "post",
+				data:{"index":index,"expertId":id},
+				success: function(data) {
+					$("#addUl").append(data);
+					init_web_upload();
+				}
+			});
+			
+        }
+        
+        function delPractice(obj){
+        	var detailRow = $("#tab_div").find("li");
+			var index = detailRow.length;
+			/* if(index<4){
+				 layer.msg("不通过理由:" + response.auditReason);
+			}else{ */
+				var id=$(obj).next().val();
+	        	$.ajax({
+					url: "${pageContext.request.contextPath}/expert/deleteprofessional.do",
+					type: "post",
+					data:{"id":id},
+					success: function(data) {
+						$(obj).parent().parent().prev().prev().prev().remove();
+			        	$(obj).parent().parent().prev().prev().remove();
+			        	$(obj).parent().parent().prev().remove();
+			        	$(obj).parent().parent().remove();
+					}
+				});
+			//}
+        }
+        function tempSave(){
+        	 $.ajax({
+                 url: "${pageContext.request.contextPath}/expert/addprofessional.do",
+                 data: $("#formExpert").serialize(),
+                 type: "post",
+                 async: true,
+                 success: function (result) {
+                     //layer.msg("已暂存",{offset: ['300px', '750px']});
+                 }
+             });
         }
     </script>
 </head>
@@ -323,16 +423,12 @@
                 <li class="col-md-3 col-sm-6 col-xs-12 pl10">
                     <div class="input-append col-sm-12 col-xs-12 col-md-12 p0">
                         <c:forEach items="${spList}" var="sp">
-                            <span
-                                    <c:if test="${fn:contains(errorField,sp.id)}">style="color: #ef0000;"
-                                    onmouseover="errorMsg('${sp.id}')"</c:if> class="margin-left-30"><input
-                                    type="checkbox" name="chkItem_1" value="${sp.id}"/>${sp.name}技术 </span>
+                            <span  <c:if test="${fn:contains(errorField,sp.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${sp.id}')"</c:if>  class="margin-left-30">
+                            <input  type="checkbox"  onclick="checks(this)" name="chkItem_1" value="${sp.id}"/>${sp.name}技术 </span>
                         </c:forEach>
                         <c:forEach items="${jjList}" var="jj">
-                            <span
-                                    <c:if test="${fn:contains(errorField,jj.id)}">style="color: #ef0000;"
-                                    onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30"><input
-                                    type="checkbox" name="chkItem_2" value="${jj.id}"/>${jj.name} </span>
+                            <span <c:if test="${fn:contains(errorField,jj.id)}">style="color: #ef0000;"  onmouseover="errorMsg('${jj.id}')"</c:if> class="margin-left-30">
+                            <input onclick="checks(this)"  type="checkbox" name="chkItem_2" value="${jj.id}"/>${jj.name} </span>
                         </c:forEach>
                     </div>
                 </li>
@@ -341,16 +437,17 @@
 
 	<div class="container opacity_0" id="tab_div">
 		<div class="tab-pane fades active in" id="production_div">
+	 
+		<ul class="list-unstyled f14" id="addUl">
 		
+		<c:forEach items="${expert.titles }" var="t"  varStatus="vs" >
 		<li class="col-md-3 col-sm-6 col-xs-12 pl15">
 			<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称</span> <!--/执业资格  -->
-                    <div
-                            class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
-                        <input
-                                <c:if test="${fn:contains(errorField,'执业资格职称')}">style="border: 1px solid #ef0000;"
+                    <div class="input-append input_group col-sm-12 col-xs-12 col-md-12 p0">
+                        <input  <c:if test="${fn:contains(errorField,'执业资格职称')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('执业资格职称')"</c:if>
-                                maxlength="20" value="${expert.professional}"
-                                name="professional" id="professional" type="text"/>
+                                maxlength="20" value="${t.qualifcationTitle}"
+                                name="titles[${vs.index }].qualifcationTitle"  type="text"/>
                         <span class="add-on">i</span> <span class="input-tip"></span>
                     </div>
                 </li>
@@ -362,14 +459,11 @@
                             onmouseover="errorMsg('执业资格')"</c:if>>
                         <u:upload
                                 singleFileSize="${properties['file.picture.upload.singleFileSize']}"
-                                exts="${properties['file.picture.type']}" id="expert9" maxcount="1"
+                                exts="${properties['file.picture.type']}" id="expert_${vs.index}" maxcount="1"
                                 groups="expert1,expert2,expert3,expert4,expert5,expert6,expert7,expert8"
-                                multiple="true" businessId="${sysId}" sysKey="${expertKey}"
+                                multiple="true" businessId="${t.id}" sysKey="${expertKey}"
                                 typeId="9" auto="true"/>
-                        <u:show showId="show9"
-                                groups="show9,show2,show3,show4,show5,show6,show7,show8"
-                                businessId="${sysId}" sysKey="${expertKey}"
-                                typeId="9"/>
+                        <u:show showId="expert_${vs.index}"     businessId="${t.id}" sysKey="${expertKey}" typeId="9"/>
                     </div>
                 </li>
                 <li class="col-md-3 col-sm-6 col-xs-12"><span
@@ -380,15 +474,31 @@
                         <input
                                 <c:if test="${fn:contains(errorField,'取得执业资格时间')}">style="border: 1px solid #ef0000;"
                                 onmouseover="errorMsg('取得执业资格时间')"</c:if>
-                                value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM' />"
-                                readonly="readonly" name="timeProfessional" id="timeProfessional"
-                                type="text"
+                                value="<fmt:formatDate type='date' value="${t.titleTime}" dateStyle='default' pattern='yyyy-MM' />"
+                                readonly="readonly" name="titles[${vs.index }].titleTime"    type="text"
                                 onclick="WdatePicker({lang:'zh-cn',dateFmt:'yyyy-MM'})"/> <span
                             class="add-on">i</span> <span class="input-tip">如：XXXX-XX</span>
                     </div>
                 </li>
+                
+                <li class="col-md-3 col-sm-6 col-xs-12">
+					<span class="col-md-12 col-xs-12 col-sm-12 padding-left-5 white">操作</span>
+						<div class="col-md-12 col-xs-12 col-sm-12 p0 mb25 h30">
+							<input type="button" onclick="addPractice()" class="btn list_btn" value="十" />
+							<input type="button" onclick="delPractice(this)" class="btn list_btn" value="一" />
+								<input type="hidden" name="titles[${vs.index }].id" value="${t.id}" />
+								<input type="hidden" name="titles[${vs.index }].expertId" value="${t.expertId}" />
+						</div>
+			  </li>
+			</c:forEach>
+			</ul>	
+		 						
 		</div>
 	</div>
+ 
+	
+	
+	
             <ul style="display:none" id="zyzg">
                 <%-- <li class="col-md-3 col-sm-6 col-xs-12"><span
                         class="col-md-12 col-xs-12 col-sm-12 padding-left-5"><i

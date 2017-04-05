@@ -1,5 +1,9 @@
 package ses.dao.ems;
 
+import java.util.List;
+
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.ems.ExpertTitle;
 import bss.model.cs.ContractRequired;
 
@@ -49,5 +53,30 @@ public interface ExpertTitleMapper {
      * @return:
      */
     int updateByPrimaryKey(ExpertTitle record);
-
+    
+    /**
+     * 
+    * @Title: queeyByExpertId
+    * @Description: 根据专家ID查询
+    * author: Li Xiaoxiao 
+    * @param @param expertId
+    * @param @return     
+    * @return List<ExpertTitle>     
+    * @throws
+     */
+    List<ExpertTitle> queryByExpertId(@Param("expertId")String expertId);
+    
+    
+    /**
+     * 
+    * @Title: delete
+    * @Description: 根据ID删除
+    * author: Li Xiaoxiao 
+    * @param @param id     
+    * @return void     
+    * @throws
+     */
+    public void deleteById(@Param("id")String id);
+    
+    
 }

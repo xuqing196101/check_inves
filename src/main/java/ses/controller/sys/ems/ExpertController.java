@@ -5,7 +5,6 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
-import java.io.UnsupportedEncodingException;
 import java.sql.Timestamp;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -14,17 +13,17 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-
-import ses.model.ems.ExpertPictureType;
 
 import org.apache.commons.beanutils.PropertyUtils;
 import org.apache.commons.io.FileUtils;
@@ -43,6 +42,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import ses.model.bms.Area;
@@ -57,6 +57,8 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAttachment;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertPictureType;
+import ses.model.ems.ExpertTitle;
 import ses.model.ems.ProjectExtract;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Quote;
@@ -83,6 +85,7 @@ import ses.service.ems.ExpertAttachmentService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierItemService;
@@ -108,15 +111,14 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
-import bss.util.FileUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
 
 import common.constant.Constant;
 import common.constant.StaticVariables;
-import common.service.UploadService;
 import common.model.UploadFile;
+import common.service.UploadService;
 @Controller
 @RequestMapping("/expert")
 public class ExpertController extends BaseController {
@@ -170,7 +172,8 @@ public class ExpertController extends BaseController {
     private BidMethodService bidMethodService;
     @Autowired
     private UploadService uploadService;
-    
+    @Autowired
+    private ExpertTitleService expertTitleService;
     /**
      * 
      * @Title: toExpert
@@ -429,6 +432,24 @@ public class ExpertController extends BaseController {
         }
         Map < String, Object > errorMap = service.Validate(expert, 3, null);
         expert.setExpertsFrom(dictionaryDataServiceI.getDictionaryData(expert.getExpertsFrom()).getCode());
+        List<ExpertTitle> proList=expertTitleService.queryByUserId(expert.getId());
+	        ExpertTitle et=new ExpertTitle();
+		    if(proList!=null&&proList.size()<1){
+	        	  et.setQualifcationTitle(expert.getProfessional());
+	        	  et.setTitleTime(expert.getTimeProfessional());
+	        	  et.setExpertId(expert.getId());
+	        	  et.setId(expert.getId()); 
+	        	  proList.add(et);
+	        }
+//		    if(expert.getProfessional()==null){
+//		    	String id = UUID.randomUUID().toString().replaceAll("-", "");
+//		    	 et.setId(id); 
+//		    	 et.setExpertId(expert.getId());
+//		    }
+        	
+        	
+        	expert.setTitles(proList); 
+        
         model.addAttribute("expert", expert);
         model.addAttribute("errorMap", errorMap);
         HashMap < String, Object > map = new HashMap < String, Object > ();
@@ -3115,7 +3136,9 @@ public class ExpertController extends BaseController {
 //        	FileUtil.fileStash(file, realpath, "expertPic", request);
 //        	dataMap.put("image", realpath);
            String gen=	 request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] ;
-        	dataMap.put("image", gen+listImage.get(0).getPath());
+            String image= gen+listImage.get(0).getPath();
+            System.out.println(image+"=====================");
+        	dataMap.put("image",image);
 		}
         String faceId = expert.getPoliticsStatus();
         DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
@@ -3157,8 +3180,24 @@ public class ExpertController extends BaseController {
         dataMap.put("professTechTitles", expert.getProfessTechTitles() == null ? "" : expert.getProfessTechTitles());
         dataMap.put("makeTechDate", expert.getMakeTechDate() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getMakeTechDate()));
 //        dataMap.put("makeTechDate", expert.getTimeToWork() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeToWork()));
-        dataMap.put("professional", expert.getProfessional() == null ? "" : expert.getProfessional());
-        dataMap.put("timeProfessional", expert.getTimeProfessional() == null ? "" : new SimpleDateFormat("yyyy-MM").format(expert.getTimeProfessional()));
+        
+        
+       
+        List<ExpertTitle> list = expertTitleService.queryByUserId(expert.getId());
+        List<ExpertTitle> titlesList=new LinkedList<ExpertTitle>();
+        if(list.size()>0){
+   			 dataMap.put("professional", list.get(0).getQualifcationTitle());
+   		        dataMap.put("timeProfessional",   new SimpleDateFormat("yyyy-MM").format(list.get(0).getTitleTime()));
+        }
+        if(list.size()>1){
+        	for(int i=0;i<list.size();i++){
+        		if(i>0){
+        			  titlesList.add(list.get(i));
+        			 dataMap.put("list", titlesList);
+        		}
+        	}
+        }
+        
         StringBuffer expertType = new StringBuffer();
         if(expert.getExpertsTypeId() != null && !"".equals(expert.getExpertsTypeId())) {
         for (String typeId : expert.getExpertsTypeId().split(",")) {
@@ -3215,7 +3254,7 @@ public class ExpertController extends BaseController {
         String fileName = new String(("军队评标专家申请表.doc").getBytes("UTF-8"),
             "UTF-8");
         /** 生成word 返回文件名 */
-        String newFileName = WordUtil.createWord(dataMap, "expert2.ftl",
+        String newFileName = WordUtil.createWord(dataMap, "expert3.ftl",
             fileName, request);
         return newFileName;
     }
@@ -4146,6 +4185,65 @@ public class ExpertController extends BaseController {
           
 		return bool;
 	}
+	
+	/**
+	 * 
+	* @Title: createNewPage
+	* @Description: 添加执业资格证书
+	* author: Li Xiaoxiao 
+	* @param @param index
+	* @param @param expertId
+	* @param @return     
+	* @return ModelAndView     
+	* @throws
+	 */
+	@RequestMapping("/practice")
+	public ModelAndView createNewPage(String index,String expertId){
+		ModelAndView modelAndView=new ModelAndView("ses/ems/expert/expert_type");
+		String id = UUID.randomUUID().toString().replaceAll("-", "");
+		Integer expertKey = Constant.EXPERT_SYS_KEY;
+		modelAndView.addObject("id", id);
+		modelAndView.addObject("index", index);
+		modelAndView.addObject("expertId", expertId);
+		modelAndView.addObject("expertKey", expertKey);
+		return modelAndView;
+	}
+	
+	/**
+	 * 
+	* @Title: add
+	* @Description：实时保存执业资格证书 
+	* author: Li Xiaoxiao 
+	* @param @param expert
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping("/addprofessional")
+	@ResponseBody
+	public String add(Expert expert){
+		expertTitleService.addBatch(expert.getTitles());
+		return "";
+	}
+	
+	
+	/**
+	 * 
+	* @Title: delete
+	* @Description: 删除供应商 
+	* author: Li Xiaoxiao 
+	* @param @param id
+	* @param @return     
+	* @return String     
+	* @throws
+	 */
+	@RequestMapping("deleteprofessional")
+	@ResponseBody
+	public String delete(String id){
+		expertTitleService.deleteById(id);
+		return "";
+	}
+	
 	
 	
 }
