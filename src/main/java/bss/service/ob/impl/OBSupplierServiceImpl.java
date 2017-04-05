@@ -92,4 +92,9 @@ public class OBSupplierServiceImpl implements OBSupplierService {
 		List<OBSupplier> list = oBSupplierMapper.selOfferSupplier(map);
 		return list;
 	}
+
+	@Override
+	public Integer yzzsCode(String certCode,String id) {
+		return oBSupplierMapper.yzzsCode(certCode,id);
+	}
 }

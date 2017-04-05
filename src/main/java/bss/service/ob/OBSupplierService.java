@@ -150,5 +150,18 @@ public interface OBSupplierService {
 	 * @exception
 	 */
 	List<OBSupplier> selOfferSupplier(Map<String,Object> map);
+	
+	/**
+	 * 
+	 * Description: 验证证书编号唯一
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月5日 
+	 * @param  @param certCode
+	 * @param  @return 
+	 * @return Integer 
+	 * @exception
+	 */
+	Integer yzzsCode(String certCode,String id);
 
 }

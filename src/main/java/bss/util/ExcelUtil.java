@@ -1261,6 +1261,14 @@ public class ExcelUtil {
 	        					 map.put("errMsg", errMsg);
 	        					 bool=false;
 		        				 break;
+	        				}else{
+	        					Integer ii = excelUtil.oBSupplierService.yzzsCode(cell.getRichStringCellValue().toString(), null);
+	        					if(ii > 0){
+	        						errMsg=String.valueOf(row.getRowNum()+1)+"行F列错误，资质证书编号不能重复!";
+		        					 map.put("errMsg", errMsg);
+		        					 bool=false;
+			        				 break;
+	        					}
 	        				}
         					String str = cell.getRichStringCellValue().toString();
         					obp.setCertCode(str);
