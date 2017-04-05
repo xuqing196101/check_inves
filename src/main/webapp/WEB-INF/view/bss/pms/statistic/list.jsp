@@ -449,7 +449,7 @@
 				    	<label class="fl"> 物资类别：</label><span>
 				  	   <select name="planType" style="width: 152px;" >
 				  	     <option value="" >请选择</option>
-						  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >货物</option>
+						  	<option value="1" <c:if test="${inf.planType=='1'}"> selected</c:if> >物资</option>
 							<option value="2" <c:if test="${inf.planType=='2'}"> selected</c:if> >工程</option>
 							<option value="3" <c:if test="${inf.planType=='3'}"> selected</c:if> >服务</option>
 					   </select>
