@@ -101,6 +101,12 @@
 		$("[title='theProductPrice2']").each(function() {
 			productPrices2.push($(this).text());
 		});
+		//第二轮 剩余数量
+		var SurplusNumber=[];
+		$("[title='theProductId2']").each(function(index,element) {
+			SurplusNumber.push($(this).find("input[name='surplusNumber2']").val());
+		});
+		alert(SurplusNumber);
 		//先把不前的各个产品的数量存到全局的一个数组里
 		var eachProductCount = [];
 		$("[title='theProductCount']").each(function(index,element) {
@@ -126,7 +132,14 @@
 					}else{
 						var allCount = 0;
 						$("[title='theProductTotalPrice']").each(function(index,element) {
-							var afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
+						             var ranking='${result.ranking }';
+						             var afterCount;
+						             //奇入 偶不入 
+						             if(chk(ranking)==1){
+							         afterCount = getDownRatioVal(changeRatioCounts[index],100,afterInputVal);
+						             }else{
+						             afterCount = getfloor(changeRatioCounts2[index],100,afterInputVal);
+						             }
 							
 							$(this).text((afterCount * productPrices[index]).toFixed(2));
 							$("[title='theProductCount']").each(function(indexPc,element) {
@@ -175,8 +188,21 @@
 						var allCount = 0;
 						//第二轮占比改动，调动下面的数据
 						$("[title='theProductTotalPrice2']").each(function(index,element) {
+						
+						  
 							var afterCount = getfloor(changeRatioCounts2[index],100,afterInputVal);
-							$(this).text((afterCount * productPrices2[index]).toFixed(2));
+							//如果 输入比例等于 剩余比例
+							if(currentSecondVal==afterInputVal){
+							   afterCount=SurplusNumber[index];
+							}else{
+							 if(afterCount>SurplusNumber[index]){
+							//如果剩余数量 计算比例大于计算那么赋值
+							  afterCount=SurplusNumber[index];
+							  }
+							}
+							
+							var after= (afterCount * productPrices2[index]).toFixed(2);
+							$(this).text(after);
 							$("[title='theProductCount2']").each(function(indexPc,element) {
 								if(index == indexPc) {
 									$(this).text(afterCount);
@@ -230,6 +256,10 @@
 		$("[title='allProductTotalPrice']").text(allCount.toFixed(2));
 		$("[title='allProductTotalPrice2']").text(allCount2.toFixed(2)); 
 	});
+	//判读 偶数 奇数
+	function chk(num){
+      return (num%2 ==0) ?2:1;  //判断是否能整除2
+      }
 	//第二轮初始化
 	function secoundInit(currentSecondVal,changeRatioCounts2,productPrices2,eachProductCount){
 	//第二轮占比改动，调动下面的数据
@@ -614,6 +644,7 @@
 		<tr>
 		  <td class="tc"  width="5%" title="theProductId">
 		  	${vs.index + 1 }
+		  	<input type="hidden" name="surplusNumber" value="${bidproduct.surplusNumber }"/>
 		  	<input type="hidden" name="ResultsNumber" value="${bidproduct.resultsNumber }"/>
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
@@ -689,6 +720,7 @@
 		<tr>
 		  <td class="tc" title="theProductId2" width="5%">
 		  	 ${vs.index + 1 }
+		  	<input type="hidden" name="surplusNumber2" value="${bidproduct.surplusNumber }"/>
 		  	<input type="hidden" name="productId" value="${bidproduct.id }"/>
 		  	<input type="hidden" name="productName" value="${bidproduct.productId }"/>
 		  	<input type="hidden" name="productResultsNumber" value="${bidproduct.resultsNumber }"/>

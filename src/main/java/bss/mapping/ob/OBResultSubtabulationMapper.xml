@@ -158,4 +158,12 @@
     FROM T_BSS_OB_RESULT_SUBTABULATION
     WHERE PROJECT_ID = #{projectId,jdbcType=VARCHAR}
   </select>
+  <!-- 获取剩余 未成交的数量 -->
+  <select id="getNotDealNumber" resultMap="BaseResultMap" parameterType="java.lang.String">
+  select s.PRODUCT_ID,p.PURCHASE_COUNT-s.RESULT_NUMBER as RESULT_NUMBER from (select SUM(RESULT_NUMBER) as RESULT_NUMBER ,PRODUCT_ID from T_BSS_OB_RESULT_SUBTABULATION s
+where s.PROJECT_ID=#{projectId,jdbcType=VARCHAR}
+GROUP BY PRODUCT_ID)s,T_BSS_OB_PRODUCT_INFO p
+where p.PROJECT_ID=#{projectId,jdbcType=VARCHAR} and s.PRODUCT_ID=p.PRODUCT_ID
+  
+  </select>
 </mapper>

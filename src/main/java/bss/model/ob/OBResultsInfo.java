@@ -45,6 +45,8 @@ public class OBResultsInfo {
     private Date createdAt;
 
     private Date updatedAt;
+    //自定义 第二轮 剩余数量
+    private Integer surplusNumber;
 
     /**
      * 所属供应商
@@ -58,7 +60,15 @@ public class OBResultsInfo {
 
     
     
-    public String getProductName() {
+    public Integer getSurplusNumber() {
+		return surplusNumber;
+	}
+
+	public void setSurplusNumber(Integer surplusNumber) {
+		this.surplusNumber = surplusNumber;
+	}
+
+	public String getProductName() {
 		return productName;
 	}
 

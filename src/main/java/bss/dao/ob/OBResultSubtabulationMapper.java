@@ -37,7 +37,13 @@ public interface OBResultSubtabulationMapper {
     int updateByPrimaryKeySelective(OBResultSubtabulation record);
 
     int updateByPrimaryKey(OBResultSubtabulation record);
-    
+    /**
+     * 获取目前剩余的数量
+     * @author YanghongLiang
+     * @param projectId
+     * @return
+     */
+    List<OBResultSubtabulation> getNotDealNumber(String projectId);
     /**
      * 
      * Description: 根据竞价信息查询

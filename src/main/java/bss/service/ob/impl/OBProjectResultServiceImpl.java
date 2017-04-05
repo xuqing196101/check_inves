@@ -416,9 +416,22 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 					info.setSecondRatio(100-Integer.parseInt(propo));
 				}
 			}
-			//第二轮 剩余 比例
+			
 		//产品 报价  信息
 		List<OBResultsInfo> or=OBResultsInfoMapper.getProductInfo(projectId, supplierId);
+		//第二轮 剩余 数量
+		if(status.equals("2")){
+		List<OBResultSubtabulation> list=OBResultSubtabulationMapper.getNotDealNumber(projectId);	
+			if(or!=null&&or.size()>0){
+				for(OBResultsInfo ifo: or){
+					for(OBResultSubtabulation in:list){
+						if(ifo.getProductId().equals(in.getProductId())){
+							ifo.setSurplusNumber(in.getResultNumber().intValue());
+							}
+						}
+					}
+				}
+		}
 		// 获取 竞价金额 成交金额
 		List<OBResultsInfo> obinfoList=OBResultsInfoMapper.getDealMoney(projectId);
 		 //封装 竞价的成交 金额

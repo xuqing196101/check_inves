@@ -32,7 +32,6 @@
     <association property="obRule" column="RULE_ID" select="bss.dao.ob.OBRuleMapper.selectByPrimaryKey" />
     
   </resultMap>
-  
     <resultMap id="ProjectResultMap"  extends="BaseResultMap" type="bss.model.ob.OBProject">
      <collection property="obProductInfo" ofType="bss.model.ob.OBProductInfo">
 		<id column="pid"  property="id" />

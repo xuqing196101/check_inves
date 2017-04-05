@@ -12,6 +12,8 @@
 	// 获取乙方包干使用运杂费
 
 	  var number=10000001;
+	  //定义选中第一产品
+     var productInfo;
 	  //选择数量
 	  var suppCount=0;
 	/** 全选全不选 */
@@ -208,14 +210,16 @@
 	}
 	 //存储选中的产品的全部供应商id
      var supplielist=[];
+     
 	//根据定型产品更新 
 	function changSelectCount(number){
 	 if(productList){
-	   //alert($("[name='productName']").val());
+	   productInfo=$("[name='productName']").val();
 	 	gysCount();
 	  $("#orgId").select2('val',productList[0].procurementId);
 	  changSelect();
 	  }else{
+	  productInfo=null;
 	   $("#gys_count").text(0);
 	  }
 	}
@@ -245,14 +249,33 @@
 		  });
 		return name;
 	}
+	//定义临时产品目录
+	var productM;
+	//初始化产品下拉框
 	function loads(number,id){
+	 if(productInfo){
+	 if(!productM){
+	 $.each(productList, function(i, user) {
+	     if(productInfo==user.id){
+	       productM=user.smallPointsId;
+	      }
+	    });
+	   }
+	  }
 	$.each(productList, function(i, user) {
+	        if(productM){
+	         if(user.smallPointsId==productM){
 		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " >" + user.name+ "</option>");
+	         }
+	        }
+	        if(!productM){
+	         $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " >" + user.name+ "</option>");
+	        }
 	     });
 	     $("select[id=\"productName_"+number+"\"]").select2(); 
 	     if(id){
 		 $("#productName_"+number+"").select2('val',id); 
-	    changSelectCount(number);
+	     changSelectCount(number);
 	    }
 	  } 
 	  
@@ -663,6 +686,9 @@
 		      }
            });
 		 }
+     }else{
+     productM=null;
+     productInfo=null;
      }
 	}
 </script>
