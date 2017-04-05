@@ -56,4 +56,10 @@ public class ExpertSignatureServiceImpl implements ExpertSignatureService{
 		return mapper.selectByExpertId(expertSignature);
 	}
 
+	@Override
+	public void add(ExpertSignature expertSignature) {
+		// TODO Auto-generated method stub
+		mapper.insertSelective(expertSignature);
+	}
+
 }

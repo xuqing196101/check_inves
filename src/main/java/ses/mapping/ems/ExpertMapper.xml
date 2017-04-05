@@ -60,6 +60,7 @@
         <result column="PROFESSIONAL" jdbcType="VARCHAR"  property="professional" />
         <result column="TIME_PROFESSIONAL" jdbcType="TIMESTAMP" property="timeProfessional" />
         <result column="IS_PUBLISH" jdbcType="DECIMAL" property="isPublish" />
+        <result column="IS_ADD_EXPERT" jdbcType="DECIMAL" property="isAddExpert" />
 
     </resultMap>
     <sql id="Base_Column_List">
@@ -770,6 +771,9 @@
             </if>
             <if test="isPublish != null">
                 IS_PUBLISH = #{isPublish},
+            </if>
+             <if test="isAddExpert != null">
+                IS_ADD_EXPERT = #{isAddExpert},
             </if>
         </set>
         where ID = #{id,jdbcType=VARCHAR}

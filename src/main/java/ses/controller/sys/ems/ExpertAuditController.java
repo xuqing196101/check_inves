@@ -62,11 +62,11 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import ses.util.WordUtil;
-
 import bss.formbean.PurchaseRequiredFormBean;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
+
 import common.constant.Constant;
 import common.constant.StaticVariables;
 
@@ -1853,12 +1853,30 @@ public class ExpertAuditController {
 	 * @return void
 	 */
 	@RequestMapping(value = "/signature")
-	public String signature(String[] ids, String expertId, Model model) {
+	public String signature(String ids, String expertId, Model model) {
+		  model.addAttribute("ids", ids);
 		 return "ses/ems/expertAudit/add_auditpersonnel";
 	}
     
 	@RequestMapping(value = "/saveSignature")
-	public void saveSignature(PurchaseRequiredFormBean purchaseRequiredFormBean) {
-		System.out.println(purchaseRequiredFormBean);
+	@ResponseBody
+	public String saveSignature(PurchaseRequiredFormBean purchaseRequiredFormBean,String batchNo,String ids) {
+		String[] strs = ids.split(",");
+		List<ExpertSignature> list = purchaseRequiredFormBean.getExpertSignatureList();
+		if(list.size()>0){
+		for(String id:strs){
+			Expert ep=new Expert();
+			ep.setId(id);
+			ep.setIsAddExpert(batchNo);
+			expertService.updateByPrimaryKeySelective(ep);
+			for(ExpertSignature es:list){
+				es.setSignatoryId(batchNo);
+				es.setExpertId(id);
+				expertSignatureService.add(es);
+				}
+			}
+		}
+		
+		return "";
 	}
 }

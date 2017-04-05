@@ -34,14 +34,14 @@
 			//审核
 			function shenhe(id) {
 				if(id == null) {
-					var size = $(":radio:checked").size();
+					var size = $(":checkbox:checked").size();
 					if(!size) {
 						layer.msg("请选择专家 !", {
 							offset: '100px',
 						});
 						return;
 					}
-					var id = $(":radio:checked").val();
+					var id = $(":checkbox:checked").val();
 				}
 				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
@@ -79,7 +79,7 @@
 
 			//下载
 			function downloadTable(str) {
-				var size = $(":radio:checked").size();
+				var size = $(":checkbox:checked").size();
 				if(!size) {
 					layer.msg("请选择专家 !", {
 						offset: '100px',
@@ -87,7 +87,7 @@
 					return;
 				}
 
-				var id = $(":radio:checked").val();
+				var id = $(":checkbox:checked").val();
 				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
 				if(state == "初审通过" || state == "初审未通过" || state == "退回修改" || state == "复审通过" || state == "复审未通过" || state == "复查通过" || state == "复查未通过") {
@@ -178,16 +178,26 @@
 					
 					
 			function tianjia() {
-		    	layer.open({
-		      	type : 2,
-		        title : '选择专家',
-		        // skin : 'layui-layer-rim', //加上边框
-		        area : [ '800px', '500px' ], //宽高
-		        offset : '80px',
-		        scrollbar : false,
-		        content : '${pageContext.request.contextPath}/expertAudit/signature.html', //url
-		        closeBtn : 1, //不显示关闭按钮
-		      });
+				var ids=[];
+				$('input[type="checkbox"]:checked').each(function(i){ 
+					ids.push($(this).val()); 
+					 
+				});
+				if(ids.length>0){
+					layer.open({
+				      	type : 2,
+				        title : '选择专家',
+				        // skin : 'layui-layer-rim', //加上边框
+				        area : [ '800px', '500px' ], //宽高
+				        offset : '80px',
+				        scrollbar : false,
+				        content : '${pageContext.request.contextPath}/expertAudit/signature.html?ids='+ids, //url
+				        closeBtn : 1, //不显示关闭按钮
+				      });
+				}else{
+					layer.alert("至少选择一个",{offset: ['222px', '390px'], shade:0.01});
+				}
+		    	
 		  };
 		</script>
 

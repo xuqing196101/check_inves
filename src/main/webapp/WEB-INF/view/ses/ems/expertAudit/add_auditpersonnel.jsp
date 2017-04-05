@@ -7,7 +7,7 @@
 	<head>
 		<%@ include file="/WEB-INF/view/common.jsp" %>
 		<script type="text/javascript">
-		var i=0;
+		  var i=0;
 			function openTr() {
 			i++;
 				$("#list_tbody_id").after(
@@ -18,6 +18,30 @@
 					"<td class='tc'><input type='text' name='expertSignatureList["+i+"].job' value=''></td>"  +
 					"</tr>");
 			}
+			function add(){
+				// var index = parent.layer.getFrameIndex(window.name); 
+				$.ajax({
+					url: "${pageContext.request.contextPath}/expertAudit/saveSignature.do",
+					type: "post",
+					data:$("#add_form").serialize(),
+					//dataType:"json",
+					success: function(result) {
+						layer.msg("添加成功");
+						  var el = document.createElement("a");
+	                      document.body.appendChild(el);
+	                      el.href = "${pageContext.request.contextPath}/expertAudit/list.do?sign=2&&status=1";  
+	                      el.target = '_parent'; //指定在新窗口打开
+	                      el.click();
+	                      document.body.removeChild(el);
+	                      
+	                      
+						// window.location.href = "${pageContext.request.contextPath}/expertAudit/list.do";
+						 // parent.layer.close(index); 
+					}
+				});
+			}
+			
+			
 		</script>
 		
 	</head>
@@ -30,7 +54,15 @@
 				<button class="btn btn-windows add" type="button" onclick="openTr()">新增</button>
 				<!-- <button class="btn btn-windows delete" type="button" onclick="deleteStockholder()">删除</button> -->
 			</div>
-			<form action="${pageContext.request.contextPath}/expertAudit/saveSignature.do" method="post" id="form1"  class="registerform">
+			<form action="${pageContext.request.contextPath}/expertAudit/saveSignature.do" method="post" id="add_form"  class="registerform">
+			   <ul class="demand_list">
+						<li>
+							<label class="fl">审核批次：</label>
+							<input type="text" name="batchNo" value="">
+							<input type="hidden" name="ids" value="${ids }">
+						</li>
+						</ul>
+			
 				<div class="content table_box">
 					<table class="table table-bordered table-condensed table-hover table-striped hand">
 					
@@ -50,7 +82,8 @@
 					</table>
 				</div>
 				<div class="tc">
-					<input class="btn btn-windows add" value="保存 "  type="submit"/>
+				
+					<input class="btn btn-windows add" value="保存 "  type="button" onclick="add()"/>
 				</div>
 			</form>
 		</div>

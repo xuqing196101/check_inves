@@ -26,4 +26,6 @@ public  interface ExpertSignatureService {
 	 * @return List<ExpertAuditOpinion>
 	 */
 	List<ExpertSignature> selectByExpertId (ExpertSignature expertSignature );
+	
+	public void add(ExpertSignature expertSignature);
 }
