@@ -118,5 +118,18 @@ public interface OBProductMapper {
 	 * @exception
 	 */
 	List<OBProduct> selectAllAmallPointsId(@Param("name")String name);
+	
+	/**
+	 * 
+	 * Description: 根据目录获取采购机构
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月2日 
+	 * @param  @param smallPointsId
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	String selOrgByCategory(@Param("smallPointsId") String smallPointsId,@Param("id") String id);
     
 }

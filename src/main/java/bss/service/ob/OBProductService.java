@@ -2,6 +2,8 @@ package bss.service.ob;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import bss.model.ob.OBProduct;
 
 /**
@@ -156,4 +158,17 @@ public interface OBProductService {
 	 * @exception
 	 */
 	List<OBProduct> selectAllAmallPointsId(String name);
+	
+	/**
+	 * 
+	 * Description: 根据目录获取采购机构
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月2日 
+	 * @param  @param smallPointsId
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	String selOrgByCategory(String smallPointsId,String id);
 }

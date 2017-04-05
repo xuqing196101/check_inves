@@ -2,6 +2,7 @@ package sums.controller.oc;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import javax.servlet.http.HttpServletRequest;
@@ -122,6 +123,23 @@ public class OnlineComplaintsController {
 					model.addAttribute("error_complaintMatter","不能超过1000个字");
 				}
 			}
+			if(complaint.getId() != null && complaint.getType() != null){
+				if(complaint.getType() == 0){
+					if(complaintService.yzsc(complaint.getId(), "47") < 1){
+						flag = false;
+						model.addAttribute("error_zs1","请上传投诉文件");
+					}
+				}else{
+					if(complaintService.yzsc(complaint.getId(), "47") < 1){
+						flag = false;
+						model.addAttribute("error_zs1","请上传投诉文件");
+					}
+					if(complaintService.yzsc(complaint.getId(), "48") < 1){
+						flag = false;
+						model.addAttribute("error_zs2","请上传身份证照片");
+					}
+				}
+			}
 			if(flag == false){
 				model.addAttribute("complaint",complaint);
 				return "sums/oc/onlineComplaints/add";
@@ -168,6 +186,23 @@ public class OnlineComplaintsController {
 				if(complaint.getComplaintMatter().length() > 1000){
 					flag = false;
 					model.addAttribute("error_complaintMatter","不能超过1000个字");
+				}
+			}
+			if(complaint.getId() != null && complaint.getType() != null){
+				if(complaint.getType() == 0){
+					if(complaintService.yzsc(complaint.getId(), "47") < 1){
+						flag = false;
+						model.addAttribute("error_zs1","请上传投诉文件");
+					}
+				}else{
+					if(complaintService.yzsc(complaint.getId(), "47") < 1){
+						flag = false;
+						model.addAttribute("error_zs1","请上传投诉文件");
+					}
+					if(complaintService.yzsc(complaint.getId(), "48") < 1){
+						flag = false;
+						model.addAttribute("error_zs2","请上传身份证照片");
+					}
 				}
 			}
 			if(flag == false){

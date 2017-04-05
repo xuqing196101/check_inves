@@ -16,9 +16,21 @@
 <meta name="author" content="">
 <title>投诉页面</title>
 <script type="text/javascript">
-
+$(function(){
+	$("#extensionId").val("bmp,pmg,jpg,gif");
+	$("#idcad #extensionId").val("bmp,pmg,jpg,gif");
+});
 function open(){
-	document.getElementById("idcad").style.display="none"; 
+	var chkObjs=null;
+	var obj=document.getElementsByName("type");
+	for (var i=0;i<obj.length;i++){ //遍历Radio 
+		if(obj[i].checked){ 
+		chkObjs=obj[i].value; 
+		} 
+	}
+	if(chkObjs == 0 || chkObjs == null){
+		document.getElementById("idcad").style.display="none";
+	}
 }
 
 function show(){
@@ -87,7 +99,7 @@ function hid(){
 				        <div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 				        <u:upload id="post_attach_up" businessId="${complaint.id }" sysKey="2" typeId="47" multiple="true" auto="true" />
 						<u:show showId="post_attach_show" businessId="${complaint.id }" sysKey="2" typeId="47"/>
-				     	<div class="cue" id = ""></div>
+				     	<div class="cue" id = "">${error_zs1 }</div>
 				     	</div>
 	             </li>
 	             <li class="col-md-3 col-sm-6 col-xs-12"  id = "idcad">
@@ -95,7 +107,7 @@ function hid(){
 				       	<div class="input-append input_group col-sm-12 col-xs-12 p0 ">
 				        <u:upload id="post_attach_ups" businessId="${complaint.id }" sysKey="2" typeId="48" multiple="true" auto="true" />
 						<u:show showId="post_attach_shows" businessId="${complaint.id }" sysKey="2" typeId="48"/>
-				     	<div class="cue" id = ""></div>
+				     	<div class="cue" id = "">${error_zs2 }</div>
 				     	</div>
 	             </li>
 			</ul>  

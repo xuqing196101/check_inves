@@ -10,6 +10,7 @@
 	<script type="text/javascript">
 	//加载采购机构 下拉数据
 	$(function(){
+		$("#extensionId").val("bmp,pmg,jpg,gif");
 		$.ajax({
 			url: "${pageContext.request.contextPath }/obSupplier/findAllSupplier.do",
 			contentType: "application/json;charset=UTF-8",

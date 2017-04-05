@@ -1,6 +1,9 @@
 package sums.dao.oc;
 
 import java.util.List;
+import java.util.Map;
+
+import org.apache.ibatis.annotations.Param;
 
 import sums.model.oc.Complaint;
 /**
@@ -82,4 +85,17 @@ public interface ComplaintMapper {
      * @exception
      */
     void updateIsDeleteByPrimaryKey(String id);
+    
+    /**
+     * 
+     * Description: 验证文件上传
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月2日 
+     * @param  @param 
+     * @param  @return 
+     * @return Integer 
+     * @exception
+     */
+    Integer yzsc(@Param("businessid") String businessid,@Param("typeId") String typeId);
 }

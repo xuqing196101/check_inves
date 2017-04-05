@@ -27,7 +27,7 @@ $(function() {
       }(),
       jump : function(e, first) { //触发分页后的回调
     	if(!first){ //一定要加此判断，否则初始时会无限刷新
-      		location.href = "${pageContext.request.contextPath }/onlineComplaints/complaints.do?page=" + e.curr;
+      		location.href = "${pageContext.request.contextPath }/onlineComplaints/recordQuery.do?page=" + e.curr;
         }
       }
     });

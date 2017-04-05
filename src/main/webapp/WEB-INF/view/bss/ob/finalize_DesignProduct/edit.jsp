@@ -25,6 +25,7 @@ $(document).ready(function(){
 			} 
 		 $("#orgId").select2();
 		 $("#orgId").select2("val", "${obProduct.procurementId}");
+		 $("#sela a").css("color","#555555");
 		}
 	});
 }); 
@@ -48,6 +49,20 @@ $(document).ready(function(){
 	    $("#categorieId4").val(treeNode.id);
 	    $("#categoryLevel").val(treeNode.level+1);
 	    hideMenu();
+	    //加载采购机构信息
+        $.ajax({
+				url: "${pageContext.request.contextPath }/product/selOrgByCategory.do",
+				type: "post",
+				data: {
+					smallPointsId:treeNode.id
+				},
+				success: function(data) {
+					$("#orgId").select2("val", data);
+				},
+				error: function() {
+					
+				}
+			});
 	  }
     }
  
@@ -223,13 +238,6 @@ $(document).ready(function(){
 								<div class="star_red" id="pname">${errorName }</div></td>
 						</tr>
 						<tr>
-							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
-							<td width="32%" ><select id="orgId"
-								name="supplierId" style="width: 66%;" onchange="pover()">
-									<option value=""></option>
-							</select>
-								<div class="star_red" id="ppro">${errorProcurement }</div></td>
-								
 								<td class="info" width="18%"><div class="star_red">*</div>选择目录</td>
 							<td >
 							<div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0 m0">
@@ -247,6 +255,12 @@ $(document).ready(function(){
 							</div>
 							</div>
 							</td>
+							<td class="info" width="18%"><div class="star_red">*</div>采购机构</td>
+							<td width="32%" ><select id="orgId"
+								name="supplierId" style="width: 66%;" onchange="pover()">
+									<option value=""></option>
+							</select>
+								<div class="star_red" id="ppro">${errorProcurement }</div></td>
 						</tr>
 						
 						<tr>

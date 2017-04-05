@@ -83,4 +83,9 @@ public class OBProductServiceImpl implements OBProductService {
 		return oBProductMapper.selectAllAmallPointsId(name);
 	}
 
+	@Override
+	public String selOrgByCategory(String smallPointsId,String id) {
+		return oBProductMapper.selOrgByCategory(smallPointsId,id);
+	}
+
 }

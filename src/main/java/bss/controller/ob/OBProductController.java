@@ -36,7 +36,6 @@ import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.PathUtil;
 import bss.model.ob.OBProduct;
 import bss.model.ob.OBSupplier;
-import bss.model.pms.PurchaseRequired;
 import bss.service.ob.OBProductService;
 import bss.service.ob.OBSupplierService;
 import bss.util.ExcelUtil;
@@ -91,7 +90,7 @@ public class OBProductController {
 	 * @exception
 	 */
 	@RequestMapping("/list")
-	public String list(OBProduct example, Model model, Integer page) {
+	public String list(@CurrentUser User user,OBProduct example, Model model, Integer page) {
 		if (page == null) {
 			page = 1;
 		}
@@ -122,6 +121,9 @@ public class OBProductController {
 					ob.setnCount(0);
 				}
 			}
+		}
+		if(user != null){
+			model.addAttribute("userii", user);
 		}
 		model.addAttribute("info", info);
 		model.addAttribute("productExample", example);
@@ -365,6 +367,10 @@ public class OBProductController {
 		String standardModel = request.getParameter("standardModel") == null ? "" :request.getParameter("standardModel");
 		String qualityTechnicalStandard = request.getParameter("qualityTechnicalStandard") == null ? "" :request.getParameter("qualityTechnicalStandard");
 		int i = Integer.parseInt(request.getParameter("i"));
+		if(procurementId.equals("")){
+			flag = false;
+			model.addAttribute("error_org","采购机构不能为空");
+		}
 		OBProduct obProduct = new OBProduct();
 		obProduct.setCode(code);
 		obProduct.setName(name);
@@ -441,6 +447,14 @@ public class OBProductController {
 		if(categoryId.equals("")){
 			model.addAttribute("error_category", "产品目录不能为空");
 			flag = false;
+		}else{
+			String orgId = oBProductService.selOrgByCategory(categoryId,null);
+			if(orgId != null){
+				if(! orgId.equals(procurementId)){
+					model.addAttribute("error_org", "该目录已有采购机构");
+					flag = false;
+				}
+			}
 		}
 		if(flag == false){
 			model.addAttribute("obProduct",obProduct);
@@ -511,6 +525,14 @@ public class OBProductController {
 		if(categoryId.equals("")){
 			model.addAttribute("error_category", "产品目录不能为空");
 			flag = false;
+		}else{
+			String orgId = oBProductService.selOrgByCategory(categoryId,id);
+			if(orgId != null){
+				if(! orgId.equals(procurementId)){
+					model.addAttribute("errorProcurement", "该目录已有采购机构");
+					flag = false;
+				}
+			}
 		}
 		OBProduct obProduct = new OBProduct();
 		obProduct.setId(id);
@@ -764,6 +786,25 @@ public class OBProductController {
 			}
 		model.addAttribute("obProduct", obProduct);
 		return "bss/ob/finalize_DesignProduct/view";
+	}
+	
+	/**
+	 * 
+	 * Description: 根据目录获取采购机构
+	 * 
+	 * @author  zhang shubin
+	 * @version  2017年4月2日 
+	 * @param  @param request
+	 * @param  @return 
+	 * @return String 
+	 * @exception
+	 */
+	@RequestMapping("selOrgByCategory")
+	@ResponseBody
+	public String selOrgByCategory(HttpServletRequest request,HttpServletResponse response){
+		String smallPointsId = request.getParameter("smallPointsId") == null ? "" : request.getParameter("smallPointsId");
+		String orgId = oBProductService.selOrgByCategory(smallPointsId,null);
+		return orgId;
 	}
 
 }

@@ -503,4 +503,11 @@
   	</if> )
   </select>
   
+  <select id="selOrgByCategory" parameterType="String" resultType="String">
+  	select DISTINCT PROCUREMENT_ID from T_BSS_OB_PRODUCT where SMALL_POINTS_ID = #{smallPointsId,jdbcType=VARCHAR} AND IS_DELETED = 0
+  	<if test="id != null">
+  		AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
+  	</if>
+  </select>
+  
 </mapper>
