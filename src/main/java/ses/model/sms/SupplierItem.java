@@ -105,6 +105,16 @@ public class SupplierItem implements Serializable {
 
 	private List<UploadFile> fileList=new ArrayList<UploadFile>();
 	
+	private String professType;
+	
+	public String getProfessType() {
+		return professType;
+	}
+
+	public void setProfessType(String professType) {
+		this.professType = professType;
+	}
+
 	public List<UploadFile> getFileList() {
 		return fileList;
 	}

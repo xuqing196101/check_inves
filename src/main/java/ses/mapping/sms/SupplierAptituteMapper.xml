@@ -262,5 +262,26 @@
 		where ID = #{id}
 	</delete>
 	
+	<select id="quertByCodeAndName" resultMap="BaseResultMap">
+		select
+		<include refid="Base_Column_List"/>
+		from T_SES_SMS_SUPPLIER_APTITUTE
+		where 1=1
+		<if test="certType !=null">
+		and CERT_TYPE=#{certType}
+		</if>
+		
+		<if test="matEngId != null">
+			and MAT_ENG_ID=#{matEngId}
+		</if>
+		<if test="code !=null ">
+			and CERT_CODE=#{code}
+		</if>
+		<if test="type !=null ">
+			and PROFESS_TYPE=#{type}
+		</if>
+	
+	</select>
+	
 	
 </mapper>

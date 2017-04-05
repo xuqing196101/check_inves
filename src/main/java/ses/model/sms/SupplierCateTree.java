@@ -51,8 +51,18 @@ public class SupplierCateTree {
     
     /** 自定义等级 **/
     private String diyLevel;
+    //专业类别名称
+    private String proName;
+    
+    public String getProName() {
+		return proName;
+	}
 
-    public String getFileId() {
+	public void setProName(String proName) {
+		this.proName = proName;
+	}
+
+	public String getFileId() {
         return fileId;
     }
 

@@ -84,6 +84,7 @@ import ses.service.oms.OrgnizationServiceI;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.service.sms.SupplierAddressService;
 import ses.service.sms.SupplierAfterSaleDepService;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierBranchService;
 import ses.service.sms.SupplierCertEngService;
@@ -219,6 +220,9 @@ public class SupplierController extends BaseSupplierController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
+	
+	@Autowired
+	private SupplierAptituteService supplierAptituteService;
 	/**
 	 * @Title: getIdentity
 	 * @author: Wang Zhaohua
@@ -2708,8 +2712,11 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/getFileByCode")
-    public ModelAndView addSeCert(String certCode, String supplierId, Model model, String number) {
-        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(certCode, supplierId);
+    public ModelAndView addSeCert(String certCode, String supplierId, Model model, String number,String professType) {
+//        List<SupplierCertEng> certEng = supplierCertEngService.selectCertEngByCode(certCode, supplierId);
+        SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+        List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null, matEng.getId(), certCode, professType);
+//        asdassd
         if (certEng != null && certEng.size() > 0) {
             model.addAttribute("number", number);
             //初始化供应商注册附件类型
@@ -2801,13 +2808,19 @@ public class SupplierController extends BaseSupplierController {
      */
     @ResponseBody
     @RequestMapping(value = "/getLevel", produces = "application/json;charset=utf-8")
-    public String getAptLevel(String typeId, String certCode, String supplierId) {
-        Supplier supplier = supplierService.get(supplierId);
-        String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
-        DictionaryData data = DictionaryDataUtil.findById(level);
-        if (data != null) {
-            return JSON.toJSONString(data);
-        }
+    public String getAptLevel(String typeId, String certCode, String supplierId,String professType) {
+    	 SupplierMatEng matEng = supplierMatEngService.getMatEng(supplierId);
+    	  List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType( typeId,matEng.getId(), certCode, professType);
+    	  if(certEng!=null&&certEng.size()>0){
+        	  String level = certEng.get(0).getAptituteLevel();
+//            Supplier supplier = supplierService.get(supplierId);
+//            String level = supplierCertEngService.getLevel(typeId, certCode, supplier.getSupplierMatEng().getId());
+            DictionaryData data = DictionaryDataUtil.findById(level);
+            if (data != null) {
+                return JSON.toJSONString(data);
+            } 
+    	  }
+
         List<SupplierPorjectQua> projectData = supplierPorjectQuaService.queryByNameAndSupplierId(typeId, supplierId);
         if(projectData!=null&&projectData.size()>0){
         	DictionaryData dd=new DictionaryData();

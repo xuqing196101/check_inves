@@ -45,4 +45,11 @@ public class SupplierAptituteServiceImpl implements SupplierAptituteService {
 		return supplierAptituteMapper.findAptituteByMatEngId(projectId);
 	}
 
+	@Override
+	public List<SupplierAptitute> queryByCodeAndType(String certType,String matEngId,String code, String type) {
+		// TODO Auto-generated method stub
+		return supplierAptituteMapper.quertByCodeAndName(certType,matEngId, code, type);
+	}
+
+	
 }

@@ -12,4 +12,6 @@ public interface SupplierAptituteService {
 	public SupplierAptitute queryById(String id);
 	
 	List<SupplierAptitute> queryByAptitute(String projectId);
+	
+	public List<SupplierAptitute> queryByCodeAndType(String certType,String matEngId,String code,String type);
 }

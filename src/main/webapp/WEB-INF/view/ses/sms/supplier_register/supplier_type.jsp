@@ -1795,7 +1795,7 @@
 															<div class="w120">发证日期</div></th>
 														<th class="info minw100">证书有效期截止日期</th>
 														<th class="info">证书状态</th>
-														<th class="info w200">证书图片（可上传多张）</th>
+													<!-- 	<th class="info w200">证书图片（可上传多张）</th> -->
 													</tr>
 												</thead>
 												<tbody id="cert_eng_list_tbody_id">
@@ -1862,7 +1862,7 @@
 															<td class="tc" <c:if test="${fn:contains(engPageField,certEng.id)}">style="border: 1px solid red;" </c:if>>
 																<input type="text" required="required" class="border0" name="supplierMatEng.listSupplierCertEngs[${certEngNumber}].certStatus" value="${certEng.certStatus}" />
 															</td>
-															<td class="tc">
+															<%-- <td class="tc">
 																<div class="w200 fl">
 																	<u:upload
 																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
@@ -1875,7 +1875,7 @@
 																		businessId="${certEng.id}"
 																		typeId="${supplierDictionaryData.supplierEngCert}"
 																		sysKey="${sysKey}" />
-																</div></td>
+																</div></td> --%>
 														</tr>
 														<c:set var="certEngNumber" value="${certEngNumber + 1}" />
 													</c:forEach>
@@ -1910,6 +1910,7 @@
 														<th class="info">专业类别</th>
 														<th class="info w200">资质等级</th>
 														<th class="info">是否主项资质</th>
+														<th>证书图片（可上传多张）</th>
 													</tr>
 												</thead>
 												<tbody id="aptitute_list_tbody_id">
@@ -2016,6 +2017,23 @@
 																	<option value="0"
 																		<c:if test="${aptitute.isMajorFund==0}"> selected="selected"</c:if>>否</option>
 															</select></td>
+															
+															<td class="tc">
+																<div class="w200 fl">
+																	<u:upload
+																		singleFileSize="${properties['file.picture.upload.singleFileSize']}"
+																		exts="${properties['file.picture.type']}"
+																		id="eng_up_${vs.index}" multiple="true"
+																		businessId="${aptitute.id}"
+																		typeId="${supplierDictionaryData.supplierEngCert}"
+																		sysKey="${sysKey}" auto="true" />
+																	<u:show showId="eng_show_${vs.index}"
+																		businessId="${aptitute.id}"
+																		typeId="${supplierDictionaryData.supplierEngCert}"
+																		sysKey="${sysKey}" />
+																</div></td>
+																
+																
 														</tr>
 														<c:set var="certAptNumber" value="${certAptNumber + 1}" />
 													</c:forEach>

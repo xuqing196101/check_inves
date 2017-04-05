@@ -114,33 +114,54 @@
 			// 根据证书编号获取附件信息
 			function getFileByCode(obj, number, flag){
 				var certCode = "";
+				var professType="";
 				if (flag == "1") {
 					certCode = $(obj).parent().next().find("input").val();
 					// 清空等级和附件
+					$(obj).parent().next().find("input[type='text']").val("");
 					$(obj).parent().next().next().find("input[type='text']").val("");
-					$(obj).parent().next().next().find("input[type='hidden']").val("");
-					$(obj).parent().next().next().next().html("");
-				} else {
+					 
+					$(obj).parent().next().next().next().find("input[type='text']").val("");
+				    $(obj).parent().next().next().next().find("input[type='hidden']").val("");
+				    
+					 
+					$(obj).parent().next().next().next().next().html("");
+					professType=$(obj).parent().next().next().children().val();
+				} else if(flag=="2"){
 					certCode = $(obj).val();
 					// 清空等级和附件
 					$(obj).parent().next().find("input[type='text']").val("");
-					$(obj).parent().next().find("input[type='hidden']").val("");
-					$(obj).parent().next().next().html("");
+					//清空资质等级
+					$(obj).parent().next().next().find("input[type='text']").val("");
+				    $(obj).parent().next().next().find("input[type='hidden']").val("");
+					
+					// $(obj).parent().next().next().next().html("");
+					professType=$(obj).parent().next().children().val();
+				}else{
+					 $(obj).parent().next().find("input[type='text']").val("");
+					 $(obj).parent().next().find("input[type='hidden']").val("");
+					 $(obj).parent().next().next().html("");
+					certCode = $(obj).parent().prev().children().val();
+					professType=$(obj).val();
 				}
 				var supplierId = $("#supplierId").val();
 				var typeId = "";
 				if (flag == "1") {
 					typeId = $(obj).val();
-				} else {
+				} else if(flag=="2") {
 					typeId = $(obj).parent().prev().find("select").val();
 				}
-				if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined") {
+				else if(flag=="3") {
+					typeId = $(obj).parent().prev().prev().find("select").val();
+				}
+				if (typeId != null && typeId != "" && typeId != "undefined" && certCode != null && certCode != "" && certCode != "undefined"&&professType!=null&&professType!="") {
 					$.ajax({
 						url : "${pageContext.request.contextPath}/supplier/getLevel.do",
 						data: {
 							"typeId": typeId,
 							"certCode": certCode,
 							"supplierId": supplierId,
+							"professType":professType
 						},
 						dataType: "json",
 						success: function(result){
@@ -158,9 +179,11 @@
 									async : false,
 									dataType : "html",
 									data : {
+										"typeId": typeId,
 										"certCode" : certCode,
 										"supplierId" : supplierId,
 										"number" : number,
+										"professType":professType
 									},
 									success : function(data) {
 										if (flag == "1") {
@@ -337,6 +360,7 @@
 											      <th class="info tc">中类</th>
 											      <th class="info tc w200">资质类型</th>
 											      <th class="info tc w100">证书编号</th>
+											       <th class="info tc w100">专业类别</th>
 											      <th class="info tc w80">资质等级</th>
 											      <th class="info tc">证书图片</th>
 										   		</tr>
@@ -356,6 +380,9 @@
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										            <div class="w200 lh30">${cate.secondNode}</div>
 										        </td>
+										        
+										        
+										        
 										        <td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										        	<select class="border0 p0 w200" name="listSupplierItems[${vs.index}].qualificationType" onchange="getFileByCode(this, '${vs.index}', '1')"">
 										        		<c:forEach items="${cate.typeList}" var="type">
@@ -365,6 +392,9 @@
 										        	
 										        </td>
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].certCode" value="${cate.certCode}" onblur="getFileByCode(this, '${vs.index}', '2')"></td>
+										     
+										    	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>><input type="text" class="border0" name="listSupplierItems[${vs.index}].professType" value="${cate.proName}" onblur="getFileByCode(this, '${vs.index}', '3')"></td>
+										     
 										     	<td <c:if test="${fn:contains(audit,cate.itemsId)}">style="border: 1px solid red;" </c:if>>
 										     		<input type="hidden" name="listSupplierItems[${vs.index}].level" value="${cate.level.id}" class="w80">
 										     		<input type="text" readonly="readonly" class="border0" value="${cate.level.name}">

@@ -2,6 +2,8 @@ package ses.dao.sms;
 
 import java.util.List;
 
+import org.apache.ibatis.annotations.Param;
+
 import ses.model.sms.SupplierAptitute;
 
 public interface SupplierAptituteMapper {
@@ -60,5 +62,7 @@ public interface SupplierAptituteMapper {
     
     
     void deleteById(String id);
+    
+    List<SupplierAptitute> quertByCodeAndName(@Param("certType")String certType,@Param("matEngId")String matEngId,@Param("code")String code,@Param("type")String type); 
     
 }

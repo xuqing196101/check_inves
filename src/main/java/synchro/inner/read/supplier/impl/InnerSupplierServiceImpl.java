@@ -302,7 +302,7 @@ public class InnerSupplierServiceImpl implements InnerSupplierService {
     		   if(serve==null){
     			   supplierMatServeMapper.insertSelective(supplier.getSupplierMatSe());
     		   }else if(serve!=null){
-    			   supplierMatServeMapper.updateByPrimaryKey(supplier.getSupplierMatSe());
+//    			   supplierMatServeMapper.updateByPrimaryKey(supplier.getSupplierMatSe());
     		   }
     		   
 			   if(supplier.getSupplierMatSe().getListSupplierCertSes().size()>0){

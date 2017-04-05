@@ -23,19 +23,23 @@ import ses.model.bms.Qualification;
 import ses.model.oms.Orgnization;
 import ses.model.oms.PurchaseDep;
 import ses.model.sms.Supplier;
+import ses.model.sms.SupplierAptitute;
 import ses.model.sms.SupplierAudit;
 import ses.model.sms.SupplierCateTree;
 import ses.model.sms.SupplierCertEng;
 import ses.model.sms.SupplierItem;
+import ses.model.sms.SupplierMatEng;
 import ses.model.sms.SupplierPorjectQua;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
 import ses.service.bms.QualificationService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
+import ses.service.sms.SupplierAptituteService;
 import ses.service.sms.SupplierAuditService;
 import ses.service.sms.SupplierCertEngService;
 import ses.service.sms.SupplierItemService;
+import ses.service.sms.SupplierMatEngService;
 import ses.service.sms.SupplierPorjectQuaService;
 import ses.service.sms.SupplierService;
 import ses.util.DictionaryDataUtil;
@@ -85,7 +89,12 @@ public class SupplierItemController extends BaseController {
 	
 	@Autowired
 	private SupplierPorjectQuaService supplierPorjectQuaService;
-
+	
+	@Autowired
+	private SupplierAptituteService supplierAptituteService;
+	@Autowired
+	private  SupplierMatEngService supplierMatEngService;
+	
 	@ResponseBody
 	@RequestMapping(value = "/saveCategory")
 	public String saveCategory(SupplierItem supplierItem, String flag, String clickFlag) {
@@ -272,6 +281,11 @@ public class SupplierItemController extends BaseController {
 			if(item != null && item.getQualificationType() != null) {
 				cateTree.setQualificationType(item.getQualificationType());
 			}
+			if(item != null && item.getProfessType()!= null) {
+				cateTree.setProName(item.getProfessType());
+			}
+			
+			
 			// 所有等级List
 			List < Category > cateList = new ArrayList < Category > ();
 			cateList.add(categoryService.selectByPrimaryKey(categoryId));
@@ -582,6 +596,7 @@ public class SupplierItemController extends BaseController {
 			}
 		}
 		if(isEng) {
+			SupplierMatEng matEng = supplierMatEngService.getMatEng(supId);
 			List < SupplierItem > listSupplierItems = getProject(supId, "PROJECT");
 			List < SupplierCateTree > allTreeList = new ArrayList < SupplierCateTree > ();
 			for(SupplierItem item: listSupplierItems) {
@@ -591,13 +606,17 @@ public class SupplierItemController extends BaseController {
 					cateTree.setItemsId(item.getId());
 					cateTree.setDiyLevel(item.getDiyLevel());
 					if(cateTree.getCertCode() != null && cateTree.getQualificationType() != null) {
-						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
+					if(cateTree!=null&&cateTree.getProName()!=null){
+						List<SupplierAptitute> certEng = supplierAptituteService.queryByCodeAndType(null,matEng.getId(), cateTree.getCertCode(), cateTree.getProName());
+//						List < SupplierCertEng > certEng = supplierCertEngService.selectCertEngByCode(cateTree.getCertCode(), supId);
 						if(certEng != null && certEng.size() > 0) {
 //							String level = supplierCertEngService.getLevel(cateTree.getQualificationType(), cateTree.getCertCode(), supplierService.get(supId).getSupplierMatEng().getId());
 //							if(level != null) {
 								cateTree.setFileId(certEng.get(0).getId());
 //							}
-						}
+						}	
+					}
+					
 					}
 					allTreeList.add(cateTree);
 				}
