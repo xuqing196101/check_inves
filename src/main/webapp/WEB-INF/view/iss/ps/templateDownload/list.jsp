@@ -319,7 +319,7 @@
 					<h2 class="search_detail">
 						<ul class="demand_list">
 				    	<li>
-					    	<label class="fl">采购模板名称：</label><span><input type="text" id="name" name="name" value="${dataDownload.name }"/></span>
+					    	<label class="fl">采购模板名称：</label><span><input type="text" id="name" name="name" value="${name }"/></span>
 					    </li>
 					    <button type="submit" class="btn fl mt1">查询</button>
 					    <button type="button" onclick="resetResult()" class="btn fl mt1">重置</button>

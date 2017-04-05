@@ -28,7 +28,7 @@
 		    jump: function(e, first){ //触发分页后的回调
 		        if(!first){ //一定要加此判断，否则初始时会无限刷新
 		      		var name = "${data.name}";
-		      		location.href = "${pageContext.request.contextPath }/dataDownload/getTemplateList.do?name=" + name + "&page=" + e.curr;
+		      		location.href = "${pageContext.request.contextPath }/templateDownload/getTemplateList.do?name=" + name + "&page=" + e.curr;
 		        }
 		    }
 		});
@@ -37,7 +37,7 @@
 	//查询
 	function query(){
 		var name = $("#name").val();
-		window.location.href="${pageContext.request.contextPath}/dataDownload/getIndexList.html?name="+name;
+		window.location.href="${pageContext.request.contextPath}/templateDownload/getIndexList.html?name="+name;
 	}
 	</script>
 </head>

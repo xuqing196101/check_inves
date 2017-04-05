@@ -21,12 +21,12 @@
 			
 			//返回
 			function back(){
-				window.location.href = "${pageContext.request.contextPath}/dataDownload/getList.html";
+				window.location.href = "${pageContext.request.contextPath}/templateDownload/getList.html";
 			}
 			
 			//发布
 			function publishData(){
-				$("#form").attr("action","${pageContext.request.contextPath }/dataDownload/editPublish.html");
+				$("#form").attr("action","${pageContext.request.contextPath }/templateDownload/editPublish.html");
 				$("#form").submit();
 			}
 		</script>
@@ -52,7 +52,7 @@
 		</div>
 		
 		<div class="container container_box">
-			<form action="${pageContext.request.contextPath }/dataDownload/editData.html" method="post" id="form">
+			<form action="${pageContext.request.contextPath }/templateDownload/editData.html" method="post" id="form">
 				<input type="hidden" name="id" value="${data.id }"/>
 				<h2 class="list_title">修改采购模板</h2>
 				

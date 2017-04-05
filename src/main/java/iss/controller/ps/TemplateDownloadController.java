@@ -7,6 +7,7 @@ import iss.model.ps.TemplateDownload;
 import iss.service.ps.ArticleService;
 import iss.service.ps.TemplateDownloadService;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
@@ -308,11 +309,17 @@ public class TemplateDownloadController {
 	* @param @return      
 	* @return String
 	 */
-	@RequestMapping("/getIndexList")
+	@RequestMapping(value = "/getIndexList", produces = "text/html;charset=UTF-8")
 	public String getIndexList(Integer page,TemplateDownload TemplateDownload,Model model,HttpServletRequest request){
 		HashMap<String,Object> map = new HashMap<>();
 		if(TemplateDownload!=null){
 			if(TemplateDownload.getName()!=null && !TemplateDownload.getName().equals("")){
+				 try {
+						TemplateDownload.setName(new String(TemplateDownload.getName().getBytes("ISO-8859-1"),"UTF-8"));
+					} catch (UnsupportedEncodingException e) {
+						// TODO Auto-generated catch block
+						e.printStackTrace();
+					}
 				map.put("name", TemplateDownload.getName());
 			}
 		}
@@ -348,7 +355,7 @@ public class TemplateDownloadController {
 	      act.setGroupsUploadId(groupUploadId);
 	      act.setGroupShowId(groupShowId);
 	    }
-		
+	   
 		model.addAttribute("list", new PageInfo<TemplateDownload>(list));
 		model.addAttribute("data", TemplateDownload);
 		model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
