@@ -79,4 +79,21 @@
 		});
 	</script>
 </td>
+
+<td class="tc">
+			<div class="w200 fl">
+				<u:upload  singleFileSize="${properties['file.picture.upload.singleFileSize']}" exts="${properties['file.picture.type']}"
+																		id="ap_${certAptNumber}" multiple="true"
+																		businessId="${id}"
+																		typeId="${typeId}"
+																		sysKey="${sysKey}" auto="true" />
+																	<u:show showId="ap_${certAptNumber}"
+																		businessId="${id}"
+																		typeId="${typeId}"
+																		sysKey="${sysKey}" />
+																</div></td>
+																
+																
+
+
 </tr>

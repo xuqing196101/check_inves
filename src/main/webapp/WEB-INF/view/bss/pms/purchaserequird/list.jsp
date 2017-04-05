@@ -83,7 +83,7 @@
 		$('input[name="chkItem"]:checked').each(function(){ 
 			id.push($(this).val());
 		}); 
-		if(status=="已提交"){
+		if(status.trim()=="已提交"){
 			layer.alert("已提交，不允许修改",{offset: ['222px', '390px'], shade:0.01});
 		}
 		else if(id.length==1){
@@ -98,11 +98,24 @@
     
     //删除
     function del(){
-    	var id =[]; 
-			$('input[name="chkItem"]:checked').each(function(){ 
+    	var id =[];
+    	var flag=true;
+    	var count=0
+    	var n=[];
+			$('input[name="chkItem"]:checked').each(function(i){ 
 				id.push($(this).val()); 
+				var status = $(this).parents("tr").find("td").eq(6).text();
+				if(status.trim()=="已提交"){
+					count=i+1;
+					n.push(count);
+					flag=false; 
+				}
 			});
-			if(id.length>0){
+			
+			if(flag==false){
+				layer.alert("第"+n+"个已提交，不允许删除",{offset: ['222px', '390px'], shade:0.01});
+			}
+			else  if(id.length>0){
 				layer.confirm('您确定要删除吗?', {title:'提示',offset: ['222px','360px'],shade:0.01}, function(index){
 				 	$.ajax({
 		 			 	url:"${pageContext.request.contextPath}/purchaser/delete.html?planNo="+id,
@@ -307,9 +320,9 @@
 		<c:forEach items="${info.list}" var="obj" varStatus="vs">
 			<tr class="pointer">
 			  <td class="tc w30">
-			  <c:if test="${obj.status=='1' || obj.status=='4'  }">
+			<%--   <c:if test="${obj.status=='1' || obj.status=='4'  }"> --%>
                  <input type="checkbox" value="${obj.uniqueId }" name="chkItem" onclick="check()">
-              </c:if>
+            <%--   </c:if> --%>
 			  </td>
 			  <td class="tc w50" onclick="view('${obj.uniqueId }')" >${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
 			  <td class="tl pl20" onclick="view('${obj.uniqueId }')">
