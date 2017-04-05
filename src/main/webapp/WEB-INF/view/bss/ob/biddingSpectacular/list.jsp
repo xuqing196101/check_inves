@@ -209,7 +209,7 @@
 		   			0
 		  		</c:if>
 		   		<c:if test="${obProject.closingSupplier!=0}">
-		   			<a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}&result=1">${obProject.closingSupplier}</a>
+		   			<a href="${pageContext.request.contextPath}/ob_project/supplierList.html?obProjectId=${obProject.id}&result=2">${obProject.closingSupplier}</a>
 		  		</c:if>
 			  </td>
 			  <td class="tc">

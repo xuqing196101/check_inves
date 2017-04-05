@@ -183,7 +183,12 @@
 						<div class="select_common col-md-12 col-sm-12 col-xs-12 p0">
 							<select name="planType" id="wtype" onchange="gtype(this)" disabled="true">
 								<c:forEach items="${types }" var="tp" >
-									<option value="${tp.id }">${tp.name }</option>
+								 <c:if test="${tp.id==list[0].planType }">
+									<option value="${tp.id}" selected="selected">${tp.name }</option>
+								 </c:if>
+								  <c:if test="${tp.id!=list[0].planType }">
+									<option value="${tp.id}">${tp.name }</option>
+								 </c:if>
 								</c:forEach>
 							</select>
 						</div>

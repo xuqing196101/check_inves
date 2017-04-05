@@ -230,6 +230,21 @@ public class UserManageController extends BaseController{
   			
   			return "ses/bms/user/add";
   		}
+  		
+  		/*if(user.getOfficerCertNo().length() > 20){
+  		  model.addAttribute("user", user);
+          model.addAttribute("officerCertNo", "长度不能大于20");
+          List<DictionaryData> genders = DictionaryDataUtil.find(13);
+          model.addAttribute("genders", genders);
+          model.addAttribute("roleName", roleName);
+          model.addAttribute("orgName", orgName);
+          
+          if (StringUtils.isNotBlank(origin)){
+            addAtt(request, model);
+          }
+          
+          return "ses/bms/user/add";
+  		}*/
 		//校验确认密码
 		if (!user.getPassword().equals(user.getPassword2())){
 			model.addAttribute("user", user);

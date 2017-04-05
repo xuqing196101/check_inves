@@ -54,6 +54,8 @@ import bss.model.ppms.Task;
 import bss.model.pqims.PqInfo;
 import bss.model.prms.PackageExpert;
 import bss.model.prms.ReviewProgress;
+import bss.model.prms.SupplierRank;
+import bss.model.prms.ext.ExpertSuppScore;
 import bss.service.cs.ContractRequiredService;
 import bss.service.cs.PurchaseContractService;
 import bss.service.pms.AuditPersonService;
@@ -74,6 +76,7 @@ import bss.service.ppms.SaleTenderService;
 import bss.service.ppms.SupplierCheckPassService;
 import bss.service.ppms.TaskService;
 import bss.service.pqims.PqInfoService;
+import bss.service.prms.ExpertScoreService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
 
@@ -198,6 +201,9 @@ public class PlanSupervisionController {
     
     @Autowired 
     private BidMethodService bidMethodService; 
+    
+    @Autowired
+    private ExpertScoreService expertScoreService;
     
     
     /**
@@ -638,33 +644,59 @@ public class PlanSupervisionController {
                             model.addAttribute("fileName", files.get(0).getName());
                         }
                         //获取采购文件的编制人
-                        FlowDefine define = new FlowDefine();
-                        define.setPurchaseTypeId(project.getPurchaseType());
-                        define.setStep(3);
-                        List<FlowDefine> find = flowMangeService.find(define);
-                        FlowExecute execute = new FlowExecute();
-                        execute.setProjectId(project.getId());
-                        execute.setFlowDefineId(find.get(0).getId());
-                        execute.setStatus(1);
-                        List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
-                        if(findFlowExecute != null && findFlowExecute.size() > 0){
-                            model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
-                        } else {
-                            execute.setStatus(3);
-                            List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
-                            if(findFlowExecutes != null && findFlowExecutes.size() > 0){
-                                model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                        if(!"DYLY".equals(DictionaryDataUtil.findById(project.getPurchaseType()).getCode())){
+                            FlowDefine define = new FlowDefine();
+                            define.setPurchaseTypeId(project.getPurchaseType());
+                            define.setCode("NZCGWJ");
+                            List<FlowDefine> find = flowMangeService.find(define);
+                            FlowExecute execute = new FlowExecute();
+                            execute.setProjectId(project.getId());
+                            execute.setFlowDefineId(find.get(0).getId());
+                            execute.setStatus(1);
+                            List<FlowExecute> findFlowExecute = flowMangeService.findFlowExecute(execute);
+                            if(findFlowExecute != null && findFlowExecute.size() > 0){
+                                model.addAttribute("operatorName", findFlowExecute.get(0).getOperatorName());
                             } else {
-                                execute.setStatus(2);
-                                List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
-                                if(executes != null && executes.size() > 0){
-                                    model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                                execute.setStatus(3);
+                                List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(execute);
+                                if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                                    model.addAttribute("operatorName", findFlowExecutes.get(0).getOperatorName());
+                                } else {
+                                    execute.setStatus(2);
+                                    List<FlowExecute> executes = flowMangeService.findFlowExecute(execute);
+                                    if(executes != null && executes.size() > 0){
+                                        model.addAttribute("operatorName", executes.get(0).getOperatorName());
+                                    }
+                                }
+                            }
+                            
+                            
+                            //获取发售标书的操作人
+                            FlowDefine defines = new FlowDefine();
+                            defines.setPurchaseTypeId(project.getPurchaseType());
+                            defines.setCode("FSBS");
+                            List<FlowDefine> finds = flowMangeService.find(defines);
+                            FlowExecute executes = new FlowExecute();
+                            executes.setProjectId(project.getId());
+                            executes.setFlowDefineId(finds.get(0).getId());
+                            executes.setStatus(1);
+                            List<FlowExecute> findFlowExecutes = flowMangeService.findFlowExecute(executes);
+                            if(findFlowExecutes != null && findFlowExecutes.size() > 0){
+                                model.addAttribute("operatorNames", findFlowExecutes.get(0).getOperatorName());
+                            } else {
+                                executes.setStatus(3);
+                                List<FlowExecute> findFlowE = flowMangeService.findFlowExecute(executes);
+                                if(findFlowE != null && findFlowE.size() > 0){
+                                    model.addAttribute("operatorNames", findFlowE.get(0).getOperatorName());
+                                } else {
+                                    executes.setStatus(2);
+                                    List<FlowExecute> execut = flowMangeService.findFlowExecute(executes);
+                                    if(execut != null && execut.size() > 0){
+                                        model.addAttribute("operatorNames", execut.get(0).getOperatorName());
+                                    }
                                 }
                             }
                         }
-                        
-                        //获取发售标书的操作人
-                        
                         
                         
                         //获取采购公告
@@ -1219,10 +1251,99 @@ public class PlanSupervisionController {
                         }
                     }
                     
+                    // 获取经济类型的个数
+                    int count = 0;
+                    // 该包内的专家总数
+                    int sumCount = 0;
+                    for (PackageExpert exp : expertList) {
+                        if (pack.getId().equals(exp.getPackageId())) {
+                            sumCount++;
+                            DictionaryData data = DictionaryDataUtil.findById(exp.getReviewTypeId());
+                            if (data != null && "ECONOMY".equals(data.getCode())) {
+                                count++;
+                            }
+                        }
+                    }
+                    // 给指定位置设置rowspan
+                    int flag = 0;
+                    for (PackageExpert exp : expertList) {
+                        if (pack.getId().equals(exp.getPackageId())) {
+                            if (count == 0 && flag == 0) {
+                                // 如果没有经济类型,只有技术类型
+                                exp.setCount(sumCount);
+                            } else if (count == sumCount && flag == 0) {
+                                // 如果全是经济类型
+                                exp.setCount(sumCount);
+                            } else if (count < sumCount && count > 0) {
+                                // 都有
+                                if (flag == 0) {
+                                    // 设置第一个rowspan为经济的个数
+                                    exp.setCount(count);
+                                } else if (flag == count) {
+                                    // 设置第一个技术类型的rowspan为全部减去经济的个数
+                                    exp.setCount(sumCount - count);
+                                } else {
+                                    exp.setCount(0);
+                                };
+                            }
+                            flag++;
+                        }
+                    }
+                    
+                    // 将reviewTypeId的值改为name
+                    for (PackageExpert expert : expertList) {
+                        DictionaryData data = DictionaryDataUtil.findById(expert.getReviewTypeId());
+                        if (data != null) {
+                            expert.setReviewTypeId(data.getName());
+                        }
+                    }
+                    HashMap<String, Object> searchMap = new HashMap<>();
+                    // 专家给每个供应商打得分
+                    searchMap.put("projectId", pack.getProjectId());
+                    searchMap.put("packageId", pack.getId());
+                    List<ExpertSuppScore> expertScoreList = expertScoreService.getScoreByMap(searchMap);
+                    model.addAttribute("expertScoreList", expertScoreList);
+                    model.addAttribute("expertList", expertList);
+                    
+                    
+                    // 供应商经济总分,技术总分,总分
+                    SupplierRank rank = new SupplierRank();
+                    rank.setSupplierId(suppList.get(0).getSuppliers().getId());
+                    rank.setPackageId(suppList.get(0).getPackages());
+                    BigDecimal es = suppList.get(0).getEconomicScore();
+                    if (es == null) {
+                      rank.setEconScore(null);
+                    } else {
+                      rank.setEconScore(es);
+                    }
+                    BigDecimal ts = suppList.get(0).getTechnologyScore();
+                    if (ts == null) {
+                      rank.setTechScore(null);
+                    } else {
+                      rank.setTechScore(ts);
+                    }
+                    if (es == null || ts == null) {
+                      rank.setSumScore(null);
+                    } else {
+                      rank.setSumScore(suppList.get(0).getEconomicScore().add(suppList.get(0).getTechnologyScore()));
+                    }
+                    
+                    
+                    // 判断review_result是否不为空
+                    SaleTender saleTend = new SaleTender();
+                    saleTend.setPackages(rank.getPackageId());
+                    Supplier suppliers = new Supplier();
+                    suppliers.setId(rank.getSupplierId());
+                    saleTend.setSuppliers(suppliers);
+                    String reviewResult = saleTenderService.findByCon(saleTend).get(0).getReviewResult();
+                    rank.setReviewResult(reviewResult);
+                    
+                    model.addAttribute("rank", rank);
                 }
                 model.addAttribute("methodCode", methodCode);
             }
             model.addAttribute("supplier", suppList.get(0));
+            model.addAttribute("pack", pack);
         }
         return "sums/ss/planSupervision/view_graded";
     }

@@ -1140,13 +1140,24 @@ public class OBProjectServerImpl implements OBProjectServer {
 		}
 		//中标 供应商
 		if(StringUtils.isNotBlank(result)){
-			List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(projectid,1,"1");
-			Set<String> list=new HashSet<>();
-			for (OBProjectResult obProjectResult : prlist) {
-				list.add(obProjectResult.getSupplierId());
+			if(result.equals("1")){
+				List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(projectid,null,"1");
+				Set<String> list=new HashSet<>();
+				for (OBProjectResult obProjectResult : prlist) {
+					list.add(obProjectResult.getSupplierId());
+				}
+				map.put("result", "1");
+				map.put("list", list);
 			}
-			map.put("result", "1");
-			map.put("list", list);
+			if(result.equals("2")){
+				List<OBProjectResult> prlist = OBProjectResultMapper.selectNotSuppler(projectid,1,"1");
+				Set<String> list=new HashSet<>();
+				for (OBProjectResult obProjectResult : prlist) {
+					list.add(obProjectResult.getSupplierId());
+				}
+				map.put("result", "2");
+				map.put("list", list);
+			}
 		}
 		if(StringUtils.isNotBlank(name)){
 			map.put("name", name);

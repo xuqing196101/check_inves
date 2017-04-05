@@ -31,12 +31,9 @@
   function fanhui(){
   	window.location.href="${pageContext.request.contextPath}/purchaseManage/add.html"
   }
-  function submit(){
-  	$("#form1").submit();
-  }
-function reset(){
-	$("#name").val('');
-}
+	function chongzhi(){
+		$("input[name='name']").val('');
+	}
 
    
 	function selectAll(){
@@ -111,7 +108,7 @@ function reset(){
 	      </li>
 	    </ul>
 	        <button class="btn fl" onclick="submit()" type="button">查询</button>
-          <button class="btn fl" onclick="reset()" type="button"> 重置</button>
+          <button class="btn fl" onclick="chongzhi()" type="button">重置</button>
 	    <div class="clear"></div>
 	  </form>
 	</h2>

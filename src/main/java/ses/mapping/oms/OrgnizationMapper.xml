@@ -251,7 +251,7 @@
 			and d.REQUIRE_DEP_ID= #{requireDepId}
 		</if> 
 		<if test="name != null and name != ''">
-			and a.name like #{name}
+			and d.name like '%${name}%'
 		</if>
 		<if test="notName != null and notName != ''">
 			and a.name not like #{notName}

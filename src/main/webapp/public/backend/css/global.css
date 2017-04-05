@@ -28,7 +28,6 @@ p, li, li a, label {
 	clear: both;
 	margin: 5px 0px 10px 20px;
 	line-height: 32px;
-	overflow: hidden;
 }
 
 .table_box {

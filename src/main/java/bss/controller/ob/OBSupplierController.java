@@ -150,9 +150,15 @@ public class OBSupplierController  {
 	 * @exception
 	 */
 	@RequestMapping("/supplier")
-	public String supplier(Model model, HttpServletRequest request, Integer page) {
+	public String supplier(@CurrentUser User user,Model model, HttpServletRequest request, Integer page) {
 		if (page == null) {
 			page = 1;
+		}
+		String orgTyp = null;
+		if(user != null){
+			if(user.getOrg().getTypeName().equals("1")){
+				orgTyp = user.getOrg().getTypeName();
+			}
 		}
 		int status = request.getParameter("status") == null ? 0 : Integer
 				.parseInt(request.getParameter("status"));
@@ -186,6 +192,7 @@ public class OBSupplierController  {
 		PageInfo<OBSupplier> info = new PageInfo<>(list);
 		model.addAttribute("info", info);
 		model.addAttribute("status", status);
+		model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("supplierName", supplierName);
 		model.addAttribute("smallPointsId", smallPointsId);
 		return "bss/ob/addSupplier/supplierlist";
@@ -299,6 +306,11 @@ public class OBSupplierController  {
 		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
 			flag = false;
 			model.addAttribute("errorCertCode","资质证书编号不能为空");
+		}else{
+			if(oBSupplierService.yzzsCode(obSupplier.getCertCode(),null) > 0){
+				flag = false;
+				model.addAttribute("errorCertCode","资质证书编号不能重复");
+			}
 		}
 		if(obSupplier.getUscc() == null || obSupplier.getUscc() == ""){
 			flag = false;
@@ -408,6 +420,11 @@ public class OBSupplierController  {
 		if(obSupplier.getCertCode() == null || obSupplier.getCertCode() == ""){
 			flag = false;
 			model.addAttribute("errorCertCode","资质证书编号不能为空");
+		}else{
+			if(oBSupplierService.yzzsCode(obSupplier.getCertCode(),obSupplier.getId()) > 0){
+				flag = false;
+				model.addAttribute("errorCertCode","资质证书编号不能重复");
+			}
 		}
 		if(obSupplier.getUscc() == null || obSupplier.getUscc() == ""){
 			flag = false;

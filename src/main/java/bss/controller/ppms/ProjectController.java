@@ -2927,7 +2927,7 @@ public class ProjectController extends BaseController {
      
      
      @RequestMapping("/delete")
-     public String delete(String ids,Model model,Project project,String name,String projectNumber){
+     public String delete(@CurrentUser User user, Integer page,String ids,Model model,Project project,String name,String projectNumber){
          String[] id = ids.split(",");
          for(int i=0;i<id.length;i++){
              ProjectDetail pro =  detailService.selectByPrimaryKey(id[i]);
@@ -2941,8 +2941,13 @@ public class ProjectController extends BaseController {
          List<ProjectDetail> detail = detailService.selectById(map);
          model.addAttribute("lists", detail);
          
-         Integer page = null;
-         List<Task> taskList = taskservice.listByTask(null, page==null?1:page);
+         map.put("userId", user.getId());
+         if(page==null){
+             page = 1;
+         }
+         map.put("page", page.toString());
+         PageHelper.startPage(page,Integer.parseInt("10"));
+         List<Task> taskList = taskservice.listByProjectTask(map);
          PageInfo<Task> listT = new PageInfo<Task>(taskList);
          model.addAttribute("list", listT);
          

@@ -384,7 +384,7 @@
 				 <li class="col-md-3 col-sm-6 col-xs-12 col-lg-3">
 				    <span class="col-md-12 col-sm-12 col-xs-12 col-lg-12 padding-left-5">军官证号</span>
 				    <div class="input-append input_group col-md-12 col-xs-12 col-sm-12 col-lg-12 p0">
-			        	<input  name="officerCertNo" value="${user.officerCertNo}"  maxlength="20" type="text">
+			        	<input  name="officerCertNo" value="${user.officerCertNo}" onkeyup="this.value=this.value.replace(/[\u4E00-\u9FA5\uF900-\uFA2D]/g,'')" maxlength="20" type="text">
 			        	<span class="add-on">i</span>
 			        </div>
 				 </li>

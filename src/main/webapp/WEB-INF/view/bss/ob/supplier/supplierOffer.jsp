@@ -61,8 +61,8 @@
 					return;
 				}
 				var x = parseInt(count) * unitPrice;
-				var unitPriceFloat = toDecimal(x);
-				$("#"+id).text(unitPriceFloat);
+				//var unitPriceFloat = toDecimal(x);
+				$("#"+id).text((x/10000).toFixed(6));
 				calTotalPrice();
 				
 			}else{
@@ -94,17 +94,20 @@
 			var total = 0;
 			for(var i = 0;i < ids.length; i++) {
 				var id = ids[i];
-				var signalPrice = toDecimal($("#"+id).html());
-				if(total == 0){
-					total = signalPrice;
-				}else{
-					total = parseFloat(total) + parseFloat(signalPrice);
+				var signalPrice = $("#"+id).html();
+				// 判断是否为空
+				if(signalPrice != ''){
+					if(total == 0){
+						total = parseFloat(signalPrice);
+					}else{
+						total = parseFloat(total) + parseFloat(signalPrice);
+					}
 				}
 			}
 			if(total == 0){
 				$("#totalPrice").html("");
 			}else{
-				$("#totalPrice").html(toDecimal(total));
+				$("#totalPrice").html(total.toFixed(6));
 			}
 		}
 		
@@ -238,7 +241,7 @@
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
 			  <th class="info" width="10px">报价（元）</th>
-			  <th class="info">总价（元）</th>
+			  <th class="info">总价（万元）</th>
 			  <th class="info">备注信息</th>
 			</tr>
 			</thead>

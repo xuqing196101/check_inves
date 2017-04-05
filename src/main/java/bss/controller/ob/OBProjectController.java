@@ -197,7 +197,6 @@ public class OBProjectController {
 			String ss = request.getParameter("obProjectId");
 			List<OBSupplier> lists = OBProjectServer.supplierList(page,obProjectId,
 					 name, status,result);
-			model.addAttribute("info", new PageInfo<OBSupplier>(lists));
 			model.addAttribute("obProjectId",obProjectId);
 			model.addAttribute("name",name);
 			model.addAttribute("status",status);
@@ -221,6 +220,7 @@ public class OBProjectController {
 					}
 				}
 			}
+			model.addAttribute("info", new PageInfo<OBSupplier>(lists));
 		}
 		return "bss/ob/biddingInformation/supplierlist";
 	}

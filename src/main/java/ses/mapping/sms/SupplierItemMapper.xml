@@ -24,7 +24,7 @@
 	
 	<select id="getSupplierItem" parameterType="java.lang.String" resultMap="BaseResultMap">
   	  select
-		<include refid="Base_Column_List" />
+		*
 		from T_SES_SMS_SUPPLIER_ITEM
 		where SUPPLIER_ID = #{supplierId}
 	</select>
