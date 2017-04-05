@@ -255,4 +255,17 @@ public interface OBProjectResultMapper {
     * @throws
      */
     List<OBProjectResult> findConfirmResult(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 查询竞价结果信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月5日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selResultByProjectId(@Param("projectId") String projectId);
 }

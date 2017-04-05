@@ -580,4 +580,9 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 		return obProjectResult;
 	}
 
+	@Override
+	public List<OBProjectResult> selResultByProjectId(String projectId) {
+		return oBProjectResultMapper.selResultByProjectId(projectId);
+	}
+
 }

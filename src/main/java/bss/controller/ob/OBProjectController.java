@@ -688,34 +688,41 @@ public class OBProjectController {
 				}
 				model.addAttribute("selectInfoByPID", resultList);
 				}
-				//查询参与的供应商
+				//查询参与的供应商==============================================================================================
 				if(obProjectId != null){
-					List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(obProjectId);
-					Integer countProportion = 0;
-					if(list != null){
-						for (OBResultSubtabulation obr : list) {
-							if(obr != null){
-								OBProjectResult projectResult = oBProjectResultService.selectByPrimaryKey(obr.getProjectResultId());
-								if(projectResult != null){
-									countProportion += Integer.parseInt(projectResult.getProportion());
-									obr.setProportion(Integer.parseInt(projectResult.getProportion()));
-									obr.setStatus(projectResult.getStatus());
-									obr.setRanking(projectResult.getRanking());
+					List<OBProjectResult> listss = oBProjectResultService.selResultByProjectId(obProjectId);
+			    	Integer countProportion = 0;
+			    	BigDecimal million = new BigDecimal(10000);
+			    	if(listss != null && listss.size() > 0){
+			    		for (OBProjectResult obProjectResult : listss) {
+							if(obProjectResult != null){
+								if(obProjectResult.getStatus() == 1){
+									List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(obProjectId, obProjectResult.getSupplierId());
+									if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
+										for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
+											if(obResultSubtabulation2 != null){
+												obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
+											}
+										}
+									}
+									
+									obProjectResult.setObResultSubtabulation(obResultSubtabulation);
+									countProportion += Integer.parseInt(obProjectResult.getProportion());
+								}else{
+									List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(obProjectId, obProjectResult.getSupplierId());
+									obProjectResult.setOBResultsInfo(listinf);
 								}
 							}
 						}
-					}
+			    	}
 					OBProject obProjectww = OBProjectServer.selectByPrimaryKey(obProjectId);
 			    	if(obProjectww != null){
 			    		String projectName = obProjectww.getName();
 			    		model.addAttribute("projectName",projectName);
 			    	}
-			    	if(list != null){
-			    		Collections.sort(list);
-			    	}
-					model.addAttribute("listres", list);
+					model.addAttribute("listres", listss);
 					model.addAttribute("countProportion",countProportion);
-					model.addAttribute("size",list.size());
+					model.addAttribute("size",listss.size());
 				}
 				if(StringUtils.isNotBlank(status)){
 					model.addAttribute("type", "1");
@@ -1009,37 +1016,36 @@ public class OBProjectController {
     @RequestMapping("selInfo")
     public String selInfo(Model model, HttpServletRequest request){
     	String projectId = request.getParameter("id") == null ? "" : request.getParameter("id");
-    	List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(projectId);
+    	List<OBProjectResult> list = oBProjectResultService.selResultByProjectId(projectId);
     	Integer countProportion = 0;
-    	if(list != null){
-    		for (OBResultSubtabulation obr : list) {
-    			if(obr != null){
-    				List<OBProjectResult> suli = oBProjectResultService.selByProjectId(projectId);
-    				if(suli != null && suli.size() > 0){
-    					for (OBProjectResult obProjectResult : suli) {
-    						if(obProjectResult != null){
-    							if(obProjectResult.getSupplierId() != null){
-    								if(obProjectResult.getSupplierId().equals(obr.getSupplierId())){
-            							countProportion += obProjectResult.getCountSupplierProportion();
-            							obr.setProportion(obProjectResult.getCountSupplierProportion());
-            							obr.setStatus(obProjectResult.getStatus());
-            	    					obr.setRanking(obProjectResult.getRanking());
-            						}
-    							}
-    						}
-    					}
-    				}
-    			}
-        	}
+    	BigDecimal million = new BigDecimal(10000);
+    	if(list != null && list.size() > 0){
+    		for (OBProjectResult obProjectResult : list) {
+				if(obProjectResult != null){
+					if(obProjectResult.getStatus() == 1){
+						List<OBResultSubtabulation> obResultSubtabulation = obResultSubtabulationService.selectByProjectIdAndSupplierId(projectId, obProjectResult.getSupplierId());
+						if(obResultSubtabulation != null && obResultSubtabulation.size() > 0){
+							for (OBResultSubtabulation obResultSubtabulation2 : obResultSubtabulation) {
+								if(obResultSubtabulation2 != null){
+									obResultSubtabulation2.setTotalMoney(obResultSubtabulation2.getTotalMoney().divide(million));
+								}
+							}
+						}
+						obProjectResult.setObResultSubtabulation(obResultSubtabulation);
+						countProportion += Integer.parseInt(obProjectResult.getProportion());
+					}else{
+						List<OBResultsInfo> listinf = OBResultsInfoMapper.selectResult(projectId, obProjectResult.getSupplierId());
+						obProjectResult.setOBResultsInfo(listinf);
+					}
+				}
+			}
     	}
     	OBProject obProject = OBProjectServer.selectByPrimaryKey(projectId);
     	if(obProject != null){
     		String projectName = obProject.getName();
     		model.addAttribute("projectName",projectName);
     	}
-    	if(list != null){
-    		Collections.sort(list);
-    	}
+    	
     	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
     	model.addAttribute("size",list.size());

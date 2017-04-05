@@ -21,4 +21,10 @@ public class OBResultSubtabulationServiceImpl implements
 		return obResultSubtabulationMapper.selectByProjectId(projectId);
 	}
 
+	@Override
+	public List<OBResultSubtabulation> selectByProjectIdAndSupplierId(
+			String projectId, String supplierId) {
+		return obResultSubtabulationMapper.selectByProjectIdAndSupplierId(projectId, supplierId);
+	}
+
 }

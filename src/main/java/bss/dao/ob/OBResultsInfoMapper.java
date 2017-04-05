@@ -60,4 +60,7 @@ public interface OBResultsInfoMapper {
      * @return
      */
     List<OBResultsInfo> getProductInfo(@Param("projectId")String projectId ,@Param("supplierId")String supplierId);
+    
+    
+    List<OBResultsInfo> selectResult(@Param("projectId")String projectId ,@Param("supplierId")String supplierId);
 }

@@ -40,6 +40,7 @@
 <c:if test="${size == 0 }">
 	<h2 class="count_flow">无报价信息</h2>
 </c:if>
+
 	 <c:forEach items="${listres}" var="supplier" varStatus="pi">
 	 <ul class="ul_list">
 	  <li class="col-md-3 col-sm-6 col-xs-12">
@@ -64,7 +65,9 @@
   				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
   				<span class="fl block">状态：</span>
   				<span>
-					<c:if test="${supplier.status == -1}">未确认，已放弃</c:if>
+  					
+					<c:if test="${supplier.status == -1 && supplier.proportion == 0}">未中标</c:if>
+					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未确认，已放弃</c:if>
 					<c:if test="${supplier.status == 0}">未接受，已放弃</c:if>
 					<c:if test="${supplier.status == 1 || supplier.status == 2 }">已接受</c:if>
 				</span>
@@ -79,7 +82,7 @@
 		  <th class="info">数量</th>
 		  <th class="info">自报单价（元）</th>
 		  <th class="info">成交单价（元）</th>
-		  <th class="info">成交总价（元）</th>
+		  <th class="info">成交总价（万元）</th>
 		</tr>
 		</thead>
 		<%-- <c:set value="0" var="sum" />
@@ -126,19 +129,17 @@
 		
 		<!-- 成交的 -->
 		<c:if test="${supplier.status == 1 || supplier.status == 2}">
-		<c:forEach items="${listres}" var="product">
+		<c:forEach items="${supplier.obResultSubtabulation}" var="product">
 			<c:if test="${product.supplierId == supplier.supplierId}">
-				<c:set value="${ total + product.dealMoney * product.resultNumber }" var = "total" ></c:set>
+				<c:set value="${ total + product.totalMoney }" var = "total" ></c:set>
 			</c:if>
 		</c:forEach>
 			<tr>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc">
-			  	<fmt:formatNumber value='${total }' pattern='#,##,###.00'/>
-			  </td>
+			  <td class="tc">${total }</td>
 			</tr>
-			<c:forEach items="${listres}" var="product" varStatus="va">
+			<c:forEach items="${supplier.obResultSubtabulation}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
 					<tr>
 						<td class="tc">${va.index+1 }</td>
@@ -150,9 +151,7 @@
 			  			<td class="tc">
 			  				<fmt:formatNumber value='${product.dealMoney }' pattern='#,##,###.00'/>
 			  			</td>
-			  			<td class="tc">
-			  				<fmt:formatNumber value='${product.dealMoney * product.resultNumber }' pattern='#,##,###.00'/>
-			  			</td>
+			  			<td class="tc">${product.totalMoney }</td>
 			  		</tr>
 				</c:if>
 			</c:forEach>
@@ -164,15 +163,17 @@
 			<tr>
 			  <td class="tc"></td>
 			  <td class="tc" colspan="4">合计</td>
-			  <td class="tc"></td>
+			  <td class="tc">${total }</td>
 			</tr>
-			<c:forEach items="${listres}" var="product" varStatus="va">
+			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
 				<tr>
 					<td class="tc">${va.index+1 }</td>
-			  		<td class="tc">${product.product.name }</td>
-			  		<td class="tc"></td>
-					<td class="tc"></td>
+			  		<td class="tc">${product.obProduct.name }</td>
+			  		<td class="tc">0</td>
+					<td class="tc">
+						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+					</td>
 			  		<td class="tc"></td>
 			  		<td class="tc"></td>
 			  	</tr>
@@ -187,17 +188,17 @@
 			  <td class="tc" colspan="4">合计</td>
 			  <td class="tc"></td>
 			</tr>
-			<c:forEach items="${listres}" var="product" varStatus="va">
+			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
 				<c:if test="${product.supplierId == supplier.supplierId}">
 				<tr>
 					<td class="tc">${va.index+1 }</td>
-			  		<td class="tc">${product.product.name }</td>
-			  		<td class="tc"></td>
+			  		<td class="tc">${product.obProduct.name }</td>
+			  		<td class="tc">0</td>
 					<td class="tc">
 						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
 					</td>
 			  		<td class="tc"></td>
-			  		<td class="tc"></td>
+			  		<td class="tc">0</td>
 			  	</tr>
 				</c:if>
 			</c:forEach>

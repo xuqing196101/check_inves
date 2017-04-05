@@ -14,7 +14,7 @@
     <result column="CREATED_AT" property="createdAt" jdbcType="TIMESTAMP" />
     <result column="UPDATED_AT" property="updatedAt" jdbcType="TIMESTAMP" />
     <association property="supplier" column="SUPPLIER_ID"
-			select="bss.dao.ob.OBSupplierMapper.selectByPrimaryKey" />
+			select="ses.dao.sms.SupplierMapper.selectByPrimaryKey" />
   </resultMap>
   
   <!-- 定义  供应商 查询 结果 信息 -->
@@ -234,7 +234,7 @@ ORDER BY RANKING
     where 
     PROJECT_ID = #{id,jdbcType=VARCHAR}
     <if test="status != null and status != -1">
-      AND STATUS =#{status,jdbcType=DECIMAL} 
+      <!-- AND STATUS =#{status,jdbcType=DECIMAL}  -->
      </if>
       <if test="proportion != null and proportion != ''">
       AND PROPORTION !=0 
@@ -668,6 +668,19 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
 	   AND I.SUPPLIER_ID = S.SUPPLIER_ID
 	   AND I.ID = S.PROJECT_RESULT_ID
 	   AND S.PRODUCT_ID = TP.ID
+  </select>
+  
+  <!-- 查询竞价结果信息 -->
+  <select id="selResultByProjectId" resultMap="BaseResultMap" parameterType="String">
+	SELECT 
+		PROJECT_ID,SUPPLIER_ID,ranking,SUM(PROPORTION) PROPORTION,STATUS 
+	FROM 
+		T_BSS_OB_PROJECT_RESULT 
+	WHERE 
+		PROJECT_ID = #{projectId,jdbcType=VARCHAR}
+	GROUP BY 
+		PROJECT_ID,SUPPLIER_ID,RANKING,STATUS 
+	ORDER BY RANKING  
   </select>
   
 </mapper>

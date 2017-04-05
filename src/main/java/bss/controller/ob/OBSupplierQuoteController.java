@@ -640,7 +640,7 @@ public class OBSupplierQuoteController {
 		
 		/**************************页面底层供应商信息*************************/
 		// 页面底层供应商信息
-		List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(projectId);
+		/*List<OBResultSubtabulation> list = obResultSubtabulationService.selectByProjectId(projectId);
     	Integer countProportion = 0;
     	if(list != null){
     		for (OBResultSubtabulation obr : list) {
@@ -665,7 +665,7 @@ public class OBSupplierQuoteController {
     	}
     	model.addAttribute("listres", list);
     	model.addAttribute("countProportion",countProportion);
-    	model.addAttribute("size",list.size());
+    	model.addAttribute("size",list.size());*/
     	
     	/**************************页面底层供应商信息结束*************************/
 		

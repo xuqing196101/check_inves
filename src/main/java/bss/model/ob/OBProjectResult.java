@@ -34,7 +34,7 @@ public class OBProjectResult {
 
 	private Date updatedAt;
 
-	private OBSupplier supplier;
+	private Supplier supplier;
 	//竞价产品 信息
     private List<OBProductInfo> productInfo;
     //报价
@@ -118,11 +118,11 @@ public class OBProjectResult {
 		this.countresultCount = countresultCount;
 	}
 
-	public OBSupplier getSupplier() {
+	public Supplier getSupplier() {
 		return supplier;
 	}
 
-	public void setSupplier(OBSupplier supplier) {
+	public void setSupplier(Supplier supplier) {
 		this.supplier = supplier;
 	}
 

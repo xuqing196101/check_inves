@@ -343,4 +343,17 @@ ORDER BY CREATED_AT) where rownum=1)
 	 	WHERE R.PROJECT_ID = #{projectId}
 	   AND R.SUPPLIER_ID = #{supplierId}
   </select>
+  
+  
+  <!-- 查询未中标的结果 -->
+ <select id="selectResult" resultMap="BaseResultMap">
+	  SELECT 
+	  	SUPPLIER_ID,PROJECT_ID,PRODUCT_ID,MY_OFFER_MONEY 
+	  FROM 
+	  	T_BSS_OB_RESULTS_INFO 
+	  WHERE 
+	  	PROJECT_ID = #{projectId,jdbcType=VARCHAR} AND SUPPLIER_ID = #{supplierId,jdbcType=VARCHAR}
+	  GROUP BY 
+	  	SUPPLIER_ID,PROJECT_ID,PRODUCT_ID,MY_OFFER_MONEY
+  </select>
 </mapper>

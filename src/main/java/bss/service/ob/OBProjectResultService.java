@@ -146,7 +146,7 @@ public interface OBProjectResultService {
      * @exception
      */
     
-    List<OBProjectResult> selByProjectId(@Param("projectId") String projectId);
+    List<OBProjectResult> selByProjectId(String projectId);
     
     /** @Title: findConfirmResult 
     * @Description: 查询 确定第一，第二轮确认结果
@@ -157,4 +157,17 @@ public interface OBProjectResultService {
     * @throws
      */
     OBProjectResult findConfirmResult(Map<String, Object> map);
+    
+    /**
+     * 
+     * Description: 查询竞价结果信息
+     * 
+     * @author  zhang shubin
+     * @version  2017年4月5日 
+     * @param  @param projectId
+     * @param  @return 
+     * @return List<OBProjectResult> 
+     * @exception
+     */
+    List<OBProjectResult> selResultByProjectId(String projectId);
 }
