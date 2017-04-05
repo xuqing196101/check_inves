@@ -232,7 +232,7 @@
   <!-- 验证文件上传 -->
   <select id="yzsc" resultType="Integer">
   	SELECT COUNT(ID) FROM T_SES_BMS_ATTACHMENT WHERE BUSINESS_ID = #{businessid,jdbcType=VARCHAR} AND IS_DELETED = 0
-  	AND TYPE_ID = #{typeId}
+  	AND TYPE_ID = #{typeId,jdbcType=VARCHAR}
   </select>
   
 </mapper>
