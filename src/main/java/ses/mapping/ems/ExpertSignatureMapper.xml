@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ses.dao.ems.ExpertSignatureMapper">
+  <resultMap id="BaseResultMap" type="ses.model.ems.ExpertSignature">
+    <id column="ID"  property="id" />
+    <result column="EXPERT_ID"  property="expertId" />
+    <result column="NAME"  property="name" />
+    <result column="COMPANY"  property="company" />
+    <result column="JOB"  property="job" />
+    <result column="CREATED_AT"  property="createdAt" />
+    <result column="UPDATED_AT"  property="updatedAt" />
+		<result column="SIGNATORY_ID"  property="signatoryId" />
+
+  </resultMap>
+  <sql id="Base_Column_List">
+    ID, EXPERT_ID, NAME, CREATED_AT, UPDATED_AT, COMPANY, JOB, SIGNATORY_ID
+  </sql>
+  <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
+    select 
+    <include refid="Base_Column_List" />
+    from T_SES_EMS_EXPERT_AUDIT_SIGN
+    where EXPERT_ID = #{expertId}
+  </select>
+
+  <insert id="insertSelective" parameterType="ses.model.ems.ExpertAudit">
+    insert into T_SES_EMS_EXPERT_AUDIT_SIGN
+    <trim prefix="(" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        ID,
+      </if>
+      <if test="expertId != null">
+        EXPERT_ID,
+      </if>
+      <if test="name != null">
+        NAME,
+      </if>
+      <if test="company != null">
+        COMPANY,
+      </if>
+      <if test="job != null">
+        JOB,
+      </if>
+      <if test="createdAt != null">
+        CREATED_AT,
+      </if>
+      <if test="updatedAt != null">
+        UPDATED_AT,
+      </if>
+      <if test="signatoryId != null">
+        SIGNATORY_ID,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides=",">
+      <if test="id != null">
+        #{id},
+      </if>
+      <if test="expertId != null">
+        #{expertId},
+      </if>
+      <if test="job != null">
+        #{job},
+      </if>
+      <if test="name != null">
+        #{name},
+      </if>
+      <if test="company != null">
+        #{company},
+      </if>
+      <if test="createdAt != null">
+        #{createdAt},
+      </if>
+      <if test="updatedAt != null">
+        #{updatedAt},
+      </if>
+      <if test="signatoryId != null">
+        #{signatoryId},
+      </if>
+    </trim>
+    <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">
+			select sys_guid() from dual
+		</selectKey>
+  </insert>
+</mapper>

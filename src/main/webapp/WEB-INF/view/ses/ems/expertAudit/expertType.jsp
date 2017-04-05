@@ -62,7 +62,8 @@
 		  	}
 		  	
 		  	//执业资格审核
-				function reasonInput(obj,str){
+				function reasonInput(obj,id){
+				alert(id);
 				  var expertId = $("#expertId").val();
 				  var auditField;
 				  var auditContent;
@@ -81,7 +82,7 @@
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
-					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1",
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1" +"&auditFieldId="+id,
 						    success:function(result){
 					        result = eval("(" + result + ")");
 					        if(result.msg == "fail"){
@@ -99,7 +100,7 @@
 			  	}
 			  	
 		  	//审核附件
-		  	function reasonFile(obj,str){
+		  	function reasonFile(obj,id){
 				  var expertId = $("#expertId").val();
 				  var showId =  obj.id + "1";
 				  
@@ -117,7 +118,7 @@
 					      url:"${pageContext.request.contextPath}/expertAudit/auditReasons.html",
 					      type:"post",
 					      dataType:"json",
-					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1",
+					      data:"suggestType=seven"+"&auditContent="+auditContent+"&auditReason="+text+"&expertId="+expertId+"&auditField="+auditField+"&type=1"+"&auditFieldId="+id,
 					      success:function(result){
 					        result = eval("(" + result + ")");
 					        if(result.msg == "fail"){
@@ -252,21 +253,23 @@
 								</c:forEach>
 								
 								<c:if test="${isProject eq 'project'}">
-									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input class="hand" <c:if test="${fn:contains(conditionStr,'执业资格职称')}">style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editPractice,'getProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('professional','getProfessional','0');"</c:if> value="${expert.professional}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this);"/>
-										</div>
-									</li>
-									<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this);">执业资格：</span>
-			             	<up:show showId="show9" delete="false" businessId="${expert.id}" sysKey="${expertKey}" typeId="9"/>
-			          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
-			          			<c:if test="${fn:contains(conditionStr,'执业资格')}"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></c:if>
-			           	<li>
-									<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间：</span>
-										<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
-											<input class="hand" <c:if test="${fn:contains(conditionStr,'取得执业资格时间')}">style="border: 1px solid red;"</c:if> <c:if test="${fn:contains(editPractice,'getTimeProfessional')}">style="border: 1px solid #FF8C00;" onmouseover="isCompare('timeProfessional','getTimeProfessional','3');"</c:if> value="<fmt:formatDate type='date' value='${expert.timeProfessional}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this);"/>
-										</div>
-									</li>
+									<c:forEach items="${expertTitleList }" var="expertTitle" varStatus="vs">
+										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">执业资格职称：</span>
+											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												<input class="hand" value="${expertTitle.qualifcationTitle}" readonly="readonly" id="professional" type="text" onclick="reasonInput(this,'${expertTitle.id}');"/>
+											</div>
+										</li>
+										<li class="col-md-3 col-sm-6 col-xs-12"><span class="hand"  id="tieleFile" onmouseover="this.style.background='#E8E8E8'" onmouseout="this.style.background='#FFFFFF'" id="titleType" onclick="reasonFile(this,'${expertTitle.id}');">执业资格：</span>
+				             	<up:show showId="show9" delete="false" businessId="${expert.id}" sysKey="${expertKey}" typeId="9"/>
+				          			<a style="visibility:hidden" id="tieleFile1"><img style="padding-left: 10px;" src='${pageContext.request.contextPath}/public/backend/images/sc.png'></a>
+				           	<li>
+										<li class="col-md-3 col-sm-6 col-xs-12"><span class="col-md-12 col-xs-12 col-sm-12 padding-left-5">取得执业资格时间：</span>
+											<div class="input-append col-md-12 col-sm-12 col-xs-12 input_group p0 col-md-12 col-sm-12 col-xs-12 input_group p0">
+												<input class="hand" value="<fmt:formatDate type='date' value='${expertTitle.titleTime}' dateStyle='default' pattern='yyyy-MM'/>" readonly="readonly" id="timeProfessional" type="text" onclick="reasonInput(this,'${expertTitle.id}');"/>
+											</div>
+										</li>
+										<div class="clear"></div>
+									</c:forEach>
 								</c:if>
 							</div>
 						</li>

@@ -9,6 +9,7 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
 import java.util.Map;
@@ -35,12 +36,14 @@ import ses.model.ems.Expert;
 import ses.model.ems.ExpertAudit;
 import ses.model.ems.ExpertAuditOpinion;
 import ses.model.ems.ExpertCategory;
+import ses.model.ems.ExpertEngHistory;
 import ses.model.ems.ExpertHistory;
+import ses.model.ems.ExpertSignature;
+import ses.model.ems.ExpertTitle;
 import ses.model.oms.PurchaseDep;
-import ses.model.sms.Expertsignature;
-import ses.model.sms.Supplier;
-import ses.model.sms.SupplierAuditNot;
 import ses.model.sms.SupplierCateTree;
+import ses.model.sms.SupplierHistory;
+import ses.model.sms.SupplierModify;
 import ses.service.bms.AreaServiceI;
 import ses.service.bms.CategoryService;
 import ses.service.bms.DictionaryDataServiceI;
@@ -49,7 +52,11 @@ import ses.service.bms.TodosService;
 import ses.service.ems.ExpertAuditOpinionService;
 import ses.service.ems.ExpertAuditService;
 import ses.service.ems.ExpertCategoryService;
+import ses.service.ems.ExpertEngHistorySerivce;
+import ses.service.ems.ExpertEngModifySerivce;
 import ses.service.ems.ExpertService;
+import ses.service.ems.ExpertSignatureService;
+import ses.service.ems.ExpertTitleService;
 import ses.service.ems.ProjectExtractService;
 import ses.service.oms.PurchaseOrgnizationServiceI;
 import ses.util.DictionaryDataUtil;
@@ -101,6 +108,11 @@ public class ExpertAuditController {
 	@Autowired
 	private EngCategoryService engCategoryService; //工程专业信息
 
+	@Autowired 
+	private ExpertEngHistorySerivce expertEngHistorySerivce;
+	
+	@Autowired 
+	private ExpertEngModifySerivce expertEngModifySerivce;
 	/**
 	 * 地区
 	 */
@@ -110,6 +122,11 @@ public class ExpertAuditController {
 	@Autowired
 	private ExpertAuditOpinionService expertAuditOpinionService;
 
+	@Autowired
+	private ExpertSignatureService expertSignatureService;
+	
+	@Autowired
+	private ExpertTitleService expertTitleService;
 	/**
 	 * @Title: expertAuditList
 	 * @author XuQing 
@@ -1089,7 +1106,7 @@ public class ExpertAuditController {
 		}
 		
 		//  判断当前状态如果为退回修改则比较两次的信息
-		// 判断有没有进行修改
+		/*// 判断有没有进行修改
 		if(expert.getStatus() != null || expert.getStatus().equals("0")) {
 			ExpertHistory oldExpert = service.selectOldExpertById(expertId);
 			if(oldExpert != null) {
@@ -1109,7 +1126,12 @@ public class ExpertAuditController {
 				}
 				model.addAttribute("editPractice", editPractice);
 			}
-		}
+		}*/
+		
+		//执业资格模块
+		List<ExpertTitle> expertTitleList = expertTitleService.queryByUserId(expertId);
+		model.addAttribute("expertTitleList", expertTitleList);
+		
 		
 		// 专家系统key
 		Integer expertKey = Constant.EXPERT_SYS_KEY;
@@ -1236,6 +1258,19 @@ public class ExpertAuditController {
 	        todosService.insert(todos );
 	      }
 
+		if ("3".equals(expert.getStatus())) {
+			// 删除之前的历史记录
+			ExpertEngHistory expertEngHistory = new ExpertEngHistory();
+			expertEngHistory.setExpertId(expertId);
+			expertEngHistorySerivce.deleteByExpertId(expertEngHistory);
+			
+			//删除该供应商对比后的数据
+			expertEngModifySerivce.deleteByExpertId(expertEngHistory);
+			
+			// 新增历史记录
+			expertEngModifySerivce.insertSelective(expertEngHistory);
+		}
+		
 		return "redirect:list.html";
 	}
 
@@ -1416,8 +1451,8 @@ public class ExpertAuditController {
     		if(reasonsItemsList !=null && reasonsItemsList.size() > 0){
     			for(ExpertAudit audit :reasonsItemsList){
     				expertAudit1.setAuditField(cateTree.getRootNode());
-        			String content = audit.getAuditReason();
-        			expertAudit1.setAuditReason("不通过。原因：" + content);
+        			String reason = audit.getAuditReason();
+        			expertAudit1.setAuditReason("不通过。原因：" + reason);
     			}
     		}else{
     			expertAudit1.setAuditField(cateTree.getRootNode());
@@ -1565,8 +1600,8 @@ public class ExpertAuditController {
 				for(int i=0; i<basicFileList1.size(); i++){
 					if(buff.toString().contains(str)){
 						expertAuditMap.setAuditField(str);
-		    			String content = basicFileList1.get(0).getAuditContent();
-		    			expertAuditMap.setAuditReason("不通过。原因：" + content);
+		    			String reason = basicFileList1.get(0).getAuditReason();
+		    			expertAuditMap.setAuditReason("不通过。原因：" + reason);
 		    			break;
 					}
 				}
@@ -1584,13 +1619,9 @@ public class ExpertAuditController {
 		 * 专家签字模块（获取勾选的专家）复审
 		 */
 		if(tableType.equals("2")){
-			Expertsignature expertsignature = new Expertsignature();
-			List<Expertsignature> expertList= new ArrayList<Expertsignature>();
-			expertsignature.setName("张三");
-			expertsignature.setCompany("阳光");
-			expertsignature.setJob("JAVA");
-			expertList.add(expertsignature);
-			
+			ExpertSignature expertsignature = new ExpertSignature();
+			expertsignature.setExpertId(expert.getId());
+			List<ExpertSignature> expertList = expertSignatureService.selectByExpertId(expertsignature);
 			dataMap.put("expertList", expertList);
 			
 			//日期
@@ -1736,4 +1767,96 @@ public class ExpertAuditController {
 		expertAuditOpinionService.insertSelective(expertAuditOpinion);
 	}
 
+    /**
+     * 
+     * @Title: findAllExpert
+     * @author lkzx
+     * @date 2016年9月2日 下午5:44:37
+     * @Description: TODO 查询所有专家 可以条件查询
+     * @param @return
+     * @return String
+     */
+    @RequestMapping("/findAllExpert")
+    public String findAllExpert(Expert expert, Integer page, HttpServletRequest request, HttpServletResponse response, String[] ids, String expertId) {
+        List < Expert > allExpert = service.selectAllExpert(page == null ? 0 : page, expert);
+        for(Expert exp: allExpert) {
+            DictionaryData dictionaryData = dictionaryDataServiceI
+                .getDictionaryData(exp.getGender());
+            exp.setGender(dictionaryData == null ? "" : dictionaryData.getName());
+            StringBuffer expertType = new StringBuffer();
+            if(exp.getExpertsTypeId() != null) {
+                for(String typeId: exp.getExpertsTypeId().split(",")) {
+                    DictionaryData data = dictionaryDataServiceI.getDictionaryData(typeId);
+                    if(data != null){
+                    	if(6 == data.getKind()) {
+                            expertType.append(data.getName() + "技术、");
+                        } else {
+                            expertType.append(data.getName() + "、");
+                        }
+                    }
+                    
+                }
+                if(expertType.length() > 0){
+                	String expertsType = expertType.toString().substring(0, expertType.length() - 1);
+                	 exp.setExpertsTypeId(expertsType);
+                }
+            } else {
+                exp.setExpertsTypeId("");
+            }
+        }
+        // 查询数据字典中的专家来源配置数据
+        List < DictionaryData > lyTypeList = DictionaryDataUtil.find(12);
+        request.setAttribute("lyTypeList", lyTypeList);
+        // 查询数据字典中的专家类别数据
+        List < DictionaryData > jsTypeList = DictionaryDataUtil.find(6);
+        for(DictionaryData data: jsTypeList) {
+            data.setName(data.getName() + "技术");
+        }
+        List < DictionaryData > jjTypeList = DictionaryDataUtil.find(19);
+        jsTypeList.addAll(jjTypeList);
+        request.setAttribute("expTypeList", jsTypeList);
+        request.setAttribute("result", new PageInfo < Expert > (allExpert));
+        if(expert.getRelName() != null && !"".equals(expert.getRelName())){
+        	expert.setRelName(expert.getRelName().replaceAll("%", ""));
+        }
+        if(expert.getMobile() != null && !"".equals(expert.getMobile())){
+        	expert.setMobile(expert.getMobile().replaceAll("%", ""));
+        }
+        request.setAttribute("expert", expert);
+        
+        String expertIds = "";
+        Set<String> set=new HashSet<String>();
+        if(ids !=null && ids.length > 0){
+        	for(int i=0 ; i<ids.length; i++){
+        		if(!"".equals(ids[i])){
+        			set.add(ids[i]);
+        		}
+            }
+        	if(set.size()>0){
+        	  expertIds = set.toString().substring(1, set.toString().length()-1);
+        	}
+            request.setAttribute("ids", expertIds);
+        }
+        
+        request.setAttribute("expertId", expertId);
+        return "ses/ems/expertAudit/expert_list";
+    }
+	
+	/**
+	 * @Title: signature
+	 * @author XuQing 
+	 * @date 2017-4-3 下午12:18:11  
+	 * @Description:
+	 * @param @param signature      
+	 * @return void
+	 */
+	@RequestMapping(value = "/signature")
+	public void signature(String[] ids, String expertId, Model model) {
+		Expert expert = new Expert();
+		expert.setStatus("1");
+		expert.setId(expertId);
+		expertSignatureService.insertSelective(ids, expertId);
+		this.updateStatus(expert, null, null);
+	}
+    
 }

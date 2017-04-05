@@ -1409,18 +1409,19 @@ public class SupplierAuditController extends BaseSupplierController {
 			supplierAuditService.updateStatusById(supplierAudit);
 		}
 		
-		// 删除之前的历史记录
-		SupplierHistory supplierHistory = new SupplierHistory();
-		supplierHistory.setSupplierId(supplierId);
-		supplierHistoryService.delete(supplierHistory);
-		
-		//删除该供应商对比后的数据
-		SupplierModify supplierModify = new SupplierModify();
-		supplierModify.setSupplierId(supplierId);
-		supplierModifyService.delete(supplierModify);
-		
-		// 新增历史记录
+
 		if (supplier.getStatus() == 2) {
+			// 删除之前的历史记录
+			SupplierHistory supplierHistory = new SupplierHistory();
+			supplierHistory.setSupplierId(supplierId);
+			supplierHistoryService.delete(supplierHistory);
+			
+			//删除该供应商对比后的数据
+			SupplierModify supplierModify = new SupplierModify();
+			supplierModify.setSupplierId(supplierId);
+			supplierModifyService.delete(supplierModify);
+			
+			// 新增历史记录
 		    supplierHistoryService.insertHistoryInfo(supplierId);
 		}
 		return "redirect:supplierAll.html";
