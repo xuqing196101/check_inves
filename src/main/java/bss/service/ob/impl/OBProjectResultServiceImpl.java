@@ -15,6 +15,7 @@ import ses.util.PropertiesUtil;
 
 import com.github.pagehelper.PageHelper;
 
+import bss.dao.ob.OBProjectMapper;
 import bss.dao.ob.OBProjectResultMapper;
 import bss.dao.ob.OBProjectRuleMapper;
 import bss.dao.ob.OBProjectSupplierMapper;
@@ -54,7 +55,8 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 	private OBProjectSupplierMapper mapper;
 	@Autowired
 	private OBRuleMapper OBRuleMapper; 
-	
+	@Autowired
+	private OBProjectMapper oBProjectMapper;
 	@Autowired
 	private OBResultsInfoMapper OBResultsInfoMapper;
 	
@@ -223,6 +225,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			boo=true;
 			
 		} else if("2".equals(confirmStatus)) {
+			
+			OBProjectRule obRule = OBProjectRuleMapper.selectByPrimaryKey(projectId);
+			 if(obRule!=null){
+			//第二轮 确认时间
+			 int confirmTimeSecond=obRule.getConfirmTimeSecond();
 			String uuid = UUID.randomUUID().toString().toUpperCase().replace("-", "");
 			OBProjectResult result= oBProjectResultMapper.selectByPrimaryKey(projectResultId);
 			result.setId(uuid);
@@ -231,12 +238,15 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 			oBProjectResultMapper.insertSelective(result);
 			// 第二轮 放弃
 			OBProject obProject = new OBProject();
+			obProject.setEndTime(DateUtils.getAddDate(new Date(), confirmTimeSecond));
 			obProject.setId(projectId);
+			oBProjectMapper.updateByPrimaryKeySelective(obProject);
 			User user = new User();
 			user.setTypeId(supplierId);
 			String remark = "32";
 			BiddingStateUtil.updateRemark(mapper, obProject, user, remark);
 			boo=true;
+			 }
 		}
 		return boo;
 	}
@@ -465,6 +475,11 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				 BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
 				 
 			 }else{
+				 
+				 OBProjectRule obRule = OBProjectRuleMapper.selectByPrimaryKey(projectResultList.get(0).getProjectId());
+				 if(obRule!=null){
+				//第二轮 确认时间
+				 int confirmTimeSecond=obRule.getConfirmTimeSecond();
 				//封装 插入第二轮 结果表
 				 OBProjectResult obresulit=new OBProjectResult();
 				 obresulit.setId(uuid);
@@ -475,13 +490,20 @@ public class OBProjectResultServiceImpl implements OBProjectResultService {
 				 obresulit.setRanking(projectResultList.get(0).getRanking());
 				 obresulit.setProportion(projectResultList.get(0).getProportion()+"");
 				 oBProjectResultMapper.insertSelective(obresulit);
+				 
 				 //更新状态 第二轮 接受
 				 OBProject obProject = new OBProject();
+				 obProject.setEndTime(DateUtils.getAddDate(new Date(), confirmTimeSecond));
+				 obProject.setUpdatedAt(new Date());
 				 obProject.setId(projectResultList.get(0).getProjectId());
+				 oBProjectMapper.updateByPrimaryKeySelective(obProject);
 				 User users = new User();
 				 users.setTypeId(projectResultList.get(0).getSupplierId());
 				 String remark = "42";
 				 BiddingStateUtil.updateRemark(mapper, obProject, users, remark);
+				 }
+				 
+				 
 			 }
 			 Date date=new Date();
 			 for(OBResultSubtabulation or:projectResultList){
