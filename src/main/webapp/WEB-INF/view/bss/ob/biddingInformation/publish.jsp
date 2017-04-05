@@ -211,6 +211,7 @@
 	//根据定型产品更新 
 	function changSelectCount(number){
 	 if(productList){
+	   //alert($("[name='productName']").val());
 	 	gysCount();
 	  $("#orgId").select2('val',productList[0].procurementId);
 	  changSelect();
