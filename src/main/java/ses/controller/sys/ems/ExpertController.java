@@ -2,6 +2,8 @@ package ses.controller.sys.ems;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.PrintWriter;
@@ -111,6 +113,7 @@ import bss.service.ppms.ProjectService;
 import bss.service.ppms.SaleTenderService;
 import bss.service.prms.PackageExpertService;
 import bss.service.prms.ReviewProgressService;
+import bss.util.FileUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageInfo;
@@ -3100,6 +3103,35 @@ public class ExpertController extends BaseController {
 		 return encoder.encode(data);
 	 }
     
+	 /**
+	  * 
+	 * @Title: fileToDir
+	 * @Description: 把文件写到指定文件下
+	 * author: Li Xiaoxiao 
+	 * @param @param src
+	 * @param @param newPtah
+	 * @param @throws Exception     
+	 * @return void     
+	 * @throws
+	  */
+	 public void fileToDir(String src,String newPtah) throws Exception{
+			File file =new File(src);
+	    	if(file.exists()){
+	    	FileInputStream fis = new FileInputStream(file);
+	    	int indexOf = src.lastIndexOf("/");
+	    	int length = src.length();
+	    	FileOutputStream fos= new FileOutputStream(newPtah+ File.separator +src.substring(indexOf, length));
+	    	byte[] b = new byte[fis.available()];
+	    	int len = 0;
+	    	while ((len = fis.read(b)) != -1)
+	    	{
+	    	  fos.write(b, 0, len);
+	    	   fos.flush();
+	    	}
+	    	fos.close();
+	    	fis.close();
+	    	}
+	 }
 
     /**
      * 
@@ -3127,19 +3159,23 @@ public class ExpertController extends BaseController {
                 "yyyy-MM-dd").format(expert.getBirthday()));
         /** 注入service */
         List<UploadFile> listImage = uploadService.queryImage("50", expert.getId());
-        if (listImage != null && listImage.size() > 0) {
-//        	String path = listImage.get(0).getPath();
-//        String realpath	=request.getSession().getServletContext().getRealPath("/"); 
+//        if (listImage != null && listImage.size() > 0) {
+        	String path = listImage.get(0).getPath();
+        String realpath	=request.getSession().getServletContext().getRealPath("/")+"expertPic"; 
 //        
 //	        File file = new File(path);
 //	        System.out.println(realpath+"=============================");
 //        	FileUtil.fileStash(file, realpath, "expertPic", request);
 //        	dataMap.put("image", realpath);
-           String gen=	 request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] ;
+          System.out.println(realpath+path.substring(path.lastIndexOf("/"),  path.length())+"==============");
+        
+            fileToDir(path, realpath);
+            String gen=	 request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] ;
             String image= gen+listImage.get(0).getPath();
-            System.out.println(image+"=====================");
-        	dataMap.put("image",image);
-		}
+            
+            
+        	dataMap.put("image",realpath+path.substring(path.lastIndexOf("/"),  path.length()));
+//		}
         String faceId = expert.getPoliticsStatus();
         DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
         dataMap.put("politicsStatus", politicsStatus == null ? "" : politicsStatus.getName());
@@ -3256,6 +3292,7 @@ public class ExpertController extends BaseController {
         /** 生成word 返回文件名 */
         String newFileName = WordUtil.createWord(dataMap, "expert3.ftl",
             fileName, request);
+        FileUtil.removeStash(realpath+path.substring(path.lastIndexOf("/"),  path.length()), request);
         return newFileName;
     }
     /**
