@@ -17,7 +17,11 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import ses.dao.bms.DictionaryDataMapper;
+import ses.dao.oms.OrgnizationMapper;
+import ses.model.bms.DictionaryData;
 import ses.model.bms.User;
+import ses.model.oms.Orgnization;
 import ses.util.DictionaryDataUtil;
 import ses.util.PropertiesUtil;
 import bss.dao.ob.OBProductInfoMapper;
@@ -47,6 +51,7 @@ import bss.util.CheckUtil;
 
 import com.alibaba.fastjson.JSON;
 import com.github.pagehelper.PageHelper;
+
 import common.constant.Constant;
 import common.dao.FileUploadMapper;
 import common.model.UploadFile;
@@ -101,6 +106,10 @@ public class OBProjectServerImpl implements OBProjectServer {
 	// 注入竞价规则子表
 	@Autowired
 	private OBProjectRuleMapper obProjectRuleMapper;
+	
+	// 注入采购机构Mapper
+	@Autowired
+	private OrgnizationMapper orgnizationMapper;
 	// 定义 竞价控制类型
 	private int type = 2;
 
@@ -114,6 +123,12 @@ public class OBProjectServerImpl implements OBProjectServer {
 
 	@Autowired
 	private OBProjectSupplierMapper obProjectSupplierMapper;
+	
+	@Autowired
+	private OBProjectMapper obProjectMapper;
+	
+	@Autowired
+	private DictionaryDataMapper dictionaryDataMapper;
 
 	@Override
 	public List<OBProject> list(OBProject op) {
@@ -1181,5 +1196,47 @@ public class OBProjectServerImpl implements OBProjectServer {
 		// TODO Auto-generated method stub
 		List<OBProduct> productLs= OBProductMapper.selectInId(productList);
 		return checkCatalog(productLs);
+	}
+
+	/**
+	 * 
+	* @Title: findBiddingInfo 
+	* @Description: 根据主键查询竞价信息
+	* @author Easong
+	* @param @param projectId
+	* @param @return    设定文件 
+	* @throws
+	 */
+	@Override
+	public Map<String, Object> findBiddingInfo(String projectId) {
+		Map<String, Object> map = new HashMap<String, Object>();
+		Map<String, Object> selectMap = new HashMap<String, Object>();
+		// 根据id查询竞价信息
+		OBProject obProject = obProjectMapper.selectByPrimaryKey(projectId);
+		if(obProject != null){
+			// 根据采购机构id查询采购机构
+			selectMap.put("id", obProject.getOrgId());
+			List<Orgnization> list = orgnizationMapper
+					.selectByPrimaryKey(selectMap);
+			if (list != null && list.size() > 0) {
+				Orgnization orgnization = list.get(0);
+				map.put("orgName", orgnization.getName());
+			}
+			// 根据需求单位id获取需求单位
+			selectMap.put("id", obProject.getDemandUnit());
+			List<Orgnization> demandUnitList = orgnizationMapper
+					.selectByPrimaryKey(selectMap);
+			if (demandUnitList != null && demandUnitList.size() > 0) {
+				Orgnization orgnization = demandUnitList.get(0);
+				map.put("demandUnit", orgnization.getName());
+			}
+			
+			// 查询运费
+			DictionaryData dictionaryData = dictionaryDataMapper.selectByPrimaryKey(obProject.getTransportFees());
+			map.put("transportFees", dictionaryData.getName());
+			// 存储竞价信息
+			map.put("obProject", obProject);
+		}
+		return map;
 	}
 }

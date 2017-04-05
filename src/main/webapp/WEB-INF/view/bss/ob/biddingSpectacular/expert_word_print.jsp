@@ -57,77 +57,187 @@ response.setHeader("Content-disposition", "attachment; filename=" + unicoStr);
 
 <body>
 <div class="table-a" style="width:85%;margin:auto;">
-	<table>
-		<tbody>
-			<tr>
-				<td colspan="6" align="center"><br/>${ obProject.name }<br/>竞价结果信息表<br/><br/></td>
-			</tr> 
-			<tr>
-				<td>项目名称</td>
-				<td colspan="5">${ obProject.name }</td>
-			</tr>
-			<c:forEach items="${ obProductInfoList }" var="pInfo" varStatus="vs">
-				<tr>
-				  <c:if test="${ vs.index==0 }">
-					  <td rowspan="${ obProductInfoList.size() }" class="tc" class="info">产品名称</td>
-				  </c:if>
-				  <td>${ pInfo.obProduct.name }</td>
-				  <td>数量</td>
-				  <td>${ pInfo.purchaseCount }</td>
-				  <td>预算</td>
-				  <td>${ pInfo.limitedPrice }</td>
-				</tr>
-			</c:forEach>
-			<tr>
-				<td>需求部门</td>
-				<td>${ orgName }</td>
-			</tr>
-			<tr>
-				<td>运杂费</td>
-				<td>${ obProject.transportFees }</td>
-			</tr> 
-			<tr>
-				<td>交货地点</td>
-				<td>${ obProject.deliveryAddress }</td>
-				<td>交货时间</td>
-				<td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:ss:mm"/></td>
-			</tr> 
-			<tr>
-				<td colspan="6" style="border: none;" >
-					<table align="center" style="border:1px solid #dddddd; border-collapse: collapse;margin: auto;" colspan="0" rowspan="0">
-						<tbody>
-							<tr>
-								<td>名次</td>
-								<td>供应商名称</td>
-								<td>自报单价（元）</td>
-		  						<td>成交单价（元）</td>
-		  						<td>成交数量</td>
-		  						<td>成交总价（元）</td>
-								<td>操作状态</td>
-							</tr>
-							<c:forEach items="${info.list }" var="result" varStatus="vs">
-								<tr>
-							  		<td>${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-							  		<td>${result.supplier.supplier.supplierName }</td>
-							  		<td>${result.countOfferPrice}</td>
-							  		<td>${countOfferPricebyOne}</td>
-							  		<td>${result.countresultCount}</td>
-							  		<td>${result.countTotalAmount }</td>
-							  		<td>
-							  			<c:if test="${result.status == 0}">未确认</c:if>
-							  			<c:if test="${result.status == 1}">已确认</c:if>
-							  		</td>
-								</tr>
-							</c:forEach>
-						</tbody>
-					</table>
-				</td>
-			</tr>
-			<tr>
-				<td align="center" colspan="6">供应商确认中标数量总量为${chengjiao}，预定采购数量为${count}，剩余采购数量为${count-chengjiao}.</td>
-			</tr>
+	<table class="table table-bordered mt10">
+	    <tbody>
+	      <tr>
+			<td class="tc" colspan="6" align="center"><br/><b>${ obProject.name }</b><br/>竞价结果信息表<br/><br/></td>
+		  </tr> 
+		  <tr>
+		    <td class="info"><b>竞价项目编号</b></td>
+		    <td>${ obProject.projectNumber }</td>
+		    <td class="info"><b>竞价项目名称</b></td>
+		    <td>${ obProject.name }</td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>交货地点</b></td>
+		    <td>${ obProject.deliveryAddress }</td>
+		     <td class="info"><b>交货时间</b></td>
+		    <td><fmt:formatDate value="${ obProject.deliveryDeadline }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>运杂费</b></td>
+		    <td>${ transportFees }</td>
+		    <c:if test="">
+			    <td colspan="2"></td>
+		    </c:if>
+		    <c:if test="${ empty obProject.transportFeesPrice }">
+			    <td colspan="2"></td>
+		    </c:if>
+		    <c:if test="${ !empty obProject.transportFeesPrice }">
+			    <td class="info"><b>运杂费用（元）</b></td>
+			    <td>${obProject.transportFeesPrice}</td>
+		    </c:if>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>需求单位</b></td>
+		    <td>${ demandUnit }</td>
+		    <td class="info"><b>采购机构</b></td>
+		    <td>${ orgName }</td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>需求联系人</b></td>
+		    <td>${ obProject.contactName }</td>
+		    <td class="info"><b>采购联系人：</b></td>
+		    <td>${ obProject.orgContactName }</td>
+		  </tr>
+		  <tr>
+		    <td class="info"><b>需求联系电话</b></td>
+		    <td>${ obProject.contactTel }</td>
+		    <td class="info"><b>采购联系电话</b></td>
+		    <td>${ obProject.orgContactTel }</td>
+		  </tr>
 		</tbody>
-		</table>
+	</table>
+	
+	<c:forEach items="${listres}" var="supplier" varStatus="pi">
+	 <ul class="ul_list">
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	  <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	  <span class="fl block">供应商名称：${supplier.supplier.supplierName}</span>
+	   </div>
+	  </li>
+	   <li class="col-md-3 col-sm-6 col-xs-12">
+	   <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	  <span class="fl block">排名：</span><span>第${supplier.ranking}名</span>
+	  </div>
+	  </li>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+	    <div class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+	  		<span class="fl block">成交比例：</span><span>
+	  		<c:if test="${supplier.status == -1 || supplier.status == 0}">0%</c:if>
+	  		<c:if test="${supplier.status == 1 || supplier.status == 2 }">${supplier.proportion}%</c:if></span>
+	  	</div>
+	  </li>
+	  <li class="col-md-3 col-sm-6 col-xs-12">
+  			<div
+  				class="input-append input_group col-md-12 col-sm-12 col-xs-12 p0">
+  				<span class="fl block">状态：</span>
+  				<span>
+  					
+					<c:if test="${supplier.status == -1 && supplier.proportion == 0}">未中标</c:if>
+					<c:if test="${supplier.status == -1 && supplier.proportion != 0}">未确认，已放弃</c:if>
+					<c:if test="${supplier.status == 0}">未接受，已放弃</c:if>
+					<c:if test="${supplier.status == 1 || supplier.status == 2 }">已接受</c:if>
+				</span>
+  			</div>
+	   </li>
+
+    	<table class="table table-bordered table-condensed table-hover table-striped">
+		<thead>
+		<tr>
+		  <th class="w50 info">序号</th>
+		  <th class="info" width="30%">产品名称</th>
+		  <th class="info">数量</th>
+		  <th class="info">自报单价（元）</th>
+		  <th class="info">成交单价（元）</th>
+		  <th class="info">成交总价（万元）</th>
+		</tr>
+		</thead>
+		
+		<!-- 成交的 -->
+		<c:if test="${supplier.status == 1 || supplier.status == 2}">
+		<c:forEach items="${supplier.obResultSubtabulation}" var="product">
+			<c:if test="${product.supplierId == supplier.supplierId}">
+				<c:set value="${ total + product.totalMoney }" var = "total" ></c:set>
+			</c:if>
+		</c:forEach>
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc">${total }</td>
+			</tr>
+			<c:forEach items="${supplier.obResultSubtabulation}" var="product" varStatus="va">
+				<c:if test="${product.supplierId == supplier.supplierId}">
+					<tr>
+						<td class="tc">${va.index+1 }</td>
+			  			<td class="tc">${product.product.name }</td>
+			  			<td class="tc">${product.resultNumber }</td>
+						<td class="tc">
+							<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+						</td>
+			  			<td class="tc">
+			  				<fmt:formatNumber value='${product.dealMoney }' pattern='#,##,###.00'/>
+			  			</td>
+			  			<td class="tc">${product.totalMoney }</td>
+			  		</tr>
+				</c:if>
+			</c:forEach>
+			<c:set value="0" var = "total" ></c:set>
+		</c:if>
+		
+		<!-- 放弃的 -->
+		<c:if test="${supplier.status == -1}">
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc">${total }</td>
+			</tr>
+			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
+				<c:if test="${product.supplierId == supplier.supplierId}">
+				<tr>
+					<td class="tc">${va.index+1 }</td>
+			  		<td class="tc">${product.obProduct.name }</td>
+			  		<td class="tc">0</td>
+					<td class="tc">
+						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+					</td>
+			  		<td class="tc"></td>
+			  		<td class="tc"></td>
+			  	</tr>
+				</c:if>
+			</c:forEach>
+		</c:if>
+		
+		<!--  -->
+		<c:if test="${supplier.status == 0}">
+			<tr>
+			  <td class="tc"></td>
+			  <td class="tc" colspan="4">合计</td>
+			  <td class="tc"></td>
+			</tr>
+			<c:forEach items="${supplier.OBResultsInfo}" var="product" varStatus="va">
+				<c:if test="${product.supplierId == supplier.supplierId}">
+				<tr>
+					<td class="tc">${va.index+1 }</td>
+			  		<td class="tc">${product.obProduct.name }</td>
+			  		<td class="tc">0</td>
+					<td class="tc">
+						<fmt:formatNumber value='${product.myOfferMoney }' pattern='#,##,###.00'/>
+					</td>
+			  		<td class="tc"></td>
+			  		<td class="tc">0</td>
+			  	</tr>
+				</c:if>
+			</c:forEach>
+		</c:if>
+	</table>
+	</ul>
+	</c:forEach>
+	
+	<div align="center">
+		<span><font size="3">供应商确认中标比例为<b>${countProportion }%</b>，未中标比例为<b>${100 - countProportion }%</b>.</font></span>
+	</div>
+	
 	</div>
 </body>
 </html>
