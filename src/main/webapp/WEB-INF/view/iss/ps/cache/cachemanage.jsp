@@ -6,7 +6,7 @@
   <head>
     <link href="${pageContext.request.contextPath }/public/select2/css/select2.css" rel="stylesheet" />
     <%@ include file="/WEB-INF/view/common.jsp"%>
-    <%@ include file="/WEB-INF/view/common/webupload.jsp"%>
+	<%@ include file="/WEB-INF/view/common/webupload.jsp"%>
     <script type="text/javascript" charset="utf-8" src="${pageContext.request.contextPath }/public/select2/js/select2.js"></script>
     <script type="text/javascript">
 	    $(function() {
@@ -24,7 +24,7 @@
 		      }(),
 		      jump : function(e, first) { //触发分页后的回调
 		    	if(!first){ //一定要加此判断，否则初始时会无限刷新
-		      		location.href = "${pageContext.request.contextPath}/index/indexImportUI.html?page=" + e.curr+"&name=${name}&isIndex=${isIndex}";
+		      		location.href = "${pageContext.request.contextPath}/cacheManage/cachemanage.html?page=" + e.curr;
 		        }
 		      }
 		    });
@@ -130,7 +130,7 @@
           status=$(this).parent().next().text();
         });
         if(id.length == 1) {
-   			layer.confirm('确认要清空首页缓存吗？', {
+   			layer.confirm('确认要清除缓存吗？', {
    				btn : [ '是', '否' ]
    			//按钮
    			}, function() {
@@ -163,6 +163,38 @@
           });
         }
       }
+      
+      // 时间倒计时
+      var addTimer = function () {
+          var list = [],
+              interval;
+    
+          return function (id, time) {
+              if (!interval)
+                  interval = setInterval(go, 1000);
+              list.push({ ele: document.getElementById(id), time: time });
+          }
+    
+          function go() {
+              for (var i = 0; i < list.length; i++) {
+                  list[i].ele.innerHTML = getTimerString(list[i].time ? list[i].time -= 1 : 0);
+                  if (!list[i].time)
+                      list.splice(i--, 1);
+              }
+          }
+    
+          function getTimerString(time) {
+              var not0 = !!time,
+                  d = Math.floor(time / 86400),
+                  h = Math.floor((time %= 86400) / 3600),
+                  m = Math.floor((time %= 3600) / 60),
+                  s = time % 60;
+              if (not0)
+                  return "<font style='color:red'>还有" + d + "天" + h + "小时" + m + "分" + s + "秒</font>";
+              else return "时间到";
+          }
+      } ();
+    
     </script>
 
   </head>
@@ -209,17 +241,26 @@
               <th class="info">缓存名称</th>
               <th class="info">缓存类型</th>
               <th class="info">有效时长</th>
-              <th class="info">剩余时长</th>
             </tr>
           </thead>
-          <c:forEach items="${cacheMap}" var="cacheMap" varStatus="vs">
+          <c:forEach items="${info.list}" var="cache" varStatus="vs">
            	<tr>
-		        <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${cacheMap.key},${cacheMap.value}" /></td>
-           		<td class="tl">${vs.index + 1}</td>
-	          	<td class="tl">${cacheMap.key}</td>
-	          	<td class="tl">${cacheMap.value}</td>
-	          	<td class="tl">${article.showCount}</td>
-	          	<td class="tl">${article.showCount}</td>
+		        <td class="tc"><input onclick="check()" type="checkbox" name="chkItem" value="${cache.name},${cache.type}" /></td>
+           		<td class="tc" w20>${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
+	          	<td class="tl">
+	          		<a href="javascript:;">${cache.name}</a>
+	          	</td>
+	          	<td class="tc">${cache.type}</td>
+	          	<td class="tc" id=${ cache.name }>
+	          		<c:if test="${cache.time == -1}">
+	          			无
+	          		</c:if>
+	          		<c:if test="${cache.time != -1}">
+	          			<script type="text/javascript">
+	          			 	addTimer('${cache.name}','${ cache.time }');
+	          			</script>
+	          		</c:if>
+	          	</td>
            	</tr>
           </c:forEach>
         </table>

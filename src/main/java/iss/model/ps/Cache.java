@@ -1,4 +1,7 @@
 package iss.model.ps;
+
+import java.util.Date;
+
 /**
  * 
 * @ClassName: Cache 
@@ -29,6 +32,18 @@ public class Cache {
 	 * 缓存内容
 	 */
 	private String content;
+
+	private Date timeDate;
+	
+	
+	
+	public Date getTimeDate() {
+		return timeDate;
+	}
+
+	public void setTimeDate(Date timeDate) {
+		this.timeDate = timeDate;
+	}
 
 	public String getName() {
 		return name;

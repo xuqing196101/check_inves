@@ -385,7 +385,6 @@
 	    	<label class="fl">竞价标题：</label>
 			<input name="name" value="${ name }" type="text" id="topic" class=""/>
 	      </li>
-	      </li>
     	  <li>
 	    	<label class="fl">发布时间：</label>
 			<input name="createTime" value="${ createTimeStr }"  class="Wdate" type="text" id="d17" onfocus="WdatePicker({dateFmt:'yyyy-MM-dd HH:mm:ss',firstDayOfWeek:1})"/>
@@ -419,9 +418,9 @@
 			<tr>
 			  <td class="tc w30"><input onclick="check()" type="checkbox" name="chkItem" value="${obProject.obProjectList[0].id},${ obProject.obProjectList[0].status },${obProject.remark},<fmt:formatDate value='${ obProject.obProjectList[0].quoteEndTime }' pattern='yyyy-MM-dd HH:mm:ss'/>"/></td>
 			  <td class="tc w50">${(vs.index+1)+(info.pageNum-1)*(info.pageSize)}</td>
-			  <td>
+			  <td class="tl">
 			  	<a href="javascript:;" onclick="findIssueInfo('${obProject.obProjectList[0].id}',${ obProject.obProjectList[0].status },'${obProject.remark}')">${ obProject.obProjectList[0].name }</a>
-			  </td class="tl">
+			  </td>
 			  <td class="tc">${ obProject.obProjectList[0].projectNumber }</td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].startTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>
 			  <td class="tc"><fmt:formatDate value="${ obProject.obProjectList[0].quoteEndTime }" pattern="yyyy-MM-dd HH:mm:ss"/></td>

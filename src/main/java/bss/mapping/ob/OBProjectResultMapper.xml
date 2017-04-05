@@ -659,7 +659,7 @@ r.STATUS,r.REMARK ORDER BY r.RANKING
 	                   AND SUPPLIER_ID = #{supplierId}
 	                 ORDER BY CREATED_AT
 	                  <if test="orderWay != null and orderWay != ''" >
-				       	#{orderWay}
+				       	${orderWay}
 				      </if>) I
 	         WHERE ROWNUM = 1) I,
 	       T_BSS_OB_RESULT_SUBTABULATION S,

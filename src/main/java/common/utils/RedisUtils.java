@@ -96,7 +96,6 @@ public class RedisUtils {
 		} catch (JedisException e) {
 			log.info("redis连接异常...");
 			jedisPool.returnBrokenResource(jedis);
-			;
 		}
 		return jedis;
 	}

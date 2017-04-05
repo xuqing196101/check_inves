@@ -767,7 +767,9 @@ public class OBSupplierQuoteController {
 			model.addAttribute("uploadFiles", uploadFiles);
 			model.addAttribute("oBResultsInfo", oBResultsInfo);
 			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
-			model.addAttribute("fileid", obProject.getAttachmentId());
+			if(obProject != null){
+				model.addAttribute("fileid", obProject.getAttachmentId());
+			}
 			model.addAttribute("sysKey", Constant.TENDER_SYS_KEY);
 			model.addAttribute("typeId",DictionaryDataUtil.getId("BIDD_INFO_MANAGE_ANNEX"));
 			
@@ -788,18 +790,18 @@ public class OBSupplierQuoteController {
 				String confirmSecondTotalFigureStr = null;
 				if(FIRST_CONFIRM.equals(confirmFlag)){
 					// 第一轮结果确认信息
-					map.put("orderWay", "ASC");
+					resultMap.put("orderWay", "ASC");
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
 					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
 				}
 				
 				if(SECOND_CONFIRM.equals(confirmFlag)){
 					// 第二轮结果确认信息--既显示第一轮有显示第二轮
-					map.put("orderWay", "ASC");
+					resultMap.put("orderWay", "ASC");
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
 					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
 					// 第二轮
-					map.put("orderWay", "DESC");
+					resultMap.put("orderWay", "DESC");
 					findConfirmResultSecond = oBProjectResultService.findConfirmResult(resultMap);
 					confirmSecondTotalFigureStr = getTotalFigure(findConfirmResultSecond);
 					// 封装数据
