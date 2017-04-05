@@ -595,7 +595,7 @@
 				index = layer.open({
 					type: 1, //page层
 					area: ['400px', '300px'],
-					title: '导入需求计划',
+					title: '导入采购需求',
 					closeBtn: 1,
 					shade: 0.01, //遮罩透明度
 					moveType: 1, //拖拽风格，0是默认，1是传统拖动

@@ -225,7 +225,7 @@
    <h2 class="padding-10 border1">
 
 	 <ul class="demand_list" >
-	   <li class="fl"><label class="fl">需求计划名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
+	   <li class="fl"><label class="fl">采购需求名称：</label><span><input type="text" name="planName" value="${inf.planName }"/></span></li>
 	   	 <input class="btn padding-left-10 padding-right-10 btn_back"   type="submit" name="" value="查询" /> 
 	 </ul>
 
@@ -234,7 +234,7 @@
    </form>
   </div>
    <div class="headline-v2 fl">
-      <h2>需求计划列表
+      <h2>采购需求列表
 	  </h2>
    </div> 
     <div class="col-md-12 pl20 mt10">
@@ -247,7 +247,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info">需求部门</th>
-		  <th class="info">需求计划名称</th>
+		  <th class="info">采购需求名称</th>
 		  <th class="info">编报人</th>
 		  <th class="info">提交日期</th>
 		  <th class="info">预算总金额</th>

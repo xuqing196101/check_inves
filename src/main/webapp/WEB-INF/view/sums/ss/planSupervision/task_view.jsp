@@ -37,7 +37,7 @@
 	    </div> -->
 	      <c:if test="${listRequired != null}">
 	      <div>
-          <h2 class="count_flow"><i>1</i>需求计划</h2>
+          <h2 class="count_flow"><i>1</i>采购需求</h2>
           <ul class="ul_list">
             <c:forEach items="${listRequired}" var="obj">
 	            <table class="table table-bordered mt10">

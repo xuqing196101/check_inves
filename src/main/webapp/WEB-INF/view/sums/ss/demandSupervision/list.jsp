@@ -69,7 +69,7 @@
 	</div>
 	<div class="container">
 		<div class="headline-v2">
-			<h2>需求计划列表</h2>
+			<h2>采购需求列表</h2>
 		</div>
 		<%-- <h2 class="search_detail">
       <form id="add_form" action="${pageContext.request.contextPath }/planSupervision/list.html" class="mb0" method="post" >
@@ -113,8 +113,8 @@
 				<thead>
 					<tr class="info">
 						<th class="w50">序号</th>
-						<th>需求计划名称</th>
-						<th>需求计划文号</th>
+						<th>采购需求名称</th>
+						<th>采购需求文号</th>
 						<th>需求单位</th>
 						<th>预算总金额（万元）</th>
 						<th>任务性质</th>

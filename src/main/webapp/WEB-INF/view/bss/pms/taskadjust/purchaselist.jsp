@@ -214,8 +214,8 @@
 	
 		  
 		   需求部门： <input class="mt10" type="text" name="department" value="${inf.department }" /> 
-		   需求计划名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/> 
-		   需求计划编号： <input class="mt10" type="text" name="planNo" value="${inf.planNo }" /> 
+		   采购需求名称： <input class="mt10" type="text" name="planName" value="${inf.planName }"/> 
+		   采购需求编号： <input class="mt10" type="text" name="planNo" value="${inf.planNo }" /> 
 		    需求填报日期：  <input class="mt10" class="span2 Wdate w220"  value='<fmt:formatDate value="${inf.createdAt }"/>' name="createdAt" type="text" onclick='WdatePicker()'> 
 		   	 <input class="btn-u"   type="submit" name="" value="查询" /> 
 		 
@@ -225,11 +225,11 @@
 	   </form>
 	  </div> --%>
    <div class="headline-v2 fl">
-      <h2>需求计划列表
+      <h2>采购需求列表
 	  </h2>
    </div> 
    	  <div class="col-md-12 pl20 mt10">
-<!-- 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">需求计划录入</button> -->
+<!-- 	    <button class="btn padding-left-10 padding-right-10 btn_back" onclick="add()">采购需求录入</button> -->
 	    <button class="btn btn-windows edit"  onclick="edit()">修改</button>
 	    <input type="button"  class="btn btn-windows back" value="返回"  onclick="goback()"> 
 	<!-- 	<button class="btn padding-left-10 padding-right-10 btn_back" onclick="exports()">下载</button>
@@ -242,7 +242,7 @@
 		<tr>
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
-		  <th class="info">需求计划名称</th>
+		  <th class="info">采购需求名称</th>
 		  <th class="info">金额</th>
 		  <th class="info">编制时间</th>
 		  <th class="info">状态</th>

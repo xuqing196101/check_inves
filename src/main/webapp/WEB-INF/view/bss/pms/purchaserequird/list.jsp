@@ -234,7 +234,7 @@
 		<!-- 录入采购计划开始-->
  		<div class="container">
 		  <div class="headline-v2">
-			  <h2>需求计划列表</h2>
+			  <h2>采购需求列表</h2>
 		  </div>
 
 		     <h2 class="search_detail">
@@ -247,12 +247,12 @@
 				    		</span>
 				      </li> --%>
 				   		<li>
-				    		<label class="fl">需求计划名称：</label><span>
+				    		<label class="fl">采购需求名称：</label><span>
 				  	   	<input type="text" name="planName" value="${inf.planName }" />
 				    	</span>
 				      </li>
 				      <li>
-				    		<label class="fl">需求计划编号：</label><span>
+				    		<label class="fl">采购需求编号：</label><span>
 				  	   	<input  type="text" name="planNo" value="${inf.planNo }" /> 
 				    	</span>
 				      </li>

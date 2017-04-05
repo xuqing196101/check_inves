@@ -253,7 +253,7 @@
 						<a href="#">采购计划管理</a>
 					</li>
 					<li class="active">
-						<a href="#">需求计划受理</a>
+						<a href="#">采购需求受理</a>
 					</li>
 				</ul>
 				<div class="clear"></div>
@@ -262,14 +262,14 @@
 		<!-- 录入采购计划开始-->
 		<div class="container">
 			<div class="headline-v2 fl">
-				<h2>需求计划列表
+				<h2>采购需求列表
 		  </h2>
 			</div>
 			<h2 class="search_detail">
     		<form id="add_form" action="${pageContext.request.contextPath }/accept/list.html" class="mb0" method="post" >
 	 				<ul class="demand_list">
 			    	<li>
-				    	<label class="fl">需求计划名称：</label>
+				    	<label class="fl">采购需求名称：</label>
 				    		<span>
 				  	  		<input type="text" name="planName" value="${inf.planName }"/> 
 				    	 		<input type="hidden" name="page" id="page">
@@ -304,7 +304,7 @@
 							<th class="w30"><input type="checkbox" id="checkAll" onclick="selectAll()" alt=""></th>
 							<th class="w50">序号</th>
 							<th>需求部门</th>
-							<th>需求计划名称</th>
+							<th>采购需求名称</th>
 							<th>编报人</th>
 							<th>提交日期</th>
 							<th>预算总金额（万元）</th>

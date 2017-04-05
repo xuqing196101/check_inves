@@ -162,7 +162,7 @@
 						content: $('#content'),
 					});
 					}else{
-						layer.alert("请选择待汇总的需求计划！", {
+						layer.alert("请选择待汇总的采购需求！", {
 							offset: ['222px', '390px'],
 							shade: 0.01
 						});
@@ -194,7 +194,7 @@
 				index = layer.open({
 					type: 1, //page层
 					area: ['40%', '40%'],
-					title: '导入需求计划',
+					title: '导入采购需求',
 					closeBtn: 1,
 					shade: 0.01, //遮罩透明度
 					moveType: 1, //拖拽风格，0是默认，1是传统拖动
@@ -271,7 +271,7 @@
 					});
 				 }else{
 					 
-					 layer.alert("请选择待汇总的需求计划！", {
+					 layer.alert("请选择待汇总的采购需求！", {
 							offset: ['222px', '390px'],
 							shade: 0.01
 						});
@@ -404,21 +404,21 @@
 		<!-- 录入采购计划开始-->
 		<div class="container">
 			<div class="headline-v2 fl">
-				<h2>需求计划列表</h2>
+				<h2>采购需求列表</h2>
 			</div>
 
 			<h2 class="search_detail">
     		<form id="add_form" class="mb0" action="${pageContext.request.contextPath }/collect/list.html" method="post" >
 	   			<ul class="demand_list">
 			    	  <li>
-					    	<label class="fl">需求计划名称：</label>
+					    	<label class="fl">采购需求名称：</label>
 					    	<span>
 					    		<input type="hidden" name="page" id="page">
 					  	 		<input type="text" name="planName" id="planName" value="${inf.planName }"/>
 					    	</span>
 				      </li>
 				   		<%-- <li>
-				    	<label class="fl">需求计划编号：</label>
+				    	<label class="fl">采购需求编号：</label>
 				    		<span>
 				  	  		<input type="text" name="planNo" id="planNo" value="${inf.planNo }"/>
 				    		</span>
@@ -456,7 +456,7 @@
 		  <th class="info w30"><input type="checkbox" id="checkAll" onclick="selectAll()"  alt=""></th>
 		  <th class="info w50">序号</th>
 		  <th class="info" width="25%">需求部门</th>
-		  <th class="info" width="25%">需求计划名称</th>
+		  <th class="info" width="25%">采购需求名称</th>
 		  <!-- <th class="info">编报人</th> -->
 		  <th class="info">物资类别</th> 
 		  <th class="info">提交日期</th>

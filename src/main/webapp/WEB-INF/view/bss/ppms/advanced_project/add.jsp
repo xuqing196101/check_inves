@@ -181,7 +181,7 @@
                   <tr>
                     <th class="info w50">序号</th>
                     <th class="info">需求部门</th>
-                    <th class="info">需求计划名称</th>
+                    <th class="info">采购需求名称</th>
                     <th class="info">物资类别</th>
                     <th class="info">提交日期</th>
                     <th class="info">预算总金额</th>

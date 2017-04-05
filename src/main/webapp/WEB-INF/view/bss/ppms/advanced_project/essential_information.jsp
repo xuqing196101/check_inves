@@ -441,7 +441,7 @@
                       </td>
                     </tr>
                     <tr>
-                      <td class="bggrey">需求计划提报时间:</td>
+                      <td class="bggrey">采购需求提报时间:</td>
                       <td>${project.demandFromTime}</td>
                       <td class="bggrey">采购任务下达时间:</td>
                       <td>

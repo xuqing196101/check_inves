@@ -69,7 +69,7 @@
   <body>
   <div class="container">
    <div class="headline-v2 fl">
-      <h2>需求计划列表
+      <h2>采购需求列表
 	  </h2>
    </div> 
    <div class="content table_box">

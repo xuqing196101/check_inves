@@ -266,7 +266,7 @@
 		
 		<!-- <div class="padding-10 border1">
 		 
-			 <label class="fl">需求计划导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
+			 <label class="fl">采购需求导入（Excel表格）：</label><input  style="float: left;" type="file" id="fileName" name="file" />   
 			 
 		 
 			<button style="float: left;"  class="btn padding-right-10 btn_back" onclick="upload()">导入</button><span style="margin-left: 200px"></span>

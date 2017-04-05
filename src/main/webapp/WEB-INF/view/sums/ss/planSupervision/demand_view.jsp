@@ -39,7 +39,7 @@
     </div>
     <div class="container">
       <div class="headline-v2">
-        <h2>需求计划列表</h2>
+        <h2>采购需求列表</h2>
       </div>
       <div class="col-md-12 pl20 mt10">
         <button class="btn btn-windows back" onclick="window.history.go(-1)" type="button">返回</button>
