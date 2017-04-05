@@ -94,6 +94,12 @@ public class OBProductController {
 		if (page == null) {
 			page = 1;
 		}
+		String orgTyp = null;
+		if(user != null){
+			if(user.getOrg().getTypeName().equals("2")){
+				orgTyp = user.getOrg().getTypeName();
+			}
+		}
 		List<OBProduct> list = oBProductService.selectByExample(example, page);
 		if(list != null){
 			for (OBProduct oBProduct : list) {
@@ -126,6 +132,7 @@ public class OBProductController {
 			model.addAttribute("userii", user);
 		}
 		model.addAttribute("info", info);
+		model.addAttribute("orgTyp", orgTyp);
 		model.addAttribute("productExample", example);
 		model.addAttribute("numlist", numlist);
 		return "bss/ob/finalize_DesignProduct/list";

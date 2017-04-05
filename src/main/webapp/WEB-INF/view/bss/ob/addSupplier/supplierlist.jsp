@@ -76,6 +76,11 @@ function check(){
 
 /* 删除 */
 function del(){
+	var orgTyp = "${orgTyp}";
+	if(orgTyp != '1'){
+		layer.msg("只有采购机构才能操作");
+		return;
+	}
 	var id = [];
 	$('input[name="chkItem"]:checked').each(function() {
 		id.push($(this).val());
@@ -127,6 +132,11 @@ function del(){
 
 /* 修改 */
 function edit() {
+	var orgTyp = "${orgTyp}";
+	if(orgTyp != '1'){
+		layer.msg("只有采购机构才能操作");
+		return;
+	}
 	var id = [];
 	$('input[name="chkItem"]:checked').each(function() {
 		id.push($(this).val());
@@ -193,6 +203,11 @@ function openViewDIvs(id){
  * @param key 对应系统的key
  */
 function download(bid){
+	var orgTyp = "${orgTyp}";
+	if(orgTyp != '1'){
+		layer.msg("只有采购机构才能操作");
+		return;
+	}
 	var key = 2;
 	var zipFileName = null;
 	var fileName = null;
@@ -224,6 +239,11 @@ function download(bid){
 //弹出导入框
 var index;
 function upload(){
+	var orgTyp = "${orgTyp}";
+	if(orgTyp != '1'){
+		layer.msg("只有采购机构才能操作");
+		return;
+	}
 		index = layer.open({
 			type: 1, //page层
 			area: ['400px', '300px'],
@@ -239,6 +259,11 @@ function upload(){
 
 //下载模板
 function down(){
+	var orgTyp = "${orgTyp}";
+	if(orgTyp != '1'){
+		layer.msg("只有采购机构才能操作");
+		return;
+	}
 	window.location.href ="${pageContext.request.contextPath}/obSupplier/download.html";
 }
 
@@ -277,6 +302,11 @@ function fileUpload(){
      
 	/* 下载目录 */
 	function downCategory(){
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '1'){
+			layer.msg("只有采购机构才能操作");
+			return;
+		}
 		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
 	}
 	
@@ -370,6 +400,77 @@ function fileUpload(){
   		}
   	}
 
+  	function addS(){
+  		var orgTyp = "${orgTyp}";
+		if(orgTyp != '1'){
+			layer.msg("只有采购机构才能操作");
+			return;
+		}
+  		window.location.href = "${pageContext.request.contextPath }/obSupplier/addSupplieri.html";
+  	}
+  	function searchs(){
+		var name=$("#search").val();
+		if(name!=""){
+		 var zNodes;
+			var zTreeObj;
+			var datas;
+	  		var setting={
+	  				   async:{
+	  							autoParam:["id"],
+	  							enable:true,
+	  							otherParam:{"otherParam":"zTreeAsyncTest"},  
+	  							dataType:"json",
+	  							type:"get",
+	  						},
+	  						callback:{
+	  					    	onClick:zTreeOnClick,//点击节点触发的事件
+	  		       			    
+	  					    }, 
+	  						data:{
+	  							keep:{
+	  								parent:true
+	  							},
+	  							key:{
+	  								title:"title"
+	  							},
+	  							simpleData:{
+	  								enable:true,
+	  								idKey:"id",
+	  								pIdKey:"pId",
+	  								rootPId:"0",
+	  							}
+	  					    },
+	  					   view:{
+	  					        selectedMulti: false,
+	  					        showTitle: false,
+	  					         showLine: true
+	  					   },
+	  		         };
+			// 加载中的菊花图标
+			 var loading = layer.load(1);
+			
+				$.ajax({
+					url: "${pageContext.request.contextPath}/obSupplier/createtreeByproduct.do",
+					data: { "name" : encodeURI(name)},
+					async: false,
+					dataType: "json",
+					success: function(data){
+						if (data.length == 1) {
+							layer.msg("没有符合查询条件的产品类别信息！");
+						} else {
+							zNodes = data;
+							zTreeObj = $.fn.zTree.init($("#treeDemo"), setting, zNodes);
+							zTreeObj.expandAll(true);//全部展开
+						}
+						// 关闭加载中的菊花图标
+						layer.close(loading);
+						
+					}
+				});
+		}else{
+			intiTree();
+		} 
+	}
 </script>
 </head>
 <body>
@@ -377,8 +478,11 @@ function fileUpload(){
    <div class="margin-top-10 breadcrumbs ">
       <div class="container">
         <ul class="breadcrumb margin-left-0">
-		   <li><a href="javascript:void(0)"> 首页</a></li><li><a href="javascript:void(0)">保障作业</a></li><li><a href="javascript:void(0)">定型产品竞价</a></li>
-		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li><li class="active"><a href="javascript:void(0)">质检供应商列表</a></li>
+		   <li><a href="javascript:void(0)"> 首页</a></li>
+		   <li><a href="javascript:void(0)">保障作业</a></li>
+		   <li><a href="javascript:void(0)">定型产品竞价</a></li>
+		   <li class="active"><a href="javascript:void(0)">定型产品管理</a></li>
+		   <li class="active"><a href="javascript:void(0)">质检供应商列表</a></li>
 		</ul>
         <div class="clear"></div>
       </div>
@@ -399,12 +503,18 @@ function fileUpload(){
 	     </li>
 	     <li>
 	    	<label class="fl">产品目录：</label>
+	    	 <div class="fl pr">
         		<input class="input_group" id="citySel4" type="text" value="${catName }" onclick=" showMenu(); return false;" readonly="readonly" >
         		<input id="categorieId4" name="smallPointsId" value="${smallPointsId }" type="hidden">
         		<!-- 目录框 -->
 				<div id="menuContent" class="menuContent col-md-12 col-xs-12 col-sm-12 p0 tree_drop" style="z-index:10000;position:absolute;top:30px;left:0px" hidden="hidden">
+					<div class="col-md-12 col-xs-8 col-sm-8 p0">
+			    		<input type="text" id="search" class="input_group">
+			    		<img alt="" src="${pageContext.request.contextPath }/public/backend/images/view.png" style="position: absolute; right: 10px;top: 5px;" onclick="searchs()">
+					</div>
 					<ul id="treeDemo" class="ztree slect_option clear" style="max-height: 340px;"></ul>
 				</div>
+			</div>	
 	     </li>
 		<li>
 			<label class="fl">供应商证书状态：</label>
@@ -423,7 +533,7 @@ function fileUpload(){
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows add" type="button" onclick = "window.location.href = '${pageContext.request.contextPath }/obSupplier/addSupplieri.html'">添加</button>
+		<button class="btn btn-windows add" type="button" onclick = "addS()">添加</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn btn-windows btn btn-windows input" type="button" onclick="down()">下载批量导入模板</button>

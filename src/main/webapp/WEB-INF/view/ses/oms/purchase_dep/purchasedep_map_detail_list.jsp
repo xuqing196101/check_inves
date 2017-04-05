@@ -17,12 +17,12 @@
 			    endRow: "${list.endRow}",
 			    groups: "${list.pages}">=5?5:"${list.pages}", //连续显示分页数
 			    curr: function(){ //通过url获取当前页，也可以同上（pages）方式获取
-			        var page = location.search.match(/page=(\d+)/);
-			        return page ? page[1] : 1;
+			        return "${list.pageNum}";
 			    }(), 
 			    jump: function(e, first){ //触发分页后的回调
 			        if(!first){ //一定要加此判断，否则初始时会无限刷新
-			             location.href = '${pageContext.request.contextPath}/purchaseManage/purchaseDepdetailList.html?page='+e.curr+"&address=${address}";
+			             $("#page").val(e.curr);
+                   $("#form1").submit();
 			        }
 			    }
 			});
@@ -31,20 +31,12 @@
 	  	window.location.href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapList.html";
 	  }
 function chongzhi(){
-	$("#supplierName").val('');
-	$("#startDate").val('');
-	$("#endDate").val('');
-	$("#contactName").val('');
+	$("#name").val('');
+	$("#quaStartDate").val('');
+	$("#quaEdndate").val('');
 	$("option")[0].selected = true;
 }
-$(function() {
-		/* var optionNodes = $("option");
-		for ( var i = 1; i < optionNodes.length; i++) {
-			if ("${supplier.supplierType}" == $(optionNodes[i]).val()) {
-				optionNodes[i].selected = true;
-			}
-		} */
-	});
+
 </script>
 </head>
   <body>
@@ -95,7 +87,7 @@ $(function() {
 		     </form>
 		     </h2>
 		     <div class="col-md-12 pl20 mt10">
-		          <input class="btn btn-windows back" value="返回" type="button" onclick="location.href='javascript:history.go(-1);'">
+		          <input class="btn btn-windows back" value="返回" type="button" onclick="fanhui();">
 		     </div>
 		      <div class="content table_box">
                  <table id="tb1" class="table table-bordered table-condensed table-hover table-striped">
@@ -117,8 +109,11 @@ $(function() {
 						<td class="tc w50">${vs.index+1 }</td>
 						<td><a href="${pageContext.request.contextPath}/purchaseManage/purchaseDepMapShow.html?orgId=${list.orgId}">${list.name }</a></td>
 						<td>${list.quaCode }</td>
-						<td>${list.levelDep }</td>
-						<%-- <td><fmt:formatDate value="${list.createdAt }" pattern="yyyy-MM-dd HH:mm:ss" /></td> --%>
+						<td>
+							<c:forEach items="${kind}" var="status">
+							  <c:if test="${status.id eq list.levelDep}">${status.name}</c:if>
+							</c:forEach>
+						</td>
 						<td>${list.address }</td>
 						<td><fmt:formatDate value="${list.quaStartDate }" pattern="yyyy-MM-dd" /></td>
 						<td><fmt:formatDate value="${list.quaEdndate }" pattern="yyyy-MM-dd" /></td>

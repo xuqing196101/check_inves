@@ -68,7 +68,7 @@
         if(ids.length > 0) {
           var name = $("#name").val();
           var projectNumber = $("#projectNumber").val();
-          window.location.href = "${ pageContext.request.contextPath }/project/delete.html?ids=" + ids + "&id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber;
+          window.location.href = "${pageContext.request.contextPath}/project/delete.html?ids=" + ids + "&id=${id}" + "&name=" + name + "&projectNumber=" + projectNumber;
         } else {
           layer.msg("请选择移除的信息", {
             offset: ['180px', '200px'],
@@ -293,6 +293,7 @@
   
             <div id="hide_detail">
               <c:if test="${lists != null}">
+              <c:if test="${fn:length (lists) > 0}">
               <div id="remove" class="col-md-12 col-sm-12 co-xs-12 mb5 p0 mt10">
                 <button class="btn" type="button" onclick="remove()">移除</button>
               </div>
@@ -372,6 +373,7 @@
                   </c:forEach>
                 </table>
               </div>
+              </c:if>
               </c:if>
             </div>
           </div>

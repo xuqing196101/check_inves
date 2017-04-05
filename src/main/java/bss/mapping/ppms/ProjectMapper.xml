@@ -1346,7 +1346,7 @@
       p.*
       FROM
         T_BSS_PPMS_PROJECTS p 
-      WHERE 
+      WHERE (
       p.ID IN (SELECT
 	    e.PROJECT_ID
 	    FROM
@@ -1357,7 +1357,7 @@
       </if>
       AND e.IS_DELETED = 0 AND e.STATUS = 0)
       <if test="principal != null and principal != ''">
-        OR (p.PRINCIPAL = #{principal}) 
+        OR (p.PRINCIPAL = #{principal}) )
       </if>
       AND p.IS_REHEARSE = 0
       <if test="purchaseDepId != null and purchaseDepId != ''">

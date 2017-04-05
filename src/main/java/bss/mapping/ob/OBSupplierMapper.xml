@@ -621,4 +621,11 @@
   			AND CERT_VALID_PERIOD &gt; SYSDATE
   		</if>
 	</select>
+	
+	<select id="yzzsCode" parameterType="String" resultType="Integer">
+		SELECT COUNT(ID) FROM T_BSS_OB_SUPPLIER WHERE CERT_CODE = #{certCode,jdbcType=VARCHAR}
+		<if test="id != null">
+  			AND ID &lt;&gt; #{id,jdbcType=VARCHAR}
+  		</if>
+	</select>
 </mapper>

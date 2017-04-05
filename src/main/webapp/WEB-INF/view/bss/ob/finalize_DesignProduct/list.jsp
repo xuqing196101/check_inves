@@ -69,6 +69,11 @@
 	
 	/* 删除 */
 	function del(){
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -111,6 +116,11 @@
 	
 	/* 发布 */
 	function fb() {
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -155,6 +165,11 @@
 	
 	/* 撤回发布 */
 	function chfb() {
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -199,6 +214,11 @@
 	
 	/* 修改 */
 	function edit() {
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
 		var id = [];
 		$('input[name="chkItem"]:checked').each(function() {
 			id.push($(this).val());
@@ -226,6 +246,11 @@
 	// 弹出导入框
 	var index;
 	function upload(){
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
 	 index = layer.open({
 		type: 1, //page层
 		area: ['400px', '300px'],
@@ -241,6 +266,11 @@
 	
 	//下载模板
     function down(){
+    	var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
     	window.location.href ="${pageContext.request.contextPath}/product/download.html";
     }
 	
@@ -279,9 +309,22 @@
 	
 	/* 下载目录 */
 	function downCategory(){
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
 		window.location.href ="${pageContext.request.contextPath}/product/downloadCategory.html";
 	}
 	
+	function fbdxcp(){
+		var orgTyp = "${orgTyp}";
+		if(orgTyp != '2'){
+			layer.msg("只有管理部门才能操作");
+			return;
+		}
+	window.location.href = "${pageContext.request.contextPath }/product/tiaozhuan.html?type=2";
+	}
 	
 	</script>
 </head>
@@ -332,7 +375,7 @@
      
 <!-- 表格开始 -->
 	<div class="col-md-12 pl20 mt10">
-		<button class="btn btn-windows apply" type="button" onclick="window.location.href = '${pageContext.request.contextPath }/product/tiaozhuan.html?type=2'">发布定型产品</button>
+		<button class="btn btn-windows apply" type="button" onclick="fbdxcp()">发布定型产品</button>
 		<button class="btn btn-windows edit" type="button" onclick="edit()">修改</button>
 		<button class="btn btn-windows delete" type="button" onclick="del()">删除</button>
 		<button class="btn btn-windows apply" type="button" onclick="fb()">发布</button>
