@@ -312,7 +312,7 @@
 	            shade: 0.01,
 	          });
 		   } else {
-	          layer.alert("请选择开始报价的模块", {
+	          layer.alert("请选择确认结果的模块", {
 	            offset: ['222px', '255px'],
 	            shade: 0.01,
 	          });

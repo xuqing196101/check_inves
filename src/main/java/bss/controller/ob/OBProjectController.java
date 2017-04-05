@@ -943,6 +943,7 @@ public class OBProjectController {
 		NumberFormat currency = NumberFormat.getNumberInstance();
 		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 		/** 计算单个商品的总价以及合计金额 **/
+		BigDecimal million = new BigDecimal(10000);
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
 				BigDecimal signalCountInt = productInfo.getPurchaseCount();
@@ -952,10 +953,12 @@ public class OBProjectController {
 					/** 单个商品的总金额=现价 *采购数量 **/
 					signalCount = signalCountInt;
 					BigDecimal multiply = limitPrice.multiply(signalCount);
+					// 单位换算成万元
+					BigDecimal moneyBigDecimal = multiply.divide(million);
 					/**显示100000样式**/
-					productInfo.setTotalMoney(multiply);
+					productInfo.setTotalMoney(moneyBigDecimal);
 					/**显示￥100,000,00样式**/
-					productInfo.setTotalMoneyStr(currency.format(multiply));
+//					productInfo.setTotalMoneyStr(currency.format(multiply));
 					/** 累加得到总计 **/
 					totalCountPriceBigDecimal = multiply.add(
 							new BigDecimal(Double
@@ -967,8 +970,7 @@ public class OBProjectController {
 		// 保留两位小数
 		// DecimalFormat df = new DecimalFormat("0.00");
 		//String totalCountPriceBigDecimalStr = df.format(totalCountPriceBigDecimal);
-		
-		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
+//		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
@@ -979,7 +981,7 @@ public class OBProjectController {
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
 		model.addAttribute("uploadFiles", uploadFiles);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
+		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal/10000);
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());

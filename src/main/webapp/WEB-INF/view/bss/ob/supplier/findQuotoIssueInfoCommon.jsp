@@ -9,7 +9,7 @@
 			  <th class="info">限价（元）</th>
 			  <th class="info">采购数量</th>
 			  <th class="info">自报单价（元）</th>
-			  <th class="info">总价（元）</th>
+			  <th class="info">总价（万元）</th>
 			  <th class="info">备注信息</th>
 			</tr>
 			</thead>
@@ -26,7 +26,7 @@
 				  <td class="tc">${ oBResultsInfo.limitPrice }</td>
 				  <td class="tc">${ oBResultsInfo.resultsNumber }</td>
 				  <td class="tc">${ oBResultsInfo.myOfferMoney }</td>
-				  <td class="tc">${ oBResultsInfo.dealMoneyStr }</td>
+				  <td class="tc">${ oBResultsInfo.dealMoney}</td>
 				  <td class="tc">${ oBResultsInfo.remark }</td>
 				</tr>
 			</c:forEach>

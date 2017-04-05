@@ -588,6 +588,7 @@ public class OBSupplierQuoteController {
 		NumberFormat currency = NumberFormat.getNumberInstance();
 		currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 		/** 计算单个商品的总价以及合计金额 **/
+		BigDecimal million = new BigDecimal(10000);
 		for (OBProductInfo productInfo : oBProductInfo) {
 			if (productInfo != null) {
 				BigDecimal signalCountInt = productInfo.getPurchaseCount();
@@ -599,9 +600,10 @@ public class OBSupplierQuoteController {
 					BigDecimal multiply = limitPrice.multiply(signalCount);
 					productInfo.setTotalMoney(multiply);
 					/**显示100000样式**/
-					productInfo.setTotalMoney(multiply);
+					BigDecimal moneyBigDecimal = multiply.divide(million);
+					productInfo.setTotalMoney(moneyBigDecimal);
 					/**显示￥100,000,00样式**/
-					productInfo.setTotalMoneyStr(currency.format(multiply));
+//					productInfo.setTotalMoneyStr(currency.format(multiply));
 					/** 累加得到总计 **/
 					totalCountPriceBigDecimal = multiply.add(
 							new BigDecimal(Double
@@ -610,7 +612,7 @@ public class OBSupplierQuoteController {
 				}
 			}
 		}
-		String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
+		//String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 		// 采购机构
 		model.addAttribute("orgName", orgName);
 		// 需求单位
@@ -620,7 +622,7 @@ public class OBSupplierQuoteController {
 		model.addAttribute("obProject", obProject);
 		model.addAttribute("oBProductInfoList", oBProductInfo);
 		model.addAttribute("productIds", productIds);
-		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
+		model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal / 10000);
 		
 		// 封装文件下载项
 		model.addAttribute("fileid", obProject.getAttachmentId());
@@ -731,9 +733,10 @@ public class OBSupplierQuoteController {
 			Double totalCountPriceBigDecimal = 0.00;
 			// 保留两位小数
 			//DecimalFormat df = new DecimalFormat("0.00");
-			NumberFormat currency = NumberFormat.getNumberInstance();
-			currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
+			//NumberFormat currency = NumberFormat.getNumberInstance();
+			//currency.setMinimumIntegerDigits(2);//设置数的小数部分所允许的最小位数(如果不足后面补0) 
 			/** 计算单个商品的总价以及合计金额 **/
+			BigDecimal million = new BigDecimal(10000);
 			for (OBResultsInfo obResultInfo : oBResultsInfo) {
 				if (obResultInfo != null) {
 					Integer signalCountInt = obResultInfo.getResultsNumber();
@@ -744,9 +747,10 @@ public class OBSupplierQuoteController {
 						signalCount = new BigDecimal(signalCountInt);
 						BigDecimal multiply = myOfferMoney.multiply(signalCount);
 						/**显示100000样式**/
-						obResultInfo.setDealMoney(multiply);
+						BigDecimal moneyBigDecimal = multiply.divide(million);
+						obResultInfo.setDealMoney(moneyBigDecimal);
 						/**显示￥100,000,00样式**/
-						obResultInfo.setDealMoneyStr(currency.format(multiply));
+						//obResultInfo.setDealMoneyStr(currency.format(multiply));
 						/** 累加得到总计 **/
 						totalCountPriceBigDecimal = multiply.add(
 								new BigDecimal(Double
@@ -756,7 +760,7 @@ public class OBSupplierQuoteController {
 				}
 			}
 			//String totalCountPriceBigDecimalStr = df.format(totalCountPriceBigDecimal);
-			String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
+			//String totalCountPriceBigDecimalStr = currency.format(totalCountPriceBigDecimal);
 			// 采购机构
 			model.addAttribute("orgName", orgName);
 			// 需求单位
@@ -766,7 +770,7 @@ public class OBSupplierQuoteController {
 			model.addAttribute("obProject", obProject);
 			model.addAttribute("uploadFiles", uploadFiles);
 			model.addAttribute("oBResultsInfo", oBResultsInfo);
-			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimalStr);
+			model.addAttribute("totalCountPriceBigDecimal", totalCountPriceBigDecimal / 10000);
 			if(obProject != null){
 				model.addAttribute("fileid", obProject.getAttachmentId());
 			}
@@ -786,23 +790,38 @@ public class OBSupplierQuoteController {
 				 * **/
 				OBProjectResult findConfirmResult = null;
 				OBProjectResult findConfirmResultSecond = null;
-				String confirmFirstTotalFigureStr = null;
-				String confirmSecondTotalFigureStr = null;
+				// 第一轮确认金额总计
+				Double confirmFirstTotalFigureStr = 0.00;
+				// 第二轮确认金额总计
+				Double confirmSecondTotalFigureStr = 0.00;
+				/**
+				 * 第一轮确认的结果查询
+				 */
 				if(FIRST_CONFIRM.equals(confirmFlag)){
 					// 第一轮结果确认信息
 					resultMap.put("orderWay", "ASC");
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
+					List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
+					calculateSignalResultTotalPrice(subtabulationList);
 					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
 				}
 				
+				/**
+				 * 第二轮确认的结果查询
+				 */
 				if(SECOND_CONFIRM.equals(confirmFlag)){
 					// 第二轮结果确认信息--既显示第一轮有显示第二轮
 					resultMap.put("orderWay", "ASC");
+					// 第一轮
 					findConfirmResult = oBProjectResultService.findConfirmResult(resultMap);
+					List<OBResultSubtabulation> subtabulationList = findConfirmResult.getObResultSubtabulation();
+					calculateSignalResultTotalPrice(subtabulationList);
 					confirmFirstTotalFigureStr = getTotalFigure(findConfirmResult);
 					// 第二轮
 					resultMap.put("orderWay", "DESC");
 					findConfirmResultSecond = oBProjectResultService.findConfirmResult(resultMap);
+					List<OBResultSubtabulation> subtabulationSecondList = findConfirmResultSecond.getObResultSubtabulation();
+					calculateSignalResultTotalPrice(subtabulationSecondList);
 					confirmSecondTotalFigureStr = getTotalFigure(findConfirmResultSecond);
 					// 封装数据
 					model.addAttribute("confirmResultSecond", findConfirmResultSecond);
@@ -822,8 +841,39 @@ public class OBSupplierQuoteController {
 	}
 	
 	
-	public String getTotalFigure(OBProjectResult findConfirmResult){
-		NumberFormat currency = NumberFormat.getNumberInstance();
+	/**
+	 * 
+	* @Title: calculateSignalResultTotalPrice 
+	* @Description: 计算确认结果单个商品总价以万元的方式显示
+	* @author Easong
+	* @param @param subtabulationList    设定文件 
+	* @return void    返回类型 
+	* @throws
+	 */
+	public void calculateSignalResultTotalPrice(List<OBResultSubtabulation> subtabulationList){
+		// 将产品的价格按照万元的方式输出
+		BigDecimal millionTotal = new BigDecimal(10000);
+		for (OBResultSubtabulation obResultSubtabulation : subtabulationList) {
+			if(obResultSubtabulation != null){
+				// BigDecimal的除法
+				BigDecimal moneyBigDecimal = obResultSubtabulation.getTotalMoney().divide(millionTotal);
+				obResultSubtabulation.setTotalMoney(moneyBigDecimal);
+			}
+		}
+	}
+	
+	/**
+	 * 
+	* @Title: getTotalFigure 
+	* @Description: 计算成交总价
+	* @author Easong
+	* @param @param findConfirmResult
+	* @param @return    设定文件 
+	* @return Double    返回类型 
+	* @throws
+	 */
+	public Double getTotalFigure(OBProjectResult findConfirmResult){
+		//NumberFormat currency = NumberFormat.getNumberInstance();
 		// 定义第一轮成交总价
 		Double confirmFirstTotalFigure = 0.00;
 		if(findConfirmResult != null){
@@ -843,8 +893,8 @@ public class OBSupplierQuoteController {
 				}
 			}
 		}
-		String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
-		return confirmFirstTotalFigureStr;
+		//String confirmFirstTotalFigureStr = currency.format(confirmFirstTotalFigure);
+		return confirmFirstTotalFigure;
 	}
 	
 	/**
@@ -894,6 +944,7 @@ public class OBSupplierQuoteController {
 		Map<String, Object> map = new HashMap<String, Object>();
 		map.put("supplier_id", user.getTypeId());
 		map.put("project_id", projectId);
+		// 调用Service方法
 		List<OBProjectResult> list = oBProjectResultService.findSupplierUnBidding(map);
 		OBProjectResult obProjectResult = null;
 		String proportion = null;

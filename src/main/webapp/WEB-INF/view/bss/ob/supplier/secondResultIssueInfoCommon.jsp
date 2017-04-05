@@ -14,7 +14,7 @@
 			  <th class="tc">采购数量</th>
 			  <th class="tc">自报单价（元）</th>
 			  <th class="tc">成交单价（元）</th>
-			  <th class="tc">成交总价（元）</th>
+			  <th class="tc">成交总价（万元）</th>
 			  <th class="tc">备注信息</th>
 			</tr>
 			</thead>
