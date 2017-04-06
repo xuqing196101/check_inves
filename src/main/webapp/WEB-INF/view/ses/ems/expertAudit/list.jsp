@@ -35,13 +35,19 @@
 			function shenhe(id) {
 				if(id == null) {
 					var size = $(":checkbox:checked").size();
-					if(!size) {
+					if(size == 0) {
 						layer.msg("请选择专家 !", {
 							offset: '100px',
 						});
 						return;
 					}
 					var id = $(":checkbox:checked").val();
+					if(size > 1){
+						layer.msg("只能选择一项 !", {
+							offset: '100px',
+						});
+						return;
+					}
 				}
 				var state = $("#" + id + "").parent("tr").find("td").eq(8).text();//.trim();
 				state = trim(state);
@@ -117,10 +123,11 @@
 			
 				//发布
 				function publish(){
-			  	var id = $(":radio:checked").val();
+			  	var id = $(":checkbox:checked").val();
+			  	var size = $(":checkbox:checked").size();
 					var state = $("#" + id + "").parents("tr").find("td").eq(8).text();//.trim();
 					state = trim(state);
-					if(id != null){
+					if(size == 1){
 			  			if(state == "复审通过" || state == "待复查" || state == "复查通过" || state == "复查未通过"){
 			  	 			$.ajax({
 			  	 				url:"${pageContext.request.contextPath}/expertAudit/publish.html",
@@ -147,8 +154,10 @@
 			  	 					}
 			  	 	     });
 			  		}else{
-			  			layer.alert("请选择复审通过的专家！",{offset : '100px'});
+			  			layer.msg("请选择复审通过的专家！",{offset : '100px'});
 			     	}
+			  		}else if(size > 1){
+			  			layer.msg("只能选择一项 !", {offset: '100px',});
 			  		}else{
 			  			layer.msg("请选择专家 !", {offset: '100px',});
 			  		}
