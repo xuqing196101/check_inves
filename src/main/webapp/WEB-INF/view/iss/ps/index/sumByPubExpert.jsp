@@ -79,22 +79,23 @@ function query(){
         	<button type="button" onclick="query()" class="btn btn-u-light-grey">查询</button>
       </div>
           <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
+          <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">专家名称</div>
+          		<div class="col-md-3 col-xs-3 col-sm-3 tc f16">编号</div>
+                <div class="fr mr25 f16">状态</div>
+           </h2>
            <c:choose>
-           			   <c:when test="${!empty list.list}">
-         				<table class="table table-bordered "  >
-       					 <thead>
-         					 <tr >
-								<th class="tc info" width="55%">专家名称</th>
-								<th class="tc info" width="25%">编号</th>
-								<th class="tc info" width="20%">状态</th>
-							 </tr>
-						 </thead>
-				     	 <tbody>
-							<c:forEach items="${list.list}" var="item" varStatus="status" > 
-								<tr>
-									<td>${item.relName }</td>
-									<td class="tc"></td>
-									<td class="tc"> <c:choose>
+           	 <c:when test="${!empty list.list}">
+           		<ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+           		  <c:forEach items="${list.list}" var="item" varStatus="status" > 
+					<li>
+						<div class="col-md-6 col-xs-6 col-sm-5">
+					  		 <span class="f18 mr5 fl">·</span>${item.relName }</a>
+					    </div>
+					    <div class="col-md-3 col-xs-3 col-sm-3 tc f16">
+				  		</div>
+	                   <span class="hex pull-right col-md-2 col-sm-5 col-xs-12">
+					   <c:choose>
           						      <%-- <c:when test="${item.status == 0}">
 										          未审核
 									    </c:when>
@@ -119,11 +120,53 @@ function query(){
 						   			    <c:otherwise>
 								       </c:otherwise>
                					     </c:choose>
+					   </span>
+	                </li>
+	                </c:forEach>
+	                </ul>
+         				<%-- <table class="table table-bordered "  >
+       					 <thead>
+         					 <tr >
+								<th class="tc info" width="55%">专家名称</th>
+								<th class="tc info" width="25%">编号</th>
+								<th class="tc info" width="20%">状态</th>
+							 </tr>
+						 </thead>
+				     	 <tbody>
+							<c:forEach items="${list.list}" var="item" varStatus="status" > 
+								<tr>
+									<td>${item.relName }</td>
+									<td class="tc"></td>
+									<td class="tc"> <c:choose>
+          						      <c:when test="${item.status == 0}">
+										          未审核
+									    </c:when>
+									     <c:when test="${item.status == 1}">
+											初审通过
+										 </c:when>
+									     <c:when test="${item.status == 2}">
+						       				 初审未通过
+						   				 </c:when>
+						   				 <c:when test="${item.status == 3}">
+						       				 退回修改
+						  				 </c:when>
+						   				 <c:when test="${item.status == 4}">
+						 					    待复审
+						  			     </c:when>
+						  			     <c:when test="${item.status eq '4' or item.status == '6' or item.status == '8'}">
+						     		  	   复审通过
+						  			     </c:when>
+						  			     <c:when test="${item.status eq '7'}">
+						     			   复查通过
+						 			     </c:when>
+						   			    <c:otherwise>
+								       </c:otherwise>
+               					     </c:choose>
                				      </td>
 								</tr>
 							 </c:forEach> 
 							</tbody>
-						  </table>
+						  </table> --%>
                 		</c:when>
                 		<c:otherwise>
                 			暂无数据

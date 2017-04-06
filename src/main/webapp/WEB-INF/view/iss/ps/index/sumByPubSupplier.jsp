@@ -47,7 +47,7 @@ function query(){
    <div class="margin-top-10 breadcrumbs">
       <div class="container">
 		   <ul class="breadcrumb margin-left-0">
-		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="#">信息公告</a></li>
+		   <li><a href="${pageContext.request.contextPath}/"> 首页</a></li><li><a href="#">供应商名录</a></li>
 		   </ul>
 		<div class="clear"></div>
 	  </div>
@@ -87,23 +87,23 @@ function query(){
       </div>
         <div class="col-md-12 col-sm-12 col-xs-12 border1 p20_20">
          
+           
+           <h2 class="col-md-12 col-sm-12 col-xs-12 bg7 h35">
+          		<div class="col-md-6 col-xs-6 col-sm-5 tc f16">供应商名称</div>
+          		<div class="col-md-3 col-xs-3 col-sm-3 tc f16">编号</div>
+                <div class="fr mr25 f16">状态</div>
+           </h2>
              <c:choose>
             <c:when test="${!empty list.list}">
-         <table class="table table-bordered " >
-        <thead>
-          <tr >
-			<th class="tc info" width="55%">供应商名称</th>
-			<th class="tc info" width="25%">编号</th>
-			<th class="tc info" width="20%">状态</th>
-			</tr>
-			</thead>
-			<tbody>
-			<c:forEach items="${list.list}" var="item" begin="0" end="5" step="1" varStatus="status" > 
-			<tr>
-			<td>${item.supplierName }</td>
-			<td class="tc"></td>
-			<td class="tc"> 
-			 <c:choose>
+           <ul class="categories li_square col-md-12 col-sm-12 col-xs-12 p0 list_new">
+             <c:forEach items="${list.list}" var="item" begin="0" end="5" step="1" varStatus="status" >
+				<li>
+				  <div class="col-md-6 col-xs-6 col-sm-5">
+					    <span class="f18 mr5 fl">·</span>${item.supplierName }
+				  </div>
+				  <div class="col-md-3 col-xs-3 col-sm-3 tc f16">
+				  </div>
+	                <span class="hex pull-right col-md-2 col-sm-5 col-xs-12"> <c:choose>
 						    <%-- <c:when test="${item.status == -1}">
 						           未未提交审核
 						    </c:when>
@@ -141,11 +141,68 @@ function query(){
 						          无状态
 						    </c:otherwise>
                </c:choose>
+               </span>
+	            </li>
+	            </c:forEach> 
+	       </ul>
+          
+<%--          <table class="table table-bordered " >
+        <thead>
+          <tr >
+			<th class="tc info" width="55%">供应商名称</th>
+			<th class="tc info" width="25%">编号</th>
+			<th class="tc info" width="20%">状态</th>
+			</tr>
+			</thead>
+			<tbody>
+			<c:forEach items="${list.list}" var="item" begin="0" end="5" step="1" varStatus="status" > 
+			<tr>
+			<td>${item.supplierName }</td>
+			<td class="tc"></td>
+			<td class="tc"> 
+			 <c:choose>
+						    <c:when test="${item.status == -1}">
+						           未未提交审核
+						    </c:when>
+			          <c:when test="${item.status == 0}">
+						          待审核
+						    </c:when>
+						    <c:when test="${item.status == 1 or item.status == 4 or item.status == 6}">
+						          审核通过
+						    </c:when>
+						    <c:when test="${item.status == 2}">
+						          审核退回修改
+						    </c:when>
+						    <c:when test="${item.status == 3}">
+						         审核未通过
+						    </c:when>
+						    <c:when test="${item.status == 4}">
+						          待复核
+						    </c:when>
+						    <c:when test="${item.status == 5 or item.status == 7 or item.status == 9}">
+						         复核通过
+						    </c:when>
+						    <c:when test="${item.status == 6}">
+						          复核未通过
+						    </c:when>
+						    <c:when test="${item.status == 7}">
+						          待考察
+						    </c:when>
+						    <c:when test="${item.status == 8}">
+						          考察合格
+						    </c:when>
+						    <c:when test="${item.status == 9}">
+						          考察不合格
+						    </c:when>
+						    <c:otherwise>
+						          无状态
+						    </c:otherwise>
+               </c:choose>
                 </td>
 				</tr>
 				 </c:forEach> 
 				</tbody>
-				</table>
+				</table> --%>
                 	</c:when>
                 	<c:otherwise>
                 		<li class="tc">暂无数据</li>

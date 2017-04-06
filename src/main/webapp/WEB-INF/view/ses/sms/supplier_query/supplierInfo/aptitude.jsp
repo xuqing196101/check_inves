@@ -224,7 +224,7 @@
 												<td>${cate.certCode}</td>
 												<td>${cate.level.name}</td>
 												<td>
-												<div class="w110">
+												<div class="w110 fl">
 													<u:show showId="eng_show_${vs.index}" businessId="${cate.fileId}" typeId="${engTypeId}" sysKey="${sysKey}" delete="false" />
 												</div>
 												</td>

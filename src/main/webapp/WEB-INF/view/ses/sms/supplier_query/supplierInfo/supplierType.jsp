@@ -465,7 +465,9 @@
 																</td>
 																<td class="tc">${s.mot}</td>
 																<td class="tc">
-																	<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
+																	 <div class="w110 fl">
+																		<u:show showId="ser_show${vs.index+1}" businessId="${s.id}" delete="false" typeId="${supplierDictionaryData.supplierServeCert}" sysKey="${sysKey}" />
+																	 </div>
 																</td>
 															</tr>
 														</c:forEach>
