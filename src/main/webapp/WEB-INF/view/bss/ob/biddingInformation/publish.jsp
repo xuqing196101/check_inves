@@ -210,7 +210,8 @@
 	}
 	 //存储选中的产品的全部供应商id
      var supplielist=[];
-     
+     //定义存储产品id
+     var productTemp=[];
 	//根据定型产品更新 
 	function changSelectCount(number){
 	 if(productList){
@@ -263,6 +264,8 @@
 	   }
 	  }
 	$.each(productList, function(i, user) {
+	    var temp=$.inArray(user.id,productTemp);
+	       if(temp==-1){
 	        if(productM){
 	         if(user.smallPointsId==productM){
 		    $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " >" + user.name+ "</option>");
@@ -270,6 +273,7 @@
 	        }
 	        if(!productM){
 	         $("select[id=\"productName_"+number+"\"]").append("<option  value=" + user.id + " >" + user.name+ "</option>");
+	        }
 	        }
 	     });
 	     $("select[id=\"productName_"+number+"\"]").select2(); 
@@ -292,7 +296,7 @@
 		  "</div></td>"+
 		  "<td class=\"p0\" id=\"t"+number+"\"><input id=\"productMoney\" maxlength=\"20\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productMoney\" value=\""+productMoney+"\" type=\"text\" class=\"w230 mb0\"></td>"+
 		  "<td class=\"p0\"><input id=\"productCount\" maxlength=\"38\" onkeyup=\"this.value=this.value.replace(/\\D/g,'')\"  onafterpaste=\"this.value=this.value.replace(/\\D/g,'')\" name=\"productCount\" value=\""+producCount+"\" type=\"text\" class=\"w230 mb0\"></td>"+
-		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
+		  "<td class=\"p0\"><input id=\"productRemark\" maxlength=\"1000\" name=\"productRemark\" value=\""+productRemark+"\" title=\""+productRemark+"\" type=\"text\" class=\"w230 mb0\">"+
 		  "  </td>"+
 		"</tr>").clone(true);   
 		//加载数据
@@ -636,11 +640,13 @@
 	function gysCount(){
 	 $("#buttonErr").html("");
 	  var productid=[];
+	  productTemp=[];
 	    //获取选中全部的产品id
 	   $('*[name="productName"]').each(function(){
 			if($(this).val()){
 			var id=$(this).val();
 		      productid.push(id);
+		      productTemp.push(id);
 			  }
 		  });
 		  
@@ -689,6 +695,7 @@
      }else{
      productM=null;
      productInfo=null;
+     productTemp=[];
      }
 	}
 </script>
