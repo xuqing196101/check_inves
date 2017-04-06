@@ -3185,14 +3185,17 @@ public class ExpertController extends BaseController {
 //	        System.out.println(realpath+"=============================");
 //        	FileUtil.fileStash(file, realpath, "expertPic", request);
 //        	dataMap.put("image", realpath);
-          System.out.println(realpath+path.substring(path.lastIndexOf("/"),  path.length())+"==============");
         
             fileToDir(path, realpath);
             String gen=	 request.getSession().getServletContext().getRealPath("/").split("\\\\")[0] ;
             String image= gen+listImage.get(0).getPath();
             
+            // 图片前缀路径
+            String host = request.getRequestURL().toString().replace(request.getRequestURI(),"") 
+              + "/" + request.getContextPath()+"/expertPic"+path.substring(path.lastIndexOf("/"),  path.length());
             
-        	dataMap.put("image",realpath+path.substring(path.lastIndexOf("/"),  path.length()));
+            System.out.println(host+"*********");
+        	dataMap.put("image",host);
 //		}
         String faceId = expert.getPoliticsStatus();
         DictionaryData politicsStatus = dictionaryDataServiceI.getDictionaryData(faceId);
@@ -3242,6 +3245,9 @@ public class ExpertController extends BaseController {
         if(list.size()>0){
    			 dataMap.put("professional", list.get(0).getQualifcationTitle());
    		        dataMap.put("timeProfessional",   new SimpleDateFormat("yyyy-MM").format(list.get(0).getTitleTime()));
+        }else{
+       	 dataMap.put("professional", "");
+	        dataMap.put("timeProfessional",  "");
         }
         if(list.size()>1){
         	for(int i=0;i<list.size();i++){

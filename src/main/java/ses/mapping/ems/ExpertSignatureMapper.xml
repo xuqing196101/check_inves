@@ -9,11 +9,11 @@
     <result column="JOB"  property="job" />
     <result column="CREATED_AT"  property="createdAt" />
     <result column="UPDATED_AT"  property="updatedAt" />
-		<result column="SIGNATORY_ID"  property="signatoryId" />
+		<result column="BATCH"  property="batch" />
 
   </resultMap>
   <sql id="Base_Column_List">
-    ID, EXPERT_ID, NAME, CREATED_AT, UPDATED_AT, COMPANY, JOB, SIGNATORY_ID
+    ID, EXPERT_ID, NAME, CREATED_AT, UPDATED_AT, COMPANY, JOB, BATCH
   </sql>
   <select id="selectByExpertId" parameterType="java.lang.String" resultMap="BaseResultMap">
     select 
@@ -46,8 +46,8 @@
       <if test="updatedAt != null">
         UPDATED_AT,
       </if>
-      <if test="signatoryId != null">
-        SIGNATORY_ID,
+      <if test="batch != null">
+        BATCH,
       </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides=",">
@@ -72,8 +72,8 @@
       <if test="updatedAt != null">
         #{updatedAt},
       </if>
-      <if test="signatoryId != null">
-        #{signatoryId},
+      <if test="batch != null">
+        #{batch},
       </if>
     </trim>
     <selectKey keyProperty="id" order="BEFORE" resultType="java.lang.String">

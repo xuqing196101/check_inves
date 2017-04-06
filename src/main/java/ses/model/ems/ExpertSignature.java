@@ -10,7 +10,7 @@ public class ExpertSignature{
 	private String job;
 	private Date createdAt;
 	private Date updatedAt;
-	private String signatoryId;
+	private String batch;
 	public String getId() {
 		return id;
 	}
@@ -53,12 +53,13 @@ public class ExpertSignature{
 	public void setUpdatedAt(Date updatedAt) {
 		this.updatedAt = updatedAt;
 	}
-	public String getSignatoryId() {
-		return signatoryId;
+	public String getBatch() {
+		return batch;
 	}
-	public void setSignatoryId(String signatoryId) {
-		this.signatoryId = signatoryId;
+	public void setBatch(String batch) {
+		this.batch = batch;
 	}
+
 	
 	
 }

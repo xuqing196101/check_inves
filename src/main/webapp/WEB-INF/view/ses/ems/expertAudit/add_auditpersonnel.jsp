@@ -26,22 +26,17 @@
 					data:$("#add_form").serialize(),
 					//dataType:"json",
 					success: function(result) {
-						layer.msg("添加成功");
 						  var el = document.createElement("a");
-	                      document.body.appendChild(el);
-	                      el.href = "${pageContext.request.contextPath}/expertAudit/list.do?sign=2&&status=1";  
-	                      el.target = '_parent'; //指定在新窗口打开
-	                      el.click();
-	                      document.body.removeChild(el);
-	                      
-	                      
+              document.body.appendChild(el);
+              el.href = "${pageContext.request.contextPath}/expertAudit/list.do?sign=2&&status=1";  
+              el.target = '_parent'; //指定在新窗口打开
+              el.click();
+              document.body.removeChild(el);   
 						// window.location.href = "${pageContext.request.contextPath}/expertAudit/list.do";
 						 // parent.layer.close(index); 
 					}
 				});
 			}
-			
-			
 		</script>
 		
 	</head>
@@ -63,26 +58,23 @@
 						</li>
 						</ul>
 			
-				<div class="content table_box">
-					<table class="table table-bordered table-condensed table-hover table-striped hand">
-					
+					<div class="content table_box">
+						<table class="table table-bordered table-condensed table-hover table-striped hand">
 							<tr >
 								<th class="info"><input type="checkbox"  />
 								<th class="info">姓名 </th>
 								<th class="info">单位</th>
 								<th class="info">技术职称（职务）</th>
 							</tr>
-					
 							<tr id="list_tbody_id">
 								<td><input type="checkbox" name="list[0].id"/></td>
 								<td class=""><input name="expertSignatureList[0].name" value=""></td>
 								<td class=""><input name="expertSignatureList[0].company" value=""></td>
 								<td class=""><input name="expertSignatureList[0].job" value=""></td>
 							</tr>
-					</table>
-				</div>
-				<div class="tc">
-				
+						</table>
+					</div>
+					<div class="tc">
 					<input class="btn btn-windows add" value="保存 "  type="button" onclick="add()"/>
 				</div>
 			</form>
